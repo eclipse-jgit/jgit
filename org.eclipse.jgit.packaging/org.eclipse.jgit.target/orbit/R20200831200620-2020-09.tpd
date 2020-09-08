@@ -1,7 +1,7 @@
-target "S20200519202422" with source configurePhase
+target "R20200831200620-2020-09" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/S20200519202422/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/R20200831200620/repository" {
 	com.google.gson [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.google.gson.source [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -20,14 +20,14 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/S202005192024
 	net.i2p.crypto.eddsa.source [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
 	org.apache.ant [1.10.8.v20200515-1239,1.10.8.v20200515-1239]
 	org.apache.ant.source [1.10.8.v20200515-1239,1.10.8.v20200515-1239]
-	org.apache.commons.codec [1.13.0.v20200108-0001,1.13.0.v20200108-0001]
-	org.apache.commons.codec.source [1.13.0.v20200108-0001,1.13.0.v20200108-0001]
+	org.apache.commons.codec [1.14.0.v20200818-1422,1.14.0.v20200818-1422]
+	org.apache.commons.codec.source [1.14.0.v20200818-1422,1.14.0.v20200818-1422]
 	org.apache.commons.compress [1.19.0.v20200106-2343,1.19.0.v20200106-2343]
 	org.apache.commons.compress.source [1.19.0.v20200106-2343,1.19.0.v20200106-2343]
 	org.apache.commons.logging [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
 	org.apache.commons.logging.source [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
-	org.apache.httpcomponents.httpclient [4.5.10.v20200114-1512,4.5.10.v20200114-1512]
-	org.apache.httpcomponents.httpclient.source [4.5.10.v20200114-1512,4.5.10.v20200114-1512]
+	org.apache.httpcomponents.httpclient [4.5.10.v20200830-2311,4.5.10.v20200830-2311]
+	org.apache.httpcomponents.httpclient.source [4.5.10.v20200830-2311,4.5.10.v20200830-2311]
 	org.apache.httpcomponents.httpcore [4.4.12.v20200108-1212,4.4.12.v20200108-1212]
 	org.apache.httpcomponents.httpcore.source [4.4.12.v20200108-1212,4.4.12.v20200108-1212]
 	org.apache.log4j [1.2.15.v201012070815,1.2.15.v201012070815]
@@ -38,12 +38,12 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/S202005192024
 	org.apache.sshd.sftp.source [2.4.0.v20200319-1547,2.4.0.v20200319-1547]
 	org.assertj [3.14.0.v20200120-1926,3.14.0.v20200120-1926]
 	org.assertj.source [3.14.0.v20200120-1926,3.14.0.v20200120-1926]
-	org.bouncycastle.bcpg [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
-	org.bouncycastle.bcpg.source [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
-	org.bouncycastle.bcpkix [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
-	org.bouncycastle.bcpkix.source [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
-	org.bouncycastle.bcprov [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
-	org.bouncycastle.bcprov.source [1.65.0.v20200502-2229,1.65.0.v20200502-2229]
+	org.bouncycastle.bcpg [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
+	org.bouncycastle.bcpg.source [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
+	org.bouncycastle.bcpkix [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
+	org.bouncycastle.bcpkix.source [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
+	org.bouncycastle.bcprov [1.65.1.v20200529-1514,1.65.1.v20200529-1514]
+	org.bouncycastle.bcprov.source [1.65.1.v20200529-1514,1.65.1.v20200529-1514]
 	org.hamcrest [1.1.0.v20090501071000,1.1.0.v20090501071000]
 	org.hamcrest.core [1.3.0.v20180420-1519,1.3.0.v20180420-1519]
 	org.hamcrest.core.source [1.3.0.v20180420-1519,1.3.0.v20180420-1519]

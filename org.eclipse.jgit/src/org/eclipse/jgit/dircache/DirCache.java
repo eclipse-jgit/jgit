@@ -1033,7 +1033,7 @@ public class DirCache {
 		 */
 		DIRC_VERSION_PATHCOMPRESS(4);
 
-		private int version;
+		private final int version;
 
 		private DirCacheVersion(int versionCode) {
 			this.version = versionCode;

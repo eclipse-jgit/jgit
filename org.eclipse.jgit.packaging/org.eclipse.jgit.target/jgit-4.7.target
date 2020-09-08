@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.7" sequenceNumber="1594244919">
+<target name="jgit-4.7" sequenceNumber="1598915265">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.30.v20200611"/>
@@ -41,14 +41,14 @@
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20181102-1323"/>
       <unit id="org.apache.ant" version="1.10.8.v20200515-1239"/>
       <unit id="org.apache.ant.source" version="1.10.8.v20200515-1239"/>
-      <unit id="org.apache.commons.codec" version="1.13.0.v20200108-0001"/>
-      <unit id="org.apache.commons.codec.source" version="1.13.0.v20200108-0001"/>
+      <unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
+      <unit id="org.apache.commons.codec.source" version="1.14.0.v20200818-1422"/>
       <unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
       <unit id="org.apache.commons.compress.source" version="1.19.0.v20200106-2343"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
-      <unit id="org.apache.httpcomponents.httpclient" version="4.5.10.v20200114-1512"/>
-      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.10.v20200114-1512"/>
+      <unit id="org.apache.httpcomponents.httpclient" version="4.5.10.v20200830-2311"/>
+      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.10.v20200830-2311"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.12.v20200108-1212"/>
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.12.v20200108-1212"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
@@ -84,7 +84,7 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200831200620/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>

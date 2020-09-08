@@ -756,6 +756,19 @@ public class PackWriter implements AutoCloseable {
 
 	/**
 	 * Prepare the list of objects to be written to the pack stream.
+	 *
+	 * <p>
+	 * PackWriter will concat and write out the specified packs as-is.
+	 *
+	 * @param c
+	 *            cached packs to be written.
+	 */
+	public void preparePack(Collection<? extends CachedPack> c) {
+		cachedPacks.addAll(c);
+	}
+
+	/**
+	 * Prepare the list of objects to be written to the pack stream.
 	 * <p>
 	 * Basing on these 2 sets, another set of objects to put in a pack file is
 	 * created: this set consists of all objects reachable (ancestors) from
@@ -1548,6 +1561,7 @@ public class PackWriter implements AutoCloseable {
 		endPhase(monitor);
 	}
 
+	@SuppressWarnings("Finally")
 	private void parallelDeltaSearch(ProgressMonitor monitor,
 			ObjectToPack[] list, int cnt, int threads) throws IOException {
 		DeltaCache dc = new ThreadSafeDeltaCache(config);
@@ -1569,15 +1583,22 @@ public class PackWriter implements AutoCloseable {
 			// Caller didn't give us a way to run the tasks, spawn up a
 			// temporary thread pool and make sure it tears down cleanly.
 			ExecutorService pool = Executors.newFixedThreadPool(threads);
+			Throwable e1 = null;
 			try {
 				runTasks(pool, pm, taskBlock, errors);
+			} catch (Exception e) {
+				e1 = e;
 			} finally {
 				pool.shutdown();
 				for (;;) {
 					try {
-						if (pool.awaitTermination(60, TimeUnit.SECONDS))
+						if (pool.awaitTermination(60, TimeUnit.SECONDS)) {
 							break;
+						}
 					} catch (InterruptedException e) {
+						if (e1 != null) {
+							e.addSuppressed(e1);
+						}
 						throw new IOException(JGitText
 								.get().packingCancelledDuringObjectsWriting, e);
 					}

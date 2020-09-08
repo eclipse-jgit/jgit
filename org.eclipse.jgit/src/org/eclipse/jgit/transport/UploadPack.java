@@ -1138,6 +1138,8 @@ public class UploadPack {
 			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 		}
 
+		long negotiateStart = System.currentTimeMillis();
+
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
 		currentRequest = req;
@@ -1240,6 +1242,9 @@ public class UploadPack {
 				pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			}
 
+			statAccumulator.timeNegotiating += System.currentTimeMillis()
+					- negotiateStart;
+
 			sendPack(statAccumulator,
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
@@ -1249,6 +1254,8 @@ public class UploadPack {
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
 		} else {
+			statAccumulator.timeNegotiating += System.currentTimeMillis()
+					- negotiateStart;
 			// Invoke pckOut.end() by ourselves.
 			pckOut.end();
 		}
@@ -1848,7 +1855,6 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
-
 			checkNotAdvertisedWants(up, wants, up.getAdvertisedRefs().values());
 		}
 	}
@@ -1885,7 +1891,6 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
-
 			checkNotAdvertisedWants(up, wants,
 					up.getRepository().getRefDatabase().getRefs());
 		}

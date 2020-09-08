@@ -242,7 +242,7 @@ public class SshdSession implements RemoteSession {
 		@Override
 		public void destroy() {
 			if (channel.isOpen()) {
-				channel.close(true);
+				channel.close(false);
 			}
 		}
 	}
