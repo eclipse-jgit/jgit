@@ -50,8 +50,8 @@
 
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
-| `gc.aggressiveDepth` | 50 | &#x2705; | The depth parameter used in the delta compression algorithm used by aggressive garbage collection. |
-| `gc.aggressiveWindow` | 250 | &#x2705; | The window size parameter used in the delta compression algorithm used by aggressive garbage collection. |
+| `gc.aggressiveDepth` | `50` | &#x2705; | The depth parameter used in the delta compression algorithm used by aggressive garbage collection. |
+| `gc.aggressiveWindow` | `250` | &#x2705; | The window size parameter used in the delta compression algorithm used by aggressive garbage collection. |
 | `gc.auto` | `6700` | &#x2705; | Number of loose objects until auto gc combines all loose objects into a pack and consolidates all existing packs into one. Setting to 0 disables automatic packing of loose objects. |
 | `gc.autoDetach` | `true` |  &#x2705; | Make auto gc return immediately and run in background. |
 | `gc.autoPackLimit` | `50` |  &#x2705; | Number of packs until auto gc consolidates existing packs (except those marked with a .keep file) into a single pack. Setting `gc.autoPackLimit` to 0 disables automatic consolidation of packs. |
@@ -73,11 +73,11 @@
 | `pack.compression` | `core.compression` | &#x2705; | Compression level applied to objects in the pack. |
 | `pack.cutDeltaChains` | `false` | &#x20DE; | Whether existing delta chains should be cut at {@link #getMaxDeltaDepth() |
 | `pack.deltaCacheLimit` | `100` | &#x2705; | Maximum size in bytes of a delta to cache. |
-| `pack.deltaCacheSize` | `52428800` (50 MiB) | &#x2705; | Size of the in-memory delta cache. |
+| `pack.deltaCacheSize` | `50 MiB` | &#x2705; | Size of the in-memory delta cache. |
 | `pack.deltaCompression` | `true` | &#x20DE; | Whether the writer will create new deltas on the fly. `true` if the pack writer will create a new delta when either `pack.reuseDeltas` is false, or no suitable delta is available for reuse. |
 | `pack.depth` | `50` | &#x2705; | Maximum depth of delta chain set up for the pack writer. |
 | `pack.indexVersion` | `2` | &#x2705; | Pack index file format version. |
-| `pack.minSizePreventRacyPack` | `104857600` (100 MiB) | &#x20DE; | Minimum packfile size for which we wait before opening a newly written pack to prevent its lastModified timestamp could be racy if `pack.waitPreventRacyPack` is `true`. |
+| `pack.minSizePreventRacyPack` | `100 MiB` | &#x20DE; | Minimum packfile size for which we wait before opening a newly written pack to prevent its lastModified timestamp could be racy if `pack.waitPreventRacyPack` is `true`. |
 | `pack.preserveOldPacks` | `false` | &#x20DE; | Whether to preserve old packs in a preserved directory. |
 | `prunePreserved`, only via API of PackConfig | `false` | &#x20DE; | Whether to remove preserved pack files in a preserved directory. |
 | `pack.reuseDeltas` | `true` |&#x20DE; | Whether to reuse deltas existing in repository. |
