@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "007620b4_0bd7ab51",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2328,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-09-09T13:31:09Z",
+      "side": 1,
+      "message": "Both tests that you added test protocol V2. Can we also add at least one for v0?",
+      "range": {
+        "startLine": 2328,
+        "startChar": 42,
+        "endLine": 2328,
+        "endChar": 49
+      },
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b8d922d_7be55051",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-09-09T13:31:09Z",
+      "side": 1,
+      "message": "This assert doesn\u0027t really check anything.\n\nWhat we want to check is: in case a client\u0027s request requires a reachability check, does your new field get updated or not. Now let\u0027s look at the options:\n(1) your field doesn\u0027t get updated \u003d\u003e it will stay 0 (default value in Java).\n(2) your field does get updated \u003d\u003e reachabilityCheckDuration will be \u003e 0.\n\nso it\u0027s \u003e\u003d 0 in both cases.\n\nCan we check if it\u0027s strictly \u003e 0?",
+      "range": {
+        "startLine": 2349,
+        "startChar": 13,
+        "endLine": 2349,
+        "endChar": 54
+      },
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f3d741b_22498d06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
