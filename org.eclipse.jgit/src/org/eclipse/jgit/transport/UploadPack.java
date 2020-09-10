@@ -320,8 +320,6 @@ public class UploadPack {
 
 	private PackStatistics statistics;
 
-	private PackStatistics.Accumulator statAccumulator = new PackStatistics.Accumulator();
-
 	/**
 	 * Request this instance is handling.
 	 *
@@ -999,6 +997,7 @@ public class UploadPack {
 		boolean sendPack = false;
 		// If it's a non-bidi request, we need to read the entire request before
 		// writing a response. Buffer the response until then.
+		PackStatistics.Accumulator statAccumulator = new PackStatistics.Accumulator();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 		FetchRequest req;
 		try {
@@ -1050,7 +1049,7 @@ public class UploadPack {
 
 			if (!req.getClientShallowCommits().isEmpty())
 				walk.assumeShallow(req.getClientShallowCommits());
-			sendPack = negotiate(req, pckOut);
+			sendPack = negotiate(req, statAccumulator, pckOut);
 			statAccumulator.timeNegotiating += System.currentTimeMillis()
 					- negotiateStart;
 
@@ -1138,6 +1137,8 @@ public class UploadPack {
 			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 		}
 
+		PackStatistics.Accumulator statAccumulator = new PackStatistics.Accumulator();
+
 		long negotiateStart = System.currentTimeMillis();
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
@@ -1189,7 +1190,8 @@ public class UploadPack {
 
 		if (req.wasDoneReceived()) {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE));
+					new PacketLineOut(NullOutputStream.INSTANCE),
+					statAccumulator);
 		} else {
 			pckOut.writeString("acknowledgments\n"); //$NON-NLS-1$
 			for (ObjectId id : req.getPeerHas()) {
@@ -1198,7 +1200,8 @@ public class UploadPack {
 				}
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE));
+					new PacketLineOut(NullOutputStream.INSTANCE),
+					statAccumulator);
 			if (okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
 			} else if (commonBase.isEmpty()) {
@@ -1628,7 +1631,8 @@ public class UploadPack {
 	}
 
 	private boolean negotiate(FetchRequest req,
-			PacketLineOut pckOut)
+					PackStatistics.Accumulator statAccumulator,
+					PacketLineOut pckOut)
 			throws IOException {
 		okToGiveUp = Boolean.FALSE;
 
@@ -1650,7 +1654,7 @@ public class UploadPack {
 			}
 
 			if (PacketLineIn.isEnd(line)) {
-				last = processHaveLines(peerHas, last, pckOut);
+				last = processHaveLines(peerHas, last, pckOut, statAccumulator);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
@@ -1665,7 +1669,7 @@ public class UploadPack {
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 				statAccumulator.haves++;
 			} else if (line.equals("done")) { //$NON-NLS-1$
-				last = processHaveLines(peerHas, last, pckOut);
+				last = processHaveLines(peerHas, last, pckOut, statAccumulator);
 
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
@@ -1681,11 +1685,11 @@ public class UploadPack {
 		}
 	}
 
-	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last, PacketLineOut out)
+	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last, PacketLineOut out, PackStatistics.Accumulator statAccumulator)
 			throws IOException {
 		preUploadHook.onBeginNegotiateRound(this, wantIds, peerHas.size());
 		if (wantAll.isEmpty() && !wantIds.isEmpty())
-			parseWants();
+			parseWants(statAccumulator);
 		if (peerHas.isEmpty())
 			return last;
 
@@ -1782,7 +1786,7 @@ public class UploadPack {
 		return last;
 	}
 
-	private void parseWants() throws IOException {
+	private void parseWants(PackStatistics.Accumulator statAccumulator) throws IOException {
 		List<ObjectId> notAdvertisedWants = null;
 		for (ObjectId obj : wantIds) {
 			if (!advertised.contains(obj)) {
@@ -1792,12 +1796,16 @@ public class UploadPack {
 			}
 		}
 		if (notAdvertisedWants != null) {
+			statAccumulator.notAdvertisedWants = notAdvertisedWants.size();
+
 			long startReachabilityChecking = System.currentTimeMillis();
 
 			requestValidator.checkWants(this, notAdvertisedWants);
 
 			statAccumulator.reachabilityCheckDuration = System.currentTimeMillis() -
 					startReachabilityChecking;
+		} else {
+			statAccumulator.notAdvertisedWants = 0;
 		}
 
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);

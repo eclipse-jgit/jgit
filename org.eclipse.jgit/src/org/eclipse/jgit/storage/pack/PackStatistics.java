@@ -188,6 +188,13 @@ public class PackStatistics {
 		public long haves;
 
 		/**
+		 * The count of wants that were not advertised by the server.
+		 *
+		 * @since 4.11
+		 */
+		public long notAdvertisedWants;
+
+		/**
 		 * Time in ms spent in the negotiation phase. For non-bidirectional
 		 * transports (e.g., HTTP), this is only for the final request that
 		 * sends back the pack file.
@@ -349,6 +356,16 @@ public class PackStatistics {
 	 */
 	public long getHaves() {
 		return statistics.haves;
+	}
+
+	/**
+	 * Get the count of client wants that were not advertised by the server.
+	 *
+	 * @return count of client wants that were not advertised by the server.
+	 *
+	 */
+	public long getNotAdvertisedWants() {
+		return statistics.notAdvertisedWants;
 	}
 
 	/**
