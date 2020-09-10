@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "54c7fbf1_f89a18fa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2328,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-10T14:24:54Z",
+      "side": 1,
+      "message": "Added two new tests for protocol v1",
+      "parentUuid": "007620b4_0bd7ab51",
+      "range": {
+        "startLine": 2328,
+        "startChar": 42,
+        "endLine": 2328,
+        "endChar": 49
+      },
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b8d922d_7be55051",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 3
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "41e7c12f_ff597d28",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-10T14:24:54Z",
+      "side": 1,
+      "message": "Changed the tests to check the number of not advertised wants.",
+      "parentUuid": "4b8d922d_7be55051",
+      "range": {
+        "startLine": 2349,
+        "startChar": 13,
+        "endLine": 2349,
+        "endChar": 54
+      },
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5b88ecf_281a3e3d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-10T14:24:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6821bd5_ebd6798d",
+      "range": {
+        "startLine": 2349,
+        "startChar": 2,
+        "endLine": 2349,
+        "endChar": 12
+      },
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84086e9e_6264fc74",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "123ddec0_9806d6d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1791,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-10T14:24:54Z",
+      "side": 1,
+      "message": "Added the statAccumulator to be passed through service-\u003enegotiate-\u003eprocessHaveLines-\u003eparseWants for V1 and through fetchV2-\u003eprocessHaveLines-\u003eparseWants for V2. All of the mentioned methods are private.",
+      "parentUuid": "84086e9e_6264fc74",
+      "range": {
+        "startLine": 1791,
+        "startChar": 3,
+        "endLine": 1791,
+        "endChar": 18
+      },
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f3d741b_22498d06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -108,6 +204,24 @@
       "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dd042ed_094c2008",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1851,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-10T14:24:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f3d741b_22498d06",
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
