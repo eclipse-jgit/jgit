@@ -160,4 +160,25 @@ public class StatusCommandTest extends RepositoryTestCase {
 			assertTrue("Expected no differences", status.isClean());
 		}
 	}
+
+	@Test
+	public void testFolderPrefix() throws Exception {
+		// "audio" is a prefix of "audio-new" and "audio.new".
+		try (Git git = new Git(db)) {
+			// Order here is the git order, but that doesn't really matter.
+			// They are processed by StatusCommand in this order even if written
+			// in a different order. Bug 566799 would, when having processed
+			// audio/foo, remove previously recorded untracked folders that have
+			// "audio" as a prefix: audio-new and audio.new.
+			writeTrashFile("audi", "foo", "foo");
+			writeTrashFile("audio-new", "foo", "foo");
+			writeTrashFile("audio.new", "foo", "foo");
+			writeTrashFile("audio", "foo", "foo");
+			writeTrashFile("audio_new", "foo", "foo");
+			Status stat = git.status().call();
+			assertEquals(Sets.of("audi", "audio-new", "audio.new", "audio",
+					"audio_new"), stat.getUntrackedFolders());
+		}
+	}
+
 }
