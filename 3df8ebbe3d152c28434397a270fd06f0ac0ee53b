@@ -48,6 +48,52 @@
     },
     {
       "key": {
+        "uuid": "f6821bd5_ebd6798d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-09-10T13:41:31Z",
+      "side": 1,
+      "message": "Can you please also add a check for some other field in stats?\nTo make sure when we update reachabilityCheckDuration that all the other fields stay filled in?",
+      "range": {
+        "startLine": 2349,
+        "startChar": 2,
+        "endLine": 2349,
+        "endChar": 12
+      },
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84086e9e_6264fc74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1791,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-09-10T13:41:31Z",
+      "side": 1,
+      "message": "When we discussed creating a global statAccumulator field, the problem was that requestValidator.checkWants() was a public method, which users might have overridden, and so changing its signature would break everyone.\n\nIn case you add measuring the reachability checking in parseWants() method, you can pass the accumulator down as a parameter from service(), when it was previously created, and the equivalent for v2.\n\nWith that you\u0027d also address all the Michele\u0027s concerns about how having the global variable would break the case of several invocations of fetch.\n\nWDYT?",
+      "range": {
+        "startLine": 1791,
+        "startChar": 3,
+        "endLine": 1791,
+        "endChar": 18
+      },
+      "revId": "3df8ebbe3d152c28434397a270fd06f0ac0ee53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f3d741b_22498d06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
