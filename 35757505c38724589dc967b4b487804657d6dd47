@@ -69,6 +69,30 @@
       "revId": "35757505c38724589dc967b4b487804657d6dd47",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ded95d08_73d832ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2020-09-11T18:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c0789bd_91bd9e1e",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 74
+      },
+      "revId": "35757505c38724589dc967b4b487804657d6dd47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
