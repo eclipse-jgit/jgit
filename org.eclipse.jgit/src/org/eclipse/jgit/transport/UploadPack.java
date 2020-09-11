@@ -1137,6 +1137,9 @@ public class UploadPack {
 			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 		}
 
+		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
+		long negotiateStart = System.currentTimeMillis();
+
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
 		currentRequest = req;
@@ -1238,7 +1241,11 @@ public class UploadPack {
 				// But sideband-all is not used, so we have to write it ourselves.
 				pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			}
-			sendPack(new PackStatistics.Accumulator(),
+
+			accumulator.timeNegotiating = System.currentTimeMillis()
+					- negotiateStart;
+
+			sendPack(accumulator,
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
