@@ -22,6 +22,30 @@
       "revId": "60c257af228fd93923f25720e2428394efc6fe4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0e627cd_8350122b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 846
+      },
+      "writtenOn": "2020-09-11T13:52:24Z",
+      "side": 1,
+      "message": "Let me know which option you prefer and I will update the patchset accordingly. getModuleName2()? getSubmoduleName()?",
+      "parentUuid": "42b0465e_e644b216",
+      "range": {
+        "startLine": 663,
+        "startChar": 31,
+        "endLine": 663,
+        "endChar": 73
+      },
+      "revId": "60c257af228fd93923f25720e2428394efc6fe4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
