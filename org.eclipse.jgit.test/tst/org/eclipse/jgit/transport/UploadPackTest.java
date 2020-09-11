@@ -361,21 +361,21 @@ public class UploadPackTest {
 	}
 
 	/*
-	 * Invokes UploadPack with protocol v2 and sends it the given lines,
+	 * Invokes UploadPack with specified protocol version and sends it the given lines,
 	 * and returns UploadPack's output stream.
 	 */
-	private ByteArrayInputStream uploadPackV2Setup(
+	private ByteArrayInputStream uploadPackSetup(String version,
 			Consumer<UploadPack> postConstructionSetup, String... inputLines)
 			throws Exception {
 
 		ByteArrayInputStream send = linesAsInputStream(inputLines);
 
-		server.getConfig().setString("protocol", null, "version", "2");
+		server.getConfig().setString("protocol", null, "version", version);
 		UploadPack up = new UploadPack(server);
 		if (postConstructionSetup != null) {
 			postConstructionSetup.accept(up);
 		}
-		up.setExtraParameters(Sets.of("version=2"));
+		up.setExtraParameters(Sets.of("version=".concat(version)));
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
 		up.upload(send, recv, null);
@@ -403,6 +403,30 @@ public class UploadPackTest {
 	}
 
 	/*
+	 * Invokes UploadPack with protocol v1 and sends it the given lines.
+	 * Returns UploadPack's output stream, not including the capability
+	 * advertisement by the server.
+	 */
+	private ByteArrayInputStream uploadPackV1(
+			Consumer<UploadPack> postConstructionSetup,
+			String... inputLines)
+			throws Exception {
+		ByteArrayInputStream recvStream =
+				uploadPackSetup("1", postConstructionSetup, inputLines);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		// drain capabilities
+		while (!PacketLineIn.isEnd(pckIn.readString())) {
+			// do nothing
+		}
+		return recvStream;
+	}
+
+	private ByteArrayInputStream uploadPackV1(String... inputLines) throws Exception {
+		return uploadPackV1(null, inputLines);
+	}
+
+	/*
 	 * Invokes UploadPack with protocol v2 and sends it the given lines.
 	 * Returns UploadPack's output stream, not including the capability
 	 * advertisement by the server.
@@ -412,7 +436,7 @@ public class UploadPackTest {
 			String... inputLines)
 			throws Exception {
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(postConstructionSetup, inputLines);
+				uploadPackSetup("2", postConstructionSetup, inputLines);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// drain capabilities
@@ -452,7 +476,7 @@ public class UploadPackTest {
 	@Test
 	public void testV2Capabilities() throws Exception {
 		TestV2Hook hook = new TestV2Hook();
-		ByteArrayInputStream recvStream = uploadPackV2Setup(
+		ByteArrayInputStream recvStream = uploadPackSetup( "2",
 				(UploadPack up) -> {up.setProtocolV2Hook(hook);},
 				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
@@ -475,7 +499,7 @@ public class UploadPackTest {
 			String fetchCapability) throws Exception {
 		server.getConfig().setBoolean(configSection, null, configName, true);
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, PacketLineIn.end());
+				uploadPackSetup("2", null, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -499,7 +523,7 @@ public class UploadPackTest {
 			String configName, String fetchCapability) throws Exception {
 		server.getConfig().setBoolean(configSection, null, configName, false);
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, PacketLineIn.end());
+				uploadPackSetup("2", null, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -551,7 +575,7 @@ public class UploadPackTest {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
 		server.getConfig().setBoolean("uploadpack", null, "advertiserefinwant", false);
 		ByteArrayInputStream recvStream =
-				uploadPackV2Setup(null, PacketLineIn.end());
+				uploadPackSetup("2", null, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -715,7 +739,7 @@ public class UploadPackTest {
 				PacketLineIn.end() };
 
 		TestV2Hook testHook = new TestV2Hook();
-		uploadPackV2Setup((UploadPack up) -> {up.setProtocolV2Hook(testHook);}, lines);
+		uploadPackSetup("2", (UploadPack up) -> {up.setProtocolV2Hook(testHook);}, lines);
 
 		LsRefsV2Request req = testHook.lsRefsRequest;
 		assertEquals(2, req.getServerOptions().size());
@@ -1532,7 +1556,7 @@ public class UploadPackTest {
 				PacketLineIn.end() };
 
 		TestV2Hook testHook = new TestV2Hook();
-		uploadPackV2Setup((UploadPack up) -> {up.setProtocolV2Hook(testHook);}, lines);
+		uploadPackSetup("2", (UploadPack up) -> {up.setProtocolV2Hook(testHook);}, lines);
 
 		FetchV2Request req = testHook.fetchRequest;
 		assertNotNull(req);
@@ -2383,6 +2407,93 @@ public class UploadPackTest {
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
 		assertEquals(1, ((RefCallsCountingRepository)server).numRefCalls());
+	}
+
+	@Test
+	public void testNotAdvertisedWantsV1Fetch() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote
+				.commit(remote.tree(remote.file("foo", childBlob)), parent);
+		remote.update("branch1", child);
+
+		uploadPackV1("want " + child.toObjectId().getName() + "\n",
+				PacketLineIn.end(),
+				"have " + parent.toObjectId().getName() + "\n",
+				"done\n", PacketLineIn.end());
+
+		assertEquals(0, stats.getNotAdvertisedWants());
+	}
+
+	@Test
+	public void testNotAdvertisedWantsV1FetchRequestPolicyReachableCommit() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote
+				.commit(remote.tree(remote.file("foo", childBlob)), parent);
+
+		remote.update("branch1", child);
+
+		uploadPackV1((UploadPack up) -> {up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);},
+				"want " + parent.toObjectId().getName() + "\n",
+				PacketLineIn.end(),
+				"done\n", PacketLineIn.end());
+
+		assertEquals(1, stats.getNotAdvertisedWants());
+	}
+
+	@Test
+	public void testNotAdvertisedWantsV2FetchThinPack() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote
+				.commit(remote.tree(remote.file("foo", childBlob)), parent);
+		remote.update("branch1", child);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + child.toObjectId().getName() + "\n",
+				"have " + parent.toObjectId().getName() + "\n", "thin-pack\n",
+				"done\n", PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("packfile"));
+
+		assertEquals(0, stats.getNotAdvertisedWants());
+	}
+
+	@Test
+	public void testNotAdvertisedWantsV2FetchRequestPolicyReachableCommit() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote
+				.commit(remote.tree(remote.file("foo", childBlob)), parent);
+
+		remote.update("branch1", child);
+
+		uploadPackV2((UploadPack up) -> {up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);},
+				"command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + parent.toObjectId().getName() + "\n", "thin-pack\n",
+				"done\n", PacketLineIn.end());
+
+		assertEquals(1, stats.getNotAdvertisedWants());
 	}
 
 	private class RefCallsCountingRepository extends InMemoryRepository {
