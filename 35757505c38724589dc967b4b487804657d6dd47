@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53ca40dc_2cafcea3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-11T16:38:21Z",
+      "side": 1,
+      "message": "This comment got lost, propagated to the newest patchset.",
+      "parentUuid": "1129866b_d5744297",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 83
+      },
+      "revId": "35757505c38724589dc967b4b487804657d6dd47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c0789bd_91bd9e1e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 4
