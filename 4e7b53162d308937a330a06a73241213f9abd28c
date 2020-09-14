@@ -22,6 +22,30 @@
       "revId": "4e7b53162d308937a330a06a73241213f9abd28c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd2268d4_e32ef5c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1808,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-14T15:37:55Z",
+      "side": 1,
+      "message": "Good remark, I wasn\u0027t sure if I should leave it or remove. Will remove in my next patch.",
+      "parentUuid": "1afa9daf_f6155fae",
+      "range": {
+        "startLine": 1808,
+        "startChar": 3,
+        "endLine": 1808,
+        "endChar": 42
+      },
+      "revId": "4e7b53162d308937a330a06a73241213f9abd28c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
