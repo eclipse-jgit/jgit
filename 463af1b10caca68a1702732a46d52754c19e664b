@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e778a90_f1a1b029",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-14T22:03:43Z",
+      "side": 1,
+      "message": "achieved",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "463af1b10caca68a1702732a46d52754c19e664b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71116d32_e66316c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-14T22:03:43Z",
+      "side": 1,
+      "message": "write this lowercase then it will be rendered as a link",
+      "range": {
+        "startLine": 14,
+        "startChar": 58,
+        "endLine": 14,
+        "endChar": 61
+      },
+      "revId": "463af1b10caca68a1702732a46d52754c19e664b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70bca28f_f2a9118c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-14T22:03:43Z",
+      "side": 1,
+      "message": "how about converting this to a byte[] or String here already ?",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 30
+      },
+      "revId": "463af1b10caca68a1702732a46d52754c19e664b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "956ee42a_6984d621",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-14T22:03:43Z",
+      "side": 1,
+      "message": "5.10",
+      "range": {
+        "startLine": 195,
+        "startChar": 11,
+        "endLine": 195,
+        "endChar": 14
+      },
+      "revId": "463af1b10caca68a1702732a46d52754c19e664b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9c137b1_d136ffc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-14T22:03:43Z",
+      "side": 1,
+      "message": "how about handleError ?",
+      "range": {
+        "startLine": 197,
+        "startChar": 16,
+        "endLine": 197,
+        "endChar": 28
+      },
+      "revId": "463af1b10caca68a1702732a46d52754c19e664b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da47a8e0_62e298a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-14T22:03:43Z",
+      "side": 1,
+      "message": "we don\u0027t use final for method parameters, see\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 197,
+        "startChar": 29,
+        "endLine": 197,
+        "endChar": 34
+      },
+      "revId": "463af1b10caca68a1702732a46d52754c19e664b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
