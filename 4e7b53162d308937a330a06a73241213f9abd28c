@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1afa9daf_f6155fae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1808,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-09-14T14:23:55Z",
+      "side": 1,
+      "message": "This line isn\u0027t necessary, the uninitialized long value is always 0.",
+      "range": {
+        "startLine": 1808,
+        "startChar": 3,
+        "endLine": 1808,
+        "endChar": 42
+      },
+      "revId": "4e7b53162d308937a330a06a73241213f9abd28c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
