@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "86e287fb_ceaff64c",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-16T06:56:13Z",
+      "side": 1,
+      "message": "see https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java#76\nand\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java#366",
+      "parentUuid": "66a6e669_e277a2cf",
+      "range": {
+        "startLine": 17,
+        "startChar": 261,
+        "endLine": 17,
+        "endChar": 330
+      },
+      "revId": "5288812636e143a14384facba3f53f0ac2f9b031",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "69628e53_2acf8aa7",
         "filename": "Documentation/config-options.md",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b47de861_2f55ca4d",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-16T06:56:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69628e53_2acf8aa7",
+      "range": {
+        "startLine": 31,
+        "startChar": 20,
+        "endLine": 31,
+        "endChar": 24
+      },
+      "revId": "5288812636e143a14384facba3f53f0ac2f9b031",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5dec602_bf525ee0",
         "filename": "Documentation/config-options.md",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "5288812636e143a14384facba3f53f0ac2f9b031",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "562d0edd_4e56053e",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-09-16T06:56:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5dec602_bf525ee0",
+      "revId": "5288812636e143a14384facba3f53f0ac2f9b031",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
