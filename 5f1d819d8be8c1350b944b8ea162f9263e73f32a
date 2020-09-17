@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70e81807_92b07d29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-09-17T12:35:16Z",
+      "side": 1,
+      "message": "Since the accumulator is created in this function, `timeNegotiating` starts from zero and is assigned only once, it seems that a regular assignment would work here. Why are you using +\u003d?",
+      "range": {
+        "startLine": 1245,
+        "startChar": 31,
+        "endLine": 1245,
+        "endChar": 33
+      },
+      "revId": "5f1d819d8be8c1350b944b8ea162f9263e73f32a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8cc41cc_be8c8ffc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-09-17T12:35:16Z",
+      "side": 1,
+      "message": "Same thing here.",
+      "range": {
+        "startLine": 1257,
+        "startChar": 31,
+        "endLine": 1257,
+        "endChar": 33
+      },
+      "revId": "5f1d819d8be8c1350b944b8ea162f9263e73f32a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
