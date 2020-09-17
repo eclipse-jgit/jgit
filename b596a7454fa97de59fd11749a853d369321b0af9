@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b206866_2ae013df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-09-17T12:29:12Z",
+      "side": 1,
+      "message": "Is this correct?",
+      "range": {
+        "startLine": 193,
+        "startChar": 12,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "b596a7454fa97de59fd11749a853d369321b0af9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a997f7de_f2c65728",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1798,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-09-17T12:29:12Z",
+      "side": 1,
+      "message": "nit: Please remove trailing space.",
+      "range": {
+        "startLine": 1798,
+        "startChar": 3,
+        "endLine": 1798,
+        "endChar": 4
+      },
+      "revId": "b596a7454fa97de59fd11749a853d369321b0af9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
