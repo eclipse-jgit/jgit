@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "25ed8c3a_44b52413",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-18T08:50:14Z",
+      "side": 1,
+      "message": "I used it to keep the code consistent because for the protocol V1 (line 1053) they used +\u003d. Should I remove for both versions the +?",
+      "parentUuid": "70e81807_92b07d29",
+      "range": {
+        "startLine": 1245,
+        "startChar": 31,
+        "endLine": 1245,
+        "endChar": 33
+      },
+      "revId": "5f1d819d8be8c1350b944b8ea162f9263e73f32a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8cc41cc_be8c8ffc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "5f1d819d8be8c1350b944b8ea162f9263e73f32a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ba1dfe5_49bf964d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-18T08:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8cc41cc_be8c8ffc",
+      "range": {
+        "startLine": 1257,
+        "startChar": 31,
+        "endLine": 1257,
+        "endChar": 33
+      },
+      "revId": "5f1d819d8be8c1350b944b8ea162f9263e73f32a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
