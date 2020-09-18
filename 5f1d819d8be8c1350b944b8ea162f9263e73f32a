@@ -117,6 +117,29 @@
       "revId": "5f1d819d8be8c1350b944b8ea162f9263e73f32a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15f0a99c_b9f47770",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-09-18T10:28:54Z",
+      "side": 1,
+      "message": "In this branch I think the statistics object doesn\u0027t get created from this accumulator, right?\n\nIn that case please drop these lines to not create any confusion.\n(We could think separately about providing statistics in case a pack is not sent, just not in this commit.)",
+      "range": {
+        "startLine": 1257,
+        "startChar": 3,
+        "endLine": 1258,
+        "endChar": 22
+      },
+      "revId": "5f1d819d8be8c1350b944b8ea162f9263e73f32a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
