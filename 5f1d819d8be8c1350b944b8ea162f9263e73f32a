@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "93eff203_d40cd4e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-09-18T09:04:15Z",
+      "side": 1,
+      "message": "Mmm... I guess it\u0027s OK to keep it this way. It doesn\u0027t hurt to keep the +\u003d in case a future refactoring updates the variable in one more place.",
+      "parentUuid": "25ed8c3a_44b52413",
+      "range": {
+        "startLine": 1245,
+        "startChar": 31,
+        "endLine": 1245,
+        "endChar": 33
+      },
+      "revId": "5f1d819d8be8c1350b944b8ea162f9263e73f32a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8cc41cc_be8c8ffc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 5
