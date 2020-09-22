@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a97222ee_24c6317c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-22T15:33:15Z",
+      "side": 1,
+      "message": "This reformatting replaced tabs with spaces so you will need to revert it and try to get the formatter correctly configured (you can try importing the settings in tools/eclipse-JGit-Format.xml in the JGit repo checkout).",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 1
+      },
+      "revId": "f0c392d469b28fec9e2a228de550f897fc328b65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
