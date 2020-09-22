@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "072d92f7_2abf5ca4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-22T00:01:38Z",
+      "side": 1,
+      "message": "Please change \"get removed\" to \"are optimized\".\n\nWe can\u0027t globally remove reachability checks, but if we know the user can read all branches and that no branches can be rewound, we can skip the check in that case. Also, with live tracking on branch updates we can actually track the set of objects that became unreachable, replacing a graph walk with a lookup in a set.",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b9aa180_caea46fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-22T00:01:38Z",
+      "side": 1,
+      "message": "Please add a \"@since 5.10\" annotation to this comment for Eclipse\u0027s API tooling.",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 63
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a856d843_e42f6fff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-22T00:01:38Z",
+      "side": 1,
+      "message": "Please add a \"@since 5.10\" annotation to this comment for Eclipse\u0027s API tooling.",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 48
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53a3d324_f1c8e9cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-22T00:01:38Z",
+      "side": 1,
+      "message": "Please replace this extra line with a \"@since 5.10\" annotation to this comment for Eclipse\u0027s API tooling.",
+      "range": {
+        "startLine": 363,
+        "startChar": 0,
+        "endLine": 363,
+        "endChar": 3
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a40f38_f211cd3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-22T00:01:38Z",
+      "side": 1,
+      "message": "Please add a \"@since 5.10\" annotation to this comment for Eclipse\u0027s API tooling.",
+      "range": {
+        "startLine": 630,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 4
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82850811_5b6799af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1679,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-22T00:01:38Z",
+      "side": 1,
+      "message": "Please run through Eclipse\u0027s formatter to get this correctly formatted.",
+      "range": {
+        "startLine": 1679,
+        "startChar": 0,
+        "endLine": 1679,
+        "endChar": 132
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
