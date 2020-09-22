@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c98935ff_6e0cf777",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-22T12:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "072d92f7_2abf5ca4",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b9aa180_caea46fa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9377dad8_a97a1019",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-22T12:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b9aa180_caea46fa",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 63
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c74aad0a_8ce89c42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-22T12:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a856d843_e42f6fff",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 48
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53a3d324_f1c8e9cc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
         "patchSetId": 8
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "1a8f879a_d5b605f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-22T12:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53a3d324_f1c8e9cc",
+      "range": {
+        "startLine": 363,
+        "startChar": 0,
+        "endLine": 363,
+        "endChar": 3
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21a40f38_f211cd3b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
         "patchSetId": 8
@@ -114,6 +210,30 @@
       "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f8fe1ed_c99912c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-22T12:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21a40f38_f211cd3b",
+      "range": {
+        "startLine": 630,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 4
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
