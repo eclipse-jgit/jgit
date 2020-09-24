@@ -22,6 +22,30 @@
       "revId": "3c5e159eaea16216c91316af40166c44de09dbec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cb3a430_f236324f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-24T19:39:32Z",
+      "side": 1,
+      "message": "Made a follow up commit",
+      "parentUuid": "3b94b59b_0f896b1d",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 0
+      },
+      "revId": "3c5e159eaea16216c91316af40166c44de09dbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
