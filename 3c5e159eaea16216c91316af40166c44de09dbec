@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b94b59b_0f896b1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-09-24T15:09:10Z",
+      "side": 1,
+      "message": "nit: Can you make the Javadoc for these consistent with the one below in a follow up commit?",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 0
+      },
+      "revId": "3c5e159eaea16216c91316af40166c44de09dbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
