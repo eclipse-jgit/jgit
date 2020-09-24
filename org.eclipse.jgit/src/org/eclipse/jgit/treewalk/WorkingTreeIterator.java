@@ -25,6 +25,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Arrays;
@@ -48,8 +49,8 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
@@ -1308,15 +1309,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			}
 
 			FS fs = repository.getFS();
-			String path = repository.getConfig().get(CoreConfig.KEY)
-					.getExcludesFile();
+			Path path = repository.getConfig().getPath(
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_EXCLUDESFILE, fs, null, null);
 			if (path != null) {
-				File excludesfile;
-				if (path.startsWith("~/")) //$NON-NLS-1$
-					excludesfile = fs.resolve(fs.userHome(), path.substring(2));
-				else
-					excludesfile = fs.resolve(null, path);
-				loadRulesFromFile(r, excludesfile);
+				loadRulesFromFile(r, path.toFile());
 			}
 
 			File exclude = fs.resolve(repository.getDirectory(),
