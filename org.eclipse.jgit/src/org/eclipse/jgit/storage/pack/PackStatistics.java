@@ -188,6 +188,13 @@ public class PackStatistics {
 		public long haves;
 
 		/**
+		 * The count of wants that were not advertised by the server.
+		 *
+		 * @since 5.10
+		 */
+		public long notAdvertisedWants;
+
+		/**
 		 * Time in ms spent in the negotiation phase. For non-bidirectional
 		 * transports (e.g., HTTP), this is only for the final request that
 		 * sends back the pack file.
@@ -265,6 +272,11 @@ public class PackStatistics {
 
 		/** Time in ms spent writing the pack. */
 		public long timeWriting;
+
+		/** Time in ms spent checking reachability.
+		 * @since 5.10
+		 */
+		public long reachabilityCheckDuration;
 
 		/** Number of trees traversed in the walk when writing the pack.
 		 * @since 5.4*/
@@ -346,6 +358,16 @@ public class PackStatistics {
 	 */
 	public long getHaves() {
 		return statistics.haves;
+	}
+
+	/**
+	 * Get the count of client wants that were not advertised by the server.
+	 *
+	 * @return count of client wants that were not advertised by the server.
+	 * @since 5.10
+	 */
+	public long getNotAdvertisedWants() {
+		return statistics.notAdvertisedWants;
 	}
 
 	/**
@@ -601,6 +623,18 @@ public class PackStatistics {
 	 */
 	public long getTimeWriting() {
 		return statistics.timeWriting;
+	}
+
+	/**
+	 * Get time in milliseconds spent checking if the client has access to the
+	 * commits they are requesting.
+	 *
+	 * @return time in milliseconds spent checking if the client has access to the
+	 * commits they are requesting.
+	 * @since 5.10
+	 */
+	public long getReachabilityCheckDuration() {
+		return statistics.reachabilityCheckDuration;
 	}
 
 	/**
