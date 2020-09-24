@@ -257,6 +257,30 @@
       "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48cc2b7e_43dc9458",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1679,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-09-24T12:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82850811_5b6799af",
+      "range": {
+        "startLine": 1679,
+        "startChar": 0,
+        "endLine": 1679,
+        "endChar": 132
+      },
+      "revId": "c4a17862706b8e805cea2bff3b99842189e2d660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
