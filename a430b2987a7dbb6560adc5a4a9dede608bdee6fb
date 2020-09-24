@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9d66925_68e29215",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/HttpConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-09-24T22:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d10286e4_3997718d",
+      "revId": "a430b2987a7dbb6560adc5a4a9dede608bdee6fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be44af4e_49f36c3b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "a430b2987a7dbb6560adc5a4a9dede608bdee6fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac0e55e4_0a24e234",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-09-24T22:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be44af4e_49f36c3b",
+      "revId": "a430b2987a7dbb6560adc5a4a9dede608bdee6fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
