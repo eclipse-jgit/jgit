@@ -274,12 +274,15 @@ public class PackStatistics {
 		public long timeWriting;
 
 		/** Time in ms spent checking reachability.
+		 *
 		 * @since 5.10
 		 */
 		public long reachabilityCheckDuration;
 
 		/** Number of trees traversed in the walk when writing the pack.
-		 * @since 5.4*/
+		 *
+		 * @since 5.4
+		 */
 		public long treesTraversed;
 
 		/**
