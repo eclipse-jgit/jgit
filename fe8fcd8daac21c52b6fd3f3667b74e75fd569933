@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6858a03c_c4f3a25a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-09-25T06:40:11Z",
+      "side": 1,
+      "message": "Hmmm. What about encoding? RFC 7230: \"Historically, HTTP has allowed field content with text in the ISO-8859-1 charset [ISO-8859-1], supporting other charsets only through use of [RFC2047] encoding.  In practice, most HTTP header field values use only a subset of the US-ASCII charset [USASCII].\"[1]\n\nDo we have to\n* implement RFC 2047 MIME header encoding?\n* skip and log any non-ASCII key and any non-ISO-8859-1 value?\n\nAt least Apache HTTP doesn\u0027t seem to do RFC 2047 automatically. What about control characters?\nRFC 7230 limits the key to \"token\".\n\n[1] https://tools.ietf.org/html/rfc7230#section-3.2.4",
+      "revId": "fe8fcd8daac21c52b6fd3f3667b74e75fd569933",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
