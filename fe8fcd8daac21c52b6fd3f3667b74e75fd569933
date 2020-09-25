@@ -16,6 +16,24 @@
       "revId": "fe8fcd8daac21c52b6fd3f3667b74e75fd569933",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24d2c1c3_a71e09bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-09-25T19:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6858a03c_c4f3a25a",
+      "revId": "fe8fcd8daac21c52b6fd3f3667b74e75fd569933",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
