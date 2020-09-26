@@ -8,4 +8,18 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/storage/pack/PackStatistics.java" type="org.eclipse.jgit.storage.pack.PackStatistics$Accumulator">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackStatistics.Accumulator"/>
+                <message_argument value="notAdvertisedWants"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackStatistics.Accumulator"/>
+                <message_argument value="reachabilityCheckDuration"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
