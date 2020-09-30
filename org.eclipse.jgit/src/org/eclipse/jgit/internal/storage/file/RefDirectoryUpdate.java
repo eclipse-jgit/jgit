@@ -14,6 +14,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.eclipse.jgit.lib.Constants.encode;
 
 import java.io.IOException;
+import java.nio.file.FileStore;
 
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -23,13 +24,16 @@ import org.eclipse.jgit.lib.Repository;
 /** Updates any reference stored by {@link RefDirectory}. */
 class RefDirectoryUpdate extends RefUpdate {
 	private final RefDirectory database;
+	private final FileStore store;
 
 	private boolean shouldDeref;
 	private LockFile lock;
 
-	RefDirectoryUpdate(RefDirectory r, Ref ref) {
+
+	RefDirectoryUpdate(RefDirectory r, Ref ref, FileStore store) {
 		super(ref);
 		database = r;
+		this.store = store;
 	}
 
 	/** {@inheritDoc} */
@@ -52,7 +56,7 @@ class RefDirectoryUpdate extends RefUpdate {
 		if (deref)
 			dst = dst.getLeaf();
 		String name = dst.getName();
-		lock = new LockFile(database.fileFor(name));
+		lock = new LockFile(database.fileFor(name), store);
 		if (lock.lock()) {
 			dst = database.findRef(name);
 			setOldObjectId(dst != null ? dst.getObjectId() : null);

@@ -332,8 +332,24 @@ public abstract class FS {
 		 * @param path
 		 *            file residing in the FileStore to get attributes for
 		 * @return FileStoreAttributes for the given path.
+		 * @deprecated use {@link #get(Path, FileStore)} instead
 		 */
+		@Deprecated
 		public static FileStoreAttributes get(Path path) {
+			return get(path, null);
+		}
+
+		/**
+		 * Get the FileStoreAttributes for the given FileStore
+		 *
+		 * @param path
+		 *            file residing in the FileStore to get attributes for
+		 * @param store
+		 *            the FileStore this path is located in
+		 * @return FileStoreAttributes for the given path.
+		 * @since 5.10
+		 */
+		public static FileStoreAttributes get(Path path, FileStore store) {
 			try {
 				path = path.toAbsolutePath();
 				Path dir = Files.isDirectory(path) ? path : path.getParent();
@@ -341,7 +357,7 @@ public abstract class FS {
 				if (cached != null) {
 					return cached;
 				}
-				FileStoreAttributes attrs = getFileStoreAttributes(dir);
+				FileStoreAttributes attrs = getFileStoreAttributes(dir, store);
 				if (attrs == null) {
 					// Don't cache, result might be late
 					return FALLBACK_FILESTORE_ATTRIBUTES;
@@ -353,11 +369,12 @@ public abstract class FS {
 			}
 		}
 
-		private static FileStoreAttributes getFileStoreAttributes(Path dir) {
+		private static FileStoreAttributes getFileStoreAttributes(Path dir,
+				FileStore store) {
 			FileStore s;
 			try {
 				if (Files.exists(dir)) {
-					s = Files.getFileStore(dir);
+					s = store != null ? store : Files.getFileStore(dir);
 					FileStoreAttributes c = attributeCache.get(s);
 					if (c != null) {
 						return c;
@@ -468,11 +485,13 @@ public abstract class FS {
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			Instant end = Instant.now().plusSeconds(3);
 			try {
+				FileStore store = Files.getFileStore(dir);
 				Files.createFile(probe);
 				do {
 					n++;
 					write(probe, "a"); //$NON-NLS-1$
-					FileSnapshot snapshot = FileSnapshot.save(probe.toFile());
+					FileSnapshot snapshot = FileSnapshot.save(probe.toFile(),
+							store);
 					read(probe);
 					write(probe, "b"); //$NON-NLS-1$
 					if (!snapshot.isModified(probe.toFile())) {
@@ -897,6 +916,10 @@ public abstract class FS {
 	 * Get cached FileStore attributes, if not yet available measure them using
 	 * a probe file under the given directory.
 	 *
+	 * Use {@link #getFileStoreAttributes(Path, FileStore)} instead if the
+	 * {@code FileStore} the {@code dir} is located in is known because this
+	 * avoids looking it up from the filesystem.
+	 *
 	 * @param dir
 	 *            the directory under which the probe file will be created to
 	 *            measure the timer resolution.
@@ -905,7 +928,24 @@ public abstract class FS {
 	 */
 	public static FileStoreAttributes getFileStoreAttributes(
 			@NonNull Path dir) {
-		return FileStoreAttributes.get(dir);
+		return FileStoreAttributes.get(dir, null);
+	}
+
+	/**
+	 * Get cached FileStore attributes, if not yet available measure them using
+	 * a probe file under the given directory.
+	 *
+	 * @param dir
+	 *            the directory under which the probe file will be created to
+	 *            measure the timer resolution.
+	 * @param store
+	 *            the FileStore the directory is located in
+	 * @return measured filesystem timestamp resolution
+	 * @since 5.10
+	 */
+	public static FileStoreAttributes getFileStoreAttributes(@NonNull Path dir,
+			FileStore store) {
+		return FileStoreAttributes.get(dir, store);
 	}
 
 	private volatile Holder<File> userHome;

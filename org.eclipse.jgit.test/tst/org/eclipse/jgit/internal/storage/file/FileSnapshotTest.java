@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -48,16 +49,19 @@ public class FileSnapshotTest {
 
 	private Path trash;
 
+	FileStore store;
+
 	private FileStoreAttributes fsAttrCache;
 
 	@Before
 	public void setUp() throws Exception {
 		SystemReader.setInstance(new MockSystemReader());
 		trash = Files.createTempDirectory("tmp_");
+		store = Files.getFileStore(trash);
 		// measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement
 		fsAttrCache = FS
-				.getFileStoreAttributes(trash.getParent());
+				.getFileStoreAttributes(trash.getParent(), store);
 	}
 
 	@Before
@@ -84,7 +88,7 @@ public class FileSnapshotTest {
 	public void testActuallyIsModifiedTrivial() throws Exception {
 		Path f1 = createFile("simple");
 		waitNextTick(f1);
-		FileSnapshot save = FileSnapshot.save(f1.toFile());
+		FileSnapshot save = FileSnapshot.save(f1.toFile(), store);
 		append(f1, (byte) 'x');
 		waitNextTick(f1);
 		assertTrue(save.isModified(f1.toFile()));
@@ -107,7 +111,7 @@ public class FileSnapshotTest {
 						.compareTo(Duration.ofMillis(10)) > 0);
 		Path f1 = createFile("newfile");
 		waitNextTick(f1);
-		FileSnapshot save = FileSnapshot.save(f1.toFile());
+		FileSnapshot save = FileSnapshot.save(f1.toFile(), store);
 		TimeUnit.NANOSECONDS.sleep(
 				fsAttrCache.getFsTimestampResolution().dividedBy(2).toNanos());
 		assertTrue(save.isModified(f1.toFile()));
@@ -127,7 +131,7 @@ public class FileSnapshotTest {
 		for (int i = 0; i < 50; i++) {
 			Instant start = Instant.now();
 			Path f1 = createFile("newfile");
-			FileSnapshot save = FileSnapshot.save(f1.toFile());
+			FileSnapshot save = FileSnapshot.save(f1.toFile(), store);
 			Duration res = FS.getFileStoreAttributes(f1)
 					.getFsTimestampResolution();
 			Instant end = Instant.now();
@@ -167,7 +171,7 @@ public class FileSnapshotTest {
 		waitNextTick(f2);
 		waitNextTick(f2);
 		FileTime timestamp = Files.getLastModifiedTime(f1);
-		FileSnapshot save = FileSnapshot.save(f1.toFile());
+		FileSnapshot save = FileSnapshot.save(f1.toFile(), store);
 		Files.move(f2, f1, // Now "file" is inode x
 				StandardCopyOption.REPLACE_EXISTING,
 				StandardCopyOption.ATOMIC_MOVE);
@@ -191,7 +195,7 @@ public class FileSnapshotTest {
 	public void testFileSizeChanged() throws Exception {
 		Path f = createFile("file");
 		FileTime timestamp = Files.getLastModifiedTime(f);
-		FileSnapshot save = FileSnapshot.save(f.toFile());
+		FileSnapshot save = FileSnapshot.save(f.toFile(), store);
 		append(f, (byte) 'x');
 		Files.setLastModifiedTime(f, timestamp);
 		assertTrue(save.isModified(f.toFile()));
@@ -219,7 +223,7 @@ public class FileSnapshotTest {
 		File f = createFile("test").toFile();
 		for (int i = 0; i < COUNT; i++) {
 			write(f, "a");
-			FileSnapshot snapshot = FileSnapshot.save(f);
+			FileSnapshot snapshot = FileSnapshot.save(f, store);
 			assertEquals("file should contain 'a'", "a", read(f));
 			write(f, "b");
 			if (!snapshot.isModified(f)) {

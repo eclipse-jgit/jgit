@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -94,6 +95,8 @@ public class FileReftableStack implements AutoCloseable {
 
 	private final CompactionStats stats;
 
+	private final FileStore store;
+
 	/**
 	 * Creates a stack corresponding to the list of reftables in the argument
 	 *
@@ -105,17 +108,21 @@ public class FileReftableStack implements AutoCloseable {
 	 *            hook to call if we notice a new write
 	 * @param configSupplier
 	 *            Config supplier
+	 * @param store
+	 *            the FileStore this reftable stack is located in
 	 * @throws IOException
 	 *             on I/O problems
 	 */
 	public FileReftableStack(File stackPath, File reftableDir,
-			@Nullable Runnable onChange, Supplier<Config> configSupplier)
+			@Nullable Runnable onChange, Supplier<Config> configSupplier,
+			FileStore store)
 			throws IOException {
 		this.stackPath = stackPath;
 		this.reftableDir = reftableDir;
 		this.stack = new ArrayList<>();
 		this.configSupplier = configSupplier;
 		this.onChange = onChange;
+		this.store = store;
 
 		// skip event notification
 		lastNextUpdateIndex = 0;
@@ -382,7 +389,7 @@ public class FileReftableStack implements AutoCloseable {
 	 */
 	@SuppressWarnings("nls")
 	public boolean addReftable(Writer w) throws IOException {
-		LockFile lock = new LockFile(stackPath);
+		LockFile lock = new LockFile(stackPath, store);
 		try {
 			if (!lock.lockForAppend()) {
 				return false;
@@ -492,7 +499,7 @@ public class FileReftableStack implements AutoCloseable {
 		if (first >= last) {
 			return true;
 		}
-		LockFile lock = new LockFile(stackPath);
+		LockFile lock = new LockFile(stackPath, store);
 
 		File tmpTable = null;
 		List<LockFile> subtableLocks = new ArrayList<>();
@@ -508,7 +515,7 @@ public class FileReftableStack implements AutoCloseable {
 			List<File> deleteOnSuccess = new ArrayList<>();
 			for (int i = first; i <= last; i++) {
 				File f = new File(reftableDir, stack.get(i).name);
-				LockFile lf = new LockFile(f);
+				LockFile lf = new LockFile(f, store);
 				if (!lf.lock()) {
 					return false;
 				}
@@ -521,7 +528,7 @@ public class FileReftableStack implements AutoCloseable {
 
 			tmpTable = compactLocked(first, last);
 
-			lock = new LockFile(stackPath);
+			lock = new LockFile(stackPath, store);
 			if (!lock.lock()) {
 				return false;
 			}

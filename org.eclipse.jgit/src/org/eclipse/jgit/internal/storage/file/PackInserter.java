@@ -302,7 +302,8 @@ public class PackInserter extends ObjectInserter {
 
 		boolean interrupted = false;
 		try {
-			FileSnapshot snapshot = FileSnapshot.save(realPack);
+			FileSnapshot snapshot = FileSnapshot.save(realPack,
+					db.getFileStore());
 			if (pconfig.doWaitPreventRacyPack(snapshot.size())) {
 				snapshot.waitUntilNotRacy();
 			}
