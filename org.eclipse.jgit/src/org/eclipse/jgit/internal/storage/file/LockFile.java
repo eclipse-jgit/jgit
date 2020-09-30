@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
@@ -90,6 +91,8 @@ public class LockFile {
 	static final FilenameFilter FILTER = (File dir,
 			String name) -> !name.endsWith(LOCK_SUFFIX);
 
+	private final FileStore store;
+
 	private final File ref;
 
 	private final File lck;
@@ -108,13 +111,31 @@ public class LockFile {
 
 	/**
 	 * Create a new lock for any file.
+	 * <p/>
+	 * If the FileStore storing this LockFile is known use
+	 * {@link #LockFile(File, FileStore)} since it avoids looking up the
+	 * FileStore which can be slow on some platforms.
 	 *
 	 * @param f
 	 *            the file that will be locked.
 	 */
 	public LockFile(File f) {
+		this(f, null);
+	}
+
+	/**
+	 * Create a new lock for any file.
+	 *
+	 * @param f
+	 *            the file that will be locked.
+	 * @param store
+	 *            the FileStore this lock file is located in
+	 * @since 5.10
+	 */
+	public LockFile(File f, FileStore store) {
 		ref = f;
 		lck = getLockFile(ref);
+		this.store = store;
 	}
 
 	/**
@@ -374,9 +395,9 @@ public class LockFile {
 	 *             the target file.
 	 */
 	public void waitForStatChange() throws InterruptedException {
-		FileSnapshot o = FileSnapshot.save(ref);
-		FileSnapshot n = FileSnapshot.save(lck);
-		long fsTimeResolution = FS.getFileStoreAttributes(lck.toPath())
+		FileSnapshot o = FileSnapshot.save(ref, store);
+		FileSnapshot n = FileSnapshot.save(lck, store);
+		long fsTimeResolution = FS.getFileStoreAttributes(lck.toPath(), store)
 				.getFsTimestampResolution().toNanos();
 		while (o.equals(n)) {
 			TimeUnit.NANOSECONDS.sleep(fsTimeResolution);
@@ -386,7 +407,7 @@ public class LockFile {
 			} catch (IOException e) {
 				n.waitUntilNotRacy();
 			}
-			n = FileSnapshot.save(lck);
+			n = FileSnapshot.save(lck, store);
 		}
 	}
 
@@ -428,7 +449,7 @@ public class LockFile {
 
 	private void saveStatInformation() {
 		if (needSnapshot)
-			commitSnapshot = FileSnapshot.save(lck);
+			commitSnapshot = FileSnapshot.save(lck, store);
 	}
 
 	/**

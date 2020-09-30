@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.FileStore;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -327,6 +328,9 @@ public class DirCache {
 	/** If we read this index from disk, the original format. */
 	private DirCacheVersion version;
 
+	/** The FileStore this DirCache is located in. */
+	private final FileStore store;
+
 	/**
 	 * Create a new in-core index representation.
 	 * <p>
@@ -340,7 +344,27 @@ public class DirCache {
 	 *            certain file system operations.
 	 */
 	public DirCache(File indexLocation, FS fs) {
+		this(indexLocation, fs, null);
+	}
+
+	/**
+	 * Create a new in-core index representation.
+	 * <p>
+	 * The new index will be empty. Callers may wish to read from the on disk
+	 * file first with {@link #read()}.
+	 *
+	 * @param indexLocation
+	 *            location of the index file on disk.
+	 * @param fs
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @param store
+	 *            the FileStore this DirCache is located in
+	 * @since 5.10
+	 */
+	public DirCache(File indexLocation, FS fs, FileStore store) {
 		liveFile = indexLocation;
+		this.store = store;
 		clear();
 	}
 
@@ -416,7 +440,7 @@ public class DirCache {
 				//
 				clear();
 			}
-			snapshot = FileSnapshot.save(liveFile);
+			snapshot = FileSnapshot.save(liveFile, store);
 		}
 	}
 
@@ -479,7 +503,7 @@ public class DirCache {
 		if (entryCnt < 0)
 			throw new CorruptObjectException(JGitText.get().DIRCHasTooManyEntries);
 
-		snapshot = FileSnapshot.save(liveFile);
+		snapshot = FileSnapshot.save(liveFile, store);
 		Instant smudge = snapshot.lastModifiedInstant();
 
 		// Load the individual file entries.
@@ -590,7 +614,7 @@ public class DirCache {
 	public boolean lock() throws IOException {
 		if (liveFile == null)
 			throw new IOException(JGitText.get().dirCacheDoesNotHaveABackingFile);
-		final LockFile tmp = new LockFile(liveFile);
+		final LockFile tmp = new LockFile(liveFile, store);
 		if (tmp.lock()) {
 			tmp.setNeedStatInformation(true);
 			myLock = tmp;

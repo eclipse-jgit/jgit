@@ -99,7 +99,7 @@ public class GcPackRefsTest extends GcTestCase {
 		tr.lightweightTag("t1", a);
 		tr.lightweightTag("t2", a);
 		LockFile refLock = new LockFile(new File(repo.getDirectory(),
-				"refs/tags/t1"));
+				"refs/tags/t1"), repo.getFileStore());
 		try {
 			refLock.lock();
 			gc.packRefs();
@@ -125,7 +125,7 @@ public class GcPackRefsTest extends GcTestCase {
 			Future<Result> result = pool.submit(() -> {
 				RefUpdate update = new RefDirectoryUpdate(
 						(RefDirectory) repo.getRefDatabase(),
-						repo.exactRef("refs/tags/t")) {
+						repo.exactRef("refs/tags/t"), repo.getFileStore()) {
 					@Override
 					public boolean isForceUpdate() {
 						try {

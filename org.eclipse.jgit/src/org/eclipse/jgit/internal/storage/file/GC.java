@@ -1246,7 +1246,8 @@ public class GC {
 			}
 			boolean interrupted = false;
 			try {
-				FileSnapshot snapshot = FileSnapshot.save(realPack);
+				FileSnapshot snapshot = FileSnapshot.save(realPack,
+						repo.getFileStore());
 				if (pconfig.doWaitPreventRacyPack(snapshot.size())) {
 					snapshot.waitUntilNotRacy();
 				}

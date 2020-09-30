@@ -21,6 +21,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.FileStore;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -108,6 +110,8 @@ public class FileRepository extends Repository {
 	// protected by snapshotLock
 	private FileSnapshot snapshot;
 
+	private FileStore store;
+
 	/**
 	 * Construct a representation of a Git repository.
 	 * <p>
@@ -192,10 +196,9 @@ public class FileRepository extends Repository {
 			refs = new RefDirectory(this);
 		}
 
-		objectDatabase = new ObjectDirectory(repoConfig, //
-				options.getObjectDirectory(), //
-				options.getAlternateObjectDirectories(), //
-				getFS(), //
+		objectDatabase = new ObjectDirectory(repoConfig,
+				options.getObjectDirectory(),
+				options.getAlternateObjectDirectories(), getFS(), store,
 				new File(getDirectory(), Constants.SHALLOW));
 
 		if (objectDatabase.exists()) {
@@ -204,10 +207,21 @@ public class FileRepository extends Repository {
 						JGitText.get().unknownRepositoryFormat2,
 						Long.valueOf(repositoryFormatVersion)));
 		}
+	}
 
-		if (!isBare()) {
-			snapshot = FileSnapshot.save(getIndexFile());
+	/**
+	 * @return the FileStore this repository is located in
+	 * @since 5.10
+	 */
+	public FileStore getFileStore() {
+		if (store == null && getDirectory().exists()) {
+			try {
+				this.store = Files.getFileStore(getDirectory().toPath());
+			} catch (IOException e) {
+				throw new JGitInternalException(e.getMessage(), e);
+			}
 		}
+		return store;
 	}
 
 	private void loadRepoConfig() throws IOException {
@@ -232,6 +246,10 @@ public class FileRepository extends Repository {
 					JGitText.get().repositoryAlreadyExists, getDirectory()));
 		}
 		FileUtils.mkdirs(getDirectory(), true);
+		this.store = Files.getFileStore(getDirectory().toPath());
+		if (!isBare()) {
+			snapshot = FileSnapshot.save(getIndexFile(), store);
+		}
 		HideDotFiles hideDotFiles = getConfig().getEnum(
 				ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_HIDEDOTFILES,
@@ -300,7 +318,7 @@ public class FileRepository extends Repository {
 						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
 								.getAbsolutePath());
 				LockFile dotGitLockFile = new LockFile(new File(workTree,
-						Constants.DOT_GIT));
+						Constants.DOT_GIT), store);
 				try {
 					if (dotGitLockFile.lock()) {
 						dotGitLockFile.write(Constants.encode(Constants.GITDIR
@@ -389,7 +407,7 @@ public class FileRepository extends Repository {
 		}
 
 		File path = descriptionFile();
-		LockFile lock = new LockFile(path);
+		LockFile lock = new LockFile(path, store);
 		if (!lock.lock()) {
 			throw new IOException(MessageFormat.format(JGitText.get().lockError,
 					path.getAbsolutePath()));
@@ -492,7 +510,7 @@ public class FileRepository extends Repository {
 		File indexFile = getIndexFile();
 		synchronized (snapshotLock) {
 			if (snapshot == null) {
-				snapshot = FileSnapshot.save(indexFile);
+				snapshot = FileSnapshot.save(indexFile, store);
 				return;
 			}
 			if (!snapshot.isModified(indexFile)) {
@@ -506,7 +524,7 @@ public class FileRepository extends Repository {
 	@Override
 	public void notifyIndexChanged(boolean internal) {
 		synchronized (snapshotLock) {
-			snapshot = FileSnapshot.save(getIndexFile());
+			snapshot = FileSnapshot.save(getIndexFile(), store);
 		}
 		fireEvent(new IndexChangedEvent(internal));
 	}

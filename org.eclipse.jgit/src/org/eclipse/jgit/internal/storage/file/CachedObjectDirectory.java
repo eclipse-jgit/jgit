@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileStore;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -114,6 +115,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	@Override
 	FS getFS() {
 		return wrapped.getFS();
+	}
+
+	@Override
+	FileStore getFileStore() {
+		return wrapped.getFileStore();
 	}
 
 	@Override
