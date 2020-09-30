@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
@@ -101,6 +102,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final FS fs;
 
+	private final FileStore store;
+
 	private final AtomicReference<AlternateHandle[]> alternates;
 
 	private final UnpackedObjectCache unpackedObjectCache;
@@ -125,14 +128,18 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * @param fs
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
+	 * @param store
+	 *            the FileStore this directory is located in
 	 * @param shallowFile
 	 *            file which contains IDs of shallow commits, null if shallow
 	 *            commits handling should be turned off
 	 * @throws java.io.IOException
 	 *             an alternate object cannot be opened.
+	 * @since 5.10
 	 */
 	public ObjectDirectory(final Config cfg, final File dir,
-			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
+			File[] alternatePaths, FS fs, FileStore store, File shallowFile)
+			throws IOException {
 		config = cfg;
 		objects = dir;
 		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
@@ -142,6 +149,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		packList = new AtomicReference<>(NO_PACKS);
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
+		this.store = store;
 		this.shallowFile = shallowFile;
 
 		alternates = new AtomicReference<>();
@@ -263,7 +271,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 
-		PackFile res = new PackFile(pack, extensions);
+		PackFile res = new PackFile(pack, extensions, store);
 		insertPack(res);
 		return res;
 	}
@@ -753,6 +761,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
+	FileStore getFileStore() {
+		return store;
+	}
+
+	@Override
 	Set<ObjectId> getShallowCommits() throws IOException {
 		if (shallowFile == null || !shallowFile.isFile())
 			return Collections.emptySet();
@@ -774,7 +787,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				}
 			}
 
-			shallowFileSnapshot = FileSnapshot.save(shallowFile);
+			shallowFileSnapshot = FileSnapshot.save(shallowFile, store);
 		}
 
 		return shallowCommitsIds;
@@ -850,7 +863,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private PackList scanPacksImpl(PackList old) {
 		final Map<String, PackFile> forReuse = reuseMap(old);
-		final FileSnapshot snapshot = FileSnapshot.save(packDirectory);
+		final FileSnapshot snapshot = FileSnapshot.save(packDirectory, store);
 		final Set<String> names = listPackDirectory();
 		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
@@ -885,7 +898,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				continue;
 			}
 
-			list.add(new PackFile(packFile, extensions));
+			list.add(new PackFile(packFile, extensions, store));
 			foundNew = true;
 		}
 
@@ -1020,7 +1033,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return new AlternateRepository(db);
 		}
 
-		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs, null);
+		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs,
+				store, null);
 		return new AlternateHandle(db);
 	}
 

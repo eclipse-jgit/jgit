@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileStore;
 import java.util.Collection;
 import java.util.Set;
 
@@ -49,6 +50,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract Config getConfig();
 
 	abstract FS getFS();
+
+	abstract FileStore getFileStore();
 
 	abstract Set<ObjectId> getShallowCommits() throws IOException;
 

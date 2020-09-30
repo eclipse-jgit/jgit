@@ -10,6 +10,7 @@
 package org.eclipse.jgit.benchmarks;
 
 import java.io.IOException;
+import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
@@ -38,10 +39,13 @@ public class CreateFileSnapshotBenchmark {
 
 	Path testDir;
 
+	private FileStore store;
+
 	@Setup
 	public void setupBenchmark() throws IOException {
 		testDir = Files.createTempDirectory("dir");
 		path = testDir.resolve("toSnapshot");
+		store = Files.getFileStore(path);
 		Files.createFile(path);
 	}
 
@@ -63,7 +67,7 @@ public class CreateFileSnapshotBenchmark {
 	@BenchmarkMode({ Mode.AverageTime })
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public FileSnapshot testCreateFileSnapshot() {
-		return FileSnapshot.save(path.toFile());
+		return FileSnapshot.save(path.toFile(), store);
 	}
 
 	public static void main(String[] args) throws RunnerException {
