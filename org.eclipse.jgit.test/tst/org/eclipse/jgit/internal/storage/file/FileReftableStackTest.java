@@ -18,6 +18,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileStore;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -43,9 +45,12 @@ public class FileReftableStackTest {
 
 	private File reftableDir;
 
+	private FileStore store;
+
 	@Before
 	public void setup() throws Exception {
 		reftableDir = FileUtils.createTempDir("rtstack", "", null);
+		store = Files.getFileStore(reftableDir.toPath());
 	}
 
 	@After
@@ -79,7 +84,7 @@ public class FileReftableStackTest {
 	public void testCompaction(int N) throws Exception {
 		try (FileReftableStack stack = new FileReftableStack(
 				new File(reftableDir, "refs"), reftableDir, null,
-				() -> new Config())) {
+				() -> new Config(), store)) {
 			writeBranches(stack, "refs/heads/branch%d", 0, N);
 			MergedReftable table = stack.getMergedReftable();
 			for (int i = 1; i < N; i++) {
@@ -118,7 +123,7 @@ public class FileReftableStackTest {
 	public void missingReftable() throws Exception {
 		try (FileReftableStack stack = new FileReftableStack(
 				new File(reftableDir, "refs"), reftableDir, null,
-				() -> new Config())) {
+				() -> new Config(), store)) {
 			outer: for (int i = 0; i < 10; i++) {
 				final long next = stack.getMergedReftable().maxUpdateIndex()
 						+ 1;
@@ -142,7 +147,7 @@ public class FileReftableStackTest {
 		}
 		assertThrows(FileNotFoundException.class,
 				() -> new FileReftableStack(new File(reftableDir, "refs"),
-						reftableDir, null, () -> new Config()));
+						reftableDir, null, () -> new Config(), store));
 	}
 
 	@Test

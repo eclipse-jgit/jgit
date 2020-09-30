@@ -23,6 +23,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.FileStore;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.eclipse.jgit.internal.storage.file.FileReftableStack;
@@ -104,10 +106,11 @@ class BenchmarkReftable extends TextBuiltin {
 		File stackFile = new File(reftablePath + ".stack");
 
 		dir.mkdirs();
+		FileStore store = Files.getFileStore(dir.toPath());
 
 		long start = System.currentTimeMillis();
 		try (FileReftableStack stack = new FileReftableStack(stackFile, dir,
-				null, () -> new Config())) {
+				null, () -> new Config(), store)) {
 
 			List<Ref> refs = readLsRemote().asList();
 			for (Ref r : refs) {

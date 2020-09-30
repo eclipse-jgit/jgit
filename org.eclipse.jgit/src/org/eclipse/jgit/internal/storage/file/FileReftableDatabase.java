@@ -74,7 +74,8 @@ public class FileReftableDatabase extends RefDatabase {
 		this.reftableStack = new FileReftableStack(refstackName,
 			new File(fileRepository.getDirectory(), Constants.REFTABLE),
 			() -> fileRepository.fireEvent(new RefsChangedEvent()),
-			() -> fileRepository.getConfig());
+				() -> fileRepository.getConfig(),
+				fileRepository.getFileStore());
 		this.reftableDatabase = new ReftableDatabase() {
 
 			@Override
@@ -616,7 +617,8 @@ public class FileReftableDatabase extends RefDatabase {
 			}
 
 			try (FileReftableStack stack = new FileReftableStack(reftableList,
-					reftableDir, null, () -> repo.getConfig())) {
+					reftableDir, null, () -> repo.getConfig(),
+					repo.getFileStore())) {
 				stack.addReftable(rw -> writeConvertTable(repo, rw, writeLogs));
 			}
 			reftableList = null;
