@@ -25,6 +25,7 @@ import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.file.AccessDeniedException;
+import java.nio.file.FileStore;
 import java.nio.file.NoSuchFileException;
 import java.text.MessageFormat;
 import java.time.Instant;
@@ -77,6 +78,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public static final Comparator<PackFile> SORT = (a, b) -> b.packLastModified
 			.compareTo(a.packLastModified);
+
+	private final FileStore store;
 
 	private final File packFile;
 
@@ -135,10 +138,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 *            path of the <code>.pack</code> file holding the data.
 	 * @param extensions
 	 *            additional pack file extensions with the same base as the pack
+	 * @param store
+	 *            the FileStore this pack file is located in
 	 */
-	public PackFile(File packFile, int extensions) {
+	public PackFile(File packFile, int extensions, FileStore store) {
 		this.packFile = packFile;
-		this.fileSnapshot = PackFileSnapshot.save(packFile);
+		this.store = store;
+		this.fileSnapshot = PackFileSnapshot.save(packFile, store);
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
 		this.extensions = extensions;
 
@@ -207,6 +213,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public File getPackFile() {
 		return packFile;
+	}
+
+	FileStore getFileStore() {
+		return store;
 	}
 
 	/**

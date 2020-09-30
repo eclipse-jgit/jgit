@@ -17,6 +17,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTF
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import java.io.IOException;
+import java.nio.file.FileStore;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Comparator;
@@ -86,10 +87,12 @@ import org.eclipse.jgit.util.RefList;
  */
 class PackedBatchRefUpdate extends BatchRefUpdate {
 	private RefDirectory refdb;
+	private final FileStore store;
 
-	PackedBatchRefUpdate(RefDirectory refdb) {
+	PackedBatchRefUpdate(RefDirectory refdb, FileStore store) {
 		super(refdb);
 		this.refdb = refdb;
+		this.store = store;
 	}
 
 	/** {@inheritDoc} */
@@ -308,7 +311,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 				for (ReceiveCommand c : commands) {
 					String name = c.getRefName();
-					LockFile lock = new LockFile(refdb.fileFor(name));
+					LockFile lock = new LockFile(refdb.fileFor(name), store);
 					if (locks.put(name, lock) != null) {
 						throw new IOException(
 								MessageFormat.format(JGitText.get().duplicateRef, name));

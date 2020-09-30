@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.DigestInputStream;
@@ -120,6 +121,8 @@ public class RefDirectory extends RefDatabase {
 
 	private final FileRepository parent;
 
+	private final FileStore store;
+
 	private final File gitDir;
 
 	final File refsDir;
@@ -179,6 +182,7 @@ public class RefDirectory extends RefDatabase {
 
 	RefDirectory(FileRepository db) {
 		final FS fs = db.getFS();
+		store = db.getFileStore();
 		parent = db;
 		gitDir = db.getDirectory();
 		refsDir = fs.resolve(gitDir, R_REFS);
@@ -595,7 +599,8 @@ public class RefDirectory extends RefDatabase {
 		else {
 			detachingSymbolicRef = detach && ref.isSymbolic();
 		}
-		RefDirectoryUpdate refDirUpdate = new RefDirectoryUpdate(this, ref);
+		RefDirectoryUpdate refDirUpdate = new RefDirectoryUpdate(this, ref,
+				store);
 		if (detachingSymbolicRef)
 			refDirUpdate.setDetachingSymbolicRef();
 		return refDirUpdate;
@@ -613,7 +618,7 @@ public class RefDirectory extends RefDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public PackedBatchRefUpdate newBatchUpdate() {
-		return new PackedBatchRefUpdate(this);
+		return new PackedBatchRefUpdate(this, store);
 	}
 
 	/** {@inheritDoc} */
@@ -771,7 +776,7 @@ public class RefDirectory extends RefDatabase {
 					LockFile rLck = heldLocks.get(refName);
 					boolean shouldUnlock;
 					if (rLck == null) {
-						rLck = new LockFile(refFile);
+						rLck = new LockFile(refFile, store);
 						if (!rLck.lock()) {
 							continue;
 						}
@@ -820,7 +825,7 @@ public class RefDirectory extends RefDatabase {
 
 	@Nullable
 	LockFile lockPackedRefs() throws IOException {
-		LockFile lck = new LockFile(packedRefsFile);
+		LockFile lck = new LockFile(packedRefsFile, store);
 		for (int ms : getRetrySleepMs()) {
 			sleep(ms);
 			if (lck.lock()) {
@@ -924,7 +929,8 @@ public class RefDirectory extends RefDatabase {
 		int maxStaleRetries = 5;
 		int retries = 0;
 		while (true) {
-			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
+			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile,
+					store);
 			final MessageDigest digest = Constants.newMessageDigest();
 			try (BufferedReader br = new BufferedReader(new InputStreamReader(
 					new DigestInputStream(new FileInputStream(packedRefsFile),
@@ -1120,7 +1126,7 @@ public class RefDirectory extends RefDatabase {
 
 		final int limit = 4096;
 		final byte[] buf;
-		FileSnapshot otherSnapshot = FileSnapshot.save(path);
+		FileSnapshot otherSnapshot = FileSnapshot.save(path, store);
 		try {
 			buf = IO.readSome(path, limit);
 		} catch (FileNotFoundException noFile) {
@@ -1233,7 +1239,7 @@ public class RefDirectory extends RefDatabase {
 		File tmp = File.createTempFile("renamed_", "_ref", refsDir); //$NON-NLS-1$ //$NON-NLS-2$
 		String name = Constants.R_REFS + tmp.getName();
 		Ref ref = new ObjectIdRef.Unpeeled(NEW, name, null);
-		return new RefDirectoryUpdate(this, ref);
+		return new RefDirectoryUpdate(this, ref, store);
 	}
 
 	/**

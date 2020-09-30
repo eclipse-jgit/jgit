@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileStore;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS;
@@ -24,6 +25,8 @@ import org.eclipse.jgit.util.FileUtils;
 public class PackLock {
 	private final File keepFile;
 
+	private final FileStore store;
+
 	/**
 	 * Create a new lock for a pack file.
 	 *
@@ -31,9 +34,12 @@ public class PackLock {
 	 *            location of the <code>pack-*.pack</code> file.
 	 * @param fs
 	 *            the filesystem abstraction used by the repository.
+	 * @param store
+	 *            the FileStore the .keep file is located in
 	 */
-	public PackLock(File packFile, FS fs) {
+	public PackLock(File packFile, FS fs, FileStore store) {
 		final File p = packFile.getParentFile();
+		this.store = store;
 		final String n = packFile.getName();
 		keepFile = new File(p, n.substring(0, n.length() - 5) + ".keep"); //$NON-NLS-1$
 	}
@@ -52,7 +58,7 @@ public class PackLock {
 			return false;
 		if (!msg.endsWith("\n")) //$NON-NLS-1$
 			msg += "\n"; //$NON-NLS-1$
-		final LockFile lf = new LockFile(keepFile);
+		final LockFile lf = new LockFile(keepFile, store);
 		if (!lf.lock())
 			return false;
 		lf.write(Constants.encode(msg));

@@ -20,6 +20,8 @@ import java.io.Writer;
 import java.net.HttpCookie;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileStore;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -267,9 +269,10 @@ public final class NetscapeCookieFile {
 					file.getAbsolutePath()));
 			return new byte[0];
 		}
+		FileStore store = Files.getFileStore(path);
 		while (true) {
 			final FileSnapshot oldSnapshot = snapshot;
-			final FileSnapshot newSnapshot = FileSnapshot.save(file);
+			final FileSnapshot newSnapshot = FileSnapshot.save(file, store);
 			try {
 				final byte[] in = IO.readFully(file);
 				byte[] newHash = hash(in);

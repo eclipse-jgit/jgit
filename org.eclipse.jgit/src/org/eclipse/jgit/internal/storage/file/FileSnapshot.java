@@ -12,8 +12,10 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.util.FS.FileStoreAttributes.FALLBACK_FILESTORE_ATTRIBUTES;
 import static org.eclipse.jgit.util.FS.FileStoreAttributes.FALLBACK_TIMESTAMP_RESOLUTION;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileStore;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Duration;
 import java.time.Instant;
@@ -97,9 +99,28 @@ public class FileSnapshot {
 	 *            the path to later remember. The path's current status
 	 *            information is saved.
 	 * @return the snapshot.
+	 * @deprecated
 	 */
+	@Deprecated
 	public static FileSnapshot save(File path) {
-		return new FileSnapshot(path);
+		return new FileSnapshot(path, null);
+	}
+
+	/**
+	 * Record a snapshot for a specific file path.
+	 * <p>
+	 * This method should be invoked before the file is accessed.
+	 *
+	 * @param path
+	 *            the path to later remember. The path's current status
+	 *            information is saved.
+	 * @param store
+	 *            the FileStore this path is located in
+	 * @return the snapshot.
+	 * @since 5.10
+	 */
+	public static FileSnapshot save(File path, FileStore store) {
+		return new FileSnapshot(path, store);
 	}
 
 	/**
@@ -115,7 +136,7 @@ public class FileSnapshot {
 	 * @return the snapshot.
 	 */
 	public static FileSnapshot saveNoConfig(File path) {
-		return new FileSnapshot(path, false);
+		return new FileSnapshot(path, null, false);
 	}
 
 	private static Object getFileKey(BasicFileAttributes fileAttributes) {
@@ -200,9 +221,11 @@ public class FileSnapshot {
 	 * @param file
 	 *            the path to remember meta data for. The path's current status
 	 *            information is saved.
+	 * @param store
+	 *            the FileStore this file is located in
 	 */
-	protected FileSnapshot(File file) {
-		this(file, true);
+	protected FileSnapshot(File file, FileStore store) {
+		this(file, store, true);
 	}
 
 	/**
@@ -213,15 +236,17 @@ public class FileSnapshot {
 	 * @param file
 	 *            the path to remember meta data for. The path's current status
 	 *            information is saved.
+	 * @param store
+	 *            the FileStore this file is located in
 	 * @param useConfig
 	 *            if {@code true} read filesystem time resolution from
 	 *            configuration file otherwise use fallback resolution
 	 */
-	protected FileSnapshot(File file, boolean useConfig) {
+	protected FileSnapshot(File file, FileStore store, boolean useConfig) {
 		this.file = file;
 		this.lastRead = Instant.now();
 		this.fileStoreAttributeCache = useConfig
-				? FS.getFileStoreAttributes(file.toPath().getParent())
+				? FS.getFileStoreAttributes(file.toPath().getParent(), store)
 				: FALLBACK_FILESTORE_ATTRIBUTES;
 		BasicFileAttributes fileAttributes = null;
 		try {

@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.FileStore;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -29,9 +30,27 @@ class PackFileSnapshot extends FileSnapshot {
 	 *            the path to later remember. The path's current status
 	 *            information is saved.
 	 * @return the snapshot.
+	 * @deprecated
 	 */
+	@Deprecated
 	public static PackFileSnapshot save(File path) {
-		return new PackFileSnapshot(path);
+		return new PackFileSnapshot(path, null);
+	}
+
+	/**
+	 * Record a snapshot for a specific packfile path.
+	 * <p>
+	 * This method should be invoked before the packfile is accessed.
+	 *
+	 * @param path
+	 *            the path to later remember. The path's current status
+	 *            information is saved.
+	 * @param store
+	 *            the FileStore path is located in
+	 * @return the snapshot.
+	 */
+	public static PackFileSnapshot save(File path, FileStore store) {
+		return new PackFileSnapshot(path, store);
 	}
 
 	private AnyObjectId checksum = MISSING_CHECKSUM;
@@ -39,8 +58,8 @@ class PackFileSnapshot extends FileSnapshot {
 	private boolean wasChecksumChanged;
 
 
-	PackFileSnapshot(File packFile) {
-		super(packFile);
+	PackFileSnapshot(File packFile, FileStore store) {
+		super(packFile, store);
 	}
 
 	void setChecksum(AnyObjectId checksum) {

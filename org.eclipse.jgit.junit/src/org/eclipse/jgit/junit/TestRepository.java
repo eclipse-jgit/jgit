@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.FileStore;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -766,7 +767,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 				protected void writeFile(String name, byte[] bin)
 						throws IOException {
 					File path = new File(fr.getDirectory(), name);
-					TestRepository.this.writeFile(path, bin);
+					TestRepository.this.writeFile(path, bin, fr.getFileStore());
 				}
 			};
 			rw.writePackedRefs();
@@ -779,7 +780,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 				w.append('\n');
 			}
 			writeFile(new File(new File(fr.getObjectDatabase().getDirectory(),
-					"info"), "packs"), Constants.encodeASCII(w.toString()));
+					"info"), "packs"), Constants.encodeASCII(w.toString()),
+					fr.getFileStore());
 		}
 	}
 
@@ -965,9 +967,10 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		return new File(packdir, "pack-" + name.name() + t);
 	}
 
-	private void writeFile(File p, byte[] bin) throws IOException,
+	private void writeFile(File p, byte[] bin, FileStore store)
+			throws IOException,
 			ObjectWritingException {
-		final LockFile lck = new LockFile(p);
+		final LockFile lck = new LockFile(p, store);
 		if (!lck.lock())
 			throw new ObjectWritingException("Can't write " + p);
 		try {
