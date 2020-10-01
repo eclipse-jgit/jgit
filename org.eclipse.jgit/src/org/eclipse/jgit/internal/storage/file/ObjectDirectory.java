@@ -580,7 +580,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
-																	WindowCursor curs) throws IOException {
+			WindowCursor curs) throws IOException {
 		selectObjectRepresentation(packer, otp, curs, null);
 	}
 
