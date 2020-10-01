@@ -1117,13 +1117,16 @@ public class UploadPackTest {
 		RevCommit child = remote.commit(remote.tree(remote.file("foo", childBlob)), parent);
 		remote.update("branch1", child);
 
-		TestRepository<InMemoryRepository> local = new TestRepository<>(client);
-		RevBlob localParentBlob = local.blob(commonInBlob + "a");
-		RevCommit localParent = local.commit(local.tree(local.file("foo", localParentBlob)));
-		RevBlob localChildBlob = local.blob(commonInBlob + "b");
-		RevCommit localChild = local.commit(
-				local.tree(local.file("foo", localChildBlob)), localParent);
-		local.update("branch1", localChild);
+		try (TestRepository<InMemoryRepository> local = new TestRepository<>(
+				client)) {
+			RevBlob localParentBlob = local.blob(commonInBlob + "a");
+			RevCommit localParent = local
+					.commit(local.tree(local.file("foo", localParentBlob)));
+			RevBlob localChildBlob = local.blob(commonInBlob + "b");
+			RevCommit localChild = local.commit(
+					local.tree(local.file("foo", localChildBlob)), localParent);
+			local.update("branch1", localChild);
+		}
 
 		ByteArrayInputStream recvStream = uploadPackV2(
 				"command=fetch\n",
