@@ -39,6 +39,138 @@
    <bundle id="org.eclipse.jgit.ui" version="0.0.0">
       <category name="JGit-additional-bundles"/>
    </bundle>
+   <bundle id="com.google.gson">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="com.google.gson.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="com.jcraft.jsch">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="com.jcraft.jsch.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="com.jcraft.jzlib">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="com.jcraft.jzlib.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="javaewah">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="javaewah.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="javax.servlet">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="javax.servlet.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="net.i2p.crypto.eddsa">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="net.i2p.crypto.eddsa.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.ant">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.ant.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.commons.codec">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.commons.codec.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.commons.compress">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.commons.compress.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.commons.logging">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.commons.logging.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.httpcomponents.httpclient">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.httpcomponents.httpclient.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.httpcomponents.httpcore">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.httpcomponents.httpcore.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.log4j">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.log4j.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.sshd.osgi">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.sshd.osgi.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.sshd.sftp">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.sshd.sftp.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.bouncycastle.bcpg">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.bouncycastle.bcpg.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.bouncycastle.bcpkix">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.bouncycastle.bcpkix.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.bouncycastle.bcprov">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.bouncycastle.bcprov.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.kohsuke.args4j">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.kohsuke.args4j.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.slf4j.api">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.slf4j.api.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.slf4j.binding.log4j12">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.slf4j.binding.log4j12.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.tukaani.xz">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.tukaani.xz.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <category-def name="JGit" label="Java implementation of Git">
       <description>
          Java implementation of Git
@@ -49,4 +181,5 @@
          Java implementation of Git - additional bundles
       </description>
    </category-def>
+   <category-def name="JGit-dependency-bundles" label="JGit dependency bundles"/>
 </site>
