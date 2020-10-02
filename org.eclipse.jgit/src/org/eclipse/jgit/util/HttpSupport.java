@@ -477,7 +477,7 @@ public class HttpSupport {
 				i++;
 				break;
 			default:
-				if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z') {
+				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
 					i++;
 					break;
 				}
