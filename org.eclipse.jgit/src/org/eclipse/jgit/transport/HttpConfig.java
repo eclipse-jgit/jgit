@@ -121,6 +121,8 @@ public class HttpConfig {
 		}
 	}).get().intValue();
 
+	private static final String ENV_HTTP_USER_AGENT = "GIT_HTTP_USER_AGENT"; //$NON-NLS-1$
+
 	/**
 	 * Config values for http.followRedirect.
 	 */
@@ -363,6 +365,11 @@ public class HttpConfig {
 			}
 			saveCookies = config.getBoolean(HTTP, match, SAVE_COOKIES_KEY,
 					saveCookies);
+		}
+		// Environment overrides config
+		agent = SystemReader.getInstance().getenv(ENV_HTTP_USER_AGENT);
+		if (!StringUtils.isEmptyOrNull(agent)) {
+			userAgent = UserAgent.clean(agent);
 		}
 		postBuffer = postBufferSize;
 		sslVerify = sslVerifyFlag;
