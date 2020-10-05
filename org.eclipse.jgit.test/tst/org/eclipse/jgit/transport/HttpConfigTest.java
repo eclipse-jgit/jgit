@@ -13,7 +13,9 @@ package org.eclipse.jgit.transport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -96,7 +98,8 @@ public class HttpConfigTest {
 	@Test
 	public void testMatchWithInvalidUriInConfig() throws Exception {
 		config.fromText(
-				DEFAULT + "[http \"///\"]\n" + "\tpostBuffer = 1024\n");
+				DEFAULT + "[http \"///#expectedWarning\"]\n"
+						+ "\tpostBuffer = 1024\n");
 		HttpConfig http = new HttpConfig(config,
 				new URIish("http://example.com/path/repo.git"));
 		assertEquals(1, http.getPostBuffer());
@@ -104,7 +107,8 @@ public class HttpConfigTest {
 
 	@Test
 	public void testMatchWithInvalidAndValidUriInConfig() throws Exception {
-		config.fromText(DEFAULT + "[http \"///\"]\n" + "\tpostBuffer = 1024\n"
+		config.fromText(DEFAULT + "[http \"///#expectedWarning\"]\n"
+				+ "\tpostBuffer = 1024\n"
 				+ "[http \"http://example.com\"]\n" + "\tpostBuffer = 2048\n");
 		HttpConfig http = new HttpConfig(config,
 				new URIish("http://example.com/path/repo.git"));
@@ -229,6 +233,31 @@ public class HttpConfigTest {
 		HttpConfig http = new HttpConfig(config,
 				new URIish("http://example.com/"));
 		assertEquals("DummyAgent/4.0", http.getUserAgent());
+	}
+
+	@Test
+	public void testUserAgentEnvOverride() throws Exception {
+		String mockAgent = "jgit-test/5.10.0";
+		SystemReader originalReader = SystemReader.getInstance();
+		SystemReader.setInstance(new MockSystemReader() {
+
+			@Override
+			public String getenv(String variable) {
+				if ("GIT_HTTP_USER_AGENT".equals(variable)) {
+					return mockAgent;
+				}
+				return super.getenv(variable);
+			}
+		});
+		try {
+			config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+					+ "\tuserAgent=DummyAgent/4.0\n");
+			HttpConfig http = new HttpConfig(config,
+					new URIish("http://example.com/"));
+			assertEquals(mockAgent, http.getUserAgent());
+		} finally {
+			SystemReader.setInstance(originalReader);
+		}
 	}
 
 	@Test
