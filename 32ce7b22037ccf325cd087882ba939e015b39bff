@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05a9060f_099dcb4f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-10-08T07:17:30Z",
+      "side": 1,
+      "message": "Hmm, this looks you are changing the behaviour of existing tests, not only introducing new tests. Haven\u0027t look deeply in it - but can you explain why?",
+      "revId": "32ce7b22037ccf325cd087882ba939e015b39bff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
