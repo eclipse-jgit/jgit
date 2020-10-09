@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dc9e56b_78542b9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2020-10-09T00:43:53Z",
+      "side": 1,
+      "message": "I see db.getFileStore() returns null, causing Files.getFileStore(Path) to get called for each new path in the repository.\n\nShould FileRepository.store be set in its constructor instead?",
+      "range": {
+        "startLine": 185,
+        "startChar": 10,
+        "endLine": 185,
+        "endChar": 28
+      },
+      "revId": "1aad68db636976a84eb4358f3d3799512babdfd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
