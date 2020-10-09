@@ -42,6 +42,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.text.MessageFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1008,7 +1010,7 @@ public class UploadPack {
 			else
 				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
-			long negotiateStart = System.currentTimeMillis();
+			Instant negotiateStart = Instant.now();
 			accumulator.advertised = advertised.size();
 
 			ProtocolV0Parser parser = new ProtocolV0Parser(transferConfig);
@@ -1050,8 +1052,8 @@ public class UploadPack {
 			if (!req.getClientShallowCommits().isEmpty())
 				walk.assumeShallow(req.getClientShallowCommits());
 			sendPack = negotiate(req, accumulator, pckOut);
-			accumulator.timeNegotiating += System.currentTimeMillis()
-					- negotiateStart;
+			accumulator.timeNegotiating = Duration
+					.between(negotiateStart, Instant.now()).toMillis();
 
 			if (sendPack && !biDirectionalPipe) {
 				// Ensure the request was fully consumed. Any remaining input must
@@ -1138,7 +1140,7 @@ public class UploadPack {
 		}
 
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
-		long negotiateStart = System.currentTimeMillis();
+		Instant negotiateStart = Instant.now();
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
@@ -1244,8 +1246,8 @@ public class UploadPack {
 				pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			}
 
-			accumulator.timeNegotiating = System.currentTimeMillis()
-					- negotiateStart;
+			accumulator.timeNegotiating = Duration
+					.between(negotiateStart, Instant.now()).toMillis();
 
 			sendPack(accumulator,
 					req,
@@ -1795,12 +1797,13 @@ public class UploadPack {
 		if (notAdvertisedWants != null) {
 			accumulator.notAdvertisedWants = notAdvertisedWants.size();
 
-			long startReachabilityChecking = System.currentTimeMillis();
+			Instant startReachabilityChecking = Instant.now();
 
 			requestValidator.checkWants(this, notAdvertisedWants);
 
-			accumulator.reachabilityCheckDuration = System.currentTimeMillis() -
-					startReachabilityChecking;
+			accumulator.reachabilityCheckDuration = Duration
+					.between(startReachabilityChecking, Instant.now())
+					.toMillis();
 		}
 
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
