@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7fcc172_fe52ad64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2020-10-09T18:35:45Z",
+      "side": 1,
+      "message": "This method takes the start Instant then the end Instant, not the other way around. Same comment for the rest of this file.",
+      "range": {
+        "startLine": 1056,
+        "startChar": 6,
+        "endLine": 1056,
+        "endChar": 13
+      },
+      "revId": "aa4daa6fee347eea2f96220e2a60eeca81515857",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
