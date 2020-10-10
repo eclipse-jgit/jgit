@@ -21,8 +21,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -35,6 +38,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -48,6 +52,8 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * @see BasePackPushConnection
  */
 abstract class BasePackConnection extends BaseConnection {
+
+	protected static final String CAPABILITY_SYMREF_PREFIX = "symref=";
 
 	/** The repository this transport fetches into, or pushes out of. */
 	protected final Repository local;
@@ -228,7 +234,82 @@ abstract class BasePackConnection extends BaseConnection {
 					throw duplicateAdvertisement(name);
 			}
 		}
+		updateWithSymRefs(avail, extractSymRefsFromCapabilities(remoteCapablities));
 		available(avail);
+	}
+
+	/**
+	 * Finds values in the given capabilities of the form:
+	 * <pre>
+	 * symref=<em>source</em>:<em>target</em></pre>
+	 * And returns a Map of source->target entries.
+	 * @param capabilities the capabilities lines
+	 * @return a Map of the symref entries from capabilities
+	 * @throws NullPointerException if capabilities, or any entry in it, is null
+	 */
+	static Map<String, String> extractSymRefsFromCapabilities(Collection<String> capabilities) {
+		final Map<String, String> symRefs = new LinkedHashMap<>();
+		for (String option : capabilities) {
+			if (option.startsWith(CAPABILITY_SYMREF_PREFIX)) {
+				String[] symRef = option.substring(CAPABILITY_SYMREF_PREFIX.length()).split(":",2);
+				if (symRef.length == 2) {
+					symRefs.put(symRef[0], symRef[1]);
+				}
+			}
+		}
+		return symRefs;
+	}
+
+	/**
+	 * Updates the given refMap with {@link SymbolicRef}s defined by the given symRefs.
+	 * <p>
+	 * For each entry, symRef, in symRefs, whose value is a key in refMap, adds a new
+	 * entry to refMap with that same key and value of a new {@link SymbolicRef} with
+	 * source=symRef.key and target=refMap.get(symRef.value),
+	 * then removes that entry from symRefs.
+	 * <p>
+	 * If refMap already contains an entry for symRef.key, it is replaced.
+	 * </p>
+ 	 * </p>
+	 * <p>For example, given:</p>
+	 * <pre>
+	 * refMap.put("refs/heads/main", ref);
+	 * symRefs.put("HEAD", "refs/heads/main");</pre>
+	 * then:
+	 * <pre>
+	 * updateWithSymRefs(refMap, symRefs);</pre>
+	 * has the <em>effect</em> of:
+	 * <pre>
+	 * refMap.put("HEAD",
+	 *     new SymbolicRef("HEAD", refMap.get(symRefs.remove("HEAD"))))</pre>
+	 * <p>
+	 * Any entry in symRefs whose value is not a key in refMap is ignored.
+	 * Any circular symRefs are ignored.
+	 * </p>
+	 * <p>
+	 * Upon completion, symRefs will contain only any unresolvable entries.
+	 * </p>
+	 * @param refMap a non-null, modifiable, Map to update, and the provider of symref targets.
+	 * @param symRefs a non-null, modifiable, Map of symrefs.
+	 * @throws NullPointerException if refMap or symRefs is null
+	 */
+	static void updateWithSymRefs(Map<String, Ref> refMap, Map<String, String> symRefs) {
+		boolean haveNewRefMapEntries = refMap.size() > 0;
+		while (symRefs.size() > 0 && haveNewRefMapEntries) {
+			haveNewRefMapEntries = false;
+			final Iterator<Map.Entry<String, String>> iterator = symRefs.entrySet().iterator();
+			while (iterator.hasNext()) {
+				final Map.Entry<String, String> symRef = iterator.next();
+				if (!symRefs.containsKey(symRef.getValue())) { // defer forward reference
+					final Ref r = refMap.get(symRef.getValue());
+					if (r != null) {
+						refMap.put(symRef.getKey(), new SymbolicRef(symRef.getKey(), r));
+						haveNewRefMapEntries = true;
+						iterator.remove();
+					}
+				}
+			}
+		}
 	}
 
 	/**
