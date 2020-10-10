@@ -92,7 +92,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setURI(fileUri());
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 		ObjectId id = git2.getRepository().resolve("tag-for-blob");
 		assertNotNull(id);
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/test");
@@ -277,8 +276,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 
-		assertNotNull(git2);
-		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/heads/master", git2.getRepository().getFullBranch());
 		assertEquals(
 				"refs/heads/master, refs/remotes/origin/master, refs/remotes/origin/test",
 				allRefNames(git2.branchList().setListMode(ListMode.ALL).call()));
@@ -293,7 +291,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		git2 = command.call();
 		addRepoToClose(git2.getRepository());
 
-		assertNotNull(git2);
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
 		assertEquals("refs/remotes/origin/master, refs/remotes/origin/test",
 				allRefNames(git2.branchList().setListMode(ListMode.ALL).call()));
@@ -308,8 +305,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		git2 = command.call();
 		addRepoToClose(git2.getRepository());
 
-		assertNotNull(git2);
-		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/heads/master", git2.getRepository().getFullBranch());
 		assertEquals("refs/heads/master, refs/heads/test", allRefNames(git2
 				.branchList().setListMode(ListMode.ALL).call()));
 	}
@@ -324,7 +320,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 
-		assertNotNull(git2);
 		assertEquals("refs/heads/test", git2.getRepository().getFullBranch());
 	}
 
@@ -338,7 +333,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 
-		assertNotNull(git2);
 		ObjectId taggedCommit = db.resolve("tag-initial^{commit}");
 		assertEquals(taggedCommit.name(), git2
 				.getRepository().getFullBranch());
@@ -355,10 +349,9 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setURI(fileUri());
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 		assertNull(git2.getRepository().resolve("tag-for-blob"));
 		assertNotNull(git2.getRepository().resolve("tag-initial"));
-		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/heads/master", git2.getRepository().getFullBranch());
 		assertEquals("refs/remotes/origin/master", allRefNames(git2
 				.branchList().setListMode(ListMode.REMOTE).call()));
 		RemoteConfig cfg = new RemoteConfig(git2.getRepository().getConfig(),
@@ -383,10 +376,9 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setBare(true);
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 		assertNull(git2.getRepository().resolve("tag-for-blob"));
 		assertNotNull(git2.getRepository().resolve("tag-initial"));
-		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/heads/master", git2.getRepository().getFullBranch());
 		assertEquals("refs/heads/master", allRefNames(git2.branchList()
 				.setListMode(ListMode.ALL).call()));
 		RemoteConfig cfg = new RemoteConfig(git2.getRepository().getConfig(),
@@ -409,11 +401,10 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setURI(fileUri());
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 		assertTrue(git2.getRepository().isBare());
 		assertNotNull(git2.getRepository().resolve("tag-for-blob"));
 		assertNotNull(git2.getRepository().resolve("tag-initial"));
-		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/heads/master", git2.getRepository().getFullBranch());
 		assertEquals("refs/heads/master, refs/heads/test", allRefNames(
 				git2.branchList().setListMode(ListMode.ALL).call()));
 		assertNotNull(git2.getRepository().exactRef("refs/meta/foo/bar"));
@@ -436,7 +427,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setURI(fileUri());
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 		assertNull(git2.getRepository().resolve("tag-for-blob"));
 		assertNull(git2.getRepository().resolve("refs/heads/master"));
 		assertNotNull(git2.getRepository().resolve("tag-initial"));
@@ -464,8 +454,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setURI(fileUri());
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
-		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/test");
+		assertEquals("refs/heads/test", git2.getRepository().getFullBranch());
 		// Expect both remote branches to exist; setCloneAllBranches(true)
 		// should override any setBranchesToClone().
 		assertNotNull(
@@ -492,8 +481,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setURI(fileUri());
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
-		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/test");
+		assertEquals("refs/heads/test", git2.getRepository().getFullBranch());
 		// Expect only the test branch; allBranches was re-set to false
 		assertNull(git2.getRepository().resolve("refs/remotes/origin/master"));
 		assertNotNull(git2.getRepository().resolve("refs/remotes/origin/test"));
@@ -525,7 +513,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setURI(fileUri());
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 		// clone again
 		command = Git.cloneRepository();
 		command.setDirectory(directory);
@@ -551,7 +538,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		clone.setURI(fileUri());
 		Git git2 = clone.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 
 		assertEquals(Constants.MASTER, git2.getRepository().getBranch());
 	}
@@ -595,7 +581,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		clone.setURI(fileUri());
 		Git git2 = clone.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 
 		assertEquals(Constants.MASTER, git2.getRepository().getBranch());
 		assertTrue(new File(git2.getRepository().getWorkTree(), path
@@ -683,7 +668,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		clone.setURI(git.getRepository().getDirectory().toURI().toString());
 		Git git2 = clone.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 
 		assertEquals(Constants.MASTER, git2.getRepository().getBranch());
 		assertTrue(new File(git2.getRepository().getWorkTree(), path
@@ -813,7 +797,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setNoTags();
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 		assertNotNull(git2.getRepository().resolve("refs/heads/test"));
 		assertNull(git2.getRepository().resolve("tag-initial"));
 		assertNull(git2.getRepository().resolve("tag-for-blob"));
@@ -833,11 +816,39 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setTagOption(TagOpt.FETCH_TAGS);
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
-		assertNotNull(git2);
 		assertNull(git2.getRepository().resolve("refs/heads/test"));
 		assertNotNull(git2.getRepository().resolve("tag-initial"));
 		assertNotNull(git2.getRepository().resolve("tag-for-blob"));
 		assertTagOption(git2.getRepository(), TagOpt.FETCH_TAGS);
+	}
+
+	@Test
+	public void testCloneWithHeadSymRefIsMasterCopy() throws IOException, GitAPIException {
+		// create a branch with the same head as master and switch to it
+		git.checkout().setStartPoint("master").setCreateBranch(true).setName("master-copy").call();
+
+		// when we clone the HEAD symref->master-copy means we start on master-copy and not master
+		File directory = createTempDirectory("testCloneRepositorySymRef_master-copy");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertEquals("refs/heads/master-copy", git2.getRepository().getFullBranch());
+	}
+
+	@Test
+	public void testCloneWithHeadSymRefIsNonMasterCopy() throws IOException, GitAPIException {
+		// create a branch with the same head as test and switch to it
+		git.checkout().setStartPoint("test").setCreateBranch(true).setName("test-copy").call();
+
+		File directory = createTempDirectory("testCloneRepositorySymRef_test-copy");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertEquals("refs/heads/test-copy", git2.getRepository().getFullBranch());
 	}
 
 	private void assertTagOption(Repository repo, TagOpt expectedTagOption)
