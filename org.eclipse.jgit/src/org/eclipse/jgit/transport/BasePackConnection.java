@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -31,10 +32,12 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -228,7 +231,39 @@ abstract class BasePackConnection extends BaseConnection {
 					throw duplicateAdvertisement(name);
 			}
 		}
+		final SymbolicRef headSymRef = findSymRef(Constants.HEAD, avail);
+		if (headSymRef != null) {
+			avail.put(Constants.HEAD, headSymRef);
+		}
 		available(avail);
+	}
+
+	/**
+	 * Finds any symref in the capabilities with the given name that points to a
+	 * Ref in the given refMap.
+	 * <p>
+	 * If no symref exists in the capabilities with the given name, or one does
+	 * but its target is not in the given refMap, then return null.
+	 * </p>
+	 *
+	 * @param name   the name of the symref to find
+	 * @param refMap a Map of Refs, keyed by name, in which to look for the
+	 *               target of the symref
+	 * @return a {@link SymbolicRef} for the named symref pointing at the Ref
+	 *         from refMap or null.
+	 */
+	protected SymbolicRef findSymRef(String name, Map<String, Ref> refMap) {
+		String prefix = "symref="+name+":";
+		for (String option : remoteCapablities) {
+			if (option.startsWith(prefix)) {
+				String target = option.substring(prefix.length());
+				Ref r = refMap.get(target);
+				if (r != null) {
+					return new SymbolicRef(name, r);
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
