@@ -413,6 +413,10 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			return null;
 		}
 
+		if (idHEAD != null && idHEAD.isSymbolic()) {
+			return idHEAD.getTarget();
+		}
+
 		Ref master = result.getAdvertisedRef(Constants.R_HEADS
 				+ Constants.MASTER);
 		ObjectId objectId = master != null ? master.getObjectId() : null;
