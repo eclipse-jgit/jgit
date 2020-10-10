@@ -20,9 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -35,6 +39,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -48,6 +53,8 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * @see BasePackPushConnection
  */
 abstract class BasePackConnection extends BaseConnection {
+
+	protected static final String CAPABILITY_SYMREF_PREFIX = "symref=";
 
 	/** The repository this transport fetches into, or pushes out of. */
 	protected final Repository local;
@@ -228,7 +235,44 @@ abstract class BasePackConnection extends BaseConnection {
 					throw duplicateAdvertisement(name);
 			}
 		}
+		updateWithSymRefsFromCapabilities(avail, remoteCapablities);
 		available(avail);
+	}
+
+	/**
+	 * For each symref in capabilities, whose target is a key in refMap, adds a new
+	 * {@link SymbolicRef} to refMap.
+	 * <p>
+	 * The target of the new {@link SymbolicRef} is the value for that key in refMap.
+	 * If refMap already contains an entry for the symref's source, it is replaced.
+ 	 * </p>
+	 * <p>
+	 * Any symref in capabilities whose target is not a key in refMap is ignored.
+	 * Any circular symrefs are ignored.
+	 * </p>
+	 * @param refMap the Map to update, and the provider of symref targets.
+	 * @param capabilities the capabilities to get symrefs from.
+	 */
+	static void updateWithSymRefsFromCapabilities(Map<String, Ref> refMap, Collection<String> capabilities) {
+		int resolvedCount = 0;
+		List<String> unresolved = new ArrayList<>(capabilities.size());
+		for (String option : capabilities) {
+			if (option.startsWith(CAPABILITY_SYMREF_PREFIX)) {
+				String[] symRef = option.substring(CAPABILITY_SYMREF_PREFIX.length()).split(":",2);
+				if (symRef.length == 2 && !symRef[0].equals(symRef[1])) {
+					Ref r = refMap.get(symRef[1]);
+					if (r != null) {
+						refMap.put(symRef[0], new SymbolicRef(symRef[0], r));
+						resolvedCount++;
+					} else {
+						unresolved.add(option);
+					}
+				}
+			}
+		}
+		if (unresolved.size() > 0 && resolvedCount > 0) {
+			updateWithSymRefsFromCapabilities(refMap, unresolved);
+		}
 	}
 
 	/**
