@@ -16,6 +16,24 @@
       "revId": "159500653b2d1000f7c5c03a65a0f3286ae143da",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a38771a_4502528e",
+        "filename": "org.eclipse.jgit.niofs.bytemantest/.gitignore",
+        "patchSetId": 14
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 103604
+      },
+      "writtenOn": "2020-10-11T21:47:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61a31fad_6ba1945a",
+      "revId": "159500653b2d1000f7c5c03a65a0f3286ae143da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
