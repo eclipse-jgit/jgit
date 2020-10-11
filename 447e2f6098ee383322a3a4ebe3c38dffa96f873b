@@ -360,6 +360,30 @@
     },
     {
       "key": {
+        "uuid": "2dab6156_b3ea90f4",
+        "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/fs/attribute/DiffAttributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 103604
+      },
+      "writtenOn": "2020-10-11T19:12:27Z",
+      "side": 1,
+      "message": "ops, docs copied-n-paste from other file.",
+      "parentUuid": "3a06bb89_32d657e4",
+      "range": {
+        "startLine": 16,
+        "startChar": 54,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4773ed0f_6f64926a",
         "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/FileSystemLock.java",
         "patchSetId": 1
