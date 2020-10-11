@@ -401,6 +401,24 @@
     },
     {
       "key": {
+        "uuid": "ec465912_9c6b62c3",
+        "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/FileSystemLock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 103604
+      },
+      "writtenOn": "2020-10-11T22:08:17Z",
+      "side": 1,
+      "message": "I was investigating the LockFile today. At first they seem to serve same purpose, but looking into detail I think they have different use cases.\nThis lock is used for repository creations (avoid create 2 repos with same name) or used to delete a repo.",
+      "parentUuid": "4773ed0f_6f64926a",
+      "revId": "447e2f6098ee383322a3a4ebe3c38dffa96f873b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "efdf064d_a142c5cc",
         "filename": "org.eclipse.jgit.niofs/src/org/eclipse/jgit/niofs/internal/JGitFileSystemLock.java",
         "patchSetId": 1
