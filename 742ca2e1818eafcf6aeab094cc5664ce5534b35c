@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "201c9388_bee5bd68",
+        "filename": "org.eclipse.jgit.niofs/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 103604
+      },
+      "writtenOn": "2020-10-11T18:51:09Z",
+      "side": 1,
+      "message": "commons-io: is used mainly to normalize paths, there isn\u0027t any available like that in nio2 nor any other java standard library that I\u0027m aware.\n\ncommons-codec: used for URLEncoder. The standard java library URLEncoder is way more limited, this presented the best option for URL encoding that we could find.\n\nThe alternative would be `borrow` and bring these 2 classes to inside. What you think?",
+      "parentUuid": "ffb625f4_c0c67524",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "742ca2e1818eafcf6aeab094cc5664ce5534b35c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eae29178_aba3afb6",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/orbit/R20191126223242-2019-12.tpd",
         "patchSetId": 2
