@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61a31fad_6ba1945a",
+        "filename": "org.eclipse.jgit.niofs.bytemantest/.gitignore",
+        "patchSetId": 14
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-10-11T20:15:49Z",
+      "side": 1,
+      "message": ".idea/ and *.iml should be in your global excludes file. So should be .DS_Store; the commit contains a number of those.",
+      "revId": "159500653b2d1000f7c5c03a65a0f3286ae143da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
