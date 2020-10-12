@@ -102,6 +102,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	Instant packLastModified;
 
 	private PackFileSnapshot fileSnapshot;
+	private final boolean useMmap;
 
 	private volatile boolean invalid;
 
@@ -135,10 +136,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 *            path of the <code>.pack</code> file holding the data.
 	 * @param extensions
 	 *            additional pack file extensions with the same base as the pack
+	 * @param useMmap
+	 *            enable performance optimizations by using memory-mapped files
 	 */
-	public PackFile(File packFile, int extensions) {
+	public PackFile(File packFile, int extensions, boolean useMmap) {
 		this.packFile = packFile;
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
+		this.useMmap = useMmap;
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
 		this.extensions = extensions;
 
@@ -160,7 +164,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					}
 					try {
 						long start = System.currentTimeMillis();
-						idx = PackIndex.open(extFile(INDEX));
+						idx = PackIndex.open(extFile(INDEX), useMmap);
 						if (LOG.isDebugEnabled()) {
 							LOG.debug(String.format(
 									"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
@@ -295,6 +299,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public void close() {
 		WindowCache.purge(this);
 		synchronized (this) {
+			if (loadedIdx != null) {
+				loadedIdx.close();
+			}
 			loadedIdx = null;
 			reverseIdx = null;
 		}

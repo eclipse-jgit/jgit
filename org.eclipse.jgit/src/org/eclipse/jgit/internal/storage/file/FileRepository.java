@@ -196,7 +196,7 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
-				new File(getDirectory(), Constants.SHALLOW));
+				new File(getDirectory(), Constants.SHALLOW), options.isUseMmap());
 
 		if (objectDatabase.exists()) {
 			if (repositoryFormatVersion > 1)

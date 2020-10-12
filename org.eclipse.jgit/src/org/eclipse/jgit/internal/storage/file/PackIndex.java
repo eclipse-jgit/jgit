@@ -62,13 +62,51 @@ public abstract class PackIndex
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
 	public static PackIndex open(File idxFile) throws IOException {
-		try (SilentFileInputStream fd = new SilentFileInputStream(
-				idxFile)) {
-				return read(fd);
-		} catch (IOException ioe) {
+		return open(idxFile, false);
+	}
+
+	/**
+	 * Open an existing pack <code>.idx</code> file for reading.
+	 * <p>
+	 * The format of the file will be automatically detected and a proper access
+	 * implementation for that format will be constructed and returned to the
+	 * caller. The file may or may not be held open by the returned instance.
+	 * </p>
+	 *
+	 * @param idxFile
+	 *            existing pack .idx to read.
+	 * @param useMmap
+	 *            enable performance optimizations by using memory-mapped files
+	 * @return access implementation for the requested file.
+	 * @throws FileNotFoundException
+	 *             the file does not exist.
+	 * @throws java.io.IOException
+	 *             the file exists but could not be read due to security errors,
+	 *             unrecognized data version, or unexpected data corruption.
+	 */
+	public static PackIndex open(File idxFile, boolean useMmap) throws IOException {
+		try (SilentFileInputStream fd = new SilentFileInputStream(idxFile)) {
+			final byte[] hdr = new byte[8];
+			IO.readFully(fd, hdr, 0, hdr.length);
+			if (isTOC(hdr)) {
+				final int v = NB.decodeInt32(hdr, 4);
+				switch (v) {
+				case 2:
+					if (useMmap) {
+						fd.close();
+						return new PackIndexV2m(idxFile);
+					}
+					return new PackIndexV2(fd);
+				default:
+					throw new UnsupportedPackIndexVersionException(v);
+				}
+			}
+			return new PackIndexV1(fd, hdr);
+		}
+		catch (IOException ioe) {
 			throw new IOException(
 					MessageFormat.format(JGitText.get().unreadablePackIndex,
-							idxFile.getAbsolutePath()),
+					                     idxFile.getAbsolutePath()),
 					ioe);
 		}
 	}
@@ -286,6 +324,11 @@ public abstract class PackIndex
 	public byte[] getChecksum() {
 		return packChecksum;
 	}
+
+	/**
+	 * Close the index
+	 */
+	public abstract void close();
 
 	/**
 	 * Represent mutable entry of pack index consisting of object id and offset
