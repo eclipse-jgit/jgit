@@ -119,6 +119,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** Configuration file of target repository, lazily loaded if required. */
 	private Config config;
 
+	private boolean useMmap;
+
 	/**
 	 * Set the file system abstraction needed by this repository.
 	 *
@@ -347,6 +349,24 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public File getIndexFile() {
 		return indexFile;
+	}
+
+	/**
+	 *
+	 * @param useMmap
+	 *            enable performance optimizations by using memory-mapped files
+	 * @return {@code this} (for chaining calls).
+	 */
+	public B setUseMmap(boolean useMmap) {
+		this.useMmap = useMmap;
+		return self();
+	}
+
+	/**
+	 * @return whether performance optimizations by using memory-mapped files are enabled
+	 */
+	public boolean isUseMmap() {
+		return useMmap;
 	}
 
 	/**

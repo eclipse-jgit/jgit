@@ -203,6 +203,10 @@ class PackIndexV1 extends PackIndex {
 		} while (low < high);
 	}
 
+	@Override
+	public void close() {
+	}
+
 	private static int idOffset(int mid) {
 		return ((4 + Constants.OBJECT_ID_LENGTH) * mid) + 4;
 	}

@@ -12,17 +12,40 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.io.*;
+import java.util.*;
 
-import java.io.File;
+import org.eclipse.jgit.errors.*;
+import org.eclipse.jgit.junit.*;
+import org.eclipse.jgit.lib.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
 
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.junit.JGitTestUtil;
-import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
+@RunWith(Parameterized.class)
 public class PackIndexV2Test extends PackIndexTestCase {
+	@Parameterized.Parameter(0)
+	public boolean useMmap;
+
+	@Parameterized.Parameters(name = "useMmap={0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{Boolean.FALSE},
+				{Boolean.TRUE}});
+	}
+
+	@Override
+	protected boolean isUseMmap() {
+		return useMmap;
+	}
+
+	@Override
+	protected PackIndex openPackIndex(File file) throws IOException {
+		return PackIndex.open(file, useMmap);
+	}
+
 	@Override
 	public File getFileForPack34be9032() {
 		return JGitTestUtil.getTestResourceFile(
