@@ -39,12 +39,14 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.runners.Parameterized;
 
 /**
  * JUnit TestCase with specialized support for temporary local repository.
@@ -185,11 +187,15 @@ public abstract class LocalDiskRepositoryTestCase {
 		if (useMMAP)
 			System.gc();
 		if (tmp != null)
-			recursiveDelete(tmp, false, true);
+			recursiveDelete(tmp, false, true, isUseMmap());
 		if (tmp != null && !tmp.exists())
 			CleanupThread.removed(tmp);
 
 		SystemReader.setInstance(null);
+	}
+
+	protected boolean isUseMmap() {
+		return false;
 	}
 
 	/**
@@ -211,19 +217,31 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *            the recursively directory to delete, if present.
 	 */
 	protected void recursiveDelete(File dir) {
-		recursiveDelete(dir, false, true);
+		recursiveDelete(dir, false, true, isUseMmap());
 	}
 
 	private static boolean recursiveDelete(final File dir,
-			boolean silent, boolean failOnError) {
+			boolean silent, boolean failOnError, boolean invokeGc) {
 		assert !(silent && failOnError);
 		int options = FileUtils.RECURSIVE | FileUtils.RETRY
 				| FileUtils.SKIP_MISSING;
 		if (silent) {
 			options |= FileUtils.IGNORE_ERRORS;
 		}
+
 		try {
-			FileUtils.delete(dir, options);
+			for (int retry = 0; retry < 10; retry++) {
+				try {
+					FileUtils.delete(dir, options);
+				}
+				catch (IOException ex) {
+					if (!invokeGc) {
+						throw ex;
+					}
+
+					System.gc();
+				}
+			}
 		} catch (IOException e) {
 			reportDeleteFailure(failOnError, dir, e);
 			return !failOnError;
@@ -405,8 +423,13 @@ public abstract class LocalDiskRepositoryTestCase {
 	@Deprecated
 	public FileRepository createRepository(boolean bare, boolean autoClose)
 			throws IOException {
+		return createRepository(bare, autoClose, false);
+	}
+
+	public FileRepository createRepository(boolean bare, boolean autoClose, boolean useMmap)
+			throws IOException {
 		File gitdir = createUniqueTestGitDir(bare);
-		FileRepository db = new FileRepository(gitdir);
+		FileRepository db = new FileRepository(new FileRepositoryBuilder().setGitDir(gitdir).setUseMmap(useMmap).setup());
 		assertFalse(gitdir.exists());
 		db.create(bare);
 		if (autoClose) {
@@ -617,7 +640,7 @@ public abstract class LocalDiskRepositoryTestCase {
 				boolean silent = false;
 				boolean failOnError = false;
 				for (File tmp : toDelete)
-					recursiveDelete(tmp, silent, failOnError);
+					recursiveDelete(tmp, silent, failOnError, false);
 			}
 		}
 	}
