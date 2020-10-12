@@ -16,6 +16,24 @@
       "revId": "32ce7b22037ccf325cd087882ba939e015b39bff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5defb341_61900a3c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 301450
+      },
+      "writtenOn": "2020-10-12T05:48:57Z",
+      "side": 1,
+      "message": "Hey! Thanks for the review. Yeah I removed this because it is redundant. `!describeUseAllTags` is always true in the `else` branch.",
+      "parentUuid": "05a9060f_099dcb4f",
+      "revId": "32ce7b22037ccf325cd087882ba939e015b39bff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
