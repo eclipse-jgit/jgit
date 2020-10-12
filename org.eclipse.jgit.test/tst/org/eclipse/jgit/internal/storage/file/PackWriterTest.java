@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -57,8 +58,20 @@ import org.eclipse.jgit.transport.PackParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.*;
+import org.junit.runners.*;
 
+@RunWith(Parameterized.class)
 public class PackWriterTest extends SampleDataRepositoryTestCase {
+	@Parameterized.Parameter(0)
+	public boolean useMmap;
+
+	@Parameterized.Parameters(name = "useMmap={0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{Boolean.FALSE},
+				{Boolean.TRUE}});
+	}
 
 	private static final List<RevObject> EMPTY_LIST_REVS = Collections
 			.<RevObject> emptyList();
@@ -123,6 +136,16 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			inserter = null;
 		}
 		super.tearDown();
+	}
+
+	@Override
+	protected FileRepository createWorkRepository() throws IOException {
+		return createRepository(false, true, useMmap);
+	}
+
+	@Override
+	protected boolean isUseMmap() {
+		return useMmap;
 	}
 
 	/**
@@ -477,8 +500,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		File indexFile = new File(packFile.getParentFile(), base + ".idx");
 
 		// Validate that IndexPack came up with the right CRC32 value.
-		final PackIndex idx1 = PackIndex.open(indexFile);
-		assertTrue(idx1 instanceof PackIndexV2);
+		final PackIndex idx1 = PackIndex.open(indexFile, useMmap);
+		assertTrue(idx1 instanceof PackIndexV2 || idx1 instanceof PackIndexV2m);
 		assertEquals(0x4743F1E4L, idx1.findCRC32(ObjectId
 				.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7")));
 
@@ -487,8 +510,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		try (FileOutputStream is = new FileOutputStream(idx2File)) {
 			writer.writeIndex(is);
 		}
-		final PackIndex idx2 = PackIndex.open(idx2File);
-		assertTrue(idx2 instanceof PackIndexV2);
+		final PackIndex idx2 = PackIndex.open(idx2File, useMmap);
+		assertTrue(idx2 instanceof PackIndexV2 || idx1 instanceof PackIndexV2m);
 		assertEquals(idx1.getObjectCount(), idx2.getObjectCount());
 		assertEquals(idx1.getOffset64Count(), idx2.getOffset64Count());
 
@@ -511,14 +534,14 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			contentA = testRepo.blob("A");
 			c1 = bb.commit().add("f", contentA).create();
 			testRepo.getRevWalk().parseHeaders(c1);
-			PackIndex pf1 = writePack(repo, wants(c1), EMPTY_ID_SET);
+			PackIndex pf1 = writePack(repo, wants(c1), EMPTY_ID_SET, useMmap);
 			assertContent(pf1, Arrays.asList(c1.getId(), c1.getTree().getId(),
 					contentA.getId()));
 			contentB = testRepo.blob("B");
 			c2 = bb.commit().add("f", contentB).create();
 			testRepo.getRevWalk().parseHeaders(c2);
 			PackIndex pf2 = writePack(repo, wants(c2),
-					Sets.of((ObjectIdSet) pf1));
+			                          Sets.of((ObjectIdSet) pf1), useMmap);
 			assertContent(pf2, Arrays.asList(c2.getId(), c2.getTree().getId(),
 					contentB.getId()));
 		}
@@ -537,12 +560,12 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testShallowIsMinimalDepth1() throws Exception {
 		try (FileRepository repo = setupRepoForShallowFetch()) {
-			PackIndex idx = writeShallowPack(repo, 1, wants(c2), NONE, NONE);
+			PackIndex idx = writeShallowPack(repo, 1, wants(c2), NONE, NONE, useMmap);
 			assertContent(idx, Arrays.asList(c2.getId(), c2.getTree().getId(),
 					contentA.getId(), contentB.getId()));
 
 			// Client already has blobs A and B, verify those are not packed.
-			idx = writeShallowPack(repo, 1, wants(c5), haves(c2), shallows(c2));
+			idx = writeShallowPack(repo, 1, wants(c5), haves(c2), shallows(c2), useMmap);
 			assertContent(idx, Arrays.asList(c5.getId(), c5.getTree().getId(),
 					contentC.getId(), contentD.getId(), contentE.getId()));
 		}
@@ -551,7 +574,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testShallowIsMinimalDepth2() throws Exception {
 		try (FileRepository repo = setupRepoForShallowFetch()) {
-			PackIndex idx = writeShallowPack(repo, 2, wants(c2), NONE, NONE);
+			PackIndex idx = writeShallowPack(repo, 2, wants(c2), NONE, NONE, useMmap);
 			assertContent(idx,
 					Arrays.asList(c1.getId(), c2.getId(), c1.getTree().getId(),
 							c2.getTree().getId(), contentA.getId(),
@@ -559,7 +582,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 			// Client already has blobs A and B, verify those are not packed.
 			idx = writeShallowPack(repo, 2, wants(c5), haves(c1, c2),
-					shallows(c1));
+			                       shallows(c1), useMmap);
 			assertContent(idx,
 					Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
 							c5.getTree().getId(), contentC.getId(),
@@ -570,12 +593,12 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testShallowFetchShallowParentDepth1() throws Exception {
 		try (FileRepository repo = setupRepoForShallowFetch()) {
-			PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
+			PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE, useMmap);
 			assertContent(idx, Arrays.asList(c5.getId(), c5.getTree().getId(),
 					contentA.getId(), contentB.getId(), contentC.getId(),
 					contentD.getId(), contentE.getId()));
 
-			idx = writeShallowPack(repo, 1, wants(c4), haves(c5), shallows(c5));
+			idx = writeShallowPack(repo, 1, wants(c4), haves(c5), shallows(c5), useMmap);
 			assertContent(idx, Arrays.asList(c4.getId(), c4.getTree().getId()));
 		}
 	}
@@ -583,7 +606,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testShallowFetchShallowParentDepth2() throws Exception {
 		try (FileRepository repo = setupRepoForShallowFetch()) {
-			PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE);
+			PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE, useMmap);
 			assertContent(idx,
 					Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
 							c5.getTree().getId(), contentA.getId(),
@@ -591,7 +614,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 							contentD.getId(), contentE.getId()));
 
 			idx = writeShallowPack(repo, 2, wants(c3), haves(c4, c5),
-					shallows(c4));
+			                       shallows(c4), useMmap);
 			assertContent(idx, Arrays.asList(c2.getId(), c3.getId(),
 					c2.getTree().getId(), c3.getTree().getId()));
 		}
@@ -600,12 +623,12 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testShallowFetchShallowAncestorDepth1() throws Exception {
 		try (FileRepository repo = setupRepoForShallowFetch()) {
-			PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
+			PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE, useMmap);
 			assertContent(idx, Arrays.asList(c5.getId(), c5.getTree().getId(),
 					contentA.getId(), contentB.getId(), contentC.getId(),
 					contentD.getId(), contentE.getId()));
 
-			idx = writeShallowPack(repo, 1, wants(c3), haves(c5), shallows(c5));
+			idx = writeShallowPack(repo, 1, wants(c3), haves(c5), shallows(c5), useMmap);
 			assertContent(idx, Arrays.asList(c3.getId(), c3.getTree().getId()));
 		}
 	}
@@ -613,7 +636,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testShallowFetchShallowAncestorDepth2() throws Exception {
 		try (FileRepository repo = setupRepoForShallowFetch()) {
-			PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE);
+			PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE, useMmap);
 			assertContent(idx,
 					Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
 							c5.getTree().getId(), contentA.getId(),
@@ -621,7 +644,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 							contentD.getId(), contentE.getId()));
 
 			idx = writeShallowPack(repo, 2, wants(c2), haves(c4, c5),
-					shallows(c4));
+			                       shallows(c4), useMmap);
 			assertContent(idx, Arrays.asList(c1.getId(), c2.getId(),
 					c1.getTree().getId(), c2.getTree().getId()));
 		}
@@ -650,27 +673,27 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	private static PackIndex writePack(FileRepository repo,
-			Set<? extends ObjectId> want, Set<ObjectIdSet> excludeObjects)
+	                                   Set<? extends ObjectId> want, Set<ObjectIdSet> excludeObjects, boolean useMmap)
 					throws IOException {
 		try (RevWalk walk = new RevWalk(repo)) {
-			return writePack(repo, walk, 0, want, NONE, excludeObjects);
+			return writePack(repo, walk, 0, want, NONE, excludeObjects, useMmap);
 		}
 	}
 
 	private static PackIndex writeShallowPack(FileRepository repo, int depth,
-			Set<? extends ObjectId> want, Set<? extends ObjectId> have,
-			Set<? extends ObjectId> shallow) throws IOException {
+	                                          Set<? extends ObjectId> want, Set<? extends ObjectId> have,
+	                                          Set<? extends ObjectId> shallow, boolean useMmap) throws IOException {
 		// During negotiation, UploadPack would have set up a DepthWalk and
 		// marked the client's "shallow" commits. Emulate that here.
 		try (DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth - 1)) {
 			walk.assumeShallow(shallow);
-			return writePack(repo, walk, depth, want, have, EMPTY_ID_SET);
+			return writePack(repo, walk, depth, want, have, EMPTY_ID_SET, useMmap);
 		}
 	}
 
 	private static PackIndex writePack(FileRepository repo, RevWalk walk,
 			int depth, Set<? extends ObjectId> want,
-			Set<? extends ObjectId> have, Set<ObjectIdSet> excludeObjects)
+			Set<? extends ObjectId> have, Set<ObjectIdSet> excludeObjects, boolean useMmap)
 					throws IOException {
 		try (PackWriter pw = new PackWriter(repo)) {
 			pw.setDeltaBaseAsOffset(true);
@@ -696,7 +719,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			try (FileOutputStream idxOS = new FileOutputStream(idxFile)) {
 				pw.writeIndex(idxOS);
 			}
-			return PackIndex.open(idxFile);
+			return PackIndex.open(idxFile, useMmap);
 		}
 	}
 

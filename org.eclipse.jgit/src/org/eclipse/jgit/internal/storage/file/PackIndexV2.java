@@ -186,7 +186,7 @@ class PackIndexV2 extends PackIndex {
 	@Override
 	public long findOffset(AnyObjectId objId) {
 		final int levelOne = objId.getFirstByte();
-		final int levelTwo = binarySearchLevelTwo(objId, levelOne);
+		int levelTwo = binarySearchLevelTwo(objId, levelOne);
 		if (levelTwo == -1)
 			return -1;
 		return getOffset(levelOne, levelTwo);
@@ -277,6 +277,10 @@ class PackIndexV2 extends PackIndex {
 				low = mid + 1;
 		} while (low < high);
 		return -1;
+	}
+
+	@Override
+	public void close() {
 	}
 
 	private class EntriesIteratorV2 extends EntriesIterator {
