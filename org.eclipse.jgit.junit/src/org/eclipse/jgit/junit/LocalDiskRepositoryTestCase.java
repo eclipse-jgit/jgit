@@ -386,7 +386,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 */
 	protected FileRepository createRepository(boolean bare)
 			throws IOException {
-		return createRepository(bare, false /* auto close */);
+		return createRepository(bare, true /* auto close */);
 	}
 
 	/**
