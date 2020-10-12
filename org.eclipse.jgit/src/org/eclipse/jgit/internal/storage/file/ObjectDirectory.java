@@ -90,6 +90,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private final Config config;
 
 	private final File objects;
+	private final boolean useMmap;
 
 	private final File infoDirectory;
 
@@ -132,7 +133,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 *             an alternate object cannot be opened.
 	 */
 	public ObjectDirectory(final Config cfg, final File dir,
-			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
+			File[] alternatePaths, FS fs, File shallowFile, boolean useMmap) throws IOException {
 		config = cfg;
 		objects = dir;
 		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
@@ -143,6 +144,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
 		this.shallowFile = shallowFile;
+		this.useMmap = useMmap;
 
 		alternates = new AtomicReference<>();
 		if (alternatePaths != null) {
@@ -263,7 +265,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 
-		PackFile res = new PackFile(pack, extensions);
+		PackFile res = new PackFile(pack, extensions, useMmap);
 		insertPack(res);
 		return res;
 	}
@@ -885,7 +887,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				continue;
 			}
 
-			list.add(new PackFile(packFile, extensions));
+			list.add(new PackFile(packFile, extensions, useMmap));
 			foundNew = true;
 		}
 
@@ -1020,7 +1022,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return new AlternateRepository(db);
 		}
 
-		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs, null);
+		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs, null, useMmap);
 		return new AlternateHandle(db);
 	}
 

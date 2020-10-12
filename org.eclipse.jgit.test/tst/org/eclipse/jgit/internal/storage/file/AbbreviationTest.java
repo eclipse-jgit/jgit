@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,8 +41,21 @@ import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+@RunWith(Parameterized.class)
 public class AbbreviationTest extends LocalDiskRepositoryTestCase {
+	@Parameterized.Parameter(0)
+	public boolean useMmap;
+
+	@Parameterized.Parameters(name = "useMmap={0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{Boolean.FALSE},
+				{Boolean.TRUE}});
+	}
+
 	private FileRepository db;
 
 	private ObjectReader reader;
@@ -52,7 +66,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		db = createBareRepository();
+		db = createRepository(true, true, useMmap);
 		reader = db.newObjectReader();
 		test = new TestRepository<>(db);
 	}
@@ -63,6 +77,11 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		if (reader != null) {
 			reader.close();
 		}
+	}
+
+	@Override
+	protected boolean isUseMmap() {
+		return useMmap;
 	}
 
 	@Test

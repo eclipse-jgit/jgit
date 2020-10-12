@@ -16,14 +16,29 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+@RunWith(Parameterized.class)
 public class PackReverseIndexTest extends RepositoryTestCase {
+	@Parameterized.Parameter(0)
+	public static boolean useMmap;
+
+	@Parameterized.Parameters(name = "useMmap={0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{Boolean.FALSE},
+				{Boolean.TRUE}});
+	}
 
 	private PackIndex idx;
 
@@ -38,7 +53,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 		super.setUp();
 		// index with both small (< 2^31) and big offsets
 		idx = PackIndex.open(JGitTestUtil.getTestResourceFile(
-				"pack-huge.idx"));
+				"pack-huge.idx"), useMmap);
 		reverseIdx = new PackReverseIndex(idx);
 	}
 
@@ -49,6 +64,11 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	public void testFindObject() {
 		for (MutableEntry me : idx)
 			assertEquals(me.toObjectId(), reverseIdx.findObject(me.getOffset()));
+	}
+
+	@Override
+	protected boolean isUseMmap() {
+		return useMmap;
 	}
 
 	/**

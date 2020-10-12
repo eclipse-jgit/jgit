@@ -62,13 +62,32 @@ public abstract class PackIndex
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
 	public static PackIndex open(File idxFile) throws IOException {
-		try (SilentFileInputStream fd = new SilentFileInputStream(
-				idxFile)) {
-				return read(fd);
-		} catch (IOException ioe) {
+		return open(idxFile, false);
+	}
+
+	public static PackIndex open(File idxFile, boolean useMmap) throws IOException {
+		try (SilentFileInputStream fd = new SilentFileInputStream(idxFile)) {
+			final byte[] hdr = new byte[8];
+			IO.readFully(fd, hdr, 0, hdr.length);
+			if (isTOC(hdr)) {
+				final int v = NB.decodeInt32(hdr, 4);
+				switch (v) {
+				case 2:
+					if (useMmap) {
+						fd.close();
+						return new PackIndexV2m(idxFile);
+					}
+					return new PackIndexV2(fd);
+				default:
+					throw new UnsupportedPackIndexVersionException(v);
+				}
+			}
+			return new PackIndexV1(fd, hdr);
+		}
+		catch (IOException ioe) {
 			throw new IOException(
 					MessageFormat.format(JGitText.get().unreadablePackIndex,
-							idxFile.getAbsolutePath()),
+					                     idxFile.getAbsolutePath()),
 					ioe);
 		}
 	}
@@ -286,6 +305,8 @@ public abstract class PackIndex
 	public byte[] getChecksum() {
 		return packChecksum;
 	}
+
+	public abstract void close();
 
 	/**
 	 * Represent mutable entry of pack index consisting of object id and offset
