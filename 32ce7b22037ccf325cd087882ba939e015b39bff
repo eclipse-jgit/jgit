@@ -75,6 +75,30 @@
       "revId": "32ce7b22037ccf325cd087882ba939e015b39bff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d465c4c_fea54bd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 301450
+      },
+      "writtenOn": "2020-10-13T10:09:26Z",
+      "side": 1,
+      "message": "Ok fixed!",
+      "parentUuid": "066ce37f_3bcf5a19",
+      "range": {
+        "startLine": 162,
+        "startChar": 54,
+        "endLine": 162,
+        "endChar": 57
+      },
+      "revId": "32ce7b22037ccf325cd087882ba939e015b39bff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
