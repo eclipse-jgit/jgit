@@ -310,7 +310,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals(
 					"2 commits for describe commit increment expected since lightweight tag: c4 and c3",
 					"t2-2-g119892b", describe(c4)); // 2 commits: c4 and c3
-		} else if (!useAnnotatedTags && !describeUseAllTags) {
+		} else if (!useAnnotatedTags) {
 			assertEquals("no matching commits expected", null, describe(c4));
 		} else {
 			assertEquals(
@@ -405,6 +405,46 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testDescribeUseAllRefsMaster() throws Exception {
+		final ObjectId c1 = modify("aaa");
+		tag("t1");
+
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("t1", describe(c1));
+		} else {
+			assertEquals(null, describe(c1));
+		}
+		assertEquals("heads/master", describeAll(c1));
+	}
+
+	/**
+	 * Branch off from master and then tag
+	 *
+	 * <pre>
+	 * c1 -+ -> c2
+	 *     |
+	 *     +-> t1
+	 * </pre>
+	 * @throws Exception
+	 * */
+	@Test
+	public void testDescribeUseAllRefsBranch() throws Exception {
+		final ObjectId c1 = modify("aaa");
+		modify("bbb");
+
+		branch("b", c1);
+		final ObjectId c3 = modify("ccc");
+		tag("t1");
+
+		if (!useAnnotatedTags && !describeUseAllTags) {
+			assertEquals(null, describe(c3));
+		} else {
+			assertEquals("t1", describe(c3));
+		}
+		assertEquals("heads/b", describeAll(c3));
+	}
+
 	private ObjectId merge(ObjectId c2) throws GitAPIException {
 		return git.merge().include(c2).call().getNewHead();
 	}
@@ -442,6 +482,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 
 	private String describe(ObjectId c1) throws GitAPIException, IOException {
 		return describe(c1, false, false);
+	}
+
+	private String describeAll(ObjectId c1) throws GitAPIException, IOException {
+		return git.describe().setTarget(c1).setTags(describeUseAllTags)
+				.setLong(false).setAlways(false).setAll(true).call();
 	}
 
 	private String describe(ObjectId c1, String... patterns) throws Exception {
