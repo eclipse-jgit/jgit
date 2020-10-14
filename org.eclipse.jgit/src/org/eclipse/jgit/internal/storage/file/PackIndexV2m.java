@@ -10,7 +10,10 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import sun.misc.Unsafe;
+
 import java.io.*;
+import java.lang.reflect.*;
 import java.nio.*;
 import java.nio.channels.*;
 import java.util.*;
@@ -23,6 +26,18 @@ class PackIndexV2m extends PackIndex {
 	private static final long IS_O64 = 1L << 31;
 
 	private static final int FANOUT = 256;
+
+	private static final Unsafe UNSAFE;
+
+	static {
+		try {
+			final Field f = Unsafe.class.getDeclaredField("theUnsafe");
+			f.setAccessible(true);
+			UNSAFE = (Unsafe)f.get(null);
+		} catch (NoSuchFieldException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private final byte[] idBuf = new byte[Constants.OBJECT_ID_LENGTH];
 	private final Thread ownerThread;
@@ -178,8 +193,11 @@ class PackIndexV2m extends PackIndex {
 	@Override
 	public void close() {
 		synchronized (this) {
-			if (channel != null) {
+			if (buffer != null) {
+				UNSAFE.invokeCleaner(buffer);
 				buffer = null;
+			}
+			if (channel != null) {
 				try {
 					channel.close();
 				}
@@ -194,10 +212,6 @@ class PackIndexV2m extends PackIndex {
 				catch (IOException ignore) {
 				}
 				raFile = null;
-			}
-			if (buffer != null) {
-				// This is important to allow garbage collection of the Buffer which is (as of JDK 14) the only way to unlock the file system file
-				buffer = null;
 			}
 		}
 	}
