@@ -511,7 +511,7 @@ public class WindowCache {
 		if (pack.beginWindowCache())
 			statsRecorder.recordOpenFiles(1);
 		try {
-			if (mmap)
+			if (mmap || pack.isUseMmap())
 				return pack.mmap(offset, windowSize);
 			ByteArrayWindow w = pack.read(offset, windowSize);
 			statsRecorder.recordLoadSuccess(System.nanoTime() - startTime);

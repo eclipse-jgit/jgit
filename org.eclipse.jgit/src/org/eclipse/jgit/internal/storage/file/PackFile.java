@@ -943,6 +943,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return ofs;
 	}
 
+	boolean isUseMmap() {
+		return useMmap;
+	}
+
 	private static class Delta {
 		/** Child that applies onto this object. */
 		final Delta next;
