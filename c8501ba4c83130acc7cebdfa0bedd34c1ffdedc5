@@ -53,6 +53,40 @@
     },
     {
       "key": {
+        "uuid": "6bc625d2_8fa1f7b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T09:45:13Z",
+      "side": 1,
+      "message": "Actually, it seems there have been no more Strings replaced by constants in this patch.",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "567b1fc0_bc40bafd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T09:45:13Z",
+      "side": 1,
+      "message": "This list is the main problem of this patch: there are 79 usages of Repository.getDirectory() left in production code of the core org.eclipse.jgit module and several of them are composing paths like:\n\n    new File(repo.getDirectory(), ...)\n\nSo the question is, why not using Repository.getDirectoryChild() here, instead?\n\nHence, I\u0027m wondering whether we need getDirectoryChild() and resolveDirectoryChild() at all. For the main change Ia712e101aed4e10f1cbf664d365c2c41a15627d8, I\u0027m going to propose another solution which should solve this problem.",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "59be1e97_7ae68436",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 10
