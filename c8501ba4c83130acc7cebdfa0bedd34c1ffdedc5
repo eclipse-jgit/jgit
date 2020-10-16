@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c17e1880_4a65f6d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:23:04Z",
+      "side": 1,
+      "message": "we want *to* use",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "763f9697_2f602d52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:23:04Z",
+      "side": 1,
+      "message": "now just *do* the same",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f606bf92_547a71ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:23:04Z",
+      "side": 1,
+      "message": "It could be helpful to split these changes to a separate patch (and e.g. amend the previous one).",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59be1e97_7ae68436",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:23:04Z",
+      "side": 1,
+      "message": "@since tag needs to be adjusted",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65278dcb_19a675c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:23:04Z",
+      "side": 1,
+      "message": "@since tag needs to be adjusted",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
