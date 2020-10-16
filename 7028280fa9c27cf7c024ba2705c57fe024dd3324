@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0659551c_6eacf9b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "@since 5.9 needs to be updated",
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "184dfb2a_6b5edf3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "Do we need this additional description? AFAIU, JGit does not support \"branches\" file and thus this might be misleading.",
+      "range": {
+        "startLine": 237,
+        "startChar": 3,
+        "endLine": 240,
+        "endChar": 46
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5272a5c_2d459018",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "Do we need this additional description? AFAIU, JGit does not support \"remotes\" file and thus this might be misleading.",
+      "range": {
+        "startLine": 258,
+        "startChar": 3,
+        "endLine": 262,
+        "endChar": 18
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9033a02_c635ecee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "Do we need this additional description (see above)? JGit does not support a \"prune\" command.",
+      "range": {
+        "startLine": 272,
+        "startChar": 62,
+        "endLine": 274,
+        "endChar": 37
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2719eb1_2b8adbdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "@since-tag missing",
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f457ae62_4e8b6cca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "Although it\u0027s the same \"remotes\" String constant, this directory name is not related to the \"remotes\"-file name. Hence, using \"remotes/\" explicitly might be more appropriate.",
+      "range": {
+        "startLine": 297,
+        "startChar": 46,
+        "endLine": 297,
+        "endChar": 56
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19581546_7ebe4f7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "Do we need this additional description? Neither before not after this patch series \"--work-tree\" option is supported.",
+      "range": {
+        "startLine": 523,
+        "startChar": 11,
+        "endLine": 523,
+        "endChar": 51
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5dc7fb4_83a2c23e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "Do we need this additional description? AFAIU, JGit does not support \"grafts\" file.",
+      "range": {
+        "startLine": 621,
+        "startChar": 3,
+        "endLine": 623,
+        "endChar": 75
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffaf0ab2_2f5aa743",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-16T07:22:10Z",
+      "side": 1,
+      "message": "LOCKED_FILE is not used in this patch series.",
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
