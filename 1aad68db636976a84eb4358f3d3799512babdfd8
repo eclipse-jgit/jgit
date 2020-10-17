@@ -22,6 +22,30 @@
       "revId": "1aad68db636976a84eb4358f3d3799512babdfd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a06f86c2_e4481a98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-17T17:40:27Z",
+      "side": 1,
+      "message": "if it\u0027s a new repository the git directory is only created in the create() method, now we check there if store is null and look it up if necessary",
+      "parentUuid": "4dc9e56b_78542b9a",
+      "range": {
+        "startLine": 185,
+        "startChar": 10,
+        "endLine": 185,
+        "endChar": 28
+      },
+      "revId": "1aad68db636976a84eb4358f3d3799512babdfd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
