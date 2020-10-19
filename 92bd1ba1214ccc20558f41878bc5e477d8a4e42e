@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "7d4b702d_9d3f3408",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-19T16:29:40Z",
+      "side": 1,
+      "message": "This interface is unused in this commit. Could you add a test to show how to actually use it?",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb960c77_baca1ddc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-19T16:29:40Z",
+      "side": 1,
+      "message": "Is this the right place for the default implementation? I\u0027m not sure.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "824e4a11_e56c42a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
         "patchSetId": 1
