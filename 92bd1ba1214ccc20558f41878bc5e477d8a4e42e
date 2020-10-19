@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac1f8484_658efce3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-19T11:04:57Z",
+      "side": 1,
+      "message": "I think we could use the link to Edwin\u0027s commit adding the logging here, for reference.",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "824e4a11_e56c42a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-19T11:04:57Z",
+      "side": 1,
+      "message": "Please remove the trailing space.",
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7efdafb0_94082011",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-19T11:04:57Z",
+      "side": 1,
+      "message": "This should probably be private. (Since you have a public method returning unmodifiable list of events, which makes me assume you don\u0027t want other classes to be able to modify it).",
+      "range": {
+        "startLine": 56,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa0c146_62024c9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-19T11:04:57Z",
+      "side": 1,
+      "message": "This looks like it will give you a NullPointerException in case the list hasn\u0027t been initialized.",
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
