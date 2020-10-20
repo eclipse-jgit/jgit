@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "862b2db5_2a366bb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-10-20T20:43:00Z",
+      "side": 1,
+      "message": "What does \"sent to the server\" mean here? Isn\u0027t all this logging happening in the context of the server (or of the client if JGit is used in a client)? Maybe \"... the list of events is retrieved and written to a log, after which it is cleared.\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 49,
+        "endLine": 15,
+        "endChar": 6
+      },
+      "revId": "3db8ddd2aca7cd0e36e1accf0b121bbdcef91514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05b73d6f_10319fe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-10-20T20:43:00Z",
+      "side": 1,
+      "message": "s/Git-on-Borg/JGit DFS overridden operations/",
+      "range": {
+        "startLine": 34,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "3db8ddd2aca7cd0e36e1accf0b121bbdcef91514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d474e79_b84f58a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-10-20T20:43:00Z",
+      "side": 1,
+      "message": "This will throw an NPE if getModifiableEventRecords() was never invoked. Probably better to set eventRecords to an empty list in the ctor, and then you don\u0027t need to check for null here or in  getModifiableEventRecords().",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "3db8ddd2aca7cd0e36e1accf0b121bbdcef91514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bea76159_430e9c2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogRecord.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-10-20T20:43:00Z",
+      "side": 1,
+      "message": "Always best to use explicit units: https://www.wired.com/2010/11/1110mars-climate-observer-report/\n\nSince this data is pretty much serialized out to a log file immediately I don\u0027t see the need for using a more complex type, but we need to know if the \"long\" is seconds, milliseconds, etc.\n\nI\u0027d suggest getDurationMs() and field name durationMs, but staying consistent with Gerrit\u0027s implementation makes the most sense.",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "3db8ddd2aca7cd0e36e1accf0b121bbdcef91514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
