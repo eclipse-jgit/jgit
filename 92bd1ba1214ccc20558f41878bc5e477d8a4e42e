@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "299f7c52_658703df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-20T11:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac1f8484_658efce3",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d4b702d_9d3f3408",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4805d7d5_d7dfc91c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-20T11:01:09Z",
+      "side": 1,
+      "message": "I will add the test in the next commit together with a setter and getter method for the hook.",
+      "parentUuid": "7d4b702d_9d3f3408",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "93379601_1a1c0157",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-20T11:01:09Z",
+      "side": 1,
+      "message": "Yes, PostUploadHook, which is also used to pass statistics to the server, is implemented the same way. https://gerrit.googlesource.com/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/transport/PostUploadHook.java#60",
+      "parentUuid": "eb960c77_baca1ddc",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "824e4a11_e56c42a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
         "patchSetId": 1
@@ -85,6 +157,24 @@
       "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a5de467_5a5bb927",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-20T11:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "824e4a11_e56c42a2",
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "ad294e55_050e5981",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-20T11:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7efdafb0_94082011",
+      "range": {
+        "startLine": 56,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa0c146_62024c9f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
         "patchSetId": 1
@@ -125,6 +239,24 @@
       "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5436968_19f7bd57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-20T11:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa0c146_62024c9f",
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
