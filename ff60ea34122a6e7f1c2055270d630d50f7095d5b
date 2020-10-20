@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e76cfe_77ece2b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-20T13:31:12Z",
+      "side": 1,
+      "message": "This should be \"2\", otherwise logs/refs/stash is not properly split to \"logs\" and \"refs/stash\".",
+      "range": {
+        "startLine": 245,
+        "startChar": 59,
+        "endLine": 245,
+        "endChar": 60
+      },
+      "revId": "ff60ea34122a6e7f1c2055270d630d50f7095d5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
