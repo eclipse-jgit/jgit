@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "fd5597d4_876c38a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-20T15:25:53Z",
+      "side": 1,
+      "message": "Removed the interface and changed the commit message respectively.",
+      "parentUuid": "a11a4984_e76dc931",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "92bd1ba1214ccc20558f41878bc5e477d8a4e42e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb960c77_baca1ddc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
         "patchSetId": 1
