@@ -1447,6 +1447,9 @@ public class DirCacheCheckout {
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
 			ObjectReader or, boolean deleteRecursive,
 			CheckoutMetadata checkoutMetadata) throws IOException {
+		if (entry == null) {
+			return;
+		}
 		if (checkoutMetadata == null)
 			checkoutMetadata = CheckoutMetadata.EMPTY;
 		ObjectLoader ol = or.open(entry.getObjectId());
