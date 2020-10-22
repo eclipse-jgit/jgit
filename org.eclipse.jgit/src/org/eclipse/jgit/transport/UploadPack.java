@@ -64,6 +64,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.hooks.PerformanceLogHook;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -76,6 +77,8 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.logging.PerformanceLogContext;
+import org.eclipse.jgit.logging.PerformanceLogRecord;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
@@ -276,6 +279,9 @@ public class UploadPack {
 
 	/** Hook for taking post upload actions. */
 	private PostUploadHook postUploadHook = PostUploadHook.NULL;
+
+	/** Hook for sending the collected performance logs. */
+	private PerformanceLogHook performanceLogHook = PerformanceLogHook.NULL;
 
 	/** Caller user agent */
 	String userAgent;
@@ -635,6 +641,27 @@ public class UploadPack {
 	}
 
 	/**
+	 * Set the hook for sending the collected performance logs.
+	 *
+	 * @param hook
+	 *            the hook; if null no special actions are taken.
+	 * @since 5.10
+	 */
+	public void setPerformanceLogHook(@Nullable PerformanceLogHook hook) {
+		performanceLogHook = hook != null ? hook : PerformanceLogHook.NULL;
+	}
+
+	/**
+	 * Get the configured performance log hook.
+	 *
+	 * @return the configured performance log hook.
+	 * @since 5.10
+	 */
+	public PerformanceLogHook getPerformanceLogHook() {
+		return performanceLogHook;
+	}
+
+	/**
 	 * Set the hook for post upload actions (logging, repacking).
 	 *
 	 * @param hook
@@ -644,7 +671,6 @@ public class UploadPack {
 	public void setPostUploadHook(@Nullable PostUploadHook hook) {
 		postUploadHook = hook != null ? hook : PostUploadHook.NULL;
 	}
-
 	/**
 	 * Set the configuration used by the pack generator.
 	 *
@@ -1055,6 +1081,10 @@ public class UploadPack {
 			accumulator.timeNegotiating = Duration
 					.between(negotiateStart, Instant.now()).toMillis();
 
+			PerformanceLogContext.getInstance()
+					.addEvent(new PerformanceLogRecord("negotiation",
+							accumulator.timeNegotiating)); //$NON-NLS-1$
+
 			if (sendPack && !biDirectionalPipe) {
 				// Ensure the request was fully consumed. Any remaining input must
 				// be a protocol error. If we aren't at EOF the implementation is broken.
@@ -1074,6 +1104,11 @@ public class UploadPack {
 			}
 			rawOut.stopBuffering();
 		}
+
+		performanceLogHook.onEndOfCommand(
+				PerformanceLogContext.getInstance().getEventRecords());
+
+		PerformanceLogContext.getInstance().cleanEvents();
 
 		if (sendPack) {
 			sendPack(accumulator, req, refs == null ? null : refs.values(),
@@ -1249,6 +1284,15 @@ public class UploadPack {
 			accumulator.timeNegotiating = Duration
 					.between(negotiateStart, Instant.now()).toMillis();
 
+			PerformanceLogContext.getInstance()
+					.addEvent(new PerformanceLogRecord("negotiation",
+							accumulator.timeNegotiating));
+			
+			performanceLogHook.onEndOfCommand(
+					PerformanceLogContext.getInstance().getEventRecords());
+
+			PerformanceLogContext.getInstance().cleanEvents();
+
 			sendPack(accumulator,
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
@@ -1258,6 +1302,11 @@ public class UploadPack {
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
 		} else {
+			performanceLogHook.onEndOfCommand(
+					PerformanceLogContext.getInstance().getEventRecords());
+
+			PerformanceLogContext.getInstance().cleanEvents();
+
 			// Invoke pckOut.end() by ourselves.
 			pckOut.end();
 		}
@@ -1804,6 +1853,10 @@ public class UploadPack {
 			accumulator.reachabilityCheckDuration = Duration
 					.between(startReachabilityChecking, Instant.now())
 					.toMillis();
+
+			PerformanceLogContext.getInstance()
+					.addEvent(new PerformanceLogRecord("reachability-check",
+							accumulator.reachabilityCheckDuration)); //$NON-NLS-1$
 		}
 
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
