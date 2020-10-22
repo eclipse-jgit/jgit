@@ -38,19 +38,19 @@ public class PostReceiveHookChain implements PostReceiveHook {
 			if (hook != PostReceiveHook.NULL)
 				newHooks[i++] = hook;
 		switch (i) {
-		case 0:
-			return PostReceiveHook.NULL;
-		case 1:
-			return newHooks[0];
-		default:
-			return new PostReceiveHookChain(newHooks, i);
+			case 0:
+				return PostReceiveHook.NULL;
+			case 1:
+				return newHooks[0];
+			default:
+				return new PostReceiveHookChain(newHooks, i);
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void onPostReceive(ReceivePack rp,
-			Collection<ReceiveCommand> commands) {
+							  Collection<ReceiveCommand> commands) {
 		for (int i = 0; i < count; i++)
 			hooks[i].onPostReceive(rp, commands);
 	}
