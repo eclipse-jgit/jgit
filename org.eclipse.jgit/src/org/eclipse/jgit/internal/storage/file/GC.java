@@ -978,7 +978,8 @@ public class GC {
 			} else {
 				if (base == null || !n.startsWith(base)) {
 					try {
-						Files.delete(packDir.resolve(n));
+						FileUtils.delete(packDir.resolve(n).toFile(),
+								FileUtils.RETRY | FileUtils.SKIP_MISSING);
 					} catch (IOException e) {
 						LOG.error(e.getMessage(), e);
 					}
