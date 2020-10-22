@@ -27,7 +27,6 @@ public class PerformanceLogContext {
 	private final ThreadLocal<List<PerformanceLogRecord>> eventRecords = new ThreadLocal<>();
 
 	private PerformanceLogContext() {
-		eventRecords.set(new ArrayList<>());
 	}
 
 	/**
@@ -45,6 +44,8 @@ public class PerformanceLogContext {
 	 * @return unmodifiable list of events as performance logs.
 	 */
 	public List<PerformanceLogRecord> getEventRecords() {
+		if (eventRecords.get() == null)
+			eventRecords.set(new ArrayList<>());
 		return Collections.unmodifiableList(eventRecords.get());
 	}
 
@@ -55,6 +56,8 @@ public class PerformanceLogContext {
 	 *            performance log record that is going to be added.
 	 */
 	public void addEvent(PerformanceLogRecord record) {
+		if (eventRecords.get() == null)
+			eventRecords.set(new ArrayList<>());
 		eventRecords.get().add(record);
 	}
 
@@ -62,6 +65,8 @@ public class PerformanceLogContext {
 	 * Removes all of the existing records from the current list of events.
 	 */
 	public void cleanEvents() {
+		if (eventRecords.get() == null)
+			eventRecords.set(new ArrayList<>());
 		eventRecords.get().clear();
 	}
 }
