@@ -49,8 +49,7 @@ public class PostReceiveHookChain implements PostReceiveHook {
 
 	/** {@inheritDoc} */
 	@Override
-	public void onPostReceive(ReceivePack rp,
-			Collection<ReceiveCommand> commands) {
+	public void onPostReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
 		for (int i = 0; i < count; i++)
 			hooks[i].onPostReceive(rp, commands);
 	}
