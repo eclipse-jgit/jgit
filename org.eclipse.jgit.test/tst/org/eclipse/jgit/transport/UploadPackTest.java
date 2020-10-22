@@ -2499,6 +2499,38 @@ public class UploadPackTest {
 		assertEquals(1, stats.getNotAdvertisedWants());
 	}
 
+	@Test
+	public void testPerformanceLogV2FetchParentOfShallowCommit()
+			throws Exception {
+		RevCommit commit0 = remote.commit().message("0").create();
+		RevCommit commit1 = remote.commit().message("1").parent(commit0)
+				.create();
+		RevCommit tip = remote.commit().message("2").parent(commit1).create();
+		remote.update("master", tip);
+
+		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			UploadPack up = new UploadPack(db);
+			up.setPerformanceLogHook(eventRecords -> {
+				assertNotNull(eventRecords);
+				assertTrue(eventRecords.get(0).getName()
+						.equals("reachability-check"));
+				assertTrue(eventRecords.get(1).getName().equals("negotiation"));
+			});
+			up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+			// assume client has a shallow commit
+			up.getRevWalk()
+					.assumeShallow(Collections.singleton(commit1.getId()));
+			return up;
+		}, null);
+		uri = testProtocol.register(ctx, server);
+
+		// Fetch of the parent of the shallow commit
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
+			tn.fetch(NullProgressMonitor.INSTANCE,
+					Collections.singletonList(new RefSpec(commit0.name())));
+		}
+	}
+
 	private class RefCallsCountingRepository extends InMemoryRepository {
 		private final InMemoryRepository.MemRefDatabase refdb;
 		private int numRefCalls;

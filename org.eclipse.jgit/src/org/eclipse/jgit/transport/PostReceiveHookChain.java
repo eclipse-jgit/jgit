@@ -21,7 +21,13 @@ import java.util.List;
  */
 public class PostReceiveHookChain implements PostReceiveHook {
 	private final PostReceiveHook[] hooks;
+
 	private final int count;
+
+	private PostReceiveHookChain(PostReceiveHook[] hooks, int count) {
+		this.hooks = hooks;
+		this.count = count;
+	}
 
 	/**
 	 * Create a new hook chaining the given hooks together.
@@ -53,10 +59,5 @@ public class PostReceiveHookChain implements PostReceiveHook {
 			Collection<ReceiveCommand> commands) {
 		for (int i = 0; i < count; i++)
 			hooks[i].onPostReceive(rp, commands);
-	}
-
-	private PostReceiveHookChain(PostReceiveHook[] hooks, int count) {
-		this.hooks = hooks;
-		this.count = count;
 	}
 }
