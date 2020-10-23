@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5922b162_a276c5eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-23T15:12:12Z",
+      "side": 1,
+      "message": "I would avoid creating a new list just to clear it up afterwards:\n\nif (eventRecords.get() !\u003d null)\n    eventRecords.get().clear();",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 29
+      },
+      "revId": "594d4ed9d445e292e34972fba033075f56dcd5b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45e1ec0b_fee1744d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-23T15:12:12Z",
+      "side": 1,
+      "message": "Please remove trailing tabs.",
+      "range": {
+        "startLine": 1290,
+        "startChar": 0,
+        "endLine": 1290,
+        "endChar": 3
+      },
+      "revId": "594d4ed9d445e292e34972fba033075f56dcd5b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
