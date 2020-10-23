@@ -1,6 +1,7 @@
 package org.eclipse.jgit.logging;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -37,30 +38,58 @@ public class PerformanceLogContextTest {
 	}
 
 	@Test
-	public void testAddEventsTwoThreads() {
-		TestRunnable thread1 = new TestRunnable("record1", 1);
-		TestRunnable thread2 = new TestRunnable("record2", 2);
+	public void testAddEventsTwoThreads() throws InterruptedException {
+		TestRunnable runnable1 = new TestRunnable("record1", 1);
+		TestRunnable runnable2 = new TestRunnable("record2", 2);
 
-		new Thread(thread1).start();
-		new Thread(thread2).start();
+		Thread thread1 = new Thread(runnable1);
+		Thread thread2 = new Thread(runnable2);
+
+		thread1.start();
+		thread2.start();
+
+		thread1.join();
+		thread2.join();
+		assertEquals(1, runnable1.getEventRecordsCount());
+		assertEquals(1, runnable2.getEventRecordsCount());
+		assertFalse(runnable1.isThrown());
+		assertFalse(runnable2.isThrown());
 	}
 
 	private static class TestRunnable implements Runnable {
 		private String name;
+
 		private long durationMs;
+
+		private long eventRecordsCount;
+
+		private boolean thrown = false;
 
 		public TestRunnable(String name, long durationMs) {
 			this.name = name;
 			this.durationMs = durationMs;
 		}
 
+		public boolean isThrown() {
+			return thrown;
+		}
+
+		public long getEventRecordsCount() {
+			return eventRecordsCount;
+		}
+
 		@Override
 		public void run() {
 			PerformanceLogRecord record = new PerformanceLogRecord(name,
 					durationMs);
-			PerformanceLogContext.getInstance().addEvent(record);
-			assertEquals(1, PerformanceLogContext.getInstance()
-					.getEventRecords().size());
+			try {
+				PerformanceLogContext.getInstance().addEvent(record);
+				eventRecordsCount = PerformanceLogContext.getInstance()
+						.getEventRecords().size();
+				PerformanceLogContext.getInstance().cleanEvents();
+			} catch (Exception e) {
+				thrown = true;
+			}
 		}
 	}
 }
