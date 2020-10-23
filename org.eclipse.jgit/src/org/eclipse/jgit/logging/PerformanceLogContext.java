@@ -45,6 +45,8 @@ public class PerformanceLogContext {
 	 * @return unmodifiable list of events as performance logs.
 	 */
 	public List<PerformanceLogRecord> getEventRecords() {
+		if (eventRecords.get() == null)
+			return Collections.unmodifiableList(new ArrayList<>());
 		return Collections.unmodifiableList(eventRecords.get());
 	}
 
@@ -55,6 +57,8 @@ public class PerformanceLogContext {
 	 *            performance log record that is going to be added.
 	 */
 	public void addEvent(PerformanceLogRecord record) {
+		if (eventRecords.get() == null)
+			eventRecords.set(new ArrayList<>());
 		eventRecords.get().add(record);
 	}
 
@@ -62,6 +66,6 @@ public class PerformanceLogContext {
 	 * Removes all of the existing records from the current list of events.
 	 */
 	public void cleanEvents() {
-		eventRecords.get().clear();
+		eventRecords.remove();
 	}
 }
