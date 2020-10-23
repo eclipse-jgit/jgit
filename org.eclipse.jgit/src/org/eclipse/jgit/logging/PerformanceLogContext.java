@@ -24,10 +24,10 @@ public class PerformanceLogContext {
 	private static final PerformanceLogContext INSTANCE = new PerformanceLogContext();
 
 	/** List that stores events as performance logs. */
-	private final ThreadLocal<List<PerformanceLogRecord>> eventRecords = new ThreadLocal<>();
+	private static final ThreadLocal<List<PerformanceLogRecord>> eventRecords = ThreadLocal
+			.withInitial(ArrayList::new);
 
 	private PerformanceLogContext() {
-		eventRecords.set(new ArrayList<>());
 	}
 
 	/**
@@ -62,6 +62,6 @@ public class PerformanceLogContext {
 	 * Removes all of the existing records from the current list of events.
 	 */
 	public void cleanEvents() {
-		eventRecords.get().clear();
+		eventRecords.remove();
 	}
 }
