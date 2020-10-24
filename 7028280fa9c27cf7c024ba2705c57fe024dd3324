@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df4cf068_6a00f64f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0659551c_6eacf9b7",
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "184dfb2a_6b5edf3d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 9
@@ -39,6 +57,30 @@
       "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7731a10a_e578bc90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "184dfb2a_6b5edf3d",
+      "range": {
+        "startLine": 237,
+        "startChar": 3,
+        "endLine": 240,
+        "endChar": 46
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ffe4f4b9_0f6a7db1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5272a5c_2d459018",
+      "range": {
+        "startLine": 258,
+        "startChar": 3,
+        "endLine": 262,
+        "endChar": 18
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9033a02_c635ecee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 9
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "3d6c1868_4657d43d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9033a02_c635ecee",
+      "range": {
+        "startLine": 272,
+        "startChar": 62,
+        "endLine": 274,
+        "endChar": 37
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2719eb1_2b8adbdf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 9
@@ -102,6 +192,24 @@
       "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "392115db_ea895178",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2719eb1_2b8adbdf",
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "0cfdc705_0be92a7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f457ae62_4e8b6cca",
+      "range": {
+        "startLine": 297,
+        "startChar": 46,
+        "endLine": 297,
+        "endChar": 56
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19581546_7ebe4f7f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 9
@@ -148,6 +280,30 @@
       "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e28468_99fc5dfc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19581546_7ebe4f7f",
+      "range": {
+        "startLine": 523,
+        "startChar": 11,
+        "endLine": 523,
+        "endChar": 51
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "5da080d9_a2c5c1cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5dc7fb4_83a2c23e",
+      "range": {
+        "startLine": 621,
+        "startChar": 3,
+        "endLine": 623,
+        "endChar": 75
+      },
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffaf0ab2_2f5aa743",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 9
@@ -188,6 +368,24 @@
       "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d54a2e7_0e002407",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffaf0ab2_2f5aa743",
+      "revId": "7028280fa9c27cf7c024ba2705c57fe024dd3324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
