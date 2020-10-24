@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e1773808_404130cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17e1880_4a65f6d2",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "763f9697_2f602d52",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -33,6 +51,24 @@
       "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b194802c_b1484bc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "763f9697_2f602d52",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +106,42 @@
     },
     {
       "key": {
+        "uuid": "e76d4d3e_c76fa92b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bc625d2_8fa1f7b8",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1594ca3a_1cbe08e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f606bf92_547a71ac",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567b1fc0_bc40bafd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -81,6 +153,24 @@
       "writtenOn": "2020-10-16T09:45:13Z",
       "side": 1,
       "message": "This list is the main problem of this patch: there are 79 usages of Repository.getDirectory() left in production code of the core org.eclipse.jgit module and several of them are composing paths like:\n\n    new File(repo.getDirectory(), ...)\n\nSo the question is, why not using Repository.getDirectoryChild() here, instead?\n\nHence, I\u0027m wondering whether we need getDirectoryChild() and resolveDirectoryChild() at all. For the main change Ia712e101aed4e10f1cbf664d365c2c41a15627d8, I\u0027m going to propose another solution which should solve this problem.",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d11e7a58_85567f57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:53:50Z",
+      "side": 1,
+      "message": "OK, i will try to support your proposal with next patch series",
+      "parentUuid": "567b1fc0_bc40bafd",
       "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "dbf016b0_19a30bbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59be1e97_7ae68436",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65278dcb_19a675c6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 10
@@ -118,6 +226,24 @@
       "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ed59785_cd54e0a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2020-10-24T11:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65278dcb_19a675c6",
+      "revId": "c8501ba4c83130acc7cebdfa0bedd34c1ffdedc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
