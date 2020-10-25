@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9dfa402_2860d412",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-25T20:33:33Z",
+      "side": 1,
+      "message": "Usually initialisation of a ThreadLocal is done by subclassing ThreadLocal and overriding initialValue() to set the initial value [1] (here a new ArrayList). See the example given in the javadoc of class ThreadLocal.\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html#initialValue--",
+      "revId": "4c00cd5a158b495ae49a19a50398a36c9805e012",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
