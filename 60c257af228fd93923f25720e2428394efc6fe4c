@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e37507ed_2ee2a401",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-25T21:13:59Z",
+      "side": 1,
+      "message": "this should be converted and thrown as InvalidConfigurationException (which is a GitAPIException) similar like SubmoduleUpdateCommand.call()",
+      "range": {
+        "startLine": 123,
+        "startChar": 11,
+        "endLine": 123,
+        "endChar": 33
+      },
+      "revId": "60c257af228fd93923f25720e2428394efc6fe4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42b0465e_e644b216",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 2
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "Let me know which option you prefer and I will update the patchset accordingly. getModuleName2()? getSubmoduleName()?",
       "parentUuid": "42b0465e_e644b216",
+      "range": {
+        "startLine": 663,
+        "startChar": 31,
+        "endLine": 663,
+        "endChar": 73
+      },
+      "revId": "60c257af228fd93923f25720e2428394efc6fe4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e650b4ce_db99b9f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-25T21:13:59Z",
+      "side": 1,
+      "message": "I think we should make an exception here and accept adding another exception which can be thrown here. Don\u0027t know why API tooling doesn\u0027t complain about this.",
+      "parentUuid": "e0e627cd_8350122b",
       "range": {
         "startLine": 663,
         "startChar": 31,
