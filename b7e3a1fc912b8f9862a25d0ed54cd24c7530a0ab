@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a441ee8_8ebad5e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-26T17:50:27Z",
+      "side": 1,
+      "message": "Is the formatting correct here (and in other places throughout the change)?",
+      "range": {
+        "startLine": 774,
+        "startChar": 3,
+        "endLine": 774,
+        "endChar": 8
+      },
+      "revId": "b7e3a1fc912b8f9862a25d0ed54cd24c7530a0ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "915e2db6_2d5a731a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-26T17:50:27Z",
+      "side": 1,
+      "message": "I don\u0027t remember the reason for this being done like this. Wouldn\u0027t it be easier to handle both the send of the records and the clean up within the same method?\n\nSomething like:\n\nPerformanceLogContext.getInstance().onEndOfCommend()\n\nthat will do both things.",
+      "range": {
+        "startLine": 1108,
+        "startChar": 2,
+        "endLine": 1111,
+        "endChar": 52
+      },
+      "revId": "b7e3a1fc912b8f9862a25d0ed54cd24c7530a0ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c27e8672_ac972b00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-26T17:50:27Z",
+      "side": 1,
+      "message": "Could you remove from this change everything unrelated to your changes (e.g. formatting other unrelated functions)? This would keep the review smaller.",
+      "range": {
+        "startLine": 1736,
+        "startChar": 2,
+        "endLine": 1736,
+        "endChar": 3
+      },
+      "revId": "b7e3a1fc912b8f9862a25d0ed54cd24c7530a0ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
