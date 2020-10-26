@@ -16,6 +16,24 @@
       "revId": "4c00cd5a158b495ae49a19a50398a36c9805e012",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "661b827f_216ebf26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-26T13:36:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9dfa402_2860d412",
+      "revId": "4c00cd5a158b495ae49a19a50398a36c9805e012",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
