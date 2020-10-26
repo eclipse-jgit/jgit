@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.logging;
 
+import org.eclipse.jgit.hooks.PerformanceLogHook;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,6 +58,17 @@ public class PerformanceLogContext {
 	 */
 	public void addEvent(PerformanceLogRecord record) {
 		eventRecords.get().add(record);
+	}
+
+	/**
+	 * Takes end of command actions.
+	 *
+	 * @param hook
+	 *            performance log hook.
+	 */
+	public void onCommandFinished(PerformanceLogHook hook) {
+		hook.onCommandFinished(getEventRecords());
+		cleanEvents();
 	}
 
 	/**
