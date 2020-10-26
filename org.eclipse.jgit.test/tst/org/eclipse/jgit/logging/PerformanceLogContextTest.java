@@ -50,6 +50,8 @@ public class PerformanceLogContextTest {
 
 		thread1.join();
 		thread2.join();
+		assertEquals(1, runnable1.getEventRecordsCount());
+		assertEquals(1, runnable2.getEventRecordsCount());
 		assertFalse(runnable1.isThrown());
 		assertFalse(runnable2.isThrown());
 	}
@@ -58,6 +60,8 @@ public class PerformanceLogContextTest {
 		private String name;
 
 		private long durationMs;
+
+		private long eventRecordsCount;
 
 		private boolean thrown = false;
 
@@ -70,14 +74,18 @@ public class PerformanceLogContextTest {
 			return thrown;
 		}
 
+		public long getEventRecordsCount() {
+			return eventRecordsCount;
+		}
+
 		@Override
 		public void run() {
 			PerformanceLogRecord record = new PerformanceLogRecord(name,
 					durationMs);
 			try {
 				PerformanceLogContext.getInstance().addEvent(record);
-				assertEquals(1, PerformanceLogContext.getInstance()
-						.getEventRecords().size());
+				eventRecordsCount = PerformanceLogContext.getInstance()
+						.getEventRecords().size();
 				PerformanceLogContext.getInstance().cleanEvents();
 			} catch (Exception e) {
 				thrown = true;
