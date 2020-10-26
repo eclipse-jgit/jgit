@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab64d10_8ee37b9d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/logging/PerformanceLogContextTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-26T17:53:08Z",
+      "side": 1,
+      "message": "Are exceptions thrown in different threads w.r.t. the main one not caught by the test? If so, maybe also the assert at line 79 should move to the main thread.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 18
+      },
+      "revId": "13c060866bd33fdaddf2c7e6adae8518045e8824",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
