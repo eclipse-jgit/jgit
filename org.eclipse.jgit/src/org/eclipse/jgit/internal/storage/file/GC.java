@@ -1166,6 +1166,9 @@ public class GC {
 			// create temporary files
 			String id = pw.computeName().getName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
+			if (!packdir.exists()) {
+				packdir.mkdirs();
+			}
 			tmpPack = File.createTempFile("gc_", ".pack_tmp", packdir); //$NON-NLS-1$ //$NON-NLS-2$
 			final String tmpBase = tmpPack.getName()
 					.substring(0, tmpPack.getName().lastIndexOf('.'));
