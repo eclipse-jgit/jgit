@@ -46,6 +46,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 
 /**
@@ -185,6 +186,13 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		super.setUp();
 		db = createWorkRepository();
 		trash = db.getWorkTree();
+	}
+
+	@Override
+	@After
+	public void tearDown() throws Exception {
+		db.close();
+		super.tearDown();
 	}
 
 	/**
