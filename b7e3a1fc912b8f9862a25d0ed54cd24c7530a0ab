@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "754d2853_ee2b2bb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-27T10:46:39Z",
+      "side": 1,
+      "message": "Sorry let me correct myself. You still need to pass on the performanceLogHook, so something like this should work:\n\nPerformanceLogContext.getInstance().onEndOfCommand(performanceLogHook);\n\nThen inside that method you would do something like:\n\nperformanceLogHook.onEndOfCommand(getEventRecords);\ncleanEvents();",
+      "parentUuid": "915e2db6_2d5a731a",
+      "range": {
+        "startLine": 1108,
+        "startChar": 2,
+        "endLine": 1111,
+        "endChar": 52
+      },
+      "revId": "b7e3a1fc912b8f9862a25d0ed54cd24c7530a0ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c27e8672_ac972b00",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1

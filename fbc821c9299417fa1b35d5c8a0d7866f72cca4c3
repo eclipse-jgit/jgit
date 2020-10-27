@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c171963_35f3fb41",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2507,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-27T10:46:39Z",
+      "side": 1,
+      "message": "nit: unnecessary newline?",
+      "range": {
+        "startLine": 2507,
+        "startChar": 3,
+        "endLine": 2507,
+        "endChar": 4
+      },
+      "revId": "fbc821c9299417fa1b35d5c8a0d7866f72cca4c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b338f65_7894177d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2522,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-10-27T10:46:39Z",
+      "side": 1,
+      "message": "nit: unnecessary newline?",
+      "range": {
+        "startLine": 2522,
+        "startChar": 4,
+        "endLine": 2522,
+        "endChar": 5
+      },
+      "revId": "fbc821c9299417fa1b35d5c8a0d7866f72cca4c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
