@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f4ea19a_77dca8ea",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/logging/PerformanceLogContextTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-27T16:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fab64d10_8ee37b9d",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 18
+      },
+      "revId": "13c060866bd33fdaddf2c7e6adae8518045e8824",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1f566ac_629c85ef",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "13c060866bd33fdaddf2c7e6adae8518045e8824",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ebed039_3eecdd14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-10-27T16:13:35Z",
+      "side": 1,
+      "message": "It is also static in the OS Gerrit implementation. Also it doesn\u0027t build if it\u0027s not static.",
+      "parentUuid": "b1f566ac_629c85ef",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "13c060866bd33fdaddf2c7e6adae8518045e8824",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
