@@ -22,6 +22,52 @@
       "revId": "13c060866bd33fdaddf2c7e6adae8518045e8824",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f566ac_629c85ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-27T12:41:42Z",
+      "side": 1,
+      "message": "Why do we need to make it static?",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "13c060866bd33fdaddf2c7e6adae8518045e8824",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6bfb4dc_071cbffa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-27T12:41:42Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "13c060866bd33fdaddf2c7e6adae8518045e8824",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
