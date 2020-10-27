@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7d6fa86_61cbc89b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-27T13:15:17Z",
+      "side": 1,
+      "message": "Trailing tabs :D",
+      "range": {
+        "startLine": 1291,
+        "startChar": 0,
+        "endLine": 1291,
+        "endChar": 3
+      },
+      "revId": "288875dd4e02a70e05a84dc365d0df48c42dc527",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43ebc092_9d8083a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-27T13:15:17Z",
+      "side": 1,
+      "message": "I\u0027m confused as to why you call onEndOfCommand() before the pack is sent two lines later. Doesn\u0027t seem to me like it\u0027s the end of command...\n\nSame above, line 1109.",
+      "range": {
+        "startLine": 1292,
+        "startChar": 3,
+        "endLine": 1292,
+        "endChar": 36
+      },
+      "revId": "288875dd4e02a70e05a84dc365d0df48c42dc527",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "344b42e5_075f8341",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-27T13:15:17Z",
+      "side": 1,
+      "message": "I\u0027m thinking instead of calling PerformanceLogContext.getInstance() all the time we could have say a private field performanceLogContext. Would make the code shorter, what do you think?",
+      "range": {
+        "startLine": 1295,
+        "startChar": 3,
+        "endLine": 1295,
+        "endChar": 38
+      },
+      "revId": "288875dd4e02a70e05a84dc365d0df48c42dc527",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
