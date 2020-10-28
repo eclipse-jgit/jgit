@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "563d0560_f85bbd93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:42:26Z",
+      "side": 1,
+      "message": "We could extract createRefTableDir(repo) in a separate commit before. See my \"Refactor FileReftableDatabase: extract createRefTableDir\" patch.",
+      "revId": "88653dad7a86c06e6f9c08fcb9dd750d2792339d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9ea240_da6a767a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:42:26Z",
+      "side": 1,
+      "message": "When exactly will this cause problems?",
+      "revId": "88653dad7a86c06e6f9c08fcb9dd750d2792339d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614886a6_bf1727c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:42:26Z",
+      "side": 1,
+      "message": "I think this should be switched to commonDir, too. Also, see my \"Refactor FileRepository: extract local variables\" patch. See my \"fixup!(2) Add git-worktree support for already created worktrees\" patch.",
+      "revId": "88653dad7a86c06e6f9c08fcb9dd750d2792339d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29c90cd3_91c7601d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:42:26Z",
+      "side": 1,
+      "message": "Before this patch, it could be useful to extract getDirectory() to some local variable. See my \"Refactor FileRepository: extract local variables\" patch.",
+      "revId": "88653dad7a86c06e6f9c08fcb9dd750d2792339d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3176df2_d855fbd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:42:26Z",
+      "side": 1,
+      "message": "gitCommitDir does not work here: for \"HEAD\" it must be gitDir (as in the previous patches). See my \"fixup!(1) Add git-worktree support for already created worktrees\" patch.",
+      "revId": "88653dad7a86c06e6f9c08fcb9dd750d2792339d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cab1e8ee_40ea4653",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogReaderImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:42:26Z",
+      "side": 1,
+      "message": "Instead of determining the correct directory here, I would pass in just the logName: FileRepository is the better place to determine the correct directory. Also, we will get rid of the dependency on Repository here. See my \"Refactor ReflogReaderImpl: replace Repository parameter by File\" patch.",
+      "revId": "88653dad7a86c06e6f9c08fcb9dd750d2792339d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
