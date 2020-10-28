@@ -119,14 +119,14 @@ maven_jar(
 
 maven_jar(
     name = "log-api",
-    artifact = "org.slf4j:slf4j-api:1.7.2",
-    sha1 = "0081d61b7f33ebeab314e07de0cc596f8e858d97",
+    artifact = "org.slf4j:slf4j-api:1.7.30",
+    sha1 = "b5a4b6d16ab13e34a88fae84c35cd5d68cac922c",
 )
 
 maven_jar(
     name = "slf4j-simple",
-    artifact = "org.slf4j:slf4j-simple:1.7.2",
-    sha1 = "760055906d7353ba4f7ce1b8908bc6b2e91f39fa",
+    artifact = "org.slf4j:slf4j-simple:1.7.30",
+    sha1 = "e606eac955f55ecf1d8edcccba04eb8ac98088dd",
 )
 
 maven_jar(
