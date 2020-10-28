@@ -14,6 +14,9 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.logging.PerformanceLogContext;
+import org.eclipse.jgit.logging.PerformanceLogRecord;
 
 /**
  * Abstraction of name to {@link org.eclipse.jgit.lib.ObjectId} mapping.
@@ -394,6 +399,9 @@ public abstract class RefDatabase {
 	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
 		Map<String, Ref> coarseRefs;
 		int lastSlash = prefix.lastIndexOf('/');
+
+		Temporal startACLCheck = Instant.now();
+
 		if (lastSlash == -1) {
 			coarseRefs = getRefs(ALL);
 		} else {
@@ -410,6 +418,10 @@ public abstract class RefDatabase {
 					.map(e -> e.getValue())
 					.collect(toList());
 		}
+		long timeACLCheck = Duration.between(startACLCheck, Instant.now())
+				.toMillis();
+		PerformanceLogContext.getInstance()
+				.addEvent(new PerformanceLogRecord("acl-check", timeACLCheck));
 		return Collections.unmodifiableList(result);
 	}
 

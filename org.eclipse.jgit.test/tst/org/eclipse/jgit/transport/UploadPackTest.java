@@ -2515,6 +2515,7 @@ public class UploadPackTest {
 				assertTrue(eventRecords.get(0).getName()
 						.equals("reachability-check"));
 				assertTrue(eventRecords.get(1).getName().equals("negotiation"));
+				assertTrue(eventRecords.get(2).getName().equals("acl-check"));
 			});
 			up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
 			// assume client has a shallow commit
