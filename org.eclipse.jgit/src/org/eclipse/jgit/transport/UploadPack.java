@@ -44,6 +44,7 @@ import java.io.UncheckedIOException;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -865,6 +866,7 @@ public class UploadPack {
 				service(pckOut);
 			}
 		} finally {
+			performanceLogContext.onEndOfCommand(performanceLogHook);
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
 			if (timer != null) {
@@ -899,10 +901,17 @@ public class UploadPack {
 			advertiseRefsHookCalled = true;
 		}
 		if (refs == null) {
+			Temporal startGetRefs = Instant.now();
+
+			Collection<Ref> references = db.getRefDatabase().getRefs();
+
+			long timeGetRefs = Duration.between(startGetRefs, Instant.now())
+					.toMillis();
+			performanceLogContext.addEvent(
+					new PerformanceLogRecord("get-refs", timeGetRefs));
 			// Fall back to all refs.
-			setAdvertisedRefs(
-					db.getRefDatabase().getRefs().stream()
-							.collect(toRefMap((a, b) -> b)));
+			setAdvertisedRefs(references.stream()
+					.collect(toRefMap((a, b) -> b)));
 		}
 		return refs;
 	}
@@ -1111,7 +1120,6 @@ public class UploadPack {
 			sendPack(accumulator, req, refs == null ? null : refs.values(),
 					unshallowCommits, Collections.emptyList(), pckOut);
 		}
-		performanceLogContext.onEndOfCommand(performanceLogHook);
 	}
 
 	private void lsRefsV2(PacketLineOut pckOut) throws IOException {
@@ -1125,7 +1133,14 @@ public class UploadPack {
 		if (req.getPeel()) {
 			adv.setDerefTags(true);
 		}
+		Temporal startGetRefs = Instant.now();
+
 		Map<String, Ref> refsToSend = getFilteredRefs(req.getRefPrefixes());
+
+		long timeGetRefs = Duration.between(startGetRefs, Instant.now())
+				.toMillis();
+		performanceLogContext
+				.addEvent(new PerformanceLogRecord("get-refs", timeGetRefs));
 		if (req.getSymrefs()) {
 			findSymrefs(adv, refsToSend);
 		}
@@ -1285,19 +1300,25 @@ public class UploadPack {
 			performanceLogContext.addEvent(new PerformanceLogRecord(
 					"negotiation", accumulator.timeNegotiating)); //$NON-NLS-1$
 
-			sendPack(accumulator,
-					req,
-					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
-						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
-						: null,
-					unshallowCommits, deepenNots, pckOut);
+			Collection<Ref> references = null;
+			if (req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)) {
+				Temporal startGetRefs = Instant.now();
+
+				references = db.getRefDatabase().getRefsByPrefix(R_TAGS);
+
+				long timeGetRefs = Duration.between(startGetRefs, Instant.now())
+						.toMillis();
+				performanceLogContext.addEvent(
+						new PerformanceLogRecord("get-refs", timeGetRefs));
+			}
+			sendPack(accumulator, req, references, unshallowCommits, deepenNots,
+					pckOut);
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
 		} else {
 			// Invoke pckOut.end() by ourselves.
 			pckOut.end();
 		}
-		performanceLogContext.onEndOfCommand(performanceLogHook);
 	}
 
 	/*
