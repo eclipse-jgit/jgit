@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6dfb17a_a33ef193",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 0,
+      "message": "I\u0027m not sure whether it\u0027s already now a good idea to move to FS because FS\u0027s responsibilities are already quite many. Instead, it could simply be made public here.",
+      "revId": "3ad9f4da77b7beb956969b6dff5c71f51d8515f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

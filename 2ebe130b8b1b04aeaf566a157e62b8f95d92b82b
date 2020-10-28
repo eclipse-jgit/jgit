@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f57817e_9daf0f82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 1,
+      "message": "As pointed out in my code comment, I don\u0027t think this should be part of FS.",
+      "revId": "2ebe130b8b1b04aeaf566a157e62b8f95d92b82b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c08d696a_3d8ee89f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 1,
+      "message": "As pointed out in my code comment, I don\u0027t think this should be part of FS.",
+      "revId": "2ebe130b8b1b04aeaf566a157e62b8f95d92b82b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f0c4812_6fc03083",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 1,
+      "message": "Unrelated code relayout: should better be omitted or extracted to separate commit.",
+      "revId": "2ebe130b8b1b04aeaf566a157e62b8f95d92b82b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf39830a_bbe09c08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 1,
+      "message": "Unrelated code relayout: should better be omitted or extracted to separate commit.",
+      "range": {
+        "startLine": 638,
+        "startChar": 1,
+        "endLine": 661,
+        "endChar": 2
+      },
+      "revId": "2ebe130b8b1b04aeaf566a157e62b8f95d92b82b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5f699fe_c4a0f9df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 1,
+      "message": "Unrelated code relayout: should better be omitted or extracted to separate commit.",
+      "range": {
+        "startLine": 729,
+        "startChar": 2,
+        "endLine": 731,
+        "endChar": 3
+      },
+      "revId": "2ebe130b8b1b04aeaf566a157e62b8f95d92b82b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e5ae17_c5399f33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 1,
+      "message": "This if-conditions is always true.",
+      "revId": "2ebe130b8b1b04aeaf566a157e62b8f95d92b82b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0785599_c4ee35e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2495,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 1,
+      "message": "Similar as for getSymRef, BaseRepositoryBuilder might be a better place for this quite repository-specific method.",
+      "revId": "2ebe130b8b1b04aeaf566a157e62b8f95d92b82b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ac20d9a_ab8e2f61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2506,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2020-10-28T13:20:24Z",
+      "side": 1,
+      "message": "This is the same code as used in BasedRepositoryBuilder.guessWorkTreeOrFail and could be extracted. See my \"fixup! Add detection of commondir and export $GIT_COMMON_DIR\" patch.",
+      "range": {
+        "startLine": 2501,
+        "startChar": 0,
+        "endLine": 2506,
+        "endChar": 4
+      },
+      "revId": "2ebe130b8b1b04aeaf566a157e62b8f95d92b82b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
