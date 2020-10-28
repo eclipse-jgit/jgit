@@ -2514,9 +2514,10 @@ public class UploadPackTest {
 		uploadPackV2((UploadPack up) -> {
 			up.setPerformanceLogHook(eventRecords -> {
 				assertNotNull(eventRecords);
-				assertTrue(eventRecords.get(0).getName()
+				assertTrue(eventRecords.get(0).getName().equals("get-refs"));
+				assertTrue(eventRecords.get(1).getName()
 						.equals("reachability-check"));
-				assertTrue(eventRecords.get(1).getName().equals("negotiation"));
+				assertTrue(eventRecords.get(2).getName().equals("negotiation"));
 			});
 			up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
 		}, "command=fetch\n", PacketLineIn.delimiter(),

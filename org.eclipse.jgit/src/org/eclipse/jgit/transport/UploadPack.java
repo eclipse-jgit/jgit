@@ -45,6 +45,7 @@ import java.io.UncheckedIOException;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -260,6 +261,8 @@ public class UploadPack {
 	private static final String EVENT_REACHABILITY_CHECK = "reachability-check";
 
 	private static final String EVENT_NEGOTIATION = "negotiation";
+
+	private static final String EVENT_GET_REFS = "get-refs";
 
 	/**
 	 * Refs eligible for advertising to the client, set using
@@ -906,9 +909,8 @@ public class UploadPack {
 		}
 		if (refs == null) {
 			// Fall back to all refs.
-			setAdvertisedRefs(
-					db.getRefDatabase().getRefs().stream()
-							.collect(toRefMap((a, b) -> b)));
+			setAdvertisedRefs(db.getRefDatabase().getRefs().stream()
+					.collect(toRefMap((a, b) -> b)));
 		}
 		return refs;
 	}
@@ -1130,7 +1132,14 @@ public class UploadPack {
 		if (req.getPeel()) {
 			adv.setDerefTags(true);
 		}
+		Temporal startGetRefs = Instant.now();
+
 		Map<String, Ref> refsToSend = getFilteredRefs(req.getRefPrefixes());
+
+		long timeGetRefs = Duration.between(startGetRefs, Instant.now())
+				.toMillis();
+		performanceLogContext
+				.addEvent(new PerformanceLogRecord(EVENT_GET_REFS, timeGetRefs));
 		if (req.getSymrefs()) {
 			findSymrefs(adv, refsToSend);
 		}
@@ -1174,7 +1183,16 @@ public class UploadPack {
 				requestValidator instanceof AnyRequestValidator) {
 			advertised = Collections.emptySet();
 		} else {
-			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			Temporal startGetRefs = Instant.now();
+
+			Map<String, Ref> references = getAdvertisedOrDefaultRefs();
+
+			long timeGetRefs = Duration.between(startGetRefs, Instant.now())
+					.toMillis();
+			performanceLogContext.addEvent(
+					new PerformanceLogRecord(EVENT_GET_REFS, timeGetRefs));
+
+			advertised = refIdSet(references.values());
 		}
 
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
@@ -1292,12 +1310,19 @@ public class UploadPack {
 			performanceLogContext.addEvent(new PerformanceLogRecord(
 					EVENT_NEGOTIATION, accumulator.timeNegotiating)); //$NON-NLS-1$
 
-			sendPack(accumulator,
-					req,
-					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
-						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
-						: null,
-					unshallowCommits, deepenNots, pckOut);
+			Collection<Ref> tags = null;
+			if (req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)) {
+				Temporal startGetRefs = Instant.now();
+
+				tags = db.getRefDatabase().getRefsByPrefix(R_TAGS);
+
+				long timeGetRefs = Duration.between(startGetRefs, Instant.now())
+						.toMillis();
+				performanceLogContext.addEvent(
+						new PerformanceLogRecord(EVENT_GET_REFS, timeGetRefs));
+			}
+			sendPack(accumulator, req, tags, unshallowCommits, deepenNots,
+					pckOut);
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
 		} else {
