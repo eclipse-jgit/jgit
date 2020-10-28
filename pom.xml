@@ -166,7 +166,7 @@
     <japicmp-version>0.14.3</japicmp-version>
     <httpclient-version>4.5.10</httpclient-version>
     <httpcore-version>4.4.12</httpcore-version>
-    <slf4j-version>1.7.2</slf4j-version>
+    <slf4j-version>1.7.30</slf4j-version>
     <log4j-version>1.2.15</log4j-version>
     <maven-javadoc-plugin-version>3.2.0</maven-javadoc-plugin-version>
     <tycho-extras-version>1.7.0</tycho-extras-version>
