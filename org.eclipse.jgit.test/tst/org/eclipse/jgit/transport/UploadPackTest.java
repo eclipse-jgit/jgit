@@ -2500,35 +2500,29 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testPerformanceLogV2FetchParentOfShallowCommit()
-			throws Exception {
-		RevCommit commit0 = remote.commit().message("0").create();
-		RevCommit commit1 = remote.commit().message("1").parent(commit0)
-				.create();
-		RevCommit tip = remote.commit().message("2").parent(commit1).create();
-		remote.update("master", tip);
+	public void testPerformanceLogV2FetchRequest() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
-		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
-			UploadPack up = new UploadPack(db);
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote
+				.commit(remote.tree(remote.file("foo", childBlob)), parent);
+
+		remote.update("branch1", child);
+		uploadPackV2((UploadPack up) -> {
 			up.setPerformanceLogHook(eventRecords -> {
 				assertNotNull(eventRecords);
-				assertTrue(eventRecords.get(0).getName()
+				assertTrue(eventRecords.get(0).getName().equals("acl-check"));
+				assertTrue(eventRecords.get(1).getName()
 						.equals("reachability-check"));
-				assertTrue(eventRecords.get(1).getName().equals("negotiation"));
+				assertTrue(eventRecords.get(2).getName().equals("negotiation"));
 			});
 			up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
-			// assume client has a shallow commit
-			up.getRevWalk()
-					.assumeShallow(Collections.singleton(commit1.getId()));
-			return up;
-		}, null);
-		uri = testProtocol.register(ctx, server);
-
-		// Fetch of the parent of the shallow commit
-		try (Transport tn = testProtocol.open(uri, client, "server")) {
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit0.name())));
-		}
+		}, "command=fetch\n", PacketLineIn.delimiter(),
+				"want " + parent.toObjectId().getName() + "\n", "thin-pack\n",
+				"done\n", PacketLineIn.end());
 	}
 
 	private class RefCallsCountingRepository extends InMemoryRepository {

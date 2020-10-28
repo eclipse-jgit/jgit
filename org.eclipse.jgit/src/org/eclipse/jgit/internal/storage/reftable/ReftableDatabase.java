@@ -11,6 +11,9 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -24,6 +27,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogReader;
+import org.eclipse.jgit.logging.PerformanceLogContext;
+import org.eclipse.jgit.logging.PerformanceLogRecord;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
@@ -246,6 +251,8 @@ public abstract class ReftableDatabase {
 	 */
 	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
 		List<Ref> all = new ArrayList<>();
+		Temporal startACLCheck = Instant.now();
+
 		lock.lock();
 		try {
 			Reftable table = reader();
@@ -261,7 +268,11 @@ public abstract class ReftableDatabase {
 		} finally {
 			lock.unlock();
 		}
-
+		System.out.println("Hello" + Thread.currentThread().getId());
+		long timeACLCheck = Duration.between(startACLCheck, Instant.now())
+				.toMillis();
+		PerformanceLogContext.getInstance()
+				.addEvent(new PerformanceLogRecord("acl-check", timeACLCheck));
 		return Collections.unmodifiableList(all);
 	}
 
