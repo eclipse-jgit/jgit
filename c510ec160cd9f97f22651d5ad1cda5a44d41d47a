@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12f9f24e_ddec0927",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-28T23:36:15Z",
+      "side": 1,
+      "message": "as",
+      "range": {
+        "startLine": 211,
+        "startChar": 13,
+        "endLine": 211,
+        "endChar": 14
+      },
+      "revId": "c510ec160cd9f97f22651d5ad1cda5a44d41d47a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfd0e420_3fd9d807",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-28T23:36:15Z",
+      "side": 1,
+      "message": "spec",
+      "range": {
+        "startLine": 359,
+        "startChar": 20,
+        "endLine": 359,
+        "endChar": 23
+      },
+      "revId": "c510ec160cd9f97f22651d5ad1cda5a44d41d47a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
