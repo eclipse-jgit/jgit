@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1c0de6d_a668fcf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-29T18:24:35Z",
+      "side": 1,
+      "message": "(1) We shouldn\u0027t call it acl-check, sorry for confusing you in my write-up.\n\nIn JGit there\u0027s no ACL checking, the thing that you\u0027re measuring is listing the references.\nIn case Gerrit is involved, Gerrit offers branch-level permissions and does the permission checking, by overriding the getRefsByPrefix() method and what else it needs, see https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java#127.\n\n(2) Since we\u0027re working in JGit, I\u0027d suggest we try not to modify the method in the RefDatabase directly, since it can be overridden (see, for example, how in UploadPack.java we get the RefDatabase: https://gerrit.googlesource.com/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#894). The ref database that we get can be RefDatabase, or PermissionAwareReadOnlyRefDatabase, like in Gerrit, or something else.",
+      "range": {
+        "startLine": 424,
+        "startChar": 40,
+        "endLine": 424,
+        "endChar": 49
+      },
+      "revId": "fc4501846955623bce80c2ad89947749634c8159",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
