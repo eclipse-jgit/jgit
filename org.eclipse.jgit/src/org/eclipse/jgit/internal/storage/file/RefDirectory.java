@@ -906,9 +906,12 @@ public class RefDirectory extends RefDatabase {
 		boolean trustFolderStat = getRepository().getConfig().getBoolean(
 				ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+		boolean trustFileStat = getRepository().getConfig().getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_TRUSTFILESTAT, trustFolderStat);
 
 		final PackedRefList curList = packedRefs.get();
-		if (trustFolderStat && !curList.snapshot.isModified(packedRefsFile)) {
+		if (trustFileStat && !curList.snapshot.isModified(packedRefsFile)) {
 			return curList;
 		}
 
