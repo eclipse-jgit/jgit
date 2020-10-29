@@ -691,4 +691,10 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_VERSION = "version";
 
+	/**
+	 * The "trustfilestat" key in the "core" section
+	 *
+	 * @since 5.10
+	 */
+	public static final String CONFIG_KEY_TRUSTFILESTAT = "trustfilestat";
 }

@@ -44,6 +44,7 @@
 | `core.supportsAtomicFileCreation` | `true` | &#x20DE; | Whether the filesystem supports atomic file creation. |
 | `core.symlinks` | Auto detect if filesystem supports symlinks| &#x2705; | If false, symbolic links are checked out as small plain files that contain the link text. |
 | `core.trustFolderStat` | `true` | &#x20DE; | Whether to trust the pack folder's modification time. If `false` JGit will always scan the `.git/objects/pack` folder to check for new pack files. This can help to workaround caching issues on NFS, but reduces performance. If set to `true` it uses the `lastmodified` attribute of the folder and assumes that no new pack files can be in this folder if its modification time has not changed. |
+| `core.trustFileStat` | `core.trustFolderStat` | &#x20DE; | Whether to trust the packed-refs file's modification time. If `false` JGit will always scan the `.git/packed-refs` file to check for new packed refs. This can help to workaround caching issues on NFS, but reduces performance. If set to `true` it uses the `lastmodified` attribute of the file and assumes that no new packed refs can be in this file if its modification time has not changed. |
 | `core.worktree` | Root directory of the working tree if it is not the parent directory of the `.git` directory | &#x2705; | The path to the root of the working tree. |
 
 ## __gc__ options
