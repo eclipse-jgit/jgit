@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "13f2da9d_0d06a777",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T23:11:17Z",
+      "side": 1,
+      "message": "- lower case: getting refs\n- getting refs during what ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "38a3697290182b58fde612fc98752366d006f616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcbe0289_70f6b7e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T23:11:17Z",
+      "side": 1,
+      "message": "a lot of words for little added information",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "38a3697290182b58fde612fc98752366d006f616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6763f0d9_73509088",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T23:11:17Z",
+      "side": 1,
+      "message": "Did you think about moving this repetitive code into PerformanceLogContext ?\n\nwith the current API each call site has to add the following lines\n\n Temporal start \u003d Instant.now();\n \u003c code to measure \u003e\n perfLogCtx.addEvent(new PerformanceLogRecord(\"key\", \n                         Duration.between(start, Instant.now())));\n\nwouldn\u0027t something like this be nicer ?\n\n StopWatch stopWatch \u003d perfLogCtx.start();\n \u003ccode to measure\u003e\n perfLogCtx.addEvent(\"key\", stopWatch);",
+      "revId": "38a3697290182b58fde612fc98752366d006f616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c8b3f01_c521e38e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T23:11:17Z",
+      "side": 1,
+      "message": "Why do you use the time API to measure time spent and then throw away details (nanos, time unit) when collecting and reporting this information ?\nI would prefer to collect and report using type Duration to avoid this information loss",
+      "revId": "38a3697290182b58fde612fc98752366d006f616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "118da2b4_e83b94da",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
