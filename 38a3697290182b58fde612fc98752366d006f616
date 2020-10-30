@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "118da2b4_e83b94da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-30T18:20:30Z",
+      "side": 1,
+      "message": "getFilteredRefs() and getAdvertisedOrDefaultRefs() are quite similar methods, can you also handle them in a similar way please?\n\nCurrently in getAdvertisedOrDefaultRefs() you measure the time inside the method, but in the getFilteredRefs() case you do it outside :)\nIs it possible to have both either in- or outside?",
+      "revId": "38a3697290182b58fde612fc98752366d006f616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0821784b_dfa30752",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 272288
+      },
+      "writtenOn": "2020-10-30T18:20:30Z",
+      "side": 1,
+      "message": "s/references/tags.\n\nThe code below specifically talks about that if we should include the tags (OPTION_INCLUDE_TAG), then get the refs starting with R_TAGS prefix.",
+      "range": {
+        "startLine": 1303,
+        "startChar": 19,
+        "endLine": 1303,
+        "endChar": 29
+      },
+      "revId": "38a3697290182b58fde612fc98752366d006f616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
