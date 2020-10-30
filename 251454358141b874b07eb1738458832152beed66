@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63bf5640_ddb53351",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "no need to mention this in the commit message, for this information we can look at the version graph",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b2d6ed7_4f5021ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "This is not mentioned in the previous commit.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5c3eaaa_875c86bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "I am not sure this is relevant for JGit",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9873bc30_2c537187",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "Which server do you mean here ?\nJGit has many commands, some of them are used in clients some are used in servers.",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 17,
+        "endChar": 5
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c86ac3c8_bf805968",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "monitored commands consuming",
+      "range": {
+        "startLine": 18,
+        "startChar": 30,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2626c2f8_515f77d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this needs to be mentioned here",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 15
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d67432_8ffee572",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "NOOP ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 20,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8fd267c_60e36d45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "use active voice: Notify that a command is about to end",
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a5879fa_b8249a07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "onCommandFinished ?",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 27
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20ebb78e_17a6f975",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "same here ?",
+      "range": {
+        "startLine": 70,
+        "startChar": 7,
+        "endLine": 70,
+        "endChar": 21
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031a5aa1_e7f7f955",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "I\u0027d say \"consuming\" since there might be hook implementations which do not send the records",
+      "range": {
+        "startLine": 283,
+        "startChar": 14,
+        "endLine": 283,
+        "endChar": 21
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b80c1bf_84993858",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "consuming",
+      "range": {
+        "startLine": 646,
+        "startChar": 17,
+        "endLine": 646,
+        "endChar": 28
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79f2ff6b_a8be8649",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "I\u0027d not allow null here, if you don\u0027t want to use a hook either don\u0027t call this method or set the hook to the no-op hook explicitly",
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32873c44_ca031dd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T22:26:45Z",
+      "side": 1,
+      "message": "maybe define constants for these keys ?",
+      "range": {
+        "startLine": 1089,
+        "startChar": 5,
+        "endLine": 1089,
+        "endChar": 18
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
