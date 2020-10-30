@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a0177fc_4c1e0e21",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/logging/PerformanceLogContextTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T21:45:18Z",
+      "side": 1,
+      "message": "eventRecordCount ?",
+      "range": {
+        "startLine": 64,
+        "startChar": 15,
+        "endLine": 64,
+        "endChar": 31
+      },
+      "revId": "7abae700870e1dabbfcce586a8a2a90267e7af2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e032574b_a33a0ee1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/logging/PerformanceLogContextTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-10-30T21:45:18Z",
+      "side": 1,
+      "message": "getEventRecordCount ?",
+      "range": {
+        "startLine": 77,
+        "startChar": 14,
+        "endLine": 77,
+        "endChar": 33
+      },
+      "revId": "7abae700870e1dabbfcce586a8a2a90267e7af2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
