@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee3c8797_bf75bca4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-01T19:58:27Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e1d4d83_bc19fdb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-01T19:58:27Z",
+      "side": 1,
+      "message": "Do you have evidence that this works on NFS and the typically involved NFS client caching without causing corruption like lost ref updates ? If you can trust timestamps for packed-refs why can\u0027t you also trust them for the pack folder ?\n\nI think if you can trust file timestamps or not depends on the file system but shouldn\u0027t depend on the actual file.",
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
