@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2de2a60c_44f3bdc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-01T20:21:00Z",
+      "side": 1,
+      "message": "subject line of commit messages is a single line followed by a blank line",
+      "revId": "781276fc791feb3770131b9d5c11d9e11af592f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
