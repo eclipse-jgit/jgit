@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b826035b_12046eb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-01T20:31:30Z",
+      "side": 1,
+      "message": "How did you end up with a git repository not having the objects/pack folder ?\n\nInitialising a new git repository creates that folder:\n\n $ mkdir foo\n $ cd foo/\n $ git init\n Initialized empty Git repository in /Users/xxx/tmp/git/foo/.git/\n $ find .git\n .git\n .git/config\n .git/objects\n .git/objects/pack\n .git/objects/info\n .git/HEAD\n .git/info\n .git/info/exclude\n .git/description\n .git/hooks\n .git/hooks/commit-msg.sample\n .git/hooks/pre-rebase.sample\n .git/hooks/pre-commit.sample\n .git/hooks/applypatch-msg.sample\n .git/hooks/fsmonitor-watchman.sample\n .git/hooks/pre-receive.sample\n .git/hooks/prepare-commit-msg.sample\n .git/hooks/post-update.sample\n .git/hooks/pre-merge-commit.sample\n .git/hooks/pre-applypatch.sample\n .git/hooks/pre-push.sample\n .git/hooks/update.sample\n .git/refs\n .git/refs/heads\n .git/refs/tags",
+      "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
