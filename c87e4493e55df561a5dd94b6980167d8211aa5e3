@@ -16,6 +16,24 @@
       "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc44a92_6f59de44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 255395
+      },
+      "writtenOn": "2020-11-02T08:48:58Z",
+      "side": 1,
+      "message": "1. Someone creates a sample git repository and commits it to other mercurial/git repository.\n2. Because objects/info and objects/pack folders are empty, that folders aren\u0027t committed.\n3. Second user clones that repository with absent pack/info folders, copies sample git repository and starts to use it as a starting point. Successfully creates commits etc.\n4. If that user invokes git.gc() with jgit, it fails. If runs git gc in console, the \"pack\" folder is created.\n\nSometimes we don\u0027t have control how a user creates that repository initially, he/she brings it to us with absent pack folder and jgit fails to gc.",
+      "parentUuid": "b826035b_12046eb2",
+      "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
