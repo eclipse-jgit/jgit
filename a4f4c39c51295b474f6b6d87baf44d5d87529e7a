@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb21cf07_6b5466ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 78063
+      },
+      "writtenOn": "2020-11-02T22:31:13Z",
+      "side": 1,
+      "message": "Ack; I can improve it soon.",
+      "parentUuid": "ee3c8797_bf75bca4",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e1d4d83_bc19fdb6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2020-11-01T19:58:27Z",
       "side": 1,
       "message": "Do you have evidence that this works on NFS and the typically involved NFS client caching without causing corruption like lost ref updates ? If you can trust timestamps for packed-refs why can\u0027t you also trust them for the pack folder ?\n\nI think if you can trust file timestamps or not depends on the file system but shouldn\u0027t depend on the actual file.",
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "338c5db6_cadce4b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 78063
+      },
+      "writtenOn": "2020-11-02T22:31:13Z",
+      "side": 1,
+      "message": "\u003e Do you have evidence that this works on NFS and the typically involved NFS client caching without causing corruption like lost ref updates ? If you can trust timestamps for packed-refs why can\u0027t you also trust them for the pack folder ?\n\nOur evidence came from trying to use the aforementioned jgit commit 218cf340 in production. We had to revert that specific commit (server) and pin our jgit gc client to a version before that commit. Otherwise our jgit performance would severely degrade.\n\n\u003e I think if you can trust file timestamps or not depends on the file system but shouldn\u0027t depend on the actual file.\n\nWell, after doing as above, we were able to recover usable jgit performance again. At least that is our experience with this and given our own NFS storage setup, plus our large repos and their characteristics. Maybe other experiences elsewhere differed. That\u0027s why this proposed config option defaults to the existing one.\n\nWe need to benefit from this cleaner option, as opposed to reverting and pinning to a much older version. We also need to match our client and server versions as we upgrade.",
+      "parentUuid": "9e1d4d83_bc19fdb6",
       "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
