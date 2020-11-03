@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "392e968b_8fbbaf16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-03T21:59:07Z",
+      "side": 1,
+      "message": "I think this is a bit long, how about EVENT_REACHABILITY_CHECK ?",
+      "parentUuid": "cb9cdfc4_a7f8e1ca",
+      "range": {
+        "startLine": 260,
+        "startChar": 29,
+        "endLine": 260,
+        "endChar": 47
+      },
+      "revId": "26927a9bd37b08d4e103d9c0c27b2047405b5b4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8c6f0f1_e8455bec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 8
@@ -42,6 +66,47 @@
         "endLine": 262,
         "endChar": 40
       },
+      "revId": "26927a9bd37b08d4e103d9c0c27b2047405b5b4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34f4cabf_ca2d44ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-03T21:59:07Z",
+      "side": 1,
+      "message": "EVENT_NEGOTIATION ?",
+      "parentUuid": "e8c6f0f1_e8455bec",
+      "range": {
+        "startLine": 262,
+        "startChar": 29,
+        "endLine": 262,
+        "endChar": 40
+      },
+      "revId": "26927a9bd37b08d4e103d9c0c27b2047405b5b4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef5d7d57_0793d697",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-03T21:59:07Z",
+      "side": 1,
+      "message": "still marked @Nullable ?",
       "revId": "26927a9bd37b08d4e103d9c0c27b2047405b5b4a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
