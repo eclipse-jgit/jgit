@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dca77358_43baf905",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/logging/PerformanceLogContextTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-03T21:44:11Z",
+      "side": 1,
+      "message": "why did you remove these assertions ?",
+      "revId": "7abae700870e1dabbfcce586a8a2a90267e7af2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a0177fc_4c1e0e21",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/logging/PerformanceLogContextTest.java",
         "patchSetId": 6

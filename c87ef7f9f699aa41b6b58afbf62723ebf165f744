@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4effa80_4b2deaa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-03T21:44:11Z",
+      "side": 1,
+      "message": "Looks like this was added by mistake.\nI think a bugfix shouldn\u0027t add a new interface to the API.\nAnd the interface shouldn\u0027t be empty.",
+      "revId": "c87ef7f9f699aa41b6b58afbf62723ebf165f744",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
