@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb9cdfc4_a7f8e1ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-11-03T17:24:34Z",
+      "side": 1,
+      "message": "REACHABILITY_CHECK_EVENT_NAME?",
+      "range": {
+        "startLine": 260,
+        "startChar": 29,
+        "endLine": 260,
+        "endChar": 47
+      },
+      "revId": "26927a9bd37b08d4e103d9c0c27b2047405b5b4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8c6f0f1_e8455bec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-11-03T17:24:34Z",
+      "side": 1,
+      "message": "NEGOTIATION_EVENT_NAME?",
+      "range": {
+        "startLine": 262,
+        "startChar": 29,
+        "endLine": 262,
+        "endChar": 40
+      },
+      "revId": "26927a9bd37b08d4e103d9c0c27b2047405b5b4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
