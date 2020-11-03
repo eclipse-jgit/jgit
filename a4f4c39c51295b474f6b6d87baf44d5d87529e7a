@@ -81,6 +81,24 @@
       "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfc69924_839ca051",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-03T00:22:25Z",
+      "side": 1,
+      "message": "Sure, performance is better if we assume timestamps are always correct and can be used to detect if there was a change.\n\nMy concern is regarding correctness. Would you accept lost ref updates in favour of better performance ? I\u0027d expect if you cannot trust metadata of the pack folder to be always correct because the NFS client caches file metadata then you also can\u0027t trust it for the metadata of other files e.g. packed-refs.\n\nCan you implement a test rapidly updating refs from multiple threads using PackedBatchRefUpdate which fails if there are lost updates and run that for many iterations on a NFS filesystem ?",
+      "parentUuid": "338c5db6_cadce4b7",
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
