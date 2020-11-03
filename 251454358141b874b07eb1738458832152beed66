@@ -384,6 +384,24 @@
     },
     {
       "key": {
+        "uuid": "a01acb26_84e5e354",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T23:01:33Z",
+      "side": 1,
+      "message": "Sorry, I was confused by your formulation. Active voice is probably not the part of grammar that you were reffering to, as the sentence was already in active voice in the first place.",
+      "parentUuid": "6c2cb3da_d48c3e80",
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a5879fa_b8249a07",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
         "patchSetId": 6
@@ -499,6 +517,30 @@
       "revId": "251454358141b874b07eb1738458832152beed66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0c0113e_7f4c5946",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T23:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80c3c8a8_fb5e1c1f",
+      "range": {
+        "startLine": 70,
+        "startChar": 7,
+        "endLine": 70,
+        "endChar": 21
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -646,6 +688,24 @@
       "revId": "251454358141b874b07eb1738458832152beed66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6330df53_bd0adaac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T23:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81e3bfc3_8a5ffe43",
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
