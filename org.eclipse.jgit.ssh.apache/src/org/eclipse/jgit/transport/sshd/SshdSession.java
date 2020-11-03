@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -54,7 +53,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.FtpChannel;
-import org.eclipse.jgit.transport.RemoteSession2;
+import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.StringUtils;
@@ -62,12 +61,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * An implementation of {@link org.eclipse.jgit.transport.RemoteSession
- * RemoteSession} based on Apache MINA sshd.
+ * An implementation of {@link RemoteSession} based on Apache MINA sshd.
  *
  * @since 5.2
  */
-public class SshdSession implements RemoteSession2 {
+public class SshdSession implements RemoteSession {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(SshdSession.class);
@@ -292,15 +290,8 @@ public class SshdSession implements RemoteSession2 {
 
 	@Override
 	public Process exec(String commandName, int timeout) throws IOException {
-		return exec(commandName, Collections.emptyMap(), timeout);
-	}
-
-	@Override
-	public Process exec(String commandName, Map<String, String> environment,
-			int timeout) throws IOException {
 		@SuppressWarnings("resource")
-		ChannelExec exec = session.createExecChannel(commandName, null,
-				environment);
+		ChannelExec exec = session.createExecChannel(commandName);
 		if (timeout <= 0) {
 			try {
 				exec.open().verify();

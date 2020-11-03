@@ -260,7 +260,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String downloadCancelledDuringIndexing;
 	/***/ public String duplicateAdvertisementsOf;
 	/***/ public String duplicateRef;
-	/***/ public String duplicateRefAttribute;
 	/***/ public String duplicateRemoteRefUpdateIsIllegal;
 	/***/ public String duplicateStagesNotAllowed;
 	/***/ public String eitherGitDirOrWorkTreeRequired;

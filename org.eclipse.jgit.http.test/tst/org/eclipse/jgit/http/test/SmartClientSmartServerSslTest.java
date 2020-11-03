@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2017 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -48,6 +48,7 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.util.HttpSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +56,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
+public class SmartClientSmartServerSslTest extends AllFactoriesHttpTestCase {
 
 	// We run these tests with a server on localhost with a self-signed
 	// certificate. We don't do authentication tests here, so there's no need
@@ -111,8 +112,8 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 
 	private RevCommit A, B;
 
-	public SmartClientSmartServerSslTest(TestParameters params) {
-		super(params);
+	public SmartClientSmartServerSslTest(HttpConnectionFactory cf) {
+		super(cf);
 	}
 
 	@Override
@@ -131,10 +132,6 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 				.getConfig()
 				.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
-		if (enableProtocolV2) {
-			src.getRepository().getConfig().setInt("protocol", null, "version",
-					2);
-		}
 
 		GitServlet gs = new GitServlet();
 
@@ -241,7 +238,7 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 		fsck(dst, B);
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals(enableProtocolV2 ? 3 : 2, requests.size());
+		assertEquals(2, requests.size());
 	}
 
 	@Test
@@ -259,7 +256,7 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 		fsck(dst, B);
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals(enableProtocolV2 ? 4 : 3, requests.size());
+		assertEquals(3, requests.size());
 	}
 
 	@Test

@@ -33,7 +33,6 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_AL
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
-import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2_REQUEST;
 import static org.eclipse.jgit.util.RefMap.toRefMap;
 
 import java.io.ByteArrayOutputStream;
@@ -710,7 +709,7 @@ public class UploadPack {
 	 * @since 5.0
 	 */
 	public void setExtraParameters(Collection<String> params) {
-		this.clientRequestedV2 = params.contains(VERSION_2_REQUEST);
+		this.clientRequestedV2 = params.contains("version=2"); //$NON-NLS-1$
 	}
 
 	/**
@@ -1195,8 +1194,7 @@ public class UploadPack {
 					new PacketLineOut(NullOutputStream.INSTANCE),
 					accumulator);
 		} else {
-			pckOut.writeString(
-					GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
+			pckOut.writeString("acknowledgments\n"); //$NON-NLS-1$
 			for (ObjectId id : req.getPeerHas()) {
 				if (walk.getObjectReader().has(id)) {
 					pckOut.writeString("ACK " + id.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1245,8 +1243,7 @@ public class UploadPack {
 			if (!pckOut.isUsingSideband()) {
 				// sendPack will write "packfile\n" for us if sideband-all is used.
 				// But sideband-all is not used, so we have to write it ourselves.
-				pckOut.writeString(
-						GitProtocolConstants.SECTION_PACKFILE + '\n');
+				pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			}
 
 			accumulator.timeNegotiating = Duration
@@ -2330,8 +2327,7 @@ public class UploadPack {
 					// for us if provided a PackfileUriConfig. In this case, we
 					// are not providing a PackfileUriConfig, so we have to
 					// write this line ourselves.
-					pckOut.writeString(
-							GitProtocolConstants.SECTION_PACKFILE + '\n');
+					pckOut.writeString("packfile\n"); //$NON-NLS-1$
 				}
 			}
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);

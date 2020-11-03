@@ -42,10 +42,11 @@ import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DumbClientDumbServerTest extends AllProtocolsHttpTestCase {
+public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 	private Repository remoteRepository;
 
 	private URIish remoteURI;
@@ -54,8 +55,8 @@ public class DumbClientDumbServerTest extends AllProtocolsHttpTestCase {
 
 	private RevCommit A, B;
 
-	public DumbClientDumbServerTest(TestParameters params) {
-		super(params);
+	public DumbClientDumbServerTest(HttpConnectionFactory cf) {
+		super(cf);
 	}
 
 	@Override
@@ -76,9 +77,6 @@ public class DumbClientDumbServerTest extends AllProtocolsHttpTestCase {
 
 		remoteRepository = src.getRepository();
 		remoteURI = toURIish(app, srcGit.getName());
-		if (enableProtocolV2) {
-			remoteRepository.getConfig().setInt("protocol", null, "version", 2);
-		}
 
 		A_txt = src.blob("A");
 		A = src.commit().add("A_txt", A_txt).create();

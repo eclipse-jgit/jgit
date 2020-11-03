@@ -72,9 +72,7 @@ public class PacketLineIn {
 		/** ACK + common */
 		ACK_COMMON,
 		/** ACK + ready */
-		ACK_READY,
-		/** EOF (0000) recieved in protocol V2 when expecting an ACK/NAK */
-		ACK_EOF;
+		ACK_READY;
 	}
 
 	private final byte[] lineBuffer = new byte[SideBandOutputStream.SMALL_BUF];
@@ -105,26 +103,12 @@ public class PacketLineIn {
 		this.limit = limit;
 	}
 
-
 	AckNackResult readACK(MutableObjectId returnedId) throws IOException {
-		AckNackResult result = readACKorEOF(returnedId);
-		if (result == AckNackResult.ACK_EOF) {
-			throw new PackProtocolException(
-					JGitText.get().expectedACKNAKFoundEOF);
-		}
-		return result;
-	}
-
-	AckNackResult readACKorEOF(MutableObjectId returnedId) throws IOException {
 		final String line = readString();
 		if (line.length() == 0)
-			return AckNackResult.ACK_EOF;
+			throw new PackProtocolException(JGitText.get().expectedACKNAKFoundEOF);
 		if ("NAK".equals(line)) //$NON-NLS-1$
 			return AckNackResult.NAK;
-		if ("ready".equals(line)) { //$NON-NLS-1$
-			// Protocol V2
-			return AckNackResult.ACK_READY;
-		}
 		if (line.startsWith("ACK ")) { //$NON-NLS-1$
 			returnedId.fromString(line.substring(4, 44));
 			if (line.length() == 44)

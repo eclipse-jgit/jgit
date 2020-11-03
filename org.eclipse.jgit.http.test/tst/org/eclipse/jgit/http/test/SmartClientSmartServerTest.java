@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, 2020 Google Inc. and others
+ * Copyright (C) 2010, 2017 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -86,12 +86,13 @@ import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
+public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 	private static final String HDR_TRANSFER_ENCODING = "Transfer-Encoding";
 
 	private AdvertiseRefsHook advertiseRefsHook;
@@ -119,8 +120,8 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 
 	private RevCommit A, B, unreachableCommit;
 
-	public SmartClientSmartServerTest(TestParameters params) {
-		super(params);
+	public SmartClientSmartServerTest(HttpConnectionFactory cf) {
+		super(cf);
 	}
 
 	@Override
@@ -131,12 +132,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		final TestRepository<Repository> src = createTestRepository();
 		final String srcName = src.getRepository().getDirectory().getName();
 		src.getRepository()
-				.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
-						true);
-		if (enableProtocolV2) {
-			src.getRepository().getConfig().setInt("protocol", null, "version", 2);
-		}
+				.getConfig()
+				.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
 
 		GitServlet gs = new GitServlet();
 		gs.setUploadPackFactory((HttpServletRequest req, Repository db) -> {
@@ -450,7 +448,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(B, map.get(Constants.HEAD).getObjectId());
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals(enableProtocolV2 ? 2 : 1, requests.size());
+		assertEquals(1, requests.size());
 
 		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
@@ -460,22 +458,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement", info
 				.getResponseHeader(HDR_CONTENT_TYPE));
-		if (!enableProtocolV2) {
-			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
-		} else {
-			AccessEvent lsRefs = requests.get(1);
-			assertEquals("POST", lsRefs.getMethod());
-			assertEquals(join(remoteURI, "git-upload-pack"), lsRefs.getPath());
-			assertEquals(0, lsRefs.getParameters().size());
-			assertNotNull("has content-length",
-					lsRefs.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					lsRefs.getRequestHeader(HDR_TRANSFER_ENCODING));
-			assertEquals("version=2", lsRefs.getRequestHeader("Git-Protocol"));
-			assertEquals(200, lsRefs.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					lsRefs.getResponseHeader(HDR_CONTENT_TYPE));
-		}
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 	}
 
 	@Test
@@ -593,10 +576,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		}
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals(enableProtocolV2 ? 3 : 2, requests.size());
+		assertEquals(2, requests.size());
 
-		int requestNumber = 0;
-		AccessEvent info = requests.get(requestNumber++);
+		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
 		assertEquals(join(remoteURI, "info/refs"), info.getPath());
 		assertEquals(1, info.getParameters().size());
@@ -604,24 +586,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement", info
 				.getResponseHeader(HDR_CONTENT_TYPE));
-		if (!enableProtocolV2) {
-			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
-		} else {
-			AccessEvent lsRefs = requests.get(requestNumber++);
-			assertEquals("POST", lsRefs.getMethod());
-			assertEquals(join(remoteURI, "git-upload-pack"), lsRefs.getPath());
-			assertEquals(0, lsRefs.getParameters().size());
-			assertNotNull("has content-length",
-					lsRefs.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					lsRefs.getRequestHeader(HDR_TRANSFER_ENCODING));
-			assertEquals("version=2", lsRefs.getRequestHeader("Git-Protocol"));
-			assertEquals(200, lsRefs.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					lsRefs.getResponseHeader(HDR_CONTENT_TYPE));
-		}
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 
-		AccessEvent service = requests.get(requestNumber);
+		AccessEvent service = requests.get(1);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
@@ -661,8 +628,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		}
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals((enableProtocolV2 ? 3 : 2) + nofRedirects,
-				requests.size());
+		assertEquals(2 + nofRedirects, requests.size());
 
 		int n = 0;
 		while (n < nofRedirects) {
@@ -678,22 +644,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
-		if (!enableProtocolV2) {
-			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
-		} else {
-			AccessEvent lsRefs = requests.get(n++);
-			assertEquals("POST", lsRefs.getMethod());
-			assertEquals(join(remoteURI, "git-upload-pack"), lsRefs.getPath());
-			assertEquals(0, lsRefs.getParameters().size());
-			assertNotNull("has content-length",
-					lsRefs.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					lsRefs.getRequestHeader(HDR_TRANSFER_ENCODING));
-			assertEquals("version=2", lsRefs.getRequestHeader("Git-Protocol"));
-			assertEquals(200, lsRefs.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					lsRefs.getResponseHeader(HDR_CONTENT_TYPE));
-		}
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 
 		AccessEvent service = requests.get(n++);
 		assertEquals("POST", service.getMethod());
@@ -805,7 +756,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		}
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals(enableProtocolV2 ? 4 : 3, requests.size());
+		assertEquals(3, requests.size());
 
 		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
@@ -815,27 +766,24 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
-		if (!enableProtocolV2) {
-			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
-		}
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 
 		AccessEvent redirect = requests.get(1);
 		assertEquals("POST", redirect.getMethod());
 		assertEquals(301, redirect.getStatus());
 
-		for (int i = 2; i < requests.size(); i++) {
-			AccessEvent service = requests.get(i);
-			assertEquals("POST", service.getMethod());
-			assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
-			assertEquals(0, service.getParameters().size());
-			assertNotNull("has content-length",
-					service.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					service.getRequestHeader(HDR_TRANSFER_ENCODING));
-			assertEquals(200, service.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					service.getResponseHeader(HDR_CONTENT_TYPE));
-		}
+		AccessEvent service = requests.get(2);
+		assertEquals("POST", service.getMethod());
+		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
+		assertEquals(0, service.getParameters().size());
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
+
+		assertEquals(200, service.getStatus());
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	@Test
@@ -882,7 +830,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		}
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals(enableProtocolV2 ? 4 : 3, requests.size());
+		assertEquals(3, requests.size());
 
 		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
@@ -896,24 +844,20 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
-		if (!enableProtocolV2) {
-			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
-		}
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 
-		for (int i = 2; i < requests.size(); i++) {
-			AccessEvent service = requests.get(i);
-			assertEquals("POST", service.getMethod());
-			assertEquals(join(authURI, "git-upload-pack"), service.getPath());
-			assertEquals(0, service.getParameters().size());
-			assertNotNull("has content-length",
-					service.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					service.getRequestHeader(HDR_TRANSFER_ENCODING));
+		AccessEvent service = requests.get(2);
+		assertEquals("POST", service.getMethod());
+		assertEquals(join(authURI, "git-upload-pack"), service.getPath());
+		assertEquals(0, service.getParameters().size());
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
 
-			assertEquals(200, service.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					service.getResponseHeader(HDR_CONTENT_TYPE));
-		}
+		assertEquals(200, service.getStatus());
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	@Test
@@ -993,20 +937,19 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		}
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals(enableProtocolV2 ? 5 : 4, requests.size());
+		assertEquals(4, requests.size());
 
-		int requestNumber = 0;
-		AccessEvent redirect = requests.get(requestNumber++);
+		AccessEvent redirect = requests.get(0);
 		assertEquals("GET", redirect.getMethod());
 		assertEquals(join(cloneFrom, "info/refs"), redirect.getPath());
 		assertEquals(301, redirect.getStatus());
 
-		AccessEvent info = requests.get(requestNumber++);
+		AccessEvent info = requests.get(1);
 		assertEquals("GET", info.getMethod());
 		assertEquals(join(authURI, "info/refs"), info.getPath());
 		assertEquals(401, info.getStatus());
 
-		info = requests.get(requestNumber++);
+		info = requests.get(2);
 		assertEquals("GET", info.getMethod());
 		assertEquals(join(authURI, "info/refs"), info.getPath());
 		assertEquals(1, info.getParameters().size());
@@ -1014,24 +957,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
-		if (!enableProtocolV2) {
-			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
-		} else {
-			AccessEvent lsRefs = requests.get(requestNumber++);
-			assertEquals("POST", lsRefs.getMethod());
-			assertEquals(join(authURI, "git-upload-pack"), lsRefs.getPath());
-			assertEquals(0, lsRefs.getParameters().size());
-			assertNotNull("has content-length",
-					lsRefs.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					lsRefs.getRequestHeader(HDR_TRANSFER_ENCODING));
-			assertEquals("version=2", lsRefs.getRequestHeader("Git-Protocol"));
-			assertEquals(200, lsRefs.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					lsRefs.getResponseHeader(HDR_CONTENT_TYPE));
-		}
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 
-		AccessEvent service = requests.get(requestNumber);
+		AccessEvent service = requests.get(3);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(authURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
@@ -1059,7 +987,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		}
 
 		List<AccessEvent> requests = getRequests();
-		assertEquals(enableProtocolV2 ? 4 : 3, requests.size());
+		assertEquals(3, requests.size());
 
 		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
@@ -1069,30 +997,25 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
-		if (!enableProtocolV2) {
-			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
-		}
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 
 		AccessEvent service = requests.get(1);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(authOnPostURI, "git-upload-pack"), service.getPath());
 		assertEquals(401, service.getStatus());
 
-		for (int i = 2; i < requests.size(); i++) {
-			service = requests.get(i);
-			assertEquals("POST", service.getMethod());
-			assertEquals(join(authOnPostURI, "git-upload-pack"),
-					service.getPath());
-			assertEquals(0, service.getParameters().size());
-			assertNotNull("has content-length",
-					service.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					service.getRequestHeader(HDR_TRANSFER_ENCODING));
+		service = requests.get(2);
+		assertEquals("POST", service.getMethod());
+		assertEquals(join(authOnPostURI, "git-upload-pack"), service.getPath());
+		assertEquals(0, service.getParameters().size());
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
 
-			assertEquals(200, service.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					service.getResponseHeader(HDR_CONTENT_TYPE));
-		}
+		assertEquals(200, service.getStatus());
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	@Test
@@ -1129,11 +1052,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 
 		List<AccessEvent> requests = getRequests();
 		requests.removeAll(cloneRequests);
+		assertEquals(2, requests.size());
 
-		assertEquals(enableProtocolV2 ? 3 : 2, requests.size());
-
-		int requestNumber = 0;
-		AccessEvent info = requests.get(requestNumber++);
+		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
 		assertEquals(join(remoteURI, "info/refs"), info.getPath());
 		assertEquals(1, info.getParameters().size());
@@ -1142,24 +1063,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals("application/x-git-upload-pack-advertisement",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
 
-		if (enableProtocolV2) {
-			AccessEvent lsRefs = requests.get(requestNumber++);
-			assertEquals("POST", lsRefs.getMethod());
-			assertEquals(join(remoteURI, "git-upload-pack"), lsRefs.getPath());
-			assertEquals(0, lsRefs.getParameters().size());
-			assertNotNull("has content-length",
-					lsRefs.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					lsRefs.getRequestHeader(HDR_TRANSFER_ENCODING));
-			assertEquals("version=2", lsRefs.getRequestHeader("Git-Protocol"));
-			assertEquals(200, lsRefs.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					lsRefs.getResponseHeader(HDR_CONTENT_TYPE));
-		}
-
 		// We should have needed one request to perform the fetch.
 		//
-		AccessEvent service = requests.get(requestNumber);
+		AccessEvent service = requests.get(1);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
@@ -1210,10 +1116,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 
 		List<AccessEvent> requests = getRequests();
 		requests.removeAll(cloneRequests);
-		assertEquals(enableProtocolV2 ? 4 : 3, requests.size());
+		assertEquals(3, requests.size());
 
-		int requestNumber = 0;
-		AccessEvent info = requests.get(requestNumber++);
+		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
 		assertEquals(join(remoteURI, "info/refs"), info.getPath());
 		assertEquals(1, info.getParameters().size());
@@ -1222,25 +1127,10 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals("application/x-git-upload-pack-advertisement", info
 				.getResponseHeader(HDR_CONTENT_TYPE));
 
-		if (enableProtocolV2) {
-			AccessEvent lsRefs = requests.get(requestNumber++);
-			assertEquals("POST", lsRefs.getMethod());
-			assertEquals(join(remoteURI, "git-upload-pack"), lsRefs.getPath());
-			assertEquals(0, lsRefs.getParameters().size());
-			assertNotNull("has content-length",
-					lsRefs.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					lsRefs.getRequestHeader(HDR_TRANSFER_ENCODING));
-			assertEquals("version=2", lsRefs.getRequestHeader("Git-Protocol"));
-			assertEquals(200, lsRefs.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					lsRefs.getResponseHeader(HDR_CONTENT_TYPE));
-		}
-
 		// We should have needed two requests to perform the fetch
 		// due to the high number of local unknown commits.
 		//
-		AccessEvent service = requests.get(requestNumber++);
+		AccessEvent service = requests.get(1);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
@@ -1253,7 +1143,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals("application/x-git-upload-pack-result", service
 				.getResponseHeader(HDR_CONTENT_TYPE));
 
-		service = requests.get(requestNumber);
+		service = requests.get(2);
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
@@ -1539,4 +1429,5 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		cfg.setBoolean("http", null, "receivepack", true);
 		cfg.save();
 	}
+
 }

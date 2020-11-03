@@ -22,7 +22,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
@@ -95,13 +94,6 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		return new TcpFetchConnection();
 	}
 
-	@Override
-	public FetchConnection openFetch(Collection<RefSpec> refSpecs,
-			String... additionalPatterns)
-			throws NotSupportedException, TransportException {
-		return new TcpFetchConnection(refSpecs, additionalPatterns);
-	}
-
 	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
@@ -138,8 +130,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		return s;
 	}
 
-	void service(String name, PacketLineOut pckOut,
-			TransferConfig.ProtocolVersion gitProtocol)
+	void service(String name, PacketLineOut pckOut)
 			throws IOException {
 		final StringBuilder cmd = new StringBuilder();
 		cmd.append(name);
@@ -153,11 +144,6 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 			cmd.append(uri.getPort());
 		}
 		cmd.append('\0');
-		if (TransferConfig.ProtocolVersion.V2.equals(gitProtocol)) {
-			cmd.append('\0');
-			cmd.append(GitProtocolConstants.VERSION_2_REQUEST);
-			cmd.append('\0');
-		}
 		pckOut.writeString(cmd.toString());
 		pckOut.flush();
 	}
@@ -166,11 +152,6 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		private Socket sock;
 
 		TcpFetchConnection() throws TransportException {
-			this(Collections.emptyList());
-		}
-
-		TcpFetchConnection(Collection<RefSpec> refSpecs,
-				String... additionalPatterns) throws TransportException {
 			super(TransportGitAnon.this);
 			sock = openConnection();
 			try {
@@ -181,19 +162,13 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 				sOut = new BufferedOutputStream(sOut);
 
 				init(sIn, sOut);
-				TransferConfig.ProtocolVersion gitProtocol = protocol;
-				if (gitProtocol == null) {
-					gitProtocol = TransferConfig.ProtocolVersion.V2;
-				}
-				service("git-upload-pack", pckOut, gitProtocol); //$NON-NLS-1$
+				service("git-upload-pack", pckOut); //$NON-NLS-1$
 			} catch (IOException err) {
 				close();
 				throw new TransportException(uri,
 						JGitText.get().remoteHungUpUnexpectedly, err);
 			}
-			if (!readAdvertisedRefs()) {
-				lsRefs(refSpecs, additionalPatterns);
-			}
+			readAdvertisedRefs();
 		}
 
 		@Override
@@ -226,7 +201,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 				sOut = new BufferedOutputStream(sOut);
 
 				init(sIn, sOut);
-				service("git-receive-pack", pckOut, null); //$NON-NLS-1$
+				service("git-receive-pack", pckOut); //$NON-NLS-1$
 			} catch (IOException err) {
 				close();
 				throw new TransportException(uri,
