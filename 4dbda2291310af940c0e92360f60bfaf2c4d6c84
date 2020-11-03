@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ec58a32_8e6b0e3e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/logging/PerformanceLogContextTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-11-03T09:23:28Z",
+      "side": 1,
+      "message": "Why is this assertion back here? You moved all the checks to `testAddEventsTwoThreads` a couple of versions ago. It didn\u0027t work?",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 33
+      },
+      "revId": "4dbda2291310af940c0e92360f60bfaf2c4d6c84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
