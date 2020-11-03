@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a6daf1ae_91c370cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63bf5640_ddb53351",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b2d6ed7_4f5021ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "251454358141b874b07eb1738458832152beed66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "799a5e28_132dcdb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/170887 Second sentence mentions it.",
+      "parentUuid": "5b2d6ed7_4f5021ab",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3f84ebc1_592854fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "I explained further that it is not relevant.",
+      "parentUuid": "d5c3eaaa_875c86bc",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9873bc30_2c537187",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -91,6 +163,30 @@
       "revId": "251454358141b874b07eb1738458832152beed66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d99cd004_d4ba4335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9873bc30_2c537187",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 17,
+        "endChar": 5
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "75e4d452_2a2b00b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c86ac3c8_bf805968",
+      "range": {
+        "startLine": 18,
+        "startChar": 30,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2626c2f8_515f77d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
         "patchSetId": 6
@@ -137,6 +257,30 @@
       "revId": "251454358141b874b07eb1738458832152beed66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c817667_e2a93d43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2626c2f8_515f77d6",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 15
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "bb0adf6f_7393838e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33d67432_8ffee572",
+      "range": {
+        "startLine": 29,
+        "startChar": 20,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8fd267c_60e36d45",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
         "patchSetId": 6
@@ -177,6 +345,24 @@
       "revId": "251454358141b874b07eb1738458832152beed66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1aaebc_c8ca72ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8fd267c_60e36d45",
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "a7c4cf50_d6ad76d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a5879fa_b8249a07",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 27
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20ebb78e_17a6f975",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
         "patchSetId": 6
@@ -223,6 +433,30 @@
       "revId": "251454358141b874b07eb1738458832152beed66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e0f4a46_65e3df22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/logging/PerformanceLogContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20ebb78e_17a6f975",
+      "range": {
+        "startLine": 70,
+        "startChar": 7,
+        "endLine": 70,
+        "endChar": 21
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "b15fad3f_535796ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "031a5aa1_e7f7f955",
+      "range": {
+        "startLine": 283,
+        "startChar": 14,
+        "endLine": 283,
+        "endChar": 21
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b80c1bf_84993858",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "19bd2a92_955e5700",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b80c1bf_84993858",
+      "range": {
+        "startLine": 646,
+        "startChar": 17,
+        "endLine": 646,
+        "endChar": 28
+      },
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79f2ff6b_a8be8649",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
@@ -286,6 +568,24 @@
       "revId": "251454358141b874b07eb1738458832152beed66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb744809_29016bec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T08:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79f2ff6b_a8be8649",
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
