@@ -34,6 +34,24 @@
       "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "288cbe91_22a40795",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-03T22:20:10Z",
+      "side": 1,
+      "message": "Why don\u0027t you expose the sample repository directly ? This is easier to create and use since it avoids this corruption and reduces the number of steps necessary to use the clone.\n\nWhy should we maintain code and run it on every gc to fix a repository which was corrupted by this funny way of sharing a repository ?",
+      "parentUuid": "acc44a92_6f59de44",
+      "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
