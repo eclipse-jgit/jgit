@@ -52,6 +52,24 @@
       "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fe23602_887269a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 255395
+      },
+      "writtenOn": "2020-11-03T22:43:17Z",
+      "side": 1,
+      "message": "We don\u0027t control initial repository creation we just work with repository that a user brings to us. I just described a possible explanation why this folder can be absent.\n\nWhy do you say that a repository with absent \"pack\" folder is corrupted? Logically empty pack folder and absent pack folder is same. Is that a requirement in some git specs?\n\nWhy console git written on c++ can create absent folder on each gc execution but jgit can\u0027t create it?",
+      "parentUuid": "288cbe91_22a40795",
+      "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
