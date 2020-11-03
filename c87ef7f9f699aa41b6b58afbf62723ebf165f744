@@ -16,6 +16,24 @@
       "revId": "c87ef7f9f699aa41b6b58afbf62723ebf165f744",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5f83417_76222280",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-03T22:44:30Z",
+      "side": 1,
+      "message": "Yes, this is added automatically, but I do not know why.",
+      "parentUuid": "a4effa80_4b2deaa6",
+      "revId": "c87ef7f9f699aa41b6b58afbf62723ebf165f744",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
