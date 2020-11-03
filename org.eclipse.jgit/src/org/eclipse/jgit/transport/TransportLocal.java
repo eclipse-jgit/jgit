@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -154,17 +153,11 @@ class TransportLocal extends Transport implements PackTransport {
 	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
-		return openFetch(Collections.emptyList());
-	}
-
-	@Override
-	public FetchConnection openFetch(Collection<RefSpec> refSpecs,
-			String... additionalPatterns) throws TransportException {
 		final String up = getOptionUploadPack();
 		if (!"git-upload-pack".equals(up) //$NON-NLS-1$
-				&& !"git upload-pack".equals(up)) {//$NON-NLS-1$
-			return new ForkLocalFetchConnection(refSpecs, additionalPatterns);
-		}
+				&& !"git upload-pack".equals(up)) //$NON-NLS-1$
+			return new ForkLocalFetchConnection();
+
 		UploadPackFactory<Void> upf = (Void req,
 				Repository db) -> createUploadPack(db);
 		return new InternalFetchConnection<>(this, upf, null, openRepo());
@@ -200,23 +193,6 @@ class TransportLocal extends Transport implements PackTransport {
 	 */
 	protected Process spawn(String cmd)
 			throws TransportException {
-		return spawn(cmd, null);
-	}
-
-	/**
-	 * Spawn process
-	 *
-	 * @param cmd
-	 *            command
-	 * @param protocolVersion
-	 *            to use
-	 * @return a {@link java.lang.Process} object.
-	 * @throws org.eclipse.jgit.errors.TransportException
-	 *             if any.
-	 */
-	private Process spawn(String cmd,
-			TransferConfig.ProtocolVersion protocolVersion)
-			throws TransportException {
 		try {
 			String[] args = { "." }; //$NON-NLS-1$
 			ProcessBuilder proc = local.getFS().runInShell(cmd, args);
@@ -232,10 +208,7 @@ class TransportLocal extends Transport implements PackTransport {
 			env.remove("GIT_GRAFT_FILE"); //$NON-NLS-1$
 			env.remove("GIT_INDEX_FILE"); //$NON-NLS-1$
 			env.remove("GIT_NO_REPLACE_OBJECTS"); //$NON-NLS-1$
-			if (TransferConfig.ProtocolVersion.V2.equals(protocolVersion)) {
-				env.put(GitProtocolConstants.PROTOCOL_ENVIRONMENT_VARIABLE,
-						GitProtocolConstants.VERSION_2_REQUEST);
-			}
+
 			return proc.start();
 		} catch (IOException err) {
 			throw new TransportException(uri, err.getMessage(), err);
@@ -248,21 +221,12 @@ class TransportLocal extends Transport implements PackTransport {
 		private Thread errorReaderThread;
 
 		ForkLocalFetchConnection() throws TransportException {
-			this(Collections.emptyList());
-		}
-
-		ForkLocalFetchConnection(Collection<RefSpec> refSpecs,
-				String... additionalPatterns) throws TransportException {
 			super(TransportLocal.this);
 
 			final MessageWriter msg = new MessageWriter();
 			setMessageWriter(msg);
 
-			TransferConfig.ProtocolVersion gitProtocol = protocol;
-			if (gitProtocol == null) {
-				gitProtocol = TransferConfig.ProtocolVersion.V2;
-			}
-			uploadPack = spawn(getOptionUploadPack(), gitProtocol);
+			uploadPack = spawn(getOptionUploadPack());
 
 			final InputStream upErr = uploadPack.getErrorStream();
 			errorReaderThread = new StreamCopyThread(upErr, msg.getRawStream());
@@ -275,9 +239,7 @@ class TransportLocal extends Transport implements PackTransport {
 			upOut = new BufferedOutputStream(upOut);
 
 			init(upIn, upOut);
-			if (!readAdvertisedRefs()) {
-				lsRefs(refSpecs, additionalPatterns);
-			}
+			readAdvertisedRefs();
 		}
 
 		@Override

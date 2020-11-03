@@ -164,7 +164,7 @@ public class LsRemoteCommand extends
 				refSpecs.add(new RefSpec("refs/heads/*:refs/remotes/origin/*")); //$NON-NLS-1$
 			Collection<Ref> refs;
 			Map<String, Ref> refmap = new HashMap<>();
-			try (FetchConnection fc = transport.openFetch(refSpecs)) {
+			try (FetchConnection fc = transport.openFetch()) {
 				refs = fc.getRefs();
 				if (refSpecs.isEmpty())
 					for (Ref r : refs)

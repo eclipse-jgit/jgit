@@ -102,21 +102,7 @@ class FetchProcess {
 	private void executeImp(final ProgressMonitor monitor,
 			final FetchResult result) throws NotSupportedException,
 			TransportException {
-		final TagOpt tagopt = transport.getTagOpt();
-		String getTags = (tagopt == TagOpt.NO_TAGS) ? null : Constants.R_TAGS;
-		String getHead = null;
-		try {
-			// If we don't have a HEAD yet, we're cloning and need to get the
-			// upstream HEAD, too.
-			Ref head = transport.local.exactRef(Constants.HEAD);
-			ObjectId id = head != null ? head.getObjectId() : null;
-			if (id == null || id.equals(ObjectId.zeroId())) {
-				getHead = Constants.HEAD;
-			}
-		} catch (IOException e) {
-			// Ignore
-		}
-		conn = transport.openFetch(toFetch, getTags, getHead);
+		conn = transport.openFetch();
 		try {
 			result.setAdvertisedRefs(transport.getURI(), conn.getRefsMap());
 			result.peerUserAgent = conn.getPeerUserAgent();
@@ -133,6 +119,7 @@ class FetchProcess {
 			}
 
 			Collection<Ref> additionalTags = Collections.<Ref> emptyList();
+			final TagOpt tagopt = transport.getTagOpt();
 			if (tagopt == TagOpt.AUTO_FOLLOW)
 				additionalTags = expandAutoFollowTags();
 			else if (tagopt == TagOpt.FETCH_TAGS)
@@ -266,17 +253,7 @@ class FetchProcess {
 		if (conn != null)
 			return;
 
-		// Build prefixes
-		Set<String> prefixes = new HashSet<>();
-		for (Ref toGet : askFor.values()) {
-			String src = toGet.getName();
-			prefixes.add(src);
-			prefixes.add(Constants.R_REFS + src);
-			prefixes.add(Constants.R_HEADS + src);
-			prefixes.add(Constants.R_TAGS + src);
-		}
-		conn = transport.openFetch(Collections.emptyList(),
-				prefixes.toArray(new String[0]));
+		conn = transport.openFetch();
 
 		// Since we opened a new connection we cannot be certain
 		// that the system we connected to has the same exact set
