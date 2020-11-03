@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4fa9fc5_bf03acdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 300454
+      },
+      "writtenOn": "2020-11-03T09:19:11Z",
+      "side": 1,
+      "message": "As per Matthias comment, if null is not allowed, please just drop the keyword and update the function body:\n\n\tpublic void setPerformanceLogHook(PerformanceLogHook hook) {\n\t\tperformanceLogHook \u003d hook;\n\t}",
+      "range": {
+        "startLine": 652,
+        "startChar": 35,
+        "endLine": 652,
+        "endChar": 44
+      },
+      "revId": "e76849171f6df704382b1e6437969bb3b9a89026",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
