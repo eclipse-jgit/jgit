@@ -709,6 +709,24 @@
     },
     {
       "key": {
+        "uuid": "c4b448c5_6b892d1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-04T14:20:33Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t bring it to your attention because I assumed you already knew how other hooks in JGit were set. They use Nullable (see setPostUploadHook), otherwise it doesn\u0027t build (see PS 9 build message). I reverted to how it was in PS6.",
+      "parentUuid": "6330df53_bd0adaac",
+      "revId": "251454358141b874b07eb1738458832152beed66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32873c44_ca031dd4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
