@@ -70,6 +70,41 @@
       "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b00d9d1_3ee88907",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-05T00:31:06Z",
+      "side": 1,
+      "message": "I stand corrected, if native git repairs this we should do the same",
+      "parentUuid": "2fe23602_887269a6",
+      "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "473a9133_c7b390b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-05T00:31:06Z",
+      "side": 1,
+      "message": "this check is unnecessary since it\u0027s done by mkdirs() already",
+      "revId": "c87e4493e55df561a5dd94b6980167d8211aa5e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
