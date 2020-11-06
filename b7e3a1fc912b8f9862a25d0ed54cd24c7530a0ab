@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6e5cdf69_3875109c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-06T18:00:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a441ee8_8ebad5e8",
+      "range": {
+        "startLine": 774,
+        "startChar": 3,
+        "endLine": 774,
+        "endChar": 8
+      },
+      "revId": "b7e3a1fc912b8f9862a25d0ed54cd24c7530a0ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "915e2db6_2d5a731a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1

@@ -22,6 +22,30 @@
       "revId": "e76849171f6df704382b1e6437969bb3b9a89026",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a98a798_02fd506f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 300349
+      },
+      "writtenOn": "2020-11-06T18:00:20Z",
+      "side": 1,
+      "message": "Patch doesn\u0027t build if I remove Nullable.",
+      "parentUuid": "a4fa9fc5_bf03acdb",
+      "range": {
+        "startLine": 652,
+        "startChar": 35,
+        "endLine": 652,
+        "endChar": 44
+      },
+      "revId": "e76849171f6df704382b1e6437969bb3b9a89026",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
