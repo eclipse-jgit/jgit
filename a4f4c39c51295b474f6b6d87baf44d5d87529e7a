@@ -99,6 +99,24 @@
       "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abf1474e_247a67ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-11-09T08:56:26Z",
+      "side": 1,
+      "message": "I am asking the same question as Matthias: Do you really want to not trust mtimes of folders but trust mtime of files?\nBut there is one thing where I agree the commit 218cf340 is problematic. The config option is called trust\"folder\"stat\nand I introduced to use this config option to deal with stats of files. Difficult decision: introducing trustfilestat\nmaybe correctly telling where we want to special-handle mtimes, but it is not proven (to me) that this is a functionality\nwhich is bringing benefits. Yes, it\u0027s faster, but maybe incorrect with this option.",
+      "parentUuid": "dfc69924_839ca051",
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
