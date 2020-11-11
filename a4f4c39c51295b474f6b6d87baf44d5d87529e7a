@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0daa527b_77668977",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-11T20:46:18Z",
+      "side": 1,
+      "message": "We\u0027ve experienced that too and reverted to trustfolderstat always set to true, also if that would mean out-of-sync JGit cache.\n\nFor small repos, the reload of the packed refs isn\u0027t a big issue. However, for mono-repos, becomes so significant that Gerrit becomes unusable.",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee3c8797_bf75bca4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -114,6 +137,138 @@
       "side": 1,
       "message": "I am asking the same question as Matthias: Do you really want to not trust mtimes of folders but trust mtime of files?\nBut there is one thing where I agree the commit 218cf340 is problematic. The config option is called trust\"folder\"stat\nand I introduced to use this config option to deal with stats of files. Difficult decision: introducing trustfilestat\nmaybe correctly telling where we want to special-handle mtimes, but it is not proven (to me) that this is a functionality\nwhich is bringing benefits. Yes, it\u0027s faster, but maybe incorrect with this option.",
       "parentUuid": "dfc69924_839ca051",
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15a3e64e_3d2b27f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-11T20:46:18Z",
+      "side": 1,
+      "message": "\u0027trustfilestat\u0027 doesn\u0027t really tell the full story of the refs. Why don\u0027t we have a more explicit flag for that?\n\nExample: trustRefStat?\n\nP.S. Having trustRefStat set to true won\u0027t be a big issue anymore, once [1] will be merged.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/high-availability/+/284999",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cefb3a40_3ac641c6",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-11T20:46:18Z",
+      "side": 1,
+      "message": "trustRefStat?",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 21
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2a7bbc5_9ad417b5",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-11T20:46:18Z",
+      "side": 1,
+      "message": "+ default: equal to the same value of trustFolderStat",
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ec7ea89_e7a925a5",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-11T20:46:18Z",
+      "side": 1,
+      "message": "can massively impact performance for repositories with a large number of refs.",
+      "range": {
+        "startLine": 47,
+        "startChar": 266,
+        "endLine": 47,
+        "endChar": 285
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "722910c9_b3ea16f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-11T20:46:18Z",
+      "side": 1,
+      "message": "trustRefStat?",
+      "range": {
+        "startLine": 909,
+        "startChar": 10,
+        "endLine": 909,
+        "endChar": 23
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35e1b9ba_058fbf52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-11T20:46:18Z",
+      "side": 1,
+      "message": "trustrefstat?",
+      "range": {
+        "startLine": 699,
+        "startChar": 56,
+        "endLine": 699,
+        "endChar": 69
+      },
       "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
