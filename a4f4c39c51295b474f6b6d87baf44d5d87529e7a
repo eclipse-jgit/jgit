@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "cb7fdb5e_9366f3e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-11-12T13:56:31Z",
+      "side": 1,
+      "message": "\u003e I like your 3-state idea (true, false, foldersOnly). The reason why it should more tied to \u0027ref\u0027 rather than files/folders in general is because those are the only *mutable* entity that can cause problems.\n\nGreat. But it would be the 3-state true, false, filesOnly. We want to be able to trust mtimes of files and not the mtimes of folders.\n\n\u003e Example: you have two JGit Servers that are sharing the same repos over NFS. If they are both creating a new SHA1 at the same time, they won\u0027t conflict on anything, unless there is a SHA1 collision of course. If they are both updating the *same ref*, they will get in trouble because they both want to update a mutable entity from an initial state S0 to two different diverging states.\n\u003e \n\u003e With [1] we will prevent that situation to happen using a global ref-db, making then the concurrent update of refs possible, even without having to re-read all the refs all the times from the filesystem. How? Just because the global ref-db contains a globally consistent view of the refs.\n\u003e \n\u003e It would be nice to have then [1] refactored and integrated with JGit in the future, so that we could benefit from it also outside the Gerrit Code Review context.\n\nGot that, thanks. [1] helps in the context of gerrit and integrating that into jgit would be nice. But the problem may also happen in non-gerrit use cases. I could imagine that applications using jgit to update shared repos located on NFS don\u0027t want to miss ref-updates.",
+      "parentUuid": "1d052cac_9b225392",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cefb3a40_3ac641c6",
         "filename": "Documentation/config-options.md",
         "patchSetId": 3
