@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "bdc01f83_557aedc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-11-12T09:45:13Z",
+      "side": 1,
+      "message": "We want to introduce the possibility to trust the mtime of files containing refs but not trust the mtime of folders potentially containing files containing refs. And we are doing that only in the context of ref-handling (not e.g. for handling of work-tree files, config files, etc). I like the idea to have a config param which name contains \u0027ref\u0027. I think a boolean parameter trustRefStat is no sufficient because it doesn\u0027t express the different handling of refs based on their storage. So maybe a config param trustRefStat with values \u0027true\u0027 (trust mtime of all file/folders containing refs), \u0027false\u0027 (never trust mtime of files/folders containing refs) and \u0027filesOnly\u0027 (trust mtime of files containing refs e.g. in objects/pack but don\u0027t trust the mtime of folders containing files with refs), \u0027foldersOnly\u0027 (if this is really needed?) would be good.",
+      "parentUuid": "15a3e64e_3d2b27f9",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "a4f4c39c51295b474f6b6d87baf44d5d87529e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cefb3a40_3ac641c6",
         "filename": "Documentation/config-options.md",
         "patchSetId": 3
