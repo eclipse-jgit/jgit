@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.7" sequenceNumber="1603879858">
+<target name="jgit-4.7" sequenceNumber="1605386754">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.30.v20200611"/>
@@ -39,8 +39,8 @@
       <unit id="net.bytebuddy.byte-buddy.source" version="1.9.0.v20181107-1410"/>
       <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20181102-1323"/>
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20181102-1323"/>
-      <unit id="org.apache.ant" version="1.10.8.v20200515-1239"/>
-      <unit id="org.apache.ant.source" version="1.10.8.v20200515-1239"/>
+      <unit id="org.apache.ant" version="1.10.9.v20201106-1946"/>
+      <unit id="org.apache.ant.source" version="1.10.9.v20201106-1946"/>
       <unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
       <unit id="org.apache.commons.codec.source" version="1.14.0.v20200818-1422"/>
       <unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
@@ -80,11 +80,11 @@
       <unit id="org.objenesis.source" version="2.6.0.v20180420-1519"/>
       <unit id="org.slf4j.api" version="1.7.30.v20200204-2150"/>
       <unit id="org.slf4j.api.source" version="1.7.30.v20200204-2150"/>
-      <unit id="org.slf4j.binding.log4j12" version="1.7.30.v20201016-1131"/>
-      <unit id="org.slf4j.binding.log4j12.source" version="1.7.30.v20201016-1131"/>
+      <unit id="org.slf4j.binding.log4j12" version="1.7.30.v20201108-2042"/>
+      <unit id="org.slf4j.binding.log4j12.source" version="1.7.30.v20201108-2042"/>
       <unit id="org.tukaani.xz" version="1.8.0.v20180207-1613"/>
       <unit id="org.tukaani.xz.source" version="1.8.0.v20180207-1613"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20201027182932/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20201111205634/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
