@@ -542,6 +542,24 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Sets the stage of an entry.
+	 *
+	 * @param stage
+	 *            to set, in the range [0..3]
+	 * @throws IllegalArgumentException
+	 *             if the stage is outside the range [0..3]
+	 * @since 5.10
+	 */
+	public void setStage(int stage) {
+		if ((stage & ~0x3) != 0) {
+			throw new IllegalArgumentException(
+					"Invalid stage, must be in range [0..3]"); //$NON-NLS-1$
+		}
+		byte flags = info[infoOffset + P_FLAGS];
+		info[infoOffset + P_FLAGS] = (byte) ((flags & 0xCF) | (stage << 4));
+	}
+
+	/**
 	 * Returns whether this entry should be skipped from the working tree.
 	 *
 	 * @return true if this entry should be skipepd.

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
- * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2011, 2020 Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -503,6 +503,11 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			editor.add(new PathEdit(path) {
 				@Override
 				public void apply(DirCacheEntry ent) {
+					if (ent.getStage() != DirCacheEntry.STAGE_0) {
+						// A checkout on a conflicting file stages the checked
+						// out file and resolves the conflict.
+						ent.setStage(DirCacheEntry.STAGE_0);
+					}
 					ent.setObjectId(blobId);
 					ent.setFileMode(mode);
 					checkoutPath(ent, r,
