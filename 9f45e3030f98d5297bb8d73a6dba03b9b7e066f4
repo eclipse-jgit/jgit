@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad7752ad_cd204246",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-16T21:23:31Z",
+      "side": 1,
+      "message": "I realize this description comes from the C git documentation, but this snippet is missing the crucial information that this is about symrefs. How about \"When showing a symbolic ref also show the underlying ref in addition to the object pointed at\"?\n\nBTW, I find the phrasing \"pointed by it\" (also not your fault, but from C git) ungrammatical; shouldn\u0027t that be at least \"pointed to by it\" (or \"pointed at by it\")? (Which also grates -- \"by it\" is just superfluous.)",
+      "revId": "9f45e3030f98d5297bb8d73a6dba03b9b7e066f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42ae3a9c_1a107eb3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-16T21:23:31Z",
+      "side": 1,
+      "message": "This check comes one line too late. Or omit and let the test throw an NPE.",
+      "revId": "9f45e3030f98d5297bb8d73a6dba03b9b7e066f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "712d5a03_9b19b4c3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-16T21:23:31Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "9f45e3030f98d5297bb8d73a6dba03b9b7e066f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
