@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0f74c4bc_43388aa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-16T21:30:22Z",
+      "side": 1,
+      "message": "One Signed-off line is good enough. You could remove the first one.",
+      "revId": "9f45e3030f98d5297bb8d73a6dba03b9b7e066f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad7752ad_cd204246",
         "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
         "patchSetId": 2
