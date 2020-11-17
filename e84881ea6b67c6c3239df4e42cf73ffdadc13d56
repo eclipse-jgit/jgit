@@ -22,6 +22,30 @@
       "revId": "e84881ea6b67c6c3239df4e42cf73ffdadc13d56",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b00934af_a2ef1ae6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-17T21:11:21Z",
+      "side": 1,
+      "message": "I used past tense, but of course I can switch to present :-)",
+      "parentUuid": "0ef36769_b4f853ea",
+      "range": {
+        "startLine": 19,
+        "startChar": 36,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "e84881ea6b67c6c3239df4e42cf73ffdadc13d56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
