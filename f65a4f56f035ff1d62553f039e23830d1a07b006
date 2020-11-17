@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7a808996_9be195e6",
+        "filename": "org.eclipse.jgit.junit.ssh/src/org/eclipse/jgit/junit/ssh/SshTestGitServer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-17T22:46:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "476a4258_1f21d3e1",
+      "range": {
+        "startLine": 218,
+        "startChar": 2,
+        "endLine": 225,
+        "endChar": 5
+      },
+      "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3287a7bd_33604f48",
         "filename": "org.eclipse.jgit.junit.ssh/src/org/eclipse/jgit/junit/ssh/SshTestGitServer.java",
         "patchSetId": 8
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "5667d72c_d6ffc3b4",
+        "filename": "org.eclipse.jgit.junit.ssh/src/org/eclipse/jgit/junit/ssh/SshTestGitServer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-17T22:46:46Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "3a868df0_61789df7",
+      "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49ca884c_f6a8fd35",
         "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
         "patchSetId": 8
@@ -71,6 +113,24 @@
       "writtenOn": "2020-07-27T22:18:52Z",
       "side": 1,
       "message": "Should also include here the handling of OpenSshCertificate that was introduced in AbstractClientSession.checkKeys(). We do need the override because of the different way to set remoteAddress as indicated by the comment above. Unfortunately, it\u0027s not a simple matter of changing upstream to use getConnectAddress(); in the upstream implementation, it\u0027s equal to getIoSession().getRemoteAddress(), but in our client setup, it is the address obtained from the HostConfigEntry, which is the correct one to use for server host key verification when proxies are used.",
+      "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a21f49c7_e190ffad",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-17T22:46:46Z",
+      "side": 1,
+      "message": "This is still not addressed. Three tests are still failing.",
+      "parentUuid": "49ca884c_f6a8fd35",
       "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
