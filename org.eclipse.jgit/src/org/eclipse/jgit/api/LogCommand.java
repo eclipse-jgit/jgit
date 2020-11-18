@@ -140,8 +140,11 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			}
 		}
 
-		if (this.revFilter != null) {
-			walk.setRevFilter(this.revFilter);
+		if (null != this.revFilter) {
+			if (skip > -1 || maxCount > -1)
+				walk.setRevFilter(AndRevFilter.create(this.revFilter, walk.getRevFilter()));
+			else
+				walk.setRevFilter(this.revFilter);
 		}
 
 		setCallable(false);
