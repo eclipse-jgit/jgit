@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6e569b25_66af1680",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-18T07:30:30Z",
+      "side": 1,
+      "message": "LsRemote as you implemented it would also show other symrefs (which is fine and is what the C git implementation also does), and CloneCommand only cares about HEAD. I think that\u0027s fine and the mention that currently only HEAD is read is not needed. It\u0027s already a bit misleading in C git: it\u0027s not ls-remote reading only HEAD, it\u0027s the server side only writing HEAD.\n\nOtherwise either help text is fine.",
+      "parentUuid": "59810974_96f26d84",
+      "revId": "9f45e3030f98d5297bb8d73a6dba03b9b7e066f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42ae3a9c_1a107eb3",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
         "patchSetId": 2
