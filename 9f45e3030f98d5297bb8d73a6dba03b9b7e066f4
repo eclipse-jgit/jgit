@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "59810974_96f26d84",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 301457
+      },
+      "writtenOn": "2020-11-18T02:17:22Z",
+      "side": 1,
+      "message": "Sounds better. However, one thing I wanted to discuss at review was the fact I am specifically only looking for a HEAD symref in capabilities, my reading of the spec is there there could be multiple symrefs. I could do 1 of 3 things:\n1. Handle any and all symrefs in capabilities - I don\u0027t know if the surrounding fetch code will correct write local symrefs for these, I believe c git creates them in refs rather than packed-refs\n2. Keep it to just the HEAD we need to choose the correct branch on clone and omit the lsRemote change\n3. Keep it to just the HEAD we need to choose the correct branch on clone, keep the lsRemote change but update the description to indicate it only reads any HEAD symref\n\nIn fact the C git help has been updated since I copied that description and now says:\n\n\"In addition to the object pointed by it, show the underlying ref pointed by it when showing a symbolic ref. Currently, upload-pack only shows the symref HEAD, so it will be the only one shown by ls-remote.\"\n\nwhich implies the c git ls-remote would show other symrefs if upload-pack included them, but I think it\u0027s OK to not worry about catering for that here unless and until something might advertise them. Therefore, I would change it to:\n\n\"In addition to the object pointed at, show the underlying ref pointed at when showing a symbolic ref. Currently, only a HEAD symref is read, so it will be the only one ls-remote might show.\"",
+      "parentUuid": "ad7752ad_cd204246",
+      "revId": "9f45e3030f98d5297bb8d73a6dba03b9b7e066f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42ae3a9c_1a107eb3",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2020-11-16T21:23:31Z",
       "side": 1,
       "message": "This check comes one line too late. Or omit and let the test throw an NPE.",
+      "revId": "9f45e3030f98d5297bb8d73a6dba03b9b7e066f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb38d227_5de75f7a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 301457
+      },
+      "writtenOn": "2020-11-18T02:17:22Z",
+      "side": 1,
+      "message": "You\u0027re right, I copy-pasted this from another test without reading closely enough, many other tests in here have that same issue - I\u0027ll fix them all.",
+      "parentUuid": "42ae3a9c_1a107eb3",
       "revId": "9f45e3030f98d5297bb8d73a6dba03b9b7e066f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
