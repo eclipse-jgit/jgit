@@ -61,6 +61,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -1042,9 +1043,10 @@ public abstract class Repository implements AutoCloseable {
 	 * a client trying to push changes avoid pushing more than it needs to.
 	 *
 	 * @return unmodifiable collection of other known objects.
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 */
 	@NonNull
-	public Set<ObjectId> getAdditionalHaves() {
+	public Set<ObjectId> getAdditionalHaves() throws ServiceMayNotContinueException {
 		return Collections.emptySet();
 	}
 

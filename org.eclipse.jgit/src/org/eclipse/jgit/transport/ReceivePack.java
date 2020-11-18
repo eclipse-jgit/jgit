@@ -438,9 +438,10 @@ public class ReceivePack {
 	 *            explicit set of additional haves to claim as advertised. If
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs,
-			Set<ObjectId> additionalHaves) {
+			Set<ObjectId> additionalHaves) throws ServiceMayNotContinueException {
 		refs = allRefs != null ? allRefs : db.getAllRefs();
 		refs = refFilter.filter(refs);
 		advertisedHaves.clear();
@@ -1185,8 +1186,9 @@ public class ReceivePack {
 	 * Get advertised refs, or the default if not explicitly advertised.
 	 *
 	 * @return advertised refs, or the default if not explicitly advertised.
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 */
-	private Map<String, Ref> getAdvertisedOrDefaultRefs() {
+	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws ServiceMayNotContinueException{
 		if (refs == null)
 			setAdvertisedRefs(null, null);
 		return refs;
