@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd0d1beb_2c585744",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-18T14:07:14Z",
+      "side": 1,
+      "message": "Why the Yoda condition? JGit code doesn\u0027t use them.",
+      "revId": "872c361be2f72a04c6cf5e0f7edbb16bee2a0fcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98a164b7_4c184d01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-18T14:07:14Z",
+      "side": 1,
+      "message": "Missing {}.",
+      "revId": "872c361be2f72a04c6cf5e0f7edbb16bee2a0fcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
