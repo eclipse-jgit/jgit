@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2008-2010, Google Inc.
- * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2010 Google Inc.
+ * Copyright (C) 2008, 2009 Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -50,7 +50,7 @@ public class PacketLineIn {
 	 *             strings in the input stream until the marker is reached.
 	 */
 	@Deprecated
-	public static final String END = new StringBuilder(0).toString(); 	/* must not string pool */
+	public static final String END = new String(); /* must not string pool */
 
 	/**
 	 * Magic return from {@link #readString()} when a delim packet is found.
@@ -60,7 +60,7 @@ public class PacketLineIn {
 	 *             string is the delimiter.
 	 */
 	@Deprecated
-	public static final String DELIM = new StringBuilder(0).toString(); 	/* must not string pool */
+	public static final String DELIM = new String(); /* must not string pool */
 
 	enum AckNackResult {
 		/** NAK */
