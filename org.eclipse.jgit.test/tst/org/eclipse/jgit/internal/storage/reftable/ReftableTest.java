@@ -51,6 +51,8 @@ import org.junit.Test;
 public class ReftableTest {
 	private static final String MASTER = "refs/heads/master";
 	private static final String NEXT = "refs/heads/next";
+	private static final String AFTER_NEXT = "refs/heads/nextnext";
+	private static final String LAST = "refs/heads/nextnextnext";
 	private static final String V1_0 = "refs/tags/v1.0";
 
 	private Stats stats;
@@ -390,6 +392,24 @@ public class ReftableTest {
 			assertTrue(rc.next());
 			assertEquals(NEXT, rc.getRef().getName());
 			assertEquals(0, rc.getRef().getUpdateIndex());
+
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void seekPastRef() throws IOException {
+		Ref exp = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		Ref afterNext = ref(AFTER_NEXT, 3);
+		Ref afterNextNext = ref(LAST, 4);
+		ReftableReader t = read(write(exp,next, afterNext, afterNextNext));
+		try (RefCursor rc = t.seekPastRef("refs/heads/next/")) {
+			assertTrue(rc.next());
+			assertEquals(AFTER_NEXT, rc.getRef().getName());
+
+			assertTrue(rc.next());
+			assertEquals(LAST, rc.getRef().getName());
 
 			assertFalse(rc.next());
 		}
