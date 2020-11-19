@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -212,6 +213,24 @@ public class MergedReftable extends Reftable {
 				if (include) {
 					return true;
 				}
+			}
+		}
+
+		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			List<RefQueueEntry> entiresToAdd = new ArrayList<>();
+			for (RefQueueEntry entry : queue) {
+				entry.rc.seekPastPrefix(prefixName);
+				entiresToAdd.add(entry);
+			}
+			head.rc.seekPastPrefix(prefixName);
+
+			RefQueueEntry tempHead = head;
+			head = null;
+			queue.clear();
+			add(tempHead);
+			for (RefQueueEntry entry : entiresToAdd) {
+				add(entry);
 			}
 		}
 
