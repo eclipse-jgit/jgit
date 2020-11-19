@@ -46,6 +46,9 @@ import org.eclipse.jgit.util.NB;
  * instance to read from the same file.
  */
 public class ReftableReader extends Reftable implements AutoCloseable {
+	// Representation of the last lexicographical byte.
+	private static final byte LAST_LEXICOGRAPHICAL_BYTE = (byte) 0xFF;
+
 	private final BlockSource src;
 
 	private int blockSize = -1;
@@ -509,6 +512,17 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		}
 
 		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			initRefIndex();
+			byte[] key = prefixName.getBytes(UTF_8);
+			ByteBuffer byteBuffer = ByteBuffer.allocate(key.length + 1);
+			byteBuffer.put(key);
+			byteBuffer.put(LAST_LEXICOGRAPHICAL_BYTE);
+
+			block = seek(REF_BLOCK_TYPE, byteBuffer.array(), refIndex, 0, refEnd);
+		}
+
+		@Override
 		public Ref getRef() {
 			return ref;
 		}
@@ -679,6 +693,17 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 					return true;
 				}
 			}
+		}
+
+		@Override
+		/**
+		 * The implementation here would not be efficient complexity-wise since it
+		 * expected that there are a small number of refs that match the same object id.
+		 * In such case it's better to not even use this method (as the caller might
+		 * expect it to be efficient).
+		 */
+		public void seekPastPrefix(String prefixName) throws IOException {
+		    throw new UnsupportedOperationException();
 		}
 
 		@Override

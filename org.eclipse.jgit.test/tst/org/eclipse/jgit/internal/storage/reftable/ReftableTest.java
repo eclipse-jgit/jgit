@@ -51,6 +51,9 @@ import org.junit.Test;
 public class ReftableTest {
 	private static final String MASTER = "refs/heads/master";
 	private static final String NEXT = "refs/heads/next";
+	private static final String AFTER_NEXT = "refs/heads/nextnext";
+	private static final String LAST = "refs/heads/nextnextnext";
+	private static final String NOT_REF_HEADS = "refs/zzz/zzz";
 	private static final String V1_0 = "refs/tags/v1.0";
 
 	private Stats stats;
@@ -392,6 +395,109 @@ public class ReftableTest {
 			assertEquals(0, rc.getRef().getUpdateIndex());
 
 			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void seekPastRefWithRefCursor() throws IOException {
+		Ref exp = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		Ref afterNext = ref(AFTER_NEXT, 3);
+		Ref afterNextNext = ref(LAST, 4);
+		ReftableReader t = read(write(exp, next, afterNext, afterNextNext));
+		try (RefCursor rc = t.seekRefsWithPrefix("")) {
+			assertTrue(rc.next());
+			assertEquals(MASTER, rc.getRef().getName());
+
+			rc.seekPastPrefix("refs/heads/next/");
+
+			assertTrue(rc.next());
+			assertEquals(AFTER_NEXT, rc.getRef().getName());
+			assertTrue(rc.next());
+			assertEquals(LAST, rc.getRef().getName());
+
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void seekPastToNonExistentPrefixToTheMiddle() throws IOException {
+		Ref exp = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		Ref afterNext = ref(AFTER_NEXT, 3);
+		Ref afterNextNext = ref(LAST, 4);
+		ReftableReader t = read(write(exp, next, afterNext, afterNextNext));
+		try (RefCursor rc = t.seekRefsWithPrefix("")) {
+			rc.seekPastPrefix("refs/heads/master_non_existent");
+
+			assertTrue(rc.next());
+			assertEquals(NEXT, rc.getRef().getName());
+
+			assertTrue(rc.next());
+			assertEquals(AFTER_NEXT, rc.getRef().getName());
+
+			assertTrue(rc.next());
+			assertEquals(LAST, rc.getRef().getName());
+
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void seekPastToNonExistentPrefixToTheEnd() throws IOException {
+		Ref exp = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		Ref afterNext = ref(AFTER_NEXT, 3);
+		Ref afterNextNext = ref(LAST, 4);
+		ReftableReader t = read(write(exp, next, afterNext, afterNextNext));
+		try (RefCursor rc = t.seekRefsWithPrefix("")) {
+			rc.seekPastPrefix("refs/heads/nextnon_existent_end");
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void seekPastWithSeekRefsWithPrefix() throws IOException {
+		Ref exp = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		Ref afterNext = ref(AFTER_NEXT, 3);
+		Ref afterNextNext = ref(LAST, 4);
+		Ref notRefsHeads = ref(NOT_REF_HEADS, 5);
+		ReftableReader t = read(write(exp, next, afterNext, afterNextNext, notRefsHeads));
+		try (RefCursor rc = t.seekRefsWithPrefix("refs/heads/")) {
+			rc.seekPastPrefix("refs/heads/next/");
+			assertTrue(rc.next());
+			assertEquals(AFTER_NEXT, rc.getRef().getName());
+			assertTrue(rc.next());
+			assertEquals(LAST, rc.getRef().getName());
+
+			// NOT_REF_HEADS is next, but it's omitted because of
+			// seekRefsWithPrefix("refs/heads/").
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void seekPastWithLotsOfRefs() throws IOException {
+		Ref[] refs = new Ref[500];
+		for (int i = 1; i <= 500; i++) {
+			refs[i - 1] = ref(String.format("refs/%d", i), i);
+		}
+		ReftableReader t = read(write(refs));
+		try (RefCursor rc = t.allRefs()) {
+			rc.seekPastPrefix("refs/3");
+			assertTrue(rc.next());
+			assertEquals("refs/4", rc.getRef().getName());
+			assertTrue(rc.next());
+			assertEquals("refs/40", rc.getRef().getName());
+
+			rc.seekPastPrefix("refs/8");
+			assertTrue(rc.next());
+			assertEquals("refs/9", rc.getRef().getName());
+			assertTrue(rc.next());
+			assertEquals("refs/90", rc.getRef().getName());
+			assertTrue(rc.next());
+			assertEquals("refs/91", rc.getRef().getName());
 		}
 	}
 
@@ -870,6 +976,14 @@ public class ReftableTest {
 			assertEquals(0, rc.getRef().getUpdateIndex());
 
 			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void byObjectIdSkipPastPrefix() throws IOException {
+		ReftableReader t = read(write());
+		try (RefCursor rc = t.byObjectId(id(2))) {
+			assertThrows(UnsupportedOperationException.class, () -> rc.seekPastPrefix("refs/heads/"));
 		}
 	}
 
