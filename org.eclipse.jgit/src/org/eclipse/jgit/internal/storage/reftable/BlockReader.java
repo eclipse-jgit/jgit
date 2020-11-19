@@ -91,6 +91,10 @@ class BlockReader {
 		return ptr < keysEnd;
 	}
 
+	int getCurrentLocationInBuf() {
+		return ptr;
+	}
+
 	void parseKey() {
 		int pfx = readVarint32();
 		valueType = readVarint32();

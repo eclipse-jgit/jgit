@@ -29,6 +29,16 @@ public abstract class RefCursor implements AutoCloseable {
 	public abstract boolean next() throws IOException;
 
 	/**
+	 * Skips all refs until refs that start with {@code prefixName} and then skips all of
+	 * those refs as well.
+	 *
+	 * @param prefixName prefix that should be skipped. All previous refs will also be skipped.
+	 * @throws java.io.IOException
+	 *             references cannot be read.
+	 */
+	public abstract void seekPastPrefix(String prefixName) throws IOException;
+
+	/**
 	 * Get reference at the current position.
 	 *
 	 * @return reference at the current position.
