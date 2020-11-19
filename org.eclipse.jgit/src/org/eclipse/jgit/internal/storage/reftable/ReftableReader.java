@@ -509,6 +509,21 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		}
 
 		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			initRefIndex();
+			byte[] key = prefixName.getBytes(UTF_8);
+			ByteBuffer byteBuffer = ByteBuffer.allocate(key.length + 1);
+			byteBuffer.put(key);
+			// Add the representation of the last byte lexicographically. Based on how UTF_8
+			// representation works, this byte will be bigger lexicographically than any
+			// UTF_8 character when translated into bytes, since 0xFF can never be a part of
+			// a UTF_8 string.
+			byteBuffer.put((byte) 0xFF);
+
+			block = seek(REF_BLOCK_TYPE, byteBuffer.array(), refIndex, 0, refEnd);
+		}
+
+		@Override
 		public Ref getRef() {
 			return ref;
 		}
@@ -679,6 +694,17 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 					return true;
 				}
 			}
+		}
+
+		@Override
+		/**
+		 * The implementation here would not be efficient complexity-wise since it
+		 * expected that there are a small number of refs that match the same object id.
+		 * In such case it's better to not even use this method (as the caller might
+		 * expect it to be efficient).
+		 */
+		public void seekPastPrefix(String prefixName) throws IOException {
+		    throw new UnsupportedOperationException();
 		}
 
 		@Override
