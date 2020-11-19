@@ -46,12 +46,20 @@ import org.eclipse.jgit.util.NB;
  * instance to read from the same file.
  */
 public class ReftableReader extends Reftable implements AutoCloseable {
+	// UTF_8 representation of the last alphabetical character (\u10FFFF).
+	private static final byte[] LAST_UTF8_CHAR = new byte[] {
+			(byte)0xF7,
+			(byte)0xBF,
+			(byte)0xBF,
+			(byte)0xBF};
+
 	private final BlockSource src;
 
 	private int blockSize = -1;
 	private long minUpdateIndex;
 	private long maxUpdateIndex;
 
+	private long startPosOfCurrentBlock = 0;
 	private long refEnd;
 	private long objPosition;
 	private long objEnd;
@@ -392,6 +400,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 	private BlockReader readIndex(long pos) throws IOException {
 		int sz = readBlockLen(pos);
 		BlockReader i = new BlockReader();
+		startPosOfCurrentBlock = pos;
 		i.readBlock(src, pos, sz);
 		i.verifyIndex();
 		return i;
@@ -419,6 +428,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 	}
 
 	private BlockReader readBlock(long pos, long end) throws IOException {
+		startPosOfCurrentBlock = pos;
 		if (indexCache != null) {
 			BlockReader b = indexCache.get(pos);
 			if (b != null) {
@@ -506,6 +516,16 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 				}
 				return true;
 			}
+		}
+
+		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			prefixName = prefixName + new String(LAST_UTF8_CHAR, UTF_8);
+			initRefIndex();
+
+			byte[] key = prefixName.getBytes(UTF_8);
+
+			block = seek(REF_BLOCK_TYPE, key, refIndex, startPosOfCurrentBlock + block.getCurrentLocationInBuf(), refEnd);
 		}
 
 		@Override
@@ -678,6 +698,29 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 						&& (includeDeletes || !wasDeleted())) {
 					return true;
 				}
+			}
+		}
+
+		/** The implementation here is not efficient complexity-wise since it expected that there are
+		 * a small number of refs that match the same object id. */
+		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			// Find one ref that starts with this prefix.
+			while (next()) {
+				if (ref.getName().startsWith(prefixName)){
+					break;
+				}
+			}
+			// Go over all the refs until finding a ref that doesn't start with this prefix.
+			BlockReader previousBlock = block;
+			while (next()) {
+				if (!ref.getName().startsWith(prefixName)){
+					// for consistency, go back to the previous block such that "next" should still be called
+					// for this ref.
+					block = previousBlock;
+					break;
+				}
+				previousBlock = block;
 			}
 		}
 
