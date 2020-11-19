@@ -46,6 +46,8 @@ import org.eclipse.jgit.util.NB;
  * instance to read from the same file.
  */
 public class ReftableReader extends Reftable implements AutoCloseable {
+	private static final char LAST_UTF8_CHAR = '\uFFFF';
+
 	private final BlockSource src;
 
 	private int blockSize = -1;
@@ -509,6 +511,15 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		}
 
 		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			prefixName = prefixName + LAST_UTF8_CHAR;
+			initRefIndex();
+
+			byte[] key = prefixName.getBytes(UTF_8);
+			block = seek(REF_BLOCK_TYPE, key, refIndex, block.getCurrentLocationInBuf(), refEnd);
+		}
+
+		@Override
 		public Ref getRef() {
 			return ref;
 		}
@@ -678,6 +689,29 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 						&& (includeDeletes || !wasDeleted())) {
 					return true;
 				}
+			}
+		}
+
+		/** The implementation here is not efficient complexity-wise since it expected that there are
+		 * a small number of refs that match the same object id. */
+		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			// Find one ref that starts with this prefix.
+			while (next()) {
+				if (ref.getName().startsWith(prefixName)){
+					break;
+				}
+			}
+			// Go over all the refs until finding a ref that doesn't start with this prefix.
+			BlockReader previousBlock = block;
+			while (next()) {
+				if (!ref.getName().startsWith(prefixName)){
+					// for consistency, go back to the previous block such that "next" should still be called
+					// for this ref.
+					block = previousBlock;
+					break;
+				}
+				previousBlock = block;
 			}
 		}
 
