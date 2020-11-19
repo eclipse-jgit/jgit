@@ -138,6 +138,118 @@ public class MergedReftableTest {
 	}
 
 	@Test
+	public void twoTableSeekPastWithRefCursor() throws IOException {
+		List<Ref> delta1 = Arrays.asList(
+				ref("refs/heads/apple", 1),
+				ref("refs/heads/master", 2));
+		List<Ref> delta2 = Arrays.asList(
+				ref("refs/heads/banana", 3),
+				ref("refs/heads/zzlast", 4));
+
+		MergedReftable mr = merge(write(delta1), write(delta2));
+		try (RefCursor rc = mr.seekRefsWithPrefix("")) {
+			assertTrue(rc.next());
+			assertEquals("refs/heads/apple", rc.getRef().getName());
+			assertEquals(id(1), rc.getRef().getObjectId());
+
+			rc.seekPastPrefix("refs/heads/banana/");
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/master", rc.getRef().getName());
+			assertEquals(id(2), rc.getRef().getObjectId());
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/zzlast", rc.getRef().getName());
+			assertEquals(id(4), rc.getRef().getObjectId());
+
+			assertEquals(1, rc.getRef().getUpdateIndex());
+		}
+	}
+
+	@Test
+	public void oneTableSeekPastWithRefCursor() throws IOException {
+		List<Ref> delta1 = Arrays.asList(
+				ref("refs/heads/apple", 1),
+				ref("refs/heads/master", 2));
+
+		MergedReftable mr = merge(write(delta1));
+		try (RefCursor rc = mr.seekRefsWithPrefix("")) {
+			rc.seekPastPrefix("refs/heads/apple");
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/master", rc.getRef().getName());
+			assertEquals(id(2), rc.getRef().getObjectId());
+
+			assertEquals(1, rc.getRef().getUpdateIndex());
+		}
+	}
+
+	@Test
+	public void seekPastToNonExistentPrefixToTheMiddle() throws IOException {
+		List<Ref> delta1 = Arrays.asList(
+				ref("refs/heads/apple", 1),
+				ref("refs/heads/master", 2));
+		List<Ref> delta2 = Arrays.asList(
+				ref("refs/heads/banana", 3),
+				ref("refs/heads/zzlast", 4));
+
+		MergedReftable mr = merge(write(delta1), write(delta2));
+		try (RefCursor rc = mr.seekRefsWithPrefix("")) {
+			rc.seekPastPrefix("refs/heads/x");
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/zzlast", rc.getRef().getName());
+			assertEquals(id(4), rc.getRef().getObjectId());
+
+			assertEquals(1, rc.getRef().getUpdateIndex());
+		}
+	}
+
+	@Test
+	public void seekPastToNonExistentPrefixToTheEnd() throws IOException {
+		List<Ref> delta1 = Arrays.asList(
+				ref("refs/heads/apple", 1),
+				ref("refs/heads/master", 2));
+		List<Ref> delta2 = Arrays.asList(
+				ref("refs/heads/banana", 3),
+				ref("refs/heads/zzlast", 4));
+
+		MergedReftable mr = merge(write(delta1), write(delta2));
+		try (RefCursor rc = mr.seekRefsWithPrefix("")) {
+			rc.seekPastPrefix("refs/heads/zzz");
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void seekPastManyTimes() throws IOException {
+		List<Ref> delta1 = Arrays.asList(
+				ref("refs/heads/apple", 1),
+				ref("refs/heads/master", 2));
+		List<Ref> delta2 = Arrays.asList(
+				ref("refs/heads/banana", 3),
+				ref("refs/heads/zzlast", 4));
+
+		MergedReftable mr = merge(write(delta1), write(delta2));
+		try (RefCursor rc = mr.seekRefsWithPrefix("")) {
+			rc.seekPastPrefix("refs/heads/apple");
+			rc.seekPastPrefix("refs/heads/banana");
+			rc.seekPastPrefix("refs/heads/master");
+			rc.seekPastPrefix("refs/heads/zzlast");
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void seekPastOnEmptyTable() throws IOException {
+		MergedReftable mr = merge(write(), write());
+		try (RefCursor rc = mr.seekRefsWithPrefix("")) {
+			rc.seekPastPrefix("refs/");
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
 	public void twoTableById() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
