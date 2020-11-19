@@ -139,7 +139,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		}
 		src.adviseSequentialRead(0, refEnd);
 
-		RefCursorImpl i = new RefCursorImpl(refEnd, null, false);
+		RefCursorImpl i = new RefCursorImpl(refEnd, null, false, false);
 		i.block = readBlock(0, refEnd);
 		return i;
 	}
@@ -150,7 +150,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		initRefIndex();
 
 		byte[] key = refName.getBytes(UTF_8);
-		RefCursorImpl i = new RefCursorImpl(refEnd, key, false);
+		RefCursorImpl i = new RefCursorImpl(refEnd, key, false, false);
 		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
 		return i;
 	}
@@ -161,7 +161,19 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		initRefIndex();
 
 		byte[] key = prefix.getBytes(UTF_8);
-		RefCursorImpl i = new RefCursorImpl(refEnd, key, true);
+		RefCursorImpl i = new RefCursorImpl(refEnd, key, true, false);
+		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
+		return i;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public RefCursor seekPastRef(String refName) throws IOException {
+		refName = refName + (char)(415653881.5*10);
+		initRefIndex();
+
+		byte[] key = refName.getBytes(UTF_8);
+		RefCursorImpl i = new RefCursorImpl(refEnd, key, false, true);
 		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
 		return i;
 	}
@@ -470,14 +482,16 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		private final long scanEnd;
 		private final byte[] match;
 		private final boolean prefix;
+		private final boolean scanUntilEnd;
 
 		private Ref ref;
 		BlockReader block;
 
-		RefCursorImpl(long scanEnd, byte[] match, boolean prefix) {
+		RefCursorImpl(long scanEnd, byte[] match, boolean prefix, boolean scanUntilEnd) {
 			this.scanEnd = scanEnd;
 			this.match = match;
 			this.prefix = prefix;
+			this.scanUntilEnd = scanUntilEnd;
 		}
 
 		@Override
@@ -495,7 +509,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 				}
 
 				block.parseKey();
-				if (match != null && !block.match(match, prefix)) {
+				if (!scanUntilEnd && match != null && !block.match(match, prefix)) {
 					block.skipValue();
 					return false;
 				}

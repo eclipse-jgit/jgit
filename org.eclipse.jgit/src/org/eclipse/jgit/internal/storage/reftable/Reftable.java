@@ -127,6 +127,21 @@ public abstract class Reftable {
 	public abstract RefCursor seekRefsWithPrefix(String prefix) throws IOException;
 
 	/**
+	 * Seek to the first reference after the inputted reference
+	 * <p>
+	 * This method will seek to the reference {@code refName}. If present, the
+	 * returned cursor will iterate exactly one entry. If not found, an empty
+	 * cursor is returned.
+	 *
+	 * @param refName
+	 *            reference name.
+	 * @return cursor to iterate; empty cursor if no references match.
+	 * @throws java.io.IOException
+	 *             if references cannot be read.
+	 */
+	public abstract RefCursor seekPastRef(String refName) throws IOException;
+
+	/**
 	 * Match references pointing to a specific object.
 	 *
 	 * @param id

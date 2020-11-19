@@ -132,6 +132,16 @@ public class MergedReftable extends Reftable {
 
 	/** {@inheritDoc} */
 	@Override
+	public RefCursor seekPastRef(String refName) throws IOException {
+		MergedRefCursor m = new MergedRefCursor();
+		for (int i = 0; i < tables.length; i++) {
+			m.add(new RefQueueEntry(tables[i].seekPastRef(refName), i));
+		}
+		return m;
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public RefCursor byObjectId(AnyObjectId name) throws IOException {
 		MergedRefCursor m = new FilteringMergedRefCursor(name);
 		for (int i = 0; i < tables.length; i++) {
