@@ -46,6 +46,13 @@ import org.eclipse.jgit.util.NB;
  * instance to read from the same file.
  */
 public class ReftableReader extends Reftable implements AutoCloseable {
+	// UTF_8 representation of the last alphabetical character (\u10FFFF).
+	private static final byte[] LAST_UTF8_CHAR = new byte[] {
+			(byte)0xF7,
+			(byte)0xBF,
+			(byte)0xBF,
+			(byte)0xBF};
+
 	private final BlockSource src;
 
 	private int blockSize = -1;
@@ -471,6 +478,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		private final byte[] match;
 		private final boolean prefix;
 
+		private String latestSkippedPrefix = null;
 		private Ref ref;
 		BlockReader block;
 
@@ -480,8 +488,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 			this.prefix = prefix;
 		}
 
-		@Override
-		public boolean next() throws IOException {
+		private boolean nextWrapper() throws IOException {
 			for (;;) {
 				if (block == null || block.type() != REF_BLOCK_TYPE) {
 					return false;
@@ -506,6 +513,30 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 				}
 				return true;
 			}
+		}
+
+		@Override
+		public boolean next() throws IOException {
+			// when skipping past a prefix, we sometimes may not skip fully. This is needed
+			// to ensure that the returned ref is not part of the skipped prefix.
+			while (nextWrapper()) {
+				if (latestSkippedPrefix == null || !ref.getName().startsWith(latestSkippedPrefix)) {
+					latestSkippedPrefix = null;
+					return true;
+				}
+			}
+			return false;
+		}
+
+		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			prefixName = prefixName + new String(LAST_UTF8_CHAR, UTF_8);
+			initRefIndex();
+
+			byte[] key = prefixName.getBytes(UTF_8);
+
+			block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
+			latestSkippedPrefix = prefixName;
 		}
 
 		@Override
@@ -679,6 +710,17 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 					return true;
 				}
 			}
+		}
+
+		@Override
+		/**
+		 * The implementation here would not be efficient complexity-wise since it
+		 * expected that there are a small number of refs that match the same object id.
+		 * In such case it's better to not even use this method (as the caller might
+		 * expect it to be efficient).
+		 */
+		public void seekPastPrefix(String prefixName) throws IOException {
+		    throw new UnsupportedOperationException();
 		}
 
 		@Override
