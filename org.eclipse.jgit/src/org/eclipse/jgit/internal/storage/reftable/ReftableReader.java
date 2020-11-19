@@ -17,6 +17,7 @@ import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_HEADER_LEN;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.INDEX_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.LOG_BLOCK_TYPE;
+import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.OBJ_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.REF_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.VERSION_1;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.isFileHeaderMagic;
@@ -46,6 +47,8 @@ import org.eclipse.jgit.util.NB;
  * instance to read from the same file.
  */
 public class ReftableReader extends Reftable implements AutoCloseable {
+	private static final char LAST_UTF8_CHAR = '\uFFFF';
+
 	private final BlockSource src;
 
 	private int blockSize = -1;
@@ -470,6 +473,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		private final long scanEnd;
 		private final byte[] match;
 		private final boolean prefix;
+		private boolean scanUntilEnd;
 
 		private Ref ref;
 		BlockReader block;
@@ -478,6 +482,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 			this.scanEnd = scanEnd;
 			this.match = match;
 			this.prefix = prefix;
+			scanUntilEnd = false;
 		}
 
 		@Override
@@ -495,7 +500,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 				}
 
 				block.parseKey();
-				if (match != null && !block.match(match, prefix)) {
+				if (!scanUntilEnd && match != null && !block.match(match, prefix)) {
 					block.skipValue();
 					return false;
 				}
@@ -506,6 +511,16 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 				}
 				return true;
 			}
+		}
+
+		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			prefixName = prefixName + LAST_UTF8_CHAR;
+			initRefIndex();
+
+			byte[] key = prefixName.getBytes(UTF_8);
+			scanUntilEnd = true;
+			block = seek(REF_BLOCK_TYPE, key, refIndex, block.getCurrentLocationInBuf(), refEnd);
 		}
 
 		@Override
@@ -678,6 +693,29 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 						&& (includeDeletes || !wasDeleted())) {
 					return true;
 				}
+			}
+		}
+
+		/** The implementation here is not efficient complexity-wise since it expected that there are
+		 * a small number of refs that match the same object id. */
+		@Override
+		public void seekPastPrefix(String prefixName) throws IOException {
+			// Find one ref that starts with this prefix.
+			while (next()) {
+				if (ref.getName().startsWith(prefixName)){
+					break;
+				}
+			}
+			// Go over all the refs until finding a ref that doesn't start with this prefix.
+			BlockReader previousBlock = block;
+			while (next()) {
+				if (!ref.getName().startsWith(prefixName)){
+					// for consistency, go back to the previous block such that "next" should still be called
+					// for this ref.
+					block = previousBlock;
+					break;
+				}
+				previousBlock = block;
 			}
 		}
 
