@@ -152,6 +152,24 @@
       "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe98f9fc_5d315969",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T14:33:21Z",
+      "side": 1,
+      "message": "Probably due to them having disabled some key types by default. I have my own \"update to 2.6.0\" branch somewhere locally where I had solved that by explicitly re-enabling the disabled key types; would have to update that and push.\n\nAnyway, this whole override of checkKeys() can be removed for 2.6.0, but one has to set  property ClientSessionCreator.TARGET_SERVER elsewhere.\n\nShall I try to merge in my local work-in-progress into this? The build here on the Eclipse infra will of course still fail since no sshd 2.6.0 is available yet.",
+      "parentUuid": "b648c0f9_7c4f9976",
+      "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
