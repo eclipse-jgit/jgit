@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9d48b022_4eb04239",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-21T10:09:25Z",
+      "side": 1,
+      "message": "Done. May be I can expand that currently one have to explicitly enable git wire protocol v2 in gerrit, per repository or globally. With this change it should be enabled per default. If not wanted, gerrit admin would have to explicitly disable git protocol v2.",
+      "parentUuid": "fa25ec6e_11217244",
+      "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14aa2e9f_33c33141",
         "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-11-21T10:02:26Z",
       "side": 1,
       "message": "Please also see bug 565822. Github and Gitlab do send the smart http lines:\n\n  001e# service\u003dgit-upload-pack\\n\n  0000\n  000eversion 2\\n\n\nJGit/Gerrit doesn\u0027t.",
+      "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "999afc0b_9b2c098b",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-21T10:09:25Z",
+      "side": 1,
+      "message": "Am I understanding correctly, that this is a general issue that should be fixed in bug 565822, and not a problem with this change/test?",
+      "parentUuid": "14aa2e9f_33c33141",
       "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb909883_6ccd53d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-21T10:09:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a99d678f_755bbb9d",
+      "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
