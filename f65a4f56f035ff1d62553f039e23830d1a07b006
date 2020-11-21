@@ -170,6 +170,24 @@
       "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a84957a_7eb0af15",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-21T14:35:26Z",
+      "side": 1,
+      "message": "\u003e Shall I try to merge in my local work-in-progress into this? The build here on the Eclipse infra will of course still fail since no sshd 2.6.0 is available yet.\n\nYes! You could also change the author to preserve attribution. Thanks again!",
+      "parentUuid": "fe98f9fc_5d315969",
+      "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
