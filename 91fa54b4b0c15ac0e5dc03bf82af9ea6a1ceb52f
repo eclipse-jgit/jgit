@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "a72c8789_7933aad7",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T10:23:10Z",
+      "side": 1,
+      "message": "Yes. I took the opportunity to bring that bug to more people\u0027s attention :-) Since we\u0027re testing against a JGit server, expecting \"version 2\" here is fine for now unless the JGit server side is changed.",
+      "parentUuid": "999afc0b_9b2c098b",
+      "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a99d678f_755bbb9d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 4
