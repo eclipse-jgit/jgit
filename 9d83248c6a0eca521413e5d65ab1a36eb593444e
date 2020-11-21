@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b17ef767_1417beff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T09:48:39Z",
+      "side": 1,
+      "message": "Is this package-visible for testing? Some tests for this would be good.",
+      "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2393cf32_07ea93b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T09:48:39Z",
+      "side": 1,
+      "message": "I don\u0027t think symrefs pointing to other symrefs exist? What case is this for?",
+      "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
