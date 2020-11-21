@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5351756c_f55a791b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 301457
+      },
+      "writtenOn": "2020-11-21T12:55:19Z",
+      "side": 1,
+      "message": "It is, I\u0027ll write them once we agree what it should do 😊",
+      "parentUuid": "b17ef767_1417beff",
+      "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2393cf32_07ea93b0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-11-21T09:48:39Z",
       "side": 1,
       "message": "I don\u0027t think symrefs pointing to other symrefs exist? What case is this for?",
+      "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfcb4b9c_c316a2af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 301457
+      },
+      "writtenOn": "2020-11-21T12:55:19Z",
+      "side": 1,
+      "message": "For symrefs in capabilities, no case exists for anything other than HEAD, because nothing else is sent.\n\nFor symbolic-refs themselves, c git certainly allows them to refer to other symbolic-refs\n$ git symbolic-ref a refs/heads/main\n$ git symbolic-ref b a\n$ git symbolic-ref b\nrefs/heads/main\n$ cat .git/b\nref: a\n\nso if you want this cater for some future change where upload-pack might include all symbolic-refs as symrefs then this is for completeness.",
+      "parentUuid": "2393cf32_07ea93b0",
       "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
