@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa25ec6e_11217244",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T10:02:26Z",
+      "side": 1,
+      "message": "(server side)",
+      "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14aa2e9f_33c33141",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T10:02:26Z",
+      "side": 1,
+      "message": "Please also see bug 565822. Github and Gitlab do send the smart http lines:\n\n  001e# service\u003dgit-upload-pack\\n\n  0000\n  000eversion 2\\n\n\nJGit/Gerrit doesn\u0027t.",
+      "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a99d678f_755bbb9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T10:02:26Z",
+      "side": 1,
+      "message": "OK. Means I\u0027ll have to set the version explicitly in all cases in [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/172595/3/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+      "revId": "91fa54b4b0c15ac0e5dc03bf82af9ea6a1ceb52f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
