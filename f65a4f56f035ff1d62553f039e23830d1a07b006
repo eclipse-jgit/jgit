@@ -188,6 +188,24 @@
       "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79aa59ed_22f38c7d",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T16:26:56Z",
+      "side": 1,
+      "message": "Done in PS 10. Includes now the re-enabling of ssh key types. I hope I didn\u0027t break any bazel setup. I used an sshd built from commit ad185853e032932fb400a53417d26d137d08ff9b to test; all SSH tests pass for me in Eclipse.\n\nThe change is still not complete; once sshd 2.6.0 is released, it needs to get into Orbit, and then into the target platform, and then the bazel setup should pull in the released version, of course.",
+      "parentUuid": "5a84957a_7eb0af15",
+      "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
