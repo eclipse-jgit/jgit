@@ -69,6 +69,24 @@
       "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb08325d_6ddc74d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-21T14:43:50Z",
+      "side": 1,
+      "message": "Wow. I wasn\u0027t aware of that; never seen nor had any use for this. Thanks for pointing it out.\n\nSo this basic mechanism looks good. But for protocol V2, an interface with a Map\u003cString, String\u003e instead of Collection\u003cString\u003e would be better; then the code could be re-used as-is.\n\nSo basically\n\n  Map\u003cString, String\u003e symrefs \u003d extractSymRefsFromCapabilities(remoteCapabilities);\n  updateWithSymRefs(refMap, symRefs);\n\nThen the protocol V2 implementation could re-use updateWithSymRefs. (Symref info is transported differently in protocol V2 (as are capabilities).)",
+      "parentUuid": "cfcb4b9c_c316a2af",
+      "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
