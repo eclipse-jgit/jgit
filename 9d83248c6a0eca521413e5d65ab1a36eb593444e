@@ -105,6 +105,24 @@
       "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6f59603_dde03511",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-22T11:05:05Z",
+      "side": 1,
+      "message": "Yes, I agree. Though I don\u0027t know what to do if there ever is an unresolved symref.",
+      "parentUuid": "c9eeee8d_9c73bba8",
+      "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
