@@ -87,6 +87,24 @@
       "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9eeee8d_9c73bba8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 301457
+      },
+      "writtenOn": "2020-11-22T07:39:23Z",
+      "side": 1,
+      "message": "Sounds good, I\u0027ll do that and add some tests.\n\nSince this updates the passed refMap, rather than returning a new one, I\u0027m of a mind to also require symRefs to be modifiable and remove entries as they are resolved - it would make for, I think, a nicer impl and also gives a way to check for unresolvable symrefs.\nAny opinion on that?",
+      "parentUuid": "cb08325d_6ddc74d9",
+      "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
