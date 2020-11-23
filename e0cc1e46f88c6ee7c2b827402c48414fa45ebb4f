@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d67fe5ee_cefa9d49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-23T18:10:58Z",
+      "side": 1,
+      "message": "I\u0027m building this change with Bazel. Error Prone is flagging UnusedException here:\n\n  BasePackConnection.java:208: error: [UnusedException] This catch block catches an exception and re-throws another, but swallows the caught exception rather than setting it as a cause. This can make debugging harder.\n\t\t\t\t} catch (EOFException e) {\n\t\t\t\t  ^\n    (see https://errorprone.info/bugpattern/UnusedException)\n\nOf course we could demote the severity from error to warning on this bug pattern  by changing in tools/BUILD:\n\n  \"-Xep:UnusedException:ERROR\"\n\nto:\n\n  \"-Xep:UnusedException:WARN\"",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 30
+      },
+      "revId": "e0cc1e46f88c6ee7c2b827402c48414fa45ebb4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
