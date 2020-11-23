@@ -22,6 +22,29 @@
       "revId": "e0cc1e46f88c6ee7c2b827402c48414fa45ebb4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbc1e35_46c18629",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-23T18:18:57Z",
+      "side": 1,
+      "message": "Error Prone is flagging: DefaultCharset error on this line:\n\n  TransportHttp.java:1198: error: [DefaultCharset] Implicit use of the platform default charset, which can result in differing behaviour between JVM executions or incorrect behavior if the encoding of the data source doesn\u0027t match expectations.\n\t\t\t\t\"version\".getBytes()) \u0026\u0026 magic[12] \u003e\u003d \u00271\u0027 \u0026\u0026 magic[12] \u003c\u003d \u00279\u0027) { //$NON-NLS-1$\n\t\t\t\t                  ^\n    (see https://errorprone.info/bugpattern/DefaultCharset)\n  Did you mean \u0027\"version\".getBytes(UTF_8)) \u0026\u0026 magic[12] \u003e\u003d \u00271\u0027 \u0026\u0026 magic[12] \u003c\u003d \u00279\u0027) {\u0027 or \u0027\"version\".getBytes(Charset.defaultCharset())) \u0026\u0026 magic[12] \u003e\u003d \u00271\u0027 \u0026\u0026 magic[12] \u003c\u003d \u00279\u0027) {\u0027?",
+      "range": {
+        "startLine": 1198,
+        "startChar": 4,
+        "endLine": 1198,
+        "endChar": 24
+      },
+      "revId": "e0cc1e46f88c6ee7c2b827402c48414fa45ebb4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
