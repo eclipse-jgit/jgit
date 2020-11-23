@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ea2f172_cd5ae1d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-23T21:48:03Z",
+      "side": 1,
+      "message": "What happens with the multiple worktrees implementation? I haven\u0027t looked at that for a long time, but didn\u0027t each worktree have its own .git directory with symlinks instead of directories? In the same vein, what about repo? (That Google(?) wrapper.) IIRC, that also produces such .git directories with symlinks. There\u0027s no guarantee that the targets of these symlinks are on the same filestore.",
+      "revId": "4c6809c56b2bb67ae8f6a91d1703304788529bfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
