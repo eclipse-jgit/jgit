@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9cfa000f_504dfcb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-23T18:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d67fe5ee_cefa9d49",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 30
+      },
+      "revId": "e0cc1e46f88c6ee7c2b827402c48414fa45ebb4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afbc1e35_46c18629",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "e0cc1e46f88c6ee7c2b827402c48414fa45ebb4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b92a6e31_415e43bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-23T18:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afbc1e35_46c18629",
+      "range": {
+        "startLine": 1198,
+        "startChar": 4,
+        "endLine": 1198,
+        "endChar": 24
+      },
+      "revId": "e0cc1e46f88c6ee7c2b827402c48414fa45ebb4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
