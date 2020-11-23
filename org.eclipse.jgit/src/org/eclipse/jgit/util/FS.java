@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -451,6 +452,12 @@ public abstract class FS {
 					return null;
 				}
 				// fall through and return fallback
+			} catch (FileNotFoundException e) {
+				// cannot determine FileStore of an unborn directory
+				LOG.warn(
+						"{}: cannot measure timestamp resolution of unborn directory {}", //$NON-NLS-1$
+						Thread.currentThread(), dir, e);
+				return FALLBACK_FILESTORE_ATTRIBUTES;
 			} catch (IOException | InterruptedException
 					| ExecutionException | CancellationException e) {
 				LOG.error(e.getMessage(), e);
