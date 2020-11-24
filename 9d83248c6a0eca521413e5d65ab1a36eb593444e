@@ -123,6 +123,24 @@
       "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c14b3bcc_4dd4e197",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 301457
+      },
+      "writtenOn": "2020-11-24T14:01:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6f59603_dde03511",
+      "revId": "9d83248c6a0eca521413e5d65ab1a36eb593444e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
