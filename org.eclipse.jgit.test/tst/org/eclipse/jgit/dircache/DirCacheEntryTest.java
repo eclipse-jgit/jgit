@@ -242,6 +242,46 @@ public class DirCacheEntryTest {
 	}
 
 	@Test
+	public void testSetStage() {
+		DirCacheEntry e = new DirCacheEntry("some/path", DirCacheEntry.STAGE_1);
+		e.setAssumeValid(true);
+		e.setCreationTime(2L);
+		e.setFileMode(FileMode.EXECUTABLE_FILE);
+		e.setLastModified(EPOCH.plusMillis(3L));
+		e.setLength(100L);
+		e.setObjectId(ObjectId
+				.fromString("0123456789012345678901234567890123456789"));
+		e.setUpdateNeeded(true);
+		e.setStage(DirCacheEntry.STAGE_2);
+
+		assertTrue(e.isAssumeValid());
+		assertEquals(2L, e.getCreationTime());
+		assertEquals(
+				ObjectId.fromString("0123456789012345678901234567890123456789"),
+				e.getObjectId());
+		assertEquals(FileMode.EXECUTABLE_FILE, e.getFileMode());
+		assertEquals(EPOCH.plusMillis(3L), e.getLastModifiedInstant());
+		assertEquals(100L, e.getLength());
+		assertEquals(DirCacheEntry.STAGE_2, e.getStage());
+		assertTrue(e.isUpdateNeeded());
+		assertEquals("some/path", e.getPathString());
+
+		e.setStage(DirCacheEntry.STAGE_0);
+
+		assertTrue(e.isAssumeValid());
+		assertEquals(2L, e.getCreationTime());
+		assertEquals(
+				ObjectId.fromString("0123456789012345678901234567890123456789"),
+				e.getObjectId());
+		assertEquals(FileMode.EXECUTABLE_FILE, e.getFileMode());
+		assertEquals(EPOCH.plusMillis(3L), e.getLastModifiedInstant());
+		assertEquals(100L, e.getLength());
+		assertEquals(DirCacheEntry.STAGE_0, e.getStage());
+		assertTrue(e.isUpdateNeeded());
+		assertEquals("some/path", e.getPathString());
+	}
+
+	@Test
 	public void testCopyMetaDataWithStage() {
 		copyMetaDataHelper(false);
 	}

@@ -1,7 +1,7 @@
-target "S20201027182932" with source configurePhase
+target "S20201118210000" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/S20201027182932/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/S20201118210000/repository" {
 	com.google.gson [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.google.gson.source [2.8.2.v20180104-1110,2.8.2.v20180104-1110]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -18,8 +18,8 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/S202010271829
 	net.bytebuddy.byte-buddy.source [1.9.0.v20181107-1410,1.9.0.v20181107-1410]
 	net.i2p.crypto.eddsa [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
 	net.i2p.crypto.eddsa.source [0.3.0.v20181102-1323,0.3.0.v20181102-1323]
-	org.apache.ant [1.10.8.v20200515-1239,1.10.8.v20200515-1239]
-	org.apache.ant.source [1.10.8.v20200515-1239,1.10.8.v20200515-1239]
+	org.apache.ant [1.10.9.v20201106-1946,1.10.9.v20201106-1946]
+	org.apache.ant.source [1.10.9.v20201106-1946,1.10.9.v20201106-1946]
 	org.apache.commons.codec [1.14.0.v20200818-1422,1.14.0.v20200818-1422]
 	org.apache.commons.codec.source [1.14.0.v20200818-1422,1.14.0.v20200818-1422]
 	org.apache.commons.compress [1.19.0.v20200106-2343,1.19.0.v20200106-2343]
@@ -59,8 +59,8 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/S202010271829
 	org.objenesis.source [2.6.0.v20180420-1519,2.6.0.v20180420-1519]
 	org.slf4j.api [1.7.30.v20200204-2150,1.7.30.v20200204-2150]
 	org.slf4j.api.source [1.7.30.v20200204-2150,1.7.30.v20200204-2150]
-	org.slf4j.binding.log4j12 [1.7.30.v20201016-1131,1.7.30.v20201016-1131]
-	org.slf4j.binding.log4j12.source [1.7.30.v20201016-1131,1.7.30.v20201016-1131]
+	org.slf4j.binding.log4j12 [1.7.30.v20201108-2042,1.7.30.v20201108-2042]
+	org.slf4j.binding.log4j12.source [1.7.30.v20201108-2042,1.7.30.v20201108-2042]
 	org.tukaani.xz [1.8.0.v20180207-1613,1.8.0.v20180207-1613]
 	org.tukaani.xz.source [1.8.0.v20180207-1613,1.8.0.v20180207-1613]
 }

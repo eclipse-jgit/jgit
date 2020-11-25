@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Kevin Sawicki <kevin@github.com> and others
+ * Copyright (C) 2011, 2020 Kevin Sawicki <kevin@github.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -24,6 +24,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -307,6 +308,16 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 
 		assertEquals("Conflicting", read(FILE1));
 		assertStageOneToThree(FILE1);
+	}
+
+	@Test
+	public void testCheckoutFileWithConflict() throws Exception {
+		setupConflictingState();
+		assertEquals('[' + FILE1 + ']',
+				git.status().call().getConflicting().toString());
+		git.checkout().setStartPoint(Constants.HEAD).addPath(FILE1).call();
+		assertEquals("3", read(FILE1));
+		assertTrue(git.status().call().isClean());
 	}
 
 	@Test
