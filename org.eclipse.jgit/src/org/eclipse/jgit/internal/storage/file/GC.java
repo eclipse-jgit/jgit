@@ -986,8 +986,9 @@ public class GC {
 					// .pack, .keep, .index, .bitmap to avoid look ahead
 					.sorted(Collections.reverseOrder())
 					.collect(Collectors.toList());
-		} catch (IOException e1) {
-			// ignore
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+			return;
 		}
 		if (fileNames == null) {
 			return;
