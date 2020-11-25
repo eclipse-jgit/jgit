@@ -24,9 +24,13 @@ public class GcOrphanFilesTest extends GcTestCase {
 
 	private static final String BITMAP_File_1 = PACK + "-1.bitmap";
 
+	private static final String BITMAP_File_2 = PACK + "-2.bitmap";
+
 	private static final String IDX_File_2 = PACK + "-2.idx";
 
 	private static final String IDX_File_malformed = PACK + "-1234idx";
+
+	private static final String KEEP_File_2 = PACK + "-2.keep";
 
 	private static final String PACK_File_2 = PACK + "-2.pack";
 
@@ -70,6 +74,21 @@ public class GcOrphanFilesTest extends GcTestCase {
 		createFileInPackFolder(IDX_File_malformed);
 		gc.gc();
 		assertTrue(new File(packDir, IDX_File_malformed).exists());
+	}
+
+	@Test
+	public void keepPreventsDeletionMissingPack() throws Exception {
+		createFileInPackFolder(BITMAP_File_1);
+		createFileInPackFolder(IDX_File_2);
+		createFileInPackFolder(BITMAP_File_2);
+		createFileInPackFolder(KEEP_File_2);
+		createFileInPackFolder(PACK_File_3);
+		gc.gc();
+		assertFalse(new File(packDir, BITMAP_File_1).exists());
+		assertTrue(new File(packDir, BITMAP_File_2).exists());
+		assertTrue(new File(packDir, IDX_File_2).exists());
+		assertTrue(new File(packDir, KEEP_File_2).exists());
+		assertTrue(new File(packDir, PACK_File_3).exists());
 	}
 
 	private void createFileInPackFolder(String fileName) throws IOException {
