@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41311b18_eb1e0104",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-25T23:41:07Z",
+      "side": 1,
+      "message": "nit: I would also add a LOG.warning() here.",
+      "revId": "29749e038b923b0c354c541a08c19bcf4c0d414c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
