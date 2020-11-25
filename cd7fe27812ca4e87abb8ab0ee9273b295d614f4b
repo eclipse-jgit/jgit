@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d7d3c949_92656161",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-25T19:25:16Z",
+      "side": 1,
+      "message": "Thanks @ponch!\n\nI was confused with reversed sorting order. It works even with extended logic to .keep file, because the sorting in reverse order would be:\n\n* pack-1234.pack\n* pack-1234.idx\n\nin case if pack file is in place, and:\n\n* pack-1234.keep\n* pack-1234.idx\n\nin case if keep file is in place.\n\nIf .keep suffix would be instead .abc suffix, then the algorithm wouldn\u0027t work as is and the idx file would be removed.",
+      "parentUuid": "884f179c_669ca014",
+      "range": {
+        "startLine": 968,
+        "startChar": 5,
+        "endLine": 968,
+        "endChar": 40
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "047e091c_cd19d240",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
