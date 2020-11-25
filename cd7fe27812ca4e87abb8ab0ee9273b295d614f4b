@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "c0293ea5_645911c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2020-11-25T20:26:38Z",
+      "side": 1,
+      "message": "+1 for Luca suggestion, unless you think it is too much of a refactoring.\n\nReading the code for the first time it took me a while to figure out what was te logic behind it :/",
+      "parentUuid": "05a396b9_bd29eda2",
+      "range": {
+        "startLine": 968,
+        "startChar": 5,
+        "endLine": 968,
+        "endChar": 40
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "047e091c_cd19d240",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
