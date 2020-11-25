@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "884f179c_669ca014",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2020-11-25T18:44:20Z",
+      "side": 1,
+      "message": "@DavidO: I am assuming a file is considered orphan if it doesn\u0027t have an associated pack or keep file.\n\nOrdering is important to detect the orphans later on at line 979. This sorting is forcing the pack or keep file to appear first to determine the prefix of the group of files we want to process. See a couple of examples below:\n\nCASE 1: No Orphans\n\nGiven the following files, sorted as specified at line 968:\n\npack-1234.pack\npack-1234.idx\n\n1st loop cycle:\nn \u003d pack-1234.pack\nbase \u003d pack-1234\n\n2nd loop cycle:\nn \u003d pack-1234.idx\nbase \u003d pack-1234\n\npack-1234.idx won\u0027t be discarded since statement at line 990 is false.\n\n\nCASE 2: Orphans detected\n\nGiven the following files, sorted as specified at line 968:\n\npack-1234.pack\npack-5678.idx\n\n1st loop cycle:\nn \u003d pack-1234.pack\nbase \u003d pack-1234\n\n2nd loop cycle:\nn \u003d pack-5678.idx\nbase \u003d pack-1234\n\npack-5678.idx will be discarded since statement at line 990 is true.\n\nHope it makes sense.",
+      "parentUuid": "097146ef_7a1a5e55",
+      "range": {
+        "startLine": 968,
+        "startChar": 5,
+        "endLine": 968,
+        "endChar": 40
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "047e091c_cd19d240",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
