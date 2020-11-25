@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b3cac54_cfb63fa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-25T23:05:33Z",
+      "side": 1,
+      "message": "Why not just adding here \u0027|| n.endsWith(KEEP_EXT)\u0027 ?\nAll the rest of the code in this block could stay as-is, isn\u0027t it?",
+      "range": {
+        "startLine": 982,
+        "startChar": 7,
+        "endLine": 982,
+        "endChar": 27
+      },
+      "revId": "d510b0d60461811f4aedb0edaf538b8efc0dc261",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
