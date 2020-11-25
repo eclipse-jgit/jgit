@@ -115,6 +115,8 @@ public class GC {
 
 	private static final String INDEX_EXT = "." + PackExt.INDEX.getExtension(); //$NON-NLS-1$
 
+	private static final String KEEP_EXT = "." + PackExt.KEEP.getExtension(); //$NON-NLS-1$
+
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
 	private static final int DEFAULT_AUTOLIMIT = 6700;
@@ -961,7 +963,10 @@ public class GC {
 			fileNames = files.map(path -> path.getFileName().toString())
 					.filter(name -> (name.endsWith(PACK_EXT)
 							|| name.endsWith(BITMAP_EXT)
-							|| name.endsWith(INDEX_EXT)))
+							|| name.endsWith(INDEX_EXT)
+							|| name.endsWith(KEEP_EXT)))
+					// sort files with same base name in the order:
+					// .pack, .keep, .index, .bitmap to avoid look ahead
 					.sorted(Collections.reverseOrder())
 					.collect(Collectors.toList());
 		} catch (IOException e1) {
@@ -972,12 +977,22 @@ public class GC {
 		}
 
 		String base = null;
+		boolean isLocked = false;
 		for (String n : fileNames) {
 			if (n.endsWith(PACK_EXT)) {
 				base = n.substring(0, n.lastIndexOf('.'));
+				isLocked = false;
+			} else if (n.endsWith(KEEP_EXT)) {
+				// pack locked by .keep, do not interfere with receive-pack
+				base = n.substring(0, n.lastIndexOf('.'));
+				isLocked = true;
 			} else {
-				if (base == null || !n.startsWith(base)) {
+				if ((base != null) && !n.startsWith(base)) {
+					isLocked = false;
+				}
+				if (!isLocked && (base == null || !n.startsWith(base))) {
 					try {
+						// delete unrelated and orphaned index files
 						Files.delete(packDir.resolve(n));
 					} catch (IOException e) {
 						LOG.error(e.getMessage(), e);
