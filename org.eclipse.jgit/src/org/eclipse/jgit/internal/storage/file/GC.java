@@ -1006,7 +1006,9 @@ public class GC {
 				}
 				if (!keep && (base == null || !n.startsWith(base))) {
 					try {
-						Files.delete(packDir.resolve(n));
+						Path delete = packDir.resolve(n);
+						Files.delete(delete.resolve(n));
+						LOG.warn(JGitText.get().deletedOrphanInPackDir, delete);
 					} catch (IOException e) {
 						LOG.error(e.getMessage(), e);
 					}
