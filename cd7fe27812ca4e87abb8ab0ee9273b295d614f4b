@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "627cb26c_87cf68b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-25T19:34:14Z",
+      "side": 1,
+      "message": "exactly, this avoids the need to look-ahead to find out which of the other files for the same pack are present",
+      "parentUuid": "884f179c_669ca014",
+      "range": {
+        "startLine": 968,
+        "startChar": 5,
+        "endLine": 968,
+        "endChar": 40
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "047e091c_cd19d240",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
