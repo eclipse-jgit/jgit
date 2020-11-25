@@ -68,6 +68,29 @@
       "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3df5218_f6f86fb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2020-11-25T18:31:29Z",
+      "side": 1,
+      "message": "What about renaming \"skip\" to something more specific to this context, i.e.: \"checkForOrphans\"? \n\nI believe, the following statement in particular would read better:\n\nif (checkForOrphans \u0026\u0026 (base \u003d\u003d null || !n.startsWith(base))) { ... }\n\nMaybe the \"base \u003d\u003d null || !n.startsWith(base)\" check could also be wrapped in a isOrphan() method? \n\nWDYT?",
+      "range": {
+        "startLine": 990,
+        "startChar": 8,
+        "endLine": 990,
+        "endChar": 13
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
