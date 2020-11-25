@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "05a396b9_bd29eda2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-25T20:10:29Z",
+      "side": 1,
+      "message": "However, the code looks hacky in this reverse ordering, it works only because the \u0027p\u0027 comes after the \u0027i\u0027 and the \u0027k\u0027, correct?\n\nI believe the code should be strengthened and just do something simpler:\n- get the full list of files\n- extract from that a hash-set of packfiles, considering the \u0027keep\u0027 also in that list\n- for all indexes and bitmaps that do not have a packfile \u003d\u003e remove if it is older than the pruning expire.\n\nIt should also be a lot faster, as there is no sorting involved.",
+      "parentUuid": "627cb26c_87cf68b5",
+      "range": {
+        "startLine": 968,
+        "startChar": 5,
+        "endLine": 968,
+        "endChar": 40
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "047e091c_cd19d240",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -131,6 +155,30 @@
       "writtenOn": "2020-11-25T18:30:58Z",
       "side": 1,
       "message": "Unrelated to this change: should this be logged like on line 994 below, as mentioned by Luca on the original change?",
+      "range": {
+        "startLine": 971,
+        "startChar": 3,
+        "endLine": 971,
+        "endChar": 12
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe13268d_b6475d7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-25T20:10:29Z",
+      "side": 1,
+      "message": "+1, follow-up change?",
+      "parentUuid": "047e091c_cd19d240",
       "range": {
         "startLine": 971,
         "startChar": 3,
