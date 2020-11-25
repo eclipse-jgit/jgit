@@ -22,6 +22,29 @@
       "revId": "d510b0d60461811f4aedb0edaf538b8efc0dc261",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75cbb478_324d300e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-25T23:06:42Z",
+      "side": 1,
+      "message": "prevent NPE if base is null",
+      "range": {
+        "startLine": 990,
+        "startChar": 8,
+        "endLine": 990,
+        "endChar": 22
+      },
+      "revId": "d510b0d60461811f4aedb0edaf538b8efc0dc261",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

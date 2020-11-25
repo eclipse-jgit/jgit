@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "791f43e3_041c81b9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-25T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "512c8b13_3a8f5557",
+      "range": {
+        "startLine": 80,
+        "startChar": 13,
+        "endLine": 80,
+        "endChar": 44
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "097146ef_7a1a5e55",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -168,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "411d13b7_6191e614",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-25T23:06:42Z",
+      "side": 1,
+      "message": "I wanted a small fix on a maintenance branch. For now I will add a comment to explain. We can refactor on master. Don\u0027t know how you want to implement that with a HashSet.\n\nIf performance of sorting a list with a few thousand entries is a performance problem we have much bigger issues with the size of the pack directory elsewhere.",
+      "parentUuid": "c0293ea5_645911c5",
+      "range": {
+        "startLine": 968,
+        "startChar": 5,
+        "endLine": 968,
+        "endChar": 40
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "047e091c_cd19d240",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -215,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "af32917f_f7d61647",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-25T23:06:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe13268d_b6475d7a",
+      "range": {
+        "startLine": 971,
+        "startChar": 3,
+        "endLine": 971,
+        "endChar": 12
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3df5218_f6f86fb6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -235,6 +307,30 @@
       "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1484934_26d1024b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-25T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3df5218_f6f86fb6",
+      "range": {
+        "startLine": 990,
+        "startChar": 8,
+        "endLine": 990,
+        "endChar": 13
+      },
+      "revId": "cd7fe27812ca4e87abb8ab0ee9273b295d614f4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
