@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76b64424_75389082",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-26T00:26:09Z",
+      "side": 1,
+      "message": "Yep, there is no need to continue. +1",
+      "range": {
+        "startLine": 990,
+        "startChar": 0,
+        "endLine": 991,
+        "endChar": 10
+      },
+      "revId": "3996408cdefccadaf64ec3e0a4e84c8206ca4f90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
