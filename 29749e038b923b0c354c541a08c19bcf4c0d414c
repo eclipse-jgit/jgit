@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "077ce962_79207d55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-26T00:01:47Z",
+      "side": 1,
+      "message": "Hm, after you added the check n.endsWith(KEEP_EXT) to the prior if condition, why keep is needed after all? keep is the same as pack, and if both are present, then base is assigned again. I restored the previous implementation:\n\n  String base \u003d null;\n\t\tfor (String n : fileNames) {\n\t\t\tif (n.endsWith(PACK_EXT) || n.endsWith(KEEP_EXT)) {\n\t\t\t\tbase \u003d n.substring(0, n.lastIndexOf(\u0027.\u0027));\n\t\t\t} else {\n\t\t\t\tif (base \u003d\u003d null || !n.startsWith(base)) {\n\t\t\t\t\ttry {\n\t\t\t\t\t\tFiles.delete(packDir.resolve(n));\n\t\t\t\t\t} catch (IOException e) {\n\t\t\t\t\t\tLOG.error(e.getMessage(), e);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\nAnd the tests are still passing:\n\n  $ bazel test //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_GcOrphanFilesTest\n  INFO: Build completed successfully, 12 total actions\n  //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_GcOrphanFilesTest PASSED in 3.8s",
+      "range": {
+        "startLine": 1001,
+        "startChar": 4,
+        "endLine": 1001,
+        "endChar": 15
+      },
+      "revId": "29749e038b923b0c354c541a08c19bcf4c0d414c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41311b18_eb1e0104",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 6
