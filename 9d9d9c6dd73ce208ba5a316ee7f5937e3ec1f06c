@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0560e1b4_47a466da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-11-26T00:27:24Z",
+      "side": 1,
+      "message": "Why resolving it again? You did it already at L1004, isn\u0027t it?",
+      "range": {
+        "startLine": 1005,
+        "startChar": 19,
+        "endLine": 1005,
+        "endChar": 36
+      },
+      "revId": "9d9d9c6dd73ce208ba5a316ee7f5937e3ec1f06c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
