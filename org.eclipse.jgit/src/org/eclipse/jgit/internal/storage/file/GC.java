@@ -115,6 +115,8 @@ public class GC {
 
 	private static final String INDEX_EXT = "." + PackExt.INDEX.getExtension(); //$NON-NLS-1$
 
+	private static final String KEEP_EXT = "." + PackExt.KEEP.getExtension(); //$NON-NLS-1$
+
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
 	private static final int DEFAULT_AUTOLIMIT = 6700;
@@ -961,11 +963,15 @@ public class GC {
 			fileNames = files.map(path -> path.getFileName().toString())
 					.filter(name -> (name.endsWith(PACK_EXT)
 							|| name.endsWith(BITMAP_EXT)
-							|| name.endsWith(INDEX_EXT)))
+							|| name.endsWith(INDEX_EXT)
+							|| name.endsWith(KEEP_EXT)))
+					// sort files with same base name in the order:
+					// .pack, .keep, .index, .bitmap to avoid look ahead
 					.sorted(Collections.reverseOrder())
 					.collect(Collectors.toList());
-		} catch (IOException e1) {
-			// ignore
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+			return;
 		}
 		if (fileNames == null) {
 			return;
@@ -973,13 +979,16 @@ public class GC {
 
 		String base = null;
 		for (String n : fileNames) {
-			if (n.endsWith(PACK_EXT)) {
+			if (n.endsWith(PACK_EXT) || n.endsWith(KEEP_EXT)) {
 				base = n.substring(0, n.lastIndexOf('.'));
 			} else {
 				if (base == null || !n.startsWith(base)) {
 					try {
-						FileUtils.delete(packDir.resolve(n).toFile(),
+						Path delete = packDir.resolve(n);
+						FileUtils.delete(delete.toFile(),
 								FileUtils.RETRY | FileUtils.SKIP_MISSING);
+						Files.delete(delete);
+						LOG.warn(JGitText.get().deletedOrphanInPackDir, delete);
 					} catch (IOException e) {
 						LOG.error(e.getMessage(), e);
 					}
