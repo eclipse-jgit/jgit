@@ -243,6 +243,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/treewalk/FileTreeIterator.java" type="org.eclipse.jgit.treewalk.FileTreeIterator$FileEntry">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.1.9"/>
+                <message_argument value="getLastModifiedInstant()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator">
         <filter id="1142947843">
             <message_arguments>
