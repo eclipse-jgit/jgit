@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80a64aa8_1cb4519b",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.pgm.source.feature/feature.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-27T01:16:56Z",
+      "side": 1,
+      "message": "this should not have been added since source features where combined in 5.4",
+      "revId": "a74c0cd333c11658afac2fd931f02bf6e1909153",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
