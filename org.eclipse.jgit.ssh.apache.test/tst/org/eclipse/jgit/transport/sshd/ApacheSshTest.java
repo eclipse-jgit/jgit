@@ -51,7 +51,6 @@ import java.util.Arrays;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.ssh.SshTestBase;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;

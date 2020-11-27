@@ -60,7 +60,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.internal.transport.http.NetscapeCookieFile;
 import org.eclipse.jgit.util.http.HttpCookiesMatcher;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
