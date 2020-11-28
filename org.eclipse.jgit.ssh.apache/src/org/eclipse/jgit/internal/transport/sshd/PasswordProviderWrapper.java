@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -16,8 +16,12 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
+import org.apache.sshd.client.ClientAuthenticationManager;
+import org.apache.sshd.common.AttributeRepository.AttributeKey;
 import org.apache.sshd.common.NamedResource;
+import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.session.SessionContext;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -25,39 +29,61 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.sshd.KeyPasswordProvider;
 
 /**
- * A bridge from sshd's {@link RepeatingFilePasswordProvider} to our
+ * A bridge from sshd's {@link FilePasswordProvider} to our per-session
  * {@link KeyPasswordProvider} API.
  */
-public class PasswordProviderWrapper implements RepeatingFilePasswordProvider {
+public class PasswordProviderWrapper implements FilePasswordProvider {
 
-	private final KeyPasswordProvider delegate;
+	private static final AttributeKey<PerSessionState> STATE = new AttributeKey<>();
 
-	private Map<String, AtomicInteger> counts = new ConcurrentHashMap<>();
+	private static class PerSessionState {
+
+		Map<String, AtomicInteger> counts = new ConcurrentHashMap<>();
+
+		KeyPasswordProvider delegate;
+
+	}
+
+	private final Supplier<KeyPasswordProvider> factory;
 
 	/**
-	 * @param delegate
+	 * Creates a new {@link PasswordProviderWrapper}.
+	 *
+	 * @param factory
+	 *            to use to create per-session {@link KeyPasswordProvider}s
 	 */
-	public PasswordProviderWrapper(@NonNull KeyPasswordProvider delegate) {
-		this.delegate = delegate;
+	public PasswordProviderWrapper(
+			@NonNull Supplier<KeyPasswordProvider> factory) {
+		this.factory = factory;
 	}
 
-	@Override
-	public void setAttempts(int numberOfPasswordPrompts) {
-		delegate.setAttempts(numberOfPasswordPrompts);
-	}
-
-	@Override
-	public int getAttempts() {
-		return delegate.getAttempts();
+	private PerSessionState getState(SessionContext context) {
+		PerSessionState state = context.getAttribute(STATE);
+		if (state == null) {
+			state = new PerSessionState();
+			state.delegate = factory.get();
+			Integer maxNumberOfAttempts = context
+					.getInteger(ClientAuthenticationManager.PASSWORD_PROMPTS);
+			if (maxNumberOfAttempts != null
+					&& maxNumberOfAttempts.intValue() > 0) {
+				state.delegate.setAttempts(maxNumberOfAttempts.intValue());
+			} else {
+				state.delegate.setAttempts(
+						ClientAuthenticationManager.DEFAULT_PASSWORD_PROMPTS);
+			}
+			context.setAttribute(STATE, state);
+		}
+		return state;
 	}
 
 	@Override
 	public String getPassword(SessionContext session, NamedResource resource,
 			int attemptIndex) throws IOException {
 		String key = resource.getName();
-		int attempt = counts
+		PerSessionState state = getState(session);
+		int attempt = state.counts
 				.computeIfAbsent(key, k -> new AtomicInteger()).get();
-		char[] passphrase = delegate.getPassphrase(toUri(key), attempt);
+		char[] passphrase = state.delegate.getPassphrase(toUri(key), attempt);
 		if (passphrase == null) {
 			return null;
 		}
@@ -74,18 +100,19 @@ public class PasswordProviderWrapper implements RepeatingFilePasswordProvider {
 			String password, Exception err)
 			throws IOException, GeneralSecurityException {
 		String key = resource.getName();
-		AtomicInteger count = counts.get(key);
+		PerSessionState state = getState(session);
+		AtomicInteger count = state.counts.get(key);
 		int numberOfAttempts = count == null ? 0 : count.incrementAndGet();
 		ResourceDecodeResult result = null;
 		try {
-			if (delegate.keyLoaded(toUri(key), numberOfAttempts, err)) {
+			if (state.delegate.keyLoaded(toUri(key), numberOfAttempts, err)) {
 				result = ResourceDecodeResult.RETRY;
 			} else {
 				result = ResourceDecodeResult.TERMINATE;
 			}
 		} finally {
 			if (result != ResourceDecodeResult.RETRY) {
-				counts.remove(key);
+				state.counts.remove(key);
 			}
 		}
 		return result;

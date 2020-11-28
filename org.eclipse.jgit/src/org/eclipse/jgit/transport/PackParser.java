@@ -679,7 +679,8 @@ public abstract class PackParser {
 
 			verifySafeObject(tempObjectId, type, visit.data);
 			if (isCheckObjectCollisions() && readCurs.has(tempObjectId)) {
-				checkObjectCollision(tempObjectId, type, visit.data);
+				checkObjectCollision(tempObjectId, type, visit.data,
+						visit.delta.sizeBeforeInflating);
 			}
 
 			PackedObjectInfo oe;
@@ -999,6 +1000,7 @@ public abstract class PackParser {
 			UnresolvedDelta n = onEndDelta();
 			n.position = streamPosition;
 			n.next = baseByPos.put(base, n);
+			n.sizeBeforeInflating = streamPosition() - streamPosition;
 			deltaCount++;
 			break;
 		}
@@ -1020,6 +1022,7 @@ public abstract class PackParser {
 			inflateAndSkip(Source.INPUT, sz);
 			UnresolvedDelta n = onEndDelta();
 			n.position = streamPosition;
+			n.sizeBeforeInflating = streamPosition() - streamPosition;
 			r.add(n);
 			deltaCount++;
 			break;
@@ -1071,9 +1074,11 @@ public abstract class PackParser {
 			verifySafeObject(tempObjectId, type, data);
 		}
 
+		long sizeBeforeInflating = streamPosition() - pos;
 		PackedObjectInfo obj = newInfo(tempObjectId, null, null);
 		obj.setOffset(pos);
 		obj.setType(type);
+		obj.setSize(sizeBeforeInflating);
 		onEndWholeObject(obj);
 		if (data != null)
 			onInflatedObjectData(obj, type, data);
@@ -1148,6 +1153,8 @@ public abstract class PackParser {
 					sz -= n;
 				}
 			}
+			stats.incrementObjectsDuplicated();
+			stats.incrementNumBytesDuplicated(obj.getSize());
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually it's
@@ -1155,15 +1162,17 @@ public abstract class PackParser {
 		}
 	}
 
-	private void checkObjectCollision(AnyObjectId obj, int type, byte[] data)
-			throws IOException {
+	private void checkObjectCollision(AnyObjectId obj, int type, byte[] data,
+			long sizeBeforeInflating) throws IOException {
 		try {
 			final ObjectLoader ldr = readCurs.open(obj, type);
 			final byte[] existingData = ldr.getCachedBytes(data.length);
 			if (!Arrays.equals(data, existingData)) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().collisionOn, obj.name()));
+				throw new IOException(MessageFormat
+						.format(JGitText.get().collisionOn, obj.name()));
 			}
+			stats.incrementObjectsDuplicated();
+			stats.incrementNumBytesDuplicated(sizeBeforeInflating);
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
 			// but the API throws when we try to read it as usually its
@@ -1652,6 +1661,8 @@ public abstract class PackParser {
 		int crc;
 
 		UnresolvedDelta next;
+
+		long sizeBeforeInflating;
 
 		/** @return offset within the input stream. */
 		public long getOffset() {

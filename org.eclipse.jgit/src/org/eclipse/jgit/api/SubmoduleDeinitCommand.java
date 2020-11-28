@@ -20,8 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -119,6 +121,8 @@ public class SubmoduleDeinitCommand
 				}
 			}
 			return results;
+		} catch (ConfigInvalidException e) {
+			throw new InvalidConfigurationException(e.getMessage(), e);
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2008-2009, Johannes E. Schindelin <johannes.schindelin@gmx.de> and others
+ * Copyright (C) 2008-2020, Johannes E. Schindelin <johannes.schindelin@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -502,9 +502,18 @@ public class DiffFormatter implements AutoCloseable {
 			throws IOException {
 		assertHaveReader();
 
-		TreeWalk walk = new TreeWalk(reader);
-		walk.addTree(a);
-		walk.addTree(b);
+		TreeWalk walk = new TreeWalk(repository, reader);
+		int aIndex = walk.addTree(a);
+		int bIndex = walk.addTree(b);
+		if (repository != null) {
+			if (a instanceof WorkingTreeIterator
+					&& b instanceof DirCacheIterator) {
+				((WorkingTreeIterator) a).setDirCacheIterator(walk, bIndex);
+			} else if (b instanceof WorkingTreeIterator
+					&& a instanceof DirCacheIterator) {
+				((WorkingTreeIterator) b).setDirCacheIterator(walk, aIndex);
+			}
+		}
 		walk.setRecursive(true);
 
 		TreeFilter filter = getDiffTreeFilterFor(a, b);

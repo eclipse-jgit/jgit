@@ -230,10 +230,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String countingObjects;
 	/***/ public String createBranchFailedUnknownReason;
 	/***/ public String createBranchUnexpectedResult;
-	/***/ public String createJGitConfigFailed;
 	/***/ public String createNewFileFailed;
 	/***/ public String createRequiresZeroOldId;
-	/***/ public String createXDGConfigHomeFailed;
 	/***/ public String credentialPassword;
 	/***/ public String credentialPassphrase;
 	/***/ public String credentialUsername;
@@ -243,6 +241,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deepenSinceWithDeepen;
 	/***/ public String deleteBranchUnexpectedResult;
 	/***/ public String deleteFileFailed;
+	/***/ public String deletedOrphanInPackDir;
 	/***/ public String deleteRequiresZeroNewId;
 	/***/ public String deleteTagUnexpectedResult;
 	/***/ public String deletingNotSupported;
@@ -252,6 +251,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String dirCacheFileIsNotLocked;
 	/***/ public String dirCacheIsNotLocked;
 	/***/ public String DIRCChecksumMismatch;
+	/***/ public String DIRCCorruptLength;
+	/***/ public String DIRCCorruptLengthFirst;
 	/***/ public String DIRCExtensionIsTooLargeAt;
 	/***/ public String DIRCExtensionNotSupportedByThisVersion;
 	/***/ public String DIRCHasTooManyEntries;
@@ -375,6 +376,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidGitdirRef;
 	/***/ public String invalidGitModules;
 	/***/ public String invalidGitType;
+	/***/ public String invalidHeaderFormat;
+	/***/ public String invalidHeaderKey;
+	/***/ public String invalidHeaderValue;
 	/***/ public String invalidHexString;
 	/***/ public String invalidHomeDirectory;
 	/***/ public String invalidHooksPath;
@@ -436,6 +440,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String lockFailedRetry;
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
+	/***/ public String logInconsistentFiletimeDiff;
+	/***/ public String logLargerFiletimeDiff;
+	/***/ public String logSmallerFiletime;
+	/***/ public String logXDGConfigHomeInvalid;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
 	/***/ public String mergeConflictOnNotes;
@@ -649,6 +657,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sourceRefNotSpecifiedForRefspec;
 	/***/ public String squashCommitNotUpdatingHEAD;
 	/***/ public String sshCommandFailed;
+	/***/ public String sshCommandTimeout;
 	/***/ public String sslFailureExceptionMessage;
 	/***/ public String sslFailureInfo;
 	/***/ public String sslFailureCause;

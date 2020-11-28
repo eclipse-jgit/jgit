@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -116,6 +116,34 @@ public final class SshConstants {
 
 	/** Key in an ssh config file. */
 	public static final String PROXY_COMMAND = "ProxyCommand";
+
+	/**
+	 * Comma-separated list of jump hosts, defining a jump host chain <em>in
+	 * reverse order</em>. Each jump host is a SSH URI or "[user@]host[:port]".
+	 * <p>
+	 * Reverse order means: to connect A->B->target, one can do in
+	 * {@code ~/.ssh/config} either of:
+	 * </p>
+	 *
+	 * <pre>
+	 * Host target
+	 *   ProxyJump B,A
+	 * </pre>
+	 * <p>
+	 * <em>or</em>
+	 * </p>
+	 *
+	 * <pre>
+	 * Host target
+	 *   ProxyJump B
+	 *
+	 * Host B
+	 *   ProxyJump A
+	 * </pre>
+	 *
+	 * @since 5.10
+	 */
+	public static final String PROXY_JUMP = "ProxyJump";
 
 	/** Key in an ssh config file. */
 	public static final String REMOTE_COMMAND = "RemoteCommand";

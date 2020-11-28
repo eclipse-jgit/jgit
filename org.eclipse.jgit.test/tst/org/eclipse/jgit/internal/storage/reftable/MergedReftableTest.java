@@ -329,21 +329,21 @@ public class MergedReftableTest {
 	public void overlappedUpdateIndices() throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buf)
-				.setMinUpdateIndex(1)
-				.setMaxUpdateIndex(3)
-				.begin();
-		writer.writeRef(ref("refs/heads/a", 1), 1);
-		writer.writeRef(ref("refs/heads/b", 2), 3);
-		writer.finish();
-		byte[] base = buf.toByteArray();
-
-		buf = new ByteArrayOutputStream();
-		writer = new ReftableWriter(buf)
 				.setMinUpdateIndex(2)
 				.setMaxUpdateIndex(4)
 				.begin();
 		writer.writeRef(ref("refs/heads/a", 10), 2);
 		writer.writeRef(ref("refs/heads/b", 20), 4);
+		writer.finish();
+		byte[] base = buf.toByteArray();
+
+		buf = new ByteArrayOutputStream();
+		writer = new ReftableWriter(buf)
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(3)
+				.begin();
+		writer.writeRef(ref("refs/heads/a", 1), 1);
+		writer.writeRef(ref("refs/heads/b", 2), 3);
 		writer.finish();
 		byte[] delta = buf.toByteArray();
 
@@ -368,21 +368,21 @@ public class MergedReftableTest {
 	public void enclosedUpdateIndices() throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buf)
-				.setMinUpdateIndex(1)
-				.setMaxUpdateIndex(4)
-				.begin();
-		writer.writeRef(ref("refs/heads/a", 1), 1);
-		writer.writeRef(ref("refs/heads/b", 20), 4);
-		writer.finish();
-		byte[] base = buf.toByteArray();
-
-		buf = new ByteArrayOutputStream();
-		writer = new ReftableWriter(buf)
 				.setMinUpdateIndex(2)
 				.setMaxUpdateIndex(3)
 				.begin();
 		writer.writeRef(ref("refs/heads/a", 10), 2);
 		writer.writeRef(ref("refs/heads/b", 2), 3);
+		writer.finish();
+		byte[] base = buf.toByteArray();
+
+		buf = new ByteArrayOutputStream();
+		writer = new ReftableWriter(buf)
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(4)
+				.begin();
+		writer.writeRef(ref("refs/heads/a", 1), 1);
+		writer.writeRef(ref("refs/heads/b", 20), 4);
 		writer.finish();
 		byte[] delta = buf.toByteArray();
 

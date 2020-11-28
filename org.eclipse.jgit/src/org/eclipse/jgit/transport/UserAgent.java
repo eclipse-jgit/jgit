@@ -46,7 +46,7 @@ public class UserAgent {
 		return "unknown"; //$NON-NLS-1$
 	}
 
-	private static String clean(String s) {
+	static String clean(String s) {
 		s = s.trim();
 		StringBuilder b = new StringBuilder(s.length());
 		for (int i = 0; i < s.length(); i++) {

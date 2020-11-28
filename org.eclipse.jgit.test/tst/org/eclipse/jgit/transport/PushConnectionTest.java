@@ -162,7 +162,9 @@ public class PushConnectionTest {
 				fail("server did not abort");
 			} catch (TransportException e) {
 				String msg = e.getMessage();
-				assertEquals("remote: Too many commands", msg);
+				assertEquals(
+						"remote: Commands size exceeds limit defined in receive.maxCommandBytes",
+						msg);
 			}
 		}
 	}

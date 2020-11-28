@@ -20,6 +20,9 @@ package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.io.File;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +32,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
 import org.eclipse.jgit.events.ConfigChangedListener;
@@ -36,6 +40,7 @@ import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -472,6 +477,37 @@ public class Config {
 			long defaultValue, TimeUnit wantUnit) {
 		return typedGetter.getTimeUnit(this, section, subsection, name,
 				defaultValue, wantUnit);
+	}
+
+	/**
+	 * Parse a string value and treat it as a file path, replacing a ~/ prefix
+	 * by the user's home directory.
+	 * <p>
+	 * <b>Note:</b> this may throw {@link InvalidPathException} if the string is
+	 * not a valid path.
+	 * </p>
+	 *
+	 * @param section
+	 *            section the key is in.
+	 * @param subsection
+	 *            subsection the key is in, or null if not in a subsection.
+	 * @param name
+	 *            the key name.
+	 * @param fs
+	 *            to use to convert the string into a path.
+	 * @param resolveAgainst
+	 *            directory to resolve the path against if it is a relative
+	 *            path; {@code null} to use the Java process's current
+	 *            directory.
+	 * @param defaultValue
+	 *            to return if no value was present
+	 * @return the {@link Path}, or {@code defaultValue} if not set
+	 * @since 5.10
+	 */
+	public Path getPath(String section, String subsection, String name,
+			@NonNull FS fs, File resolveAgainst, Path defaultValue) {
+		return typedGetter.getPath(this, section, subsection, name, fs,
+				resolveAgainst, defaultValue);
 	}
 
 	/**

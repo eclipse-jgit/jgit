@@ -13,8 +13,8 @@ java_library(
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
     ],
     deps = [
-        "//lib:jsch",
         "//lib:junit",
+        "//lib:slf4j-api",
         "//lib:sshd-osgi",
         "//lib:sshd-sftp",
         # We want these deps to be provided_deps

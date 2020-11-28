@@ -80,6 +80,29 @@ public class GcBasicPackingTest extends GcTestCase {
 	}
 
 	@Theory
+	public void testPack2Commits_noPackFolder(boolean aggressive) throws Exception {
+		File packDir = repo.getObjectDatabase().getPackDirectory();
+		assertTrue(packDir.delete());
+
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().add("A", "A").add("B", "B").create();
+		bb.commit().add("A", "A2").add("B", "B2").create();
+
+		stats = gc.getStatistics();
+		assertEquals(8, stats.numberOfLooseObjects);
+		assertEquals(0, stats.numberOfPackedObjects);
+		configureGc(gc, aggressive);
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(8, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
+		assertEquals(2, stats.numberOfBitmaps);
+
+		assertTrue(packDir.exists());
+	}
+
+	@Theory
 	public void testPackAllObjectsInOnePack(boolean aggressive)
 			throws Exception {
 		tr.branch("refs/heads/master").commit().add("A", "A").add("B", "B")

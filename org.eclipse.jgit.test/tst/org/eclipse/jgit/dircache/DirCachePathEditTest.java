@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Robin Rosenberg and others
+ * Copyright (C) 2011, 2020 Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -121,6 +121,32 @@ public class DirCachePathEditTest {
 		assertEquals(DirCacheEntry.STAGE_1, entries.get(0).getStage());
 		assertEquals(DirCacheEntry.STAGE_2, entries.get(1).getStage());
 		assertEquals(DirCacheEntry.STAGE_3, entries.get(2).getStage());
+	}
+
+	@Test
+	public void testPathEditWithStagesAndReset() throws Exception {
+		DirCache dc = DirCache.newInCore();
+		DirCacheBuilder builder = new DirCacheBuilder(dc, 3);
+		builder.add(createEntry("a", DirCacheEntry.STAGE_1));
+		builder.add(createEntry("a", DirCacheEntry.STAGE_2));
+		builder.add(createEntry("a", DirCacheEntry.STAGE_3));
+		builder.finish();
+
+		DirCacheEditor editor = dc.editor();
+		PathEdit edit = new PathEdit("a") {
+
+			@Override
+			public void apply(DirCacheEntry ent) {
+				ent.setStage(DirCacheEntry.STAGE_0);
+			}
+		};
+		editor.add(edit);
+		editor.finish();
+
+		assertEquals(1, dc.getEntryCount());
+		DirCacheEntry entry = dc.getEntry(0);
+		assertEquals("a", entry.getPathString());
+		assertEquals(DirCacheEntry.STAGE_0, entry.getStage());
 	}
 
 	@Test

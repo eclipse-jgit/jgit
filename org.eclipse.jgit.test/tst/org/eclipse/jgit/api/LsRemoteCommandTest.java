@@ -11,9 +11,11 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
@@ -34,7 +36,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("Test.txt").call();
 		git.commit().setMessage("Initial commit").call();
 
-		// create a master branch and switch to it
+		// create a test branch and switch to it
 		git.branchCreate().setName("test").call();
 		RefUpdate rup = db.updateRef(Constants.HEAD);
 		rup.link("refs/heads/test");
@@ -102,6 +104,28 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 		Collection<Ref> refs = Git.lsRemoteRepository().setRemote(uri).setHeads(true).call();
 		assertNotNull(refs);
 		assertEquals(2, refs.size());
+	}
+
+	@Test
+	public void testLsRemoteWithSymRefs() throws Exception {
+		File directory = createTempDirectory("testRepository");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setCloneAllBranches(true);
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+
+		LsRemoteCommand lsRemoteCommand = git2.lsRemote();
+		Collection<Ref> refs = lsRemoteCommand.call();
+		assertNotNull(refs);
+		assertEquals(6, refs.size());
+
+		Optional<Ref> headRef = refs.stream().filter(ref -> ref.getName().equals(Constants.HEAD)).findFirst();
+		assertTrue("expected a HEAD Ref", headRef.isPresent());
+		assertTrue("expected HEAD Ref to be a Symbolic", headRef.get().isSymbolic());
+		assertEquals("refs/heads/test", headRef.get().getTarget().getName());
 	}
 
 	private String fileUri() {

@@ -19,13 +19,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CancellationException;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.internal.transport.sshd.AuthenticationCanceledException;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * A {@link KeyPasswordProvider} based on a {@link CredentialsProvider}.
@@ -155,32 +156,81 @@ public class IdentityPasswordProvider implements KeyPasswordProvider {
 		state.incCount();
 		String message = state.count == 1 ? SshdText.get().keyEncryptedMsg
 				: SshdText.get().keyEncryptedRetry;
-		char[] pass = getPassword(uri, message);
+		char[] pass = getPassword(uri, format(message, uri));
 		state.setPassword(pass);
 		return pass;
 	}
 
-	private char[] getPassword(URIish uri, String message) {
+	/**
+	 * Retrieves the JGit {@link CredentialsProvider} to use for user
+	 * interaction.
+	 *
+	 * @return the {@link CredentialsProvider} or {@code null} if none
+	 *         configured
+	 * @since 5.10
+	 */
+	protected CredentialsProvider getCredentialsProvider() {
+		return provider;
+	}
+
+	/**
+	 * Obtains the passphrase/password for an encrypted private key via the
+	 * {@link #getCredentialsProvider() configured CredentialsProvider}.
+	 *
+	 * @param uri
+	 *            identifying the resource to obtain a password for
+	 * @param message
+	 *            optional message text to display; may be {@code null} or empty
+	 *            if none
+	 * @return the password entered, or {@code null} if no
+	 *         {@link CredentialsProvider} is configured or none was entered
+	 * @throws java.util.concurrent.CancellationException
+	 *             if the user canceled the operation
+	 * @since 5.10
+	 */
+	protected char[] getPassword(URIish uri, String message) {
 		if (provider == null) {
 			return null;
 		}
-		List<CredentialItem> items = new ArrayList<>(2);
-		items.add(new CredentialItem.InformationalMessage(
-				format(message, uri)));
+		boolean haveMessage = !StringUtils.isEmptyOrNull(message);
+		List<CredentialItem> items = new ArrayList<>(haveMessage ? 2 : 1);
+		if (haveMessage) {
+			items.add(new CredentialItem.InformationalMessage(message));
+		}
 		CredentialItem.Password password = new CredentialItem.Password(
 				SshdText.get().keyEncryptedPrompt);
 		items.add(password);
 		try {
-			provider.get(uri, items);
+			boolean completed = provider.get(uri, items);
 			char[] pass = password.getValue();
-			if (pass == null) {
-				throw new CancellationException(
-						SshdText.get().authenticationCanceled);
+			if (!completed) {
+				cancelAuthentication();
+				return null;
 			}
-			return pass.clone();
+			return pass == null ? null : pass.clone();
 		} finally {
 			password.clear();
 		}
+	}
+
+	/**
+	 * Cancels the authentication process. Called by
+	 * {@link #getPassword(URIish, String)} when the user interaction has been
+	 * canceled. If this throws a
+	 * {@link java.util.concurrent.CancellationException}, the authentication
+	 * process is aborted; otherwise it may continue with the next configured
+	 * authentication mechanism, if any.
+	 * <p>
+	 * This default implementation always throws a
+	 * {@link java.util.concurrent.CancellationException}.
+	 * </p>
+	 *
+	 * @throws java.util.concurrent.CancellationException
+	 *             always
+	 * @since 5.10
+	 */
+	protected void cancelAuthentication() {
+		throw new AuthenticationCanceledException();
 	}
 
 	/**

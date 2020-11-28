@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2019 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.apache.sshd.client.ClientBuilder;
@@ -33,6 +34,7 @@ import org.apache.sshd.client.auth.UserAuthFactory;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
 import org.apache.sshd.client.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
+import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.config.keys.loader.openssh.kdf.BCryptKdfOptions;
@@ -40,6 +42,7 @@ import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
+import org.eclipse.jgit.internal.transport.sshd.AuthenticationCanceledException;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
@@ -194,12 +197,11 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						home, sshDir);
 				KeyIdentityProvider defaultKeysProvider = toKeyIdentityProvider(
 						getDefaultKeys(sshDir));
-				KeyPasswordProvider passphrases = createKeyPasswordProvider(
-						credentialsProvider);
 				SshClient client = ClientBuilder.builder()
 						.factory(JGitSshClient::new)
-						.filePasswordProvider(
-								createFilePasswordProvider(passphrases))
+						.filePasswordProvider(createFilePasswordProvider(
+								() -> createKeyPasswordProvider(
+										credentialsProvider)))
 						.hostConfigEntryResolver(configFile)
 						.serverKeyVerifier(new JGitServerKeyVerifier(
 								getServerKeyDatabase(home, sshDir)))
@@ -230,7 +232,16 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			return session;
 		} catch (Exception e) {
 			unregister(session);
-			throw new TransportException(uri, e.getMessage(), e);
+			if (e instanceof TransportException) {
+				throw (TransportException) e;
+			}
+			Throwable cause = e;
+			if (e instanceof SshException && e
+					.getCause() instanceof AuthenticationCanceledException) {
+				// Results in a nicer error message
+				cause = e.getCause();
+			}
+			throw new TransportException(uri, cause.getMessage(), cause);
 		}
 	}
 
@@ -536,14 +547,14 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	/**
 	 * Creates a {@link FilePasswordProvider} for a new session.
 	 *
-	 * @param provider
-	 *            the {@link KeyPasswordProvider} to delegate to
+	 * @param providerFactory
+	 *            providing the {@link KeyPasswordProvider} to delegate to
 	 * @return a new {@link FilePasswordProvider}
 	 */
 	@NonNull
 	private FilePasswordProvider createFilePasswordProvider(
-			KeyPasswordProvider provider) {
-		return new PasswordProviderWrapper(provider);
+			Supplier<KeyPasswordProvider> providerFactory) {
+		return new PasswordProviderWrapper(providerFactory);
 	}
 
 	/**

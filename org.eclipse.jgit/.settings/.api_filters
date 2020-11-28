@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/TypedConfigGetter.java" type="org.eclipse.jgit.lib.TypedConfigGetter">
+        <filter id="404000815">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
+                <message_argument value="getPath(Config, String, String, String, FS, File, Path)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/pack/PackStatistics.java" type="org.eclipse.jgit.storage.pack.PackStatistics$Accumulator">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackStatistics.Accumulator"/>
+                <message_argument value="notAdvertisedWants"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackStatistics.Accumulator"/>
+                <message_argument value="reachabilityCheckDuration"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/HttpConfig.java" type="org.eclipse.jgit.transport.HttpConfig">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.HttpConfig"/>
+                <message_argument value="EXTRA_HEADER"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.HttpConfig"/>
+                <message_argument value="USER_AGENT"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

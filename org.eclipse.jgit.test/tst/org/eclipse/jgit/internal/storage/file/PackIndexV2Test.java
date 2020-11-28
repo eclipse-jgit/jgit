@@ -35,6 +35,11 @@ public class PackIndexV2Test extends PackIndexTestCase {
 				"pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.idxV2");
 	}
 
+	@Override
+	public File getFileForBadFanoutTable() {
+		return JGitTestUtil.getTestResourceFile("pack-bad-fanout-table.idxV2");
+	}
+
 	/**
 	 * Verify CRC32 indexing.
 	 *
