@@ -9,8 +9,6 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
-import java.util.concurrent.CancellationException;
-
 import org.apache.sshd.client.ClientAuthenticationManager;
 import org.apache.sshd.client.auth.keyboard.UserInteraction;
 import org.apache.sshd.client.auth.password.UserAuthPassword;
@@ -49,7 +47,7 @@ public class JGitPasswordAuthentication extends UserAuthPassword {
 		}
 		String password = getPassword(session, interaction);
 		if (password == null) {
-			throw new CancellationException();
+			throw new AuthenticationCanceledException();
 		}
 		// sendPassword takes a buffer as first argument, but actually doesn't
 		// use it and creates its own buffer...

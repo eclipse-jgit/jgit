@@ -12,6 +12,8 @@ package org.eclipse.jgit.junit.ssh;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
@@ -22,8 +24,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.sshd.common.NamedResource;
+import org.apache.sshd.common.PropertyResolver;
 import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
@@ -66,6 +70,16 @@ import org.eclipse.jgit.transport.UploadPack;
  */
 public class SshTestGitServer {
 
+	/**
+	 * Simple echo test command. Replies with the command string as passed. If
+	 * of the form "echo [int] anything", takes the integer value as a delay in
+	 * seconds before replying, which may be useful to test various
+	 * timeout-related things.
+	 *
+	 * @since 5.9
+	 */
+	public static final String ECHO_COMMAND = "echo";
+
 	@NonNull
 	protected final String testUser;
 
@@ -90,8 +104,7 @@ public class SshTestGitServer {
 	 * @param testUser
 	 *            user name of the test user
 	 * @param testKey
-	 *            <em>private</em> key file of the test user; the server will
-	 *            only user the public key from it
+	 *            public key file of the test user
 	 * @param repository
 	 *            to serve
 	 * @param hostKey
@@ -102,17 +115,54 @@ public class SshTestGitServer {
 	public SshTestGitServer(@NonNull String testUser, @NonNull Path testKey,
 			@NonNull Repository repository, @NonNull byte[] hostKey)
 			throws IOException, GeneralSecurityException {
+		this(testUser, readPublicKey(testKey), repository,
+				readKeyPair(hostKey));
+	}
+
+	/**
+	 * Creates a ssh git <em>test</em> server. It serves one single repository,
+	 * and accepts public-key authentication for exactly one test user.
+	 *
+	 * @param testUser
+	 *            user name of the test user
+	 * @param testKey
+	 *            public key file of the test user
+	 * @param repository
+	 *            to serve
+	 * @param hostKey
+	 *            the unencrypted private key to use as host key
+	 * @throws IOException
+	 * @throws GeneralSecurityException
+	 * @since 5.9
+	 */
+	public SshTestGitServer(@NonNull String testUser, @NonNull Path testKey,
+			@NonNull Repository repository, @NonNull KeyPair hostKey)
+			throws IOException, GeneralSecurityException {
+		this(testUser, readPublicKey(testKey), repository, hostKey);
+	}
+
+	/**
+	 * Creates a ssh git <em>test</em> server. It serves one single repository,
+	 * and accepts public-key authentication for exactly one test user.
+	 *
+	 * @param testUser
+	 *            user name of the test user
+	 * @param testKey
+	 *            the {@link PublicKey} of the test user
+	 * @param repository
+	 *            to serve
+	 * @param hostKey
+	 *            the {@link KeyPair} to use as host key
+	 * @since 5.9
+	 */
+	public SshTestGitServer(@NonNull String testUser,
+			@NonNull PublicKey testKey, @NonNull Repository repository,
+			@NonNull KeyPair hostKey) {
 		this.testUser = testUser;
 		setTestUserPublicKey(testKey);
 		this.repository = repository;
 		server = SshServer.setUpDefaultServer();
-		// Set host key
-		try (ByteArrayInputStream in = new ByteArrayInputStream(hostKey)) {
-			SecurityUtils.loadKeyPairIdentities(null, null, in, null)
-					.forEach((k) -> hostKeys.add(k));
-		} catch (IOException | GeneralSecurityException e) {
-			// Ignore.
-		}
+		hostKeys.add(hostKey);
 		server.setKeyPairProvider((session) -> hostKeys);
 
 		configureAuthentication();
@@ -129,9 +179,25 @@ public class SshTestGitServer {
 				return new GitUploadPackCommand(command, executorService);
 			} else if (command.startsWith(RemoteConfig.DEFAULT_RECEIVE_PACK)) {
 				return new GitReceivePackCommand(command, executorService);
+			} else if (command.startsWith(ECHO_COMMAND)) {
+				return new EchoCommand(command, executorService);
 			}
 			return new UnknownCommand(command);
 		});
+	}
+
+	private static PublicKey readPublicKey(Path key)
+			throws IOException, GeneralSecurityException {
+		return AuthorizedKeyEntry.readAuthorizedKeys(key).get(0)
+				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
+	}
+
+	private static KeyPair readKeyPair(byte[] keyMaterial)
+			throws IOException, GeneralSecurityException {
+		try (ByteArrayInputStream in = new ByteArrayInputStream(keyMaterial)) {
+			return SecurityUtils.loadKeyPairIdentities(null, null, in, null)
+					.iterator().next();
+		}
 	}
 
 	private static class FakeUserAuthGSS extends UserAuthGSS {
@@ -298,6 +364,17 @@ public class SshTestGitServer {
 	}
 
 	/**
+	 * Retrieves the server's {@link PropertyResolver}, giving access to server
+	 * properties.
+	 *
+	 * @return the {@link PropertyResolver}
+	 * @since 5.9
+	 */
+	public PropertyResolver getPropertyResolver() {
+		return server;
+	}
+
+	/**
 	 * Starts the test server, listening on a random port.
 	 *
 	 * @return the port the server listens on; test clients should connect to
@@ -331,8 +408,7 @@ public class SshTestGitServer {
 	 */
 	public void setTestUserPublicKey(Path key)
 			throws IOException, GeneralSecurityException {
-		this.testKey = AuthorizedKeyEntry.readAuthorizedKeys(key).get(0)
-				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
+		this.testKey = readPublicKey(key);
 	}
 
 	/**
@@ -413,5 +489,53 @@ public class SshTestGitServer {
 			}
 		}
 
+	}
+
+	/**
+	 * Simple echo command that echoes back the command string. If the first
+	 * argument is a positive integer, it's taken as a delay (in seconds) before
+	 * replying. Assumes UTF-8 character encoding.
+	 */
+	private static class EchoCommand extends AbstractCommandSupport {
+
+		protected EchoCommand(String command,
+				CloseableExecutorService executorService) {
+			super(command, ThreadUtils.noClose(executorService));
+		}
+
+		@Override
+		public void run() {
+			String[] parts = getCommand().split(" ");
+			int timeout = 0;
+			if (parts.length >= 2) {
+				try {
+					timeout = Integer.parseInt(parts[1]);
+				} catch (NumberFormatException e) {
+					// No timeout.
+				}
+				if (timeout > 0) {
+					try {
+						Thread.sleep(TimeUnit.SECONDS.toMillis(timeout));
+					} catch (InterruptedException e) {
+						// Ignore.
+					}
+				}
+			}
+			try {
+				doEcho(getCommand(), getOutputStream());
+				onExit(0);
+			} catch (IOException e) {
+				log.warn(
+						MessageFormat.format("Could not run {0}", getCommand()),
+						e);
+				onExit(-1, e.toString());
+			}
+		}
+
+		private void doEcho(String text, OutputStream stream)
+				throws IOException {
+			stream.write(text.getBytes(StandardCharsets.UTF_8));
+			stream.flush();
+		}
 	}
 }

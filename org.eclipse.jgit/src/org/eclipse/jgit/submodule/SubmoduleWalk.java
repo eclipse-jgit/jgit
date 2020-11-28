@@ -657,8 +657,11 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @since 4.10
 	 * @return name
+	 * @throws ConfigInvalidException
+	 * @throws IOException
 	 */
-	public String getModuleName() {
+	public String getModuleName() throws IOException, ConfigInvalidException {
+		lazyLoadModulesConfig();
 		return getModuleName(path);
 	}
 

@@ -34,6 +34,9 @@ class LsRemote extends TextBuiltin {
 	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
 
+	@Option(name = "--symref", usage = "usage_lsRemoteSymref")
+	private boolean symref;
+
 	@Argument(index = 0, metaVar = "metaVar_uriish", required = true)
 	private String remote;
 
@@ -47,6 +50,9 @@ class LsRemote extends TextBuiltin {
 		try {
 			refs.addAll(command.call());
 			for (Ref r : refs) {
+				if (symref && r.isSymbolic()) {
+					show(r.getTarget(), r.getName());
+				}
 				show(r.getObjectId(), r.getName());
 				if (r.getPeeledObjectId() != null) {
 					show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
@@ -66,6 +72,15 @@ class LsRemote extends TextBuiltin {
 	private void show(AnyObjectId id, String name)
 			throws IOException {
 		outw.print(id.name());
+		outw.print('\t');
+		outw.print(name);
+		outw.println();
+	}
+
+	private void show(Ref ref, String name)
+			throws IOException {
+		outw.print("ref: ");
+		outw.print(ref.getName());
 		outw.print('\t');
 		outw.print(name);
 		outw.println();

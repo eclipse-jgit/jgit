@@ -13,7 +13,7 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,6 +24,32 @@ import org.junit.Test;
 
 public class CommitBuilderTest {
 
+	// @formatter:off
+	private static final String SIGNATURE = "-----BEGIN PGP SIGNATURE-----\n" +
+			"Version: BCPG v1.60\n" +
+			"\n" +
+			"iQEcBAABCAAGBQJb9cVhAAoJEKX+6Axg/6TZeFsH/0CY0WX/z7U8+7S5giFX4wH4\n" +
+			"opvBwqyt6OX8lgNwTwBGHFNt8LdmDCCmKoq/XwkNi3ARVjLhe3gBcKXNoavvPk2Z\n" +
+			"gIg5ChevGkU4afWCOMLVEYnkCBGw2+86XhrK1P7gTHEk1Rd+Yv1ZRDJBY+fFO7yz\n" +
+			"uSBuF5RpEY2sJiIvp27Gub/rY3B5NTR/feO/z+b9oiP/fMUhpRwG5KuWUsn9NPjw\n" +
+			"3tvbgawYpU/2UnS+xnavMY4t2fjRYjsoxndPLb2MUX8X7vC7FgWLBlmI/rquLZVM\n" +
+			"IQEKkjnA+lhejjK1rv+ulq4kGZJFKGYWYYhRDwFg5PTkzhudhN2SGUq5Wxq1Eg4=\n" +
+			"=b9OI\n" +
+			"-----END PGP SIGNATURE-----";
+
+	private static final String EXPECTED = "-----BEGIN PGP SIGNATURE-----\n" +
+			" Version: BCPG v1.60\n" +
+			" \n" +
+			" iQEcBAABCAAGBQJb9cVhAAoJEKX+6Axg/6TZeFsH/0CY0WX/z7U8+7S5giFX4wH4\n" +
+			" opvBwqyt6OX8lgNwTwBGHFNt8LdmDCCmKoq/XwkNi3ARVjLhe3gBcKXNoavvPk2Z\n" +
+			" gIg5ChevGkU4afWCOMLVEYnkCBGw2+86XhrK1P7gTHEk1Rd+Yv1ZRDJBY+fFO7yz\n" +
+			" uSBuF5RpEY2sJiIvp27Gub/rY3B5NTR/feO/z+b9oiP/fMUhpRwG5KuWUsn9NPjw\n" +
+			" 3tvbgawYpU/2UnS+xnavMY4t2fjRYjsoxndPLb2MUX8X7vC7FgWLBlmI/rquLZVM\n" +
+			" IQEKkjnA+lhejjK1rv+ulq4kGZJFKGYWYYhRDwFg5PTkzhudhN2SGUq5Wxq1Eg4=\n" +
+			" =b9OI\n" +
+			" -----END PGP SIGNATURE-----";
+	// @formatter:on
+
 	private void assertGpgSignatureStringOutcome(String signature,
 			String expectedOutcome) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -33,47 +59,37 @@ public class CommitBuilderTest {
 	}
 
 	@Test
-	public void writeGpgSignatureString_1() throws Exception {
-		// @formatter:off
-		String signature = "-----BEGIN PGP SIGNATURE-----\n" +
-				"Version: BCPG v1.60\n" +
-				"\n" +
-				"iQEcBAABCAAGBQJb9cVhAAoJEKX+6Axg/6TZeFsH/0CY0WX/z7U8+7S5giFX4wH4\n" +
-				"opvBwqyt6OX8lgNwTwBGHFNt8LdmDCCmKoq/XwkNi3ARVjLhe3gBcKXNoavvPk2Z\n" +
-				"gIg5ChevGkU4afWCOMLVEYnkCBGw2+86XhrK1P7gTHEk1Rd+Yv1ZRDJBY+fFO7yz\n" +
-				"uSBuF5RpEY2sJiIvp27Gub/rY3B5NTR/feO/z+b9oiP/fMUhpRwG5KuWUsn9NPjw\n" +
-				"3tvbgawYpU/2UnS+xnavMY4t2fjRYjsoxndPLb2MUX8X7vC7FgWLBlmI/rquLZVM\n" +
-				"IQEKkjnA+lhejjK1rv+ulq4kGZJFKGYWYYhRDwFg5PTkzhudhN2SGUq5Wxq1Eg4=\n" +
-				"=b9OI\n" +
-				"-----END PGP SIGNATURE-----";
-		String expectedOutcome = "-----BEGIN PGP SIGNATURE-----\n" +
-				" Version: BCPG v1.60\n" +
-				" \n" +
-				" iQEcBAABCAAGBQJb9cVhAAoJEKX+6Axg/6TZeFsH/0CY0WX/z7U8+7S5giFX4wH4\n" +
-				" opvBwqyt6OX8lgNwTwBGHFNt8LdmDCCmKoq/XwkNi3ARVjLhe3gBcKXNoavvPk2Z\n" +
-				" gIg5ChevGkU4afWCOMLVEYnkCBGw2+86XhrK1P7gTHEk1Rd+Yv1ZRDJBY+fFO7yz\n" +
-				" uSBuF5RpEY2sJiIvp27Gub/rY3B5NTR/feO/z+b9oiP/fMUhpRwG5KuWUsn9NPjw\n" +
-				" 3tvbgawYpU/2UnS+xnavMY4t2fjRYjsoxndPLb2MUX8X7vC7FgWLBlmI/rquLZVM\n" +
-				" IQEKkjnA+lhejjK1rv+ulq4kGZJFKGYWYYhRDwFg5PTkzhudhN2SGUq5Wxq1Eg4=\n" +
-				" =b9OI\n" +
-				" -----END PGP SIGNATURE-----";
-		// @formatter:on
-		assertGpgSignatureStringOutcome(signature, expectedOutcome);
+	public void writeGpgSignatureString() throws Exception {
+		assertGpgSignatureStringOutcome(SIGNATURE, EXPECTED);
+	}
+
+	@Test
+	public void writeGpgSignatureStringTrailingLF() throws Exception {
+		assertGpgSignatureStringOutcome(SIGNATURE + '\n', EXPECTED);
+	}
+
+	@Test
+	public void writeGpgSignatureStringCRLF() throws Exception {
+		assertGpgSignatureStringOutcome(SIGNATURE.replaceAll("\n", "\r\n"),
+				EXPECTED);
+	}
+
+	@Test
+	public void writeGpgSignatureStringTrailingCRLF() throws Exception {
+		assertGpgSignatureStringOutcome(
+				SIGNATURE.replaceAll("\n", "\r\n") + "\r\n", EXPECTED);
 	}
 
 	@Test
 	public void writeGpgSignatureString_failsForNonAscii() throws Exception {
 		String signature = "Ü Ä";
-		try {
-			CommitBuilder.writeGpgSignatureString(signature,
-					new ByteArrayOutputStream());
-			fail("Exception expected");
-		} catch (IllegalArgumentException e) {
-			// good
-			String message = MessageFormat.format(JGitText.get().notASCIIString,
-					signature);
-			assertEquals(message, e.getMessage());
-		}
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> CommitBuilder.writeGpgSignatureString(signature,
+						new ByteArrayOutputStream()));
+		String message = MessageFormat.format(JGitText.get().notASCIIString,
+				signature);
+		assertEquals(message, e.getMessage());
 	}
 
 	@Test

@@ -32,6 +32,9 @@ class Describe extends TextBuiltin {
 	@Option(name = "--long", usage = "usage_LongFormat")
 	private boolean longDesc;
 
+	@Option(name = "--all", usage = "usage_UseTags")
+	private boolean useAll;
+
 	@Option(name = "--tags", usage = "usage_UseTags")
 	private boolean useTags;
 
@@ -50,6 +53,7 @@ class Describe extends TextBuiltin {
 				cmd.setTarget(tree);
 			}
 			cmd.setLong(longDesc);
+			cmd.setAll(useAll);
 			cmd.setTags(useTags);
 			cmd.setAlways(always);
 			cmd.setMatch(patterns.toArray(new String[0]));

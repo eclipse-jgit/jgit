@@ -54,6 +54,8 @@ import org.slf4j.LoggerFactory;
 public class FS_POSIX extends FS {
 	private static final Logger LOG = LoggerFactory.getLogger(FS_POSIX.class);
 
+	private static final String DEFAULT_GIT_LOCATION = "/usr/bin/git"; //$NON-NLS-1$
+
 	private static final int DEFAULT_UMASK = 0022;
 	private volatile int umask = -1;
 
@@ -138,24 +140,46 @@ public class FS_POSIX extends FS {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
 		File gitExe = searchPath(path, "git"); //$NON-NLS-1$
 
-		if (gitExe == null) {
-			if (SystemReader.getInstance().isMacOS()) {
+		if (SystemReader.getInstance().isMacOS()) {
+			if (gitExe == null
+					|| DEFAULT_GIT_LOCATION.equals(gitExe.getPath())) {
 				if (searchPath(path, "bash") != null) { //$NON-NLS-1$
 					// On MacOSX, PATH is shorter when Eclipse is launched from the
 					// Finder than from a terminal. Therefore try to launch bash as a
 					// login shell and search using that.
-					String w;
 					try {
-						w = readPipe(userHome(),
+						String w = readPipe(userHome(),
 							new String[]{"bash", "--login", "-c", "which git"}, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 							Charset.defaultCharset().name());
+						if (!StringUtils.isEmptyOrNull(w)) {
+							gitExe = new File(w);
+						}
 					} catch (CommandFailedException e) {
 						LOG.warn(e.getMessage());
-						return null;
 					}
-					if (!StringUtils.isEmptyOrNull(w)) {
-						gitExe = new File(w);
+				}
+			}
+			if (gitExe != null
+					&& DEFAULT_GIT_LOCATION.equals(gitExe.getPath())) {
+				// If we still have the default git exe, it's an XCode wrapper
+				// that may prompt the user to install the XCode command line
+				// tools if not already present. Avoid the prompt by returning
+				// null if no XCode git is there.
+				try {
+					String w = readPipe(userHome(),
+							new String[] { "xcode-select", "-p" }, //$NON-NLS-1$ //$NON-NLS-2$
+							Charset.defaultCharset().name());
+					if (StringUtils.isEmptyOrNull(w)) {
+						gitExe = null;
+					} else {
+						File realGitExe = new File(new File(w),
+								DEFAULT_GIT_LOCATION.substring(1));
+						if (!realGitExe.exists()) {
+							gitExe = null;
+						}
 					}
+				} catch (CommandFailedException e) {
+					gitExe = null;
 				}
 			}
 		}

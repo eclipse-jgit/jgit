@@ -12,13 +12,17 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Test;
@@ -49,6 +53,13 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * @return file with index
 	 */
 	public abstract File getFileForPackdf2982f28();
+
+	/**
+	 * Return file with appropriate index version for bad fanout table test.
+	 *
+	 * @return file with index
+	 */
+	public abstract File getFileForBadFanoutTable();
 
 	/**
 	 * Verify CRC32 support.
@@ -158,4 +169,15 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 				.name());
 	}
 
+	@Test
+	public void testBadFanoutTable() {
+		IOException ex = assertThrows(IOException.class, () -> {
+			try (FileInputStream fis = new FileInputStream(
+					getFileForBadFanoutTable())) {
+				PackIndex.read(fis);
+			}
+		});
+		assertEquals(JGitText.get().indexFileIsTooLargeForJgit,
+				ex.getMessage());
+	}
 }

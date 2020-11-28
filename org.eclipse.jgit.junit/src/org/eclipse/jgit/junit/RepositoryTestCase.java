@@ -34,6 +34,7 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -45,6 +46,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 
 /**
@@ -184,6 +186,13 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		super.setUp();
 		db = createWorkRepository();
 		trash = db.getWorkTree();
+	}
+
+	@Override
+	@After
+	public void tearDown() throws Exception {
+		db.close();
+		super.tearDown();
 	}
 
 	/**
@@ -509,6 +518,21 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			entry.setObjectId(formatter.idFor(
 					Constants.OBJ_BLOB, Constants.encode(content)));
 		}
+		return entry;
+	}
+
+	/**
+	 * Create <code>DirCacheEntry</code>
+	 *
+	 * @param path
+	 * @param objectId
+	 * @return the DirCacheEntry
+	 */
+	protected DirCacheEntry createGitLink(String path, AnyObjectId objectId) {
+		final DirCacheEntry entry = new DirCacheEntry(path,
+				DirCacheEntry.STAGE_0);
+		entry.setFileMode(FileMode.GITLINK);
+		entry.setObjectId(objectId);
 		return entry;
 	}
 

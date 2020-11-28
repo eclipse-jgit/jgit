@@ -42,6 +42,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.text.MessageFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1008,7 +1010,7 @@ public class UploadPack {
 			else
 				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
-			long negotiateStart = System.currentTimeMillis();
+			Instant negotiateStart = Instant.now();
 			accumulator.advertised = advertised.size();
 
 			ProtocolV0Parser parser = new ProtocolV0Parser(transferConfig);
@@ -1050,8 +1052,8 @@ public class UploadPack {
 			if (!req.getClientShallowCommits().isEmpty())
 				walk.assumeShallow(req.getClientShallowCommits());
 			sendPack = negotiate(req, accumulator, pckOut);
-			accumulator.timeNegotiating += System.currentTimeMillis()
-					- negotiateStart;
+			accumulator.timeNegotiating = Duration
+					.between(negotiateStart, Instant.now()).toMillis();
 
 			if (sendPack && !biDirectionalPipe) {
 				// Ensure the request was fully consumed. Any remaining input must
@@ -1137,6 +1139,9 @@ public class UploadPack {
 			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 		}
 
+		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
+		Instant negotiateStart = Instant.now();
+
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
 		currentRequest = req;
@@ -1186,7 +1191,8 @@ public class UploadPack {
 
 		if (req.wasDoneReceived()) {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE));
+					new PacketLineOut(NullOutputStream.INSTANCE),
+					accumulator);
 		} else {
 			pckOut.writeString("acknowledgments\n"); //$NON-NLS-1$
 			for (ObjectId id : req.getPeerHas()) {
@@ -1195,7 +1201,8 @@ public class UploadPack {
 				}
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE));
+					new PacketLineOut(NullOutputStream.INSTANCE),
+					accumulator);
 			if (okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
 			} else if (commonBase.isEmpty()) {
@@ -1238,7 +1245,11 @@ public class UploadPack {
 				// But sideband-all is not used, so we have to write it ourselves.
 				pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			}
-			sendPack(new PackStatistics.Accumulator(),
+
+			accumulator.timeNegotiating = Duration
+					.between(negotiateStart, Instant.now()).toMillis();
+
+			sendPack(accumulator,
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
@@ -1641,7 +1652,7 @@ public class UploadPack {
 			}
 
 			if (PacketLineIn.isEnd(line)) {
-				last = processHaveLines(peerHas, last, pckOut);
+				last = processHaveLines(peerHas, last, pckOut, accumulator);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
@@ -1656,7 +1667,7 @@ public class UploadPack {
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 				accumulator.haves++;
 			} else if (line.equals("done")) { //$NON-NLS-1$
-				last = processHaveLines(peerHas, last, pckOut);
+				last = processHaveLines(peerHas, last, pckOut, accumulator);
 
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
@@ -1672,11 +1683,12 @@ public class UploadPack {
 		}
 	}
 
-	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last, PacketLineOut out)
+	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last,
+			PacketLineOut out, PackStatistics.Accumulator accumulator)
 			throws IOException {
 		preUploadHook.onBeginNegotiateRound(this, wantIds, peerHas.size());
 		if (wantAll.isEmpty() && !wantIds.isEmpty())
-			parseWants();
+			parseWants(accumulator);
 		if (peerHas.isEmpty())
 			return last;
 
@@ -1773,7 +1785,7 @@ public class UploadPack {
 		return last;
 	}
 
-	private void parseWants() throws IOException {
+	private void parseWants(PackStatistics.Accumulator accumulator) throws IOException {
 		List<ObjectId> notAdvertisedWants = null;
 		for (ObjectId obj : wantIds) {
 			if (!advertised.contains(obj)) {
@@ -1782,8 +1794,17 @@ public class UploadPack {
 				notAdvertisedWants.add(obj);
 			}
 		}
-		if (notAdvertisedWants != null)
+		if (notAdvertisedWants != null) {
+			accumulator.notAdvertisedWants = notAdvertisedWants.size();
+
+			Instant startReachabilityChecking = Instant.now();
+
 			requestValidator.checkWants(this, notAdvertisedWants);
+
+			accumulator.reachabilityCheckDuration = Duration
+					.between(startReachabilityChecking, Instant.now())
+					.toMillis();
+		}
 
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
 		try {

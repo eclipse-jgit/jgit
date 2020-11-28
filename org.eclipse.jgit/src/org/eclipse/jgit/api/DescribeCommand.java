@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import java.io.IOException;
@@ -71,6 +72,11 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Pattern matchers to be applied to tags under consideration.
 	 */
 	private List<FileNameMatcher> matchers = new ArrayList<>();
+
+	/**
+	 * Whether to use all refs in the refs/ namespace
+	 */
+	private boolean useAll;
 
 	/**
 	 * Whether to use all tags (incl. lightweight) or not.
@@ -153,6 +159,22 @@ public class DescribeCommand extends GitCommand<String> {
 	}
 
 	/**
+	 * Instead of using only the annotated tags, use any ref found in refs/
+	 * namespace. This option enables matching any known branch,
+	 * remote-tracking branch, or lightweight tag.
+	 *
+	 * @param all
+	 *            <code>true</code> enables matching any ref found in refs/
+	 *            like setting option --all in c git
+	 * @return {@code this}
+	 * @since 5.10
+	 */
+	public DescribeCommand setAll(boolean all) {
+		this.useAll = all;
+		return this;
+	}
+
+	/**
 	 * Instead of using only the annotated tags, use any tag found in refs/tags
 	 * namespace. This option enables matching lightweight (non-annotated) tags
 	 * or not.
@@ -186,7 +208,7 @@ public class DescribeCommand extends GitCommand<String> {
 	private String longDescription(Ref tag, int depth, ObjectId tip)
 			throws IOException {
 		return String.format(
-				"%s-%d-g%s", tag.getName().substring(R_TAGS.length()), //$NON-NLS-1$
+				"%s-%d-g%s", formatRefName(tag.getName()), //$NON-NLS-1$
 				Integer.valueOf(depth), w.getObjectReader().abbreviate(tip)
 						.name());
 	}
@@ -244,8 +266,7 @@ public class DescribeCommand extends GitCommand<String> {
 			for (FileNameMatcher matcher : matchers) {
 				Stream<Ref> m = tags.stream().filter(
 						tag -> {
-							matcher.append(
-									tag.getName().substring(R_TAGS.length()));
+							matcher.append(formatRefName(tag.getName()));
 							boolean result = matcher.isMatch();
 							matcher.reset();
 							return result;
@@ -283,7 +304,7 @@ public class DescribeCommand extends GitCommand<String> {
 			}
 
 			Collection<Ref> tagList = repo.getRefDatabase()
-					.getRefsByPrefix(R_TAGS);
+					.getRefsByPrefix(useAll ? R_REFS : R_TAGS);
 			Map<ObjectId, List<Ref>> tags = tagList.stream()
 					.filter(this::filterLightweightTags)
 					.collect(Collectors.groupingBy(this::getObjectIdFromRef));
@@ -336,7 +357,7 @@ public class DescribeCommand extends GitCommand<String> {
 			Optional<Ref> bestMatch = getBestMatch(tags.get(target));
 			if (bestMatch.isPresent()) {
 				return longDesc ? longDescription(bestMatch.get(), 0, target) :
-						bestMatch.get().getName().substring(R_TAGS.length());
+						formatRefName(bestMatch.get().getName());
 			}
 
 			w.markStart(target);
@@ -408,6 +429,16 @@ public class DescribeCommand extends GitCommand<String> {
 	}
 
 	/**
+	 * Removes the refs/ or refs/tags prefix from tag names
+	 * @param name the name of the tag
+	 * @return the tag name with its prefix removed
+	 */
+	private String formatRefName(String name) {
+		return name.startsWith(R_TAGS) ? name.substring(R_TAGS.length()) :
+				name.substring(R_REFS.length());
+	}
+
+	/**
 	 * Whether we use lightweight tags or not for describe Candidates
 	 *
 	 * @param ref
@@ -419,7 +450,7 @@ public class DescribeCommand extends GitCommand<String> {
 	private boolean filterLightweightTags(Ref ref) {
 		ObjectId id = ref.getObjectId();
 		try {
-			return this.useTags || (id != null && (w.parseTag(id) != null));
+			return this.useAll || this.useTags || (id != null && (w.parseTag(id) != null));
 		} catch (IOException e) {
 			return false;
 		}

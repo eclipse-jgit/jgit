@@ -18,7 +18,9 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.transport.http.NetscapeCookieFile;
@@ -154,5 +156,51 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 			Assert.assertFalse("Cookie file was not supposed to be written!",
 					cookieFile.exists());
 		}
+	}
+
+	private void assertHeaders(String expected, String... headersToAdd) {
+		HttpConnection fake = Mockito.mock(HttpConnection.class);
+		Map<String, String> headers = new LinkedHashMap<>();
+		Mockito.doAnswer(invocation -> {
+			Object[] args = invocation.getArguments();
+			headers.put(args[0].toString(), args[1].toString());
+			return null;
+		}).when(fake).setRequestProperty(ArgumentMatchers.anyString(),
+				ArgumentMatchers.anyString());
+		TransportHttp.addHeaders(fake, Arrays.asList(headersToAdd));
+		Assert.assertEquals(expected, headers.toString());
+	}
+
+	@Test
+	public void testAddHeaders() {
+		assertHeaders("{a=b, c=d}", "a: b", "c :d");
+	}
+
+	@Test
+	public void testAddHeaderEmptyValue() {
+		assertHeaders("{a-x=b, c=, d=e}", "a-x: b", "c:", "d:e");
+	}
+
+	@Test
+	public void testSkipHeaderWithEmptyKey() {
+		assertHeaders("{a=b, c=d}", "a: b", " : x", "c :d");
+		assertHeaders("{a=b, c=d}", "a: b", ": x", "c :d");
+	}
+
+	@Test
+	public void testSkipHeaderWithoutKey() {
+		assertHeaders("{a=b, c=d}", "a: b", "x", "c :d");
+	}
+
+	@Test
+	public void testSkipHeaderWithInvalidKey() {
+		assertHeaders("{a=b, c=d}", "a: b", "q/p: x", "c :d");
+		assertHeaders("{a=b, c=d}", "a: b", "ä: x", "c :d");
+	}
+
+	@Test
+	public void testSkipHeaderWithNonAsciiValue() {
+		assertHeaders("{a=b, c=d}", "a: b", "q/p: x", "c :d");
+		assertHeaders("{a=b, c=d}", "a: b", "x: ä", "c :d");
 	}
 }

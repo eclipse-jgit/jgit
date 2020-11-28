@@ -112,8 +112,8 @@ public class LfsConnectionFactory {
 					remoteUrl = config.getString(
 							ConfigConstants.CONFIG_KEY_REMOTE, remote,
 							ConfigConstants.CONFIG_KEY_URL);
+					break;
 				}
-				break;
 			}
 			if (lfsUrl == null && remoteUrl != null) {
 				try {

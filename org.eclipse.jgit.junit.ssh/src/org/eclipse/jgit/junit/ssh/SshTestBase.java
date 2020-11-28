@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -14,6 +14,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
@@ -22,9 +23,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SshSupport;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theory;
@@ -67,10 +73,45 @@ public abstract class SshTestBase extends SshTestHarness {
 		defaultCloneDir = new File(getTemporaryDirectory(), "cloned");
 	}
 
-	@Test(expected = TransportException.class)
+	@Test
 	public void testSshWithoutConfig() throws Exception {
-		cloneWith("ssh://" + TEST_USER + "@localhost:" + testPort
-				+ "/doesntmatter", defaultCloneDir, null);
+		assertThrows(TransportException.class,
+				() -> cloneWith("ssh://" + TEST_USER + "@localhost:" + testPort
+						+ "/doesntmatter", defaultCloneDir, null));
+	}
+
+	@Test
+	public void testSingleCommand() throws Exception {
+		installConfig("IdentityFile " + privateKey1.getAbsolutePath());
+		String command = SshTestGitServer.ECHO_COMMAND + " 1 without timeout";
+		long start = System.nanoTime();
+		String reply = SshSupport.runSshCommand(
+				new URIish("ssh://" + TEST_USER + "@localhost:" + testPort),
+				null, FS.DETECTED, command, 0); // 0 == no timeout
+		long elapsed = System.nanoTime() - start;
+		assertEquals(command, reply);
+		// Now that we have an idea how long this takes on the test
+		// infrastructure, try again with a timeout.
+		command = SshTestGitServer.ECHO_COMMAND + " 1 expecting no timeout";
+		// Still use a generous timeout.
+		int timeout = 10 * ((int) TimeUnit.NANOSECONDS.toSeconds(elapsed) + 1);
+		reply = SshSupport.runSshCommand(
+				new URIish("ssh://" + TEST_USER + "@localhost:" + testPort),
+				null, FS.DETECTED, command, timeout);
+		assertEquals(command, reply);
+	}
+
+	@Test
+	public void testSingleCommandWithTimeoutExpired() throws Exception {
+		installConfig("IdentityFile " + privateKey1.getAbsolutePath());
+		String command = SshTestGitServer.ECHO_COMMAND + " 2 EXPECTING TIMEOUT";
+
+		CommandFailedException e = assertThrows(CommandFailedException.class,
+				() -> SshSupport.runSshCommand(new URIish(
+						"ssh://" + TEST_USER + "@localhost:" + testPort), null,
+						FS.DETECTED, command, 1));
+		assertTrue(e.getMessage().contains(command));
+		assertTrue(e.getMessage().contains("time"));
 	}
 
 	@Test

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.util.HttpSupport;
+
 /**
  * A basic parser for HTTP response headers. Handles status lines and
  * authentication headers (WWW-Authenticate, Proxy-Authenticate).
@@ -135,7 +137,7 @@ public final class HttpParser {
 		int length = header.length();
 		for (int i = 0; i < length;) {
 			int start = skipWhiteSpace(header, i);
-			int end = scanToken(header, start);
+			int end = HttpSupport.scanToken(header, start);
 			if (end <= start) {
 				break;
 			}
@@ -156,7 +158,7 @@ public final class HttpParser {
 			// optional legacy whitespace around the equals sign), where the
 			// value can be either a token or a quoted string.
 			start = skipWhiteSpace(header, start);
-			int end = scanToken(header, start);
+			int end = HttpSupport.scanToken(header, start);
 			if (end == start) {
 				// Nothing found. Either at end or on a comma.
 				if (start < header.length() && header.charAt(start) == ',') {
@@ -222,7 +224,7 @@ public final class HttpParser {
 					challenge.addArgument(header.substring(start, end), value);
 					start = nextEnd[0];
 				} else {
-					int nextEnd = scanToken(header, nextStart);
+					int nextEnd = HttpSupport.scanToken(header, nextStart);
 					challenge.addArgument(header.substring(start, end),
 							header.substring(nextStart, nextEnd));
 					start = nextEnd;
@@ -240,49 +242,6 @@ public final class HttpParser {
 		int length = header.length();
 		while (i < length && Character.isWhitespace(header.charAt(i))) {
 			i++;
-		}
-		return i;
-	}
-
-	private static int scanToken(String header, int from) {
-		int length = header.length();
-		int i = from;
-		while (i < length) {
-			char c = header.charAt(i);
-			switch (c) {
-			case '!':
-			case '#':
-			case '$':
-			case '%':
-			case '&':
-			case '\'':
-			case '*':
-			case '+':
-			case '-':
-			case '.':
-			case '^':
-			case '_':
-			case '`':
-			case '|':
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-				i++;
-				break;
-			default:
-				if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z') {
-					i++;
-					break;
-				}
-				return i;
-			}
 		}
 		return i;
 	}

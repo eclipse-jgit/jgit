@@ -86,7 +86,7 @@ public interface BitmapIndex {
 
 		/**
 		 * Returns the corresponding raw compressed EWAH bitmap of the bitmap.
-		 * 
+		 *
 		 * @return the corresponding {@code EWAHCompressedBitmap}
 		 * @since 5.8
 		 */

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com> and others
+ * Copyright (C) 2015, 2020 Ivan Motsch <ivan.motsch@bsiag.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -12,12 +12,14 @@ package org.eclipse.jgit.util.io;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.EnumSet;
 
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.io.AutoLFInputStream.StreamFlag;
 
 /**
  * Utility used to create input and output stream wrappers for
@@ -71,7 +73,7 @@ public final class EolStreamTypeUtil {
 
 	/**
 	 * Wrap the input stream depending on
-	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
+	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}.
 	 *
 	 * @param in
 	 *            original stream
@@ -82,15 +84,38 @@ public final class EolStreamTypeUtil {
 	 */
 	public static InputStream wrapInputStream(InputStream in,
 			EolStreamType conversion) {
+		return wrapInputStream(in, conversion, false);
+	}
+
+	/**
+	 * Wrap the input stream depending on
+	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}.
+	 *
+	 * @param in
+	 *            original stream
+	 * @param conversion
+	 *            to be performed
+	 * @param forCheckout
+	 *            whether the stream is for checking out from the repository
+	 * @return the converted stream depending on
+	 *         {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
+	 * @since 5.9
+	 */
+	public static InputStream wrapInputStream(InputStream in,
+			EolStreamType conversion, boolean forCheckout) {
 		switch (conversion) {
 		case TEXT_CRLF:
 			return new AutoCRLFInputStream(in, false);
 		case TEXT_LF:
-			return new AutoLFInputStream(in, false);
+			return AutoLFInputStream.create(in);
 		case AUTO_CRLF:
 			return new AutoCRLFInputStream(in, true);
 		case AUTO_LF:
-			return new AutoLFInputStream(in, true);
+			EnumSet<StreamFlag> flags = forCheckout
+					? EnumSet.of(StreamFlag.DETECT_BINARY,
+							StreamFlag.FOR_CHECKOUT)
+					: EnumSet.of(StreamFlag.DETECT_BINARY);
+			return new AutoLFInputStream(in, flags);
 		default:
 			return in;
 		}
@@ -98,7 +123,7 @@ public final class EolStreamTypeUtil {
 
 	/**
 	 * Wrap the output stream depending on
-	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
+	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}.
 	 *
 	 * @param out
 	 *            original stream

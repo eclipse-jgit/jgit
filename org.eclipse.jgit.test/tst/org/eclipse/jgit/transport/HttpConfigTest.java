@@ -13,7 +13,9 @@ package org.eclipse.jgit.transport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,6 +27,7 @@ public class HttpConfigTest {
 
 	private static final String DEFAULT = "[http]\n" + "\tpostBuffer = 1\n"
 			+ "\tsslVerify= true\n" + "\tfollowRedirects = true\n"
+			+ "\textraHeader = x: y\n" + "\tuserAgent = Test/0.1\n"
 			+ "\tmaxRedirects = 5\n\n";
 
 	private Config config;
@@ -95,7 +98,8 @@ public class HttpConfigTest {
 	@Test
 	public void testMatchWithInvalidUriInConfig() throws Exception {
 		config.fromText(
-				DEFAULT + "[http \"///\"]\n" + "\tpostBuffer = 1024\n");
+				DEFAULT + "[http \"///#expectedWarning\"]\n"
+						+ "\tpostBuffer = 1024\n");
 		HttpConfig http = new HttpConfig(config,
 				new URIish("http://example.com/path/repo.git"));
 		assertEquals(1, http.getPostBuffer());
@@ -103,7 +107,8 @@ public class HttpConfigTest {
 
 	@Test
 	public void testMatchWithInvalidAndValidUriInConfig() throws Exception {
-		config.fromText(DEFAULT + "[http \"///\"]\n" + "\tpostBuffer = 1024\n"
+		config.fromText(DEFAULT + "[http \"///#expectedWarning\"]\n"
+				+ "\tpostBuffer = 1024\n"
 				+ "[http \"http://example.com\"]\n" + "\tpostBuffer = 2048\n");
 		HttpConfig http = new HttpConfig(config,
 				new URIish("http://example.com/path/repo.git"));
@@ -173,5 +178,94 @@ public class HttpConfigTest {
 		http = new HttpConfig(config,
 				new URIish("http://user@example.com/path"));
 		assertEquals(1024, http.getPostBuffer());
+	}
+
+	@Test
+	public void testExtraHeaders() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(1, http.getExtraHeaders().size());
+		assertEquals("foo: bar", http.getExtraHeaders().get(0));
+	}
+
+	@Test
+	public void testExtraHeadersMultiple() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(2, http.getExtraHeaders().size());
+		assertEquals("foo: bar", http.getExtraHeaders().get(0));
+		assertEquals("bar: foo", http.getExtraHeaders().get(1));
+	}
+
+	@Test
+	public void testExtraHeadersReset() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n" //
+				+ "\textraHeader=\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertTrue(http.getExtraHeaders().isEmpty());
+	}
+
+	@Test
+	public void testExtraHeadersResetAndMore() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\textraHeader=foo: bar\n" //
+				+ "\textraHeader=bar: foo\n" //
+				+ "\textraHeader=\n" //
+				+ "\textraHeader=baz: something\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals(1, http.getExtraHeaders().size());
+		assertEquals("baz: something", http.getExtraHeaders().get(0));
+	}
+
+	@Test
+	public void testUserAgent() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\tuserAgent=DummyAgent/4.0\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals("DummyAgent/4.0", http.getUserAgent());
+	}
+
+	@Test
+	public void testUserAgentEnvOverride() throws Exception {
+		String mockAgent = "jgit-test/5.10.0";
+		SystemReader originalReader = SystemReader.getInstance();
+		SystemReader.setInstance(new MockSystemReader() {
+
+			@Override
+			public String getenv(String variable) {
+				if ("GIT_HTTP_USER_AGENT".equals(variable)) {
+					return mockAgent;
+				}
+				return super.getenv(variable);
+			}
+		});
+		try {
+			config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+					+ "\tuserAgent=DummyAgent/4.0\n");
+			HttpConfig http = new HttpConfig(config,
+					new URIish("http://example.com/"));
+			assertEquals(mockAgent, http.getUserAgent());
+		} finally {
+			SystemReader.setInstance(originalReader);
+		}
+	}
+
+	@Test
+	public void testUserAgentNonAscii() throws Exception {
+		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
+				+ "\tuserAgent= d ümmy Agent -5.10\n");
+		HttpConfig http = new HttpConfig(config,
+				new URIish("http://example.com/"));
+		assertEquals("d.mmy.Agent.-5.10", http.getUserAgent());
 	}
 }
