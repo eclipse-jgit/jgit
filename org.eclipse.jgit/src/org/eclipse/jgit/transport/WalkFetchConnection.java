@@ -510,6 +510,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			// and attach it to the local repository so we can use
 			// all of the contained objects.
 			//
+			Throwable e1 = null;
 			try {
 				pack.downloadPack(monitor);
 			} catch (IOException err) {
@@ -519,6 +520,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				// an alternate.
 				//
 				recordError(id, err);
+				e1 = err;
 				continue;
 			} finally {
 				// If the pack was good its in the local repository
@@ -531,6 +533,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 					if (pack.tmpIdx != null)
 						FileUtils.delete(pack.tmpIdx);
 				} catch (IOException e) {
+					if (e1 != null) {
+						e.addSuppressed(e1);
+					}
 					throw new TransportException(e.getMessage(), e);
 				}
 				packItr.remove();
