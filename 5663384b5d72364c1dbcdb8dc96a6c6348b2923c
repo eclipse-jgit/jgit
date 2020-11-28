@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fd5c310_3d9f647b",
+        "filename": "org.eclipse.jgit.benchmarks/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "wrong version",
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b96cf43_f686cc3d",
+        "filename": "org.eclipse.jgit.gpg.bc/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce9e3013_8612b7a8",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "3.2.0",
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "481ba33a_c6cc4162",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "0.8.6",
+      "range": {
+        "startLine": 340,
+        "startChar": 19,
+        "endLine": 340,
+        "endChar": 24
+      },
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82c41c9c_c433501b",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "3.9.1",
+      "range": {
+        "startLine": 345,
+        "startChar": 19,
+        "endLine": 345,
+        "endChar": 24
+      },
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "214a1c0c_f360f817",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "3.2.0",
+      "range": {
+        "startLine": 387,
+        "startChar": 19,
+        "endLine": 387,
+        "endChar": 24
+      },
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdf93180_94c13488",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "${plexus-compiler-version}",
+      "range": {
+        "startLine": 850,
+        "startChar": 25,
+        "endLine": 850,
+        "endChar": 30
+      },
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb7107e1_9946cdcd",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "${plexus-compiler-version}",
+      "range": {
+        "startLine": 855,
+        "startChar": 25,
+        "endLine": 855,
+        "endChar": 30
+      },
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd8af3d9_1744681a",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "${plexus-compiler-version}",
+      "range": {
+        "startLine": 894,
+        "startChar": 25,
+        "endLine": 894,
+        "endChar": 30
+      },
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf18de92_b5b31fce",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "3.23.0",
+      "range": {
+        "startLine": 899,
+        "startChar": 25,
+        "endLine": 899,
+        "endChar": 31
+      },
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c5b2f18_9aab9675",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "remove this",
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aea92166_f548a3e2",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-28T20:51:05Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 960,
+        "startChar": 0,
+        "endLine": 965,
+        "endChar": 28
+      },
+      "revId": "5663384b5d72364c1dbcdb8dc96a6c6348b2923c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
