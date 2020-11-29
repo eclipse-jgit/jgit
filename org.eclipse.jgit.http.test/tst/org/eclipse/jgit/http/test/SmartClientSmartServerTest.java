@@ -23,12 +23,15 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Collections;
@@ -52,6 +55,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
@@ -91,6 +96,8 @@ import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
@@ -636,6 +643,63 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, service.getStatus());
 		assertEquals("application/x-git-upload-pack-result", service
 				.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
+	@Test
+	public void test_CloneWithCustomFactory() throws Exception {
+		HttpConnectionFactory globalFactory = HttpTransport
+				.getConnectionFactory();
+		HttpConnectionFactory failingConnectionFactory = new HttpConnectionFactory() {
+
+			@Override
+			public HttpConnection create(URL url) throws IOException {
+				throw new IOException("Should not be reached");
+			}
+
+			@Override
+			public HttpConnection create(URL url, Proxy proxy)
+					throws IOException {
+				throw new IOException("Should not be reached");
+			}
+		};
+		HttpTransport.setConnectionFactory(failingConnectionFactory);
+		try {
+			File tmp = createTempDirectory("cloneViaApi");
+			boolean[] localFactoryUsed = { false };
+			TransportConfigCallback callback = new TransportConfigCallback() {
+
+				@Override
+				public void configure(Transport transport) {
+					if (transport instanceof TransportHttp) {
+						((TransportHttp) transport).setHttpConnectionFactory(
+								new HttpConnectionFactory() {
+
+									@Override
+									public HttpConnection create(URL url)
+											throws IOException {
+										localFactoryUsed[0] = true;
+										return globalFactory.create(url);
+									}
+
+									@Override
+									public HttpConnection create(URL url,
+											Proxy proxy) throws IOException {
+										localFactoryUsed[0] = true;
+										return globalFactory.create(url, proxy);
+									}
+								});
+					}
+				}
+			};
+			try (Git git = Git.cloneRepository().setDirectory(tmp)
+					.setTransportConfigCallback(callback)
+					.setURI(remoteURI.toPrivateString()).call()) {
+				assertTrue("Should have used the local HttpConnectionFactory",
+						localFactoryUsed[0]);
+			}
+		} finally {
+			HttpTransport.setConnectionFactory(globalFactory);
+		}
 	}
 
 	private void initialClone_Redirect(int nofRedirects, int code)
