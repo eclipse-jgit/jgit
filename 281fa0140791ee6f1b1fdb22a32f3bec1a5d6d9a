@@ -62,6 +62,30 @@
       "revId": "281fa0140791ee6f1b1fdb22a32f3bec1a5d6d9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7110233_7c8d23a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-11-29T20:48:51Z",
+      "side": 1,
+      "message": "name() is a \"built-in\" method of enum. It is final and cannot be overridden. It returns the name of enum constant as it is written, e.g. in upper case, without spaces etc. In this particular case ProtocolVersion.name() would return \"V2\", that\u0027s not what we want here (\"2). Other options: getVersion(), toString(), etc.",
+      "parentUuid": "9f7d5f48_f17c6253",
+      "range": {
+        "startLine": 88,
+        "startChar": 16,
+        "endLine": 88,
+        "endChar": 23
+      },
+      "revId": "281fa0140791ee6f1b1fdb22a32f3bec1a5d6d9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
