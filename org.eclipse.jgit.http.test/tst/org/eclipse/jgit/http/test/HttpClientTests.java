@@ -38,6 +38,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.AppServer;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -49,6 +50,7 @@ import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.TransferConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnection;
@@ -342,8 +344,10 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 	@Test
 	public void testV2HttpFirstResponse() throws Exception {
-		remoteRepository.getRepository().getConfig().setInt(
-				"protocol", null, "version", 2);
+		remoteRepository.getRepository().getConfig().setString(
+				ConfigConstants.CONFIG_PROTOCOL_SECTION, null,
+				ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
 
 		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
@@ -364,8 +368,10 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 	@Test
 	public void testV2HttpSubsequentResponse() throws Exception {
-		remoteRepository.getRepository().getConfig().setInt(
-				"protocol", null, "version", 2);
+		remoteRepository.getRepository().getConfig().setString(
+				ConfigConstants.CONFIG_PROTOCOL_SECTION, null,
+				ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
 
 		String url = smartAuthNoneURI.toString() + "/git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
