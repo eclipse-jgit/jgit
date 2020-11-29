@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b8192f8e_92699148",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2172,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-29T22:01:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "346add1b_73058e49",
+      "revId": "281fa0140791ee6f1b1fdb22a32f3bec1a5d6d9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60a9e2ad_8b1137ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "281fa0140791ee6f1b1fdb22a32f3bec1a5d6d9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e2498e6_4c4621f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-29T22:01:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60a9e2ad_8b1137ca",
+      "range": {
+        "startLine": 694,
+        "startChar": 9,
+        "endLine": 694,
+        "endChar": 22
+      },
+      "revId": "281fa0140791ee6f1b1fdb22a32f3bec1a5d6d9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
