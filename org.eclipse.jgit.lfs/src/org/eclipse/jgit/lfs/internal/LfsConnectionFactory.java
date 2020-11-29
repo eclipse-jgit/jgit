@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -258,8 +260,8 @@ public class LfsConnectionFactory {
 	private static final class AuthCache {
 		private static final long AUTH_CACHE_EAGER_TIMEOUT = 500;
 
-		private static final SimpleDateFormat ISO_FORMAT = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss.SSSX"); //$NON-NLS-1$
+		private static final DateTimeFormatter ISO_FORMAT = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX"); //$NON-NLS-1$
 
 		/**
 		 * Creates a cache entry for an authentication response.
@@ -278,8 +280,10 @@ public class LfsConnectionFactory {
 							- AUTH_CACHE_EAGER_TIMEOUT;
 				} else if (action.expiresAt != null
 						&& !action.expiresAt.isEmpty()) {
-					this.validUntil = ISO_FORMAT.parse(action.expiresAt)
-							.getTime() - AUTH_CACHE_EAGER_TIMEOUT;
+					this.validUntil = LocalDateTime
+							.parse(action.expiresAt, ISO_FORMAT)
+							.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
+							- AUTH_CACHE_EAGER_TIMEOUT;
 				} else {
 					this.validUntil = System.currentTimeMillis();
 				}
