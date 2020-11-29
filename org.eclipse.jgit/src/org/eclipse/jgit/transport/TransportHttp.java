@@ -75,6 +75,7 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.net.ssl.SSLHandshakeException;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -95,6 +96,7 @@ import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.transport.HttpAuthMethod.Type;
 import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -260,6 +262,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private boolean sslFailure = false;
 
+	private HttpConnectionFactory factory;
+
+	private boolean factoryUsed;
+
 	/**
 	 * All stored cookies bound to this repo (independent of the baseUrl)
 	 */
@@ -282,6 +288,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		sslVerify = http.isSslVerify();
 		cookieFile = getCookieFileFromConfig(http);
 		relevantCookies = filterCookies(cookieFile, baseUrl);
+		factory = HttpTransport.getConnectionFactory();
 	}
 
 	private URL toURL(URIish urish) throws MalformedURLException {
@@ -324,6 +331,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		sslVerify = http.isSslVerify();
 		cookieFile = getCookieFileFromConfig(http);
 		relevantCookies = filterCookies(cookieFile, baseUrl);
+		factory = HttpTransport.getConnectionFactory();
 	}
 
 	/**
@@ -358,6 +366,42 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		f.setPeerUserAgent(c.getHeaderField(HttpSupport.HDR_SERVER));
 		return (FetchConnection) f;
+	}
+
+	/**
+	 * Sets the {@link HttpConnectionFactory} to be used by this
+	 * {@link TransportHttp} instance.
+	 * <p>
+	 * If no factory is set explicitly, the {@link TransportHttp} instance uses
+	 * the {@link HttpTransport#getConnectionFactory() globally defined
+	 * factory}.
+	 * </p>
+	 *
+	 * @param customFactory
+	 *            the {@link HttpConnectionFactory} to use
+	 * @throws IllegalStateException
+	 *             if an HTTP/HTTPS connection has already been opened on this
+	 *             {@link TransportHttp} instance
+	 * @since 5.11
+	 */
+	public void setHttpConnectionFactory(
+			@NonNull HttpConnectionFactory customFactory) {
+		if (factoryUsed) {
+			throw new IllegalStateException(JGitText.get().httpFactoryInUse);
+		}
+		factory = customFactory;
+	}
+
+	/**
+	 * Retrieves the {@link HttpConnectionFactory} used by this
+	 * {@link TransportHttp} instance.
+	 *
+	 * @return the {@link HttpConnectionFactory}
+	 * @since 5.11
+	 */
+	@NonNull
+	public HttpConnectionFactory getHttpConnectionFactory() {
+		return factory;
 	}
 
 	/** {@inheritDoc} */
@@ -916,7 +960,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		final Proxy proxy = HttpSupport.proxyFor(proxySelector, u);
-		HttpConnection conn = connectionFactory.create(u, proxy);
+		factoryUsed = true;
+		HttpConnection conn = factory.create(u, proxy);
 
 		if (!sslVerify && "https".equals(u.getProtocol())) { //$NON-NLS-1$
 			HttpSupport.disableSslVerify(conn);
