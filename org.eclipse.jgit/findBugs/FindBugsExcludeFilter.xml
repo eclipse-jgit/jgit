@@ -25,8 +25,26 @@
 	   <!-- Silence the construction of our magic String instance.
 	     -->
      <Match>
-	 <Class name="org.eclipse.jgit.lib.Config" />
-	 <Bug pattern="DM_STRING_VOID_CTOR"/>
+       <Class name="org.eclipse.jgit.lib.Config" />
+       <Bug pattern="DM_STRING_VOID_CTOR"/>
+     </Match>
+
+     <Match>
+       <Class name="org.eclipse.jgit.lib.Config" />
+       <Method name="isMissing" />
+       <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ"/>
+     </Match>
+
+     <Match>
+       <Class name="org.eclipse.jgit.transport.PacketLineIn" />
+       <Method name="isDelimiter" />
+       <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ"/>
+     </Match>
+
+     <Match>
+       <Class name="org.eclipse.jgit.transport.PacketLineIn" />
+       <Method name="isEnd" />
+       <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ"/>
      </Match>
 
      <!-- Silence comparison of string by == or !=.  This class is built
