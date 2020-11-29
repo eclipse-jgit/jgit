@@ -86,6 +86,30 @@
       "revId": "281fa0140791ee6f1b1fdb22a32f3bec1a5d6d9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aae48487_acb0f843",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-29T21:11:58Z",
+      "side": 1,
+      "message": "I missed that, then let\u0027s use version()",
+      "parentUuid": "a7110233_7c8d23a8",
+      "range": {
+        "startLine": 88,
+        "startChar": 16,
+        "endLine": 88,
+        "endChar": 23
+      },
+      "revId": "281fa0140791ee6f1b1fdb22a32f3bec1a5d6d9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
