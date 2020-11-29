@@ -38,6 +38,7 @@ import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -370,7 +371,9 @@ public class UploadPackTest {
 
 		ByteArrayInputStream send = linesAsInputStream(inputLines);
 
-		server.getConfig().setString("protocol", null, "version", "2");
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
 		UploadPack up = new UploadPack(server);
 		if (postConstructionSetup != null) {
 			postConstructionSetup.accept(up);
@@ -2165,7 +2168,10 @@ public class UploadPackTest {
 
 	@Test
 	public void testGetPeerAgentProtocolV2() throws Exception {
-		server.getConfig().setString("protocol", null, "version", "2");
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null,
+				ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
 
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
