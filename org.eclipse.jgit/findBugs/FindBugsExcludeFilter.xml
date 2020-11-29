@@ -9,6 +9,12 @@
        <Bug pattern="DM_GC" />
      </Match>
 
+     <Match>
+       <Class name="org.eclipse.jgit.internal.storage.pack.PackOutputStream" />
+       <Method name="writeHeader" />
+       <Bug pattern="NS_DANGEROUS_NON_SHORT_CIRCUIT" />
+     </Match>
+
      <!-- Silence ignoring return value of mkdirs -->
      <Match>
        <Class name="org.eclipse.jgit.dircache.DirCacheCheckout" />
