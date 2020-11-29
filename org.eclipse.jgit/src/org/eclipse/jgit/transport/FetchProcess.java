@@ -95,8 +95,9 @@ class FetchProcess {
 			throw err;
 		} finally {
 			try {
-			for (PackLock lock : packLocks)
-				lock.unlock();
+				for (PackLock lock : packLocks) {
+					lock.unlock();
+				}
 			} catch (IOException e) {
 				if (e1 != null) {
 					e.addSuppressed(e1);
