@@ -340,6 +340,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String httpConfigCannotNormalizeURL;
 	/***/ public String httpConfigInvalidURL;
 	/***/ public String httpFactoryInUse;
+	/***/ public String httpWrongConnectionType;
 	/***/ public String hugeIndexesAreNotSupportedByJgitYet;
 	/***/ public String hunkBelongsToAnotherFile;
 	/***/ public String hunkDisconnectedFromFile;

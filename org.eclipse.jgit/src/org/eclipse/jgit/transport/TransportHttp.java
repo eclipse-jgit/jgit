@@ -53,6 +53,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.GeneralSecurityException;
 import java.security.cert.CertPathBuilderException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
@@ -97,6 +98,7 @@ import org.eclipse.jgit.transport.HttpAuthMethod.Type;
 import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory2;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -263,6 +265,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private boolean sslFailure = false;
 
 	private HttpConnectionFactory factory;
+
+	private HttpConnectionFactory2.GitSession gitSession;
 
 	private boolean factoryUsed;
 
@@ -529,7 +533,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	/** {@inheritDoc} */
 	@Override
 	public void close() {
-		// No explicit connections are maintained.
+		if (gitSession != null) {
+			gitSession.close();
+			gitSession = null;
+		}
 	}
 
 	/**
@@ -963,7 +970,17 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		factoryUsed = true;
 		HttpConnection conn = factory.create(u, proxy);
 
-		if (!sslVerify && "https".equals(u.getProtocol())) { //$NON-NLS-1$
+		if (gitSession == null && (factory instanceof HttpConnectionFactory2)) {
+			gitSession = ((HttpConnectionFactory2) factory).newSession();
+		}
+		if (gitSession != null) {
+			try {
+				gitSession.configure(conn, sslVerify);
+			} catch (GeneralSecurityException e) {
+				throw new IOException(e.getMessage(), e);
+			}
+		} else if (!sslVerify && "https".equals(u.getProtocol())) { //$NON-NLS-1$
+			// Backwards compatibility
 			HttpSupport.disableSslVerify(conn);
 		}
 
