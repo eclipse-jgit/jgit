@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1262682_73ecf0a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-30T14:34:40Z",
+      "side": 0,
+      "message": "looks like we should pass parameter \"version\" here (also in stable-5.9)",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 379,
+        "endChar": 47
+      },
+      "revId": "0d25bbc05826e46b48b90f4f246777e4ec4ae96f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
