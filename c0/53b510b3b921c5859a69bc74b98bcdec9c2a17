@@ -1,0 +1,8 @@
+Code-Review+1: David Ostrovsky <d.ostrovsky@gmx.de>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Thomas Wolf <thomas.wolf@paranor.ch>
+Submitted-at: Mon, 30 Nov 2020 07:50:28 -0500
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/173012
+Project: jgit/jgit
+Branch: refs/heads/master
