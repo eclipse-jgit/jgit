@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a7590ba_3ddf06df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-11-30T15:47:08Z",
+      "side": 1,
+      "message": "oh, I see this isn\u0027t good enough: I have to close rc in the \"finally\" block too (will do later).",
+      "range": {
+        "startLine": 307,
+        "startChar": 4,
+        "endLine": 307,
+        "endChar": 11
+      },
+      "revId": "02de0b0d897132bc07b2623fc86b18009bf38b89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
