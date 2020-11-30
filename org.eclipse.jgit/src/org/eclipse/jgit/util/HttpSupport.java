@@ -24,21 +24,18 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.transport.http.NoCheckX509TrustManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -301,40 +298,13 @@ public class HttpSupport {
 	 */
 	public static void disableSslVerify(HttpConnection conn)
 			throws IOException {
-		final TrustManager[] trustAllCerts = new TrustManager[] {
-				new DummyX509TrustManager() };
+		TrustManager[] trustAllCerts = {
+				new NoCheckX509TrustManager() };
 		try {
 			conn.configure(null, trustAllCerts, null);
-			conn.setHostnameVerifier(new DummyHostnameVerifier());
+			conn.setHostnameVerifier((name, session) -> true);
 		} catch (KeyManagementException | NoSuchAlgorithmException e) {
-			throw new IOException(e.getMessage());
-		}
-	}
-
-	private static class DummyX509TrustManager implements X509TrustManager {
-		@Override
-		public X509Certificate[] getAcceptedIssuers() {
-			return null;
-		}
-
-		@Override
-		public void checkClientTrusted(X509Certificate[] certs,
-				String authType) {
-			// no check
-		}
-
-		@Override
-		public void checkServerTrusted(X509Certificate[] certs,
-				String authType) {
-			// no check
-		}
-	}
-
-	private static class DummyHostnameVerifier implements HostnameVerifier {
-		@Override
-		public boolean verify(String hostname, SSLSession session) {
-			// always accept
-			return true;
+			throw new IOException(e.getMessage(), e);
 		}
 	}
 
