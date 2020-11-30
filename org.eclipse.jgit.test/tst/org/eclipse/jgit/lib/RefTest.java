@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -315,6 +316,64 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		checkContainsRef(refs, db.exactRef("refs/heads/pa"));
 		checkContainsRef(refs, db.exactRef("refs/heads/prefix/a"));
 		checkContainsRef(refs, db.exactRef("refs/tags/A"));
+	}
+
+	@Test
+	public void testGetRefsExcludingPrefix() throws IOException {
+		Set<String> exclude = new HashSet<>();
+		exclude.add("refs/tags");
+		// HEAD + 12 refs/heads are present here.
+		List<Ref> refs =
+				db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
+		assertEquals(13, refs.size());
+		checkContainsRef(refs, db.exactRef("HEAD"));
+		checkContainsRef(refs, db.exactRef("refs/heads/a"));
+		for (Ref notInResult : db.getRefDatabase().getRefsByPrefix("refs/tags")) {
+			assertFalse(refs.contains(notInResult));
+		}
+	}
+
+	@Test
+	public void testGetRefsExcludingPrefixes() throws IOException {
+		Set<String> exclude = new HashSet<>();
+		exclude.add("refs/tags/");
+		exclude.add("refs/heads/");
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
+		assertEquals(1, refs.size());
+		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testGetRefsExcludingNonExistingPrefixes() throws IOException {
+		Set<String> prefixes = new HashSet<>();
+		prefixes.add("refs/tags/");
+		prefixes.add("refs/heads/");
+		prefixes.add("refs/nonexistent/");
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, prefixes);
+		assertEquals(1, refs.size());
+		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testGetRefsWithPrefixExcludingPrefixes() throws IOException {
+		Set<String> exclude = new HashSet<>();
+		exclude.add("refs/heads/pa");
+		String include = "refs/heads/p";
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(include, exclude);
+		assertEquals(1, refs.size());
+		checkContainsRef(refs, db.exactRef("refs/heads/prefix/a"));
+	}
+
+	@Test
+	public void testGetRefsWithPrefixExcludingOverlappingPrefixes() throws IOException {
+		Set<String> exclude = new HashSet<>();
+		exclude.add("refs/heads/pa");
+		exclude.add("refs/heads/");
+		exclude.add("refs/heads/p");
+		exclude.add("refs/tags/");
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
+		assertEquals(1, refs.size());
+		checkContainsRef(refs, db.exactRef("HEAD"));
 	}
 
 	@Test

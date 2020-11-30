@@ -30,8 +30,10 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -350,6 +352,24 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 		assertEquals("refs/heads/C", c.getName());
 		assertEquals(A, c.getObjectId());
+	}
+
+	@Test
+	public void testGetRefs_ExcludingPrefixes() throws IOException {
+		writeLooseRef("refs/heads/A", A);
+		writeLooseRef("refs/heads/B", B);
+		writeLooseRef("refs/tags/tag", A);
+		writeLooseRef("refs/something/something", B);
+		writeLooseRef("refs/aaa/aaa", A);
+
+		Set<String> toExclude = new HashSet<>();
+		toExclude.add("refs/aaa/");
+		toExclude.add("refs/heads/");
+		List<Ref> refs = refdir.getRefsByPrefixWithExclusions(RefDatabase.ALL, toExclude);
+
+		assertEquals(2, refs.size());
+		assertTrue(refs.contains(refdir.exactRef("refs/tags/tag")));
+		assertTrue(refs.contains(refdir.exactRef("refs/something/something")));
 	}
 
 	@Test

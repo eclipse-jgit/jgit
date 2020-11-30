@@ -28,14 +28,18 @@ import java.io.File;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
+import java.util.Set;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -579,6 +583,64 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertEquals(Ref.Storage.PACKED, b.getStorage());
 	}
 
+	@Test
+	public void testGetRefsExcludingPrefix() throws IOException {
+		Set<String> prefixes = new HashSet<>();
+		prefixes.add("refs/tags");
+		// HEAD + 12 refs/heads are present here.
+		List<Ref> refs =
+				db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, prefixes);
+		assertEquals(13, refs.size());
+		checkContainsRef(refs, db.exactRef("HEAD"));
+		checkContainsRef(refs, db.exactRef("refs/heads/a"));
+		for (Ref notInResult : db.getRefDatabase().getRefsByPrefix("refs/tags")) {
+			assertFalse(refs.contains(notInResult));
+		}
+	}
+
+	@Test
+	public void testGetRefsExcludingPrefixes() throws IOException {
+		Set<String> exclude = new HashSet<>();
+		exclude.add("refs/tags/");
+		exclude.add("refs/heads/");
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
+		assertEquals(1, refs.size());
+		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testGetRefsExcludingNonExistingPrefixes() throws IOException {
+		Set<String> exclude = new HashSet<>();
+		exclude.add("refs/tags/");
+		exclude.add("refs/heads/");
+		exclude.add("refs/nonexistent/");
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
+		assertEquals(1, refs.size());
+		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testGetRefsWithPrefixExcludingPrefixes() throws IOException {
+		Set<String> exclude = new HashSet<>();
+		exclude.add("refs/heads/pa");
+		String include = "refs/heads/p";
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(include, exclude);
+		assertEquals(1, refs.size());
+		checkContainsRef(refs, db.exactRef("refs/heads/prefix/a"));
+	}
+
+	@Test
+	public void testGetRefsWithPrefixExcludingOverlappingPrefixes() throws IOException {
+		Set<String> exclude = new HashSet<>();
+		exclude.add("refs/heads/pa");
+		exclude.add("refs/heads/");
+		exclude.add("refs/heads/p");
+		exclude.add("refs/tags/");
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
+		assertEquals(1, refs.size());
+		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
 	private RefUpdate updateRef(String name) throws IOException {
 		final RefUpdate ref = db.updateRef(name);
 		ref.setNewObjectId(db.resolve(Constants.HEAD));
@@ -595,5 +657,15 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		default:
 			fail("link " + src + " to " + dst);
 		}
+	}
+
+	private static void checkContainsRef(Collection<Ref> haystack, Ref needle) {
+		for (Ref ref : haystack) {
+			if (ref.getName().equals(needle.getName()) &&
+					ref.getObjectId().equals(needle.getObjectId())) {
+				return;
+			}
+		}
+		fail("list " + haystack + " does not contain ref " + needle);
 	}
 }
