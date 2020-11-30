@@ -266,6 +266,52 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
+	 * Returns refs whose names start with a given prefix excluding all refs that start with one of
+	 * the given prefixes.
+	 *
+	 * @param prefixes
+	 *            strings that names of refs can't start with; may be empty.
+	 * @return immutable list of refs whose names start with {@code include} and non of the strings
+	 * 						in {@code exclude}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 */
+	public List<Ref> getRefsExcludingPrefixes(Set<String> prefixes) throws IOException {
+		List<Ref> all = new ArrayList<>();
+		lock.lock();
+		try {
+			Reftable table = reader();
+			// Normally, this should be using a try-block. Here we are creating multiple RefCursors in
+			// the loop, so it's easier to just manually close them all.
+			RefCursor rc = table.allRefs();
+			while (rc.next()) {
+				Ref ref = table.resolve(rc.getRef());
+				if (ref == null || ref.getObjectId() == null) {
+					continue;
+				}
+				String currentPrefixToExclude = null;
+				for(String prefix : prefixes){
+					if(ref.getName().startsWith(prefix)){
+						currentPrefixToExclude = prefix;
+						break;
+					}
+				}
+				if (currentPrefixToExclude != null) {
+					rc.close();
+					rc = table.seekPastRef(currentPrefixToExclude);
+				} else {
+					all.add(ref);
+				}
+			}
+			rc.close();
+		} finally {
+			lock.unlock();
+		}
+
+		return Collections.unmodifiableList(all);
+	}
+
+	/**
 	 * @return whether there is a fast SHA1 to ref map.
 	 * @throws IOException in case of I/O problems.
 	 */
