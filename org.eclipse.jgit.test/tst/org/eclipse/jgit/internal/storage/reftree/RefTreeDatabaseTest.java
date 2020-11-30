@@ -34,9 +34,11 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Set;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -195,6 +197,21 @@ public class RefTreeDatabaseTest {
 
 		assertEquals(A, a.getObjectId());
 		assertEquals(B, b.getObjectId());
+	}
+
+	@Test
+	public void testGetRefsExcludingPrefix_WithoutTags() throws IOException {
+		update("refs/heads/A", A);
+		update("refs/heads/B", B);
+		update("refs/tags/v1.0", v1_0);
+		update("refs/tagsnot/something", v1_0);
+		Set<String> toExclude = new HashSet<>();
+		toExclude.add("refs/tags/");
+		List<Ref> refs = refdb.getRefsByPrefixWithSkips(toExclude, ALL);
+		assertEquals(3, refs.size());
+		assertTrue(refs.contains(refdb.exactRef("refs/heads/A")));
+		assertTrue(refs.contains(refdb.exactRef("refs/heads/B")));
+		assertTrue(refs.contains(refdb.exactRef("refs/tagsnot/something")));
 	}
 
 	@Test
