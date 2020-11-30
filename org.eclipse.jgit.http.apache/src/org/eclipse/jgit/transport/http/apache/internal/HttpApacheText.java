@@ -27,5 +27,6 @@ public class HttpApacheText extends TranslationBundle {
 	}
 
 	// @formatter:off
+	/***/ public String httpWrongConnectionType;
 	/***/ public String unexpectedSSLContextException;
 }
