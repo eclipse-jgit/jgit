@@ -11,14 +11,17 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
 
+import java.util.stream.Collectors;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -254,6 +257,61 @@ public abstract class ReftableDatabase {
 				while (rc.next()) {
 					Ref ref = table.resolve(rc.getRef());
 					if (ref != null && ref.getObjectId() != null) {
+						all.add(ref);
+					}
+				}
+			}
+		} finally {
+			lock.unlock();
+		}
+
+		return Collections.unmodifiableList(all);
+	}
+
+	/**
+	 * Returns refs whose names start with a given prefix excluding all refs that start with one of
+	 * the given prefixes.
+	 *
+	 * @param exclude
+	 *            strings that names of refs can't start with; may be empty.
+	 * @param include
+	 *            string that names of refs should start with; may be empty.
+	 * @return immutable list of refs whose names start with {@code include} and non of the strings
+	 * 						in {@code exclude}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 */
+	public List<Ref> getRefsExcludingPrefixesWithPrefix(Set<String> exclude, String include)
+			throws IOException {
+		List<Ref> all = new ArrayList<>();
+		// Remove all prefixes that don't actually exist. This is needed since we later assume
+		// all prefixes exist and hence we can skip them after we find the prefix by going through the
+		// refs.
+		for (String prefixToExclude : exclude) {
+			if(getRefsByPrefix(prefixToExclude).isEmpty()){
+				exclude.remove(prefixToExclude);
+			}
+		}
+		Queue<String> sortedValidPrefixes = exclude.stream().sorted().collect(Collectors.toCollection(
+				ArrayDeque::new));
+		String currentPrefixToExclude = sortedValidPrefixes.isEmpty() ? null : sortedValidPrefixes.poll();
+		lock.lock();
+		try {
+			Reftable table = reader();
+			// Normally, this should be using a try-block. Here we are creating multiple RefCursors in
+			// the loop, so it's easier to just manually close them all.
+			try(RefCursor rc = RefDatabase.ALL.equals(include) ? table.allRefs()
+					: table.seekRefsWithPrefix(include)) {
+				while (rc.next()) {
+					Ref ref = table.resolve(rc.getRef());
+					if (ref == null || ref.getObjectId() == null) {
+						continue;
+					}
+					if (currentPrefixToExclude != null && ref.getName().startsWith(currentPrefixToExclude)) {
+						rc.seekPastPrefix(currentPrefixToExclude);
+						currentPrefixToExclude =
+								sortedValidPrefixes.isEmpty() ? null : sortedValidPrefixes.poll();
+					} else {
 						all.add(ref);
 					}
 				}
