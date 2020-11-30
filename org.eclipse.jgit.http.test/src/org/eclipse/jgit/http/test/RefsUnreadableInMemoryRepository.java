@@ -85,6 +85,17 @@ class RefsUnreadableInMemoryRepository extends InMemoryRepository {
 
 		/** {@inheritDoc} */
 		@Override
+		public List<Ref> getRefsByPrefix(String include, Set<String> exclude)
+				throws IOException {
+			if (failing) {
+				throw new IOException("disk failed, no refs found");
+			}
+
+			return super.getRefsByPrefix(include, exclude);
+		}
+
+		/** {@inheritDoc} */
+		@Override
 		public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
 			if (failing) {
 				throw new IOException("disk failed, no refs found");
