@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 
@@ -411,6 +413,30 @@ public abstract class RefDatabase {
 					.collect(toList());
 		}
 		return Collections.unmodifiableList(result);
+	}
+
+	/**
+	 * Returns all refs excluding those that start with any of the prefixes in
+	 * {@code prefixes}.
+	 * <p>
+	 * The implementation is not efficient. Implementors of {@link RefDatabase}
+	 * should override this method directly if a better implementation is possible.
+	 *
+	 * @param prefixes string that names of refs can't start with; may be
+	 *             empty.
+	 * @return immutable list of refs whose names don't start with any of
+	 *         {@code prefixes}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.9
+	 */
+	@NonNull
+	public List<Ref> getRefsExcludingPrefixes(Set<String> prefixes) throws IOException {
+		Stream<Ref> refs = getRefs(ALL).values().stream();
+		for(String prefix: prefixes) {
+			refs = refs.filter(r -> !r.getName().startsWith(prefix));
+		}
+		return Collections.unmodifiableList(refs.collect(Collectors.toList()));
 	}
 
 	/**
