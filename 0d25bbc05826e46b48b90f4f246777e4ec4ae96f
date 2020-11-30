@@ -22,6 +22,30 @@
       "revId": "0d25bbc05826e46b48b90f4f246777e4ec4ae96f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c76ee3c7_3a28eeb2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-11-30T14:38:02Z",
+      "side": 0,
+      "message": "only on master",
+      "parentUuid": "e1262682_73ecf0a8",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 379,
+        "endChar": 47
+      },
+      "revId": "0d25bbc05826e46b48b90f4f246777e4ec4ae96f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
