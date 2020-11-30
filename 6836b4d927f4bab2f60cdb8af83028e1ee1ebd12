@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25f9c529_05cb6f3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/NoCheckX509TrustManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-11-30T12:22:48Z",
+      "side": 1,
+      "message": "Saša wrote the original code in HttpSupport, but I didn\u0027t know whether I should attribute him personally or SAP in the copyright notice. So I went for this construct...",
+      "revId": "6836b4d927f4bab2f60cdb8af83028e1ee1ebd12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
