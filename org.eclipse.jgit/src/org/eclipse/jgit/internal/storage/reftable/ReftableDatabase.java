@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
@@ -263,6 +264,72 @@ public abstract class ReftableDatabase {
 		}
 
 		return Collections.unmodifiableList(all);
+	}
+
+	/**
+	 * Returns refs whose names start with a given prefix excluding all refs that
+	 * start with one of the given prefixes.
+	 *
+	 * @param include string that names of refs should start with; may be empty.
+	 * @param exclude strings that names of refs can't start with; may be empty.
+	 * @return immutable list of refs whose names start with {@code include} and
+	 *         none of the strings in {@code exclude}.
+	 * @throws java.io.IOException the reference space cannot be accessed.
+	 */
+	public List<Ref> getRefsByPrefixWithSkips(String include, Set<String> exclude) throws IOException {
+		List<Ref> all = new ArrayList<>();
+		lock.lock();
+		try {
+			Reftable table = reader();
+			exclude = getWithoutNonExistingPrefixes(exclude, table);
+			List<String> sortedValidPrefixesToExcludeWithoutOverlaps = getWithoutOverlaps(exclude);
+			String currentPrefixToExclude = sortedValidPrefixesToExcludeWithoutOverlaps.isEmpty() ? null
+					: sortedValidPrefixesToExcludeWithoutOverlaps.remove(0);
+			try (RefCursor rc = RefDatabase.ALL.equals(include) ? table.allRefs() : table.seekRefsWithPrefix(include)) {
+				while (rc.next()) {
+					Ref ref = table.resolve(rc.getRef());
+					if (ref == null || ref.getObjectId() == null) {
+						continue;
+					}
+					if (currentPrefixToExclude != null && ref.getName().startsWith(currentPrefixToExclude)) {
+						rc.seekPastPrefix(currentPrefixToExclude);
+						currentPrefixToExclude = sortedValidPrefixesToExcludeWithoutOverlaps.isEmpty() ? null
+								: sortedValidPrefixesToExcludeWithoutOverlaps.remove(0);
+						continue;
+					}
+					all.add(ref);
+				}
+			}
+		} finally {
+			lock.unlock();
+		}
+
+		return Collections.unmodifiableList(all);
+	}
+
+	private List<String> getWithoutOverlaps(Set<String> exclude) {
+		List<String> sortedValidPrefixesToExclude = exclude.stream().sorted().collect(Collectors.toList());
+		List<String> sortedValidPrefixesToExcludeWithoutOverlaps = new ArrayList<>();
+		String previousValidPrefix = null;
+		for (String prefixToExclude : sortedValidPrefixesToExclude) {
+			if (previousValidPrefix == null || !prefixToExclude.startsWith(previousValidPrefix)) {
+				previousValidPrefix = prefixToExclude;
+				sortedValidPrefixesToExcludeWithoutOverlaps.add(prefixToExclude);
+			}
+		}
+		return sortedValidPrefixesToExcludeWithoutOverlaps;
+	}
+
+	private Set<String> getWithoutNonExistingPrefixes(Set<String> exclude, Reftable table) throws IOException {
+		Set<String> result = new HashSet<>();
+		for (String prefixToExclude : exclude) {
+			try (RefCursor cursor = table.seekRefsWithPrefix(prefixToExclude)) {
+				if (cursor.next()) {
+					result.add(prefixToExclude);
+				}
+			}
+		}
+		return result;
 	}
 
 	/**
