@@ -21,6 +21,7 @@ import java.util.Map;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.file.LazyObjectIdSetFile;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectIdSet;
@@ -60,17 +61,34 @@ public class TransferConfig {
 	}
 
 	/**
-	 * A git configuration variable for which versions of the Git protocol to prefer.
-	 * Used in protocol.version.
+	 * A git configuration variable for which versions of the Git protocol to
+	 * prefer. Used in protocol.version.
+	 *
+	 * @since 5.9
 	 */
-	enum ProtocolVersion {
+	public enum ProtocolVersion {
+		/**
+		 * Git wire protocol version 0 (the default).
+		 */
 		V0("0"), //$NON-NLS-1$
+		/**
+		 * Git wire protocol version 2.
+		 */
 		V2("2"); //$NON-NLS-1$
 
 		final String name;
 
 		ProtocolVersion(String name) {
 			this.name = name;
+		}
+
+		/**
+		 * Returns version number
+		 *
+		 * @return string version
+		 */
+		public String version() {
+			return name;
 		}
 
 		@Nullable
@@ -177,7 +195,9 @@ public class TransferConfig {
 				"uploadpack", "allowreachablesha1inwant", false);
 		allowFilter = rc.getBoolean(
 				"uploadpack", "allowfilter", false);
-		protocolVersion = ProtocolVersion.parse(rc.getString("protocol", null, "version"));
+		protocolVersion = ProtocolVersion.parse(rc
+				.getString(ConfigConstants.CONFIG_PROTOCOL_SECTION, null,
+						ConfigConstants.CONFIG_KEY_VERSION));
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs");
 		allowSidebandAll = rc.getBoolean(
 				"uploadpack", "allowsidebandall", false);
