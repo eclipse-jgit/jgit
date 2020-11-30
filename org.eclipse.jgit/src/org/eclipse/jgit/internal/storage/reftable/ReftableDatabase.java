@@ -14,10 +14,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
@@ -256,6 +258,51 @@ public abstract class ReftableDatabase {
 					if (ref != null && ref.getObjectId() != null) {
 						all.add(ref);
 					}
+				}
+			}
+		} finally {
+			lock.unlock();
+		}
+
+		return Collections.unmodifiableList(all);
+	}
+
+	/**
+	 * Returns refs whose names start with a given prefix excluding all refs that
+	 * start with one of the given prefixes.
+	 *
+	 * @param include string that names of refs should start with; may be empty.
+	 * @param exclude strings that names of refs can't start with; may be empty.
+	 * @return immutable list of refs whose names start with {@code include} and
+	 *         none of the strings in {@code exclude}.
+	 * @throws java.io.IOException the reference space cannot be accessed.
+	 */
+	public List<Ref> getRefsByPrefixWithSkips(String include, Set<String> exclude) throws IOException {
+		List<Ref> all = new ArrayList<>();
+		lock.lock();
+		try {
+			Reftable table = reader();
+			Iterator<String> sortedPrefixesToExclude = exclude.stream().sorted().collect(Collectors.toList())
+					.iterator();
+			String currentPrefixToExclude = sortedPrefixesToExclude.hasNext() ? sortedPrefixesToExclude.next() : null;
+			try (RefCursor rc = RefDatabase.ALL.equals(include) ? table.allRefs() : table.seekRefsWithPrefix(include)) {
+				while (rc.next()) {
+					Ref ref = table.resolve(rc.getRef());
+					if (ref == null || ref.getObjectId() == null) {
+						continue;
+					}
+					// Skip prefixes that will never see since we are already further than those
+					// prefixes lexicographically.
+					while (sortedPrefixesToExclude.hasNext() && !ref.getName().startsWith(currentPrefixToExclude)
+							&& ref.getName().compareTo(currentPrefixToExclude) > 0) {
+						currentPrefixToExclude = sortedPrefixesToExclude.next();
+					}
+
+					if (currentPrefixToExclude != null && ref.getName().startsWith(currentPrefixToExclude)) {
+						rc.seekPastPrefix(currentPrefixToExclude);
+						continue;
+					}
+					all.add(ref);
 				}
 			}
 		} finally {
