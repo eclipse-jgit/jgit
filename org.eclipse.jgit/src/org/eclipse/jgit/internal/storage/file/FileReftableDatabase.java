@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -175,6 +176,13 @@ public class FileReftableDatabase extends RefDatabase {
 		}
 		return new RefMap(prefix, builder.toRefList(), RefList.emptyList(),
 				RefList.emptyList());
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public List<Ref> getRefsExcludingPrefixesWithPrefix(Set<String> exclude, String include)
+			throws IOException {
+		return reftableDatabase.getRefsExcludingPrefixesWithPrefix(exclude, include);
 	}
 
 	/** {@inheritDoc} */

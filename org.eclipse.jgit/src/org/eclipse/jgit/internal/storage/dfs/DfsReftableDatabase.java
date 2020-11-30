@@ -176,6 +176,13 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
+	public List<Ref> getRefsExcludingPrefixesWithPrefix(Set<String> exclude, String include)
+			throws IOException {
+		return reftableDatabase.getRefsExcludingPrefixesWithPrefix(exclude, include);
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
 		if (!getReftableConfig().isIndexObjects()) {
 			return super.getTipsWithSha1(id);
