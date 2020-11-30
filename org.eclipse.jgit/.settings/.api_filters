@@ -36,4 +36,13 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/TransferConfig.java" type="org.eclipse.jgit.transport.TransferConfig$ProtocolVersion">
+        <filter id="1175453698">
+            <message_arguments>
+                <message_argument value="5.9"/>
+                <message_argument value="5.10"/>
+                <message_argument value="org.eclipse.jgit.transport.TransferConfig.ProtocolVersion"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
