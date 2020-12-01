@@ -22,6 +22,30 @@
       "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52ba8bf4_a2d50912",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-01T11:59:10Z",
+      "side": 1,
+      "message": "See follow-up change for this implementation, but I\u0027m doing exactly what you described: get all changes, when hitting refs/changes/* use seekPastRef(refs/changes/) and continue with the new RefCursor. I agree that your idea is possibly cleaner from a design perspective, but it didn\u0027t cost anything to get around it (the only difference is that your method is a part of RefCursor and mine is a part of Reftable). Hence, I don\u0027t see why that\u0027s better.\n\nThere is much more complexity in implementing this suggestion since I\u0027ll need to implement the method 3-4 times, each with different implementation for those RefCursors. Because of this it looks like RefCursors will become much more complicated.\n\nUnless you feel strongly about this I\u0027d rather just stick with the current implementation. WDYT?",
+      "parentUuid": "a1a1be23_3d82cfcd",
+      "range": {
+        "startLine": 142,
+        "startChar": 27,
+        "endLine": 142,
+        "endChar": 38
+      },
+      "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
