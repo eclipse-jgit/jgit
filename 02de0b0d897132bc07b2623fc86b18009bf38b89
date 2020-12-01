@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5be68c8_cbcb065a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-01T11:39:36Z",
+      "side": 1,
+      "message": "not sorted, see method below that simply goes over all the prefixes and checks if the ref starts with any of those.\n\nI initially was thinking to sort them, but that isn\u0027t trivially viable since the user could put a non-existing prefix and that would create a bug: e.g ignore refs/aaa and refs/heads, we would look for the first instance of refs/aaa but we will never find it, thus we will also return refs/heads instead of skipping it.\n\nWhile writing this I realised that it\u0027s probably better to just check whether the prefix exists at all, and in fact sort them as you suggested, so sure - done.",
+      "parentUuid": "da68f475_ebfa2ed2",
+      "range": {
+        "startLine": 279,
+        "startChar": 55,
+        "endLine": 279,
+        "endChar": 63
+      },
+      "revId": "02de0b0d897132bc07b2623fc86b18009bf38b89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a7590ba_3ddf06df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 3
