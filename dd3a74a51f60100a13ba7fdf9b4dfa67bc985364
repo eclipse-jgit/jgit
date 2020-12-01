@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48981f66_a1bc09c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-12-01T10:01:13Z",
+      "side": 1,
+      "message": "This commit is linked to Bug: 544199. Should the same bug be added below to the footer or create a new issue in JGit issue tracker?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 79
+      },
+      "revId": "dd3a74a51f60100a13ba7fdf9b4dfa67bc985364",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0aff160_62b3c62e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-12-01T10:01:13Z",
+      "side": 1,
+      "message": "Bug: 544199",
+      "revId": "dd3a74a51f60100a13ba7fdf9b4dfa67bc985364",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5be6ce8_afc6e7e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-12-01T10:01:13Z",
+      "side": 1,
+      "message": "Can we create a test for this breakage, or test is not easy possible?",
+      "revId": "dd3a74a51f60100a13ba7fdf9b4dfa67bc985364",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
