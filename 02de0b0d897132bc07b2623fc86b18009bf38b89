@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "41fb5c79_2cdeb80b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-01T11:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5be68c8_cbcb065a",
+      "range": {
+        "startLine": 279,
+        "startChar": 55,
+        "endLine": 279,
+        "endChar": 63
+      },
+      "revId": "02de0b0d897132bc07b2623fc86b18009bf38b89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a7590ba_3ddf06df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 3
