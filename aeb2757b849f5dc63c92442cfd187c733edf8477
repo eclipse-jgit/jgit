@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1a1be23_3d82cfcd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-12-01T01:13:30Z",
+      "side": 1,
+      "message": "Is it better to create return a new RefCursor to skip some refs? For use case like return all refs except for refs/changes/*, I would use seekRefsWithPrefix(\"\") to get a RefCursor for all refs, then once the cursor hits the first refs/changes/* then I call RefCursor.skipPrefix(\"refs/changes/\") to jump past all the changes. How would that be done with this proposed seekPastRef()?",
+      "range": {
+        "startLine": 142,
+        "startChar": 27,
+        "endLine": 142,
+        "endChar": 38
+      },
+      "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
