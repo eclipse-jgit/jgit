@@ -46,6 +46,30 @@
       "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4099d6bc_08f44abe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-12-01T17:51:37Z",
+      "side": 1,
+      "message": "Example: want all refs, except refs/a/*, refs/d/*, and refs/p/*.\nThis implementation would create 4 cursors, and hence 4 random search over the corpus.\nMy proposal creates 1 cursor, also 4 random search, but the corpus gets smaller and smaller. For example, once the cursor reaches the first refs/d/* items, it needs to seek past refs/d/*, but at this point the corpus is only (refs/d/*, end) instead of (refs/a/*, end). Maybe this is not big enough of a difference, but a pair of RefCursor.skipTo(prefix) and RefCursor.skipPast(prefix) seem intuitive and versatile to me.",
+      "parentUuid": "52ba8bf4_a2d50912",
+      "range": {
+        "startLine": 142,
+        "startChar": 27,
+        "endLine": 142,
+        "endChar": 38
+      },
+      "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
