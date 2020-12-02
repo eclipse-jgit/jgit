@@ -817,6 +817,31 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 		}
 	}
 
+	private void assertFetchRequests(List<AccessEvent> requests, int index) {
+		AccessEvent info = requests.get(index++);
+		assertEquals("GET", info.getMethod());
+		assertEquals(join(authURI, "info/refs"), info.getPath());
+		assertEquals(1, info.getParameters().size());
+		assertEquals("git-upload-pack", info.getParameter("service"));
+		assertEquals(200, info.getStatus());
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
+
+		AccessEvent service = requests.get(index++);
+		assertEquals("POST", service.getMethod());
+		assertEquals(join(authURI, "git-upload-pack"), service.getPath());
+		assertEquals(0, service.getParameters().size());
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
+
+		assertEquals(200, service.getStatus());
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
 	@Test
 	public void testInitialClone_WithAuthentication() throws Exception {
 		try (Repository dst = createBareRepository();
@@ -836,28 +861,161 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 		assertEquals("GET", info.getMethod());
 		assertEquals(401, info.getStatus());
 
-		info = requests.get(1);
+		assertFetchRequests(requests, 1);
+	}
+
+	@Test
+	public void testInitialClone_WithPreAuthentication() throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(2, requests.size());
+
+		assertFetchRequests(requests, 0);
+	}
+
+	@Test
+	public void testInitialClone_WithPreAuthenticationCleared()
+			throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			((TransportHttp) t).setPreemptiveBasicAuthentication(null, null);
+			t.setCredentialsProvider(testCredentials);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(3, requests.size());
+
+		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
-		assertEquals(join(authURI, "info/refs"), info.getPath());
-		assertEquals(1, info.getParameters().size());
-		assertEquals("git-upload-pack", info.getParameter("service"));
-		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-upload-pack-advertisement",
-				info.getResponseHeader(HDR_CONTENT_TYPE));
-		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
+		assertEquals(401, info.getStatus());
 
-		AccessEvent service = requests.get(2);
-		assertEquals("POST", service.getMethod());
-		assertEquals(join(authURI, "git-upload-pack"), service.getPath());
-		assertEquals(0, service.getParameters().size());
-		assertNotNull("has content-length",
-				service.getRequestHeader(HDR_CONTENT_LENGTH));
-		assertNull("not chunked",
-				service.getRequestHeader(HDR_TRANSFER_ENCODING));
+		assertFetchRequests(requests, 1);
+	}
 
-		assertEquals(200, service.getStatus());
-		assertEquals("application/x-git-upload-pack-result",
-				service.getResponseHeader(HDR_CONTENT_TYPE));
+	@Test
+	public void testInitialClone_PreAuthenticationTooLate() throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+			List<AccessEvent> requests = getRequests();
+			assertEquals(2, requests.size());
+			assertFetchRequests(requests, 0);
+			assertThrows(IllegalStateException.class,
+					() -> ((TransportHttp) t).setPreemptiveBasicAuthentication(
+							AppServer.username, AppServer.password));
+			assertThrows(IllegalStateException.class, () -> ((TransportHttp) t)
+					.setPreemptiveBasicAuthentication(null, null));
+		}
+	}
+
+	@Test
+	public void testInitialClone_WithWrongPreAuthenticationAndCredentialProvider()
+			throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password + 'x');
+			t.setCredentialsProvider(testCredentials);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(3, requests.size());
+
+		AccessEvent info = requests.get(0);
+		assertEquals("GET", info.getMethod());
+		assertEquals(401, info.getStatus());
+
+		assertFetchRequests(requests, 1);
+	}
+
+	@Test
+	public void testInitialClone_WithWrongPreAuthentication() throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password + 'x');
+			TransportException e = assertThrows(TransportException.class,
+					() -> t.fetch(NullProgressMonitor.INSTANCE,
+							mirror(master)));
+			String msg = e.getMessage();
+			assertTrue("Unexpected exception message: " + msg,
+					msg.contains("no CredentialsProvider"));
+		}
+		List<AccessEvent> requests = getRequests();
+		assertEquals(1, requests.size());
+
+		AccessEvent info = requests.get(0);
+		assertEquals("GET", info.getMethod());
+		assertEquals(401, info.getStatus());
+	}
+
+	@Test
+	public void testInitialClone_WithUserInfo() throws Exception {
+		URIish withUserInfo = authURI.setUser(AppServer.username)
+				.setPass(AppServer.password);
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, withUserInfo)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(2, requests.size());
+
+		assertFetchRequests(requests, 0);
+	}
+
+	@Test
+	public void testInitialClone_PreAuthOverridesUserInfo() throws Exception {
+		URIish withUserInfo = authURI.setUser(AppServer.username)
+				.setPass(AppServer.password + 'x');
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, withUserInfo)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(2, requests.size());
+
+		assertFetchRequests(requests, 0);
 	}
 
 	@Test
@@ -917,7 +1075,7 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 					throws UnsupportedCredentialItem {
 				// Only return the true credentials if the uri path starts with
 				// /auth. This ensures that we do provide the correct
-				// credentials only for the URi after the redirect, making the
+				// credentials only for the URI after the redirect, making the
 				// test fail if we should be asked for the credentials for the
 				// original URI.
 				if (uri.getPath().startsWith("/auth")) {
@@ -949,28 +1107,33 @@ public class SmartClientSmartServerTest extends AllFactoriesHttpTestCase {
 		assertEquals(join(authURI, "info/refs"), info.getPath());
 		assertEquals(401, info.getStatus());
 
-		info = requests.get(2);
-		assertEquals("GET", info.getMethod());
-		assertEquals(join(authURI, "info/refs"), info.getPath());
-		assertEquals(1, info.getParameters().size());
-		assertEquals("git-upload-pack", info.getParameter("service"));
-		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-upload-pack-advertisement",
-				info.getResponseHeader(HDR_CONTENT_TYPE));
-		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
+		assertFetchRequests(requests, 2);
+	}
 
-		AccessEvent service = requests.get(3);
-		assertEquals("POST", service.getMethod());
-		assertEquals(join(authURI, "git-upload-pack"), service.getPath());
-		assertEquals(0, service.getParameters().size());
-		assertNotNull("has content-length",
-				service.getRequestHeader(HDR_CONTENT_LENGTH));
-		assertNull("not chunked",
-				service.getRequestHeader(HDR_TRANSFER_ENCODING));
+	@Test
+	public void testInitialClone_WithPreAuthenticationAndRedirect()
+			throws Exception {
+		URIish cloneFrom = extendPath(redirectURI, "/target/auth");
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, cloneFrom)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
 
-		assertEquals(200, service.getStatus());
-		assertEquals("application/x-git-upload-pack-result",
-				service.getResponseHeader(HDR_CONTENT_TYPE));
+		List<AccessEvent> requests = getRequests();
+		assertEquals(3, requests.size());
+
+		AccessEvent redirect = requests.get(0);
+		assertEquals("GET", redirect.getMethod());
+		assertEquals(join(cloneFrom, "info/refs"), redirect.getPath());
+		assertEquals(301, redirect.getStatus());
+
+		assertFetchRequests(requests, 1);
 	}
 
 	@Test
