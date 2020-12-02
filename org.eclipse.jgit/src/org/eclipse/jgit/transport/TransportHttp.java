@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -49,6 +50,7 @@ import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -408,6 +410,41 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return factory;
 	}
 
+	/**
+	 * Sets preemptive Basic HTTP authentication. If the given {@code username}
+	 * or {@code password} is empty or {@code null}, no preemptive
+	 * authentication will be done. If {@code username} and {@code password} are
+	 * set, they will override authority information from the URI
+	 * ("user:password@").
+	 * <p>
+	 * If the connection encounters redirects, the pre-authentication will be
+	 * cleared if the redirect goes to a different host.
+	 * </p>
+	 *
+	 * @param username
+	 *            to use
+	 * @param password
+	 *            to use
+	 * @throws IllegalStateException
+	 *             if an HTTP/HTTPS connection has already been opened on this
+	 *             {@link TransportHttp} instance
+	 * @since 5.11
+	 */
+	public void setPreemptiveBasicAuthentication(String username,
+			String password) {
+		if (factoryUsed) {
+			throw new IllegalStateException(JGitText.get().httpPreAuthTooLate);
+		}
+		if (StringUtils.isEmptyOrNull(username)
+				|| StringUtils.isEmptyOrNull(password)) {
+			authMethod = authFromUri(currentUri);
+		} else {
+			HttpAuthMethod basic = HttpAuthMethod.Type.BASIC.method(null);
+			basic.authorize(username, password);
+			authMethod = basic;
+		}
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException,
@@ -563,6 +600,28 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return new NoRemoteRepositoryException(u, text);
 	}
 
+	private HttpAuthMethod authFromUri(URIish u) {
+		String user = u.getUser();
+		String pass = u.getPass();
+		if (user != null && pass != null) {
+			try {
+				// User/password are _not_ application/x-www-form-urlencoded. In
+				// particular the "+" sign would be replaced by a space.
+				user = URLDecoder.decode(user.replace("+", "%2B"), //$NON-NLS-1$ //$NON-NLS-2$
+						StandardCharsets.UTF_8.name());
+				pass = URLDecoder.decode(pass.replace("+", "%2B"), //$NON-NLS-1$ //$NON-NLS-2$
+						StandardCharsets.UTF_8.name());
+				HttpAuthMethod basic = HttpAuthMethod.Type.BASIC.method(null);
+				basic.authorize(user, pass);
+				return basic;
+			} catch (IllegalArgumentException
+					| UnsupportedEncodingException e) {
+				LOG.warn(JGitText.get().httpUserInfoDecodeError, u);
+			}
+		}
+		return HttpAuthMethod.Type.NONE.method(null);
+	}
+
 	private HttpConnection connect(String service)
 			throws TransportException, NotSupportedException {
 		return connect(service, null);
@@ -572,6 +631,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			TransferConfig.ProtocolVersion protocolVersion)
 			throws TransportException, NotSupportedException {
 		URL u = getServiceURL(service);
+		if (HttpAuthMethod.Type.NONE.equals(authMethod.getType())) {
+			authMethod = authFromUri(currentUri);
+		}
 		int authAttempts = 1;
 		int redirects = 0;
 		Collection<Type> ignoreTypes = null;
@@ -878,7 +940,13 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		try {
 			URI redirectTo = new URI(location);
+			// Reset authentication if the redirect has user/password info or
+			// if the host is different.
+			boolean resetAuth = !StringUtils
+					.isEmptyOrNull(redirectTo.getUserInfo());
+			String currentHost = currentUrl.getHost();
 			redirectTo = currentUrl.toURI().resolve(redirectTo);
+			resetAuth = resetAuth || !currentHost.equals(redirectTo.getHost());
 			String redirected = redirectTo.toASCIIString();
 			if (!isValidRedirect(baseUrl, redirected, checkFor)) {
 				throw new TransportException(uri,
@@ -887,6 +955,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			}
 			redirected = redirected.substring(0, redirected.indexOf(checkFor));
 			URIish result = new URIish(redirected);
+			if (resetAuth) {
+				authMethod = HttpAuthMethod.Type.NONE.method(null);
+			}
 			if (LOG.isInfoEnabled()) {
 				LOG.info(MessageFormat.format(JGitText.get().redirectHttp,
 						uri.setPass(null),

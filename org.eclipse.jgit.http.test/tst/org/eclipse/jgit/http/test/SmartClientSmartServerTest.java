@@ -936,6 +936,35 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		}
 	}
 
+	private void assertFetchRequests(List<AccessEvent> requests, int index) {
+		AccessEvent info = requests.get(index++);
+		assertEquals("GET", info.getMethod());
+		assertEquals(join(authURI, "info/refs"), info.getPath());
+		assertEquals(1, info.getParameters().size());
+		assertEquals("git-upload-pack", info.getParameter("service"));
+		assertEquals(200, info.getStatus());
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
+		if (!enableProtocolV2) {
+			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
+		}
+
+		for (int i = index; i < requests.size(); i++) {
+			AccessEvent service = requests.get(i);
+			assertEquals("POST", service.getMethod());
+			assertEquals(join(authURI, "git-upload-pack"), service.getPath());
+			assertEquals(0, service.getParameters().size());
+			assertNotNull("has content-length",
+					service.getRequestHeader(HDR_CONTENT_LENGTH));
+			assertNull("not chunked",
+					service.getRequestHeader(HDR_TRANSFER_ENCODING));
+
+			assertEquals(200, service.getStatus());
+			assertEquals("application/x-git-upload-pack-result",
+					service.getResponseHeader(HDR_CONTENT_TYPE));
+		}
+	}
+
 	@Test
 	public void testInitialClone_WithAuthentication() throws Exception {
 		try (Repository dst = createBareRepository();
@@ -955,32 +984,161 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals("GET", info.getMethod());
 		assertEquals(401, info.getStatus());
 
-		info = requests.get(1);
+		assertFetchRequests(requests, 1);
+	}
+
+	@Test
+	public void testInitialClone_WithPreAuthentication() throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(enableProtocolV2 ? 3 : 2, requests.size());
+
+		assertFetchRequests(requests, 0);
+	}
+
+	@Test
+	public void testInitialClone_WithPreAuthenticationCleared()
+			throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			((TransportHttp) t).setPreemptiveBasicAuthentication(null, null);
+			t.setCredentialsProvider(testCredentials);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(enableProtocolV2 ? 4 : 3, requests.size());
+
+		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
-		assertEquals(join(authURI, "info/refs"), info.getPath());
-		assertEquals(1, info.getParameters().size());
-		assertEquals("git-upload-pack", info.getParameter("service"));
-		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-upload-pack-advertisement",
-				info.getResponseHeader(HDR_CONTENT_TYPE));
-		if (!enableProtocolV2) {
-			assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
+		assertEquals(401, info.getStatus());
+
+		assertFetchRequests(requests, 1);
+	}
+
+	@Test
+	public void testInitialClone_PreAuthenticationTooLate() throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+			List<AccessEvent> requests = getRequests();
+			assertEquals(enableProtocolV2 ? 3 : 2, requests.size());
+			assertFetchRequests(requests, 0);
+			assertThrows(IllegalStateException.class,
+					() -> ((TransportHttp) t).setPreemptiveBasicAuthentication(
+							AppServer.username, AppServer.password));
+			assertThrows(IllegalStateException.class, () -> ((TransportHttp) t)
+					.setPreemptiveBasicAuthentication(null, null));
+		}
+	}
+
+	@Test
+	public void testInitialClone_WithWrongPreAuthenticationAndCredentialProvider()
+			throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password + 'x');
+			t.setCredentialsProvider(testCredentials);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
 		}
 
-		for (int i = 2; i < requests.size(); i++) {
-			AccessEvent service = requests.get(i);
-			assertEquals("POST", service.getMethod());
-			assertEquals(join(authURI, "git-upload-pack"), service.getPath());
-			assertEquals(0, service.getParameters().size());
-			assertNotNull("has content-length",
-					service.getRequestHeader(HDR_CONTENT_LENGTH));
-			assertNull("not chunked",
-					service.getRequestHeader(HDR_TRANSFER_ENCODING));
+		List<AccessEvent> requests = getRequests();
+		assertEquals(enableProtocolV2 ? 4 : 3, requests.size());
 
-			assertEquals(200, service.getStatus());
-			assertEquals("application/x-git-upload-pack-result",
-					service.getResponseHeader(HDR_CONTENT_TYPE));
+		AccessEvent info = requests.get(0);
+		assertEquals("GET", info.getMethod());
+		assertEquals(401, info.getStatus());
+
+		assertFetchRequests(requests, 1);
+	}
+
+	@Test
+	public void testInitialClone_WithWrongPreAuthentication() throws Exception {
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password + 'x');
+			TransportException e = assertThrows(TransportException.class,
+					() -> t.fetch(NullProgressMonitor.INSTANCE,
+							mirror(master)));
+			String msg = e.getMessage();
+			assertTrue("Unexpected exception message: " + msg,
+					msg.contains("no CredentialsProvider"));
 		}
+		List<AccessEvent> requests = getRequests();
+		assertEquals(1, requests.size());
+
+		AccessEvent info = requests.get(0);
+		assertEquals("GET", info.getMethod());
+		assertEquals(401, info.getStatus());
+	}
+
+	@Test
+	public void testInitialClone_WithUserInfo() throws Exception {
+		URIish withUserInfo = authURI.setUser(AppServer.username)
+				.setPass(AppServer.password);
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, withUserInfo)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(enableProtocolV2 ? 3 : 2, requests.size());
+
+		assertFetchRequests(requests, 0);
+	}
+
+	@Test
+	public void testInitialClone_PreAuthOverridesUserInfo() throws Exception {
+		URIish withUserInfo = authURI.setUser(AppServer.username)
+				.setPass(AppServer.password + 'x');
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, withUserInfo)) {
+			assertFalse(dst.getObjectDatabase().has(A_txt));
+			((TransportHttp) t).setPreemptiveBasicAuthentication(
+					AppServer.username, AppServer.password);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+			assertEquals(B, dst.exactRef(master).getObjectId());
+			fsck(dst, B);
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(enableProtocolV2 ? 3 : 2, requests.size());
+
+		assertFetchRequests(requests, 0);
 	}
 
 	@Test
