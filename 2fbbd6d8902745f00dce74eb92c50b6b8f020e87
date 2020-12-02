@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6de3ad1a_9cdac085",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-12-02T11:40:19Z",
+      "side": 1,
+      "message": "It isn\u0027t straightforward to understand why you do need again to call openFail() in this line of code: what about adding a comment with the rationale?",
+      "revId": "2fbbd6d8902745f00dce74eb92c50b6b8f020e87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
