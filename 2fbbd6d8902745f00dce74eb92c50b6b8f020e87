@@ -34,6 +34,24 @@
       "revId": "2fbbd6d8902745f00dce74eb92c50b6b8f020e87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b97f55df_8d663702",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2020-12-02T18:07:27Z",
+      "side": 1,
+      "message": "\u003e \u003e It isn\u0027t straightforward to understand why you do need again to call openFail() in this line of code: what about adding a comment with the rationale?\n\u003e \n\u003e I personally think a comment here explaining that would be inappropriate. The openFail() method is called from every failure path in here to do \"housekeeping\". \n\nYep, what isn\u0027t clear to me is why we do it here instead of doing when the invalidatingCause is set. I always thought that when we try to open an packfile that has been already declared invalid, we should just throw the exception, rather than extra housekeeping.\n\nBut I have to confess that I do not consider myself an expert of this code: I just did a couple of fixes and I still do not fully grasp the overall structure.\n\n\u003e I was also confused as to what housekeeping needed to be done in here, however when I looked at the openFail() method it explained things for me. If a comment were put here to explain what openFail() does, it runs the risk of quickly becoming out of date with what the method actually does and thus would be a maintenance issue. Do you have any suggestions for making the code flow clearer instead of adding a comment here?\n\nTrue, I prefer making the code clearer instead of cosmetic comments.",
+      "parentUuid": "7171e42e_4ea34b82",
+      "revId": "2fbbd6d8902745f00dce74eb92c50b6b8f020e87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
