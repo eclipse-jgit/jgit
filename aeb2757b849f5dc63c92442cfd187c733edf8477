@@ -70,6 +70,30 @@
       "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1420e468_3bb44262",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-02T16:30:24Z",
+      "side": 1,
+      "message": "okay I see your point, I changed this and now it\u0027s in fact searching the way you described such that we don\u0027t search from (0,end). Follow up also doesn\u0027t create any RefCursors, too.\n\nPTAL :)",
+      "parentUuid": "4099d6bc_08f44abe",
+      "range": {
+        "startLine": 142,
+        "startChar": 27,
+        "endLine": 142,
+        "endChar": 38
+      },
+      "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
