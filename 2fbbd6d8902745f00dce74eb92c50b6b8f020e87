@@ -16,6 +16,24 @@
       "revId": "2fbbd6d8902745f00dce74eb92c50b6b8f020e87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7171e42e_4ea34b82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2020-12-02T17:12:24Z",
+      "side": 1,
+      "message": "\u003e It isn\u0027t straightforward to understand why you do need again to call openFail() in this line of code: what about adding a comment with the rationale?\n\nI personally think a comment here explaining that would be inappropriate. The openFail() method is called from every failure path in here to do \"housekeeping\". I was also confused as to what housekeeping needed to be done in here, however when I looked at the openFail() method it explained things for me. If a comment were put here to explain what openFail() does, it runs the risk of quickly becoming out of date with what the method actually does and thus would be a maintenance issue. Do you have any suggestions for making the code flow clearer instead of adding a comment here?",
+      "parentUuid": "6de3ad1a_9cdac085",
+      "revId": "2fbbd6d8902745f00dce74eb92c50b6b8f020e87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
