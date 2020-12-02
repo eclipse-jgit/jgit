@@ -93,6 +93,12 @@ public final class ConfigConstants {
 	public static final String CONFIG_GPG_SECTION = "gpg";
 
 	/**
+	 * The "protocol" section
+	 * @since 5.9
+	 */
+	public static final String CONFIG_PROTOCOL_SECTION = "protocol";
+
+	/**
 	 * The "format" key
 	 * @since 5.2
 	 */
@@ -685,7 +691,7 @@ public final class ConfigConstants {
 	public static final String CONFIG_INDEX_SECTION = "index";
 
 	/**
-	 * The "index.version" key
+	 * The "version" key
 	 *
 	 * @since 5.9
 	 */
