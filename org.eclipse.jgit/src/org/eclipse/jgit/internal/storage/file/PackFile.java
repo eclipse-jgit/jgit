@@ -684,6 +684,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private void doOpen() throws IOException {
 		if (invalid) {
+			openFail(true, invalidatingCause);
 			throw new PackInvalidException(packFile, invalidatingCause);
 		}
 		try {
