@@ -25,6 +25,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.time.Instant;
@@ -983,8 +984,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					return true;
 				} else if (ObjectId.zeroId().compareTo(idBuffer,
 						idOffset) == 0) {
-					return new File(repository.getWorkTree(),
-							entry.getPathString()).list().length > 0;
+					Path p = repository.getWorkTree().toPath()
+							.resolve(entry.getPathString());
+					return Files.list(p).findAny().isPresent();
 				}
 				return false;
 			} else if (mode == FileMode.SYMLINK.getBits())
