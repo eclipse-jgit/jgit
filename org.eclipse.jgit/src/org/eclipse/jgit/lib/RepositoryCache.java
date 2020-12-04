@@ -201,6 +201,8 @@ public class RepositoryCache {
 
 	private volatile long expireAfter;
 
+	private Object schedulerLock = new Lock();
+
 	private RepositoryCache() {
 		cacheMap = new ConcurrentHashMap<>();
 		openLocks = new Lock[4];
@@ -214,7 +216,7 @@ public class RepositoryCache {
 			RepositoryCacheConfig repositoryCacheConfig) {
 		expireAfter = repositoryCacheConfig.getExpireAfter();
 		ScheduledThreadPoolExecutor scheduler = WorkQueue.getExecutor();
-		synchronized (scheduler) {
+		synchronized (schedulerLock) {
 			if (cleanupTask != null) {
 				cleanupTask.cancel(false);
 			}
