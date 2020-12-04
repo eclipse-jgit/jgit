@@ -77,6 +77,12 @@
        <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
      </Match>
 
+     <Match>
+       <Class name="org.eclipse.jgit.ignore.IgnoreNode" />
+       <Method name="checkIgnored" />
+       <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
+     </Match>
+
      <!-- Transport initialization works like this -->
      <Match>
        <Class name="org.eclipse.jgit.transport.Transport" />
