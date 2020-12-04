@@ -107,12 +107,13 @@ public class FileReftableDatabase extends RefDatabase {
 	 * @throws IOException on I/O errors
 	 */
 	public void compactFully() throws IOException {
-		reftableDatabase.getLock().lock();
+		ReentrantLock l = reftableDatabase.getLock();
+		l.lock();
 		try {
 			reftableStack.compactFully();
 			reftableDatabase.clearCache();
 		} finally {
-			reftableDatabase.getLock().unlock();
+			l.unlock();
 		}
 	}
 
