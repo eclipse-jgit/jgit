@@ -636,6 +636,9 @@ public class FileReftableStack implements AutoCloseable {
 
 		@Override
 		public boolean equals(Object other) {
+			if (other == null) {
+				return false;
+			}
 			Segment o = (Segment) other;
 			return o.bytes == bytes && o.log == log && o.start == start
 					&& o.end == end;
