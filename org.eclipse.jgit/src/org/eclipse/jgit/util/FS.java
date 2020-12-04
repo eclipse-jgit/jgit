@@ -511,7 +511,10 @@ public abstract class FS {
 		}
 
 		private static void write(Path p, String body) throws IOException {
-			FileUtils.mkdirs(p.getParent().toFile(), true);
+			Path parent = p.getParent();
+			if (parent != null) {
+				FileUtils.mkdirs(parent.toFile(), true);
+			}
 			try (Writer w = new OutputStreamWriter(Files.newOutputStream(p),
 					UTF_8)) {
 				w.write(body);
