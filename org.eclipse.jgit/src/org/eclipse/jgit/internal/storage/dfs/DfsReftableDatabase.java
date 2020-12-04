@@ -62,11 +62,12 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		reftableDatabase = new ReftableDatabase() {
 			@Override
 			public MergedReftable openMergedReftable() throws IOException {
-				DfsReftableDatabase.this.getLock().lock();
+				ReentrantLock l = DfsReftableDatabase.this.getLock();
+				l.lock();
 				try {
 					return new MergedReftable(stack().readers());
 				} finally {
-					DfsReftableDatabase.this.getLock().unlock();
+					l.unlock();
 				}
 			}
 		};
@@ -207,7 +208,8 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	@Override
 	void clearCache() {
-		getLock().lock();
+		ReentrantLock l = getLock();
+		l.lock();
 		try {
 			if (ctx != null) {
 				ctx.close();
@@ -219,7 +221,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 				stack = null;
 			}
 		} finally {
-			getLock().unlock();
+			l.unlock();
 		}
 	}
 
