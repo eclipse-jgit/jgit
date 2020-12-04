@@ -346,11 +346,14 @@ public class OpenSshServerKeyDatabase
 			throws IOException {
 		KnownHostEntry hostEntry = entry.getHostEntry();
 		String oldLine = hostEntry.getConfigLine();
-		String newLine = updateHostKeyLine(oldLine, serverKey);
-		if (newLine == null || newLine.isEmpty()) {
+		if (oldLine == null) {
 			return;
 		}
-		if (oldLine == null || oldLine.isEmpty() || newLine.equals(oldLine)) {
+		String newLine = updateHostKeyLine(oldLine, serverKey);
+		if (newLine.isEmpty()) {
+			return;
+		}
+		if (oldLine.isEmpty() || newLine.equals(oldLine)) {
 			// Shouldn't happen.
 			return;
 		}
