@@ -54,6 +54,7 @@ import org.apache.sshd.server.shell.UnknownCommand;
 import org.apache.sshd.server.subsystem.SubsystemFactory;
 import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -202,7 +203,7 @@ public class SshTestGitServer {
 
 	private static class FakeUserAuthGSS extends UserAuthGSS {
 		@Override
-		protected Boolean doAuth(Buffer buffer, boolean initial)
+		protected @Nullable Boolean doAuth(Buffer buffer, boolean initial)
 				throws Exception {
 			// We always reply that we did do this, but then we fail at the
 			// first token message. That way we can test that the client-side
