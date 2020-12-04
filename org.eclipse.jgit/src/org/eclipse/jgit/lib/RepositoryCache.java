@@ -241,8 +241,8 @@ public class RepositoryCache {
 			synchronized (lockFor(location)) {
 				db = cacheMap.get(location);
 				if (db == null) {
-					db = location.open(mustExist);
-					cacheMap.put(location, db);
+					db = cacheMap.putIfAbsent(location,
+							location.open(mustExist));
 				} else {
 					db.incrementOpen();
 				}
