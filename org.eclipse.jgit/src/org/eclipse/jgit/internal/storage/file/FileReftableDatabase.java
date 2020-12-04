@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
@@ -107,12 +108,13 @@ public class FileReftableDatabase extends RefDatabase {
 	 * @throws IOException on I/O errors
 	 */
 	public void compactFully() throws IOException {
-		reftableDatabase.getLock().lock();
+		Lock l = reftableDatabase.getLock();
+		l.lock();
 		try {
 			reftableStack.compactFully();
 			reftableDatabase.clearCache();
 		} finally {
-			reftableDatabase.getLock().unlock();
+			l.unlock();
 		}
 	}
 
