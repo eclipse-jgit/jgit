@@ -11,6 +11,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
@@ -208,8 +209,11 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		// Repack to create initial packfile. Make a copy of it
 		PackFile pf = repackAndCheck(5, null, null, null);
 		Path packFilePath = pf.getPackFile().toPath();
-		Path packFileBasePath = packFilePath.resolveSibling(
-				packFilePath.getFileName().toString().replaceAll(".pack", ""));
+		Path fn = packFilePath.getFileName();
+		assertNotNull(fn);
+		String packFileName = fn.toString();
+		Path packFileBasePath = packFilePath
+				.resolveSibling(packFileName.replaceAll(".pack", ""));
 		AnyObjectId chk1 = pf.getPackChecksum();
 		String name = pf.getPackName();
 		Long length = Long.valueOf(pf.getPackFile().length());
