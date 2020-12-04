@@ -337,6 +337,9 @@ public abstract class FS {
 			try {
 				path = path.toAbsolutePath();
 				Path dir = Files.isDirectory(path) ? path : path.getParent();
+				if (dir == null) {
+					return FALLBACK_FILESTORE_ATTRIBUTES;
+				}
 				FileStoreAttributes cached = attrCacheByPath.get(dir);
 				if (cached != null) {
 					return cached;
