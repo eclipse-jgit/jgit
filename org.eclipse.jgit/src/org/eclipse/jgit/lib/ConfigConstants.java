@@ -117,13 +117,29 @@ public final class ConfigConstants {
 	public static final String CONFIG_COMMIT_SECTION = "commit";
 
 	/**
+	 * The "tag" section
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_TAG_SECTION = "tag";
+
+	/**
 	 * The "gpgSign" key
+	 *
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_GPGSIGN = "gpgSign";
 
 	/**
+	 * The "forceSignAnnotated" key
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_KEY_FORCE_SIGN_ANNOTATED = "forceSignAnnotated";
+
+	/**
 	 * The "hooksPath" key.
+	 *
 	 * @since 5.6
 	 */
 	public static final String CONFIG_KEY_HOOKS_PATH = "hooksPath";

@@ -40,8 +40,24 @@ class Tag extends TextBuiltin {
 	@Option(name = "-d", usage = "usage_tagDelete")
 	private boolean delete;
 
+	@Option(name = "--annotate", aliases = {
+			"-a" }, usage = "usage_tagAnnotated")
+	private boolean annotated;
+
 	@Option(name = "-m", metaVar = "metaVar_message", usage = "usage_tagMessage")
-	private String message = ""; //$NON-NLS-1$
+	private String message;
+
+	@Option(name = "--sign", aliases = {
+			"-s" }, usage = "usage_tagSign", forbids = { "--no-sign" })
+	private boolean sign;
+
+	@Option(name = "--no-sign", usage = "usage_tagNosign", forbids = {
+			"--sign" })
+	private boolean noSign;
+
+	@Option(name = "--local-user", aliases = {
+			"-u" }, metaVar = "metaVar_tagLocalUser", usage = "usage_tagSign")
+	private String gpgKeyId;
 
 	@Argument(index = 0, metaVar = "metaVar_name")
 	private String tagName;
@@ -70,6 +86,18 @@ class Tag extends TextBuiltin {
 							command.setObjectId(walk.parseAny(object));
 						}
 					}
+					if (noSign) {
+						command.setSigned(false);
+					} else if (sign) {
+						command.setSigned(true);
+					}
+					if (annotated) {
+						command.setAnnotated(true);
+					} else if (message == null && !sign && gpgKeyId == null) {
+						// None of -a, -m, -s, -u given
+						command.setAnnotated(false);
+					}
+					command.setSigningKey(gpgKeyId);
 					try {
 						command.call();
 					} catch (RefAlreadyExistsException e) {
