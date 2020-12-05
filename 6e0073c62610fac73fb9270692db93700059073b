@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2389d30_9fc5365b",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-05T16:05:10Z",
+      "side": 1,
+      "message": "Why can the newLine \u003d\u003d null check be removed here?",
+      "revId": "6e0073c62610fac73fb9270692db93700059073b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
