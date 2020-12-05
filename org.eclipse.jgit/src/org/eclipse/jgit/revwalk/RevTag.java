@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Arrays;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -35,6 +36,13 @@ import org.eclipse.jgit.util.StringUtils;
  * An annotated tag.
  */
 public class RevTag extends RevObject {
+
+	private static final byte[] hSignature = Constants
+			.encodeASCII("-----BEGIN PGP SIGNATURE-----"); //$NON-NLS-1$
+
+	private static final byte[] hSignatureEnd = Constants
+			.encodeASCII("-----END PGP SIGNATURE-----"); //$NON-NLS-1$
+
 	/**
 	 * Parse an annotated tag from its canonical format.
 	 *
@@ -169,6 +177,56 @@ public class RevTag extends RevObject {
 		if (nameB < 0)
 			return null;
 		return RawParseUtils.parsePersonIdent(raw, nameB);
+	}
+
+	private static int nextStart(byte[] prefix, byte[] buffer, int from) {
+		int stop = buffer.length - prefix.length + 1;
+		int ptr = from;
+		if (ptr > 0) {
+			ptr = RawParseUtils.nextLF(buffer, ptr - 1);
+		}
+		while (ptr < stop) {
+			int lineStart = ptr;
+			boolean found = true;
+			for (byte element : prefix) {
+				if (element != buffer[ptr++]) {
+					found = false;
+					break;
+				}
+			}
+			if (found) {
+				return lineStart;
+			}
+			do {
+				ptr = RawParseUtils.nextLF(buffer, ptr);
+			} while (ptr < stop && buffer[ptr] == '\n');
+		}
+		return -1;
+	}
+
+	/**
+	 * Parse the gpg signature from the raw buffer.
+	 *
+	 * @return contents of the gpg signature; null if the tag was not signed.
+	 * @since 5.11
+	 */
+	public final byte[] getRawGpgSignature() {
+		byte[] raw = buffer;
+		int msgB = RawParseUtils.tagMessage(raw, 0);
+		if (msgB < 0) {
+			return null;
+		}
+		int start = nextStart(hSignature, raw, msgB);
+		if (start < 0) {
+			return null;
+		}
+		int end = RawParseUtils.nextLF(raw, start);
+		end = nextStart(hSignatureEnd, raw, end);
+		if (end < 0) {
+			return null;
+		}
+		end += hSignatureEnd.length;
+		return Arrays.copyOfRange(raw, start, end);
 	}
 
 	/**
