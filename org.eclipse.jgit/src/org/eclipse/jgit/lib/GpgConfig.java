@@ -85,4 +85,29 @@ public class GpgConfig {
 		return config.getBoolean(ConfigConstants.CONFIG_COMMIT_SECTION,
 				ConfigConstants.CONFIG_KEY_GPGSIGN, false);
 	}
+
+	/**
+	 * Retrieves the value of git config {@code tag.gpgSign}.
+	 *
+	 * @return the value of {@code tag.gpgSign}; by default {@code false}
+	 *
+	 * @since 5.11
+	 */
+	public boolean isSignAllTags() {
+		return config.getBoolean(ConfigConstants.CONFIG_TAG_SECTION,
+				ConfigConstants.CONFIG_KEY_GPGSIGN, false);
+	}
+
+	/**
+	 * Retrieves the value of git config {@code tag.forceSignAnnotated}.
+	 *
+	 * @return the value of {@code tag.forceSignAnnotated}; by default
+	 *         {@code false}
+	 *
+	 * @since 5.11
+	 */
+	public boolean isSignAnnotated() {
+		return config.getBoolean(ConfigConstants.CONFIG_TAG_SECTION,
+						ConfigConstants.CONFIG_KEY_FORCE_SIGN_ANNOTATED, false);
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, 2013 Chris Aniszczyk <caniszczyk@gmail.com> and others
+ * Copyright (C) 2010, 2020 Chris Aniszczyk <caniszczyk@gmail.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,6 +11,8 @@ package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -27,6 +29,59 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class TagCommandTest extends RepositoryTestCase {
+
+	@Test
+	public void testTagKind() {
+		try (Git git = new Git(db)) {
+			assertTrue(git.tag().isAnnotated());
+			assertTrue(git.tag().setSigned(true).isAnnotated());
+			assertTrue(git.tag().setSigned(false).isAnnotated());
+			assertTrue(git.tag().setSigningKey(null).isAnnotated());
+			assertTrue(git.tag().setSigningKey("something").isAnnotated());
+			assertTrue(git.tag().setSigned(false).setSigningKey(null)
+					.isAnnotated());
+			assertTrue(git.tag().setSigned(false).setSigningKey("something")
+					.isAnnotated());
+			assertTrue(git.tag().setSigned(true).setSigningKey(null)
+					.isAnnotated());
+			assertTrue(git.tag().setSigned(true).setSigningKey("something")
+					.isAnnotated());
+			assertTrue(git.tag().setAnnotated(true).isAnnotated());
+			assertTrue(
+					git.tag().setAnnotated(true).setSigned(true).isAnnotated());
+			assertTrue(git.tag().setAnnotated(true).setSigned(false)
+					.isAnnotated());
+			assertTrue(git.tag().setAnnotated(true).setSigningKey(null)
+					.isAnnotated());
+			assertTrue(git.tag().setAnnotated(true).setSigningKey("something")
+					.isAnnotated());
+			assertTrue(git.tag().setAnnotated(true).setSigned(false)
+					.setSigningKey(null).isAnnotated());
+			assertTrue(git.tag().setAnnotated(true).setSigned(false)
+					.setSigningKey("something").isAnnotated());
+			assertTrue(git.tag().setAnnotated(true).setSigned(true)
+					.setSigningKey(null).isAnnotated());
+			assertTrue(git.tag().setAnnotated(true).setSigned(true)
+					.setSigningKey("something").isAnnotated());
+			assertFalse(git.tag().setAnnotated(false).isAnnotated());
+			assertTrue(git.tag().setAnnotated(false).setSigned(true)
+					.isAnnotated());
+			assertFalse(git.tag().setAnnotated(false).setSigned(false)
+					.isAnnotated());
+			assertFalse(git.tag().setAnnotated(false).setSigningKey(null)
+					.isAnnotated());
+			assertTrue(git.tag().setAnnotated(false).setSigningKey("something")
+					.isAnnotated());
+			assertFalse(git.tag().setAnnotated(false).setSigned(false)
+					.setSigningKey(null).isAnnotated());
+			assertTrue(git.tag().setAnnotated(false).setSigned(false)
+					.setSigningKey("something").isAnnotated());
+			assertTrue(git.tag().setAnnotated(false).setSigned(true)
+					.setSigningKey(null).isAnnotated());
+			assertTrue(git.tag().setAnnotated(false).setSigned(true)
+					.setSigningKey("something").isAnnotated());
+		}
+	}
 
 	@Test
 	public void testTaggingOnHead() throws GitAPIException, IOException {
@@ -88,19 +143,6 @@ public class TagCommandTest extends RepositoryTestCase {
 				git.tag().setName("bad~tag~name").setMessage("some message").call();
 				fail("We should have failed due to a bad tag name");
 			} catch (InvalidTagNameException e) {
-				// should hit here
-			}
-		}
-	}
-
-	@Test
-	public void testFailureOnSignedTags() throws GitAPIException {
-		try (Git git = new Git(db)) {
-			git.commit().setMessage("initial commit").call();
-			try {
-				git.tag().setSigned(true).setName("tag").call();
-				fail("We should have failed with an UnsupportedOperationException due to signed tag");
-			} catch (UnsupportedOperationException e) {
 				// should hit here
 			}
 		}
