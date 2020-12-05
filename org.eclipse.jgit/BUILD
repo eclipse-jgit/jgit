@@ -38,7 +38,7 @@ genrule(
         "cd $$TMP",
         "unzip -q $$ROOT/$<",
         "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
-        "find . -exec touch '{}' ';'",
+        "find . -exec touch -t 198001010000 '{}' ';'",
         "zip -Xqr $$ROOT/$@ .",
         "rm -rf $$TMP",
     ]),
