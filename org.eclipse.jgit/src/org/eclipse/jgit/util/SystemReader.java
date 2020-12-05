@@ -56,9 +56,9 @@ public abstract class SystemReader {
 
 	private static final SystemReader DEFAULT;
 
-	private static Boolean isMacOS;
+	private static volatile Boolean isMacOS;
 
-	private static Boolean isWindows;
+	private static volatile Boolean isWindows;
 
 	static {
 		SystemReader r = new Default();
