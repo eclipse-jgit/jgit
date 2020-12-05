@@ -38,6 +38,8 @@ import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.GpgSignature;
 import org.eclipse.jgit.lib.GpgSigner;
+import org.eclipse.jgit.lib.GpgObjectSigner;
+import org.eclipse.jgit.lib.ObjectBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
@@ -45,7 +47,8 @@ import org.eclipse.jgit.util.StringUtils;
 /**
  * GPG Signer using BouncyCastle library
  */
-public class BouncyCastleGpgSigner extends GpgSigner {
+public class BouncyCastleGpgSigner extends GpgSigner
+		implements GpgObjectSigner {
 
 	private static void registerBouncyCastleProviderIfNecessary() {
 		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
@@ -96,6 +99,13 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 
 	@Override
 	public void sign(@NonNull CommitBuilder commit,
+			@Nullable String gpgSigningKey, @NonNull PersonIdent committer,
+			CredentialsProvider credentialsProvider) throws CanceledException {
+		signObject(commit, gpgSigningKey, committer, credentialsProvider);
+	}
+
+	@Override
+	public void signObject(@NonNull ObjectBuilder object,
 			@Nullable String gpgSigningKey, @NonNull PersonIdent committer,
 			CredentialsProvider credentialsProvider) throws CanceledException {
 		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
@@ -158,10 +168,10 @@ public class BouncyCastleGpgSigner extends GpgSigner {
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 			try (BCPGOutputStream out = new BCPGOutputStream(
 					new ArmoredOutputStream(buffer))) {
-				signatureGenerator.update(commit.build());
+				signatureGenerator.update(object.build());
 				signatureGenerator.generate().encode(out);
 			}
-			commit.setGpgSignature(new GpgSignature(buffer.toByteArray()));
+			object.setGpgSignature(new GpgSignature(buffer.toByteArray()));
 		} catch (PGPException | IOException | NoSuchAlgorithmException
 				| NoSuchProviderException | URISyntaxException e) {
 			throw new JGitInternalException(e.getMessage(), e);
