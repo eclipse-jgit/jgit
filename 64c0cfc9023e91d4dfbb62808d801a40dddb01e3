@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa5030ca_e2b8336a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3f06c0d_8a6ed7b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "object",
+      "range": {
+        "startLine": 25,
+        "startChar": 24,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73bbd61b_f0a3f4f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "object ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de4bc09c_40b2a427",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "object",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1078309_55dc733d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "object",
+      "range": {
+        "startLine": 35,
+        "startChar": 34,
+        "endLine": 35,
+        "endChar": 40
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8a66097_df8caef2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "mark @Nullable ?",
+      "range": {
+        "startLine": 76,
+        "startChar": 42,
+        "endLine": 76,
+        "endChar": 54
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbc97c30_86c3b002",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "@Nullable ?",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99cce51b_1891afa7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TagBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 187,
+        "startChar": 47,
+        "endLine": 187,
+        "endChar": 49
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15589e7e_3dfcbfc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-06T23:59:01Z",
+      "side": 1,
+      "message": "mark @Nullable ?",
+      "range": {
+        "startLine": 210,
+        "startChar": 14,
+        "endLine": 210,
+        "endChar": 20
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
