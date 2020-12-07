@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd05c956_a1d24748",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2020-12-07T04:01:17Z",
+      "side": 1,
+      "message": "Why would this be different when seekPastPrefix() is called once? Can you give an example?",
+      "range": {
+        "startLine": 502,
+        "startChar": 9,
+        "endLine": 502,
+        "endChar": 21
+      },
+      "revId": "f6eec9b35b9919e786b12803756a498055d75501",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
