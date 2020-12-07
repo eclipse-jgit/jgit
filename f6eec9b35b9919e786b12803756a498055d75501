@@ -22,6 +22,30 @@
       "revId": "f6eec9b35b9919e786b12803756a498055d75501",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d605c14_9a2a3be1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-07T09:47:23Z",
+      "side": 1,
+      "message": "Good point!\nSo originally this was in fact needed, but now we can omit this to allow keeping the original condition true (e.g seekRefsWithPrefix(refs/heads) will skip up to a certain point but will still not return refs that are not refs/heads (see new test).\n\nThanks for catching this.",
+      "parentUuid": "fd05c956_a1d24748",
+      "range": {
+        "startLine": 502,
+        "startChar": 9,
+        "endLine": 502,
+        "endChar": 21
+      },
+      "revId": "f6eec9b35b9919e786b12803756a498055d75501",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
