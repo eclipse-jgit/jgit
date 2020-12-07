@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aba5fdf4_6fd12dd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa5030ca_e2b8336a",
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3f06c0d_8a6ed7b9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be428a79_609463b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3f06c0d_8a6ed7b9",
+      "range": {
+        "startLine": 25,
+        "startChar": 24,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "4a5c14e5_f7005f20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73bbd61b_f0a3f4f8",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de4bc09c_40b2a427",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
         "patchSetId": 2
@@ -85,6 +151,30 @@
       "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35c33c8a_7f7260fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de4bc09c_40b2a427",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "ba764235_10825d1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgObjectSigner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1078309_55dc733d",
+      "range": {
+        "startLine": 35,
+        "startChar": 34,
+        "endLine": 35,
+        "endChar": 40
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8a66097_df8caef2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectBuilder.java",
         "patchSetId": 2
@@ -131,6 +245,30 @@
       "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f576c52_72e694cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8a66097_df8caef2",
+      "range": {
+        "startLine": 76,
+        "startChar": 42,
+        "endLine": 76,
+        "endChar": 54
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "acc5a884_0abfabb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbc97c30_86c3b002",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99cce51b_1891afa7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TagBuilder.java",
         "patchSetId": 2
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "877abf5e_41046011",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TagBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done. With abbreviations it\u0027s often difficult. If you read it as \"an ell-eff\", \"an\" is better. If you read it as \"a linefeed character\", \"a\" is correct.",
+      "parentUuid": "99cce51b_1891afa7",
+      "range": {
+        "startLine": 187,
+        "startChar": 47,
+        "endLine": 187,
+        "endChar": 49
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15589e7e_3dfcbfc4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevTag.java",
         "patchSetId": 2
@@ -200,6 +386,30 @@
       "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46541a23_158f1dcc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-07T08:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15589e7e_3dfcbfc4",
+      "range": {
+        "startLine": 210,
+        "startChar": 14,
+        "endLine": 210,
+        "endChar": 20
+      },
+      "revId": "64c0cfc9023e91d4dfbb62808d801a40dddb01e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
