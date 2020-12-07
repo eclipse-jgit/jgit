@@ -16,6 +16,24 @@
       "revId": "6e0073c62610fac73fb9270692db93700059073b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58ae9d6a_a93553aa",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/OpenSshServerKeyDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-07T01:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2389d30_9fc5365b",
+      "revId": "6e0073c62610fac73fb9270692db93700059073b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
