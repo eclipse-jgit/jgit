@@ -23,7 +23,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.file.FileReftableStack;
 import org.eclipse.jgit.internal.storage.io.BlockSource;
@@ -47,6 +49,7 @@ class BenchmarkReftable extends TextBuiltin {
 		SEEK_COLD, SEEK_HOT,
 		BY_ID_COLD, BY_ID_HOT,
 		WRITE_STACK,
+		GET_REFS_EXCLUDING_REF
 	}
 
 	@Option(name = "--tries")
@@ -91,7 +94,11 @@ class BenchmarkReftable extends TextBuiltin {
 		case WRITE_STACK:
 			writeStack();
 			break;
-		}
+		case GET_REFS_EXCLUDING_REF :
+			getRefsExcludingWithSeekPast(ref);
+			getRefsExcludingWithFilter(ref);
+			break;
+	}
 	}
 
 	private void printf(String fmt, Object... args) throws IOException {
@@ -314,5 +321,50 @@ class BenchmarkReftable extends TextBuiltin {
 		tot = System.nanoTime() - start;
 		printf("%12s %10d usec  %9.1f usec/run  %5d runs", "reftable",
 				tot / 1000, (((double) tot) / tries) / 1000, tries);
+	}
+
+	@SuppressWarnings({"nls", "boxing"})
+	private void getRefsExcludingWithFilter(String prefix) throws Exception {
+		long startTime = System.nanoTime();
+		List<Ref> allRefs = new ArrayList<>();
+		try (FileInputStream in = new FileInputStream(reftablePath);
+				BlockSource src = BlockSource.from(in);
+				ReftableReader reader = new ReftableReader(src)) {
+			try (RefCursor rc = reader.allRefs()) {
+				while (rc.next()) {
+					allRefs.add(rc.getRef());
+				}
+			}
+		}
+		int total = allRefs.size();
+		allRefs = allRefs.stream().filter(r -> r.getName().startsWith(prefix)).collect(Collectors.toList());
+		int notStartWithPrefix = allRefs.size();
+		int startWithPrefix = total - notStartWithPrefix;
+		long totalTime = System.nanoTime() - startTime;
+		printf("total time the action took using filter: %10d usec", totalTime / 1000);
+		printf("number of refs that start with prefix: %d", startWithPrefix);
+		printf("number of refs that don't start with prefix: %d", notStartWithPrefix);
+	}
+
+	@SuppressWarnings({"nls", "boxing"})
+	private void getRefsExcludingWithSeekPast(String prefix) throws Exception {
+		long start = System.nanoTime();
+		try (FileInputStream in = new FileInputStream(reftablePath);
+				BlockSource src = BlockSource.from(in);
+				ReftableReader reader = new ReftableReader(src)) {
+			try (RefCursor rc = reader.allRefs()) {
+				while (rc.next()) {
+					if (rc.getRef().getName().startsWith(prefix)) {
+						break;
+					}
+				}
+				rc.seekPastPrefix(prefix);
+				while (rc.next()) {
+					rc.getRef();
+				}
+			}
+		}
+		long tot = System.nanoTime() - start;
+		printf("total time the action took using seek: %10d usec", tot / 1000);
 	}
 }
