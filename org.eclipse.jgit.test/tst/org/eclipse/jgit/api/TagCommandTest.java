@@ -25,6 +25,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -133,9 +134,11 @@ public class TagCommandTest extends RepositoryTestCase {
 					.setAnnotated(false).call();
 			assertEquals(commit.getId(), tagRef.getObjectId());
 			// Without force, we want to get a RefAlreadyExistsException
-			assertThrows(RefAlreadyExistsException.class,
+			RefAlreadyExistsException e = assertThrows(
+					RefAlreadyExistsException.class,
 					() -> git.tag().setObjectId(commit).setName("tag")
 							.setAnnotated(false).call());
+			assertEquals(RefUpdate.Result.NO_CHANGE, e.getUpdateResult());
 			// With force the call should work
 			assertEquals(commit.getId(),
 					git.tag().setObjectId(commit).setName("tag")
