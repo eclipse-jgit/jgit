@@ -175,6 +175,12 @@ public class TagCommand extends GitCommand<Ref> {
 			throw new ConcurrentRefUpdateException(
 					JGitText.get().couldNotLockHEAD, tagRef.getRef(),
 					updateResult);
+		case NO_CHANGE:
+			if (forceUpdate) {
+				return repo.exactRef(refName);
+			}
+			throw new RefAlreadyExistsException(MessageFormat
+					.format(JGitText.get().tagAlreadyExists, newTagToString));
 		case REJECTED:
 			throw new RefAlreadyExistsException(MessageFormat.format(
 					JGitText.get().tagAlreadyExists, newTagToString));
