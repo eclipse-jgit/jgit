@@ -180,10 +180,12 @@ public class TagCommand extends GitCommand<Ref> {
 				return repo.exactRef(refName);
 			}
 			throw new RefAlreadyExistsException(MessageFormat
-					.format(JGitText.get().tagAlreadyExists, newTagToString));
+					.format(JGitText.get().tagAlreadyExists, newTagToString),
+					updateResult);
 		case REJECTED:
 			throw new RefAlreadyExistsException(MessageFormat.format(
-					JGitText.get().tagAlreadyExists, newTagToString));
+					JGitText.get().tagAlreadyExists, newTagToString),
+					updateResult);
 		default:
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().updatingRefFailed, refName, newTagToString,
