@@ -12,6 +12,7 @@ package org.eclipse.jgit.api;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidTagNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -118,6 +120,27 @@ public class TagCommandTest extends RepositoryTestCase {
 			Ref tagRef = git.tag().setObjectId(commit).setName("tag")
 					.setAnnotated(false).call();
 			assertEquals(commit.getId(), tagRef.getObjectId());
+		}
+	}
+
+	@Test
+	public void testForceNoChangeLightweight() throws GitAPIException {
+		try (Git git = new Git(db)) {
+			git.commit().setMessage("initial commit").call();
+			RevCommit commit = git.commit().setMessage("second commit").call();
+			git.commit().setMessage("third commit").call();
+			Ref tagRef = git.tag().setObjectId(commit).setName("tag")
+					.setAnnotated(false).call();
+			assertEquals(commit.getId(), tagRef.getObjectId());
+			// Without force, we want to get a RefAlreadyExistsException
+			assertThrows(RefAlreadyExistsException.class,
+					() -> git.tag().setObjectId(commit).setName("tag")
+							.setAnnotated(false).call());
+			// With force, we the call should work
+			assertEquals(commit.getId(),
+					git.tag().setObjectId(commit).setName("tag")
+							.setAnnotated(false).setForceUpdate(true).call()
+							.getObjectId());
 		}
 	}
 
