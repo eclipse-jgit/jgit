@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab65f4ee_3332739b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-10T18:13:29Z",
+      "side": 1,
+      "message": "Prefix",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "c9bde58526f7339f6b0a2270d94fedb9b595f23a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb9140f6_c30213d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-10T18:13:29Z",
+      "side": 1,
+      "message": "isn\u0027t this kind of expensive? it makes a list of all the refs, no?",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 21
+      },
+      "revId": "c9bde58526f7339f6b0a2270d94fedb9b595f23a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4070ef9f_9bab07e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-10T18:13:29Z",
+      "side": 1,
+      "message": "nit: since this is a flavor of getRefsByPrefix, maybe add a suffix to eg.\n\n  getRefsByPrefixWithSkips\n\n(or something).  Then these methods are next to each other in alphabetical listings.",
+      "range": {
+        "startLine": 436,
+        "startChar": 18,
+        "endLine": 436,
+        "endChar": 52
+      },
+      "revId": "c9bde58526f7339f6b0a2270d94fedb9b595f23a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
