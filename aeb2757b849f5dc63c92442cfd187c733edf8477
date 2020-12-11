@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "2c28d927_ca95eec3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-11T22:49:41Z",
+      "side": 1,
+      "message": "Well, honestly searching from (0,100000) and (10000, 100000) is not really different considering this is a binary search, is that what you mean?\n\nThen yea, it\u0027s not amazing, didn\u0027t mind adding it as a bonus.",
+      "parentUuid": "46e4756d_dd645784",
+      "range": {
+        "startLine": 142,
+        "startChar": 27,
+        "endLine": 142,
+        "endChar": 38
+      },
+      "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10d7da87_4111e779",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 2
@@ -168,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "b261d04a_89802c93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-11T22:49:41Z",
+      "side": 1,
+      "message": "Yep, good catch, this was the last character represented by 2 bytes, but the last character in UTF_8 is \\u10FFFF, which is represented by these 4 bytes, according to this under \"Encoding\" and other sources:\nhttps://en.wikipedia.org/wiki/UTF-8",
+      "parentUuid": "10d7da87_4111e779",
+      "range": {
+        "startLine": 49,
+        "startChar": 27,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13db2d0e_63f1f31b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 2
@@ -179,6 +227,30 @@
       "writtenOn": "2020-12-10T17:47:39Z",
       "side": 1,
       "message": "This is a bit hard to read, and is it necessary? \nInstead of passing an extra flag, could you pass in match \u003d\u003d null ? \n\nthen you could do                                                      \n\nRefCursorImpl i \u003d new RefCursorImpl(refEnd, null, false);\ni.block \u003d seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);\n\nI think that would seek to (PREFIX + LAST), and then just continues iterating until you reach the end. \n\nThen you can iterate until the keys don\u0027t start with PREFIX anymore, and you are where you want to be.\n\nYou can use that to add something like this to the public API:\n\n  /**\n  Seek to the first key \u003e\u003d `prefix`. The cursor will continue iterating until the end.\n  */\n  RefCursor seekTo(String prefix)\n\nand use that to implement the getRefsByPrefixWithSkips()",
+      "range": {
+        "startLine": 514,
+        "startChar": 9,
+        "endLine": 514,
+        "endChar": 21
+      },
+      "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b184b746_d2cea57f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-11T22:49:41Z",
+      "side": 1,
+      "message": "Did you review an oldder patchset on purpose or by accident? I\u0027ve got rid of scanUntilEnd as now I\u0027ve created seekPastRef as a RefCursor method.\n\nNice idea though :-)",
+      "parentUuid": "13db2d0e_63f1f31b",
       "range": {
         "startLine": 514,
         "startChar": 9,
