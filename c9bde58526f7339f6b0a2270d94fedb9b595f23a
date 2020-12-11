@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "674a8452_d3e77d4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-11T22:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab65f4ee_3332739b",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "c9bde58526f7339f6b0a2270d94fedb9b595f23a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb9140f6_c30213d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "57e0407b_60c5377e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-11T22:50:20Z",
+      "side": 1,
+      "message": "right, this should have been \"seek\" such that we only create the RefCursor, which is much cheaper.",
+      "parentUuid": "bb9140f6_c30213d3",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 21
+      },
+      "revId": "c9bde58526f7339f6b0a2270d94fedb9b595f23a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4070ef9f_9bab07e2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 8
@@ -68,6 +116,30 @@
       "revId": "c9bde58526f7339f6b0a2270d94fedb9b595f23a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edf8a8bc_4e9dc428",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-11T22:50:20Z",
+      "side": 1,
+      "message": "I like \"skips\" - sure.",
+      "parentUuid": "4070ef9f_9bab07e2",
+      "range": {
+        "startLine": 436,
+        "startChar": 18,
+        "endLine": 436,
+        "endChar": 52
+      },
+      "revId": "c9bde58526f7339f6b0a2270d94fedb9b595f23a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
