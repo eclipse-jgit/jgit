@@ -47,16 +47,16 @@ import org.slf4j.LoggerFactory;
 /**
  * Traditional file system packed objects directory handler.
  * <p>
- * This is the {@code PackFile}s object representation for a Git object database,
- * where objects are stored in compressed containers
- * known as {@link org.eclipse.jgit.internal.storage.file.PackFile}s.
+ * This is the {@code PackFile}s object representation for a Git object
+ * database, where objects are stored in compressed containers known as
+ * {@link org.eclipse.jgit.internal.storage.file.PackFile}s.
  */
 class PackDirectory {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(PackDirectory.class);
 
-	private static final PackList NO_PACKS = new PackList(
-			FileSnapshot.DIRTY, new PackFile[0]);
+	private static final PackList NO_PACKS = new PackList(FileSnapshot.DIRTY,
+			new PackFile[0]);
 
 	private final Config config;
 
@@ -94,15 +94,17 @@ class PackDirectory {
 	void close() {
 		PackList packs = packList.get();
 		if (packs != NO_PACKS && packList.compareAndSet(packs, NO_PACKS)) {
-			for (PackFile p : packs.packs)
+			for (PackFile p : packs.packs) {
 				p.close();
+			}
 		}
 	}
 
 	Collection<PackFile> getPacks() {
 		PackList list = packList.get();
-		if (list == NO_PACKS)
+		if (list == NO_PACKS) {
 			list = scanPacks(list);
+		}
 		PackFile[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
@@ -126,8 +128,9 @@ class PackDirectory {
 			pList = packList.get();
 			for (PackFile p : pList.packs) {
 				try {
-					if (p.hasObject(objectId))
+					if (p.hasObject(objectId)) {
 						return true;
+					}
 				} catch (IOException e) {
 					// The hasObject call should have only touched the index,
 					// so any failure here indicates the index is unreadable
@@ -154,10 +157,10 @@ class PackDirectory {
 	 *            maximum number of results to return. At most this many
 	 *            ObjectIds should be added to matches before returning.
 	 * @return {@code true} if the matches were exhausted before reaching
-	 *            {@code maxLimit}.
+	 *         {@code maxLimit}.
 	 */
 	boolean resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
-			 int matchLimit) {
+			int matchLimit) {
 		// Go through the packs once. If we didn't find any resolutions
 		// scan for new packs and check once more.
 		int oldSize = matches.size();
@@ -171,8 +174,9 @@ class PackDirectory {
 				} catch (IOException e) {
 					handlePackError(e, p);
 				}
-				if (matches.size() > matchLimit)
+				if (matches.size() > matchLimit) {
 					return false;
+				}
 			}
 		} while (matches.size() == oldSize && searchPacksAgain(pList));
 		return true;
@@ -191,8 +195,9 @@ class PackDirectory {
 							return ldr;
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList))
+						if (searchPacksAgain(pList)) {
 							continue SEARCH;
+						}
 					} catch (IOException e) {
 						handlePackError(e, p);
 					}
@@ -212,12 +217,14 @@ class PackDirectory {
 					try {
 						long len = p.getObjectSize(curs, id);
 						p.resetTransientErrorCount();
-						if (0 <= len)
+						if (0 <= len) {
 							return len;
+						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList))
+						if (searchPacksAgain(pList)) {
 							continue SEARCH;
+						}
 					} catch (IOException e) {
 						handlePackError(e, p);
 					}
@@ -236,8 +243,9 @@ class PackDirectory {
 				try {
 					LocalObjectRepresentation rep = p.representation(curs, otp);
 					p.resetTransientErrorCount();
-					if (rep != null)
+					if (rep != null) {
 						packer.select(otp, rep);
+					}
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
 					//
@@ -326,8 +334,9 @@ class PackDirectory {
 			final PackFile[] oldList = o.packs;
 			final String name = pf.getPackFile().getName();
 			for (PackFile p : oldList) {
-				if (name.equals(p.getPackFile().getName()))
+				if (name.equals(p.getPackFile().getName())) {
 					return;
+				}
 			}
 
 			final PackFile[] newList = new PackFile[1 + oldList.length];
@@ -344,8 +353,9 @@ class PackDirectory {
 
 			final PackFile[] oldList = o.packs;
 			final int j = indexOf(oldList, deadPack);
-			if (j < 0)
+			if (j < 0) {
 				break;
+			}
 
 			final PackFile[] newList = new PackFile[oldList.length - 1];
 			System.arraycopy(oldList, 0, newList, 0, j);
@@ -357,8 +367,9 @@ class PackDirectory {
 
 	private static int indexOf(PackFile[] list, PackFile pack) {
 		for (int i = 0; i < list.length; i++) {
-			if (list[i] == pack)
+			if (list[i] == pack) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -375,8 +386,9 @@ class PackDirectory {
 					return o;
 				}
 				n = scanPacksImpl(o);
-				if (n == o)
+				if (n == o) {
 					return n;
+				}
 			} while (!packList.compareAndSet(o, n));
 			return n;
 		}
@@ -391,14 +403,16 @@ class PackDirectory {
 		for (String indexName : names) {
 			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
 			//
-			if (indexName.length() != 49 || !indexName.endsWith(".idx")) //$NON-NLS-1$
+			if (indexName.length() != 49 || !indexName.endsWith(".idx")) { //$NON-NLS-1$
 				continue;
+			}
 
 			final String base = indexName.substring(0, indexName.length() - 3);
 			int extensions = 0;
 			for (PackExt ext : PackExt.values()) {
-				if (names.contains(base + ext.getExtension()))
+				if (names.contains(base + ext.getExtension())) {
 					extensions |= ext.getBit();
+				}
 			}
 
 			if ((extensions & PACK.getBit()) == 0) {
@@ -437,8 +451,9 @@ class PackDirectory {
 			p.close();
 		}
 
-		if (list.isEmpty())
+		if (list.isEmpty()) {
 			return new PackList(snapshot, NO_PACKS.packs);
+		}
 
 		final PackFile[] r = list.toArray(new PackFile[0]);
 		Arrays.sort(r, PackFile.SORT);
@@ -473,12 +488,14 @@ class PackDirectory {
 
 	private Set<String> listPackDirectory() {
 		final String[] nameList = directory.list();
-		if (nameList == null)
+		if (nameList == null) {
 			return Collections.emptySet();
+		}
 		final Set<String> nameSet = new HashSet<>(nameList.length << 1);
 		for (String name : nameList) {
-			if (name.startsWith("pack-")) //$NON-NLS-1$
+			if (name.startsWith("pack-")) { //$NON-NLS-1$
 				nameSet.add(name);
+			}
 		}
 		return nameSet;
 	}
