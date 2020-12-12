@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b0d357a_eab7de5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-12T22:41:15Z",
+      "side": 1,
+      "message": "we switched to shorter license headers see\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#License_Header",
+      "revId": "03de474f4e26451f4920cb2e48ee93b075c3f6fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ad34d6_ea50c311",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-12T22:41:15Z",
+      "side": 1,
+      "message": "{@code } ?\n\nmore of these below",
+      "range": {
+        "startLine": 106,
+        "startChar": 35,
+        "endLine": 106,
+        "endChar": 41
+      },
+      "revId": "03de474f4e26451f4920cb2e48ee93b075c3f6fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f108e45_e17ca076",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-12T22:41:15Z",
+      "side": 1,
+      "message": "this is unnecessary",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 115,
+        "endChar": 7
+      },
+      "revId": "03de474f4e26451f4920cb2e48ee93b075c3f6fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae927339_db8cf119",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-12T22:41:15Z",
+      "side": 1,
+      "message": "removed the warning:\n\n LOG.warn(MessageFormat.format(JGitText.get().unableToReadPackfile,\n\tp.getPackFile().getAbsolutePath()), e);",
+      "revId": "03de474f4e26451f4920cb2e48ee93b075c3f6fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
