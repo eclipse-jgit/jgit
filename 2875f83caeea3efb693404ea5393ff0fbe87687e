@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b7395b2_42ac1bff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T19:02:52Z",
+      "side": 1,
+      "message": "this is very gerrit centric. can you add context for the rest of JGit folks?",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "2875f83caeea3efb693404ea5393ff0fbe87687e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
