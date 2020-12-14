@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "20f904c4_880803b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T18:59:27Z",
+      "side": 1,
+      "message": "maybe this is intentional, but I implemented worktree support in upstream, and it was much more involved than this. See\n\nhttps://github.com/git/git/pull/847/commits/d57023d9f13d178dc95d7a74751923b80d1a5939\n\nrefs/reftable-backend.c (this is still pending, but passes a significant number of tests for the worktree feature).\n\nbasically, you have to create two FileReftableStacks (one for the .git/ main ref store, and one for the worktree refstore), and do a merge on the two merged tables.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 26
+      },
+      "revId": "88653dad7a86c06e6f9c08fcb9dd750d2792339d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d9ea240_da6a767a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 18
