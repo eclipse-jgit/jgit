@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6ea66c9c_e18def16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2020-12-14T19:23:16Z",
+      "side": 1,
+      "message": "\u003e getsRefsExcludingPrefixesWithPrefix\n\nThat name is not particularly intuitive. What is a prefix with a prefix?\n\nWe can\u0027t use `getRefsByPrefix(include, exclude)` since that\u0027s already taken by `getRefsByPrefix(prefix1, prefix2)`. Would it make sense to use a builder pattern, like `refs().withPrefix(include).excludingPrefix(exclude)`?\n\nAlso, this doesn\u0027t match what\u0027s in the code (`getRefsByPrefixWithSkips`).",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ff2439a_d2721974",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 11
