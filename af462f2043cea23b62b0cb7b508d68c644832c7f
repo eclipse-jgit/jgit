@@ -85,6 +85,52 @@
       "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1fc6903_09f3d657",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T18:34:38Z",
+      "side": 1,
+      "message": "this is probably not very useful functionality. Could we find some way to do \"throw new NotImplementedException()\" or similar?",
+      "range": {
+        "startLine": 704,
+        "startChar": 14,
+        "endLine": 704,
+        "endChar": 28
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "169f5b7f_99190da8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T18:34:38Z",
+      "side": 1,
+      "message": "this looks strange. Are you sure this is correct? The boundary that you are looking for doesn\u0027t have to be aligned on a block boundary. \n\nAlso, block \u003d previousBlock copies the reference to the object, but you want to remember the values inside the object, in particular, the offset within the block of what you\u0027re reading.",
+      "range": {
+        "startLine": 717,
+        "startChar": 5,
+        "endLine": 717,
+        "endChar": 27
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
