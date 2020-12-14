@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ff2439a_d2721974",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T18:48:25Z",
+      "side": 1,
+      "message": "maybe swap the order of args.\n\nPerhaps we could do away with the WithSkips suffix, ie. do  an overload which looks like\n\n  getRefsByPrefix(String prefix, Set\u003cString\u003e exclude)",
+      "range": {
+        "startLine": 284,
+        "startChar": 55,
+        "endLine": 284,
+        "endChar": 62
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
