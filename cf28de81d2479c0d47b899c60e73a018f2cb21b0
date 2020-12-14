@@ -22,6 +22,29 @@
       "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ec3df00_2619e8e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T18:54:32Z",
+      "side": 1,
+      "message": "I didn\u0027t think this through. Can you confirm this will work OK if you have overlapping exclusions?\n\neg. \n\n   getByPrefix(\"refs/\", exclude\u003d[\"refs/changes/\", refs/changes/01/\"])",
+      "range": {
+        "startLine": 299,
+        "startChar": 2,
+        "endLine": 299,
+        "endChar": 15
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
