@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f3a9198_5fb2ae0f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T15:01:17Z",
+      "side": 1,
+      "message": "this is a weird format if the counter goes to 200. do you mean %03d ?",
+      "range": {
+        "startLine": 986,
+        "startChar": 44,
+        "endLine": 986,
+        "endChar": 46
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ef5c8f0_b4cb227f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/RefCursor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T15:01:17Z",
+      "side": 1,
+      "message": "edit error? this says \"skips\" twice. Maybe \"seeks to the first ref record lexicographically beyond `prefixName` that doesn\u0027t start with `prefixName`.\n\nis there any precondition on the state of the refcursor? (Can you call this after !ok ?)",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66fb908f_896e12d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T15:01:17Z",
+      "side": 1,
+      "message": "are you sure?\n\nhttps://www.branah.com/unicode-converter\n\nsays it\u0027s \n\n0010FFFF \u003d\u003e \\xf4\\x8f\\xbf\\xbf",
+      "range": {
+        "startLine": 54,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "270f5aca_e43c2d51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-14T15:01:17Z",
+      "side": 1,
+      "message": "this is not quite correct. If you have a ref that is \n\n  prefix + LAST_UTF8 + \"bla\"\n\nthis isn\u0027t correct. (I\u0027ll grant you this is an extreme corner case).\n\nYou have to do something like\n\n   while (!r.ok) {\n      r.next()\n      if (!r.ref.name.startswith(prefix)) {\n         // found it, now have to go one entry backwards.\n  \n      }\n   }",
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
