@@ -206,6 +206,24 @@
       "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c95ca761_9a8a2efe",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitClientSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2020-12-14T12:11:24Z",
+      "side": 1,
+      "message": "Thanks, Thomas! All tests are green now: [1]. I will rebase my pending series in Gerrit to switch to using MINA SSHD client on top of the new version of this change. Thanks again.\n\n[1] http://paste.openstack.org/show/800286",
+      "parentUuid": "79aa59ed_22f38c7d",
+      "revId": "f65a4f56f035ff1d62553f039e23830d1a07b006",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
