@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1774f4_da064a71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2020-12-15T21:41:00Z",
+      "side": 1,
+      "message": "Consider changing this to return a set of PackFileNames? Then something like lines 407-412 would go into listPackDirectory() and we could drop the logic on line 501 looking for \u0027pack-\u0027 names.\n\nCould also be done as a follow up to this change/series.",
+      "range": {
+        "startLine": 403,
+        "startChar": 28,
+        "endLine": 403,
+        "endChar": 48
+      },
+      "revId": "fae43d3ad0238a8c87475837e31c4fa158605a51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43232864_4fe5c261",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2020-12-15T21:41:00Z",
+      "side": 1,
+      "message": "Use \u0027ConcurrentMap\u0027 on the left side?",
+      "range": {
+        "startLine": 417,
+        "startChar": 3,
+        "endLine": 417,
+        "endChar": 20
+      },
+      "revId": "fae43d3ad0238a8c87475837e31c4fa158605a51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
