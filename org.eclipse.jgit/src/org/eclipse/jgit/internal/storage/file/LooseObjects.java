@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Traditional file system based loose objects handler.
  * <p>
- * This is the loose object representation for a Git object database,
- * where objects are stored loose by hashing them into directories by their
+ * This is the loose object representation for a Git object database, where
+ * objects are stored loose by hashing them into directories by their
  * {@link org.eclipse.jgit.lib.ObjectId}.
  */
 class LooseObjects {
@@ -56,7 +56,7 @@ class LooseObjects {
 	}
 
 	/**
-	 * <p>Getter for the field <code>directory</code>.</p>
+	 * Getter for the field <code>directory</code>.
 	 *
 	 * @return the location of the <code>objects</code> directory.
 	 */
@@ -105,7 +105,7 @@ class LooseObjects {
 	 *            maximum number of results to return. At most this many
 	 *            ObjectIds should be added to matches before returning.
 	 * @return {@code true} if the matches were exhausted before reaching
-	 *            {@code maxLimit}.
+	 *         {@code maxLimit}.
 	 */
 	boolean resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
 			int matchLimit) {
@@ -113,24 +113,26 @@ class LooseObjects {
 		String[] entries = new File(directory, fanOut).list();
 		if (entries != null) {
 			for (String e : entries) {
-				if (e.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
+				if (e.length() != Constants.OBJECT_ID_STRING_LENGTH - 2) {
 					continue;
+				}
 				try {
 					ObjectId entId = ObjectId.fromString(fanOut + e);
-					if (id.prefixCompare(entId) == 0)
+					if (id.prefixCompare(entId) == 0) {
 						matches.add(entId);
+					}
 				} catch (IllegalArgumentException notId) {
 					continue;
 				}
-				if (matches.size() > matchLimit)
+				if (matches.size() > matchLimit) {
 					return false;
+				}
 			}
 		}
 		return true;
 	}
 
-	ObjectLoader open(WindowCursor curs, AnyObjectId id)
-			throws IOException {
+	ObjectLoader open(WindowCursor curs, AnyObjectId id) throws IOException {
 		File path = fileFor(id);
 		try (FileInputStream in = new FileInputStream(path)) {
 			unpackedObjectCache.add(id);
@@ -144,8 +146,7 @@ class LooseObjects {
 		}
 	}
 
-	long getSize(WindowCursor curs, AnyObjectId id)
-			throws IOException {
+	long getSize(WindowCursor curs, AnyObjectId id) throws IOException {
 		File f = fileFor(id);
 		try (FileInputStream in = new FileInputStream(f)) {
 			unpackedObjectCache.add(id);
@@ -201,8 +202,7 @@ class LooseObjects {
 		}
 	}
 
-	private InsertLooseObjectResult tryMove(File tmp, File dst,
-			ObjectId id)
+	private InsertLooseObjectResult tryMove(File tmp, File dst, ObjectId id)
 			throws IOException {
 		Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
 				StandardCopyOption.ATOMIC_MOVE);
