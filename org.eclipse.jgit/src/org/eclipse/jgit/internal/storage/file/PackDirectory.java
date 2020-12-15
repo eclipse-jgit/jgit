@@ -121,16 +121,30 @@ class PackDirectory {
 	 *
 	 * @param objectId
 	 *            identity of the object to test for existence of.
-	 * @return true if the specified object is stored in this PackDirectory.
+	 * @return {@code true} if the specified object is stored in this PackDirectory.
 	 */
 	boolean has(AnyObjectId objectId) {
+		return getPackFile(objectId) != null;
+	}
+
+	/**
+	 * Get the {@link org.eclipse.jgit.internal.storage.file.PackFile} for the
+	 * specified object if it is stored in this PackDirectory.
+	 *
+	 * @param objectId
+	 *            identity of the object to find the PackFile for.
+	 * @return {@link org.eclipse.jgit.internal.storage.file.PackFile} which
+	 *            contains the specified object or {@code null} if it is not
+	 *            stored in this PackDirectory.
+	 */
+	PackFile getPackFile(AnyObjectId objectId) {
 		PackList pList;
 		do {
 			pList = packList.get();
 			for (PackFile p : pList.packs) {
 				try {
 					if (p.hasObject(objectId)) {
-						return true;
+						return p;
 					}
 				} catch (IOException e) {
 					// The hasObject call should have only touched the index,
@@ -143,7 +157,7 @@ class PackDirectory {
 				}
 			}
 		} while (searchPacksAgain(pList));
-		return false;
+		return null;
 	}
 
 	/**

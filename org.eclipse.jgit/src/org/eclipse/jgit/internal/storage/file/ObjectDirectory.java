@@ -77,6 +77,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final PackDirectory packed;
 
+	private final PackDirectory preserved;
+
 	private final File preservedDirectory;
 
 	private final File alternatesFile;
@@ -119,6 +121,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		alternatesFile = new File(objects, Constants.INFO_ALTERNATES);
 		loose = new LooseObjects(objects);
 		packed = new PackDirectory(config, packDirectory);
+		preserved = new PackDirectory(config, preservedDirectory);
 		this.fs = fs;
 		this.shallowFile = shallowFile;
 
@@ -240,9 +243,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	public boolean has(AnyObjectId objectId) {
 		return loose.hasCached(objectId)
-				|| hasPackedInSelfOrAlternate(objectId, null)
-				|| hasLooseInSelfOrAlternate(objectId, null);
+				|| hasPackedOrLooseInSelfOrAlternate(objectId)
+				|| (restoreFromSelfOrAlternate(objectId, null)
+				&& hasPackedOrLooseInSelfOrAlternate(objectId));
 	}
+
+	private boolean hasPackedOrLooseInSelfOrAlternate(AnyObjectId objectId) {
+		return hasPackedInSelfOrAlternate(objectId, null)
+				|| hasLooseInSelfOrAlternate(objectId, null);
+  }
 
 	private boolean hasPackedInSelfOrAlternate(AnyObjectId objectId,
 			Set<AlternateHandle.Id> skips) {
@@ -309,6 +318,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
+		ObjectLoader ldr = openObjectNoRestore(curs, objectId);
+		if (ldr == null && restoreFromSelfOrAlternate(objectId, null)) {
+			ldr = openObjectNoRestore(curs, objectId);
+		}
+		return ldr;
+	}
+
+	private ObjectLoader openObjectNoRestore(WindowCursor curs, AnyObjectId objectId)
+			throws IOException {
 		if (loose.hasCached(objectId)) {
 			ObjectLoader ldr = openLooseObject(curs, objectId);
 			if (ldr != null) {
@@ -371,6 +389,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	long getObjectSize(WindowCursor curs, AnyObjectId id)
+			throws IOException {
+		long sz = getObjectSizeNoRestore(curs, id);
+		if (0 > sz && restoreFromSelfOrAlternate(id, null)) {
+			sz = getObjectSizeNoRestore(curs, id);
+		}
+		return sz;
+	}
+
+	private long getObjectSizeNoRestore(WindowCursor curs, AnyObjectId id)
 			throws IOException {
 		if (loose.hasCached(id)) {
 			long len = loose.getSize(curs, id);
@@ -437,6 +464,51 @@ public class ObjectDirectory extends FileObjectDatabase {
 				h.db.selectObjectRepresentation(packer, otp, curs, skips);
 			}
 		}
+	}
+
+	private boolean restoreFromSelfOrAlternate(AnyObjectId objectId,
+			Set<AlternateHandle.Id> skips) {
+		if (restoreFromSelf(objectId)) {
+			return true;
+		}
+
+		skips = addMe(skips);
+		for (AlternateHandle alt : myAlternates()) {
+			if (!skips.contains(alt.getId())) {
+				if (alt.db.restoreFromSelfOrAlternate(objectId, skips)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean restoreFromSelf(AnyObjectId objectId) {
+		PackFile preservedPack = preserved.getPackFile(objectId);
+		if (preservedPack == null) {
+			return false;
+		}
+		PackFileName pack = new PackFileName(preservedPack.getPackFile());
+		// Restore the index last since the set will be considered for use once
+		// the index appears.
+		for (PackExt ext : PackExt.values()) {
+			if (!PackExt.INDEX.equals(ext)) {
+				restore(pack.create(ext));
+			}
+		}
+		restore(pack.create(PackExt.INDEX));
+		return true;
+	}
+
+	private boolean restore(PackFileName preservedPack) {
+		PackFileName restored = preservedPack.createForDirectory(packed.getDirectory(),
+				false);
+		try {
+			Files.createLink(restored.toPath(), preservedPack.toPath());
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
