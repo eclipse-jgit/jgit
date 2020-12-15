@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.File;
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
@@ -401,21 +404,25 @@ class PackDirectory {
 		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
 		for (String indexName : names) {
-			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
-			//
-			if (indexName.length() != 49 || !indexName.endsWith(".idx")) { //$NON-NLS-1$
+			PackFileName name;
+			try {
+				name = new PackFileName(directory, indexName);
+			} catch (IllegalArgumentException e) {
+				continue;
+			}
+			if (!indexName.equals(name.create(INDEX).getName())) {
 				continue;
 			}
 
-			final String base = indexName.substring(0, indexName.length() - 3);
-			int extensions = 0;
+			ConcurrentHashMap<PackExt, PackFileName> found = new ConcurrentHashMap<>();
 			for (PackExt ext : PackExt.values()) {
-				if (names.contains(base + ext.getExtension())) {
-					extensions |= ext.getBit();
-				}
+				PackFileName other = name.create(ext);
+				if (names.contains(other.getName()))
+					found.put(ext, other);
 			}
 
-			if ((extensions & PACK.getBit()) == 0) {
+			PackFileName packName = found.get(PACK);
+			if (packName == null) {
 				// Sometimes C Git's HTTP fetch transport leaves a
 				// .idx file behind and does not download the .pack.
 				// We have to skip over such useless indexes.
@@ -423,17 +430,15 @@ class PackDirectory {
 				continue;
 			}
 
-			final String packName = base + PACK.getExtension();
-			final File packFile = new File(directory, packName);
-			final PackFile oldPack = forReuse.get(packName);
+			final PackFile oldPack = forReuse.get(packName.getName());
 			if (oldPack != null
-					&& !oldPack.getFileSnapshot().isModified(packFile)) {
-				forReuse.remove(packName);
+					&& !oldPack.getFileSnapshot().isModified(packName)) {
+				forReuse.remove(packName.getName());
 				list.add(oldPack);
 				continue;
 			}
 
-			list.add(new PackFile(packFile, extensions));
+			list.add(new PackFile(found));
 			foundNew = true;
 		}
 
