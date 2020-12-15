@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "701dc003_9c7be9e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-15T14:22:10Z",
+      "side": 1,
+      "message": "I think 3-6 months is a realistic timeframe.\n\nThat said, i took a quick look at the rest of your change, but the diffs look very small for this to actually support worktrees.\n\nWhen there are worktrees, each worktree can have a distinct HEAD (ie. currently checked out branch), and there are a number of other per-worktree ref namespaces (see is_per_worktree_ref() in the git source code.)\n\nthe description of the change says \"git-worktree support\", but I see no changed tests. What functionality does this add?",
+      "parentUuid": "5b22334a_748f587b",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 26
+      },
+      "revId": "88653dad7a86c06e6f9c08fcb9dd750d2792339d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d9ea240_da6a767a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 18
