@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e76351c_a71c7343",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-16T00:48:55Z",
+      "side": 1,
+      "message": "What\u0027s the memory footprint of ConcurrentHashMap compared to the old implementation ?\nThere are 5 PackExts hence ConcurrentHashMap\u0027s default table size 16 seems too large. Do we always need all 5 ?",
+      "revId": "336ce44d0bc470c8e98fb72fbbccaeb3eba60588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5976bc7f_320eb596",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-16T00:48:55Z",
+      "side": 1,
+      "message": "Do we really need to consider PackExt.REFTABLE here which is used by DFS ?",
+      "revId": "336ce44d0bc470c8e98fb72fbbccaeb3eba60588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
