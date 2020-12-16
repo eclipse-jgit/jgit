@@ -260,6 +260,30 @@
       "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c984a8e_fe6fda2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "ah, must have gotten used to the new automatic PS selection :-)",
+      "parentUuid": "b184b746_d2cea57f",
+      "range": {
+        "startLine": 514,
+        "startChar": 9,
+        "endLine": 514,
+        "endChar": 21
+      },
+      "revId": "aeb2757b849f5dc63c92442cfd187c733edf8477",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

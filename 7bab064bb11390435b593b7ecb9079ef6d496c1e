@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5e41c6b_947ab040",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "entriesToAdd",
+      "range": {
+        "startLine": 221,
+        "startChar": 23,
+        "endLine": 221,
+        "endChar": 35
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5506e964_f7c0b116",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "could this be\n\n```\nentriesToAdd.addAll(queue) // not sure about the Java method name\nentriesToAdd.add(head)\n\nhead \u003d null;\nqueue.clear();\n\nfor (e : entriesToAdd) {\n   e.rc.seekPastPrefix()\n   add(e);\n}\n```\n\n(slightly shorter)",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 17
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a71f0e45_e7139859",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/RefCursor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "seeks -\u003e seeks forward",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 9
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df1b29c1_d7b10a59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "init to null explicitly? (not sure if there are coding standards for this, though.)",
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d33b569f_f3c899f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "formatting looks off. There is an IntelliJ plugin that uses the Eclipse formatter that you might want to try.",
+      "range": {
+        "startLine": 523,
+        "startChar": 6,
+        "endLine": 523,
+        "endChar": 8
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2676c638_2cfc4ff1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "once you\u0027re here, you can set latestSkippedPrefix \u003d null again.",
+      "range": {
+        "startLine": 524,
+        "startChar": 5,
+        "endLine": 524,
+        "endChar": 11
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "727b4ec0_882be20e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "this is a case where an API that returns a fresh RefCursor makes things easier (didn\u0027t you discuss that earlier?). In that case, you could easily wrap a RefCursor into another one, and use the trick that you used above.",
+      "range": {
+        "startLine": 718,
+        "startChar": 14,
+        "endLine": 718,
+        "endChar": 28
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

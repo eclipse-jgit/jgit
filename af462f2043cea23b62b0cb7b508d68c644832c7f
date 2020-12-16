@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ef0318f3_2d2bdf70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/RefCursor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "oh, good point for !ok. You can\u0027t seek backwards either, right?",
+      "parentUuid": "5addfbfc_ea733216",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66fb908f_896e12d1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 9
@@ -143,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "cc05c867_f9c732dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "python:\n\n\u003e\u003e\u003e bin(0x10ffff)[:-12]\n\u00270b100001111\u0027\n\nso you have to put \u0027001111\u0027 iso. of \u0027111111\u0027 in the 3rd byte from the right.",
+      "parentUuid": "fcebca29_4089ad73",
+      "range": {
+        "startLine": 54,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "270f5aca_e43c2d51",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 9
@@ -172,6 +220,24 @@
       "side": 1,
       "message": "good point, done.\nWhat you suggested is complicated because of \"go one entry backwards\". I implemented a workaround in next() such that we go forward there as much as we need ensuring we don\u0027t return a prefix that we were supposed to skip.",
       "parentUuid": "270f5aca_e43c2d51",
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30af9b4b_c9213d2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:45:29Z",
+      "side": 1,
+      "message": "\u003e What you suggested is complicated because of \"go one entry backwards\".\n\nyes, that\u0027s why I thought it looked too simple 😊\n\n\u003e I implemented a workaround in next() \n\nah, clever!",
+      "parentUuid": "cade9661_58e583f5",
       "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
