@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8864412e_4fb26dfb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3a9198_5fb2ae0f",
+      "range": {
+        "startLine": 986,
+        "startChar": 44,
+        "endLine": 986,
+        "endChar": 46
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ef5c8f0_b4cb227f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/RefCursor.java",
         "patchSetId": 9
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5addfbfc_ea733216",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/RefCursor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:04Z",
+      "side": 1,
+      "message": "What do you mean !ok? If you mean \"when next() returns false\" then at that point there are no more refs to return, skipping past some results is not going to give any new results. I added a short mention of this.",
+      "parentUuid": "1ef5c8f0_b4cb227f",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66fb908f_896e12d1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 9
@@ -59,6 +107,30 @@
       "writtenOn": "2020-12-14T15:01:17Z",
       "side": 1,
       "message": "are you sure?\n\nhttps://www.branah.com/unicode-converter\n\nsays it\u0027s \n\n0010FFFF \u003d\u003e \\xf4\\x8f\\xbf\\xbf",
+      "range": {
+        "startLine": 54,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcebca29_4089ad73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:04Z",
+      "side": 1,
+      "message": "I think it should be right.\nbased on the converter I couldn\u0027t reach your result, so I\u0027m confused.\nHere\u0027s what I did:\nI went here: https://en.wikipedia.org/wiki/UTF-8\nUnder \"Encoding\" we see all the binary representations. I took the one with 4 bits (cause that\u0027s anyway the last one lexicographically):\n11110xxx\t10xxxxxx\t10xxxxxx\t10xxxxxx\n\nI put \"1\" everywhere instead of X, such that it will be the highest possible number. The \u0027x\u0027s are the bits actually used to represent 0010FFFF.\n\nThen I translated the result into hexa.\n11110111 -\u003e F7\n10111111 -\u003e BF\n\nAnyway I\u0027ve know added a while loop as suggested by the next comment, so I think it doesn\u0027t matter anymore.",
+      "parentUuid": "66fb908f_896e12d1",
       "range": {
         "startLine": 54,
         "startChar": 3,
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "cade9661_58e583f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:04Z",
+      "side": 1,
+      "message": "good point, done.\nWhat you suggested is complicated because of \"go one entry backwards\". I implemented a workaround in next() such that we go forward there as much as we need ensuring we don\u0027t return a prefix that we were supposed to skip.",
+      "parentUuid": "270f5aca_e43c2d51",
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1fc6903_09f3d657",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 9
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "36aa95cc_b4694ba6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1fc6903_09f3d657",
+      "range": {
+        "startLine": 704,
+        "startChar": 14,
+        "endLine": 704,
+        "endChar": 28
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "169f5b7f_99190da8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 9
@@ -131,6 +245,30 @@
       "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d460b4_f808c78a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:04Z",
+      "side": 1,
+      "message": "Ack, that doesn\u0027t work.",
+      "parentUuid": "169f5b7f_99190da8",
+      "range": {
+        "startLine": 717,
+        "startChar": 5,
+        "endLine": 717,
+        "endChar": 27
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
