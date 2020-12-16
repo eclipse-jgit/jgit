@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13e99bee_cd041b89",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:43:32Z",
+      "side": 1,
+      "message": "rename this to `exclude` everywhere",
+      "range": {
+        "startLine": 603,
+        "startChar": 14,
+        "endLine": 603,
+        "endChar": 22
+      },
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

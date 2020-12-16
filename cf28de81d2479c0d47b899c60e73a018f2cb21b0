@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5500c461_5302e3b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:43:32Z",
+      "side": 1,
+      "message": "hmm. I wish the `getRefsByPrefix(prefix1, prefix2)` didn\u0027t exist, because now getRefsByPrefix(\"inc\", \"inc/a\") does something completely different from  getRefsByPrefix(\"inc\", ImmutableSet.of(\"inc/a\"))\n\nI think getRefsByPrefixWithSkips is better.",
+      "parentUuid": "2b7fca26_d624938e",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ff2439a_d2721974",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 11
@@ -140,6 +164,29 @@
       "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4df09f4c_c343a26f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2020-12-16T18:43:32Z",
+      "side": 1,
+      "message": "I saw the new code, but it looks kind of complicated. Couldn\u0027t you do something like\n\n\nwhile (rc.next()) {\n Ref ref;\n while (true) {\n   ref \u003d ...\n   if (ref \u003d\u003d null .. ) break;\n   if (currExclude !\u003d null \u0026\u0026 ref.name.startswith(currExclude)) {\n      rc.seekPast(currExclude);\n      currExclude \u003d ..\n      continue;\n   }\n   break;\n  }\n  if (ref !\u003d null) {\n    all.add(ref)\n  }\n}",
+      "range": {
+        "startLine": 312,
+        "startChar": 5,
+        "endLine": 312,
+        "endChar": 7
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
