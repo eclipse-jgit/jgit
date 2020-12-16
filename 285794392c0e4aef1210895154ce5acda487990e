@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb3bd3e7_a5789fbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-12-16T20:45:01Z",
+      "side": 1,
+      "message": "We are at 5.11 now: https://www.eclipse.org/lists/jgit-dev/msg04020.html",
+      "range": {
+        "startLine": 21,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 14
+      },
+      "revId": "285794392c0e4aef1210895154ce5acda487990e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21d65a0d_35385470",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PerformanceLogHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-12-16T20:45:01Z",
+      "side": 1,
+      "message": "Matthias requested this be NOOP in PS X. This is modeled on PostUploadHook, which names its no-op instance NULL. I think it is fine to stay consistent with what PostUploadHook is doing.",
+      "range": {
+        "startLine": 25,
+        "startChar": 20,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "285794392c0e4aef1210895154ce5acda487990e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f17437c_668811af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-12-16T20:45:01Z",
+      "side": 1,
+      "message": "5.11 here and below.",
+      "range": {
+        "startLine": 654,
+        "startChar": 0,
+        "endLine": 654,
+        "endChar": 15
+      },
+      "revId": "285794392c0e4aef1210895154ce5acda487990e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd297c0_d5a0b4e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-12-16T20:45:01Z",
+      "side": 1,
+      "message": "The @Nullable interface here conforms to the interface of UploadPack.setPostUploadHook, so let\u0027s stick with it.",
+      "range": {
+        "startLine": 656,
+        "startChar": 35,
+        "endLine": 656,
+        "endChar": 45
+      },
+      "revId": "285794392c0e4aef1210895154ce5acda487990e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
