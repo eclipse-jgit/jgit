@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2b7fca26_d624938e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:21Z",
+      "side": 1,
+      "message": "Done, went with overloading getRefsByPrefix (since it\u0027s String, Set\u003cString\u003e, hence a new signature).",
+      "parentUuid": "6ea66c9c_e18def16",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ff2439a_d2721974",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3937491f_4a7b8eeb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:21Z",
+      "side": 1,
+      "message": "Done\nI think I\u0027ll keep \"include\" rather than prefix for clarity.",
+      "parentUuid": "7ff2439a_d2721974",
+      "range": {
+        "startLine": 284,
+        "startChar": 55,
+        "endLine": 284,
+        "endChar": 62
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ec3df00_2619e8e2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 11
@@ -68,6 +116,30 @@
       "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07077fde_5ed5046b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2020-12-16T17:30:21Z",
+      "side": 1,
+      "message": "Specifically your example works fine, but you\u0027re onto something since if we added \"refs/tags\" to your example, it would still return refs/tags.\n\nI fixed it now and added more tests.",
+      "parentUuid": "6ec3df00_2619e8e2",
+      "range": {
+        "startLine": 299,
+        "startChar": 2,
+        "endLine": 299,
+        "endChar": 15
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
