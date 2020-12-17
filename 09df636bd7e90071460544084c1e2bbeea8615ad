@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04784a92_190b356d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1185,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2020-12-17T00:19:55Z",
+      "side": 1,
+      "message": "Copying this comment from Matthias forward:\n\n\u003e Did you think about moving this repetitive code into PerformanceLogContext ?\n\u003e with the current API each call site has to add the following lines\n\u003e \n\u003e  Temporal start \u003d Instant.now();\n\u003e  \u003c code to measure \u003e\n\u003e  perfLogCtx.addEvent(new PerformanceLogRecord(\"key\", \n\u003e                          Duration.between(start, Instant.now())));\n\u003e wouldn\u0027t something like this be nicer ?\n\u003e \n\u003e  StopWatch stopWatch \u003d perfLogCtx.start();\n\u003e  \u003ccode to measure\u003e\n\u003e  perfLogCtx.addEvent(\"key\", stopWatch);\n\nIt think that would be nicer. The current Gerrit interface uses static  PerformanceLogRecord.create() methods, which isn\u0027t that much of a win over these \"new PerformanceLogRecord\" calls. The EVENT_NEGOTIATION case above already calculated the timeNegotiating ms for the PackStatistics.Accumulator object, so we probably want to keep the addEvent(PerformanceLogRecord) method as well, but I like the conciseness of Matthias\u0027s approach.",
+      "range": {
+        "startLine": 1185,
+        "startChar": 0,
+        "endLine": 1185,
+        "endChar": 41
+      },
+      "revId": "09df636bd7e90071460544084c1e2bbeea8615ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
