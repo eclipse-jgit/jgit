@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "e0744773_fe38ab92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-17T00:12:31Z",
+      "side": 1,
+      "message": "I think measuring duration using time API and then throwing away the details when exposing the results doesn\u0027t make sense. If JGit reports using type Duration Gerrit can still convert this to milliseconds if it prefers to do so.",
+      "parentUuid": "c490be68_1906fd04",
+      "revId": "38a3697290182b58fde612fc98752366d006f616",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "118da2b4_e83b94da",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
