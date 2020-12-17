@@ -607,8 +607,14 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	private void readFully(long position, byte[] dstbuf, int dstoff, int cnt,
 			DfsReader ctx) throws IOException {
-		if (ctx.copy(this, position, dstbuf, dstoff, cnt) != cnt)
-			throw new EOFException();
+		while (cnt > 0) {
+			final int copied = ctx.copy(this, position, dstbuf, dstoff, cnt);
+			if (copied == 0)
+				throw new EOFException();
+			position += copied;
+			dstoff += copied;
+			cnt -= copied;
+		}
 	}
 
 	ObjectLoader load(DfsReader ctx, long pos)
