@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "094f6b6a_3a6ee195",
+        "filename": "org.eclipse.jgit.lfs.server/.fbprefs",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-12-21T09:06:44Z",
+      "side": 0,
+      "message": "That\u0027s a quite huge change on one specific .fbprefs file. Since there is a lot of shifting of blocks I compared a sorted version of this content against a sorted one of the predecessor and saw that the following lines have been removed in this patchset. Is this really intendet?\n\n  \u003c detectorAtomicityProblem\u003dAtomicityProblem|true\n  \u003c detectorCheckExpectedWarnings\u003dCheckExpectedWarnings|false\n  \u003c detectorCheckRelaxingNullnessAnnotation\u003dCheckRelaxingNullnessAnnotation|true\n  \u003c detectorCovariantArrayAssignment\u003dCovariantArrayAssignment|false\n  \u003c detectorDefaultEncodingDetector\u003dDefaultEncodingDetector|true\n  \u003c detectorDontAssertInstanceofInTests\u003dDontAssertInstanceofInTests|true\n  \u003c detectorDontIgnoreResultOfPutIfAbsent\u003dDontIgnoreResultOfPutIfAbsent|true\n  \u003c detectorExplicitSerialization\u003dExplicitSerialization|true\n  \u003c detectorFindComparatorProblems\u003dFindComparatorProblems|true\n  \u003c detectorFindRoughConstants\u003dFindRoughConstants|true\n  \u003c detectorFindUseOfNonSerializableValue\u003dFindUseOfNonSerializableValue|true\n  \u003c detectorFindUselessObjects\u003dFindUselessObjects|true\n  \u003c detectorInefficientIndexOf\u003dInefficientIndexOf|false\n  \u003c detectorInefficientInitializationInsideLoop\u003dInefficientInitializationInsideLoop|false\n  \u003c detectorInitializeNonnullFieldsInConstructor\u003dInitializeNonnullFieldsInConstructor|true\n  \u003c detectorIntCast2LongAsInstant\u003dIntCast2LongAsInstant|true\n  \u003c detectorLostLoggerDueToWeakReference\u003dLostLoggerDueToWeakReference|true\n  \u003c detectorMutableEnum\u003dMutableEnum|true\n  \u003c detectorNoteUnconditionalParamDerefs\u003dNoteUnconditionalParamDerefs|true\n  \u003c detectorOptionalReturnNull\u003dOptionalReturnNull|true\n  \u003c detectorOverridingMethodsMustInvokeSuperDetector\u003dOverridingMethodsMustInvokeSuperDetector|true\n  \u003c detectorReadOfInstanceFieldInMethodInvokedByConstructorInSuperclass\u003dReadOfInstanceFieldInMethodInvokedByConstructorInSuperclass|true\n  \u003c detectorRedundantConditions\u003dRedundantConditions|true\n  \u003c detectorSynchronizationOnSharedBuiltinConstant\u003dSynchronizationOnSharedBuiltinConstant|true\n  \u003c excludefilter0\u003dfindBugs/FindBugsExcludeFilter.xml|true\n  \u003c filter_settings\u003dMedium|BAD_PRACTICE,CORRECTNESS,MT_CORRECTNESS,PERFORMANCE,STYLE|false|15\n  \u003c filter_settings_neg\u003dMALICIOUS_CODE,SECURITY,EXPERIMENTAL,NOISE,I18N|",
+      "revId": "022b02dea10612cb01f9694212b72bd1bbd69cb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
