@@ -16,6 +16,24 @@
       "revId": "022b02dea10612cb01f9694212b72bd1bbd69cb9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6be4779_07a2a4e3",
+        "filename": "org.eclipse.jgit.lfs.server/.fbprefs",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-22T09:57:27Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "094f6b6a_3a6ee195",
+      "revId": "022b02dea10612cb01f9694212b72bd1bbd69cb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
