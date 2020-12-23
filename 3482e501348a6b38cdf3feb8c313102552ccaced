@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c17c2490_8b9f2140",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2020-12-23T00:44:06Z",
+      "side": 1,
+      "message": "Read https://stackoverflow.com/questions/4633866/is-volatile-expensive and are now convinced this change is ok (I feared it could cost too much)",
+      "revId": "3482e501348a6b38cdf3feb8c313102552ccaced",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
