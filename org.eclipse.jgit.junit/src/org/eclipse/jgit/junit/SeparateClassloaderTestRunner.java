@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.junit;
 
-import static java.lang.ClassLoader.getSystemClassLoader;
-
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Paths;
 
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
@@ -40,7 +40,13 @@ public class SeparateClassloaderTestRunner extends BlockJUnit4ClassRunner {
 	private static Class<?> loadNewClass(Class<?> klass)
 			throws InitializationError {
 		try {
-			URL[] urls = ((URLClassLoader) getSystemClassLoader()).getURLs();
+			String pathSeparator = System.getProperty("path.separator");
+			String[] classPathEntries = System.getProperty("java.class.path")
+					.split(pathSeparator);
+			URL[] urls = new URL[classPathEntries.length];
+			for (int i = 0; i < classPathEntries.length; i++) {
+				urls[i] = Paths.get(classPathEntries[i]).toUri().toURL();
+			}
 			ClassLoader testClassLoader = new URLClassLoader(urls) {
 
 				@Override
@@ -54,7 +60,7 @@ public class SeparateClassloaderTestRunner extends BlockJUnit4ClassRunner {
 				}
 			};
 			return Class.forName(klass.getName(), true, testClassLoader);
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | MalformedURLException e) {
 			throw new InitializationError(e);
 		}
 	}
