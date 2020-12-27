@@ -7,7 +7,7 @@ Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
 Bundle-Version: 6.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.jgit.internal.transport.sshd;version="6.0.0";x-internal:=true;
   uses:="org.apache.sshd.client,
    org.apache.sshd.client.auth,
