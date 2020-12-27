@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.jgit.ssh.apache.test
 Bundle-Version: 6.0.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.apache.sshd.client.config.hosts;version="[2.7.0,2.8.0)",
  org.apache.sshd.common;version="[2.7.0,2.8.0)",
  org.apache.sshd.common.auth;version="[2.7.0,2.8.0)",

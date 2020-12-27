@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.jgit.archive
 Bundle-Version: 6.0.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.apache.commons.compress.archivers;version="[1.4,2.0)",
  org.apache.commons.compress.archivers.tar;version="[1.4,2.0)",
  org.apache.commons.compress.archivers.zip;version="[1.4,2.0)",
