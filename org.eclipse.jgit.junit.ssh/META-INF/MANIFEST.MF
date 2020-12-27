@@ -7,7 +7,7 @@ Bundle-Version: 6.0.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.apache.sshd.common;version="[2.7.0,2.8.0)",
  org.apache.sshd.common.config.keys;version="[2.7.0,2.8.0)",
  org.apache.sshd.common.file.virtualfs;version="[2.7.0,2.8.0)",

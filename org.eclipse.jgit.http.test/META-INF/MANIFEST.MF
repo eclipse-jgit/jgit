@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.jgit.http.test
 Bundle-Version: 6.0.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: javax.servlet;version="[2.5.0,3.2.0)",
  javax.servlet.http;version="[2.5.0,3.2.0)",
  org.apache.commons.codec;version="[1.6.0,2.0.0)",
