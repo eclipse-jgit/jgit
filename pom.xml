@@ -147,8 +147,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <java.version>11</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>5.12.0.202106070339-r</jgit-last-release-version>
@@ -305,7 +306,7 @@
           <configuration>
             <sourceEncoding>utf-8</sourceEncoding>
             <minimumTokens>100</minimumTokens>
-            <targetJdk>1.8</targetJdk>
+            <targetJdk>${java.version}</targetJdk>
             <format>xml</format>
             <failOnViolation>false</failOnViolation>
             <excludes>
@@ -468,7 +469,7 @@
           <quiet>true</quiet>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
           <links>
-            <link>http://docs.oracle.com/javase/8/docs/api</link>
+            <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
           </links>
         </configuration>
         <executions>
@@ -820,56 +821,20 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <encoding>UTF-8</encoding>
-              <source>1.8</source>
-              <target>1.8</target>
-            </configuration>
-            <executions>
-              <execution>
-                <id>default-compile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>compile</goal>
-                </goals>
-                <configuration>
-                  <includes>
-                    <include>org/eclipse/jgit/transport/InsecureCipherFactory.java</include>
-                  </includes>
-                </configuration>
-              </execution>
-              <execution>
-                <id>compile-with-errorprone</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>compile</goal>
-                </goals>
-                <configuration>
-                  <compilerId>javac-with-errorprone</compilerId>
-                  <forceJavacCompilerUse>true</forceJavacCompilerUse>
-                  <excludes>
-                    <exclude>org/eclipse/jgit/transport/InsecureCipherFactory.java</exclude>
-                  </excludes>
-                </configuration>
-              </execution>
-            </executions>
-            <dependencies>
-              <dependency>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-compiler-javac</artifactId>
-                <version>${plexus-compiler-version}</version>
-              </dependency>
-              <dependency>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-compiler-javac-errorprone</artifactId>
-                <version>${plexus-compiler-version}</version>
-              </dependency>
-              <!-- override plexus-compiler-javac-errorprone's dependency on
-                  Error Prone with the latest version -->
-              <dependency>
+              <source>${java.version}</source>
+              <target>${java.version}</target>
+              <compilerArgs>
+                <arg>-XDcompilePolicy=simple</arg>
+                <arg>-Xplugin:ErrorProne</arg>
+              </compilerArgs>
+              <annotationProcessorPaths>
+                <path>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_core</artifactId>
-                <version>2.3.4</version>
-              </dependency>
-            </dependencies>
+                  <version>2.4.0</version>
+                </path>
+              </annotationProcessorPaths>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -886,8 +851,8 @@
             <configuration>
               <compilerId>eclipse</compilerId>
               <encoding>UTF-8</encoding>
-              <source>1.8</source>
-              <target>1.8</target>
+              <source>${java.version}</source>
+              <target>${java.version}</target>
               <!-- Passing arguments is a trainwreck, see https://issues.apache.org/jira/browse/MCOMPILER-123 -->
               <compilerArguments>
                 <properties>${project.basedir}/.settings/org.eclipse.jdt.core.prefs</properties>
