@@ -21,8 +21,10 @@
   <name>JGit - JMH based benchmarks</name>
 
   <properties>
+    <java.version>11</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <javac.target>1.8</javac.target>
     <jmh.version>1.21</jmh.version>
     <uberjar.name>benchmarks</uberjar.name>
   </properties>
@@ -73,8 +75,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <encoding>UTF-8</encoding>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
           <generatedSourcesDirectory>.apt_generated</generatedSourcesDirectory>
         </configuration>
       </plugin>
