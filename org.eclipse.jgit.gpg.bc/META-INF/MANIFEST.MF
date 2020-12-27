@@ -7,7 +7,7 @@ Fragment-Host: org.eclipse.jgit;bundle-version="[5.11.0,5.12.0)"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-Version: 5.11.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.bouncycastle.bcpg;version="[1.65.0,2.0.0)",
  org.bouncycastle.gpg;version="[1.65.0,2.0.0)",
  org.bouncycastle.gpg.keybox;version="[1.65.0,2.0.0)",

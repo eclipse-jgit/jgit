@@ -147,8 +147,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <java.version>11</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>5.9.0.202009080501-r</jgit-last-release-version>
@@ -303,7 +304,7 @@
           <configuration>
             <sourceEncoding>utf-8</sourceEncoding>
             <minimumTokens>100</minimumTokens>
-            <targetJdk>1.8</targetJdk>
+            <targetJdk>${java.version}</targetJdk>
             <format>xml</format>
             <failOnViolation>false</failOnViolation>
             <excludes>
@@ -812,8 +813,8 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <encoding>UTF-8</encoding>
-              <source>1.8</source>
-              <target>1.8</target>
+              <source>${java.version}</source>
+              <target>${java.version}</target>
               <compilerArgs>
                 <arg>-XDcompilePolicy=simple</arg>
                 <arg>-Xplugin:ErrorProne</arg>
@@ -831,29 +832,6 @@
       </build>
     </profile>
     <profile>
-      <id>jdk8</id>
-      <activation>
-        <jdk>1.8</jdk>
-      </activation>
-      <properties>
-        <javac.version>9+181-r4173-1</javac.version>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <fork>true</fork>
-              <compilerArgs combine.children="append">
-                <arg>-J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar</arg>
-              </compilerArgs>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>ecj</id>
       <activation>
         <activeByDefault>true</activeByDefault>
@@ -865,8 +843,8 @@
             <configuration>
               <compilerId>eclipse</compilerId>
               <encoding>UTF-8</encoding>
-              <source>1.8</source>
-              <target>1.8</target>
+              <source>${java.version}</source>
+              <target>${java.version}</target>
               <!-- Passing arguments is a trainwreck, see https://issues.apache.org/jira/browse/MCOMPILER-123 -->
               <compilerArguments>
                 <properties>${project.basedir}/.settings/org.eclipse.jdt.core.prefs</properties>
