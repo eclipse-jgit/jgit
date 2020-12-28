@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7fd6f30_3c2bbabb",
+        "filename": "org.eclipse.jgit/.classpath",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2020-12-28T14:55:33Z",
+      "side": 1,
+      "message": "This is probably not enough, JDT probably wants to see \"module\" attribute added to modular JRE\u0027s... I\u0027ve created https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d569944 for JDT to clarify that.\n\nThe \"official\" entry as created by wizard looks like:\n\n\u003cclasspathentry kind\u003d\"con\" path\u003d\"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11\"\u003e\n\t\u003cattributes\u003e\n\t\t\u003cattribute name\u003d\"module\" value\u003d\"true\"/\u003e\n\t\u003c/attributes\u003e\n\u003c/classpathentry\u003e",
+      "revId": "85322d21bde79736ed306cc925849a9c4b2a6e62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
