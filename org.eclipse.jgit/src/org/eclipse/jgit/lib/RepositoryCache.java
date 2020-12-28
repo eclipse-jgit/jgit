@@ -201,7 +201,7 @@ public class RepositoryCache {
 
 	private volatile long expireAfter;
 
-	private Object schedulerLock = new Lock();
+	private final Object schedulerLock = new Lock();
 
 	private RepositoryCache() {
 		cacheMap = new ConcurrentHashMap<>();
