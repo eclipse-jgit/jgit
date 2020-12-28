@@ -148,8 +148,6 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <java.version>11</java.version>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>5.12.0.202106070339-r</jgit-last-release-version>
@@ -821,8 +819,7 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <encoding>UTF-8</encoding>
-              <source>${java.version}</source>
-              <target>${java.version}</target>
+              <release>${java.version}</release>
               <compilerArgs>
                 <arg>-XDcompilePolicy=simple</arg>
                 <arg>-Xplugin:ErrorProne</arg>
@@ -851,8 +848,7 @@
             <configuration>
               <compilerId>eclipse</compilerId>
               <encoding>UTF-8</encoding>
-              <source>${java.version}</source>
-              <target>${java.version}</target>
+              <release>${java.version}</release>
               <!-- Passing arguments is a trainwreck, see https://issues.apache.org/jira/browse/MCOMPILER-123 -->
               <compilerArguments>
                 <properties>${project.basedir}/.settings/org.eclipse.jdt.core.prefs</properties>

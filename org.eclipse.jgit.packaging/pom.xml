@@ -22,6 +22,7 @@
   <name>JGit Tycho Parent</name>
 
   <properties>
+    <java.version>11</java.version>
     <tycho-version>1.7.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <target-platform>jgit-4.6</target-platform>
@@ -205,8 +206,7 @@
           <version>${tycho-version}</version>
           <configuration>
             <encoding>UTF-8</encoding>
-            <source>11</source>
-            <target>11</target>
+            <release>${java.version}</release>
           </configuration>
         </plugin>
         <plugin>
