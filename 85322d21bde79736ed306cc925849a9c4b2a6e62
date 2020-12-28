@@ -16,6 +16,24 @@
       "revId": "85322d21bde79736ed306cc925849a9c4b2a6e62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b0c202c_0c8738dd",
+        "filename": "org.eclipse.jgit/.classpath",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-12-28T19:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7fd6f30_3c2bbabb",
+      "revId": "85322d21bde79736ed306cc925849a9c4b2a6e62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
