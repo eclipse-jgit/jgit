@@ -823,6 +823,7 @@
               <encoding>UTF-8</encoding>
               <source>${java.version}</source>
               <target>${java.version}</target>
+              <maven.compiler.release>${java.version}</maven.compiler.release>
               <compilerArgs>
                 <arg>-XDcompilePolicy=simple</arg>
                 <arg>-Xplugin:ErrorProne</arg>
