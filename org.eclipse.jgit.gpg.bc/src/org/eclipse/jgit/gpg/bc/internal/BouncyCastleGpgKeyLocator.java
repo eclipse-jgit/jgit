@@ -219,21 +219,32 @@ public class BouncyCastleGpgKeyLocator {
 			int stop = toMatch.indexOf('>');
 			return begin >= 0 && end > begin + 1 && stop > 0
 					&& userId.substring(begin + 1, end)
-							.equals(toMatch.substring(0, stop));
+							.equalsIgnoreCase(toMatch.substring(0, stop));
 		}
 		case '@': {
 			int begin = userId.indexOf('<');
 			int end = userId.indexOf('>', begin + 1);
 			return begin >= 0 && end > begin + 1
-					&& userId.substring(begin + 1, end).contains(toMatch);
+					&& containsIgnoreCase(userId.substring(begin + 1, end),
+							toMatch);
 		}
 		default:
 			if (toMatch.trim().isEmpty()) {
 				return false;
 			}
-			return userId.toLowerCase(Locale.ROOT)
-					.contains(toMatch.toLowerCase(Locale.ROOT));
+			return containsIgnoreCase(userId, toMatch);
 		}
+	}
+
+	private static boolean containsIgnoreCase(String a, String b) {
+		int alength = a.length();
+		int blength = b.length();
+		for (int i = 0; i + blength <= alength; i++) {
+			if (a.regionMatches(true, i, b, 0, blength)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private String toFingerprint(String keyId) {
