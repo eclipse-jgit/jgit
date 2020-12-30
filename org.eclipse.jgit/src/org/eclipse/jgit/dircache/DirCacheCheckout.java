@@ -946,12 +946,14 @@ public class DirCacheCheckout {
 				// called before). Ignore the cached deletion and use what we
 				// find in Merge. Potentially updates the file.
 				if (equalIdAndMode(hId, hMode, mId, mMode)) {
-					if (initialCheckout)
+					if (initialCheckout || force) {
 						update(name, mId, mMode);
-					else
+					} else {
 						keep(name, dce, f);
-				} else
+					}
+				} else {
 					conflict(name, dce, h, m);
+				}
 			}
 		} else {
 			// Something in Index
@@ -1214,10 +1216,13 @@ public class DirCacheCheckout {
 
 	private void keep(String path, DirCacheEntry e, WorkingTreeIterator f)
 			throws IOException {
-		if (e != null && !FileMode.TREE.equals(e.getFileMode())) {
+		if (e == null) {
+			return;
+		}
+		if (!FileMode.TREE.equals(e.getFileMode())) {
 			builder.add(e);
 		}
-		if (e != null && force) {
+		if (force) {
 			if (f == null || f.isModified(e, true, walk.getObjectReader())) {
 				kept.add(path);
 				checkoutEntry(repo, e, walk.getObjectReader(), false,
@@ -1448,9 +1453,6 @@ public class DirCacheCheckout {
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
 			ObjectReader or, boolean deleteRecursive,
 			CheckoutMetadata checkoutMetadata) throws IOException {
-		if (entry == null) {
-			return;
-		}
 		if (checkoutMetadata == null)
 			checkoutMetadata = CheckoutMetadata.EMPTY;
 		ObjectLoader ol = or.open(entry.getObjectId());
