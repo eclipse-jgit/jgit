@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a4a206_4e0a29c9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2155,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-30T08:10:23Z",
+      "side": 1,
+      "message": "That test case does indeed check that there is no NPE, but:\n\n1. It\u0027s strange to have a test without assertion.\n2. It\u0027s a case that should never occur like that in practice.\n\nMuch better and much more interesting is to identify the cases that can provoke an NPE in real-life usage. Here\u0027s a test case for CheckoutCommandTest that reproduces the NPE in keep():\n\n  @Test\n  public void testCheckoutForcedNoChangeNotInIndex() throws Exception {\n    git.checkout().setCreateBranch(true).setName(\"test2\").call();\n    File f \u003d writeTrashFile(\"NewFile.txt\", \"New file\");\n    git.add().addFilepattern(\"NewFile.txt\").call();\n    git.commit().setMessage(\"New file created\").call();\n    git.checkout().setName(\"test\").call();\n    assertFalse(f.exists());\n    writeTrashFile(\"NewFile.txt\", \"New file\");\n    git.add().addFilepattern(\"NewFile.txt\").call();\n    git.commit().setMessage(\"New file created again with same content\")\n        .call();\n    // Now remove the file from the index only. So it exists in both\n    // commits, and in the working tree, but not in the index.\n    git.rm().addFilepattern(\"NewFile.txt\").setCached(true).call();\n    assertTrue(f.isFile());\n    git.checkout().setForced(true).setName(\"test2\").call();\n    assertTrue(f.isFile());\n    assertEquals(Constants.R_HEADS + \"test2\", git.getRepository()\n        .exactRef(Constants.HEAD).getTarget().getName());\n  }\n\nPlease add this test case to CheckoutCommandTest; and create a bug in bugzilla for it.",
+      "revId": "aa3a1ecd133628c4d9d211d2b227f96b5c3d9d8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9e99c72_418d064b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-30T08:10:23Z",
+      "side": 1,
+      "message": "Why not return early here?\n\n  if (e \u003d\u003d null) {\n    return;\n  }\n\nThen remove the null checks from the two if-statements below.",
+      "revId": "aa3a1ecd133628c4d9d211d2b227f96b5c3d9d8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa33696_a7a26db6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1453,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2020-12-30T08:10:23Z",
+      "side": 1,
+      "message": "Why is this needed? This might hide bugs.\n\nIf checkoutEntry() is called from user code with a null DirCacheEntry, throwing an NPE is fine. Is there any place in the code (other than the keep() above, which is already handled?) where checkoutEntry() is called internally with a null DirCacheEntry? If not, remove this null check. If so, where, and why does this occur at all?",
+      "revId": "aa3a1ecd133628c4d9d211d2b227f96b5c3d9d8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
