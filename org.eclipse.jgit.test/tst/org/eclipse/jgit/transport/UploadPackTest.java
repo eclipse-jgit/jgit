@@ -38,6 +38,7 @@ import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -370,7 +371,8 @@ public class UploadPackTest {
 
 		ByteArrayInputStream send = linesAsInputStream(inputLines);
 
-		server.getConfig().setString("protocol", null, "version", version);
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION, version);
 		UploadPack up = new UploadPack(server);
 		if (postConstructionSetup != null) {
 			postConstructionSetup.accept(up);
@@ -435,8 +437,9 @@ public class UploadPackTest {
 			Consumer<UploadPack> postConstructionSetup,
 			String... inputLines)
 			throws Exception {
-		ByteArrayInputStream recvStream =
-				uploadPackSetup("2", postConstructionSetup, inputLines);
+		ByteArrayInputStream recvStream = uploadPackSetup(
+				TransferConfig.ProtocolVersion.V2.version(),
+				postConstructionSetup, inputLines);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// drain capabilities
@@ -476,9 +479,11 @@ public class UploadPackTest {
 	@Test
 	public void testV2Capabilities() throws Exception {
 		TestV2Hook hook = new TestV2Hook();
-		ByteArrayInputStream recvStream = uploadPackSetup( "2",
-				(UploadPack up) -> {up.setProtocolV2Hook(hook);},
-				PacketLineIn.end());
+		ByteArrayInputStream recvStream = uploadPackSetup(
+				TransferConfig.ProtocolVersion.V2.version(),
+				(UploadPack up) -> {
+					up.setProtocolV2Hook(hook);
+				}, PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(hook.capabilitiesRequest, notNullValue());
 		assertThat(pckIn.readString(), is("version 2"));
@@ -498,8 +503,9 @@ public class UploadPackTest {
 	private void checkAdvertisedIfAllowed(String configSection, String configName,
 			String fetchCapability) throws Exception {
 		server.getConfig().setBoolean(configSection, null, configName, true);
-		ByteArrayInputStream recvStream =
-				uploadPackSetup("2", null, PacketLineIn.end());
+		ByteArrayInputStream recvStream = uploadPackSetup(
+				TransferConfig.ProtocolVersion.V2.version(), null,
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -522,8 +528,9 @@ public class UploadPackTest {
 	private void checkUnadvertisedIfUnallowed(String configSection,
 			String configName, String fetchCapability) throws Exception {
 		server.getConfig().setBoolean(configSection, null, configName, false);
-		ByteArrayInputStream recvStream =
-				uploadPackSetup("2", null, PacketLineIn.end());
+		ByteArrayInputStream recvStream = uploadPackSetup(
+				TransferConfig.ProtocolVersion.V2.version(), null,
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -574,8 +581,9 @@ public class UploadPackTest {
 	public void testV2CapabilitiesRefInWantNotAdvertisedIfAdvertisingForbidden() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
 		server.getConfig().setBoolean("uploadpack", null, "advertiserefinwant", false);
-		ByteArrayInputStream recvStream =
-				uploadPackSetup("2", null, PacketLineIn.end());
+		ByteArrayInputStream recvStream = uploadPackSetup(
+				TransferConfig.ProtocolVersion.V2.version(), null,
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -739,7 +747,10 @@ public class UploadPackTest {
 				PacketLineIn.end() };
 
 		TestV2Hook testHook = new TestV2Hook();
-		uploadPackSetup("2", (UploadPack up) -> {up.setProtocolV2Hook(testHook);}, lines);
+		uploadPackSetup(TransferConfig.ProtocolVersion.V2.version(),
+				(UploadPack up) -> {
+					up.setProtocolV2Hook(testHook);
+				}, lines);
 
 		LsRefsV2Request req = testHook.lsRefsRequest;
 		assertEquals(2, req.getServerOptions().size());
@@ -1559,7 +1570,10 @@ public class UploadPackTest {
 				PacketLineIn.end() };
 
 		TestV2Hook testHook = new TestV2Hook();
-		uploadPackSetup("2", (UploadPack up) -> {up.setProtocolV2Hook(testHook);}, lines);
+		uploadPackSetup(TransferConfig.ProtocolVersion.V2.version(),
+				(UploadPack up) -> {
+					up.setProtocolV2Hook(testHook);
+				}, lines);
 
 		FetchV2Request req = testHook.fetchRequest;
 		assertNotNull(req);
@@ -2253,7 +2267,9 @@ public class UploadPackTest {
 
 	@Test
 	public void testGetPeerAgentProtocolV2() throws Exception {
-		server.getConfig().setString("protocol", null, "version", "2");
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
 
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);

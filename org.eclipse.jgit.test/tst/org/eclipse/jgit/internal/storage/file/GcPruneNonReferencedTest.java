@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -89,6 +90,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 
 	private void assertNoEmptyFanoutDirectories() {
 		File[] fanout = repo.getObjectsDirectory().listFiles();
+		assertNotNull(fanout);
 		for (File f : fanout) {
 			if (f.isDirectory()) {
 				String[] entries = f.list();

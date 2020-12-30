@@ -18,7 +18,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,8 +91,9 @@ public class FileReftableStackTest {
 				assertEquals(ObjectId.zeroId(), c.getRef().getObjectId());
 			}
 
-			List<String> files = Arrays.asList(reftableDir.listFiles()).stream()
-					.map(File::getName).collect(Collectors.toList());
+			List<String> files = Files.list(reftableDir.toPath())
+					.map(Path::getFileName).map(Path::toString)
+					.collect(Collectors.toList());
 			Collections.sort(files);
 
 			assertTrue(files.size() < 20);
@@ -130,11 +132,14 @@ public class FileReftableStackTest {
 				});
 				assertTrue(ok);
 
-				List<File> files = Arrays.asList(reftableDir.listFiles());
+				List<Path> files = Files.list(reftableDir.toPath())
+						.collect(Collectors.toList());
 				for (int j = 0; j < files.size(); j++) {
-					File f = files.get(j);
-					if (f.getName().endsWith(".ref")) {
-						assertTrue(f.delete());
+					Path f = files.get(j);
+					Path fileName = f.getFileName();
+					if (fileName != null
+							&& fileName.toString().endsWith(".ref")) {
+						Files.delete(f);
 						break outer;
 					}
 				}

@@ -87,13 +87,21 @@ class FetchProcess {
 		packLocks.clear();
 		localRefs = null;
 
+		Throwable e1 = null;
 		try {
 			executeImp(monitor, result);
+		} catch (NotSupportedException | TransportException err) {
+			e1 = err;
+			throw err;
 		} finally {
 			try {
-			for (PackLock lock : packLocks)
-				lock.unlock();
+				for (PackLock lock : packLocks) {
+					lock.unlock();
+				}
 			} catch (IOException e) {
+				if (e1 != null) {
+					e.addSuppressed(e1);
+				}
 				throw new TransportException(e.getMessage(), e);
 			}
 		}

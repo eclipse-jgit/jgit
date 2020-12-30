@@ -60,7 +60,6 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
-import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -802,7 +801,6 @@ public class GC {
 		Set<ObjectId> txnHeads = new HashSet<>();
 		Set<ObjectId> tagTargets = new HashSet<>();
 		Set<ObjectId> indexObjects = listNonHEADIndexObjects();
-		RefDatabase refdb = repo.getRefDatabase();
 
 		for (Ref ref : refsBefore) {
 			checkCancelled();
@@ -814,8 +812,6 @@ public class GC {
 				allHeads.add(ref.getObjectId());
 			} else if (isTag(ref)) {
 				allTags.add(ref.getObjectId());
-			} else if (RefTreeNames.isRefTree(refdb, ref.getName())) {
-				txnHeads.add(ref.getObjectId());
 			} else {
 				nonHeads.add(ref.getObjectId());
 			}

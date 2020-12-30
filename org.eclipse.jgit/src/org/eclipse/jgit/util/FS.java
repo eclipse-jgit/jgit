@@ -337,6 +337,9 @@ public abstract class FS {
 			try {
 				path = path.toAbsolutePath();
 				Path dir = Files.isDirectory(path) ? path : path.getParent();
+				if (dir == null) {
+					return FALLBACK_FILESTORE_ATTRIBUTES;
+				}
 				FileStoreAttributes cached = attrCacheByPath.get(dir);
 				if (cached != null) {
 					return cached;
@@ -511,7 +514,10 @@ public abstract class FS {
 		}
 
 		private static void write(Path p, String body) throws IOException {
-			FileUtils.mkdirs(p.getParent().toFile(), true);
+			Path parent = p.getParent();
+			if (parent != null) {
+				FileUtils.mkdirs(parent.toFile(), true);
+			}
 			try (Writer w = new OutputStreamWriter(Files.newOutputStream(p),
 					UTF_8)) {
 				w.write(body);

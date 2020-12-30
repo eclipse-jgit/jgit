@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
+
 /**
  * Represents a bundle of ignore rules inherited from a base directory.
  *
@@ -135,7 +137,8 @@ public class IgnoreNode {
 	 *         undetermined
 	 * @since 4.11
 	 */
-	public Boolean checkIgnored(String entryPath, boolean isDirectory) {
+	public @Nullable Boolean checkIgnored(String entryPath,
+			boolean isDirectory) {
 		// Parse rules in the reverse order that they were read because later
 		// rules have higher priority
 		for (int i = rules.size() - 1; i > -1; i--) {

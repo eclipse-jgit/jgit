@@ -79,7 +79,7 @@ class LsRemote extends TextBuiltin {
 
 	private void show(Ref ref, String name)
 			throws IOException {
-		outw.print("ref: ");
+		outw.print("ref: "); //$NON-NLS-1$
 		outw.print(ref.getName());
 		outw.print('\t');
 		outw.print(name);

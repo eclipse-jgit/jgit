@@ -12,8 +12,8 @@ package org.eclipse.jgit.transport;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
@@ -111,20 +111,25 @@ public class PacketLineInTest {
 		final String act = in.readString();
 		assertEquals("", act);
 		assertFalse(PacketLineIn.isEnd(act));
+		assertFalse(PacketLineIn.isDelimiter(act));
 		assertEOF();
 	}
 
 	@Test
 	public void testReadString_End() throws IOException {
 		init("0000");
-		assertTrue(PacketLineIn.isEnd(in.readString()));
+		String act = in.readString();
+		assertTrue(PacketLineIn.isEnd(act));
+		assertFalse(PacketLineIn.isDelimiter(act));
 		assertEOF();
 	}
 
 	@Test
 	public void testReadString_Delim() throws IOException {
 		init("0001");
-		assertTrue(PacketLineIn.isDelimiter(in.readString()));
+		String act = in.readString();
+		assertTrue(PacketLineIn.isDelimiter(act));
+		assertFalse(PacketLineIn.isEnd(act));
 		assertEOF();
 	}
 
