@@ -13,7 +13,6 @@
 package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.dircache.DirCacheCheckout.checkoutEntry;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -48,7 +47,6 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.events.ChangeRecorder;
 import org.eclipse.jgit.events.ListenerHandle;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
@@ -2148,11 +2146,4 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			assertEquals("WorkDir has not the right size.", i.size(), nrFiles);
 		}
 	}
-
-	@Test
-	public void shouldReturnAndNotThrowNPEWhenCheckoutEntryIsCalledWithNullEntry() throws Exception{
-		checkoutEntry(new InMemoryRepository(null), null, null, true, new CheckoutMetadata(null, null));
-	}
-
-
 }
