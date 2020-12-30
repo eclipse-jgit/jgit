@@ -23,8 +23,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.security.AbstractLoginService;
@@ -259,7 +259,7 @@ public class AppServer {
 	static class TestMappedLoginService extends AbstractLoginService {
 		private String role;
 
-		protected final ConcurrentMap<String, UserPrincipal> users = new ConcurrentHashMap<>();
+		protected final Map<String, UserPrincipal> users = new ConcurrentHashMap<>();
 
 		TestMappedLoginService(String role) {
 			this.role = role;

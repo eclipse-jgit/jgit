@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -193,7 +194,7 @@ public class RepositoryCache {
 		cache.configureEviction(repositoryCacheConfig);
 	}
 
-	private final ConcurrentHashMap<Key, Repository> cacheMap;
+	private final Map<Key, Repository> cacheMap;
 
 	private final Lock[] openLocks;
 
