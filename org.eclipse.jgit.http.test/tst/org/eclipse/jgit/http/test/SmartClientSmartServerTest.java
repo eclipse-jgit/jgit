@@ -22,10 +22,14 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -70,6 +74,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -1263,6 +1268,64 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(200, service.getStatus());
 		assertEquals("application/x-git-upload-pack-result", service
 				.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
+	@Test
+	public void testFetch_MaxHavesCutoffAfterAckOnly() throws Exception {
+		// Bootstrap by doing the clone.
+		//
+		TestRepository dst = createTestRepository();
+		try (Transport t = Transport.open(dst.getRepository(), remoteURI)) {
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+		}
+		assertEquals(B, dst.getRepository().exactRef(master).getObjectId());
+
+		// Force enough into the local client that enumeration will
+		// need more than MAX_HAVES (256) haves to be sent. The server
+		// doesn't know any of these, so it will never ACK. The client
+		// should keep going.
+		//
+		// If it does, client and server will find a common commit, and
+		// the pack file will contain exactly the one commit object Z
+		// we create on the remote, which we can test for via the progress
+		// monitor, which should have something like
+		// "Receiving objects: 100% (1/1)". If the client sends a "done"
+		// too early, the server will send more objects, and we'll have
+		// a line like "Receiving objects: 100% (8/8)".
+		TestRepository.BranchBuilder b = dst.branch(master);
+		// The client will send 32 + 64 + 128 + 256 + 512 haves. Only the
+		// last one will be a common commit. If the cutoff kicks in too
+		// early (after 480), we'll get too many objects in the fetch.
+		for (int i = 0; i < 992; i++)
+			b.commit().tick(3600 /* 1 hour */).message("c" + i).create();
+
+		// Create a new commit on the remote.
+		//
+		RevCommit Z;
+		try (TestRepository<Repository> tr = new TestRepository<>(
+				remoteRepository)) {
+			b = tr.branch(master);
+			Z = b.commit().message("Z").create();
+		}
+
+		// Now incrementally update.
+		//
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		Writer writer = new OutputStreamWriter(buffer, StandardCharsets.UTF_8);
+		TextProgressMonitor monitor = new TextProgressMonitor(writer);
+		try (Transport t = Transport.open(dst.getRepository(), remoteURI)) {
+			t.fetch(monitor, mirror(master));
+		}
+		assertEquals(Z, dst.getRepository().exactRef(master).getObjectId());
+
+		String progressMessages = new String(buffer.toByteArray(),
+				StandardCharsets.UTF_8);
+		Pattern expected = Pattern
+				.compile("Receiving objects:\\s+100% \\(1/1\\)\n");
+		if (!expected.matcher(progressMessages).find()) {
+			System.out.println(progressMessages);
+			fail("Expected only one object to be sent");
+		}
 	}
 
 	@Test
