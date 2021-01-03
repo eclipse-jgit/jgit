@@ -759,12 +759,14 @@ public class FileRepository extends Repository {
 			}
 		} else {
 			FileUtils.delete(packedRefs, FileUtils.SKIP_MISSING);
-			FileUtils.delete(headFile);
-			FileUtils.delete(logsDir, FileUtils.RECURSIVE);
-			FileUtils.delete(refsFile, FileUtils.RECURSIVE);
+			FileUtils.delete(headFile, FileUtils.SKIP_MISSING);
+			FileUtils.delete(logsDir,
+					FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
+			FileUtils.delete(refsFile,
+					FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 			for (String r : additional) {
 				new File(getDirectory(), r).delete();
-		}
+			}
 		}
 
 		FileUtils.mkdir(refsFile, true);
