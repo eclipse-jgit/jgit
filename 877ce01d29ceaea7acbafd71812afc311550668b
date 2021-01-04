@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc0ef6e_c1c3e87f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2021-01-04T09:30:45Z",
+      "side": 1,
+      "message": "I was not sure about this at first. What if we get a IOException in fileAttributes(file) (line 230) but would still be able to successfully determine file.lastmodified() or file.length(). But now I couldn\u0027t imagine a situation where we receive this IOException and still want to work with this file. So treating all files which throw IOExceptions when accessing their attributes as missing files seems to be ok for me. +1",
+      "revId": "877ce01d29ceaea7acbafd71812afc311550668b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
