@@ -16,6 +16,24 @@
       "revId": "877ce01d29ceaea7acbafd71812afc311550668b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7714a147_18c0dea7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-04T09:49:15Z",
+      "side": 1,
+      "message": "I came across this when profiling client support for protocol v2, was wondering why there are a lot of calls to File#lastModified and File#length, debugging revealed that there are quite a number of cases where the file a FileSnapshot is created for doesn\u0027t yet exist so FS.fileAttributes() fails and File.lastModified and File.length both check again and return 0 for missing file.\n\nAvoiding these method calls helps to avoid doing 2 redundant stat64 calls (see the native implementation of FileSystem#getLastModified and FileSystem#getLength [1][2]).\n\n[1] http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/solaris/native/java/io/UnixFileSystem_md.c#l202\n[2] http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/solaris/native/java/io/UnixFileSystem_md.c#l218",
+      "parentUuid": "7cc0ef6e_c1c3e87f",
+      "revId": "877ce01d29ceaea7acbafd71812afc311550668b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
