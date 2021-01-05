@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a540adc9_cd389ae9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:05:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5e41c6b_947ab040",
+      "range": {
+        "startLine": 221,
+        "startChar": 23,
+        "endLine": 221,
+        "endChar": 35
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5506e964_f7c0b116",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
         "patchSetId": 10
@@ -45,6 +69,30 @@
       "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73e04cfa_dfe1ceda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:05:07Z",
+      "side": 1,
+      "message": "yep looks good, thx.",
+      "parentUuid": "5506e964_f7c0b116",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 17
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "385d4149_b00458ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/RefCursor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:05:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a71f0e45_e7139859",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 9
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1b29c1_d7b10a59",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 10
@@ -85,6 +157,24 @@
       "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2949f487_3596f138",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:05:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df1b29c1_d7b10a59",
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "7e5c7c75_d6f393a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:05:07Z",
+      "side": 1,
+      "message": "done, although the formatter wants to edit random other lines (e.g it puts seekLog\u0027s exception declaration one line above, which is sensible but not related), so I\u0027m unsure if I configured it right.\n\nI can follow-up with a formatting change to fix those files later, then (including problems that were there previously).",
+      "parentUuid": "d33b569f_f3c899f9",
+      "range": {
+        "startLine": 523,
+        "startChar": 6,
+        "endLine": 523,
+        "endChar": 8
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2676c638_2cfc4ff1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 10
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "542328c1_133085b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:05:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2676c638_2cfc4ff1",
+      "range": {
+        "startLine": 524,
+        "startChar": 5,
+        "endLine": 524,
+        "endChar": 11
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "727b4ec0_882be20e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 10
@@ -145,6 +283,30 @@
       "writtenOn": "2020-12-16T18:45:29Z",
       "side": 1,
       "message": "this is a case where an API that returns a fresh RefCursor makes things easier (didn\u0027t you discuss that earlier?). In that case, you could easily wrap a RefCursor into another one, and use the trick that you used above.",
+      "range": {
+        "startLine": 718,
+        "startChar": 14,
+        "endLine": 718,
+        "endChar": 28
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b62e37c2_b2665c0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:05:07Z",
+      "side": 1,
+      "message": "is this comment meant to be on the above seekPastPrefix (that doesn\u0027t throw an exception)?\n\nHere is the previous discussion (it\u0027s not very relevant though):\nhttps://git.eclipse.org/r/c/jgit/jgit/+/173021/2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java#142\n\nAt any case, the two options were:\n1. Make it a RefCursor method, and then we just update the RefCursor without create a new RefCursor (currrent approach).\n2. Don\u0027t make it a RefCursor method, and then create a new RefCursor every time.\n\nBoth approaches are sensible. I\u0027d just keep as is to avoid going back and forth.",
+      "parentUuid": "727b4ec0_882be20e",
       "range": {
         "startLine": 718,
         "startChar": 14,
