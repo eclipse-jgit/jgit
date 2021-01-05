@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "13f80143_420e5adb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdc427c5_da84b72c",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e601711_bf74b91a",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 13
@@ -39,6 +63,24 @@
       "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9087aed_b027e141",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e601711_bf74b91a",
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1713bac3_fc60e90d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13e99bee_cd041b89",
+      "range": {
+        "startLine": 603,
+        "startChar": 14,
+        "endLine": 603,
+        "endChar": 22
+      },
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e56d5d04_6f143be9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 13
@@ -79,6 +145,24 @@
       "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48510dcf_36838616",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e56d5d04_6f143be9",
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "7b62f7e0_de68672a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa03d0a9_5e5aea08",
+      "range": {
+        "startLine": 277,
+        "startChar": 78,
+        "endLine": 277,
+        "endChar": 81
+      },
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27b0527f_4d0148e8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 13
@@ -116,6 +224,24 @@
       "writtenOn": "2020-12-18T01:35:46Z",
       "side": 1,
       "message": "These long method and variable names are hard to follow. Basically you are filtering the passed exclude set to remove prefixes not existing in the reftable and remove overlapping prefixes.\n\nIt seems we could use predicates filtering a stream of the prefixes to exclude to improve readability, something like:\n\n\texclude.stream().filter(prefixExists(table)).filter(...\n\n\tstatic Predicate\u003cString\u003e prefixExists(Reftable table) {\n\t\treturn p -\u003e {\n\t\t\ttry (RefCursor c \u003d table.seekRefsWithPrefix(p)) {\n\t\t\t\treturn c.next();\n\t\t\t} catch (IOException e) {\n\t\t\t\te.printStackTrace();\n\t\t\t\treturn false;\n\t\t\t}\n\t\t};\n\t}\n\nI think it would be good to add unit tests for the filter predicates",
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d36720c6_d06b4425",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "getWithoutOverlaps can\u0027t easily be a predicate since it depends on the previous element, but I can make a method for it to call while calling stream().map().\n\nLeaving unresolved, will do that soon.",
+      "parentUuid": "27b0527f_4d0148e8",
       "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "7e96c767_40a3711a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a33a13fc_766d09cc",
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5fbe9d8_8e2d3d38",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 13
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "1d687b6d_83e4a972",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fbe9d8_8e2d3d38",
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91e8105_395484a1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 13
@@ -170,6 +332,24 @@
       "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49c3cbb_444744b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91e8105_395484a1",
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

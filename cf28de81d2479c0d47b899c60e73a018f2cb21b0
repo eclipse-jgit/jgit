@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "198a52bf_ea84ad83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "yea, that\u0027s probably a good point too.\nReverted.",
+      "parentUuid": "5500c461_5302e3b7",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ff2439a_d2721974",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 11
@@ -187,6 +211,30 @@
       "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c397b28_2bbad709",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-05T23:04:19Z",
+      "side": 1,
+      "message": "filtering for non existing etc will still be needed.\n\nIIUC the only difference between this code and mine is the while(true) and getting rid of the \"else\". white(true) is not really needed but I can get rid of the else and add a continue instead - done.",
+      "parentUuid": "4df09f4c_c343a26f",
+      "range": {
+        "startLine": 312,
+        "startChar": 5,
+        "endLine": 312,
+        "endChar": 7
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
