@@ -503,12 +503,16 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 		fetchState.havesTotal += n;
 		if (n == 0
-				|| fetchState.havesWithoutAck > MAX_HAVES
+				|| (fetchState.hadAcks
+						&& fetchState.havesWithoutAck > MAX_HAVES)
 				|| fetchState.havesTotal > maxHaves) {
 			output.writeString("done\n"); //$NON-NLS-1$
 			output.end();
 			return true;
 		}
+		// Increment only after the test above. Of course we have no ACKs yet
+		// for the newly added "have"s, so it makes no sense to count them
+		// against the MAX_HAVES limit.
 		fetchState.havesWithoutAck += n;
 		output.end();
 		fetchState.incHavesToSend(statelessRPC);
@@ -555,6 +559,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					// markCommon appends the object to the "state"
 					markCommon(walk.parseAny(returnedId), ack, true);
 					fetchState.havesWithoutAck = 0;
+					fetchState.hadAcks = true;
 				} else if (ack == AckNackResult.ACK_READY) {
 					gotReady = true;
 				}
@@ -1035,6 +1040,11 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 		long havesTotal;
 
+		// Set to true if we got at least one ACK in protocol V2.
+		boolean hadAcks;
+
+		// Counts haves without ACK. Use as cutoff for negotiation only once
+		// hadAcks == true.
 		long havesWithoutAck;
 
 		void incHavesToSend(boolean statelessRPC) {
