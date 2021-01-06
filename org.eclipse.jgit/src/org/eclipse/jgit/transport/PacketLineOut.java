@@ -33,11 +33,14 @@ import org.slf4j.LoggerFactory;
  * against the underlying OutputStream.
  */
 public class PacketLineOut {
+
 	private static final Logger log = LoggerFactory.getLogger(PacketLineOut.class);
 
 	private final OutputStream out;
 
 	private final byte[] lenbuffer;
+
+	private final boolean logEnabled;
 
 	private boolean flushOnEnd;
 
@@ -50,9 +53,24 @@ public class PacketLineOut {
 	 *            stream.
 	 */
 	public PacketLineOut(OutputStream outputStream) {
+		this(outputStream, true);
+	}
+
+	/**
+	 * Create a new packet line writer that potentially doesn't log.
+	 *
+	 * @param outputStream
+	 *            stream.
+	 * @param enableLogging
+	 *            {@code false} to suppress all logging; {@code true} to log
+	 *            normally
+	 * @since 5.11
+	 */
+	public PacketLineOut(OutputStream outputStream, boolean enableLogging) {
 		out = outputStream;
 		lenbuffer = new byte[5];
 		flushOnEnd = true;
+		logEnabled = enableLogging;
 	}
 
 	/**
@@ -139,7 +157,7 @@ public class PacketLineOut {
 			out.write(lenbuffer, 0, 4);
 		}
 		out.write(buf, pos, len);
-		if (log.isDebugEnabled()) {
+		if (logEnabled && log.isDebugEnabled()) {
 			// Escape a trailing \n to avoid empty lines in the log.
 			if (len > 0 && buf[pos + len - 1] == '\n') {
 				log.debug(
@@ -162,7 +180,9 @@ public class PacketLineOut {
 	public void writeDelim() throws IOException {
 		formatLength(1);
 		out.write(lenbuffer, 0, 4);
-		log.debug("git> 0001"); //$NON-NLS-1$
+		if (logEnabled && log.isDebugEnabled()) {
+			log.debug("git> 0001"); //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -181,9 +201,12 @@ public class PacketLineOut {
 	public void end() throws IOException {
 		formatLength(0);
 		out.write(lenbuffer, 0, 4);
-		log.debug("git> 0000"); //$NON-NLS-1$
-		if (flushOnEnd)
+		if (logEnabled && log.isDebugEnabled()) {
+			log.debug("git> 0000"); //$NON-NLS-1$
+		}
+		if (flushOnEnd) {
 			flush();
+		}
 	}
 
 	/**

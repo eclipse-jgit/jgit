@@ -1193,7 +1193,7 @@ public class UploadPack {
 
 		if (req.wasDoneReceived()) {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE),
+					new PacketLineOut(NullOutputStream.INSTANCE, false),
 					accumulator);
 		} else {
 			pckOut.writeString(
@@ -1204,7 +1204,7 @@ public class UploadPack {
 				}
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE),
+					new PacketLineOut(NullOutputStream.INSTANCE, false),
 					accumulator);
 			if (okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
