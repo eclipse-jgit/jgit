@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2010, Google Inc.
- * Copyright (C) 2006-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2006, 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2008, 2021, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -31,12 +31,16 @@ import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.GpgSignatureVerifier;
+import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
+import org.eclipse.jgit.lib.GpgSignatureVerifierFactory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.pgm.internal.VerificationUtils;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.util.GitDateFormatter;
@@ -67,6 +71,9 @@ class Log extends RevWalkTextBuiltin {
 	void addAdditionalNoteRef(String notesRef) {
 		additionalNoteRefs.add(notesRef);
 	}
+
+	@Option(name = "--show-signature", usage = "usage_showSignature")
+	private boolean showSignature;
 
 	@Option(name = "--date", usage = "usage_date")
 	void dateFormat(String date) {
@@ -147,6 +154,8 @@ class Log extends RevWalkTextBuiltin {
 	// END -- Options shared with Diff
 
 
+	private GpgSignatureVerifier verifier;
+
 	Log() {
 		dateFormatter = new GitDateFormatter(Format.DEFAULT);
 	}
@@ -197,6 +206,9 @@ class Log extends RevWalkTextBuiltin {
 			throw die(e.getMessage(), e);
 		} finally {
 			diffFmt.close();
+			if (verifier != null) {
+				verifier.clear();
+			}
 		}
 	}
 
@@ -229,6 +241,9 @@ class Log extends RevWalkTextBuiltin {
 		}
 		outw.println();
 
+		if (showSignature) {
+			showSignature(c);
+		}
 		final PersonIdent author = c.getAuthorIdent();
 		outw.println(MessageFormat.format(CLIText.get().authorInfo, author.getName(), author.getEmailAddress()));
 		outw.println(MessageFormat.format(CLIText.get().dateInfo,
@@ -250,6 +265,26 @@ class Log extends RevWalkTextBuiltin {
 		if (c.getParentCount() <= 1 && (showNameAndStatusOnly || showPatch))
 			showDiff(c);
 		outw.flush();
+	}
+
+	private void showSignature(RevCommit c) throws IOException {
+		if (c.getRawGpgSignature() == null) {
+			return;
+		}
+		if (verifier == null) {
+			GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
+					.getDefault();
+			if (factory == null) {
+				throw die(CLIText.get().logNoSignatureVerifier, null);
+			}
+			verifier = factory.getVerifier();
+		}
+		SignatureVerification verification = verifier.verifySignature(c);
+		if (verification == null) {
+			return;
+		}
+		VerificationUtils.writeVerification(outw, verification,
+				verifier.getName(), c.getCommitterIdent());
 	}
 
 	/**

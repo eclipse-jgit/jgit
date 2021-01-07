@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com> and others
+ * Copyright (C) 2010, 2021 Chris Aniszczyk <caniszczyk@gmail.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -770,6 +770,16 @@ public class Git implements AutoCloseable {
 	 */
 	public RemoteSetUrlCommand remoteSetUrl() {
 		return new RemoteSetUrlCommand(repo);
+	}
+
+	/**
+	 * Return a command to verify signatures of tags or commits.
+	 *
+	 * @return a {@link VerifySignatureCommand}
+	 * @since 5.11
+	 */
+	public VerifySignatureCommand verifySignature() {
+		return new VerifySignatureCommand(repo);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2020 Salesforce and others
+ * Copyright (C) 2018, 2021 Salesforce and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -247,16 +247,32 @@ public class BouncyCastleGpgKeyLocator {
 		return false;
 	}
 
-	private String toFingerprint(String keyId) {
+	private static String toFingerprint(String keyId) {
 		if (keyId.startsWith("0x")) { //$NON-NLS-1$
 			return keyId.substring(2);
 		}
 		return keyId;
 	}
 
-	private PGPPublicKey findPublicKeyByKeyId(KeyBlob keyBlob)
+	static PGPPublicKey findPublicKey(String fingerprint, String keySpec)
+			throws IOException, PGPException {
+		PGPPublicKey result = findPublicKeyInPubring(USER_PGP_PUBRING_FILE,
+				fingerprint, keySpec);
+		if (result == null && exists(USER_KEYBOX_PATH)) {
+			try {
+				result = findPublicKeyInKeyBox(USER_KEYBOX_PATH, fingerprint,
+						keySpec);
+			} catch (NoSuchAlgorithmException | NoSuchProviderException
+					| IOException | NoOpenPgpKeyException e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+		return result;
+	}
+
+	private static PGPPublicKey findPublicKeyByKeyId(KeyBlob keyBlob,
+			String keyId)
 			throws IOException {
-		String keyId = toFingerprint(signingKey).toLowerCase(Locale.ROOT);
 		if (keyId.isEmpty()) {
 			return null;
 		}
@@ -270,10 +286,11 @@ public class BouncyCastleGpgKeyLocator {
 		return null;
 	}
 
-	private PGPPublicKey findPublicKeyByUserId(KeyBlob keyBlob)
+	private static PGPPublicKey findPublicKeyByUserId(KeyBlob keyBlob,
+			String keySpec)
 			throws IOException {
 		for (UserID userID : keyBlob.getUserIds()) {
-			if (containsSigningKey(userID.getUserIDAsString(), signingKey)) {
+			if (containsSigningKey(userID.getUserIDAsString(), keySpec)) {
 				return getSigningPublicKey(keyBlob);
 			}
 		}
@@ -285,6 +302,10 @@ public class BouncyCastleGpgKeyLocator {
 	 *
 	 * @param keyboxFile
 	 *            the KeyBox file
+	 * @param keyId
+	 *            to look for, may be null
+	 * @param keySpec
+	 *            to look for
 	 * @return publicKey the public key (maybe <code>null</code>)
 	 * @throws IOException
 	 *             in case of problems reading the file
@@ -293,19 +314,22 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws NoOpenPgpKeyException
 	 *             if the file does not contain any OpenPGP key
 	 */
-	private PGPPublicKey findPublicKeyInKeyBox(Path keyboxFile)
+	private static PGPPublicKey findPublicKeyInKeyBox(Path keyboxFile,
+			String keyId, String keySpec)
 			throws IOException, NoSuchAlgorithmException,
 			NoSuchProviderException, NoOpenPgpKeyException {
 		KeyBox keyBox = readKeyBoxFile(keyboxFile);
+		String id = keyId != null ? keyId
+				: toFingerprint(keySpec).toLowerCase(Locale.ROOT);
 		boolean hasOpenPgpKey = false;
 		for (KeyBlob keyBlob : keyBox.getKeyBlobs()) {
 			if (keyBlob.getType() == BlobType.OPEN_PGP_BLOB) {
 				hasOpenPgpKey = true;
-				PGPPublicKey key = findPublicKeyByKeyId(keyBlob);
+				PGPPublicKey key = findPublicKeyByKeyId(keyBlob, id);
 				if (key != null) {
 					return key;
 				}
-				key = findPublicKeyByUserId(keyBlob);
+				key = findPublicKeyByUserId(keyBlob, keySpec);
 				if (key != null) {
 					return key;
 				}
@@ -349,7 +373,8 @@ public class BouncyCastleGpgKeyLocator {
 			// pubring.gpg also try secring.gpg to find the secret key.
 			if (exists(USER_KEYBOX_PATH)) {
 				try {
-					publicKey = findPublicKeyInKeyBox(USER_KEYBOX_PATH);
+					publicKey = findPublicKeyInKeyBox(USER_KEYBOX_PATH, null,
+							signingKey);
 					if (publicKey != null) {
 						key = findSecretKeyForKeyBoxPublicKey(publicKey,
 								USER_KEYBOX_PATH);
@@ -372,7 +397,8 @@ public class BouncyCastleGpgKeyLocator {
 				}
 			}
 			if (exists(USER_PGP_PUBRING_FILE)) {
-				publicKey = findPublicKeyInPubring(USER_PGP_PUBRING_FILE);
+				publicKey = findPublicKeyInPubring(USER_PGP_PUBRING_FILE, null,
+						signingKey);
 				if (publicKey != null) {
 					// GPG < 2.1 may have both; the agent using the directory
 					// and gpg using secring.gpg. GPG >= 2.1 delegates all
@@ -562,6 +588,11 @@ public class BouncyCastleGpgKeyLocator {
 	 * Return the first public key matching the key id ({@link #signingKey}.
 	 *
 	 * @param pubringFile
+	 *            to search
+	 * @param keyId
+	 *            to look for, may be null
+	 * @param keySpec
+	 *            to look for
 	 *
 	 * @return the PGP public key, or {@code null} if none found
 	 * @throws IOException
@@ -569,14 +600,16 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws PGPException
 	 *             on BouncyCastle errors
 	 */
-	private PGPPublicKey findPublicKeyInPubring(Path pubringFile)
+	private static PGPPublicKey findPublicKeyInPubring(Path pubringFile,
+			String keyId, String keySpec)
 			throws IOException, PGPException {
 		try (InputStream in = newInputStream(pubringFile)) {
 			PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(
 					new BufferedInputStream(in),
 					new JcaKeyFingerprintCalculator());
 
-			String keyId = toFingerprint(signingKey).toLowerCase(Locale.ROOT);
+			String id = keyId != null ? keyId
+					: toFingerprint(keySpec).toLowerCase(Locale.ROOT);
 			Iterator<PGPPublicKeyRing> keyrings = pgpPub.getKeyRings();
 			while (keyrings.hasNext()) {
 				PGPPublicKeyRing keyRing = keyrings.next();
@@ -586,14 +619,14 @@ public class BouncyCastleGpgKeyLocator {
 					// try key id
 					String fingerprint = Hex.toHexString(key.getFingerprint())
 							.toLowerCase(Locale.ROOT);
-					if (fingerprint.endsWith(keyId)) {
+					if (fingerprint.endsWith(id)) {
 						return key;
 					}
 					// try user id
 					Iterator<String> userIDs = key.getUserIDs();
 					while (userIDs.hasNext()) {
 						String userId = userIDs.next();
-						if (containsSigningKey(userId, signingKey)) {
+						if (containsSigningKey(userId, keySpec)) {
 							return key;
 						}
 					}
@@ -603,13 +636,14 @@ public class BouncyCastleGpgKeyLocator {
 		return null;
 	}
 
-	private PGPPublicKey getPublicKey(KeyBlob blob, byte[] fingerprint)
+	private static PGPPublicKey getPublicKey(KeyBlob blob, byte[] fingerprint)
 			throws IOException {
 		return ((PublicKeyRingBlob) blob).getPGPPublicKeyRing()
 				.getPublicKey(fingerprint);
 	}
 
-	private PGPPublicKey getSigningPublicKey(KeyBlob blob) throws IOException {
+	private static PGPPublicKey getSigningPublicKey(KeyBlob blob)
+			throws IOException {
 		PGPPublicKey masterKey = null;
 		Iterator<PGPPublicKey> keys = ((PublicKeyRingBlob) blob)
 				.getPGPPublicKeyRing().getPublicKeys();
@@ -629,7 +663,7 @@ public class BouncyCastleGpgKeyLocator {
 		return masterKey;
 	}
 
-	private boolean isSigningKey(PGPPublicKey key) {
+	private static boolean isSigningKey(PGPPublicKey key) {
 		Iterator signatures = key.getSignatures();
 		while (signatures.hasNext()) {
 			PGPSignature sig = (PGPSignature) signatures.next();
@@ -641,7 +675,7 @@ public class BouncyCastleGpgKeyLocator {
 		return false;
 	}
 
-	private KeyBox readKeyBoxFile(Path keyboxFile) throws IOException,
+	private static KeyBox readKeyBoxFile(Path keyboxFile) throws IOException,
 			NoSuchAlgorithmException, NoSuchProviderException,
 			NoOpenPgpKeyException {
 		if (keyboxFile.toFile().length() == 0) {

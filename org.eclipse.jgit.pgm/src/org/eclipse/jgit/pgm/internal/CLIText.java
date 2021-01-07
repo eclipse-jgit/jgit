@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, 2013 Sasa Zivkov <sasa.zivkov@sap.com>
- * Copyright (C) 2013, Obeo and others
+ * Copyright (C) 2013, 2021 Obeo and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -163,6 +163,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String lfsUnknownStoreType;
 	/***/ public String lineFormat;
 	/***/ public String listeningOn;
+	/***/ public String logNoSignatureVerifier;
 	/***/ public String mergeCheckoutConflict;
 	/***/ public String mergeConflict;
 	/***/ public String mergeFailed;

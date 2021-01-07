@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008, 2009, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2021, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -341,6 +341,22 @@ public class RevTag extends RevObject {
 	 */
 	public final String getTagName() {
 		return tagName;
+	}
+
+	/**
+	 * Obtain the raw unparsed tag body (<b>NOTE - THIS IS NOT A COPY</b>).
+	 * <p>
+	 * This method is exposed only to provide very fast, efficient access to
+	 * this tag's message buffer. Applications relying on this buffer should be
+	 * very careful to ensure they do not modify its contents during their use
+	 * of it.
+	 *
+	 * @return the raw unparsed tag body. This is <b>NOT A COPY</b>. Do not
+	 *         alter the returned array.
+	 * @since 5.11
+	 */
+	public final byte[] getRawBuffer() {
+		return buffer;
 	}
 
 	/**
