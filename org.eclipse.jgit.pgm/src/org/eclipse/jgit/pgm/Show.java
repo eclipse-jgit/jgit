@@ -29,10 +29,14 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GpgSignatureVerifier;
+import org.eclipse.jgit.lib.GpgSignatureVerifierFactory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.pgm.internal.VerificationUtils;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -58,6 +62,9 @@ class Show extends TextBuiltin {
 
 	@Option(name = "--", metaVar = "metaVar_path", handler = PathTreeFilterHandler.class)
 	protected TreeFilter pathFilter = TreeFilter.ALL;
+
+	@Option(name = "--show-signature", usage = "usage_showSignature")
+	private boolean showSignature;
 
 	// BEGIN -- Options shared with Diff
 	@Option(name = "-p", usage = "usage_showPatch")
@@ -220,13 +227,16 @@ class Show extends TextBuiltin {
 		}
 
 		outw.println();
-		String[] lines = tag.getFullMessage().split("\n"); //$NON-NLS-1$
-		for (String s : lines) {
-			outw.println(s);
+		String fullMessage = tag.getFullMessage();
+		if (!fullMessage.isEmpty()) {
+			String[] lines = tag.getFullMessage().split("\n"); //$NON-NLS-1$
+			for (String s : lines) {
+				outw.println(s);
+			}
 		}
 		byte[] rawSignature = tag.getRawGpgSignature();
 		if (rawSignature != null) {
-			lines = RawParseUtils.decode(rawSignature).split("\n"); //$NON-NLS-1$
+			String[] lines = RawParseUtils.decode(rawSignature).split("\n"); //$NON-NLS-1$
 			for (String s : lines) {
 				outw.println(s);
 			}
@@ -257,6 +267,10 @@ class Show extends TextBuiltin {
 		outw.print(" "); //$NON-NLS-1$
 		c.getId().copyTo(outbuffer, outw);
 		outw.println();
+
+		if (showSignature) {
+			showSignature(c);
+		}
 
 		final PersonIdent author = c.getAuthorIdent();
 		outw.println(MessageFormat.format(CLIText.get().authorInfo,
@@ -295,5 +309,27 @@ class Show extends TextBuiltin {
 			diffFmt.flush();
 		}
 		outw.println();
+	}
+
+	private void showSignature(RevCommit c) throws IOException {
+		if (c.getRawGpgSignature() == null) {
+			return;
+		}
+		GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
+				.getDefault();
+		if (factory == null) {
+			throw die(CLIText.get().logNoSignatureVerifier, null);
+		}
+		GpgSignatureVerifier verifier = factory.getVerifier();
+		try {
+			SignatureVerification verification = verifier.verifySignature(c);
+			if (verification == null) {
+				return;
+			}
+			VerificationUtils.writeVerification(outw, verification,
+					verifier.getName(), c.getCommitterIdent());
+		} finally {
+			verifier.clear();
+		}
 	}
 }
