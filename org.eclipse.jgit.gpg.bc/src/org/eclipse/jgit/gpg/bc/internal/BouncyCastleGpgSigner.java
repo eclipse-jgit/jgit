@@ -36,9 +36,9 @@ import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.GpgObjectSigner;
 import org.eclipse.jgit.lib.GpgSignature;
 import org.eclipse.jgit.lib.GpgSigner;
-import org.eclipse.jgit.lib.GpgObjectSigner;
 import org.eclipse.jgit.lib.ObjectBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -178,7 +178,7 @@ public class BouncyCastleGpgSigner extends GpgSigner
 		}
 	}
 
-	private String extractSignerId(String pgpUserId) {
+	static String extractSignerId(String pgpUserId) {
 		int from = pgpUserId.indexOf('<');
 		if (from >= 0) {
 			int to = pgpUserId.indexOf('>', from + 1);

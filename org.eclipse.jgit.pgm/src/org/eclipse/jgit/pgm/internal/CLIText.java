@@ -163,6 +163,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String lfsUnknownStoreType;
 	/***/ public String lineFormat;
 	/***/ public String listeningOn;
+	/***/ public String logNoSignatureVerifier;
 	/***/ public String mergeCheckoutConflict;
 	/***/ public String mergeConflict;
 	/***/ public String mergeFailed;

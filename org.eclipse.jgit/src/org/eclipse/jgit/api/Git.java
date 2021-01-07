@@ -773,6 +773,16 @@ public class Git implements AutoCloseable {
 	}
 
 	/**
+	 * Return a command to verify signatures of tags or commits.
+	 *
+	 * @return a {@link VerifySignatureCommand}
+	 * @since 5.11
+	 */
+	public VerifySignatureCommand verifySignature() {
+		return new VerifySignatureCommand(repo);
+	}
+
+	/**
 	 * Get repository
 	 *
 	 * @return the git repository this class is interacting with; see

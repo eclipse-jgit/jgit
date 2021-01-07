@@ -646,6 +646,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;
 	/***/ public String shortSkipOfBlock;
+	/***/ public String signatureVerificationError;
+	/***/ public String signatureVerificationUnavailable;
 	/***/ public String signedTagMessageNoLf;
 	/***/ public String signingServiceUnavailable;
 	/***/ public String similarityScoreMustBeWithinBounds;
@@ -787,6 +789,13 @@ public class JGitText extends TranslationBundle {
 	/***/ public String URINotSupported;
 	/***/ public String userConfigInvalid;
 	/***/ public String validatingGitModules;
+	/***/ public String verifySignatureBad;
+	/***/ public String verifySignatureExpired;
+	/***/ public String verifySignatureGood;
+	/***/ public String verifySignatureIssuer;
+	/***/ public String verifySignatureKey;
+	/***/ public String verifySignatureMade;
+	/***/ public String verifySignatureTrust;
 	/***/ public String walkFailure;
 	/***/ public String wantNoSpaceWithCapabilities;
 	/***/ public String wantNotValid;
