@@ -1155,6 +1155,20 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		}
 
 		/**
+		 * Add a symlink pointing to a target file
+		 *
+		 * @param path
+		 *            path of the symlink file
+		 * @param target
+		 *            path of the target file
+		 * @return this commit builder
+		 * @throws Exception
+		 */
+		public CommitBuilder addSymlink(String path, String target) throws Exception {
+			return addSymlink(path, blob(target));
+		}
+
+		/**
 		 * Add file with given path and blob
 		 *
 		 * @param path
@@ -1170,6 +1184,26 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.REGULAR_FILE);
+					ent.setObjectId(id);
+				}
+			});
+		}
+
+		/**
+		 * Add symlink file with given path and blob
+		 *
+		 * @param path
+		 *            path of the file
+		 * @param id
+		 *            blob for this file
+		 * @return this commit builder
+		 * @throws Exception
+		 */
+		public CommitBuilder addSymlink(String path, RevBlob id) {
+			return edit(new PathEdit(path) {
+				@Override
+				public void apply(DirCacheEntry ent) {
+					ent.setFileMode(FileMode.SYMLINK);
 					ent.setObjectId(id);
 				}
 			});
