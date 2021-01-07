@@ -202,6 +202,29 @@ public class RevTag extends RevObject {
 		return -1;
 	}
 
+	private int getSignatureStart() {
+		byte[] raw = buffer;
+		int msgB = RawParseUtils.tagMessage(raw, 0);
+		if (msgB < 0) {
+			return msgB;
+		}
+		// Find the last signature start and return the rest
+		int start = nextStart(hSignature, raw, msgB);
+		if (start < 0) {
+			return start;
+		}
+		int next = RawParseUtils.nextLF(raw, start);
+		while (next < raw.length) {
+			int newStart = nextStart(hSignature, raw, next);
+			if (newStart < 0) {
+				break;
+			}
+			start = newStart;
+			next = RawParseUtils.nextLF(raw, start);
+		}
+		return start;
+	}
+
 	/**
 	 * Parse the GPG signature from the raw buffer.
 	 *
@@ -212,23 +235,9 @@ public class RevTag extends RevObject {
 	@Nullable
 	public final byte[] getRawGpgSignature() {
 		byte[] raw = buffer;
-		int msgB = RawParseUtils.tagMessage(raw, 0);
-		if (msgB < 0) {
-			return null;
-		}
-		// Find the last signature start and return the rest
-		int start = nextStart(hSignature, raw, msgB);
+		int start = getSignatureStart();
 		if (start < 0) {
 			return null;
-		}
-		int next = RawParseUtils.nextLF(raw, start);
-		while (next < raw.length) {
-			int newStart = nextStart(hSignature, raw, next);
-			if (newStart < 0) {
-				break;
-			}
-			start = newStart;
-			next = RawParseUtils.nextLF(raw, start);
 		}
 		return Arrays.copyOfRange(raw, start, raw.length);
 	}
@@ -249,7 +258,12 @@ public class RevTag extends RevObject {
 		if (msgB < 0) {
 			return ""; //$NON-NLS-1$
 		}
-		return RawParseUtils.decode(guessEncoding(), raw, msgB, raw.length);
+		int signatureStart = getSignatureStart();
+		int end = signatureStart < 0 ? raw.length : signatureStart;
+		if (end == msgB) {
+			return ""; //$NON-NLS-1$
+		}
+		return RawParseUtils.decode(guessEncoding(), raw, msgB, end);
 	}
 
 	/**
@@ -275,6 +289,16 @@ public class RevTag extends RevObject {
 		}
 
 		int msgE = RawParseUtils.endOfParagraph(raw, msgB);
+		int signatureStart = getSignatureStart();
+		if (signatureStart >= msgB && msgE > signatureStart) {
+			msgE = signatureStart;
+			if (msgE > msgB) {
+				msgE--;
+			}
+			if (msgB == msgE) {
+				return ""; //$NON-NLS-1$
+			}
+		}
 		String str = RawParseUtils.decode(guessEncoding(), raw, msgB, msgE);
 		if (RevCommit.hasLF(raw, msgB, msgE)) {
 			str = StringUtils.replaceLineBreaksWithSpace(str);
