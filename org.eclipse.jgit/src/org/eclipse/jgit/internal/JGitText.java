@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, 2013 Sasa Zivkov <sasa.zivkov@sap.com>
- * Copyright (C) 2012, Research In Motion Limited and others
+ * Copyright (C) 2012, 2021 Research In Motion Limited and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -650,6 +650,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;
 	/***/ public String shortSkipOfBlock;
+	/***/ public String signatureVerificationError;
+	/***/ public String signatureVerificationUnavailable;
 	/***/ public String signedTagMessageNoLf;
 	/***/ public String signingServiceUnavailable;
 	/***/ public String similarityScoreMustBeWithinBounds;
@@ -791,6 +793,13 @@ public class JGitText extends TranslationBundle {
 	/***/ public String URINotSupported;
 	/***/ public String userConfigInvalid;
 	/***/ public String validatingGitModules;
+	/***/ public String verifySignatureBad;
+	/***/ public String verifySignatureExpired;
+	/***/ public String verifySignatureGood;
+	/***/ public String verifySignatureIssuer;
+	/***/ public String verifySignatureKey;
+	/***/ public String verifySignatureMade;
+	/***/ public String verifySignatureTrust;
 	/***/ public String walkFailure;
 	/***/ public String wantNoSpaceWithCapabilities;
 	/***/ public String wantNotValid;
