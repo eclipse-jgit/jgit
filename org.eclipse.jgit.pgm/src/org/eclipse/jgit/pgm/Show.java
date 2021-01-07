@@ -41,6 +41,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -219,13 +220,17 @@ class Show extends TextBuiltin {
 		}
 
 		outw.println();
-		final String[] lines = tag.getFullMessage().split("\n"); //$NON-NLS-1$
+		String[] lines = tag.getFullMessage().split("\n"); //$NON-NLS-1$
 		for (String s : lines) {
-			outw.print("    "); //$NON-NLS-1$
-			outw.print(s);
-			outw.println();
+			outw.println(s);
 		}
-
+		byte[] rawSignature = tag.getRawGpgSignature();
+		if (rawSignature != null) {
+			lines = RawParseUtils.decode(rawSignature).split("\n"); //$NON-NLS-1$
+			for (String s : lines) {
+				outw.println(s);
+			}
+		}
 		outw.println();
 	}
 

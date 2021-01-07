@@ -136,7 +136,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 				+ "\n" //
 				+ "iD8DBQBC0b9oF3Y\n" //
 				+ "-----END PGP SIGNATURE-----";
-		final String message = "test\n\n" + fakeSignature + '\n';
+		final String message = "test\n" + fakeSignature + '\n';
 
 		final StringBuilder body = new StringBuilder();
 
@@ -168,7 +168,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertNotNull(c.getTagName());
 		assertEquals(name, c.getTagName());
 		assertEquals("test", c.getShortMessage());
-		assertEquals(message, c.getFullMessage());
+		assertEquals("test\n", c.getFullMessage());
 		assertEquals(fakeSignature + '\n',
 				new String(c.getRawGpgSignature(), US_ASCII));
 
@@ -406,7 +406,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		b.write("tag v1.0\n".getBytes(UTF_8));
 		b.write("tagger t <t@example.com> 1218123387 +0700\n".getBytes(UTF_8));
 		b.write('\n');
-		b.write("message\n\n".getBytes(UTF_8));
+		b.write("message\n".getBytes(UTF_8));
 		b.write(signature.getBytes(US_ASCII));
 		b.write('\n');
 
@@ -417,7 +417,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 
 		assertEquals("t", t.getTaggerIdent().getName());
 		assertEquals("message", t.getShortMessage());
-		assertEquals("message\n\n" + signature + '\n', t.getFullMessage());
+		assertEquals("message\n", t.getFullMessage());
 		String gpgSig = new String(t.getRawGpgSignature(), UTF_8);
 		assertEquals(signature + '\n', gpgSig);
 	}
@@ -452,7 +452,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 
 		assertEquals("t", t.getTaggerIdent().getName());
 		assertEquals("message", t.getShortMessage());
-		assertEquals(message + signature + '\n', t.getFullMessage());
+		assertEquals(message, t.getFullMessage());
 		String gpgSig = new String(t.getRawGpgSignature(), UTF_8);
 		assertEquals(signature + '\n', gpgSig);
 	}
@@ -486,7 +486,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 
 		assertEquals("t", t.getTaggerIdent().getName());
 		assertEquals("message", t.getShortMessage());
-		assertEquals(message + signature + '\n', t.getFullMessage());
+		assertEquals(message, t.getFullMessage());
 		String gpgSig = new String(t.getRawGpgSignature(), UTF_8);
 		assertEquals(signature + '\n', gpgSig);
 	}
