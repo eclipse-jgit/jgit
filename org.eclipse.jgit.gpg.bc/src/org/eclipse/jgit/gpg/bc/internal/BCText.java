@@ -28,6 +28,13 @@ public final class BCText extends TranslationBundle {
 	/***/ public String gpgNotASigningKey;
 	/***/ public String gpgKeyInfo;
 	/***/ public String gpgSigningCancelled;
+	/***/ public String nonSignatureError;
+	/***/ public String signatureInconsistent;
+	/***/ public String signatureKeyLookupError;
+	/***/ public String signatureNoKeyInfo;
+	/***/ public String signatureNoPublicKey;
+	/***/ public String signatureParseError;
+	/***/ public String signatureVerificationError;
 	/***/ public String unableToSignCommitNoSecretKey;
 
 }
