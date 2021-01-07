@@ -9,11 +9,13 @@ Bundle-Localization: plugin
 Bundle-Version: 5.11.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.bouncycastle.bcpg;version="[1.65.0,2.0.0)",
+ org.bouncycastle.bcpg.sig;version="[1.65.0,2.0.0)",
  org.bouncycastle.gpg;version="[1.65.0,2.0.0)",
  org.bouncycastle.gpg.keybox;version="[1.65.0,2.0.0)",
  org.bouncycastle.gpg.keybox.jcajce;version="[1.65.0,2.0.0)",
  org.bouncycastle.jce.provider;version="[1.65.0,2.0.0)",
  org.bouncycastle.openpgp;version="[1.65.0,2.0.0)",
+ org.bouncycastle.openpgp.jcajce;version="[1.65.0,2.0.0)",
  org.bouncycastle.openpgp.operator;version="[1.65.0,2.0.0)",
  org.bouncycastle.openpgp.operator.jcajce;version="[1.65.0,2.0.0)",
  org.bouncycastle.util.encoders;version="[1.65.0,2.0.0)",
