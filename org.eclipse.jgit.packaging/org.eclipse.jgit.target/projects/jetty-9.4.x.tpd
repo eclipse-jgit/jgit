@@ -17,4 +17,6 @@ location jetty-9.4.30 "https://download.eclipse.org/jetty/updates/jetty-bundles-
 	org.eclipse.jetty.servlet.source [9.4.35.v20201120,9.4.35.v20201120]
 	org.eclipse.jetty.util [9.4.35.v20201120,9.4.35.v20201120]
 	org.eclipse.jetty.util.source [9.4.35.v20201120,9.4.35.v20201120]
+	org.eclipse.jetty.util.ajax [9.4.35.v20201120,9.4.35.v20201120]
+	org.eclipse.jetty.util.ajax.source [9.4.35.v20201120,9.4.35.v20201120]
 }

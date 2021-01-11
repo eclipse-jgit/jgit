@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.9" sequenceNumber="1609715850">
+<target name="jgit-4.9" sequenceNumber="1610442797">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.35.v20201120"/>
@@ -20,6 +20,8 @@
       <unit id="org.eclipse.jetty.servlet.source" version="9.4.35.v20201120"/>
       <unit id="org.eclipse.jetty.util" version="9.4.35.v20201120"/>
       <unit id="org.eclipse.jetty.util.source" version="9.4.35.v20201120"/>
+      <unit id="org.eclipse.jetty.util.ajax" version="9.4.35.v20201120"/>
+      <unit id="org.eclipse.jetty.util.ajax.source" version="9.4.35.v20201120"/>
       <repository id="jetty-9.4.30" location="https://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.35.v20201120/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
