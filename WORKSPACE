@@ -281,6 +281,13 @@ maven_jar(
     src_sha1 = "8f178bebeb34c8365a06d854daa9b22da1b301d7",
 )
 
+maven_jar(
+    name = "jetty-util-ajax",
+    artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VER,
+    sha1 = "ebbb43912c6423bedb3458e44aee28eeb4d66f27",
+    src_sha1 = "b3acea974a17493afb125a9dfbe783870ce1d2f9",
+)
+
 BOUNCYCASTLE_VER = "1.65"
 
 maven_jar(
