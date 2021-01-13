@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "1030d72c_f5003355",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-13T12:07:55Z",
+      "side": 1,
+      "message": "IIRC, there is a presubmit that will fail if the files aren\u0027t following the eclipse formatting to the tee.",
+      "parentUuid": "7e5c7c75_d6f393a7",
+      "range": {
+        "startLine": 523,
+        "startChar": 6,
+        "endLine": 523,
+        "endChar": 8
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2676c638_2cfc4ff1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 10

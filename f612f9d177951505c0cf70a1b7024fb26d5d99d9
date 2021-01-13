@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8aa5eb38_e7e15bd5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-13T12:07:55Z",
+      "side": 1,
+      "message": "curious - given the deliberations on the other instances of this. The javadoc for string ctor says \n\n\"This method always replaces malformed-input and unmappable-character sequences with this charset\u0027s default replacement string. \"\n\nyou may want to check that this is actually doing what you think it is.",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 14
+      },
+      "revId": "f612f9d177951505c0cf70a1b7024fb26d5d99d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

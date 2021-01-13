@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "0f8d760f_bf25044c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-13T12:07:55Z",
+      "side": 1,
+      "message": "ping?\n\nI agree that the loop fixes it, but the name of the constant here isn\u0027t correct.\n\nalternatively, this may open a way to avoid the loop: since the library takes the keys as byte array, maybe you can just look for prefix.toBytes() + \"\\xff\", because \\xff is beyond any valid utf-8 codepoint.",
+      "parentUuid": "cc05c867_f9c732dd",
+      "range": {
+        "startLine": 54,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "270f5aca_e43c2d51",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 9
