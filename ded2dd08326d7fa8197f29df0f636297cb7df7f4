@@ -45,6 +45,52 @@
       "revId": "ded2dd08326d7fa8197f29df0f636297cb7df7f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0988c633_1bd051e5",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/BenchmarkReftable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-13T13:28:26Z",
+      "side": 1,
+      "message": "nit: drop for consistency, here and next line.",
+      "range": {
+        "startLine": 345,
+        "startChar": 51,
+        "endLine": 345,
+        "endChar": 52
+      },
+      "revId": "ded2dd08326d7fa8197f29df0f636297cb7df7f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd845ade_a3c327d1",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/BenchmarkReftable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-13T13:28:26Z",
+      "side": 1,
+      "message": "formatting",
+      "range": {
+        "startLine": 357,
+        "startChar": 7,
+        "endLine": 357,
+        "endChar": 9
+      },
+      "revId": "ded2dd08326d7fa8197f29df0f636297cb7df7f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
