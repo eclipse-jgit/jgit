@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55fdb1db_1fe5d60f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-13T13:13:32Z",
+      "side": 1,
+      "message": "this is quadratic in the number of prefixes.",
+      "range": {
+        "startLine": 297,
+        "startChar": 54,
+        "endLine": 297,
+        "endChar": 64
+      },
+      "revId": "56af6e204a5e46b05fdf62300e7ba6e9917299c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
