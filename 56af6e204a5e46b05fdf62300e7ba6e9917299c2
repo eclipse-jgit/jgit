@@ -22,6 +22,52 @@
       "revId": "56af6e204a5e46b05fdf62300e7ba6e9917299c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f1b902_952bb1b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-13T13:20:52Z",
+      "side": 1,
+      "message": "nit: disjointPrefixes ? stripOverlappingPrefixes ?",
+      "range": {
+        "startLine": 310,
+        "startChar": 22,
+        "endLine": 310,
+        "endChar": 40
+      },
+      "revId": "56af6e204a5e46b05fdf62300e7ba6e9917299c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a46601a_21555c22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-13T13:20:52Z",
+      "side": 1,
+      "message": "nit: this name is kind of long. sortedValidPrefixesToExclude too. (the giant names make it seem more complicated than it is.)",
+      "range": {
+        "startLine": 317,
+        "startChar": 4,
+        "endLine": 317,
+        "endChar": 47
+      },
+      "revId": "56af6e204a5e46b05fdf62300e7ba6e9917299c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
