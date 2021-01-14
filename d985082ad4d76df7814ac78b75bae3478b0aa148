@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcd1eecb_ba6bff63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-14T13:44:45Z",
+      "side": 1,
+      "message": "nit: result ? this isn\u0027t all \u0027all\u0027 refs.",
+      "range": {
+        "startLine": 281,
+        "startChar": 12,
+        "endLine": 281,
+        "endChar": 15
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3647e2_0cc292e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-14T13:44:45Z",
+      "side": 1,
+      "message": "nit: quite long. excludeIterator ?\n\nmaybe also currentPrefixToExclude -\u003e currentExclusion",
+      "range": {
+        "startLine": 285,
+        "startChar": 20,
+        "endLine": 285,
+        "endChar": 43
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "969b2744_6f45563e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-14T13:44:45Z",
+      "side": 1,
+      "message": "this could do a null ptr deref, right? (does your test test this case?)\n\nyou could avoid it by shortcutting to getRefsByPrefix() if exclude is empty.",
+      "range": {
+        "startLine": 296,
+        "startChar": 51,
+        "endLine": 296,
+        "endChar": 98
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26e6ff1_3ced1bbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-14T13:44:45Z",
+      "side": 1,
+      "message": "The default implementation",
+      "range": {
+        "startLine": 424,
+        "startChar": 5,
+        "endLine": 424,
+        "endChar": 22
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57d7e253_9ab3f48c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-14T13:44:45Z",
+      "side": 1,
+      "message": "nit: quite long. how about \n\n  exclude -\u003e excludes\n  prefixToExclude -\u003e exclude",
+      "range": {
+        "startLine": 438,
+        "startChar": 13,
+        "endLine": 438,
+        "endChar": 28
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

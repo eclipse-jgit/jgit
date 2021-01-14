@@ -283,6 +283,30 @@
       "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3faceb03_e3944712",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-14T13:44:45Z",
+      "side": 1,
+      "message": "yeah, this looks much more like I expected.\n\n(My reasoning is that both refs and excludes are in the same namespace, so you should be able to sort both, and then walk over them in parallel as if it was a merge)",
+      "parentUuid": "23ca8f94_938d1c65",
+      "range": {
+        "startLine": 312,
+        "startChar": 5,
+        "endLine": 312,
+        "endChar": 7
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
