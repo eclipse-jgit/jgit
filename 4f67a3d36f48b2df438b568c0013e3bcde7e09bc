@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94acf09e_56ca1e72",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-14T13:49:21Z",
+      "side": 1,
+      "message": "unused?\n\nwould still be interesting to have a test that checks that PREFIX +\\u10FFFF is skipped properly.",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 52
+      },
+      "revId": "4f67a3d36f48b2df438b568c0013e3bcde7e09bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e6a1b04_dadd21a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-14T13:49:21Z",
+      "side": 1,
+      "message": "inline \\xff?\n\nadd a comment about how UTF-8  plays into this.",
+      "range": {
+        "startLine": 520,
+        "startChar": 18,
+        "endLine": 520,
+        "endChar": 43
+      },
+      "revId": "4f67a3d36f48b2df438b568c0013e3bcde7e09bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
