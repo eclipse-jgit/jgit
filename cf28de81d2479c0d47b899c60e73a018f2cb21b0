@@ -259,6 +259,30 @@
       "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23ca8f94_938d1c65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:27:50Z",
+      "side": 1,
+      "message": "example:\nRefdatabase: [refs/a, refs/b, refs/d]\nexclude: [refs/c, refs/d]\n\nResult: nothing is skipped, refs/d is also returned.\nThe reason this happens is because my algorithm goes lexicographically and looks for refs/c, but since it never finds it and just assumes it will eventually find it, so it never checks for refs/d.\n\nI wonder if it makes sense to instead check if the string is lexicographically bigger than the prefix, and at that point skip to the next to_exclude ref prefix...\n\nEdit: I wondered. I guess it makes sense to add a while loop there to skip to the next prefix to exclude and then we can get rid of those 2 methods that remove overlaps and non-existent.\nIf we return R results, this is actually O(R) extra checks. This is instead of O(Mlog(N)) extra checks (where M is the number of elements to exclude and N is the size of the database, Log(N) since we\u0027re doing a few seeks in the methods I just removed).\n\nIt seems fine to me since it strongly improves code quality and *maybe* not great if we return most of the database (at least in our cases though, that won\u0027t happen).\nI think I just tried to over-optimize since I preferred MlogN over R.",
+      "parentUuid": "be62049f_e5c719ec",
+      "range": {
+        "startLine": 312,
+        "startChar": 5,
+        "endLine": 312,
+        "endChar": 7
+      },
+      "revId": "cf28de81d2479c0d47b899c60e73a018f2cb21b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

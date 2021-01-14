@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9088dadd_f7322653",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:27:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55fdb1db_1fe5d60f",
+      "range": {
+        "startLine": 297,
+        "startChar": 54,
+        "endLine": 297,
+        "endChar": 64
+      },
+      "revId": "56af6e204a5e46b05fdf62300e7ba6e9917299c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f1b902_952bb1b4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 15
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f10873f3_afde3cb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:27:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "58f1b902_952bb1b4",
+      "range": {
+        "startLine": 310,
+        "startChar": 22,
+        "endLine": 310,
+        "endChar": 40
+      },
+      "revId": "56af6e204a5e46b05fdf62300e7ba6e9917299c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a46601a_21555c22",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 15
@@ -68,6 +116,30 @@
       "revId": "56af6e204a5e46b05fdf62300e7ba6e9917299c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f50d20fc_a5a9edb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:27:50Z",
+      "side": 1,
+      "message": "Ack, got rid of all this complexity",
+      "parentUuid": "3a46601a_21555c22",
+      "range": {
+        "startLine": 317,
+        "startChar": 4,
+        "endLine": 317,
+        "endChar": 47
+      },
+      "revId": "56af6e204a5e46b05fdf62300e7ba6e9917299c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

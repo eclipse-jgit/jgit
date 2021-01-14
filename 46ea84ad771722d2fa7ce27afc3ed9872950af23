@@ -248,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "a851a569_29626475",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:27:50Z",
+      "side": 1,
+      "message": "Refactored with less giant names and got rid of the predicates.\nInstead of the predicates I added a while loop that would find the next possible prefix that we can exclude. This is fine since the addition to the complexity is at worst, O(number of results).",
+      "parentUuid": "d36720c6_d06b4425",
+      "revId": "46ea84ad771722d2fa7ce27afc3ed9872950af23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a33a13fc_766d09cc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 13
