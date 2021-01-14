@@ -22,6 +22,30 @@
       "revId": "f612f9d177951505c0cf70a1b7024fb26d5d99d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7383c426_f9a2202f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:27:54Z",
+      "side": 1,
+      "message": "got rid of this because of the other suggestion to only use one byte.",
+      "parentUuid": "8aa5eb38_e7e15bd5",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 14
+      },
+      "revId": "f612f9d177951505c0cf70a1b7024fb26d5d99d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

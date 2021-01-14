@@ -249,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "69d7ff63_e698f3f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:27:54Z",
+      "side": 1,
+      "message": "meh, my formatting plugin must be off then, since it tries to format unrelated lines.\nI\u0027ll fix it.",
+      "parentUuid": "1030d72c_f5003355",
+      "range": {
+        "startLine": 523,
+        "startChar": 6,
+        "endLine": 523,
+        "endChar": 8
+      },
+      "revId": "7bab064bb11390435b593b7ecb9079ef6d496c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2676c638_2cfc4ff1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 10

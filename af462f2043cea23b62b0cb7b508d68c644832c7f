@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "2851f1ea_73706baa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:27:54Z",
+      "side": 1,
+      "message": "lol, such a perfect solution just to add the last lexicographical byte, done and removed the loop.",
+      "parentUuid": "0f8d760f_bf25044c",
+      "range": {
+        "startLine": 54,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "af462f2043cea23b62b0cb7b508d68c644832c7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "270f5aca_e43c2d51",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 9
