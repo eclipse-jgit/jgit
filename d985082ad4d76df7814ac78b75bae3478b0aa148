@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7841dad7_f20310fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcd1eecb_ba6bff63",
+      "range": {
+        "startLine": 281,
+        "startChar": 12,
+        "endLine": 281,
+        "endChar": 15
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef3647e2_0cc292e2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 16
@@ -45,6 +69,30 @@
       "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "655059da_971ba9fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef3647e2_0cc292e2",
+      "range": {
+        "startLine": 285,
+        "startChar": 20,
+        "endLine": 285,
+        "endChar": 43
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9ce4dbad_ee3be801",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:56:45Z",
+      "side": 1,
+      "message": "I thought about this, and actually sortedPrefixesToExclude.hasNext() will not be true if currentPrefixToExclude is null. My tests do cover this.\n\nShortcutting to getRefsByPrefix sounds good either way.",
+      "parentUuid": "969b2744_6f45563e",
+      "range": {
+        "startLine": 296,
+        "startChar": 51,
+        "endLine": 296,
+        "endChar": 98
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f26e6ff1_3ced1bbf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 16
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "f282f3de_f428b4c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f26e6ff1_3ced1bbf",
+      "range": {
+        "startLine": 424,
+        "startChar": 5,
+        "endLine": 424,
+        "endChar": 22
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57d7e253_9ab3f48c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 16
@@ -114,6 +210,30 @@
       "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7cfd198_d2f8bcf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-14T13:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57d7e253_9ab3f48c",
+      "range": {
+        "startLine": 438,
+        "startChar": 13,
+        "endLine": 438,
+        "endChar": 28
+      },
+      "revId": "d985082ad4d76df7814ac78b75bae3478b0aa148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
