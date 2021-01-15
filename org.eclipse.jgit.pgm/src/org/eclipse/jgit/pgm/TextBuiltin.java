@@ -63,7 +63,7 @@ public abstract class TextBuiltin {
 	private boolean help;
 
 	@Option(name = "--ssh", usage = "usage_sshDriver")
-	private SshDriver sshDriver = SshDriver.JSCH;
+	private SshDriver sshDriver = SshDriver.APACHE;
 
 	/**
 	 * Input stream, typically this is standard input.
@@ -220,7 +220,7 @@ public abstract class TextBuiltin {
 			SshdSessionFactory factory = new SshdSessionFactory(
 					new JGitKeyCache(), new DefaultProxyDataFactory());
 			Runtime.getRuntime()
-					.addShutdownHook(new Thread(() -> factory.close()));
+					.addShutdownHook(new Thread(factory::close));
 			SshSessionFactory.setInstance(factory);
 			break;
 		}
