@@ -162,6 +162,7 @@ java_library(
         "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
+        "//org.eclipse.jgit.gpg.bc.test:__pkg__",
     ],
     exports = ["@bcpg//jar"],
 )
@@ -172,6 +173,7 @@ java_library(
         "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
+        "//org.eclipse.jgit.gpg.bc.test:__pkg__",
     ],
     exports = ["@bcprov//jar"],
 )
