@@ -27,12 +27,8 @@ import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.bouncycastle.gpg.SExprParser;
 import org.bouncycastle.gpg.keybox.BlobType;
@@ -61,6 +57,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
+import org.eclipse.jgit.gpg.bc.internal.keys.KeyGrip;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
@@ -158,15 +155,10 @@ public class BouncyCastleGpgKeyLocator {
 	private PGPSecretKey attemptParseSecretKey(Path keyFile,
 			PGPDigestCalculatorProvider calculatorProvider,
 			PBEProtectionRemoverFactory passphraseProvider,
-			PGPPublicKey publicKey) {
+			PGPPublicKey publicKey) throws IOException, PGPException {
 		try (InputStream in = newInputStream(keyFile)) {
 			return new SExprParser(calculatorProvider).parseSecretKey(
 					new BufferedInputStream(in), passphraseProvider, publicKey);
-		} catch (IOException | PGPException | ClassCastException e) {
-			if (log.isDebugEnabled())
-				log.debug("Ignoring unreadable file '{}': {}", keyFile, //$NON-NLS-1$
-						e.getMessage(), e);
-			return null;
 		}
 	}
 
@@ -472,67 +464,71 @@ public class BouncyCastleGpgKeyLocator {
 			PGPPublicKey publicKey, Path userKeyboxPath)
 			throws PGPException, CanceledException, UnsupportedCredentialItem,
 			URISyntaxException {
-		/*
-		 * this is somewhat brute-force but there doesn't seem to be another
-		 * way; we have to walk all private key files we find and try to open
-		 * them
-		 */
-
-		PGPDigestCalculatorProvider calculatorProvider = new JcaPGPDigestCalculatorProviderBuilder()
-				.build();
-
-		try (Stream<Path> keyFiles = Files.walk(USER_SECRET_KEY_DIR)) {
-			List<Path> allPaths = keyFiles.filter(Files::isRegularFile)
-					.collect(Collectors.toCollection(ArrayList::new));
-			if (allPaths.isEmpty()) {
-				return null;
-			}
+		byte[] keyGrip = null;
+		try {
+			keyGrip = KeyGrip.getKeyGrip(publicKey);
+		} catch (PGPException e) {
+			throw new PGPException(
+					MessageFormat.format(BCText.get().gpgNoKeygrip,
+							Hex.toHexString(publicKey.getFingerprint())),
+					e);
+		}
+		String filename = Hex.toHexString(keyGrip).toUpperCase(Locale.ROOT)
+				+ ".key"; //$NON-NLS-1$
+		Path keyFile = USER_SECRET_KEY_DIR.resolve(filename);
+		if (!Files.exists(keyFile)) {
+			return null;
+		}
+		boolean clearPrompt = false;
+		try {
+			PGPDigestCalculatorProvider calculatorProvider = new JcaPGPDigestCalculatorProviderBuilder()
+					.build();
 			PBEProtectionRemoverFactory passphraseProvider = p -> {
 				throw new EncryptedPgpKeyException();
 			};
-			for (int attempts = 0; attempts < 2; attempts++) {
-				// Second pass will traverse only the encrypted keys with a real
-				// passphrase provider.
-				Iterator<Path> pathIterator = allPaths.iterator();
-				while (pathIterator.hasNext()) {
-					Path keyFile = pathIterator.next();
-					try {
-						PGPSecretKey secretKey = attemptParseSecretKey(keyFile,
-								calculatorProvider, passphraseProvider,
-								publicKey);
-						pathIterator.remove();
-						if (secretKey != null) {
-							if (!secretKey.isSigningKey()) {
-								throw new PGPException(MessageFormat.format(
-										BCText.get().gpgNotASigningKey,
-										signingKey));
-							}
-							return new BouncyCastleGpgKey(secretKey,
-									userKeyboxPath);
-						}
-					} catch (EncryptedPgpKeyException e) {
-						// Ignore; we'll try again.
-					}
-				}
-				if (attempts > 0 || allPaths.isEmpty()) {
-					break;
-				}
-				// allPaths contains only the encrypted keys now.
+			PGPSecretKey secretKey = null;
+			try {
+				// Try without passphrase
+				secretKey = attemptParseSecretKey(keyFile, calculatorProvider,
+						passphraseProvider, publicKey);
+			} catch (EncryptedPgpKeyException e) {
+				// Let's try again with a passphrase
 				passphraseProvider = new JcePBEProtectionRemoverFactory(
 						passphrasePrompt.getPassphrase(
 								publicKey.getFingerprint(), userKeyboxPath));
-			}
+				clearPrompt = true;
+				try {
+					secretKey = attemptParseSecretKey(keyFile, calculatorProvider,
+							passphraseProvider, publicKey);
+				} catch (PGPException e1) {
+					throw new PGPException(MessageFormat.format(
+							BCText.get().gpgFailedToParseSecretKey,
+							keyFile.toAbsolutePath()), e);
 
-			passphrasePrompt.clear();
+				}
+			}
+			if (secretKey != null) {
+				if (!secretKey.isSigningKey()) {
+					throw new PGPException(MessageFormat.format(
+							BCText.get().gpgNotASigningKey, signingKey));
+				}
+				clearPrompt = false;
+				return new BouncyCastleGpgKey(secretKey, userKeyboxPath);
+			}
 			return null;
 		} catch (RuntimeException e) {
-			passphrasePrompt.clear();
 			throw e;
+		} catch (FileNotFoundException | NoSuchFileException e) {
+			clearPrompt = false;
+			return null;
 		} catch (IOException e) {
-			passphrasePrompt.clear();
 			throw new PGPException(MessageFormat.format(
 					BCText.get().gpgFailedToParseSecretKey,
-					USER_SECRET_KEY_DIR.toAbsolutePath()), e);
+					keyFile.toAbsolutePath()), e);
+		} finally {
+			if (clearPrompt) {
+				passphrasePrompt.clear();
+			}
 		}
 	}
 
