@@ -30,6 +30,7 @@ public final class BCText extends TranslationBundle {
 	/***/ public String credentialPassphrase;
 	/***/ public String gpgFailedToParseSecretKey;
 	/***/ public String gpgNoCredentialsProvider;
+	/***/ public String gpgNoKeygrip;
 	/***/ public String gpgNoKeyring;
 	/***/ public String gpgNoKeyInLegacySecring;
 	/***/ public String gpgNoPublicKeyFound;
@@ -45,5 +46,8 @@ public final class BCText extends TranslationBundle {
 	/***/ public String signatureParseError;
 	/***/ public String signatureVerificationError;
 	/***/ public String unableToSignCommitNoSecretKey;
+	/***/ public String unknownCurve;
+	/***/ public String unknownCurveParameters;
+	/***/ public String unknownKeyType;
 
 }
