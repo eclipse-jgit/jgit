@@ -223,7 +223,7 @@ public class FileSnapshot {
 		this.file = file;
 		this.lastRead = Instant.now();
 		this.fileStoreAttributeCache = useConfig
-				? FS.getFileStoreAttributes(file.toPath().getParent())
+				? FS.getFileStoreAttributes(file.toPath())
 				: FALLBACK_FILESTORE_ATTRIBUTES;
 		BasicFileAttributes fileAttributes = null;
 		try {
