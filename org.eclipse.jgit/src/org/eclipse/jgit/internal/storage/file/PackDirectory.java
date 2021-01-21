@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.File;
@@ -398,37 +400,47 @@ class PackDirectory {
 		final Map<String, PackFile> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(directory);
 		final Set<String> names = listPackDirectory();
-		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
-		boolean foundNew = false;
-		for (String indexName : names) {
-			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
-			//
-			if (indexName.length() != 49 || !indexName.endsWith(".idx")) { //$NON-NLS-1$
+		Map<String, Map<PackExt, PackFileName>> packFileNamesByExtById = new HashMap<>();
+		for (String fileName : names) {
+			try {
+				PackFileName name = new PackFileName(directory, fileName);
+				Map<PackExt, PackFileName> nameByExt = packFileNamesByExtById
+						.get(name.getId());
+				if (nameByExt == null) {
+					nameByExt = new HashMap<>();
+					packFileNamesByExtById.put(name.getId(), nameByExt);
+				}
+				nameByExt.put(name.getPackExt(), name);
+			} catch (IllegalArgumentException e) {
 				continue;
 			}
+		}
 
-			final String base = indexName.substring(0, indexName.length() - 3);
-
-			if (!names.contains(base + PACK.getExtension())) {
+		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
+		boolean foundNew = false;
+		for (Map.Entry<String, Map<PackExt, PackFileName>> packFileNameByExtById : packFileNamesByExtById
+				.entrySet()) {
+			if (!packFileNameByExtById.getValue().containsKey(INDEX)
+					|| !packFileNameByExtById.getValue().containsKey(PACK)) {
 				// Sometimes C Git's HTTP fetch transport leaves a
 				// .idx file behind and does not download the .pack.
 				// We have to skip over such useless indexes.
-				//
+				// Also skip if we don't have any index for this id
 				continue;
 			}
 
-			final String packName = base + PACK.getExtension();
-			final File packFile = new File(directory, packName);
-			final PackFile oldPack = forReuse.get(packName);
+			final PackFileName packName = packFileNameByExtById.getValue()
+					.get(PACK);
+			final PackFile oldPack = forReuse.get(packName.getName());
 			if (oldPack != null
-					&& !oldPack.getFileSnapshot().isModified(packFile)) {
-				forReuse.remove(packName);
+					&& !oldPack.getFileSnapshot().isModified(packName)) {
+				forReuse.remove(packName.getName());
 				list.add(oldPack);
 				continue;
 			}
 
-			list.add(new PackFile(packFile, names
-					.contains(base + PackExt.BITMAP_INDEX.getExtension())));
+			list.add(new PackFile(packName, names.contains(packFileNameByExtById
+					.getValue().get(BITMAP_INDEX).getName())));
 			foundNew = true;
 		}
 
