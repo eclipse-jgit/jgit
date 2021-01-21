@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.File;
@@ -32,7 +34,6 @@ import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -401,15 +402,19 @@ class PackDirectory {
 		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
 		for (String indexName : names) {
-			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
-			//
-			if (indexName.length() != 49 || !indexName.endsWith(".idx")) { //$NON-NLS-1$
+			final PackFileName name;
+			try {
+				name = new PackFileName(directory, indexName);
+			} catch (IllegalArgumentException e) {
+				continue;
+			}
+			if (!indexName.equals(name.create(INDEX).getName())) {
+				// skip if indexName isn't an index file
 				continue;
 			}
 
-			final String base = indexName.substring(0, indexName.length() - 3);
-
-			if (!names.contains(base + PACK.getExtension())) {
+			final PackFileName packName = name.create(PACK);
+			if (!names.contains(packName.getName())) {
 				// Sometimes C Git's HTTP fetch transport leaves a
 				// .idx file behind and does not download the .pack.
 				// We have to skip over such useless indexes.
@@ -417,18 +422,16 @@ class PackDirectory {
 				continue;
 			}
 
-			final String packName = base + PACK.getExtension();
-			final File packFile = new File(directory, packName);
-			final PackFile oldPack = forReuse.get(packName);
+			final PackFile oldPack = forReuse.get(packName.getName());
 			if (oldPack != null
-					&& !oldPack.getFileSnapshot().isModified(packFile)) {
-				forReuse.remove(packName);
+					&& !oldPack.getFileSnapshot().isModified(packName)) {
+				forReuse.remove(packName.getName());
 				list.add(oldPack);
 				continue;
 			}
 
-			list.add(new PackFile(packFile, names
-					.contains(base + PackExt.BITMAP_INDEX.getExtension())));
+			list.add(new PackFile(packName,
+					names.contains(name.create(BITMAP_INDEX).getName())));
 			foundNew = true;
 		}
 
