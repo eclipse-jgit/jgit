@@ -398,23 +398,17 @@ class PackDirectory {
 	private PackList scanPacksImpl(PackList old) {
 		final Map<String, PackFile> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(directory);
-		final Set<String> names = listPackDirectory();
+		final Set<PackFileName> names = getPackFileNames();
 		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
-		for (String indexName : names) {
-			final PackFileName name;
-			try {
-				name = new PackFileName(directory, indexName);
-			} catch (IllegalArgumentException e) {
-				continue;
-			}
+		for (PackFileName name : names) {
 			if (!INDEX.equals(name.getPackExt())) {
 				// skip non index files
 				continue;
 			}
 
 			final PackFileName packName = name.create(PACK);
-			if (!names.contains(packName.getName())) {
+			if (!names.contains(packName)) {
 				// Sometimes C Git's HTTP fetch transport leaves a
 				// .idx file behind and does not download the .pack.
 				// We have to skip over such useless indexes.
@@ -431,7 +425,7 @@ class PackDirectory {
 			}
 
 			list.add(new PackFile(packName,
-					names.contains(name.create(BITMAP_INDEX).getName())));
+					names.contains(name.create(BITMAP_INDEX))));
 			foundNew = true;
 		}
 
@@ -484,15 +478,17 @@ class PackDirectory {
 		return forReuse;
 	}
 
-	private Set<String> listPackDirectory() {
+	private Set<PackFileName> getPackFileNames() {
 		final String[] nameList = directory.list();
 		if (nameList == null) {
 			return Collections.emptySet();
 		}
-		final Set<String> nameSet = new HashSet<>(nameList.length << 1);
+		final Set<PackFileName> nameSet = new HashSet<>(nameList.length << 1);
 		for (String name : nameList) {
-			if (name.startsWith("pack-")) { //$NON-NLS-1$
-				nameSet.add(name);
+			try {
+				nameSet.add(new PackFileName(directory, name));
+			} catch (IllegalArgumentException e) {
+				continue;
 			}
 		}
 		return nameSet;
