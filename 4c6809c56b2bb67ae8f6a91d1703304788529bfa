@@ -16,6 +16,24 @@
       "revId": "4c6809c56b2bb67ae8f6a91d1703304788529bfa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef7609f_d4b05e4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-21T17:59:41Z",
+      "side": 1,
+      "message": "worktrees don\u0027t use symlinks. They have a .git that is a file rather than a directory, and the .git file contains a pointer to the originating repository.",
+      "parentUuid": "2ea2f172_cd5ae1d9",
+      "revId": "4c6809c56b2bb67ae8f6a91d1703304788529bfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
