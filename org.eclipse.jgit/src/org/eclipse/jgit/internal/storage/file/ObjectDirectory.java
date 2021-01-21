@@ -11,8 +11,6 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -222,20 +220,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (p.length() != 50 || !p.startsWith("pack-") || !p.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
 			throw new IOException(MessageFormat.format(JGitText.get().notAValidPack, pack));
 
-		// The pack and index are assumed to exist. The existence of other
-		// extensions needs to be explicitly checked.
-		//
-		int extensions = PACK.getBit() | INDEX.getBit();
+		// The pack and index are assumed to exist. The existence of the bitmap
+		// index needs to be explicitly checked.
 		final String base = p.substring(0, p.length() - 4);
-		for (PackExt ext : PackExt.values()) {
-			if ((extensions & ext.getBit()) == 0) {
-				final String name = base + ext.getExtension();
-				if (new File(pack.getParentFile(), name).exists())
-					extensions |= ext.getBit();
-			}
-		}
-
-		PackFile res = new PackFile(pack, extensions);
+		final File bitmapIndex = new File(pack.getParentFile(),
+				base + PackExt.BITMAP_INDEX.getExtension());
+		PackFile res = new PackFile(pack, bitmapIndex.exists());
 		packed.insert(res);
 		return res;
 	}
