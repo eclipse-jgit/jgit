@@ -704,6 +704,12 @@ public class ResolveMerger extends ThreeWayMerger {
 			// base/index/workingTree and something else are not relevant or
 			// detected later
 			if (nonTree(modeO) && !nonTree(modeT)) {
+				if(ignoreConflicts){
+					// In case  of merge failures, ignore this path instead of reporting unmerged, so
+					// a caller can use virtual commit.
+					enterSubtree = false;
+					return true;
+				}
 				if (nonTree(modeB))
 					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
@@ -712,6 +718,12 @@ public class ResolveMerger extends ThreeWayMerger {
 				return true;
 			}
 			if (nonTree(modeT) && !nonTree(modeO)) {
+				if(ignoreConflicts){
+					// In case  of merge failures, ignore this path instead of reporting unmerged, so
+					// a caller can use virtual commit.
+					enterSubtree = false;
+					return true;
+				}
 				if (nonTree(modeB))
 					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
