@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8aeb6779_10416a22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-22T15:25:45Z",
+      "side": 1,
+      "message": "This is interesting, but feels like much more than we need (especially after the child change of this one where this loop is going over PackFileNames).",
+      "parentUuid": "49c1cd1e_0be404ca",
+      "revId": "329471901fa301d414644a023addf752049ad780",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66fc3a7d_e37a5c85",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "329471901fa301d414644a023addf752049ad780",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33274fd2_39910b65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-22T15:25:45Z",
+      "side": 1,
+      "message": "Yeah, I fixed that in the child and forgot to come back to fix it here. Thanks for pointing it out.",
+      "parentUuid": "66fc3a7d_e37a5c85",
+      "range": {
+        "startLine": 411,
+        "startChar": 30,
+        "endLine": 411,
+        "endChar": 36
+      },
+      "revId": "329471901fa301d414644a023addf752049ad780",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
