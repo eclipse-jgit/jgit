@@ -47,7 +47,12 @@ public final class ZipFormat extends BaseFormat implements
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
-		return applyFormatOptions(new ZipArchiveOutputStream(s), o);
+		ZipArchiveOutputStream out = new ZipArchiveOutputStream(s);
+		int compressionLevel = getCompressionLevel(o);
+		if (compressionLevel != -1) {
+			out.setLevel(compressionLevel);
+		}
+		return applyFormatOptions(out, o);
 	}
 
 	/** {@inheritDoc} */
