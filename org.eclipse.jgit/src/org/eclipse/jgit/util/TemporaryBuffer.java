@@ -230,11 +230,16 @@ public abstract class TemporaryBuffer extends OutputStream {
 		if (Integer.MAX_VALUE < len)
 			throw new OutOfMemoryError(
 					JGitText.get().lengthExceedsMaximumArraySize);
-		final byte[] out = new byte[(int) len];
+		int length = (int) len;
+		final byte[] out = new byte[length];
 		int outPtr = 0;
 		for (Block b : blocks) {
-			System.arraycopy(b.buffer, 0, out, outPtr, b.count);
-			outPtr += b.count;
+			int toCopy = Math.min(length - outPtr, b.count);
+			System.arraycopy(b.buffer, 0, out, outPtr, toCopy);
+			outPtr += toCopy;
+			if (outPtr == length) {
+				break;
+			}
 		}
 		return out;
 	}
