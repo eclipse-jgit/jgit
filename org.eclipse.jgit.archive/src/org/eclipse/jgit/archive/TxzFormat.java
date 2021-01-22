@@ -30,6 +30,7 @@ public final class TxzFormat extends BaseFormat implements
 		ArchiveCommand.Format<ArchiveOutputStream> {
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".tar.xz", ".txz")); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String PRESET = "preset"; //$NON-NLS-1$
 
 	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 
@@ -45,7 +46,14 @@ public final class TxzFormat extends BaseFormat implements
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
-		XZCompressorOutputStream out = new XZCompressorOutputStream(s);
+		XZCompressorOutputStream out;
+		if (o.containsKey(PRESET)) {
+			Integer preset = (Integer) o.get(PRESET);
+			out = new XZCompressorOutputStream(s, preset.intValue());
+			o.remove(PRESET);
+		} else {
+			out = new XZCompressorOutputStream(s);
+		}
 		return tarFormat.createArchiveOutputStream(out, o);
 	}
 
