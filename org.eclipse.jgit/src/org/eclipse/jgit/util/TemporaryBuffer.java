@@ -230,11 +230,16 @@ public abstract class TemporaryBuffer extends OutputStream {
 		if (Integer.MAX_VALUE < len)
 			throw new OutOfMemoryError(
 					JGitText.get().lengthExceedsMaximumArraySize);
-		final byte[] out = new byte[(int) len];
+		int length = (int) len;
+		final byte[] out = new byte[length];
 		int outPtr = 0;
 		for (Block b : blocks) {
-			System.arraycopy(b.buffer, 0, out, outPtr, b.count);
-			outPtr += b.count;
+			int toCopy = Math.min(length - outPtr, b.count);
+			System.arraycopy(b.buffer, 0, out, outPtr, toCopy);
+			outPtr += toCopy;
+			if (outPtr == length) {
+				break;
+			}
 		}
 		return out;
 	}
@@ -456,6 +461,30 @@ public abstract class TemporaryBuffer extends OutputStream {
 			final byte[] out = new byte[(int) len];
 			try (FileInputStream in = new FileInputStream(onDiskFile)) {
 				IO.readFully(in, out, 0, (int) len);
+			}
+			return out;
+		}
+
+		@Override
+		public byte[] toByteArray(int limit) throws IOException {
+			if (onDiskFile == null) {
+				return super.toByteArray(limit);
+			}
+			final long len = Math.min(length(), limit);
+			if (Integer.MAX_VALUE < len) {
+				throw new OutOfMemoryError(
+						JGitText.get().lengthExceedsMaximumArraySize);
+			}
+			final byte[] out = new byte[(int) len];
+			try (FileInputStream in = new FileInputStream(onDiskFile)) {
+				int read = 0;
+				int chunk;
+				while ((chunk = in.read(out, read, out.length - read)) >= 0) {
+					read += chunk;
+					if (read == out.length) {
+						break;
+					}
+				}
 			}
 			return out;
 		}
