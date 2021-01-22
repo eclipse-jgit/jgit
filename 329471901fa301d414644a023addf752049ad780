@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49c1cd1e_0be404ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-01-22T03:44:58Z",
+      "side": 1,
+      "message": "I cannot help but think that this whole loop would be simpler.\n\nI envision 3 Sets (one of PackFileNames and the last 2 of Id Strings)\n\n for (String fileName : names) {\n    try {\n      PackFileName name \u003d new PackFileName(directory, fileName);\n      if (name.getExt().equals(INDEX) {\n        indexes.add(name);\n      } else if (name.getExt().equals(PACK) {\n        packs.add(name.getId());\n      } else if (name.getExt().equals(BITMAP) {\n        bitmaps.add(name.getId());\n      }\n    } catch (IllegalArgumentException e) {\n    }\n  }\n\n  for (PackFileName index : indexes) {\n     if (packs.contains(index.getId())) {\n       ... // do stuff\n       list.add(new PackFile(packName, bitmaps.contains(index.getId()));\n       ...\n     }\n  }\n\nIf you thought it would be good, you could make the PACK Set a Map\u003cString(ID), PackFileName\u003e instead and preserve the already made PackFileName.",
+      "revId": "329471901fa301d414644a023addf752049ad780",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66fc3a7d_e37a5c85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-01-22T03:44:58Z",
+      "side": 1,
+      "message": "I think you can just ask name for its extension instead of creating a new one.",
+      "range": {
+        "startLine": 411,
+        "startChar": 30,
+        "endLine": 411,
+        "endChar": 36
+      },
+      "revId": "329471901fa301d414644a023addf752049ad780",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
