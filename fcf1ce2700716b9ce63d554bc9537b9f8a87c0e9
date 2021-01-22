@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "677c24df_279e721b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-01-22T19:46:31Z",
+      "side": 1,
+      "message": "Would it be possible for head to be null here?",
+      "range": {
+        "startLine": 223,
+        "startChar": 20,
+        "endLine": 223,
+        "endChar": 24
+      },
+      "revId": "fcf1ce2700716b9ce63d554bc9537b9f8a87c0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b753d4fd_e556c15d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-01-22T19:46:31Z",
+      "side": 1,
+      "message": "I think it\u0027s clearer if you s/Based on how UTF_8 representation works/Because 0xff can never appear in a UTF_8 string/",
+      "range": {
+        "startLine": 518,
+        "startChar": 6,
+        "endLine": 518,
+        "endChar": 20
+      },
+      "revId": "fcf1ce2700716b9ce63d554bc9537b9f8a87c0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
