@@ -25,6 +25,7 @@ import org.eclipse.jgit.util.StringUtils;
  * @since 4.0
  */
 public class BaseFormat {
+	protected static final String COMPRESSION_LEVEL = "compression-level"; //$NON-NLS-1$
 
 	/**
 	 * Apply options to archive output stream
@@ -48,5 +49,28 @@ public class BaseFormat {
 			}
 		}
 		return s;
+	}
+
+	/**
+	 * Removes and returns the {@link #COMPRESSION_LEVEL} key from the input map parameter if it
+	 * exists, or -1 if this key does not exist.
+	 *
+	 * @param o options map
+	 * @return The compression level if it exists in the map, or -1 instead.
+	 * @throws IllegalArgumentException if the {@link #COMPRESSION_LEVEL} option does not parse to an
+	 * Integer.
+	 */
+	protected int removeAndGetCompressionLevel(Map<String, Object> o) {
+		if (!o.containsKey(COMPRESSION_LEVEL)) {
+			return -1;
+		}
+		Object option = o.get(COMPRESSION_LEVEL);
+		try {
+			Integer compressionLevel = (Integer) option;
+			o.remove(COMPRESSION_LEVEL);
+			return compressionLevel.intValue();
+		} catch (ClassCastException e) {
+			throw new IllegalArgumentException("Invalid compression level: " + option, e);
+		}
 	}
 }

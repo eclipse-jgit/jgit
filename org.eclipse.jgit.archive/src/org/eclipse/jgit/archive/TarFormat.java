@@ -51,6 +51,9 @@ public final class TarFormat extends BaseFormat implements
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
+		if (o.containsKey(COMPRESSION_LEVEL)) {
+			throw new IllegalArgumentException("Compression level is not supported for tar format.");
+		}
 		TarArchiveOutputStream out = new TarArchiveOutputStream(s,
 				UTF_8.name());
 		out.setLongFileMode(TarArchiveOutputStream.LONGFILE_POSIX);

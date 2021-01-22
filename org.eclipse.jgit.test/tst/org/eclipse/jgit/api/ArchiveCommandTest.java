@@ -12,6 +12,9 @@ package org.eclipse.jgit.api;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import java.beans.Statement;
 import java.io.BufferedInputStream;
@@ -55,6 +58,7 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.StringUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ArchiveCommandTest extends RepositoryTestCase {
@@ -184,9 +188,62 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadAllFilesTarTimestamps() throws Exception {
+		archiveHeadAllFiles("tar");
+	}
+
+	@Test
+	public void archiveHeadAllFilesTgzTimestamps() throws Exception {
+		archiveHeadAllFiles("tgz");
+	}
+
+	@Test
+	public void archiveHeadAllFilesTbz2Timestamps() throws Exception {
+		archiveHeadAllFiles("tbz2");
+	}
+
+	@Test
+	public void archiveHeadAllFilesTxzTimestamps() throws Exception {
+		archiveHeadAllFiles("txz");
+	}
+
+	@Test
+	public void archiveHeadAllFilesZipTimestamps() throws Exception {
+		archiveHeadAllFiles("zip");
+	}
+
+	@Test
+	public void archiveHeadAllFilesTarWithCompressionIsNotSupported() throws Exception {
+		Throwable thrown = assertThrows(IllegalArgumentException.class,
+				() -> archiveHeadAllFilesWithCompression("tar"));
+		assertTrue(thrown.getMessage().contains("Compression level is not supported for tar format."));
+	}
+
+	@Test
+	public void archiveHeadAllFilesTgzWithCompressionReducesArchiveSize() throws Exception {
+		archiveHeadAllFilesWithCompression("tgz");
+	}
+
+	@Test
+	public void archiveHeadAllFilesTbz2WithCompressionReducesArchiveSize() throws Exception {
+		archiveHeadAllFilesWithCompression("tbz2");
+	}
+
+	@Test
+	@Ignore
+	public void archiveHeadAllFilesTxzWithCompressionReducesArchiveSize() throws Exception {
+		// We ignore this test because the txz format consumes a lot of memory for high level
+		// compressions.
+		archiveHeadAllFilesWithCompression("txz");
+	}
+
+	@Test
+	public void archiveHeadAllFilesZipWithCompressionReducesArchiveSize() throws Exception {
+		archiveHeadAllFilesWithCompression("zip");
+	}
+
+	private void archiveHeadAllFiles(String fmt) throws Exception {
 		try (Git git = new Git(db)) {
 			createTestContent(git);
-			String fmt = "tar";
 			File archive = new File(getTemporaryDirectory(),
 					"archive." + format);
 			archive(git, archive, fmt);
@@ -194,7 +251,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 			try (InputStream fi = Files.newInputStream(archive.toPath());
 					InputStream bi = new BufferedInputStream(fi);
-					ArchiveInputStream o = new TarArchiveInputStream(bi)) {
+					ArchiveInputStream o = createArchiveInputStream(fmt, bi)) {
 				assertEntries(o);
 			}
 
@@ -205,97 +262,41 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void archiveHeadAllFilesTgzTimestamps() throws Exception {
+	private void archiveHeadAllFilesWithCompression(String fmt) throws Exception {
 		try (Git git = new Git(db)) {
 			createTestContent(git);
-			String fmt = "tgz";
 			File archive = new File(getTemporaryDirectory(),
-					"archive." + fmt);
-			archive(git, archive, fmt);
-			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
+					"archive." + format);
 
-			try (InputStream fi = Files.newInputStream(archive.toPath());
-					InputStream bi = new BufferedInputStream(fi);
-					InputStream gzi = new GzipCompressorInputStream(bi);
-					ArchiveInputStream o = new TarArchiveInputStream(gzi)) {
-				assertEntries(o);
-			}
+			archive(git, archive, fmt, new HashMap<String, Object>() {{
+				put("compression-level", 1);
+			}});
+			int sizeCompression1 = getNumBytes(archive);
 
-			Thread.sleep(WAIT);
-			archive(git, archive, fmt);
-			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
-					ObjectId.fromRaw(IO.readFully(archive)));
+			archive(git, archive, fmt, new HashMap<String, Object>() {{
+				put("compression-level", 9);
+			}});
+			int sizeCompression9 = getNumBytes(archive);
+
+			assertTrue(sizeCompression1 >= sizeCompression9);
 		}
 	}
 
-	@Test
-	public void archiveHeadAllFilesTbz2Timestamps() throws Exception {
-		try (Git git = new Git(db)) {
-			createTestContent(git);
-			String fmt = "tbz2";
-			File archive = new File(getTemporaryDirectory(),
-					"archive." + fmt);
-			archive(git, archive, fmt);
-			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
-
-			try (InputStream fi = Files.newInputStream(archive.toPath());
-					InputStream bi = new BufferedInputStream(fi);
-					InputStream gzi = new BZip2CompressorInputStream(bi);
-					ArchiveInputStream o = new TarArchiveInputStream(gzi)) {
-				assertEntries(o);
-			}
-
-			Thread.sleep(WAIT);
-			archive(git, archive, fmt);
-			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
-					ObjectId.fromRaw(IO.readFully(archive)));
+	private static ArchiveInputStream createArchiveInputStream (String fmt, InputStream bi)
+			throws IOException {
+		switch (fmt) {
+			case "tar":
+				return new TarArchiveInputStream(bi);
+			case "tgz":
+				return new TarArchiveInputStream(new GzipCompressorInputStream(bi));
+			case "tbz2":
+				return new TarArchiveInputStream(new BZip2CompressorInputStream(bi));
+			case "txz":
+				return new TarArchiveInputStream(new XZCompressorInputStream(bi));
+			case "zip":
+				return new ZipArchiveInputStream(new BufferedInputStream(bi));
 		}
-	}
-
-	@Test
-	public void archiveHeadAllFilesTxzTimestamps() throws Exception {
-		try (Git git = new Git(db)) {
-			createTestContent(git);
-			String fmt = "txz";
-			File archive = new File(getTemporaryDirectory(), "archive." + fmt);
-			archive(git, archive, fmt);
-			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
-
-			try (InputStream fi = Files.newInputStream(archive.toPath());
-					InputStream bi = new BufferedInputStream(fi);
-					InputStream gzi = new XZCompressorInputStream(bi);
-					ArchiveInputStream o = new TarArchiveInputStream(gzi)) {
-				assertEntries(o);
-			}
-
-			Thread.sleep(WAIT);
-			archive(git, archive, fmt);
-			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
-					ObjectId.fromRaw(IO.readFully(archive)));
-		}
-	}
-
-	@Test
-	public void archiveHeadAllFilesZipTimestamps() throws Exception {
-		try (Git git = new Git(db)) {
-			createTestContent(git);
-			String fmt = "zip";
-			File archive = new File(getTemporaryDirectory(), "archive." + fmt);
-			archive(git, archive, fmt);
-			ObjectId hash1 = ObjectId.fromRaw(IO.readFully(archive));
-
-			try (InputStream fi = Files.newInputStream(archive.toPath());
-					InputStream bi = new BufferedInputStream(fi);
-					ArchiveInputStream o = new ZipArchiveInputStream(bi)) {
-				assertEntries(o);
-			}
-
-			Thread.sleep(WAIT);
-			archive(git, archive, fmt);
-			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
-					ObjectId.fromRaw(IO.readFully(archive)));
-		}
+		throw new IllegalArgumentException("Format " + fmt + " is not supported.");
 	}
 
 	private void createTestContent(Git git) throws IOException, GitAPIException,
@@ -316,9 +317,19 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 			throws GitAPIException,
 			FileNotFoundException, AmbiguousObjectException,
 			IncorrectObjectTypeException, IOException {
+		archive(git, archive, fmt, new HashMap<>());
+	}
+
+	private static void archive(Git git, File archive, String fmt, Map<String,
+			Object> options)
+			throws GitAPIException,
+			FileNotFoundException, AmbiguousObjectException,
+			IncorrectObjectTypeException, IOException {
 		git.archive().setOutputStream(new FileOutputStream(archive))
 				.setFormat(fmt)
-				.setTree(git.getRepository().resolve("HEAD")).call();
+				.setTree(git.getRepository().resolve("HEAD"))
+				.setFormatOptions(options)
+				.call();
 	}
 
 	private static void assertEntries(ArchiveInputStream o) throws IOException {
@@ -331,6 +342,13 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 					e.getLastModifiedDate().getTime());
 		}
 		assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, n);
+	}
+
+	private static int getNumBytes(File archive) throws Exception {
+		try (InputStream fi = Files.newInputStream(archive.toPath());
+				InputStream bi = new BufferedInputStream(fi)) {
+			return bi.available();
+		}
 	}
 
 	private static class MockFormat
