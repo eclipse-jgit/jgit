@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
+import org.apache.commons.compress.compressors.gzip.GzipParameters;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -45,7 +46,15 @@ public final class TgzFormat extends BaseFormat implements
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
-		GzipCompressorOutputStream out = new GzipCompressorOutputStream(s);
+		GzipCompressorOutputStream out;
+		int compressionLevel = getCompressionLevel(o);
+		if (compressionLevel != -1) {
+			GzipParameters parameters = new GzipParameters();
+			parameters.setCompressionLevel(compressionLevel);
+			out = new GzipCompressorOutputStream(s, parameters);
+		} else {
+			out = new GzipCompressorOutputStream(s);
+		}
 		return tarFormat.createArchiveOutputStream(out, o);
 	}
 

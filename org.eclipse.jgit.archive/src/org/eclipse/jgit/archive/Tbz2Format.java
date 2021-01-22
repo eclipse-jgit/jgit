@@ -45,7 +45,13 @@ public final class Tbz2Format extends BaseFormat implements
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
-		BZip2CompressorOutputStream out = new BZip2CompressorOutputStream(s);
+		BZip2CompressorOutputStream out;
+		int compressionLevel = getCompressionLevel(o);
+		if (compressionLevel != -1) {
+			out = new BZip2CompressorOutputStream(s, compressionLevel);
+		} else {
+			out = new BZip2CompressorOutputStream(s);
+		}
 		return tarFormat.createArchiveOutputStream(out, o);
 	}
 
