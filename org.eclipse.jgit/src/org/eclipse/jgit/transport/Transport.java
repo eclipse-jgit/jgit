@@ -1231,9 +1231,52 @@ public abstract class Transport implements AutoCloseable {
 	 *             the remote connection could not be established or object
 	 *             copying (if necessary) failed or update specification was
 	 *             incorrect.
+	 * @since 5.11
 	 */
 	public FetchResult fetch(final ProgressMonitor monitor,
-			Collection<RefSpec> toFetch) throws NotSupportedException,
+			Collection<RefSpec> toFetch)
+			throws NotSupportedException, TransportException {
+		return fetch(monitor, toFetch, null);
+	}
+
+	/**
+	 * Fetch objects and refs from the remote repository to the local one.
+	 * <p>
+	 * This is a utility function providing standard fetch behavior. Local
+	 * tracking refs associated with the remote repository are automatically
+	 * updated if this transport was created from a
+	 * {@link org.eclipse.jgit.transport.RemoteConfig} with fetch RefSpecs
+	 * defined.
+	 *
+	 * @param monitor
+	 *            progress monitor to inform the user about our processing
+	 *            activity. Must not be null. Use
+	 *            {@link org.eclipse.jgit.lib.NullProgressMonitor} if progress
+	 *            updates are not interesting or necessary.
+	 * @param toFetch
+	 *            specification of refs to fetch locally. May be null or the
+	 *            empty collection to use the specifications from the
+	 *            RemoteConfig. Source for each RefSpec can't be null.
+	 * @param branch
+	 *            the initial branch to check out when cloning the repository.
+	 *            Can be specified as ref name (<code>refs/heads/master</code>),
+	 *            branch name (<code>master</code>) or tag name
+	 *            (<code>v1.2.3</code>). The default is to use the branch
+	 *            pointed to by the cloned repository's HEAD and can be
+	 *            requested by passing {@code null} or <code>HEAD</code>.
+	 * @return information describing the tracking refs updated.
+	 * @throws org.eclipse.jgit.errors.NotSupportedException
+	 *             this transport implementation does not support fetching
+	 *             objects.
+	 * @throws org.eclipse.jgit.errors.TransportException
+	 *             the remote connection could not be established or object
+	 *             copying (if necessary) failed or update specification was
+	 *             incorrect.
+	 * @since 5.11
+	 */
+	public FetchResult fetch(final ProgressMonitor monitor,
+			Collection<RefSpec> toFetch, String branch)
+			throws NotSupportedException,
 			TransportException {
 		if (toFetch == null || toFetch.isEmpty()) {
 			// If the caller did not ask for anything use the defaults.
@@ -1263,7 +1306,7 @@ public abstract class Transport implements AutoCloseable {
 		}
 
 		final FetchResult result = new FetchResult();
-		new FetchProcess(this, toFetch).execute(monitor, result);
+		new FetchProcess(this, toFetch).execute(monitor, result, branch);
 
 		local.autoGC(monitor);
 
