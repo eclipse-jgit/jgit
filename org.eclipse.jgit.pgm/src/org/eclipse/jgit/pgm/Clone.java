@@ -18,6 +18,7 @@ import java.util.Collection;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -110,6 +111,8 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 			db = command.call().getRepository();
 			if (msgs && db.resolve(Constants.HEAD) == null)
 				outw.println(CLIText.get().clonedEmptyRepository);
+		} catch (TransportException e) {
+			throw die(e.getMessage(), e);
 		} catch (InvalidRemoteException e) {
 			throw die(MessageFormat.format(CLIText.get().doesNotExist,
 					sourceUri), e);
