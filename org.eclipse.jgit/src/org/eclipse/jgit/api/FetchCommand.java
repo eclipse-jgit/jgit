@@ -74,6 +74,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 
 	private boolean isForceUpdate;
 
+	private String initialBranch;
+
 	/**
 	 * Callback for status of fetch operation.
 	 *
@@ -209,7 +211,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			transport.setFetchThin(thin);
 			configure(transport);
 			FetchResult result = transport.fetch(monitor,
-					applyOptions(refSpecs));
+					applyOptions(refSpecs), initialBranch);
 			if (!repo.isBare()) {
 				fetchSubmodules(result);
 			}
@@ -484,6 +486,24 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	public FetchCommand setTagOpt(TagOpt tagOpt) {
 		checkCallable();
 		this.tagOption = tagOpt;
+		return this;
+	}
+
+	/**
+	 * Set the initial branch
+	 *
+	 * @param branch
+	 *            the initial branch to check out when cloning the repository.
+	 *            Can be specified as ref name (<code>refs/heads/master</code>),
+	 *            branch name (<code>master</code>) or tag name
+	 *            (<code>v1.2.3</code>). The default is to use the branch
+	 *            pointed to by the cloned repository's HEAD and can be
+	 *            requested by passing {@code null} or <code>HEAD</code>.
+	 * @return {@code this}
+	 * @since 5.11
+	 */
+	public FetchCommand setInitialBranch(String branch) {
+		this.initialBranch = branch;
 		return this;
 	}
 
