@@ -596,6 +596,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String reftableDirExists;
 	/***/ public String reftableRecordsMustIncrease;
 	/***/ public String refUpdateReturnCodeWas;
+	/***/ public String remoteBranchNotFound;
 	/***/ public String remoteConfigHasNoURIAssociated;
 	/***/ public String remoteDoesNotHaveSpec;
 	/***/ public String remoteDoesNotSupportSmartHTTPPush;

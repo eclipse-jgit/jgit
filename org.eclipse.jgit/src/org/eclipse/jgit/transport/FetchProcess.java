@@ -48,6 +48,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.StringUtils;
 
 class FetchProcess {
 	/** Transport we will fetch over. */
@@ -79,7 +80,8 @@ class FetchProcess {
 		toFetch = f;
 	}
 
-	void execute(ProgressMonitor monitor, FetchResult result)
+	void execute(ProgressMonitor monitor, FetchResult result,
+			String initialBranch)
 			throws NotSupportedException, TransportException {
 		askFor.clear();
 		localUpdates.clear();
@@ -89,7 +91,7 @@ class FetchProcess {
 
 		Throwable e1 = null;
 		try {
-			executeImp(monitor, result);
+			executeImp(monitor, result, initialBranch);
 		} catch (NotSupportedException | TransportException err) {
 			e1 = err;
 			throw err;
@@ -107,9 +109,23 @@ class FetchProcess {
 		}
 	}
 
+	private boolean isInitialBranchMissing(Map<String, Ref> refsMap,
+			String initialBranch) {
+		if (StringUtils.isEmptyOrNull(initialBranch)) {
+			return false;
+		}
+		if ((initialBranch.equals(Constants.HEAD)
+				&& refsMap.containsKey(initialBranch))
+				|| refsMap.containsKey(Constants.R_HEADS + initialBranch)
+				|| refsMap.containsKey(Constants.R_TAGS + initialBranch)) {
+			return false;
+		}
+		return true;
+	}
+
 	private void executeImp(final ProgressMonitor monitor,
-			final FetchResult result) throws NotSupportedException,
-			TransportException {
+			final FetchResult result, String initialBranch)
+			throws NotSupportedException, TransportException {
 		final TagOpt tagopt = transport.getTagOpt();
 		String getTags = (tagopt == TagOpt.NO_TAGS) ? null : Constants.R_TAGS;
 		String getHead = null;
@@ -126,7 +142,12 @@ class FetchProcess {
 		}
 		conn = transport.openFetch(toFetch, getTags, getHead);
 		try {
-			result.setAdvertisedRefs(transport.getURI(), conn.getRefsMap());
+			Map<String, Ref> refsMap = conn.getRefsMap();
+			if (isInitialBranchMissing(refsMap, initialBranch)) {
+				throw new TransportException(MessageFormat.format(
+						JGitText.get().remoteBranchNotFound, initialBranch));
+			}
+			result.setAdvertisedRefs(transport.getURI(), refsMap);
 			result.peerUserAgent = conn.getPeerUserAgent();
 			final Set<Ref> matched = new HashSet<>();
 			for (RefSpec spec : toFetch) {
