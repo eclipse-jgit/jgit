@@ -34,13 +34,17 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.GpgSignature;
 import org.eclipse.jgit.lib.GpgSigner;
 import org.eclipse.jgit.lib.GpgObjectSigner;
 import org.eclipse.jgit.lib.ObjectBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
 
@@ -70,6 +74,24 @@ public class BouncyCastleGpgSigner extends GpgSigner
 	public boolean canLocateSigningKey(@Nullable String gpgSigningKey,
 			PersonIdent committer, CredentialsProvider credentialsProvider)
 			throws CanceledException {
+		try {
+			return canLocateSigningKey(gpgSigningKey, committer,
+					credentialsProvider, null);
+		} catch (UnsupportedSigningFormatException e) {
+			// Cannot occur with a null config
+			return false;
+		}
+	}
+
+	@Override
+	public boolean canLocateSigningKey(@Nullable String gpgSigningKey,
+			PersonIdent committer, CredentialsProvider credentialsProvider,
+			GpgConfig config)
+			throws CanceledException, UnsupportedSigningFormatException {
+		if (config != null && config.getKeyFormat() != GpgFormat.OPENPGP) {
+			throw new UnsupportedSigningFormatException(
+					JGitText.get().onlyOpenPgpSupportedForSigning);
+		}
 		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
 				credentialsProvider)) {
 			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
@@ -101,13 +123,23 @@ public class BouncyCastleGpgSigner extends GpgSigner
 	public void sign(@NonNull CommitBuilder commit,
 			@Nullable String gpgSigningKey, @NonNull PersonIdent committer,
 			CredentialsProvider credentialsProvider) throws CanceledException {
-		signObject(commit, gpgSigningKey, committer, credentialsProvider);
+		try {
+			signObject(commit, gpgSigningKey, committer, credentialsProvider,
+					null);
+		} catch (UnsupportedSigningFormatException e) {
+			// Cannot occur with a null config
+		}
 	}
 
 	@Override
 	public void signObject(@NonNull ObjectBuilder object,
 			@Nullable String gpgSigningKey, @NonNull PersonIdent committer,
-			CredentialsProvider credentialsProvider) throws CanceledException {
+			CredentialsProvider credentialsProvider, GpgConfig config)
+			throws CanceledException, UnsupportedSigningFormatException {
+		if (config != null && config.getKeyFormat() != GpgFormat.OPENPGP) {
+			throw new UnsupportedSigningFormatException(
+					JGitText.get().onlyOpenPgpSupportedForSigning);
+		}
 		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
 				credentialsProvider)) {
 			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
