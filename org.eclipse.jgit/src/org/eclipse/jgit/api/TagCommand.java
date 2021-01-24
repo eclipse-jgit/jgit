@@ -23,6 +23,7 @@ import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GpgConfig;
+import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
 import org.eclipse.jgit.lib.GpgObjectSigner;
 import org.eclipse.jgit.lib.GpgSigner;
 import org.eclipse.jgit.lib.ObjectId;
@@ -34,7 +35,6 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.TagBuilder;
-import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -79,6 +79,8 @@ public class TagCommand extends GitCommand<Ref> {
 	private Boolean annotated;
 
 	private String signingKey;
+
+	private GpgConfig gpgConfig;
 
 	private GpgObjectSigner gpgSigner;
 
@@ -138,7 +140,7 @@ public class TagCommand extends GitCommand<Ref> {
 
 			if (gpgSigner != null) {
 				gpgSigner.signObject(newTag, signingKey, tagger,
-						credentialsProvider);
+						credentialsProvider, gpgConfig);
 			}
 
 			// write the tag object
@@ -228,7 +230,9 @@ public class TagCommand extends GitCommand<Ref> {
 			}
 			// Figure out whether to sign.
 			if (!(Boolean.FALSE.equals(signed) && signingKey == null)) {
-				GpgConfig gpgConfig = new GpgConfig(repo.getConfig());
+				if (gpgConfig == null) {
+					gpgConfig = new GpgConfig(repo.getConfig());
+				}
 				boolean doSign = isSigned() || gpgConfig.isSignAllTags();
 				if (!Boolean.TRUE.equals(annotated) && !doSign) {
 					doSign = gpgConfig.isSignAnnotated();
@@ -237,16 +241,14 @@ public class TagCommand extends GitCommand<Ref> {
 					if (signingKey == null) {
 						signingKey = gpgConfig.getSigningKey();
 					}
-					if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
-						throw new UnsupportedSigningFormatException(
-								JGitText.get().onlyOpenPgpSupportedForSigning);
+					if (gpgSigner == null) {
+						GpgSigner signer = GpgSigner.getDefault();
+						if (!(signer instanceof GpgObjectSigner)) {
+							throw new ServiceUnavailableException(
+									JGitText.get().signingServiceUnavailable);
+						}
+						gpgSigner = (GpgObjectSigner) signer;
 					}
-					GpgSigner signer = GpgSigner.getDefault();
-					if (!(signer instanceof GpgObjectSigner)) {
-						throw new ServiceUnavailableException(
-								JGitText.get().signingServiceUnavailable);
-					}
-					gpgSigner = (GpgObjectSigner) signer;
 					// The message of a signed tag must end in a newline because
 					// the signature will be appended.
 					if (message != null && !message.isEmpty()
@@ -328,6 +330,36 @@ public class TagCommand extends GitCommand<Ref> {
 	public TagCommand setSigned(boolean signed) {
 		checkCallable();
 		this.signed = Boolean.valueOf(signed);
+		return this;
+	}
+
+	/**
+	 * Sets the {@link GpgSigner} to use if the commit is to be signed.
+	 *
+	 * @param signer
+	 *            to use; if {@code null}, the default signer will be used
+	 * @return {@code this}
+	 * @since 5.11
+	 */
+	public TagCommand setGpgSigner(GpgObjectSigner signer) {
+		checkCallable();
+		this.gpgSigner = signer;
+		return this;
+	}
+
+	/**
+	 * Sets an external {@link GpgConfig} to use. Whether it will be used it at
+	 * the discretion of the {@link #setGpgSigner(GpgObjectSigner)}.
+	 *
+	 * @param config
+	 *            to set; if {@code null}, the config will be loaded from the
+	 *            git config of the repository
+	 * @return {@code this}
+	 * @since 5.11
+	 */
+	public TagCommand setGpgConfig(GpgConfig config) {
+		checkCallable();
+		this.gpgConfig = config;
 		return this;
 	}
 
