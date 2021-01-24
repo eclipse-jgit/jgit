@@ -17,8 +17,8 @@ import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
-import org.eclipse.jgit.transport.CredentialItem.CharArrayType;
 import org.eclipse.jgit.transport.CredentialItem.InformationalMessage;
+import org.eclipse.jgit.transport.CredentialItem.Password;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 
@@ -31,7 +31,7 @@ import org.eclipse.jgit.transport.URIish;
  */
 class BouncyCastleGpgKeyPassphrasePrompt implements AutoCloseable {
 
-	private CharArrayType passphrase;
+	private Password passphrase;
 
 	private CredentialsProvider credentialsProvider;
 
@@ -78,8 +78,7 @@ class BouncyCastleGpgKeyPassphrasePrompt implements AutoCloseable {
 			throws PGPException, CanceledException, UnsupportedCredentialItem,
 			URISyntaxException {
 		if (passphrase == null) {
-			passphrase = new CharArrayType(BCText.get().credentialPassphrase,
-					true);
+			passphrase = new Password(BCText.get().credentialPassphrase);
 		}
 
 		if (credentialsProvider == null) {
