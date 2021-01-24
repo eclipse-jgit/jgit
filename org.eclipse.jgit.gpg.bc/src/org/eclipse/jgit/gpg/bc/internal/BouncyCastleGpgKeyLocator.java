@@ -30,7 +30,6 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Locale;
 
-import org.bouncycastle.gpg.SExprParser;
 import org.bouncycastle.gpg.keybox.BlobType;
 import org.bouncycastle.gpg.keybox.KeyBlob;
 import org.bouncycastle.gpg.keybox.KeyBox;
@@ -48,16 +47,15 @@ import org.bouncycastle.openpgp.PGPSecretKeyRing;
 import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.PGPUtil;
-import org.bouncycastle.openpgp.operator.PBEProtectionRemoverFactory;
 import org.bouncycastle.openpgp.operator.PGPDigestCalculatorProvider;
 import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBuilder;
-import org.bouncycastle.openpgp.operator.jcajce.JcePBEProtectionRemoverFactory;
 import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.gpg.bc.internal.keys.KeyGrip;
+import org.eclipse.jgit.gpg.bc.internal.keys.SecretKeys;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
@@ -77,17 +75,10 @@ public class BouncyCastleGpgKeyLocator {
 
 	}
 
-	/** Thrown if we try to read an encrypted private key without password. */
-	private static class EncryptedPgpKeyException extends RuntimeException {
-
-		private static final long serialVersionUID = 1L;
-
-	}
-
 	private static final Logger log = LoggerFactory
 			.getLogger(BouncyCastleGpgKeyLocator.class);
 
-	private static final Path GPG_DIRECTORY = findGpgDirectory();
+	static final Path GPG_DIRECTORY = findGpgDirectory();
 
 	private static final Path USER_KEYBOX_PATH = GPG_DIRECTORY
 			.resolve("pubring.kbx"); //$NON-NLS-1$
@@ -154,11 +145,13 @@ public class BouncyCastleGpgKeyLocator {
 
 	private PGPSecretKey attemptParseSecretKey(Path keyFile,
 			PGPDigestCalculatorProvider calculatorProvider,
-			PBEProtectionRemoverFactory passphraseProvider,
-			PGPPublicKey publicKey) throws IOException, PGPException {
+			SecretKeys.PassphraseSupplier passphraseSupplier,
+			PGPPublicKey publicKey)
+			throws IOException, PGPException, CanceledException,
+			UnsupportedCredentialItem, URISyntaxException {
 		try (InputStream in = newInputStream(keyFile)) {
-			return new SExprParser(calculatorProvider).parseSecretKey(
-					new BufferedInputStream(in), passphraseProvider, publicKey);
+			return SecretKeys.readSecretKey(in, calculatorProvider,
+					passphraseSupplier, publicKey);
 		}
 	}
 
@@ -483,29 +476,17 @@ public class BouncyCastleGpgKeyLocator {
 		try {
 			PGPDigestCalculatorProvider calculatorProvider = new JcaPGPDigestCalculatorProviderBuilder()
 					.build();
-			PBEProtectionRemoverFactory passphraseProvider = p -> {
-				throw new EncryptedPgpKeyException();
-			};
+			clearPrompt = true;
 			PGPSecretKey secretKey = null;
 			try {
-				// Try without passphrase
 				secretKey = attemptParseSecretKey(keyFile, calculatorProvider,
-						passphraseProvider, publicKey);
-			} catch (EncryptedPgpKeyException e) {
-				// Let's try again with a passphrase
-				passphraseProvider = new JcePBEProtectionRemoverFactory(
-						passphrasePrompt.getPassphrase(
-								publicKey.getFingerprint(), userKeyboxPath));
-				clearPrompt = true;
-				try {
-					secretKey = attemptParseSecretKey(keyFile, calculatorProvider,
-							passphraseProvider, publicKey);
-				} catch (PGPException e1) {
-					throw new PGPException(MessageFormat.format(
-							BCText.get().gpgFailedToParseSecretKey,
-							keyFile.toAbsolutePath()), e);
-
-				}
+						() -> passphrasePrompt.getPassphrase(
+								publicKey.getFingerprint(), userKeyboxPath),
+						publicKey);
+			} catch (PGPException e) {
+				throw new PGPException(MessageFormat.format(
+						BCText.get().gpgFailedToParseSecretKey,
+						keyFile.toAbsolutePath()), e);
 			}
 			if (secretKey != null) {
 				if (!secretKey.isSigningKey()) {
