@@ -29,6 +29,8 @@ public final class BCText extends TranslationBundle {
 	// @formatter:off
 	/***/ public String corrupt25519Key;
 	/***/ public String credentialPassphrase;
+	/***/ public String cryptCipherError;
+	/***/ public String cryptWrongDecryptedLength;
 	/***/ public String gpgFailedToParseSecretKey;
 	/***/ public String gpgNoCredentialsProvider;
 	/***/ public String gpgNoKeygrip;
@@ -36,10 +38,20 @@ public final class BCText extends TranslationBundle {
 	/***/ public String gpgNoKeyInLegacySecring;
 	/***/ public String gpgNoPublicKeyFound;
 	/***/ public String gpgNoSecretKeyForPublicKey;
+	/***/ public String gpgNoSuchAlgorithm;
 	/***/ public String gpgNotASigningKey;
 	/***/ public String gpgKeyInfo;
 	/***/ public String gpgSigningCancelled;
 	/***/ public String nonSignatureError;
+	/***/ public String secretKeyTooShort;
+	/***/ public String sexprHexNotClosed;
+	/***/ public String sexprHexOdd;
+	/***/ public String sexprStringInvalidEscape;
+	/***/ public String sexprStringInvalidEscapeAtEnd;
+	/***/ public String sexprStringInvalidHexEscape;
+	/***/ public String sexprStringInvalidOctalEscape;
+	/***/ public String sexprStringNotClosed;
+	/***/ public String sexprUnhandled;
 	/***/ public String signatureInconsistent;
 	/***/ public String signatureKeyLookupError;
 	/***/ public String signatureNoKeyInfo;
