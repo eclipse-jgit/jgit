@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
+import org.eclipse.jgit.lib.GpgObjectSigner;
 import org.eclipse.jgit.lib.GpgSigner;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -119,6 +120,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private String signingKey;
 
 	private GpgSigner gpgSigner;
+
+	private GpgConfig gpgConfig;
 
 	private CredentialsProvider credentialsProvider;
 
@@ -247,8 +250,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						throw new ServiceUnavailableException(
 								JGitText.get().signingServiceUnavailable);
 					}
-					gpgSigner.sign(commit, signingKey, committer,
-							credentialsProvider);
+					if (gpgSigner instanceof GpgObjectSigner) {
+						((GpgObjectSigner) gpgSigner).signObject(commit,
+								signingKey, committer, credentialsProvider,
+								gpgConfig);
+					} else {
+						if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
+							throw new UnsupportedSigningFormatException(JGitText
+									.get().onlyOpenPgpSupportedForSigning);
+						}
+						gpgSigner.sign(commit, signingKey, committer,
+								credentialsProvider);
+					}
 				}
 
 				ObjectId commitId = odi.insert(commit);
@@ -576,7 +589,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// an explicit message
 			throw new NoMessageException(JGitText.get().commitMessageNotSpecified);
 
-		GpgConfig gpgConfig = new GpgConfig(repo.getConfig());
+		if (gpgConfig == null) {
+			gpgConfig = new GpgConfig(repo.getConfig());
+		}
 		if (signCommit == null) {
 			signCommit = gpgConfig.isSignCommits() ? Boolean.TRUE
 					: Boolean.FALSE;
@@ -585,10 +600,6 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			signingKey = gpgConfig.getSigningKey();
 		}
 		if (gpgSigner == null) {
-			if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
-				throw new UnsupportedSigningFormatException(
-						JGitText.get().onlyOpenPgpSupportedForSigning);
-			}
 			gpgSigner = GpgSigner.getDefault();
 		}
 	}
@@ -969,6 +980,36 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public CommitCommand setSign(Boolean sign) {
 		checkCallable();
 		this.signCommit = sign;
+		return this;
+	}
+
+	/**
+	 * Sets the {@link GpgSigner} to use if the commit is to be signed.
+	 *
+	 * @param signer
+	 *            to use; if {@code null}, the default signer will be used
+	 * @return {@code this}
+	 * @since 5.11
+	 */
+	public CommitCommand setGpgSigner(GpgSigner signer) {
+		checkCallable();
+		this.gpgSigner = signer;
+		return this;
+	}
+
+	/**
+	 * Sets an external {@link GpgConfig} to use. Whether it will be used is at
+	 * the discretion of the {@link #setGpgSigner(GpgSigner)}.
+	 *
+	 * @param config
+	 *            to set; if {@code null}, the config will be loaded from the
+	 *            git config of the repository
+	 * @return {@code this}
+	 * @since 5.11
+	 */
+	public CommitCommand setGpgConfig(GpgConfig config) {
+		checkCallable();
+		this.gpgConfig = config;
 		return this;
 	}
 
