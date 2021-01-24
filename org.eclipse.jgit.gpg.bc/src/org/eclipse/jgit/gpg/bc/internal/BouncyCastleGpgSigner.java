@@ -49,7 +49,8 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
- * GPG Signer using BouncyCastle library
+ * GPG Signer using exclusively the BouncyCastle library. The {@code gpgProgram}
+ * arguments are ignored.
  */
 public class BouncyCastleGpgSigner extends GpgSigner
 		implements GpgObjectSigner {
@@ -97,8 +98,9 @@ public class BouncyCastleGpgSigner extends GpgSigner
 			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
 					committer, passphrasePrompt);
 			return gpgKey != null;
-		} catch (PGPException | IOException | NoSuchAlgorithmException
-				| NoSuchProviderException | URISyntaxException e) {
+		} catch (CanceledException e) {
+			throw e;
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -143,7 +145,8 @@ public class BouncyCastleGpgSigner extends GpgSigner
 		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
 				credentialsProvider)) {
 			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
-					committer, passphrasePrompt);
+					committer,
+						passphrasePrompt);
 			PGPSecretKey secretKey = gpgKey.getSecretKey();
 			if (secretKey == null) {
 				throw new JGitInternalException(
