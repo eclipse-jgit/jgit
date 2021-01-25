@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1016391d_a8d5d457",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/keys/SExprParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-25T16:16:37Z",
+      "side": 1,
+      "message": "This file is a (minimally) modified copy of a class from Bouncy Castle.",
+      "revId": "d4320884d1f47d5d6113a6a6efd57b9dfe93cc7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c06ddcc8_b338d34d",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/keys/SXprUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-25T16:16:37Z",
+      "side": 1,
+      "message": "This file is an unmodified copy of a class from BouncyCastle. It\u0027s package-visible only, but needed by the also copied SExprParser.",
+      "revId": "d4320884d1f47d5d6113a6a6efd57b9dfe93cc7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
