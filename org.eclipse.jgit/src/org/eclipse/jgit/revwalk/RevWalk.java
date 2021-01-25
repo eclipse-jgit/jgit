@@ -28,6 +28,8 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.revwalk.BitmappedReachabilityChecker;
+import org.eclipse.jgit.internal.revwalk.PedestrianReachabilityChecker;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.Constants;
@@ -236,7 +238,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *             if it cannot open any of the underlying indices.
 	 *
 	 * @since 5.4
+	 * @deprecated use {@code Repository#createReachabilityChecker(RevWalk)}
+	 *             instead.
 	 */
+	@Deprecated
 	public ReachabilityChecker createReachabilityChecker() throws IOException {
 		if (reader.getBitmapIndex() != null) {
 			return new BitmappedReachabilityChecker(this);
