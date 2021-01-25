@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
@@ -38,6 +40,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -106,6 +109,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	private File indexFile;
 
 	private File workTree;
+
+	private String initialBranch = Constants.MASTER;
 
 	/** Directories limiting the search for a Git repository. */
 	private List<File> ceilingDirectories;
@@ -347,6 +352,43 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public File getIndexFile() {
 		return indexFile;
+	}
+
+	/**
+	 * Set the initial branch of the new repository. If not specified
+	 * ({@code null} or empty), fall back to the default name (currently
+	 * master).
+	 *
+	 * @param branch
+	 *            initial branch name of the new repository. If {@code null} or
+	 *            empty the configured default branch will be used.
+	 * @return {@code this}
+	 * @throws InvalidRefNameException
+	 *             if the branch name is not valid
+	 *
+	 * @since 5.11
+	 */
+	public B setInitialBranch(String branch) throws InvalidRefNameException {
+		if (StringUtils.isEmptyOrNull(branch)) {
+			this.initialBranch = Constants.MASTER;
+		} else {
+			if (!Repository.isValidRefName(Constants.R_HEADS + branch)) {
+				throw new InvalidRefNameException(MessageFormat
+						.format(JGitText.get().branchNameInvalid, branch));
+			}
+			this.initialBranch = branch;
+		}
+		return self();
+	}
+
+	/**
+	 * Get the initial branch of the new repository.
+	 *
+	 * @return the initial branch of the new repository.
+	 * @since 5.11
+	 */
+	public @NonNull String getInitialBranch() {
+		return initialBranch;
 	}
 
 	/**
