@@ -707,4 +707,17 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_VERSION = "version";
 
+	/**
+	 * The "init" section
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_INIT_SECTION = "init";
+
+	/**
+	 * The "defaultBranch" key
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_KEY_DEFAULT_BRANCH = "defaultbranch";
 }

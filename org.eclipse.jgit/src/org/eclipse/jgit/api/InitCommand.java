@@ -17,7 +17,9 @@ import java.util.concurrent.Callable;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
@@ -40,7 +42,7 @@ public class InitCommand implements Callable<Git> {
 
 	private FS fs;
 
-	private String initialBranch = Constants.MASTER;
+	private String initialBranch;
 
 	/**
 	 * {@inheritDoc}
@@ -91,12 +93,25 @@ public class InitCommand implements Callable<Git> {
 					builder.setWorkTree(new File(dStr));
 				}
 			}
-			builder.setInitialBranch(initialBranch);
+			String branch = initialBranch;
+			if (StringUtils.isEmptyOrNull(initialBranch)) {
+				branch = SystemReader.getInstance().getUserConfig().getString(
+						ConfigConstants.CONFIG_INIT_SECTION, null,
+						ConfigConstants.CONFIG_KEY_DEFAULT_BRANCH);
+				if (StringUtils.isEmptyOrNull(branch)) {
+					branch = Constants.MASTER;
+				}
+				if (!Repository.isValidRefName(Constants.R_HEADS + branch)) {
+					throw new InvalidRefNameException(MessageFormat
+							.format(JGitText.get().branchNameInvalid, branch));
+				}
+			}
+			builder.setInitialBranch(branch);
 			Repository repository = builder.build();
 			if (!repository.getObjectDatabase().exists())
 				repository.create(bare);
 			return new Git(repository, true);
-		} catch (IOException e) {
+		} catch (IOException | ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}
