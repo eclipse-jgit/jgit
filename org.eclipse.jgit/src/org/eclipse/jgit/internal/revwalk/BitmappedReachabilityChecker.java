@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.revwalk;
+package org.eclipse.jgit.internal.revwalk;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,12 +23,17 @@ import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 /**
  * Checks the reachability using bitmaps.
  */
-class BitmappedReachabilityChecker implements ReachabilityChecker {
+public class BitmappedReachabilityChecker implements ReachabilityChecker {
 
 	private final RevWalk walk;
 
@@ -42,7 +47,7 @@ class BitmappedReachabilityChecker implements ReachabilityChecker {
 	 * @throws IOException
 	 *             if the index or the object reader cannot be opened.
 	 */
-	BitmappedReachabilityChecker(RevWalk walk)
+	public BitmappedReachabilityChecker(RevWalk walk)
 			throws IOException {
 		this.walk = walk;
 		if (walk.getObjectReader().getBitmapIndex() == null) {

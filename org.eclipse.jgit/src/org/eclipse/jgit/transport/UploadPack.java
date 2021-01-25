@@ -1959,8 +1959,8 @@ public class UploadPack {
 							.map(objId -> objectIdToRevObject(objWalk, objId))
 							.filter(Objects::nonNull); // Ignore missing tips
 
-					ObjectReachabilityChecker reachabilityChecker = objWalk
-							.createObjectReachabilityChecker();
+					ObjectReachabilityChecker reachabilityChecker = reader
+							.createObjectReachabilityChecker(objWalk);
 					Optional<RevObject> unreachable = reachabilityChecker
 							.areAllReachable(wantsAsObjs, startersAsObjs);
 					if (unreachable.isPresent()) {
@@ -1971,8 +1971,8 @@ public class UploadPack {
 			}
 
 			// All wants are commits, we can use ReachabilityChecker
-			ReachabilityChecker reachabilityChecker = walk
-					.createReachabilityChecker();
+			ReachabilityChecker reachabilityChecker = reader
+					.createReachabilityChecker(walk);
 
 			Stream<RevCommit> reachableCommits = importantRefsFirst(visibleRefs)
 					.map(UploadPack::refToObjectId)
