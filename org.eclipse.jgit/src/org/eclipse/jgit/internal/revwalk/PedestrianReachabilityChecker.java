@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.revwalk;
+package org.eclipse.jgit.internal.revwalk;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -17,12 +17,16 @@ import java.util.stream.Stream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Checks the reachability walking the graph from the starters towards the
  * target.
  */
-class PedestrianReachabilityChecker implements ReachabilityChecker {
+public class PedestrianReachabilityChecker implements ReachabilityChecker {
 
 	private final boolean topoSort;
 
