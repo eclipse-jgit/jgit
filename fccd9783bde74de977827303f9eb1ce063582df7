@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a5920a5_f6efbba0",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/BaseFormat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-01-25T16:47:57Z",
+      "side": 1,
+      "message": "I know that\u0027s bad. The reason I did this is because all formats call the BaseFormat#applyFormatOptions which use all the keys of this map and apply #setKey on the ArchiveOutputsStream using reflection. Since the streams do not have a setCompressionLevel this operations fails and the code does not catch that.\n\nI modified the implementation and ignored the \"COMPRESSION_LEVEL\" key from #applyFormatOptions instead.",
+      "parentUuid": "1dc53d16_970c539b",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 31
+      },
+      "revId": "fccd9783bde74de977827303f9eb1ce063582df7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f815ea4_6f35b597",
         "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "fccd9783bde74de977827303f9eb1ce063582df7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882cc59f_7839d1be",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-01-25T16:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f815ea4_6f35b597",
+      "revId": "fccd9783bde74de977827303f9eb1ce063582df7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
