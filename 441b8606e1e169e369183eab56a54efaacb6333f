@@ -22,6 +22,30 @@
       "revId": "441b8606e1e169e369183eab56a54efaacb6333f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "929b50df_5b8a3c1b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ArchiveCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-01-25T17:01:40Z",
+      "side": 1,
+      "message": "That only worked with tgz. Other formats yielded the same result.\n\nMaybe I\u0027d need to create a larger file than the default one until I can get a better compression.",
+      "parentUuid": "d7430595_7e028f24",
+      "range": {
+        "startLine": 278,
+        "startChar": 31,
+        "endLine": 278,
+        "endChar": 33
+      },
+      "revId": "441b8606e1e169e369183eab56a54efaacb6333f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
