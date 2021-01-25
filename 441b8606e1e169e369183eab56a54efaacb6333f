@@ -70,6 +70,30 @@
       "revId": "441b8606e1e169e369183eab56a54efaacb6333f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f6fab95_33f0e2cf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ArchiveCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-01-25T18:10:49Z",
+      "side": 1,
+      "message": "Turned out not be that hard. I was able to get difference in sizes with a medium sized random input.\n\nDone.",
+      "parentUuid": "88a24496_71796ef3",
+      "range": {
+        "startLine": 278,
+        "startChar": 31,
+        "endLine": 278,
+        "endChar": 33
+      },
+      "revId": "441b8606e1e169e369183eab56a54efaacb6333f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
