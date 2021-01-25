@@ -187,6 +187,30 @@
       "revId": "186727502389716d23b2627c6f4f7d5e5bb24354",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7ef5bff_0ef66974",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-25T11:09:14Z",
+      "side": 1,
+      "message": "the size of the \"excludes\" set*",
+      "parentUuid": "43d8e881_f7094fe1",
+      "range": {
+        "startLine": 297,
+        "startChar": 55,
+        "endLine": 297,
+        "endChar": 75
+      },
+      "revId": "186727502389716d23b2627c6f4f7d5e5bb24354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
