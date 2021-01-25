@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dc53d16_970c539b",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/BaseFormat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-25T16:09:43Z",
+      "side": 1,
+      "message": "why do you modify the map?",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 31
+      },
+      "revId": "fccd9783bde74de977827303f9eb1ce063582df7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f815ea4_6f35b597",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-25T16:09:43Z",
+      "side": 1,
+      "message": "i\u0027d just ignore it.",
+      "revId": "fccd9783bde74de977827303f9eb1ce063582df7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
