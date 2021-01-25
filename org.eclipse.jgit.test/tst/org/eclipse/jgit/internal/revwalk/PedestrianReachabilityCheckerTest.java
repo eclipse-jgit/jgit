@@ -7,10 +7,11 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.revwalk;
+package org.eclipse.jgit.internal.revwalk;
 
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
 
 public class PedestrianReachabilityCheckerTest
 		extends ReachabilityCheckerTestCase {

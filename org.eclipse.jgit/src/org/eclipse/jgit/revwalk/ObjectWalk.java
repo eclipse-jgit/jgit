@@ -172,14 +172,14 @@ public class ObjectWalk extends RevWalk {
 	 *             when the index fails to load.
 	 *
 	 * @since 5.8
+	 * @deprecated use
+	 *             {@code ObjectReader#createObjectReachabilityChecker(ObjectWalk)}
+	 *             instead.
 	 */
+	@Deprecated
 	public ObjectReachabilityChecker createObjectReachabilityChecker()
 			throws IOException {
-		if (reader.getBitmapIndex() != null) {
-			return new BitmappedObjectReachabilityChecker(this);
-		}
-
-		return new PedestrianObjectReachabilityChecker(this);
+		return reader.createObjectReachabilityChecker(this);
 	}
 
 	/**

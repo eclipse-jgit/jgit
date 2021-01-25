@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.revwalk;
+package org.eclipse.jgit.internal.revwalk;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -17,12 +17,18 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
+import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevSort;
 
 /**
  * Checks if all objects are reachable from certain starting points doing a
  * walk.
  */
-class PedestrianObjectReachabilityChecker implements ObjectReachabilityChecker {
+public class PedestrianObjectReachabilityChecker
+		implements ObjectReachabilityChecker {
 	private final ObjectWalk walk;
 
 	/**
@@ -31,7 +37,7 @@ class PedestrianObjectReachabilityChecker implements ObjectReachabilityChecker {
 	 * @param walk
 	 *            ObjectWalk instance to reuse. Caller retains ownership.
 	 */
-	PedestrianObjectReachabilityChecker(ObjectWalk walk) {
+	public PedestrianObjectReachabilityChecker(ObjectWalk walk) {
 		this.walk = walk;
 	}
 
