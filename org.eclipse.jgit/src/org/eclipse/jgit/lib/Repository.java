@@ -127,6 +127,8 @@ public abstract class Repository implements AutoCloseable {
 	/** If not bare, the index file caching the working file states. */
 	private final File indexFile;
 
+	private final String initialBranch;
+
 	/**
 	 * Initialize a new repository instance.
 	 *
@@ -138,6 +140,7 @@ public abstract class Repository implements AutoCloseable {
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
+		initialBranch = options.getInitialBranch();
 	}
 
 	/**
@@ -1031,6 +1034,16 @@ public abstract class Repository implements AutoCloseable {
 		if (name != null)
 			return shortenRefName(name);
 		return null;
+	}
+
+	/**
+	 * Get the initial branch name of a new repository
+	 *
+	 * @return the initial branch name of a new repository
+	 * @since 5.11
+	 */
+	protected @NonNull String getInitialBranch() {
+		return initialBranch;
 	}
 
 	/**
