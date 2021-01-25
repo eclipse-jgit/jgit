@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -42,7 +43,23 @@ public class InitCommandTest extends RepositoryTestCase {
 		InitCommand command = new InitCommand();
 		command.setDirectory(directory);
 		try (Git git = command.call()) {
-			assertNotNull(git.getRepository());
+			Repository r = git.getRepository();
+			assertNotNull(r);
+			assertEquals("refs/heads/master", r.getFullBranch());
+		}
+	}
+
+	@Test
+	public void testInitRepositoryMainInitialBranch()
+			throws IOException, JGitInternalException, GitAPIException {
+		File directory = createTempDirectory("testInitRepository");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		command.setInitialBranch("main");
+		try (Git git = command.call()) {
+			Repository r = git.getRepository();
+			assertNotNull(r);
+			assertEquals("refs/heads/main", r.getFullBranch());
 		}
 	}
 
@@ -72,6 +89,23 @@ public class InitCommandTest extends RepositoryTestCase {
 			Repository repository = git.getRepository();
 			assertNotNull(repository);
 			assertTrue(repository.isBare());
+			assertEquals("refs/heads/master", repository.getFullBranch());
+		}
+	}
+
+	@Test
+	public void testInitBareRepositoryMainInitialBranch()
+			throws IOException, JGitInternalException, GitAPIException {
+		File directory = createTempDirectory("testInitBareRepository");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		command.setBare(true);
+		command.setInitialBranch("main");
+		try (Git git = command.call()) {
+			Repository repository = git.getRepository();
+			assertNotNull(repository);
+			assertTrue(repository.isBare());
+			assertEquals("refs/heads/main", repository.getFullBranch());
 		}
 	}
 

@@ -244,7 +244,7 @@ public class FileRepository extends Repository {
 
 		RefUpdate head = updateRef(Constants.HEAD);
 		head.disableRefLog();
-		head.link(Constants.R_HEADS + Constants.MASTER);
+		head.link(Constants.R_HEADS + getInitialBranch());
 
 		final boolean fileMode;
 		if (getFS().supportsExecute()) {

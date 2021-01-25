@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
@@ -106,6 +107,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	private File indexFile;
 
 	private File workTree;
+
+	private String initialBranch = Constants.MASTER;
 
 	/** Directories limiting the search for a Git repository. */
 	private List<File> ceilingDirectories;
@@ -347,6 +350,37 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public File getIndexFile() {
 		return indexFile;
+	}
+
+	/**
+	 * Set the initial branch of the new repository. If not specified, fall back
+	 * to the default name (currently master).
+	 *
+	 * @param branch
+	 *            initial branch name of the new repository
+	 * @return {@code this}
+	 * @throws InvalidRefNameException
+	 *             if the branch name is not valid
+	 *
+	 * @since 5.11
+	 */
+	public B setInitialBranch(String branch) throws InvalidRefNameException {
+		if (!Repository.isValidRefName(Constants.R_HEADS + branch)) {
+			throw new InvalidRefNameException(MessageFormat
+					.format(JGitText.get().branchNameInvalid, branch));
+		}
+		this.initialBranch = branch;
+		return self();
+	}
+
+	/**
+	 * Get the initial branch of the new repository.
+	 *
+	 * @return the initial branch of the new repository.
+	 * @since 5.11
+	 */
+	public String getInitialBranch() {
+		return initialBranch;
 	}
 
 	/**
