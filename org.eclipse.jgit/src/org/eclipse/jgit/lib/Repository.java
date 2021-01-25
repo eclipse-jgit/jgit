@@ -54,6 +54,13 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.revwalk.BitmappedObjectReachabilityChecker;
+import org.eclipse.jgit.internal.revwalk.BitmappedReachabilityChecker;
+import org.eclipse.jgit.internal.revwalk.PedestrianObjectReachabilityChecker;
+import org.eclipse.jgit.internal.revwalk.PedestrianReachabilityChecker;
+import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -356,6 +363,53 @@ public abstract class Repository implements AutoCloseable {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		return getObjectDatabase().open(objectId, typeHint);
+	}
+
+	/**
+	 * Get a reachability checker for commits over a revwalk.
+	 *
+	 * @param rw
+	 *            revwalk for use by the reachability checker
+	 * @return the most efficient reachability checker for this repository.
+	 * @throws IOException
+	 *             if it cannot open any of the underlying indices.
+	 *
+	 * @since 5.11
+	 */
+	@NonNull
+	public ReachabilityChecker createReachabilityChecker(RevWalk rw)
+			throws IOException {
+		if (rw.getObjectReader().getBitmapIndex() != null) {
+			return new BitmappedReachabilityChecker(rw);
+		}
+
+		return new PedestrianReachabilityChecker(true, rw);
+	}
+
+	/**
+	 * Create an object reachability checker that will use bitmaps if possible.
+	 *
+	 * This reachability checker accepts any object as target. For checks
+	 * exclusively between commits, see
+	 * {@link #createReachabilityChecker(RevWalk)}.
+	 *
+	 * @param ow
+	 *            objectwalk for use by the reachability checker
+	 * @return an object reachability checker, using bitmaps if possible.
+	 *
+	 * @throws IOException
+	 *             when the index fails to load.
+	 *
+	 * @since 5.11
+	 */
+	@NonNull
+	public ObjectReachabilityChecker createObjectReachabilityChecker(
+			ObjectWalk ow) throws IOException {
+		if (ow.getObjectReader().getBitmapIndex() != null) {
+			return new BitmappedObjectReachabilityChecker(ow);
+		}
+
+		return new PedestrianObjectReachabilityChecker(ow);
 	}
 
 	/**

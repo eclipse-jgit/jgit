@@ -25,6 +25,8 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.revwalk.BitmappedObjectReachabilityChecker;
+import org.eclipse.jgit.internal.revwalk.PedestrianObjectReachabilityChecker;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -172,7 +174,11 @@ public class ObjectWalk extends RevWalk {
 	 *             when the index fails to load.
 	 *
 	 * @since 5.8
+	 * @deprecated use
+	 *             {@code Repository#createObjectReachabilityChecker(ObjectWalk)}
+	 *             instead.
 	 */
+	@Deprecated
 	public ObjectReachabilityChecker createObjectReachabilityChecker()
 			throws IOException {
 		if (reader.getBitmapIndex() != null) {
