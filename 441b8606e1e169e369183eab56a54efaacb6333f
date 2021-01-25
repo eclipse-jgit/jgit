@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7430595_7e028f24",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ArchiveCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-25T16:52:16Z",
+      "side": 1,
+      "message": "could you test \u003e ? \n\n(you\u0027d have to skip .tar obviously.)",
+      "range": {
+        "startLine": 278,
+        "startChar": 31,
+        "endLine": 278,
+        "endChar": 33
+      },
+      "revId": "441b8606e1e169e369183eab56a54efaacb6333f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
