@@ -46,6 +46,30 @@
       "revId": "441b8606e1e169e369183eab56a54efaacb6333f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88a24496_71796ef3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ArchiveCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-01-25T17:07:28Z",
+      "side": 1,
+      "message": "that\u0027ll be a lot of work. Can you do the test with \u003e for gzip and \u003e\u003d for the rest? That proves that getCompressionLevel does something.",
+      "parentUuid": "929b50df_5b8a3c1b",
+      "range": {
+        "startLine": 278,
+        "startChar": 31,
+        "endLine": 278,
+        "endChar": 33
+      },
+      "revId": "441b8606e1e169e369183eab56a54efaacb6333f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
