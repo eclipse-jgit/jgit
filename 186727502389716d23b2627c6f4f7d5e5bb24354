@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d6d7ae45_f5c6834c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-25T11:07:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14b1d1a5_5d33f980",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "186727502389716d23b2627c6f4f7d5e5bb24354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e10daf65_a1f54a73",
         "filename": "/COMMIT_MSG",
         "patchSetId": 18
@@ -45,6 +69,30 @@
       "revId": "186727502389716d23b2627c6f4f7d5e5bb24354",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb2971d_2eb1dfb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-25T11:07:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e10daf65_a1f54a73",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "186727502389716d23b2627c6f4f7d5e5bb24354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3acfe15e_cb64c091",
+        "filename": "org.eclipse.jgit.http.test/src/org/eclipse/jgit/http/test/RefsUnreadableInMemoryRepository.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-25T11:07:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a82699a_f7f324e2",
+      "range": {
+        "startLine": 88,
+        "startChar": 19,
+        "endLine": 88,
+        "endChar": 43
+      },
+      "revId": "186727502389716d23b2627c6f4f7d5e5bb24354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ef0e5cd_ea216486",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
         "patchSetId": 18
@@ -82,6 +154,30 @@
       "writtenOn": "2021-01-22T19:58:10Z",
       "side": 1,
       "message": "If \"already further then\", I would expect a compareTo test, not a startsWith test.",
+      "range": {
+        "startLine": 297,
+        "startChar": 55,
+        "endLine": 297,
+        "endChar": 75
+      },
+      "revId": "186727502389716d23b2627c6f4f7d5e5bb24354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d8e881_f7094fe1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-25T11:07:27Z",
+      "side": 1,
+      "message": "We have to do both compareTo and startWith (as we currently do):\nThe following while loop checks that the currentExclusion is further lexicographically from the current ref, but we also have to make sure that the ref doesn\u0027t start with this currentExclusion.\n\nE.g, if the prefix is \"refs/foo\", and the current ref is \"refs/foo/bar\", the current ref is larger lexicographically then the prefix, but it doesn\u0027t matter since it\u0027s actually the matching prefix so we definitely don\u0027t want to skip it.\n\nThis checks come instead of filtering the invalid/non existent/overlapping refs, as it\u0027s much clearer and doesn\u0027t have a big problem complexity-wise (since filtering invalid etc is also not exactly cheap, depending on the size of the \"excludes\" string).",
+      "parentUuid": "9ef0e5cd_ea216486",
       "range": {
         "startLine": 297,
         "startChar": 55,
