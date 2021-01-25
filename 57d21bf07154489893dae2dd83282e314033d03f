@@ -46,6 +46,30 @@
       "revId": "57d21bf07154489893dae2dd83282e314033d03f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "700c2f80_0b7d2f85",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TxzFormat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-01-25T16:07:38Z",
+      "side": 1,
+      "message": "Done. I extracted this code and added Javadoc.\nThis will throw an IllegalArgumentException if the option does not parse to Integer.",
+      "parentUuid": "fdad9b71_e08d9f14",
+      "range": {
+        "startLine": 51,
+        "startChar": 28,
+        "endLine": 51,
+        "endChar": 44
+      },
+      "revId": "57d21bf07154489893dae2dd83282e314033d03f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
