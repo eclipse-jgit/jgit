@@ -22,8 +22,10 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +62,56 @@ public class InitCommandTest extends RepositoryTestCase {
 			Repository r = git.getRepository();
 			assertNotNull(r);
 			assertEquals("refs/heads/main", r.getFullBranch());
+		}
+	}
+
+	@Test
+	public void testInitRepositoryCustomDefaultBranch()
+			throws Exception {
+		File directory = createTempDirectory("testInitRepository");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		MockSystemReader reader = (MockSystemReader) SystemReader.getInstance();
+		StoredConfig c = reader.getUserConfig();
+		String old = c.getString(ConfigConstants.CONFIG_INIT_SECTION, null,
+				ConfigConstants.CONFIG_KEY_DEFAULT_BRANCH);
+		c.setString(ConfigConstants.CONFIG_INIT_SECTION, null,
+				ConfigConstants.CONFIG_KEY_DEFAULT_BRANCH, "main");
+		try (Git git = command.call()) {
+			Repository r = git.getRepository();
+			assertNotNull(r);
+			assertEquals("refs/heads/main", r.getFullBranch());
+		} finally {
+			c.setString(ConfigConstants.CONFIG_INIT_SECTION, null,
+					ConfigConstants.CONFIG_KEY_DEFAULT_BRANCH, old);
+		}
+	}
+
+	@Test
+	public void testInitRepositoryNullInitialBranch() throws Exception {
+		File directory = createTempDirectory("testInitRepository");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		command.setInitialBranch("main");
+		command.setInitialBranch(null);
+		try (Git git = command.call()) {
+			Repository r = git.getRepository();
+			assertNotNull(r);
+			assertEquals("refs/heads/master", r.getFullBranch());
+		}
+	}
+
+	@Test
+	public void testInitRepositoryEmptyInitialBranch() throws Exception {
+		File directory = createTempDirectory("testInitRepository");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		command.setInitialBranch("main");
+		command.setInitialBranch("");
+		try (Git git = command.call()) {
+			Repository r = git.getRepository();
+			assertNotNull(r);
+			assertEquals("refs/heads/master", r.getFullBranch());
 		}
 	}
 
