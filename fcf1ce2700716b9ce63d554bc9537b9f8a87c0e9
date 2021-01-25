@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3eb3c4f9_0b1dd1a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-25T11:07:23Z",
+      "side": 1,
+      "message": "Good question.\nI made sure it can\u0027t: as long as add() is invoked, head will never be null after it was invoked. add() is invoked by both next() and seekPastPrefix().\n\nI made a test that calls seekPastPrefix multiple times to ensure it\u0027s okay.",
+      "parentUuid": "677c24df_279e721b",
+      "range": {
+        "startLine": 223,
+        "startChar": 20,
+        "endLine": 223,
+        "endChar": 24
+      },
+      "revId": "fcf1ce2700716b9ce63d554bc9537b9f8a87c0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b753d4fd_e556c15d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2021-01-22T19:46:31Z",
       "side": 1,
       "message": "I think it\u0027s clearer if you s/Based on how UTF_8 representation works/Because 0xff can never appear in a UTF_8 string/",
+      "range": {
+        "startLine": 518,
+        "startChar": 6,
+        "endLine": 518,
+        "endChar": 20
+      },
+      "revId": "fcf1ce2700716b9ce63d554bc9537b9f8a87c0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50129cbe_99a0e49d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-25T11:07:23Z",
+      "side": 1,
+      "message": "Since 0xff can\u0027t appear in a UTF_8 string, we can be perfectly sure that 0xff is the highest lexicographical byte that could possibly appear.\n\nI added some explanation about that, I hope that\u0027s fine (I\u0027ve had many iterations of the best way to make it clear but it\u0027s going to be unclear anyway).\n\nWDYT?",
+      "parentUuid": "b753d4fd_e556c15d",
       "range": {
         "startLine": 518,
         "startChar": 6,
