@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7d5406ca_2d0e436d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-01-26T20:23:35Z",
+      "side": 1,
+      "message": "I think what you\u0027re saying is that as long as add() has been called before seekPastPrefix(), this works. And add() is indeed usually called after all the times this class is instantiated. But it\u0027s not the case when tables is empty (which seems like a possible case, judging from the code in other methods that check if tables.length is 0). I think it\u0027s easiest just to add an \"if\" here that only adds head to entriesToAdd if it is not null.",
+      "parentUuid": "3eb3c4f9_0b1dd1a7",
+      "range": {
+        "startLine": 223,
+        "startChar": 20,
+        "endLine": 223,
+        "endChar": 24
+      },
+      "revId": "fcf1ce2700716b9ce63d554bc9537b9f8a87c0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b753d4fd_e556c15d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 15
@@ -93,6 +117,30 @@
       "revId": "fcf1ce2700716b9ce63d554bc9537b9f8a87c0e9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf629087_28722970",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-01-26T20:23:35Z",
+      "side": 1,
+      "message": "Thanks, this looks good.",
+      "parentUuid": "50129cbe_99a0e49d",
+      "range": {
+        "startLine": 518,
+        "startChar": 6,
+        "endLine": 518,
+        "endChar": 20
+      },
+      "revId": "fcf1ce2700716b9ce63d554bc9537b9f8a87c0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
