@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba07a074_9b52659f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/revwalk/BitmappedObjectReachabilityTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-26T02:24:21Z",
+      "side": 1,
+      "message": "Moving the reachability checkers to the jgit.internal.revwalk package has caused a new \"Discouraged access: The type \u0027BitmappedObjectReachabilityChecker\u0027 is not API (restriction on required project \u0027org.eclipse.jgit\u0027)\" warnings in the IDE. Similar warnings for accessing the ctors of these classes.\n\nShould we suppress those or is there a better way to tell Eclipse that direct accesses of these classes from this test package is ok?",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
