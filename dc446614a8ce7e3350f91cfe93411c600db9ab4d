@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81872264_73bd0fda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-01-26T17:40:10Z",
+      "side": 1,
+      "message": "The loop below still feels weird to me, we have all the PackFileNames in this set here, yet we are not using them, and we are recreating most of them below in the loop. I think it would make more sense to organize things in a way that we use the work already done in getPackFileNames(). Consider if possibly getPackFileNames() should return something more anenable to being used in a smart way?",
+      "revId": "dc446614a8ce7e3350f91cfe93411c600db9ab4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
