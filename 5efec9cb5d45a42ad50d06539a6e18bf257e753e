@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3c92cca_cb925825",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-01-26T23:57:34Z",
+      "side": 1,
+      "message": "Consider removing this so that client preserved objects do not show up in \"have\" advertisements.",
+      "range": {
+        "startLine": 290,
+        "startChar": 8,
+        "endLine": 290,
+        "endChar": 34
+      },
+      "revId": "5efec9cb5d45a42ad50d06539a6e18bf257e753e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
