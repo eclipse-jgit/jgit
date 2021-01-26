@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "bcf5eaa5_9dedc82d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-26T05:32:46Z",
+      "side": 1,
+      "message": "I don\u0027t think I understand this motivation yet. Is the idea that callers might want to make a custom ReachabilityChecker and that using the Repository as a ReachabilityChecker factory makes that more straightforward?\n\nIn other words, my question is, what does a typical caller look like? Perhaps it\u0027s straightforward for the proposed better ReachabilityChecker to be part of JGit and avoid some complication.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "866029e2_2026e7e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-26T05:32:46Z",
+      "side": 1,
+      "message": "nit: this should be a single blank line",
+      "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ba07a074_9b52659f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/revwalk/BitmappedObjectReachabilityTest.java",
         "patchSetId": 2
@@ -19,6 +59,23 @@
         "endLine": 30,
         "endChar": 0
       },
+      "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c03019a_2e1b2609",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-26T05:32:46Z",
+      "side": 1,
+      "message": "For the application in mind, I\u0027m wondering whether ReachabilityChecker is the right return type.\n\nIn the Gerrit example mentioned in the commit message, is the relevant detail that we can cache some information about what is reachable for a particular set of users? That sounds sensible to me, but then wouldn\u0027t ReachabilityChecker make that hard to take advantage of, since areAllReachable takes a `Stream\u003cRevCommit\u003e` of start points as a parameter instead of something such a cache could take advantage of?",
       "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
