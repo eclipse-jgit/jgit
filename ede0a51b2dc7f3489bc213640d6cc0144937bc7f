@@ -16,6 +16,24 @@
       "revId": "ede0a51b2dc7f3489bc213640d6cc0144937bc7f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2bbd3f2_a0741e82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-26T16:04:42Z",
+      "side": 1,
+      "message": "\u003e Time to factor out a hasFiles(Path directory) method to somewhere? See IndexDiff.hasFiles(File).\n\nProbably. There is also FileRepository.java:line 732, which I failed to pull into this change. I\u0027ll put a new method in FileUtils.java.",
+      "parentUuid": "ad7b65eb_75bb34dc",
+      "revId": "ede0a51b2dc7f3489bc213640d6cc0144937bc7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
