@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad7b65eb_75bb34dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-26T07:58:12Z",
+      "side": 1,
+      "message": "Good catch. Time to factor out a hasFiles(Path directory) method to somewhere? See IndexDiff.hasFiles(File).\n\nOn a side note: seems to me that IndexDiff.hasFiles() might be more efficient since it doesn\u0027t need to fire up the whole Stream machinery.\n\nAnd a totally unrelated thought: why don\u0027t terminal Stream operations not close a Stream if it\u0027s a Closeable?",
+      "revId": "ede0a51b2dc7f3489bc213640d6cc0144937bc7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
