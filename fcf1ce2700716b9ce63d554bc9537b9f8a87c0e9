@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "91a8194e_4ce4e637",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-01-26T20:48:30Z",
+      "side": 1,
+      "message": "Done, good catch. Added a test for this.",
+      "parentUuid": "7d5406ca_2d0e436d",
+      "range": {
+        "startLine": 223,
+        "startChar": 20,
+        "endLine": 223,
+        "endChar": 24
+      },
+      "revId": "fcf1ce2700716b9ce63d554bc9537b9f8a87c0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b753d4fd_e556c15d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 15
