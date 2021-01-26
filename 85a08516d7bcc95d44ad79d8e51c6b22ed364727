@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3f2300d0_397dd11d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-26T21:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f697a40_76a3a7d7",
+      "revId": "85a08516d7bcc95d44ad79d8e51c6b22ed364727",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a42e00a_101f9800",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "85a08516d7bcc95d44ad79d8e51c6b22ed364727",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc4a39be_ae038b77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-26T21:47:06Z",
+      "side": 1,
+      "message": "I can do even better. We don\u0027t actually use the Id in this loop, so I can iterate over just the values.",
+      "parentUuid": "4a42e00a_101f9800",
+      "revId": "85a08516d7bcc95d44ad79d8e51c6b22ed364727",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
