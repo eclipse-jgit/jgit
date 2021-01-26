@@ -25,7 +25,6 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.time.Instant;
@@ -64,6 +63,7 @@ import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.Holder;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.Paths;
@@ -986,7 +986,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 						idOffset) == 0) {
 					Path p = repository.getWorkTree().toPath()
 							.resolve(entry.getPathString());
-					return Files.list(p).findAny().isPresent();
+					return FileUtils.hasFiles(p);
 				}
 				return false;
 			} else if (mode == FileMode.SYMLINK.getBits())
