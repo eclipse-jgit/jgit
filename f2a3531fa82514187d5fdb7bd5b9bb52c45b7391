@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bb19b2e_bf9d02fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-26T17:05:45Z",
+      "side": 1,
+      "message": "\"Files.list() returned streams\": the class is Files, and now this covers multiple call sites.\n\nThe commit message would also be a good place to put a note about how this was discovered (compiler error).",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "f2a3531fa82514187d5fdb7bd5b9bb52c45b7391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
