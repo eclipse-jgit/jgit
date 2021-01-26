@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -799,6 +800,23 @@ public class FileUtils {
 	 */
 	static boolean isFile(File file) {
 		return Files.isRegularFile(file.toPath(), LinkOption.NOFOLLOW_LINKS);
+	}
+
+	/**
+	 * Whether the path is a directory with files in it.
+	 *
+	 * @param dir
+	 *            directory path
+	 * @return {@code true} if the given directory path contains files
+	 * @throws IOException
+	 *             on any I/O errors accessing the path
+	 *
+	 * @since 5.11
+	 */
+	public static boolean hasFiles(Path dir) throws IOException {
+		try (Stream<Path> stream = Files.list(dir)) {
+			return stream.findAny().isPresent();
+		}
 	}
 
 	/**

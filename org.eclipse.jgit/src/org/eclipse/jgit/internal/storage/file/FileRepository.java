@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -728,8 +727,7 @@ public class FileRepository extends Repository {
 			throws IOException {
 		File reftableDir = new File(getDirectory(), Constants.REFTABLE);
 		File headFile = new File(getDirectory(), Constants.HEAD);
-		if (reftableDir.exists()
-				&& Files.list(reftableDir.toPath()).findAny().isPresent()) {
+		if (reftableDir.exists() && FileUtils.hasFiles(reftableDir.toPath())) {
 			throw new IOException(JGitText.get().reftableDirExists);
 		}
 
