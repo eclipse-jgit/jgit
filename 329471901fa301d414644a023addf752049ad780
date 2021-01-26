@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "42e08570_37b2128f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-26T20:13:49Z",
+      "side": 1,
+      "message": "Done. I was going to make your first loop create a structure like Map\u003cPackFileName(Pack), Set\u003cPackExt\u003e\u003e, but that turned out to be difficult to populate in a single iteration. So I used the more flexible Map\u003cString(Id),Map\u003cPackExt,PackFileName\u003e\u003e packFileNamesByExtById.",
+      "parentUuid": "8aeb6779_10416a22",
+      "revId": "329471901fa301d414644a023addf752049ad780",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66fc3a7d_e37a5c85",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 1
