@@ -202,6 +202,14 @@
       <id>repo.eclipse.org.cbi-snapshots</id>
       <url>https://repo.eclipse.org/content/repositories/cbi-snapshots/</url>
     </pluginRepository>
+    <pluginRepository>
+      <id>repo.eclipse.org.dash-releases</id>
+      <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>repo.eclipse.org.dash-snapshots</id>
+      <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+    </pluginRepository>
   </pluginRepositories>
 
   <build>
@@ -391,6 +399,11 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>2.4.1</version>
         </plugin>
+        <plugin>
+          <groupId>org.eclipse.dash</groupId>
+          <artifactId>license-tool-plugin</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -548,6 +561,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.dash</groupId>
+        <artifactId>license-tool-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
