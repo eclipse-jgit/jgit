@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ae27e2a_0c0081ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-27T01:03:07Z",
+      "side": 1,
+      "message": "I suspect at least some of this experimentation can happen directly upstream (in DfsRepository land where there are no API stability guarantees) but that doesn\u0027t change the motivation for this change. Sounds like a good idea.",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 59
+      },
+      "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21c74a1e_61ff51ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-27T01:03:07Z",
+      "side": 1,
+      "message": "Alas, this can\u0027t forward to repo.createObjectReachabilityChecker(this) because a RevWalk is not guaranteed to have an associated Repository (it only operates on the object store so it\u0027s possible to create one for an object store without associated refs).\n\nAlternatively, if we want to be able to forward, we could put createObjectReachabilityChecker in the ObjectReader instead of the Repository.",
+      "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ccb8d1e_aa3ee9f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-27T01:03:07Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
