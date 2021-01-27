@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "985edf5d_7a97466d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-27T00:55:41Z",
+      "side": 1,
+      "message": "Reworked.",
+      "parentUuid": "bcf5eaa5_9dedc82d",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "866029e2_2026e7e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3870afc2_79e1565c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-27T00:55:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "866029e2_2026e7e2",
+      "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +121,24 @@
       "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24ad15a1_274f7a42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-27T00:55:41Z",
+      "side": 1,
+      "message": "I don\u0027t have my head wrapped around how to fix the Gerrit example case. We may well need to evolve the interface of ReachabilityChecker. I updated the commit message with these thoughts (or lack of thoughts, since it isn\u0027t a solved problem.)",
+      "parentUuid": "6c03019a_2e1b2609",
+      "revId": "e070a99f2fa2e69c4746b149eaa185c49f86a205",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
