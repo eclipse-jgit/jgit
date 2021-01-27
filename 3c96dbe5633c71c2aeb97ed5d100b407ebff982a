@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2984e9c0_a2d12dcf",
+        "filename": "org.eclipse.jgit.gpg.bc.test/tst/org/eclipse/jgit/gpg/bc/internal/keys/SecretKeysTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-27T10:47:39Z",
+      "side": 1,
+      "message": "When this test is run in Eclipse, it\u0027ll use the Eclipse BouncyCastle bundle from Orbit, which doesn\u0027t have OCB, and the test gets into this exception handler.\n\nWhen the test is run in maven, it\u0027ll use the standard maven BouncyCastle artifact, which does include OCB. In that case we _can_ read the encrypted keys, and we\u0027ll end up in line 135.",
+      "revId": "3c96dbe5633c71c2aeb97ed5d100b407ebff982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
