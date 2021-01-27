@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5dd237a2_b5f8a1b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-27T16:45:13Z",
+      "side": 1,
+      "message": "Probably. Our solution needs to take into account the eventual consistency inherent in our multi-homed system so it won\u0027t be a verbatim copy.",
+      "parentUuid": "6ae27e2a_0c0081ff",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 59
+      },
+      "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21c74a1e_61ff51ac",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2021-01-27T01:03:07Z",
       "side": 1,
       "message": "Alas, this can\u0027t forward to repo.createObjectReachabilityChecker(this) because a RevWalk is not guaranteed to have an associated Repository (it only operates on the object store so it\u0027s possible to create one for an object store without associated refs).\n\nAlternatively, if we want to be able to forward, we could put createObjectReachabilityChecker in the ObjectReader instead of the Repository.",
+      "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fca83a37_b6efddc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-27T16:45:13Z",
+      "side": 1,
+      "message": "My first instinct was to make sure we don\u0027t do this solely for the convenience of being able to forward the existing RevWalk/ObjectWalk calls. But on looking more closely, ObjectReaders are where the reachability bitmaps are attached, so this idea is intriguing.\n\nDue to my current focus on user pain caused by poor ReachabilityChecker performance, I\u0027ve been thinking of them as objects that reconcile the object database with the reference database, filtering objects from deleted/rewound branches or branches that are hidden by Gerrit. But looking more broadly, reachability checkers are answering questions about the relationships between any two objects. E.g., they are used to not only answer \"is object A reachable from any commits visible to user U\", but also more generally \"is object A directly reachable from commit B or indirectly reachable from an ancestor of B\".\n\nSince ReachabilityCheckers are truly about object relationships, I like this idea of moving the interface to ObjectReaders. Thanks Jonathan! I\u0027ve got wall-to-wall meetings today but will try to get something out when I\u0027m through with them.",
+      "parentUuid": "21c74a1e_61ff51ac",
       "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8d10c56_6b63ed42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-27T16:45:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ccb8d1e_aa3ee9f6",
+      "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
