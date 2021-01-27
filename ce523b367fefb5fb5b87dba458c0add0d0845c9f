@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "8753f504_ba715f7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-27T17:33:35Z",
+      "side": 1,
+      "message": "ObjectDatabase might be a more natural place than ObjectReader. But ObjectDatabase delegates its open() and has() operations to ObjectReader, so I\u0027m happy with ObjectReader.",
+      "parentUuid": "fca83a37_b6efddc9",
+      "revId": "ce523b367fefb5fb5b87dba458c0add0d0845c9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ccb8d1e_aa3ee9f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 3
