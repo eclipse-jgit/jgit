@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62e154fb_20502d26",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-28T21:25:02Z",
+      "side": 1,
+      "message": "expose package org.eclipse.jgit.internal.revwalk to org.eclipse.jgit.test as x-friend in the org.eclipse.jgit manifest otherwise the internal package which is x-internal is not visible to o.e.j.test in OSGi environment\n\n Export-Package:\n ...\n  org.eclipse.jgit.internal.revwalk;version\u003d\"5.11.0\";x-friends:\u003d\"org.eclipse.jgit.test\",",
+      "revId": "67214f6745d5401790c3c1974d633d3742ba08fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f480fb51_f39ec006",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-28T21:25:02Z",
+      "side": 1,
+      "message": "fix deprecation warning this is causing in UploadPack.checkNotAdvertisedWants",
+      "revId": "67214f6745d5401790c3c1974d633d3742ba08fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c5750ce_243a50e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-28T21:25:02Z",
+      "side": 1,
+      "message": "fix deprecation warning this is causing in UploadPack.checkNotAdvertisedWants",
+      "revId": "67214f6745d5401790c3c1974d633d3742ba08fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
