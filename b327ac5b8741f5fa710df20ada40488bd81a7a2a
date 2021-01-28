@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5da17775_6266c067",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/BaseFormat.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-28T00:22:27Z",
+      "side": 1,
+      "message": "missing @since 5.11 tag for new API",
+      "revId": "b327ac5b8741f5fa710df20ada40488bd81a7a2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e52c4f_319c7227",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/BaseFormat.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-28T00:22:27Z",
+      "side": 1,
+      "message": "missing @since 5.11 tag for new API",
+      "revId": "b327ac5b8741f5fa710df20ada40488bd81a7a2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df49bf3a_24af43b7",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/BaseFormat.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-28T00:22:27Z",
+      "side": 1,
+      "message": "externalise error message",
+      "revId": "b327ac5b8741f5fa710df20ada40488bd81a7a2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
