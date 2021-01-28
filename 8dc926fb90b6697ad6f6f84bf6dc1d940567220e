@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e087b519_99fe57d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-28T06:43:10Z",
+      "side": 1,
+      "message": "\u003e That beaks API compatibility\n\nThe approach I\u0027m used to from JGit is that there are two kinds of ABI:\n* API that affects clients (such as EGit reading and writing to repositories)\n* API that affects implementors (such as Gerrit implementing a custom Repository)\n\nWe\u0027ve been okay with changing API that affects implementors in minor releases. API that affects clients requires a major release. See https://git.eclipse.org/r/c/jgit/jgit/+/127434 for an example.",
+      "parentUuid": "6d6fca1b_596cbb75",
+      "revId": "8dc926fb90b6697ad6f6f84bf6dc1d940567220e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fbbcfa7_b1f8e29f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 4
