@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cf9a728_62235944",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-28T02:43:35Z",
+      "side": 1,
+      "message": "optional: can make this \"final\" so people trying to override it override ObjectReader@createObjectReachabilityChecker instead",
+      "revId": "8dc926fb90b6697ad6f6f84bf6dc1d940567220e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fbbcfa7_b1f8e29f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-01-28T02:43:35Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "8dc926fb90b6697ad6f6f84bf6dc1d940567220e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
