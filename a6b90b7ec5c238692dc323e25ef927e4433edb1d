@@ -22,6 +22,30 @@
       "revId": "a6b90b7ec5c238692dc323e25ef927e4433edb1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15b1f373_8468a2c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-29T17:55:26Z",
+      "side": 1,
+      "message": "Fixed (along with another issue) in https://git.eclipse.org/r/c/jgit/jgit/+/175512 RefDatabase: Avoid quadratic complexity list expansion",
+      "parentUuid": "79c8775a_9ea1bd81",
+      "range": {
+        "startLine": 441,
+        "startChar": 51,
+        "endLine": 441,
+        "endChar": 70
+      },
+      "revId": "a6b90b7ec5c238692dc323e25ef927e4433edb1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
