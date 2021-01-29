@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com> and others
+ * Copyright (C) 2016, 2021 Christian Halstrick <christian.halstrick@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
@@ -56,9 +57,9 @@ public class LfsPointer implements Comparable<LfsPointer> {
 	public static final String HASH_FUNCTION_NAME = Constants.LONG_HASH_FUNCTION
 			.toLowerCase(Locale.ROOT).replace("-", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
-	private AnyLongObjectId oid;
+	private final AnyLongObjectId oid;
 
-	private long size;
+	private final long size;
 
 	/**
 	 * <p>Constructor for LfsPointer.</p>
@@ -129,19 +130,49 @@ public class LfsPointer implements Comparable<LfsPointer> {
 		LongObjectId id = null;
 		long sz = -1;
 
+		// This parsing is a bit too general if we go by the spec at
+		// https://github.com/git-lfs/git-lfs/blob/master/docs/spec.md
+		// Comment lines are not mentioned in the spec, and the "version" line
+		// MUST be the first.
 		try (BufferedReader br = new BufferedReader(
 				new InputStreamReader(in, UTF_8))) {
 			for (String s = br.readLine(); s != null; s = br.readLine()) {
 				if (s.startsWith("#") || s.length() == 0) { //$NON-NLS-1$
 					continue;
-				} else if (s.startsWith("version") && s.length() > 8 //$NON-NLS-1$
-						&& (s.substring(8).trim().equals(VERSION) ||
-								s.substring(8).trim().equals(VERSION_LEGACY))) {
-					versionLine = true;
-				} else if (s.startsWith("oid sha256:")) { //$NON-NLS-1$
-					id = LongObjectId.fromString(s.substring(11).trim());
-				} else if (s.startsWith("size") && s.length() > 5) { //$NON-NLS-1$
-					sz = Long.parseLong(s.substring(5).trim());
+				} else if (s.startsWith("version")) { //$NON-NLS-1$
+					if (versionLine || s.length() < 8 || s.charAt(7) != ' ') {
+						return null; // Not a LFS pointer
+					}
+					String rest = s.substring(8).trim();
+					versionLine = VERSION.equals(rest)
+							|| VERSION_LEGACY.equals(rest);
+					if (!versionLine) {
+						return null; // Not a LFS pointer
+					}
+				} else {
+					try {
+						if (s.startsWith("oid sha256:")) { //$NON-NLS-1$
+							if (id != null) {
+								return null; // Not a LFS pointer
+							}
+							id = LongObjectId
+									.fromString(s.substring(11).trim());
+						} else if (s.startsWith("size")) { //$NON-NLS-1$
+							if (sz > 0 || s.length() < 5
+									|| s.charAt(4) != ' ') {
+								return null; // Not a LFS pointer
+							}
+							sz = Long.parseLong(s.substring(5).trim());
+						}
+					} catch (RuntimeException e) {
+						// We could not parse the line. If we have a version
+						// already, this is a corrupt LFS pointer. Otherwise it
+						// is just not an LFS pointer.
+						if (versionLine) {
+							throw e;
+						}
+						return null;
+					}
 				}
 			}
 			if (versionLine && id != null && sz > -1) {
@@ -163,6 +194,9 @@ public class LfsPointer implements Comparable<LfsPointer> {
 	 */
 	@Override
 	public int compareTo(LfsPointer o) {
+		if (o == null) {
+			return -1;
+		}
 		int x = getOid().compareTo(o.getOid());
 		if (x != 0) {
 			return x;
@@ -170,5 +204,22 @@ public class LfsPointer implements Comparable<LfsPointer> {
 
 		return Long.compare(getSize(), o.getSize());
 	}
-}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(getOid()) * 31 + Long.hashCode(getSize());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		LfsPointer other = (LfsPointer) obj;
+		return Objects.equals(getOid(), other.getOid())
+				&& getSize() == other.getSize();
+	}
+}
