@@ -12,6 +12,7 @@ package org.eclipse.jgit.lib;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toCollection;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -417,28 +417,36 @@ public abstract class RefDatabase {
 	}
 
 	/**
-	 * Returns refs whose names start with a given prefix excluding all refs that
-	 * start with one of the given prefixes.
+	 * Returns refs whose names start with a given prefix excluding all refs
+	 * that start with one of the given prefixes.
 	 *
 	 * <p>
-	 * The default implementation is not efficient. Implementors of {@link RefDatabase}
-	 * should override this method directly if a better implementation is possible.
-	 * 
-	 * @param include string that names of refs should start with; may be empty.
-	 * @param excludes strings that names of refs can't start with; may be empty.
-	 * @return immutable list of refs whose names start with {@code prefix} and none
-	 *         of the strings in {@code exclude}.
-	 * @throws java.io.IOException the reference space cannot be accessed.
+	 * The default implementation is not efficient. Implementors of
+	 * {@link RefDatabase} should override this method directly if a better
+	 * implementation is possible.
+	 *
+	 * @param include
+	 *            string that names of refs should start with; may be empty.
+	 * @param excludes
+	 *            strings that names of refs can't start with; may be empty.
+	 * @return immutable list of refs whose names start with {@code prefix} and
+	 *         none of the strings in {@code exclude}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
 	 * @since 5.11
 	 */
 	@NonNull
-	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
-			throws IOException {
-		Stream<Ref> refs = getRefs(include).values().stream();
-		for(String exclude: excludes) {
-			refs = refs.filter(r -> !r.getName().startsWith(exclude));
-		}
-		return Collections.unmodifiableList(refs.collect(Collectors.toList()));
+	public List<Ref> getRefsByPrefixWithExclusions(String include,
+			Set<String> excludes) throws IOException {
+		Collection<Ref> refs = getRefs(include).values();
+		Stream<Ref> refsStream = refs.stream().filter(r -> !excludes.stream()
+				.anyMatch(e -> e.startsWith(r.getName())));
+		// Don't use the default Java Collections.toList() as that is not
+		// size-aware and would expand an array list as new elements are added.
+		// Instead, provide a list that has the right size. This spares
+		// incremental list expansion which is quadratic in complexity.
+		return Collections.unmodifiableList(refsStream
+				.collect(toCollection(() -> new ArrayList<>(refs.size()))));
 	}
 
 	/**
