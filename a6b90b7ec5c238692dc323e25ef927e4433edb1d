@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79c8775a_9ea1bd81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-29T17:25:09Z",
+      "side": 1,
+      "message": "Gerrit\u0027s DefaultRefFilter has a comment about doing this:\n\n // Don\u0027t use the default Java Collections.toList() as that is not size-aware and would\n // expand an array list as new elements are added. Instead, provide a list that has the\n // right size. This spares incremental list expansion which is quadratic in complexity.\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/permissions/DefaultRefFilter.java#296",
+      "range": {
+        "startLine": 441,
+        "startChar": 51,
+        "endLine": 441,
+        "endChar": 70
+      },
+      "revId": "a6b90b7ec5c238692dc323e25ef927e4433edb1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
