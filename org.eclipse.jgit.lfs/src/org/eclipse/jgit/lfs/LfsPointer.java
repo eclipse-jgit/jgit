@@ -11,7 +11,9 @@ package org.eclipse.jgit.lfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,6 +27,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.util.IO;
 
 /**
  * Represents an LFS pointer file
@@ -56,6 +59,12 @@ public class LfsPointer implements Comparable<LfsPointer> {
 	 */
 	public static final String HASH_FUNCTION_NAME = Constants.LONG_HASH_FUNCTION
 			.toLowerCase(Locale.ROOT).replace("-", ""); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
+	 * {@link #SIZE_THRESHOLD} is too low; with lfs extensions a LFS pointer can
+	 * be larger. But 8kB should be more than enough.
+	 */
+	static final int FULL_SIZE_THRESHOLD = 8 * 1024;
 
 	private final AnyLongObjectId oid;
 
@@ -115,64 +124,113 @@ public class LfsPointer implements Comparable<LfsPointer> {
 
 	/**
 	 * Try to parse the data provided by an InputStream to the format defined by
-	 * {@link #VERSION}
+	 * {@link #VERSION}. If the given stream supports mark and reset as
+	 * indicated by {@link InputStream#markSupported()}, its input position will
+	 * be reset if the stream content is not actually a LFS pointer (i.e., when
+	 * {@code null} is returned). If the stream content is an invalid LFS
+	 * pointer or the given stream does not support mark/reset, the input
+	 * position may not be reset.
 	 *
 	 * @param in
 	 *            the {@link java.io.InputStream} from where to read the data
-	 * @return an {@link org.eclipse.jgit.lfs.LfsPointer} or <code>null</code>
-	 *         if the stream was not parseable as LfsPointer
+	 * @return an {@link org.eclipse.jgit.lfs.LfsPointer} or {@code null} if the
+	 *         stream was not parseable as LfsPointer
 	 * @throws java.io.IOException
 	 */
 	@Nullable
 	public static LfsPointer parseLfsPointer(InputStream in)
 			throws IOException {
+		if (in.markSupported()) {
+			return parse(in);
+		}
+		// Fallback; note that while parse() resets its input stream, that won't
+		// reset "in".
+		return parse(new BufferedInputStream(in));
+	}
+
+	@Nullable
+	private static LfsPointer parse(InputStream in)
+			throws IOException {
+		if (!in.markSupported()) {
+			// No translation; internal error
+			throw new IllegalArgumentException(
+					"LFS pointer parsing needs InputStream.markSupported() == true"); //$NON-NLS-1$
+		}
+		// Try reading only a short block first.
+		in.mark(SIZE_THRESHOLD);
+		byte[] preamble = new byte[SIZE_THRESHOLD];
+		int length = IO.readFully(in, preamble, 0);
+		if (length < preamble.length || in.read() < 0) {
+			// We have the whole file. Try to parse a pointer from it.
+			try (BufferedReader r = new BufferedReader(new InputStreamReader(
+					new ByteArrayInputStream(preamble, 0, length), UTF_8))) {
+				LfsPointer ptr = parse(r);
+				if (ptr == null) {
+					in.reset();
+				}
+				return ptr;
+			}
+		}
+		// Longer than SIZE_THRESHOLD: expect "version" to be the first line.
+		boolean hasVersion = checkVersion(preamble);
+		in.reset();
+		if (!hasVersion) {
+			return null;
+		}
+		in.mark(FULL_SIZE_THRESHOLD);
+		byte[] fullPointer = new byte[FULL_SIZE_THRESHOLD];
+		length = IO.readFully(in, fullPointer, 0);
+		if (length == fullPointer.length && in.read() >= 0) {
+			in.reset();
+			return null; // Too long.
+		}
+		try (BufferedReader r = new BufferedReader(new InputStreamReader(
+				new ByteArrayInputStream(fullPointer, 0, length), UTF_8))) {
+			LfsPointer ptr = parse(r);
+			if (ptr == null) {
+				in.reset();
+			}
+			return ptr;
+		}
+	}
+
+	private static LfsPointer parse(BufferedReader r) throws IOException {
 		boolean versionLine = false;
 		LongObjectId id = null;
 		long sz = -1;
-
 		// This parsing is a bit too general if we go by the spec at
 		// https://github.com/git-lfs/git-lfs/blob/master/docs/spec.md
-		// Comment lines are not mentioned in the spec, and the "version" line
-		// MUST be the first.
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(in, UTF_8))) {
-			for (String s = br.readLine(); s != null; s = br.readLine()) {
-				if (s.startsWith("#") || s.length() == 0) { //$NON-NLS-1$
-					continue;
-				} else if (s.startsWith("version")) { //$NON-NLS-1$
-					if (versionLine || s.length() < 8 || s.charAt(7) != ' ') {
-						return null; // Not a LFS pointer
-					}
-					String rest = s.substring(8).trim();
-					versionLine = VERSION.equals(rest)
-							|| VERSION_LEGACY.equals(rest);
-					if (!versionLine) {
-						return null; // Not a LFS pointer
-					}
-				} else {
-					try {
-						if (s.startsWith("oid sha256:")) { //$NON-NLS-1$
-							if (id != null) {
-								return null; // Not a LFS pointer
-							}
-							id = LongObjectId
-									.fromString(s.substring(11).trim());
-						} else if (s.startsWith("size")) { //$NON-NLS-1$
-							if (sz > 0 || s.length() < 5
-									|| s.charAt(4) != ' ') {
-								return null; // Not a LFS pointer
-							}
-							sz = Long.parseLong(s.substring(5).trim());
+		// Comment lines are not mentioned in the spec, the "version" line
+		// MUST be the first, and keys are ordered alphabetically.
+		for (String s = r.readLine(); s != null; s = r.readLine()) {
+			if (s.startsWith("#") || s.length() == 0) { //$NON-NLS-1$
+				continue;
+			} else if (s.startsWith("version")) { //$NON-NLS-1$
+				if (versionLine || !checkVersionLine(s)) {
+					return null; // Not a LFS pointer
+				}
+				versionLine = true;
+			} else {
+				try {
+					if (s.startsWith("oid sha256:")) { //$NON-NLS-1$
+						if (id != null) {
+							return null; // Not a LFS pointer
 						}
-					} catch (RuntimeException e) {
-						// We could not parse the line. If we have a version
-						// already, this is a corrupt LFS pointer. Otherwise it
-						// is just not an LFS pointer.
-						if (versionLine) {
-							throw e;
+						id = LongObjectId.fromString(s.substring(11).trim());
+					} else if (s.startsWith("size")) { //$NON-NLS-1$
+						if (sz > 0 || s.length() < 5 || s.charAt(4) != ' ') {
+							return null; // Not a LFS pointer
 						}
-						return null;
+						sz = Long.parseLong(s.substring(5).trim());
 					}
+				} catch (RuntimeException e) {
+					// We could not parse the line. If we have a version
+					// already, this is a corrupt LFS pointer. Otherwise it
+					// is just not an LFS pointer.
+					if (versionLine) {
+						throw e;
+					}
+					return null;
 				}
 			}
 			if (versionLine && id != null && sz > -1) {
@@ -180,6 +238,30 @@ public class LfsPointer implements Comparable<LfsPointer> {
 			}
 		}
 		return null;
+	}
+
+	private static boolean checkVersion(byte[] data) {
+		// According to the spec at
+		// https://github.com/git-lfs/git-lfs/blob/master/docs/spec.md
+		// it MUST always be the first line.
+		try (BufferedReader r = new BufferedReader(
+				new InputStreamReader(new ByteArrayInputStream(data), UTF_8))) {
+			String s = r.readLine();
+			if (s != null && s.startsWith("version")) { //$NON-NLS-1$
+				return checkVersionLine(s);
+			}
+		} catch (IOException e) {
+			// Doesn't occur, we're reading from a byte array!
+		}
+		return false;
+	}
+
+	private static boolean checkVersionLine(String s) {
+		if (s.length() < 8 || s.charAt(7) != ' ') {
+			return false; // Not a valid LFS pointer version line
+		}
+		String rest = s.substring(8).trim();
+		return VERSION.equals(rest) || VERSION_LEGACY.equals(rest);
 	}
 
 	/** {@inheritDoc} */
