@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com> and others
+ * Copyright (C) 2016, 2021 Christian Halstrick <christian.halstrick@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,6 +11,7 @@ package org.eclipse.jgit.lfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -87,20 +88,31 @@ public class SmudgeFilter extends FilterCommand {
 	 */
 	public SmudgeFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
+		this(in.markSupported() ? in : new BufferedInputStream(in), out, db);
+	}
+
+	private SmudgeFilter(InputStream in, OutputStream out, Repository db)
+			throws IOException {
 		super(in, out);
+		InputStream from = in;
 		try {
-			Lfs lfs = new Lfs(db);
-			LfsPointer res = LfsPointer.parseLfsPointer(in);
+			LfsPointer res = LfsPointer.parseLfsPointer(from);
 			if (res != null) {
 				AnyLongObjectId oid = res.getOid();
+				Lfs lfs = new Lfs(db);
 				Path mediaFile = lfs.getMediaFile(oid);
 				if (!Files.exists(mediaFile)) {
 					downloadLfsResource(lfs, db, res);
 				}
 				this.in = Files.newInputStream(mediaFile);
+			} else {
+				// Not swapped; stream was reset, don't close!
+				from = null;
 			}
 		} finally {
-			in.close(); // make sure the swapped stream is closed properly.
+			if (from != null) {
+				from.close(); // Close the swapped-out stream
+			}
 		}
 	}
 
