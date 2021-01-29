@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30548d6b_0fce4f66",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LFSPointerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-29T13:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "508e59f7_c98d0e2e",
+      "range": {
+        "startLine": 48,
+        "startChar": 14,
+        "endLine": 48,
+        "endChar": 78
+      },
+      "revId": "fafeb9cd2c0f2557d32d1f5f4b467283f7a20286",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c5b35c_e66e4b80",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "fafeb9cd2c0f2557d32d1f5f4b467283f7a20286",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9370caa4_af924b7b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-29T13:07:26Z",
+      "side": 1,
+      "message": "Right; done.",
+      "parentUuid": "11c5b35c_e66e4b80",
+      "revId": "fafeb9cd2c0f2557d32d1f5f4b467283f7a20286",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
