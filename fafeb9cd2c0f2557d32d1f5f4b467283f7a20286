@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "508e59f7_c98d0e2e",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LFSPointerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2021-01-29T12:54:29Z",
+      "side": 1,
+      "message": "This string occurs 25 times in this file. Shouldn\u0027t we introduce one constant?",
+      "range": {
+        "startLine": 48,
+        "startChar": 14,
+        "endLine": 48,
+        "endChar": 78
+      },
+      "revId": "fafeb9cd2c0f2557d32d1f5f4b467283f7a20286",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11c5b35c_e66e4b80",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2021-01-29T12:54:29Z",
+      "side": 1,
+      "message": "Doesn\u0027t the spec of compareTo [1] say that it should throw a NPE when the given argument is null?\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html",
+      "revId": "fafeb9cd2c0f2557d32d1f5f4b467283f7a20286",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
