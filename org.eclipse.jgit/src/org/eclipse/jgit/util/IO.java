@@ -246,7 +246,7 @@ public class IO {
 	 *            buffer that must be fully populated, [off, off+len).
 	 * @param off
 	 *            position within the buffer to start writing to.
-	 * @return number of bytes in buffer or stream, whichever is shortest
+	 * @return number of bytes read
 	 * @throws java.io.IOException
 	 *             there was an error reading from the stream.
 	 */
@@ -254,8 +254,8 @@ public class IO {
 			throws IOException {
 		int r;
 		int len = 0;
-		while ((r = fd.read(dst, off, dst.length - off)) >= 0
-				&& len < dst.length) {
+		while (off < dst.length
+				&& (r = fd.read(dst, off, dst.length - off)) >= 0) {
 			off += r;
 			len += r;
 		}
