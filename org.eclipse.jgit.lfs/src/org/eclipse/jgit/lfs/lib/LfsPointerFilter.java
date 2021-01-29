@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, 2017, Dariusz Luksza <dariusz@luksza.org> and others
+ * Copyright (C) 2015, 2021 Dariusz Luksza <dariusz@luksza.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -58,6 +58,8 @@ public class LfsPointerFilter extends TreeFilter {
 		try (ObjectStream stream = object.openStream()) {
 			pointer = LfsPointer.parseLfsPointer(stream);
 			return pointer != null;
+		} catch (RuntimeException e) {
+			return false;
 		}
 	}
 

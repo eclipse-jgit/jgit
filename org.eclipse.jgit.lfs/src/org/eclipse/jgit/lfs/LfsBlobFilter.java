@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Markus Duft <markus.duft@ssi-schaefer.com> and others
+ * Copyright (C) 2017, 2021 Markus Duft <markus.duft@ssi-schaefer.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -45,7 +45,7 @@ public class LfsBlobFilter {
 	 */
 	public static ObjectLoader smudgeLfsBlob(Repository db, ObjectLoader loader)
 			throws IOException {
-		if (loader.getSize() > LfsPointer.SIZE_THRESHOLD) {
+		if (loader.getSize() > LfsPointer.FULL_SIZE_THRESHOLD) {
 			return loader;
 		}
 
