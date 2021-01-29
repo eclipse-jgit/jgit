@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b9bd7e2_5ed4afda",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-29T06:19:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62e154fb_20502d26",
+      "revId": "67214f6745d5401790c3c1974d633d3742ba08fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f480fb51_f39ec006",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "21aa3688_66736e99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-29T06:19:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f480fb51_f39ec006",
+      "revId": "67214f6745d5401790c3c1974d633d3742ba08fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c5750ce_243a50e0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 5
@@ -50,6 +86,24 @@
       "revId": "67214f6745d5401790c3c1974d633d3742ba08fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0616930e_c683f44b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2021-01-29T06:19:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c5750ce_243a50e0",
+      "revId": "67214f6745d5401790c3c1974d633d3742ba08fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
