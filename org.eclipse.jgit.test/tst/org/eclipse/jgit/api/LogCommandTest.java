@@ -13,7 +13,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -230,6 +232,87 @@ public class LogCommandTest extends RepositoryTestCase {
 		commit = i.next();
 		assertEquals("m0", commit.getFullMessage());
 		assertFalse(i.hasNext());
+	}
+
+	/**
+	 * <pre>
+	 * A - B - C - D - F (topic)
+	 *          \     /
+	 *            -E(side)
+	 *
+	 * git log B..F
+	 * output: F D E C
+	 *
+	 *
+	 * git.log().addRange(B,F).call()
+	 * output: F E D C
+	 * </pre>
+	 */
+	@Test
+	public void testAddRangeWithMerge() throws Exception{
+		String file1 = "file1";
+		Git git = Git.wrap(db);
+
+		writeTrashFile(file1, file1);
+		git.add().addFilepattern(file1).call();
+		RevCommit a = git.commit().setMessage("commit a").call();
+
+		createBranch(a, "refs/heads/topic");
+
+		writeTrashFile(file1, "blah");
+		writeTrashFile("conflict", "b");
+		git.add().addFilepattern(".").call();
+		RevCommit b = git.commit().setMessage("commit b").call();
+
+		checkoutBranch("refs/heads/topic");
+
+		writeTrashFile("file3", "more changess");
+		git.add().addFilepattern("file3").call();
+		RevCommit c = git.commit().setMessage("commit c").call();
+
+		createBranch(c, "refs/heads/side");
+
+		// second commit on topic
+		writeTrashFile("file2", "file2");
+		writeTrashFile("conflict", "d");
+		git.add().addFilepattern(".").call();
+		RevCommit d = git.commit().setMessage("commit d").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("file3", "more change");
+		writeTrashFile("conflict", "e");
+		git.add().addFilepattern(".").call();
+		RevCommit e = git.commit().setMessage("commit e").call();
+
+
+		checkoutBranch("refs/heads/topic");
+		MergeResult result = git.merge().include(e.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+
+		final RevCommit f;
+		assertEquals(MergeResult.MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(Collections.singleton("conflict"), git.status().call()
+				.getConflicting());
+		// resolve
+		writeTrashFile("conflict", "f resolved");
+		git.add().addFilepattern("conflict").call();
+		f = git.commit().setMessage("commit f").call();
+
+		Iterator<RevCommit> log = git.log().call().iterator();
+		Iterator<RevCommit> rangeLog = git.log().addRange(a.getId(), f.getId()).call().iterator();
+
+		RevCommit commit;
+		commit = rangeLog.next();
+		assertEquals(commit.getFullMessage(), "commit f");
+		commit = rangeLog.next();
+		assertEquals(commit.getFullMessage(), "commit d");
+		commit = rangeLog.next();
+		assertEquals(commit.getFullMessage(), "commit e");
+		commit = rangeLog.next();
+		assertEquals(commit.getFullMessage(), "commit c");
+		assertFalse(rangeLog.hasNext());
 	}
 
 	private void setCommitsAndMerge() throws Exception {
