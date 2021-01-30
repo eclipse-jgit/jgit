@@ -16,6 +16,24 @@
       "revId": "84a1bb0c41dc5bcbf7acf68c6d1c202982dcca7f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5190906d_105a4550",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsGitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-30T16:21:41Z",
+      "side": 1,
+      "message": "And that in turn has all entries as smudged even if I add fsTick(largeFile) before line 80 and after line 95. The reason for that is the reset on line 88: that will mark all three files (.gitattributes, Test.txt, and large.txt) as smudged. It will in general mark the last couple of files it writes as smudged if they are written the same time the new index is written (racily clean). Since the index entries are marked as smudged, their ids will be recomputed during updateSmudgedEntries() from the file content, which runs the on-disk content through the CleanFilter that then creates the copy.\n\nHowever: should a reset cause any entries to become racily clean and marked as smudged at all?",
+      "parentUuid": "d4e6e518_02327062",
+      "revId": "84a1bb0c41dc5bcbf7acf68c6d1c202982dcca7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
