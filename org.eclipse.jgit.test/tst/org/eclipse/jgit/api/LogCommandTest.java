@@ -232,6 +232,59 @@ public class LogCommandTest extends RepositoryTestCase {
 		assertFalse(i.hasNext());
 	}
 
+	/**
+	 * <pre>
+	 * A - B - C - M
+	 *      \     /
+	 *        -D(side)
+	 *
+	 * git log B..M
+	 * output: M C D
+	 *
+	 * git.log().addRange(B,M).call()
+	 * output: M D C //Before Fix
+	 * </pre>
+	 */
+	@Test
+	public void addRangeWithMerge() throws Exception{
+		String file = "file";
+		Git git = Git.wrap(db);
+
+		writeTrashFile(file, file);
+		git.add().addFilepattern(file).call();
+		git.commit().setMessage("commit a").call(); // Commit A
+
+		writeTrashFile(file, file);
+		git.add().addFilepattern(file).call();
+		RevCommit b = git.commit().setMessage("commit b").call();
+
+		writeTrashFile(file, file);
+		git.add().addFilepattern(file).call();
+		RevCommit c = git.commit().setMessage("commit c").call();
+
+		createBranch(b, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile(file, file);
+		git.add().addFilepattern(file).call();
+		RevCommit d = git.commit().setMessage("commit d").call();
+
+		checkoutBranch("refs/heads/master");
+		MergeResult m = git.merge().include(d.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeResult.MergeStatus.MERGED, m.getMergeStatus());
+
+		Iterator<RevCommit> rangeLog = git.log().addRange(b.getId(), m.getNewHead()).call().iterator();
+
+		RevCommit commit = rangeLog.next();
+		assertEquals(commit.getId(), m.getNewHead());
+		commit = rangeLog.next();
+		assertEquals(c.getFullMessage(), commit.getFullMessage());
+		commit = rangeLog.next();
+		assertEquals(d.getFullMessage(), commit.getFullMessage());
+		assertFalse(rangeLog.hasNext());
+	}
+
 	private void setCommitsAndMerge() throws Exception {
 		Git git = Git.wrap(db);
 		writeTrashFile("file1", "1\n2\n3\n4\n");
