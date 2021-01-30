@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4e6e518_02327062",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsGitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-30T10:17:29Z",
+      "side": 1,
+      "message": "Is caused by DirCache.updateSmudgedEntries() called when the index is written.",
+      "revId": "84a1bb0c41dc5bcbf7acf68c6d1c202982dcca7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
