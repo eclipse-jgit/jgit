@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6bb543_fd2aabd5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-30T16:22:45Z",
+      "side": 1,
+      "message": "Is this with git 2.30.0?",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 12
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a81ff22_1deb8a5d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-30T16:22:45Z",
+      "side": 1,
+      "message": "I know you\u0027re not setting a variable here, but I don\u0027t think you need the comment",
+      "range": {
+        "startLine": 255,
+        "startChar": 45,
+        "endLine": 255,
+        "endChar": 57
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c07e6229_b7ea2f39",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-30T16:22:45Z",
+      "side": 1,
+      "message": "If you write to a different file, you don\u0027t need to do anything special to resolve the merge.",
+      "range": {
+        "startLine": 268,
+        "startChar": 2,
+        "endLine": 269,
+        "endChar": 40
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "743c92d4_8964f730",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-30T16:22:45Z",
+      "side": 1,
+      "message": "compare commit-ids instead?",
+      "range": {
+        "startLine": 282,
+        "startChar": 15,
+        "endLine": 282,
+        "endChar": 58
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f87e2735_f0cd1f73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-01-30T16:22:45Z",
+      "side": 1,
+      "message": "You can combine these conditions",
+      "range": {
+        "startLine": 1150,
+        "startChar": 2,
+        "endLine": 1151,
+        "endChar": 35
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
