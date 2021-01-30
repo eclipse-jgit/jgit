@@ -13,7 +13,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -230,6 +232,47 @@ public class LogCommandTest extends RepositoryTestCase {
 		commit = i.next();
 		assertEquals("m0", commit.getFullMessage());
 		assertFalse(i.hasNext());
+	}
+
+	/**
+	 * <pre>
+	 * A - B - C - M
+	 *      \     /
+	 *        -D(side)
+	 *
+	 * git log B..M
+	 * output: M C D
+	 *
+	 * git.log().addRange(B,M).call()
+	 * output: M D C //Before Fix
+	 * </pre>
+	 */
+	@Test
+	public void addRangeWithMerge() throws Exception{
+		Git git = Git.wrap(db);
+
+		git.commit().setMessage("commit a").call(); // Commit A
+		RevCommit b = git.commit().setMessage("commit b").call();
+		RevCommit c = git.commit().setMessage("commit c").call();
+
+		createBranch(b, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		RevCommit d = git.commit().setMessage("commit d").call();
+
+		checkoutBranch("refs/heads/master");
+		MergeResult m = git.merge().include(d.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeResult.MergeStatus.MERGED, m.getMergeStatus());
+
+		Iterator<RevCommit> rangeLog = git.log().addRange(b.getId(), m.getNewHead()).call().iterator();
+
+		RevCommit commit = rangeLog.next();
+		assertEquals(commit.getId(), m.getNewHead());
+		commit = rangeLog.next();
+		assertEquals(c.getFullMessage(), commit.getFullMessage());
+		commit = rangeLog.next();
+		assertEquals(d.getFullMessage(), commit.getFullMessage());
+		assertFalse(rangeLog.hasNext());
 	}
 
 	private void setCommitsAndMerge() throws Exception {
