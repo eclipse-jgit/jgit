@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0f8f0df_dbc3167c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-30T18:48:08Z",
+      "side": 1,
+      "message": "What if someone passes in null? R_HEADS + null will give \"refs/heads/null\". (Same in InitCommand.) Other commands frequently use the logic that they allow null meaning \"reset to the default\". This is not the case in this change; but I see that it is fixed for InitCommand in the follow-up commit dealing with the the new git config key.",
+      "revId": "1922699cd2d63b4c5dfbf57613ef19ed3a51c875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c28c608_6410bce3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-30T18:48:08Z",
+      "side": 1,
+      "message": "Should be @NonNull",
+      "revId": "1922699cd2d63b4c5dfbf57613ef19ed3a51c875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a0b811f_5ba1eee9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-30T18:48:08Z",
+      "side": 1,
+      "message": "Mark as @NonNull, and make sure it can never be null. Otherwise HEAD will end up being linked to refs/heads/null.",
+      "revId": "1922699cd2d63b4c5dfbf57613ef19ed3a51c875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
