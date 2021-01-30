@@ -67,6 +67,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.submodule.SubmoduleWalk.IgnoreSubmoduleMode;
@@ -1137,13 +1138,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private List<RevCommit> calculatePickList(RevCommit headCommit)
 			throws GitAPIException, NoHeadException, IOException {
-		Iterable<RevCommit> commitsToUse;
-		try (Git git = new Git(repo)) {
-			LogCommand cmd = git.log().addRange(upstreamCommit, headCommit);
-			commitsToUse = cmd.call();
+		Iterator<RevCommit> commitsToUse;
+		try (RevWalk r = new RevWalk(repo);) {
+			r.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER, true);
+			r.sort(RevSort.COMMIT_TIME_DESC, true);
+			r.markUninteresting(r.lookupCommit(upstreamCommit));
+			r.markStart(r.lookupCommit(headCommit));
+			commitsToUse = r.iterator();
 		}
 		List<RevCommit> cherryPickList = new ArrayList<>();
-		for (RevCommit commit : commitsToUse) {
+		while(commitsToUse.hasNext()) {
+			RevCommit commit = commitsToUse.next();
 			if (preserveMerges || commit.getParentCount() == 1)
 				cherryPickList.add(commit);
 		}
