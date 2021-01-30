@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0c4d7a3_6eb01341",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-30T18:48:16Z",
+      "side": 1,
+      "message": "Add a test that does\n\n  command.setInitialBranch(\"main\");\n  command.setInitialBranch(null);\n\nI\u0027d expect that to result in HEAD being linked to refs/heads/master.",
+      "revId": "683b16329f73eb2794deaa53fc1f6c8e0ec7482c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
