@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c1081c8_d7fd6f24",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CloneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-31T15:33:21Z",
+      "side": 1,
+      "message": "This test will also succeed if no exception is thrown. Use assertThrows:\n\n  Die e \u003d assertThrows(Die.class, () -\u003e execute(cmd));\n  assertEquals(\"Remote branch \u0027foo\u0027 not found in upstream origin\", e.getMessage());",
+      "revId": "d49e28d6d507fb2b977f61e0fa18042916dc6260",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
