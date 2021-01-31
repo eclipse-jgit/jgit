@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a00dfb07_fcd7cc22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-31T11:26:34Z",
+      "side": 1,
+      "message": "This uses the RevWalk iterator after the RevWalk has been closed.",
+      "revId": "73d91e1e51d0ed54fd8ef7bbf950c49bb1ade0c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
