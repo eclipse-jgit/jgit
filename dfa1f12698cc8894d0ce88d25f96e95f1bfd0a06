@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8458944e_a0dcf90f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-31T15:44:30Z",
+      "side": 1,
+      "message": "This duplicates the logic in BaseRepositoryBuilder. Do we need this here, or would just\n\n  private String initialBranch;\n\n  public setInitialBranch(String branch) {\n    initialBranch \u003d branch;\n    return this;\n  }\n\nbe good enough here? (The exception would be raised later in call() then.)",
+      "revId": "dfa1f12698cc8894d0ce88d25f96e95f1bfd0a06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
