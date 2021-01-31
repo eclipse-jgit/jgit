@@ -16,6 +16,24 @@
       "revId": "a57b3c16af0ec61c5886180a12cdd0a9ddc1fafe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b79bc70_50f33817",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-01-31T00:45:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "782b0e45_8a92c374",
+      "revId": "a57b3c16af0ec61c5886180a12cdd0a9ddc1fafe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
