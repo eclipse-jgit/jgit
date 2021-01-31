@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "31e39847_a6983470",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-31T00:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0f8f0df_dbc3167c",
+      "revId": "1922699cd2d63b4c5dfbf57613ef19ed3a51c875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c28c608_6410bce3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "71579e1c_bf7ea7cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-31T00:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c28c608_6410bce3",
+      "revId": "1922699cd2d63b4c5dfbf57613ef19ed3a51c875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0b811f_5ba1eee9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "1922699cd2d63b4c5dfbf57613ef19ed3a51c875",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65c9b11c_fc6cd76c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-01-31T00:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a0b811f_5ba1eee9",
+      "revId": "1922699cd2d63b4c5dfbf57613ef19ed3a51c875",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
