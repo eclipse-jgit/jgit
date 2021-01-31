@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89f97535_b0d1cbc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-01-31T15:48:44Z",
+      "side": 1,
+      "message": "This logic is in builder.setInitialBranch() anyway. (And duplicated once more in InitCommand.setInitialBranch() below; see comment on the parent commit.)",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "25d9a23b01b66a2b94646dda44e0d28fe3471b57",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
