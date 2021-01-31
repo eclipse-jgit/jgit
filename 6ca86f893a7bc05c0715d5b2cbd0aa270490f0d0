@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6818ca12_c8213264",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-01-31T00:13:54Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "bc6bb543_fd2aabd5",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 12
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a81ff22_1deb8a5d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b663a90_aaeefdf1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-01-31T00:13:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a81ff22_1deb8a5d",
+      "range": {
+        "startLine": 255,
+        "startChar": 45,
+        "endLine": 255,
+        "endChar": 57
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8200dfcc_851e86ab",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-01-31T00:13:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c07e6229_b7ea2f39",
+      "range": {
+        "startLine": 268,
+        "startChar": 2,
+        "endLine": 269,
+        "endChar": 40
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "743c92d4_8964f730",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "7ad66877_46f7e768",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-01-31T00:13:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "743c92d4_8964f730",
+      "range": {
+        "startLine": 282,
+        "startChar": 15,
+        "endLine": 282,
+        "endChar": 58
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f87e2735_f0cd1f73",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 4
@@ -114,6 +210,30 @@
       "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89e75868_b3ee88c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-01-31T00:13:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f87e2735_f0cd1f73",
+      "range": {
+        "startLine": 1150,
+        "startChar": 2,
+        "endLine": 1151,
+        "endChar": 35
+      },
+      "revId": "6ca86f893a7bc05c0715d5b2cbd0aa270490f0d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
