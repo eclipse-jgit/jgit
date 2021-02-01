@@ -16,6 +16,24 @@
       "revId": "1755a33c515f2373023029b3acfea412d5d52043",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da71b9b3_0ebd63de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-01T18:04:49Z",
+      "side": 1,
+      "message": "Yeah, I meant to hit a -1 on this and forgot, sorry for the review noise.\n\nI actually benchmarked using a BlockList (both here and in ReftableDatabase) with the steps from https://git.eclipse.org/r/c/jgit/jgit/+/173498/13 and it seems to improve performance. But that benchmark doesn\u0027t seem to use the actual code from Ref*Database methods, just copy/paste versions, so it\u0027s a little hard to tell.\n\nI\u0027ll get a new PS pushed later this week when I get a bit more time.\n\nI\u0027ll also fix the comment in Gerrit because I agree it\u0027s just wrong.",
+      "parentUuid": "7d36b94c_ef9314f3",
+      "revId": "1755a33c515f2373023029b3acfea412d5d52043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
