@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9b42093d_ba0d41ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-01T16:16:48Z",
+      "side": 1,
+      "message": "s/Data/Date/",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "73d91e1e51d0ed54fd8ef7bbf950c49bb1ade0c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a00dfb07_fcd7cc22",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 6
