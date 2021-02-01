@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06367445_95ffb588",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-01T22:37:15Z",
+      "side": 1,
+      "message": "Missing curly braces.",
+      "revId": "6b4ef913b6543ae0cff1c6e6e100747377dcbc50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
