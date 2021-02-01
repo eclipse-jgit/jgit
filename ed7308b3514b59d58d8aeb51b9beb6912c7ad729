@@ -22,6 +22,30 @@
       "revId": "ed7308b3514b59d58d8aeb51b9beb6912c7ad729",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff55ce8d_5bbd2917",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-02-01T22:26:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8b6fed_7dd87982",
+      "range": {
+        "startLine": 1148,
+        "startChar": 10,
+        "endLine": 1148,
+        "endChar": 30
+      },
+      "revId": "ed7308b3514b59d58d8aeb51b9beb6912c7ad729",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
