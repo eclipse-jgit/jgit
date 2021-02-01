@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52d5ae9f_ef2836d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-02-01T18:34:13Z",
+      "side": 1,
+      "message": "Not depending on LogCommand.addRangs is not the intent of this change, I suspect that this summary should be something like: \"Fix DateRevQueue tie breaks with more than 2 elements.\"",
+      "revId": "10e7573297628894fb4f8707e0dd9839b657fcff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be73db68_542d8303",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-02-01T18:34:13Z",
+      "side": 1,
+      "message": "s/fix it/make the test more robust./",
+      "range": {
+        "startLine": 14,
+        "startChar": 60,
+        "endLine": 14,
+        "endChar": 64
+      },
+      "revId": "10e7573297628894fb4f8707e0dd9839b657fcff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b298589_d1508cdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-02-01T18:34:13Z",
+      "side": 1,
+      "message": "Maybe add a sentence explaining that rebase should never have depended upon addRange() since the intended order of addRange() is not the order a rebase should use.",
+      "revId": "10e7573297628894fb4f8707e0dd9839b657fcff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2dfedbf_dab7efa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-02-01T18:34:13Z",
+      "side": 1,
+      "message": "s/The test case LogCommandTest.addRangeWithMerge()/Add a new LogCommandTest.addRangeWithMerge() test case which/",
+      "revId": "10e7573297628894fb4f8707e0dd9839b657fcff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
