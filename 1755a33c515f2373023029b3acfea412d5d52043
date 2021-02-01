@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d36b94c_ef9314f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-02-01T10:57:08Z",
+      "side": 1,
+      "message": "you\u0027re copying this comment from Gerrit, but the comment is incorrect.\n\nhttps://android.googlesource.com/platform/external/jetbrains/jdk8u_jdk/+/34217f039e3236192112aff633ef2adf2a8e8c4c/src/share/classes/java/util/ArrayList.java#259\n\nArrayList uses geometric grow strategy, making the list construction cost linear.",
+      "revId": "1755a33c515f2373023029b3acfea412d5d52043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
