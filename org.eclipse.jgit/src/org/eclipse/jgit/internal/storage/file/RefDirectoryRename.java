@@ -51,9 +51,6 @@ class RefDirectoryRename extends RefRename {
 	 */
 	private ObjectId objId;
 
-	/** True if HEAD must be moved to the destination reference. */
-	private boolean updateHEAD;
-
 	/** A reference we backup {@link #objId} into during the rename. */
 	private RefDirectoryUpdate tmp;
 
@@ -69,7 +66,7 @@ class RefDirectoryRename extends RefRename {
 			return Result.IO_FAILURE; // not supported
 
 		objId = source.getOldObjectId();
-		updateHEAD = needToUpdateHEAD();
+		boolean updateHEAD = needToUpdateHEAD();
 		tmp = refdb.newTemporaryUpdate();
 		try (RevWalk rw = new RevWalk(refdb.getRepository())) {
 			// First backup the source so its never unreachable.
