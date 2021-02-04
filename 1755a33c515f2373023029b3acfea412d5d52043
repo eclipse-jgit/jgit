@@ -34,6 +34,24 @@
       "revId": "1755a33c515f2373023029b3acfea412d5d52043",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec0b600_cd81c74b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-02-04T15:44:20Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/295943",
+      "parentUuid": "da71b9b3_0ebd63de",
+      "revId": "1755a33c515f2373023029b3acfea412d5d52043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
