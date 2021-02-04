@@ -241,6 +241,7 @@ public class LFSPointerTest {
 	}
 
 	@Test
+	@SuppressWarnings("SelfComparison")
 	public void testCompareToSame() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
