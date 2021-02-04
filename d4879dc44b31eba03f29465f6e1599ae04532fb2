@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3c31a74_a2270a77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-02-04T18:18:01Z",
+      "side": 1,
+      "message": "Allow , also re-wrap paragraph?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 4
+      },
+      "revId": "d4879dc44b31eba03f29465f6e1599ae04532fb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fbe123d_7c77656f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-02-04T18:18:01Z",
+      "side": 1,
+      "message": "your tests only exercise one of two ifs. I guess you have to do the merge with args swapped as well.",
+      "revId": "d4879dc44b31eba03f29465f6e1599ae04532fb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d0c17c3_f7efb6e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-02-04T18:18:01Z",
+      "side": 1,
+      "message": "this looks cut \u0026 paste from the previous body. Could probably fold both cases together, \n\n  if (nonTree(modeO) !\u003d nonTree(modeT)) { \n    ..\n  }\n\nThen you could also also address the duplicate comment, and your test would have 100% coverage \n\nperhaps do the refactoring as a first.",
+      "range": {
+        "startLine": 729,
+        "startChar": 33,
+        "endLine": 729,
+        "endChar": 46
+      },
+      "revId": "d4879dc44b31eba03f29465f6e1599ae04532fb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
