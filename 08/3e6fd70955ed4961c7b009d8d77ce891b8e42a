@@ -1,0 +1,8 @@
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Code-Review+1: David Ostrovsky <d.ostrovsky@gmx.de>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Thomas Wolf <thomas.wolf@paranor.ch>
+Submitted-at: Thu, 04 Feb 2021 04:59:49 -0500
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/175770
+Project: jgit/jgit
+Branch: refs/heads/master
