@@ -13,6 +13,8 @@ HELPERS = glob(
 ) + [PKG + c for c in [
     "api/AbstractRemoteCommandTest.java",
     "diff/AbstractDiffTestCase.java",
+    "internal/revwalk/ObjectReachabilityTestCase.java",
+    "internal/revwalk/ReachabilityCheckerTestCase.java",
     "internal/storage/file/GcTestCase.java",
     "internal/storage/file/PackIndexTestCase.java",
     "internal/storage/file/XInputStream.java",
@@ -20,8 +22,6 @@ HELPERS = glob(
     "nls/MissingPropertyBundle.java",
     "nls/NoPropertiesBundle.java",
     "nls/NonTranslatedBundle.java",
-    "revwalk/ObjectReachabilityTestCase.java",
-    "revwalk/ReachabilityCheckerTestCase.java",
     "revwalk/RevQueueTestCase.java",
     "revwalk/RevWalkTestCase.java",
     "transport/ObjectIdMatcher.java",
