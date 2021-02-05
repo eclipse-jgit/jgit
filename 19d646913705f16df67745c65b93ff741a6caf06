@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc15c942_6802ba93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-05T22:32:05Z",
+      "side": 1,
+      "message": "Tiny nit: there should be a blank line between the subject and the rest of the commit message.",
+      "revId": "19d646913705f16df67745c65b93ff741a6caf06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
