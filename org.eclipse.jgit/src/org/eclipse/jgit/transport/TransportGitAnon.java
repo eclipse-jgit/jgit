@@ -121,7 +121,6 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		final Socket s = new Socket();
 		try {
 			final InetAddress host = InetAddress.getByName(uri.getHost());
-			s.bind(null);
 			s.connect(new InetSocketAddress(host, port), tms);
 		} catch (IOException c) {
 			try {
