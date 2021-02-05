@@ -16,6 +16,24 @@
       "revId": "19d646913705f16df67745c65b93ff741a6caf06",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ce2c90c_bb812846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-02-05T23:15:56Z",
+      "side": 1,
+      "message": "Thanks. Updated in the UI. That should do it, right?",
+      "parentUuid": "fc15c942_6802ba93",
+      "revId": "19d646913705f16df67745c65b93ff741a6caf06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
