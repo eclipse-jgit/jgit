@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52a8051c_c739af19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-06T20:44:42Z",
+      "side": 1,
+      "message": "I find this class name confusing. We already have PackFile and File with their methods getPackName() and getName() and my first association was PackFileName is an abstraction of a PackFile\u0027s name which sounds like it could be the result of File.getName() or PackFile.getPackName(). This class extends File so the perfect name would be PackFile but that\u0027s already taken by the existing PackFile class.\n\nHow about naming it PackPath or PackFilePath to disambiguate ?",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "d6ad31fed3e453ce5b88c53e782f32cbbab1532d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
