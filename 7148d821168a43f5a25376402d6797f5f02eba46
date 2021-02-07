@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c926886e_f7bd6d9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-07T00:34:30Z",
+      "side": 1,
+      "message": "remove duplicate \"for\"",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 3
+      },
+      "revId": "7148d821168a43f5a25376402d6797f5f02eba46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8902f627_125f6b8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-07T00:34:30Z",
+      "side": 1,
+      "message": "add the missing braces ?",
+      "revId": "7148d821168a43f5a25376402d6797f5f02eba46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
