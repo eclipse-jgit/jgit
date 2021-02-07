@@ -46,6 +46,30 @@
       "revId": "d6ad31fed3e453ce5b88c53e782f32cbbab1532d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "929692cc_2ec536bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-07T21:55:21Z",
+      "side": 1,
+      "message": "How about renaming PackFile to Pack or GitPack and PackFileName to PackFile ?\n\nThis wouldn\u0027t break API since PackFile is in the internal package org.eclipse.jgit.internal.storage.file and we do not guarantee internal API to be stable in a new  minor release.",
+      "parentUuid": "364de14e_e27f545c",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "d6ad31fed3e453ce5b88c53e782f32cbbab1532d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
