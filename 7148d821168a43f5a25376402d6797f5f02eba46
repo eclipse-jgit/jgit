@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30fdb060_ee6517c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-02-07T04:01:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c926886e_f7bd6d9e",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 3
+      },
+      "revId": "7148d821168a43f5a25376402d6797f5f02eba46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8902f627_125f6b8b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 9
@@ -39,6 +63,24 @@
       "revId": "7148d821168a43f5a25376402d6797f5f02eba46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0882177_53257557",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-02-07T04:01:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8902f627_125f6b8b",
+      "revId": "7148d821168a43f5a25376402d6797f5f02eba46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
