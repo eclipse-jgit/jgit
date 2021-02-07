@@ -44,8 +44,6 @@ EXCLUDED = [
     PKG + "api/SecurityManagerMissingPermissionsTest.java",
 ]
 
-RESOURCES = glob(["resources/**"])
-
 tests(tests = glob(
     ["tst/**/*.java"],
     exclude = HELPERS + DATA + EXCLUDED,
