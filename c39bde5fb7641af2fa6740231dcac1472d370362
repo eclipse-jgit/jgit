@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "71b0962d_b294c4b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-07T21:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a71dbc55_b8726417",
+      "range": {
+        "startLine": 1001,
+        "startChar": 71,
+        "endLine": 1001,
+        "endChar": 73
+      },
+      "revId": "c39bde5fb7641af2fa6740231dcac1472d370362",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d36513c7_67d0f94d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "c39bde5fb7641af2fa6740231dcac1472d370362",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bff7652_9ffff64c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-07T21:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d36513c7_67d0f94d",
+      "range": {
+        "startLine": 351,
+        "startChar": 71,
+        "endLine": 351,
+        "endChar": 73
+      },
+      "revId": "c39bde5fb7641af2fa6740231dcac1472d370362",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
