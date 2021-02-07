@@ -22,6 +22,30 @@
       "revId": "d6ad31fed3e453ce5b88c53e782f32cbbab1532d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364de14e_e27f545c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-07T21:11:56Z",
+      "side": 1,
+      "message": "Yes, I think renaming PackFile (maybe to \u0027Pack\u0027) and making this class PackFile would solve this best. Martin and I talked about that challenge quite a bit. PackFileName seemed like a good compromise name.\n\nI\u0027m open to finding a less confusing name if we can. Wouldn\u0027t it be more confusing to have a class with Path in the name that isn\u0027t related to java Path? Would \u0027PackNameFile\u0027 make any sense? \u0027RealPackFile\u0027? 😂 PackRelatedFile? PackTypeFile?",
+      "parentUuid": "52a8051c_c739af19",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "d6ad31fed3e453ce5b88c53e782f32cbbab1532d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
