@@ -33,9 +33,9 @@ import org.eclipse.jgit.util.io.TeeOutputStream;
  *            the return type which is expected from {@link #call()}
  * @see <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git
  *      Hooks on the git-scm official site</a>
- * @since 4.0
+ * @since 5.11
  */
-abstract class GitHook<T> implements Callable<T> {
+public abstract class GitHook<T> implements Callable<T> {
 
 	private final Repository repo;
 
