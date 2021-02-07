@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bbc7641_c8fb7346",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-07T01:05:08Z",
+      "side": 1,
+      "message": "this(newPath, STAGE_0, id, fileMode);",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 24
+      },
+      "revId": "b4f865bb376bc30cc5a972079ec8a8f3e90dd9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73a14b5e_b16ea02e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-07T01:05:08Z",
+      "side": 1,
+      "message": "this(newPath, STAGE_0, id, fileMode);",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 295,
+        "endChar": 24
+      },
+      "revId": "b4f865bb376bc30cc5a972079ec8a8f3e90dd9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a77c9b0_e929a137",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-07T01:05:08Z",
+      "side": 1,
+      "message": "\"newPath\" to make this consistent with the other constructors ?",
+      "range": {
+        "startLine": 347,
+        "startChar": 29,
+        "endLine": 347,
+        "endChar": 33
+      },
+      "revId": "b4f865bb376bc30cc5a972079ec8a8f3e90dd9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
