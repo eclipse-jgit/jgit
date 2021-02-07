@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b64edb2_787402e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryRename.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-07T20:39:43Z",
+      "side": 1,
+      "message": "Lars, how did you find this? Note that objId and tmp can likewise become local variables. If you used some tool, why did that tool not flag those?",
+      "revId": "3259a960217f1dd44c46007a545f473bd575f951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
