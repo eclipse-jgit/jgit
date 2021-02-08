@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec279f26_efc6a084",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-08T08:04:51Z",
+      "side": 1,
+      "message": "I\u0027d make this private. Subclasses can use getOutputStream().",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 10
+      },
+      "revId": "2f989086032dcdecdb457ae6bfdb9a886372af9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b9889c3_85c485b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-08T08:04:51Z",
+      "side": 1,
+      "message": "I\u0027d make this private. Subclasses can use getErrorStream().",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 10
+      },
+      "revId": "2f989086032dcdecdb457ae6bfdb9a886372af9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "131bafe8_2f0c1d67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-08T08:04:51Z",
+      "side": 1,
+      "message": "We\u0027re calling out to an external script here, which is going to write into this stream. Isn\u0027t that external script going to use whatever locale is set, i.e., Charset.defaultCharSet().name()?",
+      "range": {
+        "startLine": 167,
+        "startChar": 5,
+        "endLine": 167,
+        "endChar": 17
+      },
+      "revId": "2f989086032dcdecdb457ae6bfdb9a886372af9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ad33e61_37051333",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-08T08:04:51Z",
+      "side": 1,
+      "message": "Same question here: runHookIfPresent will pass through the stdinArgs as UTF-8. Wouldn\u0027t an external script expect the default charset?",
+      "range": {
+        "startLine": 176,
+        "startChar": 28,
+        "endLine": 176,
+        "endChar": 44
+      },
+      "revId": "2f989086032dcdecdb457ae6bfdb9a886372af9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59369fa9_931b8f30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-08T08:04:51Z",
+      "side": 1,
+      "message": "Same question here: should this be the default charset?",
+      "range": {
+        "startLine": 181,
+        "startChar": 46,
+        "endLine": 181,
+        "endChar": 51
+      },
+      "revId": "2f989086032dcdecdb457ae6bfdb9a886372af9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
