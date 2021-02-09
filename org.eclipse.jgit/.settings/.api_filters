@@ -24,4 +24,34 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.FS"/>
+                <message_argument value="internalRunHookIfPresent(Repository, String, String[], PrintStream, PrintStream, String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.FS"/>
+                <message_argument value="runHookIfPresent(Repository, String, String[], PrintStream, PrintStream, String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS_POSIX.java" type="org.eclipse.jgit.util.FS_POSIX">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.FS_POSIX"/>
+                <message_argument value="runHookIfPresent(Repository, String, String[], PrintStream, PrintStream, String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS_Win32_Cygwin.java" type="org.eclipse.jgit.util.FS_Win32_Cygwin">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.FS_Win32_Cygwin"/>
+                <message_argument value="runHookIfPresent(Repository, String, String[], PrintStream, PrintStream, String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
