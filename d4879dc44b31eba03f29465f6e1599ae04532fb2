@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "24535347_8d753faf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2021-02-09T15:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3c31a74_a2270a77",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 4
+      },
+      "revId": "d4879dc44b31eba03f29465f6e1599ae04532fb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fbe123d_7c77656f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "d4879dc44b31eba03f29465f6e1599ae04532fb2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5b324d8_772bcd5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2021-02-09T15:31:24Z",
+      "side": 1,
+      "message": "I applied the refactoring as you suggested and added a test with swapped dir/file conflict.\n\nLet me know if the test looks redundant now?",
+      "parentUuid": "0fbe123d_7c77656f",
+      "revId": "d4879dc44b31eba03f29465f6e1599ae04532fb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "d4879dc44b31eba03f29465f6e1599ae04532fb2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "360e1529_459a58ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2021-02-09T15:31:24Z",
+      "side": 1,
+      "message": "Done, thanks for the suggestion!",
+      "parentUuid": "5d0c17c3_f7efb6e9",
+      "range": {
+        "startLine": 729,
+        "startChar": 33,
+        "endLine": 729,
+        "endChar": 46
+      },
+      "revId": "d4879dc44b31eba03f29465f6e1599ae04532fb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
