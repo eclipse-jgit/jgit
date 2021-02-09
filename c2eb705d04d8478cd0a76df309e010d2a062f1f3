@@ -16,6 +16,29 @@
       "revId": "c2eb705d04d8478cd0a76df309e010d2a062f1f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91a4ba88_2fd9a4c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-09T15:13:36Z",
+      "side": 1,
+      "message": "With this change this PrintStream becomes superfluous. Just pass on the TeeOutputStream.",
+      "range": {
+        "startLine": 165,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 3
+      },
+      "revId": "c2eb705d04d8478cd0a76df309e010d2a062f1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
