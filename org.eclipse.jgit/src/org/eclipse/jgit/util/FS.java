@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.AccessDeniedException;
@@ -1873,18 +1872,18 @@ public abstract class FS {
 	 * @throws org.eclipse.jgit.api.errors.JGitInternalException
 	 *             if we fail to run the hook somehow. Causes may include an
 	 *             interrupted process or I/O errors.
-	 * @since 4.0
+	 * @since 5.11
 	 */
 	public ProcessResult runHookIfPresent(Repository repository,
 			final String hookName,
-			String[] args, PrintStream outRedirect, PrintStream errRedirect,
+			String[] args, OutputStream outRedirect, OutputStream errRedirect,
 			String stdinArgs) throws JGitInternalException {
 		return new ProcessResult(Status.NOT_SUPPORTED);
 	}
 
 	/**
 	 * See
-	 * {@link #runHookIfPresent(Repository, String, String[], PrintStream, PrintStream, String)}
+	 * {@link #runHookIfPresent(Repository, String, String[], OutputStream, OutputStream, String)}
 	 * . Should only be called by FS supporting shell scripts execution.
 	 *
 	 * @param repository
@@ -1909,11 +1908,11 @@ public abstract class FS {
 	 * @throws org.eclipse.jgit.api.errors.JGitInternalException
 	 *             if we fail to run the hook somehow. Causes may include an
 	 *             interrupted process or I/O errors.
-	 * @since 4.0
+	 * @since 5.11
 	 */
 	protected ProcessResult internalRunHookIfPresent(Repository repository,
-			final String hookName, String[] args, PrintStream outRedirect,
-			PrintStream errRedirect, String stdinArgs)
+			final String hookName, String[] args, OutputStream outRedirect,
+			OutputStream errRedirect, String stdinArgs)
 			throws JGitInternalException {
 		File hookFile = findHook(repository, hookName);
 		if (hookFile == null || hookName == null) {

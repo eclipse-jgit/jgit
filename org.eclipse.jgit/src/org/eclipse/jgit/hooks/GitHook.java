@@ -13,6 +13,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Callable;
@@ -44,12 +45,12 @@ abstract class GitHook<T> implements Callable<T> {
 	/**
 	 * The output stream to be used by the hook.
 	 */
-	private final PrintStream outputStream;
+	private final OutputStream outputStream;
 
 	/**
 	 * The error stream to be used by the hook.
 	 */
-	private final PrintStream errorStream;
+	private final OutputStream errorStream;
 
 	/**
 	 * Constructor for GitHook.
@@ -63,7 +64,7 @@ abstract class GitHook<T> implements Callable<T> {
 	 *            The output stream the hook must use. {@code null} is allowed,
 	 *            in which case the hook will use {@code System.out}.
 	 */
-	protected GitHook(Repository repo, PrintStream outputStream) {
+	protected GitHook(Repository repo, OutputStream outputStream) {
 		this(repo, outputStream, null);
 	}
 
@@ -79,8 +80,8 @@ abstract class GitHook<T> implements Callable<T> {
 	 *            The error stream the hook must use. {@code null} is allowed,
 	 *            in which case the hook will use {@code System.err}.
 	 */
-	protected GitHook(Repository repo, PrintStream outputStream,
-			PrintStream errorStream) {
+	protected GitHook(Repository repo, OutputStream outputStream,
+			OutputStream errorStream) {
 		this.repo = repo;
 		this.outputStream = outputStream;
 		this.errorStream = errorStream;
@@ -137,7 +138,7 @@ abstract class GitHook<T> implements Callable<T> {
 	 * @return The output stream the hook must use. Never {@code null},
 	 *         {@code System.out} is returned by default.
 	 */
-	protected PrintStream getOutputStream() {
+	protected OutputStream getOutputStream() {
 		return outputStream == null ? System.out : outputStream;
 	}
 
@@ -147,7 +148,7 @@ abstract class GitHook<T> implements Callable<T> {
 	 * @return The error stream the hook must use. Never {@code null},
 	 *         {@code System.err} is returned by default.
 	 */
-	protected PrintStream getErrorStream() {
+	protected OutputStream getErrorStream() {
 		return errorStream == null ? System.err : errorStream;
 	}
 

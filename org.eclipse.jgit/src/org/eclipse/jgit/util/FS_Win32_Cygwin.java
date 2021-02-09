@@ -13,7 +13,7 @@ package org.eclipse.jgit.util;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
-import java.io.PrintStream;
+import java.io.OutputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -139,7 +139,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 	/** {@inheritDoc} */
 	@Override
 	public ProcessResult runHookIfPresent(Repository repository, String hookName,
-			String[] args, PrintStream outRedirect, PrintStream errRedirect,
+			String[] args, OutputStream outRedirect, OutputStream errRedirect,
 			String stdinArgs) throws JGitInternalException {
 		return internalRunHookIfPresent(repository, hookName, args, outRedirect,
 				errRedirect, stdinArgs);
