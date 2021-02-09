@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4bbb1f9_51f8bb8b",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2021-02-09T07:11:19Z",
+      "side": 1,
+      "message": "Is this change needed?",
+      "revId": "c2eb705d04d8478cd0a76df309e010d2a062f1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
