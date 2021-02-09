@@ -44,12 +44,12 @@ abstract class GitHook<T> implements Callable<T> {
 	/**
 	 * The output stream to be used by the hook.
 	 */
-	protected final PrintStream outputStream;
+	private final PrintStream outputStream;
 
 	/**
 	 * The error stream to be used by the hook.
 	 */
-	protected final PrintStream errorStream;
+	private final PrintStream errorStream;
 
 	/**
 	 * Constructor for GitHook.
