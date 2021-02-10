@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "171c490d_9ef73bfe",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-02-10T13:46:26Z",
+      "side": 1,
+      "message": "I thought you could test the other case by doing\n\n  checkout c3s\n  git merge c4m\n\n(ie. invert the ordering)",
+      "range": {
+        "startLine": 1481,
+        "startChar": 2,
+        "endLine": 1481,
+        "endChar": 54
+      },
+      "revId": "1b9911d9ae23f14a7e7a5330c47e63a99fe1469d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
