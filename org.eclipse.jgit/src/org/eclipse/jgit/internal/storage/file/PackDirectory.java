@@ -122,21 +122,35 @@ class PackDirectory {
 	 *
 	 * @param objectId
 	 *            identity of the object to test for existence of.
-	 * @return true if the specified object is stored in this PackDirectory.
+	 * @return {@code true} if the specified object is stored in this PackDirectory.
 	 */
 	boolean has(AnyObjectId objectId) {
+		return getPack(objectId) != null;
+	}
+
+	/**
+	 * Get the {@link org.eclipse.jgit.internal.storage.file.Pack} for the
+	 * specified object if it is stored in this PackDirectory.
+	 *
+	 * @param objectId
+	 *            identity of the object to find the Pack for.
+	 * @return {@link org.eclipse.jgit.internal.storage.file.Pack} which
+	 *         contains the specified object or {@code null} if it is not stored
+	 *         in this PackDirectory.
+	 */
+	Pack getPack(AnyObjectId objectId) {
 		PackList pList;
 		do {
 			pList = packList.get();
 			for (Pack p : pList.packs) {
 				try {
 					if (p.hasObject(objectId)) {
-						return true;
+						return p;
 					}
 				} catch (IOException e) {
-					// The hasObject call should have only touched the index,
-					// so any failure here indicates the index is unreadable
-					// by this process, and the pack is likewise not readable.
+					// The hasObject call should have only touched the index, so
+					// any failure here indicates the index is unreadable by
+					// this process, and the pack is likewise not readable.
 					LOG.warn(MessageFormat.format(
 							JGitText.get().unableToReadPackfile,
 							p.getPackFile().getAbsolutePath()), e);
@@ -144,7 +158,7 @@ class PackDirectory {
 				}
 			}
 		} while (searchPacksAgain(pList));
-		return false;
+		return null;
 	}
 
 	/**
