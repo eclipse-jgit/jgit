@@ -11,8 +11,6 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -216,26 +214,28 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * Add a single existing pack to the list of available pack files.
 	 */
 	@Override
-	public Pack openPack(File pack)
-			throws IOException {
-		final String p = pack.getName();
-		if (p.length() != 50 || !p.startsWith("pack-") || !p.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
-			throw new IOException(MessageFormat.format(JGitText.get().notAValidPack, pack));
-
-		// The pack and index are assumed to exist. The existence of other
-		// extensions needs to be explicitly checked.
-		//
-		int extensions = PACK.getBit() | INDEX.getBit();
-		final String base = p.substring(0, p.length() - 4);
-		for (PackExt ext : PackExt.values()) {
-			if ((extensions & ext.getBit()) == 0) {
-				final String name = base + ext.getExtension();
-				if (new File(pack.getParentFile(), name).exists())
-					extensions |= ext.getBit();
-			}
+	public Pack openPack(File pack) throws IOException {
+		PackFile pf;
+		try {
+			pf = new PackFile(pack);
+		} catch (IllegalArgumentException e) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().notAValidPack, pack),
+					e);
 		}
 
-		Pack res = new Pack(pack, extensions);
+		String p = pf.getName();
+		// TODO(nasserg): See if PackFile can do these checks instead
+		if (p.length() != 50 || !p.startsWith("pack-") //$NON-NLS-1$
+				|| !pf.getPackExt().equals(PackExt.PACK)) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().notAValidPack, pack));
+		}
+
+		// The pack and index are assumed to exist. The existence of the bitmap
+		// index needs to be explicitly checked.
+		PackFile bitmapIdx = pf.create(PackExt.BITMAP_INDEX);
+		Pack res = new Pack(pack, bitmapIdx.exists() ? bitmapIdx : null);
 		packed.insert(res);
 		return res;
 	}
