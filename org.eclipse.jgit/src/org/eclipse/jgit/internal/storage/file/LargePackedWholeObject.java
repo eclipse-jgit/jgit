@@ -30,12 +30,12 @@ class LargePackedWholeObject extends ObjectLoader {
 
 	private final int headerLength;
 
-	private final PackFile pack;
+	private final Pack pack;
 
 	private final FileObjectDatabase db;
 
 	LargePackedWholeObject(int type, long size, long objectOffset,
-			int headerLength, PackFile pack, FileObjectDatabase db) {
+			int headerLength, Pack pack, FileObjectDatabase db) {
 		this.type = type;
 		this.size = size;
 		this.objectOffset = objectOffset;

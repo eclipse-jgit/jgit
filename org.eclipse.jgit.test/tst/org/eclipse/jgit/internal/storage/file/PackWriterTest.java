@@ -72,7 +72,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	private ByteArrayOutputStream os;
 
-	private PackFile pack;
+	private Pack pack;
 
 	private ObjectInserter inserter;
 
@@ -840,7 +840,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		p.setAllowThin(thin);
 		p.setIndexVersion(2);
 		p.parse(NullProgressMonitor.INSTANCE);
-		pack = p.getPackFile();
+		pack = p.getPack();
 		assertNotNull("have PackFile after parsing", pack);
 	}
 

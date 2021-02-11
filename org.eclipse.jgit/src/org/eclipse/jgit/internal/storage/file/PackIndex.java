@@ -34,7 +34,7 @@ import org.eclipse.jgit.util.io.SilentFileInputStream;
 
 /**
  * Access path to locate objects by {@link org.eclipse.jgit.lib.ObjectId} in a
- * {@link org.eclipse.jgit.internal.storage.file.PackFile}.
+ * {@link org.eclipse.jgit.internal.storage.file.Pack}.
  * <p>
  * Indexes are strictly redundant information in that we can rebuild all of the
  * data held in the index file from the on disk representation of the pack file

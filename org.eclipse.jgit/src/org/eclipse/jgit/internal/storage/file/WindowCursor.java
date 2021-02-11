@@ -86,7 +86,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	/** {@inheritDoc} */
 	@Override
 	public BitmapIndex getBitmapIndex() throws IOException {
-		for (PackFile pack : db.getPacks()) {
+		for (Pack pack : db.getPacks()) {
 			PackBitmapIndex index = pack.getBitmapIndex();
 			if (index != null)
 				return new BitmapIndexImpl(index);
@@ -98,7 +98,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	@Override
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 			BitmapBuilder needBitmap) throws IOException {
-		for (PackFile pack : db.getPacks()) {
+		for (Pack pack : db.getPacks()) {
 			PackBitmapIndex index = pack.getBitmapIndex();
 			if (needBitmap.removeAllOrNone(index))
 				return Collections.<CachedPack> singletonList(
@@ -218,7 +218,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	 *             this cursor does not match the provider or id and the proper
 	 *             window could not be acquired through the provider's cache.
 	 */
-	int copy(final PackFile pack, long position, final byte[] dstbuf,
+	int copy(final Pack pack, long position, final byte[] dstbuf,
 			int dstoff, final int cnt) throws IOException {
 		final long length = pack.length;
 		int need = cnt;
@@ -239,7 +239,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		((LocalCachedPack) pack).copyAsIs(out, this);
 	}
 
-	void copyPackAsIs(final PackFile pack, final long length,
+	void copyPackAsIs(final Pack pack, final long length,
 			final PackOutputStream out) throws IOException {
 		long position = 12;
 		long remaining = length - (12 + 20);
@@ -275,7 +275,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	 *             the inflater encountered an invalid chunk of data. Data
 	 *             stream corruption is likely.
 	 */
-	int inflate(final PackFile pack, long position, final byte[] dstbuf,
+	int inflate(final Pack pack, long position, final byte[] dstbuf,
 			boolean headerOnly) throws IOException, DataFormatException {
 		prepareInflater();
 		pin(pack, position);
@@ -293,7 +293,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
-	ByteArrayWindow quickCopy(PackFile p, long pos, long cnt)
+	ByteArrayWindow quickCopy(Pack p, long pos, long cnt)
 			throws IOException {
 		pin(p, pos);
 		if (window instanceof ByteArrayWindow
@@ -314,7 +314,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			inf.reset();
 	}
 
-	void pin(PackFile pack, long position)
+	void pin(Pack pack, long position)
 			throws IOException {
 		final ByteWindow w = window;
 		if (w == null || !w.contains(pack, position)) {

@@ -18,7 +18,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
- * Keeps track of a {@link org.eclipse.jgit.internal.storage.file.PackFile}'s
+ * Keeps track of a {@link org.eclipse.jgit.internal.storage.file.Pack}'s
  * associated <code>.keep</code> file.
  */
 public class PackLock {

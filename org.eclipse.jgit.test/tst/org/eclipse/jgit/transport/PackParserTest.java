@@ -29,7 +29,7 @@ import java.util.zip.Deflater;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectoryPackParser;
-import org.eclipse.jgit.internal.storage.file.PackFile;
+import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
@@ -63,16 +63,16 @@ public class PackParserTest extends RepositoryTestCase {
 		try (InputStream is = new FileInputStream(packFile)) {
 			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
 			p.parse(NullProgressMonitor.INSTANCE);
-			PackFile file = p.getPackFile();
+			Pack pack = p.getPack();
 
-			assertTrue(file.hasObject(ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904")));
-			assertTrue(file.hasObject(ObjectId.fromString("540a36d136cf413e4b064c2b0e0a4db60f77feab")));
-			assertTrue(file.hasObject(ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259")));
-			assertTrue(file.hasObject(ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3")));
-			assertTrue(file.hasObject(ObjectId.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7")));
-			assertTrue(file.hasObject(ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327")));
-			assertTrue(file.hasObject(ObjectId.fromString("aabf2ffaec9b497f0950352b3e582d73035c2035")));
-			assertTrue(file.hasObject(ObjectId.fromString("c59759f143fb1fe21c197981df75a7ee00290799")));
+			assertTrue(pack.hasObject(ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904")));
+			assertTrue(pack.hasObject(ObjectId.fromString("540a36d136cf413e4b064c2b0e0a4db60f77feab")));
+			assertTrue(pack.hasObject(ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259")));
+			assertTrue(pack.hasObject(ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3")));
+			assertTrue(pack.hasObject(ObjectId.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7")));
+			assertTrue(pack.hasObject(ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327")));
+			assertTrue(pack.hasObject(ObjectId.fromString("aabf2ffaec9b497f0950352b3e582d73035c2035")));
+			assertTrue(pack.hasObject(ObjectId.fromString("c59759f143fb1fe21c197981df75a7ee00290799")));
 		}
 	}
 
@@ -88,20 +88,20 @@ public class PackParserTest extends RepositoryTestCase {
 		try (InputStream is = new FileInputStream(packFile)) {
 			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
 			p.parse(NullProgressMonitor.INSTANCE);
-			PackFile file = p.getPackFile();
+			Pack pack = p.getPack();
 
-			assertTrue(file.hasObject(ObjectId.fromString("02ba32d3649e510002c21651936b7077aa75ffa9")));
-			assertTrue(file.hasObject(ObjectId.fromString("0966a434eb1a025db6b71485ab63a3bfbea520b6")));
-			assertTrue(file.hasObject(ObjectId.fromString("09efc7e59a839528ac7bda9fa020dc9101278680")));
-			assertTrue(file.hasObject(ObjectId.fromString("0a3d7772488b6b106fb62813c4d6d627918d9181")));
-			assertTrue(file.hasObject(ObjectId.fromString("1004d0d7ac26fbf63050a234c9b88a46075719d3")));
-			assertTrue(file.hasObject(ObjectId.fromString("10da5895682013006950e7da534b705252b03be6")));
-			assertTrue(file.hasObject(ObjectId.fromString("1203b03dc816ccbb67773f28b3c19318654b0bc8")));
-			assertTrue(file.hasObject(ObjectId.fromString("15fae9e651043de0fd1deef588aa3fbf5a7a41c6")));
-			assertTrue(file.hasObject(ObjectId.fromString("16f9ec009e5568c435f473ba3a1df732d49ce8c3")));
-			assertTrue(file.hasObject(ObjectId.fromString("1fd7d579fb6ae3fe942dc09c2c783443d04cf21e")));
-			assertTrue(file.hasObject(ObjectId.fromString("20a8ade77639491ea0bd667bf95de8abf3a434c8")));
-			assertTrue(file.hasObject(ObjectId.fromString("2675188fd86978d5bc4d7211698b2118ae3bf658")));
+			assertTrue(pack.hasObject(ObjectId.fromString("02ba32d3649e510002c21651936b7077aa75ffa9")));
+			assertTrue(pack.hasObject(ObjectId.fromString("0966a434eb1a025db6b71485ab63a3bfbea520b6")));
+			assertTrue(pack.hasObject(ObjectId.fromString("09efc7e59a839528ac7bda9fa020dc9101278680")));
+			assertTrue(pack.hasObject(ObjectId.fromString("0a3d7772488b6b106fb62813c4d6d627918d9181")));
+			assertTrue(pack.hasObject(ObjectId.fromString("1004d0d7ac26fbf63050a234c9b88a46075719d3")));
+			assertTrue(pack.hasObject(ObjectId.fromString("10da5895682013006950e7da534b705252b03be6")));
+			assertTrue(pack.hasObject(ObjectId.fromString("1203b03dc816ccbb67773f28b3c19318654b0bc8")));
+			assertTrue(pack.hasObject(ObjectId.fromString("15fae9e651043de0fd1deef588aa3fbf5a7a41c6")));
+			assertTrue(pack.hasObject(ObjectId.fromString("16f9ec009e5568c435f473ba3a1df732d49ce8c3")));
+			assertTrue(pack.hasObject(ObjectId.fromString("1fd7d579fb6ae3fe942dc09c2c783443d04cf21e")));
+			assertTrue(pack.hasObject(ObjectId.fromString("20a8ade77639491ea0bd667bf95de8abf3a434c8")));
+			assertTrue(pack.hasObject(ObjectId.fromString("2675188fd86978d5bc4d7211698b2118ae3bf658")));
 			// and lots more...
 		}
 	}

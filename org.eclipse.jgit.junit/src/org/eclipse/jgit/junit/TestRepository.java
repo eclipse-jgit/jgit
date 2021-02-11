@@ -43,7 +43,7 @@ import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
-import org.eclipse.jgit.internal.storage.file.PackFile;
+import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -773,7 +773,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			rw.writeInfoRefs();
 
 			final StringBuilder w = new StringBuilder();
-			for (PackFile p : fr.getObjectDatabase().getPacks()) {
+			for (Pack p : fr.getObjectDatabase().getPacks()) {
 				w.append("P ");
 				w.append(p.getPackFile().getName());
 				w.append('\n');
@@ -954,7 +954,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	}
 
 	private static void prunePacked(ObjectDirectory odb) throws IOException {
-		for (PackFile p : odb.getPacks()) {
+		for (Pack p : odb.getPacks()) {
 			for (MutableEntry e : p)
 				FileUtils.delete(odb.fileFor(e.toObjectId()));
 		}
