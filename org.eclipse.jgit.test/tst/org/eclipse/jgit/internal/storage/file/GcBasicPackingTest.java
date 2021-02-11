@@ -295,7 +295,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		// pack loose object into packfile
 		gc.setExpireAgeMillis(0);
 		gc.gc();
-		File oldPackfile = tr.getRepository().getObjectDatabase().getPacks()
+		PackFile oldPackfile = tr.getRepository().getObjectDatabase().getPacks()
 				.iterator().next().getPackFile();
 		assertTrue(oldPackfile.exists());
 
@@ -309,12 +309,9 @@ public class GcBasicPackingTest extends GcTestCase {
 		configureGc(gc, false).setPreserveOldPacks(true);
 		gc.gc();
 
-		File oldPackDir = repo.getObjectDatabase().getPreservedDirectory();
-		String oldPackFileName = oldPackfile.getName();
-		String oldPackName = oldPackFileName.substring(0,
-				oldPackFileName.lastIndexOf('.')) + ".old-pack";  //$NON-NLS-1$
-		File preservePackFile = new File(oldPackDir, oldPackName);
-		assertTrue(preservePackFile.exists());
+		File preservedPackFile = oldPackfile.createPreservedForDirectory(
+				repo.getObjectDatabase().getPreservedDirectory());
+		assertTrue(preservedPackFile.exists());
 	}
 
 	private PackConfig configureGc(GC myGc, boolean aggressive) {

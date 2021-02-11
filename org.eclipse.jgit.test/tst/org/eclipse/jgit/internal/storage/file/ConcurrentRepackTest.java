@@ -27,6 +27,7 @@ import java.time.Instant;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -194,8 +195,8 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 			}
 
 			final ObjectId name = pw.computeName();
-			final File packFile = fullPackFileName(name, ".pack");
-			final File idxFile = fullPackFileName(name, ".idx");
+			final PackFile packFile = fullPackFileName(name, ".pack");
+			final PackFile idxFile = packFile.create(PackExt.INDEX);
 			final File[] files = new File[] { packFile, idxFile };
 			write(files, pw);
 			return files;
@@ -242,9 +243,9 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		}
 	}
 
-	private File fullPackFileName(ObjectId name, String suffix) {
+	private PackFile fullPackFileName(ObjectId name, String suffix) {
 		final File packdir = db.getObjectDatabase().getPackDirectory();
-		return new File(packdir, "pack-" + name.name() + suffix);
+		return new PackFile(packdir, "pack-" + name.name() + suffix);
 	}
 
 	private RevObject writeBlob(Repository repo, String data)
