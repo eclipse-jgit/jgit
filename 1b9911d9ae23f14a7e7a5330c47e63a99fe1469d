@@ -46,6 +46,30 @@
       "revId": "1b9911d9ae23f14a7e7a5330c47e63a99fe1469d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b68d24f_c435bc5b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-02-11T08:26:19Z",
+      "side": 1,
+      "message": "ok.\n\nby folding the code together, my complaint of test coverage is fixed, but if you think the extra test adds value, go ahead and leave it in.",
+      "parentUuid": "d4e84524_0ec70d73",
+      "range": {
+        "startLine": 1481,
+        "startChar": 2,
+        "endLine": 1481,
+        "endChar": 54
+      },
+      "revId": "1b9911d9ae23f14a7e7a5330c47e63a99fe1469d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
