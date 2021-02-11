@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.File;
@@ -21,7 +23,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -398,43 +399,32 @@ class PackDirectory {
 	private PackList scanPacksImpl(PackList old) {
 		final Map<String, Pack> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(directory);
-		final Set<String> names = listPackDirectory();
-		final List<Pack> list = new ArrayList<>(names.size() >> 2);
+		Map<String, Map<PackExt, PackFile>> packFilesByExtById = getPackFilesByExtById();
+		List<Pack> list = new ArrayList<>(packFilesByExtById.size());
 		boolean foundNew = false;
-		for (String indexName : names) {
-			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
-			//
-			if (indexName.length() != 49 || !indexName.endsWith(".idx")) { //$NON-NLS-1$
-				continue;
-			}
-
-			final String base = indexName.substring(0, indexName.length() - 3);
-			int extensions = 0;
-			for (PackExt ext : PackExt.values()) {
-				if (names.contains(base + ext.getExtension())) {
-					extensions |= ext.getBit();
-				}
-			}
-
-			if ((extensions & PACK.getBit()) == 0) {
+		for (Map<PackExt, PackFile> packFilesByExt : packFilesByExtById
+				.values()) {
+			PackFile packFile = packFilesByExt.get(PACK);
+			if (packFile == null || !packFilesByExt.containsKey(INDEX)) {
 				// Sometimes C Git's HTTP fetch transport leaves a
 				// .idx file behind and does not download the .pack.
 				// We have to skip over such useless indexes.
-				//
+				// Also skip if we don't have any index for this id
 				continue;
 			}
 
-			final String packName = base + PACK.getExtension();
-			final File packFile = new File(directory, packName);
-			final Pack oldPack = forReuse.get(packName);
+			Pack oldPack = forReuse.get(packFile.getName());
 			if (oldPack != null
 					&& !oldPack.getFileSnapshot().isModified(packFile)) {
-				forReuse.remove(packName);
+				forReuse.remove(packFile.getName());
 				list.add(oldPack);
 				continue;
 			}
 
-			list.add(new Pack(packFile, extensions));
+			list.add(new Pack(packFile,
+					packFilesByExt.containsKey(BITMAP_INDEX)
+							? BITMAP_INDEX.getBit()
+							: 0));
 			foundNew = true;
 		}
 
@@ -487,18 +477,40 @@ class PackDirectory {
 		return forReuse;
 	}
 
-	private Set<String> listPackDirectory() {
+	/**
+	 * Scans the pack directory for
+	 * {@link org.eclipse.jgit.internal.storage.file.PackFile}s and returns them
+	 * organized by their extensions and their pack ids
+	 *
+	 * Skips files in the directory that we cannot create a
+	 * {@link org.eclipse.jgit.internal.storage.file.PackFile} for.
+	 *
+	 * @return a map of {@link org.eclipse.jgit.internal.storage.file.PackFile}s
+	 *         and {@link org.eclipse.jgit.internal.storage.pack.PackExt}s keyed
+	 *         by pack ids
+	 */
+	private Map<String, Map<PackExt, PackFile>> getPackFilesByExtById() {
 		final String[] nameList = directory.list();
 		if (nameList == null) {
-			return Collections.emptySet();
+			return Collections.emptyMap();
 		}
-		final Set<String> nameSet = new HashSet<>(nameList.length << 1);
+		Map<String, Map<PackExt, PackFile>> packFilesByExtById = new HashMap<>(
+				nameList.length / 2); // assume roughly 2 files per id
 		for (String name : nameList) {
-			if (name.startsWith("pack-")) { //$NON-NLS-1$
-				nameSet.add(name);
+			try {
+				PackFile pack = new PackFile(directory, name);
+				Map<PackExt, PackFile> packByExt = packFilesByExtById
+						.get(pack.getId());
+				if (packByExt == null) {
+					packByExt = new HashMap<>(PackExt.values().length);
+					packFilesByExtById.put(pack.getId(), packByExt);
+				}
+				packByExt.put(pack.getPackExt(), pack);
+			} catch (IllegalArgumentException e) {
+				continue;
 			}
 		}
-		return nameSet;
+		return packFilesByExtById;
 	}
 
 	static final class PackList {
