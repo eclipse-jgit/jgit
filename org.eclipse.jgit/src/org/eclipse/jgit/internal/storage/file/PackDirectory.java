@@ -421,10 +421,7 @@ class PackDirectory {
 				continue;
 			}
 
-			list.add(new Pack(packFile,
-					packFilesByExt.containsKey(BITMAP_INDEX)
-							? BITMAP_INDEX.getBit()
-							: 0));
+			list.add(new Pack(packFile, packFilesByExt.get(BITMAP_INDEX)));
 			foundNew = true;
 		}
 
