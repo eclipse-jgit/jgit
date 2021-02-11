@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5096c9fd_5e513b61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-11T21:41:22Z",
+      "side": 1,
+      "message": "Add the missing braces when we are already editing this ?",
+      "revId": "3f63fb00ac21e727f327f27300357b32ca8c4072",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c4c1ca_43d4e00f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-11T21:41:22Z",
+      "side": 1,
+      "message": "add braces ?",
+      "revId": "3f63fb00ac21e727f327f27300357b32ca8c4072",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
