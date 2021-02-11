@@ -12,7 +12,6 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 
@@ -38,6 +37,7 @@ import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -51,7 +51,6 @@ import org.eclipse.jgit.errors.UnsupportedPackVersionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -80,8 +79,6 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private final PackFile packFile;
 
-	private final int extensions;
-
 	private PackFile keepFile;
 
 	final int hash;
@@ -105,7 +102,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private volatile Exception invalidatingCause;
 
-	private boolean invalidBitmap;
+	private PackFile bitmapIdxFile;
 
 	private AtomicInteger transientErrorCount = new AtomicInteger();
 
@@ -131,14 +128,14 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 *
 	 * @param packFile
 	 *            path of the <code>.pack</code> file holding the data.
-	 * @param extensions
-	 *            additional pack file extensions with the same base as the pack
+	 * @param bitmapIdxFile
+	 *            existing bitmap index file with the same base as the pack
 	 */
-	public Pack(File packFile, int extensions) {
+	public Pack(File packFile, @Nullable PackFile bitmapIdxFile) {
 		this.packFile = new PackFile(packFile);
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
-		this.extensions = extensions;
+		this.bitmapIdxFile = bitmapIdxFile;
 
 		// Multiply by 31 here so we can more directly combine with another
 		// value in WindowCache.hash(), without doing the multiply there.
@@ -1124,26 +1121,28 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	synchronized PackBitmapIndex getBitmapIndex() throws IOException {
-		if (invalid || invalidBitmap)
+		if (invalid || bitmapIdxFile == null) {
 			return null;
-		if (bitmapIdx == null && hasExt(BITMAP_INDEX)) {
+		}
+		if (bitmapIdx == null) {
 			final PackBitmapIndex idx;
 			try {
-				idx = PackBitmapIndex.open(packFile.create(BITMAP_INDEX), idx(),
+				idx = PackBitmapIndex.open(bitmapIdxFile, idx(),
 						getReverseIdx());
 			} catch (FileNotFoundException e) {
 				// Once upon a time this bitmap file existed. Now it
 				// has been removed. Most likely an external gc  has
 				// removed this packfile and the bitmap
-				 invalidBitmap = true;
-				 return null;
+				bitmapIdxFile = null;
+				return null;
 			}
 
 			// At this point, idx() will have set packChecksum.
-			if (Arrays.equals(packChecksum, idx.packChecksum))
+			if (Arrays.equals(packChecksum, idx.packChecksum)) {
 				bitmapIdx = idx;
-			else
-				invalidBitmap = true;
+			} else {
+				bitmapIdxFile = null;
+			}
 		}
 		return bitmapIdx;
 	}
@@ -1177,10 +1176,6 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		synchronized (list) {
 			list.add(offset);
 		}
-	}
-
-	private boolean hasExt(PackExt ext) {
-		return (extensions & ext.getBit()) != 0;
 	}
 
 	@SuppressWarnings("nls")
