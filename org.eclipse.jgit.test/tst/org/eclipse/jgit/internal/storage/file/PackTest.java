@@ -34,7 +34,6 @@ import java.util.zip.Deflater;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.DeltaEncoder;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
@@ -261,7 +260,7 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 				new PackIndexWriterV1(f).write(list, footer);
 			}
 
-			Pack pack = new Pack(packName, PackExt.INDEX.getBit());
+			Pack pack = new Pack(packName, false);
 			try {
 				pack.get(wc, b);
 				fail("expected LargeObjectException.ExceedsByteArrayLimit");

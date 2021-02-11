@@ -51,7 +51,6 @@ import org.eclipse.jgit.errors.UnsupportedPackVersionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -80,8 +79,6 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private final PackFile packFile;
 
-	private final int extensions;
-
 	private PackFile keepFile;
 
 	final int hash;
@@ -105,7 +102,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private volatile Exception invalidatingCause;
 
-	private boolean invalidBitmap;
+	private boolean hasBitmap;
 
 	private AtomicInteger transientErrorCount = new AtomicInteger();
 
@@ -131,14 +128,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 *
 	 * @param packFile
 	 *            path of the <code>.pack</code> file holding the data.
-	 * @param extensions
-	 *            additional pack file extensions with the same base as the pack
+	 * @param hasBitmapIndex
+	 *            true if a bitmap index file exists with the same base as the
+	 *            pack
 	 */
-	public Pack(File packFile, int extensions) {
+	public Pack(File packFile, boolean hasBitmapIndex) {
 		this.packFile = new PackFile(packFile);
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
-		this.extensions = extensions;
+		this.hasBitmap = hasBitmapIndex;
 
 		// Multiply by 31 here so we can more directly combine with another
 		// value in WindowCache.hash(), without doing the multiply there.
@@ -1123,9 +1121,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	synchronized PackBitmapIndex getBitmapIndex() throws IOException {
-		if (invalid || invalidBitmap)
+		if (invalid || !hasBitmap) {
 			return null;
-		if (bitmapIdx == null && hasExt(BITMAP_INDEX)) {
+		}
+		if (bitmapIdx == null) {
 			final PackBitmapIndex idx;
 			try {
 				idx = PackBitmapIndex.open(packFile.create(BITMAP_INDEX), idx(),
@@ -1134,15 +1133,16 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				// Once upon a time this bitmap file existed. Now it
 				// has been removed. Most likely an external gc  has
 				// removed this packfile and the bitmap
-				 invalidBitmap = true;
-				 return null;
+				hasBitmap = false;
+				return null;
 			}
 
 			// At this point, idx() will have set packChecksum.
-			if (Arrays.equals(packChecksum, idx.packChecksum))
+			if (Arrays.equals(packChecksum, idx.packChecksum)) {
 				bitmapIdx = idx;
-			else
-				invalidBitmap = true;
+			} else {
+				hasBitmap = false;
+			}
 		}
 		return bitmapIdx;
 	}
@@ -1176,10 +1176,6 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		synchronized (list) {
 			list.add(offset);
 		}
-	}
-
-	private boolean hasExt(PackExt ext) {
-		return (extensions & ext.getBit()) != 0;
 	}
 
 	@SuppressWarnings("nls")
