@@ -22,6 +22,30 @@
       "revId": "1b9911d9ae23f14a7e7a5330c47e63a99fe1469d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4e84524_0ec70d73",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2021-02-11T07:37:48Z",
+      "side": 1,
+      "message": "It wouldn\u0027t change the order of base commits:\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/fe4b2a46563ec2006106ee2318dbf27dfcdef3c5/org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java#141\n\nSo it would execute the same paths.",
+      "parentUuid": "171c490d_9ef73bfe",
+      "range": {
+        "startLine": 1481,
+        "startChar": 2,
+        "endLine": 1481,
+        "endChar": 54
+      },
+      "revId": "1b9911d9ae23f14a7e7a5330c47e63a99fe1469d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
