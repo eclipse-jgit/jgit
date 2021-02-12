@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96ac1340_fccce966",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-12T22:59:59Z",
+      "side": 1,
+      "message": "Strange indentation, and in https://git.eclipse.org/r/c/jgit/jgit/+/176016 this PrintStream becomes superfluous anyway.",
+      "revId": "2826834ea7a94d4ac0e906f13cb8502ce4a9183e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
