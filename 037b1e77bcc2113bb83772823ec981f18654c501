@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ca4aa03_cfd272ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PostCommitHook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-13T11:31:34Z",
+      "side": 1,
+      "message": "@since 5.11. But is it needed at all if it\u0027s an override?",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 14
+      },
+      "revId": "037b1e77bcc2113bb83772823ec981f18654c501",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
