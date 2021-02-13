@@ -16,6 +16,24 @@
       "revId": "dfa1f12698cc8894d0ce88d25f96e95f1bfd0a06",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee8db476_88835bcd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-13T02:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8458944e_a0dcf90f",
+      "revId": "dfa1f12698cc8894d0ce88d25f96e95f1bfd0a06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
