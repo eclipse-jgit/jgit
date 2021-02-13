@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a12869eb_45bdff94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-13T11:39:34Z",
+      "side": 1,
+      "message": "This initialization is not needed since builder.setInitialBranch() fall back to the default anyway.",
+      "range": {
+        "startLine": 42,
+        "startChar": 30,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "782174fe7f79ce6b0defb371dff39483c7f11c81",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
