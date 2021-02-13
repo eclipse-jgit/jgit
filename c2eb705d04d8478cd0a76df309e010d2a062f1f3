@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7af991da_57623fbb",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-13T00:13:28Z",
+      "side": 1,
+      "message": "yes, to suppress API warnings",
+      "parentUuid": "e4bbb1f9_51f8bb8b",
+      "revId": "c2eb705d04d8478cd0a76df309e010d2a062f1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91a4ba88_2fd9a4c3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "c2eb705d04d8478cd0a76df309e010d2a062f1f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "115ba658_3d6b9070",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-13T00:13:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91a4ba88_2fd9a4c3",
+      "range": {
+        "startLine": 165,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 3
+      },
+      "revId": "c2eb705d04d8478cd0a76df309e010d2a062f1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
