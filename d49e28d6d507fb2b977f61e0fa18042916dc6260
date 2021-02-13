@@ -16,6 +16,24 @@
       "revId": "d49e28d6d507fb2b977f61e0fa18042916dc6260",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daee512f_b5abc8c0",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CloneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-13T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c1081c8_d7fd6f24",
+      "revId": "d49e28d6d507fb2b977f61e0fa18042916dc6260",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
