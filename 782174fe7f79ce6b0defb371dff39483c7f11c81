@@ -22,6 +22,30 @@
       "revId": "782174fe7f79ce6b0defb371dff39483c7f11c81",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1991413b_408e848a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-13T11:42:53Z",
+      "side": 1,
+      "message": "OK, I see this is done in the child commit.",
+      "parentUuid": "a12869eb_45bdff94",
+      "range": {
+        "startLine": 42,
+        "startChar": 30,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "782174fe7f79ce6b0defb371dff39483c7f11c81",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
