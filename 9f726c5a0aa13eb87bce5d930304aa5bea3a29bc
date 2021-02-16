@@ -46,6 +46,30 @@
       "revId": "9f726c5a0aa13eb87bce5d930304aa5bea3a29bc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c892ad0_81c05b97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-16T17:05:29Z",
+      "side": 1,
+      "message": "ok, yes this should be explained in the CQ\n\nWe could also ask for a second evaluation if there is a chance to get approval to include OCB in the BC bundles in Orbit.",
+      "parentUuid": "ad3d4fda_7904f746",
+      "range": {
+        "startLine": 24,
+        "startChar": 43,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "9f726c5a0aa13eb87bce5d930304aa5bea3a29bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
