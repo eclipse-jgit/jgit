@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d344fa_0ff5252f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-16T16:19:58Z",
+      "side": 1,
+      "message": "I would file a CQ for this copying to be sure it\u0027s ok to include this in JGit\n\ndo you plan to contribute these fixes upstream ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 43,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "9f726c5a0aa13eb87bce5d930304aa5bea3a29bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
