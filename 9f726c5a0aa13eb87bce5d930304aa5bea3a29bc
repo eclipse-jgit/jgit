@@ -22,6 +22,30 @@
       "revId": "9f726c5a0aa13eb87bce5d930304aa5bea3a29bc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad3d4fda_7904f746",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-16T16:33:47Z",
+      "side": 1,
+      "message": "\u003e I would file a CQ for this copying to be sure it\u0027s ok to include this in JGit\n\nOK... will have to be phrased carefully, lest the legal people get the impression we wanted to include OCB in Eclipse. This is code that handles the patent-encumbered OCB encryption that was explicitly excluded from the Eclipse version of BC. So all this will still fail when used in Eclipse with the Orbit BC bundles. It\u0027ll work if JGit is used somwhere else together with the real BC bundles.\n\n\u003e do you plan to contribute these fixes upstream ?\n\nNot beyond what I\u0027ve written at [1]. The s-expr parser changes depend on the OCBPBEProtectionRemoverFactory, which, as I\u0027ve pointed out in comments, has limitations that may not be appropriate for upstream BouncyCastle. I\u0027m too busy to come up with a proper integration into the upstream sources, but I\u0027ve pointed them to this Gerrit change to give them a head start in case they want to pick this up.\n\n[1] https://github.com/bcgit/bc-java/issues/794",
+      "parentUuid": "48d344fa_0ff5252f",
+      "range": {
+        "startLine": 24,
+        "startChar": 43,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "9f726c5a0aa13eb87bce5d930304aa5bea3a29bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
