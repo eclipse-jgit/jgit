@@ -370,7 +370,7 @@ public class FileReftableStack implements AutoCloseable {
 	private String filename(long low, long high) {
 		return String.format("%012x-%012x-%08x", //$NON-NLS-1$
 				Long.valueOf(low), Long.valueOf(high),
-				random.nextInt());
+				Integer.valueOf(random.nextInt()));
 	}
 
 	/**
