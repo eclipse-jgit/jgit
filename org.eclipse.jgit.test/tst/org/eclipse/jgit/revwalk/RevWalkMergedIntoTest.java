@@ -11,6 +11,8 @@ package org.eclipse.jgit.revwalk;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 
 public class RevWalkMergedIntoTest extends RevWalkTestCase {
@@ -43,5 +45,41 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 		final RevCommit n = commit(commit(commit(commit(commit(f)))));
 		final RevCommit t = commit(n, o);
 		assertTrue(rw.isMergedInto(b, t));
+	}
+
+	@Test
+	public void testGetMergedInto() throws Exception {
+		/*
+		 *          i
+		 *         / \
+		 *        A   o
+		 *       / \   \
+		 *      o1  o2  E
+		 *     / \ / \
+		 *    B   C   D
+		 */
+		final RevCommit i = commit();
+		final RevCommit a = commit(i);
+		final RevCommit e = commit(commit(i));
+
+		final RevCommit o1 = commit(a);
+		final RevCommit o2 = commit(a);
+
+		final RevCommit b = commit(o1);
+		final RevCommit c = commit(o1, o2);
+		final RevCommit d = commit(o2);
+
+		List<RevCommit> haystacks = new ArrayList<>();
+		haystacks.add(b);
+		haystacks.add(c);
+		haystacks.add(d);
+		haystacks.add(e);
+
+		List<RevCommit> result = rw.getMergedInto(a, haystacks);
+
+		assertTrue(result.size() == 3);
+		assertTrue(result.contains(b));
+		assertTrue(result.contains(c));
+		assertTrue(result.contains(d));
 	}
 }

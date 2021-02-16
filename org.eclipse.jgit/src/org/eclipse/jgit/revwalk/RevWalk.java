@@ -425,6 +425,56 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Determine if a commit (needle) is merged into given commits (haystacks).
+	 * <p>
+	 * A commit <code>needle</code> is an ancestor of <code>haystacks</code> if we
+	 * can find a path of commits that leads from one of the <code>haystack</code>
+	 * and ends at <code>needle</code>.
+	 * <p>
+	 *
+	 * @param needle
+	 *            commit the caller thinks is reachable from <code>haystacks</code>.
+	 * @param haystacks
+	 *            commit to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>needle</code>.
+	 * @return list of haystacks that are reachable from needle.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public List<RevCommit> getMergedInto(RevCommit needle, List<RevCommit> haystacks)
+			throws IOException {
+		List<RevCommit> mergedCommits = new ArrayList<>();
+		final RevFilter oldRF = filter;
+		final TreeFilter oldTF = treeFilter;
+		try {
+			finishDelayedFreeFlags();
+			filter = RevFilter.ALL;
+			treeFilter = TreeFilter.ALL;
+			for (RevCommit c: haystacks) {
+				resetRetain(RevFlag.UNINTERESTING);
+				markStart(c);
+				boolean commitFound = false;
+				RevCommit next;
+				while ((next = next()) != null) {
+					if (References.isSameObject(next, needle)) {
+						mergedCommits.add(c);
+						commitFound = true;
+						break;
+					}
+				}
+				if(!commitFound){
+					markUninteresting(c);
+				}
+			}
+		} finally {
+			reset(~freeFlags & APP_FLAGS);
+			filter = oldRF;
+			treeFilter = oldTF;
+		}
+		return mergedCommits;
+	}
+
+	/**
 	 * Pop the next most recent commit.
 	 *
 	 * @return next most recent commit; null if traversal is over.
