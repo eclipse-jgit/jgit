@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0b6c69c_1618c1e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-18T02:38:47Z",
+      "side": 1,
+      "message": "nit: this would be easier to read after applying de morgan\u0027s law: `if (packfile \u003d\u003d null || !packFilesByExt.containsKey(INDEX))`",
+      "revId": "265bfa50a50563aeb4482aef3d0903d02fa69e08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fe42f43_85c1b635",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-18T02:38:47Z",
+      "side": 1,
+      "message": "What is an id? Perhaps a short comment here would help.",
+      "revId": "265bfa50a50563aeb4482aef3d0903d02fa69e08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
