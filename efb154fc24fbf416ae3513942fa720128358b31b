@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c76f85f_3c52b7ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-18T02:18:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure I agree: Git calls these packfiles even when streamed over the network, for example.\n\nThat said, I don\u0027t mind this change, and it\u0027s in internal API so it\u0027s easy to change later if we come up with a better name. :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "efb154fc24fbf416ae3513942fa720128358b31b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
