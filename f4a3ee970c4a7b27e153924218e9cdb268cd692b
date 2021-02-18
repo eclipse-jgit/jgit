@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "33dbb8e7_0a6005bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:54:26Z",
+      "side": 1,
+      "message": "We also check for preserved objects in all alternates, so I don\u0027t think it can short-circuit more than it does now (restoreFromSelf immediately checks for the pack in the preserved dir, which I don\u0027t think is measurably more expensive than checking for the dir itself).",
+      "parentUuid": "4759b81f_57d471cd",
+      "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "659b5aec_ccc182e0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b1413c_70cfea32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:54:26Z",
+      "side": 1,
+      "message": "Done. Looks like I missed running the formatter on these changes.",
+      "parentUuid": "659b5aec_ccc182e0",
+      "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "68e9bd35_3041a9c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:54:26Z",
+      "side": 1,
+      "message": "Renamed, let me know if that\u0027s not enough (comments get out of date easily, so I avoid them unless really necessary).",
+      "parentUuid": "5d2e062a_60f6a93d",
+      "range": {
+        "startLine": 326,
+        "startChar": 22,
+        "endLine": 326,
+        "endChar": 41
+      },
+      "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0e5c53c_5801c929",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 8
@@ -73,6 +133,24 @@
       "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca387e29_2addd0c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:54:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0e5c53c_5801c929",
+      "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

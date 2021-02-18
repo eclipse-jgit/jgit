@@ -46,6 +46,30 @@
       "revId": "5efec9cb5d45a42ad50d06539a6e18bf257e753e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4463718_6661059b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:54:26Z",
+      "side": 1,
+      "message": "Looks like removing from here would break connectivity checks and a bunch of other things (look at callers of WindowCursor.has()) where we do want object restoration. I think keeping is the correct thing to do.",
+      "parentUuid": "5eb080da_e1a2db3c",
+      "range": {
+        "startLine": 290,
+        "startChar": 8,
+        "endLine": 290,
+        "endChar": 34
+      },
+      "revId": "5efec9cb5d45a42ad50d06539a6e18bf257e753e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
