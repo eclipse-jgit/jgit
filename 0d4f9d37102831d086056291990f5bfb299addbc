@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e998da05_5f59906b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-18T22:22:12Z",
+      "side": 1,
+      "message": "we don\u0027t use final for local variables, see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 402,
+        "startChar": 2,
+        "endLine": 402,
+        "endChar": 7
+      },
+      "revId": "0d4f9d37102831d086056291990f5bfb299addbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
