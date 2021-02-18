@@ -22,6 +22,30 @@
       "revId": "5efec9cb5d45a42ad50d06539a6e18bf257e753e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb080da_e1a2db3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-18T02:44:31Z",
+      "side": 1,
+      "message": "Marking unresolved to get closure on this line of discussion.",
+      "parentUuid": "f3c92cca_cb925825",
+      "range": {
+        "startLine": 290,
+        "startChar": 8,
+        "endLine": 290,
+        "endChar": 34
+      },
+      "revId": "5efec9cb5d45a42ad50d06539a6e18bf257e753e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
