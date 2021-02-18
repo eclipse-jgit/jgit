@@ -36,6 +36,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -180,6 +181,12 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private boolean firstParent;
 
 	boolean shallowCommitsInitialized;
+
+	private enum GetMergedIntoStrategy {
+		RETURN_ON_FIRST_FOUND,
+		RETURN_ON_FIRST_NOT_FOUND,
+		EVALUATE_ALL
+	}
 
 	/**
 	 * Create a new revision walker for a given repository.
@@ -422,6 +429,113 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			filter = oldRF;
 			treeFilter = oldTF;
 		}
+	}
+
+	/**
+	 * Determine the Refs into which a commit is merged.
+	 * <p>
+	 * A commit is merged into a ref if we can find a path of commits that leads
+	 * from that specific ref and ends at <code>commit</code>.
+	 * <p>
+	 *
+	 * @param commit
+	 *            commit the caller thinks is reachable from <code>refs</code>.
+	 * @param refs
+	 *            refs to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>commit</code>.
+	 * @return list of refs that are reachable from <code>commit</code>.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 * @since 5.12
+	 */
+	public List<Ref> getMergedInto(RevCommit commit, Collection<Ref> refs)
+			throws IOException{
+		return getMergedInto(commit, refs, GetMergedIntoStrategy.EVALUATE_ALL);
+	}
+
+	/**
+	 * Determine if a <code>commit</code> is merged into any of the given
+	 * <code>refs</code>.
+	 *
+	 * @param commit
+	 *            commit the caller thinks is reachable from <code>refs</code>.
+	 * @param refs
+	 *            refs to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>commit</code>.
+	 * @return true if commit is merged into any of the refs; false otherwise.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 * @since 5.12
+	 */
+	public boolean isMergedIntoAny(RevCommit commit, Collection<Ref> refs)
+			throws IOException {
+		return getMergedInto(commit, refs,
+				GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND).size() > 0;
+	}
+
+	/**
+	 * Determine if a <code>commit</code> is merged into all of the given
+	 * <code>refs</code>.
+	 *
+	 * @param commit
+	 *            commit the caller thinks is reachable from <code>refs</code>.
+	 * @param refs
+	 *            refs to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>commit</code>.
+	 * @return true if commit is merged into all of the refs; false otherwise.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 * @since 5.12
+	 */
+	public boolean isMergedIntoAll(RevCommit commit, Collection<Ref> refs)
+			throws IOException {
+		return getMergedInto(commit, refs,
+				GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND).size()
+				== refs.size();
+	}
+
+	private List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
+			Enum returnStrategy) throws IOException {
+		List<Ref> result = new ArrayList<>();
+		RevFilter oldRF = filter;
+		TreeFilter oldTF = treeFilter;
+		try {
+			finishDelayedFreeFlags();
+			filter = RevFilter.ALL;
+			treeFilter = TreeFilter.ALL;
+			for (Ref r: haystacks) {
+				RevObject o = parseAny(r.getObjectId());
+				if (!(o instanceof RevCommit)) {
+					continue;
+				}
+				RevCommit c = (RevCommit) o;
+				resetRetain(RevFlag.UNINTERESTING);
+				markStart(c);
+				boolean commitFound = false;
+				RevCommit next;
+				while ((next = next()) != null) {
+					if (References.isSameObject(next, needle)) {
+						result.add(r);
+						if (returnStrategy == GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND) {
+							return result;
+						}
+						commitFound = true;
+						break;
+					}
+				}
+				if(!commitFound){
+					markUninteresting(c);
+					if (returnStrategy == GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND) {
+						return result;
+					}
+				}
+			}
+		} finally {
+			reset(~freeFlags & APP_FLAGS);
+			filter = oldRF;
+			treeFilter = oldTF;
+		}
+		return result;
 	}
 
 	/**
