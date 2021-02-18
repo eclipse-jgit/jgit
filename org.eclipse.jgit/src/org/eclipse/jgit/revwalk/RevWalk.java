@@ -181,6 +181,12 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	boolean shallowCommitsInitialized;
 
+	private enum GetMergedIntoStrategy {
+		RETURN_ON_FIRST_FIND,
+		RETURN_ON_FIRST_NOT_FOUND,
+		EVALUATE_ALL
+	}
+
 	/**
 	 * Create a new revision walker for a given repository.
 	 *
@@ -422,6 +428,113 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			filter = oldRF;
 			treeFilter = oldTF;
 		}
+	}
+
+	/**
+	 * Determine the <code>haystacks</code> into which given <code>needle</code> is
+	 * merged.
+	 * <p>
+	 * A commit <code>needle</code> is an ancestor of <code>haystacks</code> if we
+	 * can find a path of commits that leads from one of the <code>haystacks</code>
+	 * and ends at <code>needle</code>.
+	 * <p>
+	 *
+	 * @param needle
+	 *            commit the caller thinks is reachable from <code>haystacks</code>.
+	 * @param haystacks
+	 *            commit to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>needle</code>.
+	 * @return list of haystacks that are reachable from needle.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public List<RevCommit> getMergedInto(RevCommit needle, List<RevCommit> haystacks)
+			throws IOException{
+		return getMergedInto(needle, haystacks, GetMergedIntoStrategy.EVALUATE_ALL);
+	}
+
+	/**
+	 * Determine if <code>needle</code> is merged into any one of
+	 * given <code>haystacks</code>.
+	 *
+	 * @param needle
+	 *            commit the caller thinks is reachable from <code>haystacks</code>.
+	 * @param haystacks
+	 *            commit to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>needle</code>.
+	 * @return true if <code>needle<code/> is merged into any one of the
+	 * <code>haystacks</code>.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public boolean isMergedIntoAny(RevCommit needle, List<RevCommit> haystacks)
+			throws IOException {
+		if(getMergedInto(needle, haystacks, GetMergedIntoStrategy.RETURN_ON_FIRST_FIND).size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Determine if <code>needle</code> is merged into all of the
+	 * given <code>haystacks</code>.
+	 *
+	 * @param needle
+	 *            commit the caller thinks is reachable from <code>haystacks</code>.
+	 * @param haystacks
+	 *            commit to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>needle</code>.
+	 * @return true if <code>needle<code/> is merged into all of the
+	 * <code>haystacks</code>.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public boolean isMergedIntoAll(RevCommit needle, List<RevCommit> haystacks)
+			throws IOException {
+		if(getMergedInto(needle, haystacks, GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND).size()
+				== haystacks.size()) {
+			return true;
+		}
+		return false;
+	}
+
+	private List<RevCommit> getMergedInto(RevCommit needle, List<RevCommit> haystacks,
+			Enum returnStrategy) throws IOException {
+		List<RevCommit> mergedCommits = new ArrayList<>();
+		final RevFilter oldRF = filter;
+		final TreeFilter oldTF = treeFilter;
+		try {
+			finishDelayedFreeFlags();
+			filter = RevFilter.ALL;
+			treeFilter = TreeFilter.ALL;
+			for (RevCommit c: haystacks) {
+				resetRetain(RevFlag.UNINTERESTING);
+				markStart(c);
+				boolean commitFound = false;
+				RevCommit next;
+				while ((next = next()) != null) {
+					if (References.isSameObject(next, needle)) {
+						mergedCommits.add(c);
+						if (returnStrategy.equals(GetMergedIntoStrategy.RETURN_ON_FIRST_FIND)) {
+							return mergedCommits;
+						}
+						commitFound = true;
+						break;
+					}
+				}
+				if(!commitFound){
+					markUninteresting(c);
+					if (returnStrategy.equals(GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND)) {
+						return mergedCommits;
+					}
+				}
+			}
+		} finally {
+			reset(~freeFlags & APP_FLAGS);
+			filter = oldRF;
+			treeFilter = oldTF;
+		}
+		return mergedCommits;
 	}
 
 	/**
