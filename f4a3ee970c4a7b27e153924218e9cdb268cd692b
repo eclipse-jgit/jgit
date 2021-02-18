@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4759b81f_57d471cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-18T02:43:06Z",
+      "side": 1,
+      "message": "Is there a way to short-circuit this if the $GIT_DIR/objects/pack/preserved directory doesn\u0027t exist?",
+      "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "659b5aec_ccc182e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-18T02:43:06Z",
+      "side": 1,
+      "message": "nit: I think this should be indented another level to make the condition clearer",
+      "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2e062a_60f6a93d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-18T02:43:06Z",
+      "side": 1,
+      "message": "What does openObjectNoRestore mean? Perhaps a comment would help.",
+      "range": {
+        "startLine": 326,
+        "startChar": 22,
+        "endLine": 326,
+        "endChar": 41
+      },
+      "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0e5c53c_5801c929",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-18T02:43:06Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "f4a3ee970c4a7b27e153924218e9cdb268cd692b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
