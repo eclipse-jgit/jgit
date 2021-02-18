@@ -36,6 +36,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -180,6 +181,12 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private boolean firstParent;
 
 	boolean shallowCommitsInitialized;
+
+	private enum GetMergedIntoStrategy {
+		RETURN_ON_FIRST_FIND,
+		RETURN_ON_FIRST_NOT_FOUND,
+		EVALUATE_ALL
+	}
 
 	/**
 	 * Create a new revision walker for a given repository.
@@ -422,6 +429,115 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			filter = oldRF;
 			treeFilter = oldTF;
 		}
+	}
+
+	/**
+	 * Determine the <code>haystacks</code> into which given <code>needle</code> is
+	 * merged.
+	 * <p>
+	 * A commit <code>needle</code> is an ancestor of <code>haystacks</code> if we
+	 * can find a path of commits that leads from one of the <code>haystacks</code>
+	 * and ends at <code>needle</code>.
+	 * <p>
+	 *
+	 * @param needle
+	 *            commit the caller thinks is reachable from <code>haystacks</code>.
+	 * @param haystacks
+	 *            refs to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>needle</code>.
+	 * @return list of haystacks that are reachable from needle.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks)
+			throws IOException{
+		return getMergedInto(needle, haystacks,
+				GetMergedIntoStrategy.EVALUATE_ALL);
+	}
+
+	/**
+	 * Determine if <code>needle</code> is merged into any one of
+	 * given <code>haystacks</code>.
+	 *
+	 * @param needle
+	 *            commit the caller thinks is reachable from <code>haystacks</code>.
+	 * @param haystacks
+	 *            refs to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>needle</code>.
+	 * @return true if <code>needle<code/> is merged into any one of the
+	 * <code>haystacks</code>.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public boolean isMergedIntoAny(RevCommit needle, Collection<Ref> haystacks)
+			throws IOException {
+		return getMergedInto(needle, haystacks,
+				GetMergedIntoStrategy.RETURN_ON_FIRST_FIND).size() > 0;
+	}
+
+	/**
+	 * Determine if <code>needle</code> is merged into all of the
+	 * given <code>haystacks</code>.
+	 *
+	 * @param needle
+	 *            commit the caller thinks is reachable from <code>haystacks</code>.
+	 * @param haystacks
+	 *            refs to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>needle</code>.
+	 * @return true if <code>needle<code/> is merged into all of the
+	 * <code>haystacks</code>.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public boolean isMergedIntoAll(RevCommit needle, Collection<Ref> haystacks)
+			throws IOException {
+		return getMergedInto(needle, haystacks,
+				GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND).size()
+				== haystacks.size();
+	}
+
+	private List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
+			Enum returnStrategy) throws IOException {
+		List<Ref> result = new ArrayList<>();
+		final RevFilter oldRF = filter;
+		final TreeFilter oldTF = treeFilter;
+		try {
+			finishDelayedFreeFlags();
+			filter = RevFilter.ALL;
+			treeFilter = TreeFilter.ALL;
+			for (Ref r: haystacks) {
+				RevObject o = parseAny(r.getObjectId());
+				if (!(o instanceof RevCommit)) {
+					continue;
+				}
+				RevCommit c = (RevCommit) o;
+				resetRetain(RevFlag.UNINTERESTING);
+				markStart(c);
+				boolean commitFound = false;
+				RevCommit next;
+				while ((next = next()) != null) {
+					if (References.isSameObject(next, needle)) {
+						result.add(r);
+						if (returnStrategy.equals(GetMergedIntoStrategy.RETURN_ON_FIRST_FIND)) {
+							return result;
+						}
+						commitFound = true;
+						break;
+					}
+				}
+				if(!commitFound){
+					markUninteresting(c);
+					if (returnStrategy.equals(GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND)) {
+						return result;
+					}
+				}
+			}
+		} finally {
+			reset(~freeFlags & APP_FLAGS);
+			filter = oldRF;
+			treeFilter = oldTF;
+		}
+		return result;
 	}
 
 	/**
