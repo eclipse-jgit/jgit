@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3475ae67_1fd99995",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b48cabb3_7579a00a",
+      "range": {
+        "startLine": 162,
+        "startChar": 15,
+        "endLine": 162,
+        "endChar": 26
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4a4e931_807ab678",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42550743_68b20e38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4a4e931_807ab678",
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ffc0fd05_2915c3a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa1abe4b_4c4f23ab",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80947350_a07d6af8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7c31571_b77f1709",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80947350_a07d6af8",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 25
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "b5e67d22_93ed6fd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbefba6b_6d59176e",
+      "range": {
+        "startLine": 46,
+        "startChar": 39,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbd0cab6_55900392",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 1
@@ -131,6 +245,30 @@
       "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22fb05c9_dce000f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbd0cab6_55900392",
+      "range": {
+        "startLine": 88,
+        "startChar": 25,
+        "endLine": 88,
+        "endChar": 37
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +318,54 @@
     },
     {
       "key": {
+        "uuid": "9c12c96f_03559872",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6468459c_b40a284f",
+      "range": {
+        "startLine": 92,
+        "startChar": 41,
+        "endLine": 92,
+        "endChar": 56
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d534ffc6_52467c94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1309add8_3caab572",
+      "range": {
+        "startLine": 92,
+        "startChar": 14,
+        "endLine": 92,
+        "endChar": 26
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eddc08f_93fb1b6c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 1
@@ -200,6 +386,30 @@
       "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f052c6_db9e545d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eddc08f_93fb1b6c",
+      "range": {
+        "startLine": 99,
+        "startChar": 25,
+        "endLine": 99,
+        "endChar": 37
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -226,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "55849996_931b9f8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4233ca9_3ee57994",
+      "range": {
+        "startLine": 102,
+        "startChar": 43,
+        "endLine": 102,
+        "endChar": 47
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb3a5d57_996f8265",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 1
@@ -246,6 +480,30 @@
       "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52127b49_90e71d6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb3a5d57_996f8265",
+      "range": {
+        "startLine": 104,
+        "startChar": 31,
+        "endLine": 104,
+        "endChar": 43
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "a7473b76_f38a8685",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d839624_188179bb",
+      "range": {
+        "startLine": 106,
+        "startChar": 14,
+        "endLine": 106,
+        "endChar": 26
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fffc70f_e50a9f1b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 1
@@ -292,6 +574,30 @@
       "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d51784_3cae7fa3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-18T17:55:56Z",
+      "side": 1,
+      "message": "I didn\u0027t, but I agree with the concern pointed out! Let me refactor to address that. As suggested in the \"refactor\" guide noted from Fowler, I think it makes sense to keep the boolean arg for the private methods.",
+      "parentUuid": "6fffc70f_e50a9f1b",
+      "range": {
+        "startLine": 108,
+        "startChar": 45,
+        "endLine": 108,
+        "endChar": 65
+      },
+      "revId": "aca09622d03a265f30f45535964a0ddd76f92dc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
