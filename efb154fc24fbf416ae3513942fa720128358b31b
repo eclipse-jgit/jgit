@@ -22,6 +22,30 @@
       "revId": "efb154fc24fbf416ae3513942fa720128358b31b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18c7fe0c_a7fec30a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-02-18T19:11:48Z",
+      "side": 1,
+      "message": "But this doesn\u0027t represent what is being streamed over the network since it represents the whole collection of files related to the pack (bitmaps, indexes, keep files...) those things aren\u0027t streamed over the network.",
+      "parentUuid": "3c76f85f_3c52b7ea",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "efb154fc24fbf416ae3513942fa720128358b31b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
