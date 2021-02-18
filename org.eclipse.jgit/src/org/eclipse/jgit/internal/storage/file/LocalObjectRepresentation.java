@@ -16,40 +16,40 @@ import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.ObjectId;
 
 class LocalObjectRepresentation extends StoredObjectRepresentation {
-	static LocalObjectRepresentation newWhole(PackFile f, long p, long length) {
+	static LocalObjectRepresentation newWhole(Pack pack, long offset, long length) {
 		LocalObjectRepresentation r = new LocalObjectRepresentation() {
 			@Override
 			public int getFormat() {
 				return PACK_WHOLE;
 			}
 		};
-		r.pack = f;
-		r.offset = p;
+		r.pack = pack;
+		r.offset = offset;
 		r.length = length;
 		return r;
 	}
 
-	static LocalObjectRepresentation newDelta(PackFile f, long p, long n,
+	static LocalObjectRepresentation newDelta(Pack pack, long offset, long length,
 			ObjectId base) {
 		LocalObjectRepresentation r = new Delta();
-		r.pack = f;
-		r.offset = p;
-		r.length = n;
+		r.pack = pack;
+		r.offset = offset;
+		r.length = length;
 		r.baseId = base;
 		return r;
 	}
 
-	static LocalObjectRepresentation newDelta(PackFile f, long p, long n,
+	static LocalObjectRepresentation newDelta(Pack pack, long offset, long length,
 			long base) {
 		LocalObjectRepresentation r = new Delta();
-		r.pack = f;
-		r.offset = p;
-		r.length = n;
+		r.pack = pack;
+		r.offset = offset;
+		r.length = length;
 		r.baseOffset = base;
 		return r;
 	}
 
-	PackFile pack;
+	Pack pack;
 
 	long offset;
 

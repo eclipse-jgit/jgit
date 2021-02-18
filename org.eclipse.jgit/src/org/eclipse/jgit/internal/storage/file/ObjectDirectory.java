@@ -51,7 +51,7 @@ import org.eclipse.jgit.util.FileUtils;
  * This is the classical object database representation for a Git repository,
  * where objects are stored loose by hashing them into directories by their
  * {@link org.eclipse.jgit.lib.ObjectId}, or are stored in compressed containers
- * known as {@link org.eclipse.jgit.internal.storage.file.PackFile}s.
+ * known as {@link org.eclipse.jgit.internal.storage.file.Pack}s.
  * <p>
  * Optionally an object database can reference one or more alternates; other
  * ObjectDatabase instances that are searched in addition to the current
@@ -206,7 +206,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public Collection<PackFile> getPacks() {
+	public Collection<Pack> getPacks() {
 		return packed.getPacks();
 	}
 
@@ -216,7 +216,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * Add a single existing pack to the list of available pack files.
 	 */
 	@Override
-	public PackFile openPack(File pack)
+	public Pack openPack(File pack)
 			throws IOException {
 		final String p = pack.getName();
 		if (p.length() != 50 || !p.startsWith("pack-") || !p.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
@@ -235,7 +235,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 
-		PackFile res = new PackFile(pack, extensions);
+		Pack res = new Pack(pack, extensions);
 		packed.insert(res);
 		return res;
 	}
@@ -509,7 +509,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// PackConfig) then make sure we get rid of all handles on the file.
 		// Windows will not allow for rename otherwise.
 		if (packFile.exists()) {
-			for (PackFile p : packed.getPacks()) {
+			for (Pack p : packed.getPacks()) {
 				if (packFile.getPath().equals(p.getPackFile().getPath())) {
 					p.close();
 					break;

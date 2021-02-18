@@ -239,7 +239,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	PackFile openPack(File pack) throws IOException {
+	Pack openPack(File pack) throws IOException {
 		return wrapped.openPack(pack);
 	}
 
@@ -250,7 +250,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	Collection<PackFile> getPacks() {
+	Collection<Pack> getPacks() {
 		return wrapped.getPacks();
 	}
 

@@ -25,7 +25,7 @@ import org.eclipse.jgit.util.NB;
 
 /**
  * Creates a table of contents to support random access by
- * {@link org.eclipse.jgit.internal.storage.file.PackFile}.
+ * {@link org.eclipse.jgit.internal.storage.file.Pack}.
  * <p>
  * Pack index files (the <code>.idx</code> suffix in a pack file pair) provides
  * random access to any object in the pack by associating an ObjectId to the
