@@ -11,6 +11,9 @@ package org.eclipse.jgit.revwalk;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.Ref;
 import org.junit.Test;
 
 public class RevWalkMergedIntoTest extends RevWalkTestCase {
@@ -43,5 +46,83 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 		final RevCommit n = commit(commit(commit(commit(commit(f)))));
 		final RevCommit t = commit(n, o);
 		assertTrue(rw.isMergedInto(b, t));
+	}
+
+	@Test
+	public void testGetMergedInto() throws Exception {
+		/*
+		 *          i
+		 *         / \
+		 *        A   o
+		 *       / \   \
+		 *      o1  o2  E
+		 *     / \ / \
+		 *    B   C   D
+		 */
+		String b = "refs/heads/b";
+		String c = "refs/heads/c";
+		String d = "refs/heads/d";
+		String e = "refs/heads/e";
+		final RevCommit i = commit();
+		final RevCommit a = commit(i);
+		final RevCommit o1 = commit(a);
+		final RevCommit o2 = commit(a);
+		createBranch(commit(o1), b);
+		createBranch(commit(o1, o2), c);
+		createBranch(commit(o2), d);
+		createBranch(commit(commit(i)), e);
+
+		List<String>  modifiedResult = rw.getMergedInto(a, getRefs())
+				.stream().map(Ref::getName).collect(Collectors.toList());
+
+		assertTrue(modifiedResult.size() == 3);
+		assertTrue(modifiedResult.contains(b));
+		assertTrue(modifiedResult.contains(c));
+		assertTrue(modifiedResult.contains(d));
+	}
+
+	@Test
+	public void testIsMergedIntoAny() throws Exception {
+		/*
+		 *          i
+		 *         / \
+		 *        A   o
+		 *       /     \
+		 *      o       C
+		 *     /
+		 *    B
+		 */
+		String b = "refs/heads/b";
+		String c = "refs/heads/c";
+		final RevCommit i = commit();
+		final RevCommit a = commit(i);
+		createBranch(commit(commit(a)), b);
+		createBranch(commit(commit(i)), c);
+
+		assertTrue( rw.isMergedIntoAny(a, getRefs()));
+	}
+
+	@Test
+	public void testIsMergedIntoAll() throws Exception {
+		/*
+		 *
+		 *        A
+		 *       / \
+		 *      o1  o2
+		 *     / \ / \
+		 *    B   C   D
+		 */
+
+		String b = "refs/heads/b";
+		String c = "refs/heads/c";
+		String d = "refs/heads/c";
+		final RevCommit a = commit();
+		final RevCommit o1 = commit(a);
+		final RevCommit o2 = commit(a);
+		createBranch(commit(o1), b);
+		createBranch(commit(o1, o2), c);
+		createBranch(commit(o2), d);
+
+		assertTrue(rw.isMergedIntoAll(a, getRefs()));
 	}
 }

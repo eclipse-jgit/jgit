@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Path;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +40,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -383,6 +385,16 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		RefUpdate updateRef = db.updateRef(branchName);
 		updateRef.setNewObjectId(objectId);
 		updateRef.update();
+	}
+
+	/**
+	 * Get all Refs
+	 *
+	 * @return list of refs
+	 * @throws IOException
+	 */
+	public List<Ref> getRefs() throws IOException {
+		return db.getRefDatabase().getRefs();
 	}
 
 	/**
