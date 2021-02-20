@@ -1,7 +1,7 @@
-target "S20210105214148" with source configurePhase
+target "S20210216215844" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/S20210105214148/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/S20210216215844/repository" {
 	com.google.gson [2.8.6.v20201231-1626,2.8.6.v20201231-1626]
 	com.google.gson.source [2.8.6.v20201231-1626,2.8.6.v20201231-1626]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -26,16 +26,16 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/S202101052141
 	org.apache.commons.compress.source [1.19.0.v20200106-2343,1.19.0.v20200106-2343]
 	org.apache.commons.logging [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
 	org.apache.commons.logging.source [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
-	org.apache.httpcomponents.httpclient [4.5.10.v20200830-2311,4.5.10.v20200830-2311]
-	org.apache.httpcomponents.httpclient.source [4.5.10.v20200830-2311,4.5.10.v20200830-2311]
-	org.apache.httpcomponents.httpcore [4.4.12.v20200108-1212,4.4.12.v20200108-1212]
-	org.apache.httpcomponents.httpcore.source [4.4.12.v20200108-1212,4.4.12.v20200108-1212]
+	org.apache.httpcomponents.httpclient [4.5.13.v20210128-2225,4.5.13.v20210128-2225]
+	org.apache.httpcomponents.httpclient.source [4.5.13.v20210128-2225,4.5.13.v20210128-2225]
+	org.apache.httpcomponents.httpcore [4.4.14.v20210128-2225,4.4.14.v20210128-2225]
+	org.apache.httpcomponents.httpcore.source [4.4.14.v20210128-2225,4.4.14.v20210128-2225]
 	org.apache.log4j [1.2.15.v201012070815,1.2.15.v201012070815]
 	org.apache.log4j.source [1.2.15.v201012070815,1.2.15.v201012070815]
-	org.apache.sshd.osgi [2.4.0.v20200318-1614,2.4.0.v20200318-1614]
-	org.apache.sshd.osgi.source [2.4.0.v20200318-1614,2.4.0.v20200318-1614]
-	org.apache.sshd.sftp [2.4.0.v20200319-1547,2.4.0.v20200319-1547]
-	org.apache.sshd.sftp.source [2.4.0.v20200319-1547,2.4.0.v20200319-1547]
+	org.apache.sshd.osgi [2.6.0.v20210201-2003,2.6.0.v20210201-2003]
+	org.apache.sshd.osgi.source [2.6.0.v20210201-2003,2.6.0.v20210201-2003]
+	org.apache.sshd.sftp [2.6.0.v20210201-2003,2.6.0.v20210201-2003]
+	org.apache.sshd.sftp.source [2.6.0.v20210201-2003,2.6.0.v20210201-2003]
 	org.assertj [3.14.0.v20200120-1926,3.14.0.v20200120-1926]
 	org.assertj.source [3.14.0.v20200120-1926,3.14.0.v20200120-1926]
 	org.bouncycastle.bcpg [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
