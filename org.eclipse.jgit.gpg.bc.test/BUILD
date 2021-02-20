@@ -16,6 +16,7 @@ junit_tests(
         "//lib:bcpg",
         "//lib:bcprov",
         "//lib:junit",
+        "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.gpg.bc:gpg-bc",
         "//org.eclipse.jgit.gpg.bc.test:tst_rsrc",
     ],
