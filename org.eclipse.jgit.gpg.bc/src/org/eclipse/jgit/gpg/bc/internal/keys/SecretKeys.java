@@ -113,13 +113,13 @@ public final class SecretKeys {
 		try {
 			if (firstChar == '(') {
 				// Binary format.
-				if (!matches(data, 4, PROTECTED_KEY)) {
-					// Not encrypted binary format.
-					return parser.parseSecretKey(in, null, publicKey);
+				PBEProtectionRemoverFactory decryptor = null;
+				if (matches(data, 4, PROTECTED_KEY)) {
+					// AES/CBC encrypted.
+					decryptor = new JcePBEProtectionRemoverFactory(
+							passphraseSupplier.getPassphrase(),
+							calculatorProvider);
 				}
-				// AES/CBC encrypted.
-				PBEProtectionRemoverFactory decryptor = new JcePBEProtectionRemoverFactory(
-						passphraseSupplier.getPassphrase(), calculatorProvider);
 				try (InputStream sIn = new ByteArrayInputStream(data)) {
 					return parser.parseSecretKey(sIn, decryptor, publicKey);
 				}

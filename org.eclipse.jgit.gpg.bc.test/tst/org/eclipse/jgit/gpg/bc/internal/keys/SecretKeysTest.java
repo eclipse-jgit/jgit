@@ -76,9 +76,12 @@ public class SecretKeysTest {
 
 		final boolean encrypted;
 
-		TestData(String name, boolean encrypted) {
+		final boolean keyValue;
+
+		TestData(String name, boolean encrypted, boolean keyValue) {
 			this.name = name;
 			this.encrypted = encrypted;
+			this.keyValue = keyValue;
 		}
 
 		@Override
@@ -90,10 +93,11 @@ public class SecretKeysTest {
 	@Parameters(name = "{0}")
 	public static TestData[] initTestData() {
 		return new TestData[] {
-				new TestData("2FB05DBB70FC07CB84C13431F640CA6CEA1DBF8A", false),
-				new TestData("66CCECEC2AB46A9735B10FEC54EDF9FD0F77BAF9", true),
-				new TestData("F727FAB884DA3BD402B6E0F5472E108D21033124", true),
-				new TestData("faked", false) };
+				new TestData("AFDA8EA10E185ACF8C0D0F8885A0EF61A72ECB11", false, false),
+				new TestData("2FB05DBB70FC07CB84C13431F640CA6CEA1DBF8A", false, true),
+				new TestData("66CCECEC2AB46A9735B10FEC54EDF9FD0F77BAF9", true, true),
+				new TestData("F727FAB884DA3BD402B6E0F5472E108D21033124", true, true),
+				new TestData("faked", false, true) };
 	}
 
 	private static byte[] readTestKey(String filename) throws Exception {
@@ -126,9 +130,11 @@ public class SecretKeysTest {
 
 	@Test
 	public void testKeyRead() throws Exception {
-		byte[] bytes = readTestKey(data.name + ".key");
-		assertEquals('(', bytes[0]);
-		assertEquals(')', bytes[bytes.length - 1]);
+		if (data.keyValue) {
+			byte[] bytes = readTestKey(data.name + ".key");
+			assertEquals('(', bytes[0]);
+			assertEquals(')', bytes[bytes.length - 1]);
+		}
 		try (InputStream pubIn = this.getClass()
 				.getResourceAsStream(data.name + ".asc")) {
 			if (pubIn != null) {
@@ -139,7 +145,9 @@ public class SecretKeysTest {
 				try (InputStream in = new BufferedInputStream(this.getClass()
 						.getResourceAsStream(data.name + ".key"))) {
 					PGPSecretKey secretKey = SecretKeys.readSecretKey(in,
-							calculatorProvider, () -> "nonsense".toCharArray(),
+							calculatorProvider,
+							data.encrypted ? () -> "nonsense".toCharArray()
+									: null,
 							publicKey);
 					assertNotNull(secretKey);
 				} catch (PGPException e) {
