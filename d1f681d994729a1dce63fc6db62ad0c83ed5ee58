@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e0288bc_c73d0c8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-22T23:44:50Z",
+      "side": 1,
+      "message": "So this could be used to improve RevWalkUtils.findBranchesReachableFrom()?",
+      "revId": "d1f681d994729a1dce63fc6db62ad0c83ed5ee58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
