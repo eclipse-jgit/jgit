@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55c6264d_d71bf222",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-22T21:41:18Z",
+      "side": 1,
+      "message": "Can these include short comments describing what they\u0027re testing?",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ef2115e_02de18dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-22T21:41:18Z",
+      "side": 1,
+      "message": "optional: would it make sense for the File to be a member instead of a superclass? That might make it easier to migrate to Path later (by having multiple members that are consistent with each other), and it allows optimizations like creating the File object on the fly on access.",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8217a86a_af83bcb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-22T21:41:18Z",
+      "side": 1,
+      "message": "From the call site it isn\u0027t obvious what this does. How about\n\n  PackFile x \u003d ...;\n  PackFile y \u003d x.withExtension(ext);",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19ab9283_a0e55aa4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-22T21:41:18Z",
+      "side": 1,
+      "message": "Likewise: e.g. how about\n\n  PackFile x \u003d ...;\n  PackFile y \u003d x.withParentDirectory(dir);",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e0a8bf8_e419780c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-22T21:41:18Z",
+      "side": 1,
+      "message": "Likewise: perhaps something like\n\n  PackFile x \u003d ...;\n  PackFile y \u003d x.preservedWithParentDirectory(dir);",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
