@@ -2,7 +2,7 @@
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
- * Copyright (C) 2012-2020, Robin Rosenberg and others
+ * Copyright (C) 2012-2021, Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -800,7 +800,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			if (Constants.DOT_GIT.equals(name))
 				continue;
 			if (Constants.DOT_GIT_IGNORE.equals(name))
-				ignoreNode = new PerDirectoryIgnoreNode(e);
+				ignoreNode = new PerDirectoryIgnoreNode(
+						TreeWalk.pathOf(path, 0, pathOffset)
+								+ Constants.DOT_GIT_IGNORE,
+						e);
 			if (Constants.DOT_GIT_ATTRIBUTES.equals(name))
 				attributesNode = new PerDirectoryAttributesNode(e);
 			if (i != o)
@@ -1274,17 +1277,20 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	/** Magic type indicating we know rules exist, but they aren't loaded. */
 	private static class PerDirectoryIgnoreNode extends IgnoreNode {
-		final Entry entry;
+		protected final Entry entry;
 
-		PerDirectoryIgnoreNode(Entry entry) {
+		private final String name;
+
+		PerDirectoryIgnoreNode(String name, Entry entry) {
 			super(Collections.<FastIgnoreRule> emptyList());
+			this.name = name;
 			this.entry = entry;
 		}
 
 		IgnoreNode load() throws IOException {
 			IgnoreNode r = new IgnoreNode();
 			try (InputStream in = entry.openInputStream()) {
-				r.parse(in);
+				r.parse(name, in);
 			}
 			return r.getRules().isEmpty() ? null : r;
 		}
@@ -1295,7 +1301,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		final Repository repository;
 
 		RootIgnoreNode(Entry entry, Repository repository) {
-			super(entry);
+			super(entry != null ? entry.getName() : null, entry);
 			this.repository = repository;
 		}
 
@@ -1329,7 +1335,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				throws FileNotFoundException, IOException {
 			if (FS.DETECTED.exists(exclude)) {
 				try (FileInputStream in = new FileInputStream(exclude)) {
-					r.parse(in);
+					r.parse(exclude.getAbsolutePath(), in);
 				}
 			}
 		}

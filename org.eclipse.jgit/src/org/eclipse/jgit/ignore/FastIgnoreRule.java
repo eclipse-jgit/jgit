@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, Andrey Loskutov <loskutov@gmx.de> and others
+ * Copyright (C) 2014, 2021 Andrey Loskutov <loskutov@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -39,11 +39,11 @@ public class FastIgnoreRule {
 	 */
 	public static final char PATH_SEPARATOR = '/';
 
-	private final IMatcher matcher;
+	private IMatcher matcher;
 
-	private final boolean inverse;
+	private boolean inverse;
 
-	private final boolean dirOnly;
+	private boolean dirOnly;
 
 	/**
 	 * Constructor for FastIgnoreRule
@@ -55,8 +55,23 @@ public class FastIgnoreRule {
 	 *            (comment), this rule doesn't match anything.
 	 */
 	public FastIgnoreRule(String pattern) {
-		if (pattern == null)
+		this();
+		try {
+			parse(pattern);
+		} catch (InvalidPatternException e) {
+			LOG.error(MessageFormat.format(JGitText.get().badIgnorePattern,
+					e.getPattern()), e);
+		}
+	}
+
+	FastIgnoreRule() {
+		matcher = IMatcher.NO_MATCH;
+	}
+
+	void parse(String pattern) throws InvalidPatternException {
+		if (pattern == null) {
 			throw new IllegalArgumentException("Pattern must not be null!"); //$NON-NLS-1$
+		}
 		if (pattern.length() == 0) {
 			dirOnly = false;
 			inverse = false;
@@ -93,17 +108,8 @@ public class FastIgnoreRule {
 				return;
 			}
 		}
-		IMatcher m;
-		try {
-			m = PathMatcher.createPathMatcher(pattern,
-					Character.valueOf(PATH_SEPARATOR), dirOnly);
-		} catch (InvalidPatternException e) {
-			m = NO_MATCH;
-			LOG.error(MessageFormat.format(
-					JGitText.get().badIgnorePattern,
-					e.getPattern()), e);
-		}
-		this.matcher = m;
+		this.matcher = PathMatcher.createPathMatcher(pattern,
+				Character.valueOf(PATH_SEPARATOR), dirOnly);
 	}
 
 	/**

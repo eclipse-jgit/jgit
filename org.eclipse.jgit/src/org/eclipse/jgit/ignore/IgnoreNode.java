@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Red Hat Inc. and others
+ * Copyright (C) 2010, 2021 Red Hat Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -15,11 +15,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.InvalidPatternException;
+import org.eclipse.jgit.internal.JGitText;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a bundle of ignore rules inherited from a base directory.
@@ -27,6 +32,9 @@ import org.eclipse.jgit.annotations.Nullable;
  * This class is not thread safe, it maintains state about the last match.
  */
 public class IgnoreNode {
+
+	private static final Logger LOG = LoggerFactory.getLogger(IgnoreNode.class);
+
 	/** Result from {@link IgnoreNode#isIgnored(String, boolean)}. */
 	public enum MatchResult {
 		/** The file is not ignored, due to a rule saying its not ignored. */
@@ -54,7 +62,7 @@ public class IgnoreNode {
 	 * Create an empty ignore node with no rules.
 	 */
 	public IgnoreNode() {
-		rules = new ArrayList<>();
+		this(new ArrayList<>());
 	}
 
 	/**
@@ -77,15 +85,47 @@ public class IgnoreNode {
 	 *             Error thrown when reading an ignore file.
 	 */
 	public void parse(InputStream in) throws IOException {
+		parse(null, in);
+	}
+
+	/**
+	 * Parse files according to gitignore standards.
+	 *
+	 * @param sourceName
+	 *            identifying the source of the stream
+	 * @param in
+	 *            input stream holding the standard ignore format. The caller is
+	 *            responsible for closing the stream.
+	 * @throws java.io.IOException
+	 *             Error thrown when reading an ignore file.
+	 * @since 5.11
+	 */
+	public void parse(String sourceName, InputStream in) throws IOException {
 		BufferedReader br = asReader(in);
 		String txt;
+		int lineNumber = 1;
 		while ((txt = br.readLine()) != null) {
 			if (txt.length() > 0 && !txt.startsWith("#") && !txt.equals("/")) { //$NON-NLS-1$ //$NON-NLS-2$
-				FastIgnoreRule rule = new FastIgnoreRule(txt);
+				FastIgnoreRule rule = new FastIgnoreRule();
+				try {
+					rule.parse(txt);
+				} catch (InvalidPatternException e) {
+					if (sourceName != null) {
+						LOG.error(MessageFormat.format(
+								JGitText.get().badIgnorePatternFull, sourceName,
+								Integer.toString(lineNumber), e.getPattern(),
+								e.getLocalizedMessage()), e);
+					} else {
+						LOG.error(MessageFormat.format(
+								JGitText.get().badIgnorePattern,
+								e.getPattern()), e);
+					}
+				}
 				if (!rule.isEmpty()) {
 					rules.add(rule);
 				}
 			}
+			lineNumber++;
 		}
 	}
 

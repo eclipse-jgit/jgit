@@ -59,6 +59,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String badEscape;
 	/***/ public String badGroupHeader;
 	/***/ public String badIgnorePattern;
+	/***/ public String badIgnorePatternFull;
 	/***/ public String badObjectType;
 	/***/ public String badRef;
 	/***/ public String badSectionEntry;
