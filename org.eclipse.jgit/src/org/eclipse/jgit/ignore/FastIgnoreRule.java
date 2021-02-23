@@ -14,8 +14,11 @@ import static org.eclipse.jgit.ignore.internal.Strings.isDirectoryPattern;
 import static org.eclipse.jgit.ignore.internal.Strings.stripTrailing;
 import static org.eclipse.jgit.ignore.internal.Strings.stripTrailingWhitespace;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.internal.PathMatcher;
+import org.eclipse.jgit.internal.JGitText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +99,9 @@ public class FastIgnoreRule {
 					Character.valueOf(PATH_SEPARATOR), dirOnly);
 		} catch (InvalidPatternException e) {
 			m = NO_MATCH;
-			LOG.error(e.getMessage(), e);
+			LOG.error(MessageFormat.format(
+					JGitText.get().badIgnorePattern,
+					e.getPattern()), e);
 		}
 		this.matcher = m;
 	}
