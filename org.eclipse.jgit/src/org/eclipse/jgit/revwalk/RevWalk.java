@@ -32,10 +32,12 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
@@ -450,7 +452,33 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public List<Ref> getMergedInto(RevCommit commit, Collection<Ref> refs)
 			throws IOException{
-		return getMergedInto(commit, refs, GetMergedIntoStrategy.EVALUATE_ALL);
+		return getMergedInto(commit, refs, NullProgressMonitor.INSTANCE);
+	}
+
+	/**
+	 * Determine the Refs into which a commit is merged.
+	 * <p>
+	 * A commit is merged into a ref if we can find a path of commits that leads
+	 * from that specific ref and ends at <code>commit</code>.
+	 * <p>
+	 *
+	 * @param commit
+	 *            commit the caller thinks is reachable from <code>refs</code>.
+	 * @param refs
+	 *            refs to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>commit</code>.
+	 * @param monitor
+	 *            the callback for progress and cancellation
+	 * @return list of refs that are reachable from <code>commit</code>.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 * @since 5.12
+	 */
+	public List<Ref> getMergedInto(RevCommit commit, Collection<Ref> refs,
+					ProgressMonitor monitor) throws IOException{
+		return getMergedInto(commit, refs,
+				GetMergedIntoStrategy.EVALUATE_ALL,
+				monitor);
 	}
 
 	/**
@@ -470,7 +498,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public boolean isMergedIntoAny(RevCommit commit, Collection<Ref> refs)
 			throws IOException {
 		return getMergedInto(commit, refs,
-				GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND).size() > 0;
+				GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND,
+				NullProgressMonitor.INSTANCE).size() > 0;
 	}
 
 	/**
@@ -490,12 +519,13 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public boolean isMergedIntoAll(RevCommit commit, Collection<Ref> refs)
 			throws IOException {
 		return getMergedInto(commit, refs,
-				GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND).size()
+				GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND,
+				NullProgressMonitor.INSTANCE).size()
 				== refs.size();
 	}
 
 	private List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
-			Enum returnStrategy) throws IOException {
+				Enum returnStrategy, ProgressMonitor monitor) throws IOException {
 		List<Ref> result = new ArrayList<>();
 		RevFilter oldRF = filter;
 		TreeFilter oldTF = treeFilter;
@@ -504,6 +534,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			filter = RevFilter.ALL;
 			treeFilter = TreeFilter.ALL;
 			for (Ref r: haystacks) {
+				if (monitor.isCancelled()) {
+					return result;
+				}
+				monitor.update(1);
 				RevObject o = parseAny(r.getObjectId());
 				if (!(o instanceof RevCommit)) {
 					continue;
