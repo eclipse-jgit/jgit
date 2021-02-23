@@ -60,6 +60,52 @@
     },
     {
       "key": {
+        "uuid": "136d2a0e_9465f61b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T17:43:03Z",
+      "side": 1,
+      "message": "@Jonathan or @Matthias, should PackFiles require an extension? Martin based the looseness of this validation in PackFile off Pack.getName(), which seemed to be overly loose without any callers using it. Does git.git have this looseness?",
+      "range": {
+        "startLine": 53,
+        "startChar": 13,
+        "endLine": 53,
+        "endChar": 45
+      },
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ea03de6_7a6231a6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T17:43:03Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s a legitimate use case for not providing the \u0027pack-\u0027 prefix, so I\u0027m going to remove this test and look at enforcing the prefix in PackFile in a later change.",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 48
+      },
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ef2115e_02de18dd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 3
