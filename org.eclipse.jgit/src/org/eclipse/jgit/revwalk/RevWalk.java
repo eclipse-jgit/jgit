@@ -32,10 +32,12 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
@@ -451,8 +453,34 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks)
 			throws IOException{
+		return getMergedInto(needle, haystacks,	NullProgressMonitor.INSTANCE);
+	}
+
+	/**
+	 * Determine the <code>haystacks</code> into which given <code>needle</code> is
+	 * merged.
+	 * <p>
+	 * A commit <code>needle</code> is an ancestor of <code>haystacks</code> if we
+	 * can find a path of commits that leads from one of the <code>haystacks</code>
+	 * and ends at <code>needle</code>.
+	 * <p>
+	 *
+	 * @param needle
+	 *            commit the caller thinks is reachable from <code>haystacks</code>.
+	 * @param haystacks
+	 *            refs to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>needle</code>.
+	 * @param monitor
+	 *            the callback for progress and cancellation
+	 * @return list of haystacks that are reachable from needle.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
+					ProgressMonitor monitor) throws IOException{
 		return getMergedInto(needle, haystacks,
-				GetMergedIntoStrategy.EVALUATE_ALL);
+				GetMergedIntoStrategy.EVALUATE_ALL,
+				monitor);
 	}
 
 	/**
@@ -472,7 +500,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public boolean isMergedIntoAny(RevCommit needle, Collection<Ref> haystacks)
 			throws IOException {
 		return getMergedInto(needle, haystacks,
-				GetMergedIntoStrategy.RETURN_ON_FIRST_FIND).size() > 0;
+				GetMergedIntoStrategy.RETURN_ON_FIRST_FIND,
+				NullProgressMonitor.INSTANCE).size() > 0;
 	}
 
 	/**
@@ -492,12 +521,13 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public boolean isMergedIntoAll(RevCommit needle, Collection<Ref> haystacks)
 			throws IOException {
 		return getMergedInto(needle, haystacks,
-				GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND).size()
+				GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND,
+				NullProgressMonitor.INSTANCE).size()
 				== haystacks.size();
 	}
 
 	private List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
-			Enum returnStrategy) throws IOException {
+				Enum returnStrategy, ProgressMonitor monitor) throws IOException {
 		List<Ref> result = new ArrayList<>();
 		final RevFilter oldRF = filter;
 		final TreeFilter oldTF = treeFilter;
@@ -506,6 +536,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			filter = RevFilter.ALL;
 			treeFilter = TreeFilter.ALL;
 			for (Ref r: haystacks) {
+				if (monitor.isCancelled())
+					return result;
+				monitor.update(1);
 				RevObject o = parseAny(r.getObjectId());
 				if (!(o instanceof RevCommit)) {
 					continue;
