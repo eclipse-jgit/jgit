@@ -16,6 +16,24 @@
       "revId": "d1f681d994729a1dce63fc6db62ad0c83ed5ee58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e762ba38_3bb40151",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-02-23T01:42:48Z",
+      "side": 1,
+      "message": "Yes,\n\nAre you okay with me modifying findBranchesReachableFrom() in following change to use this api ?. It deals with SKEW to directly ignore some haystacks. Don\u0027t know if we need to skip them always.",
+      "parentUuid": "2e0288bc_c73d0c8f",
+      "revId": "d1f681d994729a1dce63fc6db62ad0c83ed5ee58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
