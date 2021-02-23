@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eeaf4b1d_3c8161bc",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsGitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-23T23:54:31Z",
+      "side": 1,
+      "message": "this happens already when the reset in line 88 is executed, according to .gitattributes all .txt files are subject lfs filtering",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 46
+      },
+      "revId": "c3f9d92034c04984ee5fee6d3eb568c247cd90ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
