@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7697d01d_67e3d23b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T23:17:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04652d22_6f53582d",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f27d8e35_25042005",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
         "patchSetId": 3
@@ -94,6 +112,30 @@
       "writtenOn": "2021-02-23T17:43:03Z",
       "side": 1,
       "message": "I don\u0027t think there\u0027s a legitimate use case for not providing the \u0027pack-\u0027 prefix, so I\u0027m going to remove this test and look at enforcing the prefix in PackFile in a later change.",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 48
+      },
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e968633_b6dbfb42",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T23:17:17Z",
+      "side": 1,
+      "message": "I forgot to do this, so I\u0027ll leave the comment open if someone thinks I should/shouldn\u0027t remove the test.",
+      "parentUuid": "6ea03de6_7a6231a6",
       "range": {
         "startLine": 60,
         "startChar": 13,
