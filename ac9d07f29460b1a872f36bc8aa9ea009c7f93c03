@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "04652d22_6f53582d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T00:01:04Z",
+      "side": 1,
+      "message": "This test is doing the wrong thing, so that\u0027s hopefully the confusion. In general, I try to ensure the method names are sufficiently descriptive so as to avoid comments. I\u0027ll double check these methods to ensure they\u0027re good.",
+      "parentUuid": "55c6264d_d71bf222",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f27d8e35_25042005",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T00:01:04Z",
+      "side": 1,
+      "message": "this should be\n\n new PackFile(TEST_PACK_DIR, PREFIX + TEST_ID);\n\nand test name should be:\n\n packFileNameIsSameFromFileOrDirAndName",
+      "range": {
+        "startLine": 47,
+        "startChar": 30,
+        "endLine": 47,
+        "endChar": 34
+      },
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ef2115e_02de18dd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 3
@@ -36,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "0717c8f5_958794d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T00:01:04Z",
+      "side": 1,
+      "message": "I\u0027m interesting in doing this decoupling from File, but I think I\u0027d prefer to save that as a later improvement as part of a larger move to Path.",
+      "parentUuid": "8ef2115e_02de18dd",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8217a86a_af83bcb6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 3
@@ -47,6 +106,24 @@
       "writtenOn": "2021-02-22T21:41:18Z",
       "side": 1,
       "message": "From the call site it isn\u0027t obvious what this does. How about\n\n  PackFile x \u003d ...;\n  PackFile y \u003d x.withExtension(ext);",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ce4fdc2_0458cba5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T00:01:04Z",
+      "side": 1,
+      "message": "\u003e From the call site it isn\u0027t obvious what this does. How about\n\u003e \n\u003e   PackFile x \u003d ...;\n\u003e   PackFile y \u003d x.withExtension(ext);\n\nI\u0027m not certain create() is the best, so I\u0027m open to ideas to change it.\n\n\"withExtension\" repeats content from the signature (we already know the type of PackExt here). Do you think with() is better than create()? I think create() is the more common pattern for a factory-like method (we\u0027re calling new here). with() looks to be used more like a setter on builders from the examples I can find.",
+      "parentUuid": "8217a86a_af83bcb6",
       "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -70,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "63d3ea81_e4947dd5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T00:01:04Z",
+      "side": 1,
+      "message": "\u003e Likewise: e.g. how about\n\u003e \n\u003e   PackFile x \u003d ...;\n\u003e   PackFile y \u003d x.withParentDirectory(dir);\n\nparentDirectory is incorrect. The parent is a directory. The parent of that would be an additional level higher.\n\n forDirectory(File directory)",
+      "parentUuid": "19ab9283_a0e55aa4",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e0a8bf8_e419780c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 3
@@ -81,6 +176,24 @@
       "writtenOn": "2021-02-22T21:41:18Z",
       "side": 1,
       "message": "Likewise: perhaps something like\n\n  PackFile x \u003d ...;\n  PackFile y \u003d x.preservedWithParentDirectory(dir);",
+      "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7835b1d_8d68569d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-23T00:01:04Z",
+      "side": 1,
+      "message": "This one seems hard to misinterpret as-is.",
+      "parentUuid": "6e0a8bf8_e419780c",
       "revId": "ac9d07f29460b1a872f36bc8aa9ea009c7f93c03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
