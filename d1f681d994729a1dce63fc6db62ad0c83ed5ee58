@@ -34,6 +34,24 @@
       "revId": "d1f681d994729a1dce63fc6db62ad0c83ed5ee58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035a2a0a_e3f7c341",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-23T08:04:08Z",
+      "side": 1,
+      "message": "Fine for me. It seems to be used only in EGit; I see no callers in JGit.\n\nThe clock skew handling is a little bit unclear. It seems to be a performance optimization heuristic. Not sure it\u0027s needed, and if someone pushes a commit with an old timestamp and I then fetch that commit, suddenly this ref isn\u0027t reported anymore? Sound flaky (and wrong) to me. For the current uses of findBranchesReachableFrom() it\u0027s not a big problem, but generally I\u0027m not sure it\u0027s a good idea to cut RevWalks based on timestamp info.\n\nWe recently ran into a similar case in UploadPack.okToGiveUp(), where the HEAD commit had an old timestamp: The server would not ACK wants from a client, the client kept sending wants until it finally gave up and sent a \"done\", and only then got the fetch pack. Occurred in a test with only two commits, but if that happened on a real repo with a long history, I fear it would have sent the whole history instead of just a few new commits the client didn\u0027t have? See [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/292404/3..7/javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java#b81",
+      "parentUuid": "e762ba38_3bb40151",
+      "revId": "d1f681d994729a1dce63fc6db62ad0c83ed5ee58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
