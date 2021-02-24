@@ -11,6 +11,7 @@ package org.eclipse.jgit.transport.sshd;
 
 import static java.text.MessageFormat.format;
 import static org.apache.sshd.common.SshConstants.SSH2_DISCONNECT_NO_MORE_AUTH_METHODS_AVAILABLE;
+import static org.apache.sshd.sftp.SftpModuleProperties.SFTP_CHANNEL_OPEN_TIMEOUT;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -38,17 +39,17 @@ import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.client.session.forward.PortForwardingTracker;
-import org.apache.sshd.client.subsystem.sftp.SftpClient;
-import org.apache.sshd.client.subsystem.sftp.SftpClient.CloseableHandle;
-import org.apache.sshd.client.subsystem.sftp.SftpClient.CopyMode;
-import org.apache.sshd.client.subsystem.sftp.SftpClientFactory;
 import org.apache.sshd.common.AttributeRepository;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
-import org.apache.sshd.common.subsystem.sftp.SftpException;
 import org.apache.sshd.common.util.io.IoUtils;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
+import org.apache.sshd.sftp.client.SftpClient;
+import org.apache.sshd.sftp.client.SftpClient.CloseableHandle;
+import org.apache.sshd.sftp.client.SftpClient.CopyMode;
+import org.apache.sshd.sftp.client.SftpClientFactory;
+import org.apache.sshd.sftp.common.SftpException;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
@@ -205,7 +206,7 @@ public class SshdSession implements RemoteSession2 {
 	private HostConfigEntry getHostConfig(String username, String host,
 			int port) throws IOException {
 		HostConfigEntry entry = client.getHostConfigEntryResolver()
-				.resolveEffectiveHost(host, port, null, username, null);
+				.resolveEffectiveHost(host, port, null, username, null, null);
 		if (entry == null) {
 			if (SshdSocketAddress.isIPv6Address(host)) {
 				return new HostConfigEntry("", host, port, username); //$NON-NLS-1$
@@ -439,13 +440,12 @@ public class SshdSession implements RemoteSession2 {
 		@Override
 		public void connect(int timeout, TimeUnit unit) throws IOException {
 			if (timeout <= 0) {
-				session.getProperties().put(
-						SftpClient.SFTP_CHANNEL_OPEN_TIMEOUT,
-						Long.valueOf(Long.MAX_VALUE));
+				// This timeout must not be null!
+				SFTP_CHANNEL_OPEN_TIMEOUT.set(session,
+						Duration.ofMillis(Long.MAX_VALUE));
 			} else {
-				session.getProperties().put(
-						SftpClient.SFTP_CHANNEL_OPEN_TIMEOUT,
-						Long.valueOf(unit.toMillis(timeout)));
+				SFTP_CHANNEL_OPEN_TIMEOUT.set(session,
+						Duration.ofMillis(unit.toMillis(timeout)));
 			}
 			ftp = SftpClientFactory.instance().createSftpClient(session);
 			try {

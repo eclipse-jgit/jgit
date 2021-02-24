@@ -487,7 +487,7 @@ public class ReftableTest {
 	public void seekPastWithLotsOfRefs() throws IOException {
 		Ref[] refs = new Ref[500];
 		for (int i = 1; i <= 500; i++) {
-			refs[i - 1] = ref(String.format("refs/%d", i), i);
+			refs[i - 1] = ref(String.format("refs/%d", Integer.valueOf(i)), i);
 		}
 		ReftableReader t = read(write(refs));
 		try (RefCursor rc = t.allRefs()) {

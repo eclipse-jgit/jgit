@@ -160,7 +160,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 
 		assertPacksOnly();
-		List<PackFile> packs = listPacks();
+		List<Pack> packs = listPacks();
 		assertEquals(1, packs.size());
 		assertEquals(3, packs.get(0).getObjectCount());
 
@@ -193,7 +193,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 
 		assertPacksOnly();
-		List<PackFile> packs = listPacks();
+		List<Pack> packs = listPacks();
 		assertEquals(2, packs.size());
 		assertEquals(1, packs.get(0).getObjectCount());
 		assertEquals(1, packs.get(1).getObjectCount());
@@ -216,9 +216,9 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 
 		assertPacksOnly();
-		Collection<PackFile> packs = listPacks();
+		Collection<Pack> packs = listPacks();
 		assertEquals(1, packs.size());
-		PackFile p = packs.iterator().next();
+		Pack p = packs.iterator().next();
 		assertEquals(1, p.getObjectCount());
 
 		try (ObjectReader reader = db.newObjectReader()) {
@@ -237,9 +237,9 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 
 		assertPacksOnly();
-		List<PackFile> packs = listPacks();
+		List<Pack> packs = listPacks();
 		assertEquals(1, packs.size());
-		PackFile pack = packs.get(0);
+		Pack pack = packs.get(0);
 		assertEquals(1, pack.getObjectCount());
 
 		String inode = getInode(pack.getPackFile());
@@ -372,7 +372,7 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 
 		assertPacksOnly();
-		List<PackFile> packs = listPacks();
+		List<Pack> packs = listPacks();
 		assertEquals(1, packs.size());
 		assertEquals(2, packs.get(0).getObjectCount());
 
@@ -489,16 +489,16 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 	}
 
-	private List<PackFile> listPacks() throws Exception {
-		List<PackFile> fromOpenDb = listPacks(db);
-		List<PackFile> reopened;
+	private List<Pack> listPacks() throws Exception {
+		List<Pack> fromOpenDb = listPacks(db);
+		List<Pack> reopened;
 		try (FileRepository db2 = new FileRepository(db.getDirectory())) {
 			reopened = listPacks(db2);
 		}
 		assertEquals(fromOpenDb.size(), reopened.size());
 		for (int i = 0 ; i < fromOpenDb.size(); i++) {
-			PackFile a = fromOpenDb.get(i);
-			PackFile b = reopened.get(i);
+			Pack a = fromOpenDb.get(i);
+			Pack b = reopened.get(i);
 			assertEquals(a.getPackName(), b.getPackName());
 			assertEquals(
 					a.getPackFile().getAbsolutePath(), b.getPackFile().getAbsolutePath());
@@ -508,9 +508,9 @@ public class PackInserterTest extends RepositoryTestCase {
 		return fromOpenDb;
 	}
 
-	private static List<PackFile> listPacks(FileRepository db) throws Exception {
+	private static List<Pack> listPacks(FileRepository db) throws Exception {
 		return db.getObjectDatabase().getPacks().stream()
-				.sorted(comparing(PackFile::getPackName)).collect(toList());
+				.sorted(comparing(Pack::getPackName)).collect(toList());
 	}
 
 	private PackInserter newInserter() {

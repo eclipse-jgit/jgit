@@ -157,7 +157,7 @@ public class GcBasicPackingTest extends GcTestCase {
 				.create();
 		tr.update("refs/tags/t1", second);
 
-		Collection<PackFile> oldPacks = tr.getRepository().getObjectDatabase()
+		Collection<Pack> oldPacks = tr.getRepository().getObjectDatabase()
 				.getPacks();
 		assertEquals(0, oldPacks.size());
 		stats = gc.getStatistics();
@@ -171,7 +171,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 
-		List<PackFile> packs = new ArrayList<>(
+		List<Pack> packs = new ArrayList<>(
 				repo.getObjectDatabase().getPacks());
 		assertEquals(11, packs.get(0).getObjectCount());
 	}

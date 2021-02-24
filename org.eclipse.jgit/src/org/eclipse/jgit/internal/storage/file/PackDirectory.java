@@ -47,16 +47,17 @@ import org.slf4j.LoggerFactory;
 /**
  * Traditional file system packed objects directory handler.
  * <p>
- * This is the {@code PackFile}s object representation for a Git object
- * database, where objects are stored in compressed containers known as
- * {@link org.eclipse.jgit.internal.storage.file.PackFile}s.
+ * This is the {@link org.eclipse.jgit.internal.storage.file.Pack}s object
+ * representation for a Git object database, where objects are stored in
+ * compressed containers known as
+ * {@link org.eclipse.jgit.internal.storage.file.Pack}s.
  */
 class PackDirectory {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(PackDirectory.class);
 
 	private static final PackList NO_PACKS = new PackList(FileSnapshot.DIRTY,
-			new PackFile[0]);
+			new Pack[0]);
 
 	private final Config config;
 
@@ -94,18 +95,18 @@ class PackDirectory {
 	void close() {
 		PackList packs = packList.get();
 		if (packs != NO_PACKS && packList.compareAndSet(packs, NO_PACKS)) {
-			for (PackFile p : packs.packs) {
+			for (Pack p : packs.packs) {
 				p.close();
 			}
 		}
 	}
 
-	Collection<PackFile> getPacks() {
+	Collection<Pack> getPacks() {
 		PackList list = packList.get();
 		if (list == NO_PACKS) {
 			list = scanPacks(list);
 		}
-		PackFile[] packs = list.packs;
+		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
 
@@ -126,7 +127,7 @@ class PackDirectory {
 		PackList pList;
 		do {
 			pList = packList.get();
-			for (PackFile p : pList.packs) {
+			for (Pack p : pList.packs) {
 				try {
 					if (p.hasObject(objectId)) {
 						return true;
@@ -167,7 +168,7 @@ class PackDirectory {
 		PackList pList;
 		do {
 			pList = packList.get();
-			for (PackFile p : pList.packs) {
+			for (Pack p : pList.packs) {
 				try {
 					p.resolve(matches, id, matchLimit);
 					p.resetTransientErrorCount();
@@ -187,7 +188,7 @@ class PackDirectory {
 		do {
 			SEARCH: for (;;) {
 				pList = packList.get();
-				for (PackFile p : pList.packs) {
+				for (Pack p : pList.packs) {
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
@@ -213,7 +214,7 @@ class PackDirectory {
 		do {
 			SEARCH: for (;;) {
 				pList = packList.get();
-				for (PackFile p : pList.packs) {
+				for (Pack p : pList.packs) {
 					try {
 						long len = p.getObjectSize(curs, id);
 						p.resetTransientErrorCount();
@@ -239,7 +240,7 @@ class PackDirectory {
 			WindowCursor curs) {
 		PackList pList = packList.get();
 		SEARCH: for (;;) {
-			for (PackFile p : pList.packs) {
+			for (Pack p : pList.packs) {
 				try {
 					LocalObjectRepresentation rep = p.representation(curs, otp);
 					p.resetTransientErrorCount();
@@ -259,7 +260,7 @@ class PackDirectory {
 		}
 	}
 
-	private void handlePackError(IOException e, PackFile p) {
+	private void handlePackError(IOException e, Pack p) {
 		String warnTmpl = null;
 		int transientErrorCount = 0;
 		String errTmpl = JGitText.get().exceptionWhileReadingPack;
@@ -322,7 +323,7 @@ class PackDirectory {
 				&& old != scanPacks(old);
 	}
 
-	void insert(PackFile pf) {
+	void insert(Pack pack) {
 		PackList o, n;
 		do {
 			o = packList.get();
@@ -331,33 +332,33 @@ class PackDirectory {
 			// (picked up by a concurrent thread that did a scan?) we
 			// do not want to insert it a second time.
 			//
-			final PackFile[] oldList = o.packs;
-			final String name = pf.getPackFile().getName();
-			for (PackFile p : oldList) {
+			final Pack[] oldList = o.packs;
+			final String name = pack.getPackFile().getName();
+			for (Pack p : oldList) {
 				if (name.equals(p.getPackFile().getName())) {
 					return;
 				}
 			}
 
-			final PackFile[] newList = new PackFile[1 + oldList.length];
-			newList[0] = pf;
+			final Pack[] newList = new Pack[1 + oldList.length];
+			newList[0] = pack;
 			System.arraycopy(oldList, 0, newList, 1, oldList.length);
 			n = new PackList(o.snapshot, newList);
 		} while (!packList.compareAndSet(o, n));
 	}
 
-	private void remove(PackFile deadPack) {
+	private void remove(Pack deadPack) {
 		PackList o, n;
 		do {
 			o = packList.get();
 
-			final PackFile[] oldList = o.packs;
+			final Pack[] oldList = o.packs;
 			final int j = indexOf(oldList, deadPack);
 			if (j < 0) {
 				break;
 			}
 
-			final PackFile[] newList = new PackFile[oldList.length - 1];
+			final Pack[] newList = new Pack[oldList.length - 1];
 			System.arraycopy(oldList, 0, newList, 0, j);
 			System.arraycopy(oldList, j + 1, newList, j, newList.length - j);
 			n = new PackList(o.snapshot, newList);
@@ -365,7 +366,7 @@ class PackDirectory {
 		deadPack.close();
 	}
 
-	private static int indexOf(PackFile[] list, PackFile pack) {
+	private static int indexOf(Pack[] list, Pack pack) {
 		for (int i = 0; i < list.length; i++) {
 			if (list[i] == pack) {
 				return i;
@@ -395,10 +396,10 @@ class PackDirectory {
 	}
 
 	private PackList scanPacksImpl(PackList old) {
-		final Map<String, PackFile> forReuse = reuseMap(old);
+		final Map<String, Pack> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(directory);
 		final Set<String> names = listPackDirectory();
-		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
+		final List<Pack> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
 		for (String indexName : names) {
 			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
@@ -425,7 +426,7 @@ class PackDirectory {
 
 			final String packName = base + PACK.getExtension();
 			final File packFile = new File(directory, packName);
-			final PackFile oldPack = forReuse.get(packName);
+			final Pack oldPack = forReuse.get(packName);
 			if (oldPack != null
 					&& !oldPack.getFileSnapshot().isModified(packFile)) {
 				forReuse.remove(packName);
@@ -433,7 +434,7 @@ class PackDirectory {
 				continue;
 			}
 
-			list.add(new PackFile(packFile, extensions));
+			list.add(new Pack(packFile, extensions));
 			foundNew = true;
 		}
 
@@ -447,7 +448,7 @@ class PackDirectory {
 			return old;
 		}
 
-		for (PackFile p : forReuse.values()) {
+		for (Pack p : forReuse.values()) {
 			p.close();
 		}
 
@@ -455,14 +456,14 @@ class PackDirectory {
 			return new PackList(snapshot, NO_PACKS.packs);
 		}
 
-		final PackFile[] r = list.toArray(new PackFile[0]);
-		Arrays.sort(r, PackFile.SORT);
+		final Pack[] r = list.toArray(new Pack[0]);
+		Arrays.sort(r, Pack.SORT);
 		return new PackList(snapshot, r);
 	}
 
-	private static Map<String, PackFile> reuseMap(PackList old) {
-		final Map<String, PackFile> forReuse = new HashMap<>();
-		for (PackFile p : old.packs) {
+	private static Map<String, Pack> reuseMap(PackList old) {
+		final Map<String, Pack> forReuse = new HashMap<>();
+		for (Pack p : old.packs) {
 			if (p.invalid()) {
 				// The pack instance is corrupted, and cannot be safely used
 				// again. Do not include it in our reuse map.
@@ -471,7 +472,7 @@ class PackDirectory {
 				continue;
 			}
 
-			final PackFile prior = forReuse.put(p.getPackFile().getName(), p);
+			final Pack prior = forReuse.put(p.getPackFile().getName(), p);
 			if (prior != null) {
 				// This should never occur. It should be impossible for us
 				// to have two pack files with the same name, as all of them
@@ -504,10 +505,10 @@ class PackDirectory {
 		/** State just before reading the pack directory. */
 		final FileSnapshot snapshot;
 
-		/** All known packs, sorted by {@link PackFile#SORT}. */
-		final PackFile[] packs;
+		/** All known packs, sorted by {@link Pack#SORT}. */
+		final Pack[] packs;
 
-		PackList(FileSnapshot monitor, PackFile[] packs) {
+		PackList(FileSnapshot monitor, Pack[] packs) {
 			this.snapshot = monitor;
 			this.packs = packs;
 		}

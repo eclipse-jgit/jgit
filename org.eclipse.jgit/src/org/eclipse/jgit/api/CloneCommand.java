@@ -297,6 +297,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			command.setTagOpt(
 					fetchAll ? TagOpt.FETCH_TAGS : TagOpt.AUTO_FOLLOW);
 		}
+		command.setInitialBranch(branch);
 		configure(command);
 
 		return command.call();

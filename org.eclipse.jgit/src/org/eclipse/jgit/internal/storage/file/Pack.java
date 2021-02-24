@@ -69,13 +69,13 @@ import org.slf4j.LoggerFactory;
  * delta packed format yielding high compression of lots of object where some
  * objects are similar.
  */
-public class PackFile implements Iterable<PackIndex.MutableEntry> {
-	private static final Logger LOG = LoggerFactory.getLogger(PackFile.class);
+public class Pack implements Iterable<PackIndex.MutableEntry> {
+	private static final Logger LOG = LoggerFactory.getLogger(Pack.class);
 
 	/**
 	 * Sorts PackFiles to be most recently created to least recently created.
 	 */
-	public static final Comparator<PackFile> SORT = (a, b) -> b.packLastModified
+	public static final Comparator<Pack> SORT = (a, b) -> b.packLastModified
 			.compareTo(a.packLastModified);
 
 	private final File packFile;
@@ -136,7 +136,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @param extensions
 	 *            additional pack file extensions with the same base as the pack
 	 */
-	public PackFile(File packFile, int extensions) {
+	public Pack(File packFile, int extensions) {
 		this.packFile = packFile;
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
@@ -1201,7 +1201,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "PackFile [packFileName=" + packFile.getName() + ", length="
+		return "Pack [packFileName=" + packFile.getName() + ", length="
 				+ packFile.length() + ", packChecksum="
 				+ ObjectId.fromRaw(packChecksum).name() + "]";
 	}

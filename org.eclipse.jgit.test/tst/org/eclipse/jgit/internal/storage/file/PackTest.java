@@ -57,7 +57,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PackFileTest extends LocalDiskRepositoryTestCase {
+public class PackTest extends LocalDiskRepositoryTestCase {
 	private int streamThreshold = 16 * 1024;
 
 	private TestRng rng;
@@ -228,21 +228,21 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 			PackedObjectInfo a = new PackedObjectInfo(idA);
 			PackedObjectInfo b = new PackedObjectInfo(idB);
 
-			TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
-			packHeader(pack, 2);
-			a.setOffset(pack.length());
-			objectHeader(pack, Constants.OBJ_BLOB, base.length);
-			deflate(pack, base);
+			TemporaryBuffer.Heap packContents = new TemporaryBuffer.Heap(64 * 1024);
+			packHeader(packContents, 2);
+			a.setOffset(packContents.length());
+			objectHeader(packContents, Constants.OBJ_BLOB, base.length);
+			deflate(packContents, base);
 
 			ByteArrayOutputStream tmp = new ByteArrayOutputStream();
 			DeltaEncoder de = new DeltaEncoder(tmp, base.length, 3L << 30);
 			de.copy(0, 1);
 			byte[] delta = tmp.toByteArray();
-			b.setOffset(pack.length());
-			objectHeader(pack, Constants.OBJ_REF_DELTA, delta.length);
-			idA.copyRawTo(pack);
-			deflate(pack, delta);
-			byte[] footer = digest(pack);
+			b.setOffset(packContents.length());
+			objectHeader(packContents, Constants.OBJ_REF_DELTA, delta.length);
+			idA.copyRawTo(packContents);
+			deflate(packContents, delta);
+			byte[] footer = digest(packContents);
 
 			File dir = new File(repo.getObjectDatabase().getDirectory(),
 					"pack");
@@ -250,7 +250,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 			File idxName = new File(dir, idA.name() + ".idx");
 
 			try (FileOutputStream f = new FileOutputStream(packName)) {
-				f.write(pack.toByteArray());
+				f.write(packContents.toByteArray());
 			}
 
 			try (FileOutputStream f = new FileOutputStream(idxName)) {
@@ -261,14 +261,14 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 				new PackIndexWriterV1(f).write(list, footer);
 			}
 
-			PackFile packFile = new PackFile(packName, PackExt.INDEX.getBit());
+			Pack pack = new Pack(packName, PackExt.INDEX.getBit());
 			try {
-				packFile.get(wc, b);
+				pack.get(wc, b);
 				fail("expected LargeObjectException.ExceedsByteArrayLimit");
 			} catch (LargeObjectException.ExceedsByteArrayLimit bad) {
 				assertNull(bad.getObjectId());
 			} finally {
-				packFile.close();
+				pack.close();
 			}
 		}
 	}

@@ -11,7 +11,9 @@ package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -25,6 +27,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
@@ -62,6 +65,45 @@ public class CloneTest extends CLIRepositoryTestCase {
 		Git git2 = Git.open(target);
 		List<Ref> branches = git2.branchList().call();
 		assertEquals("expected 1 branch", 1, branches.size());
+	}
+
+	@Test
+	public void testCloneInitialBranch() throws Exception {
+		createInitialCommit();
+
+		File gitDir = db.getDirectory();
+		String sourceURI = gitDir.toURI().toString();
+		File target = createTempDirectory("target");
+		String cmd = "git clone --branch master " + sourceURI + " "
+				+ shellQuote(target.getPath());
+		String[] result = execute(cmd);
+		assertArrayEquals(new String[] {
+				"Cloning into '" + target.getPath() + "'...", "", "" }, result);
+
+		Git git2 = Git.open(target);
+		List<Ref> branches = git2.branchList().call();
+		assertEquals("expected 1 branch", 1, branches.size());
+
+		Repository db2 = git2.getRepository();
+		ObjectId head = db2.resolve("HEAD");
+		assertNotNull(head);
+		assertNotEquals(ObjectId.zeroId(), head);
+		ObjectId master = db2.resolve("master");
+		assertEquals(head, master);
+	}
+
+	@Test
+	public void testCloneInitialBranchMissing() throws Exception {
+		createInitialCommit();
+
+		File gitDir = db.getDirectory();
+		String sourceURI = gitDir.toURI().toString();
+		File target = createTempDirectory("target");
+		String cmd = "git clone --branch foo " + sourceURI + " "
+				+ shellQuote(target.getPath());
+		Die e = assertThrows(Die.class, () -> execute(cmd));
+		assertEquals("Remote branch 'foo' not found in upstream origin",
+				e.getMessage());
 	}
 
 	private RevCommit createInitialCommit() throws Exception {

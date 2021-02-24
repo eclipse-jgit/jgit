@@ -71,7 +71,7 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract InsertLooseObjectResult insertUnpackedObject(File tmp,
 			ObjectId id, boolean createDuplicate) throws IOException;
 
-	abstract PackFile openPack(File pack) throws IOException;
+	abstract Pack openPack(File pack) throws IOException;
 
-	abstract Collection<PackFile> getPacks();
+	abstract Collection<Pack> getPacks();
 }

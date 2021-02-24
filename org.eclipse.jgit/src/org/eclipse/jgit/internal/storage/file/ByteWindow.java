@@ -27,7 +27,7 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
  * </p>
  */
 abstract class ByteWindow {
-	protected final PackFile pack;
+	protected final Pack pack;
 
 	protected final long start;
 
@@ -37,13 +37,13 @@ abstract class ByteWindow {
 	 * Constructor for ByteWindow.
 	 *
 	 * @param p
-	 *            a {@link org.eclipse.jgit.internal.storage.file.PackFile}.
+	 *            a {@link org.eclipse.jgit.internal.storage.file.Pack}.
 	 * @param s
 	 *            where the byte window starts in the pack file
 	 * @param n
 	 *            size of the byte window
 	 */
-	protected ByteWindow(PackFile p, long s, int n) {
+	protected ByteWindow(Pack p, long s, int n) {
 		pack = p;
 		start = s;
 		end = start + n;
@@ -53,8 +53,8 @@ abstract class ByteWindow {
 		return (int) (end - start);
 	}
 
-	final boolean contains(PackFile neededFile, long neededPos) {
-		return pack == neededFile && start <= neededPos && neededPos < end;
+	final boolean contains(Pack neededPack, long neededPos) {
+		return pack == neededPack && start <= neededPos && neededPos < end;
 	}
 
 	/**

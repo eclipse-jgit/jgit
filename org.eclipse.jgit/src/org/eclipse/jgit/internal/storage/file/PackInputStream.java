@@ -16,11 +16,11 @@ import java.io.InputStream;
 class PackInputStream extends InputStream {
 	private final WindowCursor wc;
 
-	private final PackFile pack;
+	private final Pack pack;
 
 	private long pos;
 
-	PackInputStream(PackFile pack, long pos, WindowCursor wc)
+	PackInputStream(Pack pack, long pos, WindowCursor wc)
 			throws IOException {
 		this.pack = pack;
 		this.pos = pos;

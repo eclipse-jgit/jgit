@@ -14,6 +14,7 @@ import java.io.PrintStream;
 
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.ProcessResult;
 
 /**
  * The <code>post-commit</code> hook implementation. This hook is run after the
@@ -71,6 +72,18 @@ public class PostCommitHook extends GitHook<Void> {
 	@Override
 	public String getHookName() {
 		return NAME;
+	}
+
+
+	/**
+	 * Overwrites the default implementation to never throw an
+	 * {@link AbortedByHookException}, as the commit has already been done and
+	 * the exit code of the post-commit hook has no effect.
+	 */
+	@Override
+	protected void handleError(String message, ProcessResult result)
+			throws AbortedByHookException {
+		// Do nothing as the exit code of the post-commit hook has no effect.
 	}
 
 }

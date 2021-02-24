@@ -88,7 +88,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 	private Deflater def;
 
 	/** The pack that was created, if parsing was successful. */
-	private PackFile newPack;
+	private Pack newPack;
 
 	private PackConfig pconfig;
 
@@ -129,14 +129,14 @@ public class ObjectDirectoryPackParser extends PackParser {
 	}
 
 	/**
-	 * Get the imported {@link org.eclipse.jgit.internal.storage.file.PackFile}.
+	 * Get the imported {@link org.eclipse.jgit.internal.storage.file.Pack}.
 	 * <p>
 	 * This method is supplied only to support testing; applications shouldn't
 	 * be using it directly to access the imported data.
 	 *
 	 * @return the imported PackFile, if parsing was successful.
 	 */
-	public PackFile getPackFile() {
+	public Pack getPack() {
 		return newPack;
 	}
 
