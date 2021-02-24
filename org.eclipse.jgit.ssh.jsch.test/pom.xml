@@ -17,7 +17,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>5.11.0.202102240950-m3</version>
+    <version>5.11.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.ssh.jsch.test</artifactId>
