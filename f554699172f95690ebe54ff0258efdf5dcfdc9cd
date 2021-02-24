@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50b93f65_8699050d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-24T20:21:29Z",
+      "side": 1,
+      "message": "tab character inline? (needs formatting?)",
+      "range": {
+        "startLine": 456,
+        "startChar": 41,
+        "endLine": 456,
+        "endChar": 42
+      },
+      "revId": "f554699172f95690ebe54ff0258efdf5dcfdc9cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
