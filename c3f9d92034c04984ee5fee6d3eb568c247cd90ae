@@ -22,6 +22,30 @@
       "revId": "c3f9d92034c04984ee5fee6d3eb568c247cd90ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06fa25dc_8a0a0928",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsGitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-24T08:24:48Z",
+      "side": 1,
+      "message": "Removed the comment. Actually it it can happen already at line 80 or 83 if the entry is racily clean. Compare comments on PS 2.",
+      "parentUuid": "eeaf4b1d_3c8161bc",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 46
+      },
+      "revId": "c3f9d92034c04984ee5fee6d3eb568c247cd90ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
