@@ -52,6 +52,24 @@
       "revId": "d1f681d994729a1dce63fc6db62ad0c83ed5ee58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9d17ee2_ad111e54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-02-24T20:48:03Z",
+      "side": 1,
+      "message": "Done,\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/176854",
+      "parentUuid": "035a2a0a_e3f7c341",
+      "revId": "d1f681d994729a1dce63fc6db62ad0c83ed5ee58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
