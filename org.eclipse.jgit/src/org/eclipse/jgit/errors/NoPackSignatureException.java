@@ -13,8 +13,7 @@ package org.eclipse.jgit.errors;
 import java.io.IOException;
 
 /**
- * Thrown when a PackFile is found not to contain the pack signature defined by
- * git.
+ * Thrown when a Pack is found not to contain the pack signature defined by git.
  *
  * @since 4.5
  */

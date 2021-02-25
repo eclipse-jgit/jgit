@@ -103,6 +103,38 @@ public class PacketLineIn {
 		this.limit = limit;
 	}
 
+	/**
+	 * Parses a ACK/NAK line in protocol V2.
+	 *
+	 * @param line
+	 *            to parse
+	 * @param returnedId
+	 *            in case of {@link AckNackResult#ACK_COMMON ACK_COMMON}
+	 * @return one of {@link AckNackResult#NAK NAK},
+	 *         {@link AckNackResult#ACK_COMMON ACK_COMMON}, or
+	 *         {@link AckNackResult#ACK_READY ACK_READY}
+	 * @throws IOException
+	 *             on protocol or transport errors
+	 */
+	static AckNackResult parseACKv2(String line, MutableObjectId returnedId)
+			throws IOException {
+		if ("NAK".equals(line)) { //$NON-NLS-1$
+			return AckNackResult.NAK;
+		}
+		if (line.startsWith("ACK ") && line.length() == 44) { //$NON-NLS-1$
+			returnedId.fromString(line.substring(4, 44));
+			return AckNackResult.ACK_COMMON;
+		}
+		if ("ready".equals(line)) { //$NON-NLS-1$
+			return AckNackResult.ACK_READY;
+		}
+		if (line.startsWith("ERR ")) { //$NON-NLS-1$
+			throw new PackProtocolException(line.substring(4));
+		}
+		throw new PackProtocolException(
+				MessageFormat.format(JGitText.get().expectedACKNAKGot, line));
+	}
+
 	AckNackResult readACK(MutableObjectId returnedId) throws IOException {
 		final String line = readString();
 		if (line.length() == 0)

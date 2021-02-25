@@ -26,7 +26,7 @@ public abstract class HttpTransport extends Transport {
 	 *
 	 * @since 3.3
 	 */
-	protected static HttpConnectionFactory connectionFactory = new JDKHttpConnectionFactory();
+	protected static volatile HttpConnectionFactory connectionFactory = new JDKHttpConnectionFactory();
 
 	/**
 	 * Get the {@link org.eclipse.jgit.transport.http.HttpConnectionFactory}

@@ -45,7 +45,13 @@ public final class TxzFormat extends BaseFormat implements
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
-		XZCompressorOutputStream out = new XZCompressorOutputStream(s);
+		XZCompressorOutputStream out;
+		int compressionLevel = getCompressionLevel(o);
+		if (compressionLevel != -1) {
+			out = new XZCompressorOutputStream(s, compressionLevel);
+		} else {
+			out = new XZCompressorOutputStream(s);
+		}
 		return tarFormat.createArchiveOutputStream(out, o);
 	}
 

@@ -12,8 +12,10 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.util.FS.FileStoreAttributes.FALLBACK_FILESTORE_ATTRIBUTES;
 import static org.eclipse.jgit.util.FS.FileStoreAttributes.FALLBACK_TIMESTAMP_RESOLUTION;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Duration;
 import java.time.Instant;
@@ -221,14 +223,20 @@ public class FileSnapshot {
 		this.file = file;
 		this.lastRead = Instant.now();
 		this.fileStoreAttributeCache = useConfig
-				? FS.getFileStoreAttributes(file.toPath().getParent())
+				? FS.getFileStoreAttributes(file.toPath())
 				: FALLBACK_FILESTORE_ATTRIBUTES;
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(file);
+		} catch (NoSuchFileException e) {
+			this.lastModified = Instant.EPOCH;
+			this.size = 0L;
+			this.fileKey = MISSING_FILEKEY;
+			return;
 		} catch (IOException e) {
-			this.lastModified = Instant.ofEpochMilli(file.lastModified());
-			this.size = file.length();
+			LOG.error(e.getMessage(), e);
+			this.lastModified = Instant.EPOCH;
+			this.size = 0L;
 			this.fileKey = MISSING_FILEKEY;
 			return;
 		}
@@ -309,9 +317,14 @@ public class FileSnapshot {
 			currLastModified = fileAttributes.lastModifiedTime().toInstant();
 			currSize = fileAttributes.size();
 			currFileKey = getFileKey(fileAttributes);
+		} catch (NoSuchFileException e) {
+			currLastModified = Instant.EPOCH;
+			currSize = 0L;
+			currFileKey = MISSING_FILEKEY;
 		} catch (IOException e) {
-			currLastModified = Instant.ofEpochMilli(path.lastModified());
-			currSize = path.length();
+			LOG.error(e.getMessage(), e);
+			currLastModified = Instant.EPOCH;
+			currSize = 0L;
 			currFileKey = MISSING_FILEKEY;
 		}
 		sizeChanged = isSizeChanged(currSize);

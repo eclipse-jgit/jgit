@@ -15,12 +15,16 @@ import java.text.MessageFormat;
 import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -37,6 +41,8 @@ public class InitCommand implements Callable<Git> {
 	private boolean bare;
 
 	private FS fs;
+
+	private String initialBranch;
 
 	/**
 	 * {@inheritDoc}
@@ -87,11 +93,16 @@ public class InitCommand implements Callable<Git> {
 					builder.setWorkTree(new File(dStr));
 				}
 			}
+			builder.setInitialBranch(StringUtils.isEmptyOrNull(initialBranch)
+					? SystemReader.getInstance().getUserConfig().getString(
+							ConfigConstants.CONFIG_INIT_SECTION, null,
+							ConfigConstants.CONFIG_KEY_DEFAULT_BRANCH)
+					: initialBranch);
 			Repository repository = builder.build();
 			if (!repository.getObjectDatabase().exists())
 				repository.create(bare);
 			return new Git(repository, true);
-		} catch (IOException e) {
+		} catch (IOException | ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}
@@ -182,6 +193,25 @@ public class InitCommand implements Callable<Git> {
 	 */
 	public InitCommand setFs(FS fs) {
 		this.fs = fs;
+		return this;
+	}
+
+	/**
+	 * Set the initial branch of the new repository. If not specified
+	 * ({@code null} or empty), fall back to the default name (currently
+	 * master).
+	 *
+	 * @param branch
+	 *            initial branch name of the new repository
+	 * @return {@code this}
+	 * @throws InvalidRefNameException
+	 *             if the branch name is not valid
+	 *
+	 * @since 5.11
+	 */
+	public InitCommand setInitialBranch(String branch)
+			throws InvalidRefNameException {
+		this.initialBranch = branch;
 		return this;
 	}
 }

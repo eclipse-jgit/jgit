@@ -29,10 +29,15 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GpgConfig;
+import org.eclipse.jgit.lib.GpgSignatureVerifier;
+import org.eclipse.jgit.lib.GpgSignatureVerifierFactory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.pgm.internal.VerificationUtils;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -41,6 +46,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -57,6 +63,9 @@ class Show extends TextBuiltin {
 
 	@Option(name = "--", metaVar = "metaVar_path", handler = PathTreeFilterHandler.class)
 	protected TreeFilter pathFilter = TreeFilter.ALL;
+
+	@Option(name = "--show-signature", usage = "usage_showSignature")
+	private boolean showSignature;
 
 	// BEGIN -- Options shared with Diff
 	@Option(name = "-p", usage = "usage_showPatch")
@@ -219,13 +228,20 @@ class Show extends TextBuiltin {
 		}
 
 		outw.println();
-		final String[] lines = tag.getFullMessage().split("\n"); //$NON-NLS-1$
-		for (String s : lines) {
-			outw.print("    "); //$NON-NLS-1$
-			outw.print(s);
-			outw.println();
+		String fullMessage = tag.getFullMessage();
+		if (!fullMessage.isEmpty()) {
+			String[] lines = tag.getFullMessage().split("\n"); //$NON-NLS-1$
+			for (String s : lines) {
+				outw.println(s);
+			}
 		}
-
+		byte[] rawSignature = tag.getRawGpgSignature();
+		if (rawSignature != null) {
+			String[] lines = RawParseUtils.decode(rawSignature).split("\n"); //$NON-NLS-1$
+			for (String s : lines) {
+				outw.println(s);
+			}
+		}
 		outw.println();
 	}
 
@@ -252,6 +268,10 @@ class Show extends TextBuiltin {
 		outw.print(" "); //$NON-NLS-1$
 		c.getId().copyTo(outbuffer, outw);
 		outw.println();
+
+		if (showSignature) {
+			showSignature(c);
+		}
 
 		final PersonIdent author = c.getAuthorIdent();
 		outw.println(MessageFormat.format(CLIText.get().authorInfo,
@@ -290,5 +310,29 @@ class Show extends TextBuiltin {
 			diffFmt.flush();
 		}
 		outw.println();
+	}
+
+	private void showSignature(RevCommit c) throws IOException {
+		if (c.getRawGpgSignature() == null) {
+			return;
+		}
+		GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
+				.getDefault();
+		if (factory == null) {
+			throw die(CLIText.get().logNoSignatureVerifier, null);
+		}
+		GpgSignatureVerifier verifier = factory.getVerifier();
+		GpgConfig config = new GpgConfig(db.getConfig());
+		try {
+			SignatureVerification verification = verifier.verifySignature(c,
+					config);
+			if (verification == null) {
+				return;
+			}
+			VerificationUtils.writeVerification(outw, verification,
+					verifier.getName(), c.getCommitterIdent());
+		} finally {
+			verifier.clear();
+		}
 	}
 }

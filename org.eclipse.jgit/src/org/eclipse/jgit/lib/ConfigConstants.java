@@ -93,13 +93,27 @@ public final class ConfigConstants {
 	public static final String CONFIG_GPG_SECTION = "gpg";
 
 	/**
+	 * The "protocol" section
+	 * @since 5.9
+	 */
+	public static final String CONFIG_PROTOCOL_SECTION = "protocol";
+
+	/**
 	 * The "format" key
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_FORMAT = "format";
 
 	/**
+	 * The "program" key
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_KEY_PROGRAM = "program";
+
+	/**
 	 * The "signingKey" key
+	 *
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_SIGNINGKEY = "signingKey";
@@ -111,13 +125,29 @@ public final class ConfigConstants {
 	public static final String CONFIG_COMMIT_SECTION = "commit";
 
 	/**
+	 * The "tag" section
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_TAG_SECTION = "tag";
+
+	/**
 	 * The "gpgSign" key
+	 *
 	 * @since 5.2
 	 */
 	public static final String CONFIG_KEY_GPGSIGN = "gpgSign";
 
 	/**
+	 * The "forceSignAnnotated" key
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_KEY_FORCE_SIGN_ANNOTATED = "forceSignAnnotated";
+
+	/**
 	 * The "hooksPath" key.
+	 *
 	 * @since 5.6
 	 */
 	public static final String CONFIG_KEY_HOOKS_PATH = "hooksPath";
@@ -532,12 +562,6 @@ public final class ConfigConstants {
 	public static final String CONFIG_REF_STORAGE_REFTABLE = "reftable";
 
 	/**
-	 * The "reftree" refStorage format
-	 * @since 5.7
-	 */
-	public static final String CONFIG_REFSTORAGE_REFTREE = "reftree";
-
-	/**
 	 * The "jmx" section
 	 * @since 5.1.13
 	 */
@@ -685,10 +709,23 @@ public final class ConfigConstants {
 	public static final String CONFIG_INDEX_SECTION = "index";
 
 	/**
-	 * The "index.version" key
+	 * The "version" key
 	 *
 	 * @since 5.9
 	 */
 	public static final String CONFIG_KEY_VERSION = "version";
 
+	/**
+	 * The "init" section
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_INIT_SECTION = "init";
+
+	/**
+	 * The "defaultBranch" key
+	 *
+	 * @since 5.11
+	 */
+	public static final String CONFIG_KEY_DEFAULT_BRANCH = "defaultbranch";
 }

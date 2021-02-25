@@ -16,7 +16,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
- * Thrown when a PackFile uses a pack version not supported by JGit.
+ * Thrown when a Pack uses a pack version not supported by JGit.
  *
  * @since 4.5
  */

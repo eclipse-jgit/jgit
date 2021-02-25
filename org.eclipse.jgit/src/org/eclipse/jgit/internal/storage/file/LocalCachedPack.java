@@ -25,31 +25,31 @@ class LocalCachedPack extends CachedPack {
 
 	private final String[] packNames;
 
-	private PackFile[] packs;
+	private Pack[] packs;
 
 	LocalCachedPack(ObjectDirectory odb, List<String> packNames) {
 		this.odb = odb;
 		this.packNames = packNames.toArray(new String[0]);
 	}
 
-	LocalCachedPack(List<PackFile> packs) {
+	LocalCachedPack(List<Pack> packs) {
 		odb = null;
 		packNames = null;
-		this.packs = packs.toArray(new PackFile[0]);
+		this.packs = packs.toArray(new Pack[0]);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public long getObjectCount() throws IOException {
 		long cnt = 0;
-		for (PackFile pack : getPacks())
+		for (Pack pack : getPacks())
 			cnt += pack.getObjectCount();
 		return cnt;
 	}
 
 	void copyAsIs(PackOutputStream out, WindowCursor wc)
 			throws IOException {
-		for (PackFile pack : getPacks())
+		for (Pack pack : getPacks())
 			pack.copyPackAsIs(out, wc);
 	}
 
@@ -58,7 +58,7 @@ class LocalCachedPack extends CachedPack {
 	public boolean hasObject(ObjectToPack obj, StoredObjectRepresentation rep) {
 		try {
 			LocalObjectRepresentation local = (LocalObjectRepresentation) rep;
-			for (PackFile pack : getPacks()) {
+			for (Pack pack : getPacks()) {
 				if (local.pack == pack)
 					return true;
 			}
@@ -68,9 +68,9 @@ class LocalCachedPack extends CachedPack {
 		}
 	}
 
-	private PackFile[] getPacks() throws FileNotFoundException {
+	private Pack[] getPacks() throws FileNotFoundException {
 		if (packs == null) {
-			PackFile[] p = new PackFile[packNames.length];
+			Pack[] p = new Pack[packNames.length];
 			for (int i = 0; i < packNames.length; i++)
 				p[i] = getPackFile(packNames[i]);
 			packs = p;
@@ -78,8 +78,8 @@ class LocalCachedPack extends CachedPack {
 		return packs;
 	}
 
-	private PackFile getPackFile(String packName) throws FileNotFoundException {
-		for (PackFile pack : odb.getPacks()) {
+	private Pack getPackFile(String packName) throws FileNotFoundException {
+		for (Pack pack : odb.getPacks()) {
 			if (packName.equals(pack.getPackName()))
 				return pack;
 		}

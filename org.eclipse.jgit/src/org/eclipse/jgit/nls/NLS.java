@@ -11,6 +11,7 @@
 package org.eclipse.jgit.nls;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jgit.errors.TranslationBundleLoadingException;
@@ -110,7 +111,8 @@ public class NLS {
 	}
 
 	private final Locale locale;
-	private final ConcurrentHashMap<Class, TranslationBundle> map = new ConcurrentHashMap<>();
+
+	private final Map<Class, TranslationBundle> map = new ConcurrentHashMap<>();
 
 	private NLS(Locale locale) {
 		this.locale = locale;

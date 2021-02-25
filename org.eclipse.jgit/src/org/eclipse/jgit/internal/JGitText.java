@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, 2013 Sasa Zivkov <sasa.zivkov@sap.com>
- * Copyright (C) 2012, Research In Motion Limited and others
+ * Copyright (C) 2012, 2021 Research In Motion Limited and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -58,6 +58,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String badEntryName;
 	/***/ public String badEscape;
 	/***/ public String badGroupHeader;
+	/***/ public String badIgnorePattern;
+	/***/ public String badIgnorePatternFull;
 	/***/ public String badObjectType;
 	/***/ public String badRef;
 	/***/ public String badSectionEntry;
@@ -261,6 +263,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String downloadCancelledDuringIndexing;
 	/***/ public String duplicateAdvertisementsOf;
 	/***/ public String duplicateRef;
+	/***/ public String duplicateRefAttribute;
 	/***/ public String duplicateRemoteRefUpdateIsIllegal;
 	/***/ public String duplicateStagesNotAllowed;
 	/***/ public String eitherGitDirOrWorkTreeRequired;
@@ -338,6 +341,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String hoursAgo;
 	/***/ public String httpConfigCannotNormalizeURL;
 	/***/ public String httpConfigInvalidURL;
+	/***/ public String httpFactoryInUse;
+	/***/ public String httpPreAuthTooLate;
+	/***/ public String httpUserInfoDecodeError;
+	/***/ public String httpWrongConnectionType;
 	/***/ public String hugeIndexesAreNotSupportedByJgitYet;
 	/***/ public String hunkBelongsToAnotherFile;
 	/***/ public String hunkDisconnectedFromFile;
@@ -591,6 +598,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String reftableDirExists;
 	/***/ public String reftableRecordsMustIncrease;
 	/***/ public String refUpdateReturnCodeWas;
+	/***/ public String remoteBranchNotFound;
 	/***/ public String remoteConfigHasNoURIAssociated;
 	/***/ public String remoteDoesNotHaveSpec;
 	/***/ public String remoteDoesNotSupportSmartHTTPPush;
@@ -645,7 +653,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;
 	/***/ public String shortSkipOfBlock;
-	/***/ public String signingNotSupportedOnTag;
+	/***/ public String signatureVerificationError;
+	/***/ public String signatureVerificationUnavailable;
+	/***/ public String signedTagMessageNoLf;
 	/***/ public String signingServiceUnavailable;
 	/***/ public String similarityScoreMustBeWithinBounds;
 	/***/ public String skipMustBeNonNegative;
@@ -786,6 +796,13 @@ public class JGitText extends TranslationBundle {
 	/***/ public String URINotSupported;
 	/***/ public String userConfigInvalid;
 	/***/ public String validatingGitModules;
+	/***/ public String verifySignatureBad;
+	/***/ public String verifySignatureExpired;
+	/***/ public String verifySignatureGood;
+	/***/ public String verifySignatureIssuer;
+	/***/ public String verifySignatureKey;
+	/***/ public String verifySignatureMade;
+	/***/ public String verifySignatureTrust;
 	/***/ public String walkFailure;
 	/***/ public String wantNoSpaceWithCapabilities;
 	/***/ public String wantNotValid;

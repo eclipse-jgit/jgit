@@ -9,6 +9,12 @@
        <Bug pattern="DM_GC" />
      </Match>
 
+     <Match>
+       <Class name="org.eclipse.jgit.internal.storage.pack.PackOutputStream" />
+       <Method name="writeHeader" />
+       <Bug pattern="NS_DANGEROUS_NON_SHORT_CIRCUIT" />
+     </Match>
+
      <!-- Silence ignoring return value of mkdirs -->
      <Match>
        <Class name="org.eclipse.jgit.dircache.DirCacheCheckout" />
@@ -19,8 +25,26 @@
 	   <!-- Silence the construction of our magic String instance.
 	     -->
      <Match>
-	 <Class name="org.eclipse.jgit.lib.Config" />
-	 <Bug pattern="DM_STRING_VOID_CTOR"/>
+       <Class name="org.eclipse.jgit.lib.Config" />
+       <Bug pattern="DM_STRING_VOID_CTOR"/>
+     </Match>
+
+     <Match>
+       <Class name="org.eclipse.jgit.lib.Config" />
+       <Method name="isMissing" />
+       <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ"/>
+     </Match>
+
+     <Match>
+       <Class name="org.eclipse.jgit.transport.PacketLineIn" />
+       <Method name="isDelimiter" />
+       <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ"/>
+     </Match>
+
+     <Match>
+       <Class name="org.eclipse.jgit.transport.PacketLineIn" />
+       <Method name="isEnd" />
+       <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ"/>
      </Match>
 
      <!-- Silence comparison of string by == or !=.  This class is built
@@ -50,6 +74,12 @@
      <Match>
        <Class name="org.eclipse.jgit.util.StringUtils" />
        <Method name="toBooleanOrNull" />
+       <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
+     </Match>
+
+     <Match>
+       <Class name="org.eclipse.jgit.ignore.IgnoreNode" />
+       <Method name="checkIgnored" />
        <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
      </Match>
 

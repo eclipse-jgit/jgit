@@ -132,7 +132,10 @@ java_library(
     name = "jetty-servlet",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-servlet//jar"],
+    exports = [
+        "@jetty-servlet//jar",
+        "@jetty-util-ajax//jar",
+    ],
 )
 
 java_library(
@@ -159,6 +162,7 @@ java_library(
         "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
+        "//org.eclipse.jgit.gpg.bc.test:__pkg__",
     ],
     exports = ["@bcpg//jar"],
 )
@@ -169,6 +173,7 @@ java_library(
         "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
+        "//org.eclipse.jgit.gpg.bc.test:__pkg__",
     ],
     exports = ["@bcprov//jar"],
 )

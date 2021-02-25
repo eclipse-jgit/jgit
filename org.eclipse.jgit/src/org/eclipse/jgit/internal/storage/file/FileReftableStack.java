@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -64,6 +65,8 @@ public class FileReftableStack implements AutoCloseable {
 	private final File reftableDir;
 
 	private final Runnable onChange;
+
+	private final SecureRandom random = new SecureRandom();
 
 	private final Supplier<Config> configSupplier;
 
@@ -365,8 +368,9 @@ public class FileReftableStack implements AutoCloseable {
 	}
 
 	private String filename(long low, long high) {
-		return String.format("%012x-%012x", //$NON-NLS-1$
-				Long.valueOf(low), Long.valueOf(high));
+		return String.format("%012x-%012x-%08x", //$NON-NLS-1$
+				Long.valueOf(low), Long.valueOf(high),
+				Integer.valueOf(random.nextInt()));
 	}
 
 	/**
@@ -636,6 +640,9 @@ public class FileReftableStack implements AutoCloseable {
 
 		@Override
 		public boolean equals(Object other) {
+			if (other == null) {
+				return false;
+			}
 			Segment o = (Segment) other;
 			return o.bytes == bytes && o.log == log && o.start == start
 					&& o.end == end;

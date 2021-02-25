@@ -12,6 +12,7 @@ package org.eclipse.jgit.attributes;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,7 +24,7 @@ import org.eclipse.jgit.lib.Repository;
  * @since 4.6
  */
 public class FilterCommandRegistry {
-	private static ConcurrentHashMap<String, FilterCommandFactory> filterCommandRegistry = new ConcurrentHashMap<>();
+	private static Map<String, FilterCommandFactory> filterCommandRegistry = new ConcurrentHashMap<>();
 
 	/**
 	 * Register a {@link org.eclipse.jgit.attributes.FilterCommandFactory}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<FindBugsFilter>
+<!-- Field is written by gson, seems like spotbugs doesn't recognize this -->
+     <Match>
+       <Class name="org.eclipse.jgit.lfs.server.LfsObject" />
+       <Bug pattern="UWF_UNWRITTEN_FIELD" />
+     </Match>
+</FindBugsFilter>

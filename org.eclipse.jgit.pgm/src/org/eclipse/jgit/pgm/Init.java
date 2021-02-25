@@ -24,6 +24,7 @@ import org.eclipse.jgit.api.InitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.util.StringUtils;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -31,6 +32,10 @@ import org.kohsuke.args4j.Option;
 class Init extends TextBuiltin {
 	@Option(name = "--bare", usage = "usage_CreateABareRepository")
 	private boolean bare;
+
+	@Option(name = "--initial-branch", aliases = { "-b" },
+			metaVar = "metaVar_branchName", usage = "usage_initialBranch")
+	private String branch;
 
 	@Argument(index = 0, metaVar = "metaVar_directory")
 	private String directory;
@@ -54,6 +59,9 @@ class Init extends TextBuiltin {
 		}
 		Repository repository;
 		try {
+			if (!StringUtils.isEmptyOrNull(branch)) {
+				command.setInitialBranch(branch);
+			}
 			repository = command.call().getRepository();
 			outw.println(MessageFormat.format(
 					CLIText.get().initializedEmptyGitRepositoryIn,

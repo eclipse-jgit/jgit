@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2010, Google Inc. and others
+ * Copyright (C) 2008, 2020 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -33,6 +33,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_AL
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2_REQUEST;
 import static org.eclipse.jgit.util.RefMap.toRefMap;
 
 import java.io.ByteArrayOutputStream;
@@ -709,7 +710,7 @@ public class UploadPack {
 	 * @since 5.0
 	 */
 	public void setExtraParameters(Collection<String> params) {
-		this.clientRequestedV2 = params.contains("version=2"); //$NON-NLS-1$
+		this.clientRequestedV2 = params.contains(VERSION_2_REQUEST);
 	}
 
 	/**
@@ -722,7 +723,8 @@ public class UploadPack {
 	}
 
 	private boolean useProtocolV2() {
-		return ProtocolVersion.V2.equals(transferConfig.protocolVersion)
+		return (transferConfig.protocolVersion == null
+			|| ProtocolVersion.V2.equals(transferConfig.protocolVersion))
 				&& clientRequestedV2;
 	}
 
@@ -1191,17 +1193,18 @@ public class UploadPack {
 
 		if (req.wasDoneReceived()) {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE),
+					new PacketLineOut(NullOutputStream.INSTANCE, false),
 					accumulator);
 		} else {
-			pckOut.writeString("acknowledgments\n"); //$NON-NLS-1$
+			pckOut.writeString(
+					GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
 			for (ObjectId id : req.getPeerHas()) {
 				if (walk.getObjectReader().has(id)) {
 					pckOut.writeString("ACK " + id.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE),
+					new PacketLineOut(NullOutputStream.INSTANCE, false),
 					accumulator);
 			if (okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
@@ -1243,7 +1246,8 @@ public class UploadPack {
 			if (!pckOut.isUsingSideband()) {
 				// sendPack will write "packfile\n" for us if sideband-all is used.
 				// But sideband-all is not used, so we have to write it ourselves.
-				pckOut.writeString("packfile\n"); //$NON-NLS-1$
+				pckOut.writeString(
+						GitProtocolConstants.SECTION_PACKFILE + '\n');
 			}
 
 			accumulator.timeNegotiating = Duration
@@ -1955,8 +1959,8 @@ public class UploadPack {
 							.map(objId -> objectIdToRevObject(objWalk, objId))
 							.filter(Objects::nonNull); // Ignore missing tips
 
-					ObjectReachabilityChecker reachabilityChecker = objWalk
-							.createObjectReachabilityChecker();
+					ObjectReachabilityChecker reachabilityChecker = reader
+							.createObjectReachabilityChecker(objWalk);
 					Optional<RevObject> unreachable = reachabilityChecker
 							.areAllReachable(wantsAsObjs, startersAsObjs);
 					if (unreachable.isPresent()) {
@@ -1967,8 +1971,8 @@ public class UploadPack {
 			}
 
 			// All wants are commits, we can use ReachabilityChecker
-			ReachabilityChecker reachabilityChecker = walk
-					.createReachabilityChecker();
+			ReachabilityChecker reachabilityChecker = reader
+					.createReachabilityChecker(walk);
 
 			Stream<RevCommit> reachableCommits = importantRefsFirst(visibleRefs)
 					.map(UploadPack::refToObjectId)
@@ -2327,7 +2331,8 @@ public class UploadPack {
 					// for us if provided a PackfileUriConfig. In this case, we
 					// are not providing a PackfileUriConfig, so we have to
 					// write this line ourselves.
-					pckOut.writeString("packfile\n"); //$NON-NLS-1$
+					pckOut.writeString(
+							GitProtocolConstants.SECTION_PACKFILE + '\n');
 				}
 			}
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);

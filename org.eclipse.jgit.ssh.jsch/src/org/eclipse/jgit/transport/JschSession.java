@@ -22,7 +22,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +46,7 @@ import com.jcraft.jsch.SftpException;
  * {@link org.eclipse.jgit.transport.JschConfigSessionFactory} is used to create
  * the actual session passed to the constructor.
  */
-public class JschSession implements RemoteSession {
+public class JschSession implements RemoteSession2 {
 	final Session sock;
 	final URIish uri;
 
@@ -65,7 +67,14 @@ public class JschSession implements RemoteSession {
 	/** {@inheritDoc} */
 	@Override
 	public Process exec(String command, int timeout) throws IOException {
-		return new JschProcess(command, timeout);
+		return exec(command, Collections.emptyMap(), timeout);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Process exec(String command, Map<String, String> environment,
+			int timeout) throws IOException {
+		return new JschProcess(command, environment, timeout);
 	}
 
 	/** {@inheritDoc} */
@@ -124,6 +133,8 @@ public class JschSession implements RemoteSession {
 		 *
 		 * @param commandName
 		 *            the command to execute
+		 * @param environment
+		 *            environment variables to pass on
 		 * @param tms
 		 *            the timeout value, in seconds, for the command.
 		 * @throws TransportException
@@ -132,11 +143,17 @@ public class JschSession implements RemoteSession {
 		 * @throws IOException
 		 *             on problems opening streams
 		 */
-		JschProcess(String commandName, int tms)
-				throws TransportException, IOException {
+		JschProcess(String commandName, Map<String, String> environment,
+				int tms) throws TransportException, IOException {
 			timeout = tms;
 			try {
 				channel = (ChannelExec) sock.openChannel("exec"); //$NON-NLS-1$
+				if (environment != null) {
+					for (Map.Entry<String, String> envVar : environment
+							.entrySet()) {
+						channel.setEnv(envVar.getKey(), envVar.getValue());
+					}
+				}
 				channel.setCommand(commandName);
 				setupStreams();
 				channel.connect(timeout > 0 ? timeout * 1000 : 0);

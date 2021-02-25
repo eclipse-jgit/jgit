@@ -40,7 +40,6 @@ import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepository;
-import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -182,9 +181,6 @@ public class FileRepository extends Repository {
 			if (StringUtils.equalsIgnoreCase(reftype,
 					ConfigConstants.CONFIG_REF_STORAGE_REFTABLE)) {
 				refs = new FileReftableDatabase(this);
-			} else if (StringUtils.equalsIgnoreCase(reftype,
-					ConfigConstants.CONFIG_REFSTORAGE_REFTREE)) {
-				refs = new RefTreeDatabase(this, new RefDirectory(this));
 			} else {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}
@@ -247,7 +243,7 @@ public class FileRepository extends Repository {
 
 		RefUpdate head = updateRef(Constants.HEAD);
 		head.disableRefLog();
-		head.link(Constants.R_HEADS + Constants.MASTER);
+		head.link(Constants.R_HEADS + getInitialBranch());
 
 		final boolean fileMode;
 		if (getFS().supportsExecute()) {
@@ -640,7 +636,7 @@ public class FileRepository extends Repository {
 		refsHeadsFile.delete();
 		// RefDirectory wants to create the refs/ directory from scratch, so
 		// remove that too.
-		refsFile.delete();
+			refsFile.delete();
 		// remove HEAD so its previous invalid value doesn't cause issues.
 		headFile.delete();
 
@@ -668,7 +664,7 @@ public class FileRepository extends Repository {
 				for (ReflogEntry e : logs) {
 					logWriter.log(r.getName(), e);
 				}
-			}
+		}
 		}
 
 		try (RevWalk rw = new RevWalk(this)) {
@@ -731,7 +727,7 @@ public class FileRepository extends Repository {
 			throws IOException {
 		File reftableDir = new File(getDirectory(), Constants.REFTABLE);
 		File headFile = new File(getDirectory(), Constants.HEAD);
-		if (reftableDir.exists() && reftableDir.listFiles().length > 0) {
+		if (reftableDir.exists() && FileUtils.hasFiles(reftableDir.toPath())) {
 			throw new IOException(JGitText.get().reftableDirExists);
 		}
 
@@ -763,9 +759,11 @@ public class FileRepository extends Repository {
 			}
 		} else {
 			FileUtils.delete(packedRefs, FileUtils.SKIP_MISSING);
-			FileUtils.delete(headFile);
-			FileUtils.delete(logsDir, FileUtils.RECURSIVE);
-			FileUtils.delete(refsFile, FileUtils.RECURSIVE);
+			FileUtils.delete(headFile, FileUtils.SKIP_MISSING);
+			FileUtils.delete(logsDir,
+					FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
+			FileUtils.delete(refsFile,
+					FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 			for (String r : additional) {
 				new File(getDirectory(), r).delete();
 			}

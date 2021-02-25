@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<FindBugsFilter>
+     <!-- Silence returning null for Boolean return type -->
+     <Match>
+       <Class name="org.eclipse.jgit.junit.ssh.SshTestGitServer$FakeUserAuthGSS" />
+       <Method name="doAuth" />
+       <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
+     </Match>
+</FindBugsFilter>

@@ -9,12 +9,10 @@
  */
 package org.eclipse.jgit.hooks;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.api.errors.AbortedByHookException;
@@ -35,21 +33,21 @@ import org.eclipse.jgit.util.io.TeeOutputStream;
  *            the return type which is expected from {@link #call()}
  * @see <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git
  *      Hooks on the git-scm official site</a>
- * @since 4.0
+ * @since 5.11
  */
-abstract class GitHook<T> implements Callable<T> {
+public abstract class GitHook<T> implements Callable<T> {
 
 	private final Repository repo;
 
 	/**
 	 * The output stream to be used by the hook.
 	 */
-	protected final PrintStream outputStream;
+	private final OutputStream outputStream;
 
 	/**
 	 * The error stream to be used by the hook.
 	 */
-	protected final PrintStream errorStream;
+	private final OutputStream errorStream;
 
 	/**
 	 * Constructor for GitHook.
@@ -63,7 +61,7 @@ abstract class GitHook<T> implements Callable<T> {
 	 *            The output stream the hook must use. {@code null} is allowed,
 	 *            in which case the hook will use {@code System.out}.
 	 */
-	protected GitHook(Repository repo, PrintStream outputStream) {
+	protected GitHook(Repository repo, OutputStream outputStream) {
 		this(repo, outputStream, null);
 	}
 
@@ -79,8 +77,8 @@ abstract class GitHook<T> implements Callable<T> {
 	 *            The error stream the hook must use. {@code null} is allowed,
 	 *            in which case the hook will use {@code System.err}.
 	 */
-	protected GitHook(Repository repo, PrintStream outputStream,
-			PrintStream errorStream) {
+	protected GitHook(Repository repo, OutputStream outputStream,
+			OutputStream errorStream) {
 		this.repo = repo;
 		this.outputStream = outputStream;
 		this.errorStream = errorStream;
@@ -137,7 +135,7 @@ abstract class GitHook<T> implements Callable<T> {
 	 * @return The output stream the hook must use. Never {@code null},
 	 *         {@code System.out} is returned by default.
 	 */
-	protected PrintStream getOutputStream() {
+	protected OutputStream getOutputStream() {
 		return outputStream == null ? System.out : outputStream;
 	}
 
@@ -147,7 +145,7 @@ abstract class GitHook<T> implements Callable<T> {
 	 * @return The error stream the hook must use. Never {@code null},
 	 *         {@code System.err} is returned by default.
 	 */
-	protected PrintStream getErrorStream() {
+	protected OutputStream getErrorStream() {
 		return errorStream == null ? System.err : errorStream;
 	}
 
@@ -156,31 +154,45 @@ abstract class GitHook<T> implements Callable<T> {
 	 *
 	 * @throws org.eclipse.jgit.api.errors.AbortedByHookException
 	 *             If the underlying hook script exited with non-zero.
+	 * @throws IOException
+	 *             if an IO error occurred
 	 */
-	protected void doRun() throws AbortedByHookException {
+	protected void doRun() throws AbortedByHookException, IOException {
 		final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
 		final TeeOutputStream stderrStream = new TeeOutputStream(errorByteArray,
 				getErrorStream());
-		PrintStream hookErrRedirect = null;
-		try {
-			hookErrRedirect = new PrintStream(stderrStream, false,
-					UTF_8.name());
-		} catch (UnsupportedEncodingException e) {
-			// UTF-8 is guaranteed to be available
-		}
 		Repository repository = getRepository();
 		FS fs = repository.getFS();
 		if (fs == null) {
 			fs = FS.DETECTED;
 		}
 		ProcessResult result = fs.runHookIfPresent(repository, getHookName(),
-				getParameters(), getOutputStream(), hookErrRedirect,
+				getParameters(), getOutputStream(), stderrStream,
 				getStdinArgs());
 		if (result.isExecutedWithError()) {
-			throw new AbortedByHookException(
-					new String(errorByteArray.toByteArray(), UTF_8),
-					getHookName(), result.getExitCode());
+			handleError(new String(errorByteArray.toByteArray(),
+					Charset.defaultCharset().name()), result);
 		}
+	}
+
+	/**
+	 * Process that the hook exited with an error. This default implementation
+	 * throws an {@link AbortedByHookException }. Hooks which need a different
+	 * behavior can overwrite this method.
+	 *
+	 * @param message
+	 *            error message
+	 * @param result
+	 *            The process result of the hook
+	 * @throws AbortedByHookException
+	 *             When the hook should be aborted
+	 * @since 5.11
+	 */
+	protected void handleError(String message,
+			final ProcessResult result)
+			throws AbortedByHookException {
+		throw new AbortedByHookException(message, getHookName(),
+				result.getExitCode());
 	}
 
 	/**

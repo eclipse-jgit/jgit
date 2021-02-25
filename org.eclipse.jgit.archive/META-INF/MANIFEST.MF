@@ -27,3 +27,4 @@ Export-Package: org.eclipse.jgit.archive;version="6.0.0";
    org.apache.commons.compress.archivers,
    org.osgi.framework",
  org.eclipse.jgit.archive.internal;version="6.0.0";x-internal:=true
+

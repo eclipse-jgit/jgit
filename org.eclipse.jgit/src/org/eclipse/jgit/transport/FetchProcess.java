@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -48,6 +48,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.StringUtils;
 
 class FetchProcess {
 	/** Transport we will fetch over. */
@@ -79,7 +80,8 @@ class FetchProcess {
 		toFetch = f;
 	}
 
-	void execute(ProgressMonitor monitor, FetchResult result)
+	void execute(ProgressMonitor monitor, FetchResult result,
+			String initialBranch)
 			throws NotSupportedException, TransportException {
 		askFor.clear();
 		localUpdates.clear();
@@ -87,24 +89,64 @@ class FetchProcess {
 		packLocks.clear();
 		localRefs = null;
 
+		Throwable e1 = null;
 		try {
-			executeImp(monitor, result);
+			executeImp(monitor, result, initialBranch);
+		} catch (NotSupportedException | TransportException err) {
+			e1 = err;
+			throw err;
 		} finally {
 			try {
-			for (PackLock lock : packLocks)
-				lock.unlock();
+				for (PackLock lock : packLocks) {
+					lock.unlock();
+				}
 			} catch (IOException e) {
+				if (e1 != null) {
+					e.addSuppressed(e1);
+				}
 				throw new TransportException(e.getMessage(), e);
 			}
 		}
 	}
 
+	private boolean isInitialBranchMissing(Map<String, Ref> refsMap,
+			String initialBranch) {
+		if (StringUtils.isEmptyOrNull(initialBranch) || refsMap.isEmpty()) {
+			return false;
+		}
+		if (refsMap.containsKey(initialBranch)
+				|| refsMap.containsKey(Constants.R_HEADS + initialBranch)
+				|| refsMap.containsKey(Constants.R_TAGS + initialBranch)) {
+			return false;
+		}
+		return true;
+	}
+
 	private void executeImp(final ProgressMonitor monitor,
-			final FetchResult result) throws NotSupportedException,
-			TransportException {
-		conn = transport.openFetch();
+			final FetchResult result, String initialBranch)
+			throws NotSupportedException, TransportException {
+		final TagOpt tagopt = transport.getTagOpt();
+		String getTags = (tagopt == TagOpt.NO_TAGS) ? null : Constants.R_TAGS;
+		String getHead = null;
 		try {
-			result.setAdvertisedRefs(transport.getURI(), conn.getRefsMap());
+			// If we don't have a HEAD yet, we're cloning and need to get the
+			// upstream HEAD, too.
+			Ref head = transport.local.exactRef(Constants.HEAD);
+			ObjectId id = head != null ? head.getObjectId() : null;
+			if (id == null || id.equals(ObjectId.zeroId())) {
+				getHead = Constants.HEAD;
+			}
+		} catch (IOException e) {
+			// Ignore
+		}
+		conn = transport.openFetch(toFetch, getTags, getHead);
+		try {
+			Map<String, Ref> refsMap = conn.getRefsMap();
+			if (isInitialBranchMissing(refsMap, initialBranch)) {
+				throw new TransportException(MessageFormat.format(
+						JGitText.get().remoteBranchNotFound, initialBranch));
+			}
+			result.setAdvertisedRefs(transport.getURI(), refsMap);
 			result.peerUserAgent = conn.getPeerUserAgent();
 			final Set<Ref> matched = new HashSet<>();
 			for (RefSpec spec : toFetch) {
@@ -119,7 +161,6 @@ class FetchProcess {
 			}
 
 			Collection<Ref> additionalTags = Collections.<Ref> emptyList();
-			final TagOpt tagopt = transport.getTagOpt();
 			if (tagopt == TagOpt.AUTO_FOLLOW)
 				additionalTags = expandAutoFollowTags();
 			else if (tagopt == TagOpt.FETCH_TAGS)
@@ -253,7 +294,17 @@ class FetchProcess {
 		if (conn != null)
 			return;
 
-		conn = transport.openFetch();
+		// Build prefixes
+		Set<String> prefixes = new HashSet<>();
+		for (Ref toGet : askFor.values()) {
+			String src = toGet.getName();
+			prefixes.add(src);
+			prefixes.add(Constants.R_REFS + src);
+			prefixes.add(Constants.R_HEADS + src);
+			prefixes.add(Constants.R_TAGS + src);
+		}
+		conn = transport.openFetch(Collections.emptyList(),
+				prefixes.toArray(new String[0]));
 
 		// Since we opened a new connection we cannot be certain
 		// that the system we connected to has the same exact set

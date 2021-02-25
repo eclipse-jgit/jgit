@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2010, Google Inc. and others
+ * Copyright (C) 2008, 2020, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,6 +11,7 @@
 package org.eclipse.jgit.revwalk;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -117,6 +119,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertNotNull(c.getTagName());
 		assertEquals(name, c.getTagName());
 		assertEquals("", c.getFullMessage());
+		assertNull(c.getRawGpgSignature());
 
 		final PersonIdent cTagger = c.getTaggerIdent();
 		assertNotNull(cTagger);
@@ -128,13 +131,12 @@ public class RevTagParseTest extends RepositoryTestCase {
 	public void testParseOldStyleNoTagger() throws Exception {
 		final ObjectId treeId = id("9788669ad918b6fcce64af8882fc9a81cb6aba67");
 		final String name = "v1.2.3.4.5";
-		final String message = "test\n" //
-				+ "\n" //
-				+ "-----BEGIN PGP SIGNATURE-----\n" //
+		final String fakeSignature = "-----BEGIN PGP SIGNATURE-----\n" //
 				+ "Version: GnuPG v1.4.1 (GNU/Linux)\n" //
 				+ "\n" //
 				+ "iD8DBQBC0b9oF3Y\n" //
-				+ "-----END PGP SIGNATURE------n";
+				+ "-----END PGP SIGNATURE-----";
+		final String message = "test\n" + fakeSignature + '\n';
 
 		final StringBuilder body = new StringBuilder();
 
@@ -166,7 +168,9 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertNotNull(c.getTagName());
 		assertEquals(name, c.getTagName());
 		assertEquals("test", c.getShortMessage());
-		assertEquals(message, c.getFullMessage());
+		assertEquals("test\n", c.getFullMessage());
+		assertEquals(fakeSignature + '\n',
+				new String(c.getRawGpgSignature(), US_ASCII));
 
 		assertNull(c.getTaggerIdent());
 	}
@@ -386,6 +390,108 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testParse_gpgSignature() throws Exception {
+		final String signature = "-----BEGIN PGP SIGNATURE-----\n\n"
+				+ "wsBcBAABCAAQBQJbGB4pCRBK7hj4Ov3rIwAAdHIIAENrvz23867ZgqrmyPemBEZP\n"
+				+ "U24B1Tlq/DWvce2buaxmbNQngKZ0pv2s8VMc11916WfTIC9EKvioatmpjduWvhqj\n"
+				+ "znQTFyiMor30pyYsfrqFuQZvqBW01o8GEWqLg8zjf9Rf0R3LlOEw86aT8CdHRlm6\n"
+				+ "wlb22xb8qoX4RB+LYfz7MhK5F+yLOPXZdJnAVbuyoMGRnDpwdzjL5Hj671+XJxN5\n"
+				+ "SasRdhxkkfw/ZnHxaKEc4juMz8Nziz27elRwhOQqlTYoXNJnsV//wy5Losd7aKi1\n"
+				+ "xXXyUpndEOmT0CIcKHrN/kbYoVL28OJaxoBuva3WYQaRrzEe3X02NMxZe9gkSqA=\n"
+				+ "=TClh\n" + "-----END PGP SIGNATURE-----";
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
+				.getBytes(UTF_8));
+		b.write("type tree\n".getBytes(UTF_8));
+		b.write("tag v1.0\n".getBytes(UTF_8));
+		b.write("tagger t <t@example.com> 1218123387 +0700\n".getBytes(UTF_8));
+		b.write('\n');
+		b.write("message\n".getBytes(UTF_8));
+		b.write(signature.getBytes(US_ASCII));
+		b.write('\n');
+
+		RevTag t = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
+		try (RevWalk rw = new RevWalk(db)) {
+			t.parseCanonical(rw, b.toByteArray());
+		}
+
+		assertEquals("t", t.getTaggerIdent().getName());
+		assertEquals("message", t.getShortMessage());
+		assertEquals("message\n", t.getFullMessage());
+		String gpgSig = new String(t.getRawGpgSignature(), UTF_8);
+		assertEquals(signature + '\n', gpgSig);
+	}
+
+	@Test
+	public void testParse_gpgSignature2() throws Exception {
+		final String signature = "-----BEGIN PGP SIGNATURE-----\n\n"
+				+ "wsBcBAABCAAQBQJbGB4pCRBK7hj4Ov3rIwAAdHIIAENrvz23867ZgqrmyPemBEZP\n"
+				+ "U24B1Tlq/DWvce2buaxmbNQngKZ0pv2s8VMc11916WfTIC9EKvioatmpjduWvhqj\n"
+				+ "znQTFyiMor30pyYsfrqFuQZvqBW01o8GEWqLg8zjf9Rf0R3LlOEw86aT8CdHRlm6\n"
+				+ "wlb22xb8qoX4RB+LYfz7MhK5F+yLOPXZdJnAVbuyoMGRnDpwdzjL5Hj671+XJxN5\n"
+				+ "SasRdhxkkfw/ZnHxaKEc4juMz8Nziz27elRwhOQqlTYoXNJnsV//wy5Losd7aKi1\n"
+				+ "xXXyUpndEOmT0CIcKHrN/kbYoVL28OJaxoBuva3WYQaRrzEe3X02NMxZe9gkSqA=\n"
+				+ "=TClh\n" + "-----END PGP SIGNATURE-----";
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
+				.getBytes(UTF_8));
+		b.write("type tree\n".getBytes(UTF_8));
+		b.write("tag v1.0\n".getBytes(UTF_8));
+		b.write("tagger t <t@example.com> 1218123387 +0700\n".getBytes(UTF_8));
+		b.write('\n');
+		String message = "message\n\n" + signature.replace("xXXy", "aAAb")
+				+ '\n';
+		b.write(message.getBytes(UTF_8));
+		b.write(signature.getBytes(US_ASCII));
+		b.write('\n');
+
+		RevTag t = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
+		try (RevWalk rw = new RevWalk(db)) {
+			t.parseCanonical(rw, b.toByteArray());
+		}
+
+		assertEquals("t", t.getTaggerIdent().getName());
+		assertEquals("message", t.getShortMessage());
+		assertEquals(message, t.getFullMessage());
+		String gpgSig = new String(t.getRawGpgSignature(), UTF_8);
+		assertEquals(signature + '\n', gpgSig);
+	}
+
+	@Test
+	public void testParse_gpgSignature3() throws Exception {
+		final String signature = "-----BEGIN PGP SIGNATURE-----\n\n"
+				+ "wsBcBAABCAAQBQJbGB4pCRBK7hj4Ov3rIwAAdHIIAENrvz23867ZgqrmyPemBEZP\n"
+				+ "U24B1Tlq/DWvce2buaxmbNQngKZ0pv2s8VMc11916WfTIC9EKvioatmpjduWvhqj\n"
+				+ "znQTFyiMor30pyYsfrqFuQZvqBW01o8GEWqLg8zjf9Rf0R3LlOEw86aT8CdHRlm6\n"
+				+ "wlb22xb8qoX4RB+LYfz7MhK5F+yLOPXZdJnAVbuyoMGRnDpwdzjL5Hj671+XJxN5\n"
+				+ "SasRdhxkkfw/ZnHxaKEc4juMz8Nziz27elRwhOQqlTYoXNJnsV//wy5Losd7aKi1\n"
+				+ "xXXyUpndEOmT0CIcKHrN/kbYoVL28OJaxoBuva3WYQaRrzEe3X02NMxZe9gkSqA=\n"
+				+ "=TClh\n" + "-----END PGP SIGNATURE-----";
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
+				.getBytes(UTF_8));
+		b.write("type tree\n".getBytes(UTF_8));
+		b.write("tag v1.0\n".getBytes(UTF_8));
+		b.write("tagger t <t@example.com> 1218123387 +0700\n".getBytes(UTF_8));
+		b.write('\n');
+		String message = "message\n\n-----BEGIN PGP SIGNATURE-----\n";
+		b.write(message.getBytes(UTF_8));
+		b.write(signature.getBytes(US_ASCII));
+		b.write('\n');
+
+		RevTag t = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
+		try (RevWalk rw = new RevWalk(db)) {
+			t.parseCanonical(rw, b.toByteArray());
+		}
+
+		assertEquals("t", t.getTaggerIdent().getName());
+		assertEquals("message", t.getShortMessage());
+		assertEquals(message, t.getFullMessage());
+		String gpgSig = new String(t.getRawGpgSignature(), UTF_8);
+		assertEquals(signature + '\n', gpgSig);
+	}
+
+	@Test
 	public void testParse_NoMessage() throws Exception {
 		final String msg = "";
 		final RevTag c = create(msg);
@@ -447,7 +553,8 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_PublicParseMethod() throws CorruptObjectException {
+	public void testParse_PublicParseMethod()
+			throws CorruptObjectException, UnsupportedEncodingException {
 		TagBuilder src = new TagBuilder();
 		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
 			src.setObjectId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}),

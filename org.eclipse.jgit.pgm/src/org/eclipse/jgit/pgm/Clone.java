@@ -18,6 +18,7 @@ import java.util.Collection;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -49,6 +50,9 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 
 	@Option(name = "--recurse-submodules", usage = "usage_recurseSubmodules")
 	private boolean cloneSubmodules;
+
+	@Option(name = "--timeout", metaVar = "metaVar_seconds", usage = "usage_abortConnectionIfNoActivity")
+	int timeout = -1;
 
 	@Argument(index = 0, required = true, metaVar = "metaVar_uriish")
 	private String sourceUri;
@@ -90,9 +94,8 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 
 		CloneCommand command = Git.cloneRepository();
 		command.setURI(sourceUri).setRemote(remoteName).setBare(isBare)
-				.setMirror(isMirror)
-				.setNoCheckout(noCheckout).setBranch(branch)
-				.setCloneSubmodules(cloneSubmodules);
+				.setMirror(isMirror).setNoCheckout(noCheckout).setBranch(branch)
+				.setCloneSubmodules(cloneSubmodules).setTimeout(timeout);
 
 		command.setGitDir(gitdir == null ? null : new File(gitdir));
 		command.setDirectory(localNameF);
@@ -108,6 +111,8 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 			db = command.call().getRepository();
 			if (msgs && db.resolve(Constants.HEAD) == null)
 				outw.println(CLIText.get().clonedEmptyRepository);
+		} catch (TransportException e) {
+			throw die(e.getMessage(), e);
 		} catch (InvalidRemoteException e) {
 			throw die(MessageFormat.format(CLIText.get().doesNotExist,
 					sourceUri), e);

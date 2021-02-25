@@ -13,7 +13,6 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
-import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_TXN;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RECEIVE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
@@ -82,7 +81,7 @@ public final class DfsPackDescriptionTest {
 				DfsPackDescription.objectLookupComparator(
 					new PackSource.ComparatorBuilder()
 						.add(GC)
-						.add(INSERT, RECEIVE, GC_REST, GC_TXN, UNREACHABLE_GARBAGE)
+						.add(INSERT, RECEIVE, GC_REST, UNREACHABLE_GARBAGE)
 						.add(COMPACT)
 						.build()),
 				a, b);

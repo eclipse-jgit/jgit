@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc. and others
+ * Copyright (C) 2009, 2020 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -12,8 +12,9 @@ package org.eclipse.jgit.transport;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
@@ -111,20 +112,25 @@ public class PacketLineInTest {
 		final String act = in.readString();
 		assertEquals("", act);
 		assertFalse(PacketLineIn.isEnd(act));
+		assertFalse(PacketLineIn.isDelimiter(act));
 		assertEOF();
 	}
 
 	@Test
 	public void testReadString_End() throws IOException {
 		init("0000");
-		assertTrue(PacketLineIn.isEnd(in.readString()));
+		String act = in.readString();
+		assertTrue(PacketLineIn.isEnd(act));
+		assertFalse(PacketLineIn.isDelimiter(act));
 		assertEOF();
 	}
 
 	@Test
 	public void testReadString_Delim() throws IOException {
 		init("0001");
-		assertTrue(PacketLineIn.isDelimiter(in.readString()));
+		String act = in.readString();
+		assertTrue(PacketLineIn.isDelimiter(act));
+		assertFalse(PacketLineIn.isEnd(act));
 		assertEOF();
 	}
 
@@ -290,6 +296,58 @@ public class PacketLineInTest {
 		} catch (PackProtocolException e) {
 			assertEquals("want is not valid", e.getMessage());
 		}
+	}
+
+	// parseACKv2
+
+	@Test
+	public void testParseAckV2_NAK() throws IOException {
+		final ObjectId expid = ObjectId
+				.fromString("fcfcfb1fd94829c1a1704f894fc111d14770d34e");
+		final MutableObjectId actid = new MutableObjectId();
+		actid.fromString(expid.name());
+
+		assertSame(PacketLineIn.AckNackResult.NAK,
+				PacketLineIn.parseACKv2("NAK", actid));
+		assertEquals(expid, actid);
+	}
+
+	@Test
+	public void testParseAckV2_ACK() throws IOException {
+		final ObjectId expid = ObjectId
+				.fromString("fcfcfb1fd94829c1a1704f894fc111d14770d34e");
+		final MutableObjectId actid = new MutableObjectId();
+
+		assertSame(PacketLineIn.AckNackResult.ACK_COMMON,
+				PacketLineIn.parseACKv2(
+						"ACK fcfcfb1fd94829c1a1704f894fc111d14770d34e", actid));
+		assertEquals(expid, actid);
+	}
+
+	@Test
+	public void testParseAckV2_Ready() throws IOException {
+		final ObjectId expid = ObjectId
+				.fromString("fcfcfb1fd94829c1a1704f894fc111d14770d34e");
+		final MutableObjectId actid = new MutableObjectId();
+		actid.fromString(expid.name());
+
+		assertSame(PacketLineIn.AckNackResult.ACK_READY,
+				PacketLineIn.parseACKv2("ready", actid));
+		assertEquals(expid, actid);
+	}
+
+	@Test
+	public void testParseAckV2_ERR() {
+		IOException e = assertThrows(IOException.class, () -> PacketLineIn
+				.parseACKv2("ERR want is not valid", new MutableObjectId()));
+		assertTrue(e.getMessage().contains("want is not valid"));
+	}
+
+	@Test
+	public void testParseAckV2_Invalid() {
+		IOException e = assertThrows(IOException.class,
+				() -> PacketLineIn.parseACKv2("HELO", new MutableObjectId()));
+		assertTrue(e.getMessage().contains("xpected ACK/NAK"));
 	}
 
 	// test support

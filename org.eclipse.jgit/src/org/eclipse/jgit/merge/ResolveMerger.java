@@ -703,18 +703,21 @@ public class ResolveMerger extends ThreeWayMerger {
 			// conflict between ours and theirs. file/folder conflicts between
 			// base/index/workingTree and something else are not relevant or
 			// detected later
-			if (nonTree(modeO) && !nonTree(modeT)) {
+			if (nonTree(modeO) != nonTree(modeT)) {
+				if (ignoreConflicts) {
+					// In case of merge failures, ignore this path instead of reporting unmerged, so
+					// a caller can use virtual commit. This will not result in files with conflict
+					// markers in the index/working tree. The actual diff on the path will be
+					// computed directly on children.
+					enterSubtree = false;
+					return true;
+				}
 				if (nonTree(modeB))
 					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				unmergedPaths.add(tw.getPathString());
-				enterSubtree = false;
-				return true;
-			}
-			if (nonTree(modeT) && !nonTree(modeO)) {
-				if (nonTree(modeB))
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				if (nonTree(modeO))
+					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				if (nonTree(modeT))
+					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				unmergedPaths.add(tw.getPathString());
 				enterSubtree = false;
 				return true;

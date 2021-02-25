@@ -13,7 +13,6 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
-import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_TXN;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RECEIVE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
@@ -45,7 +44,6 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.storage.reftable.ReftableCompactor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
-import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -95,7 +93,6 @@ public class DfsGarbageCollector {
 	private Set<ObjectId> allHeadsAndTags;
 	private Set<ObjectId> allTags;
 	private Set<ObjectId> nonHeads;
-	private Set<ObjectId> txnHeads;
 	private Set<ObjectId> tagTargets;
 
 	/**
@@ -318,7 +315,6 @@ public class DfsGarbageCollector {
 			allHeadsAndTags = new HashSet<>();
 			allTags = new HashSet<>();
 			nonHeads = new HashSet<>();
-			txnHeads = new HashSet<>();
 			tagTargets = new HashSet<>();
 			for (Ref ref : refsBefore) {
 				if (ref.isSymbolic() || ref.getObjectId() == null) {
@@ -328,8 +324,6 @@ public class DfsGarbageCollector {
 					allHeads.add(ref.getObjectId());
 				} else if (isTag(ref)) {
 					allTags.add(ref.getObjectId());
-				} else if (RefTreeNames.isRefTree(refdb, ref.getName())) {
-					txnHeads.add(ref.getObjectId());
 				} else {
 					nonHeads.add(ref.getObjectId());
 				}
@@ -355,7 +349,6 @@ public class DfsGarbageCollector {
 			try {
 				packHeads(pm);
 				packRest(pm);
-				packRefTreeGraph(pm);
 				packGarbage(pm);
 				objdb.commitPack(newPackDesc, toPrune());
 				rollback = false;
@@ -556,19 +549,6 @@ public class DfsGarbageCollector {
 			if (0 < pw.getObjectCount())
 				writePack(GC_REST, pw, pm,
 						estimateGcPackSize(INSERT, RECEIVE, COMPACT, GC_REST));
-		}
-	}
-
-	private void packRefTreeGraph(ProgressMonitor pm) throws IOException {
-		if (txnHeads.isEmpty())
-			return;
-
-		try (PackWriter pw = newPackWriter()) {
-			for (ObjectIdSet packedObjs : newPackObj)
-				pw.excludeObjects(packedObjs);
-			pw.preparePack(pm, txnHeads, NONE);
-			if (0 < pw.getObjectCount())
-				writePack(GC_TXN, pw, pm, 0 /* unknown pack size */);
 		}
 	}
 
