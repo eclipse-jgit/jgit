@@ -156,8 +156,8 @@ public class GcConcurrentTest extends GcTestCase {
 		}
 	}
 
-	PackFile getSinglePack(FileRepository r) {
-		Collection<PackFile> packs = r.getObjectDatabase().getPacks();
+	Pack getSinglePack(FileRepository r) {
+		Collection<Pack> packs = r.getObjectDatabase().getPacks();
 		assertEquals(1, packs.size());
 		return packs.iterator().next();
 	}
@@ -206,11 +206,11 @@ public class GcConcurrentTest extends GcTestCase {
 		SampleDataRepositoryTestCase.copyCGitTestPacks(repo);
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		final CountDownLatch latch = new CountDownLatch(1);
-		Future<Collection<PackFile>> result = executor.submit(() -> {
+		Future<Collection<Pack>> result = executor.submit(() -> {
 			long start = System.currentTimeMillis();
 			System.out.println("starting gc");
 			latch.countDown();
-			Collection<PackFile> r = gc.gc();
+			Collection<Pack> r = gc.gc();
 			System.out.println(
 					"gc took " + (System.currentTimeMillis() - start) + " ms");
 			return r;

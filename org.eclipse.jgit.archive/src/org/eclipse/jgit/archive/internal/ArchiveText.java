@@ -28,6 +28,7 @@ public class ArchiveText extends TranslationBundle {
 
 	// @formatter:off
 	/***/ public String cannotSetOption;
+	/***/ public String invalidCompressionLevel;
 	/***/ public String pathDoesNotMatchMode;
 	/***/ public String unsupportedMode;
 }

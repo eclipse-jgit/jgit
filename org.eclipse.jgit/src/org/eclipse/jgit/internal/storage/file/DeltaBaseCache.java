@@ -49,7 +49,7 @@ class DeltaBaseCache {
 		cache = new Slot[CACHE_SZ];
 	}
 
-	Entry get(PackFile pack, long position) {
+	Entry get(Pack pack, long position) {
 		Slot e = cache[hash(position)];
 		if (e == null)
 			return null;
@@ -63,7 +63,7 @@ class DeltaBaseCache {
 		return null;
 	}
 
-	void store(final PackFile pack, final long position,
+	void store(final Pack pack, final long position,
 			final byte[] data, final int objectType) {
 		if (data.length > maxByteCount)
 			return; // Too large to cache.
@@ -146,7 +146,7 @@ class DeltaBaseCache {
 
 		Slot lruNext;
 
-		PackFile provider;
+		Pack provider;
 
 		long position;
 

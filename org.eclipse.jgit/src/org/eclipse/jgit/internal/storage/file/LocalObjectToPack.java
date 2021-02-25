@@ -17,7 +17,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 /** {@link ObjectToPack} for {@link ObjectDirectory}. */
 class LocalObjectToPack extends ObjectToPack {
 	/** Pack to reuse compressed data from, otherwise null. */
-	PackFile pack;
+	Pack pack;
 
 	/** Offset of the object's header in {@link #pack}. */
 	long offset;

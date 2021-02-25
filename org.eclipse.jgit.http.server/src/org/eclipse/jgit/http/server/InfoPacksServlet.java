@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
-import org.eclipse.jgit.internal.storage.file.PackFile;
+import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.lib.ObjectDatabase;
 
 /** Sends the current list of pack files, sorted most recent first. */
@@ -38,7 +38,7 @@ class InfoPacksServlet extends HttpServlet {
 		final StringBuilder out = new StringBuilder();
 		final ObjectDatabase db = getRepository(req).getObjectDatabase();
 		if (db instanceof ObjectDirectory) {
-			for (PackFile pack : ((ObjectDirectory) db).getPacks()) {
+			for (Pack pack : ((ObjectDirectory) db).getPacks()) {
 				out.append("P ");
 				out.append(pack.getPackFile().getName());
 				out.append('\n');

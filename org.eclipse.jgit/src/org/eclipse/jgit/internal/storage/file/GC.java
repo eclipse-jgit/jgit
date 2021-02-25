@@ -60,7 +60,6 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
-import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -206,16 +205,16 @@ public class GC {
 	 * gc.log.
 	 *
 	 * @return the collection of
-	 *         {@link org.eclipse.jgit.internal.storage.file.PackFile}'s which
+	 *         {@link org.eclipse.jgit.internal.storage.file.Pack}'s which
 	 *         are newly created
 	 * @throws java.io.IOException
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
 	 */
-	// TODO(ms): change signature and return Future<Collection<PackFile>>
+	// TODO(ms): change signature and return Future<Collection<Pack>>
 	@SuppressWarnings("FutureReturnValueIgnored")
-	public Collection<PackFile> gc() throws IOException, ParseException {
+	public Collection<Pack> gc() throws IOException, ParseException {
 		if (!background) {
 			return doGc();
 		}
@@ -225,9 +224,9 @@ public class GC {
 			return Collections.emptyList();
 		}
 
-		Callable<Collection<PackFile>> gcTask = () -> {
+		Callable<Collection<Pack>> gcTask = () -> {
 			try {
-				Collection<PackFile> newPacks = doGc();
+				Collection<Pack> newPacks = doGc();
 				if (automatic && tooManyLooseObjects()) {
 					String message = JGitText.get().gcTooManyUnpruned;
 					gcLog.write(message);
@@ -259,14 +258,14 @@ public class GC {
 		return (executor != null) ? executor : WorkQueue.getExecutor();
 	}
 
-	private Collection<PackFile> doGc() throws IOException, ParseException {
+	private Collection<Pack> doGc() throws IOException, ParseException {
 		if (automatic && !needGc()) {
 			return Collections.emptyList();
 		}
 		pm.start(6 /* tasks */);
 		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
-		Collection<PackFile> newPacks = repack();
+		Collection<Pack> newPacks = repack();
 		prune(Collections.emptySet());
 		// TODO: implement rerere_gc(pm);
 		return newPacks;
@@ -282,7 +281,7 @@ public class GC {
 	 * @param existing
 	 * @throws IOException
 	 */
-	private void loosen(ObjectDirectoryInserter inserter, ObjectReader reader, PackFile pack, HashSet<ObjectId> existing)
+	private void loosen(ObjectDirectoryInserter inserter, ObjectReader reader, Pack pack, HashSet<ObjectId> existing)
 			throws IOException {
 		for (PackIndex.MutableEntry entry : pack) {
 			ObjectId oid = entry.toObjectId();
@@ -314,10 +313,10 @@ public class GC {
 	 * @throws ParseException
 	 * @throws IOException
 	 */
-	private void deleteOldPacks(Collection<PackFile> oldPacks,
-			Collection<PackFile> newPacks) throws ParseException, IOException {
+	private void deleteOldPacks(Collection<Pack> oldPacks,
+			Collection<Pack> newPacks) throws ParseException, IOException {
 		HashSet<ObjectId> ids = new HashSet<>();
-		for (PackFile pack : newPacks) {
+		for (Pack pack : newPacks) {
 			for (PackIndex.MutableEntry entry : pack) {
 				ids.add(entry.toObjectId());
 			}
@@ -330,12 +329,12 @@ public class GC {
 
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
-		oldPackLoop: for (PackFile oldPack : oldPacks) {
+		oldPackLoop: for (Pack oldPack : oldPacks) {
 			checkCancelled();
 			String oldName = oldPack.getPackName();
 			// check whether an old pack file is also among the list of new
 			// pack files. Then we must not delete it.
-			for (PackFile newPack : newPacks)
+			for (Pack newPack : newPacks)
 				if (oldName.equals(newPack.getPackName()))
 					continue oldPackLoop;
 
@@ -439,7 +438,7 @@ public class GC {
 	 */
 	public void prunePacked() throws IOException {
 		ObjectDirectory objdb = repo.getObjectDatabase();
-		Collection<PackFile> packs = objdb.getPacks();
+		Collection<Pack> packs = objdb.getPacks();
 		File objects = repo.getObjectsDirectory();
 		String[] fanout = objects.list();
 
@@ -467,7 +466,7 @@ public class GC {
 							continue;
 						}
 						boolean found = false;
-						for (PackFile p : packs) {
+						for (Pack p : packs) {
 							checkCancelled();
 							if (p.hasObject(id)) {
 								found = true;
@@ -789,8 +788,8 @@ public class GC {
 	 *             reflog-entries or during writing to the packfiles
 	 *             {@link java.io.IOException} occurs
 	 */
-	public Collection<PackFile> repack() throws IOException {
-		Collection<PackFile> toBeDeleted = repo.getObjectDatabase().getPacks();
+	public Collection<Pack> repack() throws IOException {
+		Collection<Pack> toBeDeleted = repo.getObjectDatabase().getPacks();
 
 		long time = System.currentTimeMillis();
 		Collection<Ref> refsBefore = getAllRefs();
@@ -802,7 +801,6 @@ public class GC {
 		Set<ObjectId> txnHeads = new HashSet<>();
 		Set<ObjectId> tagTargets = new HashSet<>();
 		Set<ObjectId> indexObjects = listNonHEADIndexObjects();
-		RefDatabase refdb = repo.getRefDatabase();
 
 		for (Ref ref : refsBefore) {
 			checkCancelled();
@@ -814,8 +812,6 @@ public class GC {
 				allHeads.add(ref.getObjectId());
 			} else if (isTag(ref)) {
 				allTags.add(ref.getObjectId());
-			} else if (RefTreeNames.isRefTree(refdb, ref.getName())) {
-				txnHeads.add(ref.getObjectId());
 			} else {
 				nonHeads.add(ref.getObjectId());
 			}
@@ -825,10 +821,10 @@ public class GC {
 		}
 
 		List<ObjectIdSet> excluded = new LinkedList<>();
-		for (PackFile f : repo.getObjectDatabase().getPacks()) {
+		for (Pack p : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
-			if (f.shouldBeKept())
-				excluded.add(f.getIndex());
+			if (p.shouldBeKept())
+				excluded.add(p.getIndex());
 		}
 
 		// Don't exclude tags that are also branch tips
@@ -846,8 +842,8 @@ public class GC {
 			nonHeads.clear();
 		}
 
-		List<PackFile> ret = new ArrayList<>(2);
-		PackFile heads = null;
+		List<Pack> ret = new ArrayList<>(2);
+		Pack heads = null;
 		if (!allHeadsAndTags.isEmpty()) {
 			heads = writePack(allHeadsAndTags, PackWriter.NONE, allTags,
 					tagTargets, excluded);
@@ -857,13 +853,13 @@ public class GC {
 			}
 		}
 		if (!nonHeads.isEmpty()) {
-			PackFile rest = writePack(nonHeads, allHeadsAndTags, PackWriter.NONE,
+			Pack rest = writePack(nonHeads, allHeadsAndTags, PackWriter.NONE,
 					tagTargets, excluded);
 			if (rest != null)
 				ret.add(rest);
 		}
 		if (!txnHeads.isEmpty()) {
-			PackFile txn = writePack(txnHeads, PackWriter.NONE, PackWriter.NONE,
+			Pack txn = writePack(txnHeads, PackWriter.NONE, PackWriter.NONE,
 					null, excluded);
 			if (txn != null)
 				ret.add(txn);
@@ -1133,7 +1129,7 @@ public class GC {
 		}
 	}
 
-	private PackFile writePack(@NonNull Set<? extends ObjectId> want,
+	private Pack writePack(@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have, @NonNull Set<ObjectId> tags,
 			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects)
 			throws IOException {
@@ -1360,13 +1356,13 @@ public class GC {
 	 */
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();
-		Collection<PackFile> packs = repo.getObjectDatabase().getPacks();
-		for (PackFile f : packs) {
-			ret.numberOfPackedObjects += f.getIndex().getObjectCount();
+		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
+		for (Pack p : packs) {
+			ret.numberOfPackedObjects += p.getIndex().getObjectCount();
 			ret.numberOfPackFiles++;
-			ret.sizeOfPackedObjects += f.getPackFile().length();
-			if (f.getBitmapIndex() != null)
-				ret.numberOfBitmaps += f.getBitmapIndex().getBitmapCount();
+			ret.sizeOfPackedObjects += p.getPackFile().length();
+			if (p.getBitmapIndex() != null)
+				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
 		}
 		File objDir = repo.getObjectsDirectory();
 		String[] fanout = objDir.list();

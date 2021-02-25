@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -62,11 +63,12 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		reftableDatabase = new ReftableDatabase() {
 			@Override
 			public MergedReftable openMergedReftable() throws IOException {
-				DfsReftableDatabase.this.getLock().lock();
+				Lock l = DfsReftableDatabase.this.getLock();
+				l.lock();
 				try {
 					return new MergedReftable(stack().readers());
 				} finally {
-					DfsReftableDatabase.this.getLock().unlock();
+					l.unlock();
 				}
 			}
 		};
@@ -176,6 +178,13 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
+	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
+			throws IOException {
+		return reftableDatabase.getRefsByPrefixWithExclusions(include, excludes);
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
 		if (!getReftableConfig().isIndexObjects()) {
 			return super.getTipsWithSha1(id);
@@ -207,7 +216,8 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	@Override
 	void clearCache() {
-		getLock().lock();
+		ReentrantLock l = getLock();
+		l.lock();
 		try {
 			if (ctx != null) {
 				ctx.close();
@@ -219,7 +229,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 				stack = null;
 			}
 		} finally {
-			getLock().unlock();
+			l.unlock();
 		}
 	}
 

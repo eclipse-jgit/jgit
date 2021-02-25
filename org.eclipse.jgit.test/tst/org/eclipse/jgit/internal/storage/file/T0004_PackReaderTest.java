@@ -32,8 +32,8 @@ public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 		final ObjectId id;
 		final ObjectLoader or;
 
-		PackFile pr = null;
-		for (PackFile p : db.getObjectDatabase().getPacks()) {
+		Pack pr = null;
+		for (Pack p : db.getObjectDatabase().getPacks()) {
 			if (PACK_NAME.equals(p.getPackName())) {
 				pr = p;
 				break;

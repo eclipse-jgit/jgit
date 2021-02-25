@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<FindBugsFilter>
+     <!-- We want complete control over clone behavior and
+          don't want to use Object's clone implementation.
+       -->
+     <Match>
+       <Bug pattern="CN_IMPLEMENTS_CLONE_BUT_NOT_CLONEABLE" />
+     </Match>
+</FindBugsFilter>

@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2006-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2006, 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com> and others
+ * Copyright (C) 2010, 2020, Chris Aniszczyk <caniszczyk@gmail.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -17,8 +17,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.util.References;
 
 /**
  * Mutable builder to construct an annotated tag recording a project state.
@@ -30,16 +35,21 @@ import org.eclipse.jgit.revwalk.RevObject;
  * and obtain a {@link org.eclipse.jgit.revwalk.RevTag} instance by calling
  * {@link org.eclipse.jgit.revwalk.RevWalk#parseTag(AnyObjectId)}.
  */
-public class TagBuilder {
+public class TagBuilder extends ObjectBuilder {
+
+	private static final byte[] hobject = Constants.encodeASCII("object"); //$NON-NLS-1$
+
+	private static final byte[] htype = Constants.encodeASCII("type"); //$NON-NLS-1$
+
+	private static final byte[] htag = Constants.encodeASCII("tag"); //$NON-NLS-1$
+
+	private static final byte[] htagger = Constants.encodeASCII("tagger"); //$NON-NLS-1$
+
 	private ObjectId object;
 
 	private int type = Constants.OBJ_BAD;
 
 	private String tag;
-
-	private PersonIdent tagger;
-
-	private String message;
 
 	/**
 	 * Get the type of object this tag refers to.
@@ -109,7 +119,7 @@ public class TagBuilder {
 	 * @return creator of this tag. May be null.
 	 */
 	public PersonIdent getTagger() {
-		return tagger;
+		return getAuthor();
 	}
 
 	/**
@@ -119,26 +129,7 @@ public class TagBuilder {
 	 *            the creator. May be null.
 	 */
 	public void setTagger(PersonIdent taggerIdent) {
-		tagger = taggerIdent;
-	}
-
-	/**
-	 * Get the complete commit message.
-	 *
-	 * @return the complete commit message.
-	 */
-	public String getMessage() {
-		return message;
-	}
-
-	/**
-	 * Set the tag's message.
-	 *
-	 * @param newMessage
-	 *            the tag's message.
-	 */
-	public void setMessage(String newMessage) {
-		message = newMessage;
+		setAuthor(taggerIdent);
 	}
 
 	/**
@@ -147,31 +138,65 @@ public class TagBuilder {
 	 * @return this object in the canonical annotated tag format, suitable for
 	 *         storage in a repository.
 	 */
-	public byte[] build() {
+	@Override
+	public byte[] build() throws UnsupportedEncodingException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try (OutputStreamWriter w = new OutputStreamWriter(os,
-				UTF_8)) {
-			w.write("object "); //$NON-NLS-1$
-			getObjectId().copyTo(w);
-			w.write('\n');
+				getEncoding())) {
 
-			w.write("type "); //$NON-NLS-1$
-			w.write(Constants.typeString(getObjectType()));
-			w.write("\n"); //$NON-NLS-1$
+			os.write(hobject);
+			os.write(' ');
+			getObjectId().copyTo(os);
+			os.write('\n');
 
-			w.write("tag "); //$NON-NLS-1$
+			os.write(htype);
+			os.write(' ');
+			os.write(Constants
+					.encodeASCII(Constants.typeString(getObjectType())));
+			os.write('\n');
+
+			os.write(htag);
+			os.write(' ');
 			w.write(getTag());
-			w.write("\n"); //$NON-NLS-1$
+			w.flush();
+			os.write('\n');
 
 			if (getTagger() != null) {
-				w.write("tagger "); //$NON-NLS-1$
+				os.write(htagger);
+				os.write(' ');
 				w.write(getTagger().toExternalString());
-				w.write('\n');
+				w.flush();
+				os.write('\n');
 			}
 
-			w.write('\n');
-			if (getMessage() != null)
-				w.write(getMessage());
+			writeEncoding(getEncoding(), os);
+
+			os.write('\n');
+			String msg = getMessage();
+			if (msg != null) {
+				w.write(msg);
+				w.flush();
+			}
+
+			GpgSignature signature = getGpgSignature();
+			if (signature != null) {
+				if (msg != null && !msg.isEmpty() && !msg.endsWith("\n")) { //$NON-NLS-1$
+					// If signed, the message *must* end with a linefeed
+					// character, otherwise signature verification will fail.
+					// (The signature will have been computed over the payload
+					// containing the message without LF, but will be verified
+					// against a payload with the LF.) The signature must start
+					// on a new line.
+					throw new JGitInternalException(
+							JGitText.get().signedTagMessageNoLf);
+				}
+				String externalForm = signature.toExternalString();
+				w.write(externalForm);
+				w.flush();
+				if (!externalForm.endsWith("\n")) { //$NON-NLS-1$
+					os.write('\n');
+				}
+			}
 		} catch (IOException err) {
 			// This should never occur, the only way to get it above is
 			// for the ByteArrayOutputStream to throw, but it doesn't.
@@ -185,10 +210,17 @@ public class TagBuilder {
 	 * Format this builder's state as an annotated tag object.
 	 *
 	 * @return this object in the canonical annotated tag format, suitable for
-	 *         storage in a repository.
+	 *         storage in a repository, or {@code null} if the tag cannot be
+	 *         encoded
+	 * @deprecated since 5.11; use {@link #build()} instead
 	 */
+	@Deprecated
 	public byte[] toByteArray() {
-		return build();
+		try {
+			return build();
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -211,14 +243,23 @@ public class TagBuilder {
 		r.append(tag != null ? tag : "NOT_SET");
 		r.append("\n");
 
-		if (tagger != null) {
+		if (getTagger() != null) {
 			r.append("tagger ");
-			r.append(tagger);
+			r.append(getTagger());
+			r.append("\n");
+		}
+
+		Charset encoding = getEncoding();
+		if (!References.isSameObject(encoding, UTF_8)) {
+			r.append("encoding ");
+			r.append(encoding.name());
 			r.append("\n");
 		}
 
 		r.append("\n");
-		r.append(message != null ? message : "");
+		r.append(getMessage() != null ? getMessage() : "");
+		GpgSignature signature = getGpgSignature();
+		r.append(signature != null ? signature.toExternalString() : "");
 		r.append("}");
 		return r.toString();
 	}

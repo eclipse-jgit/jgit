@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.ObjectId;
  * </p>
  *
  * @see PackIndex
- * @see PackFile
+ * @see Pack
  */
 public class PackReverseIndex {
 	/** Index we were created from, and that has our ObjectId data. */

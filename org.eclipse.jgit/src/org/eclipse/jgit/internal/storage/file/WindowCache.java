@@ -33,7 +33,7 @@ import org.eclipse.jgit.storage.file.WindowCacheStats;
 import org.eclipse.jgit.util.Monitoring;
 
 /**
- * Caches slices of a {@link org.eclipse.jgit.internal.storage.file.PackFile} in
+ * Caches slices of a {@link org.eclipse.jgit.internal.storage.file.Pack} in
  * memory for faster read access.
  * <p>
  * The WindowCache serves as a Java based "buffer cache", loading segments of a
@@ -41,7 +41,7 @@ import org.eclipse.jgit.util.Monitoring;
  * only tiny slices of a file, the WindowCache tries to smooth out these tiny
  * reads into larger block-sized IO operations.
  * <p>
- * Whenever a cache miss occurs, {@link #load(PackFile, long)} is invoked by
+ * Whenever a cache miss occurs, {@link #load(Pack, long)} is invoked by
  * exactly one thread for the given <code>(PackFile,position)</code> key tuple.
  * This is ensured by an array of locks, with the tuple hashed to a lock
  * instance.
@@ -80,10 +80,10 @@ import org.eclipse.jgit.util.Monitoring;
  * <p>
  * This cache has an implementation rule such that:
  * <ul>
- * <li>{@link #load(PackFile, long)} is invoked by at most one thread at a time
+ * <li>{@link #load(Pack, long)} is invoked by at most one thread at a time
  * for a given <code>(PackFile,position)</code> tuple.</li>
  * <li>For every <code>load()</code> invocation there is exactly one
- * {@link #createRef(PackFile, long, ByteWindow)} invocation to wrap a
+ * {@link #createRef(Pack, long, ByteWindow)} invocation to wrap a
  * SoftReference or a StrongReference around the cached entity.</li>
  * <li>For every Reference created by <code>createRef()</code> there will be
  * exactly one call to {@link #clear(PageRef)} to cleanup any resources associated
@@ -91,10 +91,10 @@ import org.eclipse.jgit.util.Monitoring;
  * </ul>
  * <p>
  * Therefore, it is safe to perform resource accounting increments during the
- * {@link #load(PackFile, long)} or
- * {@link #createRef(PackFile, long, ByteWindow)} methods, and matching
+ * {@link #load(Pack, long)} or
+ * {@link #createRef(Pack, long, ByteWindow)} methods, and matching
  * decrements during {@link #clear(PageRef)}. Implementors may need to override
- * {@link #createRef(PackFile, long, ByteWindow)} in order to embed additional
+ * {@link #createRef(Pack, long, ByteWindow)} in order to embed additional
  * accounting information into an implementation specific
  * {@link org.eclipse.jgit.internal.storage.file.WindowCache.PageRef} subclass, as
  * the cached entity may have already been evicted by the JRE's garbage
@@ -170,7 +170,7 @@ public class WindowCache {
 		 * @param delta
 		 *            delta of cached bytes
 		 */
-		void recordOpenBytes(PackFile pack, int delta);
+		void recordOpenBytes(Pack pack, int delta);
 
 		/**
 		 * Returns a snapshot of this recorder's stats. Note that this may be an
@@ -242,7 +242,7 @@ public class WindowCache {
 		}
 
 		@Override
-		public void recordOpenBytes(PackFile pack, int delta) {
+		public void recordOpenBytes(Pack pack, int delta) {
 			openByteCount.add(delta);
 			String repositoryId = repositoryId(pack);
 			LongAdder la = openByteCountPerRepository
@@ -254,9 +254,8 @@ public class WindowCache {
 			}
 		}
 
-		private static String repositoryId(PackFile pack) {
-			// use repository's gitdir since packfile doesn't know its
-			// repository
+		private static String repositoryId(Pack pack) {
+			// use repository's gitdir since Pack doesn't know its repository
 			return pack.getPackFile().getParentFile().getParentFile()
 					.getParent();
 		}
@@ -380,7 +379,7 @@ public class WindowCache {
 		return cache.publishMBeanIfNeeded();
 	}
 
-	static final ByteWindow get(PackFile pack, long offset)
+	static final ByteWindow get(Pack pack, long offset)
 			throws IOException {
 		final WindowCache c = cache;
 		final ByteWindow r = c.getOrLoad(pack, c.toStart(offset));
@@ -395,7 +394,7 @@ public class WindowCache {
 		return r;
 	}
 
-	static final void purge(PackFile pack) {
+	static final void purge(Pack pack) {
 		cache.removeAll(pack);
 	}
 
@@ -506,7 +505,7 @@ public class WindowCache {
 		return packHash + (int) (off >>> windowSizeShift);
 	}
 
-	private ByteWindow load(PackFile pack, long offset) throws IOException {
+	private ByteWindow load(Pack pack, long offset) throws IOException {
 		long startTime = System.nanoTime();
 		if (pack.beginWindowCache())
 			statsRecorder.recordOpenFiles(1);
@@ -525,7 +524,7 @@ public class WindowCache {
 		}
 	}
 
-	private PageRef<ByteWindow> createRef(PackFile p, long o, ByteWindow v) {
+	private PageRef<ByteWindow> createRef(Pack p, long o, ByteWindow v) {
 		final PageRef<ByteWindow> ref = useStrongRefs
 				? new StrongRef(p, o, v, queue)
 				: new SoftRef(p, o, v, (SoftCleanupQueue) queue);
@@ -539,7 +538,7 @@ public class WindowCache {
 		close(ref.getPack());
 	}
 
-	private void close(PackFile pack) {
+	private void close(Pack pack) {
 		if (pack.endWindowCache()) {
 			statsRecorder.recordOpenFiles(-1);
 		}
@@ -578,9 +577,9 @@ public class WindowCache {
 	 * @return the object reference.
 	 * @throws IOException
 	 *             the object reference was not in the cache and could not be
-	 *             obtained by {@link #load(PackFile, long)}.
+	 *             obtained by {@link #load(Pack, long)}.
 	 */
-	private ByteWindow getOrLoad(PackFile pack, long position)
+	private ByteWindow getOrLoad(Pack pack, long position)
 			throws IOException {
 		final int slot = slot(pack, position);
 		final Entry e1 = table.get(slot);
@@ -623,7 +622,7 @@ public class WindowCache {
 		return v;
 	}
 
-	private ByteWindow scan(Entry n, PackFile pack, long position) {
+	private ByteWindow scan(Entry n, Pack pack, long position) {
 		for (; n != null; n = n.next) {
 			final PageRef<ByteWindow> r = n.ref;
 			if (r.getPack() == pack && r.getPosition() == position) {
@@ -704,7 +703,7 @@ public class WindowCache {
 	/**
 	 * Clear all entries related to a single file.
 	 * <p>
-	 * Typically this method is invoked during {@link PackFile#close()}, when we
+	 * Typically this method is invoked during {@link Pack#close()}, when we
 	 * know the pack is never going to be useful to us again (for example, it no
 	 * longer exists on disk). A concurrent reader loading an entry from this
 	 * same pack may cause the pack to become stuck in the cache anyway.
@@ -712,7 +711,7 @@ public class WindowCache {
 	 * @param pack
 	 *            the file to purge all entries of.
 	 */
-	private void removeAll(PackFile pack) {
+	private void removeAll(Pack pack) {
 		for (int s = 0; s < tableSize; s++) {
 			final Entry e1 = table.get(s);
 			boolean hasDead = false;
@@ -733,11 +732,11 @@ public class WindowCache {
 		queue.gc();
 	}
 
-	private int slot(PackFile pack, long position) {
+	private int slot(Pack pack, long position) {
 		return (hash(pack.hash, position) >>> 1) % tableSize;
 	}
 
-	private Lock lock(PackFile pack, long position) {
+	private Lock lock(Pack pack, long position) {
 		return locks[(hash(pack.hash, position) >>> 1) % locks.length];
 	}
 
@@ -799,16 +798,20 @@ public class WindowCache {
 		boolean kill();
 
 		/**
-		 * Get the packfile the referenced cache page is allocated for
+		 * Get the {@link org.eclipse.jgit.internal.storage.file.Pack} the
+		 * referenced cache page is allocated for
 		 *
-		 * @return the packfile the referenced cache page is allocated for
+		 * @return the {@link org.eclipse.jgit.internal.storage.file.Pack} the
+		 *         referenced cache page is allocated for
 		 */
-		PackFile getPack();
+		Pack getPack();
 
 		/**
-		 * Get the position of the referenced cache page in the packfile
+		 * Get the position of the referenced cache page in the
+		 * {@link org.eclipse.jgit.internal.storage.file.Pack}
 		 *
-		 * @return the position of the referenced cache page in the packfile
+		 * @return the position of the referenced cache page in the
+		 *         {@link org.eclipse.jgit.internal.storage.file.Pack}
 		 */
 		long getPosition();
 
@@ -844,7 +847,7 @@ public class WindowCache {
 	/** A soft reference wrapped around a cached object. */
 	private static class SoftRef extends SoftReference<ByteWindow>
 			implements PageRef<ByteWindow> {
-		private final PackFile pack;
+		private final Pack pack;
 
 		private final long position;
 
@@ -852,7 +855,7 @@ public class WindowCache {
 
 		private long lastAccess;
 
-		protected SoftRef(final PackFile pack, final long position,
+		protected SoftRef(final Pack pack, final long position,
 				final ByteWindow v, final SoftCleanupQueue queue) {
 			super(v, queue);
 			this.pack = pack;
@@ -861,7 +864,7 @@ public class WindowCache {
 		}
 
 		@Override
-		public PackFile getPack() {
+		public Pack getPack() {
 			return pack;
 		}
 
@@ -900,7 +903,7 @@ public class WindowCache {
 	private static class StrongRef implements PageRef<ByteWindow> {
 		private ByteWindow referent;
 
-		private final PackFile pack;
+		private final Pack pack;
 
 		private final long position;
 
@@ -910,7 +913,7 @@ public class WindowCache {
 
 		private CleanupQueue queue;
 
-		protected StrongRef(final PackFile pack, final long position,
+		protected StrongRef(final Pack pack, final long position,
 				final ByteWindow v, final CleanupQueue queue) {
 			this.pack = pack;
 			this.position = position;
@@ -920,7 +923,7 @@ public class WindowCache {
 		}
 
 		@Override
-		public PackFile getPack() {
+		public Pack getPack() {
 			return pack;
 		}
 

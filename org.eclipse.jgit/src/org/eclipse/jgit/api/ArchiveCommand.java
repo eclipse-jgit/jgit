@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -202,7 +201,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 * Available archival formats (corresponding to values for
 	 * the --format= option)
 	 */
-	private static final ConcurrentMap<String, FormatEntry> formats =
+	private static final Map<String, FormatEntry> formats =
 			new ConcurrentHashMap<>();
 
 	/**
@@ -215,7 +214,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 * @param newValue value to be associated with the key (null to remove).
 	 * @return true if the value was replaced
 	 */
-	private static <K, V> boolean replace(ConcurrentMap<K, V> map,
+	private static <K, V> boolean replace(Map<K, V> map,
 			K key, V oldValue, V newValue) {
 		if (oldValue == null && newValue == null) // Nothing to do.
 			return true;

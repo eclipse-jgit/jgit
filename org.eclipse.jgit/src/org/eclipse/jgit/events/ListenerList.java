@@ -11,15 +11,15 @@
 package org.eclipse.jgit.events;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Manages a thread-safe list of {@link org.eclipse.jgit.events.RepositoryListener}s.
  */
 public class ListenerList {
-	private final ConcurrentMap<Class<? extends RepositoryListener>, CopyOnWriteArrayList<ListenerHandle>> lists = new ConcurrentHashMap<>();
+	private final Map<Class<? extends RepositoryListener>, CopyOnWriteArrayList<ListenerHandle>> lists = new ConcurrentHashMap<>();
 
 	/**
 	 * Register a {@link org.eclipse.jgit.events.WorkingTreeModifiedListener}.

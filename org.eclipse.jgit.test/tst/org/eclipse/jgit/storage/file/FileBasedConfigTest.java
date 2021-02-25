@@ -13,6 +13,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.pathToString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -178,7 +179,7 @@ public class FileBasedConfigTest {
 		final Path includedFile = createFile(CONTENT1.getBytes(UTF_8), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes(UTF_8));
-		bos.write(("../" + includedFile.getParent().getFileName() + "/"
+		bos.write(("../" + parent(includedFile).getFileName() + "/"
 				+ includedFile.getFileName()).getBytes(UTF_8));
 
 		final Path file = createFile(bos.toByteArray(), "dir2");
@@ -213,7 +214,7 @@ public class FileBasedConfigTest {
 
 		final Path file = createFile(bos.toByteArray(), "repo");
 		final FS fs = FS.DETECTED.newInstance();
-		fs.setUserHome(includedFile.getParent().toFile());
+		fs.setUserHome(parent(includedFile).toFile());
 
 		final FileBasedConfig config = new FileBasedConfig(file.toFile(), fs);
 		config.load();
@@ -231,7 +232,7 @@ public class FileBasedConfigTest {
 		FileBasedConfig config = new FileBasedConfig(file.toFile(),
 				FS.DETECTED);
 		config.setString("include", null, "path",
-				("../" + includedFile.getParent().getFileName() + "/"
+				("../" + parent(includedFile).getFileName() + "/"
 						+ includedFile.getFileName()));
 
 		// just by setting the include.path, it won't be included
@@ -279,5 +280,11 @@ public class FileBasedConfigTest {
 			os.write(content);
 		}
 		return f;
+	}
+
+	private Path parent(Path file) {
+		Path parent = file.getParent();
+		assertNotNull(parent);
+		return parent;
 	}
 }

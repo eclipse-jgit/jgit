@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2019, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -53,7 +53,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 		assertFalse(match(USER_ID, "<heinrichh>"));
 		assertFalse(match(USER_ID, "<uni-duesseldorf>"));
 		assertFalse(match(USER_ID, "<h@u>"));
-		assertFalse(match(USER_ID, "<HeinrichH@uni-duesseldorf.de>"));
+		assertTrue(match(USER_ID, "<HeinrichH@uni-duesseldorf.de>"));
 		assertFalse(match(USER_ID.substring(0, USER_ID.length() - 1),
 				"<heinrichh@uni-duesseldorf.de>"));
 		assertFalse(match("", "<>"));
@@ -72,8 +72,8 @@ public class BouncyCastleGpgKeyLocatorTest {
 		assertFalse(match(USER_ID, "@ "));
 		assertFalse(match(USER_ID, "@"));
 		assertFalse(match(USER_ID, "@Heine"));
-		assertFalse(match(USER_ID, "@HeinrichH"));
-		assertFalse(match(USER_ID, "@Heinrich"));
+		assertTrue(match(USER_ID, "@HeinrichH"));
+		assertTrue(match(USER_ID, "@Heinrich"));
 		assertFalse(match("", "@"));
 		assertFalse(match("", "@h"));
 	}
@@ -110,6 +110,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 	public void testExplicitFingerprint() throws Exception {
 		assertFalse(match("John Fade <j.fade@example.com>", "0xfade"));
 		assertFalse(match("John Fade <0xfade@example.com>", "0xfade"));
+		assertFalse(match("John Fade <0xfade@example.com>", "0xFADE"));
 		assertFalse(match("", "0xfade"));
 	}
 
@@ -128,7 +129,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 		assertTrue(match("John Fade <0xfade@example.com>", "*0xfade"));
 		assertTrue(match("John Fade <0xfade@example.com>", "*0xFADE"));
 		assertTrue(match("John Fade <0xfade@example.com>", "@0xfade"));
-		assertFalse(match("John Fade <0xfade@example.com>", "@0xFADE"));
+		assertTrue(match("John Fade <0xfade@example.com>", "@0xFADE"));
 		assertFalse(match("", "0x"));
 	}
 }

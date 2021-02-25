@@ -236,13 +236,13 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *             if it cannot open any of the underlying indices.
 	 *
 	 * @since 5.4
+	 * @deprecated use {@code ObjectReader#createReachabilityChecker(RevWalk)}
+	 *             instead.
 	 */
-	public ReachabilityChecker createReachabilityChecker() throws IOException {
-		if (reader.getBitmapIndex() != null) {
-			return new BitmappedReachabilityChecker(this);
-		}
-
-		return new PedestrianReachabilityChecker(true, this);
+	@Deprecated
+	public final ReachabilityChecker createReachabilityChecker()
+			throws IOException {
+		return reader.createReachabilityChecker(this);
 	}
 
 	/**

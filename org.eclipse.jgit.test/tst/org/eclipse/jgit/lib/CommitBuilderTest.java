@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Salesforce. and others
+ * Copyright (C) 2018, 2020 Salesforce. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -53,7 +53,7 @@ public class CommitBuilderTest {
 	private void assertGpgSignatureStringOutcome(String signature,
 			String expectedOutcome) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		CommitBuilder.writeGpgSignatureString(signature, out);
+		ObjectBuilder.writeMultiLineHeader(signature, out, true);
 		String formatted_signature = new String(out.toByteArray(), US_ASCII);
 		assertEquals(expectedOutcome, formatted_signature);
 	}
@@ -85,8 +85,8 @@ public class CommitBuilderTest {
 		String signature = "Ü Ä";
 		IllegalArgumentException e = assertThrows(
 				IllegalArgumentException.class,
-				() -> CommitBuilder.writeGpgSignatureString(signature,
-						new ByteArrayOutputStream()));
+				() -> ObjectBuilder.writeMultiLineHeader(signature,
+						new ByteArrayOutputStream(), true));
 		String message = MessageFormat.format(JGitText.get().notASCIIString,
 				signature);
 		assertEquals(message, e.getMessage());

@@ -57,9 +57,7 @@ import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.util.PublicSuffixMatcherLoader;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.SystemDefaultCredentialsProvider;
@@ -103,7 +101,11 @@ public class HttpClientConnection implements HttpConnection {
 
 	private HostnameVerifier hostnameverifier;
 
-	SSLContext ctx;
+	private SSLContext ctx;
+
+	private SSLConnectionSocketFactory socketFactory;
+
+	private boolean usePooling = true;
 
 	private HttpClient getClient() {
 		if (client == null) {
@@ -125,11 +127,18 @@ public class HttpClientConnection implements HttpConnection {
 				configBuilder
 						.setRedirectsEnabled(followRedirects.booleanValue());
 			}
-			SSLConnectionSocketFactory sslConnectionFactory = getSSLSocketFactory();
+			boolean pooled = true;
+			SSLConnectionSocketFactory sslConnectionFactory;
+			if (socketFactory != null) {
+				pooled = usePooling;
+				sslConnectionFactory = socketFactory;
+			} else {
+				// Legacy implementation.
+				pooled = (hostnameverifier == null);
+				sslConnectionFactory = getSSLSocketFactory();
+			}
 			clientBuilder.setSSLSocketFactory(sslConnectionFactory);
-			if (hostnameverifier != null) {
-				// Using a custom verifier: we don't want pooled connections
-				// with this.
+			if (!pooled) {
 				Registry<ConnectionSocketFactory> registry = RegistryBuilder
 						.<ConnectionSocketFactory> create()
 						.register("https", sslConnectionFactory)
@@ -147,14 +156,19 @@ public class HttpClientConnection implements HttpConnection {
 		return client;
 	}
 
+	void setSSLSocketFactory(@NonNull SSLConnectionSocketFactory factory,
+			boolean isDefault) {
+		socketFactory = factory;
+		usePooling = isDefault;
+	}
+
 	private SSLConnectionSocketFactory getSSLSocketFactory() {
 		HostnameVerifier verifier = hostnameverifier;
 		SSLContext context;
 		if (verifier == null) {
 			// Use defaults
-			context = SSLContexts.createDefault();
-			verifier = new DefaultHostnameVerifier(
-					PublicSuffixMatcherLoader.getDefault());
+			context = SSLContexts.createSystemDefault();
+			verifier = SSLConnectionSocketFactory.getDefaultHostnameVerifier();
 		} else {
 			// Using a custom verifier. Attention: configure() must have been
 			// called already, otherwise one gets a "context not initialized"

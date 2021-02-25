@@ -36,9 +36,9 @@ public class GcKeepFilesTest extends GcTestCase {
 		assertEquals(4, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
 
-		Iterator<PackFile> packIt = repo.getObjectDatabase().getPacks()
+		Iterator<Pack> packIt = repo.getObjectDatabase().getPacks()
 				.iterator();
-		PackFile singlePack = packIt.next();
+		Pack singlePack = packIt.next();
 		assertFalse(packIt.hasNext());
 		String packFileName = singlePack.getPackFile().getPath();
 		String keepFileName = packFileName.substring(0,
@@ -58,7 +58,7 @@ public class GcKeepFilesTest extends GcTestCase {
 		assertEquals(2, stats.numberOfPackFiles);
 
 		// check that no object is packed twice
-		Iterator<PackFile> packs = repo.getObjectDatabase().getPacks()
+		Iterator<Pack> packs = repo.getObjectDatabase().getPacks()
 				.iterator();
 		PackIndex ind1 = packs.next().getIndex();
 		assertEquals(4, ind1.getObjectCount());

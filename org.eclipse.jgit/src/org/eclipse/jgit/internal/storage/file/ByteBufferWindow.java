@@ -27,7 +27,7 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 final class ByteBufferWindow extends ByteWindow {
 	private final ByteBuffer buffer;
 
-	ByteBufferWindow(PackFile pack, long o, ByteBuffer b) {
+	ByteBufferWindow(Pack pack, long o, ByteBuffer b) {
 		super(pack, o, b.capacity());
 		buffer = b;
 	}
