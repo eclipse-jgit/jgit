@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b3b156_4f7524b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-25T05:27:21Z",
+      "side": 1,
+      "message": "Since the constructor doesn\u0027t do this validation (see the TODO below), I think we don\u0027t need this `catch`.",
+      "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "668ef7c3_c2124e36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-25T05:27:21Z",
+      "side": 1,
+      "message": "optional: using \"import static\" can make this a little easier to read (just by being briefer). Likewise for the other PackExt.",
+      "range": {
+        "startLine": 230,
+        "startChar": 31,
+        "endLine": 230,
+        "endChar": 43
+      },
+      "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7af9e33a_b46662bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-25T05:27:21Z",
+      "side": 1,
+      "message": "Now that we don\u0027t have an extension bitset, I think this comment can be dropped (i.e., the code becomes more self-explanatory).",
+      "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ec1b226_96971b7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-02-25T05:27:21Z",
+      "side": 1,
+      "message": "optional: can mark the field @Nullable to make it more self-explanatory",
+      "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
