@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbf2c24d_b5332563",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-25T15:25:45Z",
+      "side": 1,
+      "message": "The constructor does do other validation, such as looking for clearly invalid extensions, so I think we do want the catch.",
+      "parentUuid": "23b3b156_4f7524b9",
+      "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "668ef7c3_c2124e36",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "a274c939_97eb4f74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-25T15:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "668ef7c3_c2124e36",
+      "range": {
+        "startLine": 230,
+        "startChar": 31,
+        "endLine": 230,
+        "endChar": 43
+      },
+      "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af9e33a_b46662bd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 6
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "10f69a63_12439a18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-25T15:25:45Z",
+      "side": 1,
+      "message": "It still doesn\u0027t explain why we assume .pack and .idx exist. I don\u0027t think removing the comment leaves it any more confusing, so done. 😊",
+      "parentUuid": "7af9e33a_b46662bd",
+      "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ec1b226_96971b7b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 6
@@ -73,6 +133,24 @@
       "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec4eb6f6_7cd88905",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-02-25T15:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ec1b226_96971b7b",
+      "revId": "a28bf53d4eb904333dd841fd7c6499dc445212d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
