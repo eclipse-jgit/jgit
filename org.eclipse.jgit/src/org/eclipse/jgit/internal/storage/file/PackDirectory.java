@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -515,7 +516,7 @@ class PackDirectory {
 				Map<PackExt, PackFile> packByExt = packFilesByExtById
 						.get(pack.getId());
 				if (packByExt == null) {
-					packByExt = new HashMap<>(PackExt.values().length);
+					packByExt = new EnumMap<>(PackExt.class);
 					packFilesByExtById.put(pack.getId(), packByExt);
 				}
 				packByExt.put(pack.getPackExt(), pack);
