@@ -94,6 +94,30 @@
       "revId": "9f726c5a0aa13eb87bce5d930304aa5bea3a29bc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32ef4402_4c25cbe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-02-26T15:16:38Z",
+      "side": 1,
+      "message": "CQ 23044 has been approved.",
+      "parentUuid": "73356341_12daacde",
+      "range": {
+        "startLine": 24,
+        "startChar": 43,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "9f726c5a0aa13eb87bce5d930304aa5bea3a29bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
