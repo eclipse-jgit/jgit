@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36c34bf1_7c8acd57",
+        "filename": "org.eclipse.jgit.http.apache/META-INF/SOURCE-MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-27T23:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b438f0a0_262718f4",
+      "revId": "445ed035cbd345b7311394272d2be7dad87b4491",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c204997_8a905a9f",
         "filename": "org.eclipse.jgit.junit.ssh/META-INF/MANIFEST.MF",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7a963602_bf7dcf54",
+        "filename": "org.eclipse.jgit.junit.ssh/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-27T23:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c204997_8a905a9f",
+      "revId": "445ed035cbd345b7311394272d2be7dad87b4491",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "332d5661_c4e55756",
         "filename": "org.eclipse.jgit.lfs.server.test/META-INF/MANIFEST.MF",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "445ed035cbd345b7311394272d2be7dad87b4491",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b782e90_071e8266",
+        "filename": "org.eclipse.jgit.lfs.server.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-02-27T23:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "332d5661_c4e55756",
+      "revId": "445ed035cbd345b7311394272d2be7dad87b4491",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
