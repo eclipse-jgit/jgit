@@ -1,0 +1,8 @@
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+2: Terry Parker <tparker@google.com>
+Submitted-by: Terry Parker <tparker@google.com>
+Submitted-at: Mon, 01 Mar 2021 18:53:00 -0500
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/159910
+Project: jgit/jgit
+Branch: refs/heads/stable-5.7
