@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a866722_f5adc253",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 88673
+      },
+      "writtenOn": "2021-03-01T16:58:42Z",
+      "side": 1,
+      "message": "You use TimeUnit here but below just do `/\u003d`\nSeems like one method should be preferred over the other.\n\nI think TimeUnit is a bit pedantic here but might be good to just standardize on either.",
+      "revId": "d6978553e93f58f3ff735c31ad130316f874ec72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d11016a_ca6825b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 88673
+      },
+      "writtenOn": "2021-03-01T16:58:42Z",
+      "side": 1,
+      "message": "I like this heuristic, but why change the rest of the code away from Date ?\nSeems like the only necessary change is whether to do the following or not\n```\ncreationDate.getTime() / 1000\n```\n\nWhat\u0027s the minimum version JGit supports ? \nIf it\u0027s Java5/6+ then maybe a simple private static method might be good without needing as much changes\n\n```\nprivate static long epochSeconds(@NonNull Date date) {\n   return date.getTime() / 1000;\n}",
+      "revId": "d6978553e93f58f3ff735c31ad130316f874ec72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
