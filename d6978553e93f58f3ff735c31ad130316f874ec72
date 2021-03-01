@@ -33,6 +33,41 @@
       "revId": "d6978553e93f58f3ff735c31ad130316f874ec72",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1625c1a_155849cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-01T18:00:57Z",
+      "side": 1,
+      "message": "I decided to keep Date only in the constructor because of:\n\n* I have to convert only in one place.\n* Cookie files don\u0027t contain dates, they contain the number of seconds since the epoch. Somehow I found the code actually clearer with \"long secondsSinceEpoch\". As it\u0027s all in private methods (and one  method package-visible for tests) I think it\u0027s OK.\n\nMinimum version is Java 8. But yes, a helper method might have worked, too.",
+      "parentUuid": "3d11016a_ca6825b4",
+      "revId": "d6978553e93f58f3ff735c31ad130316f874ec72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cee6247_b4e5e1a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-01T18:00:57Z",
+      "side": 1,
+      "message": "Good point about this remaining division. Will change to a TimeUnit conversion, too.",
+      "revId": "d6978553e93f58f3ff735c31ad130316f874ec72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
