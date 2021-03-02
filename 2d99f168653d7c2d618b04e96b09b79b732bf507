@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e2479505_d1485fd0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-02T23:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "778deb99_59e29474",
+      "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "309455af_5837fc14",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/http/NetscapeCookieFileTest.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f7cd8f6_fd36150e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-02T23:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "309455af_5837fc14",
+      "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d6ef340c_5b8dca5f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-02T23:31:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5d3b41f8_dc383c8b",
+      "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f00011ae_595301a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0cad1d1_e2ca734a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-02T23:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f00011ae_595301a7",
+      "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
