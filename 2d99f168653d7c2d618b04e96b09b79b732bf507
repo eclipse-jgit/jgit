@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "778deb99_59e29474",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 88673
+      },
+      "writtenOn": "2021-03-02T16:50:25Z",
+      "side": 1,
+      "message": "I find the name of this private variable confusing and it shouldn\u0027t use Date but rather Instant.",
+      "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "309455af_5837fc14",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 88673
+      },
+      "writtenOn": "2021-03-02T16:50:25Z",
+      "side": 1,
+      "message": "If you use Instant for NOW (I think it should be renamed), you can just use https://docs.oracle.com/javase/8/docs/api/java/time/Instant.html#getEpochSecond--",
+      "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d3b41f8_dc383c8b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/http/NetscapeCookieFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 88673
+      },
+      "writtenOn": "2021-03-02T16:50:25Z",
+      "side": 1,
+      "message": "I recommend https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#between-java.time.temporal.Temporal-java.time.temporal.Temporal-",
+      "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f00011ae_595301a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/http/NetscapeCookieFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 88673
+      },
+      "writtenOn": "2021-03-02T16:50:25Z",
+      "side": 1,
+      "message": "Much cleaner to do:\n```\ncreationDate.toInstant().getEpochSeconds()\n```\n\nAvoid the TimeUnit conversion fluff.\n\nIn fact, if you convert to Instant you can just keep it as an Instant since it also has \nhttps://docs.oracle.com/javase/8/docs/api/java/time/Instant.html#ofEpochMilli-long-\n\nThat\u0027s why my earlier review asked about JGit\u0027s lowest support Java version.",
+      "revId": "2d99f168653d7c2d618b04e96b09b79b732bf507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
