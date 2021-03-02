@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2020 IBM Corporation and others
+ * Copyright (C) 2011, 2021 IBM Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -9,10 +9,16 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
@@ -20,18 +26,45 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
+import org.eclipse.jgit.attributes.FilterCommand;
+import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.patch.Patch;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
+import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.TemporaryBuffer;
+import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
+import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
 /**
  * Apply a patch to files and/or to the index.
@@ -45,7 +78,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	private InputStream in;
 
 	/**
-	 * Constructs the command if the patch is to be applied to the index.
+	 * Constructs the command.
 	 *
 	 * @param repo
 	 */
@@ -79,6 +112,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	public ApplyResult call() throws GitAPIException, PatchFormatException,
 			PatchApplyException {
 		checkCallable();
+		setCallable(false);
 		ApplyResult r = new ApplyResult();
 		try {
 			final Patch p = new Patch();
@@ -87,19 +121,22 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			} finally {
 				in.close();
 			}
-			if (!p.getErrors().isEmpty())
+			if (!p.getErrors().isEmpty()) {
 				throw new PatchFormatException(p.getErrors());
+			}
+			Repository repository = getRepository();
+			DirCache cache = repository.readDirCache();
 			for (FileHeader fh : p.getFiles()) {
 				ChangeType type = fh.getChangeType();
 				File f = null;
 				switch (type) {
 				case ADD:
 					f = getFile(fh.getNewPath(), true);
-					apply(f, fh);
+					apply(repository, fh.getNewPath(), cache, f, fh);
 					break;
 				case MODIFY:
 					f = getFile(fh.getOldPath(), false);
-					apply(f, fh);
+					apply(repository, fh.getOldPath(), cache, f, fh);
 					break;
 				case DELETE:
 					f = getFile(fh.getOldPath(), false);
@@ -118,14 +155,14 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().renameFileFailed, f, dest), e);
 					}
-					apply(dest, fh);
+					apply(repository, fh.getOldPath(), cache, dest, fh);
 					break;
 				case COPY:
 					f = getFile(fh.getOldPath(), false);
 					File target = getFile(fh.getNewPath(), false);
 					FileUtils.mkdirs(target.getParentFile(), true);
 					Files.copy(f.toPath(), target.toPath());
-					apply(target, fh);
+					apply(repository, fh.getOldPath(), cache, target, fh);
 				}
 				r.addUpdatedFile(f);
 			}
@@ -133,14 +170,13 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			throw new PatchApplyException(MessageFormat.format(
 					JGitText.get().patchApplyException, e.getMessage()), e);
 		}
-		setCallable(false);
 		return r;
 	}
 
 	private File getFile(String path, boolean create)
 			throws PatchApplyException {
 		File f = new File(getRepository().getWorkTree(), path);
-		if (create)
+		if (create) {
 			try {
 				File parent = f.getParentFile();
 				FileUtils.mkdirs(parent, true);
@@ -149,21 +185,201 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				throw new PatchApplyException(MessageFormat.format(
 						JGitText.get().createNewFileFailed, f), e);
 			}
+		}
 		return f;
 	}
 
+	private void apply(Repository repository, String path, DirCache cache,
+			File f, FileHeader fh) throws IOException, PatchApplyException {
+		boolean convertCrLf = needsCrLfConversion(f, fh);
+		// Use a TreeWalk with a DirCacheIterator to pick up the correct
+		// clean/smudge filters. CR-LF handling is completely determined by
+		// whether the file or the patch have CR-LF line endings.
+		try (TreeWalk walk = new TreeWalk(repository)) {
+			walk.setOperationType(OperationType.CHECKIN_OP);
+			FileTreeIterator files = new FileTreeIterator(repository);
+			int fileIdx = walk.addTree(files);
+			int cacheIdx = walk.addTree(new DirCacheIterator(cache));
+			files.setDirCacheIterator(walk, cacheIdx);
+			walk.setFilter(AndTreeFilter.create(
+					PathFilterGroup.createFromStrings(path),
+					new NotIgnoredFilter(fileIdx)));
+			walk.setRecursive(true);
+			if (walk.next()) {
+				// If the file on disk has no newline characters, convertCrLf
+				// will be false. In that case we want to honor the normal git
+				// settings.
+				EolStreamType streamType = convertCrLf ? EolStreamType.TEXT_CRLF
+						: walk.getEolStreamType(OperationType.CHECKOUT_OP);
+				String command = walk.getFilterCommand(
+						Constants.ATTR_FILTER_TYPE_SMUDGE);
+				CheckoutMetadata checkOut = new CheckoutMetadata(streamType, command);
+				FileTreeIterator file = walk.getTree(fileIdx,
+						FileTreeIterator.class);
+				if (file != null) {
+					command = walk
+							.getFilterCommand(Constants.ATTR_FILTER_TYPE_CLEAN);
+					RawText raw;
+					// Can't use file.openEntryStream() as it would do CR-LF
+					// conversion as usual, not as wanted by us.
+					try (InputStream input = filterClean(repository, path,
+							new FileInputStream(f), convertCrLf, command)) {
+						raw = new RawText(IO.readWholeStream(input, 0).array());
+					}
+					apply(repository, path, raw, f, fh, checkOut);
+					return;
+				}
+			}
+		}
+		// File not in workspace or ignored?
+		RawText raw;
+		CheckoutMetadata checkOut;
+		if (convertCrLf) {
+			try (InputStream input = EolStreamTypeUtil.wrapInputStream(
+					new FileInputStream(f), EolStreamType.TEXT_LF)) {
+				raw = new RawText(IO.readWholeStream(input, 0).array());
+			}
+			checkOut = new CheckoutMetadata(EolStreamType.TEXT_CRLF, null);
+		} else {
+			raw = new RawText(f);
+			checkOut = new CheckoutMetadata(EolStreamType.DIRECT, null);
+		}
+		apply(repository, path, raw, f, fh, checkOut);
+	}
+
+	private boolean needsCrLfConversion(File f, FileHeader fileHeader)
+			throws IOException {
+		if (!hasCrLf(fileHeader)) {
+			try (InputStream input = new FileInputStream(f)) {
+				return RawText.isCrLfText(input);
+			}
+		}
+		return false;
+	}
+
+	private static boolean hasCrLf(FileHeader fileHeader) {
+		if (fileHeader == null) {
+			return false;
+		}
+		for (HunkHeader header : fileHeader.getHunks()) {
+			byte[] buf = header.getBuffer();
+			int hunkEnd = header.getEndOffset();
+			int lineStart = header.getStartOffset();
+			while (lineStart < hunkEnd) {
+				int nextLineStart = RawParseUtils.nextLF(buf, lineStart);
+				if (nextLineStart > hunkEnd) {
+					nextLineStart = hunkEnd;
+				}
+				if (nextLineStart <= lineStart) {
+					break;
+				}
+				if (nextLineStart - lineStart > 1) {
+					char first = (char) (buf[lineStart] & 0xFF);
+					if (first == ' ' || first == '-') {
+						// It's an old line. Does it end in CR-LF?
+						if (buf[nextLineStart - 2] == '\r') {
+							return true;
+						}
+					}
+				}
+				lineStart = nextLineStart;
+			}
+		}
+		return false;
+	}
+
+	private InputStream filterClean(Repository repository, String path,
+			InputStream fromFile, boolean convertCrLf, String filterCommand)
+			throws IOException {
+		InputStream input = fromFile;
+		if (convertCrLf) {
+			input = EolStreamTypeUtil.wrapInputStream(input,
+					EolStreamType.TEXT_LF);
+		}
+		if (StringUtils.isEmptyOrNull(filterCommand)) {
+			return input;
+		}
+		if (FilterCommandRegistry.isRegistered(filterCommand)) {
+			LocalFile buffer = new TemporaryBuffer.LocalFile(null);
+			FilterCommand command = FilterCommandRegistry.createFilterCommand(
+					filterCommand, repository, input, buffer);
+			while (command.run() != -1) {
+				// loop as long as command.run() tells there is work to do
+			}
+			return buffer.openInputStreamWithAutoDestroy();
+		}
+		FS fs = repository.getFS();
+		ProcessBuilder filterProcessBuilder = fs.runInShell(filterCommand,
+				new String[0]);
+		filterProcessBuilder.directory(repository.getWorkTree());
+		filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
+				repository.getDirectory().getAbsolutePath());
+		ExecutionResult result;
+		try {
+			result = fs.execute(filterProcessBuilder, in);
+		} catch (IOException | InterruptedException e) {
+			throw new IOException(
+					new FilterFailedException(e, filterCommand, path));
+		}
+		int rc = result.getRc();
+		if (rc != 0) {
+			throw new IOException(new FilterFailedException(rc, filterCommand,
+					path, result.getStdout().toByteArray(4096), RawParseUtils
+							.decode(result.getStderr().toByteArray(4096))));
+		}
+		return result.getStdout().openInputStreamWithAutoDestroy();
+	}
+
 	/**
-	 * @param f
-	 * @param fh
-	 * @throws IOException
-	 * @throws PatchApplyException
+	 * We write the patch result to a {@link TemporaryBuffer} and then use
+	 * {@link DirCacheCheckout}.getContent() to run the result through the CR-LF
+	 * and smudge filters. DirCacheCheckout needs an ObjectLoader, not a
+	 * TemporaryBuffer, so this class bridges between the two, making the
+	 * TemporaryBuffer look like an ordinary git blob to DirCacheCheckout.
 	 */
-	private void apply(File f, FileHeader fh)
+	private static class BufferLoader extends ObjectLoader {
+
+		private TemporaryBuffer data;
+
+		BufferLoader(TemporaryBuffer data) {
+			this.data = data;
+		}
+
+		@Override
+		public int getType() {
+			return Constants.OBJ_BLOB;
+		}
+
+		@Override
+		public long getSize() {
+			return data.length();
+		}
+
+		@Override
+		public boolean isLarge() {
+			return true;
+		}
+
+		@Override
+		public byte[] getCachedBytes() throws LargeObjectException {
+			throw new LargeObjectException();
+		}
+
+		@Override
+		public ObjectStream openStream()
+				throws MissingObjectException, IOException {
+			return new ObjectStream.Filter(getType(), getSize(),
+					data.openInputStream());
+		}
+	}
+
+	private void apply(Repository repository, String path, RawText rt, File f,
+			FileHeader fh, CheckoutMetadata checkOut)
 			throws IOException, PatchApplyException {
-		RawText rt = new RawText(f);
 		List<String> oldLines = new ArrayList<>(rt.size());
-		for (int i = 0; i < rt.size(); i++)
+		for (int i = 0; i < rt.size(); i++) {
 			oldLines.add(rt.getString(i));
+		}
 		List<String> newLines = new ArrayList<>(oldLines);
 		int afterLastHunk = 0;
 		int lineNumberShift = 0;
@@ -279,17 +495,32 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		if (!isChanged(oldLines, newLines)) {
 			return; // Don't touch the file
 		}
-		try (Writer fw = Files.newBufferedWriter(f.toPath())) {
-			for (Iterator<String> l = newLines.iterator(); l.hasNext();) {
-				fw.write(l.next());
-				if (l.hasNext()) {
-					// Don't bother handling line endings - if it was Windows,
-					// the \r is still there!
-					fw.write('\n');
+
+		// TODO: forcing UTF-8 is a bit strange and may lead to re-coding if the
+		// input was some other encoding, but it's what previous versions of
+		// this code used. (Even earlier the code used the default encoding,
+		// which has the same problem.) Perhaps using bytes instead of Strings
+		// for the lines would be better.
+		TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);
+		try {
+			try (Writer w = new BufferedWriter(
+					new OutputStreamWriter(buffer, StandardCharsets.UTF_8))) {
+				for (Iterator<String> l = newLines.iterator(); l.hasNext();) {
+					w.write(l.next());
+					if (l.hasNext()) {
+						w.write('\n');
+					}
 				}
 			}
+			try (OutputStream output = new FileOutputStream(f)) {
+				DirCacheCheckout.getContent(repository, path, checkOut,
+						new BufferLoader(buffer), null, output);
+			}
+		} finally {
+			buffer.destroy();
 		}
-		getRepository().getFS().setExecute(f, fh.getNewMode() == FileMode.EXECUTABLE_FILE);
+		repository.getFS().setExecute(f,
+				fh.getNewMode() == FileMode.EXECUTABLE_FILE);
 	}
 
 	private boolean canApplyAt(List<String> hunkLines, List<String> newLines,
