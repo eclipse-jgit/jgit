@@ -1,0 +1,8 @@
+diff --git a/crlf3 b/crlf3
+index e69de29..9206ee6 100644
+--- a/crlf3
++++ b/crlf3
+@@ -0,0 +1,3 @@
++foo
++fie
++fum
