@@ -814,54 +814,41 @@
               <encoding>UTF-8</encoding>
               <source>1.8</source>
               <target>1.8</target>
+              <compilerArgs>
+                <arg>-XDcompilePolicy=simple</arg>
+                <arg>-Xplugin:ErrorProne</arg>
+              </compilerArgs>
+              <annotationProcessorPaths>
+                <path>
+                  <groupId>com.google.errorprone</groupId>
+                  <artifactId>error_prone_core</artifactId>
+                  <version>2.4.0</version>
+                </path>
+              </annotationProcessorPaths>
             </configuration>
-            <executions>
-              <execution>
-                <id>default-compile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>compile</goal>
-                </goals>
-                <configuration>
-                  <includes>
-                    <include>org/eclipse/jgit/transport/InsecureCipherFactory.java</include>
-                  </includes>
-                </configuration>
-              </execution>
-              <execution>
-                <id>compile-with-errorprone</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>compile</goal>
-                </goals>
-                <configuration>
-                  <compilerId>javac-with-errorprone</compilerId>
-                  <forceJavacCompilerUse>true</forceJavacCompilerUse>
-                  <excludes>
-                    <exclude>org/eclipse/jgit/transport/InsecureCipherFactory.java</exclude>
-                  </excludes>
-                </configuration>
-              </execution>
-            </executions>
-            <dependencies>
-              <dependency>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-compiler-javac</artifactId>
-                <version>${plexus-compiler-version}</version>
-              </dependency>
-              <dependency>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-compiler-javac-errorprone</artifactId>
-                <version>${plexus-compiler-version}</version>
-              </dependency>
-              <!-- override plexus-compiler-javac-errorprone's dependency on
-                  Error Prone with the latest version -->
-              <dependency>
-                <groupId>com.google.errorprone</groupId>
-                <artifactId>error_prone_core</artifactId>
-                <version>2.3.4</version>
-              </dependency>
-            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>jdk8</id>
+      <activation>
+        <jdk>1.8</jdk>
+      </activation>
+      <properties>
+        <javac.version>9+181-r4173-1</javac.version>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <fork>true</fork>
+              <compilerArgs combine.children="append">
+                <arg>-J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar</arg>
+              </compilerArgs>
+            </configuration>
           </plugin>
         </plugins>
       </build>

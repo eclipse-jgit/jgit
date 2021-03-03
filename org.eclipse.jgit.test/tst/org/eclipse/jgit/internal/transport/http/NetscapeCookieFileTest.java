@@ -22,13 +22,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.util.http.HttpCookiesMatcher;
@@ -48,10 +48,14 @@ public class NetscapeCookieFileTest {
 	private URL baseUrl;
 
 	/**
-	 * This is the expiration date that is used in the test cookie files
+	 * This is the expiration date that is used in the test cookie files.
 	 */
-	private static long JAN_01_2030_NOON = Instant
-			.parse("2030-01-01T12:00:00.000Z").toEpochMilli();
+	private static final Instant TEST_EXPIRY_DATE = Instant
+			.parse("2030-01-01T12:00:00.000Z");
+
+	/** Earlier than TEST_EXPIRY_DATE. */
+	private static final Instant TEST_DATE = TEST_EXPIRY_DATE.minus(180,
+			ChronoUnit.DAYS);
 
 	@Before
 	public void setUp() throws IOException {
@@ -102,14 +106,13 @@ public class NetscapeCookieFileTest {
 		cookie.setPath("/");
 		cookie.setMaxAge(1000);
 		cookies.add(cookie);
-		Date creationDate = new Date();
 		try (Writer writer = Files.newBufferedWriter(tmpFile,
 				StandardCharsets.US_ASCII)) {
-			NetscapeCookieFile.write(writer, cookies, baseUrl, creationDate);
+			NetscapeCookieFile.write(writer, cookies, baseUrl, TEST_DATE);
 		}
 
 		String expectedExpiration = String
-				.valueOf(creationDate.getTime() + (cookie.getMaxAge() * 1000));
+				.valueOf(TEST_DATE.getEpochSecond() + cookie.getMaxAge());
 
 		assertThat(Files.readAllLines(tmpFile, StandardCharsets.US_ASCII),
 				CoreMatchers
@@ -128,13 +131,12 @@ public class NetscapeCookieFileTest {
 		HttpCookie cookie = new HttpCookie("key2", "value2");
 		cookie.setMaxAge(1000);
 		cookies.add(cookie);
-		Date creationDate = new Date();
 		try (Writer writer = Files.newBufferedWriter(tmpFile,
 				StandardCharsets.US_ASCII)) {
-			NetscapeCookieFile.write(writer, cookies, baseUrl, creationDate);
+			NetscapeCookieFile.write(writer, cookies, baseUrl, TEST_DATE);
 		}
 		String expectedExpiration = String
-				.valueOf(creationDate.getTime() + (cookie.getMaxAge() * 1000));
+				.valueOf(TEST_DATE.getEpochSecond() + cookie.getMaxAge());
 
 		assertThat(Files.readAllLines(tmpFile, StandardCharsets.US_ASCII),
 				CoreMatchers.equalTo(
@@ -161,13 +163,29 @@ public class NetscapeCookieFileTest {
 	}
 
 	@Test
+	public void testReadCookieFileWithMilliseconds() throws IOException {
+		try (InputStream input = this.getClass()
+				.getResourceAsStream("cookies-with-milliseconds.txt")) {
+			Files.copy(input, tmpFile, StandardCopyOption.REPLACE_EXISTING);
+		}
+		NetscapeCookieFile cookieFile = new NetscapeCookieFile(tmpFile,
+				TEST_DATE);
+		long expectedMaxAge = Duration.between(TEST_DATE, TEST_EXPIRY_DATE)
+				.getSeconds();
+		for (HttpCookie cookie : cookieFile.getCookies(true)) {
+			assertEquals(expectedMaxAge, cookie.getMaxAge());
+		}
+	}
+
+	@Test
 	public void testWriteAfterAnotherJgitProcessModifiedTheFile()
 			throws IOException, InterruptedException {
 		try (InputStream input = this.getClass()
 				.getResourceAsStream("cookies-simple1.txt")) {
 			Files.copy(input, tmpFile, StandardCopyOption.REPLACE_EXISTING);
 		}
-		NetscapeCookieFile cookieFile = new NetscapeCookieFile(tmpFile);
+		NetscapeCookieFile cookieFile = new NetscapeCookieFile(tmpFile,
+				TEST_DATE);
 		cookieFile.getCookies(true);
 		// now modify file externally
 		try (InputStream input = this.getClass()
@@ -177,39 +195,19 @@ public class NetscapeCookieFileTest {
 		// now try to write
 		cookieFile.write(baseUrl);
 
-		// validate that the external changes are there as well
-		// due to rounding errors (conversion from ms to sec to ms)
-		// the expiration date might not be exact
 		List<String> lines = Files.readAllLines(tmpFile,
 				StandardCharsets.US_ASCII);
 
 		assertEquals("Expected 3 lines", 3, lines.size());
-		assertStringMatchesPatternWithInexactNumber(lines.get(0),
-				"some-domain1\tTRUE\t/some/path1\tFALSE\t(\\d*)\tkey1\tvalueFromSimple2",
-				JAN_01_2030_NOON, 1000);
-		assertStringMatchesPatternWithInexactNumber(lines.get(1),
-				"some-domain1\tTRUE\t/some/path1\tFALSE\t(\\d*)\tkey3\tvalueFromSimple2",
-				JAN_01_2030_NOON, 1000);
-		assertStringMatchesPatternWithInexactNumber(lines.get(2),
-				"some-domain1\tTRUE\t/some/path1\tFALSE\t(\\d*)\tkey2\tvalueFromSimple1",
-				JAN_01_2030_NOON, 1000);
-	}
-
-	@SuppressWarnings("boxing")
-	private static final void assertStringMatchesPatternWithInexactNumber(
-			String string, String pattern, long expectedNumericValue,
-			long delta) {
-		java.util.regex.Matcher matcher = Pattern.compile(pattern)
-				.matcher(string);
-		assertTrue("Given string '" + string + "' does not match '" + pattern
-				+ "'", matcher.matches());
-		// extract numeric value
-		Long actualNumericValue = Long.decode(matcher.group(1));
-
-		assertTrue(
-				"Value is supposed to be close to " + expectedNumericValue
-						+ " but is " + actualNumericValue + ".",
-				Math.abs(expectedNumericValue - actualNumericValue) <= delta);
+		assertEquals(
+				"some-domain1\tTRUE\t/some/path1\tFALSE\t1893499200\tkey1\tvalueFromSimple2",
+				lines.get(0));
+		assertEquals(
+				"some-domain1\tTRUE\t/some/path1\tFALSE\t1893499200\tkey3\tvalueFromSimple2",
+				lines.get(1));
+		assertEquals(
+				"some-domain1\tTRUE\t/some/path1\tFALSE\t1893499200\tkey2\tvalueFromSimple1",
+				lines.get(2));
 	}
 
 	@Test
@@ -229,14 +227,13 @@ public class NetscapeCookieFileTest {
 		cookie.setHttpOnly(true);
 		cookies.add(cookie);
 
-		Date creationDate = new Date();
-
 		try (Writer writer = Files.newBufferedWriter(tmpFile,
 				StandardCharsets.US_ASCII)) {
-			NetscapeCookieFile.write(writer, cookies, baseUrl, creationDate);
+			NetscapeCookieFile.write(writer, cookies, baseUrl, TEST_DATE);
 		}
 		Set<HttpCookie> actualCookies = new NetscapeCookieFile(tmpFile,
-				creationDate).getCookies(true);
+				TEST_DATE)
+				.getCookies(true);
 		assertThat(actualCookies, HttpCookiesMatcher.containsInOrder(cookies));
 	}
 
@@ -246,15 +243,12 @@ public class NetscapeCookieFileTest {
 				.getResourceAsStream("cookies-simple1.txt")) {
 			Files.copy(input, tmpFile, StandardCopyOption.REPLACE_EXISTING);
 		}
-		// round up to the next second (to prevent rounding errors)
-		Date creationDate = new Date(
-				(System.currentTimeMillis() / 1000) * 1000);
-		Set<HttpCookie> cookies = new NetscapeCookieFile(tmpFile, creationDate)
+		Set<HttpCookie> cookies = new NetscapeCookieFile(tmpFile, TEST_DATE)
 				.getCookies(true);
 		Path tmpFile2 = folder.newFile().toPath();
 		try (Writer writer = Files.newBufferedWriter(tmpFile2,
 				StandardCharsets.US_ASCII)) {
-			NetscapeCookieFile.write(writer, cookies, baseUrl, creationDate);
+			NetscapeCookieFile.write(writer, cookies, baseUrl, TEST_DATE);
 		}
 		// compare original file with newly written one, they should not differ
 		assertEquals(Files.readAllLines(tmpFile), Files.readAllLines(tmpFile2));
@@ -267,13 +261,13 @@ public class NetscapeCookieFileTest {
 			Files.copy(input, tmpFile, StandardCopyOption.REPLACE_EXISTING);
 		}
 
-		Date creationDate = new Date();
 		Set<HttpCookie> cookies = new LinkedHashSet<>();
 
 		HttpCookie cookie = new HttpCookie("key2", "value2");
 		cookie.setDomain("some-domain2");
 		cookie.setPath("/some/path2");
-		cookie.setMaxAge((JAN_01_2030_NOON - creationDate.getTime()) / 1000);
+		cookie.setMaxAge(
+				Duration.between(TEST_DATE, TEST_EXPIRY_DATE).getSeconds());
 		cookie.setSecure(true);
 		cookie.setHttpOnly(true);
 		cookies.add(cookie);
@@ -281,11 +275,12 @@ public class NetscapeCookieFileTest {
 		cookie = new HttpCookie("key3", "value3");
 		cookie.setDomain("some-domain3");
 		cookie.setPath("/some/path3");
-		cookie.setMaxAge((JAN_01_2030_NOON - creationDate.getTime()) / 1000);
+		cookie.setMaxAge(
+				Duration.between(TEST_DATE, TEST_EXPIRY_DATE).getSeconds());
 		cookies.add(cookie);
 
-		Set<HttpCookie> actualCookies = new NetscapeCookieFile(tmpFile, creationDate)
-				.getCookies(true);
+		Set<HttpCookie> actualCookies = new NetscapeCookieFile(tmpFile,
+				TEST_DATE).getCookies(true);
 		assertThat(actualCookies, HttpCookiesMatcher.containsInOrder(cookies));
 	}
 
@@ -296,7 +291,7 @@ public class NetscapeCookieFileTest {
 			Files.copy(input, tmpFile, StandardCopyOption.REPLACE_EXISTING);
 		}
 
-		new NetscapeCookieFile(tmpFile)
-				.getCookies(true);
+		assertTrue(new NetscapeCookieFile(tmpFile, TEST_DATE).getCookies(true)
+				.isEmpty());
 	}
 }
