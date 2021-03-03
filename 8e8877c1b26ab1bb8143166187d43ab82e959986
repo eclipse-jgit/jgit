@@ -16,6 +16,24 @@
       "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6d94ff_e4e802e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-03-03T23:19:18Z",
+      "side": 1,
+      "message": "Hmm. So the null key would never have been reached inside the loop starting on line 422 anyway. I think it\u0027s expected *here* that all packfiles need an extension. You can see in https://git.eclipse.org/r/c/jgit/jgit/+/175130/10/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java that before this series this method required files to start with \u0027pack-\u0027 and then in scanPacksImpl() it ignores any files without extensions. If you think it makes sense, we can push that validation into PackFile.\n\nThat said, I can\u0027t find where in those tests it\u0027s creating pack files without extensions. Can you help me find that code?\n\nI do think I saw some tests a while back that used bogus extensions (\".idxV2\", \".copy1\", \".2\"), looks like PackFileSnapshotTest.java and PackWriterTest.java at least. Should we try to do something about those?",
+      "parentUuid": "e9d678ef_d2839230",
+      "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
