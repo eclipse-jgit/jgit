@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 
@@ -88,6 +89,6 @@ class LocalCachedPack extends CachedPack {
 
 	private String getPackFilePath(String packName) {
 		final File packDir = odb.getPackDirectory();
-		return new File(packDir, "pack-" + packName + ".pack").getPath(); //$NON-NLS-1$ //$NON-NLS-2$
+		return new PackFile(packDir, packName, PackExt.PACK).getPath();
 	}
 }

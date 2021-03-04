@@ -27,6 +27,7 @@ import java.util.zip.Deflater;
 
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
@@ -426,10 +427,10 @@ public class ObjectDirectoryPackParser extends PackParser {
 			d.update(oeBytes);
 		}
 
-		final String name = ObjectId.fromRaw(d.digest()).name();
-		final File packDir = new File(db.getDirectory(), "pack"); //$NON-NLS-1$
-		final File finalPack = new File(packDir, "pack-" + name + ".pack"); //$NON-NLS-1$ //$NON-NLS-2$
-		final File finalIdx = new File(packDir, "pack-" + name + ".idx"); //$NON-NLS-1$ //$NON-NLS-2$
+		ObjectId name = ObjectId.fromRaw(d.digest());
+		File packDir = new File(db.getDirectory(), "pack"); //$NON-NLS-1$
+		PackFile finalPack = new PackFile(packDir, name, PackExt.PACK);
+		PackFile finalIdx = finalPack.create(PackExt.INDEX);
 		final PackLock keep = new PackLock(finalPack, db.getFS());
 
 		if (!packDir.exists() && !packDir.mkdir() && !packDir.exists()) {

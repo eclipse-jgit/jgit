@@ -17,10 +17,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class PackFileTest {
-	private static final String TEST_ID = "0123456789012345678901234567890123456789";
+	private static final ObjectId TEST_OID = ObjectId
+			.fromString("0123456789012345678901234567890123456789");
+
+	private static final String TEST_ID = TEST_OID.name();
 
 	private static final String PREFIX = "pack-";
 
@@ -39,12 +43,20 @@ public class PackFileTest {
 			new File(TEST_PACK_DIR, PREFIX + TEST_ID));
 
 	@Test
-	public void idIsSameFromFileOrDirAndName() throws Exception {
-		File pack = new File(TEST_PACK_DIR, PREFIX + TEST_ID);
+	public void objectsAreSameFromAnyConstructor() throws Exception {
+		String name = PREFIX + TEST_ID + "." + PackExt.PACK.getExtension();
+		File pack = new File(TEST_PACK_DIR, name);
 		PackFile pf = new PackFile(pack);
-		PackFile pfFromDirAndName = new PackFile(TEST_PACK_DIR,
-				PREFIX + TEST_ID);
-		assertEquals(pf.getId(), pfFromDirAndName.getId());
+		PackFile pfFromDirAndName = new PackFile(TEST_PACK_DIR, name);
+		assertPackFilesEqual(pf, pfFromDirAndName);
+
+		PackFile pfFromOIdAndExt = new PackFile(TEST_PACK_DIR, TEST_OID,
+				PackExt.PACK);
+		assertPackFilesEqual(pf, pfFromOIdAndExt);
+
+		PackFile pfFromIdAndExt = new PackFile(TEST_PACK_DIR, TEST_ID,
+				PackExt.PACK);
+		assertPackFilesEqual(pf, pfFromIdAndExt);
 	}
 
 	@Test
@@ -146,5 +158,12 @@ public class PackFileTest {
 			assertEquals(nonPreserved.getPackExt(),
 					preservedWithExt.getPackExt());
 		}
+	}
+
+	private void assertPackFilesEqual(PackFile p1, PackFile p2) {
+		// for test purposes, considered equal if id, name, and ext are equal
+		assertEquals(p1.getId(), p2.getId());
+		assertEquals(p1.getPackExt(), p2.getPackExt());
+		assertEquals(p1.getName(), p2.getName());
 	}
 }

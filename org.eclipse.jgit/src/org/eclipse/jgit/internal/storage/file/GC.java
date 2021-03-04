@@ -1163,7 +1163,7 @@ public class GC {
 			checkCancelled();
 
 			// create temporary files
-			String id = pw.computeName().getName();
+			ObjectId id = pw.computeName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
 			packdir.mkdirs();
 			tmpPack = File.createTempFile("gc_", ".pack_tmp", packdir); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1213,7 +1213,8 @@ public class GC {
 			}
 
 			// rename the temporary files to real files
-			File realPack = nameFor(id, PackExt.PACK);
+			File packDir = repo.getObjectDatabase().getPackDirectory();
+			PackFile realPack = new PackFile(packDir, id, PackExt.PACK);
 
 			repo.getObjectDatabase().closeAllPackHandles(realPack);
 			tmpPack.setReadOnly();
@@ -1223,7 +1224,7 @@ public class GC {
 				File tmpExt = tmpEntry.getValue();
 				tmpExt.setReadOnly();
 
-				File realExt = nameFor(id, tmpEntry.getKey());
+				PackFile realExt = new PackFile(packDir, id, tmpEntry.getKey());
 				try {
 					FileUtils.rename(tmpExt, realExt,
 							StandardCopyOption.ATOMIC_MOVE);
@@ -1267,11 +1268,6 @@ public class GC {
 					tmpExt.delete();
 			}
 		}
-	}
-
-	private PackFile nameFor(String name, PackExt ext) {
-		return new PackFile(repo.getObjectDatabase().getPackDirectory(),
-				"pack-" + name).create(ext); //$NON-NLS-1$
 	}
 
 	private void checkCancelled() throws CancelledException {
