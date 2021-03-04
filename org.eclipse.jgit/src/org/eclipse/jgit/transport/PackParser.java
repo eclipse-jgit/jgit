@@ -146,6 +146,8 @@ public abstract class PackParser {
 	/** Objects need to be double-checked for collision after indexing. */
 	private BlockList<PackedObjectInfo> collisionCheckObjs;
 
+	private BlockList<PackedObjectInfo> wholeBlobsPendingCheck;
+
 	private MessageDigest packDigest;
 
 	private ObjectReader readCurs;
@@ -527,6 +529,7 @@ public abstract class PackParser {
 			baseById = new ObjectIdOwnerMap<>();
 			baseByPos = new LongMap<>();
 			collisionCheckObjs = new BlockList<>();
+			wholeBlobsPendingCheck = new BlockList<>();
 
 			receiving.beginTask(JGitText.get().receivingObjects,
 					(int) expectedObjectCount);
@@ -546,6 +549,7 @@ public abstract class PackParser {
 			if (!collisionCheckObjs.isEmpty()) {
 				checkObjectCollision();
 			}
+			checkBlobs();
 
 			if (deltaCount > 0) {
 				processDeltas(resolving);
@@ -1044,7 +1048,7 @@ public abstract class PackParser {
 		objectDigest.update((byte) 0);
 
 		final byte[] data;
-		if (type == Constants.OBJ_BLOB) {
+		if (type == Constants.OBJ_BLOB && !checkObjectCollisions) {
 			byte[] readBuffer = buffer();
 			BlobObjectChecker checker = null;
 			if (objCheck != null) {
@@ -1066,6 +1070,20 @@ public abstract class PackParser {
 			}
 			objectDigest.digest(tempObjectId);
 			checker.endBlob(tempObjectId);
+			data = null;
+		} else if (type == Constants.OBJ_BLOB) {
+			byte[] readBuffer = buffer();
+			long cnt = 0;
+			try (InputStream inf = inflate(Source.INPUT, sz)) {
+				while (cnt < sz) {
+					int r = inf.read(readBuffer);
+					if (r <= 0)
+						break;
+					objectDigest.update(readBuffer, 0, r);
+					cnt += r;
+				}
+			}
+			objectDigest.digest(tempObjectId);
 			data = null;
 		} else {
 			data = inflateAndReturn(Source.INPUT, sz);
@@ -1119,9 +1137,39 @@ public abstract class PackParser {
 		}
 	}
 
+	private void checkBlobs() throws IOException {
+		for (PackedObjectInfo blob : wholeBlobsPendingCheck) {
+			BlobObjectChecker checker = null;
+			if (objCheck != null) {
+				checker = objCheck.newBlobObjectChecker();
+			}
+			if (checker == null) {
+				checker = BlobObjectChecker.NULL_CHECKER;
+			}
+
+			ObjectTypeAndSize info = openDatabase(blob,
+					new ObjectTypeAndSize());
+			final byte[] readBuffer = buffer();
+			long sz = info.size;
+
+			try (InputStream pck = inflate(Source.DATABASE, sz)) {
+				while (0 < sz) {
+					int n = (int) Math.min(readBuffer.length, sz);
+					IO.readFully(pck, readBuffer, 0, n);
+					checker.update(readBuffer, 0, n);
+					sz -= n;
+				}
+				checker.endBlob(blob);
+			}
+		}
+	}
+
 	private void checkObjectCollision() throws IOException {
 		for (PackedObjectInfo obj : collisionCheckObjs) {
 			if (!readCurs.has(obj)) {
+				if (obj.getType() == Constants.OBJ_BLOB) {
+					wholeBlobsPendingCheck.add(obj);
+				}
 				continue;
 			}
 			checkObjectCollision(obj);
