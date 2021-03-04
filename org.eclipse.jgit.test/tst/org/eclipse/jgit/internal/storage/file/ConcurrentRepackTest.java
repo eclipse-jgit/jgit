@@ -194,9 +194,10 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 				pw.addObject(o);
 			}
 
-			final ObjectId name = pw.computeName();
-			final PackFile packFile = fullPackFileName(name, ".pack");
-			final PackFile idxFile = packFile.create(PackExt.INDEX);
+			PackFile packFile = new PackFile(
+					db.getObjectDatabase().getPackDirectory(), pw.computeName(),
+					PackExt.PACK);
+			PackFile idxFile = packFile.create(PackExt.INDEX);
 			final File[] files = new File[] { packFile, idxFile };
 			write(files, pw);
 			return files;
@@ -241,11 +242,6 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 			}
 			FS.DETECTED.setLastModified(dir.toPath(), Instant.now());
 		}
-	}
-
-	private PackFile fullPackFileName(ObjectId name, String suffix) {
-		final File packdir = db.getObjectDatabase().getPackDirectory();
-		return new PackFile(packdir, "pack-" + name.name() + suffix);
 	}
 
 	private RevObject writeBlob(Repository repo, String data)

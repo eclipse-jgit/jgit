@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -144,10 +145,9 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 			objects.add(new PackedObjectInfo(ObjectId.fromRaw(idBuf)));
 		}
 
-		String packName = "pack-" + id.name();
 		File packDir = db.getObjectDatabase().getPackDirectory();
-		File idxFile = new File(packDir, packName + ".idx");
-		File packFile = new File(packDir, packName + ".pack");
+		PackFile idxFile = new PackFile(packDir, id, PackExt.INDEX);
+		PackFile packFile = idxFile.create(PackExt.PACK);
 		FileUtils.mkdir(packDir, true);
 		try (OutputStream dst = new BufferedOutputStream(
 				new FileOutputStream(idxFile))) {

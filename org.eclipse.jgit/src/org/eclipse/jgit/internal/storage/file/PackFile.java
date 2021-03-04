@@ -16,6 +16,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * A pack file (or pack related) File.
@@ -44,6 +45,34 @@ public class PackFile extends File {
 	 */
 	public PackFile(File file) {
 		this(file.getParentFile(), file.getName());
+	}
+
+	/**
+	 * Create a PackFile for a pack or related file.
+	 *
+	 * @param directory
+	 *            Directory to create the PackFile in.
+	 * @param id
+	 *            the {@link ObjectId} for this pack
+	 * @param ext
+	 *            the <code>packExt</code> of the name.
+	 */
+	public PackFile(File directory, ObjectId id, PackExt ext) {
+		this(directory, id.name(), ext);
+	}
+
+	/**
+	 * Create a PackFile for a pack or related file.
+	 *
+	 * @param directory
+	 *            Directory to create the PackFile in.
+	 * @param id
+	 *            the <code>id</code> (40 Hex char) section of the pack name.
+	 * @param ext
+	 *            the <code>packExt</code> of the name.
+	 */
+	public PackFile(File directory, String id, PackExt ext) {
+		this(directory, PREFIX + id + "." + ext.getExtension()); //$NON-NLS-1$
 	}
 
 	/**
