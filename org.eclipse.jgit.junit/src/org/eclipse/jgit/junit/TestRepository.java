@@ -915,9 +915,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 					all.add(r.getObjectId());
 				pw.preparePack(m, all, PackWriter.NONE);
 
-				final ObjectId name = pw.computeName();
-
-				pack = nameFor(odb, name, ".pack");
+				pack = new PackFile(odb.getPackDirectory(), pw.computeName(),
+						PackExt.PACK);
 				try (OutputStream out =
 						new BufferedOutputStream(new FileOutputStream(pack))) {
 					pw.writePack(m, m, out);
@@ -960,12 +959,6 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			for (MutableEntry e : p)
 				FileUtils.delete(odb.fileFor(e.toObjectId()));
 		}
-	}
-
-	private static PackFile nameFor(ObjectDirectory odb, ObjectId name,
-			String t) {
-		File packdir = odb.getPackDirectory();
-		return new PackFile(packdir, "pack-" + name.name() + t);
 	}
 
 	private void writeFile(File p, byte[] bin) throws IOException,

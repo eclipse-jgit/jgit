@@ -684,9 +684,9 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			ObjectWalk ow = walk.toObjectWalkWithSameObjects();
 
 			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have, NONE);
-			String id = pw.computeName().getName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
-			PackFile packFile = new PackFile(packdir, "pack-" + id + ".pack");
+			PackFile packFile = new PackFile(packdir, pw.computeName(),
+					PackExt.PACK);
 			try (FileOutputStream packOS = new FileOutputStream(packFile)) {
 				pw.writePack(NullProgressMonitor.INSTANCE,
 						NullProgressMonitor.INSTANCE, packOS);
