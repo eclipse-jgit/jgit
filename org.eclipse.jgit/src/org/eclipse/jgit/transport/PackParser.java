@@ -681,10 +681,12 @@ public abstract class PackParser {
 			objectDigest.update(visit.data);
 			objectDigest.digest(tempObjectId);
 
-			verifySafeObject(tempObjectId, type, visit.data);
+			verifyValidObject(tempObjectId, type, visit.data);
 			if (isCheckObjectCollisions() && readCurs.has(tempObjectId)) {
 				checkObjectCollision(tempObjectId, type, visit.data,
 						visit.delta.sizeBeforeInflating);
+			} else if (type == Constants.OBJ_BLOB && objCheck != null) {
+				objCheck.check(tempObjectId, type, visit.data);
 			}
 
 			PackedObjectInfo oe;
@@ -1089,7 +1091,7 @@ public abstract class PackParser {
 			data = inflateAndReturn(Source.INPUT, sz);
 			objectDigest.update(data);
 			objectDigest.digest(tempObjectId);
-			verifySafeObject(tempObjectId, type, data);
+			verifyValidObject(tempObjectId, type, data);
 		}
 
 		long sizeBeforeInflating = streamPosition() - pos;
@@ -1119,9 +1121,9 @@ public abstract class PackParser {
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 * @since 4.9
 	 */
-	protected void verifySafeObject(final AnyObjectId id, final int type,
+	protected void verifyValidObject(final AnyObjectId id, final int type,
 			final byte[] data) throws CorruptObjectException {
-		if (objCheck != null) {
+		if (objCheck != null & type != Constants.OBJ_BLOB) {
 			try {
 				objCheck.check(id, type, data);
 			} catch (CorruptObjectException e) {
