@@ -76,6 +76,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -277,7 +278,8 @@ public class PackInserter extends ObjectInserter {
 		writePackIndex(tmpIdx, packHash, objectList);
 
 		File realPack = new File(db.getPackDirectory(),
-				PackFile.PREFIX + computeName(objectList).name() + ".pack"); //$NON-NLS-1$
+				PackFile.createName(computeName(objectList).name(),
+						PackExt.PACK));
 		db.closeAllPackHandles(realPack);
 		tmpPack.setReadOnly();
 		FileUtils.rename(tmpPack, realPack, ATOMIC_MOVE);
