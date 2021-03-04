@@ -12,6 +12,8 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -965,20 +967,21 @@ public class GC {
 			return;
 		}
 
-		String base = null;
+		String latestId = null;
 		for (String n : fileNames) {
-			if (n.endsWith(PACK_EXT) || n.endsWith(KEEP_EXT)) {
-				base = n.substring(0, n.lastIndexOf('.'));
-			} else {
-				if (base == null || !n.startsWith(base)) {
-					try {
-						Path delete = packDir.resolve(n);
-						FileUtils.delete(delete.toFile(),
-								FileUtils.RETRY | FileUtils.SKIP_MISSING);
-						LOG.warn(JGitText.get().deletedOrphanInPackDir, delete);
-					} catch (IOException e) {
-						LOG.error(e.getMessage(), e);
-					}
+			PackFile pf = new PackFile(packDir.toFile(), n);
+			PackExt ext = pf.getPackExt();
+			if (ext.equals(PACK) || ext.equals(KEEP)) {
+				latestId = pf.getId();
+			}
+			if (latestId == null || !pf.getId().equals(latestId)) {
+				// no pack or keep for this id
+				try {
+					FileUtils.delete(pf,
+							FileUtils.RETRY | FileUtils.SKIP_MISSING);
+					LOG.warn(JGitText.get().deletedOrphanInPackDir, pf);
+				} catch (IOException e) {
+					LOG.error(e.getMessage(), e);
 				}
 			}
 		}
