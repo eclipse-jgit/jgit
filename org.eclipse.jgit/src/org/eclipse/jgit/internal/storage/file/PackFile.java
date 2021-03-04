@@ -38,6 +38,19 @@ public class PackFile extends File {
 	private final PackExt packExt;
 
 	/**
+	 * Create PackFile name for given id and extension.
+	 *
+	 * @param id
+	 *            the <code>id</code> (40 Hex char) section of the name
+	 * @param extension
+	 *            the <code>packExt</code> of the name.
+	 * @return the PackFile name.
+	 */
+	public static String createName(String id, PackExt extension) {
+		return PREFIX + id + '.' + extension.getExtension();
+	}
+
+	/**
 	 * Create a PackFile for a pack or related file.
 	 *
 	 * @param file
@@ -73,6 +86,20 @@ public class PackFile extends File {
 		}
 
 		id = base.startsWith(PREFIX) ? base.substring(PREFIX.length()) : base;
+	}
+
+	/**
+	 * Create a PackFile with given id and extension.
+	 *
+	 * @param directory
+	 *            Directory to create the PackFile in.
+	 * @param id
+	 *            the <code>id</code> (40 Hex char) section of the name
+	 * @param extension
+	 *            the <code>packExt</code> of the name.
+	 */
+	public PackFile(File directory, String id, PackExt extension) {
+		this(directory, createName(id, extension));
 	}
 
 	/**
