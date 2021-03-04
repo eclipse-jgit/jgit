@@ -230,7 +230,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 		String p = pf.getName();
 		// TODO(nasserg): See if PackFile can do these checks instead
-		if (p.length() != 50 || !p.startsWith("pack-") //$NON-NLS-1$
+		if (p.length() != 50 || !p.startsWith(PackFile.PREFIX)
 				|| !pf.getPackExt().equals(PACK)) {
 			throw new IOException(
 					MessageFormat.format(JGitText.get().notAValidPack, pack));

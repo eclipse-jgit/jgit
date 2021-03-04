@@ -11,18 +11,18 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.file.PackFile.PREFIX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.junit.Test;
 
 public class PackFileTest {
 	private static final String TEST_ID = "0123456789012345678901234567890123456789";
-
-	private static final String PREFIX = "pack-";
 
 	private static final String OLD_PREFIX = "old-";
 

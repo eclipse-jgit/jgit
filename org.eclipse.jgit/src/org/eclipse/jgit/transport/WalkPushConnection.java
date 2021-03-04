@@ -26,6 +26,7 @@ import java.util.TreeMap;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -217,7 +218,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			for (String n : dest.getPackNames())
 				packNames.put(n, n);
 
-			final String base = "pack-" + writer.computeName().name(); //$NON-NLS-1$
+			final String base = PackFile.PREFIX + writer.computeName().name();
 			final String packName = base + ".pack"; //$NON-NLS-1$
 			pathPack = "pack/" + packName; //$NON-NLS-1$
 			pathIdx = "pack/" + base + ".idx"; //$NON-NLS-1$ //$NON-NLS-2$

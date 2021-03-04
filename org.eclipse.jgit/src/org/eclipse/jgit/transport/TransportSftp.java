@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -202,7 +203,8 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 
 				for (FtpChannel.DirEntry ent : list) {
 					String n = ent.getFilename();
-					if (!n.startsWith("pack-") || !n.endsWith(".pack")) { //$NON-NLS-1$ //$NON-NLS-2$
+					if (!n.startsWith(PackFile.PREFIX)
+							|| !n.endsWith(".pack")) { //$NON-NLS-1$
 						continue;
 					}
 					String in = n.substring(0, n.length() - 5) + ".idx"; //$NON-NLS-1$

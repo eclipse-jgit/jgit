@@ -686,7 +686,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have, NONE);
 			String id = pw.computeName().getName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
-			PackFile packFile = new PackFile(packdir, "pack-" + id + ".pack");
+			PackFile packFile = new PackFile(packdir,
+					PackFile.PREFIX + id + ".pack");
 			try (FileOutputStream packOS = new FileOutputStream(packFile)) {
 				pw.writePack(NullProgressMonitor.INSTANCE,
 						NullProgressMonitor.INSTANCE, packOS);
