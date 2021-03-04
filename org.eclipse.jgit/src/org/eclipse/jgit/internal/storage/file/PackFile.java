@@ -25,7 +25,8 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 public class PackFile extends File {
 	private static final long serialVersionUID = 1L;
 
-	private static final String PREFIX = "pack-"; //$NON-NLS-1$
+	/** Pack file prefix */
+	public static final String PREFIX = "pack-"; //$NON-NLS-1$
 
 	private final String base; // PREFIX + id i.e.
 								// pack-0123456789012345678901234567890123456789

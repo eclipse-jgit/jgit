@@ -277,7 +277,7 @@ public class PackInserter extends ObjectInserter {
 		writePackIndex(tmpIdx, packHash, objectList);
 
 		File realPack = new File(db.getPackDirectory(),
-				"pack-" + computeName(objectList).name() + ".pack"); //$NON-NLS-1$ //$NON-NLS-2$
+				PackFile.PREFIX + computeName(objectList).name() + ".pack"); //$NON-NLS-1$ 
 		db.closeAllPackHandles(realPack);
 		tmpPack.setReadOnly();
 		FileUtils.rename(tmpPack, realPack, ATOMIC_MOVE);

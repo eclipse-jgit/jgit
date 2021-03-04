@@ -88,6 +88,7 @@ class LocalCachedPack extends CachedPack {
 
 	private String getPackFilePath(String packName) {
 		final File packDir = odb.getPackDirectory();
-		return new File(packDir, "pack-" + packName + ".pack").getPath(); //$NON-NLS-1$ //$NON-NLS-2$
+		return new File(packDir, PackFile.PREFIX + packName + ".pack") //$NON-NLS-1$
+				.getPath();
 	}
 }

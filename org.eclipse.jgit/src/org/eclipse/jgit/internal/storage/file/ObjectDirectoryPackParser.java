@@ -428,8 +428,10 @@ public class ObjectDirectoryPackParser extends PackParser {
 
 		final String name = ObjectId.fromRaw(d.digest()).name();
 		final File packDir = new File(db.getDirectory(), "pack"); //$NON-NLS-1$
-		final File finalPack = new File(packDir, "pack-" + name + ".pack"); //$NON-NLS-1$ //$NON-NLS-2$
-		final File finalIdx = new File(packDir, "pack-" + name + ".idx"); //$NON-NLS-1$ //$NON-NLS-2$
+		final File finalPack = new File(packDir,
+				PackFile.PREFIX + name + ".pack"); //$NON-NLS-1$
+		final File finalIdx = new File(packDir,
+				PackFile.PREFIX + name + ".idx"); //$NON-NLS-1$ 
 		final PackLock keep = new PackLock(finalPack, db.getFS());
 
 		if (!packDir.exists() && !packDir.mkdir() && !packDir.exists()) {

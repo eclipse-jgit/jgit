@@ -965,7 +965,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	private static PackFile nameFor(ObjectDirectory odb, ObjectId name,
 			String t) {
 		File packdir = odb.getPackDirectory();
-		return new PackFile(packdir, "pack-" + name.name() + t);
+		return new PackFile(packdir, PackFile.PREFIX + name.name() + t);
 	}
 
 	private void writeFile(File p, byte[] bin) throws IOException,

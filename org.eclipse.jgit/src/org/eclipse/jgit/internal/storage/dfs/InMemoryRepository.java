@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -119,10 +120,8 @@ public class InMemoryRepository extends DfsRepository {
 		@Override
 		protected DfsPackDescription newPack(PackSource source) {
 			int id = packId.incrementAndGet();
-			return new MemPack(
-					"pack-" + id + "-" + source.name(), //$NON-NLS-1$ //$NON-NLS-2$
-					getRepository().getDescription(),
-					source);
+			return new MemPack(PackFile.PREFIX + id + '-' + source.name(),
+					getRepository().getDescription(), source);
 		}
 
 		@Override

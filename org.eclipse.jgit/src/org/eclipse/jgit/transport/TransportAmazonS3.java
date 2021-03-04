@@ -32,6 +32,7 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -250,7 +251,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 
 			final Collection<String> packs = new ArrayList<>();
 			for (String n : packList) {
-				if (!n.startsWith("pack-") || !n.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
+				if (!n.startsWith(PackFile.PREFIX) || !n.endsWith(".pack")) //$NON-NLS-1$ 
 					continue;
 
 				final String in = n.substring(0, n.length() - 5) + ".idx"; //$NON-NLS-1$

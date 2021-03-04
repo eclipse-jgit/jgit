@@ -31,6 +31,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
+import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.storage.file.UnpackedObject;
@@ -791,7 +792,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			idxName = packName.substring(0, packName.length() - 5) + ".idx"; //$NON-NLS-1$
 
 			String tn = idxName;
-			if (tn.startsWith("pack-")) //$NON-NLS-1$
+			if (tn.startsWith(PackFile.PREFIX))
 				tn = tn.substring(5);
 			if (tn.endsWith(".idx")) //$NON-NLS-1$
 				tn = tn.substring(0, tn.length() - 4);
