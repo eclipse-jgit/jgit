@@ -88,6 +88,24 @@
       "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4bc46b5_8dca67f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-04T17:12:00Z",
+      "side": 1,
+      "message": "looking at the available options to traverse files in a directory [1] I would lean towards using Files.list() and filter out directories and files which git doesn\u0027t care about in a pack directory. E.g. if you open the pack directory on a Mac using Finder you end up with a .DS_Store file which I think we should ignore.\n\n[1] https://www.baeldung.com/java-list-directory-files",
+      "parentUuid": "5d0b6767_02f5df96",
+      "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
