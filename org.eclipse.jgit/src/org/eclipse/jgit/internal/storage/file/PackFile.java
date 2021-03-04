@@ -106,17 +106,15 @@ public class PackFile extends File {
 		int dot = name.lastIndexOf('.');
 
 		if (dot < 0) {
-			base = name;
-			hasOldPrefix = false;
-			packExt = null;
-		} else {
-			base = name.substring(0, dot);
-			String tail = name.substring(dot + 1); // ["old-"] + extension
-			packExt = getPackExt(tail);
-			String old = tail.substring(0,
-					tail.length() - getExtension().length());
-			hasOldPrefix = old.equals(getExtPrefix(true));
+			throw new IllegalArgumentException(
+					"Invalid packfile name '" + name //$NON-NLS-1$
+							+ "', must contain an extension."); //$NON-NLS-1$
 		}
+		base = name.substring(0, dot);
+		String tail = name.substring(dot + 1); // ["old-"] + extension
+		packExt = getPackExt(tail);
+		String old = tail.substring(0, tail.length() - getExtension().length());
+		hasOldPrefix = old.equals(getExtPrefix(true));
 
 		id = base.startsWith(PREFIX) ? base.substring(PREFIX.length()) : base;
 	}
