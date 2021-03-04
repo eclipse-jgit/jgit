@@ -106,6 +106,24 @@
       "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35a3f53f_9e2d3415",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-03-04T17:28:06Z",
+      "side": 1,
+      "message": "Sounds good. Ok, if I do that in a follow up (or parent) change since it\u0027s unrelated to PackExt conversion to Enum?\n\nAlso, what\u0027s your thought on where the filtering logic should live, here or in PackFile? I\u0027d prefer PackFile unless you think that would be too restrictive.",
+      "parentUuid": "e4bc46b5_8dca67f5",
+      "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
