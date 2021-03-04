@@ -1267,8 +1267,8 @@ public class GC {
 	}
 
 	private PackFile nameFor(String name, PackExt ext) {
-		return new PackFile(repo.getObjectDatabase().getPackDirectory(),
-				PackFile.PREFIX + name).create(ext);
+		return new PackFile(repo.getObjectDatabase().getPackDirectory(), name,
+				ext);
 	}
 
 	private void checkCancelled() throws CancelledException {
