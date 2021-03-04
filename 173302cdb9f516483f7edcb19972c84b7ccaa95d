@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f1304dd_43ee8443",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-03-04T22:55:04Z",
+      "side": 1,
+      "message": "I think this is going the wrong direction. These callers should use a constructor from PackFile (for the file based ones) that does this for them.\n\nI have the code done, just need to write some new tests and push it.\n\n\t/**\n\t * Create a PackFile for a pack or related file.\n\t *\n\t * @param directory\n\t *            Directory to create the PackFile in.\n\t * @param id\n\t *            the \u003ccode\u003eid\u003c/code\u003e (40 Hex char) section of the pack name.\n\t * @param ext\n\t *            the \u003ccode\u003epackExt\u003c/code\u003e of the name.\n\t */\n\tpublic PackFile(File directory, String id, PackExt ext) {\n\t\tthis(directory, PREFIX + id + \".\" + ext.getExtension()); //$NON-NLS-1$\n\t}",
+      "revId": "173302cdb9f516483f7edcb19972c84b7ccaa95d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
