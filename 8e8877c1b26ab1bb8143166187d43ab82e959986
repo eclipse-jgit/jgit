@@ -52,6 +52,24 @@
       "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ecbdf38_4278e770",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-03-04T00:35:35Z",
+      "side": 1,
+      "message": "Thanks! I\u0027ve never used that before. I figured it out though. \"preserved\" isn\u0027t a pack file, it\u0027s the directory name we\u0027re using for preserving pack files. So I think it\u0027s harmless, but we could change line 507 to be \u0027directory.listFiles()\u0027 if we want to avoid seeing it. If we improve PackFile to be stricter about valid pack file names (i.e. must start with \u0027pack-\u0027, end with a known extension, etc), that would also catch it.",
+      "parentUuid": "ee709b51_57b6686b",
+      "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
