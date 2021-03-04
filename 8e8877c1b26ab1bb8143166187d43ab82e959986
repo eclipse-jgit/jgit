@@ -70,6 +70,24 @@
       "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d0b6767_02f5df96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-03-04T00:40:56Z",
+      "side": 1,
+      "message": "And to be clear, just using listFiles() wouldn\u0027t be enough. We\u0027d need to do isDirectory() on each File we get from that. Thinking more about this method though, I know we\u0027ve had problems where repacking hasn\u0027t run and we get many many pack files. Would it make sense to use the newDirectoryStream method to go through the list?",
+      "parentUuid": "5ecbdf38_4278e770",
+      "revId": "8e8877c1b26ab1bb8143166187d43ab82e959986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
