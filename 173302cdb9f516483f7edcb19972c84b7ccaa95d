@@ -16,6 +16,24 @@
       "revId": "173302cdb9f516483f7edcb19972c84b7ccaa95d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5cca2da_89dba9a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-03-05T01:53:38Z",
+      "side": 1,
+      "message": "See https://git.eclipse.org/r/c/jgit/jgit/+/177192 PackFile: Add id + ext based constructors\n\nIt doesn\u0027t remove all the uses of PREFIX you have here, but it gets a lot of them.",
+      "parentUuid": "7f1304dd_43ee8443",
+      "revId": "173302cdb9f516483f7edcb19972c84b7ccaa95d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
