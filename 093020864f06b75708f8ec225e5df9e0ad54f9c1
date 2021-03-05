@@ -16,6 +16,24 @@
       "revId": "093020864f06b75708f8ec225e5df9e0ad54f9c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "263e98bc_821c5e66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-03-05T15:11:47Z",
+      "side": 1,
+      "message": "Is that a JGit thing? I didn\u0027t see it mentioned on the contributor guide and https://stackoverflow.com/questions/1750435/comparing-java-enum-members-or-equals seems to suggest both ways are correct. I guess \u003d\u003d saves 5 characters, but if it takes extra mental energy for someone to check that \u0027ext\u0027 is an Enum and \u003d\u003d is safe to use, I figured that wasn\u0027t worth it.",
+      "parentUuid": "40566d79_19d5e2b8",
+      "revId": "093020864f06b75708f8ec225e5df9e0ad54f9c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
