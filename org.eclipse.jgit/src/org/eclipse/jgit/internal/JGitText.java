@@ -71,6 +71,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String base85tooLong;
 	/***/ public String base85tooShort;
 	/***/ public String baseLengthIncorrect;
+	/***/ public String binaryHunkDecodeError;
+	/***/ public String binaryHunkInvalidLength;
+	/***/ public String binaryHunkLineTooShort;
+	/***/ public String binaryHunkMissingNewline;
 	/***/ public String bitmapMissingObject;
 	/***/ public String bitmapsMustBePrepared;
 	/***/ public String blameNotCommittedYet;
