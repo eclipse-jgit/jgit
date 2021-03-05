@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "120624bd_37cc4e57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85b538a3_06eba7c0",
+      "range": {
+        "startLine": 13,
+        "startChar": 53,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4effad0e_e03441f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b2a6875_e066a135",
+      "range": {
+        "startLine": 13,
+        "startChar": 26,
+        "endLine": 13,
+        "endChar": 29
+      },
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9914e009_b0bf4cb6",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkMergedIntoTest.java",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5b3765a_b57b56a9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkMergedIntoTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9914e009_b0bf4cb6",
+      "range": {
+        "startLine": 85,
+        "startChar": 17,
+        "endLine": 85,
+        "endChar": 19
+      },
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "1456b922_536614e3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkMergedIntoTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0fe12af_d0b49d44",
+      "range": {
+        "startLine": 106,
+        "startChar": 17,
+        "endLine": 106,
+        "endChar": 19
+      },
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43ea435d_8cfd442c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 4
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a8cdb134_f4c94c69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43ea435d_8cfd442c",
+      "range": {
+        "startLine": 186,
+        "startChar": 18,
+        "endLine": 186,
+        "endChar": 22
+      },
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8fe4e9e_c7cdf6c1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 4
@@ -131,6 +251,24 @@
       "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "844cc25c_c7d27150",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8fe4e9e_c7cdf6c1",
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "5d1f562f_6a5776e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c612b0_69348620",
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1130f2e_44a151ed",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 4
@@ -168,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "b09d66ac_8ec5b840",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1130f2e_44a151ed",
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f2c553c_c3f9102c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 4
@@ -182,6 +356,24 @@
       "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a30ab83_1cd947bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2021-03-05T01:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f2c553c_c3f9102c",
+      "revId": "4fbdca20bff4b4add530c19d6f22191443f6f428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
