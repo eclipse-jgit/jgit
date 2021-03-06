@@ -246,7 +246,7 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 
 			File dir = new File(repo.getObjectDatabase().getDirectory(),
 					"pack");
-			PackFile packName = new PackFile(dir, idA.name() + ".pack");
+			PackFile packName = new PackFile(dir, idA, PackExt.PACK);
 			PackFile idxName = packName.create(PackExt.INDEX);
 
 			try (FileOutputStream f = new FileOutputStream(packName)) {
