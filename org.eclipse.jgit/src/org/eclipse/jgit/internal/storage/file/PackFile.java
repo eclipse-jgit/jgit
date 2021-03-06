@@ -46,6 +46,8 @@ public class PackFile extends File {
 	 *
 	 * @param file
 	 *            File pointing to the location of the file.
+	 * @throws IllegalArgumentException
+	 *             for invalid pack names
 	 */
 	public PackFile(File file) {
 		this(file.getParentFile(), file.getName());
@@ -60,6 +62,8 @@ public class PackFile extends File {
 	 *            the {@link ObjectId} for this pack
 	 * @param ext
 	 *            the <code>packExt</code> of the name.
+	 * @throws IllegalArgumentException
+	 *             for invalid pack names
 	 */
 	public PackFile(File directory, ObjectId id, PackExt ext) {
 		this(directory, id.name(), ext);
@@ -74,6 +78,8 @@ public class PackFile extends File {
 	 *            the <code>id</code> (40 Hex char) section of the pack name.
 	 * @param ext
 	 *            the <code>packExt</code> of the name.
+	 * @throws IllegalArgumentException
+	 *             for invalid pack names
 	 */
 	public PackFile(File directory, String id, PackExt ext) {
 		this(directory, createName(id, ext));
@@ -86,9 +92,17 @@ public class PackFile extends File {
 	 *            Directory to create the PackFile in.
 	 * @param name
 	 *            Filename (last path section) of the PackFile
+	 * @throws IllegalArgumentException
+	 *             for invalid pack names
 	 */
 	public PackFile(File directory, String name) {
 		super(directory, name);
+
+		if (!name.startsWith(PREFIX)) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().packFileMustStartWithPrefix, name, PREFIX));
+		}
+
 		int dot = name.lastIndexOf('.');
 
 		if (dot < 0) {

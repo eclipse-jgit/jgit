@@ -67,13 +67,6 @@ public class PackFileTest {
 	}
 
 	@Test
-	public void idIsSameFromFileWithOrWithoutPrefix() throws Exception {
-		PackFile packWithoutPrefix = new PackFile(
-				new File(TEST_PACK_DIR, TEST_ID));
-		assertEquals(packWithoutPrefix.getId(), TEST_PACKFILE_NO_EXT.getId());
-	}
-
-	@Test
 	public void canCreatePreservedFromFile() throws Exception {
 		PackFile preserved = new PackFile(
 				new File(TEST_PRESERVED_DIR, OLD_PACK));
