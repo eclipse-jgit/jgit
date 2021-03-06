@@ -34,6 +34,24 @@
       "revId": "093020864f06b75708f8ec225e5df9e0ad54f9c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b5eb551_3724ee6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-06T22:49:06Z",
+      "side": 1,
+      "message": "I guess that\u0027s a matter of taste.",
+      "parentUuid": "263e98bc_821c5e66",
+      "revId": "093020864f06b75708f8ec225e5df9e0ad54f9c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
