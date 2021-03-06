@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "240847ad_c9311f5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectoryPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-06T22:59:51Z",
+      "side": 1,
+      "message": "id",
+      "range": {
+        "startLine": 430,
+        "startChar": 11,
+        "endLine": 430,
+        "endChar": 15
+      },
+      "revId": "8e784d1eff64138b1171037cedfd0788566f6a46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
