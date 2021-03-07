@@ -9,7 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,6 +27,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.InflaterInputStream;
 
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -44,10 +47,13 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.BinaryHunk;
 import org.eclipse.jgit.patch.FileHeader;
+import org.eclipse.jgit.patch.FileHeader.PatchType;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.patch.Patch;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -57,14 +63,17 @@ import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
+import org.eclipse.jgit.util.io.BinaryDeltaInputStream;
+import org.eclipse.jgit.util.io.BinaryHunkInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
+import org.eclipse.jgit.util.sha1.SHA1;
 
 /**
  * Apply a patch to files and/or to the index.
@@ -191,6 +200,9 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 
 	private void apply(Repository repository, String path, DirCache cache,
 			File f, FileHeader fh) throws IOException, PatchApplyException {
+		if (PatchType.BINARY.equals(fh.getPatchType())) {
+			return;
+		}
 		boolean convertCrLf = needsCrLfConversion(f, fh);
 		// Use a TreeWalk with a DirCacheIterator to pick up the correct
 		// clean/smudge filters. CR-LF handling is completely determined by
@@ -217,16 +229,23 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				FileTreeIterator file = walk.getTree(fileIdx,
 						FileTreeIterator.class);
 				if (file != null) {
-					command = walk
-							.getFilterCommand(Constants.ATTR_FILTER_TYPE_CLEAN);
-					RawText raw;
-					// Can't use file.openEntryStream() as it would do CR-LF
-					// conversion as usual, not as wanted by us.
-					try (InputStream input = filterClean(repository, path,
-							new FileInputStream(f), convertCrLf, command)) {
-						raw = new RawText(IO.readWholeStream(input, 0).array());
+					if (PatchType.GIT_BINARY.equals(fh.getPatchType())) {
+						applyBinary(repository, path, f, fh,
+								file::openEntryStream, file.getEntryObjectId(),
+								checkOut);
+					} else {
+						command = walk.getFilterCommand(
+								Constants.ATTR_FILTER_TYPE_CLEAN);
+						RawText raw;
+						// Can't use file.openEntryStream() as it would do CR-LF
+						// conversion as usual, not as wanted by us.
+						try (InputStream input = filterClean(repository, path,
+								new FileInputStream(f), convertCrLf, command)) {
+							raw = new RawText(
+									IO.readWholeStream(input, 0).array());
+						}
+						applyText(repository, path, raw, f, fh, checkOut);
 					}
-					apply(repository, path, raw, f, fh, checkOut);
 					return;
 				}
 			}
@@ -234,21 +253,30 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		// File not in workspace or ignored?
 		RawText raw;
 		CheckoutMetadata checkOut;
-		if (convertCrLf) {
-			try (InputStream input = EolStreamTypeUtil.wrapInputStream(
-					new FileInputStream(f), EolStreamType.TEXT_LF)) {
-				raw = new RawText(IO.readWholeStream(input, 0).array());
-			}
-			checkOut = new CheckoutMetadata(EolStreamType.TEXT_CRLF, null);
-		} else {
-			raw = new RawText(f);
+		if (PatchType.GIT_BINARY.equals(fh.getPatchType())) {
 			checkOut = new CheckoutMetadata(EolStreamType.DIRECT, null);
+			applyBinary(repository, path, f, fh, () -> new FileInputStream(f),
+					null, checkOut);
+		} else {
+			if (convertCrLf) {
+				try (InputStream input = EolStreamTypeUtil.wrapInputStream(
+						new FileInputStream(f), EolStreamType.TEXT_LF)) {
+					raw = new RawText(IO.readWholeStream(input, 0).array());
+				}
+				checkOut = new CheckoutMetadata(EolStreamType.TEXT_CRLF, null);
+			} else {
+				raw = new RawText(f);
+				checkOut = new CheckoutMetadata(EolStreamType.DIRECT, null);
+			}
+			applyText(repository, path, raw, f, fh, checkOut);
 		}
-		apply(repository, path, raw, f, fh, checkOut);
 	}
 
 	private boolean needsCrLfConversion(File f, FileHeader fileHeader)
 			throws IOException {
+		if (PatchType.GIT_BINARY.equals(fileHeader.getPatchType())) {
+			return false;
+		}
 		if (!hasCrLf(fileHeader)) {
 			try (InputStream input = new FileInputStream(f)) {
 				return RawText.isCrLfText(input);
@@ -258,7 +286,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	}
 
 	private static boolean hasCrLf(FileHeader fileHeader) {
-		if (fileHeader == null) {
+		if (PatchType.GIT_BINARY.equals(fileHeader.getPatchType())) {
 			return false;
 		}
 		for (HunkHeader header : fileHeader.getHunks()) {
@@ -331,18 +359,29 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	}
 
 	/**
+	 * Something that can supply an {@link InputStream}.
+	 */
+	private interface StreamSupplier {
+		InputStream load() throws IOException;
+	}
+
+	/**
 	 * We write the patch result to a {@link TemporaryBuffer} and then use
 	 * {@link DirCacheCheckout}.getContent() to run the result through the CR-LF
 	 * and smudge filters. DirCacheCheckout needs an ObjectLoader, not a
-	 * TemporaryBuffer, so this class bridges between the two, making the
-	 * TemporaryBuffer look like an ordinary git blob to DirCacheCheckout.
+	 * TemporaryBuffer, so this class bridges between the two, making any Stream
+	 * provided by a {@link StreamSupplier} look like an ordinary git blob to
+	 * DirCacheCheckout.
 	 */
-	private static class BufferLoader extends ObjectLoader {
+	private static class StreamLoader extends ObjectLoader {
 
-		private TemporaryBuffer data;
+		private StreamSupplier data;
 
-		BufferLoader(TemporaryBuffer data) {
+		private long size;
+
+		StreamLoader(StreamSupplier data, long length) {
 			this.data = data;
+			this.size = length;
 		}
 
 		@Override
@@ -352,7 +391,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 
 		@Override
 		public long getSize() {
-			return data.length();
+			return size;
 		}
 
 		@Override
@@ -369,12 +408,142 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		public ObjectStream openStream()
 				throws MissingObjectException, IOException {
 			return new ObjectStream.Filter(getType(), getSize(),
-					data.openInputStream());
+					new BufferedInputStream(data.load()));
 		}
 	}
 
-	private void apply(Repository repository, String path, RawText rt, File f,
-			FileHeader fh, CheckoutMetadata checkOut)
+	private void initHash(SHA1 hash, long size) {
+		hash.update(Constants.encodedTypeString(Constants.OBJ_BLOB));
+		hash.update((byte) ' ');
+		hash.update(Constants.encodeASCII(size));
+		hash.update((byte) 0);
+	}
+
+	private ObjectId hash(File f) throws IOException {
+		SHA1 hash = SHA1.newInstance();
+		initHash(hash, f.length());
+		try (InputStream input = new FileInputStream(f)) {
+			byte[] buf = new byte[8192];
+			int n;
+			while ((n = input.read(buf)) >= 0) {
+				hash.update(buf, 0, n);
+			}
+		}
+		return hash.toObjectId();
+	}
+
+	private void checkOid(ObjectId baseId, ObjectId id, ChangeType type, File f,
+			String path)
+			throws PatchApplyException, IOException {
+		boolean hashOk = false;
+		if (id != null) {
+			hashOk = baseId.equals(id);
+			if (!hashOk && ChangeType.ADD.equals(type)
+					&& ObjectId.zeroId().equals(baseId)) {
+				// We create the file first. The OID of an empty file is not the
+				// zero id!
+				hashOk = Constants.EMPTY_BLOB_ID.equals(id);
+			}
+		} else {
+			if (ObjectId.zeroId().equals(baseId)) {
+				// File empty is OK.
+				hashOk = !f.exists() || f.length() == 0;
+			} else {
+				hashOk = baseId.equals(hash(f));
+			}
+		}
+		if (!hashOk) {
+			throw new PatchApplyException(MessageFormat
+					.format(JGitText.get().applyBinaryBaseOidWrong, path));
+		}
+	}
+
+	private void applyBinary(Repository repository, String path, File f,
+			FileHeader fh, StreamSupplier loader, ObjectId id,
+			CheckoutMetadata checkOut)
+			throws PatchApplyException, IOException {
+		if (!fh.getOldId().isComplete() || !fh.getNewId().isComplete()) {
+			throw new PatchApplyException(MessageFormat
+					.format(JGitText.get().applyBinaryOidTooShort, path));
+		}
+		BinaryHunk hunk = fh.getForwardBinaryHunk();
+		// A BinaryHunk has the start at the "literal" or "delta" token. Data
+		// starts on the next line.
+		int start = RawParseUtils.nextLF(hunk.getBuffer(),
+				hunk.getStartOffset());
+		int length = hunk.getEndOffset() - start;
+		SHA1 hash = SHA1.newInstance();
+		// Write to a buffer and copy to the file only if everything was fine
+		TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);
+		try {
+			switch (hunk.getType()) {
+			case LITERAL_DEFLATED:
+				// This just overwrites the file. We need to check the hash of
+				// the base.
+				checkOid(fh.getOldId().toObjectId(), id, fh.getChangeType(), f,
+						path);
+				initHash(hash, hunk.getSize());
+				try (OutputStream out = buffer;
+						InputStream inflated = new SHA1InputStream(hash,
+								new InflaterInputStream(
+										new BinaryHunkInputStream(
+												new ByteArrayInputStream(
+														hunk.getBuffer(), start,
+														length))))) {
+					DirCacheCheckout.getContent(repository, path, checkOut,
+							new StreamLoader(() -> inflated, hunk.getSize()),
+							null, out);
+					if (!fh.getNewId().toObjectId().equals(hash.toObjectId())) {
+						throw new PatchApplyException(MessageFormat.format(
+								JGitText.get().applyBinaryResultOidWrong,
+								path));
+					}
+				}
+				Files.copy(buffer.openInputStream(), f.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
+				break;
+			case DELTA_DEFLATED:
+				// Unfortunately delta application needs random access to the
+				// base to construct the result.
+				byte[] base;
+				try (InputStream input = loader.load()) {
+					base = IO.readWholeStream(input, 0).array();
+				}
+				// At least stream the result!
+				try (BinaryDeltaInputStream input = new BinaryDeltaInputStream(
+						base,
+						new InflaterInputStream(new BinaryHunkInputStream(
+								new ByteArrayInputStream(hunk.getBuffer(),
+										start, length))))) {
+					long finalSize = input.getExpectedResultSize();
+					initHash(hash, finalSize);
+					try (OutputStream out = buffer;
+							SHA1InputStream hashed = new SHA1InputStream(hash,
+									input)) {
+						DirCacheCheckout.getContent(repository, path, checkOut,
+								new StreamLoader(() -> hashed, finalSize), null,
+								out);
+						if (!fh.getNewId().toObjectId()
+								.equals(hash.toObjectId())) {
+							throw new PatchApplyException(MessageFormat.format(
+									JGitText.get().applyBinaryResultOidWrong,
+									path));
+						}
+					}
+				}
+				Files.copy(buffer.openInputStream(), f.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
+				break;
+			default:
+				break;
+			}
+		} finally {
+			buffer.destroy();
+		}
+	}
+
+	private void applyText(Repository repository, String path, RawText rt,
+			File f, FileHeader fh, CheckoutMetadata checkOut)
 			throws IOException, PatchApplyException {
 		List<String> oldLines = new ArrayList<>(rt.size());
 		for (int i = 0; i < rt.size(); i++) {
@@ -514,7 +683,9 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			}
 			try (OutputStream output = new FileOutputStream(f)) {
 				DirCacheCheckout.getContent(repository, path, checkOut,
-						new BufferLoader(buffer), null, output);
+						new StreamLoader(buffer::openInputStream,
+								buffer.length()),
+						null, output);
 			}
 		} finally {
 			buffer.destroy();
@@ -564,5 +735,44 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		RawText lhrt = new RawText(lastHunk.getBuffer());
 		return lhrt.getString(lhrt.size() - 1)
 				.equals("\\ No newline at end of file"); //$NON-NLS-1$
+	}
+
+	/**
+	 * An {@link InputStream} that updates a {@link SHA1} on every byte read.
+	 * The hash is supposed to have been initialized before reading starts.
+	 */
+	private static class SHA1InputStream extends InputStream {
+
+		private final SHA1 hash;
+
+		private final InputStream in;
+
+		SHA1InputStream(SHA1 hash, InputStream in) {
+			this.hash = hash;
+			this.in = in;
+		}
+
+		@Override
+		public int read() throws IOException {
+			int b = in.read();
+			if (b >= 0) {
+				hash.update((byte) b);
+			}
+			return b;
+		}
+
+		@Override
+		public int read(byte[] b, int off, int len) throws IOException {
+			int n = in.read(b, off, len);
+			if (n > 0) {
+				hash.update(b, off, n);
+			}
+			return n;
+		}
+
+		@Override
+		public void close() throws IOException {
+			in.close();
+		}
 	}
 }

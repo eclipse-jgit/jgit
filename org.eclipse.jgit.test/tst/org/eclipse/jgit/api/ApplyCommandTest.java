@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
@@ -29,6 +31,7 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.util.IO;
 import org.junit.Test;
 
 public class ApplyCommandTest extends RepositoryTestCase {
@@ -244,6 +247,44 @@ public class ApplyCommandTest extends RepositoryTestCase {
 			FilterCommandRegistry.unregister("jgit://builtin/a2e/clean");
 			FilterCommandRegistry.unregister("jgit://builtin/a2e/smudge");
 		}
+	}
+
+	private void checkBinary(String name, boolean hasPreImage)
+			throws Exception {
+		try (Git git = new Git(db)) {
+			byte[] post = IO
+					.readWholeStream(getTestResource(name + "_PostImage"), 0)
+					.array();
+			File f = new File(db.getWorkTree(), name);
+			if (hasPreImage) {
+				byte[] pre = IO
+						.readWholeStream(getTestResource(name + "_PreImage"), 0)
+						.array();
+				Files.write(f.toPath(), pre);
+				git.add().addFilepattern(name).call();
+				git.commit().setMessage("PreImage").call();
+			}
+			ApplyResult result = git.apply()
+					.setPatch(getTestResource(name + ".patch")).call();
+			assertEquals(1, result.getUpdatedFiles().size());
+			assertEquals(f, result.getUpdatedFiles().get(0));
+			assertArrayEquals(post, Files.readAllBytes(f.toPath()));
+		}
+	}
+
+	@Test
+	public void testBinaryDelta() throws Exception {
+		checkBinary("delta", true);
+	}
+
+	@Test
+	public void testBinaryLiteral() throws Exception {
+		checkBinary("literal", true);
+	}
+
+	@Test
+	public void testBinaryLiteralAdd() throws Exception {
+		checkBinary("literal_add", false);
 	}
 
 	@Test
