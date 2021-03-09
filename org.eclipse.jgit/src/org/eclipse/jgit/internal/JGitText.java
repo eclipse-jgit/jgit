@@ -167,6 +167,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String connectionFailed;
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
+	/***/ public String cookieFilePathRelative;
 	/***/ public String corruptionDetectedReReadingAt;
 	/***/ public String corruptObjectBadDate;
 	/***/ public String corruptObjectBadEmail;

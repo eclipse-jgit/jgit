@@ -35,6 +35,7 @@ import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,8 +54,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.cert.CertPathBuilderException;
 import java.security.cert.CertPathValidatorException;
@@ -101,6 +100,7 @@ import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory2;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -1157,17 +1157,28 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return new TransportException(uri, why);
 	}
 
-	private static NetscapeCookieFile getCookieFileFromConfig(
+	private NetscapeCookieFile getCookieFileFromConfig(
 			HttpConfig config) {
-		if (!StringUtils.isEmptyOrNull(config.getCookieFile())) {
+		String path = config.getCookieFile();
+		if (!StringUtils.isEmptyOrNull(path)) {
 			try {
-				Path cookieFilePath = Paths.get(config.getCookieFile());
+				FS fs = local != null ? local.getFS() : FS.DETECTED;
+				File f;
+				if (path.startsWith("~/")) { //$NON-NLS-1$
+					f = fs.resolve(fs.userHome(), path.substring(2));
+				} else {
+					f = new File(path);
+					if (!f.isAbsolute()) {
+						f = fs.resolve(null, path);
+						LOG.warn(MessageFormat.format(
+								JGitText.get().cookieFilePathRelative, f));
+					}
+				}
 				return NetscapeCookieFileCache.getInstance(config)
-						.getEntry(cookieFilePath);
+						.getEntry(f.toPath());
 			} catch (InvalidPathException e) {
 				LOG.warn(MessageFormat.format(
-						JGitText.get().couldNotReadCookieFile,
-						config.getCookieFile()), e);
+						JGitText.get().couldNotReadCookieFile, path), e);
 			}
 		}
 		return null;
