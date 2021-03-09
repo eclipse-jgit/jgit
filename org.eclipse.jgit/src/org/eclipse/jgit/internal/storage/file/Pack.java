@@ -12,7 +12,6 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 
@@ -38,6 +37,7 @@ import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -51,7 +51,6 @@ import org.eclipse.jgit.errors.UnsupportedPackVersionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -78,13 +77,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	public static final Comparator<Pack> SORT = (a, b) -> b.packLastModified
 			.compareTo(a.packLastModified);
 
-	private final File packFile;
+	private final PackFile packFile;
 
-	private final int extensions;
-
-	private File keepFile;
-
-	private volatile String packName;
+	private PackFile keepFile;
 
 	final int hash;
 
@@ -107,7 +102,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private volatile Exception invalidatingCause;
 
-	private boolean invalidBitmap;
+	@Nullable
+	private PackFile bitmapIdxFile;
 
 	private AtomicInteger transientErrorCount = new AtomicInteger();
 
@@ -133,14 +129,14 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 *
 	 * @param packFile
 	 *            path of the <code>.pack</code> file holding the data.
-	 * @param extensions
-	 *            additional pack file extensions with the same base as the pack
+	 * @param bitmapIdxFile
+	 *            existing bitmap index file with the same base as the pack
 	 */
-	public Pack(File packFile, int extensions) {
-		this.packFile = packFile;
+	public Pack(File packFile, @Nullable PackFile bitmapIdxFile) {
+		this.packFile = new PackFile(packFile);
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
-		this.extensions = extensions;
+		this.bitmapIdxFile = bitmapIdxFile;
 
 		// Multiply by 31 here so we can more directly combine with another
 		// value in WindowCache.hash(), without doing the multiply there.
@@ -156,16 +152,18 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				idx = loadedIdx;
 				if (idx == null) {
 					if (invalid) {
-						throw new PackInvalidException(packFile, invalidatingCause);
+						throw new PackInvalidException(packFile,
+								invalidatingCause);
 					}
 					try {
 						long start = System.currentTimeMillis();
-						idx = PackIndex.open(extFile(INDEX));
+						PackFile idxFile = packFile.create(INDEX);
+						idx = PackIndex.open(idxFile);
 						if (LOG.isDebugEnabled()) {
 							LOG.debug(String.format(
 									"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
-									extFile(INDEX).getAbsolutePath(),
-									Float.valueOf(extFile(INDEX).length()
+									idxFile.getAbsolutePath(),
+									Float.valueOf(idxFile.length()
 											/ (1024f * 1024)),
 									Long.valueOf(System.currentTimeMillis()
 											- start)));
@@ -205,7 +203,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 *
 	 * @return the File object which locates this pack on disk.
 	 */
-	public File getPackFile() {
+	public PackFile getPackFile() {
 		return packFile;
 	}
 
@@ -225,16 +223,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 * @return name extracted from {@code pack-*.pack} pattern.
 	 */
 	public String getPackName() {
-		String name = packName;
-		if (name == null) {
-			name = getPackFile().getName();
-			if (name.startsWith("pack-")) //$NON-NLS-1$
-				name = name.substring("pack-".length()); //$NON-NLS-1$
-			if (name.endsWith(".pack")) //$NON-NLS-1$
-				name = name.substring(0, name.length() - ".pack".length()); //$NON-NLS-1$
-			packName = name;
-		}
-		return name;
+		return packFile.getId();
 	}
 
 	/**
@@ -261,8 +250,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 * @return true if a .keep file exist.
 	 */
 	public boolean shouldBeKept() {
-		if (keepFile == null)
-			keepFile = extFile(KEEP);
+		if (keepFile == null) {
+			keepFile = packFile.create(KEEP);
+		}
 		return keepFile.exists();
 	}
 
@@ -1132,26 +1122,28 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	synchronized PackBitmapIndex getBitmapIndex() throws IOException {
-		if (invalid || invalidBitmap)
+		if (invalid || bitmapIdxFile == null) {
 			return null;
-		if (bitmapIdx == null && hasExt(BITMAP_INDEX)) {
+		}
+		if (bitmapIdx == null) {
 			final PackBitmapIndex idx;
 			try {
-				idx = PackBitmapIndex.open(extFile(BITMAP_INDEX), idx(),
+				idx = PackBitmapIndex.open(bitmapIdxFile, idx(),
 						getReverseIdx());
 			} catch (FileNotFoundException e) {
 				// Once upon a time this bitmap file existed. Now it
 				// has been removed. Most likely an external gc  has
 				// removed this packfile and the bitmap
-				 invalidBitmap = true;
-				 return null;
+				bitmapIdxFile = null;
+				return null;
 			}
 
 			// At this point, idx() will have set packChecksum.
-			if (Arrays.equals(packChecksum, idx.packChecksum))
+			if (Arrays.equals(packChecksum, idx.packChecksum)) {
 				bitmapIdx = idx;
-			else
-				invalidBitmap = true;
+			} else {
+				bitmapIdxFile = null;
+			}
 		}
 		return bitmapIdx;
 	}
@@ -1185,17 +1177,6 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		synchronized (list) {
 			list.add(offset);
 		}
-	}
-
-	private File extFile(PackExt ext) {
-		String p = packFile.getName();
-		int dot = p.lastIndexOf('.');
-		String b = (dot < 0) ? p : p.substring(0, dot);
-		return new File(packFile.getParentFile(), b + '.' + ext.getExtension());
-	}
-
-	private boolean hasExt(PackExt ext) {
-		return (extensions & ext.getBit()) != 0;
 	}
 
 	@SuppressWarnings("nls")

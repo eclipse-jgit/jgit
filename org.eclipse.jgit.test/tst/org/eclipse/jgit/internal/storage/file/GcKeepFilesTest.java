@@ -14,10 +14,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.util.Iterator;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.junit.Test;
 
@@ -40,10 +40,7 @@ public class GcKeepFilesTest extends GcTestCase {
 				.iterator();
 		Pack singlePack = packIt.next();
 		assertFalse(packIt.hasNext());
-		String packFileName = singlePack.getPackFile().getPath();
-		String keepFileName = packFileName.substring(0,
-				packFileName.lastIndexOf('.')) + ".keep";
-		File keepFile = new File(keepFileName);
+		PackFile keepFile = singlePack.getPackFile().create(PackExt.KEEP);
 		assertFalse(keepFile.exists());
 		assertTrue(keepFile.createNewFile());
 		bb.commit().add("A", "A2").add("B", "B2").create();

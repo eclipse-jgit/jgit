@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.File;
@@ -20,13 +22,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
@@ -121,21 +124,36 @@ class PackDirectory {
 	 *
 	 * @param objectId
 	 *            identity of the object to test for existence of.
-	 * @return true if the specified object is stored in this PackDirectory.
+	 * @return {@code true} if the specified object is stored in this PackDirectory.
 	 */
 	boolean has(AnyObjectId objectId) {
+		return getPack(objectId) != null;
+	}
+
+	/**
+	 * Get the {@link org.eclipse.jgit.internal.storage.file.Pack} for the
+	 * specified object if it is stored in this PackDirectory.
+	 *
+	 * @param objectId
+	 *            identity of the object to find the Pack for.
+	 * @return {@link org.eclipse.jgit.internal.storage.file.Pack} which
+	 *         contains the specified object or {@code null} if it is not stored
+	 *         in this PackDirectory.
+	 */
+	@Nullable
+	Pack getPack(AnyObjectId objectId) {
 		PackList pList;
 		do {
 			pList = packList.get();
 			for (Pack p : pList.packs) {
 				try {
 					if (p.hasObject(objectId)) {
-						return true;
+						return p;
 					}
 				} catch (IOException e) {
-					// The hasObject call should have only touched the index,
-					// so any failure here indicates the index is unreadable
-					// by this process, and the pack is likewise not readable.
+					// The hasObject call should have only touched the index, so
+					// any failure here indicates the index is unreadable by
+					// this process, and the pack is likewise not readable.
 					LOG.warn(MessageFormat.format(
 							JGitText.get().unableToReadPackfile,
 							p.getPackFile().getAbsolutePath()), e);
@@ -143,7 +161,7 @@ class PackDirectory {
 				}
 			}
 		} while (searchPacksAgain(pList));
-		return false;
+		return null;
 	}
 
 	/**
@@ -398,43 +416,29 @@ class PackDirectory {
 	private PackList scanPacksImpl(PackList old) {
 		final Map<String, Pack> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(directory);
-		final Set<String> names = listPackDirectory();
-		final List<Pack> list = new ArrayList<>(names.size() >> 2);
+		Map<String, Map<PackExt, PackFile>> packFilesByExtById = getPackFilesByExtById();
+		List<Pack> list = new ArrayList<>(packFilesByExtById.size());
 		boolean foundNew = false;
-		for (String indexName : names) {
-			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
-			//
-			if (indexName.length() != 49 || !indexName.endsWith(".idx")) { //$NON-NLS-1$
-				continue;
-			}
-
-			final String base = indexName.substring(0, indexName.length() - 3);
-			int extensions = 0;
-			for (PackExt ext : PackExt.values()) {
-				if (names.contains(base + ext.getExtension())) {
-					extensions |= ext.getBit();
-				}
-			}
-
-			if ((extensions & PACK.getBit()) == 0) {
+		for (Map<PackExt, PackFile> packFilesByExt : packFilesByExtById
+				.values()) {
+			PackFile packFile = packFilesByExt.get(PACK);
+			if (packFile == null || !packFilesByExt.containsKey(INDEX)) {
 				// Sometimes C Git's HTTP fetch transport leaves a
 				// .idx file behind and does not download the .pack.
 				// We have to skip over such useless indexes.
-				//
+				// Also skip if we don't have any index for this id
 				continue;
 			}
 
-			final String packName = base + PACK.getExtension();
-			final File packFile = new File(directory, packName);
-			final Pack oldPack = forReuse.get(packName);
+			Pack oldPack = forReuse.get(packFile.getName());
 			if (oldPack != null
 					&& !oldPack.getFileSnapshot().isModified(packFile)) {
-				forReuse.remove(packName);
+				forReuse.remove(packFile.getName());
 				list.add(oldPack);
 				continue;
 			}
 
-			list.add(new Pack(packFile, extensions));
+			list.add(new Pack(packFile, packFilesByExt.get(BITMAP_INDEX)));
 			foundNew = true;
 		}
 
@@ -487,18 +491,42 @@ class PackDirectory {
 		return forReuse;
 	}
 
-	private Set<String> listPackDirectory() {
+	/**
+	 * Scans the pack directory for
+	 * {@link org.eclipse.jgit.internal.storage.file.PackFile}s and returns them
+	 * organized by their extensions and their pack ids
+	 *
+	 * Skips files in the directory that we cannot create a
+	 * {@link org.eclipse.jgit.internal.storage.file.PackFile} for.
+	 *
+	 * @return a map of {@link org.eclipse.jgit.internal.storage.file.PackFile}s
+	 *         and {@link org.eclipse.jgit.internal.storage.pack.PackExt}s keyed
+	 *         by pack ids
+	 */
+	private Map<String, Map<PackExt, PackFile>> getPackFilesByExtById() {
 		final String[] nameList = directory.list();
 		if (nameList == null) {
-			return Collections.emptySet();
+			return Collections.emptyMap();
 		}
-		final Set<String> nameSet = new HashSet<>(nameList.length << 1);
+		Map<String, Map<PackExt, PackFile>> packFilesByExtById = new HashMap<>(
+				nameList.length / 2); // assume roughly 2 files per id
 		for (String name : nameList) {
-			if (name.startsWith("pack-")) { //$NON-NLS-1$
-				nameSet.add(name);
+			try {
+				PackFile pack = new PackFile(directory, name);
+				if (pack.getPackExt() != null) {
+					Map<PackExt, PackFile> packByExt = packFilesByExtById
+							.get(pack.getId());
+					if (packByExt == null) {
+						packByExt = new EnumMap<>(PackExt.class);
+						packFilesByExtById.put(pack.getId(), packByExt);
+					}
+					packByExt.put(pack.getPackExt(), pack);
+				}
+			} catch (IllegalArgumentException e) {
+				continue;
 			}
 		}
-		return nameSet;
+		return packFilesByExtById;
 	}
 
 	static final class PackList {

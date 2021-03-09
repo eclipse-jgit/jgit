@@ -771,6 +771,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unmergedPaths;
 	/***/ public String unpackException;
 	/***/ public String unreadablePackIndex;
+	/***/ public String unrecognizedPackExtension;
 	/***/ public String unrecognizedRef;
 	/***/ public String unsetMark;
 	/***/ public String unsupportedAlternates;

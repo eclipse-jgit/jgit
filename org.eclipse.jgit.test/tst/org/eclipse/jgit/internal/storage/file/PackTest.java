@@ -246,8 +246,8 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 
 			File dir = new File(repo.getObjectDatabase().getDirectory(),
 					"pack");
-			File packName = new File(dir, idA.name() + ".pack");
-			File idxName = new File(dir, idA.name() + ".idx");
+			PackFile packName = new PackFile(dir, idA.name() + ".pack");
+			PackFile idxName = packName.create(PackExt.INDEX);
 
 			try (FileOutputStream f = new FileOutputStream(packName)) {
 				f.write(packContents.toByteArray());
@@ -261,7 +261,7 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 				new PackIndexWriterV1(f).write(list, footer);
 			}
 
-			Pack pack = new Pack(packName, PackExt.INDEX.getBit());
+			Pack pack = new Pack(packName, null);
 			try {
 				pack.get(wc, b);
 				fail("expected LargeObjectException.ExceedsByteArrayLimit");

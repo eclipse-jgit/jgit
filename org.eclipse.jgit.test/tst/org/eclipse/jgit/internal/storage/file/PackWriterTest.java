@@ -34,6 +34,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
@@ -305,9 +306,9 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testWritePack2DeltasCRC32Copy() throws IOException {
 		final File packDir = db.getObjectDatabase().getPackDirectory();
-		final File crc32Pack = new File(packDir,
+		final PackFile crc32Pack = new PackFile(packDir,
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack");
-		final File crc32Idx = new File(packDir,
+		final PackFile crc32Idx = new PackFile(packDir,
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idx");
 		copyFile(JGitTestUtil.getTestResourceFile(
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idxV2"),
@@ -471,10 +472,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		config.setIndexVersion(2);
 		writeVerifyPack4(false);
 
-		File packFile = pack.getPackFile();
-		String name = packFile.getName();
-		String base = name.substring(0, name.lastIndexOf('.'));
-		File indexFile = new File(packFile.getParentFile(), base + ".idx");
+		PackFile packFile = pack.getPackFile();
+		PackFile indexFile = packFile.create(PackExt.INDEX);
 
 		// Validate that IndexPack came up with the right CRC32 value.
 		final PackIndex idx1 = PackIndex.open(indexFile);
@@ -685,14 +684,14 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			ObjectWalk ow = walk.toObjectWalkWithSameObjects();
 
 			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have, NONE);
-			String id = pw.computeName().getName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
-			File packFile = new File(packdir, "pack-" + id + ".pack");
+			PackFile packFile = new PackFile(packdir, pw.computeName(),
+					PackExt.PACK);
 			try (FileOutputStream packOS = new FileOutputStream(packFile)) {
 				pw.writePack(NullProgressMonitor.INSTANCE,
 						NullProgressMonitor.INSTANCE, packOS);
 			}
-			File idxFile = new File(packdir, "pack-" + id + ".idx");
+			PackFile idxFile = packFile.create(PackExt.INDEX);
 			try (FileOutputStream idxOS = new FileOutputStream(idxFile)) {
 				pw.writeIndex(idxOS);
 			}
