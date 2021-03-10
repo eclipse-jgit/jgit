@@ -288,6 +288,14 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testEncodingChange() throws Exception {
+		// This is a text patch that changes a file containing ÄÖÜ in UTF-8 to
+		// the same characters in ISO-8859-1. The patch file itself uses mixed
+		// encoding. Since checkFile() works with strings use the binary check.
+		checkBinary("umlaut", true);
+	}
+
+	@Test
 	public void testAddA1() throws Exception {
 		ApplyResult result = init("A1", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());

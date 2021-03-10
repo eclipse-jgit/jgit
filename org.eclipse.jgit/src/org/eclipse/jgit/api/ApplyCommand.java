@@ -10,7 +10,6 @@
 package org.eclipse.jgit.api;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,9 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
@@ -549,11 +546,11 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	private void applyText(Repository repository, String path, RawText rt,
 			File f, FileHeader fh, CheckoutMetadata checkOut)
 			throws IOException, PatchApplyException {
-		List<String> oldLines = new ArrayList<>(rt.size());
+		List<ByteBuffer> oldLines = new ArrayList<>(rt.size());
 		for (int i = 0; i < rt.size(); i++) {
-			oldLines.add(rt.getString(i));
+			oldLines.add(rt.getRawString(i));
 		}
-		List<String> newLines = new ArrayList<>(oldLines);
+		List<ByteBuffer> newLines = new ArrayList<>(oldLines);
 		int afterLastHunk = 0;
 		int lineNumberShift = 0;
 		int lastHunkNewLine = -1;
@@ -571,9 +568,9 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 					b.length);
 			RawText hrt = new RawText(b);
 
-			List<String> hunkLines = new ArrayList<>(hrt.size());
+			List<ByteBuffer> hunkLines = new ArrayList<>(hrt.size());
 			for (int i = 0; i < hrt.size(); i++) {
-				hunkLines.add(hrt.getString(i));
+				hunkLines.add(hrt.getRawString(i));
 			}
 
 			if (hh.getNewStartLine() == 0) {
@@ -642,8 +639,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			lineNumberShift = applyAt - hh.getNewStartLine() + 1;
 			int sz = hunkLines.size();
 			for (int j = 1; j < sz; j++) {
-				String hunkLine = hunkLines.get(j);
-				switch (hunkLine.charAt(0)) {
+				ByteBuffer hunkLine = hunkLines.get(j);
+				switch (hunkLine.array()[hunkLine.position()]) {
 				case ' ':
 					applyAt++;
 					break;
@@ -651,7 +648,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 					newLines.remove(applyAt);
 					break;
 				case '+':
-					newLines.add(applyAt++, hunkLine.substring(1));
+					newLines.add(applyAt++, slice(hunkLine, 1));
 					break;
 				default:
 					break;
@@ -660,28 +657,29 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			afterLastHunk = applyAt;
 		}
 		if (!isNoNewlineAtEndOfFile(fh)) {
-			newLines.add(""); //$NON-NLS-1$
+			newLines.add(null);
 		}
 		if (!rt.isMissingNewlineAtEnd()) {
-			oldLines.add(""); //$NON-NLS-1$
+			oldLines.add(null);
 		}
-		if (!isChanged(oldLines, newLines)) {
-			return; // Don't touch the file
+		if (oldLines.equals(newLines)) {
+			return; // Unchanged; don't touch the file
 		}
 
-		// TODO: forcing UTF-8 is a bit strange and may lead to re-coding if the
-		// input was some other encoding, but it's what previous versions of
-		// this code used. (Even earlier the code used the default encoding,
-		// which has the same problem.) Perhaps using bytes instead of Strings
-		// for the lines would be better.
 		TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);
 		try {
-			try (Writer w = new BufferedWriter(
-					new OutputStreamWriter(buffer, StandardCharsets.UTF_8))) {
-				for (Iterator<String> l = newLines.iterator(); l.hasNext();) {
-					w.write(l.next());
+			try (OutputStream out = buffer) {
+				for (Iterator<ByteBuffer> l = newLines.iterator(); l
+						.hasNext();) {
+					ByteBuffer line = l.next();
+					if (line == null) {
+						// Must be the marker for the final newline
+						break;
+					}
+					out.write(line.array(), line.position(),
+							line.limit() - line.position());
 					if (l.hasNext()) {
-						w.write('\n');
+						out.write('\n');
 					}
 				}
 			}
@@ -698,18 +696,18 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				fh.getNewMode() == FileMode.EXECUTABLE_FILE);
 	}
 
-	private boolean canApplyAt(List<String> hunkLines, List<String> newLines,
-			int line) {
+	private boolean canApplyAt(List<ByteBuffer> hunkLines,
+			List<ByteBuffer> newLines, int line) {
 		int sz = hunkLines.size();
 		int limit = newLines.size();
 		int pos = line;
 		for (int j = 1; j < sz; j++) {
-			String hunkLine = hunkLines.get(j);
-			switch (hunkLine.charAt(0)) {
+			ByteBuffer hunkLine = hunkLines.get(j);
+			switch (hunkLine.array()[hunkLine.position()]) {
 			case ' ':
 			case '-':
 				if (pos >= limit
-						|| !newLines.get(pos).equals(hunkLine.substring(1))) {
+						|| !newLines.get(pos).equals(slice(hunkLine, 1))) {
 					return false;
 				}
 				pos++;
@@ -721,13 +719,9 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		return true;
 	}
 
-	private static boolean isChanged(List<String> ol, List<String> nl) {
-		if (ol.size() != nl.size())
-			return true;
-		for (int i = 0; i < ol.size(); i++)
-			if (!ol.get(i).equals(nl.get(i)))
-				return true;
-		return false;
+	private ByteBuffer slice(ByteBuffer b, int off) {
+		int newOffset = b.position() + off;
+		return ByteBuffer.wrap(b.array(), newOffset, b.limit() - newOffset);
 	}
 
 	private boolean isNoNewlineAtEndOfFile(FileHeader fh) {
