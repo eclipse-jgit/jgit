@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 import org.eclipse.jgit.api.errors.PatchApplyException;
@@ -251,6 +252,11 @@ public class ApplyCommandTest extends RepositoryTestCase {
 
 	private void checkBinary(String name, boolean hasPreImage)
 			throws Exception {
+		checkBinary(name, hasPreImage, 1);
+	}
+
+	private void checkBinary(String name, boolean hasPreImage,
+			int numberOfFiles) throws Exception {
 		try (Git git = new Git(db)) {
 			byte[] post = IO
 					.readWholeStream(getTestResource(name + "_PostImage"), 0)
@@ -266,7 +272,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 			}
 			ApplyResult result = git.apply()
 					.setPatch(getTestResource(name + ".patch")).call();
-			assertEquals(1, result.getUpdatedFiles().size());
+			assertEquals(numberOfFiles, result.getUpdatedFiles().size());
 			assertEquals(f, result.getUpdatedFiles().get(0));
 			assertArrayEquals(post, Files.readAllBytes(f.toPath()));
 		}
@@ -301,6 +307,18 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		// According to comments in the C git sources (apply.c), newer GNU diff
 		// may produce such diffs.
 		checkBinary("emptyLine", true);
+	}
+
+	@Test
+	public void testMultiFileNoNewline() throws Exception {
+		// This test needs two files. One is in the test resources.
+		try (Git git = new Git(db)) {
+			Files.write(db.getWorkTree().toPath().resolve("yello"),
+					"yello".getBytes(StandardCharsets.US_ASCII));
+			git.add().addFilepattern("yello").call();
+			git.commit().setMessage("yello").call();
+		}
+		checkBinary("hello", true, 2);
 	}
 
 	@Test
