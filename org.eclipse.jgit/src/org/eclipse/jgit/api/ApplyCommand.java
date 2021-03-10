@@ -742,7 +742,11 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			return false;
 		}
 		HunkHeader lastHunk = hunks.get(hunks.size() - 1);
-		RawText lhrt = new RawText(lastHunk.getBuffer());
+		byte[] buf = new byte[lastHunk.getEndOffset()
+				- lastHunk.getStartOffset()];
+		System.arraycopy(lastHunk.getBuffer(), lastHunk.getStartOffset(), buf,
+				0, buf.length);
+		RawText lhrt = new RawText(buf);
 		return lhrt.getString(lhrt.size() - 1)
 				.equals("\\ No newline at end of file"); //$NON-NLS-1$
 	}
