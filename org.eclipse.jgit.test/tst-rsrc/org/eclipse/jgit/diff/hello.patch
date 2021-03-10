@@ -1,0 +1,16 @@
+diff --git a/hello b/hello
+index b6fc4c6..0abaeaa 100644
+--- a/hello
++++ b/hello
+@@ -1 +1 @@
+-hello
+\ No newline at end of file
++bye
+\ No newline at end of file
+diff --git a/yello b/yello
+index 391a8cb..d1ed081 100644
+--- a/yello
++++ b/yello
+@@ -1 +1 @@
+-yello
++yellow
