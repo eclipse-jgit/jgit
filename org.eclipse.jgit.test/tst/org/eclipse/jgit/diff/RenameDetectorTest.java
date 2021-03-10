@@ -543,6 +543,80 @@ public class RenameDetectorTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testExactRename_LargeFile() throws Exception {
+		ObjectId aId = blob("blah\nblah\nfoo");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, aId);
+
+		rd.add(a);
+		rd.add(b);
+
+		rd.setBigFileThreshold(10);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+		assertRename(b, a, 100, entries.get(0));
+	}
+
+	@Test
+	public void testInexactRename_LargeFile() throws Exception {
+		ObjectId aId = blob("blah\nblah\nfoo"); // size = 14
+		ObjectId bId = blob("bla\nblah\nfoo"); // size = 13
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		rd.setBigFileThreshold(10);
+
+		List<DiffEntry> entries = rd.compute();
+
+		// Inexact renames are not detected for large files
+		assertEquals(2, entries.size());
+		assertAdd(PATH_A, aId, FileMode.REGULAR_FILE, entries.get(0));
+		assertDelete(PATH_Q, bId, FileMode.REGULAR_FILE, entries.get(1));
+	}
+
+	@Test
+	public void testExactRename_BinaryFile() throws Exception {
+		ObjectId aId = blob("a\nb\nc\n\0\0\0\0d\n");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, aId);
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+		assertRename(b, a, 100, entries.get(0));
+	}
+
+	@Test
+	public void testInexactRename_BinaryFile() throws Exception {
+		ObjectId aId = blob("a\nb\nc\n\0\0\0\0d\n");
+		ObjectId bId = blob("a\nb\nc\n\0\0\0d\n");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		rd.setRenameScore(40);
+
+		List<DiffEntry> entries = rd.compute();
+
+		// Inexact renames are not detected for binary files
+		assertEquals(2, entries.size());
+		assertAdd(PATH_A, aId, FileMode.REGULAR_FILE, entries.get(0));
+		assertDelete(PATH_Q, bId, FileMode.REGULAR_FILE, entries.get(1));
+	}
+
+	@Test
 	public void testSetRenameScore_IllegalArgs() throws Exception {
 		try {
 			rd.setRenameScore(-1);
@@ -633,5 +707,16 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertEquals(newName, add.newPath);
 		assertEquals(AbbreviatedObjectId.fromObjectId(newId), add.newId);
 		assertEquals(newMode, add.newMode);
+	}
+
+	private static void assertDelete(String oldName, ObjectId oldId,
+			FileMode oldMode, DiffEntry delete) {
+		assertEquals(DiffEntry.DEV_NULL, delete.newPath);
+		assertEquals(DiffEntry.A_ZERO, delete.newId);
+		assertEquals(FileMode.MISSING, delete.newMode);
+		assertEquals(ChangeType.DELETE, delete.changeType);
+		assertEquals(oldName, delete.oldPath);
+		assertEquals(AbbreviatedObjectId.fromObjectId(oldId), delete.oldId);
+		assertEquals(oldMode, delete.oldMode);
 	}
 }

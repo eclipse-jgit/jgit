@@ -12,6 +12,7 @@ package org.eclipse.jgit.diff;
 
 import static org.eclipse.jgit.diff.DiffEntry.Side.NEW;
 import static org.eclipse.jgit.diff.DiffEntry.Side.OLD;
+import static org.eclipse.jgit.storage.pack.PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -96,6 +98,12 @@ public class RenameDetector {
 
 	/** Limit in the number of files to consider for renames. */
 	private int renameLimit;
+
+	/**
+	 * File size threshold (in bytes) for detecting renames. Files larger
+	 * than this size will not be processed for renames.
+	 */
+	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
 	/** Set if the number of adds or deletes was over the limit. */
 	private boolean overRenameLimit;
@@ -206,6 +214,23 @@ public class RenameDetector {
 	 */
 	public void setRenameLimit(int limit) {
 		renameLimit = limit;
+	}
+
+	/**
+	 * Get file size threshold for detecting renames.
+	 *
+	 * @return threshold in bytes of the file size.
+	 */
+	public int getBigFileThreshold() { return bigFileThreshold; }
+
+	/**
+	 * Set the file size threshold for detecting renames. Files larger than this
+	 * threshold will be skipped during rename detection computation.
+	 *
+	 * @param threshold file size threshold in bytes.
+	 */
+	public void setBigFileThreshold(int threshold) {
+		this.bigFileThreshold = threshold;
 	}
 
 	/**
@@ -404,7 +429,7 @@ public class RenameDetector {
 	}
 
 	private void breakModifies(ContentSource.Pair reader, ProgressMonitor pm)
-			throws IOException, CancelledException {
+			throws IOException {
 		ArrayList<DiffEntry> newEntries = new ArrayList<>(entries.size());
 
 		pm.beginTask(JGitText.get().renamesBreakingModifies, entries.size());
@@ -481,6 +506,8 @@ public class RenameDetector {
 			//
 			overRenameLimit = true;
 			return breakScore + 1;
+		} catch (BinaryBlobException binaryBlobException) {
+			return breakScore + 1;
 		}
 	}
 
@@ -493,6 +520,7 @@ public class RenameDetector {
 
 			d = new SimilarityRenameDetector(reader, deleted, added);
 			d.setRenameScore(getRenameScore());
+			d.setBigFileThreshold(getBigFileThreshold());
 			d.compute(pm);
 			overRenameLimit |= d.isTableOverflow();
 			deleted = d.getLeftOverSources();

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
@@ -87,8 +88,10 @@ public class SimilarityIndex {
 	 * @throws org.eclipse.jgit.diff.SimilarityIndex.TableFullException
 	 *             object hashing overflowed the storage capacity of the
 	 *             SimilarityIndex.
+	 * @throws org.eclipse.jgit.errors.BinaryBlobException
+	 *             file used for the similarity computation is a binary file.
 	 */
-	public static SimilarityIndex create(ObjectLoader obj) throws IOException,
+	public static SimilarityIndex create(ObjectLoader obj) throws BinaryBlobException, IOException,
 			TableFullException {
 		SimilarityIndex idx = new SimilarityIndex();
 		idx.hash(obj);
@@ -102,7 +105,7 @@ public class SimilarityIndex {
 		idGrowAt = growAt(idHashBits);
 	}
 
-	void hash(ObjectLoader obj) throws MissingObjectException, IOException,
+	void hash(ObjectLoader obj) throws BinaryBlobException, MissingObjectException, IOException,
 			TableFullException {
 		if (obj.isLarge()) {
 			hashLargeObject(obj);
@@ -113,19 +116,24 @@ public class SimilarityIndex {
 	}
 
 	private void hashLargeObject(ObjectLoader obj) throws IOException,
-			TableFullException {
+			BinaryBlobException, TableFullException {
 		boolean text;
 		try (ObjectStream in1 = obj.openStream()) {
 			text = !RawText.isBinary(in1);
 		}
-
+		if (!text) {
+			throw new BinaryBlobException();
+		}
 		try (ObjectStream in2 = obj.openStream()) {
 			hash(in2, in2.getSize(), text);
 		}
 	}
 
-	void hash(byte[] raw, int ptr, int end) throws TableFullException {
+	void hash(byte[] raw, int ptr, int end) throws BinaryBlobException, TableFullException {
 		final boolean text = !RawText.isBinary(raw);
+		if (!text) {
+			throw new BinaryBlobException();
+		}
 		hashedCnt = 0;
 		while (ptr < end) {
 			int hash = 5381;

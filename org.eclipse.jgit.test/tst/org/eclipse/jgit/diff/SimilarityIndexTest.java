@@ -18,12 +18,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
 public class SimilarityIndexTest {
 	@Test
-	public void testIndexingSmallObject() throws TableFullException {
+	public void testIndexingSmallObject() throws BinaryBlobException, TableFullException {
 		SimilarityIndex si = hash("" //
 				+ "A\n" //
 				+ "B\n" //
@@ -56,7 +57,7 @@ public class SimilarityIndexTest {
 	}
 
 	@Test
-	public void testCommonScore_SameFiles() throws TableFullException {
+	public void testCommonScore_SameFiles() throws BinaryBlobException, TableFullException {
 		String text = "" //
 				+ "A\n" //
 				+ "B\n" //
@@ -73,7 +74,7 @@ public class SimilarityIndexTest {
 
 	@Test
 	public void testCommonScore_SameFiles_CR_canonicalization()
-			throws TableFullException {
+			throws BinaryBlobException, TableFullException {
 		String text = "" //
 				+ "A\r\n" //
 				+ "B\r\n" //
@@ -114,7 +115,7 @@ public class SimilarityIndexTest {
 	}
 
 	@Test
-	public void testCommonScore_EmptyFiles() throws TableFullException {
+	public void testCommonScore_EmptyFiles() throws BinaryBlobException, TableFullException {
 		SimilarityIndex src = hash("");
 		SimilarityIndex dst = hash("");
 		assertEquals(0, src.common(dst));
@@ -123,7 +124,7 @@ public class SimilarityIndexTest {
 
 	@Test
 	public void testCommonScore_TotallyDifferentFiles()
-			throws TableFullException {
+			throws BinaryBlobException, TableFullException {
 		SimilarityIndex src = hash("A\n");
 		SimilarityIndex dst = hash("D\n");
 		assertEquals(0, src.common(dst));
@@ -131,7 +132,7 @@ public class SimilarityIndexTest {
 	}
 
 	@Test
-	public void testCommonScore_SimiliarBy75() throws TableFullException {
+	public void testCommonScore_SimiliarBy75() throws BinaryBlobException, TableFullException {
 		SimilarityIndex src = hash("A\nB\nC\nD\n");
 		SimilarityIndex dst = hash("A\nB\nC\nQ\n");
 		assertEquals(6, src.common(dst));
@@ -141,7 +142,7 @@ public class SimilarityIndexTest {
 		assertEquals(75, dst.score(src, 100));
 	}
 
-	private static SimilarityIndex hash(String text) throws TableFullException {
+	private static SimilarityIndex hash(String text) throws BinaryBlobException, TableFullException {
 		SimilarityIndex src = new SimilarityIndex();
 		byte[] raw = Constants.encode(text);
 		src.hash(raw, 0, raw.length);
@@ -149,7 +150,7 @@ public class SimilarityIndexTest {
 		return src;
 	}
 
-	private static int keyFor(String line) throws TableFullException {
+	private static int keyFor(String line) throws BinaryBlobException, TableFullException {
 		SimilarityIndex si = hash(line);
 		assertEquals("single line scored", 1, si.size());
 		return si.key(0);
