@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2008-2009, Johannes E. Schindelin <johannes.schindelin@gmx.de> and others
+ * Copyright (C) 2008-2021, Johannes E. Schindelin <johannes.schindelin@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 
 import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -162,6 +163,27 @@ public class RawText extends Sequence {
 	 */
 	public String getString(int i) {
 		return getString(i, i + 1, true);
+	}
+
+	/**
+	 * Get the raw text for a single line.
+	 *
+	 * @param i
+	 *            index of the line to extract. Note this is 0-based, so line
+	 *            number 1 is actually index 0.
+	 * @return the text for the line, without a trailing LF, as a
+	 *         {@link ByteBuffer} that is backed by a slice of the
+	 *         {@link #getRawContent() raw content}, with the buffer's position
+	 *         on the start of the line and the limit at the end.
+	 * @since 5.11
+	 */
+	public ByteBuffer getRawString(int i) {
+		int s = getStart(i);
+		int e = getEnd(i);
+		if (e > 0 && content[e - 1] == '\n') {
+			e--;
+		}
+		return ByteBuffer.wrap(content, s, e - s);
 	}
 
 	/**
