@@ -636,6 +636,11 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			int sz = hunkLines.size();
 			for (int j = 1; j < sz; j++) {
 				ByteBuffer hunkLine = hunkLines.get(j);
+				if (!hunkLine.hasRemaining()) {
+					// Completely empty line; accept as empty context line
+					applyAt++;
+					continue;
+				}
 				switch (hunkLine.array()[hunkLine.position()]) {
 				case ' ':
 					applyAt++;
@@ -672,8 +677,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 						// Must be the marker for the final newline
 						break;
 					}
-					out.write(line.array(), line.position(),
-							line.limit() - line.position());
+					out.write(line.array(), line.position(), line.remaining());
 					if (l.hasNext()) {
 						out.write('\n');
 					}
@@ -699,6 +703,14 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		int pos = line;
 		for (int j = 1; j < sz; j++) {
 			ByteBuffer hunkLine = hunkLines.get(j);
+			if (!hunkLine.hasRemaining()) {
+				// Empty line. Accept as empty context line.
+				if (pos >= limit || newLines.get(pos).hasRemaining()) {
+					return false;
+				}
+				pos++;
+				continue;
+			}
 			switch (hunkLine.array()[hunkLine.position()]) {
 			case ' ':
 			case '-':

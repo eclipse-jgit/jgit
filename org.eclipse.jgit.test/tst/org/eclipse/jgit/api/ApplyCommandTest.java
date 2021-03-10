@@ -296,6 +296,14 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testEmptyLine() throws Exception {
+		// C git accepts completely empty lines as empty context lines.
+		// According to comments in the C git sources (apply.c), newer GNU diff
+		// may produce such diffs.
+		checkBinary("emptyLine", true);
+	}
+
+	@Test
 	public void testAddA1() throws Exception {
 		ApplyResult result = init("A1", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
