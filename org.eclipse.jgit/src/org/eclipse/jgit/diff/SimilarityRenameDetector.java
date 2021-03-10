@@ -12,6 +12,7 @@ package org.eclipse.jgit.diff;
 
 import static org.eclipse.jgit.diff.DiffEntry.Side.NEW;
 import static org.eclipse.jgit.diff.DiffEntry.Side.OLD;
+import static org.eclipse.jgit.storage.pack.PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.FileMode;
@@ -80,6 +82,12 @@ class SimilarityRenameDetector {
 	/** Score a pair must exceed to be considered a rename. */
 	private int renameScore = 60;
 
+	/**
+	 * File size threshold (in bytes) for detecting renames. Files larger
+	 * than this size will not be processed for renames.
+	 */
+	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
+
 	/** Set if any {@link SimilarityIndex.TableFullException} occurs. */
 	private boolean tableOverflow;
 
@@ -94,6 +102,10 @@ class SimilarityRenameDetector {
 
 	void setRenameScore(int score) {
 		renameScore = score;
+	}
+
+	void setBigFileThreshold(int threshold) {
+		bigFileThreshold = threshold;
 	}
 
 	void compute(ProgressMonitor pm) throws IOException, CancelledException {
@@ -253,10 +265,15 @@ class SimilarityRenameDetector {
 					continue;
 				}
 
+				if (max > bigFileThreshold) {
+					pm.update(1);
+					continue;
+				}
+
 				if (s == null) {
 					try {
 						s = hash(OLD, srcEnt);
-					} catch (TableFullException tableFull) {
+					} catch (BinaryBlobException | TableFullException tableFull) {
 						tableOverflow = true;
 						continue SRC;
 					}
@@ -265,6 +282,9 @@ class SimilarityRenameDetector {
 				SimilarityIndex d;
 				try {
 					d = hash(NEW, dstEnt);
+				} catch (BinaryBlobException binaryBlobException) {
+					pm.update(1);
+					continue;
 				} catch (TableFullException tableFull) {
 					if (dstTooLarge == null)
 						dstTooLarge = new BitSet(dsts.size());
@@ -349,7 +369,7 @@ class SimilarityRenameDetector {
 	}
 
 	private SimilarityIndex hash(DiffEntry.Side side, DiffEntry ent)
-			throws IOException, TableFullException {
+			throws BinaryBlobException, IOException, TableFullException {
 		SimilarityIndex r = new SimilarityIndex();
 		r.hash(reader.open(side, ent));
 		r.sort();
