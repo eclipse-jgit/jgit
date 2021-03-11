@@ -12,6 +12,7 @@ package org.eclipse.jgit.diff;
 
 import static org.eclipse.jgit.diff.DiffEntry.Side.NEW;
 import static org.eclipse.jgit.diff.DiffEntry.Side.OLD;
+import static org.eclipse.jgit.storage.pack.PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,6 +81,12 @@ class SimilarityRenameDetector {
 	/** Score a pair must exceed to be considered a rename. */
 	private int renameScore = 60;
 
+	/**
+	 * File size threshold (in bytes) for detecting renames. Files larger
+	 * than this size will not be processed for renames.
+	 */
+	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
+
 	/** Set if any {@link SimilarityIndex.TableFullException} occurs. */
 	private boolean tableOverflow;
 
@@ -94,6 +101,10 @@ class SimilarityRenameDetector {
 
 	void setRenameScore(int score) {
 		renameScore = score;
+	}
+
+	void setBigFileThreshold(int threshold) {
+		bigFileThreshold = threshold;
 	}
 
 	void compute(ProgressMonitor pm) throws IOException, CancelledException {
@@ -249,6 +260,11 @@ class SimilarityRenameDetector {
 				long min = Math.min(srcSize, dstSize);
 				if (min * 100 / max < renameScore) {
 					// Cannot possibly match, as the file sizes are so different
+					pm.update(1);
+					continue;
+				}
+
+				if (max > bigFileThreshold) {
 					pm.update(1);
 					continue;
 				}
