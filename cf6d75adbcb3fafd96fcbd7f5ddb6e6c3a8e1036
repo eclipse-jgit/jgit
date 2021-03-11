@@ -25,6 +25,57 @@
     },
     {
       "key": {
+        "uuid": "87c15bca_ca69ae5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-11T21:21:55Z",
+      "side": 1,
+      "message": "also mention here that files larger than the threshold are skipped during rename detection ?",
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c978fcde_1365a089",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-11T21:21:55Z",
+      "side": 1,
+      "message": "- I tagged 5.11 and bumped version to 5.12 on master, please rebase this change on master\n- missing @since 5.12 tag for new API method",
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "effe8d97_95ac519c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-11T21:21:55Z",
+      "side": 1,
+      "message": "missing @since 5.12 tag for new API method",
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f4cca72_3a2489b0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
         "patchSetId": 3
