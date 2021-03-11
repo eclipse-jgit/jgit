@@ -12,6 +12,7 @@ package org.eclipse.jgit.diff;
 
 import static org.eclipse.jgit.diff.DiffEntry.Side.NEW;
 import static org.eclipse.jgit.diff.DiffEntry.Side.OLD;
+import static org.eclipse.jgit.storage.pack.PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,6 +97,12 @@ public class RenameDetector {
 
 	/** Limit in the number of files to consider for renames. */
 	private int renameLimit;
+
+	/**
+	 * File size threshold (in bytes) for detecting renames. Files larger
+	 * than this size will not be processed for renames.
+	 */
+	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
 	/** Set if the number of adds or deletes was over the limit. */
 	private boolean overRenameLimit;
@@ -206,6 +213,26 @@ public class RenameDetector {
 	 */
 	public void setRenameLimit(int limit) {
 		renameLimit = limit;
+	}
+
+	/**
+	 * Get file size threshold for detecting renames. Files larger
+	 * than this size will not be processed for rename detection.
+	 *
+	 * @return threshold in bytes of the file size.
+	 * @since 5.12
+	 */
+	public int getBigFileThreshold() { return bigFileThreshold; }
+
+	/**
+	 * Set the file size threshold for detecting renames. Files larger than this
+	 * threshold will be skipped during rename detection computation.
+	 *
+	 * @param threshold file size threshold in bytes.
+	 * @since 5.12
+	 */
+	public void setBigFileThreshold(int threshold) {
+		this.bigFileThreshold = threshold;
 	}
 
 	/**
@@ -493,6 +520,7 @@ public class RenameDetector {
 
 			d = new SimilarityRenameDetector(reader, deleted, added);
 			d.setRenameScore(getRenameScore());
+			d.setBigFileThreshold(getBigFileThreshold());
 			d.compute(pm);
 			overRenameLimit |= d.isTableOverflow();
 			deleted = d.getLeftOverSources();
