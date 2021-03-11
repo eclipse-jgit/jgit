@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf4e6eb4_7773ed78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-03-11T14:55:37Z",
+      "side": 1,
+      "message": "nit: the computations are necessary to determining if there is a rename, but sometimes we don\u0027t want to pay that cost of rename detection.",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f4cca72_3a2489b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-03-11T14:55:37Z",
+      "side": 1,
+      "message": "you removed some exceptions, but maybe this was a work in progress? can you investigate?",
+      "range": {
+        "startLine": 224,
+        "startChar": 5,
+        "endLine": 224,
+        "endChar": 61
+      },
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
