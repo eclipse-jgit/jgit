@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "82ced804_aff1d514",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-03-12T15:16:20Z",
+      "side": 1,
+      "message": "Right. Done.",
+      "parentUuid": "bf4e6eb4_7773ed78",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87c15bca_ca69ae5c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff5f942a_6641bf7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-03-12T15:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87c15bca_ca69ae5c",
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "6840b90e_38500401",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-03-12T15:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c978fcde_1365a089",
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "effe8d97_95ac519c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
         "patchSetId": 3
@@ -73,6 +133,24 @@
       "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705af28a_8cc586e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-03-12T15:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "effe8d97_95ac519c",
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +174,30 @@
       "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbc35c48_ff996c64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-03-12T15:16:20Z",
+      "side": 1,
+      "message": "This was written in 2018 (change Ia6f84f59aa6b7d78b).\n\nCancelledException is a subclass of IOException, making it redundant in the method\u0027s signature.\n  * \"here is a more general exception, \u0027java.io.IOException\u0027, in the throws list already.\"\n\nI left the method signature intact anyway.",
+      "parentUuid": "9f4cca72_3a2489b0",
+      "range": {
+        "startLine": 224,
+        "startChar": 5,
+        "endLine": 224,
+        "endChar": 61
+      },
+      "revId": "cf6d75adbcb3fafd96fcbd7f5ddb6e6c3a8e1036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
