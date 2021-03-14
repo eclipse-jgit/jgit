@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c44f205d_b7b19662",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-14T12:55:34Z",
+      "side": 1,
+      "message": "nit: this subject is too long",
+      "revId": "63e1fbeb4e96eacde9ac79c873e7a6db43524639",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1feda284_3c0fa25d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-14T12:55:34Z",
+      "side": 1,
+      "message": "nit: missing braces",
+      "revId": "63e1fbeb4e96eacde9ac79c873e7a6db43524639",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
