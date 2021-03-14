@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3bfa12a_6e0224e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-03-14T21:30:55Z",
+      "side": 1,
+      "message": "this exists already as Constants.EMPTY_BLOB_ID",
+      "revId": "5431c3985fe5cc5b622efc7dce81858472ba81b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
