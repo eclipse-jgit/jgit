@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -31,6 +32,8 @@ import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.security.Authenticator;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.RolePrincipal;
+import org.eclipse.jetty.security.UserPrincipal;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -143,7 +146,7 @@ public class AppServer {
 		}
 
 		if (sslPort >= 0) {
-			SslContextFactory sslContextFactory = createTestSslContextFactory(
+			SslContextFactory.Server sslContextFactory = createTestSslContextFactory(
 					hostName);
 			secureConfig = new HttpConfiguration(config);
 			secureConnector = new ServerConnector(server,
@@ -171,8 +174,9 @@ public class AppServer {
 		server.setHandler(log);
 	}
 
-	private SslContextFactory createTestSslContextFactory(String hostName) {
-		SslContextFactory.Client factory = new SslContextFactory.Client(true);
+	private SslContextFactory.Server createTestSslContextFactory(
+			String hostName) {
+		SslContextFactory.Server factory = new SslContextFactory.Server();
 
 		String dName = "CN=,OU=,O=,ST=,L=,C=";
 
@@ -274,11 +278,11 @@ public class AppServer {
 		}
 
 		@Override
-		protected String[] loadRoleInfo(UserPrincipal user) {
+		protected List<RolePrincipal> loadRoleInfo(UserPrincipal user) {
 			if (users.get(user.getName()) == null) {
 				return null;
 			}
-			return new String[] { role };
+			return Collections.singletonList(new RolePrincipal(role));
 		}
 
 		@Override
