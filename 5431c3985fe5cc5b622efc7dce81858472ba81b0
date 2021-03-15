@@ -16,6 +16,24 @@
       "revId": "5431c3985fe5cc5b622efc7dce81858472ba81b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e20bf38_c9a1f1d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-15T07:51:26Z",
+      "side": 1,
+      "message": "Good to know; will update before we get around to merging this.",
+      "parentUuid": "b3bfa12a_6e0224e0",
+      "revId": "5431c3985fe5cc5b622efc7dce81858472ba81b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
