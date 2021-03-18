@@ -25,8 +25,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String configInvalidPattern;
 	/***/ public String configInvalidPositive;
 	/***/ public String configInvalidProxyJump;
-	/***/ public String configNoKnownHostKeyAlgorithms;
-	/***/ public String configNoRemainingHostKeyAlgorithms;
+	/***/ public String configNoKnownAlgorithms;
 	/***/ public String configProxyJumpNotSsh;
 	/***/ public String configProxyJumpWithPath;
 	/***/ public String ftpCloseFailed;
