@@ -47,7 +47,9 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.ssh.SshTestBase;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
@@ -232,6 +234,61 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	/**
+	 * Creates a simple SSH server without git setup.
+	 *
+	 * @param user
+	 *            to accept
+	 * @param userKey
+	 *            public key of that user at this server
+	 * @return the {@link SshServer}, not yet started
+	 * @throws Exception
+	 */
+	private SshServer createServer(String user, File userKey) throws Exception {
+		SshServer srv = SshServer.setUpDefaultServer();
+		// Give the server its own host key
+		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+		generator.initialize(2048);
+		KeyPair proxyHostKey = generator.generateKeyPair();
+		srv.setKeyPairProvider(
+				session -> Collections.singletonList(proxyHostKey));
+		// Allow (only) publickey authentication
+		srv.setUserAuthFactories(Collections.singletonList(
+				ServerAuthenticationManager.DEFAULT_USER_AUTH_PUBLIC_KEY_FACTORY));
+		// Install the user's public key
+		PublicKey userProxyKey = AuthorizedKeyEntry
+				.readAuthorizedKeys(userKey.toPath()).get(0)
+				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
+		srv.setPublickeyAuthenticator(
+				(userName, publicKey, session) -> user.equals(userName)
+						&& KeyUtils.compareKeys(userProxyKey, publicKey));
+		return srv;
+	}
+
+	/**
+	 * Writes the server's host key to our knownhosts file.
+	 *
+	 * @param srv to register
+	 * @throws Exception
+	 */
+	private void registerServer(SshServer srv) throws Exception {
+		// Add the proxy's host key to knownhosts
+		try (BufferedWriter writer = Files.newBufferedWriter(
+				knownHosts.toPath(), StandardCharsets.US_ASCII,
+				StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
+			writer.append('\n');
+			KnownHostHashValue.appendHostPattern(writer, "localhost",
+					srv.getPort());
+			writer.append(',');
+			KnownHostHashValue.appendHostPattern(writer, "127.0.0.1",
+					srv.getPort());
+			writer.append(' ');
+			PublicKeyEntry.appendPublicKeyEntry(writer,
+					srv.getKeyPairProvider().loadKeys(null).iterator().next().getPublic());
+			writer.append('\n');
+		}
+	}
+
+	/**
 	 * Creates a simple proxy server. Accepts only publickey authentication from
 	 * the given user with the given key, allows all forwardings. Adds the
 	 * proxy's host key to {@link #knownHosts}.
@@ -247,23 +304,7 @@ public class ApacheSshTest extends SshTestBase {
 	 */
 	private SshServer createProxy(String user, File userKey,
 			SshdSocketAddress[] report) throws Exception {
-		SshServer proxy = SshServer.setUpDefaultServer();
-		// Give the server its own host key
-		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-		generator.initialize(2048);
-		KeyPair proxyHostKey = generator.generateKeyPair();
-		proxy.setKeyPairProvider(
-				session -> Collections.singletonList(proxyHostKey));
-		// Allow (only) publickey authentication
-		proxy.setUserAuthFactories(Collections.singletonList(
-				ServerAuthenticationManager.DEFAULT_USER_AUTH_PUBLIC_KEY_FACTORY));
-		// Install the user's public key
-		PublicKey userProxyKey = AuthorizedKeyEntry
-				.readAuthorizedKeys(userKey.toPath()).get(0)
-				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
-		proxy.setPublickeyAuthenticator(
-				(userName, publicKey, session) -> user.equals(userName)
-						&& KeyUtils.compareKeys(userProxyKey, publicKey));
+		SshServer proxy = createServer(user, userKey);
 		// Allow forwarding
 		proxy.setForwardingFilter(new StaticDecisionForwardingFilter(true) {
 
@@ -275,21 +316,7 @@ public class ApacheSshTest extends SshTestBase {
 			}
 		});
 		proxy.start();
-		// Add the proxy's host key to knownhosts
-		try (BufferedWriter writer = Files.newBufferedWriter(
-				knownHosts.toPath(), StandardCharsets.US_ASCII,
-				StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
-			writer.append('\n');
-			KnownHostHashValue.appendHostPattern(writer, "localhost",
-					proxy.getPort());
-			writer.append(',');
-			KnownHostHashValue.appendHostPattern(writer, "127.0.0.1",
-					proxy.getPort());
-			writer.append(' ');
-			PublicKeyEntry.appendPublicKeyEntry(writer,
-					proxyHostKey.getPublic());
-			writer.append('\n');
-		}
+		registerServer(proxy);
 		return proxy;
 	}
 
@@ -604,6 +631,37 @@ public class ApacheSshTest extends SshTestBase {
 				proxy1.stop();
 				proxy2.stop();
 			}
+		}
+	}
+
+	/**
+	 * Tests that one can log in to an old server that doesn't handle
+	 * rsa-sha2-512 if one puts ssh-rsa first in the client's list of public key
+	 * signature algorithms.
+	 *
+	 * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=572056">bug
+	 *      572056</a>
+	 * @throws Exception
+	 *             on failure
+	 */
+	@Test
+	public void testConnectAuthSshRsaPubkeyAcceptedAlgorithms()
+			throws Exception {
+		try (SshServer oldServer = createServer(TEST_USER, publicKey1)) {
+			oldServer.setSignatureFactoriesNames("ssh-rsa");
+			oldServer.start();
+			registerServer(oldServer);
+			installConfig("Host server", //
+					"HostName localhost", //
+					"Port " + oldServer.getPort(), //
+					"User " + TEST_USER, //
+					"IdentityFile " + privateKey1.getAbsolutePath(), //
+					"PubkeyAcceptedAlgorithms ^ssh-rsa");
+			RemoteSession session = getSessionFactory().getSession(
+					new URIish("ssh://server/doesntmatter"), null, FS.DETECTED,
+					10000);
+			assertNotNull(session);
+			session.disconnect();
 		}
 	}
 }

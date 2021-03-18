@@ -114,6 +114,14 @@ public final class SshConstants {
 	/** Key in an ssh config file. */
 	public static final String PREFERRED_AUTHENTICATIONS = "PreferredAuthentications";
 
+	/**
+	 * Key in an ssh config file; defines signature algorithms for public key
+	 * authentication as a comma-separated list.
+	 *
+	 * @since 5.12
+	 */
+	public static final String PUBKEY_ACCEPTED_ALGORITHMS = "PubkeyAcceptedAlgorithms";
+
 	/** Key in an ssh config file. */
 	public static final String PROXY_COMMAND = "ProxyCommand";
 
