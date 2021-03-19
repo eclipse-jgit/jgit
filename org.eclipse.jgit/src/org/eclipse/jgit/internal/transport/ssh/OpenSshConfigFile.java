@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -224,8 +223,17 @@ public class OpenSshConfigFile implements SshConfigStore {
 		entries.put(DEFAULT_NAME, defaults);
 
 		while ((line = reader.readLine()) != null) {
+			// OpenSsh ignores trailing comments on a line. Anything after the
+			// first # on a line is trimmed away (yes, even if the hash is
+			// inside quotes).
+			//
+			// See https://github.com/openssh/openssh-portable/commit/2bcbf679
+			int i = line.indexOf('#');
+			if (i >= 0) {
+				line = line.substring(0, i);
+			}
 			line = line.trim();
-			if (line.isEmpty() || line.startsWith("#")) { //$NON-NLS-1$
+			if (line.isEmpty()) {
 				continue;
 			}
 			String[] parts = line.split("[ \t]*[= \t]", 2); //$NON-NLS-1$
@@ -484,11 +492,29 @@ public class OpenSshConfigFile implements SshConfigStore {
 			LIST_KEYS.add(SshConstants.USER_KNOWN_HOSTS_FILE);
 		}
 
+		/**
+		 * OpenSSH has renamed some config keys. This maps old names to new
+		 * names.
+		 */
+		private static final Map<String, String> ALIASES = new TreeMap<>(
+				String.CASE_INSENSITIVE_ORDER);
+
+		static {
+			// See https://github.com/openssh/openssh-portable/commit/ee9c0da80
+			ALIASES.put("PubkeyAcceptedKeyTypes", //$NON-NLS-1$
+					SshConstants.PUBKEY_ACCEPTED_ALGORITHMS);
+		}
+
 		private Map<String, String> options;
 
 		private Map<String, List<String>> multiOptions;
 
 		private Map<String, List<String>> listOptions;
+
+		private static String toKey(String key) {
+			String k = ALIASES.get(key);
+			return k != null ? k : key;
+		}
 
 		/**
 		 * Retrieves the value of a single-valued key, or the first if the key
@@ -501,15 +527,15 @@ public class OpenSshConfigFile implements SshConfigStore {
 		 */
 		@Override
 		public String getValue(String key) {
-			String result = options != null ? options.get(key) : null;
+			String k = toKey(key);
+			String result = options != null ? options.get(k) : null;
 			if (result == null) {
 				// Let's be lenient and return at least the first value from
 				// a list-valued or multi-valued key.
-				List<String> values = listOptions != null ? listOptions.get(key)
+				List<String> values = listOptions != null ? listOptions.get(k)
 						: null;
 				if (values == null) {
-					values = multiOptions != null ? multiOptions.get(key)
-							: null;
+					values = multiOptions != null ? multiOptions.get(k) : null;
 				}
 				if (values != null && !values.isEmpty()) {
 					result = values.get(0);
@@ -529,10 +555,11 @@ public class OpenSshConfigFile implements SshConfigStore {
 		 */
 		@Override
 		public List<String> getValues(String key) {
-			List<String> values = listOptions != null ? listOptions.get(key)
+			String k = toKey(key);
+			List<String> values = listOptions != null ? listOptions.get(k)
 					: null;
 			if (values == null) {
-				values = multiOptions != null ? multiOptions.get(key) : null;
+				values = multiOptions != null ? multiOptions.get(k) : null;
 			}
 			if (values == null || values.isEmpty()) {
 				return new ArrayList<>();
@@ -551,34 +578,35 @@ public class OpenSshConfigFile implements SshConfigStore {
 		 *            to set or add
 		 */
 		public void setValue(String key, String value) {
+			String k = toKey(key);
 			if (value == null) {
 				if (multiOptions != null) {
-					multiOptions.remove(key);
+					multiOptions.remove(k);
 				}
 				if (listOptions != null) {
-					listOptions.remove(key);
+					listOptions.remove(k);
 				}
 				if (options != null) {
-					options.remove(key);
+					options.remove(k);
 				}
 				return;
 			}
-			if (MULTI_KEYS.contains(key)) {
+			if (MULTI_KEYS.contains(k)) {
 				if (multiOptions == null) {
 					multiOptions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 				}
-				List<String> values = multiOptions.get(key);
+				List<String> values = multiOptions.get(k);
 				if (values == null) {
 					values = new ArrayList<>(4);
-					multiOptions.put(key, values);
+					multiOptions.put(k, values);
 				}
 				values.add(value);
 			} else {
 				if (options == null) {
 					options = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 				}
-				if (!options.containsKey(key)) {
-					options.put(key, value);
+				if (!options.containsKey(k)) {
+					options.put(k, value);
 				}
 			}
 		}
@@ -595,20 +623,21 @@ public class OpenSshConfigFile implements SshConfigStore {
 			if (values.isEmpty()) {
 				return;
 			}
+			String k = toKey(key);
 			// Check multi-valued keys first; because of the replacement
 			// strategy, they must take precedence over list-valued keys
 			// which always follow the "first occurrence wins" strategy.
 			//
 			// Note that SendEnv is a multi-valued list-valued key. (It's
 			// rather immaterial for JGit, though.)
-			if (MULTI_KEYS.contains(key)) {
+			if (MULTI_KEYS.contains(k)) {
 				if (multiOptions == null) {
 					multiOptions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 				}
-				List<String> items = multiOptions.get(key);
+				List<String> items = multiOptions.get(k);
 				if (items == null) {
 					items = new ArrayList<>(values);
-					multiOptions.put(key, items);
+					multiOptions.put(k, items);
 				} else {
 					items.addAll(values);
 				}
@@ -616,8 +645,8 @@ public class OpenSshConfigFile implements SshConfigStore {
 				if (listOptions == null) {
 					listOptions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 				}
-				if (!listOptions.containsKey(key)) {
-					listOptions.put(key, values);
+				if (!listOptions.containsKey(k)) {
+					listOptions.put(k, values);
 				}
 			}
 		}
@@ -630,7 +659,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 		 * @return {@code true} if the key is a list-valued key.
 		 */
 		public static boolean isListKey(String key) {
-			return LIST_KEYS.contains(key.toUpperCase(Locale.ROOT));
+			return LIST_KEYS.contains(toKey(key));
 		}
 
 		void merge(HostEntry entry) {
