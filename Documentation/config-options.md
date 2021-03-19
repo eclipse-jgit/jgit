@@ -7,6 +7,8 @@
 | &#x2705; | option defined by native git |
 | &#x20DE; | jgit custom option not supported by native git |
 
+For details on native git options see also the official [git config documentation](https://git-scm.com/docs/git-config).
+
 ## __core__ options
 
 |  option | default | git option | description |
@@ -58,6 +60,24 @@
 | `gc.logExpiry` | `1.day.ago` | &#x2705; | If the file `gc.log` exists, then auto gc will print its content and exit successfully instead of running unless that file is more than `gc.logExpiry` old. |
 | `gc.pruneExpire` | `2.weeks.ago` | &#x2705; | Grace period after which unreachable objects will be pruned. |
 | `gc.prunePackExpire` | `1.hour.ago` |  &#x20DE; | Grace period after which packfiles only containing unreachable objects will be pruned. |
+
+## __http__ options
+
+|  option | default | git option | description |
+|---------|---------|------------|-------------|
+| `http.cookieFile`| | &#x2705; | Absolute path (with tilde expansion) of a cookie file in Netscape format. |
+| `http.cookieFileCacheLimit`| 10 | &#x20DE; | JGit caches at most this number of the most recently used cookie files. |
+| `http.extraHeader`|  | &#x2705; | Extra HTTP header(s) to send with HTTP requests, in the format "`Key: Value`". May appear multiple times; an empty option clears the list. |
+| `http.followRedirects`| `initial` | &#x2705; | `true`, `false`, or `initial`. Whether to follow a redirect always, never, or only on the first HTTP request in a git remote operation. |
+| `http.maxRedirects`| 5 | &#x20DE; | Maximum number of redirects to follow; can be overridden via the Java system property `http.maxRedirects`. |
+| `http.postBuffer`| `1 MiB` | &#x2705; | Maximum size in bytes for single HTTP POST requests; for larger requests, HTTP 1.1 chunked transfer is used. |
+| `http.saveCookies`| `false` | &#x2705; | Boolean; if `true` and `http.cookieFile` is set, save received cookies. |
+| `http.sslVerify`| `true` | &#x2705; | Boolean; whether to check SSL certificates in HTTPS connections. |
+| `http.userAgent`| | &#x2705; | User-agent string to send with HTTP requests. Must be 7bit-ASCII. Can be overridden via environment variable `GIT_HTTP_USER_AGENT`. |
+
+All `http.*` options can also be specified in a URL-specific way using the format `http.<url>.*`. See the official [git config documentation](https://git-scm.com/docs/git-config#Documentation/git-config.txt-httplturlgt) for details.
+
+Proxy configuration uses the standard Java mechanisms via class `java.net.ProxySelector`.
 
 ## __pack__ options
 

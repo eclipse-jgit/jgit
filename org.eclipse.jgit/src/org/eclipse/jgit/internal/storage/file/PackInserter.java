@@ -76,6 +76,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -273,16 +274,16 @@ public class PackInserter extends ObjectInserter {
 		}
 
 		Collections.sort(objectList);
-		File tmpIdx = idxFor(tmpPack);
+		File tmpIdx = idxFor(tmpPack); // TODO(nasserg) Use PackFile?
 		writePackIndex(tmpIdx, packHash, objectList);
 
-		File realPack = new File(db.getPackDirectory(),
-				"pack-" + computeName(objectList).name() + ".pack"); //$NON-NLS-1$ //$NON-NLS-2$
+		PackFile realPack = new PackFile(db.getPackDirectory(),
+				computeName(objectList), PackExt.PACK);
 		db.closeAllPackHandles(realPack);
 		tmpPack.setReadOnly();
 		FileUtils.rename(tmpPack, realPack, ATOMIC_MOVE);
 
-		File realIdx = idxFor(realPack);
+		PackFile realIdx = realPack.create(PackExt.INDEX);
 		tmpIdx.setReadOnly();
 		try {
 			FileUtils.rename(tmpIdx, realIdx, ATOMIC_MOVE);

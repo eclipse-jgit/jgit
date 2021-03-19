@@ -12,6 +12,8 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -346,7 +348,7 @@ public class GC {
 				if (shouldLoosen) {
 					loosen(inserter, reader, oldPack, ids);
 				}
-				prunePack(oldName);
+				prunePack(oldPack.getPackFile());
 			}
 		}
 
@@ -360,19 +362,17 @@ public class GC {
 	 * moves the pack file to the preserved directory
 	 *
 	 * @param packFile
-	 * @param packName
-	 * @param ext
 	 * @param deleteOptions
 	 * @throws IOException
 	 */
-	private void removeOldPack(File packFile, String packName, PackExt ext,
-			int deleteOptions) throws IOException {
+	private void removeOldPack(PackFile packFile, int deleteOptions)
+			throws IOException {
 		if (pconfig.isPreserveOldPacks()) {
 			File oldPackDir = repo.getObjectDatabase().getPreservedDirectory();
 			FileUtils.mkdir(oldPackDir, true);
 
-			String oldPackName = "pack-" + packName + ".old-" + ext.getExtension();  //$NON-NLS-1$ //$NON-NLS-2$
-			File oldPackFile = new File(oldPackDir, oldPackName);
+			PackFile oldPackFile = packFile
+					.createPreservedForDirectory(oldPackDir);
 			FileUtils.rename(packFile, oldPackFile);
 		} else {
 			FileUtils.delete(packFile, deleteOptions);
@@ -401,27 +401,21 @@ public class GC {
 	 * ".index" file and when failing to delete the ".pack" file we are left
 	 * with a ".pack" file without a ".index" file.
 	 *
-	 * @param packName
+	 * @param packFile
 	 */
-	private void prunePack(String packName) {
-		PackExt[] extensions = PackExt.values();
+	private void prunePack(PackFile packFile) {
 		try {
 			// Delete the .pack file first and if this fails give up on deleting
 			// the other files
 			int deleteOptions = FileUtils.RETRY | FileUtils.SKIP_MISSING;
-			for (PackExt ext : extensions)
-				if (PackExt.PACK.equals(ext)) {
-					File f = nameFor(packName, "." + ext.getExtension()); //$NON-NLS-1$
-					removeOldPack(f, packName, ext, deleteOptions);
-					break;
-				}
+			removeOldPack(packFile.create(PackExt.PACK), deleteOptions);
+
 			// The .pack file has been deleted. Delete as many as the other
 			// files as you can.
 			deleteOptions |= FileUtils.IGNORE_ERRORS;
-			for (PackExt ext : extensions) {
+			for (PackExt ext : PackExt.values()) {
 				if (!PackExt.PACK.equals(ext)) {
-					File f = nameFor(packName, "." + ext.getExtension()); //$NON-NLS-1$
-					removeOldPack(f, packName, ext, deleteOptions);
+					removeOldPack(packFile.create(ext), deleteOptions);
 				}
 			}
 		} catch (IOException e) {
@@ -973,20 +967,21 @@ public class GC {
 			return;
 		}
 
-		String base = null;
+		String latestId = null;
 		for (String n : fileNames) {
-			if (n.endsWith(PACK_EXT) || n.endsWith(KEEP_EXT)) {
-				base = n.substring(0, n.lastIndexOf('.'));
-			} else {
-				if (base == null || !n.startsWith(base)) {
-					try {
-						Path delete = packDir.resolve(n);
-						FileUtils.delete(delete.toFile(),
-								FileUtils.RETRY | FileUtils.SKIP_MISSING);
-						LOG.warn(JGitText.get().deletedOrphanInPackDir, delete);
-					} catch (IOException e) {
-						LOG.error(e.getMessage(), e);
-					}
+			PackFile pf = new PackFile(packDir.toFile(), n);
+			PackExt ext = pf.getPackExt();
+			if (ext.equals(PACK) || ext.equals(KEEP)) {
+				latestId = pf.getId();
+			}
+			if (latestId == null || !pf.getId().equals(latestId)) {
+				// no pack or keep for this id
+				try {
+					FileUtils.delete(pf,
+							FileUtils.RETRY | FileUtils.SKIP_MISSING);
+					LOG.warn(JGitText.get().deletedOrphanInPackDir, pf);
+				} catch (IOException e) {
+					LOG.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -1168,7 +1163,7 @@ public class GC {
 			checkCancelled();
 
 			// create temporary files
-			String id = pw.computeName().getName();
+			ObjectId id = pw.computeName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
 			packdir.mkdirs();
 			tmpPack = File.createTempFile("gc_", ".pack_tmp", packdir); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1218,7 +1213,8 @@ public class GC {
 			}
 
 			// rename the temporary files to real files
-			File realPack = nameFor(id, ".pack"); //$NON-NLS-1$
+			File packDir = repo.getObjectDatabase().getPackDirectory();
+			PackFile realPack = new PackFile(packDir, id, PackExt.PACK);
 
 			repo.getObjectDatabase().closeAllPackHandles(realPack);
 			tmpPack.setReadOnly();
@@ -1228,8 +1224,7 @@ public class GC {
 				File tmpExt = tmpEntry.getValue();
 				tmpExt.setReadOnly();
 
-				File realExt = nameFor(id,
-						"." + tmpEntry.getKey().getExtension()); //$NON-NLS-1$
+				PackFile realExt = new PackFile(packDir, id, tmpEntry.getKey());
 				try {
 					FileUtils.rename(tmpExt, realExt,
 							StandardCopyOption.ATOMIC_MOVE);
@@ -1273,11 +1268,6 @@ public class GC {
 					tmpExt.delete();
 			}
 		}
-	}
-
-	private File nameFor(String name, String ext) {
-		File packdir = repo.getObjectDatabase().getPackDirectory();
-		return new File(packdir, "pack-" + name + ext); //$NON-NLS-1$
 	}
 
 	private void checkCancelled() throws CancelledException {

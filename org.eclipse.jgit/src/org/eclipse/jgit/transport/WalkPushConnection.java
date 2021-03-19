@@ -13,6 +13,7 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.transport.WalkRemoteObjectDatabase.ROOT_DIR;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ import java.util.TreeMap;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.PackFile;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -189,9 +192,8 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 
 	private void sendpack(final List<RemoteRefUpdate> updates,
 			final ProgressMonitor monitor) throws TransportException {
-		String pathPack = null;
-		String pathIdx = null;
-
+		PackFile pack = null;
+		PackFile idx = null;
 		try (PackWriter writer = new PackWriter(transport.getPackConfig(),
 				local.newObjectReader())) {
 
@@ -217,31 +219,33 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			for (String n : dest.getPackNames())
 				packNames.put(n, n);
 
-			final String base = "pack-" + writer.computeName().name(); //$NON-NLS-1$
-			final String packName = base + ".pack"; //$NON-NLS-1$
-			pathPack = "pack/" + packName; //$NON-NLS-1$
-			pathIdx = "pack/" + base + ".idx"; //$NON-NLS-1$ //$NON-NLS-2$
+			File packDir = new File("pack"); //$NON-NLS-1$
+			pack = new PackFile(packDir, writer.computeName(),
+					PackExt.PACK);
+			idx = pack.create(PackExt.INDEX);
 
-			if (packNames.remove(packName) != null) {
+			if (packNames.remove(pack.getName()) != null) {
 				// The remote already contains this pack. We should
 				// remove the index before overwriting to prevent bad
 				// offsets from appearing to clients.
 				//
 				dest.writeInfoPacks(packNames.keySet());
-				dest.deleteFile(pathIdx);
+				dest.deleteFile(idx.getPath());
 			}
 
 			// Write the pack file, then the index, as readers look the
 			// other direction (index, then pack file).
 			//
-			String wt = "Put " + base.substring(0, 12); //$NON-NLS-1$
+			String wt = "Put " + pack.getName().substring(0, 12); //$NON-NLS-1$
 			try (OutputStream os = new BufferedOutputStream(
-					dest.writeFile(pathPack, monitor, wt + "..pack"))) { //$NON-NLS-1$
+					dest.writeFile(pack.getPath(), monitor,
+							wt + "." + pack.getPackExt().getExtension()))) { //$NON-NLS-1$
 				writer.writePack(monitor, monitor, os);
 			}
 
 			try (OutputStream os = new BufferedOutputStream(
-					dest.writeFile(pathIdx, monitor, wt + "..idx"))) { //$NON-NLS-1$
+					dest.writeFile(idx.getPath(), monitor,
+							wt + "." + idx.getPackExt().getExtension()))) { //$NON-NLS-1$
 				writer.writeIndex(os);
 			}
 
@@ -250,22 +254,22 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			// and discover the most recent objects there.
 			//
 			final ArrayList<String> infoPacks = new ArrayList<>();
-			infoPacks.add(packName);
+			infoPacks.add(pack.getName());
 			infoPacks.addAll(packNames.keySet());
 			dest.writeInfoPacks(infoPacks);
 
 		} catch (IOException err) {
-			safeDelete(pathIdx);
-			safeDelete(pathPack);
+			safeDelete(idx);
+			safeDelete(pack);
 
 			throw new TransportException(uri, JGitText.get().cannotStoreObjects, err);
 		}
 	}
 
-	private void safeDelete(String path) {
+	private void safeDelete(File path) {
 		if (path != null) {
 			try {
-				dest.deleteFile(path);
+				dest.deleteFile(path.getPath());
 			} catch (IOException cleanupFailure) {
 				// Ignore the deletion failure. We probably are
 				// already failing and were just trying to pick

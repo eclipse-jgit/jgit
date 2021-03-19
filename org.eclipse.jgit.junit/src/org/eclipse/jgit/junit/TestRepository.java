@@ -44,7 +44,9 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.internal.storage.file.Pack;
+import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -906,23 +908,22 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
 			NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 
-			final File pack, idx;
+			final PackFile pack, idx;
 			try (PackWriter pw = new PackWriter(db)) {
 				Set<ObjectId> all = new HashSet<>();
 				for (Ref r : db.getRefDatabase().getRefs())
 					all.add(r.getObjectId());
 				pw.preparePack(m, all, PackWriter.NONE);
 
-				final ObjectId name = pw.computeName();
-
-				pack = nameFor(odb, name, ".pack");
+				pack = new PackFile(odb.getPackDirectory(), pw.computeName(),
+						PackExt.PACK);
 				try (OutputStream out =
 						new BufferedOutputStream(new FileOutputStream(pack))) {
 					pw.writePack(m, m, out);
 				}
 				pack.setReadOnly();
 
-				idx = nameFor(odb, name, ".idx");
+				idx = pack.create(PackExt.INDEX);
 				try (OutputStream out =
 						new BufferedOutputStream(new FileOutputStream(idx))) {
 					pw.writeIndex(out);
@@ -958,11 +959,6 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			for (MutableEntry e : p)
 				FileUtils.delete(odb.fileFor(e.toObjectId()));
 		}
-	}
-
-	private static File nameFor(ObjectDirectory odb, ObjectId name, String t) {
-		File packdir = odb.getPackDirectory();
-		return new File(packdir, "pack-" + name.name() + t);
 	}
 
 	private void writeFile(File p, byte[] bin) throws IOException,
