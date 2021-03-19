@@ -664,4 +664,33 @@ public class ApacheSshTest extends SshTestBase {
 			session.disconnect();
 		}
 	}
+
+	/**
+	 * Tests that one can log in to an old server that doesn't handle
+	 * rsa-sha2-512 if one puts ssh-rsa first in the client's list of public key
+	 * signature algorithms.
+	 *
+	 * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=572056">bug
+	 *      572056</a>
+	 * @throws Exception
+	 *             on failure
+	 */
+	@Test
+	public void testConnectAuthSshRsa() throws Exception {
+		try (SshServer oldServer = createServer(TEST_USER, publicKey1)) {
+			oldServer.setSignatureFactoriesNames("ssh-rsa");
+			oldServer.start();
+			registerServer(oldServer);
+			installConfig("Host server", //
+					"HostName localhost", //
+					"Port " + oldServer.getPort(), //
+					"User " + TEST_USER, //
+					"IdentityFile " + privateKey1.getAbsolutePath());
+			RemoteSession session = getSessionFactory().getSession(
+					new URIish("ssh://server/doesntmatter"), null, FS.DETECTED,
+					10000);
+			assertNotNull(session);
+			session.disconnect();
+		}
+	}
 }
