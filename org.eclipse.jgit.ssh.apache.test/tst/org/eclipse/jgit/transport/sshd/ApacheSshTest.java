@@ -664,4 +664,42 @@ public class ApacheSshTest extends SshTestBase {
 			session.disconnect();
 		}
 	}
+
+	/**
+	 * Tests that one can log in to an old server that knows only the ssh-rsa
+	 * signature algorithm. The client has by default the list of signature
+	 * algorithms for RSA as "rsa-sha2-512,rsa-sha2-256,ssh-rsa". It should try
+	 * all three with the single key configured, and finally succeed.
+	 * <p>
+	 * The re-ordering mechanism (see
+	 * {@link #testConnectAuthSshRsaPubkeyAcceptedAlgorithms()}) is still
+	 * important; servers may impose a penalty (back-off delay) for subsequent
+	 * attempts with signature algorithms unknown to the server. So a user
+	 * connecting to such a server and noticing delays may still want to put
+	 * ssh-rsa first in the list for that host.
+	 * </p>
+	 *
+	 * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=572056">bug
+	 *      572056</a>
+	 * @throws Exception
+	 *             on failure
+	 */
+	@Test
+	public void testConnectAuthSshRsa() throws Exception {
+		try (SshServer oldServer = createServer(TEST_USER, publicKey1)) {
+			oldServer.setSignatureFactoriesNames("ssh-rsa");
+			oldServer.start();
+			registerServer(oldServer);
+			installConfig("Host server", //
+					"HostName localhost", //
+					"Port " + oldServer.getPort(), //
+					"User " + TEST_USER, //
+					"IdentityFile " + privateKey1.getAbsolutePath());
+			RemoteSession session = getSessionFactory().getSession(
+					new URIish("ssh://server/doesntmatter"), null, FS.DETECTED,
+					10000);
+			assertNotNull(session);
+			session.disconnect();
+		}
+	}
 }
