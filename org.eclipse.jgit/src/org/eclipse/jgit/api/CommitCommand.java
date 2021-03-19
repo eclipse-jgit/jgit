@@ -1021,8 +1021,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *            signing)
 	 * @since 5.3
 	 */
-	public void setCredentialsProvider(
+	public CommitCommand setCredentialsProvider(
 			CredentialsProvider credentialsProvider) {
 		this.credentialsProvider = credentialsProvider;
+		return this;
 	}
 }
