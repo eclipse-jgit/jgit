@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "965d5ddc_afb95b6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-19T11:59:08Z",
+      "side": 1,
+      "message": "Forget my previous comment. Obviously you noticed. So it shouldn\u0027t be on master.\n\nIt\u0027s on the list for JGit 6.0: [1]\n\n[1] https://wiki.eclipse.org/JGit/Planning",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "181f8843a319dce1bc64d8f14b4920385558fa3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "53a0f03c_c993aa29",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 2
