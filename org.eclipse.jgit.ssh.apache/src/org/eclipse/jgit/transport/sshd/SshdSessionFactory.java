@@ -47,6 +47,7 @@ import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
 import org.eclipse.jgit.internal.transport.sshd.AuthenticationCanceledException;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
+import org.eclipse.jgit.internal.transport.sshd.JGitKexExtensionHandler;
 import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPublicKeyAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitServerKeyVerifier;
@@ -216,6 +217,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						new JGitUserInteraction(credentialsProvider));
 				client.setUserAuthFactories(getUserAuthFactories());
 				client.setKeyIdentityProvider(defaultKeysProvider);
+				client.setKexExtensionHandler(JGitKexExtensionHandler.INSTANCE);
 				// JGit-specific things:
 				JGitSshClient jgitClient = (JGitSshClient) client;
 				jgitClient.setKeyCache(getKeyCache());

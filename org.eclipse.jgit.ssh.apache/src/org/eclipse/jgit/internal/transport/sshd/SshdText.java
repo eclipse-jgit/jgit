@@ -88,6 +88,9 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String proxySocksUnexpectedMessage;
 	/***/ public String proxySocksUnexpectedVersion;
 	/***/ public String proxySocksUsernameTooLong;
+	/***/ public String pubkeyAuthWrongCommand;
+	/***/ public String pubkeyAuthWrongKey;
+	/***/ public String pubkeyAuthWrongSignatureAlgorithm;
 	/***/ public String serverIdNotReceived;
 	/***/ public String serverIdTooLong;
 	/***/ public String serverIdWithNul;
