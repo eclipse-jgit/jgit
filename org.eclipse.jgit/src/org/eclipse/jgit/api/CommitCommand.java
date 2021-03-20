@@ -178,8 +178,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 			if (all && !repo.isBare()) {
 				try (Git git = new Git(repo)) {
-					git.add()
-							.addFilepattern(".") //$NON-NLS-1$
+					git.add().addFilepattern(".") //$NON-NLS-1$
 							.setUpdate(true).call();
 				} catch (NoFilepatternException e) {
 					// should really not happen
