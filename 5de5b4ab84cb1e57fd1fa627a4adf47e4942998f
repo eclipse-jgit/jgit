@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "787ce3c1_c10cbfa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-03-20T12:56:51Z",
+      "side": 1,
+      "message": "What if the hook causes an exception? In that case, the commit was already done and successful, so the command should return the commit and not throw an exception. I think we\u0027ll have to catch exceptions here, and the best we can do is log.",
+      "revId": "5de5b4ab84cb1e57fd1fa627a4adf47e4942998f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
