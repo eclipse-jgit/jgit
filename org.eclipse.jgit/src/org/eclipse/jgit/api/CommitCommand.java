@@ -212,6 +212,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						.setCommitMessage(message).call();
 			}
 
+			RevCommit revCommit;
 			// lock the index
 			DirCache index = repo.lockDirCache();
 			try (ObjectInserter odi = repo.newObjectInserter()) {
@@ -267,7 +268,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				ObjectId commitId = odi.insert(commit);
 				odi.flush();
 
-				RevCommit revCommit = rw.parseCommit(commitId);
+				revCommit = rw.parseCommit(commitId);
 				RefUpdate ru = repo.updateRef(Constants.HEAD);
 				ru.setNewObjectId(commitId);
 				if (!useDefaultReflogMessage) {
@@ -302,11 +303,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						repo.writeMergeCommitMsg(null);
 						repo.writeRevertHead(null);
 					}
-					Hooks.postCommit(repo,
-							hookOutRedirect.get(PostCommitHook.NAME),
-							hookErrRedirect.get(PostCommitHook.NAME)).call();
-
-					return revCommit;
+					break;
 				}
 				case REJECTED:
 				case LOCK_FAILURE:
@@ -320,6 +317,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			} finally {
 				index.unlock();
 			}
+			Hooks.postCommit(repo, hookOutRedirect.get(PostCommitHook.NAME),
+					hookErrRedirect.get(PostCommitHook.NAME)).call();
+			return revCommit;
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
 		} catch (IOException e) {
