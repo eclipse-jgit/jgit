@@ -67,6 +67,8 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.util.ChangeIdUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A class used to execute a {@code Commit} command. It has setters for all
@@ -78,6 +80,9 @@ import org.eclipse.jgit.util.ChangeIdUtil;
  *      >Git documentation about Commit</a>
  */
 public class CommitCommand extends GitCommand<RevCommit> {
+	private static final Logger log = LoggerFactory
+			.getLogger(CommitCommand.class);
+
 	private PersonIdent author;
 
 	private PersonIdent committer;
@@ -212,6 +217,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						.setCommitMessage(message).call();
 			}
 
+			RevCommit revCommit;
 			// lock the index
 			DirCache index = repo.lockDirCache();
 			try (ObjectInserter odi = repo.newObjectInserter()) {
@@ -267,7 +273,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				ObjectId commitId = odi.insert(commit);
 				odi.flush();
 
-				RevCommit revCommit = rw.parseCommit(commitId);
+				revCommit = rw.parseCommit(commitId);
 				RefUpdate ru = repo.updateRef(Constants.HEAD);
 				ru.setNewObjectId(commitId);
 				if (!useDefaultReflogMessage) {
@@ -302,11 +308,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						repo.writeMergeCommitMsg(null);
 						repo.writeRevertHead(null);
 					}
-					Hooks.postCommit(repo,
-							hookOutRedirect.get(PostCommitHook.NAME),
-							hookErrRedirect.get(PostCommitHook.NAME)).call();
-
-					return revCommit;
+					break;
 				}
 				case REJECTED:
 				case LOCK_FAILURE:
@@ -320,6 +322,15 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			} finally {
 				index.unlock();
 			}
+			try {
+				Hooks.postCommit(repo, hookOutRedirect.get(PostCommitHook.NAME),
+						hookErrRedirect.get(PostCommitHook.NAME)).call();
+			} catch (Exception e) {
+				log.error(MessageFormat.format(
+						JGitText.get().postCommitHookFailed, e.getMessage()),
+						e);
+			}
+			return revCommit;
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
 		} catch (IOException e) {
