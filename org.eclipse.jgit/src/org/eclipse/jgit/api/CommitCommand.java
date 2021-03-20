@@ -218,7 +218,6 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			}
 
 			RevCommit revCommit;
-			// lock the index
 			DirCache index = repo.lockDirCache();
 			try (ObjectInserter odi = repo.newObjectInserter()) {
 				if (!only.isEmpty())
