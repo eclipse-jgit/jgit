@@ -708,10 +708,10 @@ public class OpenSshConfigFile implements SshConfigStore {
 		}
 
 		private List<String> substitute(List<String> values, String allowed,
-				Replacer r) {
+				Replacer r, boolean withEnv) {
 			List<String> result = new ArrayList<>(values.size());
 			for (String value : values) {
-				result.add(r.substitute(value, allowed));
+				result.add(r.substitute(value, allowed, withEnv));
 			}
 			return result;
 		}
@@ -743,7 +743,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 				if (hostName == null || hostName.isEmpty()) {
 					options.put(SshConstants.HOST_NAME, originalHostName);
 				} else {
-					hostName = r.substitute(hostName, "h"); //$NON-NLS-1$
+					hostName = r.substitute(hostName, "h", false); //$NON-NLS-1$
 					options.put(SshConstants.HOST_NAME, hostName);
 					r.update('h', hostName);
 				}
@@ -752,13 +752,13 @@ public class OpenSshConfigFile implements SshConfigStore {
 				List<String> values = multiOptions
 						.get(SshConstants.IDENTITY_FILE);
 				if (values != null) {
-					values = substitute(values, "dhlru", r); //$NON-NLS-1$
+					values = substitute(values, "dhlru", r, true); //$NON-NLS-1$
 					values = replaceTilde(values, home);
 					multiOptions.put(SshConstants.IDENTITY_FILE, values);
 				}
 				values = multiOptions.get(SshConstants.CERTIFICATE_FILE);
 				if (values != null) {
-					values = substitute(values, "dhlru", r); //$NON-NLS-1$
+					values = substitute(values, "dhlru", r, true); //$NON-NLS-1$
 					values = replaceTilde(values, home);
 					multiOptions.put(SshConstants.CERTIFICATE_FILE, values);
 				}
@@ -775,29 +775,29 @@ public class OpenSshConfigFile implements SshConfigStore {
 				// HOSTNAME already done above
 				String value = options.get(SshConstants.IDENTITY_AGENT);
 				if (value != null) {
-					value = r.substitute(value, "dhlru"); //$NON-NLS-1$
+					value = r.substitute(value, "dhlru", true); //$NON-NLS-1$
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.IDENTITY_AGENT, value);
 				}
 				value = options.get(SshConstants.CONTROL_PATH);
 				if (value != null) {
-					value = r.substitute(value, "ChLlnpru"); //$NON-NLS-1$
+					value = r.substitute(value, "ChLlnpru", true); //$NON-NLS-1$
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.CONTROL_PATH, value);
 				}
 				value = options.get(SshConstants.LOCAL_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "CdhlnprTu"); //$NON-NLS-1$
+					value = r.substitute(value, "CdhlnprTu", false); //$NON-NLS-1$
 					options.put(SshConstants.LOCAL_COMMAND, value);
 				}
 				value = options.get(SshConstants.REMOTE_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "Cdhlnpru"); //$NON-NLS-1$
+					value = r.substitute(value, "Cdhlnpru", false); //$NON-NLS-1$
 					options.put(SshConstants.REMOTE_COMMAND, value);
 				}
 				value = options.get(SshConstants.PROXY_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "hpr"); //$NON-NLS-1$
+					value = r.substitute(value, "hpr", false); //$NON-NLS-1$
 					options.put(SshConstants.PROXY_COMMAND, value);
 				}
 			}
@@ -871,7 +871,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 			replacements.put(Character.valueOf('r'), user == null ? "" : user); //$NON-NLS-1$
 			replacements.put(Character.valueOf('u'), localUserName);
 			replacements.put(Character.valueOf('C'),
-					substitute("%l%h%p%r", "hlpr")); //$NON-NLS-1$ //$NON-NLS-2$
+					substitute("%l%h%p%r", "hlpr", false)); //$NON-NLS-1$ //$NON-NLS-2$
 			replacements.put(Character.valueOf('T'), "NONE"); //$NON-NLS-1$
 		}
 
@@ -879,36 +879,63 @@ public class OpenSshConfigFile implements SshConfigStore {
 			replacements.put(Character.valueOf(key), value);
 			if ("lhpr".indexOf(key) >= 0) { //$NON-NLS-1$
 				replacements.put(Character.valueOf('C'),
-						substitute("%l%h%p%r", "hlpr")); //$NON-NLS-1$ //$NON-NLS-2$
+						substitute("%l%h%p%r", "hlpr", false)); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 
-		public String substitute(String input, String allowed) {
+		public String substitute(String input, String allowed,
+				boolean withEnv) {
 			if (input == null || input.length() <= 1
-					|| input.indexOf('%') < 0) {
+					|| input.indexOf('%') < 0
+							&& (!withEnv || input.indexOf("${") < 0)) { //$NON-NLS-1$
 				return input;
 			}
 			StringBuilder builder = new StringBuilder();
 			int start = 0;
 			int length = input.length();
 			while (start < length) {
-				int percent = input.indexOf('%', start);
-				if (percent < 0 || percent + 1 >= length) {
-					builder.append(input.substring(start));
+				char ch = input.charAt(start);
+				switch (ch) {
+				case '%':
+					if (start + 1 >= length) {
+						break;
+					}
+					String replacement = null;
+					ch = input.charAt(start + 1);
+					if (ch == '%' || allowed.indexOf(ch) >= 0) {
+						replacement = replacements.get(Character.valueOf(ch));
+					}
+					if (replacement == null) {
+						builder.append('%').append(ch);
+					} else {
+						builder.append(replacement);
+					}
+					start += 2;
+					continue;
+				case '$':
+					if (!withEnv || start + 2 >= length) {
+						break;
+					}
+					ch = input.charAt(start + 1);
+					if (ch == '{') {
+						int close = input.indexOf('}', start + 2);
+						if (close > start + 2) {
+							String variable = SystemReader.getInstance()
+									.getenv(input.substring(start + 2, close));
+							if (!StringUtils.isEmptyOrNull(variable)) {
+								builder.append(variable);
+							}
+							start = close + 1;
+							continue;
+						}
+					}
+					ch = '$';
+					break;
+				default:
 					break;
 				}
-				String replacement = null;
-				char ch = input.charAt(percent + 1);
-				if (ch == '%' || allowed.indexOf(ch) >= 0) {
-					replacement = replacements.get(Character.valueOf(ch));
-				}
-				if (replacement == null) {
-					builder.append(input.substring(start, percent + 2));
-				} else {
-					builder.append(input.substring(start, percent))
-							.append(replacement);
-				}
-				start = percent + 2;
+				builder.append(ch);
+				start++;
 			}
 			return builder.toString();
 		}

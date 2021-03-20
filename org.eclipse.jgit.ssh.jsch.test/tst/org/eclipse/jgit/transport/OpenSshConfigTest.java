@@ -58,6 +58,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		FileUtils.mkdir(configFile.getParentFile());
 
 		mockSystemReader.setProperty(Constants.OS_USER_NAME_KEY, "jex_junit");
+		mockSystemReader.setProperty("TST_VAR", "TEST");
 		osc = new OpenSshConfig(home, configFile);
 	}
 
@@ -496,5 +497,24 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		Config c = h.getConfig();
 		assertEquals("^ssh-rsa",
 				c.getValue(SshConstants.PUBKEY_ACCEPTED_ALGORITHMS));
+	}
+
+	@Test
+	public void testEnVarSubstitution() throws Exception {
+		config("Host orcz\nIdentityFile /tmp/${TST_VAR}\n"
+				+ "CertificateFile /tmp/${}/foo\nUser ${TST_VAR}\nIdentityAgent /tmp/${TST_VAR/bar");
+		Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		Config c = h.getConfig();
+		assertEquals("/tmp/TEST",
+				c.getValue(SshConstants.IDENTITY_FILE));
+		// No variable name
+		assertEquals("/tmp/${}/foo", c.getValue(SshConstants.CERTIFICATE_FILE));
+		// User doesn't get env var substitution:
+		assertEquals("${TST_VAR}", c.getValue(SshConstants.USER));
+		assertEquals("${TST_VAR}", h.getUser());
+		// Unterminated:
+		assertEquals("/tmp/${TST_VAR/bar",
+				c.getValue(SshConstants.IDENTITY_AGENT));
 	}
 }
