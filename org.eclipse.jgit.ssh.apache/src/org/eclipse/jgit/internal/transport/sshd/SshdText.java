@@ -44,7 +44,6 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String keyEncryptedRetry;
 	/***/ public String keyLoadFailed;
 	/***/ public String knownHostsCouldNotUpdate;
-	/***/ public String knownHostsFileLockedRead;
 	/***/ public String knownHostsFileLockedUpdate;
 	/***/ public String knownHostsFileReadFailed;
 	/***/ public String knownHostsInvalidLine;
