@@ -558,6 +558,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String peerDidNotSupplyACompleteObjectGraph;
 	/***/ public String personIdentEmailNonNull;
 	/***/ public String personIdentNameNonNull;
+	/***/ public String postCommitHookFailed;
 	/***/ public String prefixRemote;
 	/***/ public String problemWithResolvingPushRefSpecsLocally;
 	/***/ public String progressMonUploading;

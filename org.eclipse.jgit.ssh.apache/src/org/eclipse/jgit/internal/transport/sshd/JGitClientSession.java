@@ -21,6 +21,7 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -45,6 +46,7 @@ import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.internal.transport.sshd.proxy.StatefulProxyConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * A {@link org.apache.sshd.client.session.ClientSession ClientSession} that can
@@ -201,48 +203,23 @@ public class JGitClientSession extends ClientSessionImpl {
 	@Override
 	protected String resolveAvailableSignaturesProposal(
 			FactoryManager manager) {
-		Set<String> defaultSignatures = new LinkedHashSet<>();
-		defaultSignatures.addAll(getSignatureFactoriesNames());
+		List<String> defaultSignatures = getSignatureFactoriesNames();
 		HostConfigEntry config = resolveAttribute(
 				JGitSshClient.HOST_CONFIG_ENTRY);
-		String hostKeyAlgorithms = config
+		String algorithms = config
 				.getProperty(SshConstants.HOST_KEY_ALGORITHMS);
-		if (hostKeyAlgorithms != null && !hostKeyAlgorithms.isEmpty()) {
-			char first = hostKeyAlgorithms.charAt(0);
-			switch (first) {
-			case '+':
-				// Additions make not much sense -- it's either in
-				// defaultSignatures already, or we have no implementation for
-				// it. No point in proposing it.
-				return String.join(",", defaultSignatures); //$NON-NLS-1$
-			case '-':
-				// This takes wildcard patterns!
-				removeFromList(defaultSignatures,
-						SshConstants.HOST_KEY_ALGORITHMS,
-						hostKeyAlgorithms.substring(1));
-				if (defaultSignatures.isEmpty()) {
-					// Too bad: user config error. Warn here, and then fail
-					// later.
-					log.warn(format(
-							SshdText.get().configNoRemainingHostKeyAlgorithms,
-							hostKeyAlgorithms));
+		if (!StringUtils.isEmptyOrNull(algorithms)) {
+			List<String> result = modifyAlgorithmList(defaultSignatures,
+					algorithms, SshConstants.HOST_KEY_ALGORITHMS);
+			if (!result.isEmpty()) {
+				if (log.isDebugEnabled()) {
+					log.debug(SshConstants.HOST_KEY_ALGORITHMS + ' ' + result);
 				}
-				return String.join(",", defaultSignatures); //$NON-NLS-1$
-			default:
-				// Default is overridden -- only accept the ones for which we do
-				// have an implementation.
-				List<String> newNames = filteredList(defaultSignatures,
-						hostKeyAlgorithms);
-				if (newNames.isEmpty()) {
-					log.warn(format(
-							SshdText.get().configNoKnownHostKeyAlgorithms,
-							hostKeyAlgorithms));
-					// Use the default instead.
-				} else {
-					return String.join(",", newNames); //$NON-NLS-1$
-				}
-				break;
+				return String.join(",", result); //$NON-NLS-1$
 			}
+			log.warn(format(SshdText.get().configNoKnownAlgorithms,
+					SshConstants.HOST_KEY_ALGORITHMS,
+					algorithms));
 		}
 		// No HostKeyAlgorithms; using default -- change order to put existing
 		// keys first.
@@ -262,9 +239,65 @@ public class JGitClientSession extends ClientSessionImpl {
 				}
 			}
 			reordered.addAll(defaultSignatures);
+			if (log.isDebugEnabled()) {
+				log.debug(SshConstants.HOST_KEY_ALGORITHMS + ' ' + reordered);
+			}
 			return String.join(",", reordered); //$NON-NLS-1$
 		}
+		if (log.isDebugEnabled()) {
+			log.debug(
+					SshConstants.HOST_KEY_ALGORITHMS + ' ' + defaultSignatures);
+		}
 		return String.join(",", defaultSignatures); //$NON-NLS-1$
+	}
+
+	/**
+	 * Modifies a given algorithm list according to a list from the ssh config,
+	 * including remove ('-') and reordering ('^') operators. Addition ('+') is
+	 * not handled since we have no way of adding dynamically implementations,
+	 * and the defaultList is supposed to contain all known implementations
+	 * already.
+	 *
+	 * @param defaultList
+	 *            to modify
+	 * @param fromConfig
+	 *            telling how to modify the {@code defaultList}, must not be
+	 *            {@code null} or empty
+	 * @param overrideKey
+	 *            ssh config key; used for logging
+	 * @return the modified list or {@code null} if {@code overrideKey} is not
+	 *         set
+	 */
+	public List<String> modifyAlgorithmList(List<String> defaultList,
+			String fromConfig, String overrideKey) {
+		Set<String> defaults = new LinkedHashSet<>();
+		defaults.addAll(defaultList);
+		switch (fromConfig.charAt(0)) {
+		case '+':
+			// Additions make not much sense -- it's either in
+			// defaultList already, or we have no implementation for
+			// it. No point in proposing it.
+			return defaultList;
+		case '-':
+			// This takes wildcard patterns!
+			removeFromList(defaults, overrideKey, fromConfig.substring(1));
+			return new ArrayList<>(defaults);
+		case '^':
+			// Specified entries go to the front of the default list
+			List<String> allSignatures = filteredList(defaults,
+					fromConfig.substring(1));
+			Set<String> atFront = new HashSet<>(allSignatures);
+			for (String sig : defaults) {
+				if (!atFront.contains(sig)) {
+					allSignatures.add(sig);
+				}
+			}
+			return allSignatures;
+		default:
+			// Default is overridden -- only accept the ones for which we do
+			// have an implementation.
+			return filteredList(defaults, fromConfig);
+		}
 	}
 
 	private void removeFromList(Set<String> current, String key,
