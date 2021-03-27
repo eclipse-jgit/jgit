@@ -19,6 +19,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.revwalk.filter.AndRevFilter;
+import org.eclipse.jgit.revwalk.filter.MaxCountRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
@@ -104,7 +105,11 @@ class StartGenerator extends Generator {
 				rewriteFlag = RevWalk.REWRITE;
 			} else
 				rewriteFlag = 0;
-			rf = AndRevFilter.create(new TreeRevFilter(w, tf, rewriteFlag), rf);
+			if (rf instanceof MaxCountRevFilter) {
+				rf = MaxCountRevFilter.and(new TreeRevFilter(w, tf, rewriteFlag), (MaxCountRevFilter) rf);
+			} else {
+				rf = AndRevFilter.create(new TreeRevFilter(w, tf, rewriteFlag), rf);
+			}
 		}
 
 		walker.queue = q;

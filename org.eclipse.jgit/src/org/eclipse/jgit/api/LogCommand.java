@@ -117,13 +117,14 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			walk.setTreeFilter(AndTreeFilter.create(filters));
 
 		}
-		if (skip > -1 && maxCount > -1)
-			walk.setRevFilter(AndRevFilter.create(SkipRevFilter.create(skip),
-					MaxCountRevFilter.create(maxCount)));
-		else if (skip > -1)
+		if (skip > -1 && maxCount > -1) {
+			walk.setRevFilter(MaxCountRevFilter.create(maxCount,
+					SkipRevFilter.create(skip)));
+		} else if (skip > -1) {
 			walk.setRevFilter(SkipRevFilter.create(skip));
-		else if (maxCount > -1)
+		} else if (maxCount > -1) {
 			walk.setRevFilter(MaxCountRevFilter.create(maxCount));
+		}
 		if (!startSpecified) {
 			try {
 				ObjectId headId = repo.resolve(Constants.HEAD);
