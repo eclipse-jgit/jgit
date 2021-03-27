@@ -12,6 +12,7 @@ package org.eclipse.jgit.revwalk;
 import static org.junit.Assert.assertNull;
 
 import org.eclipse.jgit.revwalk.filter.MaxCountRevFilter;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.junit.Test;
 
 public class MaxCountRevFilterTest extends RevWalkTestCase {
@@ -46,6 +47,35 @@ public class MaxCountRevFilterTest extends RevWalkTestCase {
 		rw.reset();
 		rw.setRevFilter(MaxCountRevFilter.create(0));
 		markStart(b);
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testMaxCountRevFilter1() throws Exception {
+		final RevCommit a = commit();
+		final RevCommit b1 = commit(a);
+		final RevCommit b2 = commit(a);
+		final RevCommit c = commit(b1, b2);
+		final RevCommit d = commit(c);
+
+		rw.reset();
+		rw.setRevFilter(MaxCountRevFilter.create(1, RevFilter.ONLY_MERGES));
+		markStart(d);
+		assertCommit(c, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testMaxCountRevFilter2() throws Exception {
+		final RevCommit a = commit();
+		final RevCommit b = commit(a);
+		final RevCommit c = commit(b);
+
+		rw.reset();
+		RevFilter rf = MaxCountRevFilter.create(1, RevFilter.NO_MERGES);
+		rw.setRevFilter(
+				MaxCountRevFilter.and(RevFilter.NONE, (MaxCountRevFilter) rf));
+		markStart(c);
 		assertNull(rw.next());
 	}
 }
