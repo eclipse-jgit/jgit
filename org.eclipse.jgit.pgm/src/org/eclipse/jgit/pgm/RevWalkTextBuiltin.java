@@ -129,6 +129,9 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 			walk.setTreeFilter(AndTreeFilter.create(pathFilter,
 					TreeFilter.ANY_DIFF));
 		}
+		if (parents) {
+			walk.setRewriteParents(true);
+		}
 
 		if (revLimiter.size() == 1)
 			walk.setRevFilter(revLimiter.get(0));
