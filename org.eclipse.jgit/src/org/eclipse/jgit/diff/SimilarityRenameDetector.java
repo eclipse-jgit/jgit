@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.FileMode;
@@ -272,6 +273,9 @@ class SimilarityRenameDetector {
 				if (s == null) {
 					try {
 						s = hash(OLD, srcEnt);
+					} catch (BinaryBlobException binaryBlobException) {
+						pm.update(1);
+						continue;
 					} catch (TableFullException tableFull) {
 						tableOverflow = true;
 						continue SRC;
@@ -281,6 +285,9 @@ class SimilarityRenameDetector {
 				SimilarityIndex d;
 				try {
 					d = hash(NEW, dstEnt);
+				} catch (BinaryBlobException e) {
+					pm.update(1);
+					continue;
 				} catch (TableFullException tableFull) {
 					if (dstTooLarge == null)
 						dstTooLarge = new BitSet(dsts.size());
@@ -365,7 +372,7 @@ class SimilarityRenameDetector {
 	}
 
 	private SimilarityIndex hash(DiffEntry.Side side, DiffEntry ent)
-			throws IOException, TableFullException {
+			throws BinaryBlobException, IOException, TableFullException {
 		SimilarityIndex r = new SimilarityIndex();
 		r.hash(reader.open(side, ent));
 		r.sort();

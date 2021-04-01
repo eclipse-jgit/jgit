@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -507,6 +508,8 @@ public class RenameDetector {
 			// ensure its not similar, but not quite dissimilar enough to break.
 			//
 			overRenameLimit = true;
+			return breakScore + 1;
+		} catch (BinaryBlobException binaryBlobException) {
 			return breakScore + 1;
 		}
 	}
