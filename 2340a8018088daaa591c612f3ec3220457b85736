@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b765144_1a3370b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-04-01T16:38:43Z",
+      "side": 1,
+      "message": "this breaks backward compatibility.",
+      "range": {
+        "startLine": 86,
+        "startChar": 3,
+        "endLine": 87,
+        "endChar": 74
+      },
+      "revId": "2340a8018088daaa591c612f3ec3220457b85736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8e4fe8c_0a017cc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-04-01T16:38:43Z",
+      "side": 1,
+      "message": "it looks like this consciously tried to support binary files as well. If we\u0027re bailing on binary files, then we don\u0027t need this boolean here.\n\nI\u0027m afraid this might mean that somebody/something relies on binaries being supported here as well. Could we make this optional for now?",
+      "range": {
+        "startLine": 159,
+        "startChar": 43,
+        "endLine": 159,
+        "endChar": 55
+      },
+      "revId": "2340a8018088daaa591c612f3ec3220457b85736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
