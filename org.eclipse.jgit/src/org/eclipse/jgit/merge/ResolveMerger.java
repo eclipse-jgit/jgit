@@ -644,15 +644,18 @@ public class ResolveMerger extends ThreeWayMerger {
 				}
 				return true;
 			}
-			// FileModes are not mergeable. We found a conflict on modes.
-			// For conflicting entries we don't know lastModified and
-			// length.
-			add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-			add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
-			unmergedPaths.add(tw.getPathString());
-			mergeResults.put(tw.getPathString(),
-					new MergeResult<>(Collections.<RawText> emptyList()));
+			if (!ignoreConflicts) {
+				// FileModes are not mergeable. We found a conflict on modes.
+				// For conflicting entries we don't know lastModified and
+				// length.
+				// This path can be skipped on ignoreConflicts, so the caller
+				// could use virtual commit.
+				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				unmergedPaths.add(tw.getPathString());
+				mergeResults.put(tw.getPathString(), new MergeResult<>(Collections.<RawText>emptyList()));
+			}
 			return true;
 		}
 
