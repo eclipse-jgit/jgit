@@ -22,19 +22,19 @@ import java.util.Map;
  */
 public interface Response {
 	/** Describes an action the client can execute on a single object */
-	class Action {
+	static class Action {
 		public String href;
 		public Map<String, String> header;
 	}
 
 	/** Describes an error to be returned by the LFS batch API */
-	class Error {
+	static class Error {
 		public int code;
 		public String message;
 	}
 
 	/** Describes the actions the LFS server offers for a single object */
-	class ObjectInfo {
+	static class ObjectInfo {
 		public String oid;
 		public long size;
 		public Map<String, Action> actions;
@@ -42,7 +42,7 @@ public interface Response {
 	}
 
 	/** Describes the body of a LFS batch API response */
-	class Body {
+	static class Body {
 		public List<ObjectInfo> objects;
 	}
 }

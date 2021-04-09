@@ -25,7 +25,7 @@ import com.google.gson.GsonBuilder;
  */
 public interface Protocol {
 	/** A request sent to an LFS server */
-	class Request {
+	static class Request {
 		/** The operation of this request */
 		public String operation;
 
@@ -34,7 +34,7 @@ public interface Protocol {
 	}
 
 	/** A response received from an LFS server */
-	class Response {
+	static class Response {
 		public List<ObjectInfo> objects;
 	}
 
@@ -42,7 +42,7 @@ public interface Protocol {
 	 * MetaData of an LFS object. Needs to be specified when requesting objects
 	 * from the LFS server and is also returned in the response
 	 */
-	class ObjectSpec {
+	static class ObjectSpec {
 		public String oid; // the objectid
 
 		public long size; // the size of the object
@@ -52,7 +52,7 @@ public interface Protocol {
 	 * Describes in a response all actions the LFS server offers for a single
 	 * object
 	 */
-	class ObjectInfo extends ObjectSpec {
+	static class ObjectInfo extends ObjectSpec {
 		public Map<String, Action> actions; // Maps operation to action
 
 		public Error error;
@@ -62,7 +62,7 @@ public interface Protocol {
 	 * Describes in a Response a single action the client can execute on a
 	 * single object
 	 */
-	class Action {
+	static class Action {
 		public String href;
 
 		public Map<String, String> header;
@@ -73,7 +73,7 @@ public interface Protocol {
 	 *
 	 * @since 4.11
 	 */
-	class ExpiringAction extends Action {
+	static class ExpiringAction extends Action {
 		/**
 		 * Absolute date/time in format "yyyy-MM-dd'T'HH:mm:ss.SSSX"
 		 */
@@ -87,7 +87,7 @@ public interface Protocol {
 	}
 
 	/** Describes an error to be returned by the LFS batch API */
-	class Error {
+	static class Error {
 		public int code;
 
 		public String message;
