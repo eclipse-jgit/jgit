@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -29,6 +30,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -849,6 +851,27 @@ public class CloneCommandTest extends RepositoryTestCase {
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 		assertEquals("refs/heads/test-copy", git2.getRepository().getFullBranch());
+	}
+
+	@Test
+	public void testCloneEmptyRepository() throws Exception {
+		db.close();
+		db = createWorkRepository();
+		trash = db.getWorkTree();
+		git = new Git(db);
+
+		File directory = createTempDirectory("testCloneRepository");
+		CloneCommand command = Git.cloneRepository().setDirectory(directory)
+				.setURI(fileUri());
+		Git git2 = command.call();
+		Repository clonedRepo = git2.getRepository();
+		addRepoToClose(clonedRepo);
+
+		Map<AnyObjectId, Set<Ref>> allRefs = clonedRepo
+				.getAllRefsByPeeledObjectId();
+		assertTrue(allRefs.isEmpty());
+		Ref head = clonedRepo.exactRef(Constants.HEAD);
+		assertNull(head.getObjectId());
 	}
 
 	private void assertTagOption(Repository repo, TagOpt expectedTagOption)
