@@ -16,6 +16,24 @@
       "revId": "b62104857555aeb3c9e662bcf8b44cd512a7cf24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2221b5db_7278bdf7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-04-11T14:15:05Z",
+      "side": 1,
+      "message": "I think that\u0027s closed in RepositoryTestCase.tearDown()",
+      "parentUuid": "d84d770e_42af26cc",
+      "revId": "b62104857555aeb3c9e662bcf8b44cd512a7cf24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
