@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d84d770e_42af26cc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-04-11T13:57:47Z",
+      "side": 1,
+      "message": "This loses the reference to the initial repo created in setUp(). When is that initial repo closed?",
+      "revId": "b62104857555aeb3c9e662bcf8b44cd512a7cf24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
