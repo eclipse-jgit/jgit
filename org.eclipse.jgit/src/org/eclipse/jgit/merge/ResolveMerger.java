@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
@@ -268,6 +269,13 @@ public class ResolveMerger extends ThreeWayMerger {
 	private int inCoreLimit;
 
 	/**
+	 * The {@link ContentMergeStrategy} to use for "resolve" and "recursive"
+	 * merges.
+	 */
+	@NonNull
+	private ContentMergeStrategy contentStrategy = ContentMergeStrategy.CONFLICT;
+
+	/**
 	 * Keeps {@link CheckoutMetadata} for {@link #checkout()} and
 	 * {@link #cleanUp()}.
 	 */
@@ -342,6 +350,29 @@ public class ResolveMerger extends ThreeWayMerger {
 		inCore = true;
 		implicitDirCache = false;
 		dircache = DirCache.newInCore();
+	}
+
+	/**
+	 * Retrieves the content merge strategy for content conflicts.
+	 *
+	 * @return the {@link ContentMergeStrategy} in effect
+	 * @since 5.12
+	 */
+	@NonNull
+	public ContentMergeStrategy getContentMergeStrategy() {
+		return contentStrategy;
+	}
+
+	/**
+	 * Sets the content merge strategy for content conflicts.
+	 *
+	 * @param strategy
+	 *            {@link ContentMergeStrategy} to use
+	 * @since 5.12
+	 */
+	public void setContentMergeStrategy(ContentMergeStrategy strategy) {
+		contentStrategy = strategy == null ? ContentMergeStrategy.CONFLICT
+				: strategy;
 	}
 
 	/** {@inheritDoc} */
@@ -654,7 +685,8 @@ public class ResolveMerger extends ThreeWayMerger {
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				unmergedPaths.add(tw.getPathString());
-				mergeResults.put(tw.getPathString(), new MergeResult<>(Collections.<RawText>emptyList()));
+				mergeResults.put(tw.getPathString(),
+						new MergeResult<>(Collections.emptyList()));
 			}
 			return true;
 		}
@@ -760,6 +792,19 @@ public class ResolveMerger extends ThreeWayMerger {
 				unmergedPaths.add(tw.getPathString());
 				return true;
 			} else if (!attributes.canBeContentMerged()) {
+				// File marked as binary
+				switch (getContentMergeStrategy()) {
+				case OURS:
+					keep(ourDce);
+					return true;
+				case THEIRS:
+					DirCacheEntry theirEntry = add(tw.getRawPath(), theirs,
+							DirCacheEntry.STAGE_0, EPOCH, 0);
+					addToCheckout(tw.getPathString(), theirEntry, attributes);
+					return true;
+				default:
+					break;
+				}
 				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
@@ -774,8 +819,26 @@ public class ResolveMerger extends ThreeWayMerger {
 				return false;
 			}
 
-			MergeResult<RawText> result = contentMerge(base, ours, theirs,
-					attributes);
+			MergeResult<RawText> result = null;
+			try {
+				result = contentMerge(base, ours, theirs, attributes,
+						getContentMergeStrategy());
+			} catch (BinaryBlobException e) {
+				switch (getContentMergeStrategy()) {
+				case OURS:
+					keep(ourDce);
+					return true;
+				case THEIRS:
+					DirCacheEntry theirEntry = add(tw.getRawPath(), theirs,
+							DirCacheEntry.STAGE_0, EPOCH, 0);
+					addToCheckout(tw.getPathString(), theirEntry, attributes);
+					return true;
+				default:
+					result = new MergeResult<>(Collections.emptyList());
+					result.setContainsConflicts(true);
+					break;
+				}
+			}
 			if (ignoreConflicts) {
 				result.setContainsConflicts(false);
 			}
@@ -802,9 +865,16 @@ public class ResolveMerger extends ThreeWayMerger {
 					mergeResults.put(tw.getPathString(), result);
 					unmergedPaths.add(tw.getPathString());
 				} else {
-					MergeResult<RawText> result = contentMerge(base, ours,
-							theirs, attributes);
-
+					// Content merge strategy does not apply to delete-modify
+					// conflicts!
+					MergeResult<RawText> result;
+					try {
+						result = contentMerge(base, ours, theirs, attributes,
+								ContentMergeStrategy.CONFLICT);
+					} catch (BinaryBlobException e) {
+						result = new MergeResult<>(Collections.emptyList());
+						result.setContainsConflicts(true);
+					}
 					if (ignoreConflicts) {
 						// In case a conflict is detected the working tree file
 						// is again filled with new content (containing conflict
@@ -866,32 +936,26 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param ours
 	 * @param theirs
 	 * @param attributes
+	 * @param strategy
 	 *
 	 * @return the result of the content merge
+	 * @throws BinaryBlobException
+	 *             if any of the blobs looks like a binary blob
 	 * @throws IOException
 	 */
 	private MergeResult<RawText> contentMerge(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
-			Attributes attributes)
-			throws IOException {
-		RawText baseText;
-		RawText ourText;
-		RawText theirsText;
-
-		try {
-			baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
-							base.getEntryObjectId(), attributes);
-			ourText = ours == null ? RawText.EMPTY_TEXT : getRawText(
-							ours.getEntryObjectId(), attributes);
-			theirsText = theirs == null ? RawText.EMPTY_TEXT : getRawText(
-							theirs.getEntryObjectId(), attributes);
-		} catch (BinaryBlobException e) {
-			MergeResult<RawText> r = new MergeResult<>(Collections.<RawText>emptyList());
-			r.setContainsConflicts(true);
-			return r;
-		}
-		return (mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
-				ourText, theirsText));
+			Attributes attributes, ContentMergeStrategy strategy)
+			throws BinaryBlobException, IOException {
+		RawText baseText = base == null ? RawText.EMPTY_TEXT
+				: getRawText(base.getEntryObjectId(), attributes);
+		RawText ourText = ours == null ? RawText.EMPTY_TEXT
+				: getRawText(ours.getEntryObjectId(), attributes);
+		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
+				: getRawText(theirs.getEntryObjectId(), attributes);
+		mergeAlgorithm.setContentMergeStrategy(strategy);
+		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
+				ourText, theirsText);
 	}
 
 	private boolean isIndexDirty() {

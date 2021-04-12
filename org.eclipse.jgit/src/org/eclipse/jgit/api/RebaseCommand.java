@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, 2013 Mathias Kinzler <mathias.kinzler@sap.com>
- * Copyright (C) 2016, Laurent Delaigue <laurent.delaigue@obeo.fr> and others
+ * Copyright (C) 2016, 2021 Laurent Delaigue <laurent.delaigue@obeo.fr> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -65,6 +65,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -211,6 +212,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private boolean lastStepWasForward;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
+
+	private ContentMergeStrategy contentStrategy;
 
 	private boolean preserveMerges = false;
 
@@ -501,8 +504,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			String ourCommitName = getOurCommitName();
 			try (Git git = new Git(repo)) {
 				CherryPickResult cherryPickResult = git.cherryPick()
-					.include(commitToPick).setOurCommitName(ourCommitName)
-					.setReflogPrefix(REFLOG_PREFIX).setStrategy(strategy)
+					.include(commitToPick)
+					.setOurCommitName(ourCommitName)
+					.setReflogPrefix(REFLOG_PREFIX)
+					.setStrategy(strategy)
+					.setContentMergeStrategy(contentStrategy)
 					.call();
 				switch (cherryPickResult.getStatus()) {
 				case FAILED:
@@ -556,7 +562,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 							.include(commitToPick)
 							.setOurCommitName(ourCommitName)
 							.setReflogPrefix(REFLOG_PREFIX)
-							.setStrategy(strategy);
+							.setStrategy(strategy)
+							.setContentMergeStrategy(contentStrategy);
 					if (isMerge) {
 						pickCommand.setMainlineParentNumber(1);
 						// We write a MERGE_HEAD and later commit explicitly
@@ -592,6 +599,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					MergeCommand merge = git.merge()
 							.setFastForward(MergeCommand.FastForwardMode.NO_FF)
 							.setProgressMonitor(monitor)
+							.setStrategy(strategy)
+							.setContentMergeStrategy(contentStrategy)
 							.setCommit(false);
 					for (int i = 1; i < commitToPick.getParentCount(); i++)
 						merge.include(newParents.get(i));
@@ -1137,7 +1146,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private List<RevCommit> calculatePickList(RevCommit headCommit)
-			throws GitAPIException, NoHeadException, IOException {
+			throws IOException {
 		List<RevCommit> cherryPickList = new ArrayList<>();
 		try (RevWalk r = new RevWalk(repo)) {
 			r.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER, true);
@@ -1583,6 +1592,21 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 */
 	public RebaseCommand setStrategy(MergeStrategy strategy) {
 		this.strategy = strategy;
+		return this;
+	}
+
+	/**
+	 * Sets the content merge strategy to use if the
+	 * {@link #setStrategy(MergeStrategy) merge strategy} is "resolve" or
+	 * "recursive".
+	 *
+	 * @param strategy
+	 *            the {@link ContentMergeStrategy} to be used
+	 * @return {@code this}
+	 * @since 5.12
+	 */
+	public RebaseCommand setContentMergeStrategy(ContentMergeStrategy strategy) {
+		this.contentStrategy = strategy;
 		return this;
 	}
 
