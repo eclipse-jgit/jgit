@@ -22,6 +22,76 @@
       "revId": "fa527d6fa46ee4b5cd75bf399eb8355b3eb76edb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18866dbb_cb0c1577",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-04-18T23:58:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1e88c71d_1db35712",
+      "range": {
+        "startLine": 384,
+        "startChar": 34,
+        "endLine": 384,
+        "endChar": 56
+      },
+      "revId": "fa527d6fa46ee4b5cd75bf399eb8355b3eb76edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cce9407_67572703",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-04-18T23:58:52Z",
+      "side": 1,
+      "message": "resolveMerger like above ?",
+      "range": {
+        "startLine": 202,
+        "startChar": 20,
+        "endLine": 202,
+        "endChar": 28
+      },
+      "revId": "fa527d6fa46ee4b5cd75bf399eb8355b3eb76edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a186c70_17e04568",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-04-18T23:58:52Z",
+      "side": 1,
+      "message": "resolveMerger ?",
+      "range": {
+        "startLine": 221,
+        "startChar": 20,
+        "endLine": 221,
+        "endChar": 28
+      },
+      "revId": "fa527d6fa46ee4b5cd75bf399eb8355b3eb76edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
