@@ -881,8 +881,8 @@ public class OpenSshConfigFile implements SshConfigStore {
 		public String substitute(String input, String allowed,
 				boolean withEnv) {
 			if (input == null || input.length() <= 1
-					|| input.indexOf('%') < 0
-							&& (!withEnv || input.indexOf("${") < 0)) { //$NON-NLS-1$
+					|| (input.indexOf('%') < 0
+							&& (!withEnv || input.indexOf("${") < 0))) { //$NON-NLS-1$
 				return input;
 			}
 			StringBuilder builder = new StringBuilder();
