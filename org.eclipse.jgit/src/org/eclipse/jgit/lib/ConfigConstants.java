@@ -125,6 +125,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_COMMIT_SECTION = "commit";
 
 	/**
+	 * The "template" key
+	 *
+	 * @since 5.13
+	 */
+	public static final String CONFIG_KEY_COMMIT_TEMPLATE = "template";
+
+	/**
 	 * The "tag" section
 	 *
 	 * @since 5.11
@@ -516,6 +523,13 @@ public final class ConfigConstants {
 	 * @since 5.2
 	 */
 	public static final String CONFIG_SECTION_I18N = "i18n";
+
+	/**
+	 * The "commitEncoding" key
+	 *
+	 * @since 5.13
+	 */
+	public static final String CONFIG_KEY_COMMIT_ENCODING = "commitEncoding";
 
 	/**
 	 * The "logOutputEncoding" key
