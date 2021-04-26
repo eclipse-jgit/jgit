@@ -393,6 +393,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidChannel;
 	/***/ public String invalidCommitParentNumber;
 	/***/ public String invalidDepth;
+	/***/ public String invalidEncoding;
 	/***/ public String invalidEncryption;
 	/***/ public String invalidExpandWildcard;
 	/***/ public String invalidFilter;
