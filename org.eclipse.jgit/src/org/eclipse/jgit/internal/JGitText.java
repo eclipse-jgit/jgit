@@ -448,6 +448,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String lockFailedRetry;
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
+	/***/ public String lockStreamClosed;
+	/***/ public String lockStreamMultiple;
 	/***/ public String logInconsistentFiletimeDiff;
 	/***/ public String logLargerFiletimeDiff;
 	/***/ public String logSmallerFiletime;
