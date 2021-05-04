@@ -1,45 +1,12 @@
 /*
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
- * and other copyright owners as documented in the project's IP log.
+ * Copyright (C) 2006-2021, Shawn O. Pearce <spearce@spearce.org> and others
  *
- * This program and the accompanying materials are made available
- * under the terms of the Eclipse Distribution License v1.0 which
- * accompanies this distribution, is reproduced below, and is
- * available at http://www.eclipse.org/org/documents/edl-v10.php
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
  *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or
- * without modification, are permitted provided that the following
- * conditions are met:
- *
- * - Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- *
- * - Redistributions in binary form must reproduce the above
- *   copyright notice, this list of conditions and the following
- *   disclaimer in the documentation and/or other materials provided
- *   with the distribution.
- *
- * - Neither the name of the Eclipse Foundation, Inc. nor the
- *   names of its contributors may be used to endorse or promote
- *   products derived from this software without specific prior
- *   written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
- * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
- * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 package org.eclipse.jgit.internal.storage.file;
@@ -129,11 +96,15 @@ public class LockFile {
 
 	private boolean haveLck;
 
-	FileOutputStream os;
+	private FileOutputStream os;
 
 	private boolean needSnapshot;
 
-	boolean fsync;
+	private boolean fsync;
+
+	private boolean isAppend;
+
+	private boolean written;
 
 	private FileSnapshot commitSnapshot;
 
@@ -160,6 +131,10 @@ public class LockFile {
 	 *             does not hold the lock.
 	 */
 	public boolean lock() throws IOException {
+		if (haveLck) {
+			throw new IllegalStateException(
+					MessageFormat.format(JGitText.get().lockAlreadyHeld, ref));
+		}
 		FileUtils.mkdirs(lck.getParentFile(), true);
 		try {
 			token = FS.DETECTED.createNewFileAtomic(lck);
@@ -167,18 +142,15 @@ public class LockFile {
 			LOG.error(JGitText.get().failedCreateLockFile, lck, e);
 			throw e;
 		}
-		if (token.isCreated()) {
+		boolean obtainedLock = token.isCreated();
+		if (obtainedLock) {
 			haveLck = true;
-			try {
-				os = new FileOutputStream(lck);
-			} catch (IOException ioe) {
-				unlock();
-				throw ioe;
-			}
+			isAppend = false;
+			written = false;
 		} else {
 			closeToken();
 		}
-		return haveLck;
+		return obtainedLock;
 	}
 
 	/**
@@ -191,10 +163,22 @@ public class LockFile {
 	 *             does not hold the lock.
 	 */
 	public boolean lockForAppend() throws IOException {
-		if (!lock())
+		if (!lock()) {
 			return false;
+		}
 		copyCurrentContent();
+		isAppend = true;
+		written = false;
 		return true;
+	}
+
+	// For tests only
+	boolean isLocked() {
+		return haveLck;
+	}
+
+	private FileOutputStream getStream() throws IOException {
+		return new FileOutputStream(lck, isAppend);
 	}
 
 	/**
@@ -218,32 +202,31 @@ public class LockFile {
 	 */
 	public void copyCurrentContent() throws IOException {
 		requireLock();
-		try {
+		try (FileOutputStream out = getStream()) {
 			try (FileInputStream fis = new FileInputStream(ref)) {
 				if (fsync) {
 					FileChannel in = fis.getChannel();
 					long pos = 0;
 					long cnt = in.size();
 					while (0 < cnt) {
-						long r = os.getChannel().transferFrom(in, pos, cnt);
+						long r = out.getChannel().transferFrom(in, pos, cnt);
 						pos += r;
 						cnt -= r;
 					}
 				} else {
 					final byte[] buf = new byte[2048];
 					int r;
-					while ((r = fis.read(buf)) >= 0)
-						os.write(buf, 0, r);
+					while ((r = fis.read(buf)) >= 0) {
+						out.write(buf, 0, r);
 				}
 			}
 		} catch (FileNotFoundException fnfe) {
 			if (ref.exists()) {
-				unlock();
 				throw fnfe;
 			}
 			// Don't worry about a file that doesn't exist yet, it
 			// conceptually has no current content to copy.
-			//
+			}
 		} catch (IOException | RuntimeException | Error ioe) {
 			unlock();
 			throw ioe;
@@ -286,18 +269,22 @@ public class LockFile {
 	 */
 	public void write(byte[] content) throws IOException {
 		requireLock();
-		try {
+		try (FileOutputStream out = getStream()) {
+			if (written) {
+				throw new IOException(MessageFormat
+						.format(JGitText.get().lockStreamClosed, ref));
+			}
 			if (fsync) {
-				FileChannel fc = os.getChannel();
+				FileChannel fc = out.getChannel();
 				ByteBuffer buf = ByteBuffer.wrap(content);
-				while (0 < buf.remaining())
+				while (0 < buf.remaining()) {
 					fc.write(buf);
+				}
 				fc.force(true);
 			} else {
-				os.write(content);
+				out.write(content);
 			}
-			os.close();
-			os = null;
+			written = true;
 		} catch (IOException | RuntimeException | Error ioe) {
 			unlock();
 			throw ioe;
@@ -316,36 +303,68 @@ public class LockFile {
 	public OutputStream getOutputStream() {
 		requireLock();
 
-		final OutputStream out;
-		if (fsync)
-			out = Channels.newOutputStream(os.getChannel());
-		else
-			out = os;
+		if (written || os != null) {
+			throw new IllegalStateException(MessageFormat
+					.format(JGitText.get().lockStreamMultiple, ref));
+		}
 
 		return new OutputStream() {
+
+			private OutputStream out;
+
+			private boolean closed;
+
+			private OutputStream get() throws IOException {
+				if (written) {
+					throw new IOException(MessageFormat
+							.format(JGitText.get().lockStreamMultiple, ref));
+				}
+				if (out == null) {
+					os = getStream();
+					if (fsync) {
+			out = Channels.newOutputStream(os.getChannel());
+					} else {
+			out = os;
+					}
+				}
+				return out;
+			}
+
 			@Override
 			public void write(byte[] b, int o, int n)
 					throws IOException {
-				out.write(b, o, n);
+				get().write(b, o, n);
 			}
 
 			@Override
 			public void write(byte[] b) throws IOException {
-				out.write(b);
+				get().write(b);
 			}
 
 			@Override
 			public void write(int b) throws IOException {
-				out.write(b);
+				get().write(b);
 			}
 
 			@Override
 			public void close() throws IOException {
+				if (closed) {
+					return;
+				}
+				closed = true;
 				try {
-					if (fsync)
+					if (written) {
+						throw new IOException(MessageFormat
+								.format(JGitText.get().lockStreamClosed, ref));
+					}
+					if (out != null) {
+						if (fsync) {
 						os.getChannel().force(true);
+						}
 					out.close();
 					os = null;
+					}
+					written = true;
 				} catch (IOException | RuntimeException | Error ioe) {
 					unlock();
 					throw ioe;
@@ -355,7 +374,7 @@ public class LockFile {
 	}
 
 	void requireLock() {
-		if (os == null) {
+		if (!haveLck) {
 			unlock();
 			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotHeld, ref));
 		}
@@ -444,6 +463,8 @@ public class LockFile {
 		try {
 			FileUtils.rename(lck, ref, StandardCopyOption.ATOMIC_MOVE);
 			haveLck = false;
+			isAppend = false;
+			written = false;
 			closeToken();
 			return true;
 		} catch (IOException e) {
@@ -530,6 +551,8 @@ public class LockFile {
 				closeToken();
 			}
 		}
+		isAppend = false;
+		written = false;
 	}
 
 	/** {@inheritDoc} */
