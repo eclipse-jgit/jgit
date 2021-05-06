@@ -1589,10 +1589,12 @@ public class UploadPack implements Closeable {
 		RequestPolicy policy = getRequestPolicy();
 		if (policy == RequestPolicy.TIP
 				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
+				|| policy == RequestPolicy.ANY
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
 		if (policy == RequestPolicy.REACHABLE_COMMIT
 				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
+				|| policy == RequestPolicy.ANY
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_REACHABLE_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
