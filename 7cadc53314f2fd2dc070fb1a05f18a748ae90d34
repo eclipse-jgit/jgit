@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5dc17b7_0dadc0a4",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-06T07:20:48Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be 5.12.0.qualifier? Why was the \".0\" dropped throughout?",
+      "revId": "7cadc53314f2fd2dc070fb1a05f18a748ae90d34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
