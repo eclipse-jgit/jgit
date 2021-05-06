@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit.ssh.jsch"
       label="%featureName"
-      version="5.12.0.202105051250-m2"
+      version="5.12.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
@@ -23,7 +23,7 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.jgit" version="5.12.0" match="equivalent"/>
+      <import plugin="org.eclipse.jgit" version="5.12" match="equivalent"/>
    </requires>
 
    <plugin
