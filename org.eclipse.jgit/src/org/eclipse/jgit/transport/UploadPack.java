@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, 2020 Google Inc. and others
+ * Copyright (C) 2008, 2021 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -1526,10 +1526,12 @@ public class UploadPack {
 		RequestPolicy policy = getRequestPolicy();
 		if (policy == RequestPolicy.TIP
 				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
+				|| policy == RequestPolicy.ANY
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
 		if (policy == RequestPolicy.REACHABLE_COMMIT
 				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
+				|| policy == RequestPolicy.ANY
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_REACHABLE_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
