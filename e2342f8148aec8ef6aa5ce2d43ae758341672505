@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f8f662d_6af1b832",
+        "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/internal/storage/file/CGitLockFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-07T10:38:56Z",
+      "side": 1,
+      "message": "Why Github?",
+      "range": {
+        "startLine": 2,
+        "startChar": 28,
+        "endLine": 2,
+        "endChar": 39
+      },
+      "revId": "e2342f8148aec8ef6aa5ce2d43ae758341672505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
