@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -33,6 +34,12 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 public abstract class TemporaryBuffer extends OutputStream {
 	/** Default limit for in-core storage. */
 	protected static final int DEFAULT_IN_CORE_LIMIT = 1024 * 1024;
+
+	/**
+	 * Default limit for text size returned by {@link #toString()}
+	 * @since 5.12
+	 */
+	protected static final int MAX_TEXT_SIZE = 10 * 1024;
 
 	/** Chain of data, if we are still completely in-core; otherwise null. */
 	ArrayList<Block> blocks;
@@ -210,6 +217,36 @@ public abstract class TemporaryBuffer extends OutputStream {
 			outPtr += b.count;
 		}
 		return out;
+	}
+
+	/**
+	 * Convert first {@code 10kB} of the buffer content to String.
+	 */
+	@Override
+	public String toString() {
+		try {
+			return RawParseUtils.decode(toByteArray(MAX_TEXT_SIZE));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	/**
+	 * Convert first {@code limit} number of bytes of the buffer content to
+	 * String.
+	 *
+	 * @param limit
+	 *            the maximum number of bytes to be converted to String
+	 * @return first {@code limit} number of bytes of the buffer content
+	 *         converted to String.
+	 * @since 5.12
+	 */
+	public String toString(int limit) {
+		try {
+			return RawParseUtils.decode(toByteArray(limit));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	/**
