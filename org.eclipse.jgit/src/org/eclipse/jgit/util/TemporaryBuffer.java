@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -210,6 +211,33 @@ public abstract class TemporaryBuffer extends OutputStream {
 			outPtr += b.count;
 		}
 		return out;
+	}
+
+	@Override
+	public String toString() {
+		try {
+			return RawParseUtils.decode(toByteArray());
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	/**
+	 * Convert first {@code limit} number of bytes of the buffer content to
+	 * String.
+	 *
+	 * @param limit
+	 *            the maximum number of bytes to be converted to String
+	 * @return first {@code limit} number of bytes of the buffer content
+	 *         converted to String.
+	 * @since 5.12
+	 */
+	public String toString(int limit) {
+		try {
+			return RawParseUtils.decode(toByteArray(limit));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	/**

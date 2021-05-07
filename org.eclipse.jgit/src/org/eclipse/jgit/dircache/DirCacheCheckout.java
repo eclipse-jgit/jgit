@@ -1610,11 +1610,9 @@ public class DirCacheCheckout {
 		}
 		if (rc != 0) {
 			throw new IOException(new FilterFailedException(rc,
-					checkoutMetadata.smudgeFilterCommand,
-					path,
+					checkoutMetadata.smudgeFilterCommand, path,
 					result.getStdout().toByteArray(MAX_EXCEPTION_TEXT_SIZE),
-					RawParseUtils.decode(result.getStderr()
-							.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
+					result.getStderr().toString(MAX_EXCEPTION_TEXT_SIZE)));
 		}
 	}
 
