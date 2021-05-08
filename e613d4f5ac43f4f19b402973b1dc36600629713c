@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c3fbe10_7e3d7b70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-08T08:32:32Z",
+      "side": 1,
+      "message": "Is this a good idea? What if the buffer is a file-based buffer and huge? I don\u0027t want to load a gigabyte of data just by clicking on a variable name in a debugger window. Or by mistake dump a gigabyte to a log file.",
+      "revId": "e613d4f5ac43f4f19b402973b1dc36600629713c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
