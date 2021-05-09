@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cb5c162_535e3b06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-09T14:11:50Z",
+      "side": 1,
+      "message": "If you think we should have this method, it\u0027s OK with me, but then it could simply be\n\n  return toString(MAX_TEXT_SIZE);\n\nand MAX_TEXT_SIZE should perhaps be renamed to DEFAULT_TEXT_SIZE.\n\nPersonally I don\u0027t see the point of this and would simply not override toString() but provide only toString(int). It\u0027s not used in JGit, is it? The only uses I see are for logging, and for that use case clients can just as well call toString(int).",
+      "revId": "bf3669ac63ba1cb7c7b1b5c66ba6a5cc06bc427f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
