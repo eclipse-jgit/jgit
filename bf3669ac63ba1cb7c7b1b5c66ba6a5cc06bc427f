@@ -16,6 +16,24 @@
       "revId": "bf3669ac63ba1cb7c7b1b5c66ba6a5cc06bc427f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5f62220_ff66fd32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-09T20:50:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cb5c162_535e3b06",
+      "revId": "bf3669ac63ba1cb7c7b1b5c66ba6a5cc06bc427f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
