@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, 2013 Sasa Zivkov <sasa.zivkov@sap.com>
- * Copyright (C) 2012, Research In Motion Limited and others
+ * Copyright (C) 2012, 2021 Research In Motion Limited and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -436,10 +436,13 @@ public class JGitText extends TranslationBundle {
 	/***/ public String localRefIsMissingObjects;
 	/***/ public String localRepository;
 	/***/ public String lockCountMustBeGreaterOrEqual1;
+	/***/ public String lockAlreadyHeld;
 	/***/ public String lockError;
 	/***/ public String lockFailedRetry;
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
+	/***/ public String lockStreamClosed;
+	/***/ public String lockStreamMultiple;
 	/***/ public String logInconsistentFiletimeDiff;
 	/***/ public String logLargerFiletimeDiff;
 	/***/ public String logSmallerFiletime;
