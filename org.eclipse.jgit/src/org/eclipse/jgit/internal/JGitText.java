@@ -443,10 +443,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String lockOnNotHeld;
 	/***/ public String lockStreamClosed;
 	/***/ public String lockStreamMultiple;
-	/***/ public String logInconsistentFiletimeDiff;
-	/***/ public String logLargerFiletimeDiff;
-	/***/ public String logSmallerFiletime;
-	/***/ public String logXDGConfigHomeInvalid;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
 	/***/ public String mergeConflictOnNotes;
