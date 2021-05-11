@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d9b39d84_a0175b93",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-11T15:43:40Z",
+      "side": 1,
+      "message": "Where do these log... items come from?",
+      "revId": "00386272264f65c41e36406f7c2e9ea6e901276e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf30276a_7718689d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
         "patchSetId": 1
