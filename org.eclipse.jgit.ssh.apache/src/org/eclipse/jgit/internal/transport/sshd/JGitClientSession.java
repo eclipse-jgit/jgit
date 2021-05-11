@@ -135,8 +135,8 @@ public class JGitClientSession extends ClientSessionImpl {
 	}
 
 	@Override
-	protected IoWriteFuture sendIdentification(String ident)
-			throws IOException {
+	protected IoWriteFuture sendIdentification(String ident,
+			List<String> extraLines) throws Exception {
 		StatefulProxyConnector proxy = proxyHandler;
 		if (proxy != null) {
 			try {
@@ -144,7 +144,8 @@ public class JGitClientSession extends ClientSessionImpl {
 				// from the peer only once the initial sendKexInit() following
 				// this call to sendIdentification() has returned!
 				proxy.runWhenDone(() -> {
-					JGitClientSession.super.sendIdentification(ident);
+					JGitClientSession.super.sendIdentification(ident,
+							extraLines);
 					return null;
 				});
 				// Called only from the ClientSessionImpl constructor, where the
@@ -156,12 +157,11 @@ public class JGitClientSession extends ClientSessionImpl {
 				throw new IOException(other.getLocalizedMessage(), other);
 			}
 		}
-		return super.sendIdentification(ident);
+		return super.sendIdentification(ident, extraLines);
 	}
 
 	@Override
-	protected byte[] sendKexInit()
-			throws IOException, GeneralSecurityException {
+	protected byte[] sendKexInit() throws Exception {
 		StatefulProxyConnector proxy = proxyHandler;
 		if (proxy != null) {
 			try {
