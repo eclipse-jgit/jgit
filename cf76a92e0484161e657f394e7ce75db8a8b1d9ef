@@ -16,6 +16,24 @@
       "revId": "cf76a92e0484161e657f394e7ce75db8a8b1d9ef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e54fe541_1ed0ddff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-11T16:25:10Z",
+      "side": 1,
+      "message": "I am sorry, will fix this asap on stable-5.6 and merge up again.",
+      "parentUuid": "e80842a0_862e576a",
+      "revId": "cf76a92e0484161e657f394e7ce75db8a8b1d9ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
