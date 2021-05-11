@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf30276a_7718689d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-11T15:40:38Z",
+      "side": 1,
+      "message": "Something has gone wrong here with the indentation in the merge. The end result is syntactically and semantically correct, but with this indentation, I find it very hard to make sense of it.",
+      "revId": "00386272264f65c41e36406f7c2e9ea6e901276e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c45aade4_e795d956",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-11T15:40:38Z",
+      "side": 1,
+      "message": "More indentation problems.",
+      "revId": "00386272264f65c41e36406f7c2e9ea6e901276e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "befa1889_47c3aef4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-11T15:40:38Z",
+      "side": 1,
+      "message": "More indentation problems.",
+      "revId": "00386272264f65c41e36406f7c2e9ea6e901276e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
