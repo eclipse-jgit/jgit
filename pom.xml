@@ -152,10 +152,10 @@
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>5.12.0.202106070339-r</jgit-last-release-version>
-    <apache-sshd-version>2.6.0</apache-sshd-version>
+    <apache-sshd-version>2.7.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.1</jzlib-version>
-    <javaewah-version>1.1.7</javaewah-version>
+    <javaewah-version>1.1.12</javaewah-version>
     <junit-version>4.13</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.33</args4j-version>
@@ -170,7 +170,7 @@
     <log4j-version>1.2.15</log4j-version>
     <maven-javadoc-plugin-version>3.3.0</maven-javadoc-plugin-version>
     <tycho-extras-version>1.7.0</tycho-extras-version>
-    <gson-version>2.8.6</gson-version>
+    <gson-version>2.8.7</gson-version>
     <bouncycastle-version>1.65</bouncycastle-version>
     <spotbugs-maven-plugin-version>4.2.3</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.1.2</maven-project-info-reports-plugin-version>
@@ -705,7 +705,7 @@
       <dependency>
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>
-        <version>1.8</version>
+        <version>1.9</version>
         <optional>true</optional>
       </dependency>
 
