@@ -444,14 +444,13 @@ public class JGitText extends TranslationBundle {
 	/***/ public String localRefIsMissingObjects;
 	/***/ public String localRepository;
 	/***/ public String lockCountMustBeGreaterOrEqual1;
+	/***/ public String lockAlreadyHeld;
 	/***/ public String lockError;
 	/***/ public String lockFailedRetry;
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
-	/***/ public String logInconsistentFiletimeDiff;
-	/***/ public String logLargerFiletimeDiff;
-	/***/ public String logSmallerFiletime;
-	/***/ public String logXDGConfigHomeInvalid;
+	/***/ public String lockStreamClosed;
+	/***/ public String lockStreamMultiple;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
 	/***/ public String mergeConflictOnNotes;
@@ -558,6 +557,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String peerDidNotSupplyACompleteObjectGraph;
 	/***/ public String personIdentEmailNonNull;
 	/***/ public String personIdentNameNonNull;
+	/***/ public String postCommitHookFailed;
 	/***/ public String prefixRemote;
 	/***/ public String problemWithResolvingPushRefSpecsLocally;
 	/***/ public String progressMonUploading;

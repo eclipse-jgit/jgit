@@ -34,6 +34,8 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -193,7 +195,7 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCherryPickConflictResolutionNoCOmmit() throws Exception {
+	public void testCherryPickConflictResolutionNoCommit() throws Exception {
 		Git git = new Git(db);
 		RevCommit sideCommit = prepareCherryPick(git);
 
@@ -276,6 +278,70 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			CherryPickResult result = git.cherryPick().include(commit2).call();
 			assertNotNull(result);
 			assertEquals(CherryPickStatus.OK, result.getStatus());
+		}
+	}
+
+	@Test
+	public void testCherryPickOurs() throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
+
+			CherryPickResult result = git.cherryPick()
+					.include(sideCommit.getId())
+					.setStrategy(MergeStrategy.OURS)
+					.call();
+			assertEquals(CherryPickStatus.OK, result.getStatus());
+
+			String expected = "a(master)";
+			checkFile(new File(db.getWorkTree(), "a"), expected);
+		}
+	}
+
+	@Test
+	public void testCherryPickTheirs() throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
+
+			CherryPickResult result = git.cherryPick()
+					.include(sideCommit.getId())
+					.setStrategy(MergeStrategy.THEIRS)
+					.call();
+			assertEquals(CherryPickStatus.OK, result.getStatus());
+
+			String expected = "a(side)";
+			checkFile(new File(db.getWorkTree(), "a"), expected);
+		}
+	}
+
+	@Test
+	public void testCherryPickXours() throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPickStrategyOption(git);
+
+			CherryPickResult result = git.cherryPick()
+					.include(sideCommit.getId())
+					.setContentMergeStrategy(ContentMergeStrategy.OURS)
+					.call();
+			assertEquals(CherryPickStatus.OK, result.getStatus());
+
+			String expected = "a\nmaster\nc\nd\n";
+			checkFile(new File(db.getWorkTree(), "a"), expected);
+		}
+	}
+
+	@Test
+	public void testCherryPickXtheirs() throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPickStrategyOption(git);
+
+			CherryPickResult result = git.cherryPick()
+					.include(sideCommit.getId())
+					.setContentMergeStrategy(ContentMergeStrategy.THEIRS)
+					.call();
+			assertEquals(CherryPickStatus.OK, result.getStatus());
+
+			String expected = "a\nside\nc\nd\n";
+			checkFile(new File(db.getWorkTree(), "a"), expected);
 		}
 	}
 
@@ -379,6 +445,31 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		checkoutBranch("refs/heads/master");
 		// modify, add and commit file a
 		writeTrashFile("a", "a(master)");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("second master").call();
+		return sideCommit;
+	}
+
+	private RevCommit prepareCherryPickStrategyOption(Git git)
+			throws Exception {
+		// create, add and commit file a
+		writeTrashFile("a", "a\nb\nc\n");
+		git.add().addFilepattern("a").call();
+		RevCommit firstMasterCommit = git.commit().setMessage("first master")
+				.call();
+
+		// create and checkout side branch
+		createBranch(firstMasterCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		// modify, add and commit file a
+		writeTrashFile("a", "a\nside\nc\nd\n");
+		git.add().addFilepattern("a").call();
+		RevCommit sideCommit = git.commit().setMessage("side").call();
+
+		// checkout master branch
+		checkoutBranch("refs/heads/master");
+		// modify, add and commit file a
+		writeTrashFile("a", "a\nmaster\nc\n");
 		git.add().addFilepattern("a").call();
 		git.commit().setMessage("second master").call();
 		return sideCommit;

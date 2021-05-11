@@ -21,6 +21,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
@@ -561,29 +562,17 @@ public class OpenSshServerKeyDatabase
 		@Override
 		public List<HostEntryPair> get() {
 			Path path = getPath();
-			try {
-				if (checkReloadRequired()) {
-					if (!Files.exists(path)) {
-						// Has disappeared.
-						resetReloadAttributes();
-						return Collections.emptyList();
+			synchronized (this) {
+				try {
+					if (checkReloadRequired()) {
+						entries = reload(getPath());
 					}
-					LockFile lock = new LockFile(path.toFile());
-					if (lock.lock()) {
-						try {
-							entries = reload(getPath());
-						} finally {
-							lock.unlock();
-						}
-					} else {
-						LOG.warn(format(SshdText.get().knownHostsFileLockedRead,
-								path));
-					}
+				} catch (IOException e) {
+					LOG.warn(format(SshdText.get().knownHostsFileReadFailed,
+							path));
 				}
-			} catch (IOException e) {
-				LOG.warn(format(SshdText.get().knownHostsFileReadFailed, path));
+				return Collections.unmodifiableList(entries);
 			}
-			return Collections.unmodifiableList(entries);
 		}
 
 		private List<HostEntryPair> reload(Path path) throws IOException {
@@ -616,7 +605,7 @@ public class OpenSshServerKeyDatabase
 					}
 				}
 				return newEntries;
-			} catch (FileNotFoundException e) {
+			} catch (FileNotFoundException | NoSuchFileException e) {
 				resetReloadAttributes();
 				return Collections.emptyList();
 			}

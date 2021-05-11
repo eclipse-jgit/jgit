@@ -126,6 +126,7 @@
                       <groupId>${project.groupId}</groupId>
                       <artifactId>${project.artifactId}</artifactId>
                       <version>${jgit-last-release-version}</version>
+                      <type>jar</type>
                   </dependency>
               </oldVersion>
               <newVersion>
@@ -143,7 +144,7 @@
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
                   <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
                   <includeSynthetic>false</includeSynthetic>
-                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <ignoreMissingClasses>true</ignoreMissingClasses>
                   <skipPomModules>true</skipPomModules>
               </parameter>
               <skip>false</skip>

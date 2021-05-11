@@ -58,6 +58,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		FileUtils.mkdir(configFile.getParentFile());
 
 		mockSystemReader.setProperty(Constants.OS_USER_NAME_KEY, "jex_junit");
+		mockSystemReader.setProperty("TST_VAR", "TEST");
 		osc = new OpenSshConfig(home, configFile);
 	}
 
@@ -466,5 +467,54 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		assertEquals(
 				new File(new File(home, ".ssh"), localhost + "_id_dsa"),
 				h.getIdentityFile());
+	}
+
+	@Test
+	public void testPubKeyAcceptedAlgorithms() throws Exception {
+		config("Host=orcz\n\tPubkeyAcceptedAlgorithms ^ssh-rsa");
+		Host h = osc.lookup("orcz");
+		Config c = h.getConfig();
+		assertEquals("^ssh-rsa",
+				c.getValue(SshConstants.PUBKEY_ACCEPTED_ALGORITHMS));
+		assertEquals("^ssh-rsa", c.getValue("PubkeyAcceptedKeyTypes"));
+	}
+
+	@Test
+	public void testPubKeyAcceptedKeyTypes() throws Exception {
+		config("Host=orcz\n\tPubkeyAcceptedKeyTypes ^ssh-rsa");
+		Host h = osc.lookup("orcz");
+		Config c = h.getConfig();
+		assertEquals("^ssh-rsa",
+				c.getValue(SshConstants.PUBKEY_ACCEPTED_ALGORITHMS));
+		assertEquals("^ssh-rsa", c.getValue("PubkeyAcceptedKeyTypes"));
+	}
+
+	@Test
+	public void testEolComments() throws Exception {
+		config("#Comment\nHost=orcz #Comment\n\tPubkeyAcceptedAlgorithms ^ssh-rsa # Comment\n#Comment");
+		Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		Config c = h.getConfig();
+		assertEquals("^ssh-rsa",
+				c.getValue(SshConstants.PUBKEY_ACCEPTED_ALGORITHMS));
+	}
+
+	@Test
+	public void testEnVarSubstitution() throws Exception {
+		config("Host orcz\nIdentityFile /tmp/${TST_VAR}\n"
+				+ "CertificateFile /tmp/${}/foo\nUser ${TST_VAR}\nIdentityAgent /tmp/${TST_VAR/bar");
+		Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		Config c = h.getConfig();
+		assertEquals("/tmp/TEST",
+				c.getValue(SshConstants.IDENTITY_FILE));
+		// No variable name
+		assertEquals("/tmp/${}/foo", c.getValue(SshConstants.CERTIFICATE_FILE));
+		// User doesn't get env var substitution:
+		assertEquals("${TST_VAR}", c.getValue(SshConstants.USER));
+		assertEquals("${TST_VAR}", h.getUser());
+		// Unterminated:
+		assertEquals("/tmp/${TST_VAR/bar",
+				c.getValue(SshConstants.IDENTITY_AGENT));
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com> and others
+ * Copyright (C) 2010, 2021 Christian Halstrick <christian.halstrick@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -35,9 +36,12 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeMessageFormatter;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.merge.ResolveMerger;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -60,6 +64,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private String ourCommitName = null;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
+
+	private ContentMergeStrategy contentStrategy;
 
 	private Integer mainlineParentNumber;
 
@@ -121,16 +127,30 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				String cherryPickName = srcCommit.getId().abbreviate(7).name()
 						+ " " + srcCommit.getShortMessage(); //$NON-NLS-1$
 
-				ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
-				merger.setWorkingTreeIterator(new FileTreeIterator(repo));
-				merger.setBase(srcParent.getTree());
-				merger.setCommitNames(new String[] { "BASE", ourName, //$NON-NLS-1$
-						cherryPickName });
-				if (merger.merge(newHead, srcCommit)) {
-					if (!merger.getModifiedFiles().isEmpty()) {
+				Merger merger = strategy.newMerger(repo);
+				merger.setProgressMonitor(monitor);
+				boolean noProblems;
+				Map<String, MergeFailureReason> failingPaths = null;
+				List<String> unmergedPaths = null;
+				if (merger instanceof ResolveMerger) {
+					ResolveMerger resolveMerger = (ResolveMerger) merger;
+					resolveMerger.setContentMergeStrategy(contentStrategy);
+					resolveMerger.setCommitNames(
+							new String[] { "BASE", ourName, cherryPickName }); //$NON-NLS-1$
+					resolveMerger
+							.setWorkingTreeIterator(new FileTreeIterator(repo));
+					resolveMerger.setBase(srcParent.getTree());
+					noProblems = merger.merge(newHead, srcCommit);
+					failingPaths = resolveMerger.getFailingPaths();
+					unmergedPaths = resolveMerger.getUnmergedPaths();
+					if (!resolveMerger.getModifiedFiles().isEmpty()) {
 						repo.fireEvent(new WorkingTreeModifiedEvent(
-								merger.getModifiedFiles(), null));
+								resolveMerger.getModifiedFiles(), null));
 					}
+				} else {
+					noProblems = merger.merge(newHead, srcCommit);
+				}
+				if (noProblems) {
 					if (AnyObjectId.isEqual(newHead.getTree().getId(),
 							merger.getResultTreeId())) {
 						continue;
@@ -153,23 +173,25 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					}
 					cherryPickedRefs.add(src);
 				} else {
-					if (merger.failed()) {
-						return new CherryPickResult(merger.getFailingPaths());
+					if (failingPaths != null && !failingPaths.isEmpty()) {
+						return new CherryPickResult(failingPaths);
 					}
 
 					// there are merge conflicts
 
-					String message = new MergeMessageFormatter()
+					String message;
+					if (unmergedPaths != null) {
+						message = new MergeMessageFormatter()
 							.formatWithConflicts(srcCommit.getFullMessage(),
-									merger.getUnmergedPaths());
+										unmergedPaths);
+					} else {
+						message = srcCommit.getFullMessage();
+					}
 
 					if (!noCommit) {
 						repo.writeCherryPickHead(srcCommit.getId());
 					}
 					repo.writeMergeCommitMsg(message);
-
-					repo.fireEvent(new WorkingTreeModifiedEvent(
-							merger.getModifiedFiles(), null));
 
 					return CherryPickResult.CONFLICT;
 				}
@@ -287,6 +309,22 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	 */
 	public CherryPickCommand setStrategy(MergeStrategy strategy) {
 		this.strategy = strategy;
+		return this;
+	}
+
+	/**
+	 * Sets the content merge strategy to use if the
+	 * {@link #setStrategy(MergeStrategy) merge strategy} is "resolve" or
+	 * "recursive".
+	 *
+	 * @param strategy
+	 *            the {@link ContentMergeStrategy} to be used
+	 * @return {@code this}
+	 * @since 5.12
+	 */
+	public CherryPickCommand setContentMergeStrategy(
+			ContentMergeStrategy strategy) {
+		this.contentStrategy = strategy;
 		return this;
 	}
 

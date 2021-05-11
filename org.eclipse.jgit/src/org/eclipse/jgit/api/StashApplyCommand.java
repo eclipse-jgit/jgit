@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, 2017 GitHub Inc. and others
+ * Copyright (C) 2012, 2021 GitHub Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -38,7 +38,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -70,6 +72,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	private boolean ignoreRepositoryState;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
+
+	private ContentMergeStrategy contentStrategy;
 
 	/**
 	 * Create command to apply the changes of a stashed commit
@@ -166,16 +170,25 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 			if (restoreUntracked && stashCommit.getParentCount() == 3)
 				untrackedCommit = revWalk.parseCommit(stashCommit.getParent(2));
 
-			ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
-			merger.setCommitNames(new String[] { "stashed HEAD", "HEAD", //$NON-NLS-1$ //$NON-NLS-2$
-					"stash" }); //$NON-NLS-1$
-			merger.setBase(stashHeadCommit);
-			merger.setWorkingTreeIterator(new FileTreeIterator(repo));
-			boolean mergeSucceeded = merger.merge(headCommit, stashCommit);
-			List<String> modifiedByMerge = merger.getModifiedFiles();
-			if (!modifiedByMerge.isEmpty()) {
-				repo.fireEvent(
-						new WorkingTreeModifiedEvent(modifiedByMerge, null));
+			Merger merger = strategy.newMerger(repo);
+			boolean mergeSucceeded;
+			if (merger instanceof ResolveMerger) {
+				ResolveMerger resolveMerger = (ResolveMerger) merger;
+				resolveMerger
+						.setCommitNames(new String[] { "stashed HEAD", "HEAD", //$NON-NLS-1$ //$NON-NLS-2$
+								"stash" }); //$NON-NLS-1$
+				resolveMerger.setBase(stashHeadCommit);
+				resolveMerger
+						.setWorkingTreeIterator(new FileTreeIterator(repo));
+				resolveMerger.setContentMergeStrategy(contentStrategy);
+				mergeSucceeded = resolveMerger.merge(headCommit, stashCommit);
+				List<String> modifiedByMerge = resolveMerger.getModifiedFiles();
+				if (!modifiedByMerge.isEmpty()) {
+					repo.fireEvent(new WorkingTreeModifiedEvent(modifiedByMerge,
+							null));
+				}
+			} else {
+				mergeSucceeded = merger.merge(headCommit, stashCommit);
 			}
 			if (mergeSucceeded) {
 				DirCache dc = repo.lockDirCache();
@@ -184,11 +197,14 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				dco.setFailOnConflict(true);
 				dco.checkout(); // Ignoring failed deletes....
 				if (restoreIndex) {
-					ResolveMerger ixMerger = (ResolveMerger) strategy
-							.newMerger(repo, true);
-					ixMerger.setCommitNames(new String[] { "stashed HEAD", //$NON-NLS-1$
-							"HEAD", "stashed index" }); //$NON-NLS-1$//$NON-NLS-2$
-					ixMerger.setBase(stashHeadCommit);
+					Merger ixMerger = strategy.newMerger(repo, true);
+					if (ixMerger instanceof ResolveMerger) {
+						ResolveMerger resolveMerger = (ResolveMerger) ixMerger;
+						resolveMerger.setCommitNames(new String[] { "stashed HEAD", //$NON-NLS-1$
+								"HEAD", "stashed index" }); //$NON-NLS-1$//$NON-NLS-2$
+						resolveMerger.setBase(stashHeadCommit);
+						resolveMerger.setContentMergeStrategy(contentStrategy);
+					}
 					boolean ok = ixMerger.merge(headCommit, stashIndexCommit);
 					if (ok) {
 						resetIndex(revWalk
@@ -200,16 +216,20 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				}
 
 				if (untrackedCommit != null) {
-					ResolveMerger untrackedMerger = (ResolveMerger) strategy
-							.newMerger(repo, true);
-					untrackedMerger.setCommitNames(new String[] {
-							"null", "HEAD", "untracked files" }); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-					// There is no common base for HEAD & untracked files
-					// because the commit for untracked files has no parent. If
-					// we use stashHeadCommit as common base (as in the other
-					// merges) we potentially report conflicts for files
-					// which are not even member of untracked files commit
-					untrackedMerger.setBase(null);
+					Merger untrackedMerger = strategy.newMerger(repo, true);
+					if (untrackedMerger instanceof ResolveMerger) {
+						ResolveMerger resolveMerger = (ResolveMerger) untrackedMerger;
+						resolveMerger.setCommitNames(new String[] { "null", "HEAD", //$NON-NLS-1$//$NON-NLS-2$
+								"untracked files" }); //$NON-NLS-1$
+						// There is no common base for HEAD & untracked files
+						// because the commit for untracked files has no parent.
+						// If we use stashHeadCommit as common base (as in the
+						// other merges) we potentially report conflicts for
+						// files which are not even member of untracked files
+						// commit.
+						resolveMerger.setBase(null);
+						resolveMerger.setContentMergeStrategy(contentStrategy);
+					}
 					boolean ok = untrackedMerger.merge(headCommit,
 							untrackedCommit);
 					if (ok) {
@@ -275,6 +295,23 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 */
 	public StashApplyCommand setStrategy(MergeStrategy strategy) {
 		this.strategy = strategy;
+		return this;
+	}
+
+	/**
+	 * Sets the content merge strategy to use if the
+	 * {@link #setStrategy(MergeStrategy) merge strategy} is "resolve" or
+	 * "recursive".
+	 *
+	 * @param strategy
+	 *            the {@link ContentMergeStrategy} to be used
+	 * @return {@code this}
+	 * @since 5.12
+	 */
+	public StashApplyCommand setContentMergeStrategy(
+			ContentMergeStrategy strategy) {
+		checkCallable();
+		this.contentStrategy = strategy;
 		return this;
 	}
 

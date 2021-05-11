@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc. and others
+ * Copyright (C) 2010, 2021 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -58,14 +58,21 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 	@Override
 	public boolean supports(CredentialItem... items) {
 		for (CredentialItem i : items) {
-			if (i instanceof CredentialItem.Username)
+			if (i instanceof CredentialItem.InformationalMessage) {
 				continue;
-
-			else if (i instanceof CredentialItem.Password)
+			}
+			if (i instanceof CredentialItem.Username) {
 				continue;
-
-			else
-				return false;
+			}
+			if (i instanceof CredentialItem.Password) {
+				continue;
+			}
+			if (i instanceof CredentialItem.StringType) {
+				if (i.getPromptText().equals("Password: ")) { //$NON-NLS-1$
+					continue;
+				}
+			}
+			return false;
 		}
 		return true;
 	}
@@ -75,6 +82,9 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 	public boolean get(URIish uri, CredentialItem... items)
 			throws UnsupportedCredentialItem {
 		for (CredentialItem i : items) {
+			if (i instanceof CredentialItem.InformationalMessage) {
+				continue;
+			}
 			if (i instanceof CredentialItem.Username) {
 				((CredentialItem.Username) i).setValue(username);
 				continue;

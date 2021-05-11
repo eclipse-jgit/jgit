@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
@@ -28,7 +29,11 @@ import org.eclipse.jgit.merge.MergeChunk.ConflictState;
  * diff algorithm.
  */
 public final class MergeAlgorithm {
+
 	private final DiffAlgorithm diffAlg;
+
+	@NonNull
+	private ContentMergeStrategy strategy = ContentMergeStrategy.CONFLICT;
 
 	/**
 	 * Creates a new MergeAlgorithm which uses
@@ -46,6 +51,30 @@ public final class MergeAlgorithm {
 	 */
 	public MergeAlgorithm(DiffAlgorithm diff) {
 		this.diffAlg = diff;
+	}
+
+	/**
+	 * Retrieves the {@link ContentMergeStrategy}.
+	 *
+	 * @return the {@link ContentMergeStrategy} in effect
+	 * @since 5.12
+	 */
+	@NonNull
+	public ContentMergeStrategy getContentMergeStrategy() {
+		return strategy;
+	}
+
+	/**
+	 * Sets the {@link ContentMergeStrategy}.
+	 *
+	 * @param strategy
+	 *            {@link ContentMergeStrategy} to set; if {@code null}, set
+	 *            {@link ContentMergeStrategy#CONFLICT}
+	 * @since 5.12
+	 */
+	public void setContentMergeStrategy(ContentMergeStrategy strategy) {
+		this.strategy = strategy == null ? ContentMergeStrategy.CONFLICT
+				: strategy;
 	}
 
 	// An special edit which acts as a sentinel value by marking the end the
@@ -79,29 +108,54 @@ public final class MergeAlgorithm {
 			if (theirs.size() != 0) {
 				EditList theirsEdits = diffAlg.diff(cmp, base, theirs);
 				if (!theirsEdits.isEmpty()) {
-					// we deleted, they modified -> Let their complete content
-					// conflict with empty text
-					result.add(1, 0, 0, ConflictState.FIRST_CONFLICTING_RANGE);
-					result.add(2, 0, theirs.size(),
-							ConflictState.NEXT_CONFLICTING_RANGE);
-				} else
+					// we deleted, they modified
+					switch (strategy) {
+					case OURS:
+						result.add(1, 0, 0, ConflictState.NO_CONFLICT);
+						break;
+					case THEIRS:
+						result.add(2, 0, theirs.size(),
+								ConflictState.NO_CONFLICT);
+						break;
+					default:
+						// Let their complete content conflict with empty text
+						result.add(1, 0, 0,
+								ConflictState.FIRST_CONFLICTING_RANGE);
+						result.add(2, 0, theirs.size(),
+								ConflictState.NEXT_CONFLICTING_RANGE);
+						break;
+					}
+				} else {
 					// we deleted, they didn't modify -> Let our deletion win
 					result.add(1, 0, 0, ConflictState.NO_CONFLICT);
-			} else
+				}
+			} else {
 				// we and they deleted -> return a single chunk of nothing
 				result.add(1, 0, 0, ConflictState.NO_CONFLICT);
+			}
 			return result;
 		} else if (theirs.size() == 0) {
 			EditList oursEdits = diffAlg.diff(cmp, base, ours);
 			if (!oursEdits.isEmpty()) {
-				// we modified, they deleted -> Let our complete content
-				// conflict with empty text
-				result.add(1, 0, ours.size(),
-						ConflictState.FIRST_CONFLICTING_RANGE);
-				result.add(2, 0, 0, ConflictState.NEXT_CONFLICTING_RANGE);
-			} else
+				// we modified, they deleted
+				switch (strategy) {
+				case OURS:
+					result.add(1, 0, ours.size(), ConflictState.NO_CONFLICT);
+					break;
+				case THEIRS:
+					result.add(2, 0, 0, ConflictState.NO_CONFLICT);
+					break;
+				default:
+					// Let our complete content conflict with empty text
+					result.add(1, 0, ours.size(),
+							ConflictState.FIRST_CONFLICTING_RANGE);
+					result.add(2, 0, 0, ConflictState.NEXT_CONFLICTING_RANGE);
+					break;
+				}
+			} else {
 				// they deleted, we didn't modify -> Let their deletion win
 				result.add(2, 0, 0, ConflictState.NO_CONFLICT);
+			}
 			return result;
 		}
 
@@ -249,12 +303,26 @@ public final class MergeAlgorithm {
 
 				// Add the conflict (Only if there is a conflict left to report)
 				if (minBSize > 0 || BSizeDelta != 0) {
-					result.add(1, oursBeginB + commonPrefix, oursEndB
-							- commonSuffix,
-							ConflictState.FIRST_CONFLICTING_RANGE);
-					result.add(2, theirsBeginB + commonPrefix, theirsEndB
-							- commonSuffix,
-							ConflictState.NEXT_CONFLICTING_RANGE);
+					switch (strategy) {
+					case OURS:
+						result.add(1, oursBeginB + commonPrefix,
+								oursEndB - commonSuffix,
+								ConflictState.NO_CONFLICT);
+						break;
+					case THEIRS:
+						result.add(2, theirsBeginB + commonPrefix,
+								theirsEndB - commonSuffix,
+								ConflictState.NO_CONFLICT);
+						break;
+					default:
+						result.add(1, oursBeginB + commonPrefix,
+								oursEndB - commonSuffix,
+								ConflictState.FIRST_CONFLICTING_RANGE);
+						result.add(2, theirsBeginB + commonPrefix,
+								theirsEndB - commonSuffix,
+								ConflictState.NEXT_CONFLICTING_RANGE);
+						break;
+					}
 				}
 
 				// Add the common lines at end of conflict

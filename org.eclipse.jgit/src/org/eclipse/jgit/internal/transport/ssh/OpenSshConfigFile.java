@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -224,8 +223,17 @@ public class OpenSshConfigFile implements SshConfigStore {
 		entries.put(DEFAULT_NAME, defaults);
 
 		while ((line = reader.readLine()) != null) {
+			// OpenSsh ignores trailing comments on a line. Anything after the
+			// first # on a line is trimmed away (yes, even if the hash is
+			// inside quotes).
+			//
+			// See https://github.com/openssh/openssh-portable/commit/2bcbf679
+			int i = line.indexOf('#');
+			if (i >= 0) {
+				line = line.substring(0, i);
+			}
 			line = line.trim();
-			if (line.isEmpty() || line.startsWith("#")) { //$NON-NLS-1$
+			if (line.isEmpty()) {
 				continue;
 			}
 			String[] parts = line.split("[ \t]*[= \t]", 2); //$NON-NLS-1$
@@ -484,11 +492,29 @@ public class OpenSshConfigFile implements SshConfigStore {
 			LIST_KEYS.add(SshConstants.USER_KNOWN_HOSTS_FILE);
 		}
 
+		/**
+		 * OpenSSH has renamed some config keys. This maps old names to new
+		 * names.
+		 */
+		private static final Map<String, String> ALIASES = new TreeMap<>(
+				String.CASE_INSENSITIVE_ORDER);
+
+		static {
+			// See https://github.com/openssh/openssh-portable/commit/ee9c0da80
+			ALIASES.put("PubkeyAcceptedKeyTypes", //$NON-NLS-1$
+					SshConstants.PUBKEY_ACCEPTED_ALGORITHMS);
+		}
+
 		private Map<String, String> options;
 
 		private Map<String, List<String>> multiOptions;
 
 		private Map<String, List<String>> listOptions;
+
+		private static String toKey(String key) {
+			String k = ALIASES.get(key);
+			return k != null ? k : key;
+		}
 
 		/**
 		 * Retrieves the value of a single-valued key, or the first if the key
@@ -501,15 +527,15 @@ public class OpenSshConfigFile implements SshConfigStore {
 		 */
 		@Override
 		public String getValue(String key) {
-			String result = options != null ? options.get(key) : null;
+			String k = toKey(key);
+			String result = options != null ? options.get(k) : null;
 			if (result == null) {
 				// Let's be lenient and return at least the first value from
 				// a list-valued or multi-valued key.
-				List<String> values = listOptions != null ? listOptions.get(key)
+				List<String> values = listOptions != null ? listOptions.get(k)
 						: null;
 				if (values == null) {
-					values = multiOptions != null ? multiOptions.get(key)
-							: null;
+					values = multiOptions != null ? multiOptions.get(k) : null;
 				}
 				if (values != null && !values.isEmpty()) {
 					result = values.get(0);
@@ -529,10 +555,11 @@ public class OpenSshConfigFile implements SshConfigStore {
 		 */
 		@Override
 		public List<String> getValues(String key) {
-			List<String> values = listOptions != null ? listOptions.get(key)
+			String k = toKey(key);
+			List<String> values = listOptions != null ? listOptions.get(k)
 					: null;
 			if (values == null) {
-				values = multiOptions != null ? multiOptions.get(key) : null;
+				values = multiOptions != null ? multiOptions.get(k) : null;
 			}
 			if (values == null || values.isEmpty()) {
 				return new ArrayList<>();
@@ -551,34 +578,35 @@ public class OpenSshConfigFile implements SshConfigStore {
 		 *            to set or add
 		 */
 		public void setValue(String key, String value) {
+			String k = toKey(key);
 			if (value == null) {
 				if (multiOptions != null) {
-					multiOptions.remove(key);
+					multiOptions.remove(k);
 				}
 				if (listOptions != null) {
-					listOptions.remove(key);
+					listOptions.remove(k);
 				}
 				if (options != null) {
-					options.remove(key);
+					options.remove(k);
 				}
 				return;
 			}
-			if (MULTI_KEYS.contains(key)) {
+			if (MULTI_KEYS.contains(k)) {
 				if (multiOptions == null) {
 					multiOptions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 				}
-				List<String> values = multiOptions.get(key);
+				List<String> values = multiOptions.get(k);
 				if (values == null) {
 					values = new ArrayList<>(4);
-					multiOptions.put(key, values);
+					multiOptions.put(k, values);
 				}
 				values.add(value);
 			} else {
 				if (options == null) {
 					options = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 				}
-				if (!options.containsKey(key)) {
-					options.put(key, value);
+				if (!options.containsKey(k)) {
+					options.put(k, value);
 				}
 			}
 		}
@@ -595,20 +623,21 @@ public class OpenSshConfigFile implements SshConfigStore {
 			if (values.isEmpty()) {
 				return;
 			}
+			String k = toKey(key);
 			// Check multi-valued keys first; because of the replacement
 			// strategy, they must take precedence over list-valued keys
 			// which always follow the "first occurrence wins" strategy.
 			//
 			// Note that SendEnv is a multi-valued list-valued key. (It's
 			// rather immaterial for JGit, though.)
-			if (MULTI_KEYS.contains(key)) {
+			if (MULTI_KEYS.contains(k)) {
 				if (multiOptions == null) {
 					multiOptions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 				}
-				List<String> items = multiOptions.get(key);
+				List<String> items = multiOptions.get(k);
 				if (items == null) {
 					items = new ArrayList<>(values);
-					multiOptions.put(key, items);
+					multiOptions.put(k, items);
 				} else {
 					items.addAll(values);
 				}
@@ -616,8 +645,8 @@ public class OpenSshConfigFile implements SshConfigStore {
 				if (listOptions == null) {
 					listOptions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 				}
-				if (!listOptions.containsKey(key)) {
-					listOptions.put(key, values);
+				if (!listOptions.containsKey(k)) {
+					listOptions.put(k, values);
 				}
 			}
 		}
@@ -630,7 +659,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 		 * @return {@code true} if the key is a list-valued key.
 		 */
 		public static boolean isListKey(String key) {
-			return LIST_KEYS.contains(key.toUpperCase(Locale.ROOT));
+			return LIST_KEYS.contains(toKey(key));
 		}
 
 		void merge(HostEntry entry) {
@@ -679,10 +708,10 @@ public class OpenSshConfigFile implements SshConfigStore {
 		}
 
 		private List<String> substitute(List<String> values, String allowed,
-				Replacer r) {
+				Replacer r, boolean withEnv) {
 			List<String> result = new ArrayList<>(values.size());
 			for (String value : values) {
-				result.add(r.substitute(value, allowed));
+				result.add(r.substitute(value, allowed, withEnv));
 			}
 			return result;
 		}
@@ -714,7 +743,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 				if (hostName == null || hostName.isEmpty()) {
 					options.put(SshConstants.HOST_NAME, originalHostName);
 				} else {
-					hostName = r.substitute(hostName, "h"); //$NON-NLS-1$
+					hostName = r.substitute(hostName, "h", false); //$NON-NLS-1$
 					options.put(SshConstants.HOST_NAME, hostName);
 					r.update('h', hostName);
 				}
@@ -723,13 +752,13 @@ public class OpenSshConfigFile implements SshConfigStore {
 				List<String> values = multiOptions
 						.get(SshConstants.IDENTITY_FILE);
 				if (values != null) {
-					values = substitute(values, "dhlru", r); //$NON-NLS-1$
+					values = substitute(values, "dhlru", r, true); //$NON-NLS-1$
 					values = replaceTilde(values, home);
 					multiOptions.put(SshConstants.IDENTITY_FILE, values);
 				}
 				values = multiOptions.get(SshConstants.CERTIFICATE_FILE);
 				if (values != null) {
-					values = substitute(values, "dhlru", r); //$NON-NLS-1$
+					values = substitute(values, "dhlru", r, true); //$NON-NLS-1$
 					values = replaceTilde(values, home);
 					multiOptions.put(SshConstants.CERTIFICATE_FILE, values);
 				}
@@ -746,29 +775,29 @@ public class OpenSshConfigFile implements SshConfigStore {
 				// HOSTNAME already done above
 				String value = options.get(SshConstants.IDENTITY_AGENT);
 				if (value != null) {
-					value = r.substitute(value, "dhlru"); //$NON-NLS-1$
+					value = r.substitute(value, "dhlru", true); //$NON-NLS-1$
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.IDENTITY_AGENT, value);
 				}
 				value = options.get(SshConstants.CONTROL_PATH);
 				if (value != null) {
-					value = r.substitute(value, "ChLlnpru"); //$NON-NLS-1$
+					value = r.substitute(value, "ChLlnpru", true); //$NON-NLS-1$
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.CONTROL_PATH, value);
 				}
 				value = options.get(SshConstants.LOCAL_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "CdhlnprTu"); //$NON-NLS-1$
+					value = r.substitute(value, "CdhlnprTu", false); //$NON-NLS-1$
 					options.put(SshConstants.LOCAL_COMMAND, value);
 				}
 				value = options.get(SshConstants.REMOTE_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "Cdhlnpru"); //$NON-NLS-1$
+					value = r.substitute(value, "Cdhlnpru", false); //$NON-NLS-1$
 					options.put(SshConstants.REMOTE_COMMAND, value);
 				}
 				value = options.get(SshConstants.PROXY_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "hpr"); //$NON-NLS-1$
+					value = r.substitute(value, "hpr", false); //$NON-NLS-1$
 					options.put(SshConstants.PROXY_COMMAND, value);
 				}
 			}
@@ -842,7 +871,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 			replacements.put(Character.valueOf('r'), user == null ? "" : user); //$NON-NLS-1$
 			replacements.put(Character.valueOf('u'), localUserName);
 			replacements.put(Character.valueOf('C'),
-					substitute("%l%h%p%r", "hlpr")); //$NON-NLS-1$ //$NON-NLS-2$
+					substitute("%l%h%p%r", "hlpr", false)); //$NON-NLS-1$ //$NON-NLS-2$
 			replacements.put(Character.valueOf('T'), "NONE"); //$NON-NLS-1$
 		}
 
@@ -850,36 +879,63 @@ public class OpenSshConfigFile implements SshConfigStore {
 			replacements.put(Character.valueOf(key), value);
 			if ("lhpr".indexOf(key) >= 0) { //$NON-NLS-1$
 				replacements.put(Character.valueOf('C'),
-						substitute("%l%h%p%r", "hlpr")); //$NON-NLS-1$ //$NON-NLS-2$
+						substitute("%l%h%p%r", "hlpr", false)); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 
-		public String substitute(String input, String allowed) {
+		public String substitute(String input, String allowed,
+				boolean withEnv) {
 			if (input == null || input.length() <= 1
-					|| input.indexOf('%') < 0) {
+					|| input.indexOf('%') < 0
+							&& (!withEnv || input.indexOf("${") < 0)) { //$NON-NLS-1$
 				return input;
 			}
 			StringBuilder builder = new StringBuilder();
 			int start = 0;
 			int length = input.length();
 			while (start < length) {
-				int percent = input.indexOf('%', start);
-				if (percent < 0 || percent + 1 >= length) {
-					builder.append(input.substring(start));
+				char ch = input.charAt(start);
+				switch (ch) {
+				case '%':
+					if (start + 1 >= length) {
+						break;
+					}
+					String replacement = null;
+					ch = input.charAt(start + 1);
+					if (ch == '%' || allowed.indexOf(ch) >= 0) {
+						replacement = replacements.get(Character.valueOf(ch));
+					}
+					if (replacement == null) {
+						builder.append('%').append(ch);
+					} else {
+						builder.append(replacement);
+					}
+					start += 2;
+					continue;
+				case '$':
+					if (!withEnv || start + 2 >= length) {
+						break;
+					}
+					ch = input.charAt(start + 1);
+					if (ch == '{') {
+						int close = input.indexOf('}', start + 2);
+						if (close > start + 2) {
+							String variable = SystemReader.getInstance()
+									.getenv(input.substring(start + 2, close));
+							if (!StringUtils.isEmptyOrNull(variable)) {
+								builder.append(variable);
+							}
+							start = close + 1;
+							continue;
+						}
+					}
+					ch = '$';
+					break;
+				default:
 					break;
 				}
-				String replacement = null;
-				char ch = input.charAt(percent + 1);
-				if (ch == '%' || allowed.indexOf(ch) >= 0) {
-					replacement = replacements.get(Character.valueOf(ch));
-				}
-				if (replacement == null) {
-					builder.append(input.substring(start, percent + 2));
-				} else {
-					builder.append(input.substring(start, percent))
-							.append(replacement);
-				}
-				start = percent + 2;
+				builder.append(ch);
+				start++;
 			}
 			return builder.toString();
 		}
