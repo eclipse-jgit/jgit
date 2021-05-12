@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2010-2014, Stefan Lay <stefan.lay@sap.com>
- * Copyright (C) 2016, Laurent Delaigue <laurent.delaigue@obeo.fr> and others
+ * Copyright (C) 2010, 2014, Stefan Lay <stefan.lay@sap.com>
+ * Copyright (C) 2016, 2021 Laurent Delaigue <laurent.delaigue@obeo.fr> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -45,6 +45,7 @@ import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeConfig;
 import org.eclipse.jgit.merge.MergeMessageFormatter;
 import org.eclipse.jgit.merge.MergeStrategy;
@@ -70,6 +71,8 @@ import org.eclipse.jgit.util.StringUtils;
 public class MergeCommand extends GitCommand<MergeResult> {
 
 	private MergeStrategy mergeStrategy = MergeStrategy.RECURSIVE;
+
+	private ContentMergeStrategy contentStrategy;
 
 	private List<Ref> commits = new LinkedList<>();
 
@@ -320,6 +323,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				List<String> unmergedPaths = null;
 				if (merger instanceof ResolveMerger) {
 					ResolveMerger resolveMerger = (ResolveMerger) merger;
+					resolveMerger.setContentMergeStrategy(contentStrategy);
 					resolveMerger.setCommitNames(new String[] {
 							"BASE", "HEAD", ref.getName() }); //$NON-NLS-1$ //$NON-NLS-2$
 					resolveMerger.setWorkingTreeIterator(new FileTreeIterator(repo));
@@ -469,6 +473,22 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	public MergeCommand setStrategy(MergeStrategy mergeStrategy) {
 		checkCallable();
 		this.mergeStrategy = mergeStrategy;
+		return this;
+	}
+
+	/**
+	 * Sets the content merge strategy to use if the
+	 * {@link #setStrategy(MergeStrategy) merge strategy} is "resolve" or
+	 * "recursive".
+	 *
+	 * @param strategy
+	 *            the {@link ContentMergeStrategy} to be used
+	 * @return {@code this}
+	 * @since 5.12
+	 */
+	public MergeCommand setContentMergeStrategy(ContentMergeStrategy strategy) {
+		checkCallable();
+		this.contentStrategy = strategy;
 		return this;
 	}
 

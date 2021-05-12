@@ -34,6 +34,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -151,6 +153,75 @@ public class PullCommandTest extends RepositoryTestCase {
 		assertFileContentsEqual(targetFile, result);
 		assertEquals(RepositoryState.MERGING, target.getRepository()
 				.getRepositoryState());
+	}
+
+	@Test
+	public void testPullConflictTheirs() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// change the source file
+		writeToFile(sourceFile, "Source change");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("Source change in remote").call();
+
+		// change the target file
+		writeToFile(targetFile, "Target change");
+		target.add().addFilepattern("SomeFile.txt").call();
+		target.commit().setMessage("Target change in local").call();
+
+		res = target.pull().setStrategy(MergeStrategy.THEIRS).call();
+
+		assertTrue(res.isSuccessful());
+		assertFileContentsEqual(targetFile, "Source change");
+		assertEquals(RepositoryState.SAFE,
+				target.getRepository().getRepositoryState());
+		assertTrue(target.status().call().isClean());
+	}
+
+	@Test
+	public void testPullConflictXtheirs() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// change the source file
+		writeToFile(sourceFile, "a\nHello\nb\n");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("Multi-line change in remote").call();
+
+		// Pull again
+		res = target.pull().call();
+		assertTrue(res.isSuccessful());
+		assertFileContentsEqual(targetFile, "a\nHello\nb\n");
+
+		// change the source file
+		writeToFile(sourceFile, "a\nSource change\nb\n");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("Source change in remote").call();
+
+		// change the target file
+		writeToFile(targetFile, "a\nTarget change\nb\nc\n");
+		target.add().addFilepattern("SomeFile.txt").call();
+		target.commit().setMessage("Target change in local").call();
+
+		res = target.pull().setContentMergeStrategy(ContentMergeStrategy.THEIRS)
+				.call();
+
+		assertTrue(res.isSuccessful());
+		assertFileContentsEqual(targetFile, "a\nSource change\nb\nc\n");
+		assertEquals(RepositoryState.SAFE,
+				target.getRepository().getRepositoryState());
+		assertTrue(target.status().call().isClean());
 	}
 
 	@Test

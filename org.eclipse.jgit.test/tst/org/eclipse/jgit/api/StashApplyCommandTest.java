@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, GitHub Inc. and others
+ * Copyright (C) 2012, 2021 GitHub Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -28,6 +28,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
@@ -424,6 +426,135 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertEquals(
 				"content\n<<<<<<< HEAD\n=======\nstashed change\n>>>>>>> stash\nmore content\ncommitted change\n",
 				read(PATH));
+	}
+
+	@Test
+	public void stashedContentMergeXtheirs() throws Exception {
+		writeTrashFile(PATH, "content\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("more content").call();
+
+		writeTrashFile(PATH, "content\nhead change\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("even content").call();
+
+		writeTrashFile(PATH, "content\nstashed change\nmore content\n");
+
+		RevCommit stashed = git.stashCreate().call();
+		assertNotNull(stashed);
+		assertEquals("content\nhead change\nmore content\n",
+				read(committedFile));
+		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+
+		writeTrashFile(PATH, "content\nmore content\ncommitted change\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("committed change").call();
+		recorder.assertNoEvent();
+
+		git.stashApply().setContentMergeStrategy(ContentMergeStrategy.THEIRS)
+				.call();
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+		Status status = new StatusCommand(db).call();
+		assertEquals('[' + PATH + ']', status.getModified().toString());
+		assertEquals(
+				"content\nstashed change\nmore content\ncommitted change\n",
+				read(PATH));
+	}
+
+	@Test
+	public void stashedContentMergeXours() throws Exception {
+		writeTrashFile(PATH, "content\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("more content").call();
+
+		writeTrashFile(PATH, "content\nhead change\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("even content").call();
+
+		writeTrashFile(PATH, "content\nstashed change\nmore content\n");
+
+		RevCommit stashed = git.stashCreate().call();
+		assertNotNull(stashed);
+		assertEquals("content\nhead change\nmore content\n",
+				read(committedFile));
+		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+
+		writeTrashFile(PATH,
+				"content\nnew head\nmore content\ncommitted change\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("committed change").call();
+		recorder.assertNoEvent();
+
+		git.stashApply().setContentMergeStrategy(ContentMergeStrategy.OURS)
+				.call();
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+		assertTrue(git.status().call().isClean());
+		assertEquals("content\nnew head\nmore content\ncommitted change\n",
+				read(PATH));
+	}
+
+	@Test
+	public void stashedContentMergeTheirs() throws Exception {
+		writeTrashFile(PATH, "content\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("more content").call();
+
+		writeTrashFile(PATH, "content\nhead change\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("even content").call();
+
+		writeTrashFile(PATH, "content\nstashed change\nmore content\n");
+
+		RevCommit stashed = git.stashCreate().call();
+		assertNotNull(stashed);
+		assertEquals("content\nhead change\nmore content\n",
+				read(committedFile));
+		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+
+		writeTrashFile(PATH, "content\nmore content\ncommitted change\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("committed change").call();
+		recorder.assertNoEvent();
+
+		git.stashApply().setStrategy(MergeStrategy.THEIRS).call();
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+		Status status = new StatusCommand(db).call();
+		assertEquals('[' + PATH + ']', status.getModified().toString());
+		assertEquals("content\nstashed change\nmore content\n", read(PATH));
+	}
+
+	@Test
+	public void stashedContentMergeOurs() throws Exception {
+		writeTrashFile(PATH, "content\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("more content").call();
+
+		writeTrashFile(PATH, "content\nhead change\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("even content").call();
+
+		writeTrashFile(PATH, "content\nstashed change\nmore content\n");
+
+		RevCommit stashed = git.stashCreate().call();
+		assertNotNull(stashed);
+		assertEquals("content\nhead change\nmore content\n",
+				read(committedFile));
+		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+
+		writeTrashFile(PATH, "content\nmore content\ncommitted change\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("committed change").call();
+		recorder.assertNoEvent();
+
+		// Doesn't make any sense... should be a no-op
+		git.stashApply().setStrategy(MergeStrategy.OURS).call();
+		recorder.assertNoEvent();
+		assertTrue(git.status().call().isClean());
+		assertEquals("content\nmore content\ncommitted change\n", read(PATH));
 	}
 
 	@Test

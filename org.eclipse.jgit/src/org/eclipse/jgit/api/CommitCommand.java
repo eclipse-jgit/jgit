@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.AbortedByHookException;
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.EmptyCommitException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -36,6 +37,8 @@ import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.hooks.CommitMsgHook;
 import org.eclipse.jgit.hooks.Hooks;
@@ -67,6 +70,8 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.util.ChangeIdUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A class used to execute a {@code Commit} command. It has setters for all
@@ -78,6 +83,9 @@ import org.eclipse.jgit.util.ChangeIdUtil;
  *      >Git documentation about Commit</a>
  */
 public class CommitCommand extends GitCommand<RevCommit> {
+	private static final Logger log = LoggerFactory
+			.getLogger(CommitCommand.class);
+
 	private PersonIdent author;
 
 	private PersonIdent committer;
@@ -173,8 +181,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 			if (all && !repo.isBare()) {
 				try (Git git = new Git(repo)) {
-					git.add()
-							.addFilepattern(".") //$NON-NLS-1$
+					git.add().addFilepattern(".") //$NON-NLS-1$
 							.setUpdate(true).call();
 				} catch (NoFilepatternException e) {
 					// should really not happen
@@ -212,7 +219,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						.setCommitMessage(message).call();
 			}
 
-			// lock the index
+			RevCommit revCommit;
 			DirCache index = repo.lockDirCache();
 			try (ObjectInserter odi = repo.newObjectInserter()) {
 				if (!only.isEmpty())
@@ -226,105 +233,125 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				if (insertChangeId)
 					insertChangeId(indexTreeId);
 
-				// Check for empty commits
-				if (headId != null && !allowEmpty.booleanValue()) {
-					RevCommit headCommit = rw.parseCommit(headId);
-					headCommit.getTree();
-					if (indexTreeId.equals(headCommit.getTree())) {
-						throw new EmptyCommitException(
-								JGitText.get().emptyCommit);
-					}
-				}
+				checkIfEmpty(rw, headId, indexTreeId);
 
 				// Create a Commit object, populate it and write it
 				CommitBuilder commit = new CommitBuilder();
 				commit.setCommitter(committer);
 				commit.setAuthor(author);
 				commit.setMessage(message);
-
 				commit.setParentIds(parents);
 				commit.setTreeId(indexTreeId);
 
 				if (signCommit.booleanValue()) {
-					if (gpgSigner == null) {
-						throw new ServiceUnavailableException(
-								JGitText.get().signingServiceUnavailable);
-					}
-					if (gpgSigner instanceof GpgObjectSigner) {
-						((GpgObjectSigner) gpgSigner).signObject(commit,
-								signingKey, committer, credentialsProvider,
-								gpgConfig);
-					} else {
-						if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
-							throw new UnsupportedSigningFormatException(JGitText
-									.get().onlyOpenPgpSupportedForSigning);
-						}
-						gpgSigner.sign(commit, signingKey, committer,
-								credentialsProvider);
-					}
+					sign(commit);
 				}
 
 				ObjectId commitId = odi.insert(commit);
 				odi.flush();
+				revCommit = rw.parseCommit(commitId);
 
-				RevCommit revCommit = rw.parseCommit(commitId);
-				RefUpdate ru = repo.updateRef(Constants.HEAD);
-				ru.setNewObjectId(commitId);
-				if (!useDefaultReflogMessage) {
-					ru.setRefLogMessage(reflogComment, false);
-				} else {
-					String prefix = amend ? "commit (amend): " //$NON-NLS-1$
-							: parents.isEmpty() ? "commit (initial): " //$NON-NLS-1$
-									: "commit: "; //$NON-NLS-1$
-					ru.setRefLogMessage(prefix + revCommit.getShortMessage(),
-							false);
-				}
-				if (headId != null)
-					ru.setExpectedOldObjectId(headId);
-				else
-					ru.setExpectedOldObjectId(ObjectId.zeroId());
-				Result rc = ru.forceUpdate();
-				switch (rc) {
-				case NEW:
-				case FORCED:
-				case FAST_FORWARD: {
-					setCallable(false);
-					if (state == RepositoryState.MERGING_RESOLVED
-							|| isMergeDuringRebase(state)) {
-						// Commit was successful. Now delete the files
-						// used for merge commits
-						repo.writeMergeCommitMsg(null);
-						repo.writeMergeHeads(null);
-					} else if (state == RepositoryState.CHERRY_PICKING_RESOLVED) {
-						repo.writeMergeCommitMsg(null);
-						repo.writeCherryPickHead(null);
-					} else if (state == RepositoryState.REVERTING_RESOLVED) {
-						repo.writeMergeCommitMsg(null);
-						repo.writeRevertHead(null);
-					}
-					Hooks.postCommit(repo,
-							hookOutRedirect.get(PostCommitHook.NAME),
-							hookErrRedirect.get(PostCommitHook.NAME)).call();
-
-					return revCommit;
-				}
-				case REJECTED:
-				case LOCK_FAILURE:
-					throw new ConcurrentRefUpdateException(
-							JGitText.get().couldNotLockHEAD, ru.getRef(), rc);
-				default:
-					throw new JGitInternalException(MessageFormat.format(
-							JGitText.get().updatingRefFailed, Constants.HEAD,
-							commitId.toString(), rc));
-				}
+				updateRef(state, headId, revCommit, commitId);
 			} finally {
 				index.unlock();
 			}
+			try {
+				Hooks.postCommit(repo, hookOutRedirect.get(PostCommitHook.NAME),
+						hookErrRedirect.get(PostCommitHook.NAME)).call();
+			} catch (Exception e) {
+				log.error(MessageFormat.format(
+						JGitText.get().postCommitHookFailed, e.getMessage()),
+						e);
+			}
+			return revCommit;
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
+		}
+	}
+
+	private void checkIfEmpty(RevWalk rw, ObjectId headId, ObjectId indexTreeId)
+			throws EmptyCommitException, MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		if (headId != null && !allowEmpty.booleanValue()) {
+			RevCommit headCommit = rw.parseCommit(headId);
+			headCommit.getTree();
+			if (indexTreeId.equals(headCommit.getTree())) {
+				throw new EmptyCommitException(JGitText.get().emptyCommit);
+			}
+		}
+	}
+
+	private void sign(CommitBuilder commit) throws ServiceUnavailableException,
+			CanceledException, UnsupportedSigningFormatException {
+		if (gpgSigner == null) {
+			throw new ServiceUnavailableException(
+					JGitText.get().signingServiceUnavailable);
+		}
+		if (gpgSigner instanceof GpgObjectSigner) {
+			((GpgObjectSigner) gpgSigner).signObject(commit,
+					signingKey, committer, credentialsProvider,
+					gpgConfig);
+		} else {
+			if (gpgConfig.getKeyFormat() != GpgFormat.OPENPGP) {
+				throw new UnsupportedSigningFormatException(JGitText
+						.get().onlyOpenPgpSupportedForSigning);
+			}
+			gpgSigner.sign(commit, signingKey, committer,
+					credentialsProvider);
+		}
+	}
+
+	private void updateRef(RepositoryState state, ObjectId headId,
+			RevCommit revCommit, ObjectId commitId)
+			throws ConcurrentRefUpdateException, IOException {
+		RefUpdate ru = repo.updateRef(Constants.HEAD);
+		ru.setNewObjectId(commitId);
+		if (!useDefaultReflogMessage) {
+			ru.setRefLogMessage(reflogComment, false);
+		} else {
+			String prefix = amend ? "commit (amend): " //$NON-NLS-1$
+					: parents.isEmpty() ? "commit (initial): " //$NON-NLS-1$
+							: "commit: "; //$NON-NLS-1$
+			ru.setRefLogMessage(prefix + revCommit.getShortMessage(),
+					false);
+		}
+		if (headId != null) {
+			ru.setExpectedOldObjectId(headId);
+		} else {
+			ru.setExpectedOldObjectId(ObjectId.zeroId());
+		}
+		Result rc = ru.forceUpdate();
+		switch (rc) {
+		case NEW:
+		case FORCED:
+		case FAST_FORWARD: {
+			setCallable(false);
+			if (state == RepositoryState.MERGING_RESOLVED
+					|| isMergeDuringRebase(state)) {
+				// Commit was successful. Now delete the files
+				// used for merge commits
+				repo.writeMergeCommitMsg(null);
+				repo.writeMergeHeads(null);
+			} else if (state == RepositoryState.CHERRY_PICKING_RESOLVED) {
+				repo.writeMergeCommitMsg(null);
+				repo.writeCherryPickHead(null);
+			} else if (state == RepositoryState.REVERTING_RESOLVED) {
+				repo.writeMergeCommitMsg(null);
+				repo.writeRevertHead(null);
+			}
+			break;
+		}
+		case REJECTED:
+		case LOCK_FAILURE:
+			throw new ConcurrentRefUpdateException(
+					JGitText.get().couldNotLockHEAD, ru.getRef(), rc);
+		default:
+			throw new JGitInternalException(MessageFormat.format(
+					JGitText.get().updatingRefFailed, Constants.HEAD,
+					commitId.toString(), rc));
 		}
 	}
 

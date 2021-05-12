@@ -502,8 +502,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				throw new IOException(new FilterFailedException(rc,
 						filterCommand, getEntryPathString(),
 						result.getStdout().toByteArray(MAX_EXCEPTION_TEXT_SIZE),
-						RawParseUtils.decode(result.getStderr()
-								.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
+						result.getStderr().toString(MAX_EXCEPTION_TEXT_SIZE)));
 			}
 			return result.getStdout().openInputStreamWithAutoDestroy();
 		}

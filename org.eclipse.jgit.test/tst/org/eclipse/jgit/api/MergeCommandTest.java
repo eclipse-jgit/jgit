@@ -14,6 +14,7 @@ import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -25,6 +26,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
@@ -34,6 +36,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.Sets;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -302,6 +305,200 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals(3, result.getConflicts().get("a")[0].length);
 
 			assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+		}
+	}
+
+	@Test
+	public void testContentMergeXtheirs() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			writeTrashFile("b", "1\nb\n3\n");
+			writeTrashFile("c/c/c", "1\nc\n3\n");
+			git.add().addFilepattern("a").addFilepattern("b")
+					.addFilepattern("c/c/c").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "1\na(side)\n3\n4\n");
+			writeTrashFile("b", "1\nb(side)\n3\n4\n");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			assertEquals("1\nb(side)\n3\n4\n",
+					read(new File(db.getWorkTree(), "b")));
+			checkoutBranch("refs/heads/master");
+			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+
+			writeTrashFile("a", "1\na(main)\n3\n");
+			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
+			git.add().addFilepattern("a").addFilepattern("c/c/c").call();
+			git.commit().setMessage("main").call();
+
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE)
+					.setContentMergeStrategy(ContentMergeStrategy.THEIRS)
+					.call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+			assertEquals("1\na(side)\n3\n4\n",
+					read(new File(db.getWorkTree(), "a")));
+			assertEquals("1\nb(side)\n3\n4\n",
+					read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nc(main)\n3\n",
+					read(new File(db.getWorkTree(), "c/c/c")));
+
+			assertNull(result.getConflicts());
+
+			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		}
+	}
+
+	@Test
+	public void testContentMergeXours() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			writeTrashFile("b", "1\nb\n3\n");
+			writeTrashFile("c/c/c", "1\nc\n3\n");
+			git.add().addFilepattern("a").addFilepattern("b")
+					.addFilepattern("c/c/c").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "1\na(side)\n3\n4\n");
+			writeTrashFile("b", "1\nb(side)\n3\n4\n");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			assertEquals("1\nb(side)\n3\n4\n",
+					read(new File(db.getWorkTree(), "b")));
+			checkoutBranch("refs/heads/master");
+			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+
+			writeTrashFile("a", "1\na(main)\n3\n");
+			writeTrashFile("c/c/c", "1\nc(main)\n3\n");
+			git.add().addFilepattern("a").addFilepattern("c/c/c").call();
+			git.commit().setMessage("main").call();
+
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE)
+					.setContentMergeStrategy(ContentMergeStrategy.OURS).call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+			assertEquals("1\na(main)\n3\n4\n",
+					read(new File(db.getWorkTree(), "a")));
+			assertEquals("1\nb(side)\n3\n4\n",
+					read(new File(db.getWorkTree(), "b")));
+			assertEquals("1\nc(main)\n3\n",
+					read(new File(db.getWorkTree(), "c/c/c")));
+
+			assertNull(result.getConflicts());
+
+			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		}
+	}
+
+	@Test
+	public void testBinaryContentMerge() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile(".gitattributes", "a binary");
+			writeTrashFile("a", "initial");
+			git.add().addFilepattern(".").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "side");
+			git.add().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			checkoutBranch("refs/heads/master");
+
+			writeTrashFile("a", "main");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
+
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE).call();
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+			assertEquals("main", read(new File(db.getWorkTree(), "a")));
+
+			// Hmmm... there doesn't seem to be a way to figure out which files
+			// had a binary conflict from a MergeResult...
+
+			assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+		}
+	}
+
+	@Test
+	public void testBinaryContentMergeXtheirs() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile(".gitattributes", "a binary");
+			writeTrashFile("a", "initial");
+			git.add().addFilepattern(".").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "side");
+			git.add().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			checkoutBranch("refs/heads/master");
+
+			writeTrashFile("a", "main");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
+
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE)
+					.setContentMergeStrategy(ContentMergeStrategy.THEIRS)
+					.call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+			assertEquals("side", read(new File(db.getWorkTree(), "a")));
+
+			assertNull(result.getConflicts());
+			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		}
+	}
+
+	@Test
+	public void testBinaryContentMergeXours() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile(".gitattributes", "a binary");
+			writeTrashFile("a", "initial");
+			git.add().addFilepattern(".").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "side");
+			git.add().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			checkoutBranch("refs/heads/master");
+
+			writeTrashFile("a", "main");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
+
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE)
+					.setContentMergeStrategy(ContentMergeStrategy.OURS).call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+			assertEquals("main", read(new File(db.getWorkTree(), "a")));
+
+			assertNull(result.getConflicts());
+			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 		}
 	}
 
@@ -790,17 +987,96 @@ public class MergeCommandTest extends RepositoryTestCase {
 			// delete a on master to generate conflict
 			checkoutBranch("refs/heads/master");
 			git.rm().addFilepattern("a").call();
+			RevCommit thirdCommit = git.commit().setMessage("main").call();
+
+			for (ContentMergeStrategy contentStrategy : ContentMergeStrategy
+					.values()) {
+				// merge side with master
+				MergeResult result = git.merge().include(secondCommit.getId())
+						.setStrategy(MergeStrategy.RESOLVE)
+						.setContentMergeStrategy(contentStrategy)
+						.call();
+				assertEquals("merge -X " + contentStrategy.name(),
+						MergeStatus.CONFLICTING, result.getMergeStatus());
+
+				// result should be 'a' conflicting with workspace content from
+				// side
+				assertTrue("merge -X " + contentStrategy.name(),
+						new File(db.getWorkTree(), "a").exists());
+				assertEquals("merge -X " + contentStrategy.name(),
+						"1\na(side)\n3\n",
+						read(new File(db.getWorkTree(), "a")));
+				assertEquals("merge -X " + contentStrategy.name(), "1\nb\n3\n",
+						read(new File(db.getWorkTree(), "b")));
+				git.reset().setMode(ResetType.HARD).setRef(thirdCommit.name())
+						.call();
+			}
+		}
+	}
+
+	@Test
+	public void testDeletionOnMasterTheirs() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			writeTrashFile("b", "1\nb\n3\n");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			// create side branch and modify "a"
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+			writeTrashFile("a", "1\na(side)\n3\n");
+			git.add().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			// delete a on master to generate conflict
+			checkoutBranch("refs/heads/master");
+			git.rm().addFilepattern("a").call();
 			git.commit().setMessage("main").call();
 
 			// merge side with master
 			MergeResult result = git.merge().include(secondCommit.getId())
-					.setStrategy(MergeStrategy.RESOLVE).call();
-			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+					.setStrategy(MergeStrategy.THEIRS)
+					.call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 
-			// result should be 'a' conflicting with workspace content from side
+			// result should be 'a'
 			assertTrue(new File(db.getWorkTree(), "a").exists());
-			assertEquals("1\na(side)\n3\n", read(new File(db.getWorkTree(), "a")));
+			assertEquals("1\na(side)\n3\n",
+					read(new File(db.getWorkTree(), "a")));
 			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertTrue(git.status().call().isClean());
+		}
+	}
+
+	@Test
+	public void testDeletionOnMasterOurs() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			writeTrashFile("b", "1\nb\n3\n");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			// create side branch and modify "a"
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+			writeTrashFile("a", "1\na(side)\n3\n");
+			git.add().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			// delete a on master to generate conflict
+			checkoutBranch("refs/heads/master");
+			git.rm().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
+
+			// merge side with master
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.OURS).call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+			assertFalse(new File(db.getWorkTree(), "a").exists());
+			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertTrue(git.status().call().isClean());
 		}
 	}
 
@@ -822,19 +1098,99 @@ public class MergeCommandTest extends RepositoryTestCase {
 			checkoutBranch("refs/heads/master");
 			writeTrashFile("a", "1\na(main)\n3\n");
 			git.add().addFilepattern("a").call();
+			RevCommit thirdCommit = git.commit().setMessage("main").call();
+
+			for (ContentMergeStrategy contentStrategy : ContentMergeStrategy
+					.values()) {
+				// merge side with master
+				MergeResult result = git.merge().include(secondCommit.getId())
+						.setStrategy(MergeStrategy.RESOLVE)
+						.setContentMergeStrategy(contentStrategy)
+						.call();
+				assertEquals("merge -X " + contentStrategy.name(),
+						MergeStatus.CONFLICTING, result.getMergeStatus());
+
+				assertTrue("merge -X " + contentStrategy.name(),
+						new File(db.getWorkTree(), "a").exists());
+				assertEquals("merge -X " + contentStrategy.name(),
+						"1\na(main)\n3\n",
+						read(new File(db.getWorkTree(), "a")));
+				assertEquals("merge -X " + contentStrategy.name(), "1\nb\n3\n",
+						read(new File(db.getWorkTree(), "b")));
+
+				assertNotNull("merge -X " + contentStrategy.name(),
+						result.getConflicts());
+				assertEquals("merge -X " + contentStrategy.name(), 1,
+						result.getConflicts().size());
+				assertEquals("merge -X " + contentStrategy.name(), 3,
+						result.getConflicts().get("a")[0].length);
+				git.reset().setMode(ResetType.HARD).setRef(thirdCommit.name())
+						.call();
+			}
+		}
+	}
+
+	@Test
+	public void testDeletionOnSideTheirs() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			writeTrashFile("b", "1\nb\n3\n");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			// create side branch and delete "a"
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+			git.rm().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			// update a on master to generate conflict
+			checkoutBranch("refs/heads/master");
+			writeTrashFile("a", "1\na(main)\n3\n");
+			git.add().addFilepattern("a").call();
 			git.commit().setMessage("main").call();
 
 			// merge side with master
 			MergeResult result = git.merge().include(secondCommit.getId())
-					.setStrategy(MergeStrategy.RESOLVE).call();
-			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+					.setStrategy(MergeStrategy.THEIRS).call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+			assertFalse(new File(db.getWorkTree(), "a").exists());
+			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+			assertTrue(git.status().call().isClean());
+		}
+	}
+
+	@Test
+	public void testDeletionOnSideOurs() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			writeTrashFile("b", "1\nb\n3\n");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			// create side branch and delete "a"
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+			git.rm().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			// update a on master to generate conflict
+			checkoutBranch("refs/heads/master");
+			writeTrashFile("a", "1\na(main)\n3\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
+
+			// merge side with master
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.OURS).call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 
 			assertTrue(new File(db.getWorkTree(), "a").exists());
-			assertEquals("1\na(main)\n3\n", read(new File(db.getWorkTree(), "a")));
+			assertEquals("1\na(main)\n3\n",
+					read(new File(db.getWorkTree(), "a")));
 			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
-
-			assertEquals(1, result.getConflicts().size());
-			assertEquals(3, result.getConflicts().get("a")[0].length);
+			assertTrue(git.status().call().isClean());
 		}
 	}
 

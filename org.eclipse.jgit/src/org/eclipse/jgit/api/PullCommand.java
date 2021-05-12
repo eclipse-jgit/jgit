@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
- * Copyright (C) 2016, Laurent Delaigue <laurent.delaigue@obeo.fr> and others
+ * Copyright (C) 2016, 2021 Laurent Delaigue <laurent.delaigue@obeo.fr> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -43,6 +43,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -68,6 +69,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	private String remoteBranchName;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
+
+	private ContentMergeStrategy contentStrategy;
 
 	private TagOpt tagOption;
 
@@ -275,8 +278,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 					JGitText.get().pullTaskName));
 
 		// we check the updates to see which of the updated branches
-		// corresponds
-		// to the remote branch name
+		// corresponds to the remote branch name
 		AnyObjectId commitToMerge;
 		if (isRemote) {
 			Ref r = null;
@@ -354,8 +356,11 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			}
 			RebaseCommand rebase = new RebaseCommand(repo);
 			RebaseResult rebaseRes = rebase.setUpstream(commitToMerge)
-					.setUpstreamName(upstreamName).setProgressMonitor(monitor)
-					.setOperation(Operation.BEGIN).setStrategy(strategy)
+					.setProgressMonitor(monitor)
+					.setUpstreamName(upstreamName)
+					.setOperation(Operation.BEGIN)
+					.setStrategy(strategy)
+					.setContentMergeStrategy(contentStrategy)
 					.setPreserveMerges(
 							pullRebaseMode == BranchRebaseMode.PRESERVE)
 					.call();
@@ -363,7 +368,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 		} else {
 			MergeCommand merge = new MergeCommand(repo);
 			MergeResult mergeRes = merge.include(upstreamName, commitToMerge)
-					.setStrategy(strategy).setProgressMonitor(monitor)
+					.setProgressMonitor(monitor)
+					.setStrategy(strategy)
+					.setContentMergeStrategy(contentStrategy)
 					.setFastForward(getFastForwardMode()).call();
 			monitor.update(1);
 			result = new PullResult(fetchRes, remote, mergeRes);
@@ -438,6 +445,21 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 */
 	public PullCommand setStrategy(MergeStrategy strategy) {
 		this.strategy = strategy;
+		return this;
+	}
+
+	/**
+	 * Sets the content merge strategy to use if the
+	 * {@link #setStrategy(MergeStrategy) merge strategy} is "resolve" or
+	 * "recursive".
+	 *
+	 * @param strategy
+	 *            the {@link ContentMergeStrategy} to be used
+	 * @return {@code this}
+	 * @since 5.12
+	 */
+	public PullCommand setContentMergeStrategy(ContentMergeStrategy strategy) {
+		this.contentStrategy = strategy;
 		return this;
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.7" sequenceNumber="1619186297">
+<target name="jgit-4.20-staging" sequenceNumber="1619186291">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.40.v20210413"/>
@@ -90,7 +90,7 @@
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/releases/oxygen/"/>
+      <repository location="https://download.eclipse.org/staging/2021-06/"/>
     </location>
   </locations>
 </target>

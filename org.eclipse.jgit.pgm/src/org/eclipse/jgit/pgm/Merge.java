@@ -24,6 +24,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -69,6 +70,20 @@ class Merge extends TextBuiltin {
 	@Option(name = "-m", usage = "usage_message")
 	private String message;
 
+	private ContentMergeStrategy contentStrategy = null;
+
+	@Option(name = "--strategy-option", aliases = { "-X" },
+			metaVar = "metaVar_extraArgument", usage = "usage_extraArgument")
+	void extraArg(String name) {
+		if (ContentMergeStrategy.OURS.name().equalsIgnoreCase(name)) {
+			contentStrategy = ContentMergeStrategy.OURS;
+		} else if (ContentMergeStrategy.THEIRS.name().equalsIgnoreCase(name)) {
+			contentStrategy = ContentMergeStrategy.THEIRS;
+		} else {
+			throw die(MessageFormat.format(CLIText.get().unknownExtraArgument, name));
+		}
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
@@ -96,8 +111,11 @@ class Merge extends TextBuiltin {
 			Ref oldHead = getOldHead();
 			MergeResult result;
 			try (Git git = new Git(db)) {
-				MergeCommand mergeCmd = git.merge().setStrategy(mergeStrategy)
-						.setSquash(squash).setFastForward(ff)
+				MergeCommand mergeCmd = git.merge()
+						.setStrategy(mergeStrategy)
+						.setContentMergeStrategy(contentStrategy)
+						.setSquash(squash)
+						.setFastForward(ff)
 						.setCommit(!noCommit);
 				if (srcRef != null) {
 					mergeCmd.include(srcRef);

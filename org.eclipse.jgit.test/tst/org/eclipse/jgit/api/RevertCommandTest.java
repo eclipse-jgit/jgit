@@ -253,7 +253,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertkConflictReset() throws Exception {
+	public void testRevertConflictReset() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit sideCommit = prepareRevert(git);
 

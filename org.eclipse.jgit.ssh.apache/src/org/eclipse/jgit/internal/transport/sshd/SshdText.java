@@ -25,8 +25,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String configInvalidPattern;
 	/***/ public String configInvalidPositive;
 	/***/ public String configInvalidProxyJump;
-	/***/ public String configNoKnownHostKeyAlgorithms;
-	/***/ public String configNoRemainingHostKeyAlgorithms;
+	/***/ public String configNoKnownAlgorithms;
 	/***/ public String configProxyJumpNotSsh;
 	/***/ public String configProxyJumpWithPath;
 	/***/ public String ftpCloseFailed;
@@ -45,7 +44,6 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String keyEncryptedRetry;
 	/***/ public String keyLoadFailed;
 	/***/ public String knownHostsCouldNotUpdate;
-	/***/ public String knownHostsFileLockedRead;
 	/***/ public String knownHostsFileLockedUpdate;
 	/***/ public String knownHostsFileReadFailed;
 	/***/ public String knownHostsInvalidLine;
@@ -89,6 +87,9 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String proxySocksUnexpectedMessage;
 	/***/ public String proxySocksUnexpectedVersion;
 	/***/ public String proxySocksUsernameTooLong;
+	/***/ public String pubkeyAuthWrongCommand;
+	/***/ public String pubkeyAuthWrongKey;
+	/***/ public String pubkeyAuthWrongSignatureAlgorithm;
 	/***/ public String serverIdNotReceived;
 	/***/ public String serverIdTooLong;
 	/***/ public String serverIdWithNul;
