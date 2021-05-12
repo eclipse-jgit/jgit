@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aee8d043_36672071",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-05-12T13:36:55Z",
+      "side": 1,
+      "message": "Done. I reverted this.",
+      "parentUuid": "4b765144_1a3370b8",
+      "range": {
+        "startLine": 86,
+        "startChar": 3,
+        "endLine": 87,
+        "endChar": 74
+      },
+      "revId": "2340a8018088daaa591c612f3ec3220457b85736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8e4fe8c_0a017cc1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "2340a8018088daaa591c612f3ec3220457b85736",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e859755_45ffc70b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-05-12T13:36:55Z",
+      "side": 1,
+      "message": "Done. I\u0027m keeping this parameter and I also didn\u0027t modify this file.\n\nI modified the change and implemented skipping renames for binary files only in SimilarityRenameDetector.",
+      "parentUuid": "d8e4fe8c_0a017cc1",
+      "range": {
+        "startLine": 159,
+        "startChar": 43,
+        "endLine": 159,
+        "endChar": 55
+      },
+      "revId": "2340a8018088daaa591c612f3ec3220457b85736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
