@@ -218,14 +218,14 @@ public class LockFile {
 					int r;
 					while ((r = fis.read(buf)) >= 0) {
 						out.write(buf, 0, r);
+					}
 				}
-			}
-		} catch (FileNotFoundException fnfe) {
-			if (ref.exists()) {
-				throw fnfe;
-			}
-			// Don't worry about a file that doesn't exist yet, it
-			// conceptually has no current content to copy.
+			} catch (FileNotFoundException fnfe) {
+				if (ref.exists()) {
+					throw fnfe;
+				}
+				// Don't worry about a file that doesn't exist yet, it
+				// conceptually has no current content to copy.
 			}
 		} catch (IOException | RuntimeException | Error ioe) {
 			unlock();
@@ -322,17 +322,16 @@ public class LockFile {
 				if (out == null) {
 					os = getStream();
 					if (fsync) {
-			out = Channels.newOutputStream(os.getChannel());
+						out = Channels.newOutputStream(os.getChannel());
 					} else {
-			out = os;
+						out = os;
 					}
 				}
 				return out;
 			}
 
 			@Override
-			public void write(byte[] b, int o, int n)
-					throws IOException {
+			public void write(byte[] b, int o, int n) throws IOException {
 				get().write(b, o, n);
 			}
 
@@ -359,10 +358,10 @@ public class LockFile {
 					}
 					if (out != null) {
 						if (fsync) {
-						os.getChannel().force(true);
+							os.getChannel().force(true);
 						}
-					out.close();
-					os = null;
+						out.close();
+						os = null;
 					}
 					written = true;
 				} catch (IOException | RuntimeException | Error ioe) {
