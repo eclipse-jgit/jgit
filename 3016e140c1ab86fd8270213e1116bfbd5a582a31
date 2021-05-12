@@ -22,6 +22,30 @@
       "revId": "3016e140c1ab86fd8270213e1116bfbd5a582a31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abffb62e_b7537054",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2021-05-12T06:48:19Z",
+      "side": 1,
+      "message": "Removed.\n\nAlso note, this shouldn\u0027t be submitted. It\u0027s just temporary solution to consume latest SSHD release from their staging repository and verify that all JGit tests are still passing:\n\n $ bazel test //...\n\nOnce the final artifact is released, we should just restore:\n\n  maven_jar(\n    name \u003d \"sshd-osgi\",\n    artifact \u003d \"org.apache.sshd:sshd-osgi:2.7.0\",\n    [...]",
+      "parentUuid": "00ecf951_e6b912fc",
+      "range": {
+        "startLine": 131,
+        "startChar": 17,
+        "endLine": 131,
+        "endChar": 29
+      },
+      "revId": "3016e140c1ab86fd8270213e1116bfbd5a582a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
