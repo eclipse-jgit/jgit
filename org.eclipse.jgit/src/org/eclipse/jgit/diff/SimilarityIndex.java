@@ -102,6 +102,15 @@ public class SimilarityIndex {
 		idGrowAt = growAt(idHashBits);
 	}
 
+	static boolean isBinary(ObjectLoader obj) throws IOException {
+		if (obj.isLarge()) {
+			try (ObjectStream in1 = obj.openStream()) {
+				return RawText.isBinary(in1);
+			}
+		}
+		return RawText.isBinary(obj.getCachedBytes());
+	}
+
 	void hash(ObjectLoader obj) throws MissingObjectException, IOException,
 			TableFullException {
 		if (obj.isLarge()) {
@@ -115,9 +124,7 @@ public class SimilarityIndex {
 	private void hashLargeObject(ObjectLoader obj) throws IOException,
 			TableFullException {
 		boolean text;
-		try (ObjectStream in1 = obj.openStream()) {
-			text = !RawText.isBinary(in1);
-		}
+		text = !isBinary(obj);
 
 		try (ObjectStream in2 = obj.openStream()) {
 			hash(in2, in2.getSize(), text);

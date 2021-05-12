@@ -580,6 +580,66 @@ public class RenameDetectorTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testExactRename_BinaryFile() throws Exception {
+		// Exact renames are identified for binary files.
+		ObjectId aId = blob("a\nb\nc\n\0\0\0\0d\n");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, aId);
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+		assertRename(b, a, 100, entries.get(0));
+	}
+
+	@Test
+	public void testInexactRenameForBinaryFile_identifiedByDefault() throws Exception {
+		// Content renames, i.e. files with slight content modification,
+		// are identified for binary files by default.
+		ObjectId aId = blob("a\nb\nc\n\0\0\0\0d\n");
+		ObjectId bId = blob("a\nb\nc\n\0\0\0d\n");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		rd.setRenameScore(40);
+
+		List<DiffEntry> entries = rd.compute();
+
+		// Inexact renames are identified for binary files
+		assertEquals(1, entries.size());
+		assertRename(b, a, 50, entries.get(0));
+	}
+
+	@Test
+	public void testInexactRenameForBinaryFile_notIdentifiedIfSkipParameterSet() throws Exception {
+		ObjectId aId = blob("a\nb\nc\n\0\0\0\0d\n");
+		ObjectId bId = blob("a\nb\nc\n\0\0\0d\n");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		rd.setRenameScore(40);
+		rd.setSkipContentRenamesForBinaryFiles(true);
+
+		List<DiffEntry> entries = rd.compute();
+
+		// Inexact renames are not detected for binary files
+		assertEquals(2, entries.size());
+		assertAdd(PATH_A, aId, FileMode.REGULAR_FILE, entries.get(0));
+		assertDelete(PATH_Q, bId, FileMode.REGULAR_FILE, entries.get(1));
+	}
+
+	@Test
 	public void testSetRenameScore_IllegalArgs() throws Exception {
 		try {
 			rd.setRenameScore(-1);
