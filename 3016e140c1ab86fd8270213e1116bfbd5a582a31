@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00ecf951_e6b912fc",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-12T06:43:49Z",
+      "side": 1,
+      "message": "Why is this needed ? AFAICS mina-sshd is licensed under Apache-2.0\nhttps://github.com/apache/mina-sshd/blob/master/LICENSE.txt",
+      "range": {
+        "startLine": 131,
+        "startChar": 17,
+        "endLine": 131,
+        "endChar": 29
+      },
+      "revId": "3016e140c1ab86fd8270213e1116bfbd5a582a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
