@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit.junit"
       label="%featureName"
-      version="5.11.1.202105131744-r"
+      version="5.11.2.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
@@ -24,7 +24,7 @@
 
    <requires>
       <import plugin="com.jcraft.jsch"/>
-      <import plugin="org.eclipse.jgit" version="5.11.1" match="equivalent"/>
+      <import plugin="org.eclipse.jgit" version="5.11.2" match="equivalent"/>
    </requires>
 
    <plugin
