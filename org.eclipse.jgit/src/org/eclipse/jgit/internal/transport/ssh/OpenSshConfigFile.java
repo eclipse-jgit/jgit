@@ -273,7 +273,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 		int length = argument.length();
 		while (start < length) {
 			// Skip whitespace
-			if (Character.isSpaceChar(argument.charAt(start))) {
+			if (Character.isWhitespace(argument.charAt(start))) {
 				start++;
 				continue;
 			}
@@ -288,7 +288,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 			} else {
 				int stop = start + 1;
 				while (stop < length
-						&& !Character.isSpaceChar(argument.charAt(stop))) {
+						&& !Character.isWhitespace(argument.charAt(stop))) {
 					stop++;
 				}
 				result.add(argument.substring(start, stop));
@@ -355,9 +355,12 @@ public class OpenSshConfigFile implements SshConfigStore {
 
 	private static String stripWhitespace(String value) {
 		final StringBuilder b = new StringBuilder();
-		for (int i = 0; i < value.length(); i++) {
-			if (!Character.isSpaceChar(value.charAt(i)))
-				b.append(value.charAt(i));
+		int length = value.length();
+		for (int i = 0; i < length; i++) {
+			char ch = value.charAt(i);
+			if (!Character.isWhitespace(ch)) {
+				b.append(ch);
+			}
 		}
 		return b.toString();
 	}
