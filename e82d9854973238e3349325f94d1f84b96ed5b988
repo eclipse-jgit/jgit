@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca56da7c_8a3f700f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/ssh/OpenSshConfigFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-16T21:39:50Z",
+      "side": 1,
+      "message": "why not inlined ?",
+      "revId": "e82d9854973238e3349325f94d1f84b96ed5b988",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
