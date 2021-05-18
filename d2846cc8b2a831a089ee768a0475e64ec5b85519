@@ -33,6 +33,24 @@
       "revId": "d2846cc8b2a831a089ee768a0475e64ec5b85519",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a0478d1_93b8c278",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-05-18T16:45:05Z",
+      "side": 1,
+      "message": "It is done in [1]. The comment is here for two reasons:\n\n* a reminder in case that only part of this series makes it into 5.12.\n* so that the reviewers don\u0027t spend time on this issue when reviewing this change.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/177596",
+      "parentUuid": "bd0b8c78_1953a552",
+      "revId": "d2846cc8b2a831a089ee768a0475e64ec5b85519",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
