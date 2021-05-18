@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d245c886_5c94c6fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-05-18T10:32:35Z",
+      "side": 1,
+      "message": "aside: there is a possible optimization here; we read the entire thing twice: once to find the \u0027\\0\u0027, once to do the hashing. We could get roughly the same behavior at reduced CPU consumption by finding the \u0027\\0\u0027 while we\u0027re doing the hashing.",
+      "revId": "b5fc99209f95534bc89fe1802d0472010de3d0dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee527427_2abe2a55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-05-18T10:32:35Z",
+      "side": 1,
+      "message": "see here: this is meant to work for binary files, so I\u0027m not sure we can shortcut this in the caller.",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 26
+      },
+      "revId": "b5fc99209f95534bc89fe1802d0472010de3d0dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52280958_ac7d523b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-05-18T10:32:35Z",
+      "side": 1,
+      "message": "can you make this optional? We don\u0027t want this for Gerrit, but the existing code is clearly supporting binary files.",
+      "range": {
+        "startLine": 277,
+        "startChar": 6,
+        "endLine": 277,
+        "endChar": 45
+      },
+      "revId": "b5fc99209f95534bc89fe1802d0472010de3d0dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
