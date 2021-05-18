@@ -46,6 +46,30 @@
       "revId": "040edc16b9e89f40956d43cc387b35490f040142",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69b749e1_a7086221",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-18T15:29:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1ce89e6_4725e2e2",
+      "range": {
+        "startLine": 234,
+        "startChar": 17,
+        "endLine": 234,
+        "endChar": 26
+      },
+      "revId": "040edc16b9e89f40956d43cc387b35490f040142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
