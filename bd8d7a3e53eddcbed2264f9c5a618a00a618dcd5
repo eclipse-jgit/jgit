@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "960262a3_5a874d84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-19T22:02:33Z",
+      "side": 1,
+      "message": "add a link to https://tools.ietf.org/html/rfc1924 ?",
+      "revId": "bd8d7a3e53eddcbed2264f9c5a618a00a618dcd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
