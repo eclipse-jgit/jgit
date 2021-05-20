@@ -118,6 +118,7 @@ public class TransferConfig {
 	private final boolean allowRefInWant;
 	private final boolean allowTipSha1InWant;
 	private final boolean allowReachableSha1InWant;
+	private final boolean allowAnySha1InWant;
 	private final boolean allowFilter;
 	private final boolean allowSidebandAll;
 	private final boolean advertiseSidebandAll;
@@ -196,6 +197,8 @@ public class TransferConfig {
 				"uploadpack", "allowtipsha1inwant", false);
 		allowReachableSha1InWant = rc.getBoolean(
 				"uploadpack", "allowreachablesha1inwant", false);
+		allowAnySha1InWant = rc.getBoolean("uploadpack", "allowanysha1inwant",
+				false);
 		allowFilter = rc.getBoolean(
 				"uploadpack", "allowfilter", false);
 		protocolVersion = ProtocolVersion.parse(rc
@@ -269,6 +272,16 @@ public class TransferConfig {
 	 */
 	public boolean isAllowReachableSha1InWant() {
 		return allowReachableSha1InWant;
+	}
+
+	/**
+	 * Whether to allow clients to request any SHA-1s
+	 *
+	 * @return allow clients to request any SHA-1s?
+	 * @since 5.12
+	 */
+	public boolean isAllowAnySha1InWant() {
+		return allowAnySha1InWant;
 	}
 
 	/**
