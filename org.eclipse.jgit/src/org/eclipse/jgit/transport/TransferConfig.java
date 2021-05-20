@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, 2020 Google Inc. and others
+ * Copyright (C) 2008, 2023 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -118,6 +118,7 @@ public class TransferConfig {
 	private final boolean allowRefInWant;
 	private final boolean allowTipSha1InWant;
 	private final boolean allowReachableSha1InWant;
+	private final boolean allowAnySha1InWant;
 	private final boolean allowFilter;
 	private final boolean allowSidebandAll;
 
@@ -202,6 +203,8 @@ public class TransferConfig {
 				"uploadpack", "allowtipsha1inwant", false);
 		allowReachableSha1InWant = rc.getBoolean(
 				"uploadpack", "allowreachablesha1inwant", false);
+		allowAnySha1InWant = rc.getBoolean("uploadpack", "allowanysha1inwant",
+				false);
 		allowFilter = rc.getBoolean(
 				"uploadpack", "allowfilter", false);
 		protocolVersion = ProtocolVersion.parse(rc
@@ -281,6 +284,16 @@ public class TransferConfig {
 	 */
 	public boolean isAllowReachableSha1InWant() {
 		return allowReachableSha1InWant;
+	}
+
+	/**
+	 * Whether to allow clients to request any SHA-1s
+	 *
+	 * @return allow clients to request any SHA-1s?
+	 * @since 6.5
+	 */
+	public boolean isAllowAnySha1InWant() {
+		return allowAnySha1InWant;
 	}
 
 	/**
