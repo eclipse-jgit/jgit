@@ -2726,6 +2726,50 @@ public class UploadPackTest {
 		assertEquals(1, stats.getNotAdvertisedWants());
 	}
 
+	@Test
+	public void testAllowAnySha1InWantConfig() {
+		server.getConfig().setBoolean("uploadpack", null, "allowanysha1inwant",
+				true);
+
+		try (UploadPack uploadPack = new UploadPack(server)) {
+			assertEquals(RequestPolicy.ANY, uploadPack.getRequestPolicy());
+		}
+	}
+
+	@Test
+	public void testAllowReachableSha1InWantConfig() {
+		server.getConfig().setBoolean("uploadpack", null,
+				"allowreachablesha1inwant", true);
+
+		try (UploadPack uploadPack = new UploadPack(server)) {
+			assertEquals(RequestPolicy.REACHABLE_COMMIT,
+					uploadPack.getRequestPolicy());
+		}
+	}
+
+	@Test
+	public void testAllowTipSha1InWantConfig() {
+		server.getConfig().setBoolean("uploadpack", null, "allowtipsha1inwant",
+				true);
+
+		try (UploadPack uploadPack = new UploadPack(server)) {
+			assertEquals(RequestPolicy.TIP, uploadPack.getRequestPolicy());
+		}
+	}
+
+	@Test
+	public void testAllowReachableTipSha1InWantConfig() {
+		server.getConfig().setBoolean("uploadpack", null,
+				"allowreachablesha1inwant", true);
+		server.getConfig().setBoolean("uploadpack", null, "allowtipsha1inwant",
+				true);
+
+		try (UploadPack uploadPack = new UploadPack(server)) {
+			assertEquals(RequestPolicy.REACHABLE_COMMIT_TIP,
+					uploadPack.getRequestPolicy());
+		}
+	}
+
 	private class RefCallsCountingRepository extends InMemoryRepository {
 		private final InMemoryRepository.MemRefDatabase refdb;
 		private int numRefCalls;
