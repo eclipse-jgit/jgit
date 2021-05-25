@@ -22,6 +22,30 @@
       "revId": "2dda3bec7823959c06d4a2e13daa6c8ced8190d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e958914_ba966b0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/BinaryDeltaInputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-25T22:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c0eb115_ddadf813",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "2dda3bec7823959c06d4a2e13daa6c8ced8190d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
