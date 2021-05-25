@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12f6432a_7df2953a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-25T23:14:14Z",
+      "side": 1,
+      "message": "use FileUtils.delay() ?",
+      "revId": "c083656a6568961bf539b78e8fafc1184fff4e4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
