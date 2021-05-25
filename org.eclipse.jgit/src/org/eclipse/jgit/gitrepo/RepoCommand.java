@@ -587,8 +587,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							throw new RemoteUnavailableException(url);
 						}
 						if (recordRemoteBranch) {
-							// can be branch or tag
-							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+							// "branch" field is only for non-tag references.
+							// Keep tags in "ref" field as hint for other tools.
+							String field = proj.getRevision().startsWith(
+									Constants.R_TAGS) ? "ref" : "branch"; //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setString("submodule", name, field, //$NON-NLS-1$
 									proj.getRevision());
 						}
 
