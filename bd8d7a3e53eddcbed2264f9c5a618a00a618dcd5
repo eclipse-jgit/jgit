@@ -16,6 +16,24 @@
       "revId": "bd8d7a3e53eddcbed2264f9c5a618a00a618dcd5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a9f6de5_0adf48d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-25T22:39:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "960262a3_5a874d84",
+      "revId": "bd8d7a3e53eddcbed2264f9c5a618a00a618dcd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
