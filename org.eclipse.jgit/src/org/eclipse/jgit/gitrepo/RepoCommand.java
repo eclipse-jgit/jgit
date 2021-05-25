@@ -587,8 +587,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						if (objectId == null && !ignoreRemoteFailures) {
 							throw new RemoteUnavailableException(url);
 						}
-						if (recordRemoteBranch) {
-							// can be branch or tag
+						if (recordRemoteBranch && !proj.getRevision()
+								.startsWith(Constants.R_TAGS)) {
+							// If the revision is a short name, it could still
+							// be a tag, but this covers the most common case
 							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
 									proj.getRevision());
 						}
