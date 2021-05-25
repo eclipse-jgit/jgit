@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d2a37e3_0ee71096",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-05-25T17:18:24Z",
+      "side": 1,
+      "message": "optional: this will be easier to read with an \u0027import static\u0027",
+      "range": {
+        "startLine": 593,
+        "startChar": 9,
+        "endLine": 593,
+        "endChar": 25
+      },
+      "revId": "790aa48889c319523c2789f78f0fa46833bfa81f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
