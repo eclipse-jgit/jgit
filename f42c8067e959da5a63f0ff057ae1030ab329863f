@@ -46,6 +46,30 @@
       "revId": "f42c8067e959da5a63f0ff057ae1030ab329863f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e255c0ea_50aba54e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-05-26T18:51:26Z",
+      "side": 1,
+      "message": "Hm, what am I missing?\n\n\u003e \t\tlong r \u003d Math.max(0, last * 3 - min);\n\nLooks exponential to me.",
+      "parentUuid": "6e99824e_52a9bec8",
+      "range": {
+        "startLine": 698,
+        "startChar": 8,
+        "endLine": 698,
+        "endChar": 43
+      },
+      "revId": "f42c8067e959da5a63f0ff057ae1030ab329863f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
