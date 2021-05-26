@@ -22,6 +22,30 @@
       "revId": "f42c8067e959da5a63f0ff057ae1030ab329863f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e99824e_52a9bec8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-05-26T18:25:04Z",
+      "side": 1,
+      "message": "#delay() is not exponential, is just \"delay in interval with jitter\". It looks good enough for our case (we want to sneak one commit in a stream of updates). What do you think? We can still go back to the exponential implementation (we could add FileUtils.delayExp()).\n\nIf policy is fine, we are setting it to retry 5 times with delays between 100ms and 200ms. Do these numbers sound reasonable?",
+      "parentUuid": "382a9c2c_2914ca28",
+      "range": {
+        "startLine": 698,
+        "startChar": 8,
+        "endLine": 698,
+        "endChar": 43
+      },
+      "revId": "f42c8067e959da5a63f0ff057ae1030ab329863f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
