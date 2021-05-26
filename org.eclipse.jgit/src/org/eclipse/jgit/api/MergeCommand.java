@@ -87,6 +87,20 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
+	 * Values for the "merge.conflictStyle" git config.
+	 *
+	 * @since 5.12
+	 */
+	public enum ConflictStyle {
+
+		/** "merge" style: only ours/theirs. This is the default. */
+		MERGE,
+
+		/** "diff3" style: ours/base/theirs. */
+		DIFF3
+	}
+
+	/**
 	 * The modes available for fast forward merges corresponding to the
 	 * <code>--ff</code>, <code>--no-ff</code> and <code>--ff-only</code>
 	 * options under <code>branch.&lt;name&gt;.mergeoptions</code>.

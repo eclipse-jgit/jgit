@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, 2017, Google Inc.
- * Copyright (C) 2017, 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2017, 2021, Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -21,7 +21,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -82,12 +83,6 @@ import org.eclipse.jgit.util.SystemReader;
  */
 public class OpenSshConfigFile implements SshConfigStore {
 
-	/**
-	 * "Host" name of the HostEntry for the default options before the first
-	 * host block in a config file.
-	 */
-	private static final String DEFAULT_NAME = ""; //$NON-NLS-1$
-
 	/** The user's home directory, as key files may be relative to here. */
 	private final File home;
 
@@ -105,11 +100,9 @@ public class OpenSshConfigFile implements SshConfigStore {
 	 * fully resolved entries created from that.
 	 */
 	private static class State {
-		// Keyed by pattern; if a "Host" line has multiple patterns, we generate
-		// duplicate HostEntry objects
-		Map<String, HostEntry> entries = new LinkedHashMap<>();
+		List<HostEntry> entries = new LinkedList<>();
 
-		// Keyed by user@hostname:port
+		// Previous lookups, keyed by user@hostname:port
 		Map<String, HostEntry> hosts = new HashMap<>();
 
 		@Override
@@ -165,14 +158,16 @@ public class OpenSshConfigFile implements SshConfigStore {
 			return h;
 		}
 		HostEntry fullConfig = new HostEntry();
-		// Initialize with default entries at the top of the file, before the
-		// first Host block.
-		fullConfig.merge(cache.entries.get(DEFAULT_NAME));
-		for (Map.Entry<String, HostEntry> e : cache.entries.entrySet()) {
-			String pattern = e.getKey();
-			if (isHostMatch(pattern, hostName)) {
-				fullConfig.merge(e.getValue());
-			}
+		Iterator<HostEntry> entries = cache.entries.iterator();
+		if (entries.hasNext()) {
+			// Should always have at least the first top entry containing
+			// key-value pairs before the first Host block
+			fullConfig.merge(entries.next());
+			entries.forEachRemaining(entry -> {
+				if (entry.matches(hostName)) {
+					fullConfig.merge(entry);
+				}
+			});
 		}
 		fullConfig.substitute(hostName, port, userName, localUserName, home);
 		cache.hosts.put(cacheKey, fullConfig);
@@ -208,20 +203,19 @@ public class OpenSshConfigFile implements SshConfigStore {
 		return state;
 	}
 
-	private Map<String, HostEntry> parse(BufferedReader reader)
+	private List<HostEntry> parse(BufferedReader reader)
 			throws IOException {
-		final Map<String, HostEntry> entries = new LinkedHashMap<>();
-		final List<HostEntry> current = new ArrayList<>(4);
-		String line;
+		final List<HostEntry> entries = new LinkedList<>();
 
 		// The man page doesn't say so, but the openssh parser (readconf.c)
 		// starts out in active mode and thus always applies any lines that
 		// occur before the first host block. We gather those options in a
 		// HostEntry for DEFAULT_NAME.
 		HostEntry defaults = new HostEntry();
-		current.add(defaults);
-		entries.put(DEFAULT_NAME, defaults);
+		HostEntry current = defaults;
+		entries.add(defaults);
 
+		String line;
 		while ((line = reader.readLine()) != null) {
 			// OpenSsh ignores trailing comments on a line. Anything after the
 			// first # on a line is trimmed away (yes, even if the hash is
@@ -246,38 +240,17 @@ public class OpenSshConfigFile implements SshConfigStore {
 			String argValue = parts.length > 1 ? parts[1].trim() : ""; //$NON-NLS-1$
 
 			if (StringUtils.equalsIgnoreCase(SshConstants.HOST, keyword)) {
-				current.clear();
-				for (String name : parseList(argValue)) {
-					if (name == null || name.isEmpty()) {
-						// null should not occur, but better be safe than sorry.
-						continue;
-					}
-					HostEntry c = entries.get(name);
-					if (c == null) {
-						c = new HostEntry();
-						entries.put(name, c);
-					}
-					current.add(c);
-				}
-				continue;
-			}
-
-			if (current.isEmpty()) {
-				// We received an option outside of a Host block. We
-				// don't know who this should match against, so skip.
+				current = new HostEntry(parseList(argValue));
+				entries.add(current);
 				continue;
 			}
 
 			if (HostEntry.isListKey(keyword)) {
 				List<String> args = validate(keyword, parseList(argValue));
-				for (HostEntry entry : current) {
-					entry.setValue(keyword, args);
-				}
+				current.setValue(keyword, args);
 			} else if (!argValue.isEmpty()) {
 				argValue = validate(keyword, dequote(argValue));
-				for (HostEntry entry : current) {
-					entry.setValue(keyword, argValue);
-				}
+				current.setValue(keyword, argValue);
 			}
 		}
 
@@ -300,7 +273,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 		int length = argument.length();
 		while (start < length) {
 			// Skip whitespace
-			if (Character.isSpaceChar(argument.charAt(start))) {
+			if (Character.isWhitespace(argument.charAt(start))) {
 				start++;
 				continue;
 			}
@@ -315,7 +288,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 			} else {
 				int stop = start + 1;
 				while (stop < length
-						&& !Character.isSpaceChar(argument.charAt(stop))) {
+						&& !Character.isWhitespace(argument.charAt(stop))) {
 					stop++;
 				}
 				result.add(argument.substring(start, stop));
@@ -358,13 +331,6 @@ public class OpenSshConfigFile implements SshConfigStore {
 		return value;
 	}
 
-	private static boolean isHostMatch(String pattern, String name) {
-		if (pattern.startsWith("!")) { //$NON-NLS-1$
-			return !patternMatchesHost(pattern.substring(1), name);
-		}
-		return patternMatchesHost(pattern, name);
-	}
-
 	private static boolean patternMatchesHost(String pattern, String name) {
 		if (pattern.indexOf('*') >= 0 || pattern.indexOf('?') >= 0) {
 			final FileNameMatcher fn;
@@ -389,9 +355,12 @@ public class OpenSshConfigFile implements SshConfigStore {
 
 	private static String stripWhitespace(String value) {
 		final StringBuilder b = new StringBuilder();
-		for (int i = 0; i < value.length(); i++) {
-			if (!Character.isSpaceChar(value.charAt(i)))
-				b.append(value.charAt(i));
+		int length = value.length();
+		for (int i = 0; i < length; i++) {
+			char ch = value.charAt(i);
+			if (!Character.isWhitespace(ch)) {
+				b.append(ch);
+			}
 		}
 		return b.toString();
 	}
@@ -510,6 +479,32 @@ public class OpenSshConfigFile implements SshConfigStore {
 		private Map<String, List<String>> multiOptions;
 
 		private Map<String, List<String>> listOptions;
+
+		private final List<String> patterns;
+
+		// Constructor used to build the merged entry; never matches anything
+		HostEntry() {
+			this.patterns = Collections.emptyList();
+		}
+
+		HostEntry(List<String> patterns) {
+			this.patterns = patterns;
+		}
+
+		boolean matches(String hostName) {
+			boolean doesMatch = false;
+			for (String pattern : patterns) {
+				if (pattern.startsWith("!")) { //$NON-NLS-1$
+					if (patternMatchesHost(pattern.substring(1), hostName)) {
+						return false;
+					}
+				} else if (!doesMatch
+						&& patternMatchesHost(pattern, hostName)) {
+					doesMatch = true;
+				}
+			}
+			return doesMatch;
+		}
 
 		private static String toKey(String key) {
 			String k = ALIASES.get(key);

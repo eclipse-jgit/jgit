@@ -118,7 +118,7 @@ public final class SshConstants {
 	 * Key in an ssh config file; defines signature algorithms for public key
 	 * authentication as a comma-separated list.
 	 *
-	 * @since 5.11
+	 * @since 5.11.1
 	 */
 	public static final String PUBKEY_ACCEPTED_ALGORITHMS = "PubkeyAcceptedAlgorithms";
 
