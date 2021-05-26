@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "382a9c2c_2914ca28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-05-26T02:55:09Z",
+      "side": 1,
+      "message": "This means it would hit the max quickly and stay there, reducing the benefits of exponential backoff",
+      "range": {
+        "startLine": 698,
+        "startChar": 8,
+        "endLine": 698,
+        "endChar": 43
+      },
+      "revId": "f42c8067e959da5a63f0ff057ae1030ab329863f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
