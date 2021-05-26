@@ -70,6 +70,30 @@
       "revId": "f42c8067e959da5a63f0ff057ae1030ab329863f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0ce5586_62b1ec5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-05-26T21:09:12Z",
+      "side": 1,
+      "message": "My bad. Sorry about that.\n\nI set the new value to * 100 (~ if it grows x^3, that should be ~5 retries to hit a max of 5 seconds, which sounds pretty reasonable).",
+      "parentUuid": "e255c0ea_50aba54e",
+      "range": {
+        "startLine": 698,
+        "startChar": 8,
+        "endLine": 698,
+        "endChar": 43
+      },
+      "revId": "f42c8067e959da5a63f0ff057ae1030ab329863f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
