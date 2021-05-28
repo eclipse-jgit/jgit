@@ -613,6 +613,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packFileInvalid;
 	/***/ public String packfileIsTruncated;
 	/***/ public String packfileIsTruncatedNoParam;
+	/***/ public String packfileNotAccessible;
+	/***/ public String packfileStaleFileHandle;
 	/***/ public String packHandleIsStale;
 	/***/ public String packHasUnresolvedDeltas;
 	/***/ public String packInaccessible;

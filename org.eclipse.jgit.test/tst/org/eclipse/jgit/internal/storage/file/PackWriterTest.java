@@ -22,12 +22,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +47,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
@@ -193,6 +197,30 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		assertEquals(0, writer.getObjectCount());
 		assertEquals(0, pack.getObjectCount());
+	}
+
+	/**
+	 * Check if WindowCache is able to detect a packfile removed from the
+	 * filesystem.
+	 *
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	@Test
+	public void testRemovedPackfileShouldBeDetectedByWindowCursor()
+			throws IOException, ParseException {
+		BitmapIndex.BitmapBuilder bitmapBuilder = mock(
+				BitmapIndex.BitmapBuilder.class);
+		doReturn(Boolean.TRUE).when(bitmapBuilder)
+				.removeAllOrNone(any(PackBitmapIndex.class));
+		WindowCursor wc = new WindowCursor(db.getObjectDatabase());
+
+		createVerifyOpenPack(EMPTY_LIST_REVS);
+		new GC(db).gc(); // Create one packfile with its associated bitmap
+
+		simulatePackfileRemoval();
+		assertEquals("Removed packfile was not detected by WindowCursor", 0,
+				wc.getCachedPacksAndUpdate(bitmapBuilder).size());
 	}
 
 	/**
@@ -825,6 +853,14 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		mockedPackWriter.preparePack(NullProgressMonitor.INSTANCE, all,
 				PackWriter.NONE);
 		return packFile;
+	}
+
+	private void simulatePackfileRemoval() throws IOException {
+		for (Pack packFile : db.getObjectDatabase().getPacks()) {
+			if (packFile.getBitmapIndex() != null) {
+				packFile.getPackFile().delete();
+			}
+		}
 	}
 
 	private FileRepository setupRepoForShallowFetch() throws Exception {

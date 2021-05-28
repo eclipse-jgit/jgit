@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.Hex;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
@@ -287,6 +288,40 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset && !isCorrupt(offset) ? load(curs, offset) : null;
+	}
+
+	/**
+	 * Check if an in-memory PackFile exists on the underlying filesystem.
+	 *
+	 * @return true if the PackFile exists, false otherwise
+	 * @throws IOException
+	 *             if the PackFile exists but failed to be read.
+	 */
+	public synchronized boolean exists() throws IOException {
+		boolean needOpen = fd == null;
+		try {
+			if (needOpen) {
+				doOpen();
+			}
+			read(0, 1);
+			return true;
+		} catch (PackInvalidException | FileNotFoundException e) {
+			LOG.warn(MessageFormat.format(JGitText.get().packfileNotAccessible,
+					packFile), e);
+			return false;
+		} catch (IOException e) {
+			if (FileUtils.isStaleFileHandle(e)
+					|| FileUtils.isStaleFileHandleInCausalChain(e)) {
+				LOG.warn(MessageFormat.format(
+						JGitText.get().packfileStaleFileHandle, packFile), e);
+				return false;
+			}
+			throw e;
+		} finally {
+			if (needOpen) {
+				doClose();
+			}
+		}
 	}
 
 	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id, int matchLimit)
