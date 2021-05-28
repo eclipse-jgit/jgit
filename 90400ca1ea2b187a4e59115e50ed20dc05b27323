@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "182521b1_6c6a13c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-28T23:39:50Z",
+      "side": 1,
+      "message": "we externalize error messages",
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb2a60a9_55f378bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-28T23:39:50Z",
+      "side": 1,
+      "message": "we don\u0027t need the RandomAccessFile but need to remember if fd was set\n\n boolean needOpen \u003d (fd \u003d\u003d null);",
+      "range": {
+        "startLine": 297,
+        "startChar": 2,
+        "endLine": 297,
+        "endChar": 31
+      },
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d276564_c2539de7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-28T23:39:50Z",
+      "side": 1,
+      "message": "needOpen",
+      "range": {
+        "startLine": 299,
+        "startChar": 7,
+        "endLine": 299,
+        "endChar": 21
+      },
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5413a8f2_25a53ef4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-28T23:39:50Z",
+      "side": 1,
+      "message": "needOpen",
+      "range": {
+        "startLine": 316,
+        "startChar": 7,
+        "endLine": 316,
+        "endChar": 21
+      },
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b6c085d_18cc12a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-28T23:39:50Z",
+      "side": 1,
+      "message": "- calling pack.getPackFile().exists() doesn\u0027t work on NFS ?\n- do we need to call this if the packfile isn\u0027t located on a NFS volume ?",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 20
+      },
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db15ec86_01ef1892",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-05-28T23:39:50Z",
+      "side": 1,
+      "message": "don\u0027t we need to remove the pack from the transient pack list if the pack file does not exist ?",
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
