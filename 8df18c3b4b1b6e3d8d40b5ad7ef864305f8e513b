@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bafe6cc9_01ac14e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-05-28T09:38:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc73c5eb_ceed332c",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1805cb5d_6f289275",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "f521b97c_3cc7f5ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-05-28T09:38:28Z",
+      "side": 1,
+      "message": "\u003e The silent pruning isn\u0027t the problem. If any \"not this JGit process\" action (i.e. non-NFS same-host repacking) removed a packfile, it also isn\u0027t noticed. \n\nYes, the pruning is a consequence of the repacking.\n\n\u003e However, the OS keeps the file from actually being removed because it knows there\u0027s an open file handle. When you\u0027re on NFS that open file handle doesn\u0027t protect the file from deletion.\n\nYes, I will add the \"stale file handle\" case in the description.",
+      "parentUuid": "1805cb5d_6f289275",
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9988a75d_3e6b41fe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2021-05-28T02:49:58Z",
       "side": 1,
       "message": "This is racy. The pack could cease to exist moments after this call and before you reach the next line. Unless you\u0027re actually catching the stale file handle exceptions, you\u0027re not fixing the problem. Unfortunately, it looks like a lot of places use the packs returned by this call. Putting those all into try/catch blocks is going to be a pain.",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 20
+      },
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "329a3d15_34f6312d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-05-28T09:38:28Z",
+      "side": 1,
+      "message": "There are two classes of problem:\n\n1. Severe: the cached packfile keeps on being returned constantly, even if the underlying file handle is stale or the file had disappeared. Retry doesn\u0027t help, it will keep on failing until you restart the JVM (we had that failing for 3 days on one repository, until a Gerrit JVM restart fixed the issue)\n\n2. Moderate: the racy situation you described can absolutely happen and the cached packfile could exist when this method is called but moments later disappear or becoming stale when is accessed. A second retry would succeed because the getCachedPacksAndUpdate() will discard the in-memory packfile afterwards.\n\nThis change addresses the case 1. and does not address the case 2. I will clarify that in the commit message.\n\nI agree with you that solving 2. would provide the full solution and I agree again with you that is going to be painful and require some refactoring.\n\nI would go for 2. on master and NOT on stable-5.9, otherwise the merge upstream would become a real pain, as you rightly envisaged.",
+      "parentUuid": "9988a75d_3e6b41fe",
       "range": {
         "startLine": 102,
         "startChar": 7,
