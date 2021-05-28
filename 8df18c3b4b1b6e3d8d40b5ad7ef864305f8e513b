@@ -128,6 +128,30 @@
       "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c66c8be9_1f2e452c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-05-28T15:56:41Z",
+      "side": 1,
+      "message": "\u003e There are two classes of problem:\n\u003e \n\u003e 1. Severe: the cached packfile keeps on being returned constantly, even if the underlying file handle is stale or the file had disappeared. Retry doesn\u0027t help, it will keep on failing until you restart the JVM (we had that failing for 3 days on one repository, until a Gerrit JVM restart fixed the issue)\n\u003e \n\u003e 2. Moderate: the racy situation you described can absolutely happen and the cached packfile could exist when this method is called but moments later disappear or becoming stale when is accessed. A second retry would succeed because the getCachedPacksAndUpdate() will discard the in-memory packfile afterwards.\n\u003e \n\u003e This change addresses the case 1. and does not address the case 2. I will clarify that in the commit message.\n\nThanks for clarifying that, it helps me understand the situation better.\n\n\u003e \n\u003e I agree with you that solving 2. would provide the full solution and I agree again with you that is going to be painful and require some refactoring.\n\n+1\n\n\u003e \n\u003e I would go for 2. on master and NOT on stable-5.9, otherwise the merge upstream would become a real pain, as you rightly envisaged.\n\nWhile I agree the full solution is more work, I\u0027m really not a fan of this partial fix. JGit has had enough problems with raciness that I really think we should avoid adding more.\n\nThis is \"solved\" already in ObjectDirectory where the methods there accessing packs know how to consider a pack invalid and remove it from the cached list. It seems like the protocol v2 stuff broke that support by trying to go through a different code path. Can we address that directly with a fix there somehow?",
+      "parentUuid": "329a3d15_34f6312d",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 20
+      },
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
