@@ -17,6 +17,13 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.LongList;
+import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A pack file (or pack related) File.
@@ -104,7 +111,47 @@ public class PackFile extends File {
 			hasOldPrefix = old.equals(getExtPrefix(true));
 		}
 
+<<<<<<< HEAD
 		id = base.startsWith(PREFIX) ? base.substring(PREFIX.length()) : base;
+=======
+	/**
+	 * Check if an in-memory PackFile exists on the underlying filesystem.
+	 *
+	 * @return true if the PackFile exists, false otherwise
+	 * @throws IOException
+	 *             if the PackFile exists but failed to be read.
+	 */
+	@SuppressWarnings("nls")
+	public synchronized boolean exists() throws IOException {
+		RandomAccessFile fdOrig = fd;
+		try {
+			if (fdOrig == null) {
+				doOpen();
+			}
+			read(0, 1);
+			return true;
+		} catch (PackInvalidException | FileNotFoundException e) {
+			LOG.warn("Packfile {} is not accessible", packFile, e);
+			return false;
+		} catch (IOException e) {
+			if (FileUtils.isStaleFileHandle(e)
+					|| FileUtils.isStaleFileHandleInCausalChain(e)) {
+				LOG.warn("Packfile {} is pointing to a stale file handle",
+						packFile, e);
+				return false;
+			}
+			throw e;
+		} finally {
+			if (fdOrig == null) {
+				doClose();
+			}
+		}
+	}
+
+	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id, int matchLimit)
+			throws IOException {
+		idx().resolve(matches, id, matchLimit);
+>>>>>>> 90400ca1e... Verify packfile existence when returned from WindowCursor
 	}
 
 	/**
