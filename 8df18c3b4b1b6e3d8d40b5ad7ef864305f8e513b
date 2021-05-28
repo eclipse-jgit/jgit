@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc73c5eb_ceed332c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-05-28T02:49:58Z",
+      "side": 1,
+      "message": "s/as/an/ ?",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1805cb5d_6f289275",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-05-28T02:49:58Z",
+      "side": 1,
+      "message": "The silent pruning isn\u0027t the problem. If any \"not this JGit process\" action (i.e. non-NFS same-host repacking) removed a packfile, it also isn\u0027t noticed. However, the OS keeps the file from actually being removed because it knows there\u0027s an open file handle. When you\u0027re on NFS that open file handle doesn\u0027t protect the file from deletion.",
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9988a75d_3e6b41fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-05-28T02:49:58Z",
+      "side": 1,
+      "message": "This is racy. The pack could cease to exist moments after this call and before you reach the next line. Unless you\u0027re actually catching the stale file handle exceptions, you\u0027re not fixing the problem. Unfortunately, it looks like a lot of places use the packs returned by this call. Putting those all into try/catch blocks is going to be a pain.",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 20
+      },
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
