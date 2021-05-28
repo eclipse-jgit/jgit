@@ -152,6 +152,30 @@
       "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ca68066_85c903f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-05-28T19:17:20Z",
+      "side": 1,
+      "message": "\u003e \u003e I agree with you that solving 2. would provide the full solution and I agree again with you that is going to be painful and require some refactoring.\n\u003e \n\u003e +1\n\u003e \n\u003e \u003e \n\u003e \u003e I would go for 2. on master and NOT on stable-5.9, otherwise the merge upstream would become a real pain, as you rightly envisaged.\n\u003e \n\u003e While I agree the full solution is more work, I\u0027m really not a fan of this partial fix.\n\nNeither do I, that\u0027s why I proposed the 2. for master, whilst 1. can stay in a stable branch only.\n\n\u003e JGit has had enough problems with raciness that I really think we should avoid adding more.\n\nCouldn\u0027t agree more :-)\n\n\u003e This is \"solved\" already in ObjectDirectory where the methods there accessing packs know how to consider a pack invalid and remove it from the cached list. It seems like the protocol v2 stuff broke that support by trying to go through a different code path. Can we address that directly with a fix there somehow?\n\nYes, and that\u0027s why I was also surprised to see this problem happening. The reason why it happens here is because the pack is sent \u0027as-is\u0027 without being looked at in their individual objects. A fix in ObjectDirectory won\u0027t work for that reason.\n\nA refactoring would solve the issue, yes. Do we want a refactoring on stable-5.9 though?\n\n@Matthias what is your view on this?",
+      "parentUuid": "c66c8be9_1f2e452c",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 20
+      },
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
