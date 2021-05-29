@@ -200,6 +200,30 @@
       "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f189c439_9f431b48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-05-29T00:00:58Z",
+      "side": 1,
+      "message": "\u003e Can we fix this on master and decide what to backport when we know how the proper fix looks like ?\n\nSure, makes sense.\n\n\u003e Checking for existence is inherently racy since the file could be deleted immediately after exists() returned true.\n\nYep.\n\n\u003e I think the only way to avoid such race is to read the file where we need the data and handle the exception if that fails since the file is gone.\n\nYes, we need to backtrack and restart the process transparently when the file is gone, also removing the stale reference to the non-existent file in the in-memory cache.",
+      "parentUuid": "9ceadecb_08cd4c35",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 20
+      },
+      "revId": "8df18c3b4b1b6e3d8d40b5ad7ef864305f8e513b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
