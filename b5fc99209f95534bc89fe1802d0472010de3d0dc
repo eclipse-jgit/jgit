@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0124c7ff_2d2390b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-05-31T10:58:17Z",
+      "side": 1,
+      "message": "Ah, yes, I forgot that it does the heuristic version.\n\nanyway, since we are probably slowed down most by I/O (paging in the file through DFS), once you read through the file once, reading it another time is relatively cheap.",
+      "parentUuid": "809e2473_94baab8e",
+      "revId": "b5fc99209f95534bc89fe1802d0472010de3d0dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee527427_2abe2a55",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
         "patchSetId": 3
