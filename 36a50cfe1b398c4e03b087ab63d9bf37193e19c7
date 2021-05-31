@@ -22,6 +22,30 @@
       "revId": "36a50cfe1b398c4e03b087ab63d9bf37193e19c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d30a05d9_b400eda8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RenameDetectorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 301491
+      },
+      "writtenOn": "2021-05-31T11:49:08Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "88a2c354_c3d744fa",
+      "range": {
+        "startLine": 600,
+        "startChar": 1,
+        "endLine": 601,
+        "endChar": 48
+      },
+      "revId": "36a50cfe1b398c4e03b087ab63d9bf37193e19c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
