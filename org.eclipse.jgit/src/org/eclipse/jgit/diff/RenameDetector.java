@@ -104,6 +104,13 @@ public class RenameDetector {
 	 */
 	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
+	/**
+	 * Skip detecting content renames for binary files. Content renames are
+	 * those that are not exact, that is with a slight content modification
+	 * between the two files.
+	 */
+	private boolean skipContentRenamesForBinaryFiles = false;
+
 	/** Set if the number of adds or deletes was over the limit. */
 	private boolean overRenameLimit;
 
@@ -233,6 +240,26 @@ public class RenameDetector {
 	 */
 	public void setBigFileThreshold(int threshold) {
 		this.bigFileThreshold = threshold;
+	}
+
+	/**
+	 * Get skipping detecting content renames for binary files.
+	 *
+	 * @return true if content renames should be skipped for binary files, false otherwise.
+	 * @since 5.12
+	 */
+	public boolean getSkipContentRenamesForBinaryFiles() {
+		return skipContentRenamesForBinaryFiles;
+	}
+
+	/**
+	 * Sets skipping detecting content renames for binary files.
+	 *
+	 * @param value true if content renames should be skipped for binary files, false otherwise.
+	 * @since 5.12
+	 */
+	public void setSkipContentRenamesForBinaryFiles(boolean value) {
+		this.skipContentRenamesForBinaryFiles = value;
 	}
 
 	/**
@@ -521,6 +548,7 @@ public class RenameDetector {
 			d = new SimilarityRenameDetector(reader, deleted, added);
 			d.setRenameScore(getRenameScore());
 			d.setBigFileThreshold(getBigFileThreshold());
+			d.setSkipBinaryFiles(getSkipContentRenamesForBinaryFiles());
 			d.compute(pm);
 			overRenameLimit |= d.isTableOverflow();
 			deleted = d.getLeftOverSources();

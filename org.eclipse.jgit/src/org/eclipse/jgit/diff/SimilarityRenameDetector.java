@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
 class SimilarityRenameDetector {
@@ -87,6 +88,9 @@ class SimilarityRenameDetector {
 	 */
 	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
+	/** Skip content renames for binary files. */
+	private boolean skipBinaryFiles = false;
+
 	/** Set if any {@link SimilarityIndex.TableFullException} occurs. */
 	private boolean tableOverflow;
 
@@ -105,6 +109,10 @@ class SimilarityRenameDetector {
 
 	void setBigFileThreshold(int threshold) {
 		bigFileThreshold = threshold;
+	}
+
+	void setSkipBinaryFiles(boolean value) {
+		skipBinaryFiles = value;
 	}
 
 	void compute(ProgressMonitor pm) throws IOException, CancelledException {
@@ -271,7 +279,12 @@ class SimilarityRenameDetector {
 
 				if (s == null) {
 					try {
-						s = hash(OLD, srcEnt);
+						ObjectLoader loader = reader.open(OLD, srcEnt);
+						if (skipBinaryFiles && SimilarityIndex.isBinary(loader)) {
+							pm.update(1);
+							continue SRC;
+						}
+						s = hash(loader);
 					} catch (TableFullException tableFull) {
 						tableOverflow = true;
 						continue SRC;
@@ -280,7 +293,12 @@ class SimilarityRenameDetector {
 
 				SimilarityIndex d;
 				try {
-					d = hash(NEW, dstEnt);
+					ObjectLoader loader = reader.open(NEW, dstEnt);
+					if (skipBinaryFiles && SimilarityIndex.isBinary(loader)) {
+						pm.update(1);
+						continue;
+					}
+					d = hash(loader);
 				} catch (TableFullException tableFull) {
 					if (dstTooLarge == null)
 						dstTooLarge = new BitSet(dsts.size());
@@ -364,10 +382,10 @@ class SimilarityRenameDetector {
 		return (((dirScoreLtr + dirScoreRtl) * 25) + (fileScore * 50)) / 100;
 	}
 
-	private SimilarityIndex hash(DiffEntry.Side side, DiffEntry ent)
+	private SimilarityIndex hash(ObjectLoader objectLoader)
 			throws IOException, TableFullException {
 		SimilarityIndex r = new SimilarityIndex();
-		r.hash(reader.open(side, ent));
+		r.hash(objectLoader);
 		r.sort();
 		return r;
 	}
