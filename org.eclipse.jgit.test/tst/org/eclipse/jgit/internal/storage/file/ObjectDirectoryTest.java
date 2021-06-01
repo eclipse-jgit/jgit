@@ -210,6 +210,30 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				IOException.class, () -> dir.getShallowCommits());
 	}
 
+	@Test
+	public void testLooseObjectStaleFileHandle() throws Exception {
+		// Create a repository (pointing to the same directory as `db`), so that
+		// we can perform GC on it.
+		FileRepository repoReceivingGC = new FileRepository(db.getDirectory());
+
+		GC externalGC = new GC(repoReceivingGC);
+		externalGC.setExpireAgeMillis(0);
+		externalGC.setPackExpireAgeMillis(0);
+
+		// Create loose objects (1 blob, 1 tree, 1 commit)
+		ObjectId id = commitFile("file.txt", "test", "master").getId();
+
+		// Perform GC on repoReceivingGC: this will cause loose objects to be packed
+		// and (because of the expireAge, immediately pruned). However the `db` repo
+		// still has a view on those objects (i.e. it is unaware of them being
+		// removed by the GC).
+		externalGC.gc();
+
+		// Do we expect this to throw an exception? it doesn't: LooseObjects.open()
+		// catches the exception and returns null
+		db.getObjectDatabase().openObject(new WindowCursor(db.getObjectDatabase()), id);
+	}
+
 	private Collection<Callable<ObjectId>> blobInsertersForTheSameFanOutDir(
 			final ObjectDirectory dir) {
 		Callable<ObjectId> callable = () -> dir.newInserter()
