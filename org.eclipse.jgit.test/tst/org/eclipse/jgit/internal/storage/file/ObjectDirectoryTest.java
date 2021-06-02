@@ -44,8 +44,12 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +73,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Assume;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class ObjectDirectoryTest extends RepositoryTestCase {
 
@@ -192,6 +197,35 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		Set<ObjectId> shallowCommits = dir.getShallowCommits();
 		assertTrue(shallowCommits.remove(ObjectId.fromString(commit)));
 		assertTrue(shallowCommits.isEmpty());
+	}
+
+	@Test
+	public void testOpenLooseObjectSuppressStaleFileHandleException() throws Exception {
+		ObjectId id = ObjectId.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b");
+		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
+
+		ObjectDirectory mock = mock(ObjectDirectory.class);
+		UnpackedObjectCache unpackedObjectCacheMock = mock(UnpackedObjectCache.class);
+
+		Mockito.when(mock.getObjectLoader(any(), any(), any())).thenThrow(new IOException("Stale File Handle"));
+		Mockito.when(mock.openLooseObject(curs, id)).thenCallRealMethod();
+		Mockito.when(mock.unpackedObjectCache()).thenReturn(unpackedObjectCacheMock);
+
+		assertNull(mock.openLooseObject(curs, id));
+		verify(unpackedObjectCacheMock).remove(id);
+	}
+
+	@Test
+	public void testOpenLooseObjectPropagatesIOExceptions() throws Exception {
+		ObjectId id = ObjectId.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b");
+		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
+
+		ObjectDirectory mock = mock(ObjectDirectory.class);
+
+		Mockito.when(mock.getObjectLoader(any(), any(), any())).thenThrow(new IOException("some IO failure"));
+		Mockito.when(mock.openLooseObject(curs, id)).thenCallRealMethod();
+
+		assertThrows(IOException.class, () -> mock.openLooseObject(curs, id));
 	}
 
 	@Test

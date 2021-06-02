@@ -85,6 +85,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** Maximum number of candidates offered as resolutions of abbreviation. */
 	private static final int RESOLVE_ABBREV_LIMIT = 256;
 
+	/** Maximum number of attempts to read a loose object for which a stale file
+	 *  handle exception is thrown */
+	final static int MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS = 5;
+
 	private final AlternateHandle handle = new AlternateHandle(this);
 
 	private final Config config;
@@ -212,7 +216,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public void close() {
-		unpackedObjectCache.clear();
+		unpackedObjectCache().clear();
 
 		final PackList packs = packList.get();
 		if (packs != NO_PACKS && packList.compareAndSet(packs, NO_PACKS)) {
@@ -277,7 +281,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) {
-		return unpackedObjectCache.isUnpacked(objectId)
+		return unpackedObjectCache().isUnpacked(objectId)
 				|| hasPackedInSelfOrAlternate(objectId, null)
 				|| hasLooseInSelfOrAlternate(objectId, null);
 	}
@@ -395,7 +399,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
-		if (unpackedObjectCache.isUnpacked(objectId)) {
+		if (unpackedObjectCache().isUnpacked(objectId)) {
 			ObjectLoader ldr = openLooseObject(curs, objectId);
 			if (ldr != null) {
 				return ldr;
@@ -471,25 +475,67 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	ObjectLoader openLooseObject(WindowCursor curs, AnyObjectId id)
-			throws IOException {
-		File path = fileFor(id);
-		try (FileInputStream in = new FileInputStream(path)) {
-			unpackedObjectCache.add(id);
-			return UnpackedObject.open(in, path, id, curs);
-		} catch (FileNotFoundException noFile) {
-			if (path.exists()) {
-				throw noFile;
+	ObjectLoader openLooseObject(WindowCursor curs, AnyObjectId id) throws IOException {
+		int readAttempts = 0;
+
+		while (readAttempts < MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS) {
+			readAttempts++;
+			File path = fileFor(id);
+			try {
+				return getObjectLoader(curs, path, id);
+			} catch (FileNotFoundException noFile) {
+				if (path.exists()) {
+					throw noFile;
+				}
+				break;
+			} catch (IOException e) {
+				if (!FileUtils.isStaleFileHandleInCausalChain(e)) {
+					throw e;
+				}
+				if (LOG.isDebugEnabled()) {
+					LOG.debug(
+						MessageFormat.format(
+							JGitText.get().looseObjectHandleIsStale,
+							id.name(),
+							readAttempts,
+							MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS));
+				}
 			}
-			unpackedObjectCache.remove(id);
-			return null;
 		}
+		unpackedObjectCache().remove(id);
+		return null;
+	}
+
+	/**
+	 * Provides a loader for an objectId
+	 * @param curs cursor on the database
+	 * @param path the path of the loose object
+	 * @param id the object id
+	 * @return a loader for the loose file object
+	 * @throws IOException when file does not exist or it could not be opened
+	 */
+	ObjectLoader getObjectLoader(WindowCursor curs, File path, AnyObjectId id) throws IOException {
+		try (FileInputStream in = new FileInputStream(path)) {
+			unpackedObjectCache().add(id);
+			return UnpackedObject.open(in, path, id, curs);
+		}
+	}
+
+	/**
+	 * <p>Getter for the field <code>unpackedObjectCache</code>.</p>
+	 * This accessor is particularly useful to allow mocking of this class
+	 * for testing purposes.
+	 *
+	 * @return the cache of the objects currently unpacked.
+	 */
+	UnpackedObjectCache unpackedObjectCache() {
+		return unpackedObjectCache;
 	}
 
 	@Override
 	long getObjectSize(WindowCursor curs, AnyObjectId id)
 			throws IOException {
-		if (unpackedObjectCache.isUnpacked(id)) {
+		if (unpackedObjectCache().isUnpacked(id)) {
 			long len = getLooseObjectSize(curs, id);
 			if (0 <= len) {
 				return len;
@@ -567,13 +613,13 @@ public class ObjectDirectory extends FileObjectDatabase {
 			throws IOException {
 		File f = fileFor(id);
 		try (FileInputStream in = new FileInputStream(f)) {
-			unpackedObjectCache.add(id);
+			unpackedObjectCache().add(id);
 			return UnpackedObject.getSize(in, id, curs);
 		} catch (FileNotFoundException noFile) {
 			if (f.exists()) {
 				throw noFile;
 			}
-			unpackedObjectCache.remove(id);
+			unpackedObjectCache().remove(id);
 			return -1;
 		}
 	}
@@ -667,7 +713,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			boolean createDuplicate) throws IOException {
 		// If the object is already in the repository, remove temporary file.
 		//
-		if (unpackedObjectCache.isUnpacked(id)) {
+		if (unpackedObjectCache().isUnpacked(id)) {
 			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
@@ -723,7 +769,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
 				StandardCopyOption.ATOMIC_MOVE);
 		dst.setReadOnly();
-		unpackedObjectCache.add(id);
+		unpackedObjectCache().add(id);
 		return InsertLooseObjectResult.INSERTED;
 	}
 
