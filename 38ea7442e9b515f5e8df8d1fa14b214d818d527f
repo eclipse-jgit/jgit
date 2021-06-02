@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c659c5d4_3f936f1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-02T17:35:12Z",
+      "side": 1,
+      "message": "I believe we already a way to detect an an IOException is a stable file handle in FileUtils.",
+      "range": {
+        "startLine": 487,
+        "startChar": 6,
+        "endLine": 487,
+        "endChar": 51
+      },
+      "revId": "38ea7442e9b515f5e8df8d1fa14b214d818d527f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1084ef4_ec2be2dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-02T17:35:12Z",
+      "side": 1,
+      "message": "What is the purpose of this function?",
+      "range": {
+        "startLine": 502,
+        "startChar": 0,
+        "endLine": 504,
+        "endChar": 2
+      },
+      "revId": "38ea7442e9b515f5e8df8d1fa14b214d818d527f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
