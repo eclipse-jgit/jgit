@@ -482,12 +482,18 @@ public class OpenSshConfigFile implements SshConfigStore {
 
 		private final List<String> patterns;
 
-		// Constructor used to build the merged entry; never matches anything
-		HostEntry() {
+		/**
+		 * Constructor used to build the merged entry; never matches anything
+		 */
+		public HostEntry() {
 			this.patterns = Collections.emptyList();
 		}
 
-		HostEntry(List<String> patterns) {
+		/**
+		 * @param patterns
+		 *            to be used in matching against host name.
+		 */
+		public HostEntry(List<String> patterns) {
 			this.patterns = patterns;
 		}
 
