@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jetty-server-9.4.30.v20200611_6f108962">
+    <CLASSES>
+      <root url="jar:///private/var/tmp/_bazel_syntonyze/2f13f93175a42a0920e1e0626fe3c462/external/jetty-server/jar/jetty-server-9.4.30.v20200611.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

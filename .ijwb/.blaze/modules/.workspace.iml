@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.system.id="Blaze" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.archive/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.benchmarks/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.gpg.bc.test/tst" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.gpg.bc/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.http.apache/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.http.server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.http.test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.http.test/tst" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.junit.http/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.junit.ssh/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.junit/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.lfs.server.test/tst" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.lfs.server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.lfs.test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.lfs.test/tst" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.lfs/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.pgm.test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.pgm.test/tst" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.pgm/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.ssh.apache.test/tst" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.ssh.apache/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.ssh.jsch.test/tst" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.ssh.jsch/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.test/tst" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit.ui/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../org.eclipse.jgit/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-genfiles" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-out" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-testlogs" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-jgit" />
+      <excludeFolder url="file://$MODULE_DIR$/../.." />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="httpcore-4.4.12_4e274ff7" level="project" />
+    <orderEntry type="library" name="jetty-servlet-9.4.30.v20200611_d2cee59e" level="project" />
+    <orderEntry type="library" name="commons-compress-1.19_24609777" level="project" />
+    <orderEntry type="library" name="jsch-0.1.55_f9c8dbe" level="project" />
+    <orderEntry type="library" name="sshd-sftp-2.4.0_3be51c28" level="project" />
+    <orderEntry type="library" name="assertj-core-3.14.0_2c63bb38" level="project" />
+    <orderEntry type="library" name="jetty-server-9.4.30.v20200611_6f108962" level="project" />
+    <orderEntry type="library" name="bcprov-jdk15on-1.65.01_7953aa7a" level="project" />
+    <orderEntry type="library" name="sshd-osgi-2.4.0_357fc65f" level="project" />
+    <orderEntry type="library" name="hamcrest-core-1.3_b7f41851" level="project" />
+    <orderEntry type="library" name="jgit_4ae6bdf8" level="project" />
+    <orderEntry type="library" name="javaewah-1.1.7_e33dcf4b" level="project" />
+    <orderEntry type="library" name="gson-2.8.2_ecc7bb9b" level="project" />
+    <orderEntry type="library" name="jmh-core-1.21_9ef5cb7" level="project" />
+    <orderEntry type="library" name="bcpg-jdk15on-1.65_98505b48" level="project" />
+    <orderEntry type="library" name="jetty-util-9.4.30.v20200611_f7febb61" level="project" />
+    <orderEntry type="library" name="hamcrest-core-1.3-ijar_d7d5a48a" level="project" />
+    <orderEntry type="library" name="hamcrest-library-1.3-ijar_36cc60bc" level="project" />
+    <orderEntry type="library" name="mockito-core-2.23.0_ee60dd22" level="project" />
+    <orderEntry type="library" name="args4j-2.33_5db15b23" level="project" />
+    <orderEntry type="library" name="hamcrest-library-1.3_c6e76461" level="project" />
+    <orderEntry type="library" name="jetty-security-9.4.30.v20200611_e953d21f" level="project" />
+    <orderEntry type="library" name="junit-4.13-ijar_dbb812af" level="project" />
+    <orderEntry type="library" name="javax.servlet-api-3.1.0_42609eda" level="project" />
+    <orderEntry type="library" name="httpclient-4.5.10_69d2bb23" level="project" />
+    <orderEntry type="library" name="junit-4.13_ff028c36" level="project" />
+    <orderEntry type="library" name="slf4j-api-1.7.2_d3ab3ed9" level="project" />
+    <orderEntry type="library" name="jetty-http-9.4.30.v20200611_c48d20e7" level="project" />
+    <orderEntry type="library" name="benchmarks-gen_382e94cc" level="project" />
+  </component>
+</module>

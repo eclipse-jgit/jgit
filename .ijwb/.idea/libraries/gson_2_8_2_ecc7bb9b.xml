@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="gson-2.8.2_ecc7bb9b">
+    <CLASSES>
+      <root url="jar:///private/var/tmp/_bazel_syntonyze/2f13f93175a42a0920e1e0626fe3c462/external/gson/jar/gson-2.8.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="slf4j-api-1.7.2_d3ab3ed9">
+    <CLASSES>
+      <root url="jar:///private/var/tmp/_bazel_syntonyze/2f13f93175a42a0920e1e0626fe3c462/external/log-api/jar/slf4j-api-1.7.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

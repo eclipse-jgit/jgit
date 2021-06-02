@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sshd-osgi-2.4.0_357fc65f">
+    <CLASSES>
+      <root url="jar:///private/var/tmp/_bazel_syntonyze/2f13f93175a42a0920e1e0626fe3c462/external/sshd-osgi/jar/sshd-osgi-2.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

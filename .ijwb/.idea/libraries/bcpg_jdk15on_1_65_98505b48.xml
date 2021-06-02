@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="bcpg-jdk15on-1.65_98505b48">
+    <CLASSES>
+      <root url="jar:///private/var/tmp/_bazel_syntonyze/2f13f93175a42a0920e1e0626fe3c462/external/bcpg/jar/bcpg-jdk15on-1.65.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
