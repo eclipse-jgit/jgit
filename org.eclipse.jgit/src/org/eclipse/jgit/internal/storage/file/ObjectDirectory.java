@@ -28,6 +28,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -37,6 +43,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
@@ -45,6 +52,8 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Traditional file system based {@link org.eclipse.jgit.lib.ObjectDatabase}.
@@ -65,6 +74,8 @@ import org.eclipse.jgit.util.FileUtils;
  * considered.
  */
 public class ObjectDirectory extends FileObjectDatabase {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(ObjectDirectory.class);
 	/** Maximum number of candidates offered as resolutions of abbreviation. */
 	private static final int RESOLVE_ABBREV_LIMIT = 256;
 
@@ -464,13 +475,47 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs, Set<AlternateHandle.Id> skips) throws IOException {
-		packed.selectRepresentation(packer, otp, curs);
+
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+
+		long selectObjectMaxTimeMSec = packer.getFindBestPackRepresentation()
+				? Long.MAX_VALUE
+				: config.getLong(
+					ConfigConstants.CONFIG_PACK_SECTION,
+					ConfigConstants.CONFIG_KEY_SELECT_OBJECT_MAX_TIME_MSEC, Long.MAX_VALUE);
+
+		try {
+			executor
+				.submit(new SelectRepresentationTask(packer, otp, curs))
+				.get(selectObjectMaxTimeMSec, TimeUnit.MILLISECONDS);
+		} catch (TimeoutException toe) {
+			LOG.warn("Giving up object selection. It is taking more than " + selectObjectMaxTimeMSec + "ms", toe);
+		} catch (InterruptedException | ExecutionException e) {
+			LOG.error("Cannot select objects representation for " + otp.getName(), e);
+		}
 
 		skips = addMe(skips);
 		for (AlternateHandle h : myAlternates()) {
 			if (!skips.contains(h.getId())) {
 				h.db.selectObjectRepresentation(packer, otp, curs, skips);
 			}
+		}
+	}
+
+	class SelectRepresentationTask implements Callable<Void> {
+		private final PackWriter packer;
+		private final ObjectToPack otp;
+		private final WindowCursor curs;
+
+		SelectRepresentationTask(PackWriter packer, ObjectToPack otp, WindowCursor curs) {
+			this.packer = packer;
+			this.otp = otp;
+			this.curs = curs;
+		}
+		@Override
+		public Void call() throws Exception {
+			packed.selectRepresentation(packer, otp, curs);
+			return null;
 		}
 	}
 
