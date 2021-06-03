@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e9656ef_2099fb8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-03T07:48:58Z",
+      "side": 1,
+      "message": "thanks a lot Luca, that\u0027s much better 😊",
+      "parentUuid": "c659c5d4_3f936f1d",
+      "range": {
+        "startLine": 487,
+        "startChar": 6,
+        "endLine": 487,
+        "endChar": 51
+      },
+      "revId": "38ea7442e9b515f5e8df8d1fa14b214d818d527f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1084ef4_ec2be2dd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2021-06-02T17:35:12Z",
       "side": 1,
       "message": "What is the purpose of this function?",
+      "range": {
+        "startLine": 502,
+        "startChar": 0,
+        "endLine": 504,
+        "endChar": 2
+      },
+      "revId": "38ea7442e9b515f5e8df8d1fa14b214d818d527f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a6a4a4d_2c2914fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-03T07:48:58Z",
+      "side": 1,
+      "message": "Accessing the unpackedObjectCache through this getter allows to provide a specific unpackedObjectCache *from* the test[1].\n\nObjectDirectory has some hidden dependencies (i.e. not injected via constructor). For example the opening of the loose object was done via static method: UnpackedObject.open.\n\nIn order to test the ObjectDirectory and simulate the stale file handle I created some accessor method so that I can inject from the test using mockito.\n\nHopefully it will make sense when you look at the tests.\n\n[1]https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/95/181295/1/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java#213",
+      "parentUuid": "c1084ef4_ec2be2dd",
       "range": {
         "startLine": 502,
         "startChar": 0,
