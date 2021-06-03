@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -54,6 +55,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
@@ -262,6 +264,12 @@ public class PackWriter implements AutoCloseable {
 
 	private boolean indexDisabled;
 
+	private boolean checkSearchForReuseTimeout = false;
+
+	private final Duration searchForReuseTimeout;
+
+	private long searchForReuseStartTimeEpoc;
+
 	private int depth;
 
 	private Collection<? extends ObjectId> unshallowObjects;
@@ -356,6 +364,7 @@ public class PackWriter implements AutoCloseable {
 
 		deltaBaseAsOffset = config.isDeltaBaseAsOffset();
 		reuseDeltas = config.isReuseDeltas();
+		searchForReuseTimeout = config.getSearchForReuseTimeout();
 		reuseValidate = true; // be paranoid by default
 		stats = statsAccumulator != null ? statsAccumulator
 				: new PackStatistics.Accumulator();
@@ -405,6 +414,23 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * Check whether the search for reuse phase is taking too long.
+	 * This could be the case when the number of objects and pack files is high
+	 * and the system is under pressure.
+	 *
+	 * @throws SearchForReuseTimeout
+	 * 			if the search for reuse is taking too long.
+	 */
+	public void killSlowSearchForReuse() throws SearchForReuseTimeout {
+		if(checkSearchForReuseTimeout &&
+			Duration.ofSeconds(
+				System.currentTimeMillis() - searchForReuseStartTimeEpoc
+			).compareTo(searchForReuseTimeout) > 0) {
+			throw new SearchForReuseTimeout(searchForReuseTimeout);
+		}
+	}
+
+	/**
 	 * Set writer delta base format. Delta base can be written as an offset in a
 	 * pack file (new approach reducing file size) or as an object id (legacy
 	 * approach, compatible with old readers).
@@ -417,6 +443,29 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public void setDeltaBaseAsOffset(boolean deltaBaseAsOffset) {
 		this.deltaBaseAsOffset = deltaBaseAsOffset;
+	}
+
+	/**
+	 * Set the writer to check for long search for reuse, exceeding the timeout.
+	 * Selecting an object representation can be an expensive operation.
+	 * It is possible to set a max search for reuse time (see
+	 * PackConfig#CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT for
+	 * more details).
+	 *
+	 * However some operations, i.e.: GC, need to find the best candidate
+	 * regardless the complexity of the operation.
+	 *
+	 * This value allows to bypass any configuration that might limit the
+	 * object candidate search.
+	 *
+	 * Default setting: {@code true}
+	 *
+	 * @param checkSearchForReuseTimeout
+	 *            boolean indicating whether forcing the search for the best
+	 *            object candidate.
+	 */
+	public void setCheckSearchForReuseTimeout(boolean checkSearchForReuseTimeout) {
+		this.checkSearchForReuseTimeout = checkSearchForReuseTimeout;
 	}
 
 	/**
@@ -1306,6 +1355,7 @@ public class PackWriter implements AutoCloseable {
 		cnt += objectsLists[OBJ_TAG].size();
 
 		long start = System.currentTimeMillis();
+		searchForReuseStartTimeEpoc = start;
 		beginPhase(PackingPhase.FINDING_SOURCES, monitor, cnt);
 		if (cnt <= 4096) {
 			// For small object counts, do everything as one list.

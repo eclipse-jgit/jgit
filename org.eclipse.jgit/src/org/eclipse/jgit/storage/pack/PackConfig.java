@@ -29,6 +29,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_DELTAS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_OBJECTS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SINGLE_PACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
@@ -36,7 +37,9 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 
+import java.time.Duration;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
@@ -222,6 +225,14 @@ public class PackConfig {
 	 */
 	public static final int DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS = 90;
 
+	/**
+	 * Default max time to spend during the search for reuse phase.
+	 * This optimization is disabled by default: {@value}
+	 *
+	 * @see #setSearchForReuseTimeout(Duration)
+	 */
+	public static final Duration DEFAULT_SEARCH_FOR_REUSE_TIMEOUT = Duration.ofSeconds(Integer.MAX_VALUE);
+
 	private int compressionLevel = Deflater.DEFAULT_COMPRESSION;
 
 	private boolean reuseDeltas = DEFAULT_REUSE_DELTAS;
@@ -271,6 +282,8 @@ public class PackConfig {
 	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
 
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
+
+	private Duration searchForReuseTimeout = DEFAULT_SEARCH_FOR_REUSE_TIMEOUT;
 
 	private boolean cutDeltaChains;
 
@@ -342,6 +355,7 @@ public class PackConfig {
 		this.bitmapInactiveBranchAgeInDays = cfg.bitmapInactiveBranchAgeInDays;
 		this.cutDeltaChains = cfg.cutDeltaChains;
 		this.singlePack = cfg.singlePack;
+		this.searchForReuseTimeout = cfg.searchForReuseTimeout;
 	}
 
 	/**
@@ -1104,6 +1118,17 @@ public class PackConfig {
 	}
 
 	/**
+	 * Get the max time in seconds to spend during the search for reuse phase.
+	 *
+	 * Default setting: {@value #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
+	 *
+	 * @return the number of max seconds to spend during the search for reuse phase.
+	 */
+	public Duration getSearchForReuseTimeout() {
+		return searchForReuseTimeout;
+	}
+
+	/**
 	 * Set the age in days that marks a branch as "inactive".
 	 *
 	 * Default setting: {@value #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
@@ -1114,6 +1139,18 @@ public class PackConfig {
 	 */
 	public void setBitmapInactiveBranchAgeInDays(int ageInDays) {
 		bitmapInactiveBranchAgeInDays = ageInDays;
+	}
+
+	/**
+	 * Set the max time in seconds to spend during the search for reuse phase.
+	 *
+	 * @param timeout
+	 *            max time allowed during the search for reuse phase
+	 *
+	 *            Default setting: {@value #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
+	 */
+	public void setSearchForReuseTimeout(Duration timeout) {
+		searchForReuseTimeout = timeout;
 	}
 
 	/**
@@ -1179,6 +1216,10 @@ public class PackConfig {
 		setBitmapInactiveBranchAgeInDays(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS,
 				getBitmapInactiveBranchAgeInDays()));
+		setSearchForReuseTimeout(Duration.ofSeconds(rc.getTimeUnit(
+				CONFIG_PACK_SECTION, null,
+				CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT,
+				getSearchForReuseTimeout().toSeconds(), TimeUnit.SECONDS)));
 		setWaitPreventRacyPack(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_WAIT_PREVENT_RACYPACK, isWaitPreventRacyPack()));
 		setMinSizePreventRacyPack(rc.getLong(CONFIG_PACK_SECTION,
@@ -1216,6 +1257,8 @@ public class PackConfig {
 				.append(getBitmapExcessiveBranchCount());
 		b.append(", bitmapInactiveBranchAge=") //$NON-NLS-1$
 				.append(getBitmapInactiveBranchAgeInDays());
+		b.append(", searchForReuseTimeout") //$NON-NLS-1$
+				.append(getSearchForReuseTimeout());
 		b.append(", singlePack=").append(getSinglePack()); //$NON-NLS-1$
 		return b.toString();
 	}
