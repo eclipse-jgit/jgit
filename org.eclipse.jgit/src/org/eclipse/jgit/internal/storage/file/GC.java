@@ -1145,12 +1145,14 @@ public class GC {
 			}
 			return Integer.signum(o1.hashCode() - o2.hashCode());
 		});
+
 		try (PackWriter pw = new PackWriter(
 				pconfig,
 				repo.newObjectReader())) {
 			// prepare the PackWriter
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
+			pw.setFindBestPackRepresentation(true);
 			if (tagTargets != null) {
 				pw.setTagTargets(tagTargets);
 			}

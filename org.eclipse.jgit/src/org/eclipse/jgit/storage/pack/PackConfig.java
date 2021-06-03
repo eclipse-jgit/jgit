@@ -29,6 +29,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_DELTAS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_OBJECTS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SINGLE_PACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
@@ -211,6 +212,8 @@ public class PackConfig {
 	 */
 	public static final int DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT = 100;
 
+	public static final int DEFAULT_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN = Integer.MAX_VALUE;
+
 	/**
 	 * Default age at which a branch is considered inactive. Age is taken as the
 	 * number of days ago that the most recent commit was made to a branch. Only
@@ -271,6 +274,8 @@ public class PackConfig {
 	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
 
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
+
+	private int searchForReuseMaxPackFilesToScan = DEFAULT_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN;
 
 	private boolean cutDeltaChains;
 
@@ -342,6 +347,7 @@ public class PackConfig {
 		this.bitmapInactiveBranchAgeInDays = cfg.bitmapInactiveBranchAgeInDays;
 		this.cutDeltaChains = cfg.cutDeltaChains;
 		this.singlePack = cfg.singlePack;
+		this.searchForReuseMaxPackFilesToScan = cfg.searchForReuseMaxPackFilesToScan;
 	}
 
 	/**
@@ -1103,6 +1109,10 @@ public class PackConfig {
 		return bitmapInactiveBranchAgeInDays;
 	}
 
+	public int getSearchForReuseMaxPackFilesToScan() {
+		return searchForReuseMaxPackFilesToScan;
+	}
+
 	/**
 	 * Set the age in days that marks a branch as "inactive".
 	 *
@@ -1114,6 +1124,10 @@ public class PackConfig {
 	 */
 	public void setBitmapInactiveBranchAgeInDays(int ageInDays) {
 		bitmapInactiveBranchAgeInDays = ageInDays;
+	}
+
+	public void setSearchForReuseMaxPackFilesToScan(int maxPackFilesToScan) {
+		searchForReuseMaxPackFilesToScan = maxPackFilesToScan;
 	}
 
 	/**
@@ -1179,6 +1193,9 @@ public class PackConfig {
 		setBitmapInactiveBranchAgeInDays(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS,
 				getBitmapInactiveBranchAgeInDays()));
+		setSearchForReuseMaxPackFilesToScan(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN,
+				getSearchForReuseMaxPackFilesToScan()));
 		setWaitPreventRacyPack(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_WAIT_PREVENT_RACYPACK, isWaitPreventRacyPack()));
 		setMinSizePreventRacyPack(rc.getLong(CONFIG_PACK_SECTION,
@@ -1216,6 +1233,8 @@ public class PackConfig {
 				.append(getBitmapExcessiveBranchCount());
 		b.append(", bitmapInactiveBranchAge=") //$NON-NLS-1$
 				.append(getBitmapInactiveBranchAgeInDays());
+		b.append(", searchForReuseMaxPackfilesToScan=") //$NON-NLS-1$
+				.append(getSearchForReuseMaxPackFilesToScan());
 		b.append(", singlePack=").append(getSinglePack()); //$NON-NLS-1$
 		return b.toString();
 	}
