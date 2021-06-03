@@ -736,4 +736,7 @@ public final class ConfigConstants {
 	 * @since 5.11
 	 */
 	public static final String CONFIG_KEY_DEFAULT_BRANCH = "defaultbranch";
+
+	public static final String CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN = "searchForReuseMaxPackfilesToScan";
+
 }
