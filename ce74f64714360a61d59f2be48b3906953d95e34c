@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ee178a4_b9d20e78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-03T14:08:15Z",
+      "side": 1,
+      "message": "Do we want to log this condition somehow? Maybe Debug? It would be useful to have some traces of what happened and being able to display the exception, without spamming of course the logs.",
+      "revId": "ce74f64714360a61d59f2be48b3906953d95e34c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
