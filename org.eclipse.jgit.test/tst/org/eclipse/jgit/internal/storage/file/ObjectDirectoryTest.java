@@ -64,6 +64,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -82,6 +83,33 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				f.get();
 			}
 		}
+	}
+
+	@Test
+	public void testLooseObjectStaleFileHandle() throws Exception {
+		WindowCursor repo1Cur = new WindowCursor(db.getObjectDatabase());
+
+		GC externalGCOnRepo = new GC(db);
+
+		externalGCOnRepo.setExpireAgeMillis(1000000);
+		externalGCOnRepo.setPackExpireAgeMillis(1000000);
+
+		ObjectId id = commitFile("file.txt", "test", "master").getId();
+		for (int i = 0; i < 100; i++) {
+			externalGCOnRepo.gc();
+			commitFile("file" + i +".txt", "test " + i, "master").getId();
+		}
+
+		for (int i = 0; i < 100; i++) {
+			commitFile("another-file" + i + ".txt", "test " + i, "master").getId();
+		}
+
+		System.out.println("Start GC");
+		long start_time = System.currentTimeMillis();
+		externalGCOnRepo.gc();
+		long end_time = System.currentTimeMillis();
+		double difference = (end_time - start_time);
+		System.out.println("End GC in " + difference);
 	}
 
 	/**
@@ -112,6 +140,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		try (FileRepository receivingDB = new FileRepository(
 				db.getDirectory())) {
 			// set trustfolderstat to true. If set to false the test always
+			// succeeds.
 			// succeeds.
 			FileBasedConfig cfg = receivingDB.getConfig();
 			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
