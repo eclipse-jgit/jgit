@@ -141,6 +141,30 @@
       "revId": "38ea7442e9b515f5e8df8d1fa14b214d818d527f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b54c876c_2dbcc204",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-03T15:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff2a0cda_0e6528c4",
+      "range": {
+        "startLine": 502,
+        "startChar": 0,
+        "endLine": 504,
+        "endChar": 2
+      },
+      "revId": "38ea7442e9b515f5e8df8d1fa14b214d818d527f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
