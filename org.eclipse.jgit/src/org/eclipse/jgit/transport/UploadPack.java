@@ -33,6 +33,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_AL
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2_REQUEST;
 import static org.eclipse.jgit.util.RefMap.toRefMap;
 
@@ -1191,10 +1192,20 @@ public class UploadPack {
 		if (!req.getClientShallowCommits().isEmpty())
 			walk.assumeShallow(req.getClientShallowCommits());
 
+		if (wantIds.isEmpty() && !req.shouldWaitForDone()) {
+			/*
+			 * Request didn't contain any 'want' lines (and the request does not contain
+			 * "wait-for-done", in which it is reasonable to just send 'have's without
+			 *  'want's); guess they didn't want anything.
+			 */
+			return;
+		}
+
 		if (req.wasDoneReceived()) {
-			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
+			processHaveLines(
+					req.getPeerHas(), ObjectId.zeroId(),
 					new PacketLineOut(NullOutputStream.INSTANCE, false),
-					accumulator);
+					accumulator, req.shouldWaitForDone());
 		} else {
 			pckOut.writeString(
 					GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
@@ -1205,16 +1216,17 @@ public class UploadPack {
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
 					new PacketLineOut(NullOutputStream.INSTANCE, false),
-					accumulator);
-			if (okToGiveUp()) {
+					accumulator, false);
+			if (!req.shouldWaitForDone() && okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
+				sectionSent = true;
 			} else if (commonBase.isEmpty()) {
 				pckOut.writeString("NAK\n"); //$NON-NLS-1$
+				sectionSent = true;
 			}
-			sectionSent = true;
 		}
 
-		if (req.wasDoneReceived() || okToGiveUp()) {
+		if (req.wasDoneReceived() || (!req.shouldWaitForDone() && okToGiveUp())) {
 			if (mayHaveShallow) {
 				if (sectionSent)
 					pckOut.writeDelim();
@@ -1308,10 +1320,13 @@ public class UploadPack {
 		caps.add(COMMAND_FETCH + '='
 				+ (transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "")
 				+ (advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "")
-				+ (transferConfig.isAdvertiseSidebandAll()
-						? OPTION_SIDEBAND_ALL + ' '
+				+ (transferConfig.isAdvertiseSidebandAll() 
+						? OPTION_SIDEBAND_ALL + ' ' 
 						: "")
 				+ (cachedPackUriProvider != null ? "packfile-uris " : "")
+				+ (transferConfig.isAllowWaitForDone()
+						? OPTION_WAIT_FOR_DONE + ' '
+						: "")
 				+ OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
 		return caps;
@@ -1656,7 +1671,7 @@ public class UploadPack {
 			}
 
 			if (PacketLineIn.isEnd(line)) {
-				last = processHaveLines(peerHas, last, pckOut, accumulator);
+				last = processHaveLines(peerHas, last, pckOut, accumulator, false);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
@@ -1671,7 +1686,7 @@ public class UploadPack {
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 				accumulator.haves++;
 			} else if (line.equals("done")) { //$NON-NLS-1$
-				last = processHaveLines(peerHas, last, pckOut, accumulator);
+				last = processHaveLines(peerHas, last, pckOut, accumulator, false);
 
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
@@ -1688,7 +1703,8 @@ public class UploadPack {
 	}
 
 	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last,
-			PacketLineOut out, PackStatistics.Accumulator accumulator)
+			PacketLineOut out, PackStatistics.Accumulator accumulator,
+			boolean waitForDone) 
 			throws IOException {
 		preUploadHook.onBeginNegotiateRound(this, wantIds, peerHas.size());
 		if (wantAll.isEmpty() && !wantIds.isEmpty())
@@ -1760,7 +1776,7 @@ public class UploadPack {
 				ObjectId id = peerHas.get(i);
 				if (walk.lookupOrNull(id) == null) {
 					didOkToGiveUp = true;
-					if (okToGiveUp()) {
+					if (!waitForDone && okToGiveUp()) {
 						switch (multiAck) {
 						case OFF:
 							break;
@@ -1778,7 +1794,7 @@ public class UploadPack {
 			}
 		}
 
-		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp && okToGiveUp()) {
+		if (!waitForDone && multiAck == MultiAck.DETAILED && !didOkToGiveUp && okToGiveUp()) {
 			ObjectId id = peerHas.get(peerHas.size() - 1);
 			out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			sentReady = true;

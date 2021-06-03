@@ -149,6 +149,13 @@ public final class GitProtocolConstants {
 	public static final String OPTION_SIDEBAND_ALL = "sideband-all"; //$NON-NLS-1$
 
 	/**
+	 * The server waits for client to send "wait-for-done" before sending any packs back.
+	 *
+	 * @since 5.12
+	 */
+	public static final String OPTION_WAIT_FOR_DONE = "wait-for-done"; //$NON-NLS-1$
+
+	/**
 	 * The client supports atomic pushes. If this option is used, the server
 	 * will update all refs within one atomic transaction.
 	 *
