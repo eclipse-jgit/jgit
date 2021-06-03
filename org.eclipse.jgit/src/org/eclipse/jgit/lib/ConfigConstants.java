@@ -736,4 +736,11 @@ public final class ConfigConstants {
 	 * @since 5.11
 	 */
 	public static final String CONFIG_KEY_DEFAULT_BRANCH = "defaultbranch";
+
+	/**
+	 * The "pack.searchForReuseTimeout" key
+	 *
+	 */
+	public static final String CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT = "searchforreusetimeout";
+
 }
