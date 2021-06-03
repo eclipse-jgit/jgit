@@ -262,6 +262,12 @@ public class PackWriter implements AutoCloseable {
 
 	private boolean indexDisabled;
 
+	private boolean findBestPackRepresentation = false;
+
+	private final int searchForReuseMaxTimeSec;
+
+	private long searchForReuseStartTimeEpoc;
+
 	private int depth;
 
 	private Collection<? extends ObjectId> unshallowObjects;
@@ -356,6 +362,7 @@ public class PackWriter implements AutoCloseable {
 
 		deltaBaseAsOffset = config.isDeltaBaseAsOffset();
 		reuseDeltas = config.isReuseDeltas();
+		searchForReuseMaxTimeSec = config.getSearchForReuseMaxTimeSec();
 		reuseValidate = true; // be paranoid by default
 		stats = statsAccumulator != null ? statsAccumulator
 				: new PackStatistics.Accumulator();
@@ -405,6 +412,26 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * Check whether the writer must search for the best object candidate (i.e.: during GC).
+	 *
+	 * @return true if the writer must search the best object candidate.
+	 */
+	public boolean getFindBestPackRepresentation() {
+		return findBestPackRepresentation;
+	}
+
+	/**
+	 * Check whether the search for reuse phase is taking too long.
+	 * This could be the case when the number of objects and pack files is high
+	 * and the system is under pressure.
+	 *
+	 * @return true if the search for reuse is taking too long.
+	 */
+	public boolean searchForReuseTooExpensive() {
+		return (System.currentTimeMillis() - searchForReuseStartTimeEpoc) / 1000 > searchForReuseMaxTimeSec;
+	}
+
+	/**
 	 * Set writer delta base format. Delta base can be written as an offset in a
 	 * pack file (new approach reducing file size) or as an object id (legacy
 	 * approach, compatible with old readers).
@@ -417,6 +444,29 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public void setDeltaBaseAsOffset(boolean deltaBaseAsOffset) {
 		this.deltaBaseAsOffset = deltaBaseAsOffset;
+	}
+
+	/**
+	 * Set the writer to ensure to search for the best pack representation.
+	 * Selecting an object representation can be an expensive operation.
+	 * It is possible to reduce its complexity via configuration (see
+	 * PackConfig#CONFIG_KEY_SELECT_OBJECT_MAX_TIME_MSEC for
+	 * more details).
+	 *
+	 * However some operations, i.e.: GC, need to find the best candidate
+	 * regardless the complexity of the operation.
+	 *
+	 * This value allows to bypass any configuration that might limit the
+	 * object candidate search.
+	 *
+	 * Default setting: {@code true}
+	 *
+	 * @param findBestPackRepresentation
+	 *            boolean indicating whether forcing the search for the best
+	 *            object candidate.
+	 */
+	public void setFindBestPackRepresentation(boolean findBestPackRepresentation) {
+		this.findBestPackRepresentation = findBestPackRepresentation;
 	}
 
 	/**
@@ -1306,6 +1356,7 @@ public class PackWriter implements AutoCloseable {
 		cnt += objectsLists[OBJ_TAG].size();
 
 		long start = System.currentTimeMillis();
+		searchForReuseStartTimeEpoc = start;
 		beginPhase(PackingPhase.FINDING_SOURCES, monitor, cnt);
 		if (cnt <= 4096) {
 			// For small object counts, do everything as one list.

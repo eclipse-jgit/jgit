@@ -264,6 +264,9 @@ class PackDirectory {
 					p.resetTransientErrorCount();
 					if (rep != null) {
 						packer.select(otp, rep);
+						if (!packer.getFindBestPackRepresentation() && packer.searchForReuseTooExpensive()) {
+							break SEARCH;
+						}
 					}
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
