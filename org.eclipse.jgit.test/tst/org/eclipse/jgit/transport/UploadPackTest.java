@@ -999,6 +999,126 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2FetchServerNegotiationUsingWaitForDoneWhenServerAcksOne()
+			throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		remote.update("branch1", parent);
+
+		RevCommit localParent = null;
+		RevCommit localChild = null;
+		try (TestRepository<InMemoryRepository> local = new TestRepository<>(
+				client)) {
+			RevBlob localParentBlob = local.blob(commonInBlob + "a");
+			localParent = local
+					.commit(local.tree(local.file("foo", localParentBlob)));
+			RevBlob localChildBlob = local.blob(commonInBlob + "b");
+			localChild = local.commit(
+					local.tree(local.file("foo", localChildBlob)), localParent);
+			local.update("branch1", localChild);
+		}
+
+		server.getConfig().setBoolean("uploadpack", null, "allowwaitfordone",
+				true);
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(), "wait-for-done\n",
+				"have " + localParent.toObjectId().getName() + "\n",
+				"have " + localChild.toObjectId().getName() + "\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(Arrays.asList(pckIn.readString()),
+				hasItems("ACK " + parent.toObjectId().getName()));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
+	public void testV2FetchServerNegotiationUsingWaitForDoneWhenServerAcksAll()
+			throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote
+				.commit(remote.tree(remote.file("foo", childBlob)), parent);
+		remote.update("branch1", child);
+
+		RevCommit localParent = null;
+		RevCommit localChild = null;
+		try (TestRepository<InMemoryRepository> local = new TestRepository<>(
+				client)) {
+			RevBlob localParentBlob = local.blob(commonInBlob + "a");
+			localParent = local
+					.commit(local.tree(local.file("foo", localParentBlob)));
+			RevBlob localChildBlob = local.blob(commonInBlob + "b");
+			localChild = local.commit(
+					local.tree(local.file("foo", localChildBlob)), localParent);
+			local.update("branch1", localChild);
+		}
+
+		server.getConfig().setBoolean("uploadpack", null, "allowwaitfordone",
+				true);
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(), "wait-for-done\n",
+				"have " + localParent.toObjectId().getName() + "\n",
+				"have " + localChild.toObjectId().getName() + "\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(Arrays.asList(pckIn.readString(), pckIn.readString()),
+				hasItems("ACK " + parent.toObjectId().getName(),
+						"ACK " + child.toObjectId().getName()));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
+	public void testV2FetchServerNegotiationUsingWaitForDoneWhenServerAcksNone()
+			throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevCommit localParent = null;
+		RevCommit localChild = null;
+		try (TestRepository<InMemoryRepository> local = new TestRepository<>(
+				client)) {
+			RevBlob localParentBlob = local.blob(commonInBlob + "a");
+			localParent = local
+					.commit(local.tree(local.file("foo", localParentBlob)));
+			RevBlob localChildBlob = local.blob(commonInBlob + "b");
+			localChild = local.commit(
+					local.tree(local.file("foo", localChildBlob)), localParent);
+			local.update("branch1", localChild);
+		}
+
+		server.getConfig().setBoolean("uploadpack", null, "allowwaitfordone",
+				true);
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(), "wait-for-done\n",
+				"have " + localParent.toObjectId().getName() + "\n",
+				"have " + localChild.toObjectId().getName() + "\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(pckIn.readString(), is("NAK"));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
+	public void testV2FetchServerNegotiationWhenWaitForDoneIsDisabled()
+			throws Exception {
+		server.getConfig().setBoolean("uploadpack", null, "allowwaitfordone",
+				false);
+		assertThrows(UploadPackInternalServerErrorException.class,
+				() -> uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(), "wait-for-done\n",
+						PacketLineIn.end()));
+	}
+
+	@Test
 	public void testV2FetchThinPack() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 

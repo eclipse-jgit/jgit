@@ -120,7 +120,12 @@ public class TransferConfig {
 	private final boolean allowReachableSha1InWant;
 	private final boolean allowFilter;
 	private final boolean allowSidebandAll;
+
 	private final boolean advertiseSidebandAll;
+	private final boolean allowWaitForDone;
+
+	private final boolean advertiseWaitForDone;
+
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
 
@@ -206,6 +211,10 @@ public class TransferConfig {
 				"uploadpack", "allowsidebandall", false);
 		advertiseSidebandAll = rc.getBoolean("uploadpack",
 				"advertisesidebandall", false);
+		allowWaitForDone = rc.getBoolean(
+				"uploadpack", "allowwaitfordone", false);
+		advertiseWaitForDone = rc.getBoolean("uploadpack",
+				"advertisewaitfordone", false);
 	}
 
 	/**
@@ -302,6 +311,22 @@ public class TransferConfig {
 	 */
 	public boolean isAdvertiseSidebandAll() {
 		return advertiseSidebandAll && allowSidebandAll;
+	}
+
+	/**
+	 * @return true if the server accepts wait-for-done requests
+	 * @since 5.12
+	 */
+	public boolean isAllowWaitForDone() {
+		return allowWaitForDone;
+	}
+
+	/**
+	 * @return true to advertise wait-for-done all to the clients
+	 * @since 5.12
+	 */
+	public boolean isAdvertiseWaitForDone() {
+		return advertiseWaitForDone;
 	}
 
 	/**
