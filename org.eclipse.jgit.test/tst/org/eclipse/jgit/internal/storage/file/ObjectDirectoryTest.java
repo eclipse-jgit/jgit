@@ -46,11 +46,17 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -60,6 +66,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -69,6 +77,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Assume;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class ObjectDirectoryTest extends RepositoryTestCase {
 
@@ -192,6 +201,53 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		Set<ObjectId> shallowCommits = dir.getShallowCommits();
 		assertTrue(shallowCommits.remove(ObjectId.fromString(commit)));
 		assertTrue(shallowCommits.isEmpty());
+	}
+
+	@Test
+	public void testPackFilesAreScannedUnlessDisabled() throws Exception {
+		ObjectToPack otp = setUpRepoWithPackfile();
+		PackWriter mockedPackWriter = Mockito.mock(PackWriter.class);
+
+		db.getObjectDatabase().selectObjectRepresentation(mockedPackWriter, otp, (WindowCursor) db.newObjectReader());
+
+		verify(mockedPackWriter, times(1)).select(any(), any());
+	}
+
+	@Test
+	public void testPackFilesAreNotScannedWhenDisabled() throws Exception {
+		ObjectToPack otp = setUpRepoWithPackfile();
+		FileBasedConfig config = db.getConfig();
+		config.setInt(ConfigConstants.CONFIG_PACK_SECTION, null,
+				ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN, 0);
+		config.save();
+		PackWriter mockedPackWriter = Mockito.mock(PackWriter.class);
+
+		db.getObjectDatabase().selectObjectRepresentation(mockedPackWriter, otp, (WindowCursor) db.newObjectReader());
+
+		verify(mockedPackWriter, never()).select(any(), any());
+	}
+
+	@Test
+	public void testPackFilesAreScannedWhenFindBestPackRepresentationIsSet() throws Exception {
+		ObjectToPack otp = setUpRepoWithPackfile();
+		FileBasedConfig config = db.getConfig();
+		config.setInt(ConfigConstants.CONFIG_PACK_SECTION, null,
+				ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN, 0);
+		config.save();
+		PackWriter mockedPackWriter = Mockito.mock(PackWriter.class);
+		when(mockedPackWriter.getFindBestPackRepresentation()).thenReturn(true);
+
+		db.getObjectDatabase().selectObjectRepresentation(mockedPackWriter, otp, (WindowCursor) db.newObjectReader());
+
+		verify(mockedPackWriter, times(1)).select(any(), any());
+	}
+
+	private ObjectToPack setUpRepoWithPackfile() throws IOException, ParseException {
+		RevCommit commit = commitFile("file.txt", "test", "master");
+		// Run a GC just to create a packfile
+		GC gc = new GC(db);
+		gc.gc();
+		return new ObjectToPack(commit, Constants.OBJ_COMMIT);
 	}
 
 	@Test
