@@ -16,6 +16,24 @@
       "revId": "863b025b531540384a74a08486e0c1b8f4017caa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7e6c960_7c23d2be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2021-06-03T20:34:13Z",
+      "side": 1,
+      "message": "Ahh.. I only meant to add a flag on advertise.\nI am removing the check when the flag comes from client.",
+      "parentUuid": "a99f71da_84af80f8",
+      "revId": "863b025b531540384a74a08486e0c1b8f4017caa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
