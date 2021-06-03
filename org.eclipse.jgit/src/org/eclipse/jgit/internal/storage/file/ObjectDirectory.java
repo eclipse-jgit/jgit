@@ -28,6 +28,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -37,6 +43,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
@@ -464,13 +471,47 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs, Set<AlternateHandle.Id> skips) throws IOException {
-		packed.selectRepresentation(packer, otp, curs);
+
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+
+		int selectObjectMaxTimeMsec = config.getInt(
+				ConfigConstants.CONFIG_PACK_SECTION,
+				ConfigConstants.CONFIG_KEY_SELECT_OBJECT_MAX_TIME_MSEC, -1);
+
+		if (selectObjectMaxTimeMsec > 0) {
+			try {
+				executor.submit(new SelectRepresentationTask(packer, otp, curs)).get(selectObjectMaxTimeMsec, TimeUnit.MILLISECONDS);
+			} catch (TimeoutException toe) {
+				toe.printStackTrace();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		} else {
+			packed.selectRepresentation(packer, otp, curs);
+		}
 
 		skips = addMe(skips);
 		for (AlternateHandle h : myAlternates()) {
 			if (!skips.contains(h.getId())) {
 				h.db.selectObjectRepresentation(packer, otp, curs, skips);
 			}
+		}
+	}
+
+	class SelectRepresentationTask implements Callable {
+		private PackWriter packer;
+		private ObjectToPack otp;
+		private WindowCursor curs;
+
+		SelectRepresentationTask(PackWriter packer, ObjectToPack otp, WindowCursor curs) {
+			this.packer = packer;
+			this.otp = otp;
+			this.curs = curs;
+		}
+		@Override
+		public Void call() throws Exception {
+			packed.selectRepresentation(packer, otp, curs);
+			return null;
 		}
 	}
 

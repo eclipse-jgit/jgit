@@ -257,6 +257,7 @@ class PackDirectory {
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) {
 		PackList pList = packList.get();
+
 		SEARCH: for (;;) {
 			for (Pack p : pList.packs) {
 				try {
