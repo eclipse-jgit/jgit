@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a99f71da_84af80f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-06-03T02:20:21Z",
+      "side": 1,
+      "message": "Using the same setting for \u0027advertise\u0027 and \u0027allow\u0027 means this doesn\u0027t support gradual config rollouts: in the first round when getting the capability advertisement you can reach a server that has wait-for-done enabled, and then in the second round when sending the request you reach a server without it enabled, producing protocol errors.\n\nShould this use separate advertise and allow settings to avoid that? (It also helps with rollbacks.)",
+      "revId": "863b025b531540384a74a08486e0c1b8f4017caa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
