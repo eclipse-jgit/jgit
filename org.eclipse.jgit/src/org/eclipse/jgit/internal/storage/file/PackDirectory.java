@@ -257,6 +257,7 @@ class PackDirectory {
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) {
 		PackList pList = packList.get();
+
 		SEARCH: for (;;) {
 			for (Pack p : pList.packs) {
 				try {
@@ -264,6 +265,9 @@ class PackDirectory {
 					p.resetTransientErrorCount();
 					if (rep != null) {
 						packer.select(otp, rep);
+						if (!packer.getFindBestPackRepresentation() && packer.searchForReuseTooExpensive()) {
+							break SEARCH;
+						}
 					}
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
