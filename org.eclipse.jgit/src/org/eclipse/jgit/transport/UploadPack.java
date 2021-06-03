@@ -2309,6 +2309,7 @@ public class UploadPack {
 					pckOut.writeString("packfile\n"); //$NON-NLS-1$
 				}
 			}
+			pw.enableSearchForReuseTimeout();
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 
 			if (msgOut != NullOutputStream.INSTANCE) {

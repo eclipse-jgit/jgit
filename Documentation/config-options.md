@@ -50,6 +50,7 @@
 | `prunePreserved`, only via API of PackConfig | `false` | &#x20DE; | Whether to remove preserved pack files in a preserved directory. |
 | `pack.reuseDeltas` | `true` |&#x20DE; | Whether to reuse deltas existing in repository. |
 | `pack.reuseObjects` | `true` | &#x20DE; | Whether to reuse existing objects representation in repository. |
+| `pack.searchForReuseTimeout` | | &#x20DE; | Search for reuse phase timeout. Expressed as a `Duration`, i.e.: `50sec`. |
 | `pack.singlePack` | `false` | &#x20DE; | Whether all of `refs/*` should be packed in a single pack. |
 | `pack.threads` | `0` (auto-detect number of processors) | &#x2705; | Number of threads to use for delta compression. |
 | `pack.waitPreventRacyPack` | `false` | &#x20DE; | Whether we wait before opening a newly written pack to prevent its lastModified timestamp could be racy. |

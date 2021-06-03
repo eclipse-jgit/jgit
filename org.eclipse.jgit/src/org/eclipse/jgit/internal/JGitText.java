@@ -633,6 +633,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String saveFileStoreAttributesFailed;
 	/***/ public String searchForReachableBranches;
 	/***/ public String searchForReuse;
+	/***/ public String searchForReuseTimeout;
 	/***/ public String searchForSizes;
 	/***/ public String secondsAgo;
 	/***/ public String selectingCommits;
