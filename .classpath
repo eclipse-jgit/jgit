@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.ant.test/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.ant/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.archive/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.benchmarks/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.gpg.bc.test/tst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.gpg.bc/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.http.apache/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.http.server/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.http.test/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.http.test/tst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.junit.http/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.junit.ssh/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.junit/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.lfs.server.test/tst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.lfs.server/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.lfs.test/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.lfs.test/tst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.lfs/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.pgm.test/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.pgm.test/tst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.pgm/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.ssh.apache.test/tst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.ssh.apache/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.ssh.jsch.test/tst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.ssh.jsch/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.test/exttst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.test/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.test/tst"/>
+	<classpathentry kind="src" path="org.eclipse.jgit.ui/src"/>
+	<classpathentry kind="src" path="org.eclipse.jgit/src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

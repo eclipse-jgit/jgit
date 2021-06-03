@@ -19,6 +19,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SERVER_OPTI
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WANT_REF;
 
 import java.io.IOException;
@@ -123,6 +124,9 @@ final class ProtocolV2Parser {
 				reqBuilder.addPeerHas(ObjectId.fromString(line2.substring(5)));
 			} else if (line2.equals("done")) { //$NON-NLS-1$
 				reqBuilder.setDoneReceived();
+			} else if (transferConfig.isAllowWaitForDone()
+					&& line2.equals(OPTION_WAIT_FOR_DONE)) {
+				reqBuilder.setWaitForDone();
 			} else if (line2.equals(OPTION_THIN_PACK)) {
 				reqBuilder.addClientCapability(OPTION_THIN_PACK);
 			} else if (line2.equals(OPTION_NO_PROGRESS)) {
