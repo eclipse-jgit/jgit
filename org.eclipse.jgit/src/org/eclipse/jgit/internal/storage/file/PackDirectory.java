@@ -33,6 +33,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
+import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -264,7 +265,10 @@ class PackDirectory {
 					p.resetTransientErrorCount();
 					if (rep != null) {
 						packer.select(otp, rep);
+						packer.killSlowSearchForReuse();
 					}
+				} catch (SearchForReuseTimeout e) {
+					break SEARCH;
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
 					//
