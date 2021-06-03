@@ -33,6 +33,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_AL
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2_REQUEST;
 import static org.eclipse.jgit.util.RefMap.toRefMap;
 
@@ -1191,6 +1192,15 @@ public class UploadPack {
 		if (!req.getClientShallowCommits().isEmpty())
 			walk.assumeShallow(req.getClientShallowCommits());
 
+		if (!wantIds.isEmpty() && !req.shouldWaitForDone()) {
+			/*
+			 * Request didn't contain any 'want' lines (and the request does not contain
+			 * "wait-for-done", in which it is reasonable to just send 'have's without
+			 *  'want's); guess they didn't want anything.
+			 */
+			return;
+		}
+
 		if (req.wasDoneReceived()) {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
 					new PacketLineOut(NullOutputStream.INSTANCE, false),
@@ -1206,15 +1216,16 @@ public class UploadPack {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
 					new PacketLineOut(NullOutputStream.INSTANCE, false),
 					accumulator);
-			if (okToGiveUp()) {
+			if (!req.shouldWaitForDone() && okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
+				sectionSent = true;
 			} else if (commonBase.isEmpty()) {
 				pckOut.writeString("NAK\n"); //$NON-NLS-1$
+				sectionSent = true;
 			}
-			sectionSent = true;
 		}
 
-		if (req.wasDoneReceived() || okToGiveUp()) {
+		if (req.wasDoneReceived() || (!req.shouldWaitForDone() && okToGiveUp())) {
 			if (mayHaveShallow) {
 				if (sectionSent)
 					pckOut.writeDelim();
@@ -1312,7 +1323,8 @@ public class UploadPack {
 						? OPTION_SIDEBAND_ALL + ' '
 						: "")
 				+ (cachedPackUriProvider != null ? "packfile-uris " : "")
-				+ OPTION_SHALLOW);
+				+ OPTION_SHALLOW + ' '
+				+ (transferConfig.isAllowWaitForDone()? OPTION_WAIT_FOR_DONE : ""));
 		caps.add(CAPABILITY_SERVER_OPTION);
 		return caps;
 	}
