@@ -2359,6 +2359,7 @@ public class UploadPack {
 							GitProtocolConstants.SECTION_PACKFILE + '\n');
 				}
 			}
+			pw.enableSearchForReuseTimeout();
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 
 			if (msgOut != NullOutputStream.INSTANCE) {
