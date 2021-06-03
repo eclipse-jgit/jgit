@@ -29,6 +29,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_DELTAS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_OBJECTS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SINGLE_PACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
@@ -222,6 +223,14 @@ public class PackConfig {
 	 */
 	public static final int DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS = 90;
 
+	/**
+	 * Default count of packfiles to scan when looking for the best object candidate during the
+	 * search for reuse phase. This optimization is disabled by default: {@value}
+	 *
+	 * @see #setSearchForReuseMaxPackFilesToScan(int)
+	 */
+	public static final int DEFAULT_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN = Integer.MAX_VALUE;
+
 	private int compressionLevel = Deflater.DEFAULT_COMPRESSION;
 
 	private boolean reuseDeltas = DEFAULT_REUSE_DELTAS;
@@ -271,6 +280,8 @@ public class PackConfig {
 	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
 
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
+
+	private int searchForReuseMaxPackFilesToScan = DEFAULT_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN;
 
 	private boolean cutDeltaChains;
 
@@ -342,6 +353,7 @@ public class PackConfig {
 		this.bitmapInactiveBranchAgeInDays = cfg.bitmapInactiveBranchAgeInDays;
 		this.cutDeltaChains = cfg.cutDeltaChains;
 		this.singlePack = cfg.singlePack;
+		this.searchForReuseMaxPackFilesToScan = cfg.searchForReuseMaxPackFilesToScan;
 	}
 
 	/**
@@ -1104,6 +1116,19 @@ public class PackConfig {
 	}
 
 	/**
+	 * Get the number of packfiles to scan when looking for the best object candidate during the
+	 * search for reuse phase.
+	 *
+	 * Default setting: {@value #DEFAULT_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN}
+	 *
+	 * @return the number of packfiles to scan when looking for the best object candidate during the
+	 * search for reuse phase
+	 */
+	public int getSearchForReuseMaxPackFilesToScan() {
+		return searchForReuseMaxPackFilesToScan;
+	}
+
+	/**
 	 * Set the age in days that marks a branch as "inactive".
 	 *
 	 * Default setting: {@value #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
@@ -1114,6 +1139,16 @@ public class PackConfig {
 	 */
 	public void setBitmapInactiveBranchAgeInDays(int ageInDays) {
 		bitmapInactiveBranchAgeInDays = ageInDays;
+	}
+
+	/**
+	 * Set the number of packfiles to scan when looking for the best object candidate during the
+	 * search for reuse phase.
+	 *
+	 * Default setting: {@value #DEFAULT_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN}
+	 */
+	public void setSearchForReuseMaxPackFilesToScan(int maxPackFilesToScan) {
+		searchForReuseMaxPackFilesToScan = maxPackFilesToScan;
 	}
 
 	/**
@@ -1179,6 +1214,9 @@ public class PackConfig {
 		setBitmapInactiveBranchAgeInDays(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS,
 				getBitmapInactiveBranchAgeInDays()));
+		setSearchForReuseMaxPackFilesToScan(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN,
+				getSearchForReuseMaxPackFilesToScan()));
 		setWaitPreventRacyPack(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_WAIT_PREVENT_RACYPACK, isWaitPreventRacyPack()));
 		setMinSizePreventRacyPack(rc.getLong(CONFIG_PACK_SECTION,
@@ -1216,6 +1254,8 @@ public class PackConfig {
 				.append(getBitmapExcessiveBranchCount());
 		b.append(", bitmapInactiveBranchAge=") //$NON-NLS-1$
 				.append(getBitmapInactiveBranchAgeInDays());
+		b.append(", searchForReuseMaxPackfilesToScan=") //$NON-NLS-1$
+				.append(getSearchForReuseMaxPackFilesToScan());
 		b.append(", singlePack=").append(getSinglePack()); //$NON-NLS-1$
 		return b.toString();
 	}

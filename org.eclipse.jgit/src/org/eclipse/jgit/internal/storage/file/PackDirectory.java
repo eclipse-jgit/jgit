@@ -257,21 +257,30 @@ class PackDirectory {
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) {
 		PackList pList = packList.get();
+
+		int searchForReuseMaxPackFilesToScan = config.getInt(
+					ConfigConstants.CONFIG_PACK_SECTION,
+					ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN, Integer.MAX_VALUE);
+
+		int representationAttemptCount = 0;
 		SEARCH: for (;;) {
 			for (Pack p : pList.packs) {
-				try {
-					LocalObjectRepresentation rep = p.representation(curs, otp);
-					p.resetTransientErrorCount();
-					if (rep != null) {
-						packer.select(otp, rep);
+				if (packer.getFindBestPackRepresentation() || representationAttemptCount < searchForReuseMaxPackFilesToScan) {
+					try {
+						LocalObjectRepresentation rep = p.representation(curs, otp);
+						p.resetTransientErrorCount();
+						if (rep != null) {
+							packer.select(otp, rep);
+						}
+					} catch (PackMismatchException e) {
+						// Pack was modified; refresh the entire pack list.
+						//
+						pList = scanPacks(pList);
+						continue SEARCH;
+					} catch (IOException e) {
+						handlePackError(e, p);
 					}
-				} catch (PackMismatchException e) {
-					// Pack was modified; refresh the entire pack list.
-					//
-					pList = scanPacks(pList);
-					continue SEARCH;
-				} catch (IOException e) {
-					handlePackError(e, p);
+					representationAttemptCount++;
 				}
 			}
 			break SEARCH;
