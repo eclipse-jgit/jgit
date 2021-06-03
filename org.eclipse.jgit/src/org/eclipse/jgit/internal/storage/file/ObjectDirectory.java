@@ -465,7 +465,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs, Set<AlternateHandle.Id> skips) throws IOException {
 		packed.selectRepresentation(packer, otp, curs);
-
 		skips = addMe(skips);
 		for (AlternateHandle h : myAlternates()) {
 			if (!skips.contains(h.getId())) {
