@@ -16,6 +16,24 @@
       "revId": "e25ba761c354c384228824c613a891b77cb921d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f758ac23_712df1f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-04T21:05:59Z",
+      "side": 1,
+      "message": "Should that be done also before L481?",
+      "parentUuid": "5177fb51_86c98d80",
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
