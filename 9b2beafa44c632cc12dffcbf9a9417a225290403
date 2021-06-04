@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b3657d2_09f362e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-04T08:35:01Z",
+      "side": 1,
+      "message": "append //$NON-NLS-1$ to this line in order to suppress the non-externalized string warning",
+      "revId": "9b2beafa44c632cc12dffcbf9a9417a225290403",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b74dfa19_e494aca7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-04T08:35:01Z",
+      "side": 1,
+      "message": "I think this should be package private",
+      "range": {
+        "startLine": 501,
+        "startChar": 1,
+        "endLine": 501,
+        "endChar": 10
+      },
+      "revId": "9b2beafa44c632cc12dffcbf9a9417a225290403",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f2e493_27679cb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-04T08:35:01Z",
+      "side": 1,
+      "message": "I think this should be package private",
+      "range": {
+        "startLine": 515,
+        "startChar": 1,
+        "endLine": 515,
+        "endChar": 10
+      },
+      "revId": "9b2beafa44c632cc12dffcbf9a9417a225290403",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
