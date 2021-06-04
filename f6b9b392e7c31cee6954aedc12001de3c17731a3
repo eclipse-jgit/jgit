@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef00d253_69d88aee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/ssh/OpenSshConfigFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-06-04T06:22:01Z",
+      "side": 1,
+      "message": "What\u0027s the use of this constructor for any client code? matches() is not public, and there\u0027s no getter for the patterns.",
+      "revId": "f6b9b392e7c31cee6954aedc12001de3c17731a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
