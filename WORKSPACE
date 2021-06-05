@@ -15,7 +15,7 @@ versions.check(minimum_bazel_version = "0.29.0")
 
 load("//tools:bazlets.bzl", "load_bazlets")
 
-load_bazlets(commit = "09a035e98077dce549d5f6a7472d06c4b8f792d2")
+load_bazlets(commit = "f53f51fb660552d0581aa0ba52c3836ed63d56a3")
 
 load(
     "@com_googlesource_gerrit_bazlets//tools:maven_jar.bzl",
