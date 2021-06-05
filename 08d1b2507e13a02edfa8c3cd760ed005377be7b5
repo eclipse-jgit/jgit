@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd1885e9_b53b5f13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-05T01:13:06Z",
+      "side": 1,
+      "message": "If you\u0027re quoting the corresponding commit in C, then indent it and mention which commit it\u0027s coming from. Also, not all parts are relevant - in this case, the main reason we\u0027re not implementing protocol v0 is because Git itself doesn\u0027t support it, not directly because of the reason listed here.",
+      "range": {
+        "startLine": 14,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "08d1b2507e13a02edfa8c3cd760ed005377be7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e184079c_b15b5acf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-05T01:13:06Z",
+      "side": 1,
+      "message": "For consistency, should be wasWaitForDoneReceived, I think",
+      "range": {
+        "startLine": 99,
+        "startChar": 9,
+        "endLine": 99,
+        "endChar": 26
+      },
+      "revId": "08d1b2507e13a02edfa8c3cd760ed005377be7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9646a584_0aae0db4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-05T01:13:06Z",
+      "side": 1,
+      "message": "Wrong doc",
+      "range": {
+        "startLine": 296,
+        "startChar": 20,
+        "endLine": 296,
+        "endChar": 24
+      },
+      "revId": "08d1b2507e13a02edfa8c3cd760ed005377be7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3703b11c_97441915",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-05T01:13:06Z",
+      "side": 1,
+      "message": "\"done\" not \"wait-for-done\"",
+      "revId": "08d1b2507e13a02edfa8c3cd760ed005377be7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8313e559_92ff1963",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-05T01:13:06Z",
+      "side": 1,
+      "message": "There should be a check of the allow config here too. (Also add a test that tests what happens when the allow config is set to false.)",
+      "revId": "08d1b2507e13a02edfa8c3cd760ed005377be7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "714661ec_11c60477",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-05T01:13:06Z",
+      "side": 1,
+      "message": "In the C code, the equivalent of !req.shouldWaitForDone() was added because it checked for empty wants. In JGit, it doesn\u0027t seem to do it, so we don\u0027t need this section.",
+      "revId": "08d1b2507e13a02edfa8c3cd760ed005377be7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537c892e_70e5d07d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1769,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-05T01:13:06Z",
+      "side": 1,
+      "message": "I think we can wrap this whole part in \"if (!waitForDone)\" instead of just inserting it here and there?",
+      "revId": "08d1b2507e13a02edfa8c3cd760ed005377be7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
