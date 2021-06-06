@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bf706d4_9804c93a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-06T18:26:43Z",
+      "side": 1,
+      "message": "The times you measured without this change are close to O(n), fitting a power function yields t \u003d 8.5779 n^0.8952 which is close to linear.\n\nSee https://imgur.com/vGXLyOU",
+      "range": {
+        "startLine": 22,
+        "startChar": 32,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "8bc166b00da5fc74a659b42be779328a9508866b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
