@@ -82,6 +82,11 @@ public class BinaryDeltaInputStream extends InputStream {
 		return b;
 	}
 
+	@Override
+	public int read(byte[] b, int off, int len) throws IOException {
+		return super.read(b, off, len);
+	}
+
 	private void initialize() throws IOException {
 		long baseSize = readVarInt(delta);
 		if (baseSize > Integer.MAX_VALUE || baseSize < 0
