@@ -34,6 +34,24 @@
       "revId": "e25ba761c354c384228824c613a891b77cb921d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26d78f7f_a1d055a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-07T07:53:03Z",
+      "side": 1,
+      "message": "@Matthias: Looking at the FileNotFoundException behaviour, we remove the id from the cache only when suppressing the exception (i.e we do not update `unpackedObjectCache` when throwing `nofile`).\n\nI thought to keep the \"stale file handle\" behaviour consistent, that\u0027s why I moved the\n\n```\nunpackedObjectCache.remove(id);\n```\n\nAt L489, so that it would be called *only* when we *don\u0027t* re-throw the exception.\n\nI agree with you though, I was thinking that the cache should be updated regardless, since the loose object just does not exist anymore (or it\u0027s not accessible, at least).\n\nPerhaps a follow up change to address boh \"file not found\" and \"stale file handle\" exceptions?",
+      "parentUuid": "f758ac23_712df1f8",
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
