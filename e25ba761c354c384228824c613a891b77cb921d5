@@ -52,6 +52,24 @@
       "revId": "e25ba761c354c384228824c613a891b77cb921d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1e53430_0a01de91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-07T23:27:41Z",
+      "side": 1,
+      "message": "I believe that removing it from the cache and considering it as non-existent could be dangerous for transient failures though. @Matthias WDYT?",
+      "parentUuid": "26d78f7f_a1d055a3",
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
