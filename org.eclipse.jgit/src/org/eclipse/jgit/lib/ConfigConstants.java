@@ -697,4 +697,9 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_VERSION = "version";
 
+	/**
+	 * The "searchForReuseMaxPackfilesToScan" key
+	 *
+	 */
+	public static final String CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN = "searchForReuseMaxPackfilesToScan";
 }
