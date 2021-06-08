@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit/org.eclipse.jgit.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit/org.eclipse.jgit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit-parent.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.ant/org.eclipse.jgit.ant.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.ant/org.eclipse.jgit.ant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.ant.test/org.eclipse.jgit.ant.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.ant.test/org.eclipse.jgit.ant.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.archive/org.eclipse.jgit.archive.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.archive/org.eclipse.jgit.archive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.benchmarks/org.eclipse.jgit.benchmarks.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.benchmarks/org.eclipse.jgit.benchmarks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.coverage/org.eclipse.jgit.coverage.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.coverage/org.eclipse.jgit.coverage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.gpg.bc/org.eclipse.jgit.gpg.bc.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.gpg.bc/org.eclipse.jgit.gpg.bc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.gpg.bc.test/org.eclipse.jgit.gpg.bc.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.gpg.bc.test/org.eclipse.jgit.gpg.bc.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.http.apache/org.eclipse.jgit.http.apache.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.http.apache/org.eclipse.jgit.http.apache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.http.server/org.eclipse.jgit.http.server.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.http.server/org.eclipse.jgit.http.server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.http.test/org.eclipse.jgit.http.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.http.test/org.eclipse.jgit.http.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.junit/org.eclipse.jgit.junit.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.junit/org.eclipse.jgit.junit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.junit.http/org.eclipse.jgit.junit.http.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.junit.http/org.eclipse.jgit.junit.http.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.junit.ssh/org.eclipse.jgit.junit.ssh.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.junit.ssh/org.eclipse.jgit.junit.ssh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.lfs/org.eclipse.jgit.lfs.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.lfs/org.eclipse.jgit.lfs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.lfs.server/org.eclipse.jgit.lfs.server.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.lfs.server/org.eclipse.jgit.lfs.server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.lfs.server.test/org.eclipse.jgit.lfs.server.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.lfs.server.test/org.eclipse.jgit.lfs.server.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.lfs.test/org.eclipse.jgit.lfs.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.lfs.test/org.eclipse.jgit.lfs.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.pgm/org.eclipse.jgit.pgm.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.pgm/org.eclipse.jgit.pgm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.pgm.test/org.eclipse.jgit.pgm.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.pgm.test/org.eclipse.jgit.pgm.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.apache/org.eclipse.jgit.ssh.apache.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.ssh.apache/org.eclipse.jgit.ssh.apache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.apache.test/org.eclipse.jgit.ssh.apache.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.ssh.apache.test/org.eclipse.jgit.ssh.apache.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.jsch/org.eclipse.jgit.ssh.jsch.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.ssh.jsch/org.eclipse.jgit.ssh.jsch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.jsch.test/org.eclipse.jgit.ssh.jsch.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.ssh.jsch.test/org.eclipse.jgit.ssh.jsch.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.test/org.eclipse.jgit.test.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.test/org.eclipse.jgit.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.eclipse.jgit.ui/org.eclipse.jgit.ui.iml" filepath="$PROJECT_DIR$/org.eclipse.jgit.ui/org.eclipse.jgit.ui.iml" />
+    </modules>
+  </component>
+</project>

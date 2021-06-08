@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ant" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ant/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ant/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.archive" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.archive/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.benchmarks/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.gpg.bc" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.gpg.bc/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.gpg.bc/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.http.apache" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.http.apache/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.http.apache/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.http.server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.http.server/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.http.server/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.http.test/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.junit" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.junit.http" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.junit.http/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.junit.ssh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.junit.ssh/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.junit.ssh/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.junit/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.lfs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.lfs.server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.lfs.server/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.lfs.server/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.lfs.test/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.lfs/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.lfs/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.pgm" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.pgm.test/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.pgm/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.pgm/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.apache" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.apache/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.apache/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.jsch" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.jsch/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ssh.jsch/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.test" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.test/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ui" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ui/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit.ui/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/org.eclipse.jgit/src" charset="UTF-8" />
+  </component>
+</project>

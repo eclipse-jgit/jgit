@@ -266,6 +266,7 @@ class PackDirectory {
 		SEARCH: for (;;) {
 			for (Pack p : pList.packs) {
 				if (packer.getFindBestPackRepresentation() || representationAttemptCount < searchForReuseMaxPackFilesToScan) {
+					LOG.error("Checked packfile number " + representationAttemptCount);
 					try {
 						LocalObjectRepresentation rep = p.representation(curs, otp);
 						p.resetTransientErrorCount();
@@ -281,6 +282,9 @@ class PackDirectory {
 						handlePackError(e, p);
 					}
 					representationAttemptCount++;
+				}
+				else {
+					LOG.error("Skipping packfiles, only analyse " + searchForReuseMaxPackFilesToScan);
 				}
 			}
 			break SEARCH;

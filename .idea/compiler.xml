@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="org.eclipse.jgit.junit" />
+        <module name="org.eclipse.jgit.ssh.jsch" />
+        <module name="org.eclipse.jgit.http.apache" />
+        <module name="org.eclipse.jgit.lfs.test" />
+        <module name="org.eclipse.jgit.ant" />
+        <module name="org.eclipse.jgit.ssh.jsch.test" />
+        <module name="org.eclipse.jgit.junit.http" />
+        <module name="org.eclipse.jgit.gpg.bc.test" />
+        <module name="org.eclipse.jgit.ssh.apache" />
+        <module name="org.eclipse.jgit.http.server" />
+        <module name="org.eclipse.jgit" />
+        <module name="org.eclipse.jgit.archive" />
+        <module name="org.eclipse.jgit.ssh.apache.test" />
+        <module name="org.eclipse.jgit.lfs" />
+        <module name="org.eclipse.jgit.http.test" />
+        <module name="org.eclipse.jgit.pgm" />
+        <module name="org.eclipse.jgit.junit.ssh" />
+        <module name="org.eclipse.jgit.lfs.server" />
+        <module name="org.eclipse.jgit.gpg.bc" />
+        <module name="org.eclipse.jgit.pgm.test" />
+        <module name="org.eclipse.jgit.ui" />
+        <module name="org.eclipse.jgit.lfs.server.test" />
+        <module name="org.eclipse.jgit.ant.test" />
+        <module name="org.eclipse.jgit.test" />
+      </profile>
+      <profile name="Annotation profile for JGit - Parent" enabled="true">
+        <sourceOutputDir name=".apt_generated" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="org.eclipse.jgit.benchmarks" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="org.eclipse.jgit" target="1.8" />
+      <module name="org.eclipse.jgit-parent" target="1.8" />
+      <module name="org.eclipse.jgit.ant" target="1.8" />
+      <module name="org.eclipse.jgit.ant.test" target="1.8" />
+      <module name="org.eclipse.jgit.archive" target="1.8" />
+      <module name="org.eclipse.jgit.benchmarks" target="1.8" />
+      <module name="org.eclipse.jgit.coverage" target="1.8" />
+      <module name="org.eclipse.jgit.gpg.bc" target="1.8" />
+      <module name="org.eclipse.jgit.gpg.bc.test" target="1.8" />
+      <module name="org.eclipse.jgit.http.apache" target="1.8" />
+      <module name="org.eclipse.jgit.http.server" target="1.8" />
+      <module name="org.eclipse.jgit.http.test" target="1.8" />
+      <module name="org.eclipse.jgit.junit" target="1.8" />
+      <module name="org.eclipse.jgit.junit.http" target="1.8" />
+      <module name="org.eclipse.jgit.junit.ssh" target="1.8" />
+      <module name="org.eclipse.jgit.lfs" target="1.8" />
+      <module name="org.eclipse.jgit.lfs.server" target="1.8" />
+      <module name="org.eclipse.jgit.lfs.server.test" target="1.8" />
+      <module name="org.eclipse.jgit.lfs.test" target="1.8" />
+      <module name="org.eclipse.jgit.pgm" target="1.8" />
+      <module name="org.eclipse.jgit.pgm.test" target="1.8" />
+      <module name="org.eclipse.jgit.ssh.apache" target="1.8" />
+      <module name="org.eclipse.jgit.ssh.apache.test" target="1.8" />
+      <module name="org.eclipse.jgit.ssh.jsch" target="1.8" />
+      <module name="org.eclipse.jgit.ssh.jsch.test" target="1.8" />
+      <module name="org.eclipse.jgit.test" target="1.8" />
+      <module name="org.eclipse.jgit.ui" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="EclipseCompilerSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="org.eclipse.jgit" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.ant" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.ant/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.ant.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.ant.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.archive" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.archive/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.gpg.bc" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.gpg.bc/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.gpg.bc.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.gpg.bc.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.http.apache" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.http.apache/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.http.server" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.http.server/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.http.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.http.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.junit" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.junit/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.junit.http" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.junit.http/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.junit.ssh" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.junit.ssh/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.lfs" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.lfs/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.lfs.server" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.lfs.server/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.lfs.server.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.lfs.server.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.lfs.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.lfs.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.pgm" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.pgm/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.pgm.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.pgm.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.ssh.apache" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.ssh.apache/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.ssh.apache.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.ssh.apache.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.ssh.jsch" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.ssh.jsch/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.ssh.jsch.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.ssh.jsch.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.test" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.test/.settings/org.eclipse.jdt.core.prefs" />
+      <module name="org.eclipse.jgit.ui" options="-properties /Users/fabioponciroli/Development/gerriforge/jgit/org.eclipse.jgit.ui/.settings/org.eclipse.jdt.core.prefs" />
+    </option>
+  </component>
+</project>
