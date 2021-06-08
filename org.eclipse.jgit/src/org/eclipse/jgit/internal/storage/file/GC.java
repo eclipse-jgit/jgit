@@ -1159,6 +1159,7 @@ public class GC {
 			// prepare the PackWriter
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
+			pw.setFindBestPackRepresentation(true);
 			if (tagTargets != null) {
 				pw.setTagTargets(tagTargets);
 			}

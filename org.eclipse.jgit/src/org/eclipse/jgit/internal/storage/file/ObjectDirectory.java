@@ -587,20 +587,27 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs, Set<AlternateHandle.Id> skips) throws IOException {
 		PackList pList = packList.get();
+		int searchForReuseMaxPackFilesToScan = config.getInt(
+				ConfigConstants.CONFIG_PACK_SECTION,
+				ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN, Integer.MAX_VALUE);
+
+		int representationAttemptCount = 0;
 		SEARCH: for (;;) {
 			for (PackFile p : pList.packs) {
-				try {
-					LocalObjectRepresentation rep = p.representation(curs, otp);
-					p.resetTransientErrorCount();
-					if (rep != null)
-						packer.select(otp, rep);
-				} catch (PackMismatchException e) {
-					// Pack was modified; refresh the entire pack list.
-					//
-					pList = scanPacks(pList);
-					continue SEARCH;
-				} catch (IOException e) {
-					handlePackError(e, p);
+				if (packer.getFindBestPackRepresentation() || representationAttemptCount < searchForReuseMaxPackFilesToScan) {
+					try {
+						LocalObjectRepresentation rep = p.representation(curs, otp);
+						p.resetTransientErrorCount();
+						if (rep != null)
+							packer.select(otp, rep);
+					} catch (PackMismatchException e) {
+						// Pack was modified; refresh the entire pack list.
+						//
+						pList = scanPacks(pList);
+						continue SEARCH;
+					} catch (IOException e) {
+						handlePackError(e, p);
+					}
 				}
 			}
 			break SEARCH;
