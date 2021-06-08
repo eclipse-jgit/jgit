@@ -276,6 +276,8 @@ public class PackWriter implements AutoCloseable {
 
 	private PackfileUriConfig packfileUriConfig;
 
+	private boolean findBestPackRepresentation = false;
+
 	/**
 	 * Create writer for specified repository.
 	 * <p>
@@ -405,6 +407,16 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * Check whether the writer forcibly needs to search for the best object
+	 * candidate.
+	 *
+	 * @return true if the writer is forced to search the best object candidate.
+	 */
+	public boolean getFindBestPackRepresentation() {
+		return findBestPackRepresentation;
+	}
+
+	/**
 	 * Set writer delta base format. Delta base can be written as an offset in a
 	 * pack file (new approach reducing file size) or as an object id (legacy
 	 * approach, compatible with old readers).
@@ -417,6 +429,29 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public void setDeltaBaseAsOffset(boolean deltaBaseAsOffset) {
 		this.deltaBaseAsOffset = deltaBaseAsOffset;
+	}
+
+	/**
+	 * Set the writer to ensure to search for the best pack representation.
+	 * Selecting an object representation can be an expensive operation.
+	 * It is possible to reduce its complexity via configuration (see
+	 * PackConfig#CONFIG_KEY_SEARCH_FOR_REUSE_MAX_PACKFILES_TO_SCAN for
+	 * more details).
+	 *
+	 * However some operations, i.e.: GC, need to find the best candidate
+	 * regardless the complexity of the operation.
+	 *
+	 * This value allows to bypass any configuration that might limit the
+	 * object candidate search.
+	 *
+	 * Default setting: {@code true}
+	 *
+	 * @param findBestPackRepresentation
+	 *            boolean indicating whether forcing the search for the best
+	 *            object candidate.
+	 */
+	public void setFindBestPackRepresentation(boolean findBestPackRepresentation) {
+		this.findBestPackRepresentation = findBestPackRepresentation;
 	}
 
 	/**
