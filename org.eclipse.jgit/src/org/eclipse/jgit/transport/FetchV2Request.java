@@ -36,6 +36,8 @@ public final class FetchV2Request extends FetchRequest {
 
 	private final boolean doneReceived;
 
+	private final boolean waitForDone;
+
 	@NonNull
 	private final List<String> serverOptions;
 
@@ -50,7 +52,8 @@ public final class FetchV2Request extends FetchRequest {
 			@NonNull Set<ObjectId> clientShallowCommits, int deepenSince,
 			@NonNull List<String> deepenNotRefs, int depth,
 			@NonNull FilterSpec filterSpec,
-			boolean doneReceived, @NonNull Set<String> clientCapabilities,
+			boolean doneReceived, boolean waitForDone,
+			@NonNull Set<String> clientCapabilities,
 			@Nullable String agent, @NonNull List<String> serverOptions,
 			boolean sidebandAll, @NonNull List<String> packfileUriProtocols) {
 		super(wantIds, depth, clientShallowCommits, filterSpec,
@@ -59,6 +62,7 @@ public final class FetchV2Request extends FetchRequest {
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
+		this.waitForDone = waitForDone;
 		this.serverOptions = requireNonNull(serverOptions);
 		this.sidebandAll = sidebandAll;
 		this.packfileUriProtocols = packfileUriProtocols;
@@ -90,7 +94,14 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
-	 * Options received in server-option lines. The caller can choose to act on
+	 * @return true if the request had a "wait-for-done" line
+	 */
+	boolean wasWaitForDoneReceived() {
+		return waitForDone;
+	}
+
+	/**
+	 * Options received in server-option lines. The caller can choose to	 act on
 	 * these in an application-specific way
 	 *
 	 * @return Immutable list of server options received in the request
@@ -140,6 +151,8 @@ public final class FetchV2Request extends FetchRequest {
 		FilterSpec filterSpec = FilterSpec.NO_FILTER;
 
 		boolean doneReceived;
+
+		boolean waitForDone;
 
 		@Nullable
 		String agent;
@@ -280,6 +293,16 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Mark that the "wait-for-done" line has been received.
+		 *
+		 * @return this builder
+		 */
+		Builder setWaitForDone() {
+			waitForDone = true;
+			return this;
+		}
+
+		/**
 		 * Value of an agent line received after the command and before the
 		 * arguments. E.g. "agent=a.b.c/1.0" should set "a.b.c/1.0".
 		 *
@@ -328,7 +351,7 @@ public final class FetchV2Request extends FetchRequest {
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantIds,
 					clientShallowCommits, deepenSince, deepenNotRefs,
-					depth, filterSpec, doneReceived, clientCapabilities,
+					depth, filterSpec, doneReceived, waitForDone, clientCapabilities,
 					agent, Collections.unmodifiableList(serverOptions),
 					sidebandAll,
 					Collections.unmodifiableList(packfileUriProtocols));

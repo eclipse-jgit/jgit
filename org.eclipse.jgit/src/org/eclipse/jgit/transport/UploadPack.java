@@ -33,6 +33,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_AL
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2_REQUEST;
 import static org.eclipse.jgit.util.RefMap.toRefMap;
 
@@ -1192,9 +1193,10 @@ public class UploadPack {
 			walk.assumeShallow(req.getClientShallowCommits());
 
 		if (req.wasDoneReceived()) {
-			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
+			processHaveLines(
+					req.getPeerHas(), ObjectId.zeroId(),
 					new PacketLineOut(NullOutputStream.INSTANCE, false),
-					accumulator);
+					accumulator, req.wasWaitForDoneReceived());
 		} else {
 			pckOut.writeString(
 					GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
@@ -1205,16 +1207,17 @@ public class UploadPack {
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
 					new PacketLineOut(NullOutputStream.INSTANCE, false),
-					accumulator);
-			if (okToGiveUp()) {
+					accumulator, false);
+			if (!req.wasWaitForDoneReceived() && okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
+				sectionSent = true;
 			} else if (commonBase.isEmpty()) {
 				pckOut.writeString("NAK\n"); //$NON-NLS-1$
+				sectionSent = true;
 			}
-			sectionSent = true;
 		}
 
-		if (req.wasDoneReceived() || okToGiveUp()) {
+		if (req.wasDoneReceived() || (!req.wasWaitForDoneReceived() && okToGiveUp())) {
 			if (mayHaveShallow) {
 				if (sectionSent)
 					pckOut.writeDelim();
@@ -1312,6 +1315,9 @@ public class UploadPack {
 						? OPTION_SIDEBAND_ALL + ' '
 						: "")
 				+ (cachedPackUriProvider != null ? "packfile-uris " : "")
+				+ (transferConfig.isAdvertiseWaitForDone()
+						? OPTION_WAIT_FOR_DONE + ' '
+						: "")
 				+ OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
 		return caps;
@@ -1656,7 +1662,7 @@ public class UploadPack {
 			}
 
 			if (PacketLineIn.isEnd(line)) {
-				last = processHaveLines(peerHas, last, pckOut, accumulator);
+				last = processHaveLines(peerHas, last, pckOut, accumulator, false);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
@@ -1671,7 +1677,7 @@ public class UploadPack {
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 				accumulator.haves++;
 			} else if (line.equals("done")) { //$NON-NLS-1$
-				last = processHaveLines(peerHas, last, pckOut, accumulator);
+				last = processHaveLines(peerHas, last, pckOut, accumulator, false);
 
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
@@ -1688,7 +1694,8 @@ public class UploadPack {
 	}
 
 	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last,
-			PacketLineOut out, PackStatistics.Accumulator accumulator)
+			PacketLineOut out, PackStatistics.Accumulator accumulator,
+			boolean waitForDone)
 			throws IOException {
 		preUploadHook.onBeginNegotiateRound(this, wantIds, peerHas.size());
 		if (wantAll.isEmpty() && !wantIds.isEmpty())
@@ -1754,34 +1761,39 @@ public class UploadPack {
 		// create a pack at this point, let the client know so it stops
 		// telling us about its history.
 		//
-		boolean didOkToGiveUp = false;
-		if (0 < missCnt) {
-			for (int i = peerHas.size() - 1; i >= 0; i--) {
-				ObjectId id = peerHas.get(i);
-				if (walk.lookupOrNull(id) == null) {
-					didOkToGiveUp = true;
-					if (okToGiveUp()) {
-						switch (multiAck) {
-						case OFF:
-							break;
-						case CONTINUE:
-							out.writeString("ACK " + id.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
-							break;
-						case DETAILED:
-							out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
-							sentReady = true;
-							break;
+		if (!waitForDone) {
+			boolean didOkToGiveUp = false;
+			if (0 < missCnt) {
+				for (int i = peerHas.size() - 1; i >= 0; i--) {
+					ObjectId id = peerHas.get(i);
+					if (walk.lookupOrNull(id) == null) {
+						didOkToGiveUp = true;
+						if (okToGiveUp()) {
+							switch (multiAck) {
+							case OFF:
+								break;
+							case CONTINUE:
+								out.writeString(
+										"ACK " + id.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+								break;
+							case DETAILED:
+								out.writeString(
+										"ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+								sentReady = true;
+								break;
+							}
 						}
+						break;
 					}
-					break;
 				}
 			}
-		}
 
-		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp && okToGiveUp()) {
-			ObjectId id = peerHas.get(peerHas.size() - 1);
-			out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			sentReady = true;
+			if (multiAck == MultiAck.DETAILED && !didOkToGiveUp
+					&& okToGiveUp()) {
+				ObjectId id = peerHas.get(peerHas.size() - 1);
+				out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				sentReady = true;
+			}
 		}
 
 		preUploadHook.onEndNegotiateRound(this, wantAll, haveCnt, missCnt, sentReady);
