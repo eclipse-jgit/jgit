@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8074473c_7791849c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-06-10T00:24:31Z",
+      "side": 1,
+      "message": "This used to set `sectionSent \u003d true` even when it\u0027s not okay to give up and the set of common bases isn\u0027t empty. Now it only sets it when one of those cases holds. Intended?",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "296b5315_d535824c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-06-10T00:24:31Z",
+      "side": 1,
+      "message": "Can this be a two-element enum? See effective java 3rd ed item 51, p237: \"prefer two-element enum types to boolean parameters, unless the meaning of the boolean is clear from the method name\".",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d234aa7f_b1c9f16d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1764,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-06-10T00:24:31Z",
+      "side": 1,
+      "message": "optional: would it make sense for this block to be a separate method? I.e.\n\n if (!waitForDone) {\n   sentReady \u003d ...(...);\n }\n\n preUploadHook.onEndNegotiateRound(..., sentReady);",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
