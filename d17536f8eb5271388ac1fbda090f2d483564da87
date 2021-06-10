@@ -70,6 +70,30 @@
       "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6045390b_aa4b5abb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-10T20:00:09Z",
+      "side": 1,
+      "message": "then I\u0027d propose to do this compensation inside writeLooseRef() if useReftable\u003dfalse and add a comment there explaining the reason why this is done",
+      "parentUuid": "8e0e2b60_c3f355ec",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 3
+      },
+      "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
