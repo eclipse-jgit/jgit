@@ -94,6 +94,30 @@
       "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "112a9ac8_246faa9c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2021-06-10T20:09:58Z",
+      "side": 1,
+      "message": "I didn\u0027t do that to start with because we don\u0027t want the exactRef() calls in the tests where we don\u0027t assert for refsChanged events. For example in the test above this one (simpleNoForce()). I tried to explain the need for these new tests in the commit message of the original change: https://git.eclipse.org/r/c/jgit/jgit/+/180696/7//COMMIT_MSG \n\nI can still push these calls inside writeLooseRef() and have a flag to fire the events on need basis if that\u0027s alright.",
+      "parentUuid": "6045390b_aa4b5abb",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 3
+      },
+      "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
