@@ -22,6 +22,30 @@
       "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74e0faee_0c97642d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-06-10T08:18:01Z",
+      "side": 1,
+      "message": "exactRef is an accessor function, so it\u0027s unclear what these two calls doing. comment? Assert something about the return value?",
+      "parentUuid": "2e6a35c1_cab3e69a",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 3
+      },
+      "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
