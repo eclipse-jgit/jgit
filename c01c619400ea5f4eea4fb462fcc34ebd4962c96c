@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "49cfb16a_946dfb7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-10T21:44:19Z",
+      "side": 1,
+      "message": "If you\u0027re quoting the commit message of a commit in Git, indent each line with the same number of spaces (say, 2 spaces) and mention which commit in Git it comes from.",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a145d8c0_2a678197",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-10T21:44:19Z",
+      "side": 1,
+      "message": "s/The/Advertising the/\n\nAnd also mention that it always supports this argument even if it is not advertised.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 3
+      },
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0382fa20_82f25e22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-10T21:44:19Z",
+      "side": 1,
+      "message": "Typo (2 Is in \"waiit\")",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4476d1f7_f69c561b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2021-06-10T21:44:19Z",
+      "side": 1,
+      "message": "I think the most important test is the difference in behavior when wait-for-done is specified and when it is not - so, for example, I would have liked to see a regular round of fetch where a packfile is sent and a round of fetch that is exactly the same, except that \"wait-for-done\" is specified. And in the latter, there is no packfile sent. You can do this by adding a test method with a comment stating that it is exactly like \u003cmethod name\u003e but with \"wait-for-done\", and make it an exact copy except that \"wait-for-done\" is specified and there is no packfile sent.\n\nAs for the existing tests, I\u0027m fine with their inclusion although I don\u0027t know if they are that useful since they\u0027re just testing aspects of negotiation that are the same whether \"wait-for-done\" is received or not.",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8074473c_7791849c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 12
