@@ -46,6 +46,30 @@
       "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e0e2b60_c3f355ec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2021-06-10T17:41:29Z",
+      "side": 1,
+      "message": "The purpose of these two calls is to force the refs-changed events to be fired for the two loose refs that were created using writeLooseRefs. We do this to get the events fired during the test \u0027setup\u0027 out of the way and this allows us to now accurately assert only for the new events fired during the BatchRefUpdate.\n\nwriteLooseRefs function creates refs differently based on useReftable.\n\nWhen useReftable\u003dfalse, refs are created using FileUtils, so we explicitly call refdir.exactRef to fire the events for those loose refs. When useReftable\u003dtrue, the loose refs are created using RefUpdate which likely already fires the events, so there is no need to explicitly call a function to fire those events.",
+      "parentUuid": "74e0faee_0c97642d",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 3
+      },
+      "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
