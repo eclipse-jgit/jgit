@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e6a35c1_cab3e69a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-10T07:36:50Z",
+      "side": 1,
+      "message": "AFAICS the problem here is that if useReftable is true refdir\u003dnull\n\nShouldn\u0027t we use the corresponding reftable implementation instead of skipping the exact lookup of these refs ?\n\n RefDatabase refDB \u003d diskRepo.getRefDatabase();\n refDB.exactRef(\"refs/heads/master\");\n refDB.exactRef(\"refs/heads/masters\");",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 3
+      },
+      "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
