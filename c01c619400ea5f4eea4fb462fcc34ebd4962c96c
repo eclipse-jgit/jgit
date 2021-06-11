@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e9c1c16b_d2732118",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2021-06-11T01:15:03Z",
+      "side": 1,
+      "message": "Attempted fixing this.. Check if its right..",
+      "parentUuid": "49cfb16a_946dfb7f",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a145d8c0_2a678197",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -39,6 +57,30 @@
       "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07437c4b_a41c734d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2021-06-11T01:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a145d8c0_2a678197",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 3
+      },
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "560046cc_4829c264",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2021-06-11T01:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0382fa20_82f25e22",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4476d1f7_f69c561b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 12
@@ -79,6 +145,24 @@
       "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46ca0e2b_98cfe143",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2021-06-11T01:15:03Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "4476d1f7_f69c561b",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "88335f0a_e6c3a07c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2021-06-11T01:15:03Z",
+      "side": 1,
+      "message": "Thats right.. I did it to not have sectionSent when waitForDone is requested. I don\u0027t have to complicate it since rest of the code below will not be executed when waitForDone is requested.\nReverting to its original state.",
+      "parentUuid": "8074473c_7791849c",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "296b5315_d535824c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 12
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "72f8cfc2_4ece2595",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2021-06-11T01:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "296b5315_d535824c",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d234aa7f_b1c9f16d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 12
@@ -130,6 +250,24 @@
       "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71530869_f3c277c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1764,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2021-06-11T01:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d234aa7f_b1c9f16d",
+      "revId": "c01c619400ea5f4eea4fb462fcc34ebd4962c96c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
