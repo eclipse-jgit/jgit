@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b85dc7a0_b1602f26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-06-11T17:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd1885e9_b53b5f13",
+      "range": {
+        "startLine": 14,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "08d1b2507e13a02edfa8c3cd760ed005377be7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e184079c_b15b5acf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 9
