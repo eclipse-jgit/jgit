@@ -22,6 +22,30 @@
       "revId": "64d0aaa2b624e9c011390d817a6d1fef335bf7b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21391670_699c3ce9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1695,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-06-11T17:52:44Z",
+      "side": 1,
+      "message": "Since it\u0027s private, it\u0027s easy to change, so submitting.",
+      "parentUuid": "8d0cb29c_b201485f",
+      "range": {
+        "startLine": 1695,
+        "startChar": 14,
+        "endLine": 1695,
+        "endChar": 20
+      },
+      "revId": "64d0aaa2b624e9c011390d817a6d1fef335bf7b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
