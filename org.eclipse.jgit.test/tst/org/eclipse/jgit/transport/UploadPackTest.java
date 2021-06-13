@@ -999,6 +999,108 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2FetchWithoutWaitForDoneReceivesPackfile()
+			throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		remote.update("branch1", parent);
+
+		RevCommit localParent = null;
+		RevCommit localChild = null;
+		try (TestRepository<InMemoryRepository> local = new TestRepository<>(
+				client)) {
+			RevBlob localParentBlob = local.blob(commonInBlob + "a");
+			localParent = local
+					.commit(local.tree(local.file("foo", localParentBlob)));
+			RevBlob localChildBlob = local.blob(commonInBlob + "b");
+			localChild = local.commit(
+					local.tree(local.file("foo", localChildBlob)), localParent);
+			local.update("branch1", localChild);
+		}
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(),
+				"have " + localParent.toObjectId().getName() + "\n",
+				"have " + localChild.toObjectId().getName() + "\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(Arrays.asList(pckIn.readString()),
+				hasItems("ACK " + parent.toObjectId().getName()));
+		assertThat(pckIn.readString(), is("ready"));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+	}
+
+	@Test
+	public void testV2FetchWithWaitForDoneOnlyDoesNegotiation()
+			throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote
+				.commit(remote.tree(remote.file("foo", parentBlob)));
+		remote.update("branch1", parent);
+
+		RevCommit localParent = null;
+		RevCommit localChild = null;
+		try (TestRepository<InMemoryRepository> local = new TestRepository<>(
+				client)) {
+			RevBlob localParentBlob = local.blob(commonInBlob + "a");
+			localParent = local
+					.commit(local.tree(local.file("foo", localParentBlob)));
+			RevBlob localChildBlob = local.blob(commonInBlob + "b");
+			localChild = local.commit(
+					local.tree(local.file("foo", localChildBlob)), localParent);
+			local.update("branch1", localChild);
+		}
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(), "wait-for-done\n",
+				"have " + localParent.toObjectId().getName() + "\n",
+				"have " + localChild.toObjectId().getName() + "\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(Arrays.asList(pckIn.readString()),
+				hasItems("ACK " + parent.toObjectId().getName()));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
+	public void testV2FetchWithWaitForDoneOnlyDoesNegotiationAndNothingToAck()
+			throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevCommit localParent = null;
+		RevCommit localChild = null;
+		try (TestRepository<InMemoryRepository> local = new TestRepository<>(
+				client)) {
+			RevBlob localParentBlob = local.blob(commonInBlob + "a");
+			localParent = local
+					.commit(local.tree(local.file("foo", localParentBlob)));
+			RevBlob localChildBlob = local.blob(commonInBlob + "b");
+			localChild = local.commit(
+					local.tree(local.file("foo", localChildBlob)), localParent);
+			local.update("branch1", localChild);
+		}
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(), "wait-for-done\n",
+				"have " + localParent.toObjectId().getName() + "\n",
+				"have " + localChild.toObjectId().getName() + "\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(pckIn.readString(), is("NAK"));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
 	public void testV2FetchThinPack() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 

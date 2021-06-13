@@ -1,0 +1,10 @@
+diff --git a/emptyLine b/emptyLine
+index 1fd3fa2..45c2c9b 100644
+--- a/emptyLine
++++ b/emptyLine
+@@ -1,4 +1,4 @@
+ foo
+
+-fie
++bar
+ fum

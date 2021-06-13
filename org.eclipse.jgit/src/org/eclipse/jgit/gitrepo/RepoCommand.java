@@ -12,6 +12,7 @@ package org.eclipse.jgit.gitrepo;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 import static org.eclipse.jgit.lib.Constants.R_REMOTES;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -79,6 +80,13 @@ import org.eclipse.jgit.util.FileUtils;
  * @since 3.4
  */
 public class RepoCommand extends GitCommand<RevCommit> {
+	private static final int LOCK_FAILURE_MAX_RETRIES = 5;
+
+	// Retry exponentially with delays in this range
+	private static final int LOCK_FAILURE_MIN_RETRY_DELAY_MILLIS = 50;
+
+	private static final int LOCK_FAILURE_MAX_RETRY_DELAY_MILLIS = 5000;
+
 	private String manifestPath;
 	private String baseUri;
 	private URI targetUri;
@@ -587,8 +595,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							throw new RemoteUnavailableException(url);
 						}
 						if (recordRemoteBranch) {
-							// can be branch or tag
-							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+							// "branch" field is only for non-tag references.
+							// Keep tags in "ref" field as hint for other tools.
+							String field = proj.getRevision().startsWith(
+									R_TAGS) ? "ref" : "branch"; //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setString("submodule", name, field, //$NON-NLS-1$
 									proj.getRevision());
 						}
 
@@ -682,50 +693,22 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				builder.finish();
 				ObjectId treeId = index.writeTree(inserter);
 
-				// Create a Commit object, populate it and write it
-				ObjectId headId = repo.resolve(targetBranch + "^{commit}"); //$NON-NLS-1$
-				if (headId != null && rw.parseCommit(headId).getTree().getId().equals(treeId)) {
-					// No change. Do nothing.
-					return rw.parseCommit(headId);
+				long prevDelay = 0;
+				for (int i = 0; i < LOCK_FAILURE_MAX_RETRIES - 1; i++) {
+					try {
+						return commitTreeOnCurrentTip(
+							inserter, rw, treeId);
+					} catch (ConcurrentRefUpdateException e) {
+						prevDelay = FileUtils.delay(prevDelay,
+								LOCK_FAILURE_MIN_RETRY_DELAY_MILLIS,
+								LOCK_FAILURE_MAX_RETRY_DELAY_MILLIS);
+						Thread.sleep(prevDelay);
+						repo.getRefDatabase().refresh();
+					}
 				}
-
-				CommitBuilder commit = new CommitBuilder();
-				commit.setTreeId(treeId);
-				if (headId != null)
-					commit.setParentIds(headId);
-				commit.setAuthor(author);
-				commit.setCommitter(author);
-				commit.setMessage(RepoText.get().repoCommitMessage);
-
-				ObjectId commitId = inserter.insert(commit);
-				inserter.flush();
-
-				RefUpdate ru = repo.updateRef(targetBranch);
-				ru.setNewObjectId(commitId);
-				ru.setExpectedOldObjectId(headId != null ? headId : ObjectId.zeroId());
-				Result rc = ru.update(rw);
-
-				switch (rc) {
-					case NEW:
-					case FORCED:
-					case FAST_FORWARD:
-						// Successful. Do nothing.
-						break;
-					case REJECTED:
-					case LOCK_FAILURE:
-						throw new ConcurrentRefUpdateException(
-								MessageFormat.format(
-										JGitText.get().cannotLock, targetBranch),
-								ru.getRef(),
-								rc);
-					default:
-						throw new JGitInternalException(MessageFormat.format(
-								JGitText.get().updatingRefFailed,
-								targetBranch, commitId.name(), rc));
-				}
-
-				return rw.parseCommit(commitId);
-			} catch (GitAPIException | IOException e) {
+				// In the last try, just propagate the exceptions
+				return commitTreeOnCurrentTip(inserter, rw, treeId);
+			} catch (GitAPIException | IOException | InterruptedException e) {
 				throw new ManifestErrorException(e);
 			}
 		}
@@ -740,6 +723,51 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		} catch (GitAPIException | IOException e) {
 			throw new ManifestErrorException(e);
 		}
+	}
+
+
+	private RevCommit commitTreeOnCurrentTip(ObjectInserter inserter,
+			RevWalk rw, ObjectId treeId)
+			throws IOException, ConcurrentRefUpdateException {
+		ObjectId headId = repo.resolve(targetBranch + "^{commit}"); //$NON-NLS-1$
+		if (headId != null && rw.parseCommit(headId).getTree().getId().equals(treeId)) {
+			// No change. Do nothing.
+			return rw.parseCommit(headId);
+		}
+
+		CommitBuilder commit = new CommitBuilder();
+		commit.setTreeId(treeId);
+		if (headId != null)
+			commit.setParentIds(headId);
+		commit.setAuthor(author);
+		commit.setCommitter(author);
+		commit.setMessage(RepoText.get().repoCommitMessage);
+
+		ObjectId commitId = inserter.insert(commit);
+		inserter.flush();
+
+		RefUpdate ru = repo.updateRef(targetBranch);
+		ru.setNewObjectId(commitId);
+		ru.setExpectedOldObjectId(headId != null ? headId : ObjectId.zeroId());
+		Result rc = ru.update(rw);
+		switch (rc) {
+			case NEW:
+			case FORCED:
+			case FAST_FORWARD:
+				// Successful. Do nothing.
+				break;
+			case REJECTED:
+			case LOCK_FAILURE:
+				throw new ConcurrentRefUpdateException(MessageFormat
+						.format(JGitText.get().cannotLock, targetBranch),
+						ru.getRef(), rc);
+			default:
+				throw new JGitInternalException(MessageFormat.format(
+						JGitText.get().updatingRefFailed,
+						targetBranch, commitId.name(), rc));
+		}
+
+		return rw.parseCommit(commitId);
 	}
 
 	private void addSubmodule(String name, String url, String path,

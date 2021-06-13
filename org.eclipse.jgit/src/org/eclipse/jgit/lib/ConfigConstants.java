@@ -398,7 +398,15 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_FF = "ff";
 
 	/**
+	 * The "conflictStyle" key.
+	 *
+	 * @since 5.12
+	 */
+	public static final String CONFIG_KEY_CONFLICTSTYLE = "conflictStyle";
+
+	/**
 	 * The "checkstat" key
+	 *
 	 * @since 3.0
 	 */
 	public static final String CONFIG_KEY_CHECKSTAT = "checkstat";
