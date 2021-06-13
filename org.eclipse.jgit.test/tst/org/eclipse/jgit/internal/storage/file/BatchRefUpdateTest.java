@@ -190,12 +190,25 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		if (atomic) {
 			assertResults(cmds, TRANSACTION_ABORTED, REJECTED_NONFASTFORWARD);
 			assertRefs("refs/heads/master", A, "refs/heads/masters", B);
-			assertEquals(1, refsChangedEvents);
 		} else {
 			assertResults(cmds, OK, REJECTED_NONFASTFORWARD);
 			assertRefs("refs/heads/master", B, "refs/heads/masters", B);
-			assertEquals(2, refsChangedEvents);
 		}
+	}
+
+	@Test
+	public void simpleNoForceRefsChangedEvents() throws IOException {
+		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(B, A, "refs/heads/masters",
+						UPDATE_NONFASTFORWARD));
+		execute(newBatchUpdate(cmds));
+
+		assertEquals(atomic ? initialRefsChangedEvents
+				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
 	@Test
@@ -210,7 +223,21 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		assertResults(cmds, OK, OK);
 		assertRefs("refs/heads/master", B, "refs/heads/masters", A);
-		assertEquals(batchesRefUpdates() ? 2 : 3, refsChangedEvents);
+	}
+
+	@Test
+	public void simpleForceRefsChangedEvents() throws IOException {
+		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(B, A, "refs/heads/masters",
+						UPDATE_NONFASTFORWARD));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 	}
 
 	@Test
@@ -232,7 +259,27 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		assertResults(cmds, OK);
 		assertRefs("refs/heads/master", A);
-		assertEquals(2, refsChangedEvents);
+	}
+
+	@Test
+	public void nonFastForwardDoesNotDoExpensiveMergeCheckRefsChangedEvents()
+			throws IOException {
+		writeLooseRef("refs/heads/master", B);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(new ReceiveCommand(B, A,
+				"refs/heads/master", UPDATE_NONFASTFORWARD));
+		try (RevWalk rw = new RevWalk(diskRepo) {
+			@Override
+			public boolean isMergedInto(RevCommit base, RevCommit tip) {
+				throw new AssertionError("isMergedInto() should not be called");
+			}
+		}) {
+			newBatchUpdate(cmds).setAllowNonFastForwards(true).execute(rw,
+					new StrictWorkMonitor());
+		}
+
+		assertEquals(initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
 	@Test
@@ -251,14 +298,27 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			assertResults(cmds, LOCK_FAILURE, TRANSACTION_ABORTED,
 					TRANSACTION_ABORTED);
 			assertRefs("refs/heads/master", A, "refs/heads/masters", B);
-			assertEquals(1, refsChangedEvents);
 		} else {
 			// Non-atomic updates are applied in order: master succeeds, then
 			// master/x fails due to conflict.
 			assertResults(cmds, OK, LOCK_FAILURE, LOCK_FAILURE);
 			assertRefs("refs/heads/master", B, "refs/heads/masters", B);
-			assertEquals(2, refsChangedEvents);
 		}
+	}
+
+	@Test
+	public void fileDirectoryConflictRefsChangedEvents() throws IOException {
+		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), A, "refs/heads/master/x", CREATE),
+				new ReceiveCommand(zeroId(), A, "refs/heads", CREATE));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true), false);
+
+		assertEquals(atomic ? initialRefsChangedEvents
+				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
 	@Test
@@ -273,15 +333,21 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		assertResults(cmds, OK, OK, OK);
 		assertRefs("refs/heads/master", B, "refs/heads/masters/x", A);
-		if (atomic) {
-			assertEquals(2, refsChangedEvents);
-		} else if (!useReftable) {
-			// The non-atomic case actually produces 5 events, but that's an
-			// implementation detail. We expect at least 4 events, one for the
-			// initial read due to writeLooseRef(), and then one for each
-			// successful ref update.
-			assertTrue(refsChangedEvents >= 4);
-		}
+	}
+
+	@Test
+	public void conflictThanksToDeleteRefsChangedEvents() throws IOException {
+		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), A, "refs/heads/masters/x", CREATE),
+				new ReceiveCommand(B, zeroId(), "refs/heads/masters", DELETE));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 3, refsChangedEvents);
 	}
 
 	@Test
@@ -298,12 +364,26 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		if (atomic) {
 			assertResults(cmds, REJECTED_MISSING_OBJECT, TRANSACTION_ABORTED);
 			assertRefs("refs/heads/master", A);
-			assertEquals(1, refsChangedEvents);
 		} else {
 			assertResults(cmds, REJECTED_MISSING_OBJECT, OK);
 			assertRefs("refs/heads/master", A, "refs/heads/foo2", B);
-			assertEquals(2, refsChangedEvents);
 		}
+	}
+
+	@Test
+	public void updateToMissingObjectRefsChangedEvents() throws IOException {
+		writeLooseRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		ObjectId bad = ObjectId
+				.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, bad, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/foo2", CREATE));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true), false);
+
+		assertEquals(atomic ? initialRefsChangedEvents
+				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
 	@Test
@@ -320,12 +400,26 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		if (atomic) {
 			assertResults(cmds, TRANSACTION_ABORTED, REJECTED_MISSING_OBJECT);
 			assertRefs("refs/heads/master", A);
-			assertEquals(1, refsChangedEvents);
 		} else {
 			assertResults(cmds, OK, REJECTED_MISSING_OBJECT);
 			assertRefs("refs/heads/master", B);
-			assertEquals(2, refsChangedEvents);
 		}
+	}
+
+	@Test
+	public void addMissingObjectRefsChangedEvents() throws IOException {
+		writeLooseRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		ObjectId bad = ObjectId
+				.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), bad, "refs/heads/foo2", CREATE));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true), false);
+
+		assertEquals(atomic ? initialRefsChangedEvents
+				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
 	@Test
@@ -358,12 +452,24 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		if (atomic) {
 			assertResults(cmds, LOCK_FAILURE, TRANSACTION_ABORTED);
 			assertRefs("refs/heads/master", A);
-			assertEquals(1, refsChangedEvents);
 		} else {
 			assertResults(cmds, LOCK_FAILURE, OK);
 			assertRefs("refs/heads/master", A, "refs/heads/foo2", B);
-			assertEquals(2, refsChangedEvents);
 		}
+	}
+
+	@Test
+	public void oneRefWrongOldValueRefsChangedEvents() throws IOException {
+		writeLooseRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(B, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/foo2", CREATE));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+		assertEquals(atomic ? initialRefsChangedEvents
+				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
 	@Test
@@ -378,17 +484,31 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		if (atomic) {
 			assertResults(cmds, TRANSACTION_ABORTED, LOCK_FAILURE);
 			assertRefs("refs/heads/master", A);
-			assertEquals(1, refsChangedEvents);
 		} else {
 			assertResults(cmds, OK, LOCK_FAILURE);
 			assertRefs("refs/heads/master", B);
-			assertEquals(2, refsChangedEvents);
 		}
+	}
+
+	@Test
+	public void nonExistentRefRefsChangedEvents() throws IOException {
+		writeLooseRef("refs/heads/master", A);
+
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(A, zeroId(), "refs/heads/foo2", DELETE));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+		assertEquals(atomic ? initialRefsChangedEvents
+				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
 	@Test
 	public void noRefLog() throws IOException {
 		writeRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		Map<String, ReflogEntry> oldLogs = getLastReflogs("refs/heads/master",
 				"refs/heads/branch");
@@ -402,7 +522,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		assertResults(cmds, OK, OK);
 		assertRefs("refs/heads/master", B, "refs/heads/branch", B);
-		assertEquals(batchesRefUpdates() ? 2 : 3, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 		assertReflogUnchanged(oldLogs, "refs/heads/master");
 		assertReflogUnchanged(oldLogs, "refs/heads/branch");
 	}
@@ -411,6 +532,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	public void reflogDefaultIdent() throws IOException {
 		writeRef("refs/heads/master", A);
 		writeRef("refs/heads/branch2", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		Map<String, ReflogEntry> oldLogs = getLastReflogs("refs/heads/master",
 				"refs/heads/branch1", "refs/heads/branch2");
@@ -423,7 +545,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertResults(cmds, OK, OK);
 		assertRefs("refs/heads/master", B, "refs/heads/branch1", B,
 				"refs/heads/branch2", A);
-		assertEquals(batchesRefUpdates() ? 3 : 4, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 		assertReflogEquals(reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
 				getLastReflog("refs/heads/master"));
 		assertReflogEquals(
@@ -436,6 +559,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	public void reflogAppendStatusNoMessage() throws IOException {
 		writeRef("refs/heads/master", A);
 		writeRef("refs/heads/branch1", B);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		List<ReceiveCommand> cmds = Arrays.asList(
 				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
@@ -448,7 +572,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertResults(cmds, OK, OK, OK);
 		assertRefs("refs/heads/master", B, "refs/heads/branch1", A,
 				"refs/heads/branch2", A);
-		assertEquals(batchesRefUpdates() ? 3 : 5, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 3, refsChangedEvents);
 		assertReflogEquals(
 				// Always forced; setAllowNonFastForwards(true) bypasses the
 				// check.
@@ -465,6 +590,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void reflogAppendStatusFastForward() throws IOException {
 		writeRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		List<ReceiveCommand> cmds = Arrays
 				.asList(new ReceiveCommand(A, B, "refs/heads/master", UPDATE));
@@ -472,7 +598,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		assertResults(cmds, OK);
 		assertRefs("refs/heads/master", B);
-		assertEquals(2, refsChangedEvents);
+		assertEquals(initialRefsChangedEvents + 1, refsChangedEvents);
 		assertReflogEquals(
 				reflog(A, B, new PersonIdent(diskRepo), "fast-forward"),
 				getLastReflog("refs/heads/master"));
@@ -481,6 +607,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void reflogAppendStatusWithMessage() throws IOException {
 		writeRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		List<ReceiveCommand> cmds = Arrays.asList(
 				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
@@ -489,7 +616,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		assertResults(cmds, OK, OK);
 		assertRefs("refs/heads/master", B, "refs/heads/branch", A);
-		assertEquals(batchesRefUpdates() ? 2 : 3, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 		assertReflogEquals(
 				reflog(A, B, new PersonIdent(diskRepo),
 						"a reflog: fast-forward"),
@@ -503,6 +631,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void reflogCustomIdent() throws IOException {
 		writeRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		List<ReceiveCommand> cmds = Arrays.asList(
 				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
@@ -513,7 +642,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				.setRefLogIdent(ident));
 
 		assertResults(cmds, OK, OK);
-		assertEquals(batchesRefUpdates() ? 2 : 3, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 		assertRefs("refs/heads/master", B, "refs/heads/branch", B);
 		assertReflogEquals(reflog(A, B, ident, "a reflog"),
 				getLastReflog("refs/heads/master"), true);
@@ -525,6 +655,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	public void reflogDelete() throws IOException {
 		writeRef("refs/heads/master", A);
 		writeRef("refs/heads/branch", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 		assertEquals(2, getLastReflogs("refs/heads/master", "refs/heads/branch")
 				.size());
 
@@ -535,7 +666,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		assertResults(cmds, OK, OK);
 		assertRefs("refs/heads/branch", B);
-		assertEquals(batchesRefUpdates() ? 3 : 4, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 		if (useReftable) {
 			// reftable retains reflog entries for deleted branches.
 			assertReflogEquals(
@@ -551,6 +683,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void reflogFileDirectoryConflict() throws IOException {
 		writeRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		List<ReceiveCommand> cmds = Arrays.asList(
 				new ReceiveCommand(A, zeroId(), "refs/heads/master", DELETE),
@@ -559,7 +692,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		assertResults(cmds, OK, OK);
 		assertRefs("refs/heads/master/x", A);
-		assertEquals(batchesRefUpdates() ? 2 : 3, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 		if (!useReftable) {
 			// reftable retains reflog entries for deleted branches.
 			assertNull(getLastReflog("refs/heads/master"));
@@ -572,6 +706,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void reflogOnLockFailure() throws IOException {
 		writeRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		Map<String, ReflogEntry> oldLogs = getLastReflogs("refs/heads/master",
 				"refs/heads/branch");
@@ -583,12 +718,12 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		if (atomic) {
 			assertResults(cmds, TRANSACTION_ABORTED, LOCK_FAILURE);
-			assertEquals(1, refsChangedEvents);
+			assertEquals(initialRefsChangedEvents, refsChangedEvents);
 			assertReflogUnchanged(oldLogs, "refs/heads/master");
 			assertReflogUnchanged(oldLogs, "refs/heads/branch");
 		} else {
 			assertResults(cmds, OK, LOCK_FAILURE);
-			assertEquals(2, refsChangedEvents);
+			assertEquals(initialRefsChangedEvents + 1, refsChangedEvents);
 			assertReflogEquals(
 					reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
 					getLastReflog("refs/heads/master"));
@@ -599,6 +734,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void overrideRefLogMessage() throws Exception {
 		writeRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		List<ReceiveCommand> cmds = Arrays.asList(
 				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
@@ -609,7 +745,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				.setRefLogMessage("a reflog", true));
 
 		assertResults(cmds, OK, OK);
-		assertEquals(batchesRefUpdates() ? 2 : 3, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 		assertReflogEquals(reflog(A, B, ident, "custom log"),
 				getLastReflog("refs/heads/master"), true);
 		assertReflogEquals(reflog(zeroId(), B, ident, "a reflog: created"),
@@ -619,6 +756,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void overrideDisableRefLog() throws Exception {
 		writeRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
 
 		Map<String, ReflogEntry> oldLogs = getLastReflogs("refs/heads/master",
 				"refs/heads/branch");
@@ -630,7 +768,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", true));
 
 		assertResults(cmds, OK, OK);
-		assertEquals(batchesRefUpdates() ? 2 : 3, refsChangedEvents);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 2, refsChangedEvents);
 		assertReflogUnchanged(oldLogs, "refs/heads/master");
 		assertReflogEquals(
 				reflog(zeroId(), B, new PersonIdent(diskRepo),
@@ -641,6 +780,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void refLogNotWrittenWithoutConfigOption() throws Exception {
 		assumeFalse(useReftable);
+
 		setLogAllRefUpdates(false);
 		writeRef("refs/heads/master", A);
 
@@ -661,6 +801,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void forceRefLogInUpdate() throws Exception {
 		assumeFalse(useReftable);
+
 		setLogAllRefUpdates(false);
 		writeRef("refs/heads/master", A);
 		assertTrue(getLastReflogs("refs/heads/master", "refs/heads/branch")
@@ -683,6 +824,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void forceRefLogInCommand() throws Exception {
 		assumeFalse(useReftable);
+
 		setLogAllRefUpdates(false);
 		writeRef("refs/heads/master", A);
 
@@ -723,14 +865,34 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			if (atomic) {
 				assertResults(cmds, LOCK_FAILURE, TRANSACTION_ABORTED);
 				assertRefs("refs/heads/master", A);
-				assertEquals(1, refsChangedEvents);
 			} else {
 				// Only operates on loose refs, doesn't care that packed-refs is
 				// locked.
 				assertResults(cmds, OK, OK);
 				assertRefs("refs/heads/master", B, "refs/heads/branch", B);
-				assertEquals(3, refsChangedEvents);
 			}
+		} finally {
+			myLock.unlock();
+		}
+	}
+
+	@Test
+	public void packedRefsLockFailureRefsChangedEvents() throws Exception {
+		assumeFalse(useReftable);
+
+		writeLooseRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE));
+
+		LockFile myLock = refdir.lockPackedRefs();
+		try {
+			execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+			assertEquals(atomic ? initialRefsChangedEvents
+					: initialRefsChangedEvents + 2, refsChangedEvents);
 		} finally {
 			myLock.unlock();
 		}
@@ -757,12 +919,33 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			if (atomic) {
 				assertResults(cmds, TRANSACTION_ABORTED, LOCK_FAILURE);
 				assertRefs("refs/heads/master", A);
-				assertEquals(1, refsChangedEvents);
 			} else {
 				assertResults(cmds, OK, LOCK_FAILURE);
 				assertRefs("refs/heads/branch", B, "refs/heads/master", A);
-				assertEquals(2, refsChangedEvents);
 			}
+		} finally {
+			myLock.unlock();
+		}
+	}
+
+	@Test
+	public void oneRefLockFailureRefsChangedEvents() throws Exception {
+		assumeFalse(useReftable);
+
+		writeLooseRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE),
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE));
+
+		LockFile myLock = new LockFile(refdir.fileFor("refs/heads/master"));
+		assertTrue(myLock.lock());
+		try {
+			execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+			assertEquals(atomic ? initialRefsChangedEvents
+					: initialRefsChangedEvents + 1, refsChangedEvents);
 		} finally {
 			myLock.unlock();
 		}
@@ -771,6 +954,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void singleRefUpdateDoesNotRequirePackedRefsLock() throws Exception {
 		assumeFalse(useReftable);
+
 		writeLooseRef("refs/heads/master", A);
 
 		List<ReceiveCommand> cmds = Arrays
@@ -782,8 +966,28 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 			assertFalse(getLockFile("refs/heads/master").exists());
 			assertResults(cmds, OK);
-			assertEquals(2, refsChangedEvents);
 			assertRefs("refs/heads/master", B);
+		} finally {
+			myLock.unlock();
+		}
+	}
+
+	@Test
+	public void singleRefUpdateDoesNotRequirePackedRefsLockRefsChangedEvents()
+			throws Exception {
+		assumeFalse(useReftable);
+
+		writeLooseRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays
+				.asList(new ReceiveCommand(A, B, "refs/heads/master", UPDATE));
+
+		LockFile myLock = refdir.lockPackedRefs();
+		try {
+			execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+			assertEquals(initialRefsChangedEvents + 1, refsChangedEvents);
 		} finally {
 			myLock.unlock();
 		}
@@ -838,8 +1042,54 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 
 		assertResults(cmds, OK, OK);
-		assertEquals(2, refsChangedEvents);
 		assertRefs("refs/heads/master", B, "refs/heads/branch", B);
+	}
+
+	@Test
+	public void atomicUpdateRespectsInProcessLockRefsChangedEvents()
+			throws Exception {
+		assumeTrue(atomic);
+		assumeFalse(useReftable);
+
+		writeLooseRef("refs/heads/master", A);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE));
+
+		Thread t = new Thread(() -> {
+			try {
+				execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		});
+
+		ReentrantLock l = refdir.inProcessPackedRefsLock;
+		l.lock();
+		try {
+			t.start();
+			long timeoutSecs = 10;
+
+			// Hold onto the lock until we observe the worker thread has
+			// attempted to
+			// acquire it.
+			while (l.getQueueLength() == 0) {
+				Thread.sleep(3);
+			}
+
+			// Once we unlock, the worker thread should finish the update
+			// promptly.
+			l.unlock();
+			t.join(SECONDS.toMillis(timeoutSecs));
+		} finally {
+			if (l.isHeldByCurrentThread()) {
+				l.unlock();
+			}
+		}
+
+		assertEquals(initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
 	private void setLogAllRefUpdates(boolean enable) throws Exception {
@@ -855,6 +1105,11 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			writeRef(name, id);
 		} else {
 			write(new File(diskRepo.getDirectory(), name), id.name() + "\n");
+			// force the refs-changed event to be fired for the loose ref that
+			// was created. We do this to get the events fired during the test
+			// 'setup' out of the way and this allows us to now accurately
+			// assert only for the new events fired during the BatchRefUpdate.
+			refdir.exactRef(name);
 		}
 	}
 
@@ -957,11 +1212,11 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	}
 
 	enum Result {
-		OK(ReceiveCommand.Result.OK), LOCK_FAILURE(
-				ReceiveCommand.Result.LOCK_FAILURE), REJECTED_NONFASTFORWARD(
-						ReceiveCommand.Result.REJECTED_NONFASTFORWARD), REJECTED_MISSING_OBJECT(
-								ReceiveCommand.Result.REJECTED_MISSING_OBJECT), TRANSACTION_ABORTED(
-										ReceiveCommand::isTransactionAborted);
+		OK(ReceiveCommand.Result.OK),
+		LOCK_FAILURE(ReceiveCommand.Result.LOCK_FAILURE),
+		REJECTED_NONFASTFORWARD(ReceiveCommand.Result.REJECTED_NONFASTFORWARD),
+		REJECTED_MISSING_OBJECT(ReceiveCommand.Result.REJECTED_MISSING_OBJECT),
+		TRANSACTION_ABORTED(ReceiveCommand::isTransactionAborted);
 
 		@SuppressWarnings("ImmutableEnumChecker")
 		final Predicate<? super ReceiveCommand> p;
