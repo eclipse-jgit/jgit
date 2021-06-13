@@ -13,7 +13,6 @@ package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
-import static java.util.stream.Collectors.toCollection;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -29,7 +28,6 @@ import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -495,42 +493,24 @@ public class BatchRefUpdate {
 			}
 		}
 		if (!commands2.isEmpty()) {
-			// What part of the name space is already taken
-			Collection<String> takenNames = refdb.getRefs().stream()
-					.map(Ref::getName)
-					.collect(toCollection(HashSet::new));
-			Collection<String> takenPrefixes = getTakenPrefixes(takenNames);
-
-			// Now to the update that may require more room in the name space
+			// Perform updates that may require more room in the name space
 			for (ReceiveCommand cmd : commands2) {
 				try {
 					if (cmd.getResult() == NOT_ATTEMPTED) {
 						cmd.updateType(walk);
 						RefUpdate ru = newUpdate(cmd);
-						SWITCH: switch (cmd.getType()) {
-						case DELETE:
-							// Performed in the first phase
-							break;
-						case UPDATE:
-						case UPDATE_NONFASTFORWARD:
-							RefUpdate ruu = newUpdate(cmd);
-							cmd.setResult(ruu.update(walk));
-							break;
-						case CREATE:
-							for (String prefix : getPrefixes(cmd.getRefName())) {
-								if (takenNames.contains(prefix)) {
-									cmd.setResult(Result.LOCK_FAILURE);
-									break SWITCH;
-								}
-							}
-							if (takenPrefixes.contains(cmd.getRefName())) {
-								cmd.setResult(Result.LOCK_FAILURE);
-								break SWITCH;
-							}
-							ru.setCheckConflicting(false);
-							takenPrefixes.addAll(getPrefixes(cmd.getRefName()));
-							takenNames.add(cmd.getRefName());
-							cmd.setResult(ru.update(walk));
+						switch (cmd.getType()) {
+							case DELETE:
+								// Performed in the first phase
+								break;
+							case UPDATE:
+							case UPDATE_NONFASTFORWARD:
+								RefUpdate ruu = newUpdate(cmd);
+								cmd.setResult(ruu.update(walk));
+								break;
+							case CREATE:
+								cmd.setResult(ru.update(walk));
+								break;
 						}
 					}
 				} catch (IOException err) {
@@ -600,14 +580,6 @@ public class BatchRefUpdate {
 	public void execute(RevWalk walk, ProgressMonitor monitor)
 			throws IOException {
 		execute(walk, monitor, null);
-	}
-
-	private static Collection<String> getTakenPrefixes(Collection<String> names) {
-		Collection<String> ref = new HashSet<>();
-		for (String name : names) {
-			addPrefixesTo(name, ref);
-		}
-		return ref;
 	}
 
 	/**
