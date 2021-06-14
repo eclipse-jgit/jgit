@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/transport/SshConstants.java" type="org.eclipse.jgit.transport.SshConstants">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.11.1"/>
+                <message_argument value="PUBKEY_ACCEPTED_ALGORITHMS"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
