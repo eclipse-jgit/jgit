@@ -348,6 +348,7 @@ public class GC {
 				if (shouldLoosen) {
 					loosen(inserter, reader, oldPack, ids);
 				}
+				oldPack.forceClose();
 				prunePack(oldPack.getPackFile());
 			}
 		}
