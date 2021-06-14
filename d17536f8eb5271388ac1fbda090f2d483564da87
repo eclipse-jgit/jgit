@@ -142,6 +142,30 @@
       "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f600016b_84875489",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2021-06-14T21:46:01Z",
+      "side": 1,
+      "message": "Alright. Thanks Matthias.",
+      "parentUuid": "be5e6f78_cdfe895e",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 3
+      },
+      "revId": "d17536f8eb5271388ac1fbda090f2d483564da87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
