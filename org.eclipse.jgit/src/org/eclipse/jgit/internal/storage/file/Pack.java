@@ -683,6 +683,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		doClose();
 	}
 
+	synchronized void forceClose() throws IOException {
+		activeWindows = 0;
+		activeCopyRawData= 0;
+		doClose();
+	}
+
 	private void doClose() {
 		synchronized (readLock) {
 			if (fd != null) {
