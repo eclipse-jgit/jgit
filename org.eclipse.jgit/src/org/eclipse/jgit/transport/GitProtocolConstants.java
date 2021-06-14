@@ -151,7 +151,7 @@ public final class GitProtocolConstants {
 	/**
 	 * The server waits for client to send "done" before sending any packs back.
 	 *
-	 * @since 5.12
+	 * @since 5.13
 	 */
 	public static final String OPTION_WAIT_FOR_DONE = "wait-for-done"; //$NON-NLS-1$
 

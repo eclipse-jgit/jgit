@@ -311,7 +311,7 @@ public class TransferConfig {
 
 	/**
 	 * @return true to advertise wait-for-done all to the clients
-	 * @since 5.12
+	 * @since 5.13
 	 */
 	public boolean isAdvertiseWaitForDone() {
 		return advertiseWaitForDone;
