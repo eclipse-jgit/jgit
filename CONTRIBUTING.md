@@ -1,6 +1,7 @@
 # Contributing
 
 Please refer to the [contributor guide](https://wiki.eclipse.org/EGit/Contributor_Guide) for all the details.
+Contributions require that you sign the [Eclipse Contributor Agreement](https://www.eclipse.org/legal/ECA.php).
 
 ## Reporting bugs
 
