@@ -52,6 +52,8 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -89,6 +91,17 @@ public abstract class ReachabilityCheckerTestCase
 				checker.areAllReachable(Arrays.asList(a), Stream.of(b2)));
 		assertReachable("reachable from itself",
 				checker.areAllReachable(Arrays.asList(a), Stream.of(a)));
+	}
+
+	@Test
+	public void reachable_self() throws Exception {
+		RevCommit a = repo.commit().create();
+		String name = a.name();
+
+		RevCommit different = repo.getRepository().parseCommit(ObjectId.fromString(name));
+		ReachabilityChecker checker = getChecker(repo);
+		assertReachable("reachable from itself",
+				checker.areAllReachable(Arrays.asList(a), Stream.of(different)));
 	}
 
 	@Test
