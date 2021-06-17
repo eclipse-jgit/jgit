@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8711474_06652119",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "nit: empty line change",
+      "revId": "6a1a3441e0d3ef4a9988b549be923207e28913be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67b0b85e_a93393b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "Why \u0027forcibly\u0027 ?",
+      "range": {
+        "startLine": 410,
+        "startChar": 29,
+        "endLine": 410,
+        "endChar": 37
+      },
+      "revId": "6a1a3441e0d3ef4a9988b549be923207e28913be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a71f502d_ffcb80ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "must",
+      "range": {
+        "startLine": 413,
+        "startChar": 31,
+        "endLine": 413,
+        "endChar": 43
+      },
+      "revId": "6a1a3441e0d3ef4a9988b549be923207e28913be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4300f361_d79b5844",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "Stale comment?",
+      "range": {
+        "startLine": 227,
+        "startChar": 12,
+        "endLine": 227,
+        "endChar": 38
+      },
+      "revId": "6a1a3441e0d3ef4a9988b549be923207e28913be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b917892_f178146e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "Stale comment?",
+      "range": {
+        "startLine": 1119,
+        "startChar": 4,
+        "endLine": 1119,
+        "endChar": 39
+      },
+      "revId": "6a1a3441e0d3ef4a9988b549be923207e28913be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a169bf9c_b178918c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "Stale comment?",
+      "range": {
+        "startLine": 1145,
+        "startChar": 4,
+        "endLine": 1145,
+        "endChar": 31
+      },
+      "revId": "6a1a3441e0d3ef4a9988b549be923207e28913be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

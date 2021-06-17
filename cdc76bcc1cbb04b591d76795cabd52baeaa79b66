@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fccc68e9_731d051d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "We do not cover this part in the test body: is the name misleading or are we supposed also to disable it and see that pack files aren\u0027t scanned?",
+      "range": {
+        "startLine": 207,
+        "startChar": 36,
+        "endLine": 207,
+        "endChar": 50
+      },
+      "revId": "cdc76bcc1cbb04b591d76795cabd52baeaa79b66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8248dd67_db60e10f",
+        "filename": "org.eclipse.jgit/org.eclipse.jgit.iml",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "We don\u0027t use IntelliJ in the JGit project, or at least isn\u0027t required or suggested.\nDo we really need to have the IntelliJ project checked in?",
+      "revId": "cdc76bcc1cbb04b591d76795cabd52baeaa79b66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff3c548_beba708f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-17T17:30:33Z",
+      "side": 1,
+      "message": "static?",
+      "revId": "cdc76bcc1cbb04b591d76795cabd52baeaa79b66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
