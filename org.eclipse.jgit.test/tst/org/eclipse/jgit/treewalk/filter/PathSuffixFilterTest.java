@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, 2013 Google Inc. and others
+ * Copyright (C) 2009, 2021 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -41,10 +41,11 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 
 	@Test
 	public void testRecursiveFiltering() throws IOException {
-		ObjectId treeId = createTree("a.sth", "a.txt", "sub/b.sth", "sub/b.txt");
+		ObjectId treeId = createTree("a.sth", "a.txt", "sub/b.sth", "sub/b.txt",
+				"t.sth", "t.txt");
 
 		List<String> paths = getMatchingPaths(".txt", treeId, true);
-		List<String> expected = Arrays.asList("a.txt", "sub/b.txt");
+		List<String> expected = Arrays.asList("a.txt", "sub/b.txt", "t.txt");
 
 		assertEquals(expected, paths);
 	}
@@ -57,6 +58,17 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 		assertEquals(Arrays.asList("abcd"), getMatchingPaths("abcd", treeId));
 		assertEquals(Arrays.asList("abcd", "bcd"), getMatchingPaths("bcd", treeId));
 		assertEquals(Arrays.asList("abc", "c"), getMatchingPaths("c", treeId));
+	}
+
+	@Test
+	public void testNegated() throws IOException {
+		ObjectId treeId = createTree("a.sth", "a.txt", "sub/b.sth",
+				"sub/b.txt", "t.sth", "t.txt");
+
+		List<String> paths = getMatchingPaths(".txt", treeId, true, true);
+		List<String> expected = Arrays.asList("a.sth", "sub/b.sth", "t.sth");
+
+		assertEquals(expected, paths);
 	}
 
 	private ObjectId createTree(String... paths) throws IOException {
@@ -80,8 +92,18 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 
 	private List<String> getMatchingPaths(String suffixFilter,
 			final ObjectId treeId, boolean recursiveWalk) throws IOException {
+		return getMatchingPaths(suffixFilter, treeId, recursiveWalk, false);
+	}
+
+	private List<String> getMatchingPaths(String suffixFilter,
+			final ObjectId treeId, boolean recursiveWalk, boolean negated)
+			throws IOException {
 		try (TreeWalk tw = new TreeWalk(db)) {
-			tw.setFilter(PathSuffixFilter.create(suffixFilter));
+			TreeFilter filter = PathSuffixFilter.create(suffixFilter);
+			if (negated) {
+				filter = filter.negate();
+			}
+			tw.setFilter(filter);
 			tw.setRecursive(recursiveWalk);
 			tw.addTree(treeId);
 

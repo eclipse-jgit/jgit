@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, 2020 Google Inc. and others
+ * Copyright (C) 2010, 2021 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -18,6 +18,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
@@ -34,8 +36,12 @@ import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.filter.OrTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -488,6 +494,68 @@ public class DiffFormatterTest extends RepositoryTestCase {
 			String actual = os.toString("UTF-8");
 
 			assertEquals("", actual);
+		}
+	}
+
+	@Test
+	public void testFilter() throws Exception {
+		RevCommit parent;
+		RevCommit head;
+		try (Git git = new Git(db)) {
+			writeTrashFile("foo.txt", "foo\n");
+			writeTrashFile("src/some.txt", "some\n");
+			writeTrashFile("src/image.png", "image\n");
+			writeTrashFile("src/test.pdf", "test\n");
+			writeTrashFile("src/xyz.txt", "xyz\n");
+			git.add().addFilepattern(".").call();
+			parent = git.commit().setMessage("initial").call();
+			writeTrashFile("foo.txt", "FOO\n");
+			writeTrashFile("src/some.txt", "SOME\n");
+			writeTrashFile("src/image.png", "IMAGE\n");
+			writeTrashFile("src/test.pdf", "TEST\n");
+			writeTrashFile("src/xyz.txt", "XYZ\n");
+			git.add().addFilepattern(".").call();
+			head = git.commit().setMessage("second").call();
+		}
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+				DiffFormatter dfmt = new DiffFormatter(os)) {
+			dfmt.setRepository(db);
+			List<TreeFilter> skip = new ArrayList<>();
+			skip.add(PathSuffixFilter.create(".png"));
+			skip.add(PathSuffixFilter.create(".pdf"));
+			dfmt.setPathFilter(OrTreeFilter.create(skip).negate());
+			dfmt.format(
+					new CanonicalTreeParser(null, db.newObjectReader(),
+							parent.getTree()),
+					new CanonicalTreeParser(null, db.newObjectReader(),
+							head.getTree()));
+			dfmt.flush();
+
+			String actual = os.toString("UTF-8");
+
+			String expected = "diff --git a/foo.txt b/foo.txt\n"
+					+ "index 257cc56..b7d6715 100644\n"
+					+ "--- a/foo.txt\n"
+					+ "+++ b/foo.txt\n"
+					+ "@@ -1 +1 @@\n"
+					+ "-foo\n"
+					+ "+FOO\n"
+					+ "diff --git a/src/some.txt b/src/some.txt\n"
+					+ "index 363ef61..76cea5f 100644\n"
+					+ "--- a/src/some.txt\n"
+					+ "+++ b/src/some.txt\n"
+					+ "@@ -1 +1 @@\n"
+					+ "-some\n"
+					+ "+SOME\n"
+					+ "diff --git a/src/xyz.txt b/src/xyz.txt\n"
+					+ "index cd470e6..d4e3ab0 100644\n"
+					+ "--- a/src/xyz.txt\n"
+					+ "+++ b/src/xyz.txt\n"
+					+ "@@ -1 +1 @@\n"
+					+ "-xyz\n"
+					+ "+XYZ\n";
+
+			assertEquals(expected, actual);
 		}
 	}
 
