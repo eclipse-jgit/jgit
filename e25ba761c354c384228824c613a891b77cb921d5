@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bd6098eb_5bb310a7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-18T23:37:08Z",
+      "side": 1,
+      "message": "import static Mockito.mock",
+      "range": {
+        "startLine": 206,
+        "startChar": 25,
+        "endLine": 206,
+        "endChar": 38
+      },
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5177fb51_86c98d80",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 6
