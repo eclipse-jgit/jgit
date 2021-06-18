@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb8e4018_7b704cc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-06-18T15:46:03Z",
+      "side": 0,
+      "message": "put it back",
+      "revId": "1cbfea9ece03b40669377a7f858218f6994562ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
