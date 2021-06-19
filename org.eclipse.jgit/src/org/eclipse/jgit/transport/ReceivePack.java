@@ -29,6 +29,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -441,7 +444,7 @@ public class ReceivePack {
 	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs,
 			Set<ObjectId> additionalHaves) {
-		refs = allRefs != null ? allRefs : db.getAllRefs();
+		refs = allRefs != null ? allRefs : getAllRefs();
 		refs = refFilter.filter(refs);
 		advertisedHaves.clear();
 
@@ -1293,6 +1296,21 @@ public class ReceivePack {
 	@Nullable
 	public ReceivedPackStatistics getReceivedPackStatistics() {
 		return stats;
+	}
+
+	/**
+	 * Extract the full list of refs from the ref-db.
+	 *
+	 * @return Map of all refname/ref
+	 */
+	private Map<String, Ref> getAllRefs() {
+		try {
+			return db.getRefDatabase().getRefs().stream()
+					.collect(Collectors.toMap(Ref::getName,
+							Function.identity()));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	/**
