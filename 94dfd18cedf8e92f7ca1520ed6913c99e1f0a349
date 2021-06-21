@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a21df80_8f3ee584",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:49:16Z",
+      "side": 1,
+      "message": "jgit or JGit",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 4
+      },
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0a90968_2bb3efd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:49:16Z",
+      "side": 1,
+      "message": "do you have a concrete example where it would be desirable to not show the message ?",
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f1d979_23b8ed0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:49:16Z",
+      "side": 1,
+      "message": "can ?",
+      "range": {
+        "startLine": 574,
+        "startChar": 9,
+        "endLine": 574,
+        "endChar": 15
+      },
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46c0b94b_fd9124fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:49:16Z",
+      "side": 1,
+      "message": "- missing since tag for new API method\n- methods with return type boolean usually start with \"is\"",
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a817d485_d7ea42df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:49:16Z",
+      "side": 1,
+      "message": "should ?",
+      "range": {
+        "startLine": 724,
+        "startChar": 15,
+        "endLine": 724,
+        "endChar": 20
+      },
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dbcc97d_82571d92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:49:16Z",
+      "side": 1,
+      "message": "can ?",
+      "range": {
+        "startLine": 728,
+        "startChar": 20,
+        "endLine": 728,
+        "endChar": 25
+      },
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e6e2d86_81f557d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:49:16Z",
+      "side": 1,
+      "message": "missing since tag for new API method",
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
