@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaa6812c_3116c5ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T15:01:17Z",
+      "side": 1,
+      "message": "- if loosen() opens the pack it should care for closing it before it returns to the caller\n- why isn\u0027t close() sufficient ?",
+      "revId": "dc43bd95478a32588678e12e243d9b9930f54242",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
