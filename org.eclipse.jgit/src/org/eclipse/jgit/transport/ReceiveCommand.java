@@ -247,6 +247,8 @@ public class ReceiveCommand {
 
 	private String message;
 
+	private boolean exposeMessage = true;
+
 	private boolean customRefLog;
 
 	private String refLogMessage;
@@ -565,6 +567,19 @@ public class ReceiveCommand {
 	}
 
 	/**
+	 * Get whether or not the message should be exposed to users.
+	 * <p>
+	 * {code true} by default.
+	 * <p>
+	 * This Could be used by clients to determine what to do
+	 * with the message.
+	 * @return whether or or not the message should be exposed.
+	 */
+	public boolean getExposeMessage() {
+		return exposeMessage;
+	}
+
+	/**
 	 * Set the message to include in the reflog.
 	 * <p>
 	 * Overrides the default set by {@code setRefLogMessage} on any containing
@@ -695,6 +710,28 @@ public class ReceiveCommand {
 	public void setResult(Result s, String m) {
 		status = s;
 		message = m;
+	}
+
+	/**
+	 * Set the status of this command.
+	 *
+	 * @param s
+	 *            new status code for this command.
+	 * @param m
+	 *            optional message explaining the new status.
+	 * @param exposeMessage
+	 *            optional flag that dictates whether the message
+	 *            could be returned to users.
+	 *            <p>
+	 *            {code true} by default.
+	 *            <p>
+	 *            This Could be used by clients to determine what to do
+	 *            with the message.
+	 */
+	public void setResult(Result s, String m, boolean exposeMessage) {
+		status = s;
+		message = m;
+		this.exposeMessage = exposeMessage;
 	}
 
 	/**
