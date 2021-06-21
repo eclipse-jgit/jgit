@@ -93,6 +93,23 @@
       "revId": "e25ba761c354c384228824c613a891b77cb921d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1faf587_eacb54c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T21:49:35Z",
+      "side": 1,
+      "message": "A.10 in the Linux NFS FAQ [1] says:\n\n\"Thus in general, to recover from an ESTALE error, an application must close the file or directory where the error occurred, and reopen it so the NFS client can resolve the pathname again and retrieve the new file handle.\"\n\nHence shouldn\u0027t we follow this recommendation and retry getObjectLoader()?\nSimilar to how RefDirectory.readPackedRefs() retries if the file handle to packed-refs turns out to be stale when trying to read the packed-refs file.\nIf the file was deleted by another NFS client retrying to read the loose object file should fail with FileNotFoundException and openLooseObject() would handle this in line 479 and not throw an exception but try to find the object in a pack or alternate.\n\n[1] http://nfs.sourceforge.net/",
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
