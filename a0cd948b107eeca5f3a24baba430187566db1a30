@@ -2,6 +2,115 @@
   "comments": [
     {
       "key": {
+        "uuid": "4c4e66ba_f8c28836",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "impact",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c53a7524_5ceee4ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "scans",
+      "range": {
+        "startLine": 9,
+        "startChar": 50,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4f5fafe_69929ac9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "reuse",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a353a6f_b04874f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "how does this reduce complexity ? I\u0027d say: \"Add parameter \"pack.searchForReuseMaxTimeSec\" to limit the time spent on this search.\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa19fc4_338bb752",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "these lines are too wide, in jgit we use max line length of 80 characters",
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32ff43a5_341bb76d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
         "patchSetId": 13
@@ -18,6 +127,206 @@
         "startChar": 41,
         "endLine": 657,
         "endChar": 43
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ba121b9_079e0090",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "I don\u0027t get why you name all these objects but these names aren\u0027t use elsewhere",
+      "range": {
+        "startLine": 692,
+        "startChar": 0,
+        "endLine": 696,
+        "endChar": 33
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56e557f4_12bd3145",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "I think it should not be necessary to set an option in order to get the old behavior",
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9497136_a5dfdea2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "Why should PackDirectory know about these configuration details of PackWriter ?\nThrow a timeout exception in PackWriter if the search takes too long and handle this here?\nYou can override Throwable.fillInStackTrace() to avoid the overhead of filling in the stacktrace.",
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a86fe3a6_0d77b6ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "I think aborting the search is not reducing complexity",
+      "range": {
+        "startLine": 452,
+        "startChar": 22,
+        "endLine": 452,
+        "endChar": 43
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02f876b0_20f9c2fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "this does not exist",
+      "range": {
+        "startLine": 453,
+        "startChar": 15,
+        "endLine": 453,
+        "endChar": 53
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ab4ee36_50b68c59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "- this name seems a bit long\n- config constants are defined in ConfigConstants",
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "632dd251_4de93f6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "use time unit ?",
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4baa5b_93db1dc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "searchForReuseTimeout ?",
+      "range": {
+        "startLine": 284,
+        "startChar": 13,
+        "endLine": 284,
+        "endChar": 37
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a65a98e8_7fa4b98d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "Config supports time units",
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c3b63f0_480c0eb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-21T22:39:42Z",
+      "side": 1,
+      "message": "why msec here and sec below ?",
+      "range": {
+        "startLine": 1257,
+        "startChar": 33,
+        "endLine": 1257,
+        "endChar": 37
       },
       "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
