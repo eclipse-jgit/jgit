@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98117657_29c8cc50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-22T12:50:28Z",
+      "side": 1,
+      "message": "@code",
+      "range": {
+        "startLine": 572,
+        "startChar": 5,
+        "endLine": 572,
+        "endChar": 9
+      },
+      "revId": "7ea69adc569460d2332689bd417ecd19659999fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a35b6f4_ed2e0ad1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-22T12:50:28Z",
+      "side": 1,
+      "message": "5.12 was released last week, we are now heading for 5.13, you can always find the current version in the pom.xml and MANIFEST.MF files",
+      "range": {
+        "startLine": 577,
+        "startChar": 11,
+        "endLine": 577,
+        "endChar": 15
+      },
+      "revId": "7ea69adc569460d2332689bd417ecd19659999fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68cafbb2_d7068e53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-22T12:50:28Z",
+      "side": 1,
+      "message": "@code",
+      "range": {
+        "startLine": 727,
+        "startChar": 16,
+        "endLine": 727,
+        "endChar": 20
+      },
+      "revId": "7ea69adc569460d2332689bd417ecd19659999fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dbee152_694fbcf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-22T12:50:28Z",
+      "side": 1,
+      "message": "5.13",
+      "range": {
+        "startLine": 731,
+        "startChar": 11,
+        "endLine": 731,
+        "endChar": 15
+      },
+      "revId": "7ea69adc569460d2332689bd417ecd19659999fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
