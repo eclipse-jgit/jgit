@@ -128,6 +128,24 @@
       "revId": "e25ba761c354c384228824c613a891b77cb921d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46257cb9_9258b2c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-22T21:42:59Z",
+      "side": 1,
+      "message": "I would implement the recommendation of the NFS FAQ since I am not sure I am aware of all possible use cases where this could play a role. JGit has \u003e 1mio downloads from Maven central per month, this means there might be many use cases we are not aware of.\n\nIf there is a use case where rereading a stale file handle succeeds we are on the safe side. We could add corresponding trace messages to find out if and how frequently such rereads succeed. Maybe we should also add a corresponding metric.",
+      "parentUuid": "3e615214_a8d41b0e",
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
