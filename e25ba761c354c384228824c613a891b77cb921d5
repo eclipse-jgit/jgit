@@ -110,6 +110,24 @@
       "revId": "e25ba761c354c384228824c613a891b77cb921d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e615214_a8d41b0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-22T09:19:01Z",
+      "side": 1,
+      "message": "\u003e A.10 in the Linux NFS FAQ [1] says:\n\u003e \n\u003e \"Thus in general, to recover from an ESTALE error, an application must close the file or directory where the error occurred, and reopen it so the NFS client can resolve the pathname again and retrieve the new file handle.\"\n\nInteresting, thanks for sharing.\n\n\u003e \n\u003e Hence shouldn\u0027t we follow this recommendation and retry getObjectLoader()?\n\u003e Similar to how RefDirectory.readPackedRefs() retries if the file handle to packed-refs turns out to be stale when trying to read the packed-refs file.\n\u003e If the file was deleted by another NFS client retrying to read the loose object file should fail with FileNotFoundException and openLooseObject() would handle this in line 479 and not throw an exception but try to find the object in a pack or alternate.\n\nI am trying to understand what would be the benefit of retrying to read the loose object.\nCan the second loose object read attempt be ever successful rather than raising a FileNotFoundException?\n\nIf not, then suppressing the stale exception and retrying to read the loose object would both end up triggering a search in the pack or alternate anyway.\n\nWDYT?\n\n\u003e \n\u003e [1] http://nfs.sourceforge.net/",
+      "parentUuid": "e1faf587_eacb54c5",
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
