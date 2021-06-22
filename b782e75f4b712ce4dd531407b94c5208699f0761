@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a903c7e5_cb7db262",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-22T21:53:21Z",
+      "side": 1,
+      "message": "getRefs()",
+      "range": {
+        "startLine": 1309,
+        "startChar": 30,
+        "endLine": 1309,
+        "endChar": 62
+      },
+      "revId": "b782e75f4b712ce4dd531407b94c5208699f0761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
