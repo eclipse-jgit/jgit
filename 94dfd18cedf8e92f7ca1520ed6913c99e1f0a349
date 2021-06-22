@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4113eb2c_dbafb34d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-06-22T09:05:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a21df80_8f3ee584",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 4
+      },
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a90968_2bb3efd5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2021-06-21T22:49:16Z",
       "side": 1,
       "message": "do you have a concrete example where it would be desirable to not show the message ?",
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09a15d95_4ea02255",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-06-22T09:05:45Z",
+      "side": 1,
+      "message": "This would depend on the end user, which in the case I\u0027m thinking about is a Gerrit frontend user.\n\n\"Submodule configuration is broken\" is a good example that we want to show to that user.\n\"Lock failure\" is a good example we don\u0027t want to show (as a matter of fact, most/all internal errors we don\u0027t want to show).",
+      "parentUuid": "f0a90968_2bb3efd5",
       "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "eea34f43_0d0248ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-06-22T09:05:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96f1d979_23b8ed0b",
+      "range": {
+        "startLine": 574,
+        "startChar": 9,
+        "endLine": 574,
+        "endChar": 15
+      },
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46c0b94b_fd9124fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 1
@@ -79,6 +145,24 @@
       "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d843b72_e6c5a2ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-06-22T09:05:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46c0b94b_fd9124fd",
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "8de63374_dd7324e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-06-22T09:05:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a817d485_d7ea42df",
+      "range": {
+        "startLine": 724,
+        "startChar": 15,
+        "endLine": 724,
+        "endChar": 20
+      },
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dbcc97d_82571d92",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 1
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "5636fc4b_311f3432",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-06-22T09:05:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dbcc97d_82571d92",
+      "range": {
+        "startLine": 728,
+        "startChar": 20,
+        "endLine": 728,
+        "endChar": 25
+      },
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e6e2d86_81f557d2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 1
@@ -139,6 +271,24 @@
       "writtenOn": "2021-06-21T22:49:16Z",
       "side": 1,
       "message": "missing since tag for new API method",
+      "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "224371af_37cf1882",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 301552
+      },
+      "writtenOn": "2021-06-22T09:05:45Z",
+      "side": 1,
+      "message": "I figured we\u0027re in 5.1, but I\u0027m not sure if I saw the right number, is that correct?",
+      "parentUuid": "6e6e2d86_81f557d2",
       "revId": "94dfd18cedf8e92f7ca1520ed6913c99e1f0a349",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
