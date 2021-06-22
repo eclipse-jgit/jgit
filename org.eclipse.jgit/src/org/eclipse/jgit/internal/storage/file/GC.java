@@ -344,11 +344,10 @@ public class GC {
 					&& repo.getFS()
 							.lastModifiedInstant(oldPack.getPackFile())
 							.toEpochMilli() < packExpireDate) {
-				oldPack.close();
 				if (shouldLoosen) {
 					loosen(inserter, reader, oldPack, ids);
 				}
-				oldPack.forceClose();
+				oldPack.close();
 				prunePack(oldPack.getPackFile());
 			}
 		}
