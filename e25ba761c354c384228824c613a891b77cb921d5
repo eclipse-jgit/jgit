@@ -164,6 +164,24 @@
       "revId": "e25ba761c354c384228824c613a891b77cb921d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b6ea22_dfca6ddf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-23T18:34:57Z",
+      "side": 1,
+      "message": "The only use-case where a re-read of a stale file handle for a loose object is if the filesystem was remounted.",
+      "parentUuid": "16879cb1_65921061",
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }

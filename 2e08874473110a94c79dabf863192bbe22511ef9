@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df2c8117_4de473f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-23T18:34:57Z",
+      "side": 1,
+      "message": "This headline is now stale: we do not suppress the exception but rather retry.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "2e08874473110a94c79dabf863192bbe22511ef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fcab02f_cd170007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-23T18:34:57Z",
+      "side": 1,
+      "message": "nit: wrap long line.",
+      "range": {
+        "startLine": 28,
+        "startChar": 69,
+        "endLine": 28,
+        "endChar": 74
+      },
+      "revId": "2e08874473110a94c79dabf863192bbe22511ef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "802476dc_9748867a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-06-23T18:34:57Z",
+      "side": 1,
+      "message": "Why 5 times? I believe 1 time would be more than enough.\nIf you get a stale file handle exception it means that the underlying file disappeared, hence trying to read the same file would always throw a FileNotFoundException at the first attempt.\n\nDo you envisage any situation where the file handle could be stale again after 1 attempt?",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 27
+      },
+      "revId": "2e08874473110a94c79dabf863192bbe22511ef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
