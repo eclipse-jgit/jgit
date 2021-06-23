@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -447,7 +448,7 @@ public class FileRepository extends Repository {
 				FileRepository repo;
 
 				repo = ((AlternateRepository) d).repository;
-				for (Ref ref : repo.getAllRefs().values()) {
+				for (Ref ref : getAllRefs(repo)) {
 					if (ref.getObjectId() != null)
 						r.add(ref.getObjectId());
 					if (ref.getPeeledObjectId() != null)
@@ -457,6 +458,14 @@ public class FileRepository extends Repository {
 			}
 		}
 		return r;
+	}
+
+	private List<Ref> getAllRefs(Repository repo) {
+		try {
+			return repo.getRefDatabase().getRefs();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	/**
