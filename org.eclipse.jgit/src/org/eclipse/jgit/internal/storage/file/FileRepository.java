@@ -420,9 +420,11 @@ public class FileRepository extends Repository {
 	 * advertise that it safely has that other repository's references, without
 	 * exposing any other details about the other repository. This may help a
 	 * client trying to push changes avoid pushing more than it needs to.
+	 *
+	 * @throws IOException
 	 */
 	@Override
-	public Set<ObjectId> getAdditionalHaves() {
+	public Set<ObjectId> getAdditionalHaves() throws IOException {
 		return getAdditionalHaves(null);
 	}
 
@@ -438,8 +440,11 @@ public class FileRepository extends Repository {
 	 *            Set of AlternateHandle Ids already seen
 	 *
 	 * @return unmodifiable collection of other known objects.
+	 * @throws IOException
+	 *             if getting refs hits an IO error
 	 */
-	private Set<ObjectId> getAdditionalHaves(Set<AlternateHandle.Id> skips) {
+	private Set<ObjectId> getAdditionalHaves(Set<AlternateHandle.Id> skips)
+			throws IOException {
 		HashSet<ObjectId> r = new HashSet<>();
 		skips = objectDatabase.addMe(skips);
 		for (AlternateHandle d : objectDatabase.myAlternates()) {
@@ -447,7 +452,7 @@ public class FileRepository extends Repository {
 				FileRepository repo;
 
 				repo = ((AlternateRepository) d).repository;
-				for (Ref ref : repo.getAllRefs().values()) {
+				for (Ref ref : repo.getRefDatabase().getRefs()) {
 					if (ref.getObjectId() != null)
 						r.add(ref.getObjectId());
 					if (ref.getPeeledObjectId() != null)

@@ -42,6 +42,8 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.IOException;
+
 /**
  * Hook to allow callers to take over advertising refs to the client.
  *
@@ -89,8 +91,9 @@ public interface AdvertiseRefsHook {
 	 *            if necessary.
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
+	 * @throws IOException
 	 * @since 5.6
 	 */
 	void advertiseRefs(ReceivePack receivePack)
-			throws ServiceMayNotContinueException;
+			throws ServiceMayNotContinueException, IOException;
 }

@@ -440,9 +440,10 @@ public class ReceivePack {
 	 *            explicit set of additional haves to claim as advertised. If
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
+	 * @throws IOException
 	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs,
-			Set<ObjectId> additionalHaves) {
+			Set<ObjectId> additionalHaves) throws IOException {
 		refs = allRefs != null ? allRefs : getAllRefs();
 		refs = refFilter.filter(refs);
 		advertisedHaves.clear();
@@ -1187,8 +1188,9 @@ public class ReceivePack {
 	 * Get advertised refs, or the default if not explicitly advertised.
 	 *
 	 * @return advertised refs, or the default if not explicitly advertised.
+	 * @throws IOException
 	 */
-	private Map<String, Ref> getAdvertisedOrDefaultRefs() {
+	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
 		if (refs == null)
 			setAdvertisedRefs(null, null);
 		return refs;

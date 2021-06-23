@@ -142,7 +142,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 				rp.setAdvertiseRefsHook(new AdvertiseRefsHook() {
 					@Override
 					public void advertiseRefs(ReceivePack rp2)
-							throws ServiceMayNotContinueException {
+							throws IOException {
 						rp.setAdvertisedRefs(rp.getRepository().getAllRefs(),
 								null);
 						new HidePrivateHook().advertiseRefs(rp);

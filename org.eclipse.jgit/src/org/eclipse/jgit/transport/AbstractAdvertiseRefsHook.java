@@ -42,6 +42,7 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,10 +66,12 @@ public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
 				uploadPack.getRepository(), uploadPack.getRevWalk()));
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void advertiseRefs(ReceivePack receivePack)
-			throws ServiceMayNotContinueException {
+			throws IOException {
 		Map<String, Ref> refs = getAdvertisedRefs(receivePack.getRepository(),
 				receivePack.getRevWalk());
 		Set<ObjectId> haves = getAdvertisedHaves(receivePack.getRepository(),
