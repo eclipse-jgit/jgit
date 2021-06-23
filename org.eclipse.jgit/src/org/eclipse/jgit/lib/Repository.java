@@ -1163,9 +1163,14 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	@NonNull
 	public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
-		Map<String, Ref> allRefs = getAllRefs();
+		List<Ref> allRefs;
+		try {
+			allRefs = getRefDatabase().getRefs();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 		Map<AnyObjectId, Set<Ref>> ret = new HashMap<>(allRefs.size());
-		for (Ref ref : allRefs.values()) {
+		for (Ref ref : allRefs) {
 			ref = peel(ref);
 			AnyObjectId target = ref.getPeeledObjectId();
 			if (target == null)
