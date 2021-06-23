@@ -16,6 +16,24 @@
       "revId": "f6b9b392e7c31cee6954aedc12001de3c17731a3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e319a95e_1cde16e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/ssh/OpenSshConfigFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2021-06-23T18:34:39Z",
+      "side": 1,
+      "message": "We create live objects in couple tests (can be mocked instead) and also override SshConfigStore in prod code to add couple values to the HostEntries.",
+      "parentUuid": "ef00d253_69d88aee",
+      "revId": "f6b9b392e7c31cee6954aedc12001de3c17731a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
