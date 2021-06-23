@@ -121,7 +121,7 @@ public class PlotWalk extends RevWalk {
 		return pc;
 	}
 
-	private Ref[] getRefs(AnyObjectId commitId) {
+	private Ref[] getRefs(AnyObjectId commitId) throws IOException {
 		if (reverseRefMap == null) {
 			reverseRefMap = repository.getAllRefsByPeeledObjectId();
 			for (Map.Entry<AnyObjectId, Set<Ref>> entry : additionalRefMap
