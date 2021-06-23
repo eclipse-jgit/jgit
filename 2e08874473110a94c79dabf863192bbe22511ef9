@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "049053ac_d3ba3dac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-23T20:13:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "df2c8117_4de473f5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "2e08874473110a94c79dabf863192bbe22511ef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fcab02f_cd170007",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5bd8b8e2_47ef887a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-23T20:13:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fcab02f_cd170007",
+      "range": {
+        "startLine": 28,
+        "startChar": 69,
+        "endLine": 28,
+        "endChar": 74
+      },
+      "revId": "2e08874473110a94c79dabf863192bbe22511ef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "802476dc_9748867a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -59,6 +107,30 @@
       "writtenOn": "2021-06-23T18:34:57Z",
       "side": 1,
       "message": "Why 5 times? I believe 1 time would be more than enough.\nIf you get a stale file handle exception it means that the underlying file disappeared, hence trying to read the same file would always throw a FileNotFoundException at the first attempt.\n\nDo you envisage any situation where the file handle could be stale again after 1 attempt?",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 27
+      },
+      "revId": "2e08874473110a94c79dabf863192bbe22511ef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c34ec426_e08f3831",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-23T20:13:28Z",
+      "side": 1,
+      "message": "\u003e Why 5 times? I believe 1 time would be more than enough.\n\nI tried to explain why 5 in the commit message, (in the related CR you can find the rationale on why 5 was chosen).\n\nIf we always ends up at 1, then it should add no harm to add a safety upper bound of 5, we\u0027ll never reach it anyway.\n\n\u003e If you get a stale file handle exception it means that the underlying file disappeared, hence trying to read the same file would always throw a FileNotFoundException at the first attempt.\n\u003e \n\u003e Do you envisage any situation where the file handle could be stale again after 1 attempt?\n\nI agree this is the real scenario and I previously raised a similar point: however, if I understood @Matthias\u0027 point correctly, he suggests to adhere to the Linux FAQ recommendations, since there might be scenarios we are not aware of, to be on the safe side.\n\nNow, if the approach is to retry to read the loose object we have to deal with the fact that each read can raise an ESTALE error, as external clients, again, might (re)move the file, after Gerrit has already opened a file handle.",
+      "parentUuid": "802476dc_9748867a",
       "range": {
         "startLine": 29,
         "startChar": 14,
