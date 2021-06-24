@@ -152,6 +152,23 @@
       "revId": "063c9ad6da632461ac20719e07314fc33a313ed7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3094333a_445a6ec8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 2362,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T22:57:59Z",
+      "side": 1,
+      "message": "why is this hard-coded if there is a setter ?",
+      "revId": "063c9ad6da632461ac20719e07314fc33a313ed7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
