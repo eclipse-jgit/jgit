@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "0b071da5_b0156482",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T23:10:19Z",
+      "side": 1,
+      "message": "auto-formatting messed this one up, bullet list in javadoc can be formatted using html",
+      "revId": "063c9ad6da632461ac20719e07314fc33a313ed7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c64b496f_c9025206",
         "filename": "org.eclipse.jgit/.settings/.api_filters",
         "patchSetId": 18
