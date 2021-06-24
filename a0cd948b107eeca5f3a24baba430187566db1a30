@@ -319,6 +319,30 @@
     },
     {
       "key": {
+        "uuid": "8f98017b_83e783bf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T22:54:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "619e8580_dea9a3cf",
+      "range": {
+        "startLine": 692,
+        "startChar": 0,
+        "endLine": 696,
+        "endChar": 33
+      },
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56e557f4_12bd3145",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 13
@@ -515,6 +539,24 @@
       "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae990d61_9c2f41ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T22:54:11Z",
+      "side": 1,
+      "message": "sorry, my fault",
+      "parentUuid": "10aff27a_7502dd28",
+      "revId": "a0cd948b107eeca5f3a24baba430187566db1a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
