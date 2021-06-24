@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2a1eb9d3_956da2ca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-06-24T12:11:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fccc68e9_731d051d",
+      "range": {
+        "startLine": 207,
+        "startChar": 36,
+        "endLine": 207,
+        "endChar": 50
+      },
+      "revId": "cdc76bcc1cbb04b591d76795cabd52baeaa79b66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8248dd67_db60e10f",
         "filename": "org.eclipse.jgit/org.eclipse.jgit.iml",
         "patchSetId": 8
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "78a7a0af_6940b7dc",
+        "filename": "org.eclipse.jgit/org.eclipse.jgit.iml",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-06-24T12:11:30Z",
+      "side": 1,
+      "message": "wrongly committed",
+      "parentUuid": "8248dd67_db60e10f",
+      "revId": "cdc76bcc1cbb04b591d76795cabd52baeaa79b66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bff3c548_beba708f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 8
@@ -56,6 +98,24 @@
       "revId": "cdc76bcc1cbb04b591d76795cabd52baeaa79b66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb1dfa24_b6012817",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-06-24T12:11:30Z",
+      "side": 1,
+      "message": "not used anymore in the latest PS",
+      "parentUuid": "bff3c548_beba708f",
+      "revId": "cdc76bcc1cbb04b591d76795cabd52baeaa79b66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "baf17b0c17c8f80ff70ffc13051a8b6ae16dfd8b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f05c5b9_95ea9a2b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-06-24T12:11:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1c1c970_6f442378",
+      "revId": "baf17b0c17c8f80ff70ffc13051a8b6ae16dfd8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
