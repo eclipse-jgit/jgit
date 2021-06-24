@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "942838b2_22272af4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T21:55:45Z",
+      "side": 1,
+      "message": "fixed formatting",
+      "revId": "24d6d605388c82201092cf1699b51095299380a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab199fe_6374744b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T21:55:45Z",
+      "side": 1,
+      "message": "fixed \n- boxing warnings\n- formatting",
+      "revId": "24d6d605388c82201092cf1699b51095299380a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

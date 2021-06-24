@@ -16,6 +16,24 @@
       "revId": "7c9919b13388ff3be347f62ef69dc7a7e44b8ef6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a3a9771_9eb33eb0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T21:55:45Z",
+      "side": 1,
+      "message": "AFAICS the file handle is opened and closed in the try-with-resource managing the FileInputStream in ObjectDirectory.getObjectLoader()",
+      "parentUuid": "edd0634a_2790d833",
+      "revId": "7c9919b13388ff3be347f62ef69dc7a7e44b8ef6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
