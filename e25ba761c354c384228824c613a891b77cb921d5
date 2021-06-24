@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2fbd876d_156e6417",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T06:20:34Z",
+      "side": 1,
+      "message": "looks like you missed to push this",
+      "parentUuid": "ffc6d910_2f94c58a",
+      "range": {
+        "startLine": 206,
+        "startChar": 25,
+        "endLine": 206,
+        "endChar": 38
+      },
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5177fb51_86c98d80",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 6
@@ -203,6 +227,24 @@
       "side": 1,
       "message": "The only use-case where a re-read of a stale file handle for a loose object is if the filesystem was remounted.",
       "parentUuid": "16879cb1_65921061",
+      "revId": "e25ba761c354c384228824c613a891b77cb921d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31a62c1e_8fcdd874",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T06:20:34Z",
+      "side": 1,
+      "message": "I think another thread or process may have re-inserted the same loose object concurrently to gc pruning it",
+      "parentUuid": "62b6ea22_dfca6ddf",
       "revId": "e25ba761c354c384228824c613a891b77cb921d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true

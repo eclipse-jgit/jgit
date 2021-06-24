@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "433fb2e3_d6d88b9f",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T06:20:34Z",
+      "side": 1,
+      "message": "file handle",
+      "range": {
+        "startLine": 419,
+        "startChar": 42,
+        "endLine": 419,
+        "endChar": 48
+      },
+      "revId": "0ec0580313d11d4e3e67aa2879499e893c6e3a43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd48eba7_7e034553",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-06-24T06:20:34Z",
+      "side": 1,
+      "message": "either guard this with \n\n if (LOG.isDebug()) {\n }\n\nor don\u0027t use MessageFormat which would always format this trace string even if log level is ERROR, on the other hand slf4j parameter substitution [1] skips this transparently\n\n[1] https://www.javadoc.io/doc/org.slf4j/slf4j-api/1.7.30/org/slf4j/helpers/MessageFormatter.html",
+      "revId": "0ec0580313d11d4e3e67aa2879499e893c6e3a43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
