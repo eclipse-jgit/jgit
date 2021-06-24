@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3902190b_3e086b42",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-24T10:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "433fb2e3_d6d88b9f",
+      "range": {
+        "startLine": 419,
+        "startChar": 42,
+        "endLine": 419,
+        "endChar": 48
+      },
+      "revId": "0ec0580313d11d4e3e67aa2879499e893c6e3a43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd48eba7_7e034553",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 10
@@ -39,6 +63,24 @@
       "revId": "0ec0580313d11d4e3e67aa2879499e893c6e3a43",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d099ee5d_673b5260",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-06-24T10:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd48eba7_7e034553",
+      "revId": "0ec0580313d11d4e3e67aa2879499e893c6e3a43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
