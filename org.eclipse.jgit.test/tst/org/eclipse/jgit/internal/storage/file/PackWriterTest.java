@@ -18,6 +18,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -43,6 +49,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.DepthWalk;
@@ -58,6 +65,7 @@ import org.eclipse.jgit.transport.PackParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class PackWriterTest extends SampleDataRepositoryTestCase {
 
@@ -624,6 +632,131 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			assertContent(idx, Arrays.asList(c1.getId(), c2.getId(),
 					c1.getTree().getId(), c2.getTree().getId()));
 		}
+	}
+
+	@Test
+	public void testTotalPackFilesScanWhenSearchForReuseTimeoutNotSet()
+			throws Exception {
+		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
+		PackWriter mockedPackWriter = Mockito
+				.spy(new PackWriter(config, fileRepository.newObjectReader()));
+
+		doNothing().when(mockedPackWriter).select(any(), any());
+
+		try (FileOutputStream packOS = new FileOutputStream(
+				getPackFileToWrite(fileRepository, mockedPackWriter))) {
+			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
+					NullProgressMonitor.INSTANCE, packOS);
+		}
+
+		long numberOfPackFiles = new GC(fileRepository)
+				.getStatistics().numberOfPackFiles;
+		int expectedSelectCalls =
+				// Objects contained in multiple packfiles * number of packfiles
+				2 * (int) numberOfPackFiles +
+				// Objects in single packfile
+						1;
+		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
+				any());
+	}
+
+	@Test
+	public void testTotalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck()
+			throws Exception {
+		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
+		PackConfig packConfig = new PackConfig();
+		packConfig.setSearchForReuseTimeout(Duration.ofSeconds(-1));
+		PackWriter mockedPackWriter = Mockito.spy(
+				new PackWriter(packConfig, fileRepository.newObjectReader()));
+
+		doNothing().when(mockedPackWriter).select(any(), any());
+
+		try (FileOutputStream packOS = new FileOutputStream(
+				getPackFileToWrite(fileRepository, mockedPackWriter))) {
+			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
+					NullProgressMonitor.INSTANCE, packOS);
+		}
+
+		long numberOfPackFiles = new GC(fileRepository)
+				.getStatistics().numberOfPackFiles;
+		int expectedSelectCalls =
+				// Objects contained in multiple packfiles * number of packfiles
+				2 * (int) numberOfPackFiles +
+				// Objects contained in single packfile
+						1;
+		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
+				any());
+	}
+
+	@Test
+	public void testPartialPackFilesScanWhenDoingSearchForReuseTimeoutCheck()
+			throws Exception {
+		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
+		PackConfig packConfig = new PackConfig();
+		packConfig.setSearchForReuseTimeout(Duration.ofSeconds(-1));
+		PackWriter mockedPackWriter = Mockito.spy(
+				new PackWriter(packConfig, fileRepository.newObjectReader()));
+		mockedPackWriter.enableSearchForReuseTimeout();
+
+		doNothing().when(mockedPackWriter).select(any(), any());
+
+		try (FileOutputStream packOS = new FileOutputStream(
+				getPackFileToWrite(fileRepository, mockedPackWriter))) {
+			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
+					NullProgressMonitor.INSTANCE, packOS);
+		}
+
+		int expectedSelectCalls = 3; // Objects in packfiles
+		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
+				any());
+	}
+
+	/**
+	 * Creates objects and packfiles in the following order:
+	 * <ul>
+	 * <li>Creates 2 objects (C1 = commit, T1 = tree)
+	 * <li>Creates packfile P1 (containing C1, T1)
+	 * <li>Creates 1 object (C2 commit)
+	 * <li>Creates packfile P2 (containing C1, T1, C2)
+	 * <li>Create 1 object (C3 commit)
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private FileRepository setUpRepoWithMultiplePackfiles() throws Exception {
+		FileRepository fileRepository = createWorkRepository();
+		try (Git git = new Git(fileRepository)) {
+			// Creates 2 objects (C1 = commit, T1 = tree)
+			git.commit().setMessage("First commit").call();
+			GC gc = new GC(fileRepository);
+			gc.setPackExpireAgeMillis(Long.MAX_VALUE);
+			gc.setExpireAgeMillis(Long.MAX_VALUE);
+			// Creates packfile P1 (containing C1, T1)
+			gc.gc();
+			// Creates 1 object (C2 commit)
+			git.commit().setMessage("Second commit").call();
+			// Creates packfile P2 (containing C1, T1, C2)
+			gc.gc();
+			// Create 1 object (C3 commit)
+			git.commit().setMessage("Third commit").call();
+		}
+		return fileRepository;
+	}
+
+	private PackFile getPackFileToWrite(FileRepository fileRepository,
+			PackWriter mockedPackWriter) throws IOException {
+		File packdir = fileRepository.getObjectDatabase().getPackDirectory();
+		PackFile packFile = new PackFile(packdir,
+				mockedPackWriter.computeName(), PackExt.PACK);
+
+		Set<ObjectId> all = new HashSet<>();
+		for (Ref r : fileRepository.getRefDatabase().getRefs()) {
+			all.add(r.getObjectId());
+		}
+
+		mockedPackWriter.preparePack(NullProgressMonitor.INSTANCE, all,
+				PackWriter.NONE);
+		return packFile;
 	}
 
 	private FileRepository setupRepoForShallowFetch() throws Exception {

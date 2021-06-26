@@ -470,6 +470,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String logLargerFiletimeDiff;
 	/***/ public String logSmallerFiletime;
 	/***/ public String logXDGConfigHomeInvalid;
+	/***/ public String looseObjectHandleIsStale;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
 	/***/ public String mergeConflictOnNotes;
@@ -660,6 +661,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String saveFileStoreAttributesFailed;
 	/***/ public String searchForReachableBranches;
 	/***/ public String searchForReuse;
+	/***/ public String searchForReuseTimeout;
 	/***/ public String searchForSizes;
 	/***/ public String secondsAgo;
 	/***/ public String selectingCommits;
