@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc. and others
+ * Copyright (C) 2009, 2021 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -71,6 +71,15 @@ public class PathSuffixFilter extends TreeFilter {
 		}
 		return walker.isPathSuffix(pathRaw, pathRaw.length);
 
+	}
+
+	@Override
+	public int matchFilter(TreeWalk walker) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		if (walker.isSubtree()) {
+			return -1;
+		}
+		return super.matchFilter(walker);
 	}
 
 	/** {@inheritDoc} */
