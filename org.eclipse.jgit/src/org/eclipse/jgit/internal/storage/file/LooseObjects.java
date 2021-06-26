@@ -17,8 +17,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
+import java.text.MessageFormat;
 import java.util.Set;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileObjectDatabase.InsertLooseObjectResult;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -39,6 +41,12 @@ import org.slf4j.LoggerFactory;
 class LooseObjects {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(LooseObjects.class);
+
+	/**
+	 * Maximum number of attempts to read a loose object for which a stale file
+	 * handle exception is thrown
+	 */
+	final static int MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS = 5;
 
 	private final File directory;
 
@@ -69,7 +77,7 @@ class LooseObjects {
 	}
 
 	void close() {
-		unpackedObjectCache.clear();
+		unpackedObjectCache().clear();
 	}
 
 	/** {@inheritDoc} */
@@ -79,7 +87,7 @@ class LooseObjects {
 	}
 
 	boolean hasCached(AnyObjectId id) {
-		return unpackedObjectCache.isUnpacked(id);
+		return unpackedObjectCache().isUnpacked(id);
 	}
 
 	/**
@@ -133,29 +141,77 @@ class LooseObjects {
 	}
 
 	ObjectLoader open(WindowCursor curs, AnyObjectId id) throws IOException {
-		File path = fileFor(id);
-		try (FileInputStream in = new FileInputStream(path)) {
-			unpackedObjectCache.add(id);
-			return UnpackedObject.open(in, path, id, curs);
-		} catch (FileNotFoundException noFile) {
-			if (path.exists()) {
-				throw noFile;
+		int readAttempts = 0;
+		while (readAttempts < MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS) {
+			readAttempts++;
+			File path = fileFor(id);
+			try {
+				return getObjectLoader(curs, path, id);
+			} catch (FileNotFoundException noFile) {
+				if (path.exists()) {
+					throw noFile;
+				}
+				break;
+			} catch (IOException e) {
+				if (!FileUtils.isStaleFileHandleInCausalChain(e)) {
+					throw e;
+				}
+				if (LOG.isDebugEnabled()) {
+					LOG.debug(MessageFormat.format(
+							JGitText.get().looseObjectHandleIsStale, id.name(),
+							Integer.valueOf(readAttempts), Integer.valueOf(
+									MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS)));
+				}
 			}
-			unpackedObjectCache.remove(id);
-			return null;
 		}
+		unpackedObjectCache().remove(id);
+		return null;
+	}
+
+	/**
+	 * Provides a loader for an objectId
+	 *
+	 * @param curs
+	 *            cursor on the database
+	 * @param path
+	 *            the path of the loose object
+	 * @param id
+	 *            the object id
+	 * @return a loader for the loose file object
+	 * @throws IOException
+	 *             when file does not exist or it could not be opened
+	 */
+	ObjectLoader getObjectLoader(WindowCursor curs, File path, AnyObjectId id)
+			throws IOException {
+		try (FileInputStream in = new FileInputStream(path)) {
+			unpackedObjectCache().add(id);
+			return UnpackedObject.open(in, path, id, curs);
+		}
+	}
+
+	/**
+	 * <p>
+	 * Getter for the field <code>unpackedObjectCache</code>.
+	 * </p>
+	 * This accessor is particularly useful to allow mocking of this class for
+	 * testing purposes.
+	 *
+	 * @return the cache of the objects currently unpacked.
+	 */
+	UnpackedObjectCache unpackedObjectCache() {
+		return unpackedObjectCache;
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id) throws IOException {
 		File f = fileFor(id);
 		try (FileInputStream in = new FileInputStream(f)) {
-			unpackedObjectCache.add(id);
+			unpackedObjectCache().add(id);
 			return UnpackedObject.getSize(in, id, curs);
 		} catch (FileNotFoundException noFile) {
 			if (f.exists()) {
 				throw noFile;
 			}
-			unpackedObjectCache.remove(id);
+			unpackedObjectCache().remove(id);
 			return -1;
 		}
 	}
@@ -207,7 +263,7 @@ class LooseObjects {
 		Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
 				StandardCopyOption.ATOMIC_MOVE);
 		dst.setReadOnly();
-		unpackedObjectCache.add(id);
+		unpackedObjectCache().add(id);
 		return InsertLooseObjectResult.INSERTED;
 	}
 
