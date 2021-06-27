@@ -26,8 +26,8 @@ class Rm extends TextBuiltin {
 	@Option(name = "--cached", usage = "usage_RmCached")
 	private boolean cached;
 
-	@Argument(metaVar = "metaVar_path", required = true)
-	@Option(name = "--", handler = StopOptionHandler.class)
+	@Argument(metaVar = "metaVar_path", required = true, hidden = true, usage = "usage_rm")
+	@Option(name = "--", metaVar = "metaVar_paths", handler = StopOptionHandler.class)
 	private List<String> paths = new ArrayList<>();
 
 	/** {@inheritDoc} */
