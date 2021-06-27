@@ -105,6 +105,7 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
+		setSshDriver(sshDriver);
 		try (Git git = new Git(db)) {
 			FetchCommand fetch = git.fetch();
 			if (fsck != null) {

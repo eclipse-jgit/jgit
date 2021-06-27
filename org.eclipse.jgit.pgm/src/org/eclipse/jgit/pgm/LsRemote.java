@@ -20,6 +20,7 @@ import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.pgm.internal.SshDriver;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -34,6 +35,9 @@ class LsRemote extends TextBuiltin {
 	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
 
+	@Option(name = "--ssh", usage = "usage_sshDriver")
+	private SshDriver sshDriver = SshDriver.APACHE;
+
 	@Option(name = "--symref", usage = "usage_lsRemoteSymref")
 	private boolean symref;
 
@@ -43,6 +47,7 @@ class LsRemote extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
+		setSshDriver(sshDriver);
 		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
 				.setTimeout(timeout).setHeads(heads).setTags(tags);
 		TreeSet<Ref> refs = new TreeSet<>(
