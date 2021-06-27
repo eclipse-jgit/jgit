@@ -23,7 +23,10 @@ import org.kohsuke.args4j.spi.StopOptionHandler;
 
 @Command(usage = "usage_StopTrackingAFile", common = true)
 class Rm extends TextBuiltin {
-	@Argument(metaVar = "metaVar_path", usage = "usage_path", required = true)
+	@Option(name = "--cached", usage = "usage_RmCached")
+	private boolean cached;
+
+	@Argument(metaVar = "metaVar_path", required = true)
 	@Option(name = "--", handler = StopOptionHandler.class)
 	private List<String> paths = new ArrayList<>();
 
@@ -31,7 +34,7 @@ class Rm extends TextBuiltin {
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {
-			RmCommand command = git.rm();
+			RmCommand command = git.rm().setCached(cached);
 			for (String p : paths) {
 				command.addFilepattern(p);
 			}
