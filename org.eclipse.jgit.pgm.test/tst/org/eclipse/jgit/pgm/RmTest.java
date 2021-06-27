@@ -44,6 +44,7 @@ package org.eclipse.jgit.pgm;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -76,5 +77,20 @@ public class RmTest extends CLIRepositoryTestCase {
 		assertNull(cache.getEntry("b"));
 		assertFalse(a.exists());
 		assertFalse(b.exists());
+	}
+
+	@Test
+	public void rmCachedMultiple() throws Exception {
+		File a = writeTrashFile("a", "Hello");
+		File b = writeTrashFile("b", "world!");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+
+		String[] result = execute("git rm --cached a b");
+		assertArrayEquals(new String[] { "" }, result);
+		DirCache cache = db.readDirCache();
+		assertNull(cache.getEntry("a"));
+		assertNull(cache.getEntry("b"));
+		assertTrue(a.exists());
+		assertTrue(b.exists());
 	}
 }
