@@ -27,6 +27,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.pgm.internal.SshDriver;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -79,11 +80,15 @@ class Push extends TextBuiltin {
 	@Option(name = "--push-option", aliases = { "-t" })
 	private List<String> pushOptions = new ArrayList<>();
 
+	@Option(name = "--ssh", usage = "usage_sshDriver")
+	private SshDriver sshDriver = SshDriver.APACHE;
+
 	private boolean shownURI;
 
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
+		setSshDriver(sshDriver);
 		try (Git git = new Git(db)) {
 			PushCommand push = git.push();
 			push.setDryRun(dryRun);

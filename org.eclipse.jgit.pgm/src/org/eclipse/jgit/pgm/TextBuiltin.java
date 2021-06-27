@@ -62,9 +62,6 @@ public abstract class TextBuiltin {
 	@Option(name = "--help", usage = "usage_displayThisHelpText", aliases = { "-h" })
 	private boolean help;
 
-	@Option(name = "--ssh", usage = "usage_sshDriver")
-	private SshDriver sshDriver = SshDriver.APACHE;
-
 	/**
 	 * Input stream, typically this is standard input.
 	 *
@@ -215,23 +212,6 @@ public abstract class TextBuiltin {
 	 */
 	public final void execute(String[] args) throws Exception {
 		parseArguments(args);
-		switch (sshDriver) {
-		case APACHE: {
-			SshdSessionFactory factory = new SshdSessionFactory(
-					new JGitKeyCache(), new DefaultProxyDataFactory());
-			Runtime.getRuntime()
-					.addShutdownHook(new Thread(factory::close));
-			SshSessionFactory.setInstance(factory);
-			break;
-		}
-		case JSCH:
-			JschConfigSessionFactory factory = new JschConfigSessionFactory();
-			SshSessionFactory.setInstance(factory);
-			break;
-		default:
-			SshSessionFactory.setInstance(null);
-			break;
-		}
 		run();
 	}
 
@@ -452,6 +432,31 @@ public abstract class TextBuiltin {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Set the ssh driver to use for transport over ssh
+	 *
+	 * @param sshDriver
+	 * @since 5.13
+	 */
+	void setSshDriver(SshDriver sshDriver) {
+		switch (sshDriver) {
+		case APACHE: {
+			SshdSessionFactory factory = new SshdSessionFactory(
+					new JGitKeyCache(), new DefaultProxyDataFactory());
+			Runtime.getRuntime().addShutdownHook(new Thread(factory::close));
+			SshSessionFactory.setInstance(factory);
+			break;
+		}
+		case JSCH:
+			JschConfigSessionFactory factory = new JschConfigSessionFactory();
+			SshSessionFactory.setInstance(factory);
+			break;
+		default:
+			SshSessionFactory.setInstance(null);
+			break;
+		}
 	}
 
 	/**

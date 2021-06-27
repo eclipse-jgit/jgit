@@ -69,6 +69,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
+		setSshDriver(sshDriver);
 		if (localName != null && gitdir != null)
 			throw die(CLIText.get().conflictingUsageOf_git_dir_andArguments);
 
