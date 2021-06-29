@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "417959d3_d5efd983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-06-29T21:33:30Z",
+      "side": 1,
+      "message": "Should https://git.eclipse.org/r/c/jgit/jgit/+/182624/1 be squashed into this? Otherwise we have a commit in the git repository that would not build a correct p2 repository.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 58
+      },
+      "revId": "8be4cfa3ecbc24a55782182cecdbe74a21b77725",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
