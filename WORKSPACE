@@ -105,7 +105,7 @@ maven_jar(
 
 maven_jar(
     name = "javaewah",
-    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.7",
+    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.12",
     sha1 = "570dde3cd706ae10c62fe19b150928cfdb415e87",
 )
 
@@ -171,7 +171,7 @@ maven_jar(
 
 maven_jar(
     name = "tukaani-xz",
-    artifact = "org.tukaani:xz:1.8",
+    artifact = "org.tukaani:xz:1.9",
     sha1 = "c4f7d054303948eb6a4066194253886c8af07128",
 )
 
@@ -233,7 +233,7 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.6",
+    artifact = "com.google.code.gson:gson:2.8.7",
     sha1 = "9180733b7df8542621dc12e21e87557e8c99b8cb",
 )
 
