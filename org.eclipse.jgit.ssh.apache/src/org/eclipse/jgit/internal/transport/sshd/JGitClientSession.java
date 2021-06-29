@@ -47,6 +47,7 @@ import org.apache.sshd.common.kex.KexProposalOption;
 import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.kex.extension.KexExtensionHandler;
 import org.apache.sshd.common.kex.extension.KexExtensions;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.signature.BuiltinSignatures;
 import org.apache.sshd.common.kex.extension.KexExtensionHandler.AvailabilityPhase;
 import org.apache.sshd.common.util.Readable;
@@ -291,6 +292,11 @@ public class JGitClientSession extends ClientSessionImpl {
 				if (key != null) {
 					String keyType = KeyUtils.getKeyType(key);
 					if (keyType != null) {
+						if (KeyPairProvider.SSH_RSA.equals(keyType)) {
+							// Add all available signatures for ssh-rsa.
+							reordered.add(KeyUtils.RSA_SHA512_KEY_TYPE_ALIAS);
+							reordered.add(KeyUtils.RSA_SHA256_KEY_TYPE_ALIAS);
+						}
 						reordered.add(keyType);
 					}
 				}
