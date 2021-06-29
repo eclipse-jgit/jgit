@@ -55,20 +55,20 @@ exports_files(["WORKSPACE"], visibility = ["//visibility:public"])
     ],
 )
 
-JMH_VERS = "1.21"
+JMH_VERS = "1.32"
 
 maven_jar(
     name = "jmh-core",
     artifact = "org.openjdk.jmh:jmh-core:" + JMH_VERS,
     attach_source = False,
-    sha1 = "442447101f63074c61063858033fbfde8a076873",
+    sha1 = "9a8b69ea08118fd4e5d30a152d37b7087ee4a720",
 )
 
 maven_jar(
     name = "jmh-annotations",
     artifact = "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERS,
     attach_source = False,
-    sha1 = "7aac374614a8a76cad16b91f1a4419d31a7dcda3",
+    sha1 = "0a28eccc75e0d65984ce25e1ec4dd021a0ca6c57",
 )
 
 maven_jar(
