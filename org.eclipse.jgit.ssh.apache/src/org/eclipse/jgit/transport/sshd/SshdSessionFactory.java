@@ -32,7 +32,6 @@ import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.auth.UserAuthFactory;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
-import org.apache.sshd.client.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.SshException;
@@ -49,6 +48,7 @@ import org.eclipse.jgit.internal.transport.sshd.AuthenticationCanceledException;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
+import org.eclipse.jgit.internal.transport.sshd.JGitPublicKeyAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitServerKeyVerifier;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshConfig;
@@ -577,7 +577,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		// Password auth doesn't have this problem.
 		return Collections.unmodifiableList(
 				Arrays.asList(GssApiWithMicAuthFactory.INSTANCE,
-						UserAuthPublicKeyFactory.INSTANCE,
+						JGitPublicKeyAuthFactory.FACTORY,
 						JGitPasswordAuthFactory.INSTANCE,
 						UserAuthKeyboardInteractiveFactory.INSTANCE));
 	}
