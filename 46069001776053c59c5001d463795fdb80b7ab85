@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a58b12ae_e961722e",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-07-01T22:10:09Z",
+      "side": 1,
+      "message": "Why is the license missing here? And what\u0027s the problem with sshd-common? I guess it only shows up as a transitive dependency from sshd-osgi, and the tool doesn\u0027t know sshd-osgi actually is an uber-jar. But if sshd-osgi is OK, so should be sshd-common.",
+      "revId": "46069001776053c59c5001d463795fdb80b7ab85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
