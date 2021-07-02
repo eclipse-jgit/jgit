@@ -13,10 +13,12 @@ package org.eclipse.jgit.merge;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
@@ -91,6 +93,111 @@ public class CherryPickTest extends RepositoryTestCase {
 
 			assertFalse(tw.next());
 		}
+	}
+
+	@Test
+	public void testCherryPickWithRename() throws Exception {
+		final DirCache firstTreeOriginal = db.readDirCache();
+		final DirCache firstTreeNextChild = db.readDirCache();
+		final DirCache secondTreeOriginal = db.readDirCache();
+		final DirCache secondTreeNextChild = db.readDirCache();
+		String originalPath = "a";
+		String renamedPath = "b";
+
+		{
+			final DirCacheBuilder firstOriginal = firstTreeOriginal.builder();
+			final DirCacheBuilder firstNextChild = firstTreeNextChild.builder();
+			final DirCacheBuilder secondOriginal = secondTreeOriginal.builder();
+			final DirCacheBuilder secondNextChild = secondTreeNextChild.builder();
+
+			String content = "content";
+
+			// original
+			firstOriginal.add(createEntry(originalPath, FileMode.REGULAR_FILE, content));
+			// no change
+			firstNextChild.add(createEntry(originalPath, FileMode.REGULAR_FILE, content));
+
+			// original
+			secondOriginal.add(createEntry(originalPath, FileMode.REGULAR_FILE, content));
+			// rename
+			secondNextChild.add(createEntry(renamedPath, FileMode.REGULAR_FILE, content));
+
+			firstOriginal.finish();
+			firstNextChild.finish();
+			secondOriginal.finish();
+			secondNextChild.finish();
+		}
+
+		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectId firstOriginalCommit = commit(ow, firstTreeOriginal, new ObjectId[]{});
+		final ObjectId firstNextChildCommit = commit(ow, firstTreeNextChild, new ObjectId[]{firstOriginalCommit});
+		final ObjectId secondOriginalCommit = commit(ow, secondTreeOriginal, new ObjectId[]{firstOriginalCommit});
+		final ObjectId secondNextChildCommit = commit(ow, secondTreeNextChild, new ObjectId[]{secondOriginalCommit});
+
+		ThreeWayMerger threeWayMerger = MergeStrategy.RECURSIVE.newMerger(db, true);
+		threeWayMerger.setBase(secondOriginalCommit);
+
+		boolean merge = threeWayMerger.merge(new ObjectId[]{firstNextChildCommit, secondNextChildCommit});
+		assertTrue(merge);
+
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.setRecursive(true);
+			tw.reset(threeWayMerger.getResultTreeId());
+
+			assertTrue(tw.next());
+			assertEquals(renamedPath, tw.getPathString());
+			assertCorrectId(secondTreeNextChild, tw);
+
+			assertFalse(tw.next());
+		}
+	}
+
+	@Test
+	public void testCherryPickWithRenameAndModificationFails() throws Exception {
+		final DirCache firstTreeOriginal = db.readDirCache();
+		final DirCache firstTreeNextChild = db.readDirCache();
+		final DirCache secondTreeOriginal = db.readDirCache();
+		final DirCache secondTreeNextChild = db.readDirCache();
+		String originalPath = "a";
+		String renamedPath = "b";
+
+		{
+			final DirCacheBuilder firstOriginal = firstTreeOriginal.builder();
+			final DirCacheBuilder firstNextChild = firstTreeNextChild.builder();
+			final DirCacheBuilder secondOriginal = secondTreeOriginal.builder();
+			final DirCacheBuilder secondNextChild = secondTreeNextChild.builder();
+
+			String originalContent = "a\nb\nc";
+			String slightlyModifiedContent = "a\nb\nb";
+
+			// original
+			firstOriginal.add(createEntry(originalPath, FileMode.REGULAR_FILE, originalContent));
+			// small modification
+			firstNextChild.add(createEntry(originalPath, FileMode.REGULAR_FILE, slightlyModifiedContent));
+
+			// original
+			secondOriginal.add(createEntry(originalPath, FileMode.REGULAR_FILE, originalContent));
+			// rename
+			secondNextChild.add(createEntry(renamedPath, FileMode.REGULAR_FILE, originalContent));
+
+			firstOriginal.finish();
+			firstNextChild.finish();
+			secondOriginal.finish();
+			secondNextChild.finish();
+		}
+
+		final ObjectInserter ow = db.newObjectInserter();
+		final ObjectId firstOriginalCommit = commit(ow, firstTreeOriginal, new ObjectId[]{});
+		final ObjectId firstNextChildCommit = commit(ow, firstTreeNextChild, new ObjectId[]{firstOriginalCommit});
+		final ObjectId secondOriginalCommit = commit(ow, secondTreeOriginal, new ObjectId[]{firstOriginalCommit});
+		final ObjectId secondNextChildCommit = commit(ow, secondTreeNextChild, new ObjectId[]{secondOriginalCommit});
+
+		ThreeWayMerger threeWayMerger = MergeStrategy.RECURSIVE.newMerger(db, true);
+		threeWayMerger.setBase(secondOriginalCommit);
+
+		// TODO(paiking): this method should succeed.
+		assertThrows(MissingObjectException.class,
+				() -> threeWayMerger.merge(new ObjectId[]{firstNextChildCommit, secondNextChildCommit}));
 	}
 
 	@Test
