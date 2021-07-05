@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1881906a_bcf39973",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-05T07:17:08Z",
+      "side": 1,
+      "message": "added missing license",
+      "revId": "ec9ea5b8683df56999dcd1104f0382c8931eab98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910bf790_5176fbff",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-05T07:17:08Z",
+      "side": 1,
+      "message": "don\u0027t know why this is now restricted, did clearlydefined rating change ?",
+      "revId": "ec9ea5b8683df56999dcd1104f0382c8931eab98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "656018f9_8146dcaa",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-05T07:17:08Z",
+      "side": 1,
+      "message": "added CQ",
+      "revId": "ec9ea5b8683df56999dcd1104f0382c8931eab98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1ed7945_8ae55ac7",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-05T07:17:08Z",
+      "side": 1,
+      "message": "added CQ",
+      "revId": "ec9ea5b8683df56999dcd1104f0382c8931eab98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
