@@ -16,6 +16,75 @@
       "revId": "46069001776053c59c5001d463795fdb80b7ab85",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b86b696_0d0df3d6",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-05T06:55:46Z",
+      "side": 1,
+      "message": "- the license check plugin didn\u0027t add the license, will add it manually\n- both sshd-core and sshd-common are explicitly repacked into sshd-osgi [1] hence I think they were subject of CQ23469\n\n[1] https://github.com/apache/mina-sshd/blob/2772c7c8f6afb8c53546ca803501f52118bd0491/sshd-osgi/pom.xml#L86",
+      "parentUuid": "a58b12ae_e961722e",
+      "revId": "46069001776053c59c5001d463795fdb80b7ab85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d00c5388_5b91ea18",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-05T06:55:46Z",
+      "side": 1,
+      "message": "EPL-2.0 license missing",
+      "revId": "46069001776053c59c5001d463795fdb80b7ab85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e027f93d_ff143d42",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-05T06:55:46Z",
+      "side": 1,
+      "message": "why is the BSD-3-Clause license missing ? every source contains license header and LICENSE file is in the root of the repository",
+      "revId": "46069001776053c59c5001d463795fdb80b7ab85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46057f9a_e735e882",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-05T06:55:46Z",
+      "side": 1,
+      "message": "- GPL-2.0 license missing\n- the CQ is an approved works-with request",
+      "revId": "46069001776053c59c5001d463795fdb80b7ab85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
