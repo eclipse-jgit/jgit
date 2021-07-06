@@ -879,4 +879,18 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_ABBREV = "abbrev";
 
+	/**
+	 * The "commitGraph" section
+	 *
+	 * @since 6.4
+	 */
+	public static final String CONFIG_COMMIT_GRAPH_SECTION = "commitGraph";
+
+	/**
+	 * The "computeGeneration" key
+	 *
+	 * @since 6.4
+	 */
+	public static final String CONFIG_KEY_COMPUTE_GENERATION = "computeGeneration";
+
 }
