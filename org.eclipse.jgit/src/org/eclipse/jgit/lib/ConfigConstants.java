@@ -808,4 +808,18 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT = "searchforreusetimeout";
 
+	/**
+	 * The "commitGraph" section
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_COMMIT_GRAPH_SECTION = "commitGraph";
+
+	/**
+	 * The "computeGeneration" key
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_COMPUTE_GENERATION = "computeGeneration";
+
 }
