@@ -74,6 +74,8 @@ Export-Package: org.eclipse.jgit.annotations;version="5.13.0",
   x-friends:="org.eclipse.jgit.test",
  org.eclipse.jgit.internal.revwalk;version="5.13.0";
   x-friends:="org.eclipse.jgit.test",
+ org.eclipse.jgit.internal.storage.commitgraph;version="5.13.0";
+  x-friends:="org.eclipse.jgit.test",
  org.eclipse.jgit.internal.storage.dfs;version="5.13.0";
   x-friends:="org.eclipse.jgit.test,
    org.eclipse.jgit.http.server,
