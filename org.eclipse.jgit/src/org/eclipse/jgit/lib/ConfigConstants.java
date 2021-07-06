@@ -886,4 +886,10 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_ABBREV = "abbrev";
 
+	/**
+	 * The "writeCommitGraph" key
+	 *
+	 * @since 6.5
+	 */
+	public static final String CONFIG_KEY_WRITE_COMMIT_GRAPH = "writeCommitGraph";
 }
