@@ -169,11 +169,13 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commandClosedStderrButDidntExit;
 	/***/ public String commandRejectedByHook;
 	/***/ public String commandWasCalledInTheWrongState;
+	/***/ public String commitGraphWritingCancelled;
 	/***/ public String commitMessageNotSpecified;
 	/***/ public String commitOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String commitAmendOnInitialNotPossible;
 	/***/ public String commitsHaveAlreadyBeenMarkedAsStart;
 	/***/ public String compressingObjects;
+	/***/ public String computingCommitGeneration;
 	/***/ public String configSubsectionContainsNewline;
 	/***/ public String configSubsectionContainsNullByte;
 	/***/ public String configValueContainsNullByte;
@@ -346,6 +348,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String filterExecutionFailed;
 	/***/ public String filterExecutionFailedRc;
 	/***/ public String filterRequiresCapability;
+	/***/ public String findingCommitsForCommitGraph;
 	/***/ public String findingGarbage;
 	/***/ public String flagIsDisposed;
 	/***/ public String flagNotFromThis;
@@ -839,6 +842,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String writeTimedOut;
 	/***/ public String writingNotPermitted;
 	/***/ public String writingNotSupported;
+	/***/ public String writingOutCommitGraph;
 	/***/ public String writingObjects;
 	/***/ public String wrongDecompressedLength;
 	/***/ public String wrongRepositoryState;
