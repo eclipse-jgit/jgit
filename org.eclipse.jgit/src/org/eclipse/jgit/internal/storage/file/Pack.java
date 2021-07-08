@@ -45,6 +45,7 @@ import org.eclipse.jgit.errors.NoPackSignatureException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.errors.UnsupportedPackIndexVersionException;
 import org.eclipse.jgit.errors.UnsupportedPackVersionException;

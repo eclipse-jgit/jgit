@@ -24,6 +24,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
@@ -235,12 +236,12 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	/** {@inheritDoc} */
 	@Override
 	public void copyPackAsIs(PackOutputStream out, CachedPack pack)
-			throws IOException {
+			throws IOException, StoredPackRepresentationNotAvailableException {
 		((LocalCachedPack) pack).copyAsIs(out, this);
 	}
 
 	void copyPackAsIs(final Pack pack, final long length,
-			final PackOutputStream out) throws IOException {
+			final PackOutputStream out) throws IOException{
 		long position = 12;
 		long remaining = length - (12 + 20);
 		while (0 < remaining) {

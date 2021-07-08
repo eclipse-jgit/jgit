@@ -28,10 +28,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.text.ParseException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -39,8 +41,10 @@ import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
@@ -686,6 +690,23 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 						1;
 		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
 				any());
+	}
+
+	@Test
+	public void testRemovedPackfileShouldBeDetectedByWindowCursor() throws Exception {
+		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
+		Collection<Pack> packs = fileRepository.getObjectDatabase().getPacks();
+
+		PackOutputStream out = new PackOutputStream(
+				NullProgressMonitor.INSTANCE, new ByteArrayOutputStream(), writer);
+
+		Pack firstPack = packs.iterator().next();
+		RandomAccessFile fd = new RandomAccessFile(firstPack.getPackFile(), "r");
+		firstPack.getPackFile().delete();
+		WindowCache.purge(firstPack);
+
+		WindowCursor wc = new WindowCursor(fileRepository.getObjectDatabase());
+		wc.copyPackAsIs(firstPack, fd.length(), out);
 	}
 
 	@Test
