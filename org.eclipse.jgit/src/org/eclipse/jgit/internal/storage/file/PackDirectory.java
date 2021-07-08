@@ -114,6 +114,11 @@ class PackDirectory {
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
 
+	public boolean refreshPackList() {
+		packList.set(scanPacks(packList.get()));
+		return true;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
