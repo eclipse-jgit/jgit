@@ -171,7 +171,12 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commandClosedStderrButDidntExit;
 	/***/ public String commandRejectedByHook;
 	/***/ public String commandWasCalledInTheWrongState;
+	/***/ public String commitGraphChunkImproperOffset;
+	/***/ public String commitGraphChunkRepeated;
+	/***/ public String commitGraphChunkUnknown;
+	/***/ public String commitGraphFileIsTooLargeForJgit;
 	/***/ public String commitGraphWritingCancelled;
+	/***/ public String commitGraphOidFanoutNeeded;
 	/***/ public String commitMessageNotSpecified;
 	/***/ public String commitOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String commitAmendOnInitialNotPossible;
@@ -543,6 +548,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String noSuchSubmodule;
 	/***/ public String notABoolean;
 	/***/ public String notABundle;
+	/***/ public String notACommitGraph;
 	/***/ public String notADIRCFile;
 	/***/ public String notAGitDirectory;
 	/***/ public String notAPACKFile;
@@ -825,6 +831,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unmergedPath;
 	/***/ public String unmergedPaths;
 	/***/ public String unpackException;
+	/***/ public String unreadableCommitGraph;
 	/***/ public String unreadablePackIndex;
 	/***/ public String unrecognizedPackExtension;
 	/***/ public String unrecognizedRef;
@@ -832,6 +839,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedAlternates;
 	/***/ public String unsupportedArchiveFormat;
 	/***/ public String unsupportedCommand0;
+	/***/ public String unsupportedCommitGraphVersion;
 	/***/ public String unsupportedEncryptionAlgorithm;
 	/***/ public String unsupportedEncryptionVersion;
 	/***/ public String unsupportedGC;
