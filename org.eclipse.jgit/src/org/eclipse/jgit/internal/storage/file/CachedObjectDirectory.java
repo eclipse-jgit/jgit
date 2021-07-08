@@ -28,6 +28,7 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.transport.TriggerRefreshPackListException;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -247,6 +248,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws IOException {
 		wrapped.selectObjectRepresentation(packer, otp, curs);
+	}
+
+	@Override
+	public boolean refreshPackList(TriggerRefreshPackListException e) {
+		return wrapped.refreshPackList(e);
 	}
 
 	@Override

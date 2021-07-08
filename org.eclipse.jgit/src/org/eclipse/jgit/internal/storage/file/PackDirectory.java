@@ -38,6 +38,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.pack.StaleFileHandleOnPackfile;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -112,6 +113,11 @@ class PackDirectory {
 		}
 		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
+	}
+
+	public boolean refreshPackList(StaleFileHandleOnPackfile staleFileHandleOnPackfile) {
+		packList.set(scanPacks(packList.get()));
+		return true;
 	}
 
 	/** {@inheritDoc} */

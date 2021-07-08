@@ -18,8 +18,10 @@ import java.util.List;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.StaleFileHandleOnPackfile;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
+import org.eclipse.jgit.util.FileUtils;
 
 class LocalCachedPack extends CachedPack {
 	private final ObjectDirectory odb;
@@ -50,8 +52,16 @@ class LocalCachedPack extends CachedPack {
 
 	void copyAsIs(PackOutputStream out, WindowCursor wc)
 			throws IOException {
-		for (Pack pack : getPacks())
-			pack.copyPackAsIs(out, wc);
+		for (Pack pack : getPacks()) {
+			try {
+				pack.copyPackAsIs(out, wc);
+			} catch (IOException ioe) {
+				if (FileUtils.isStaleFileHandleInCausalChain(ioe)) {
+					throw new StaleFileHandleOnPackfile(ioe,pack);
+				}
+				throw ioe;
+			}
+		}
 	}
 
 	/** {@inheritDoc} */
