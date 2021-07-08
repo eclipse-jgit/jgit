@@ -212,6 +212,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return packed.getPacks();
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public void refreshPackList(Pack stalePack, IOException ioe) {
+		packed.refreshPackList(stalePack, ioe);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
