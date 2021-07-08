@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackWriter.MAX_WRITE_PACK_ATTEMPTS;
 import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 import static org.eclipse.jgit.lib.Constants.INFO_ALTERNATES;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -32,23 +33,36 @@ import java.text.ParseException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
+import org.eclipse.jgit.internal.storage.pack.CachedPack;
+import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
+import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Sets;
@@ -661,6 +675,61 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void testRetryPackWriteUntilMaxAttemptsWhenStateFileHandle()
+			throws Exception {
+		MockedObjectUseAsIs mockedObjectUseAsIs = new MockedObjectUseAsIs();
+
+		try (FileOutputStream packOS = new FileOutputStream(getPackFile())) {
+			LocalCachedPack localCachedPack =
+					new LocalCachedPack(
+						new ArrayList <>(db.getObjectDatabase().getPacks())
+					);
+
+			Collection<LocalCachedPack> collection = new ArrayList<>();
+			collection.add(localCachedPack);
+			try (PackWriter pw = new PackWriter(config, mockedObjectUseAsIs)) {
+				pw.preparePack(collection);
+
+				pw.writePack(NullProgressMonitor.INSTANCE,
+						NullProgressMonitor.INSTANCE, packOS);
+			}
+		}
+		assertEquals(MAX_WRITE_PACK_ATTEMPTS, mockedObjectUseAsIs.cachedPacksAndUpdateInvocations);
+	}
+
+	@Test
+	public void testRetryPackNotCalledWhenNoStateFileHandle()
+			throws Exception {
+		MockedObjectUseAsIs mockedObjectUseAsIs = new MockedObjectUseAsIs();
+		mockedObjectUseAsIs.setThrowStaleFileHandle(false);
+
+		try (FileOutputStream packOS = new FileOutputStream(getPackFile())) {
+			LocalCachedPack localCachedPack =
+					new LocalCachedPack(
+						new ArrayList <>(db.getObjectDatabase().getPacks())
+					);
+
+			Collection<LocalCachedPack> collection = new ArrayList<>();
+			collection.add(localCachedPack);
+			try (PackWriter pw = new PackWriter(config, mockedObjectUseAsIs)) {
+				pw.preparePack(collection);
+
+				pw.writePack(NullProgressMonitor.INSTANCE,
+						NullProgressMonitor.INSTANCE, packOS);
+			}
+		}
+
+		assertEquals(0, mockedObjectUseAsIs.cachedPacksAndUpdateInvocations);
+	}
+
+	private PackFile getPackFile() throws IOException {
+		PackWriter mockedPackWriter = Mockito.spy(
+				new PackWriter(config, db.newObjectReader()));
+		doNothing().when(mockedPackWriter).select(any(), any());
+		return getPackFileToWrite(db, mockedPackWriter);
+	}
+
+	@Test
 	public void testTotalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck()
 			throws Exception {
 		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
@@ -1007,5 +1076,78 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	private static Set<ObjectId> shallows(ObjectId... objects) {
 		return Sets.of(objects);
+	}
+
+	private static class MockedObjectUseAsIs extends ObjectReader implements ObjectReuseAsIs {
+		private int cachedPacksAndUpdateInvocations = 0;
+		private boolean throwStaleFileHandle = true;
+
+		public void setThrowStaleFileHandle(boolean throwStaleFileHandle) {
+			this.throwStaleFileHandle = throwStaleFileHandle;
+		}
+
+		@Override
+		public ObjectToPack newObjectToPack(AnyObjectId objectId, int type) {
+			return null;
+		}
+
+		@Override
+		public void selectObjectRepresentation(PackWriter packer,
+						ProgressMonitor monitor, Iterable <ObjectToPack> objects)
+				throws IOException, MissingObjectException {
+			// stub
+		}
+
+		@Override
+		public void writeObjects(PackOutputStream out, List <ObjectToPack> list) throws IOException {
+			// stub
+		}
+
+		@Override
+		public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
+									boolean validate)
+				throws IOException, StoredObjectRepresentationNotAvailableException {
+			// stub
+		}
+
+		@Override
+		public void copyPackAsIs(PackOutputStream out, CachedPack pack) throws IOException {
+			if (throwStaleFileHandle) {
+				throw new IOException("Stale file handle");
+			}
+		}
+
+		@Override
+		public Collection <CachedPack> getCachedPacksAndUpdate(BitmapIndex.BitmapBuilder needBitmap)
+				throws IOException {
+			cachedPacksAndUpdateInvocations++;
+			return null;
+		}
+
+		@Override
+		public ObjectReader newReader() {
+			return null;
+		}
+
+		@Override
+		public Collection <ObjectId> resolve(AbbreviatedObjectId id) throws IOException {
+			return null;
+		}
+
+		@Override
+		public ObjectLoader open(AnyObjectId objectId, int typeHint)
+				throws MissingObjectException, IncorrectObjectTypeException, IOException {
+			return null;
+		}
+
+		@Override
+		public Set <ObjectId> getShallowCommits() throws IOException {
+			return null;
+		}
+
+		@Override
+		public void close() {
+			// stub
+		}
 	}
 }
