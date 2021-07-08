@@ -114,6 +114,10 @@ class PackDirectory {
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
 
+	public void refreshPackList(Pack stalePack, IOException ioe) {
+		handlePackError(ioe, stalePack);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
