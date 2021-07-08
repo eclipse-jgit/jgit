@@ -24,6 +24,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
@@ -235,22 +236,36 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	/** {@inheritDoc} */
 	@Override
 	public void copyPackAsIs(PackOutputStream out, CachedPack pack)
-			throws IOException {
+			throws IOException, StoredPackRepresentationNotAvailableException {
 		((LocalCachedPack) pack).copyAsIs(out, this);
 	}
 
 	void copyPackAsIs(final Pack pack, final long length,
-			final PackOutputStream out) throws IOException {
+			final PackOutputStream out) throws IOException, StoredPackRepresentationNotAvailableException {
 		long position = 12;
 		long remaining = length - (12 + 20);
 		while (0 < remaining) {
-			pin(pack, position);
+			boolean reloadedPacks = false;
+			COPYPACK: for (; ; ) {
+				try {
+					pin(pack, position);
 
-			int ptr = (int) (position - window.start);
-			int n = (int) Math.min(window.size() - ptr, remaining);
-			window.write(out, position, n);
-			position += n;
-			remaining -= n;
+					int ptr = (int) (position - window.start);
+					int n = (int) Math.min(window.size() - ptr, remaining);
+					window.write(out, position, n);
+					position += n;
+					remaining -= n;
+				} catch(IOException e){
+					if (reloadedPacks) {
+						throw new StoredPackRepresentationNotAvailableException(pack, e);
+					} else {
+						reloadedPacks = true;
+						WindowCache.purge(pack);
+						continue COPYPACK;
+					}
+				}
+				break COPYPACK;
+			}
 		}
 	}
 

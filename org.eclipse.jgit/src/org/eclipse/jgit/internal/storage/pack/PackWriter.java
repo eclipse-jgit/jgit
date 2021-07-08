@@ -57,6 +57,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
@@ -1286,6 +1287,8 @@ public class PackWriter implements AutoCloseable {
 			}
 			writeChecksum(out);
 			out.flush();
+		} catch (StoredPackRepresentationNotAvailableException s) {
+			//XXX Log cannot load packfile...
 		} finally {
 			stats.timeWriting = System.currentTimeMillis() - writeStart;
 			stats.depth = depth;
