@@ -67,6 +67,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
+import org.eclipse.jgit.internal.storage.pack.PackNotFoundException;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.transport.parser.FirstWant;
 import org.eclipse.jgit.lib.Constants;
@@ -221,6 +222,9 @@ public class UploadPack {
 
 	/** Timeout in seconds to wait for client interaction. */
 	private int timeout;
+
+	/** Max number of write pack to attempt */
+	public static final int MAX_WRITE_PACK_ATTEMPTS = 3;
 
 	/**
 	 * Is the client connection a bi-directional socket or pipe?
@@ -2218,137 +2222,148 @@ public class UploadPack {
 		if (cfg == null)
 			cfg = new PackConfig(db);
 		@SuppressWarnings("resource") // PackWriter is referenced in the finally
-										// block, and is closed there
-		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader(),
-				accumulator);
-		try {
-			pw.setIndexDisabled(true);
-			if (req.getFilterSpec().isNoOp()) {
-				pw.setUseCachedPacks(true);
-			} else {
-				pw.setFilterSpec(req.getFilterSpec());
-				pw.setUseCachedPacks(false);
-			}
-			pw.setUseBitmaps(
-					req.getDepth() == 0
-							&& req.getClientShallowCommits().isEmpty()
-							&& req.getFilterSpec().getTreeDepthLimit() == -1);
-			pw.setClientShallowCommits(req.getClientShallowCommits());
-			pw.setReuseDeltaCommits(true);
-			pw.setDeltaBaseAsOffset(
-					req.getClientCapabilities().contains(OPTION_OFS_DELTA));
-			pw.setThin(req.getClientCapabilities().contains(OPTION_THIN_PACK));
-			pw.setReuseValidatingObjects(false);
 
-			// Objects named directly by references go at the beginning
-			// of the pack.
-			if (commonBase.isEmpty() && refs != null) {
-				Set<ObjectId> tagTargets = new HashSet<>();
-				for (Ref ref : refs.values()) {
-					if (ref.getPeeledObjectId() != null)
-						tagTargets.add(ref.getPeeledObjectId());
-					else if (ref.getObjectId() == null)
-						continue;
-					else if (ref.getName().startsWith(Constants.R_HEADS))
-						tagTargets.add(ref.getObjectId());
-				}
-				pw.setTagTargets(tagTargets);
-			}
-
-			RevWalk rw = walk;
-			if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
-				int walkDepth = req.getDepth() == 0 ? Integer.MAX_VALUE
-						: req.getDepth() - 1;
-				pw.setShallowPack(req.getDepth(), unshallowCommits);
-
-				@SuppressWarnings("resource") // Ownership is transferred below
-				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
-						walk.getObjectReader(), walkDepth);
-				dw.setDeepenSince(req.getDeepenSince());
-				dw.setDeepenNots(deepenNots);
-				dw.assumeShallow(req.getClientShallowCommits());
-				rw = dw;
-			}
-
-			if (wantAll.isEmpty()) {
-				pw.preparePack(pm, wantIds, commonBase,
-						req.getClientShallowCommits());
-			} else {
-				walk.reset();
-
-				ObjectWalk ow = rw.toObjectWalkWithSameObjects();
-				pw.preparePack(pm, ow, wantAll, commonBase, PackWriter.NONE);
-				rw = ow;
-			}
-
-			if (req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
-					&& allTags != null) {
-				for (Ref ref : allTags) {
-					ObjectId objectId = ref.getObjectId();
-					if (objectId == null) {
-						// skip unborn branch
-						continue;
-					}
-
-					// If the object was already requested, skip it.
-					if (wantAll.isEmpty()) {
-						if (wantIds.contains(objectId))
-							continue;
-					} else {
-						RevObject obj = rw.lookupOrNull(objectId);
-						if (obj != null && obj.has(WANT))
-							continue;
-					}
-
-					if (!ref.isPeeled())
-						ref = db.getRefDatabase().peel(ref);
-
-					ObjectId peeledId = ref.getPeeledObjectId();
-					objectId = ref.getObjectId();
-					if (peeledId == null || objectId == null)
-						continue;
-
-					objectId = ref.getObjectId();
-					if (pw.willInclude(peeledId) && !pw.willInclude(objectId)) {
-						RevObject o = rw.parseAny(objectId);
-						addTagChain(o, pw);
-						pw.addObject(o);
-					}
-				}
-			}
-
-			if (pckOut.isUsingSideband()) {
-				if (req instanceof FetchV2Request &&
-						cachedPackUriProvider != null &&
-						!((FetchV2Request) req).getPackfileUriProtocols().isEmpty()) {
-					FetchV2Request reqV2 = (FetchV2Request) req;
-					pw.setPackfileUriConfig(new PackWriter.PackfileUriConfig(
-							pckOut,
-							reqV2.getPackfileUriProtocols(),
-							cachedPackUriProvider));
+		int writePackAttempts = 0;
+		WRITEPACK: for (;;) {                        // block, and is closed there
+			final PackWriter pw = new PackWriter(cfg, walk.getObjectReader(),
+					accumulator);
+			try {
+				pw.setIndexDisabled(true);
+				if (req.getFilterSpec().isNoOp()) {
+					pw.setUseCachedPacks(true);
 				} else {
-					// PackWriter will write "packfile-uris\n" and "packfile\n"
-					// for us if provided a PackfileUriConfig. In this case, we
-					// are not providing a PackfileUriConfig, so we have to
-					// write this line ourselves.
-					pckOut.writeString(
-							GitProtocolConstants.SECTION_PACKFILE + '\n');
+					pw.setFilterSpec(req.getFilterSpec());
+					pw.setUseCachedPacks(false);
 				}
-			}
-			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
+				pw.setUseBitmaps(
+						req.getDepth() == 0
+								&& req.getClientShallowCommits().isEmpty()
+								&& req.getFilterSpec().getTreeDepthLimit() == -1);
+				pw.setClientShallowCommits(req.getClientShallowCommits());
+				pw.setReuseDeltaCommits(true);
+				pw.setDeltaBaseAsOffset(
+						req.getClientCapabilities().contains(OPTION_OFS_DELTA));
+				pw.setThin(req.getClientCapabilities().contains(OPTION_THIN_PACK));
+				pw.setReuseValidatingObjects(false);
 
-			if (msgOut != NullOutputStream.INSTANCE) {
-				String msg = pw.getStatistics().getMessage() + '\n';
-				msgOut.write(Constants.encode(msg));
-				msgOut.flush();
-			}
+				// Objects named directly by references go at the beginning
+				// of the pack.
+				if (commonBase.isEmpty() && refs != null) {
+					Set <ObjectId> tagTargets = new HashSet <>();
+					for (Ref ref : refs.values()) {
+						if (ref.getPeeledObjectId() != null)
+							tagTargets.add(ref.getPeeledObjectId());
+						else if (ref.getObjectId() == null)
+							continue;
+						else if (ref.getName().startsWith(Constants.R_HEADS))
+							tagTargets.add(ref.getObjectId());
+					}
+					pw.setTagTargets(tagTargets);
+				}
 
-		} finally {
-			statistics = pw.getStatistics();
-			if (statistics != null) {
-				postUploadHook.onPostUpload(statistics);
+				RevWalk rw = walk;
+				if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
+					int walkDepth = req.getDepth() == 0 ? Integer.MAX_VALUE
+							: req.getDepth() - 1;
+					pw.setShallowPack(req.getDepth(), unshallowCommits);
+
+					@SuppressWarnings("resource") // Ownership is transferred below
+					DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
+							walk.getObjectReader(), walkDepth);
+					dw.setDeepenSince(req.getDeepenSince());
+					dw.setDeepenNots(deepenNots);
+					dw.assumeShallow(req.getClientShallowCommits());
+					rw = dw;
+				}
+
+				if (wantAll.isEmpty()) {
+					pw.preparePack(pm, wantIds, commonBase,
+							req.getClientShallowCommits());
+				} else {
+					walk.reset();
+
+					ObjectWalk ow = rw.toObjectWalkWithSameObjects();
+					pw.preparePack(pm, ow, wantAll, commonBase, PackWriter.NONE);
+					rw = ow;
+				}
+
+				if (req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
+						&& allTags != null) {
+					for (Ref ref : allTags) {
+						ObjectId objectId = ref.getObjectId();
+						if (objectId == null) {
+							// skip unborn branch
+							continue;
+						}
+
+						// If the object was already requested, skip it.
+						if (wantAll.isEmpty()) {
+							if (wantIds.contains(objectId))
+								continue;
+						} else {
+							RevObject obj = rw.lookupOrNull(objectId);
+							if (obj != null && obj.has(WANT))
+								continue;
+						}
+
+						if (!ref.isPeeled())
+							ref = db.getRefDatabase().peel(ref);
+
+						ObjectId peeledId = ref.getPeeledObjectId();
+						objectId = ref.getObjectId();
+						if (peeledId == null || objectId == null)
+							continue;
+
+						objectId = ref.getObjectId();
+						if (pw.willInclude(peeledId) && !pw.willInclude(objectId)) {
+							RevObject o = rw.parseAny(objectId);
+							addTagChain(o, pw);
+							pw.addObject(o);
+						}
+					}
+				}
+
+				if (pckOut.isUsingSideband()) {
+					if (req instanceof FetchV2Request &&
+							cachedPackUriProvider != null &&
+							!((FetchV2Request) req).getPackfileUriProtocols().isEmpty()) {
+						FetchV2Request reqV2 = (FetchV2Request) req;
+						pw.setPackfileUriConfig(new PackWriter.PackfileUriConfig(
+								pckOut,
+								reqV2.getPackfileUriProtocols(),
+								cachedPackUriProvider));
+					} else {
+						// PackWriter will write "packfile-uris\n" and "packfile\n"
+						// for us if provided a PackfileUriConfig. In this case, we
+						// are not providing a PackfileUriConfig, so we have to
+						// write this line ourselves.
+						pckOut.writeString(
+								GitProtocolConstants.SECTION_PACKFILE + '\n');
+					}
+				}
+
+				pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
+
+				if (msgOut != NullOutputStream.INSTANCE) {
+					String msg = pw.getStatistics().getMessage() + '\n';
+					msgOut.write(Constants.encode(msg));
+					msgOut.flush();
+				}
+
+			} catch (PackNotFoundException packNotFoundException) {
+				if (writePackAttempts < MAX_WRITE_PACK_ATTEMPTS) {
+					db.getObjectDatabase().refreshPackList(packNotFoundException.getPack(), packNotFoundException.getOriginalException());
+					writePackAttempts++;
+					continue WRITEPACK;
+				}
+			} finally {
+				statistics = pw.getStatistics();
+				if (statistics != null) {
+					postUploadHook.onPostUpload(statistics);
+				}
+				pw.close();
 			}
-			pw.close();
+			break;
 		}
 	}
 
