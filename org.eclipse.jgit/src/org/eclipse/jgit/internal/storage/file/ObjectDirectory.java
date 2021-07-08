@@ -34,6 +34,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.pack.StaleFileHandleOnPackfile;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -43,6 +44,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.transport.UploadPackSendPackException;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 
@@ -210,6 +212,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	public Collection<Pack> getPacks() {
 		return packed.getPacks();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public boolean refreshPackList(UploadPackSendPackException uploadPackSendPackException) {
+		return packed.refreshPackList((StaleFileHandleOnPackfile) uploadPackSendPackException);
 	}
 
 	/**
