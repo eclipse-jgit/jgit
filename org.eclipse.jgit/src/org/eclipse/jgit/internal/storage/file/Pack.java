@@ -647,6 +647,11 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			synchronized (readLock) {
 				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
 				length = fd.length();
+        try {
+          LOG.error("Sleeping 10seconds ...opened packfile " + packFile.getName());
+          Thread.sleep(10000);
+        } catch (InterruptedException e) {
+        }
 				onOpenPack();
 			}
 		} catch (InterruptedIOException e) {

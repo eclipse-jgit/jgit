@@ -136,6 +136,9 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 public class PackWriter implements AutoCloseable {
 	private static final int PACK_VERSION_GENERATED = 2;
 
+	/** Max number of write pack to attempt */
+	public static final int MAX_WRITE_PACK_ATTEMPTS = 3;
+
 	/** Empty set of objects for {@code preparePack()}. */
 	public static final Set<ObjectId> NONE = Collections.emptySet();
 
@@ -1195,10 +1198,10 @@ public class PackWriter implements AutoCloseable {
 		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
 		try {
-			List<CachedPack> unwrittenCachedPacks;
+			List <CachedPack> unwrittenCachedPacks;
 
 			if (packfileUriConfig != null) {
-				unwrittenCachedPacks = new ArrayList<>();
+				unwrittenCachedPacks = new ArrayList <>();
 				CachedPackUriProvider p = packfileUriConfig.cachedPackUriProvider;
 				PacketLineOut o = packfileUriConfig.pckOut;
 
@@ -1256,7 +1259,6 @@ public class PackWriter implements AutoCloseable {
 				stats.totalDeltas += typeStat.cntDeltas;
 			}
 		}
-
 		stats.totalBytes = out.length();
 		reader.close();
 		endPhase(writeMonitor);
