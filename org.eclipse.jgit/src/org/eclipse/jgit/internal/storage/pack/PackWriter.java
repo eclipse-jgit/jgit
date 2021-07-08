@@ -94,6 +94,7 @@ import org.eclipse.jgit.transport.ObjectCountCallback;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.WriteAbortedException;
 import org.eclipse.jgit.util.BlockList;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
@@ -137,6 +138,9 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  */
 public class PackWriter implements AutoCloseable {
 	private static final int PACK_VERSION_GENERATED = 2;
+
+	/** Max number of write pack to attempt */
+	public static final int MAX_WRITE_PACK_ATTEMPTS = 3;
 
 	/** Empty set of objects for {@code preparePack()}. */
 	public static final Set<ObjectId> NONE = Collections.emptySet();
@@ -1237,67 +1241,78 @@ public class PackWriter implements AutoCloseable {
 			callback.setObjectCount(objCnt);
 		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
-		try {
-			List<CachedPack> unwrittenCachedPacks;
+		int writePackAttempts = 0;
+		WRITEPACK: for (;;) {
+			try {
+				List <CachedPack> unwrittenCachedPacks;
 
-			if (packfileUriConfig != null) {
-				unwrittenCachedPacks = new ArrayList<>();
-				CachedPackUriProvider p = packfileUriConfig.cachedPackUriProvider;
-				PacketLineOut o = packfileUriConfig.pckOut;
+				if (packfileUriConfig != null) {
+					unwrittenCachedPacks = new ArrayList <>();
+					CachedPackUriProvider p = packfileUriConfig.cachedPackUriProvider;
+					PacketLineOut o = packfileUriConfig.pckOut;
 
-				o.writeString("packfile-uris\n"); //$NON-NLS-1$
-				for (CachedPack pack : cachedPacks) {
-					CachedPackUriProvider.PackInfo packInfo = p.getInfo(
-							pack, packfileUriConfig.protocolsSupported);
-					if (packInfo != null) {
-						o.writeString(packInfo.getHash() + ' ' +
-								packInfo.getUri() + '\n');
-						stats.offloadedPackfiles += 1;
-						stats.offloadedPackfileSize += packInfo.getSize();
-					} else {
-						unwrittenCachedPacks.add(pack);
+					o.writeString("packfile-uris\n"); //$NON-NLS-1$
+					for (CachedPack pack : cachedPacks) {
+						CachedPackUriProvider.PackInfo packInfo = p.getInfo(
+								pack, packfileUriConfig.protocolsSupported);
+						if (packInfo != null) {
+							o.writeString(packInfo.getHash() + ' ' +
+									packInfo.getUri() + '\n');
+							stats.offloadedPackfiles += 1;
+							stats.offloadedPackfileSize += packInfo.getSize();
+						} else {
+							unwrittenCachedPacks.add(pack);
+						}
+					}
+					packfileUriConfig.pckOut.writeDelim();
+					packfileUriConfig.pckOut.writeString("packfile\n"); //$NON-NLS-1$
+				} else {
+					unwrittenCachedPacks = cachedPacks;
+				}
+
+				out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
+				out.flush();
+
+				writeObjects(out);
+				if (!edgeObjects.isEmpty() || !cachedPacks.isEmpty()) {
+					for (PackStatistics.ObjectType.Accumulator typeStat : stats.objectTypes) {
+						if (typeStat == null)
+							continue;
+						stats.thinPackBytes += typeStat.bytes;
 					}
 				}
-				packfileUriConfig.pckOut.writeDelim();
-				packfileUriConfig.pckOut.writeString("packfile\n"); //$NON-NLS-1$
-			} else {
-				unwrittenCachedPacks = cachedPacks;
-			}
 
-			out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
-			out.flush();
+				stats.reusedPacks = Collections.unmodifiableList(cachedPacks);
+				for (CachedPack pack : unwrittenCachedPacks) {
+					long deltaCnt = pack.getDeltaCount();
+					stats.reusedObjects += pack.getObjectCount();
+					stats.reusedDeltas += deltaCnt;
+					stats.totalDeltas += deltaCnt;
+					reuseSupport.copyPackAsIs(out, pack);
+				}
+				writeChecksum(out);
+				out.flush();
+			} catch (IOException ioe) {
+				if (FileUtils.isStaleFileHandleInCausalChain(ioe) &&
+						writePackAttempts < MAX_WRITE_PACK_ATTEMPTS) {
+					requireNonNull(reuseSupport).getCachedPacksAndUpdate(haveObjects);
+					writePackAttempts++;
+					continue WRITEPACK;
+				}
+			} finally {
+				stats.timeWriting = System.currentTimeMillis() - writeStart;
+				stats.depth = depth;
 
-			writeObjects(out);
-			if (!edgeObjects.isEmpty() || !cachedPacks.isEmpty()) {
 				for (PackStatistics.ObjectType.Accumulator typeStat : stats.objectTypes) {
 					if (typeStat == null)
 						continue;
-					stats.thinPackBytes += typeStat.bytes;
+					typeStat.cntDeltas += typeStat.reusedDeltas;
+					stats.reusedObjects += typeStat.reusedObjects;
+					stats.reusedDeltas += typeStat.reusedDeltas;
+					stats.totalDeltas += typeStat.cntDeltas;
 				}
 			}
-
-			stats.reusedPacks = Collections.unmodifiableList(cachedPacks);
-			for (CachedPack pack : unwrittenCachedPacks) {
-				long deltaCnt = pack.getDeltaCount();
-				stats.reusedObjects += pack.getObjectCount();
-				stats.reusedDeltas += deltaCnt;
-				stats.totalDeltas += deltaCnt;
-				reuseSupport.copyPackAsIs(out, pack);
-			}
-			writeChecksum(out);
-			out.flush();
-		} finally {
-			stats.timeWriting = System.currentTimeMillis() - writeStart;
-			stats.depth = depth;
-
-			for (PackStatistics.ObjectType.Accumulator typeStat : stats.objectTypes) {
-				if (typeStat == null)
-					continue;
-				typeStat.cntDeltas += typeStat.reusedDeltas;
-				stats.reusedObjects += typeStat.reusedObjects;
-				stats.reusedDeltas += typeStat.reusedDeltas;
-				stats.totalDeltas += typeStat.cntDeltas;
-			}
+			break WRITEPACK;
 		}
 
 		stats.totalBytes = out.length();
