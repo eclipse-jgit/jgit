@@ -27,6 +27,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.storage.file.WindowCacheStats;

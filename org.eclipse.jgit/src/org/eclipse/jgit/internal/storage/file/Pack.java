@@ -45,6 +45,7 @@ import org.eclipse.jgit.errors.NoPackSignatureException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.errors.UnsupportedPackIndexVersionException;
 import org.eclipse.jgit.errors.UnsupportedPackVersionException;
@@ -375,10 +376,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	void copyPackAsIs(PackOutputStream out, WindowCursor curs)
-			throws IOException {
+			throws IOException, StoredPackRepresentationNotAvailableException {
 		// Pin the first window, this ensures the length is accurate.
+
 		curs.pin(this, 0);
 		curs.copyPackAsIs(this, length, out);
+
 	}
 
 	final void copyAsIs(PackOutputStream out, LocalObjectToPack src,
