@@ -154,4 +154,6 @@ public abstract class ObjectDatabase {
 	public ObjectDatabase newCachedDatabase() {
 		return this;
 	}
+
+	public void refreshPacks() {}
 }
