@@ -154,4 +154,15 @@ public abstract class ObjectDatabase {
 	public ObjectDatabase newCachedDatabase() {
 		return this;
 	}
+
+	/**
+	 * Refresh the in-memory PackList
+	 *
+	 * @return true if the pack list has been refreshed, false otherwise.
+	 *
+	 * @since 6.0
+	 */
+	public boolean refreshPackList() {
+		return false;
+	}
 }
