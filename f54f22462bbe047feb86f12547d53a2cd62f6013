@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b753cc4_7f0ae80d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutPutStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e3a87df_081e2fbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "why do you create an alias for an already established constant ?",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b70337_a4a429be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "fix boxing warning:\n\n Integer.valueOf(numChunks)",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 13
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad8b2e8a_1dfb602a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "this local variable hides a field with the same name",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "685db554_ec25b9e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "this variable hides a field with the same name",
+      "range": {
+        "startLine": 374,
+        "startChar": 14,
+        "endLine": 374,
+        "endChar": 18
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6c31824_bb287437",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "spell out object database instead of an unusual acronym",
+      "range": {
+        "startLine": 18,
+        "startChar": 30,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77e0549f_5ba48aab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "why isn\u0027t this an interface ?",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcf821de_35017f70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "- remove NUMBER from this name ? it\u0027s an int so that should be obvious\n- maybe something like NOT_IN_GRAPH instead of INFINITY ?",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c4e1170_dc888239",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "maybe GENERATION_UNKNOWN ?",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 47
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2076e4f_33e72d5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-07-08T18:37:08Z",
+      "side": 1,
+      "message": "why isn\u0027t this an interface ?",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
