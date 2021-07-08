@@ -250,6 +250,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
+	public boolean refreshPackList(Pack stalePack, IOException ioe) {
+		return wrapped.refreshPackList(stalePack, ioe);
+	}
+
+	@Override
 	Collection<Pack> getPacks() {
 		return wrapped.getPacks();
 	}

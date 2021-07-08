@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.file.Pack;
 
 /**
  * Abstraction of arbitrary object storage.
@@ -153,5 +154,19 @@ public abstract class ObjectDatabase {
 	 */
 	public ObjectDatabase newCachedDatabase() {
 		return this;
+	}
+
+	/**
+	 * Refresh the in memory PackList
+	 *
+	 * @param stalePack
+	 * 			Stale Pack file to remove from PackList.
+	 * @param ioe
+	 * 			original IOEXception thrown.
+	 *
+	 * @return true if the pack list has been refreshed, false otherwise.
+	 */
+	public boolean refreshPackList(Pack stalePack, IOException ioe) {
+		return false;
 	}
 }

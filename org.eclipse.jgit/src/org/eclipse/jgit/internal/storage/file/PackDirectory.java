@@ -114,6 +114,10 @@ class PackDirectory {
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
 
+	public boolean refreshPackList(Pack stalePack, IOException ioe) {
+		return handlePackError(ioe, stalePack);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
@@ -282,7 +286,8 @@ class PackDirectory {
 		}
 	}
 
-	private void handlePackError(IOException e, Pack p) {
+	private boolean handlePackError(IOException e, Pack p) {
+		boolean packListRefreshed = false;
 		String warnTmpl = null;
 		int transientErrorCount = 0;
 		String errTmpl = JGitText.get().exceptionWhileReadingPack;
@@ -293,6 +298,7 @@ class PackDirectory {
 					p.getPackFile().getAbsolutePath()), e);
 			// Assume the pack is corrupted, and remove it from the list.
 			remove(p);
+			packListRefreshed = true;
 		} else if (e instanceof FileNotFoundException) {
 			if (p.getPackFile().exists()) {
 				errTmpl = JGitText.get().packInaccessible;
@@ -300,10 +306,12 @@ class PackDirectory {
 			} else {
 				warnTmpl = JGitText.get().packWasDeleted;
 				remove(p);
+				packListRefreshed = true;
 			}
 		} else if (FileUtils.isStaleFileHandleInCausalChain(e)) {
 			warnTmpl = JGitText.get().packHandleIsStale;
 			remove(p);
+			packListRefreshed = true;
 		} else {
 			transientErrorCount = p.incrementTransientErrorCount();
 		}
@@ -319,6 +327,7 @@ class PackDirectory {
 						Integer.valueOf(transientErrorCount)), e);
 			}
 		}
+		return packListRefreshed;
 	}
 
 	/**
