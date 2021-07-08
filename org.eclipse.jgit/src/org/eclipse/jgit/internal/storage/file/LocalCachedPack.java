@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -49,9 +50,15 @@ class LocalCachedPack extends CachedPack {
 	}
 
 	void copyAsIs(PackOutputStream out, WindowCursor wc)
-			throws IOException {
-		for (Pack pack : getPacks())
-			pack.copyPackAsIs(out, wc);
+			throws IOException, StoredPackRepresentationNotAvailableException {
+		for (Pack pack : getPacks()) {
+			try {
+				pack.copyPackAsIs(out, wc);
+			} catch (IOException e ) {
+				throw new StoredPackRepresentationNotAvailableException(pack,
+				 e);
+			}
+		}
 	}
 
 	/** {@inheritDoc} */

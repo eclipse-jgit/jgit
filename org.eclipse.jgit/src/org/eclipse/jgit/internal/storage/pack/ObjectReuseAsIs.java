@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -182,9 +183,12 @@ public interface ObjectReuseAsIs {
 	 *            the cached pack to send.
 	 * @throws java.io.IOException
 	 *             the pack cannot be read, or stream did not accept a write.
+	 * @throws  org.eclipse.jgit.errors.StoredPackRepresentationNotAvailableException
+	 * 				throw it!
+	 *
 	 */
 	void copyPackAsIs(PackOutputStream out, CachedPack pack)
-			throws IOException;
+			throws IOException, StoredPackRepresentationNotAvailableException;
 
 	/**
 	 * Obtain the available cached packs that match the bitmap and update
