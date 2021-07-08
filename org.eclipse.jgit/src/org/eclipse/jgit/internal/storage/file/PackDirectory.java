@@ -38,6 +38,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.pack.StaleFileHandleOnPackfile;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -112,6 +113,11 @@ class PackDirectory {
 		}
 		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
+	}
+
+	public boolean refreshPackList(StaleFileHandleOnPackfile staleFileHandleOnPackfile) {
+		return handlePackError(staleFileHandleOnPackfile.getOriginalException(),
+		 staleFileHandleOnPackfile.getPack());
 	}
 
 	/** {@inheritDoc} */
@@ -282,7 +288,8 @@ class PackDirectory {
 		}
 	}
 
-	private void handlePackError(IOException e, Pack p) {
+	private boolean handlePackError(IOException e, Pack p) {
+		boolean packListRefreshed = false;
 		String warnTmpl = null;
 		int transientErrorCount = 0;
 		String errTmpl = JGitText.get().exceptionWhileReadingPack;
@@ -293,6 +300,7 @@ class PackDirectory {
 					p.getPackFile().getAbsolutePath()), e);
 			// Assume the pack is corrupted, and remove it from the list.
 			remove(p);
+			packListRefreshed = true;
 		} else if (e instanceof FileNotFoundException) {
 			if (p.getPackFile().exists()) {
 				errTmpl = JGitText.get().packInaccessible;
@@ -300,10 +308,12 @@ class PackDirectory {
 			} else {
 				warnTmpl = JGitText.get().packWasDeleted;
 				remove(p);
+				packListRefreshed = true;
 			}
 		} else if (FileUtils.isStaleFileHandleInCausalChain(e)) {
 			warnTmpl = JGitText.get().packHandleIsStale;
 			remove(p);
+			packListRefreshed = true;
 		} else {
 			transientErrorCount = p.incrementTransientErrorCount();
 		}
@@ -319,6 +329,7 @@ class PackDirectory {
 						Integer.valueOf(transientErrorCount)), e);
 			}
 		}
+		return packListRefreshed;
 	}
 
 	/**

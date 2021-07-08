@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.transport.SendPackException;
 
 /**
  * Abstraction of arbitrary object storage.
@@ -153,5 +154,19 @@ public abstract class ObjectDatabase {
 	 */
 	public ObjectDatabase newCachedDatabase() {
 		return this;
+	}
+
+	/**
+	 * Refresh the in-memory PackList
+	 *
+	 * @param e
+	 *            exception triggering the refresh pack list.
+	 *
+	 * @return true if the pack list has been refreshed, false otherwise.
+	 *
+	 * @since 5.13
+	 */
+	public boolean refreshPackList(SendPackException e) {
+		return false;
 	}
 }
