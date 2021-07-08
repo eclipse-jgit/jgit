@@ -1,0 +1,43 @@
+package org.eclipse.jgit.internal.storage.pack;
+
+import org.eclipse.jgit.internal.storage.file.Pack;
+
+import java.io.IOException;
+
+/**
+ * Indicates that a pack hasn't been found.
+ *
+ * @since 5.12
+ */
+public class PackNotFoundException extends IOException {
+    private static final long serialVersionUID = 1L;
+
+    private final Pack pack;
+    private final IOException originalException;
+
+    /**
+     * <p>Constructor for PackNotFoundException.</p>
+     *
+     * @param missingPack
+     *            a message explaining the state. This message should not
+     *            be shown to an end-user.
+     */
+    public PackNotFoundException(Pack missingPack, IOException ioe) {
+        super("Missing pack file " + missingPack.getPackName());
+        originalException = ioe;
+        pack = missingPack;
+    }
+
+    /**
+     * Get the missing Pack.
+     *
+     * @return missing Pack object.
+     */
+    public Pack getPack() {
+        return pack;
+    }
+
+    public IOException getOriginalException() {
+        return originalException;
+    }
+}
