@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "439ae4d6_5feabe09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutPutStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b753cc4_7f0ae80d",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e3a87df_081e2fbb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e61675d_46a88449",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "Yes, using Constants.OBJECT_ID_LENGTH directly is much better.\nDone.",
+      "parentUuid": "6e3a87df_081e2fbb",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -100,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "6d8aa6ae_61a09e57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad8b2e8a_1dfb602a",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685db554_ec25b9e2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 2
@@ -120,6 +174,30 @@
       "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea95680_0b9da5e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685db554_ec25b9e2",
+      "range": {
+        "startLine": 374,
+        "startChar": 14,
+        "endLine": 374,
+        "endChar": 18
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -146,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "7b73dd60_86509ab2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6c31824_bb287437",
+      "range": {
+        "startLine": 18,
+        "startChar": 30,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77e0549f_5ba48aab",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 2
@@ -163,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "279be571_9a12edf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "77e0549f_5ba48aab",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcf821de_35017f70",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 2
@@ -174,6 +294,30 @@
       "writtenOn": "2021-07-08T18:37:08Z",
       "side": 1,
       "message": "- remove NUMBER from this name ? it\u0027s an int so that should be obvious\n- maybe something like NOT_IN_GRAPH instead of INFINITY ?",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7709463c_08af3e0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "\u003e remove NUMBER from this name ? it\u0027s an int so that should be obvious\nI just use the name the same with the CGit, document[1] mention it.\nBut the name seems difficult to understand, indeed.\n\n[1] https://git-scm.com/docs/commit-graph\n\u003e maybe something like NOT_IN_GRAPH instead of INFINITY ?\nWe need to indicate that this constant is used for generation number, maybe GENERATION_UNKNOWN?",
+      "parentUuid": "bcf821de_35017f70",
       "range": {
         "startLine": 37,
         "startChar": 25,
@@ -209,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "5f8b63fa_b48f61c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "GENERATION_NOT_COMPUTED is better?",
+      "parentUuid": "1c4e1170_dc888239",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 47
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2076e4f_33e72d5d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 2
@@ -223,6 +391,24 @@
       "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca82d4bc_78aea305",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-09T08:22:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e2076e4f_33e72d5d",
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
