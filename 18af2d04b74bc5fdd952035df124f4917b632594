@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66428094_2ab75073",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 262466
+      },
+      "writtenOn": "2021-07-09T08:57:11Z",
+      "side": 1,
+      "message": "The case \"no values defined\" could be tested in an own method, avoiding the comments for separation.",
+      "revId": "18af2d04b74bc5fdd952035df124f4917b632594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1410105e_54e3d1ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 262466
+      },
+      "writtenOn": "2021-07-09T08:57:11Z",
+      "side": 1,
+      "message": "Could be\n\n  if (commitTemplatePath \u003d\u003d null) {\n    return null;\n  } \n\nto avoid nesting.",
+      "revId": "18af2d04b74bc5fdd952035df124f4917b632594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bbcc097_1dd59c19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 262466
+      },
+      "writtenOn": "2021-07-09T08:57:11Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "18af2d04b74bc5fdd952035df124f4917b632594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
