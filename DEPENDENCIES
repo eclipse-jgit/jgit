@@ -8,8 +8,8 @@ maven/mavencentral/commons-logging/commons-logging/1.2, Apache-2.0, approved, CQ
 maven/mavencentral/javax.servlet/javax.servlet-api/3.1.0, Apache-2.0 AND (CDDL-1.1 OR GPL-2.0 WITH Classpath-exception-2.0), approved, emo_ip_team
 maven/mavencentral/junit/junit/4.13, , approved, CQ22796
 maven/mavencentral/log4j/log4j/1.2.15, Apache-2.0, approved, CQ7837
-maven/mavencentral/net.bytebuddy/byte-buddy-agent/1.9.0, Apache-2.0, restricted, clearlydefined
-maven/mavencentral/net.bytebuddy/byte-buddy/1.9.0, Apache-2.0, restricted, clearlydefined
+maven/mavencentral/net.bytebuddy/byte-buddy-agent/1.9.0, Apache-2.0, approved, clearlydefined
+maven/mavencentral/net.bytebuddy/byte-buddy/1.9.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/net.i2p.crypto/eddsa/0.3.0, CC0, approved, CQ17804
 maven/mavencentral/net.sf.jopt-simple/jopt-simple/4.6, MIT, approved, CQ14441
 maven/mavencentral/org.apache.ant/ant-launcher/1.10.10, Apache-2.0 AND W3C AND LicenseRef-Public-Domain, approved, CQ15560
@@ -22,17 +22,17 @@ maven/mavencentral/org.apache.sshd/sshd-common/2.7.0, Apache-2.0 and ISC, approv
 maven/mavencentral/org.apache.sshd/sshd-core/2.7.0, Apache-2.0, approved, CQ23469
 maven/mavencentral/org.apache.sshd/sshd-osgi/2.7.0, Apache-2.0 and ISC, approved, CQ23469
 maven/mavencentral/org.apache.sshd/sshd-sftp/2.7.0, Apache-2.0, approved, CQ23470
-maven/mavencentral/org.assertj/assertj-core/3.14.0, Apache-2.0, approved, CQ21437
+maven/mavencentral/org.assertj/assertj-core/3.20.2, Apache-2.0, approved, CQ23501
 maven/mavencentral/org.bouncycastle/bcpg-jdk15on/1.65, Apache-2.0, approved, CQ21975
 maven/mavencentral/org.bouncycastle/bcpkix-jdk15on/1.65, MIT AND LicenseRef-Public-Domain, approved, CQ21976
 maven/mavencentral/org.bouncycastle/bcprov-jdk15on/1.65.01, MIT AND LicenseRef-Public-Domain, approved, CQ21977
-maven/mavencentral/org.eclipse.jetty/jetty-http/9.4.42.v20210604, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-io/9.4.42.v20210604, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-security/9.4.42.v20210604, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-server/9.4.42.v20210604, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-servlet/9.4.42.v20210604, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-util-ajax/9.4.42.v20210604, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-util/9.4.42.v20210604, EPL-2.0, approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-http/9.4.43.v20210629, EPL-2.0, approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-io/9.4.43.v20210629, EPL-2.0, approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-security/9.4.43.v20210629, EPL-2.0, approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-server/9.4.43.v20210629, EPL-2.0, approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-servlet/9.4.43.v20210629, EPL-2.0, approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-util-ajax/9.4.43.v20210629, EPL-2.0, approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-util/9.4.43.v20210629, EPL-2.0, approved, eclipse
 maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
 maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
 maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.archive/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
@@ -55,7 +55,7 @@ maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.jsch/5.13.0-SNAPSHOT, B
 maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
 maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ui/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
 maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.hamcrest/hamcrest-core/1.3, BSD-2-Clause, approved, CQ7063
+maven/mavencentral/org.hamcrest/hamcrest/2.2, BSD-2-Clause, approved, clearlydefined
 maven/mavencentral/org.mockito/mockito-core/2.23.0, MIT, approved, CQ17976
 maven/mavencentral/org.objenesis/objenesis/2.6, Apache-2.0, approved, CQ15478
 maven/mavencentral/org.openjdk.jmh/jmh-core/1.32, GPL-2.0, approved, CQ23499

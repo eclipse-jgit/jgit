@@ -205,8 +205,7 @@ java_library(
     exports = [
         "@bytebuddy-agent//jar",
         "@bytebuddy//jar",
-        "@hamcrest-core//jar",
-        "@hamcrest-library//jar",
+        "@hamcrest//jar",
         "@junit//jar",
         "@mockito//jar",
         "@objenesis//jar",
