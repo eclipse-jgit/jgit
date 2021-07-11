@@ -20,5 +20,5 @@ Import-Package: org.bouncycastle.jce.provider;version="[1.65.0,2.0.0)",
  org.junit.runners;version="[4.13,5.0.0)"
 Export-Package: org.eclipse.jgit.gpg.bc.internal;x-internal:=true,
  org.eclipse.jgit.gpg.bc.internal.keys;x-internal:=true
-Require-Bundle: org.hamcrest.core;bundle-version="[1.1.0,2.0.0)",
- org.hamcrest.library;bundle-version="[1.1.0,2.0.0)"
+Require-Bundle: org.hamcrest.core;bundle-version="[2.2.0,3.0.0)",
+ org.hamcrest.library;bundle-version="[2.2.0,3.0.0)"
