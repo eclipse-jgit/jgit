@@ -179,6 +179,8 @@
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
     <plexus-compiler-version>2.8.8</plexus-compiler-version>
+    <hamcrest-version>2.2</hamcrest-version>
+    <assertj-version>3.20.2</assertj-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -796,7 +798,7 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.14.0</version>
+        <version>${assertj-version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
