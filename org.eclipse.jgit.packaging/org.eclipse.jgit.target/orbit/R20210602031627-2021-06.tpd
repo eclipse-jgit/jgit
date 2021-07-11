@@ -1,4 +1,4 @@
-target "S20210705204906" with source configurePhase
+target "R20210602031627-2021-06" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
 location "https://download.eclipse.org/tools/orbit/downloads/drops/R20210602031627/repository" {
