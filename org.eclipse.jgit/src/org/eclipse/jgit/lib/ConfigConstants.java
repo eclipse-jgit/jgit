@@ -772,4 +772,10 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_COMPUTE_GENERATION = "computeGeneration";
 
+	/**
+	 * The "writeCommitGraph" key
+	 *
+	 * @since 6.0
+	 */
+	public static final String CONFIG_KEY_WRITE_COMMIT_GRAPH = "writeCommitGraph";
 }
