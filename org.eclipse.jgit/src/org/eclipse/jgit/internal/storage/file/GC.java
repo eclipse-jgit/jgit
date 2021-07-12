@@ -61,6 +61,8 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
+import org.eclipse.jgit.internal.storage.commitgraph.GraphCommits;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -122,6 +124,8 @@ public class GC {
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
 	private static final int DEFAULT_AUTOLIMIT = 6700;
+
+	private static final boolean DEFAULT_WRITE_COMMIT_GRAPH = false;
 
 	private static volatile ExecutorService executor;
 
@@ -268,6 +272,9 @@ public class GC {
 		Collection<Pack> newPacks = repack();
 		prune(Collections.emptySet());
 		// TODO: implement rerere_gc(pm);
+		if (shouldWriteCommitGraph()) {
+			writeCommitGraph(refsToObjectIds(getAllRefs()));
+		}
 		return newPacks;
 	}
 
@@ -875,6 +882,102 @@ public class GC {
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
 		return ret;
+	}
+
+	private Set<ObjectId> refsToObjectIds(Collection<Ref> refs)
+			throws IOException {
+		Set<ObjectId> objectIds = new HashSet<>();
+		for (Ref ref : refs) {
+			checkCancelled();
+			if (ref.getPeeledObjectId() != null) {
+				objectIds.add(ref.getPeeledObjectId());
+				continue;
+			}
+
+			if (ref.getObjectId() != null) {
+				objectIds.add(ref.getObjectId());
+			}
+		}
+		return objectIds;
+	}
+
+	/**
+	 * Generate a new commit-graph file.
+	 *
+	 * @param wants
+	 *            the list of wanted objects, writer walks commits starting at
+	 *            these. Must not be {@code null}.
+	 * @throws IOException
+	 *
+	 * @since 6.5
+	 */
+	public void writeCommitGraph(@NonNull Set<? extends ObjectId> wants)
+			throws IOException {
+		checkCancelled();
+		if (wants.isEmpty()) {
+			return;
+		}
+		File tmpFile = null;
+		try (RevWalk walk = new RevWalk(repo)) {
+			CommitGraphWriter writer = new CommitGraphWriter(
+					GraphCommits.fromWalk(pm, wants, walk));
+			tmpFile = File.createTempFile("commit_", ".graph_tmp", //$NON-NLS-1$//$NON-NLS-2$
+					repo.getObjectDatabase().getInfoDirectory());
+			// write the commit-graph file
+			try (FileOutputStream fos = new FileOutputStream(tmpFile);
+					FileChannel channel = fos.getChannel();
+					OutputStream channelStream = Channels
+							.newOutputStream(channel)) {
+				writer.write(pm, channelStream);
+				channel.force(true);
+			}
+
+			// rename the temporary file to real file
+			File realFile = new File(repo.getObjectsDirectory(),
+					Constants.INFO_COMMIT_GRAPH);
+			FileUtils.rename(tmpFile, realFile, StandardCopyOption.ATOMIC_MOVE);
+		} finally {
+			if (tmpFile != null && tmpFile.exists()) {
+				tmpFile.delete();
+			}
+		}
+		deleteTempCommitGraph();
+	}
+
+	private void deleteTempCommitGraph() {
+		Path objectsDir = repo.getObjectDatabase().getInfoDirectory().toPath();
+		Instant threshold = Instant.now().minus(1, ChronoUnit.DAYS);
+		if (!Files.exists(objectsDir)) {
+			return;
+		}
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(objectsDir,
+				"commit_*_tmp")) { //$NON-NLS-1$
+			stream.forEach(t -> {
+				try {
+					Instant lastModified = Files.getLastModifiedTime(t)
+							.toInstant();
+					if (lastModified.isBefore(threshold)) {
+						Files.deleteIfExists(t);
+					}
+				} catch (IOException e) {
+					LOG.error(e.getMessage(), e);
+				}
+			});
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * If {@code true}, will rewrite the commit-graph file when gc is run.
+	 *
+	 * @return gc.write (default
+	 *         {@value #DEFAULT_WRITE_COMMIT_GRAPH})
+	 */
+	boolean shouldWriteCommitGraph() {
+		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH,
+				DEFAULT_WRITE_COMMIT_GRAPH);
 	}
 
 	private static boolean isHead(Ref ref) {
