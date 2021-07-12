@@ -284,6 +284,12 @@ public final class Constants {
 	 */
 	public static final String INFO_HTTP_ALTERNATES = "info/http-alternates";
 
+	/**
+	 * info commit-graph file (goes under OBJECTS)
+	 * @since 6.1
+	 */
+	public static final String INFO_COMMIT_GRAPH = "info/commit-graph";
+
 	/** Packed refs file */
 	public static final String PACKED_REFS = "packed-refs";
 
