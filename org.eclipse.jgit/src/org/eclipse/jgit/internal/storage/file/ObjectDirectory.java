@@ -805,4 +805,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	AlternateHandle.Id getAlternateId() {
 		return handle.getId();
 	}
+
+	File getInfoDirectory() {
+		return infoDirectory;
+	}
 }
