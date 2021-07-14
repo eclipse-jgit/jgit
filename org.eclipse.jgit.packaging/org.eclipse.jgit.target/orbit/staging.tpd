@@ -1,7 +1,7 @@
-target "I20210711110031" with source configurePhase
+target "staging" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/I20210711110031/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/I20210713220109/repository" {
 	com.google.gson [2.8.7.v20210624-1215,2.8.7.v20210624-1215]
 	com.google.gson.source [2.8.7.v20210624-1215,2.8.7.v20210624-1215]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -22,8 +22,8 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/I202107111100
 	org.apache.ant.source [1.10.10.v20210426-1926,1.10.10.v20210426-1926]
 	org.apache.commons.codec [1.14.0.v20200818-1422,1.14.0.v20200818-1422]
 	org.apache.commons.codec.source [1.14.0.v20200818-1422,1.14.0.v20200818-1422]
-	org.apache.commons.compress [1.19.0.v20200106-2343,1.19.0.v20200106-2343]
-	org.apache.commons.compress.source [1.19.0.v20200106-2343,1.19.0.v20200106-2343]
+	org.apache.commons.compress [1.20.0.v20210713-1928,1.20.0.v20210713-1928]
+	org.apache.commons.compress.source [1.20.0.v20210713-1928,1.20.0.v20210713-1928]
 	org.apache.commons.logging [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
 	org.apache.commons.logging.source [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
 	org.apache.httpcomponents.httpclient [4.5.13.v20210128-2225,4.5.13.v20210128-2225]
@@ -38,12 +38,14 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/I202107111100
 	org.apache.sshd.sftp.source [2.7.0.v20210623-0618,2.7.0.v20210623-0618]
 	org.assertj [3.20.2.v20210706-1104,3.20.2.v20210706-1104]
 	org.assertj.source [3.20.2.v20210706-1104,3.20.2.v20210706-1104]
-	org.bouncycastle.bcpg [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
-	org.bouncycastle.bcpg.source [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
-	org.bouncycastle.bcpkix [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
-	org.bouncycastle.bcpkix.source [1.65.0.v20200527-1955,1.65.0.v20200527-1955]
-	org.bouncycastle.bcprov [1.65.1.v20200529-1514,1.65.1.v20200529-1514]
-	org.bouncycastle.bcprov.source [1.65.1.v20200529-1514,1.65.1.v20200529-1514]
+	org.bouncycastle.bcpg [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
+	org.bouncycastle.bcpg.source [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
+	org.bouncycastle.bcpkix [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
+	org.bouncycastle.bcpkix.source [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
+	org.bouncycastle.bcprov [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
+	org.bouncycastle.bcprov.source [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
+	org.bouncycastle.bcutil [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
+	org.bouncycastle.bcutil.source [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
 	org.hamcrest [2.2.0.v20210711-0821,2.2.0.v20210711-0821]
 	org.hamcrest.source [2.2.0.v20210711-0821,2.2.0.v20210711-0821]
 	org.hamcrest.core [1.3.0.v20180420-1519,1.3.0.v20180420-1519]

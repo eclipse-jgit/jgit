@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.10" sequenceNumber="1626078675">
+<target name="jgit-4.10" sequenceNumber="1626298861">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.43.v20210629"/>
@@ -45,8 +45,8 @@
       <unit id="org.apache.ant.source" version="1.10.10.v20210426-1926"/>
       <unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
       <unit id="org.apache.commons.codec.source" version="1.14.0.v20200818-1422"/>
-      <unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
-      <unit id="org.apache.commons.compress.source" version="1.19.0.v20200106-2343"/>
+      <unit id="org.apache.commons.compress" version="1.20.0.v20210713-1928"/>
+      <unit id="org.apache.commons.compress.source" version="1.20.0.v20210713-1928"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.httpcomponents.httpclient" version="4.5.13.v20210128-2225"/>
@@ -61,12 +61,14 @@
       <unit id="org.apache.sshd.sftp.source" version="2.7.0.v20210623-0618"/>
       <unit id="org.assertj" version="3.20.2.v20210706-1104"/>
       <unit id="org.assertj.source" version="3.20.2.v20210706-1104"/>
-      <unit id="org.bouncycastle.bcpg" version="1.65.0.v20200527-1955"/>
-      <unit id="org.bouncycastle.bcpg.source" version="1.65.0.v20200527-1955"/>
-      <unit id="org.bouncycastle.bcpkix" version="1.65.0.v20200527-1955"/>
-      <unit id="org.bouncycastle.bcpkix.source" version="1.65.0.v20200527-1955"/>
-      <unit id="org.bouncycastle.bcprov" version="1.65.1.v20200529-1514"/>
-      <unit id="org.bouncycastle.bcprov.source" version="1.65.1.v20200529-1514"/>
+      <unit id="org.bouncycastle.bcpg" version="1.69.0.v20210713-1924"/>
+      <unit id="org.bouncycastle.bcpg.source" version="1.69.0.v20210713-1924"/>
+      <unit id="org.bouncycastle.bcpkix" version="1.69.0.v20210713-1924"/>
+      <unit id="org.bouncycastle.bcpkix.source" version="1.69.0.v20210713-1924"/>
+      <unit id="org.bouncycastle.bcprov" version="1.69.0.v20210713-1924"/>
+      <unit id="org.bouncycastle.bcprov.source" version="1.69.0.v20210713-1924"/>
+      <unit id="org.bouncycastle.bcutil" version="1.69.0.v20210713-1924"/>
+      <unit id="org.bouncycastle.bcutil.source" version="1.69.0.v20210713-1924"/>
       <unit id="org.hamcrest" version="2.2.0.v20210711-0821"/>
       <unit id="org.hamcrest.source" version="2.2.0.v20210711-0821"/>
       <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
@@ -87,7 +89,7 @@
       <unit id="org.slf4j.binding.log4j12.source" version="1.7.30.v20201108-2042"/>
       <unit id="org.tukaani.xz" version="1.9.0.v20210624-1259"/>
       <unit id="org.tukaani.xz.source" version="1.9.0.v20210624-1259"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20210711110031/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20210713220109/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
