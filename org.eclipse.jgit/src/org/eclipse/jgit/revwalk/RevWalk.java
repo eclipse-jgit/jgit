@@ -30,6 +30,7 @@ import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
+import org.eclipse.jgit.lib.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -188,6 +189,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private RevFilter filter;
 
 	private TreeFilter treeFilter;
+
+	private CommitGraph commitGraph;
+
+	private boolean commitGraphLoaded = false;
 
 	private boolean retainBody = true;
 
@@ -606,7 +611,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		return pending.next();
+		RevCommit commit = pending.next();
+		if (commit != null && isRetainBody()) {
+			commit.parseBody(this);
+		}
+		return commit;
 	}
 
 	/**
@@ -783,6 +792,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * <p>
 	 * True by default on {@link org.eclipse.jgit.revwalk.RevWalk} and false by
 	 * default for {@link org.eclipse.jgit.revwalk.ObjectWalk}.
+	 * <p>
+	 * When <code>core.commitGraph</code> config is true, it's important to know
+	 * that commits and tags may not contain body after parsing their headers,
+	 * even {@link #isRetainBody()} is true.
 	 *
 	 * @return true if the body should be retained; false it is discarded.
 	 */
@@ -799,6 +812,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * <p>
 	 * True by default on {@link org.eclipse.jgit.revwalk.RevWalk} and false by
 	 * default for {@link org.eclipse.jgit.revwalk.ObjectWalk}.
+	 * <p>
+	 * When <code>core.commitGraph</code> config is true, it's important to know
+	 * that commits and tags may not contain body after parsing their headers,
+	 * even {@link #isRetainBody()} is true.
 	 *
 	 * @param retain
 	 *            true to retain bodies; false to discard them early.
@@ -1133,6 +1150,15 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			tooBig.setObjectId(obj);
 			throw tooBig;
 		}
+	}
+
+	CommitGraph getCommitGraph() {
+		if (commitGraphLoaded) {
+			return commitGraph;
+		}
+		commitGraph = reader.getCommitGraph();
+		commitGraphLoaded = true;
+		return commitGraph;
 	}
 
 	/**
@@ -1531,6 +1557,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		queue = new DateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
+		commitGraphLoaded = false;
+		commitGraph = null;
 	}
 
 	/**

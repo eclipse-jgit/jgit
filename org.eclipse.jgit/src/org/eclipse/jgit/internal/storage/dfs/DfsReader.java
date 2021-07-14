@@ -47,6 +47,8 @@ import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
+import org.eclipse.jgit.lib.CommitGraph;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -117,6 +119,16 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(this);
 			if (bitmapIndex != null)
 				return new BitmapIndexImpl(bitmapIndex);
+		}
+		return null;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public CommitGraph getCommitGraph() {
+		if (db.getRepository().getConfig().get(CoreConfig.KEY)
+				.enableCommitGraph()) {
+			return db.getCommitGraph();
 		}
 		return null;
 	}

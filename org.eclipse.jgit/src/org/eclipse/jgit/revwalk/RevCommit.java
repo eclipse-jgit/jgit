@@ -26,8 +26,10 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -107,6 +109,10 @@ public class RevCommit extends RevObject {
 
 	private RevTree tree;
 
+	private int graphPosition = -1;
+
+	int generation = CommitGraph.GENERATION_UNKNOWN;
+
 	/**
 	 * Avoid accessing this field directly. Use method
 	 * {@link RevCommit#getParents()} instead. RevCommit does not allow parents
@@ -135,6 +141,9 @@ public class RevCommit extends RevObject {
 	@Override
 	void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		if (parseInGraph(walk)) {
+			return;
+		}
 		parseCanonical(walk, walk.getCachedBytes(this));
 	}
 
@@ -207,6 +216,38 @@ public class RevCommit extends RevObject {
 			buffer = raw;
 		}
 		flags |= PARSED;
+	}
+
+	boolean parseInGraph(RevWalk walk) {
+		CommitGraph graph = walk.getCommitGraph();
+		if (graph == null) {
+			return false;
+		}
+		CommitGraph.CommitData data;
+		if (graphPosition >= 0) {
+			data = graph.getCommitData(graphPosition);
+		} else {
+			data = graph.getCommitData(this);
+		}
+		if (data == null) {
+			return false;
+		}
+
+		this.tree = walk.lookupTree(data.getTree());
+		this.commitTime = (int) data.getCommitTime();
+		this.generation = data.getGeneration();
+
+		int[] pGraphList = data.getParents();
+		RevCommit[] pList = new RevCommit[pGraphList.length];
+		for (int i = 0; i < pList.length; i++) {
+			ObjectId objId = graph.getObjectId(pGraphList[i]);
+			pList[i] = walk.lookupCommit(objId);
+			pList[i].graphPosition = pGraphList[i];
+		}
+		this.parents = pList;
+
+		flags |= PARSED;
+		return true;
 	}
 
 	/** {@inheritDoc} */
