@@ -12,6 +12,8 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraph.EMPTY;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -189,6 +192,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private TreeFilter treeFilter;
 
+	private CommitGraph commitGraph;
+
 	private boolean retainBody = true;
 
 	private boolean rewriteParents = true;
@@ -237,6 +242,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		this.closeReader = closeReader;
+		commitGraph = null;
 	}
 
 	/**
@@ -900,6 +906,29 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * This method is intended to be invoked only by {@link RevCommitCG}, in
+	 * order to give commit the correct graphPosition before accessing the
+	 * commit-graph. In this way, the headers of the commit can be obtained in
+	 * constant time.
+	 *
+	 * @param id
+	 *            name of the commit object.
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return reference to the commit object. Never null.
+	 * @since 6.5
+	 */
+	@NonNull
+	protected RevCommit lookupCommit(AnyObjectId id, int graphPos) {
+		RevCommit c = (RevCommit) objects.get(id);
+		if (c == null) {
+			c = createCommit(id, graphPos);
+			objects.add(c);
+		}
+		return c;
+	}
+
+	/**
 	 * Locate a reference to a tag without loading it.
 	 * <p>
 	 * The tag may or may not exist in the repository. It is impossible to tell
@@ -1133,6 +1162,21 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			tooBig.setObjectId(obj);
 			throw tooBig;
 		}
+	}
+
+	/**
+	 * Get the commit-graph.
+	 *
+	 * @return the commit-graph. Never null.
+	 * @since 6.5
+	 */
+	@NonNull
+	CommitGraph commitGraph() {
+		if (commitGraph == null) {
+			commitGraph = reader != null ? reader.getCommitGraph().orElse(EMPTY)
+					: EMPTY;
+		}
+		return commitGraph;
 	}
 
 	/**
@@ -1650,6 +1694,13 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return a new unparsed reference for the object.
 	 */
 	protected RevCommit createCommit(AnyObjectId id) {
+		return createCommit(id, commitGraph().findGraphPosition(id));
+	}
+
+	private RevCommit createCommit(AnyObjectId id, int graphPos) {
+		if (graphPos >= 0) {
+			return new RevCommitCG(id, graphPos);
+		}
 		return new RevCommit(id);
 	}
 

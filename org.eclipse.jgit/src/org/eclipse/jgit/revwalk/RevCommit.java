@@ -105,7 +105,12 @@ public class RevCommit extends RevObject {
 
 	static final RevCommit[] NO_PARENTS = {};
 
-	private RevTree tree;
+	/**
+	 * Tree reference of the commit.
+	 *
+	 * @since 6.5
+	 */
+	protected RevTree tree;
 
 	/**
 	 * Avoid accessing this field directly. Use method
@@ -654,6 +659,24 @@ public class RevCommit extends RevObject {
 				r.add(f.getValue());
 		}
 		return r;
+	}
+
+	/**
+	 * Get the distance of the commit from the root, as defined in
+	 * {@link org.eclipse.jgit.internal.storage.commitgraph.CommitGraph}
+	 * <p>
+	 * Generation number is
+	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN} when the
+	 * commit is not in the commit-graph. If a commit-graph file was written by
+	 * a version of Git that did not compute generation numbers, then those
+	 * commits in commit-graph will have generation number represented by
+	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_NOT_COMPUTED}.
+	 *
+	 * @return the generation number
+	 * @since 6.5
+	 */
+	int getGeneration() {
+		return Constants.COMMIT_GENERATION_UNKNOWN;
 	}
 
 	/**
