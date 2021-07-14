@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 
 /**
  * Abstraction of arbitrary object storage.
@@ -199,4 +200,16 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 * @since 6.1
 	 */
 	public abstract long getApproximateObjectCount();
+
+	/**
+	 * A supplemental data structure that accelerates commit graph walks.
+	 *
+	 * @return the commit-graph or null if the commit-graph does not exist or is
+	 *         invalid.
+	 *
+	 * @since 6.5
+	 */
+	public CommitGraph getCommitGraph() {
+		return null;
+	}
 }
