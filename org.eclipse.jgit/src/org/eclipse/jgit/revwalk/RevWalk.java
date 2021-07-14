@@ -12,6 +12,8 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraph.EMPTY_COMMIT_GRAPH;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -189,6 +192,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private TreeFilter treeFilter;
 
+	private CommitGraph commitGraph;
+
 	private boolean retainBody = true;
 
 	private boolean rewriteParents = true;
@@ -237,6 +242,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		this.closeReader = closeReader;
+		commitGraph = null;
 	}
 
 	/**
@@ -900,6 +906,31 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Locate a reference to a commit with graph position without loading it.
+	 * <p>
+	 * The commit may or may not exist in the repository. It is impossible to
+	 * tell from this method's return value.
+	 * <p>
+	 * See {@link #parseHeaders(RevObject)} and {@link #parseBody(RevObject)}
+	 * for loading contents.
+	 *
+	 * @param id
+	 *            name of the commit object.
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return reference to the commit object. Never null.
+	 */
+	@NonNull
+	protected RevCommit lookupCommit(AnyObjectId id, int graphPos) {
+		RevCommit c = (RevCommit) objects.get(id);
+		if (c == null) {
+			c = createCommit(id, graphPos);
+			objects.add(c);
+		}
+		return c;
+	}
+
+	/**
 	 * Locate a reference to a tag without loading it.
 	 * <p>
 	 * The tag may or may not exist in the repository. It is impossible to tell
@@ -1133,6 +1164,16 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			tooBig.setObjectId(obj);
 			throw tooBig;
 		}
+	}
+
+	@NonNull
+	CommitGraph commitGraph() {
+		if (commitGraph == null) {
+			commitGraph = reader != null
+					? reader.getCommitGraph().orElse(EMPTY_COMMIT_GRAPH)
+					: EMPTY_COMMIT_GRAPH;
+		}
+		return commitGraph;
 	}
 
 	/**
@@ -1531,6 +1572,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		queue = new DateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
+		commitGraph = null;
 	}
 
 	/**
@@ -1650,6 +1692,22 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return a new unparsed reference for the object.
 	 */
 	protected RevCommit createCommit(AnyObjectId id) {
+		return createCommit(id, commitGraph().findGraphPosition(id));
+	}
+
+	/**
+	 * Construct a new unparsed commit for the given object.
+	 *
+	 * @param id
+	 *            the object this walker requires a commit reference for.
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return a new unparsed reference for the object.
+	 */
+	protected RevCommit createCommit(AnyObjectId id, int graphPos) {
+		if (graphPos >= 0) {
+			return new RevCommitCG(id, graphPos);
+		}
 		return new RevCommit(id);
 	}
 

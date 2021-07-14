@@ -30,6 +30,8 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 public interface CommitGraph {
 
+	CommitGraph EMPTY_COMMIT_GRAPH = new EmptyCommitGraph();
+
 	/**
 	 * Find the position in the commit-graph of the commit.
 	 * <p>
@@ -114,5 +116,37 @@ public interface CommitGraph {
 		 *         if the writer didn't calculate it.
 		 */
 		int getGeneration();
+	}
+
+	/** Empty {@link CommitGraph} with no results. */
+	class EmptyCommitGraph implements CommitGraph {
+
+		// Prevent default constructor.
+		private EmptyCommitGraph() {
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public int findGraphPosition(AnyObjectId commit) {
+			return -1;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public CommitData getCommitData(int graphPos) {
+			return null;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public ObjectId getObjectId(int graphPos) {
+			return null;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public long getCommitCnt() {
+			return 0;
+		}
 	}
 }
