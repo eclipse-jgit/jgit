@@ -892,4 +892,11 @@ public final class ConfigConstants {
 	 * @since 6.5
 	 */
 	public static final String CONFIG_KEY_WRITE_COMMIT_GRAPH = "writeCommitGraph";
+
+	/**
+	 * The "commitGraph" section
+	 *
+	 * @since 6.5
+	 */
+	public static final String CONFIG_COMMIT_GRAPH_SECTION = "commitGraph";
 }
