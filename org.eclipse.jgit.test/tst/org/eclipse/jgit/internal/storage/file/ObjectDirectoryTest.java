@@ -43,6 +43,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
@@ -249,6 +250,50 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		assertThrows(
 				MessageFormat.format(JGitText.get().badShallowLine, commit),
 				IOException.class, () -> dir.getShallowCommits());
+	}
+
+	@Test
+	public void testGetCommitGraph() throws Exception {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+
+		// no commit-graph
+		ObjectDirectory dir = db.getObjectDatabase();
+		assertTrue(dir.getCommitGraph().isEmpty());
+
+		// add commit-graph
+		commitFile("file.txt", "content", "master");
+		GC gc = new GC(db);
+		gc.gc();
+		File file = new File(db.getObjectsDirectory(),
+				Constants.INFO_COMMIT_GRAPH);
+		assertTrue(file.exists());
+		assertTrue(file.isFile());
+		assertTrue(dir.getCommitGraph().isPresent());
+		assertEquals(1, dir.getCommitGraph().get().getCommitCnt());
+
+		// update commit-graph
+		commitFile("file2.txt", "content", "master");
+		gc.gc();
+		assertEquals(2, dir.getCommitGraph().get().getCommitCnt());
+
+		// delete commit-graph
+		file.delete();
+		assertFalse(file.exists());
+		assertTrue(dir.getCommitGraph().isEmpty());
+
+		// commit-graph is corrupt
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
+			writer.println("this is a corrupt commit-graph");
+		}
+		assertTrue(dir.getCommitGraph().isEmpty());
+
+		// add commit-graph again
+		gc.gc();
+		assertTrue(dir.getCommitGraph().isPresent());
+		assertEquals(2, dir.getCommitGraph().get().getCommitCnt());
 	}
 
 	private Collection<Callable<ObjectId>> blobInsertersForTheSameFanOutDir(
