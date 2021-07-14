@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -30,6 +31,7 @@ import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -188,6 +190,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private RevFilter filter;
 
 	private TreeFilter treeFilter;
+
+	private Optional<CommitGraph> commitGraph;
+
+	private boolean commitGraphLoaded = false;
 
 	private boolean retainBody = true;
 
@@ -1135,6 +1141,15 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		}
 	}
 
+	Optional<CommitGraph> getCommitGraph() {
+		if (commitGraphLoaded) {
+			return commitGraph;
+		}
+		commitGraph = reader.getCommitGraph();
+		commitGraphLoaded = true;
+		return commitGraph;
+	}
+
 	/**
 	 * Asynchronous object parsing.
 	 *
@@ -1531,6 +1546,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		queue = new DateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
+		commitGraphLoaded = false;
+		commitGraph = null;
 	}
 
 	/**
