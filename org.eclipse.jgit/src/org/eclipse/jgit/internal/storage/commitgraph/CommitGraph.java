@@ -30,6 +30,9 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 public interface CommitGraph {
 
+	/** Empty {@link CommitGraph} with no results. */
+	CommitGraph EMPTY_COMMIT_GRAPH = new EmptyCommitGraph();
+
 	/**
 	 * Find the position in the commit-graph of the commit.
 	 * <p>
