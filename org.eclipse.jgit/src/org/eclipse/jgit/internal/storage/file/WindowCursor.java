@@ -34,7 +34,9 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
+import org.eclipse.jgit.lib.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -90,6 +92,15 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			PackBitmapIndex index = pack.getBitmapIndex();
 			if (index != null)
 				return new BitmapIndexImpl(index);
+		}
+		return null;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public CommitGraph getCommitGraph() {
+		if (db.getConfig().get(CoreConfig.KEY).enableCommitGraph()) {
+			return db.getCommitGraph();
 		}
 		return null;
 	}
