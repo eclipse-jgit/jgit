@@ -154,4 +154,16 @@ public abstract class ObjectDatabase {
 	public ObjectDatabase newCachedDatabase() {
 		return this;
 	}
+
+	/**
+	 * A supplemental data structure that accelerates commit graph walks.
+	 *
+	 * @return the commit-graph or null if the commit-graph does not exist or is
+	 *         invalid.
+	 *
+	 * @since 6.0
+	 */
+	public CommitGraph getCommitGraph() {
+		return null;
+	}
 }
