@@ -199,4 +199,16 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 * @since 6.1
 	 */
 	public abstract long getApproximateObjectCount();
+
+	/**
+	 * A supplemental data structure that accelerates commit graph walks.
+	 *
+	 * @return the commit-graph or null if the commit-graph does not exist or is
+	 *         invalid.
+	 *
+	 * @since 6.5
+	 */
+	public CommitGraph getCommitGraph() {
+		return null;
+	}
 }
