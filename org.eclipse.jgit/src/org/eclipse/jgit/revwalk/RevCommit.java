@@ -105,7 +105,7 @@ public class RevCommit extends RevObject {
 
 	static final RevCommit[] NO_PARENTS = {};
 
-	private RevTree tree;
+	protected RevTree tree;
 
 	/**
 	 * Avoid accessing this field directly. Use method
@@ -654,6 +654,33 @@ public class RevCommit extends RevObject {
 				r.add(f.getValue());
 		}
 		return r;
+	}
+
+	/**
+	 * Get the generation number of the commit.
+	 * <p>
+	 * The commit which parsed from commit-graph may have generation number.
+	 * <p>
+	 * If A and B are commits with generation numbers N and M, respectively, and
+	 * N <= M, then A cannot reach B. That is, we know without searching that B
+	 * is not an ancestor of A because it is further from a root commit than A.
+	 * <p>
+	 * Conversely, when checking if A is an ancestor of B, then we only need to
+	 * walk commits until all commits on the walk boundary have generation
+	 * number at most N. If we walk commits using a priority queue seeded by
+	 * generation numbers, then we always expand the boundary commit with the
+	 * highest generation number and can easily detect the stopping condition.
+	 * <p>
+	 * We use {@value org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN}
+	 * to mark commits not in the commit-graph file. If a commit-graph file was
+	 * written without computing generation numbers, then those commits will
+	 * have generation number represented by
+	 * {@value org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN}.
+	 *
+	 * @return the generation number
+	 */
+	int getGeneration() {
+		return Constants.COMMIT_GENERATION_UNKNOWN;
 	}
 
 	/**

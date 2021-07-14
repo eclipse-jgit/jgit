@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -30,6 +31,7 @@ import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -189,6 +191,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private TreeFilter treeFilter;
 
+	private Optional<CommitGraph> commitGraph;
+
+	private boolean commitGraphLoaded = false;
+
 	private boolean retainBody = true;
 
 	private boolean rewriteParents = true;
@@ -237,6 +243,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		this.closeReader = closeReader;
+		commitGraph = Optional.empty();
 	}
 
 	/**
@@ -899,6 +906,16 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		return c;
 	}
 
+	@NonNull
+	protected RevCommit lookupCommit(AnyObjectId id, int graphPos) {
+		RevCommit c = (RevCommit) objects.get(id);
+		if (c == null) {
+			c = createCommitCG(id, graphPos);
+			objects.add(c);
+		}
+		return c;
+	}
+
 	/**
 	 * Locate a reference to a tag without loading it.
 	 * <p>
@@ -1133,6 +1150,16 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			tooBig.setObjectId(obj);
 			throw tooBig;
 		}
+	}
+
+	@NonNull
+	Optional<CommitGraph> commitGraph() {
+		if (commitGraphLoaded) {
+			return commitGraph;
+		}
+		commitGraph = reader.getCommitGraph();
+		commitGraphLoaded = true;
+		return commitGraph;
 	}
 
 	/**
@@ -1531,6 +1558,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		queue = new DateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
+		commitGraphLoaded = false;
+		commitGraph = Optional.empty();
 	}
 
 	/**
@@ -1650,7 +1679,27 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return a new unparsed reference for the object.
 	 */
 	protected RevCommit createCommit(AnyObjectId id) {
+		CommitGraph graph = commitGraph().orElse(null);
+		if (graph != null) {
+			int graphPos = graph.findGraphPosition(id);
+			if (graphPos >= 0) {
+				return createCommitCG(id, graphPos);
+			}
+		}
 		return new RevCommit(id);
+	}
+
+	/**
+	 * Construct a new unparsed commit with graph position for the given object.
+	 *
+	 * @param id
+	 *            the object this walker requires a commit reference for.
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return a new unparsed reference with graph position for the object.
+	 */
+	protected RevCommitCG createCommitCG(AnyObjectId id, int graphPos) {
+		return new RevCommitCG(id, graphPos);
 	}
 
 	void carryFlagsImpl(RevCommit c) {
