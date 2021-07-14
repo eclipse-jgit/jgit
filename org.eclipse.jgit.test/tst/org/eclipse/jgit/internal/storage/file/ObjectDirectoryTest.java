@@ -44,6 +44,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -249,6 +250,18 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		assertThrows(
 				MessageFormat.format(JGitText.get().badShallowLine, commit),
 				IOException.class, () -> dir.getShallowCommits());
+	}
+
+	@Test
+	public void testCommitGraphFile() throws Exception {
+		ObjectDirectory dir = db.getObjectDatabase();
+		assertNull(dir.getCommitGraph());
+
+		commitFile("file.txt", "content", "master");
+		GC gc = new GC(db);
+		gc.writeCommitGraph();
+
+		assertNotNull(dir.getCommitGraph());
 	}
 
 	private Collection<Callable<ObjectId>> blobInsertersForTheSameFanOutDir(
