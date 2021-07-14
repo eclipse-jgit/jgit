@@ -190,6 +190,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
 	/***/ public String cookieFilePathRelative;
+	/***/ public String corruptCommitGraph;
 	/***/ public String corruptionDetectedReReadingAt;
 	/***/ public String corruptObjectBadDate;
 	/***/ public String corruptObjectBadEmail;
@@ -325,6 +326,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionOccurredDuringAddingOfOptionToALogCommand;
 	/***/ public String exceptionOccurredDuringReadingOfGIT_DIR;
 	/***/ public String exceptionWhileFindingUserHome;
+	/***/ public String exceptionWhileLoadingCommitGraph;
 	/***/ public String exceptionWhileReadingPack;
 	/***/ public String expectedACKNAKFoundEOF;
 	/***/ public String expectedACKNAKGot;
