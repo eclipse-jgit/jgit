@@ -37,6 +37,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -85,6 +86,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final File alternatesFile;
 
+	private final FileCommitGraph fileCommitGraph;
+
 	private final FS fs;
 
 	private final AtomicReference<AlternateHandle[]> alternates;
@@ -124,6 +127,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		loose = new LooseObjects(objects);
 		packed = new PackDirectory(config, packDirectory);
 		preserved = new PackDirectory(config, preservedDirectory);
+		fileCommitGraph = new FileCommitGraph(objects);
 		this.fs = fs;
 		this.shallowFile = shallowFile;
 
@@ -225,6 +229,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 		return count;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public CommitGraph getCommitGraph() {
+		return fileCommitGraph.get();
 	}
 
 	/**
