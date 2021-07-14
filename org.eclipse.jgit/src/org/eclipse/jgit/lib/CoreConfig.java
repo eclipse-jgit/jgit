@@ -116,6 +116,13 @@ public class CoreConfig {
 		ALWAYS
 	}
 
+	/**
+	 * Default value of commit graph enable option: {@value}
+	 *
+	 * @since 6.1
+	 */
+	public static final boolean DEFAULT_COMMIT_GRAPH_ENABLE = false;
+
 	private final int compression;
 
 	private final int packIndexVersion;
@@ -125,6 +132,8 @@ public class CoreConfig {
 	private final String excludesfile;
 
 	private final String attributesfile;
+
+	private final boolean commitGraph;
 
 	/**
 	 * Options for symlink handling
@@ -167,6 +176,9 @@ public class CoreConfig {
 				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
 		attributesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION,
 				null, ConfigConstants.CONFIG_KEY_ATTRIBUTESFILE);
+		commitGraph = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+				DEFAULT_COMMIT_GRAPH_ENABLE);
 	}
 
 	/**
@@ -218,5 +230,16 @@ public class CoreConfig {
 	 */
 	public String getAttributesFile() {
 		return attributesfile;
+	}
+
+	/**
+	 * Whether to read the commit-graph file (if it exists) to parse the graph
+	 * structure of commits.
+	 *
+	 * @return whether to read the commit-graph file
+	 * @since 6.1
+	 */
+	public boolean enableCommitGraph() {
+		return commitGraph;
 	}
 }
