@@ -148,7 +148,6 @@ java_library(
 java_library(
     name = "jsch",
     visibility = [
-        "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.junit.ssh:__pkg__",
         "//org.eclipse.jgit.ssh.jsch:__pkg__",
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
@@ -198,7 +197,6 @@ java_library(
 java_library(
     name = "jzlib",
     visibility = [
-        "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.ssh.jsch:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
