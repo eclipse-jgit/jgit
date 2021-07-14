@@ -15,6 +15,7 @@ java_library(
         "//lib:bcpg",
         "//lib:bcpkix",
         "//lib:bcprov",
+        "//lib:bcutil",
         "//lib:slf4j-api",
         "//org.eclipse.jgit:jgit",
     ],

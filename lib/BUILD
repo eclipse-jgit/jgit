@@ -159,7 +159,6 @@ java_library(
 java_library(
     name = "bcpg",
     visibility = [
-        "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.gpg.bc.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
@@ -170,7 +169,6 @@ java_library(
 java_library(
     name = "bcprov",
     visibility = [
-        "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.gpg.bc.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
@@ -179,9 +177,18 @@ java_library(
 )
 
 java_library(
+    name = "bcutil",
+    visibility = [
+        "//org.eclipse.jgit.gpg.bc:__pkg__",
+        "//org.eclipse.jgit.gpg.bc.test:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@bcutil//jar"],
+)
+
+java_library(
     name = "bcpkix",
     visibility = [
-        "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
