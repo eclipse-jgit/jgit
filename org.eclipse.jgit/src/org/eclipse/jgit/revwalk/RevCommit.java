@@ -26,8 +26,10 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -107,6 +109,10 @@ public class RevCommit extends RevObject {
 
 	private RevTree tree;
 
+	private int graphPosition = -1;
+
+	int generation = Constants.COMMIT_GENERATION_UNKNOWN;
+
 	/**
 	 * Avoid accessing this field directly. Use method
 	 * {@link RevCommit#getParents()} instead. RevCommit does not allow parents
@@ -135,6 +141,14 @@ public class RevCommit extends RevObject {
 	@Override
 	void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		parseCanonical(walk, walk.getCachedBytes(this));
+	}
+
+	void parseHeadersInGraph(RevWalk walk) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		if (parseInGraph(walk)) {
+			return;
+		}
 		parseCanonical(walk, walk.getCachedBytes(this));
 	}
 
@@ -207,6 +221,39 @@ public class RevCommit extends RevObject {
 			buffer = raw;
 		}
 		flags |= PARSED;
+	}
+
+	boolean parseInGraph(RevWalk walk) {
+		CommitGraph graph = walk.getCommitGraph();
+		if (graph == null) {
+			return false;
+		}
+		CommitGraph.CommitData data;
+		if (graphPosition >= 0) {
+			data = graph.getCommitData(graphPosition);
+		} else {
+			int graphPos = graph.findGraphPosition(this);
+			data = graph.getCommitData(graphPos);
+		}
+		if (data == null) {
+			return false;
+		}
+
+		this.tree = walk.lookupTree(data.getTree());
+		this.commitTime = (int) data.getCommitTime();
+		this.generation = data.getGeneration();
+
+		int[] pGraphList = data.getParents();
+		RevCommit[] pList = new RevCommit[pGraphList.length];
+		for (int i = 0; i < pList.length; i++) {
+			ObjectId objId = graph.getObjectId(pGraphList[i]);
+			pList[i] = walk.lookupCommit(objId);
+			pList[i].graphPosition = pGraphList[i];
+		}
+		this.parents = pList;
+
+		flags |= PARSED;
+		return true;
 	}
 
 	/** {@inheritDoc} */
@@ -654,6 +701,36 @@ public class RevCommit extends RevObject {
 				r.add(f.getValue());
 		}
 		return r;
+	}
+
+	/**
+	 * Get the generation number of the commit.
+	 * <p>
+	 * The commit which parsed from
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseHeadersInGraph(RevCommit)}
+	 * may have generation number.
+	 * <p>
+	 * If A and B are commits with generation numbers N and M, respectively, and
+	 * N <= M, then A cannot reach B. That is, we know without searching that B
+	 * is not an ancestor of A because it is further from a root commit than A.
+	 * <p>
+	 * Conversely, when checking if A is an ancestor of B, then we only need to
+	 * walk commits until all commits on the walk boundary have generation
+	 * number at most N. If we walk commits using a priority queue seeded by
+	 * generation numbers, then we always expand the boundary commit with the
+	 * highest generation number and can easily detect the stopping condition.
+	 * <p>
+	 * We use {@value org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN}
+	 * to mark commits not in the commit-graph file. If a commit-graph file was
+	 * written without computing generation numbers, then those commits will
+	 * have generation number represented by
+	 * {@value org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN}.
+	 *
+	 * @return the generation number
+	 * @since 6.5
+	 */
+	public int getGeneration() {
+		return generation;
 	}
 
 	/**
