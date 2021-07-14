@@ -30,6 +30,33 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 public interface CommitGraph {
 
+	/** Empty {@link CommitGraph} with no results. */
+	CommitGraph EMPTY = new CommitGraph() {
+		/** {@inheritDoc} */
+		@Override
+		public int findGraphPosition(AnyObjectId commit) {
+			return -1;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public CommitData getCommitData(int graphPos) {
+			return null;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public ObjectId getObjectId(int graphPos) {
+			return null;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public long getCommitCnt() {
+			return 0;
+		}
+	};
+
 	/**
 	 * Find the position in the commit-graph of the commit.
 	 * <p>
