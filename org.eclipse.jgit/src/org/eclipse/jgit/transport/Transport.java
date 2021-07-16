@@ -77,7 +77,7 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	private static final List<WeakReference<TransportProtocol>> protocols =
-		new CopyOnWriteArrayList<>();
+			new CopyOnWriteArrayList<>();
 
 	static {
 		// Registration goes backwards in order of priority.
@@ -616,7 +616,7 @@ public abstract class Transport implements AutoCloseable {
 			final String localName = findTrackingRefName(destSpec, fetchSpecs);
 			final RefLeaseSpec leaseSpec = leases.get(destSpec);
 			final ObjectId expected = leaseSpec == null ? null :
-				db.resolve(leaseSpec.getExpected());
+					db.resolve(leaseSpec.getExpected());
 			final RemoteRefUpdate rru = new RemoteRefUpdate(db, srcSpec,
 					destSpec, forceUpdate, localName, expected);
 			result.add(rru);
@@ -650,7 +650,7 @@ public abstract class Transport implements AutoCloseable {
 			final Repository db, final Collection<RefSpec> specs,
 			Collection<RefSpec> fetchSpecs) throws IOException {
 		return findRemoteRefUpdatesFor(db, specs, Collections.emptyMap(),
-					       fetchSpecs);
+									   fetchSpecs);
 	}
 
 	private static Collection<RefSpec> expandPushWildcardsFor(
@@ -1366,7 +1366,7 @@ public abstract class Transport implements AutoCloseable {
 				toPush = findRemoteRefUpdatesFor(push);
 			} catch (final IOException e) {
 				throw new TransportException(MessageFormat.format(
-						JGitText.get().problemWithResolvingPushRefSpecsLocally, e.getMessage()), e);
+								JGitText.get().problemWithResolvingPushRefSpecsLocally, e.getMessage()), e);
 			}
 			if (toPush.isEmpty())
 				throw new TransportException(JGitText.get().nothingToPush);
@@ -1425,8 +1425,8 @@ public abstract class Transport implements AutoCloseable {
 	 *             update specification was incorrect.
 	 */
 	public PushResult push(final ProgressMonitor monitor,
-			Collection<RemoteRefUpdate> toPush) throws NotSupportedException,
-			TransportException {
+					Collection<RemoteRefUpdate> toPush) throws NotSupportedException,
+					TransportException {
 		return push(monitor, toPush, null);
 	}
 
@@ -1453,7 +1453,7 @@ public abstract class Transport implements AutoCloseable {
 	public Collection<RemoteRefUpdate> findRemoteRefUpdatesFor(
 			final Collection<RefSpec> specs) throws IOException {
 		return findRemoteRefUpdatesFor(local, specs, Collections.emptyMap(),
-					       fetch);
+									   fetch);
 	}
 
 	/**
@@ -1483,7 +1483,7 @@ public abstract class Transport implements AutoCloseable {
 			final Collection<RefSpec> specs,
 			final Map<String, RefLeaseSpec> leases) throws IOException {
 		return findRemoteRefUpdatesFor(local, specs, leases,
-					       fetch);
+									   fetch);
 	}
 
 	/**
@@ -1499,7 +1499,7 @@ public abstract class Transport implements AutoCloseable {
 	 *             the remote connection could not be established.
 	 */
 	public abstract FetchConnection openFetch() throws NotSupportedException,
-			TransportException;
+					TransportException;
 
 	/**
 	 * Begins a new connection for fetching from the remote repository.
@@ -1548,7 +1548,7 @@ public abstract class Transport implements AutoCloseable {
 	 *             the remote connection could not be established
 	 */
 	public abstract PushConnection openPush() throws NotSupportedException,
-			TransportException;
+					TransportException;
 
 	/**
 	 * {@inheritDoc}

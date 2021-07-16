@@ -38,11 +38,12 @@ public class TransferConfig {
 
 	/** Key for {@link Config#get(SectionParser)}. */
 	public static final Config.SectionParser<TransferConfig> KEY =
-			TransferConfig::new;
+					TransferConfig::new;
 
 	/**
 	 * A git configuration value for how to handle a fsck failure of a particular kind.
 	 * Used in e.g. fsck.missingEmail.
+	 *
 	 * @since 4.9
 	 */
 	public enum FsckMode {
@@ -123,6 +124,7 @@ public class TransferConfig {
 
 	private final boolean advertiseSidebandAll;
 	private final boolean advertiseWaitForDone;
+	private final boolean advertiseObjectInfo;
 
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
@@ -159,9 +161,9 @@ public class TransferConfig {
 		allowInvalidPersonIdent = rc.getBoolean(FSCK, "allowInvalidPersonIdent",
 				false);
 		safeForWindows = rc.getBoolean(FSCK, "safeForWindows",
-						SystemReader.getInstance().isWindows());
+										SystemReader.getInstance().isWindows());
 		safeForMacOS = rc.getBoolean(FSCK, "safeForMacOS",
-						SystemReader.getInstance().isMacOS());
+										SystemReader.getInstance().isMacOS());
 
 		ignore = EnumSet.noneOf(ObjectChecker.ErrorType.class);
 		EnumSet<ObjectChecker.ErrorType> set = EnumSet
@@ -194,23 +196,26 @@ public class TransferConfig {
 			ignore.add(ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE);
 		}
 
-		allowRefInWant = rc.getBoolean("uploadpack", "allowrefinwant", false);
+		allowRefInWant = rc.getBoolean(
+					"uploadpack", "allowrefinwant", false);
 		allowTipSha1InWant = rc.getBoolean(
-				"uploadpack", "allowtipsha1inwant", false);
+					"uploadpack", "allowtipsha1inwant", false);
 		allowReachableSha1InWant = rc.getBoolean(
-				"uploadpack", "allowreachablesha1inwant", false);
+					"uploadpack", "allowreachablesha1inwant", false);
 		allowFilter = rc.getBoolean(
-				"uploadpack", "allowfilter", false);
+					"uploadpack", "allowfilter", false);
 		protocolVersion = ProtocolVersion.parse(rc
-				.getString(ConfigConstants.CONFIG_PROTOCOL_SECTION, null,
-						ConfigConstants.CONFIG_KEY_VERSION));
+						.getString(ConfigConstants.CONFIG_PROTOCOL_SECTION, null,
+										ConfigConstants.CONFIG_KEY_VERSION));
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs");
 		allowSidebandAll = rc.getBoolean(
-				"uploadpack", "allowsidebandall", false);
+						"uploadpack", "allowsidebandall", false);
 		advertiseSidebandAll = rc.getBoolean("uploadpack",
-				"advertisesidebandall", false);
+						"advertisesidebandall", false);
 		advertiseWaitForDone = rc.getBoolean("uploadpack",
-				"advertisewaitfordone", false);
+						"advertisewaitfordone", false);
+		advertiseObjectInfo = rc.getBoolean("uploadpack",
+				"advertiseobjectinfo", false);
 	}
 
 	/**
@@ -242,11 +247,11 @@ public class TransferConfig {
 			return null;
 		}
 		return new ObjectChecker()
-			.setIgnore(ignore)
-			.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
-			.setSafeForWindows(safeForWindows)
-			.setSafeForMacOS(safeForMacOS)
-			.setSkipList(skipList());
+				.setIgnore(ignore)
+				.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
+				.setSafeForWindows(safeForWindows)
+				.setSafeForMacOS(safeForMacOS)
+				.setSkipList(skipList());
 	}
 
 	private ObjectIdSet skipList() {
@@ -315,6 +320,14 @@ public class TransferConfig {
 	 */
 	public boolean isAdvertiseWaitForDone() {
 		return advertiseWaitForDone;
+	}
+
+	/**
+	 * @return true to advertise object-info to all clients
+	 * @since 5.13
+	 */
+	public boolean isAdvertiseObjectInfo() {
+		return advertiseObjectInfo;
 	}
 
 	/**
