@@ -248,4 +248,31 @@ final class ProtocolV2Parser {
 		return builder.setRefPrefixes(prefixes).build();
 	}
 
+	ObjectInfoRequest parseObjectInfoRequest(PacketLineIn pckIn)
+			throws PackProtocolException, IOException {
+		ObjectInfoRequest.Builder builder = ObjectInfoRequest.builder();
+		List<String> objectIDs = new ArrayList<>();
+
+		String line = pckIn.readString();
+
+		if (PacketLineIn.isEnd(line)) {
+			return builder.build();
+		}
+
+		if (!line.equals("size")) { //$NON-NLS-1$
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().unexpectedPacketLine, line));
+		}
+
+		for (String line2 : pckIn.readStrings()) {
+			if (line2.startsWith("oid ")) { //$NON-NLS-1$
+				objectIDs.add(line2.substring("oid ".length())); //$NON-NLS-1$
+			} else {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().unexpectedPacketLine, line2));
+			}
+		}
+
+		return builder.setObjectIDs(objectIDs).build();
+	}
 }
