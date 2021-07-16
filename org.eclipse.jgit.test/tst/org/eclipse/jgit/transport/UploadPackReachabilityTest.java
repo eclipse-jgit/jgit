@@ -6,6 +6,8 @@
  * https://www.eclipse.org/org/documents/edl-v10.php.
  *
  * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * FORCING BUILD. REMOVE ME!
  */
 package org.eclipse.jgit.transport;
 
