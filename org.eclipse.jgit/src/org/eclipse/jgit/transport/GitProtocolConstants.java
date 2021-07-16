@@ -255,6 +255,13 @@ public final class GitProtocolConstants {
 	public static final String COMMAND_FETCH = "fetch"; //$NON-NLS-1$
 
 	/**
+	 * The server supports the object-info capability.
+	 *
+	 * #since 5.13
+	 */
+	public static final String COMMAND_OBJECT_INFO = "object-info"; //$NON-NLS-1$
+
+	/**
 	 * HTTP header to set by clients to request a specific git protocol version
 	 * in the HTTP transport.
 	 *
