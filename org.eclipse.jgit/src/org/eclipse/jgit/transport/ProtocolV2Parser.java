@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
@@ -107,9 +108,8 @@ final class ProtocolV2Parser {
 		}
 
 		if (!PacketLineIn.isDelimiter(line)) {
-			throw new PackProtocolException(
-					MessageFormat.format(JGitText.get().unexpectedPacketLine,
-							line));
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().unexpectedPacketLine, line));
 		}
 
 		boolean filterReceived = false;
@@ -248,4 +248,40 @@ final class ProtocolV2Parser {
 		return builder.setRefPrefixes(prefixes).build();
 	}
 
+	ObjectInfoRequest parseObjectInfoRequest(PacketLineIn pckIn)
+			throws PackProtocolException, IOException {
+		ObjectInfoRequest.Builder builder = ObjectInfoRequest.builder();
+		List<ObjectId> objectIDs = new ArrayList<>();
+
+		String line = pckIn.readString();
+
+		if (PacketLineIn.isEnd(line)) {
+			return builder.build();
+		}
+
+		if (!line.equals("size")) { //$NON-NLS-1$
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().unexpectedPacketLine, line));
+		}
+
+		for (String line2 : pckIn.readStrings()) {
+			if (line2.startsWith("oid ")) { //$NON-NLS-1$
+				String oidStr = line2.substring("oid ".length()); //$NON-NLS-1$
+
+				ObjectId oid;
+				try {
+					oid = ObjectId.fromString(oidStr);
+				} catch (InvalidObjectIdException e) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().invalidObject, oidStr), e);
+				}
+				objectIDs.add(oid);
+			} else {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().unexpectedPacketLine, line2));
+			}
+		}
+
+		return builder.setObjectIDs(objectIDs).build();
+	}
 }

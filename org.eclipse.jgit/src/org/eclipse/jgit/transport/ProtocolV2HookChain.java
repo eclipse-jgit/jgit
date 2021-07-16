@@ -71,6 +71,14 @@ public class ProtocolV2HookChain implements ProtocolV2Hook {
 		}
 	}
 
+	@Override
+	public void onObjectInfo(ObjectInfoRequest req)
+			throws ServiceMayNotContinueException {
+		for (ProtocolV2Hook hook : hooks) {
+			hook.onObjectInfo(req);
+		}
+	}
+
 	private ProtocolV2HookChain(List<? extends ProtocolV2Hook> hooks) {
 		this.hooks = Collections.unmodifiableList(hooks);
 	}
