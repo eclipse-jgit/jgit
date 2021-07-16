@@ -55,4 +55,16 @@ public interface ProtocolV2Hook {
 			throws ServiceMayNotContinueException {
 		// Do nothing by default
 	}
+
+	/**
+	 * @param req
+	 *            the object-info request
+	 * @throws ServiceMayNotContinueException
+	 *             abort; the message will be sent to the user
+	 * @since 5.13
+	 */
+	default void onObjectInfo(ObjectInfoRequest req)
+			throws ServiceMayNotContinueException {
+		// Do nothing by default
+	}
 }

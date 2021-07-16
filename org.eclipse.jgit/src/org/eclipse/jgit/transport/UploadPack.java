@@ -17,6 +17,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SERVER_OPTION;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
+import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_OBJECT_INFO;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
@@ -1269,6 +1271,31 @@ public class UploadPack {
 		}
 	}
 
+	private void objectInfo(PacketLineOut pckOut) throws IOException {
+		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
+		ObjectInfoRequest req = parser.parseObjectInfoRequest(pckIn);
+
+		protocolV2Hook.onObjectInfo(req);
+
+		ObjectReader or = getRepository().newObjectReader();
+
+		// Size is the only attribute currently supported.
+		pckOut.writeString("size"); //$NON-NLS-1$
+
+		for (ObjectId oid : req.getObjectIDs()) {
+			long size;
+			try {
+				size = or.getObjectSize(oid, ObjectReader.OBJ_ANY);
+			} catch (MissingObjectException e) {
+				continue;
+			}
+
+			pckOut.writeString(oid.getName() + " " + size); //$NON-NLS-1$
+		}
+
+		pckOut.end();
+	}
+
 	/*
 	 * Returns true if this is the last command and we should tear down the
 	 * connection.
@@ -1295,6 +1322,10 @@ public class UploadPack {
 			fetchV2(pckOut);
 			return false;
 		}
+		if (command.equals("command=" + COMMAND_OBJECT_INFO)) { //$NON-NLS-1$
+			objectInfo(pckOut);
+			return false;
+		}
 		throw new PackProtocolException(MessageFormat
 				.format(JGitText.get().unknownTransportCommand, command));
 	}
@@ -1319,6 +1350,12 @@ public class UploadPack {
 						: "")
 				+ OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
+		if (this.transferConfig.isAdvertiseObjectInfo()) {
+			// Only advertise object-info if it is explicitly enabled in the
+			// configuration. This is so a low rollout of servers would not
+			// cause issues.
+			caps.add(COMMAND_OBJECT_INFO);
+		}
 		return caps;
 	}
 
