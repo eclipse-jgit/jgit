@@ -76,8 +76,7 @@ public abstract class Transport implements AutoCloseable {
 		PUSH;
 	}
 
-	private static final List<WeakReference<TransportProtocol>> protocols =
-		new CopyOnWriteArrayList<>();
+	private static final List<WeakReference<TransportProtocol>> protocols = new CopyOnWriteArrayList<>();
 
 	static {
 		// Registration goes backwards in order of priority.
@@ -269,7 +268,8 @@ public abstract class Transport implements AutoCloseable {
 			final Operation op) throws NotSupportedException,
 			URISyntaxException, TransportException {
 		if (local != null) {
-			final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
+			final RemoteConfig cfg = new RemoteConfig(local.getConfig(),
+					remote);
 			if (doesNotExist(cfg)) {
 				return open(local, new URIish(remote), null);
 			}
@@ -387,13 +387,14 @@ public abstract class Transport implements AutoCloseable {
 	 *             if provided remote configuration doesn't have any URI
 	 *             associated.
 	 */
-	public static Transport open(final Repository local,
-			final RemoteConfig cfg, final Operation op)
+	public static Transport open(final Repository local, final RemoteConfig cfg,
+			final Operation op)
 			throws NotSupportedException, TransportException {
 		final List<URIish> uris = getURIs(cfg, op);
 		if (uris.isEmpty())
 			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().remoteConfigHasNoURIAssociated, cfg.getName()));
+					JGitText.get().remoteConfigHasNoURIAssociated,
+					cfg.getName()));
 		final Transport tn = open(local, uris.get(0), cfg.getName());
 		tn.applyConfig(cfg);
 		return tn;
@@ -418,8 +419,8 @@ public abstract class Transport implements AutoCloseable {
 	 *             the transport cannot open this URI.
 	 */
 	public static List<Transport> openAll(final Repository local,
-			final RemoteConfig cfg) throws NotSupportedException,
-			TransportException {
+			final RemoteConfig cfg)
+			throws NotSupportedException, TransportException {
 		return openAll(local, cfg, Operation.FETCH);
 	}
 
@@ -508,7 +509,8 @@ public abstract class Transport implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the transport cannot open this URI.
 	 */
-	public static Transport open(Repository local, URIish uri, String remoteName)
+	public static Transport open(Repository local, URIish uri,
+			String remoteName)
 			throws NotSupportedException, TransportException {
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol proto = ref.get();
@@ -526,7 +528,8 @@ public abstract class Transport implements AutoCloseable {
 			}
 		}
 
-		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, uri));
+		throw new NotSupportedException(
+				MessageFormat.format(JGitText.get().URINotSupported, uri));
 	}
 
 	/**
@@ -535,12 +538,14 @@ public abstract class Transport implements AutoCloseable {
 	 * Note that the resulting transport instance can not be used for fetching
 	 * or pushing, but only for reading remote refs.
 	 *
-	 * @param uri a {@link org.eclipse.jgit.transport.URIish} object.
+	 * @param uri
+	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 * @return new Transport instance
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 */
-	public static Transport open(URIish uri) throws NotSupportedException, TransportException {
+	public static Transport open(URIish uri)
+			throws NotSupportedException, TransportException {
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol proto = ref.get();
 			if (proto == null) {
@@ -552,7 +557,8 @@ public abstract class Transport implements AutoCloseable {
 				return proto.open(uri);
 		}
 
-		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, uri));
+		throw new NotSupportedException(
+				MessageFormat.format(JGitText.get().URINotSupported, uri));
 	}
 
 	/**
@@ -615,8 +621,8 @@ public abstract class Transport implements AutoCloseable {
 			final boolean forceUpdate = spec.isForceUpdate();
 			final String localName = findTrackingRefName(destSpec, fetchSpecs);
 			final RefLeaseSpec leaseSpec = leases.get(destSpec);
-			final ObjectId expected = leaseSpec == null ? null :
-				db.resolve(leaseSpec.getExpected());
+			final ObjectId expected = leaseSpec == null ? null
+					: db.resolve(leaseSpec.getExpected());
 			final RemoteRefUpdate rru = new RemoteRefUpdate(db, srcSpec,
 					destSpec, forceUpdate, localName, expected);
 			result.add(rru);
@@ -650,7 +656,7 @@ public abstract class Transport implements AutoCloseable {
 			final Repository db, final Collection<RefSpec> specs,
 			Collection<RefSpec> fetchSpecs) throws IOException {
 		return findRemoteRefUpdatesFor(db, specs, Collections.emptyMap(),
-					       fetchSpecs);
+				fetchSpecs);
 	}
 
 	private static Collection<RefSpec> expandPushWildcardsFor(
@@ -743,7 +749,9 @@ public abstract class Transport implements AutoCloseable {
 	/** Specifications to apply during push. */
 	private List<RefSpec> push = Collections.emptyList();
 
-	/** Should push produce thin-pack when sending objects to remote repository. */
+	/**
+	 * Should push produce thin-pack when sending objects to remote repository.
+	 */
 	private boolean pushThin = DEFAULT_PUSH_THIN;
 
 	/** Should push be all-or-nothing atomic behavior? */
@@ -1033,7 +1041,8 @@ public abstract class Transport implements AutoCloseable {
 	 * False by default, as this may cause data to become unreachable, and
 	 * eventually be deleted on the next GC.
 	 *
-	 * @param remove true to remove refs that no longer exist.
+	 * @param remove
+	 *            true to remove refs that no longer exist.
 	 */
 	public void setRemoveDeletedRefs(boolean remove) {
 		removeDeletedRefs = remove;
@@ -1052,7 +1061,8 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
-	 * @param bytes exclude blobs of size greater than this
+	 * @param bytes
+	 *            exclude blobs of size greater than this
 	 * @since 5.0
 	 * @deprecated Use {@link #setFilterSpec(FilterSpec)} instead
 	 */
@@ -1071,10 +1081,12 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
-	 * @param filter a new filter to use for this transport
+	 * @param filter
+	 *            a new filter to use for this transport
 	 * @since 5.4
 	 */
-	public final void setFilterSpec(@NonNull FilterSpec filter) {
+	public final void setFilterSpec(@NonNull
+	FilterSpec filter) {
 		filterSpec = requireNonNull(filter);
 	}
 
@@ -1170,7 +1182,8 @@ public abstract class Transport implements AutoCloseable {
 	 * @param credentialsProvider
 	 *            the credentials provider, or null if there is none
 	 */
-	public void setCredentialsProvider(CredentialsProvider credentialsProvider) {
+	public void setCredentialsProvider(
+			CredentialsProvider credentialsProvider) {
 		this.credentialsProvider = credentialsProvider;
 	}
 
@@ -1276,8 +1289,7 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public FetchResult fetch(final ProgressMonitor monitor,
 			Collection<RefSpec> toFetch, String branch)
-			throws NotSupportedException,
-			TransportException {
+			throws NotSupportedException, TransportException {
 		if (toFetch == null || toFetch.isEmpty()) {
 			// If the caller did not ask for anything use the defaults.
 			//
@@ -1358,15 +1370,15 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public PushResult push(final ProgressMonitor monitor,
 			Collection<RemoteRefUpdate> toPush, OutputStream out)
-			throws NotSupportedException,
-			TransportException {
+			throws NotSupportedException, TransportException {
 		if (toPush == null || toPush.isEmpty()) {
 			// If the caller did not ask for anything use the defaults.
 			try {
 				toPush = findRemoteRefUpdatesFor(push);
 			} catch (final IOException e) {
 				throw new TransportException(MessageFormat.format(
-						JGitText.get().problemWithResolvingPushRefSpecsLocally, e.getMessage()), e);
+						JGitText.get().problemWithResolvingPushRefSpecsLocally,
+						e.getMessage()), e);
 			}
 			if (toPush.isEmpty())
 				throw new TransportException(JGitText.get().nothingToPush);
@@ -1425,8 +1437,8 @@ public abstract class Transport implements AutoCloseable {
 	 *             update specification was incorrect.
 	 */
 	public PushResult push(final ProgressMonitor monitor,
-			Collection<RemoteRefUpdate> toPush) throws NotSupportedException,
-			TransportException {
+			Collection<RemoteRefUpdate> toPush)
+			throws NotSupportedException, TransportException {
 		return push(monitor, toPush, null);
 	}
 
@@ -1453,7 +1465,7 @@ public abstract class Transport implements AutoCloseable {
 	public Collection<RemoteRefUpdate> findRemoteRefUpdatesFor(
 			final Collection<RefSpec> specs) throws IOException {
 		return findRemoteRefUpdatesFor(local, specs, Collections.emptyMap(),
-					       fetch);
+				fetch);
 	}
 
 	/**
@@ -1482,8 +1494,7 @@ public abstract class Transport implements AutoCloseable {
 	public Collection<RemoteRefUpdate> findRemoteRefUpdatesFor(
 			final Collection<RefSpec> specs,
 			final Map<String, RefLeaseSpec> leases) throws IOException {
-		return findRemoteRefUpdatesFor(local, specs, leases,
-					       fetch);
+		return findRemoteRefUpdatesFor(local, specs, leases, fetch);
 	}
 
 	/**
@@ -1498,8 +1509,8 @@ public abstract class Transport implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the remote connection could not be established.
 	 */
-	public abstract FetchConnection openFetch() throws NotSupportedException,
-			TransportException;
+	public abstract FetchConnection openFetch()
+			throws NotSupportedException, TransportException;
 
 	/**
 	 * Begins a new connection for fetching from the remote repository.
@@ -1547,8 +1558,8 @@ public abstract class Transport implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the remote connection could not be established
 	 */
-	public abstract PushConnection openPush() throws NotSupportedException,
-			TransportException;
+	public abstract PushConnection openPush()
+			throws NotSupportedException, TransportException;
 
 	/**
 	 * {@inheritDoc}

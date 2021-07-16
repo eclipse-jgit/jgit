@@ -141,8 +141,8 @@ public final class GitProtocolConstants {
 	public static final String OPTION_WANT_REF = "want-ref"; //$NON-NLS-1$
 
 	/**
-	 * The client requested that the whole response be multiplexed, with
-	 * each non-flush and non-delim pkt prefixed by a sideband designator.
+	 * The client requested that the whole response be multiplexed, with each
+	 * non-flush and non-delim pkt prefixed by a sideband designator.
 	 *
 	 * @since 5.5
 	 */
@@ -253,6 +253,13 @@ public final class GitProtocolConstants {
 	 * @since 5.0
 	 */
 	public static final String COMMAND_FETCH = "fetch"; //$NON-NLS-1$
+
+	/**
+	 * The server supports the object-info capability.
+	 *
+	 * @since 5.13
+	 */
+	public static final String COMMAND_OBJECT_INFO = "object-info"; //$NON-NLS-1$
 
 	/**
 	 * HTTP header to set by clients to request a specific git protocol version

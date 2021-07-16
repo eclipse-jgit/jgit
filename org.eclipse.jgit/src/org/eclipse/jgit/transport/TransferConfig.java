@@ -37,12 +37,12 @@ public class TransferConfig {
 	private static final String FSCK = "fsck"; //$NON-NLS-1$
 
 	/** Key for {@link Config#get(SectionParser)}. */
-	public static final Config.SectionParser<TransferConfig> KEY =
-			TransferConfig::new;
+	public static final Config.SectionParser<TransferConfig> KEY = TransferConfig::new;
 
 	/**
-	 * A git configuration value for how to handle a fsck failure of a particular kind.
-	 * Used in e.g. fsck.missingEmail.
+	 * A git configuration value for how to handle a fsck failure of a
+	 * particular kind. Used in e.g. fsck.missingEmail.
+	 *
 	 * @since 4.9
 	 */
 	public enum FsckMode {
@@ -51,7 +51,8 @@ public class TransferConfig {
 		 */
 		ERROR,
 		/**
-		 * Issue a warning (in fact, jgit treats this like IGNORE, but git itself does warn).
+		 * Issue a warning (in fact, jgit treats this like IGNORE, but git
+		 * itself does warn).
 		 */
 		WARN,
 		/**
@@ -92,7 +93,8 @@ public class TransferConfig {
 		}
 
 		@Nullable
-		static ProtocolVersion parse(@Nullable String name) {
+		static ProtocolVersion parse(@Nullable
+		String name) {
 			if (name == null) {
 				return null;
 			}
@@ -109,22 +111,37 @@ public class TransferConfig {
 	}
 
 	private final boolean fetchFsck;
+
 	private final boolean receiveFsck;
+
 	private final String fsckSkipList;
+
 	private final EnumSet<ObjectChecker.ErrorType> ignore;
+
 	private final boolean allowInvalidPersonIdent;
+
 	private final boolean safeForWindows;
+
 	private final boolean safeForMacOS;
+
 	private final boolean allowRefInWant;
+
 	private final boolean allowTipSha1InWant;
+
 	private final boolean allowReachableSha1InWant;
+
 	private final boolean allowFilter;
+
 	private final boolean allowSidebandAll;
 
 	private final boolean advertiseSidebandAll;
+
 	private final boolean advertiseWaitForDone;
 
+	private final boolean advertiseObjectInfo;
+
 	final @Nullable ProtocolVersion protocolVersion;
+
 	final String[] hideRefs;
 
 	/**
@@ -159,9 +176,9 @@ public class TransferConfig {
 		allowInvalidPersonIdent = rc.getBoolean(FSCK, "allowInvalidPersonIdent",
 				false);
 		safeForWindows = rc.getBoolean(FSCK, "safeForWindows",
-						SystemReader.getInstance().isWindows());
+				SystemReader.getInstance().isWindows());
 		safeForMacOS = rc.getBoolean(FSCK, "safeForMacOS",
-						SystemReader.getInstance().isMacOS());
+				SystemReader.getInstance().isMacOS());
 
 		ignore = EnumSet.noneOf(ObjectChecker.ErrorType.class);
 		EnumSet<ObjectChecker.ErrorType> set = EnumSet
@@ -195,22 +212,23 @@ public class TransferConfig {
 		}
 
 		allowRefInWant = rc.getBoolean("uploadpack", "allowrefinwant", false);
-		allowTipSha1InWant = rc.getBoolean(
-				"uploadpack", "allowtipsha1inwant", false);
-		allowReachableSha1InWant = rc.getBoolean(
-				"uploadpack", "allowreachablesha1inwant", false);
-		allowFilter = rc.getBoolean(
-				"uploadpack", "allowfilter", false);
-		protocolVersion = ProtocolVersion.parse(rc
-				.getString(ConfigConstants.CONFIG_PROTOCOL_SECTION, null,
-						ConfigConstants.CONFIG_KEY_VERSION));
+		allowTipSha1InWant = rc.getBoolean("uploadpack", "allowtipsha1inwant",
+				false);
+		allowReachableSha1InWant = rc.getBoolean("uploadpack",
+				"allowreachablesha1inwant", false);
+		allowFilter = rc.getBoolean("uploadpack", "allowfilter", false);
+		protocolVersion = ProtocolVersion
+				.parse(rc.getString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+						null, ConfigConstants.CONFIG_KEY_VERSION));
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs");
-		allowSidebandAll = rc.getBoolean(
-				"uploadpack", "allowsidebandall", false);
+		allowSidebandAll = rc.getBoolean("uploadpack", "allowsidebandall",
+				false);
 		advertiseSidebandAll = rc.getBoolean("uploadpack",
 				"advertisesidebandall", false);
 		advertiseWaitForDone = rc.getBoolean("uploadpack",
 				"advertisewaitfordone", false);
+		advertiseObjectInfo = rc.getBoolean("uploadpack", "advertiseobjectinfo",
+				false);
 	}
 
 	/**
@@ -241,12 +259,10 @@ public class TransferConfig {
 		if (!check) {
 			return null;
 		}
-		return new ObjectChecker()
-			.setIgnore(ignore)
-			.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
-			.setSafeForWindows(safeForWindows)
-			.setSafeForMacOS(safeForMacOS)
-			.setSkipList(skipList());
+		return new ObjectChecker().setIgnore(ignore)
+				.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
+				.setSafeForWindows(safeForWindows).setSafeForMacOS(safeForMacOS)
+				.setSkipList(skipList());
 	}
 
 	private ObjectIdSet skipList() {
@@ -318,6 +334,14 @@ public class TransferConfig {
 	}
 
 	/**
+	 * @return true to advertise object-info to all clients
+	 * @since 5.13
+	 */
+	public boolean isAdvertiseObjectInfo() {
+		return advertiseObjectInfo;
+	}
+
+	/**
 	 * Get {@link org.eclipse.jgit.transport.RefFilter} respecting configured
 	 * hidden refs.
 	 *
@@ -336,7 +360,8 @@ public class TransferConfig {
 				for (Map.Entry<String, Ref> e : refs.entrySet()) {
 					boolean add = true;
 					for (String hide : hideRefs) {
-						if (e.getKey().equals(hide) || prefixMatch(hide, e.getKey())) {
+						if (e.getKey().equals(hide)
+								|| prefixMatch(hide, e.getKey())) {
 							add = false;
 							break;
 						}
@@ -356,8 +381,8 @@ public class TransferConfig {
 	/**
 	 * Like {@code getRefFilter() == RefFilter.DEFAULT}, but faster.
 	 *
-	 * @return {@code true} if no ref filtering is needed because there
-	 *         are no configured hidden refs.
+	 * @return {@code true} if no ref filtering is needed because there are no
+	 *         configured hidden refs.
 	 */
 	boolean hasDefaultRefFilter() {
 		return hideRefs.length == 0;
