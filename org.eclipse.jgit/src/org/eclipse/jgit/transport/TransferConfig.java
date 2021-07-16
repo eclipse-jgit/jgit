@@ -123,6 +123,7 @@ public class TransferConfig {
 
 	private final boolean advertiseSidebandAll;
 	private final boolean advertiseWaitForDone;
+	private final boolean advertiseObjectInfo;
 
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
@@ -211,6 +212,8 @@ public class TransferConfig {
 				"advertisesidebandall", false);
 		advertiseWaitForDone = rc.getBoolean("uploadpack",
 				"advertisewaitfordone", false);
+		advertiseObjectInfo = rc.getBoolean("uploadpack",
+				"advertiseobjectinfo", false);
 	}
 
 	/**
@@ -315,6 +318,14 @@ public class TransferConfig {
 	 */
 	public boolean isAdvertiseWaitForDone() {
 		return advertiseWaitForDone;
+	}
+
+	/**
+	 * @return true to advertise object-info to all clients
+	 * @since 5.13
+	 */
+	public boolean isAdvertiseObjectInfo() {
+		return advertiseObjectInfo;
 	}
 
 	/**
