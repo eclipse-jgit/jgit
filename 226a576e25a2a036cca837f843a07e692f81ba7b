@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0da618ed_c1c226d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-20T17:37:51Z",
+      "side": 1,
+      "message": "The documentation for the protocol can be found here:\n\nhttps://github.com/git/git/blob/daab8a564f8bbac55f70f8bf86c070e001a9b006/Documentation/technical/protocol-v2.txt#L526\n\nDo you want me to add it to the description?",
+      "parentUuid": "76b02912_93194770",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9bc3af00_6da6ce4a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7915b5e_13b7a551",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-20T17:37:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bc3af00_6da6ce4a",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d58745a0_35df285a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ObjectInfoRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-20T17:37:51Z",
+      "side": 1,
+      "message": "I explicitly asked about that from some people involved with JGit and the reply was that I should have a Builder anyway and the answer was: \"We need it for the ability to evolve the JGit API over time\" also mentioning that it was because JGit does not use autovalue.\n\nI will defer that one to you. If you think I should change it, I will.",
+      "parentUuid": "f90f6eca_136481a1",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e743a3b_61e5efdc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2021-07-20T02:28:55Z",
       "side": 1,
       "message": "Should we announce the capability only if a config flag says so?\n\nIn HTTP the capabilities request is different from the command request. During rollout, first one could go to a server with this change, second to another without it...\n\nWe could add the implementation but not advertising it by default, and once it is fully rolled out, turn on the advertisement.",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea9caddf_d423dc6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-20T17:37:51Z",
+      "side": 1,
+      "message": "Makes perfect sense. Can you point me to some example of using config flags? I tried to search for it but could not really find it.",
+      "parentUuid": "2e743a3b_61e5efdc",
       "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
