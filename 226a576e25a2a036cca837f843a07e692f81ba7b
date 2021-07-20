@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76b02912_93194770",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-07-20T02:28:55Z",
+      "side": 1,
+      "message": "Is there any doc with the description of the capability you could refer here?\n\nIt makes easier to validate the code is doing the right thing.",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bc3af00_6da6ce4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-07-20T02:28:55Z",
+      "side": 1,
+      "message": "@since 5.13 \n\nThat will be the first release with this constant.",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f90f6eca_136481a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ObjectInfoRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-07-20T02:28:55Z",
+      "side": 1,
+      "message": "Do we need a builder to just set a list? If there is no building maybe a static factory method is enough?",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e743a3b_61e5efdc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-07-20T02:28:55Z",
+      "side": 1,
+      "message": "Should we announce the capability only if a config flag says so?\n\nIn HTTP the capabilities request is different from the command request. During rollout, first one could go to a server with this change, second to another without it...\n\nWe could add the implementation but not advertising it by default, and once it is fully rolled out, turn on the advertisement.",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
