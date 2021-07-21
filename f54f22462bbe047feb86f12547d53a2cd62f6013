@@ -330,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "39cc4976_27f4d710",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-21T06:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709463c_08af3e0a",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c4e1170_dc888239",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 2
@@ -374,6 +398,30 @@
       "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ad44e0b_11436364",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-07-21T06:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f8b63fa_b48f61c1",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 47
+      },
+      "revId": "f54f22462bbe047feb86f12547d53a2cd62f6013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
