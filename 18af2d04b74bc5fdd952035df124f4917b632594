@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6421d5d2_0aa4a912",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2021-07-21T19:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66428094_2ab75073",
+      "revId": "18af2d04b74bc5fdd952035df124f4917b632594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1410105e_54e3d1ce",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3cbeef89_e1827682",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2021-07-21T19:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1410105e_54e3d1ce",
+      "revId": "18af2d04b74bc5fdd952035df124f4917b632594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbcc097_1dd59c19",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "18af2d04b74bc5fdd952035df124f4917b632594",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3510eb5_43af1769",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2021-07-21T19:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbcc097_1dd59c19",
+      "revId": "18af2d04b74bc5fdd952035df124f4917b632594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
