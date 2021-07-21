@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.StreamCorruptedException;
 import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,10 +45,10 @@ import org.apache.sshd.common.kex.DHFactory;
 import org.apache.sshd.common.kex.KexProposalOption;
 import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.kex.extension.KexExtensionHandler;
+import org.apache.sshd.common.kex.extension.KexExtensionHandler.AvailabilityPhase;
 import org.apache.sshd.common.kex.extension.KexExtensions;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.signature.BuiltinSignatures;
-import org.apache.sshd.common.kex.extension.KexExtensionHandler.AvailabilityPhase;
 import org.apache.sshd.common.util.Readable;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.eclipse.jgit.errors.InvalidPatternException;
@@ -152,23 +151,16 @@ public class JGitClientSession extends ClientSessionImpl {
 			List<String> extraLines) throws Exception {
 		StatefulProxyConnector proxy = proxyHandler;
 		if (proxy != null) {
-			try {
-				// We must not block here; the framework starts reading messages
-				// from the peer only once the initial sendKexInit() following
-				// this call to sendIdentification() has returned!
-				proxy.runWhenDone(() -> {
-					JGitClientSession.super.sendIdentification(ident,
-							extraLines);
-					return null;
-				});
-				// Called only from the ClientSessionImpl constructor, where the
-				// return value is ignored.
+			// We must not block here; the framework starts reading messages
+			// from the peer only once the initial sendKexInit() following
+			// this call to sendIdentification() has returned!
+			proxy.runWhenDone(() -> {
+				JGitClientSession.super.sendIdentification(ident, extraLines);
 				return null;
-			} catch (IOException e) {
-				throw e;
-			} catch (Exception other) {
-				throw new IOException(other.getLocalizedMessage(), other);
-			}
+			});
+			// Called only from the ClientSessionImpl constructor, where the
+			// return value is ignored.
+			return null;
 		}
 		return super.sendIdentification(ident, extraLines);
 	}
@@ -177,22 +169,16 @@ public class JGitClientSession extends ClientSessionImpl {
 	protected byte[] sendKexInit() throws Exception {
 		StatefulProxyConnector proxy = proxyHandler;
 		if (proxy != null) {
-			try {
-				// We must not block here; the framework starts reading messages
-				// from the peer only once the initial sendKexInit() has
-				// returned!
-				proxy.runWhenDone(() -> {
-					JGitClientSession.super.sendKexInit();
-					return null;
-				});
-				// This is called only from the ClientSessionImpl
-				// constructor, where the return value is ignored.
+			// We must not block here; the framework starts reading messages
+			// from the peer only once the initial sendKexInit() has
+			// returned!
+			proxy.runWhenDone(() -> {
+				JGitClientSession.super.sendKexInit();
 				return null;
-			} catch (IOException | GeneralSecurityException e) {
-				throw e;
-			} catch (Exception other) {
-				throw new IOException(other.getLocalizedMessage(), other);
-			}
+			});
+			// This is called only from the ClientSessionImpl
+			// constructor, where the return value is ignored.
+			return null;
 		}
 		return super.sendKexInit();
 	}
