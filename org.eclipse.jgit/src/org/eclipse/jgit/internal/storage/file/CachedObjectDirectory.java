@@ -254,6 +254,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		return wrapped.getPacks();
 	}
 
+	@Override
+	public void refreshPacks() {
+		wrapped.refreshPacks();
+	}
+
 	private static class UnpackedObjectId extends ObjectIdOwnerMap.Entry {
 		UnpackedObjectId(AnyObjectId id) {
 			super(id);

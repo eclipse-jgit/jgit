@@ -2343,7 +2343,15 @@ public class UploadPack {
 				msgOut.flush();
 			}
 
-		} finally {
+
+		}
+//		catch (Exception e) {
+//			// if state file handle {
+//			// }
+//			db.getObjectDatabase().refreshPacks();
+//			// retry
+//		}
+		finally {
 			statistics = pw.getStatistics();
 			if (statistics != null) {
 				postUploadHook.onPostUpload(statistics);
