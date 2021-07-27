@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9913c86f_b64e1d80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-27T22:10:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9853dc54_839aa561",
+      "range": {
+        "startLine": 260,
+        "startChar": 4,
+        "endLine": 260,
+        "endChar": 5
+      },
+      "revId": "4155172f6a969225335e75cc7741f81a5fe34df9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a01085a6_2111a96e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "20a86575_a0941274",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-27T22:10:12Z",
+      "side": 1,
+      "message": "Actually I was using a new section specifically for objectinfo. But what you mentioned makes sense to I changed the option name and added it to the existing uploadpack section.",
+      "parentUuid": "a01085a6_2111a96e",
+      "range": {
+        "startLine": 216,
+        "startChar": 38,
+        "endLine": 216,
+        "endChar": 39
+      },
+      "revId": "4155172f6a969225335e75cc7741f81a5fe34df9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10330554_389e309b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 4
@@ -62,6 +110,24 @@
       "revId": "4155172f6a969225335e75cc7741f81a5fe34df9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e527f47b_1d66d66e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-27T22:10:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10330554_389e309b",
+      "revId": "4155172f6a969225335e75cc7741f81a5fe34df9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
