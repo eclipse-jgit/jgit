@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9853dc54_839aa561",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-07-27T19:56:44Z",
+      "side": 1,
+      "message": "@, not #",
+      "range": {
+        "startLine": 260,
+        "startChar": 4,
+        "endLine": 260,
+        "endChar": 5
+      },
+      "revId": "4155172f6a969225335e75cc7741f81a5fe34df9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a01085a6_2111a96e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-07-27T19:56:44Z",
+      "side": 1,
+      "message": "From the lines above, I suspect this is missing a \"uploadpack\" as first parameter.",
+      "range": {
+        "startLine": 216,
+        "startChar": 38,
+        "endLine": 216,
+        "endChar": 39
+      },
+      "revId": "4155172f6a969225335e75cc7741f81a5fe34df9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10330554_389e309b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-07-27T19:56:44Z",
+      "side": 1,
+      "message": "Optional: What happens if an OID is not in the server? Currently this is cancelling the whole request. Is that the intention? Otherwise you could need to catch MissingObjectException...",
+      "revId": "4155172f6a969225335e75cc7741f81a5fe34df9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
