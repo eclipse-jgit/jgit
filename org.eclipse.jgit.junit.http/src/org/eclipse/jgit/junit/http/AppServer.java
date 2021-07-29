@@ -214,9 +214,12 @@ public class AppServer {
 			tmpDir.deleteOnExit();
 			makePrivate(tmpDir);
 			File keyStore = new File(tmpDir, "keystore.jks");
+			File keytool = new File(
+					new File(new File(System.getProperty("java.home")), "bin"),
+					"keytool");
 			Runtime.getRuntime().exec(
 					new String[] {
-							"keytool", //
+							keytool.getAbsolutePath(), //
 							"-keystore", keyStore.getAbsolutePath(), //
 							"-storepass", keyPassword,
 							"-alias", hostName, //
