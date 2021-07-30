@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a80ccf5_61b810cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ObjectInfoRequest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T19:51:27Z",
+      "side": 1,
+      "message": "Nicer link: https://www.kernel.org/pub/software/scm/git/docs/technical/protocol-v2.html#_object_info",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a38d96c_c8057d77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T19:51:27Z",
+      "side": 1,
+      "message": "This should throw a PackProtocolException to reflect the invalid oid",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
