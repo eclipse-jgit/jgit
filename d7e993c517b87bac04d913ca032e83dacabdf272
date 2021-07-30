@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5f1e84bf_9244fd0d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackReachabilityTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-30T18:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada19eae_053811b4",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "281d3646_de61ab99",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a670018_7a5268a9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-30T18:50:29Z",
+      "side": 1,
+      "message": "I could have gone either way here but I guess it was mostly an organic thing. Initially I did not have the flag so I changed the tests to pass with the new feature and only after that I added the flag but has already changed the tests so I added this here. I agree with you that it is best to do it per-test so I changed it and now only the specific object-info tests sets it.",
+      "parentUuid": "281d3646_de61ab99",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "d227ce3a_505e10d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ObjectInfoRequest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-30T18:50:29Z",
+      "side": 1,
+      "message": "I expanded the comment a bit and added a link to the available documentation.",
+      "parentUuid": "b528eea4_01965150",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e4d1ede_4f9318c8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 9
@@ -84,6 +138,24 @@
       "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27bca8ac_1ab7a574",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-30T18:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e4d1ede_4f9318c8",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -115,6 +187,24 @@
       "writtenOn": "2021-07-30T16:28:20Z",
       "side": 1,
       "message": "https://www.kernel.org/pub/software/scm/git/docs/technical/protocol-v2.html doesn\u0027t say what we want to do for a missing object. Shouldn\u0027t we send an error response to the client in that case? (That would maximize flexibility in case we want to change the behavior later.)",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f41ff2e0_daed0f4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-30T18:50:29Z",
+      "side": 1,
+      "message": "I think we should although I asked if there was a way to send an error back with jgit (git has something like that) but I got no answer. Can you point me to some documentation/code that shows how errors are sent back to the client?",
+      "parentUuid": "2668447f_7b5a7761",
       "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
