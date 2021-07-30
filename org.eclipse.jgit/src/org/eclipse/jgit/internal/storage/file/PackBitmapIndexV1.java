@@ -46,15 +46,18 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 	private final ObjectIdOwnerMap<StoredBitmap> bitmaps;
 
-	PackBitmapIndexV1(final InputStream fd, PackIndex packIndex,
-			PackReverseIndex reverseIndex) throws IOException {
+	PackBitmapIndexV1(final InputStream fd,
+			SupplierWithIOException<PackIndex> packIndexSupplier,
+			SupplierWithIOException<PackReverseIndex> reverseIndexSupplier)
+			throws IOException {
 		super(new ObjectIdOwnerMap<StoredBitmap>());
-		this.packIndex = packIndex;
-		this.reverseIndex = reverseIndex;
-		this.bitmaps = getBitmaps();
 
 		final byte[] scratch = new byte[32];
 		IO.readFully(fd, scratch, 0, scratch.length);
+
+		this.packIndex = packIndexSupplier.get();
+		this.bitmaps = getBitmaps();
+		this.reverseIndex = reverseIndexSupplier.get();
 
 		// Check the magic bytes
 		for (int i = 0; i < MAGIC.length; i++) {
