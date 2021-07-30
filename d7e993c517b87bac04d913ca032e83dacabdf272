@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ada19eae_053811b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackReachabilityTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T16:28:20Z",
+      "side": 1,
+      "message": "Please remove this line.",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "281d3646_de61ab99",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T16:28:20Z",
+      "side": 1,
+      "message": "The unparenthesized and parenthesized parts here are reversed: the important thing to a reader is _why_ we are enabling this capability.\n\nDo we want this capability enabled throughout the test or only in specific tests? In general I\u0027d suspect the latter would make sense, in particular because it would allow some tests to have the config enabled and others to have it disabled (to test the behavior when the object-info capability is not advertised).",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35187b22_1fe30513",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T16:28:20Z",
+      "side": 1,
+      "message": "good, makes sense.",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b528eea4_01965150",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ObjectInfoRequest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T16:28:20Z",
+      "side": 1,
+      "message": "Can this give a little more context? What is an object-info request, and where can I read more about them?",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e4d1ede_4f9318c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T16:28:20Z",
+      "side": 1,
+      "message": "optional: would it make sense for this to be a List\u003cObjectId\u003e? That would make the contract a little clearer and the representation a little more compact.",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cac346db_eef2f8c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T16:28:20Z",
+      "side": 1,
+      "message": "side note, not about this patch: we should probably start setting these to true by default soon",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2668447f_7b5a7761",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T16:28:20Z",
+      "side": 1,
+      "message": "https://www.kernel.org/pub/software/scm/git/docs/technical/protocol-v2.html doesn\u0027t say what we want to do for a missing object. Shouldn\u0027t we send an error response to the client in that case? (That would maximize flexibility in case we want to change the behavior later.)",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
