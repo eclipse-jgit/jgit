@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ff1fa91_46477ae0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ObjectInfoRequest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-30T21:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a80ccf5_61b810cc",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a38d96c_c8057d77",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2021-07-30T19:51:27Z",
       "side": 1,
       "message": "This should throw a PackProtocolException to reflect the invalid oid",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cee73d96_3485cab2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-30T21:04:00Z",
+      "side": 1,
+      "message": "that would abort at the first invalid id received which is different from what git itself is doing. I am not sure that is what we want to do (I think we might want to return an error to the caller and continue). WDYT?",
+      "parentUuid": "4a38d96c_c8057d77",
       "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true

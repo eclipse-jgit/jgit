@@ -226,6 +226,24 @@
       "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b59ca4be_8a93ca2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-07-30T21:04:00Z",
+      "side": 1,
+      "message": "Same comment for the other change is valid here: If I throw, I will abort before sending any possible subsequent valid objects. Here too I think we might want to send an error back. WDYT?",
+      "parentUuid": "a3558385_dc437f6c",
+      "revId": "d7e993c517b87bac04d913ca032e83dacabdf272",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
