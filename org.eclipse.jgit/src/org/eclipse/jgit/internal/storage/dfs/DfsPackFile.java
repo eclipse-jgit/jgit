@@ -59,11 +59,19 @@ public final class DfsPackFile extends BlockBasedFile {
 	private static final long REF_POSITION = 0;
 
 	/**
-	 * Lock for initialization of {@link #index} and {@link #corruptObjects}.
+	 * Lock for initialization of {@link #index}, {@link #reverseIndex} and
+	 * {@link #corruptObjects}.
 	 * <p>
 	 * This lock ensures only one thread can perform the initialization work.
 	 */
 	private final Object initLock = new Object();
+
+	/**
+	 * Lock for initialization of {@link #bitmapIndex}.
+	 * <p>
+	 * This lock ensures only one thread can perform the initialization work.
+	 */
+	private final Object bitmapLock = new Object();
 
 	/** Index mapping {@link ObjectId} to position within the pack stream. */
 	private volatile PackIndex index;
@@ -192,18 +200,16 @@ public final class DfsPackFile extends BlockBasedFile {
 			return bitmapIndex;
 		}
 
-		synchronized (initLock) {
+		synchronized (bitmapLock) {
 			if (bitmapIndex != null) {
 				return bitmapIndex;
 			}
 
-			PackIndex idx = idx(ctx);
-			PackReverseIndex revidx = getReverseIdx(ctx);
 			DfsStreamKey bitmapKey = desc.getStreamKey(BITMAP_INDEX);
 			DfsBlockCache.Ref<PackBitmapIndex> idxref = cache.getOrLoadRef(
 					bitmapKey,
 					REF_POSITION,
-					() -> loadBitmapIndex(ctx, bitmapKey, idx, revidx));
+					() -> loadBitmapIndex(ctx, bitmapKey));
 			PackBitmapIndex bmidx = idxref.get();
 			if (bitmapIndex == null && bmidx != null) {
 				bitmapIndex = bmidx;
@@ -1041,11 +1047,8 @@ public final class DfsPackFile extends BlockBasedFile {
 				revidx);
 	}
 
-	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(
-			DfsReader ctx,
-			DfsStreamKey bitmapKey,
-			PackIndex idx,
-			PackReverseIndex revidx) throws IOException {
+	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(DfsReader ctx,
+			DfsStreamKey bitmapKey) throws IOException {
 		ctx.stats.readBitmap++;
 		long start = System.nanoTime();
 		try (ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX)) {
@@ -1061,7 +1064,8 @@ public final class DfsPackFile extends BlockBasedFile {
 					bs = wantSize;
 				}
 				in = new BufferedInputStream(in, bs);
-				bmidx = PackBitmapIndex.read(in, idx, revidx);
+				bmidx = PackBitmapIndex.read(in, () -> idx(ctx),
+						() -> getReverseIdx(ctx));
 			} finally {
 				size = rc.position();
 				ctx.stats.readIdxBytes += size;
