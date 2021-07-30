@@ -14,8 +14,11 @@ import java.io.DataInput;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -46,11 +49,13 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 	private final ObjectIdOwnerMap<StoredBitmap> bitmaps;
 
-	PackBitmapIndexV1(final InputStream fd, PackIndex packIndex,
-			PackReverseIndex reverseIndex) throws IOException {
+	PackBitmapIndexV1(final InputStream fd,
+			SupplierWithIOException<PackIndex> packIndexSupplier,
+			SupplierWithIOException<PackReverseIndex> reverseIndexSupplier)
+			throws IOException {
+		// An entry is object id, xor offset, flag byte, and a length encoded
+		// bitmap. The object id is an int32 of the nth position sorted by name.
 		super(new ObjectIdOwnerMap<StoredBitmap>());
-		this.packIndex = packIndex;
-		this.reverseIndex = reverseIndex;
 		this.bitmaps = getBitmaps();
 
 		final byte[] scratch = new byte[32];
@@ -97,10 +102,10 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		this.blobs = readBitmap(dataInput);
 		this.tags = readBitmap(dataInput);
 
-		// An entry is object id, xor offset, flag byte, and a length encoded
-		// bitmap. The object id is an int32 of the nth position sorted by name.
+		// Read full bitmap from storage first.
+		List<IdxPositionBitmap> idxPositionBitmapList = new ArrayList<>();
 		// The xor offset is a single byte offset back in the list of entries.
-		StoredBitmap[] recentBitmaps = new StoredBitmap[MAX_XOR_OFFSET];
+		IdxPositionBitmap[] recentBitmaps = new IdxPositionBitmap[MAX_XOR_OFFSET];
 		for (int i = 0; i < (int) numEntries; i++) {
 			IO.readFully(fd, scratch, 0, 6);
 			int nthObjectId = NB.decodeInt32(scratch, 0);
@@ -108,38 +113,57 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 			int flags = scratch[5];
 			EWAHCompressedBitmap bitmap = readBitmap(dataInput);
 
-			if (nthObjectId < 0)
+			if (nthObjectId < 0) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().invalidId, String.valueOf(nthObjectId)));
-			if (xorOffset < 0)
+			}
+			if (xorOffset < 0) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().invalidId, String.valueOf(xorOffset)));
-			if (xorOffset > MAX_XOR_OFFSET)
+			}
+			if (xorOffset > MAX_XOR_OFFSET) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().expectedLessThanGot,
 						String.valueOf(MAX_XOR_OFFSET),
 						String.valueOf(xorOffset)));
-			if (xorOffset > i)
+			}
+			if (xorOffset > i) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().expectedLessThanGot, String.valueOf(i),
 						String.valueOf(xorOffset)));
-
-			ObjectId objectId = packIndex.getObjectId(nthObjectId);
-			StoredBitmap xorBitmap = null;
+			}
+			IdxPositionBitmap xorIdxPositionBitmap = null;
 			if (xorOffset > 0) {
 				int index = (i - xorOffset);
-				xorBitmap = recentBitmaps[index % recentBitmaps.length];
-				if (xorBitmap == null)
+				xorIdxPositionBitmap = recentBitmaps[index
+						% recentBitmaps.length];
+				if (xorIdxPositionBitmap == null) {
 					throw new IOException(MessageFormat.format(
 							JGitText.get().invalidId,
 							String.valueOf(xorOffset)));
+				}
 			}
-
-			StoredBitmap sb = new StoredBitmap(
-					objectId, bitmap, xorBitmap, flags);
-			bitmaps.add(sb);
-			recentBitmaps[i % recentBitmaps.length] = sb;
+			IdxPositionBitmap idxPositionBitmap = new IdxPositionBitmap(
+					nthObjectId, xorIdxPositionBitmap, bitmap, flags);
+			idxPositionBitmapList.add(idxPositionBitmap);
+			recentBitmaps[i % recentBitmaps.length] = idxPositionBitmap;
 		}
+
+		this.packIndex = packIndexSupplier.get();
+		for (int i = 0; i < idxPositionBitmapList.size(); ++i) {
+			IdxPositionBitmap idxPositionBitmap = idxPositionBitmapList.get(i);
+			ObjectId objectId = packIndex
+					.getObjectId(idxPositionBitmap.nthObjectId);
+			StoredBitmap sb = new StoredBitmap(objectId,
+					idxPositionBitmap.bitmap,
+					idxPositionBitmap.getXorStoredBitmap(),
+					idxPositionBitmap.flags);
+			// Store computed StoredBitmap for xorBitmap.
+			idxPositionBitmap.sb = sb;
+			bitmaps.add(sb);
+		}
+
+		this.reverseIndex = reverseIndexSupplier.get();
 	}
 
 	/** {@inheritDoc} */
@@ -213,5 +237,35 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		EWAHCompressedBitmap bitmap = new EWAHCompressedBitmap();
 		bitmap.deserialize(dataInput);
 		return bitmap;
+	}
+
+	/**
+	 * Temporary holder of object position in pack index and other metadata for
+	 * {@code StoredBitmap}.
+	 */
+	private static final class IdxPositionBitmap {
+		int nthObjectId;
+
+		IdxPositionBitmap xorIdxPositionBitmap;
+
+		EWAHCompressedBitmap bitmap;
+
+		int flags;
+
+		StoredBitmap sb;
+
+		IdxPositionBitmap(int nthObjectId, @Nullable
+		IdxPositionBitmap xorIdxPositionBitmap, EWAHCompressedBitmap bitmap,
+				int flags) {
+			this.nthObjectId = nthObjectId;
+			this.xorIdxPositionBitmap = xorIdxPositionBitmap;
+			this.bitmap = bitmap;
+			this.flags = flags;
+		}
+
+		StoredBitmap getXorStoredBitmap() {
+			return xorIdxPositionBitmap == null ? null
+					: xorIdxPositionBitmap.sb;
+		}
 	}
 }
