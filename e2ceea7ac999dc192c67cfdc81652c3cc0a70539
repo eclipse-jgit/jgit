@@ -69,6 +69,24 @@
       "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9eeb262_d1855065",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-07-30T23:26:56Z",
+      "side": 1,
+      "message": "\u003e that would abort at the first invalid id received which is different from what git itself is doing.\n\nDo you have a reference with more details? I don\u0027t believe the Git protocol has a way to \"error and continue\" --- i.e., there are only progress messages and fatal errors, no non-fatal errors.",
+      "parentUuid": "cee73d96_3485cab2",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
