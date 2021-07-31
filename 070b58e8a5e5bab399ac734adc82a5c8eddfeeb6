@@ -93,6 +93,30 @@
       "revId": "070b58e8a5e5bab399ac734adc82a5c8eddfeeb6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fc02d66_8bb12f72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2021-07-31T02:44:18Z",
+      "side": 1,
+      "message": "I guess the supplier.get() can kick off async loading, and the returned index and reverseIndex will block on the first read til they are fully loaded?\n\nThat said I don\u0027t think this what\u0027s happening based on the changes to DfsPackFile.java in the same patchset.",
+      "parentUuid": "bbaf5a3e_43b8ef36",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 49
+      },
+      "revId": "070b58e8a5e5bab399ac734adc82a5c8eddfeeb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
