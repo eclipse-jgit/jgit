@@ -117,6 +117,30 @@
       "revId": "070b58e8a5e5bab399ac734adc82a5c8eddfeeb6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0c3c53_405c72a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-07-31T03:04:39Z",
+      "side": 1,
+      "message": "Yes, this is where the magic is. Reading from storage happens first here to allow reading index and creating ridx happen at the same time. Keeping this in the order it was changes nothing as bitmap loading will be blocked.\n\nBitmap constructor is still blocked on index and reverse index, but not reading from storage.",
+      "parentUuid": "8fc02d66_8bb12f72",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 49
+      },
+      "revId": "070b58e8a5e5bab399ac734adc82a5c8eddfeeb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
