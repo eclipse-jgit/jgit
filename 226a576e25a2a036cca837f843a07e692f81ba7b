@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6e498759_3b52174e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-08-02T17:24:32Z",
+      "side": 1,
+      "message": "I tried to use your command and got:\n\n$ git log --no-merges --grep\u003dobject-info --format\u003dreference -1\nfatal: invalid --pretty format: reference\n\nI looked at the git log help but there is no format named reference or anything close to that.",
+      "parentUuid": "861c8341_cd2139c1",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9bc3af00_6da6ce4a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
         "patchSetId": 1

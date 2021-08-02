@@ -87,6 +87,24 @@
       "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a6ee74f_7700e8f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-08-02T17:24:32Z",
+      "side": 1,
+      "message": "It might be that I did not correctly interpret the API but if you look here:\n\nhttps://github.com/git/git/blob/940fe202adcbf9fa1825c648d97cbe1b90d26aec/protocol-caps.c#L55\n\nWhat I am doing is using packet_writer_error() but i might be that all it does is send a normal message back with some specific formatting I guess.",
+      "parentUuid": "f9eeb262_d1855065",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
