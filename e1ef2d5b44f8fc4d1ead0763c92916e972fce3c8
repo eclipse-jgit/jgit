@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc4171bc_0f6557e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-08-05T01:01:17Z",
+      "side": 1,
+      "message": "The headline should say what this change does.\n\nWhat about: \"Reload pack list upon stale file handle\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "e1ef2d5b44f8fc4d1ead0763c92916e972fce3c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c95555c1_0538c52e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-08-05T01:01:17Z",
+      "side": 1,
+      "message": "The situation is actually more specific:\n1. The repository should have a packfile that satisfy all the BLOBs requested\n2. JGit should chose to send the pack \u0027as-is\u0027\n3. The GC should have removed the packfile *after* it has been cached in memory\n\nOnly if 1. 2. and 3. happen, then we have this bug, otherwise, we don\u0027t.",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "e1ef2d5b44f8fc4d1ead0763c92916e972fce3c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb92c1a0_7f0b54b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-08-05T01:01:17Z",
+      "side": 1,
+      "message": "cached",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "e1ef2d5b44f8fc4d1ead0763c92916e972fce3c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5ca3bd9_0115141e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackNotFoundException.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-08-05T01:01:17Z",
+      "side": 1,
+      "message": "Actually, we don\u0027t know for sure: stale file handle could happen for other reasons as well (filesystem unmounted)\n\nWhat about StaleFileHandleOnPackfile?",
+      "range": {
+        "startLine": 30,
+        "startChar": 35,
+        "endLine": 30,
+        "endChar": 64
+      },
+      "revId": "e1ef2d5b44f8fc4d1ead0763c92916e972fce3c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee549983_30065f6c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackNotFoundException.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-08-05T01:01:17Z",
+      "side": 1,
+      "message": "the Exception.getCause() should already do the job",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "e1ef2d5b44f8fc4d1ead0763c92916e972fce3c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50da5671_b2edefa1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-08-05T01:01:17Z",
+      "side": 1,
+      "message": "This is dangerous: If an implementation does not do anything, it should notify to the caller that nothing was refreshed.\n\nWhat about returning a boolean with the refreshed status?\ntrue \u003d\u003e refreshed, false \u003d\u003e not refreshed.\n\nThe default implementation would then return false because it does nothing.",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 2
+      },
+      "revId": "e1ef2d5b44f8fc4d1ead0763c92916e972fce3c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
