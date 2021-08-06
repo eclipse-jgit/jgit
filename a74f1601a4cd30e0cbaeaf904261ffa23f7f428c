@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a02016c_735509ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-08-06T17:58:31Z",
+      "side": 1,
+      "message": "Thanks for noticing. Done.",
+      "parentUuid": "5fb2afa1_2132f9f9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "a74f1601a4cd30e0cbaeaf904261ffa23f7f428c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa0a4ff1_cc8d0960",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2c8cadac_787cec57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-08-06T17:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa0a4ff1_cc8d0960",
+      "range": {
+        "startLine": 61,
+        "startChar": 46,
+        "endLine": 61,
+        "endChar": 48
+      },
+      "revId": "a74f1601a4cd30e0cbaeaf904261ffa23f7f428c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7815b39_bd665c02",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "a74f1601a4cd30e0cbaeaf904261ffa23f7f428c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "637da953_6cb613fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-08-06T17:58:31Z",
+      "side": 1,
+      "message": "I have Eclipse built-in formatter, and it keeps changing these lines to what you see here. I fixed empty lines between instance variables above.",
+      "parentUuid": "f7815b39_bd665c02",
+      "range": {
+        "startLine": 257,
+        "startChar": 2,
+        "endLine": 259,
+        "endChar": 16
+      },
+      "revId": "a74f1601a4cd30e0cbaeaf904261ffa23f7f428c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
