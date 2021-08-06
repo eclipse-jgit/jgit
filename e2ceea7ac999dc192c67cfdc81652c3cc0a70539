@@ -105,6 +105,24 @@
       "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f55e5080_0175e8bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-08-06T22:52:55Z",
+      "side": 1,
+      "message": "FWIIW, I looked at the implementation of packet_writer_error() And it seems it just sends the error message back to the caller prefixed with \"ERR \". Would it be a good idea to do the same here in JGit?",
+      "parentUuid": "6a6ee74f_7700e8f8",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
