@@ -22,6 +22,30 @@
       "revId": "a2d9354ba12912e53186101bd9bdd8cef732f4e6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1388a7d_f0d67359",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-08-06T21:44:29Z",
+      "side": 1,
+      "message": "Thank you, done.",
+      "parentUuid": "83d36ff8_78e1d989",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 29
+      },
+      "revId": "a2d9354ba12912e53186101bd9bdd8cef732f4e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
