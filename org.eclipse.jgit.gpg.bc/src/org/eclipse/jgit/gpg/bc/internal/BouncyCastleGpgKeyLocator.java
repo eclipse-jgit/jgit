@@ -29,6 +29,8 @@ import java.security.NoSuchProviderException;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.bouncycastle.gpg.keybox.BlobType;
 import org.bouncycastle.gpg.keybox.KeyBlob;
@@ -98,29 +100,54 @@ public class BouncyCastleGpgKeyLocator {
 
 	private static Path findGpgDirectory() {
 		SystemReader system = SystemReader.getInstance();
+		Function<String, Path> resolveTilde = s -> {
+			if (s.startsWith("~/") || s.startsWith("~" + File.separatorChar)) { //$NON-NLS-1$ //$NON-NLS-2$
+				return new File(FS.DETECTED.userHome(), s.substring(2))
+						.getAbsoluteFile().toPath();
+			}
+			return Paths.get(s);
+		};
+		Path path = checkDirectory(system.getProperty("jgit.gpg.home"), //$NON-NLS-1$
+				resolveTilde,
+				s -> log.warn(BCText.get().logWarnGpgHomeProperty, s));
+		if (path != null) {
+			return path;
+		}
+		path = checkDirectory(system.getenv("GNUPGHOME"), resolveTilde, //$NON-NLS-1$
+				s -> log.warn(BCText.get().logWarnGnuPGHome, s));
+		if (path != null) {
+			return path;
+		}
 		if (system.isWindows()) {
 			// On Windows prefer %APPDATA%\gnupg if it exists, even if Cygwin is
 			// used.
-			String appData = system.getenv("APPDATA"); //$NON-NLS-1$
-			if (appData != null && !appData.isEmpty()) {
-				try {
-					Path directory = Paths.get(appData).resolve("gnupg"); //$NON-NLS-1$
-					if (Files.isDirectory(directory)) {
-						return directory;
-					}
-				} catch (SecurityException | InvalidPathException e) {
-					// Ignore and return the default location below.
-				}
+			path = checkDirectory(system.getenv("APPDATA"), //$NON-NLS-1$
+					s -> Paths.get(s).resolve("gnupg"), null); //$NON-NLS-1$
+			if (path != null) {
+				return path;
 			}
 		}
 		// All systems, including Cygwin and even Windows if
 		// %APPDATA%\gnupg doesn't exist: ~/.gnupg
-		File home = FS.DETECTED.userHome();
-		if (home == null) {
-			// Oops. What now?
-			home = new File(".").getAbsoluteFile(); //$NON-NLS-1$
+		return resolveTilde.apply("~/.gnupg"); //$NON-NLS-1$
+	}
+
+	private static Path checkDirectory(String dir,
+			Function<String, Path> toPath, Consumer<String> warn) {
+		if (!StringUtils.isEmptyOrNull(dir)) {
+			try {
+				Path directory = toPath.apply(dir);
+				if (Files.isDirectory(directory)) {
+					return directory;
+				}
+			} catch (SecurityException | InvalidPathException e) {
+				// Ignore, warn, and try other known directories
+			}
+			if (warn != null) {
+				warn.accept(dir);
+			}
 		}
-		return home.toPath().resolve(".gnupg"); //$NON-NLS-1$
+		return null;
 	}
 
 	/**
