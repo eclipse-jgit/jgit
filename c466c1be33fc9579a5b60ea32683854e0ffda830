@@ -16,6 +16,24 @@
       "revId": "c466c1be33fc9579a5b60ea32683854e0ffda830",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b031912_749c7c41",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-08-10T12:52:57Z",
+      "side": 1,
+      "message": "Comment is obsolete for the current version of the change.",
+      "parentUuid": "3de8e8d4_07f0d176",
+      "revId": "c466c1be33fc9579a5b60ea32683854e0ffda830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

@@ -257,6 +257,30 @@
       "revId": "e1ef2d5b44f8fc4d1ead0763c92916e972fce3c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e8f1ed_4820de1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-08-10T12:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50da5671_b2edefa1",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 2
+      },
+      "revId": "e1ef2d5b44f8fc4d1ead0763c92916e972fce3c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
