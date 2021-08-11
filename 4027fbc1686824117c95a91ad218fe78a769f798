@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4f72f05_a548e19d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-08-11T08:59:51Z",
+      "side": 1,
+      "message": "nit: I would put these next to the things they are protecting\n\nnit: for consistent naming, indexLock, bitmapIndexLock.",
+      "range": {
+        "startLine": 65,
+        "startChar": 22,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "4027fbc1686824117c95a91ad218fe78a769f798",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
