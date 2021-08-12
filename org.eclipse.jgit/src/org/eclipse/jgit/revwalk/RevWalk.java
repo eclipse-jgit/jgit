@@ -17,8 +17,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -527,6 +529,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
 				Enum returnStrategy, ProgressMonitor monitor) throws IOException {
 		List<Ref> result = new ArrayList<>();
+		Set<RevCommit> previousRoots = new HashSet<>();
 		RevFilter oldRF = filter;
 		TreeFilter oldTF = treeFilter;
 		try {
@@ -545,6 +548,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				RevCommit c = (RevCommit) o;
 				resetRetain(RevFlag.UNINTERESTING);
 				markStart(c);
+				previousRoots.add(c);
 				boolean commitFound = false;
 				RevCommit next;
 				while ((next = next()) != null) {
@@ -565,6 +569,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				}
 			}
 		} finally {
+			roots.clear();
+			roots.addAll(previousRoots);
 			reset(~freeFlags & APP_FLAGS);
 			filter = oldRF;
 			treeFilter = oldTF;
