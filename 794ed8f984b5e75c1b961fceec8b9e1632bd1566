@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d21cf8_89a70a94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-08-12T15:52:29Z",
+      "side": 1,
+      "message": "This approach feels backwards, it seems to be trying to prevent future users of the revwalk from being affected by this operation as opposed to protecting this operation from previous users of the Revwalk. So this might pass the tests, but what if use the revwalk to do something else which marks various commits UNINTERESTING before calling this function?",
+      "revId": "794ed8f984b5e75c1b961fceec8b9e1632bd1566",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
