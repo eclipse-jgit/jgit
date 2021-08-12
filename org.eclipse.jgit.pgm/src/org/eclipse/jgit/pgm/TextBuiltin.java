@@ -219,8 +219,12 @@ public abstract class TextBuiltin {
 		case APACHE: {
 			SshdSessionFactory factory = new SshdSessionFactory(
 					new JGitKeyCache(), new DefaultProxyDataFactory());
-			Runtime.getRuntime()
-					.addShutdownHook(new Thread(factory::close));
+			try {
+				Runtime.getRuntime()
+						.addShutdownHook(new Thread(factory::close));
+			} catch (IllegalStateException e) {
+				// ignore - the VM is already shutting down
+			}
 			SshSessionFactory.setInstance(factory);
 			break;
 		}
