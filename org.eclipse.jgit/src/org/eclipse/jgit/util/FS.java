@@ -524,7 +524,7 @@ public abstract class FS {
 		}
 
 		private static String read(Path p) throws IOException {
-			final byte[] body = IO.readFully(p.toFile());
+			byte[] body = IO.readFully(p.toFile());
 			return new String(body, 0, body.length, UTF_8);
 		}
 
@@ -766,7 +766,7 @@ public abstract class FS {
 		}
 
 		private static String getConfigKey(FileStore s) {
-			final String storeKey;
+			String storeKey;
 			if (SystemReader.getInstance().isWindows()) {
 				Object attribute = null;
 				try {
@@ -1164,7 +1164,7 @@ public abstract class FS {
 	 *         platform does not require path name translation.
 	 */
 	public File resolve(File dir, String name) {
-		final File abspn = new File(name);
+		File abspn = new File(name);
 		if (abspn.isAbsolute())
 			return abspn;
 		return new File(dir, name);
@@ -1257,7 +1257,7 @@ public abstract class FS {
 	}
 
 	private File defaultUserHomeImpl() {
-		final String home = AccessController.doPrivileged(
+		String home = AccessController.doPrivileged(
 				(PrivilegedAction<String>) () -> System.getProperty("user.home") //$NON-NLS-1$
 		);
 		if (home == null || home.length() == 0)
@@ -1284,7 +1284,7 @@ public abstract class FS {
 
 		for (String p : path.split(File.pathSeparator)) {
 			for (String command : lookFor) {
-				final File file = new File(p, command);
+				File file = new File(p, command);
 				try {
 					if (file.isFile() && file.canExecute()) {
 						return file.getAbsoluteFile();
@@ -1341,7 +1341,7 @@ public abstract class FS {
 	protected static String readPipe(File dir, String[] command,
 			String encoding, Map<String, String> env)
 			throws CommandFailedException {
-		final boolean debug = LOG.isDebugEnabled();
+		boolean debug = LOG.isDebugEnabled();
 		try {
 			if (debug) {
 				LOG.debug("readpipe " + Arrays.asList(command) + "," //$NON-NLS-1$ //$NON-NLS-2$
@@ -1808,11 +1808,11 @@ public abstract class FS {
 	 * @since 5.0
 	 */
 	public Entry[] list(File directory, FileModeStrategy fileModeStrategy) {
-		final File[] all = directory.listFiles();
+		File[] all = directory.listFiles();
 		if (all == null) {
 			return NO_ENTRIES;
 		}
-		final Entry[] result = new Entry[all.length];
+		Entry[] result = new Entry[all.length];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = new FileEntry(all[i], this, fileModeStrategy);
 		}
@@ -1842,10 +1842,9 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	public ProcessResult runHookIfPresent(Repository repository,
-			final String hookName,
-			String[] args) throws JGitInternalException {
-		return runHookIfPresent(repository, hookName, args, System.out, System.err,
-				null);
+			String hookName, String[] args) throws JGitInternalException {
+		return runHookIfPresent(repository, hookName, args, System.out,
+				System.err, null);
 	}
 
 	/**
@@ -1877,9 +1876,9 @@ public abstract class FS {
 	 * @since 5.11
 	 */
 	public ProcessResult runHookIfPresent(Repository repository,
-			final String hookName,
-			String[] args, OutputStream outRedirect, OutputStream errRedirect,
-			String stdinArgs) throws JGitInternalException {
+			String hookName, String[] args, OutputStream outRedirect,
+			OutputStream errRedirect, String stdinArgs)
+			throws JGitInternalException {
 		return new ProcessResult(Status.NOT_SUPPORTED);
 	}
 
@@ -1913,7 +1912,7 @@ public abstract class FS {
 	 * @since 5.11
 	 */
 	protected ProcessResult internalRunHookIfPresent(Repository repository,
-			final String hookName, String[] args, OutputStream outRedirect,
+			String hookName, String[] args, OutputStream outRedirect,
 			OutputStream errRedirect, String stdinArgs)
 			throws JGitInternalException {
 		File hookFile = findHook(repository, hookName);
@@ -2109,7 +2108,7 @@ public abstract class FS {
 			OutputStream outRedirect, OutputStream errRedirect,
 			InputStream inRedirect) throws IOException,
 			InterruptedException {
-		final ExecutorService executor = Executors.newFixedThreadPool(2);
+		ExecutorService executor = Executors.newFixedThreadPool(2);
 		Process process = null;
 		// We'll record the first I/O exception that occurs, but keep on trying
 		// to dispose of our open streams and file handles
