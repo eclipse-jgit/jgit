@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a0237775_676f76d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-08-13T02:21:46Z",
+      "side": 1,
+      "message": "The main reason is \"resetRetain(RevFlag.UNINTERESTING)\", it clears the roots but retains UNINTERESTING flag.\nAnd then the future users can not call reset() to find the commits with UNINTERESTING Flag and reset them.",
+      "range": {
+        "startLine": 549,
+        "startChar": 4,
+        "endLine": 549,
+        "endChar": 39
+      },
+      "revId": "794ed8f984b5e75c1b961fceec8b9e1632bd1566",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63d21cf8_89a70a94",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 1
@@ -13,6 +36,24 @@
       "writtenOn": "2021-08-12T15:52:29Z",
       "side": 1,
       "message": "This approach feels backwards, it seems to be trying to prevent future users of the revwalk from being affected by this operation as opposed to protecting this operation from previous users of the Revwalk. So this might pass the tests, but what if use the revwalk to do something else which marks various commits UNINTERESTING before calling this function?",
+      "revId": "794ed8f984b5e75c1b961fceec8b9e1632bd1566",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c4a1c4a_26c840b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-08-13T02:21:46Z",
+      "side": 1,
+      "message": "\u003e This approach feels backwards\nI think you are right, maybe we should reset the rewalk before this operation instead of at the end.",
+      "parentUuid": "63d21cf8_89a70a94",
       "revId": "794ed8f984b5e75c1b961fceec8b9e1632bd1566",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
