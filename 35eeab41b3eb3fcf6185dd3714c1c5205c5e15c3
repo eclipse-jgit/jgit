@@ -16,6 +16,24 @@
       "revId": "35eeab41b3eb3fcf6185dd3714c1c5205c5e15c3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ca36a4f_2226e2c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-08-13T17:06:36Z",
+      "side": 1,
+      "message": "Revwalk#reset(int) only walks the commits from roots.\n\nI add the previous uninteresting commits to roots to make sure the future users can reset them by calling RevWalk#reset(int).",
+      "parentUuid": "ee5f6b93_d120a2a3",
+      "revId": "35eeab41b3eb3fcf6185dd3714c1c5205c5e15c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
