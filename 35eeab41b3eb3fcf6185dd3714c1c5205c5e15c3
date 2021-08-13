@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "cf992ae6_38ba7d42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-08-13T17:11:34Z",
+      "side": 1,
+      "message": "Would it work to just do roots.add(c) here instead of building a collection to use in the finally?",
+      "revId": "35eeab41b3eb3fcf6185dd3714c1c5205c5e15c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee5f6b93_d120a2a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "Revwalk#reset(int) only walks the commits from roots.\n\nI add the previous uninteresting commits to roots to make sure the future users can reset them by calling RevWalk#reset(int).",
       "parentUuid": "ee5f6b93_d120a2a3",
+      "revId": "35eeab41b3eb3fcf6185dd3714c1c5205c5e15c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09214444_f6603b66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-08-13T17:11:34Z",
+      "side": 1,
+      "message": "Gotcha, thanks for explaining this. I can\u0027t help but think that managing RevWalk state is too complicated. :(",
+      "parentUuid": "9ca36a4f_2226e2c1",
       "revId": "35eeab41b3eb3fcf6185dd3714c1c5205c5e15c3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
