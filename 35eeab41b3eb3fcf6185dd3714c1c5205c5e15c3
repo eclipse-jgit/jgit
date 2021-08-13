@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "497fbb42_5966e715",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-08-13T17:18:25Z",
+      "side": 1,
+      "message": "Perhaps it doesn\u0027t work, \n\u003e (line 548) resetRetain(RevFlag.UNINTERESTING) \nwill call roots.clear().",
+      "parentUuid": "cf992ae6_38ba7d42",
+      "revId": "35eeab41b3eb3fcf6185dd3714c1c5205c5e15c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee5f6b93_d120a2a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
