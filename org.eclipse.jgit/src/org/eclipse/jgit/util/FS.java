@@ -1267,7 +1267,8 @@ public abstract class FS {
 
 	/**
 	 * Searches the given path to see if it contains one of the given files.
-	 * Returns the first it finds. Returns null if not found or if path is null.
+	 * Returns the first it finds which is executable. Returns null if not found
+	 * or if path is null.
 	 *
 	 * @param path
 	 *            List of paths to search separated by File.pathSeparator
@@ -1277,14 +1278,15 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	protected static File searchPath(String path, String... lookFor) {
-		if (path == null)
+		if (path == null) {
 			return null;
+		}
 
 		for (String p : path.split(File.pathSeparator)) {
 			for (String command : lookFor) {
 				final File file = new File(p, command);
 				try {
-					if (file.isFile()) {
+					if (file.isFile() && file.canExecute()) {
 						return file.getAbsoluteFile();
 					}
 				} catch (SecurityException e) {
