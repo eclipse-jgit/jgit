@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b86b33c3_e21cb0e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-08-16T06:24:06Z",
+      "side": 1,
+      "message": "I wonder about our guidelines for this case. This is a local constant; the \"final\" here is actually valuable information.",
+      "revId": "0dff67e1753db6d61543006504257199eb4aec09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
