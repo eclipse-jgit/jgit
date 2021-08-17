@@ -25,6 +25,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.text.MessageFormat;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -164,10 +165,17 @@ public final class DfsPackFile extends BlockBasedFile {
 
 			try {
 				DfsStreamKey idxKey = desc.getStreamKey(INDEX);
+				final AtomicBoolean cacheHit = new AtomicBoolean(true);
 				DfsBlockCache.Ref<PackIndex> idxref = cache.getOrLoadRef(
 						idxKey,
 						REF_POSITION,
-						() -> loadPackIndex(ctx, idxKey));
+						() -> {
+							cacheHit.set(false);
+							return loadPackIndex(ctx, idxKey);
+						});
+				if (cacheHit.get()) {
+					ctx.stats.idxCacheHit++;
+				}
 				PackIndex idx = idxref.get();
 				if (index == null && idx != null) {
 					index = idx;
@@ -210,10 +218,17 @@ public final class DfsPackFile extends BlockBasedFile {
 			}
 
 			DfsStreamKey bitmapKey = desc.getStreamKey(BITMAP_INDEX);
+			final AtomicBoolean cacheHit = new AtomicBoolean(true);
 			DfsBlockCache.Ref<PackBitmapIndex> idxref = cache.getOrLoadRef(
 					bitmapKey,
 					REF_POSITION,
-					() -> loadBitmapIndex(ctx, bitmapKey));
+					() -> {
+						cacheHit.set(false);
+						return loadBitmapIndex(ctx, bitmapKey);
+					});
+			if (cacheHit.get()) {
+				ctx.stats.bitmapCacheHit++;
+			}
 			PackBitmapIndex bmidx = idxref.get();
 			if (bitmapIndex == null && bmidx != null) {
 				bitmapIndex = bmidx;
@@ -235,10 +250,17 @@ public final class DfsPackFile extends BlockBasedFile {
 			PackIndex idx = idx(ctx);
 			DfsStreamKey revKey = new DfsStreamKey.ForReverseIndex(
 					desc.getStreamKey(INDEX));
+			final AtomicBoolean cacheHit = new AtomicBoolean(true);
 			DfsBlockCache.Ref<PackReverseIndex> revref = cache.getOrLoadRef(
 					revKey,
 					REF_POSITION,
-					() -> loadReverseIdx(revKey, idx));
+					() -> {
+						cacheHit.set(false);
+						return loadReverseIdx(ctx, revKey, idx);
+					});
+			if (cacheHit.get()) {
+				ctx.stats.ridxCacheHit++;
+			}
 			PackReverseIndex revidx = revref.get();
 			if (reverseIndex == null && revidx != null) {
 				reverseIndex = revidx;
@@ -1041,9 +1063,12 @@ public final class DfsPackFile extends BlockBasedFile {
 	}
 
 	private DfsBlockCache.Ref<PackReverseIndex> loadReverseIdx(
-			DfsStreamKey revKey, PackIndex idx) {
+			DfsReader ctx, DfsStreamKey revKey, PackIndex idx) {
+		ctx.stats.readReverseIdx++;
+		long start = System.nanoTime();
 		PackReverseIndex revidx = new PackReverseIndex(idx);
 		reverseIndex = revidx;
+		ctx.stats.readReverseIdxMicros += elapsedMicros(start);
 		return new DfsBlockCache.Ref<>(
 				revKey,
 				REF_POSITION,
@@ -1072,8 +1097,8 @@ public final class DfsPackFile extends BlockBasedFile {
 						() -> getReverseIdx(ctx));
 			} finally {
 				size = rc.position();
-				ctx.stats.readIdxBytes += size;
-				ctx.stats.readIdxMicros += elapsedMicros(start);
+				ctx.stats.readBitmapIdxBytes += size;
+				ctx.stats.readBitmapIdxMicros += elapsedMicros(start);
 			}
 			bitmapIndex = bmidx;
 			return new DfsBlockCache.Ref<>(
