@@ -19,17 +19,38 @@ public class DfsReaderIoStats {
 		/** Number of times the reader explicitly called scanPacks. */
 		long scanPacks;
 
+		/** Total number of cache hits for pack indexes. */
+		long idxCacheHit;
+
+		/** Total number of cache hits for reverse indexes. */
+		long ridxCacheHit;
+
+		/** Total number of cache hits for bitmap indexes. */
+		long bitmapCacheHit;
+
 		/** Total number of complete pack indexes read into memory. */
 		long readIdx;
 
 		/** Total number of complete bitmap indexes read into memory. */
 		long readBitmap;
 
-		/** Total number of bytes read from indexes. */
+		/** Total number of reverse indexes added into memory. */
+		long readReverseIdx;
+
+		/** Total number of bytes read from pack indexes. */
 		long readIdxBytes;
 
-		/** Total microseconds spent reading pack or bitmap indexes. */
+		/** Total microseconds spent reading pack indexes. */
 		long readIdxMicros;
+
+		/** Total microseconds spent creating reverse indexes. */
+		long readReverseIdxMicros;
+
+		/** Total number of bytes read from bitmap indexes. */
+		long readBitmapIdxBytes;
+
+		/** Total microseconds spent reading bitmap indexes. */
+		long readBitmapIdxMicros;
 
 		/** Total number of block cache hits. */
 		long blockCacheHit;
@@ -73,6 +94,33 @@ public class DfsReaderIoStats {
 	public long getScanPacks() {
 		return stats.scanPacks;
 	}
+	
+	/**
+	 * Get total number of pack index cache hits.
+	 *
+	 * @return total number of pack index cache hits.
+	 */
+	public long getPackIndexCacheHits() {
+		return stats.idxCacheHit;
+	}
+
+	/**
+	 * Get total number of reverse index cache hits.
+	 *
+	 * @return total number of reverse index cache hits.
+	 */
+	public long getReverseIndexCacheHits() {
+		return stats.ridxCacheHit;
+	}
+
+	/**
+	 * Get total number of bitmap index cache hits.
+	 *
+	 * @return total number of bitmap index cache hits.
+	 */
+	public long getBitmapIndexCacheHits() {
+		return stats.bitmapCacheHit;
+	}
 
 	/**
 	 * Get total number of complete pack indexes read into memory.
@@ -81,6 +129,15 @@ public class DfsReaderIoStats {
 	 */
 	public long getReadPackIndexCount() {
 		return stats.readIdx;
+	}
+	
+	/**
+	 * Get total number of reverse index was computed.
+	 *
+	 * @return total number of reverse index was computed.
+	 */
+	public long getReadReverseIndexCount() {
+		return stats.readReverseIdx;
 	}
 
 	/**
@@ -93,21 +150,48 @@ public class DfsReaderIoStats {
 	}
 
 	/**
-	 * Get total number of bytes read from indexes.
+	 * Get total number of bytes read from pack indexes.
 	 *
-	 * @return total number of bytes read from indexes.
+	 * @return total number of bytes read from pack indexes.
 	 */
 	public long getReadIndexBytes() {
 		return stats.readIdxBytes;
 	}
 
 	/**
-	 * Get total microseconds spent reading pack or bitmap indexes.
+	 * Get total microseconds spent reading pack indexes.
 	 *
-	 * @return total microseconds spent reading pack or bitmap indexes.
+	 * @return total microseconds spent reading pack indexes.
 	 */
 	public long getReadIndexMicros() {
 		return stats.readIdxMicros;
+	}
+	
+	/**
+	 * Get total microseconds spent creating reverse indexes.
+	 *
+	 * @return total microseconds spent creating reverse indexes.
+	 */
+	public long getReadReverseIndexMicros() {
+		return stats.readReverseIdxMicros;
+	}
+
+	/**
+	 * Get total number of bytes read from bitmap indexes.
+	 *
+	 * @return total number of bytes read from bitmap indexes.
+	 */
+	public long getReadBitmapIndexBytes() {
+		return stats.readBitmapIdxBytes;
+	}
+
+	/**
+	 * Get total microseconds spent reading bitmap indexes.
+	 *
+	 * @return total microseconds spent reading bitmap indexes.
+	 */
+	public long getReadBitmapIndexMicros() {
+		return stats.readBitmapIdxMicros;
 	}
 
 	/**
