@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d04e6172_d925eb30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ObjectInfoRequest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-17T20:56:42Z",
+      "side": 1,
+      "message": "Nit: Merge with the line before the @see: \"... object-info call, used as input to {@link Protocol...\", maybe that gives a nicer formatting.",
+      "revId": "a32ec0fcaff8590c2d876d416188f49f1833bb92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

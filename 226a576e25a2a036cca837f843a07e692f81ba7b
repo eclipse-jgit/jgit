@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "023903cd_25152475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-17T20:56:42Z",
+      "side": 1,
+      "message": "I don\u0027t know how recent is that format, but my git has it:\n`\n$ git log --no-merges --grep\u003dobject-info --format\u003dreference\nd94f9b8e90 (protocol-caps.h: add newline at end of file, 2021-06-07)\na2ba162cda (object-info: support for retrieving object info, 2021-04-20)\n`\n\nYou can inline that commit description:\n\"...was recenty added to the Git project a2ba162cda (object-info: support for retrieving object info, 2021-04-20)\"",
+      "parentUuid": "6e498759_3b52174e",
+      "revId": "226a576e25a2a036cca837f843a07e692f81ba7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9bc3af00_6da6ce4a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
         "patchSetId": 1

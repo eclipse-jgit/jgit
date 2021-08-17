@@ -123,6 +123,24 @@
       "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cebc2ed7_da68402c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-17T20:56:42Z",
+      "side": 1,
+      "message": "If you throw a PackProtocolException, its message is written with the ERR prefix (see UploadPack line ~757 [before this change]), the exception is propagated and the request is closed.\n\nFrom what Jonathan writes above, this is the same in git, ERR is the end of the request. So for me sounds good to emit the PackProtocolException.",
+      "parentUuid": "f55e5080_0175e8bf",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
