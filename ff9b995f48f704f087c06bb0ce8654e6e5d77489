@@ -1,0 +1,261 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de8ef0be_bcd38e97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "above you said clone may fail",
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81fa41dd_7e1f9b36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/StaleFileHandleOnPackfile.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15bbae08_fd4cd6be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/StaleFileHandleOnPackfile.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "stale",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5127be39_bf71c729",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/StaleFileHandleOnPackfile.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "StaleFileHandleOnPackfile",
+      "range": {
+        "startLine": 19,
+        "startChar": 26,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fb9aed6_43a98b44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/StaleFileHandleOnPackfile.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "this description looks wrong",
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cbb3523_1376693f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/StaleFileHandleOnPackfile.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "Get the pack which file on disk has gone missing.",
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d64c73a_6824aea6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "in-memory",
+      "range": {
+        "startLine": 160,
+        "startChar": 16,
+        "endLine": 160,
+        "endChar": 26
+      },
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e51a6612_50833f18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "missing @since tag for new API method",
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e9ee09e_1e551177",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "- this is leaking an internal implementation class, the new API method is using non-API type Pack \n- it\u0027s only implemented for the file storage implementation but not for dfs\n- I doubt if it\u0027s needed for dfs",
+      "range": {
+        "startLine": 169,
+        "startChar": 32,
+        "endLine": 169,
+        "endChar": 36
+      },
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccc96193_cb427e40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "private ?",
+      "range": {
+        "startLine": 228,
+        "startChar": 1,
+        "endLine": 228,
+        "endChar": 7
+      },
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2443d565_1ebd4682",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 2248,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "doesn\u0027t this belong to the creation of PackWriter in line 2252 ?",
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d93551b6_8c2bb360",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 2251,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "I think no label is needed here, instead iterate attempts in the for loop\n\n for (int attempts \u003d 0; attempts \u003c MAX_WRITE_PACK_ATTEMPTS; attempts++)\n\ncontinue if StaleFileHandleException is caught, break or return otherwise.\n\nRe-throw the exception if retrying didn\u0027t help ?",
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5adca7e_a218765b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 2252,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-17T12:48:08Z",
+      "side": 1,
+      "message": "remove final modifier ?\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 2252,
+        "startChar": 3,
+        "endLine": 2252,
+        "endChar": 8
+      },
+      "revId": "ff9b995f48f704f087c06bb0ce8654e6e5d77489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
