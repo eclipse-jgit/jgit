@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63efc806_319d5586",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-18T06:54:09Z",
+      "side": 1,
+      "message": "We don\u0027t use final for local variables, see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier\n\nWhy does this need to be an atomic boolean inside a synchronized block ?",
+      "revId": "c65e1e6f70758408963a4a081e69ee0c2280c028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
