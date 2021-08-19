@@ -16,6 +16,24 @@
       "revId": "a32ec0fcaff8590c2d876d416188f49f1833bb92",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "303eeb02_3cdff83c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ObjectInfoRequest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-08-19T21:23:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d04e6172_d925eb30",
+      "revId": "a32ec0fcaff8590c2d876d416188f49f1833bb92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

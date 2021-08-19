@@ -141,6 +141,24 @@
       "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03bfa72c_d621df19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 304988
+      },
+      "writtenOn": "2021-08-19T21:23:02Z",
+      "side": 1,
+      "message": "Actually no, if you check https://github.com/git/git/blob/940fe202adcbf9fa1825c648d97cbe1b90d26aec/pkt-line.c#L609 you will see that packet_writer_error() in git does exactly the same as packet_writer_write() (which is juts above it in the source code). It does not abort the request. So if I do this in JGit, its behavior will be different when compared to the standard git (which I am pretty sure is not what we want).",
+      "parentUuid": "cebc2ed7_da68402c",
+      "revId": "e2ceea7ac999dc192c67cfdc81652c3cc0a70539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
