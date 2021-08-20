@@ -260,7 +260,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
 			FetchCommand fetch = new FetchCommand(repo).setRemote(remote)
 					.setProgressMonitor(monitor).setTagOpt(tagOption)
-					.setRecurseSubmodules(submoduleRecurseMode);
+					.setRecurseSubmodules(submoduleRecurseMode)
+					.setRefSpecs(remoteBranchName);
 			configure(fetch);
 
 			fetchRes = fetch.call();
@@ -280,19 +281,26 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 		// we check the updates to see which of the updated branches
 		// corresponds to the remote branch name
 		AnyObjectId commitToMerge;
-		if (isRemote) {
+		if (fetchRes != null) {
 			Ref r = null;
-			if (fetchRes != null) {
-				r = fetchRes.getAdvertisedRef(remoteBranchName);
-				if (r == null) {
-					r = fetchRes.getAdvertisedRef(Constants.R_HEADS
-							+ remoteBranchName);
+			r = fetchRes.getAdvertisedRef(remoteBranchName);
+			if (r == null) {
+				r = fetchRes
+						.getAdvertisedRef(Constants.R_HEADS + remoteBranchName);
+			}
+			if (r == null) {
+				try {
+					r = repo.getRefDatabase().findRef(Constants.FETCH_HEAD);
+				} catch (IOException e) {
+					throw new RefNotFoundException(
+							MessageFormat.format(JGitText.get().refNotResolved,
+									Constants.FETCH_HEAD),
+							e);
 				}
 			}
 			if (r == null) {
-				throw new RefNotAdvertisedException(MessageFormat.format(
-						JGitText.get().couldNotGetAdvertisedRef, remote,
-						remoteBranchName));
+				throw new RefNotFoundException(MessageFormat.format(
+						JGitText.get().refNotResolved, remoteBranchName));
 			}
 			commitToMerge = r.getObjectId();
 		} else {
