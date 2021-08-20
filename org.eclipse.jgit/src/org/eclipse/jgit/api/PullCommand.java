@@ -285,14 +285,33 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			if (fetchRes != null) {
 				r = fetchRes.getAdvertisedRef(remoteBranchName);
 				if (r == null) {
-					r = fetchRes.getAdvertisedRef(Constants.R_HEADS
-							+ remoteBranchName);
+					r = fetchRes.getAdvertisedRef(
+							Constants.R_HEADS + remoteBranchName);
 				}
 			}
 			if (r == null) {
-				throw new RefNotAdvertisedException(MessageFormat.format(
-						JGitText.get().couldNotGetAdvertisedRef, remote,
-						remoteBranchName));
+				// try fetching this unadvertised ref
+				FetchCommand fetch = new FetchCommand(repo).setRemote(remote)
+						.setProgressMonitor(monitor).setTagOpt(TagOpt.NO_TAGS) // tags
+																				// already
+																				// checked
+																				// earlier
+						.setRecurseSubmodules(submoduleRecurseMode)
+						.setRefSpecs(remoteBranchName);
+				configure(fetch);
+
+				fetchRes = fetch.call();
+				try {
+					r = repo.getRefDatabase().findRef(Constants.FETCH_HEAD);
+				} catch (IOException e) {
+					throw new RefNotFoundException(
+							MessageFormat.format(JGitText.get().refNotResolved,
+									Constants.FETCH_HEAD));
+				}
+				if (r == null) {
+					throw new RefNotFoundException(MessageFormat.format(
+							JGitText.get().refNotResolved, remoteBranchName));
+				}
 			}
 			commitToMerge = r.getObjectId();
 		} else {
