@@ -141,12 +141,11 @@ class FetchProcess {
 		}
 		conn = transport.openFetch(toFetch, getTags, getHead);
 		try {
-			Map<String, Ref> refsMap = conn.getRefsMap();
+			Map<String, Ref> refsMap = new HashMap<>(conn.getRefsMap());
 			if (isInitialBranchMissing(refsMap, initialBranch)) {
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().remoteBranchNotFound, initialBranch));
 			}
-			result.setAdvertisedRefs(transport.getURI(), refsMap);
 			result.peerUserAgent = conn.getPeerUserAgent();
 			final Set<Ref> matched = new HashSet<>();
 			for (RefSpec spec : toFetch) {
@@ -157,8 +156,9 @@ class FetchProcess {
 				if (spec.isWildcard())
 					expandWildcard(spec, matched);
 				else
-					expandSingle(spec, matched);
+					expandSingle(spec, matched, refsMap);
 			}
+			result.setAdvertisedRefs(transport.getURI(), refsMap);
 
 			Collection<Ref> additionalTags = Collections.<Ref> emptyList();
 			if (tagopt == TagOpt.AUTO_FOLLOW)
@@ -395,7 +395,8 @@ class FetchProcess {
 		}
 	}
 
-	private void expandSingle(RefSpec spec, Set<Ref> matched)
+	private void expandSingle(RefSpec spec, Set<Ref> matched,
+			Map<String, Ref> refsMap)
 			throws TransportException {
 		String want = spec.getSource();
 		if (ObjectId.isId(want)) {
@@ -407,6 +408,9 @@ class FetchProcess {
 		if (src == null) {
 			throw new TransportException(MessageFormat.format(JGitText.get().remoteDoesNotHaveSpec, want));
 		}
+		// ensure it's advertised for further lookups; necessary when fetch/pull
+		// a spec that's not advertised by repo
+		refsMap.put(spec.getSource(), src);
 		if (matched.add(src)) {
 			want(src, spec);
 		}
