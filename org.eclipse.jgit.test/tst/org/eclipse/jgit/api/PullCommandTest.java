@@ -87,6 +87,39 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testPullFastUnadvertisefRef() throws Exception {
+		PullResult res = target.pull()
+				.setRemoteBranchName(source.getRepository()
+						.findRef(source.getRepository().getFullBranch())
+						.getObjectId().getName().toString())
+				.call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// change the source file
+		writeToFile(sourceFile, "Another change");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("Some change in remote").call();
+
+		res = target.pull().call();
+
+		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertEquals(res.getMergeResult().getMergeStatus(),
+				MergeStatus.FAST_FORWARD);
+		assertFileContentsEqual(targetFile, "Another change");
+		assertEquals(RepositoryState.SAFE,
+				target.getRepository().getRepositoryState());
+
+		res = target.pull().call();
+		assertEquals(res.getMergeResult().getMergeStatus(),
+				MergeStatus.ALREADY_UP_TO_DATE);
+	}
+
+	@Test
 	public void testPullMerge() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet

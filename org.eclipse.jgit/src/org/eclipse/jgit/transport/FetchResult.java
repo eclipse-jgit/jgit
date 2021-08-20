@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.lib.Ref;
+
 /**
  * Final status after a successful fetch from a remote repository.
  *
@@ -30,9 +32,12 @@ public class FetchResult extends OperationResult {
 
 	private final Map<String, FetchResult> submodules;
 
+	private final Map<String, Ref> fetchedRefs;
+
 	FetchResult() {
 		forMerge = new ArrayList<>();
 		submodules = new HashMap<>();
+		fetchedRefs = new HashMap<>();
 	}
 
 	void add(FetchHeadRecord r) {
@@ -62,5 +67,34 @@ public class FetchResult extends OperationResult {
 	 */
 	public Map<String, FetchResult> submoduleResults() {
 		return Collections.unmodifiableMap(submodules);
+	}
+
+	/**
+	 * Add info about a fetched reference
+	 *
+	 * @param source
+	 *            The source of the refspec that triggered this fetch
+	 * @param ref
+	 *            The resulting ref fetched from the provided refspec
+	 *
+	 * @since 5.13
+	 */
+	public void addFetchedRef(String source, Ref ref) {
+		fetchedRefs.put(source, ref);
+	}
+
+	/**
+	 * Get ref that was requested and successfully fetched.
+	 *
+	 * @param source
+	 *            The source of the refspec
+	 * @return The Ref that was fetched as part of the fetch operation,
+	 *         <code>null</code> if <code>source</code> does not match a ref
+	 *         that was successfully fetched.
+	 *
+	 * @since 5.13
+	 */
+	public Ref getFetchedRef(String source) {
+		return fetchedRefs.get(source);
 	}
 }

@@ -290,9 +290,19 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 				}
 			}
 			if (r == null) {
-				throw new RefNotAdvertisedException(MessageFormat.format(
-						JGitText.get().couldNotGetAdvertisedRef, remote,
-						remoteBranchName));
+				// try fetching this unadvertised ref
+				FetchCommand fetch = new FetchCommand(repo).setRemote(remote)
+						.setProgressMonitor(monitor).setTagOpt(tagOption)
+						.setRecurseSubmodules(submoduleRecurseMode)
+						.setRefSpecs(remoteBranchName);
+				configure(fetch);
+
+				fetchRes = fetch.call();
+				r = fetchRes.getFetchedRef(remoteBranchName);
+				if (r == null) {
+					throw new RefNotFoundException(MessageFormat.format(
+							JGitText.get().refNotResolved, remoteBranchName));
+				}
 			}
 			commitToMerge = r.getObjectId();
 		} else {
