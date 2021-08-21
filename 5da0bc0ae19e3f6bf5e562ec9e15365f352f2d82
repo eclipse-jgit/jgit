@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c56b95da_4204873f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-08-21T07:44:14Z",
+      "side": 1,
+      "message": "I don\u0027t understand why we\u0027d fetch twice. Why not simply configure the fetch at line 266 above to use the configured defaults plus a RefSpec for the explicitly given remoteBranchName?",
+      "revId": "5da0bc0ae19e3f6bf5e562ec9e15365f352f2d82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
