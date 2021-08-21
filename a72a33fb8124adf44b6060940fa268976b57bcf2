@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "049039b5_7c827313",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-08-21T22:19:07Z",
+      "side": 1,
+      "message": "Yes, that\u0027s more like it. We still need a test for this.",
+      "revId": "a72a33fb8124adf44b6060940fa268976b57bcf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
