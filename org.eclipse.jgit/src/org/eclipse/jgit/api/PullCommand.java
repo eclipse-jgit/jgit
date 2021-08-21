@@ -48,6 +48,7 @@ import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TagOpt;
 
 /**
@@ -260,7 +261,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
 			FetchCommand fetch = new FetchCommand(repo).setRemote(remote)
 					.setProgressMonitor(monitor).setTagOpt(tagOption)
-					.setRecurseSubmodules(submoduleRecurseMode);
+					.setRecurseSubmodules(submoduleRecurseMode)
+					.setRefSpecs(new RefSpec(remoteBranchName,
+							Constants.FETCH_HEAD));
 			configure(fetch);
 
 			fetchRes = fetch.call();

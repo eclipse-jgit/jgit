@@ -194,6 +194,20 @@ public class RefSpec implements Serializable {
 		this(spec, WildcardMode.REQUIRE_MATCH);
 	}
 
+	/**
+	 * Create a RefSpec
+	 *
+	 * @param src
+	 *            the source ref description
+	 * @param dest
+	 *            the destination ref description
+	 * @since 5.13
+	 */
+	public RefSpec(String src, String dest) {
+		srcName = checkValid(src);
+		dstName = checkValid(dest);
+	}
+
 	private RefSpec(RefSpec p) {
 		force = p.isForceUpdate();
 		wildcard = p.isWildcard();
