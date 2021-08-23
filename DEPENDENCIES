@@ -1,61 +1,61 @@
 maven/mavencentral/args4j/args4j/2.33, MIT, approved, CQ11068
 maven/mavencentral/com.google.code.gson/gson/2.8.7, Apache-2.0, approved, CQ23496
-maven/mavencentral/com.googlecode.javaewah/JavaEWAH/1.1.12, Apache-2.0, approved, CQ23497
+maven/mavencentral/com.googlecode.javaewah/JavaEWAH/1.1.12, Apache-2.0, approved, CQ11658
 maven/mavencentral/com.jcraft/jsch/0.1.55, BSD-3-Clause, approved, CQ19435
 maven/mavencentral/com.jcraft/jzlib/1.1.1, BSD-2-Clause, approved, CQ6218
-maven/mavencentral/commons-codec/commons-codec/1.11, Apache-2.0, approved, CQ15971
+maven/mavencentral/commons-codec/commons-codec/1.11, Apache-2.0 AND BSD-3-Clause, approved, CQ15971
 maven/mavencentral/commons-logging/commons-logging/1.2, Apache-2.0, approved, CQ10162
-maven/mavencentral/javax.servlet/javax.servlet-api/3.1.0, Apache-2.0 AND (CDDL-1.1 OR GPL-2.0 WITH Classpath-exception-2.0), approved, emo_ip_team
+maven/mavencentral/javax.servlet/javax.servlet-api/3.1.0, Apache-2.0 AND (CDDL-1.1 OR GPL-2.0 WITH Classpath-exception-2.0), approved, CQ7248
 maven/mavencentral/junit/junit/4.13, , approved, CQ22796
 maven/mavencentral/log4j/log4j/1.2.15, Apache-2.0, approved, CQ7837
 maven/mavencentral/net.bytebuddy/byte-buddy-agent/1.9.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/net.bytebuddy/byte-buddy/1.9.0, Apache-2.0, approved, clearlydefined
-maven/mavencentral/net.i2p.crypto/eddsa/0.3.0, CC0, approved, CQ17804
-maven/mavencentral/net.sf.jopt-simple/jopt-simple/4.6, MIT, approved, CQ14441
+maven/mavencentral/net.i2p.crypto/eddsa/0.3.0, CC0-1.0, approved, CQ22537
+maven/mavencentral/net.sf.jopt-simple/jopt-simple/4.6, MIT, approved, clearlydefined
 maven/mavencentral/org.apache.ant/ant-launcher/1.10.10, Apache-2.0 AND W3C AND LicenseRef-Public-Domain, approved, CQ15560
 maven/mavencentral/org.apache.ant/ant/1.10.10, Apache-2.0 AND W3C AND LicenseRef-Public-Domain, approved, CQ15560
 maven/mavencentral/org.apache.commons/commons-compress/1.20, Apache-2.0 AND BSD-3-Clause AND LicenseRef-Public-Domain, approved, CQ21771
-maven/mavencentral/org.apache.commons/commons-math3/3.2, Apache-2.0, approved, CQ14559
-maven/mavencentral/org.apache.httpcomponents/httpclient/4.5.13, Apache-2.0, approved, CQ22761
+maven/mavencentral/org.apache.commons/commons-math3/3.2, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.apache.httpcomponents/httpclient/4.5.13, Apache-2.0 AND LicenseRef-Public-Domain, approved, CQ23527
 maven/mavencentral/org.apache.httpcomponents/httpcore/4.4.14, Apache-2.0, approved, CQ23528
 maven/mavencentral/org.apache.sshd/sshd-common/2.7.0, Apache-2.0 and ISC, approved, CQ23469
 maven/mavencentral/org.apache.sshd/sshd-core/2.7.0, Apache-2.0, approved, CQ23469
 maven/mavencentral/org.apache.sshd/sshd-osgi/2.7.0, Apache-2.0 and ISC, approved, CQ23469
 maven/mavencentral/org.apache.sshd/sshd-sftp/2.7.0, Apache-2.0, approved, CQ23470
-maven/mavencentral/org.assertj/assertj-core/3.20.2, Apache-2.0, approved, CQ23501
+maven/mavencentral/org.assertj/assertj-core/3.20.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcpg-jdk15on/1.69, MIT and Apache-2.0, approved, CQ23472
 maven/mavencentral/org.bouncycastle/bcpkix-jdk15on/1.69, MIT, approved, CQ23473
 maven/mavencentral/org.bouncycastle/bcprov-jdk15on/1.69, MIT, approved, CQ23471
 maven/mavencentral/org.bouncycastle/bcutil-jdk15on/1.69, MIT, approved, CQ23474
-maven/mavencentral/org.eclipse.jetty/jetty-http/9.4.43.v20210629, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-io/9.4.43.v20210629, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-security/9.4.43.v20210629, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-server/9.4.43.v20210629, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-servlet/9.4.43.v20210629, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-util-ajax/9.4.43.v20210629, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jetty/jetty-util/9.4.43.v20210629, EPL-2.0, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.archive/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.gpg.bc/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.apache/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.server/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit.http/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit.ssh/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.server.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.server/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.pgm.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.pgm/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.jsch/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.test/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ui/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit/5.13.0-SNAPSHOT, BSD-3-Clause, approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-http/9.4.43.v20210629, , approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-io/9.4.43.v20210629, , approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-security/9.4.43.v20210629, , approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-server/9.4.43.v20210629, , approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-servlet/9.4.43.v20210629, , approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-util-ajax/9.4.43.v20210629, , approved, eclipse
+maven/mavencentral/org.eclipse.jetty/jetty-util/9.4.43.v20210629, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant.test/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.archive/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.gpg.bc/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.apache/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.server/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.test/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit.http/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit.ssh/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.server.test/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.server/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.test/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.pgm.test/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.pgm/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache.test/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.jsch/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.test/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ui/5.13.0-SNAPSHOT, , approved, eclipse
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit/5.13.0-SNAPSHOT, , approved, eclipse
 maven/mavencentral/org.hamcrest/hamcrest-core/1.3, BSD-2-Clause, approved, CQ7063
 maven/mavencentral/org.hamcrest/hamcrest/2.2, BSD-2-Clause, approved, clearlydefined
 maven/mavencentral/org.mockito/mockito-core/2.23.0, MIT, approved, CQ17976
@@ -64,6 +64,6 @@ maven/mavencentral/org.openjdk.jmh/jmh-core/1.32, GPL-2.0, approved, CQ23499
 maven/mavencentral/org.openjdk.jmh/jmh-generator-annprocess/1.32, GPL-2.0, approved, CQ23500
 maven/mavencentral/org.osgi/org.osgi.core/4.3.1, Apache-2.0, approved, CQ10111
 maven/mavencentral/org.slf4j/jcl-over-slf4j/1.7.30, Apache-2.0, approved, CQ12843
-maven/mavencentral/org.slf4j/slf4j-api/1.7.30, MIT, approved, CQ23467
+maven/mavencentral/org.slf4j/slf4j-api/1.7.30, MIT, approved, CQ13368
 maven/mavencentral/org.slf4j/slf4j-log4j12/1.7.30, MIT, approved, CQ7665
 maven/mavencentral/org.tukaani/xz/1.9, LicenseRef-Public-Domain, approved, CQ23498
