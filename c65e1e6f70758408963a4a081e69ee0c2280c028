@@ -34,6 +34,24 @@
       "revId": "c65e1e6f70758408963a4a081e69ee0c2280c028",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0038a77c_bcfb9c47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-23T21:32:09Z",
+      "side": 1,
+      "message": "Why not a simple boolean ?\n\n boolean cacheHit \u003d true;\n DfsBlockCache.Ref\u003cPackIndex\u003e idxref \u003d cache.getOrLoadRef(\n      idxKey,\n      REF_POSITION,\n      () -\u003e {\n\tcacheHit \u003d false;\n\treturn loadPackIndex(ctx, idxKey);\n      });\n if (cacheHit) {\n   ctx.stats.idxCacheHit++;\n }",
+      "parentUuid": "ff09e110_cda1ce97",
+      "revId": "c65e1e6f70758408963a4a081e69ee0c2280c028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
