@@ -52,6 +52,24 @@
       "revId": "c65e1e6f70758408963a4a081e69ee0c2280c028",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "479b3aa2_c16eeee8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-08-23T21:42:58Z",
+      "side": 1,
+      "message": "This is not allowed, it\u0027s a compilation error. Similar to https://stackoverflow.com/questions/30026824/modifying-local-variable-from-inside-lambda/30026897",
+      "parentUuid": "0038a77c_bcfb9c47",
+      "revId": "c65e1e6f70758408963a4a081e69ee0c2280c028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
