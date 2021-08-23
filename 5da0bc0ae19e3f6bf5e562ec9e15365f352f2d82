@@ -16,6 +16,24 @@
       "revId": "5da0bc0ae19e3f6bf5e562ec9e15365f352f2d82",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa29b86_45820977",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 587
+      },
+      "writtenOn": "2021-08-23T08:11:15Z",
+      "side": 1,
+      "message": "Next patch set shows that in some conditions, querying for remoteBranchName seems to cause trouble (and make test fail). Re-fetching the specific ref if not found earlier prevents from breaking some invariants that seem to be in place.",
+      "parentUuid": "c56b95da_4204873f",
+      "revId": "5da0bc0ae19e3f6bf5e562ec9e15365f352f2d82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
