@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10579596_e5051bfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-08-23T06:54:23Z",
+      "side": 1,
+      "message": "It\u0027s not obvious that hard-coding refs/heads/ and refs/tags/ is correct here, but I think at least for protocol V2 it is correct. There might be a problem still if the configured fetch spec in the git config is only +refs/heads/*:refs/remotes/\u003cremote\u003e/*, tagOption is TagOpt.NO_TAGS, and remoteBranchName is refs/tags/someTag?\n\nBut perhaps not; protocol V2 ends up expanding in ls-refs all of \u003csrc\u003e, refs/\u003csrc\u003e, refs/heads/\u003csrc\u003e, and refs/tags/\u003csrc\u003e anyway; that\u0027s hard-coded in BasePackConnection.getRefPrefixes() and correcponds to C git\u0027s expand_ref_prefixes() in refs.c. In C git, relevant code is in fetch.c (do_fetch()), refspec.c (refspec_ref_prefixes()), and refs.c (expand_ref_prefixes()).\n\nI really think we need tests for this for protocol V0/V1 and V2, with a custom ref refs/custom/foo, a plain SHA1, and the above tag fetch with NO_TAGS configured by default. Perhaps not in PullCommandTest but in SmartClientSmartServerTest, with the server\u0027s UploadPack configured to allow fetching anything.",
+      "revId": "1590470e1c7bc14dded70155ca2d44ea7df6345a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
