@@ -18,9 +18,12 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -34,12 +37,17 @@ public class DfsBlockCacheConfig {
 	/** 1024 {@link #KB} (number of bytes in one mebibyte/megabyte) */
 	public static final int MB = 1024 * KB;
 
+	/** Default number of cache hits before eviction. */
+	public static final int DEFAULT_CACHE_HIT_COUNT = 1;
+
 	private long blockLimit;
 	private int blockSize;
 	private double streamRatio;
 	private int concurrencyLevel;
 
 	private Consumer<Long> refLock;
+
+	private Map<PackExt, Integer> cacheHitMap;
 
 	/**
 	 * Create a default configuration.
@@ -49,6 +57,7 @@ public class DfsBlockCacheConfig {
 		setBlockSize(64 * KB);
 		setStreamRatio(0.30);
 		setConcurrencyLevel(32);
+		cacheHitMap = Collections.emptyMap();
 	}
 
 	/**
@@ -181,6 +190,28 @@ public class DfsBlockCacheConfig {
 	 */
 	public DfsBlockCacheConfig setRefLockWaitTimeConsumer(Consumer<Long> c) {
 		refLock = c;
+		return this;
+	}
+
+	/**
+	 * Get the map of hit count per pack extension for {@code DfsBlockCache}.
+	 *
+	 * @return map of hit count per pack extension for {@code DfsBlockCache}.
+	 */
+	public Map<PackExt, Integer> getCacheHitMap() {
+		return cacheHitMap;
+	}
+
+	/**
+	 * Set the map of hit count per pack extension for {@code DfsBlockCache}.
+	 *
+	 * @param cacheHitMap
+	 *            map of hit count per pack extension for {@code DfsBlockCache}.
+	 * @return {@code this}
+	 */
+	public DfsBlockCacheConfig setCacheHitMap(
+			Map<PackExt, Integer> cacheHitMap) {
+		this.cacheHitMap = Collections.unmodifiableMap(cacheHitMap);
 		return this;
 	}
 
