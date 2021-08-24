@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "196d693b_07388784",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-08-24T08:33:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90085856_9069478c",
+      "range": {
+        "startLine": 254,
+        "startChar": 60,
+        "endLine": 254,
+        "endChar": 87
+      },
+      "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee5b646a_2a37a8b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/StaleFileHandleOnPackfile.java",
         "patchSetId": 23
@@ -36,6 +60,30 @@
       "writtenOn": "2021-08-23T21:51:00Z",
       "side": 1,
       "message": "can\u0027t we use Throwable#getCause instead ?",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 43
+      },
+      "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aea6754_e2504572",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/StaleFileHandleOnPackfile.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-08-24T08:33:16Z",
+      "side": 1,
+      "message": "I wanted to encapsulate in \"StaleFileHandleOnPackfile\" the fact that the original exception is an IOException, to avoid leaving the casting to PackDirectory:refreshPackList. It was an attempt to highlight the exceptions processed by PackDirectory:refreshPackList has to be IOException.\n\nI am not strong about it, if you think it is better to use Throwable#getCause directly I can change it.",
+      "parentUuid": "ee5b646a_2a37a8b6",
       "range": {
         "startLine": 57,
         "startChar": 23,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7a512831_f0b342f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-08-24T08:33:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "479761e8_b825af3a",
+      "range": {
+        "startLine": 169,
+        "startChar": 60,
+        "endLine": 169,
+        "endChar": 87
+      },
+      "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14e1f6c4_38babe42",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 23
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "747ef650_560dd107",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 2375,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-08-24T08:33:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14e1f6c4_38babe42",
+      "range": {
+        "startLine": 2375,
+        "startChar": 40,
+        "endLine": 2375,
+        "endChar": 67
+      },
+      "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e6710ce_69dc9754",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackSendPackException.java",
         "patchSetId": 23
@@ -105,6 +201,30 @@
       "writtenOn": "2021-08-23T21:51:00Z",
       "side": 1,
       "message": "can you find a shorter name ? \nmaybe RefreshPackListException ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 40
+      },
+      "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b51b5132_b1b317e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackSendPackException.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-08-24T08:33:16Z",
+      "side": 1,
+      "message": "What about just SendPackException ? It is a generic error happening during a send pack, not necessarily while doing a refresh pack.",
+      "parentUuid": "2e6710ce_69dc9754",
       "range": {
         "startLine": 19,
         "startChar": 13,
