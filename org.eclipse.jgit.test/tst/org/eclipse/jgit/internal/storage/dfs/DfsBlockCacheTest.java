@@ -16,9 +16,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.LongStream;
 
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -101,6 +104,44 @@ public class DfsBlockCacheTest {
 			byte[] actual = rdr.open(id2, OBJ_BLOB).getBytes();
 			assertTrue(Arrays.equals(content2, actual));
 		}
+	}
+
+	@SuppressWarnings("resource")
+	@Test
+	public void hasCacheHotMap() throws Exception {
+		Map<PackExt, Integer> cacheHotMap = new HashMap<>();
+		// Pack index will be kept in cache longer.
+		cacheHotMap.put(PackExt.INDEX, Integer.valueOf(3));
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
+				.setBlockLimit(512 * 4).setCacheHotMap(cacheHotMap));
+		cache = DfsBlockCache.getInstance();
+
+		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
+		InMemoryRepository r1 = new InMemoryRepository(repo);
+		byte[] content = rng.nextBytes(424242);
+		ObjectId id;
+		try (ObjectInserter ins = r1.newObjectInserter()) {
+			id = ins.insert(OBJ_BLOB, content);
+			ins.flush();
+		}
+
+		try (ObjectReader rdr = r1.newObjectReader()) {
+			byte[] actual = rdr.open(id, OBJ_BLOB).getBytes();
+			assertTrue(Arrays.equals(content, actual));
+		}
+		// All cache entries are hot and cache is at capacity.
+		assertTrue(LongStream.of(cache.getHitCount()).sum() > 0);
+		assertEquals(99, cache.getFillPercentage());
+
+		InMemoryRepository r2 = new InMemoryRepository(repo);
+		content = rng.nextBytes(424242);
+		try (ObjectInserter ins = r2.newObjectInserter()) {
+			ins.insert(OBJ_BLOB, content);
+			ins.flush();
+		}
+		assertEquals(0, LongStream.of(cache.getMissCount()).sum());
+		assertTrue(cache.getEvictions()[PackExt.PACK.getPosition()] > 0);
+		assertEquals(0, cache.getEvictions()[PackExt.INDEX.getPosition()]);
 	}
 
 	private void resetCache() {
