@@ -39,9 +39,10 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * Its too expensive during object access to be accurate with a least recently
  * used (LRU) algorithm. Strictly ordering every read is a lot of overhead that
  * typically doesn't yield a corresponding benefit to the application. This
- * cache implements a clock replacement algorithm, giving each block one chance
- * to have been accessed during a sweep of the cache to save itself from
- * eviction.
+ * cache implements a clock replacement algorithm, giving each block at least
+ * one chance to have been accessed during a sweep of the cache to save itself
+ * from eviction. The number of swipe chances is configurable per pack
+ * extension.
  * <p>
  * Entities created by the cache are held under hard references, preventing the
  * Java VM from clearing anything. Blocks are discarded by the replacement
@@ -161,6 +162,9 @@ public final class DfsBlockCache {
 	/** Current position of the clock. */
 	private Ref clockHand;
 
+	/** Limits of cache hot count per pack file extension. */
+	private final int[] cacheHotLimits = new int[PackExt.values().length];
+
 	@SuppressWarnings("unchecked")
 	private DfsBlockCache(DfsBlockCacheConfig cfg) {
 		tableSize = tableSize(cfg);
@@ -196,6 +200,15 @@ public final class DfsBlockCache {
 		liveBytes = new AtomicReference<>(newCounters());
 
 		refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
+
+		for (int i = 0; i < PackExt.values().length; ++i) {
+			Integer limit = cfg.getCacheHotMap().get(PackExt.values()[i]);
+			if (limit != null && limit.intValue() > 0) {
+				cacheHotLimits[i] = limit.intValue();
+			} else {
+				cacheHotLimits[i] = DfsBlockCacheConfig.DEFAULT_CACHE_HOT_MAX;
+			}
+		}
 	}
 
 	boolean shouldCopyThroughCache(long length) {
@@ -394,7 +407,7 @@ public final class DfsBlockCache {
 			}
 
 			Ref<DfsBlock> ref = new Ref<>(key, position, v.size(), v);
-			ref.hot = true;
+			ref.markHotter();
 			for (;;) {
 				HashEntry n = new HashEntry(clean(e2), ref);
 				if (table.compareAndSet(slot, e2, n)) {
@@ -424,10 +437,10 @@ public final class DfsBlockCache {
 				Ref prev = clockHand;
 				Ref hand = clockHand.next;
 				do {
-					if (hand.hot) {
-						// Value was recently touched. Clear
-						// hot and give it another chance.
-						hand.hot = false;
+					if (hand.isHot()) {
+						// Value was recently touched. Cache is still hot so
+						// give it another chance, but cool it down a bit.
+						hand.markColder();
 						prev = hand;
 						hand = hand.next;
 						continue;
@@ -525,7 +538,7 @@ public final class DfsBlockCache {
 			}
 			getStat(statMiss, key).incrementAndGet();
 			ref = loader.load();
-			ref.hot = true;
+			ref.markHotter();
 			// Reserve after loading to get the size of the object
 			reserveSpace(ref.size, key);
 			for (;;) {
@@ -568,7 +581,7 @@ public final class DfsBlockCache {
 			}
 
 			ref = new Ref<>(key, pos, size, v);
-			ref.hot = true;
+			ref.markHotter();
 			for (;;) {
 				HashEntry n = new HashEntry(clean(e2), ref);
 				if (table.compareAndSet(slot, e2, n)) {
@@ -692,7 +705,8 @@ public final class DfsBlockCache {
 		final long size;
 		volatile T value;
 		Ref next;
-		volatile boolean hot;
+
+		private volatile int hotCount;
 
 		Ref(DfsStreamKey key, long position, long size, T v) {
 			this.key = key;
@@ -704,13 +718,27 @@ public final class DfsBlockCache {
 		T get() {
 			T v = value;
 			if (v != null) {
-				hot = true;
+				markHotter();
 			}
 			return v;
 		}
 
 		boolean has() {
 			return value != null;
+		}
+
+		void markHotter() {
+			int cap = DfsBlockCache
+					.getInstance().cacheHotLimits[key.packExtPos];
+			hotCount = Math.min(cap, hotCount + 1);
+		}
+
+		void markColder() {
+			hotCount = Math.max(0, hotCount - 1);
+		}
+
+		boolean isHot() {
+			return hotCount > 0;
 		}
 	}
 
