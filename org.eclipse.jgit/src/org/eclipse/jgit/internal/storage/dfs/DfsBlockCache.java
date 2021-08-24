@@ -153,13 +153,16 @@ public final class DfsBlockCache {
 	/** Protects the clock and its related data. */
 	private final ReentrantLock clockLock;
 
+	/** Current position of the clock. */
+	private Ref clockHand;
+
 	/**
 	 * A consumer of object reference lock wait time milliseconds.  May be used to build a metric.
 	 */
 	private final Consumer<Long> refLockWaitTime;
 
-	/** Current position of the clock. */
-	private Ref clockHand;
+	/** Caps of cache hit per pack file extension. */
+	private final int[] cacheHitCaps = new int[PackExt.values().length];
 
 	@SuppressWarnings("unchecked")
 	private DfsBlockCache(DfsBlockCacheConfig cfg) {
@@ -196,6 +199,11 @@ public final class DfsBlockCache {
 		liveBytes = new AtomicReference<>(newCounters());
 
 		refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
+		for (int i = 0; i < PackExt.values().length; ++i) {
+			cacheHitCaps[i] = cfg.getCacheHitOverrideMap().getOrDefault(
+					PackExt.values()[i],
+					DfsBlockCacheConfig.DEFAULT_CACHE_HIT_COUNT);
+		}
 	}
 
 	boolean shouldCopyThroughCache(long length) {
@@ -394,7 +402,7 @@ public final class DfsBlockCache {
 			}
 
 			Ref<DfsBlock> ref = new Ref<>(key, position, v.size(), v);
-			ref.hot = true;
+			ref.markHot();
 			for (;;) {
 				HashEntry n = new HashEntry(clean(e2), ref);
 				if (table.compareAndSet(slot, e2, n)) {
@@ -424,10 +432,10 @@ public final class DfsBlockCache {
 				Ref prev = clockHand;
 				Ref hand = clockHand.next;
 				do {
-					if (hand.hot) {
+					if (hand.isHot()) {
 						// Value was recently touched. Clear
 						// hot and give it another chance.
-						hand.hot = false;
+						hand.markCold();
 						prev = hand;
 						hand = hand.next;
 						continue;
@@ -525,7 +533,7 @@ public final class DfsBlockCache {
 			}
 			getStat(statMiss, key).incrementAndGet();
 			ref = loader.load();
-			ref.hot = true;
+			ref.markHot();
 			// Reserve after loading to get the size of the object
 			reserveSpace(ref.size, key);
 			for (;;) {
@@ -568,7 +576,7 @@ public final class DfsBlockCache {
 			}
 
 			ref = new Ref<>(key, pos, size, v);
-			ref.hot = true;
+			ref.markHot();
 			for (;;) {
 				HashEntry n = new HashEntry(clean(e2), ref);
 				if (table.compareAndSet(slot, e2, n)) {
@@ -692,7 +700,8 @@ public final class DfsBlockCache {
 		final long size;
 		volatile T value;
 		Ref next;
-		volatile boolean hot;
+
+		private volatile int hotCount;
 
 		Ref(DfsStreamKey key, long position, long size, T v) {
 			this.key = key;
@@ -704,13 +713,26 @@ public final class DfsBlockCache {
 		T get() {
 			T v = value;
 			if (v != null) {
-				hot = true;
+				markHot();
 			}
 			return v;
 		}
 
 		boolean has() {
 			return value != null;
+		}
+
+		void markHot() {
+			int cap = DfsBlockCache.getInstance().cacheHitCaps[key.packExtPos];
+			hotCount = Math.min(cap, hotCount + 1);
+		}
+
+		void markCold() {
+			hotCount = Math.max(0, hotCount - 1);
+		}
+
+		boolean isHot() {
+			return hotCount > 0;
 		}
 	}
 

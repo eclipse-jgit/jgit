@@ -18,9 +18,12 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -34,12 +37,19 @@ public class DfsBlockCacheConfig {
 	/** 1024 {@link #KB} (number of bytes in one mebibyte/megabyte) */
 	public static final int MB = 1024 * KB;
 
+	/**
+	 * Default number of times an entry in DFS block cache is passed before
+	 * eviction.
+	 */
+	public static final int DEFAULT_CACHE_HIT_COUNT = 1;
+
 	private long blockLimit;
 	private int blockSize;
 	private double streamRatio;
 	private int concurrencyLevel;
 
 	private Consumer<Long> refLock;
+	private Map<PackExt, Integer> cacheHitOverrideMap;
 
 	/**
 	 * Create a default configuration.
@@ -49,6 +59,7 @@ public class DfsBlockCacheConfig {
 		setBlockSize(64 * KB);
 		setStreamRatio(0.30);
 		setConcurrencyLevel(32);
+		cacheHitOverrideMap = Collections.emptyMap();
 	}
 
 	/**
@@ -181,6 +192,29 @@ public class DfsBlockCacheConfig {
 	 */
 	public DfsBlockCacheConfig setRefLockWaitTimeConsumer(Consumer<Long> c) {
 		refLock = c;
+		return this;
+	}
+
+	/**
+	 * Get the map to override default hit count for DFS cache.
+	 *
+	 * @return map to override default hit count for DFS cache.
+	 */
+	public Map<PackExt, Integer> getCacheHitOverrideMap() {
+		return cacheHitOverrideMap;
+	}
+
+	/**
+	 * Set the map to override default hit count for DFS cache.
+	 *
+	 * @param cacheHitOverrideMap
+	 *            map to override default hit count for DFS cache.
+	 * @return {@code this}
+	 */
+	public DfsBlockCacheConfig setCacheHitOverrideMap(
+			Map<PackExt, Integer> cacheHitOverrideMap) {
+		this.cacheHitOverrideMap = Collections
+				.unmodifiableMap(cacheHitOverrideMap);
 		return this;
 	}
 
