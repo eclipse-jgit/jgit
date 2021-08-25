@@ -34,6 +34,24 @@
       "revId": "5da0bc0ae19e3f6bf5e562ec9e15365f352f2d82",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc8a8ef9_6be33786",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-25T16:07:54Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/184289 works without a second fetch",
+      "parentUuid": "5fa29b86_45820977",
+      "revId": "5da0bc0ae19e3f6bf5e562ec9e15365f352f2d82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
