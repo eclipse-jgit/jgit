@@ -80,13 +80,6 @@ import org.eclipse.jgit.util.FileUtils;
  * @since 3.4
  */
 public class RepoCommand extends GitCommand<RevCommit> {
-	private static final int LOCK_FAILURE_MAX_RETRIES = 5;
-
-	// Retry exponentially with delays in this range
-	private static final int LOCK_FAILURE_MIN_RETRY_DELAY_MILLIS = 50;
-
-	private static final int LOCK_FAILURE_MAX_RETRY_DELAY_MILLIS = 5000;
-
 	private String manifestPath;
 	private String baseUri;
 	private URI targetUri;
@@ -103,6 +96,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private boolean ignoreRemoteFailures = false;
 
 	private ProgressMonitor monitor;
+
+	private int lockFailureMaxRetries = 5;
+
+	// Retry the commit with delays in this range
+	private long lockFailureMinRetryDelayMillis = 50;
+
+	private long lockFailureMaxRetryDelayMillis = 5000;
 
 	/**
 	 * A callback to get ref sha1 of a repository from its uri.
@@ -534,6 +534,30 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Set the amount and frequency of retries when the commit cannot be applied
+	 * to the destination repo due to lock-failure.
+	 *
+	 * The retries are spaced with an exponential backoff with jitter. See
+	 * {@link FileUtils#delay(long, long, long)}.
+	 *
+	 * @param maxRetries
+	 *            maximum times it will try to push the commit.
+	 * @param minRetryGapMillis
+	 *            minimum time to wait between retries in milliseconds
+	 * @param maxRetryGapMillis
+	 *            maximum time to wait between retries in milliseconds
+	 * @return this command
+	 * @since 5.13
+	 */
+	public RepoCommand setLockFailureRetryParameters(int maxRetries,
+			long minRetryGapMillis, long maxRetryGapMillis) {
+		this.lockFailureMaxRetries = maxRetries;
+		this.lockFailureMinRetryDelayMillis = minRetryGapMillis;
+		this.lockFailureMaxRetryDelayMillis = maxRetryGapMillis;
+		return this;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public RevCommit call() throws GitAPIException {
@@ -694,14 +718,14 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				ObjectId treeId = index.writeTree(inserter);
 
 				long prevDelay = 0;
-				for (int i = 0; i < LOCK_FAILURE_MAX_RETRIES - 1; i++) {
+				for (int i = 0; i < this.lockFailureMaxRetries - 1; i++) {
 					try {
 						return commitTreeOnCurrentTip(
 							inserter, rw, treeId);
 					} catch (ConcurrentRefUpdateException e) {
 						prevDelay = FileUtils.delay(prevDelay,
-								LOCK_FAILURE_MIN_RETRY_DELAY_MILLIS,
-								LOCK_FAILURE_MAX_RETRY_DELAY_MILLIS);
+								this.lockFailureMinRetryDelayMillis,
+								this.lockFailureMaxRetryDelayMillis);
 						Thread.sleep(prevDelay);
 						repo.getRefDatabase().refresh();
 					}
