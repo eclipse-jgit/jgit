@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6598fb63_c98fafc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2021-08-26T05:31:22Z",
+      "side": 1,
+      "message": "//Cache still hot so give it another chance, but cool it down a bit.",
+      "range": {
+        "startLine": 436,
+        "startChar": 7,
+        "endLine": 437,
+        "endChar": 40
+      },
+      "revId": "3e5e69f98a88413d501e26a090d2d12ef9b1069f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc53bfb4_18793394",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2021-08-26T05:31:22Z",
+      "side": 1,
+      "message": "this function doesn\u0027t always make the cache cold, just colder, so how about colder() for a name? and markHot() becomes hotter()?",
+      "range": {
+        "startLine": 730,
+        "startChar": 7,
+        "endLine": 730,
+        "endChar": 15
+      },
+      "revId": "3e5e69f98a88413d501e26a090d2d12ef9b1069f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3cf30a3_a56d7a55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2021-08-26T05:31:22Z",
+      "side": 1,
+      "message": "/* Default number of cache hits before eviction. */\n\nto be consistent with variable name...",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "3e5e69f98a88413d501e26a090d2d12ef9b1069f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c87c5a_eeabb63d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2021-08-26T05:31:22Z",
+      "side": 1,
+      "message": "IMHO \"override\" can be omitted here, since the whole point of DfsBlockCacheConfig is for overrides. cacheHitExtMap?",
+      "range": {
+        "startLine": 52,
+        "startChar": 31,
+        "endLine": 52,
+        "endChar": 50
+      },
+      "revId": "3e5e69f98a88413d501e26a090d2d12ef9b1069f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
