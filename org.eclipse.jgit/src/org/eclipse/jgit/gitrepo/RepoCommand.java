@@ -578,10 +578,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 			DirCache index = DirCache.newInCore();
 			ObjectInserter inserter = repo.newObjectInserter();
+
 			try (RevWalk rw = new RevWalk(repo)) {
 				prepareIndex(renamedProjects, index, inserter);
 				ObjectId treeId = index.writeTree(inserter);
-
 				long prevDelay = 0;
 				for (int i = 0; i < LOCK_FAILURE_MAX_RETRIES - 1; i++) {
 					try {
@@ -597,7 +597,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				}
 				// In the last try, just propagate the exceptions
 				return commitTreeOnCurrentTip(inserter, rw, treeId);
-			} catch (GitAPIException | IOException | InterruptedException e) {
+			} catch (IOException | InterruptedException e) {
 				throw new ManifestErrorException(e);
 			}
 		}
@@ -613,7 +613,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			throw new ManifestErrorException(e);
 		}
 	}
-
 
 	private void prepareIndex(List<RepoProject> projects, DirCache index,
 			ObjectInserter inserter) throws IOException, GitAPIException {
