@@ -9,11 +9,6 @@
  */
 package org.eclipse.jgit.gitrepo;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
-import static org.eclipse.jgit.lib.Constants.R_REMOTES;
-import static org.eclipse.jgit.lib.Constants.R_TAGS;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,34 +26,20 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
-import org.eclipse.jgit.api.SubmoduleAddCommand;
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
-import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.gitrepo.ManifestParser.IncludedFileReader;
-import org.eclipse.jgit.gitrepo.RepoProject.CopyFile;
-import org.eclipse.jgit.gitrepo.RepoProject.LinkFile;
 import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 
@@ -80,12 +61,7 @@ import org.eclipse.jgit.util.FileUtils;
  * @since 3.4
  */
 public class RepoCommand extends GitCommand<RevCommit> {
-	private static final int LOCK_FAILURE_MAX_RETRIES = 5;
 
-	// Retry exponentially with delays in this range
-	private static final int LOCK_FAILURE_MIN_RETRY_DELAY_MILLIS = 50;
-
-	private static final int LOCK_FAILURE_MAX_RETRY_DELAY_MILLIS = 5000;
 
 	private String manifestPath;
 	private String baseUri;
@@ -93,14 +69,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String groupsParam;
 	private String branch;
 	private String targetBranch = Constants.HEAD;
-	private boolean recordRemoteBranch = true;
-	private boolean recordSubmoduleLabels = true;
-	private boolean recordShallowSubmodules = true;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
 	private IncludedFileReader includedReader;
-	private boolean ignoreRemoteFailures = false;
+
+	private BareSuperprojectWriter.BareWriterConfig bareWriterConfig = BareSuperprojectWriter.BareWriterConfig
+			.getDefault();
 
 	private ProgressMonitor monitor;
 
@@ -269,14 +244,14 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	@SuppressWarnings("serial")
-	private static class ManifestErrorException extends GitAPIException {
+	static class ManifestErrorException extends GitAPIException {
 		ManifestErrorException(Throwable cause) {
 			super(RepoText.get().invalidManifest, cause);
 		}
 	}
 
 	@SuppressWarnings("serial")
-	private static class RemoteUnavailableException extends GitAPIException {
+	static class RemoteUnavailableException extends GitAPIException {
 		RemoteUnavailableException(String uri) {
 			super(MessageFormat.format(RepoText.get().errorRemoteUnavailable, uri));
 		}
@@ -421,7 +396,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * @since 4.2
 	 */
 	public RepoCommand setRecordRemoteBranch(boolean enable) {
-		this.recordRemoteBranch = enable;
+		this.bareWriterConfig.recordRemoteBranch = enable;
 		return this;
 	}
 
@@ -436,7 +411,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * @since 4.4
 	 */
 	public RepoCommand setRecordSubmoduleLabels(boolean enable) {
-		this.recordSubmoduleLabels = enable;
+		this.bareWriterConfig.recordSubmoduleLabels = enable;
 		return this;
 	}
 
@@ -451,7 +426,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * @since 4.4
 	 */
 	public RepoCommand setRecommendShallow(boolean enable) {
-		this.recordShallowSubmodules = enable;
+		this.bareWriterConfig.recordShallowSubmodules = enable;
 		return this;
 	}
 
@@ -485,7 +460,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * @since 4.3
 	 */
 	public RepoCommand setIgnoreRemoteFailures(boolean ignore) {
-		this.ignoreRemoteFailures = ignore;
+		this.bareWriterConfig.ignoreRemoteFailures = ignore;
 		return this;
 	}
 
@@ -570,240 +545,18 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 
 		if (repo.isBare()) {
-			if (author == null)
-				author = new PersonIdent(repo);
-			if (callback == null)
-				callback = new DefaultRemoteReader();
 			List<RepoProject> renamedProjects = renameProjects(filteredProjects);
-
-			DirCache index = DirCache.newInCore();
-			ObjectInserter inserter = repo.newObjectInserter();
-
-			try (RevWalk rw = new RevWalk(repo)) {
-				prepareIndex(renamedProjects, index, inserter);
-				ObjectId treeId = index.writeTree(inserter);
-				long prevDelay = 0;
-				for (int i = 0; i < LOCK_FAILURE_MAX_RETRIES - 1; i++) {
-					try {
-						return commitTreeOnCurrentTip(
-							inserter, rw, treeId);
-					} catch (ConcurrentRefUpdateException e) {
-						prevDelay = FileUtils.delay(prevDelay,
-								LOCK_FAILURE_MIN_RETRY_DELAY_MILLIS,
-								LOCK_FAILURE_MAX_RETRY_DELAY_MILLIS);
-						Thread.sleep(prevDelay);
-						repo.getRefDatabase().refresh();
-					}
-				}
-				// In the last try, just propagate the exceptions
-				return commitTreeOnCurrentTip(inserter, rw, treeId);
-			} catch (IOException | InterruptedException e) {
-				throw new ManifestErrorException(e);
-			}
-		}
-		try (Git git = new Git(repo)) {
-			for (RepoProject proj : filteredProjects) {
-				addSubmodule(proj.getName(), proj.getUrl(), proj.getPath(),
-						proj.getRevision(), proj.getCopyFiles(),
-						proj.getLinkFiles(), git);
-			}
-			return git.commit().setMessage(RepoText.get().repoCommitMessage)
-					.call();
-		} catch (IOException e) {
-			throw new ManifestErrorException(e);
-		}
-	}
-
-	private void prepareIndex(List<RepoProject> projects, DirCache index,
-			ObjectInserter inserter) throws IOException, GitAPIException {
-		Config cfg = new Config();
-		StringBuilder attributes = new StringBuilder();
-		DirCacheBuilder builder = index.builder();
-		for (RepoProject proj : projects) {
-			String name = proj.getName();
-			String path = proj.getPath();
-			String url = proj.getUrl();
-			ObjectId objectId;
-			if (ObjectId.isId(proj.getRevision())) {
-				objectId = ObjectId.fromString(proj.getRevision());
-			} else {
-				objectId = callback.sha1(url, proj.getRevision());
-				if (objectId == null && !ignoreRemoteFailures) {
-					throw new RemoteUnavailableException(url);
-				}
-				if (recordRemoteBranch) {
-					// "branch" field is only for non-tag references.
-					// Keep tags in "ref" field as hint for other tools.
-					String field = proj.getRevision().startsWith(R_TAGS) ? "ref" //$NON-NLS-1$
-							: "branch"; //$NON-NLS-1$
-					cfg.setString("submodule", name, field, //$NON-NLS-1$
-							proj.getRevision());
-				}
-
-				if (recordShallowSubmodules
-						&& proj.getRecommendShallow() != null) {
-					// The shallow recommendation is losing information.
-					// As the repo manifests stores the recommended
-					// depth in the 'clone-depth' field, while
-					// git core only uses a binary 'shallow = true/false'
-					// hint, we'll map any depth to 'shallow = true'
-					cfg.setBoolean("submodule", name, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
-							true);
-				}
-			}
-			if (recordSubmoduleLabels) {
-				StringBuilder rec = new StringBuilder();
-				rec.append("/"); //$NON-NLS-1$
-				rec.append(path);
-				for (String group : proj.getGroups()) {
-					rec.append(" "); //$NON-NLS-1$
-					rec.append(group);
-				}
-				rec.append("\n"); //$NON-NLS-1$
-				attributes.append(rec.toString());
-			}
-
-			URI submodUrl = URI.create(url);
-			if (targetUri != null) {
-				submodUrl = relativize(targetUri, submodUrl);
-			}
-			cfg.setString("submodule", name, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
-			cfg.setString("submodule", name, "url", //$NON-NLS-1$ //$NON-NLS-2$
-					submodUrl.toString());
-
-			// create gitlink
-			if (objectId != null) {
-				DirCacheEntry dcEntry = new DirCacheEntry(path);
-				dcEntry.setObjectId(objectId);
-				dcEntry.setFileMode(FileMode.GITLINK);
-				builder.add(dcEntry);
-
-				for (CopyFile copyfile : proj.getCopyFiles()) {
-					RemoteFile rf = callback.readFileWithMode(url,
-							proj.getRevision(), copyfile.src);
-					objectId = inserter.insert(Constants.OBJ_BLOB,
-							rf.getContents());
-					dcEntry = new DirCacheEntry(copyfile.dest);
-					dcEntry.setObjectId(objectId);
-					dcEntry.setFileMode(rf.getFileMode());
-					builder.add(dcEntry);
-				}
-				for (LinkFile linkfile : proj.getLinkFiles()) {
-					String link;
-					if (linkfile.dest.contains("/")) { //$NON-NLS-1$
-						link = FileUtils.relativizeGitPath(
-								linkfile.dest.substring(0,
-										linkfile.dest.lastIndexOf('/')),
-								proj.getPath() + "/" + linkfile.src); //$NON-NLS-1$
-					} else {
-						link = proj.getPath() + "/" + linkfile.src; //$NON-NLS-1$
-					}
-
-					objectId = inserter.insert(Constants.OBJ_BLOB,
-							link.getBytes(UTF_8));
-					dcEntry = new DirCacheEntry(linkfile.dest);
-					dcEntry.setObjectId(objectId);
-					dcEntry.setFileMode(FileMode.SYMLINK);
-					builder.add(dcEntry);
-				}
-			}
-		}
-		String content = cfg.toText();
-
-		// create a new DirCacheEntry for .gitmodules file.
-		DirCacheEntry dcEntry = new DirCacheEntry(
-				Constants.DOT_GIT_MODULES);
-		ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
-				content.getBytes(UTF_8));
-		dcEntry.setObjectId(objectId);
-		dcEntry.setFileMode(FileMode.REGULAR_FILE);
-		builder.add(dcEntry);
-
-		if (recordSubmoduleLabels) {
-			// create a new DirCacheEntry for .gitattributes file.
-			DirCacheEntry dcEntryAttr = new DirCacheEntry(
-					Constants.DOT_GIT_ATTRIBUTES);
-			ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
-					attributes.toString().getBytes(UTF_8));
-			dcEntryAttr.setObjectId(attrId);
-			dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
-			builder.add(dcEntryAttr);
+			BareSuperprojectWriter writer = new BareSuperprojectWriter(repo, targetUri,
+					targetBranch,
+					author == null ? new PersonIdent(repo) : author,
+					callback == null ? new DefaultRemoteReader() : callback,
+					bareWriterConfig);
+			return writer.write(renamedProjects);
 		}
 
-		builder.finish();
-	}
 
-	private RevCommit commitTreeOnCurrentTip(ObjectInserter inserter,
-			RevWalk rw, ObjectId treeId)
-			throws IOException, ConcurrentRefUpdateException {
-		ObjectId headId = repo.resolve(targetBranch + "^{commit}"); //$NON-NLS-1$
-		if (headId != null && rw.parseCommit(headId).getTree().getId().equals(treeId)) {
-			// No change. Do nothing.
-			return rw.parseCommit(headId);
-		}
-
-		CommitBuilder commit = new CommitBuilder();
-		commit.setTreeId(treeId);
-		if (headId != null)
-			commit.setParentIds(headId);
-		commit.setAuthor(author);
-		commit.setCommitter(author);
-		commit.setMessage(RepoText.get().repoCommitMessage);
-
-		ObjectId commitId = inserter.insert(commit);
-		inserter.flush();
-
-		RefUpdate ru = repo.updateRef(targetBranch);
-		ru.setNewObjectId(commitId);
-		ru.setExpectedOldObjectId(headId != null ? headId : ObjectId.zeroId());
-		Result rc = ru.update(rw);
-		switch (rc) {
-			case NEW:
-			case FORCED:
-			case FAST_FORWARD:
-				// Successful. Do nothing.
-				break;
-			case REJECTED:
-			case LOCK_FAILURE:
-				throw new ConcurrentRefUpdateException(MessageFormat
-						.format(JGitText.get().cannotLock, targetBranch),
-						ru.getRef(), rc);
-			default:
-				throw new JGitInternalException(MessageFormat.format(
-						JGitText.get().updatingRefFailed,
-						targetBranch, commitId.name(), rc));
-		}
-
-		return rw.parseCommit(commitId);
-	}
-
-	private void addSubmodule(String name, String url, String path,
-			String revision, List<CopyFile> copyfiles, List<LinkFile> linkfiles,
-			Git git) throws GitAPIException, IOException {
-		assert (!repo.isBare());
-		assert (git != null);
-		if (!linkfiles.isEmpty()) {
-			throw new UnsupportedOperationException(
-					JGitText.get().nonBareLinkFilesNotSupported);
-		}
-
-		SubmoduleAddCommand add = git.submoduleAdd().setName(name).setPath(path)
-				.setURI(url);
-		if (monitor != null)
-			add.setProgressMonitor(monitor);
-
-		Repository subRepo = add.call();
-		if (revision != null) {
-			try (Git sub = new Git(subRepo)) {
-				sub.checkout().setName(findRef(revision, subRepo)).call();
-			}
-			subRepo.close();
-			git.add().addFilepattern(path).call();
-		}
-		for (CopyFile copyfile : copyfiles) {
-			copyfile.copy();
-			git.add().addFilepattern(copyfile.dest).call();
-		}
+		RegularSuperprojectWriter writer = new RegularSuperprojectWriter(repo, monitor);
+		return writer.write(filteredProjects);
 	}
 
 	/**
@@ -910,13 +663,5 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return URI.create(j.toString());
 	}
 
-	private static String findRef(String ref, Repository repo)
-			throws IOException {
-		if (!ObjectId.isId(ref)) {
-			Ref r = repo.exactRef(R_REMOTES + DEFAULT_REMOTE_NAME + "/" + ref); //$NON-NLS-1$
-			if (r != null)
-				return r.getName();
-		}
-		return ref;
-	}
+
 }
