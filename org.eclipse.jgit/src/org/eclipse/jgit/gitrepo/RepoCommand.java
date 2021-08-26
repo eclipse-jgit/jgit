@@ -577,120 +577,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			List<RepoProject> renamedProjects = renameProjects(filteredProjects);
 
 			DirCache index = DirCache.newInCore();
-			DirCacheBuilder builder = index.builder();
 			ObjectInserter inserter = repo.newObjectInserter();
 			try (RevWalk rw = new RevWalk(repo)) {
-				Config cfg = new Config();
-				StringBuilder attributes = new StringBuilder();
-				for (RepoProject proj : renamedProjects) {
-					String name = proj.getName();
-					String path = proj.getPath();
-					String url = proj.getUrl();
-					ObjectId objectId;
-					if (ObjectId.isId(proj.getRevision())) {
-						objectId = ObjectId.fromString(proj.getRevision());
-					} else {
-						objectId = callback.sha1(url, proj.getRevision());
-						if (objectId == null && !ignoreRemoteFailures) {
-							throw new RemoteUnavailableException(url);
-						}
-						if (recordRemoteBranch) {
-							// "branch" field is only for non-tag references.
-							// Keep tags in "ref" field as hint for other tools.
-							String field = proj.getRevision().startsWith(
-									R_TAGS) ? "ref" : "branch"; //$NON-NLS-1$ //$NON-NLS-2$
-							cfg.setString("submodule", name, field, //$NON-NLS-1$
-									proj.getRevision());
-						}
-
-						if (recordShallowSubmodules && proj.getRecommendShallow() != null) {
-							// The shallow recommendation is losing information.
-							// As the repo manifests stores the recommended
-							// depth in the 'clone-depth' field, while
-							// git core only uses a binary 'shallow = true/false'
-							// hint, we'll map any depth to 'shallow = true'
-							cfg.setBoolean("submodule", name, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
-									true);
-						}
-					}
-					if (recordSubmoduleLabels) {
-						StringBuilder rec = new StringBuilder();
-						rec.append("/"); //$NON-NLS-1$
-						rec.append(path);
-						for (String group : proj.getGroups()) {
-							rec.append(" "); //$NON-NLS-1$
-							rec.append(group);
-						}
-						rec.append("\n"); //$NON-NLS-1$
-						attributes.append(rec.toString());
-					}
-
-					URI submodUrl = URI.create(url);
-					if (targetUri != null) {
-						submodUrl = relativize(targetUri, submodUrl);
-					}
-					cfg.setString("submodule", name, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
-					cfg.setString("submodule", name, "url", //$NON-NLS-1$ //$NON-NLS-2$
-							submodUrl.toString());
-
-					// create gitlink
-					if (objectId != null) {
-						DirCacheEntry dcEntry = new DirCacheEntry(path);
-						dcEntry.setObjectId(objectId);
-						dcEntry.setFileMode(FileMode.GITLINK);
-						builder.add(dcEntry);
-
-						for (CopyFile copyfile : proj.getCopyFiles()) {
-							RemoteFile rf = callback.readFileWithMode(
-								url, proj.getRevision(), copyfile.src);
-							objectId = inserter.insert(Constants.OBJ_BLOB,
-									rf.getContents());
-							dcEntry = new DirCacheEntry(copyfile.dest);
-							dcEntry.setObjectId(objectId);
-							dcEntry.setFileMode(rf.getFileMode());
-							builder.add(dcEntry);
-						}
-						for (LinkFile linkfile : proj.getLinkFiles()) {
-							String link;
-							if (linkfile.dest.contains("/")) { //$NON-NLS-1$
-								link = FileUtils.relativizeGitPath(
-									linkfile.dest.substring(0,
-										linkfile.dest.lastIndexOf('/')),
-									proj.getPath() + "/" + linkfile.src); //$NON-NLS-1$
-							} else {
-								link = proj.getPath() + "/" + linkfile.src; //$NON-NLS-1$
-							}
-
-							objectId = inserter.insert(Constants.OBJ_BLOB,
-									link.getBytes(UTF_8));
-							dcEntry = new DirCacheEntry(linkfile.dest);
-							dcEntry.setObjectId(objectId);
-							dcEntry.setFileMode(FileMode.SYMLINK);
-							builder.add(dcEntry);
-						}
-					}
-				}
-				String content = cfg.toText();
-
-				// create a new DirCacheEntry for .gitmodules file.
-				final DirCacheEntry dcEntry = new DirCacheEntry(Constants.DOT_GIT_MODULES);
-				ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
-						content.getBytes(UTF_8));
-				dcEntry.setObjectId(objectId);
-				dcEntry.setFileMode(FileMode.REGULAR_FILE);
-				builder.add(dcEntry);
-
-				if (recordSubmoduleLabels) {
-					// create a new DirCacheEntry for .gitattributes file.
-					final DirCacheEntry dcEntryAttr = new DirCacheEntry(Constants.DOT_GIT_ATTRIBUTES);
-					ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
-							attributes.toString().getBytes(UTF_8));
-					dcEntryAttr.setObjectId(attrId);
-					dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
-					builder.add(dcEntryAttr);
-				}
-
-				builder.finish();
+				prepareIndex(renamedProjects, index, inserter);
 				ObjectId treeId = index.writeTree(inserter);
 
 				long prevDelay = 0;
@@ -725,6 +614,125 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
+
+	private void prepareIndex(List<RepoProject> projects, DirCache index,
+			ObjectInserter inserter) throws IOException, GitAPIException {
+		Config cfg = new Config();
+		StringBuilder attributes = new StringBuilder();
+		DirCacheBuilder builder = index.builder();
+		for (RepoProject proj : projects) {
+			String name = proj.getName();
+			String path = proj.getPath();
+			String url = proj.getUrl();
+			ObjectId objectId;
+			if (ObjectId.isId(proj.getRevision())) {
+				objectId = ObjectId.fromString(proj.getRevision());
+			} else {
+				objectId = callback.sha1(url, proj.getRevision());
+				if (objectId == null && !ignoreRemoteFailures) {
+					throw new RemoteUnavailableException(url);
+				}
+				if (recordRemoteBranch) {
+					// "branch" field is only for non-tag references.
+					// Keep tags in "ref" field as hint for other tools.
+					String field = proj.getRevision().startsWith(R_TAGS) ? "ref" //$NON-NLS-1$
+							: "branch"; //$NON-NLS-1$
+					cfg.setString("submodule", name, field, //$NON-NLS-1$
+							proj.getRevision());
+				}
+
+				if (recordShallowSubmodules
+						&& proj.getRecommendShallow() != null) {
+					// The shallow recommendation is losing information.
+					// As the repo manifests stores the recommended
+					// depth in the 'clone-depth' field, while
+					// git core only uses a binary 'shallow = true/false'
+					// hint, we'll map any depth to 'shallow = true'
+					cfg.setBoolean("submodule", name, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
+							true);
+				}
+			}
+			if (recordSubmoduleLabels) {
+				StringBuilder rec = new StringBuilder();
+				rec.append("/"); //$NON-NLS-1$
+				rec.append(path);
+				for (String group : proj.getGroups()) {
+					rec.append(" "); //$NON-NLS-1$
+					rec.append(group);
+				}
+				rec.append("\n"); //$NON-NLS-1$
+				attributes.append(rec.toString());
+			}
+
+			URI submodUrl = URI.create(url);
+			if (targetUri != null) {
+				submodUrl = relativize(targetUri, submodUrl);
+			}
+			cfg.setString("submodule", name, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
+			cfg.setString("submodule", name, "url", //$NON-NLS-1$ //$NON-NLS-2$
+					submodUrl.toString());
+
+			// create gitlink
+			if (objectId != null) {
+				DirCacheEntry dcEntry = new DirCacheEntry(path);
+				dcEntry.setObjectId(objectId);
+				dcEntry.setFileMode(FileMode.GITLINK);
+				builder.add(dcEntry);
+
+				for (CopyFile copyfile : proj.getCopyFiles()) {
+					RemoteFile rf = callback.readFileWithMode(url,
+							proj.getRevision(), copyfile.src);
+					objectId = inserter.insert(Constants.OBJ_BLOB,
+							rf.getContents());
+					dcEntry = new DirCacheEntry(copyfile.dest);
+					dcEntry.setObjectId(objectId);
+					dcEntry.setFileMode(rf.getFileMode());
+					builder.add(dcEntry);
+				}
+				for (LinkFile linkfile : proj.getLinkFiles()) {
+					String link;
+					if (linkfile.dest.contains("/")) { //$NON-NLS-1$
+						link = FileUtils.relativizeGitPath(
+								linkfile.dest.substring(0,
+										linkfile.dest.lastIndexOf('/')),
+								proj.getPath() + "/" + linkfile.src); //$NON-NLS-1$
+					} else {
+						link = proj.getPath() + "/" + linkfile.src; //$NON-NLS-1$
+					}
+
+					objectId = inserter.insert(Constants.OBJ_BLOB,
+							link.getBytes(UTF_8));
+					dcEntry = new DirCacheEntry(linkfile.dest);
+					dcEntry.setObjectId(objectId);
+					dcEntry.setFileMode(FileMode.SYMLINK);
+					builder.add(dcEntry);
+				}
+			}
+		}
+		String content = cfg.toText();
+
+		// create a new DirCacheEntry for .gitmodules file.
+		final DirCacheEntry dcEntry = new DirCacheEntry(
+				Constants.DOT_GIT_MODULES);
+		ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
+				content.getBytes(UTF_8));
+		dcEntry.setObjectId(objectId);
+		dcEntry.setFileMode(FileMode.REGULAR_FILE);
+		builder.add(dcEntry);
+
+		if (recordSubmoduleLabels) {
+			// create a new DirCacheEntry for .gitattributes file.
+			final DirCacheEntry dcEntryAttr = new DirCacheEntry(
+					Constants.DOT_GIT_ATTRIBUTES);
+			ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
+					attributes.toString().getBytes(UTF_8));
+			dcEntryAttr.setObjectId(attrId);
+			dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
+			builder.add(dcEntryAttr);
+		}
+
+		builder.finish();
+	}
 
 	private RevCommit commitTreeOnCurrentTip(ObjectInserter inserter,
 			RevWalk rw, ObjectId treeId)
