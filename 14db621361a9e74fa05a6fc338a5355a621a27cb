@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da021a9b_3f08ff28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-27T11:14:25Z",
+      "side": 1,
+      "message": "remove() removes pack p from the pack list but it doesn\u0027t rescan to find new packs which might have arrived concurrently.\nDoes that match your idea of refreshing the packlist ?\n\nThis could fix the issue if the cached pack to be sent as-is disappeared but all the required objects are available in other packs which are still present in the packs listed in the not-rescanned pack list.\n\nBut if the GC removing this pack moved objects needed in the current request to new packs those wouldn\u0027t be found since the packlist wasn\u0027t rescanned from disk which would result in an MissingObjectException. If you want to avoid that refreshPacklist() doesn\u0027t need parameters and can rescan the pack list from disk like this (similar to what selectRepresentation does when it hits a PackMismatchException):\n\n pList \u003d scanPacks(pList);",
+      "revId": "14db621361a9e74fa05a6fc338a5355a621a27cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
