@@ -3,6 +3,7 @@ package org.eclipse.jgit.gitrepo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.eclipse.jgit.gitrepo.BareSuperprojectWriter.BareWriterConfig;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteReader;
@@ -60,6 +62,33 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 					containsInAnyOrder(is("\tbranch = refs/heads/branch-x"),
 							is("\tpath = path/to"),
 							is("\turl = http://example.com/a")));
+		}
+	}
+
+	@Test
+	public void write_setGitModulesAttributes() throws Exception {
+		try (Repository bareRepo = createBareRepository()) {
+			Map<String, String> attrs = new HashMap<>();
+			attrs.put("a-key", "a-value");
+			attrs.put("-b-key", null);
+
+			RepoProject repoProject = new RepoProject("subprojectX", "path/to",
+					SHA1_A, "remote", "");
+			repoProject.setUrl("http://example.com/a");
+
+			BareSuperprojectWriter w = new BareSuperprojectWriter(bareRepo,
+					null, "refs/heads/master", author, null,
+					BareWriterConfig.getDefault(), attrs);
+
+			RevCommit commit = w.write(List.of(repoProject));
+
+			String contents = readContents(bareRepo, commit, ".gitattributes");
+			Optional<String> gitModulesLine = Arrays
+					.asList(contents.split("\n")).stream()
+					.filter(line -> line.startsWith(".gitmodules")).findFirst();
+			assertTrue(gitModulesLine.isPresent());
+			assertTrue(gitModulesLine.get().contains(" a-key=a-value"));
+			assertTrue(gitModulesLine.get().contains(" -b-key"));
 		}
 	}
 

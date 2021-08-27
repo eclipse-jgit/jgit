@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -71,6 +73,8 @@ class BareSuperprojectWriter {
 
 	private final PersonIdent author;
 
+	private final Map<String, String> gitModulesAttributes;
+
 	static class BareWriterConfig {
 		boolean ignoreRemoteFailures;
 
@@ -96,7 +100,7 @@ class BareSuperprojectWriter {
 	BareSuperprojectWriter(Repository repo, URI targetUri,
 			String targetBranch,
 			PersonIdent author, RemoteReader callback,
-			BareWriterConfig config) {
+			BareWriterConfig config, Map<String, String> gitModulesAttributes) {
 		assert (repo.isBare());
 		this.repo = repo;
 		this.targetUri = targetUri;
@@ -104,6 +108,7 @@ class BareSuperprojectWriter {
 		this.author = author;
 		this.callback = callback;
 		this.config = config;
+		this.gitModulesAttributes = gitModulesAttributes;
 	}
 
 	RevCommit write(List<RepoProject> repoProjects)
@@ -238,12 +243,23 @@ class BareSuperprojectWriter {
 		dcEntry.setFileMode(FileMode.REGULAR_FILE);
 		builder.add(dcEntry);
 
-		if (config.recordSubmoduleLabels) {
+		if (!gitModulesAttributes.isEmpty()) {
+			String gitModulesLine = gitModulesAttributes
+				.entrySet()
+				.stream()
+				.map(e -> e.getValue() == null ? e.getKey()
+						: e.getKey() + "=" + e.getValue()) //$NON-NLS-1$
+				.collect(Collectors.joining(" ", ".gitmodules ", "\n")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			attributes.append(gitModulesLine);
+		}
+
+		String gitAttrContents = attributes.toString();
+		if (!gitAttrContents.isEmpty()) {
 			// create a new DirCacheEntry for .gitattributes file.
 			DirCacheEntry dcEntryAttr = new DirCacheEntry(
 					Constants.DOT_GIT_ATTRIBUTES);
 			ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
-					attributes.toString().getBytes(UTF_8));
+					gitAttrContents.toString().getBytes(UTF_8));
 			dcEntryAttr.setObjectId(attrId);
 			dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
 			builder.add(dcEntryAttr);
