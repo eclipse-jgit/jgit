@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -73,6 +74,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private RemoteReader callback;
 	private InputStream inputStream;
 	private IncludedFileReader includedReader;
+
+	private Map<String, String> gitModulesAttributes = new HashMap<>();
 
 	private BareSuperprojectWriter.BareWriterConfig bareWriterConfig = BareSuperprojectWriter.BareWriterConfig
 			.getDefault();
@@ -509,6 +512,28 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Add this key/value pair in the .gitattributes of the .gitmodules file
+	 *
+	 * <ul>
+	 * <li>To set, use key "prop-name", value null
+	 * <li>To unset, use key "-prop-name", value null
+	 * <li>To set to value: key "prop-name", value "value"
+	 * </ul>
+	 *
+	 * @param key
+	 *            name of the attribute. Copied as it is to the file.
+	 * @param value
+	 *            value for the attribute. Null when setting without value or
+	 *            unsetting an attribute.
+	 * @return this command
+	 * @since 5.13
+	 */
+	public RepoCommand addGitmodulesAttribute(String key, String value) {
+		this.gitModulesAttributes.put(key, value);
+		return this;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public RevCommit call() throws GitAPIException {
@@ -550,7 +575,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					targetBranch,
 					author == null ? new PersonIdent(repo) : author,
 					callback == null ? new DefaultRemoteReader() : callback,
-					bareWriterConfig);
+					bareWriterConfig, gitModulesAttributes);
 			return writer.write(renamedProjects);
 		}
 
