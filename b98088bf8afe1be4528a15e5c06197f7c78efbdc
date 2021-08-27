@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8a71ff0_e724caac",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 2679,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-27T19:34:01Z",
+      "side": 1,
+      "message": "Would be worthy to add a test case for the \"request with invalid oid\"?",
+      "revId": "b98088bf8afe1be4528a15e5c06197f7c78efbdc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f59ad5d_6e662f42",
+        "filename": "org.eclipse.jgit/.settings/org.eclipse.jdt.ui.prefs",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-27T19:34:01Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "b98088bf8afe1be4528a15e5c06197f7c78efbdc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a8939f5_0cc4d925",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-27T19:34:01Z",
+      "side": 1,
+      "message": "Unrelated?",
+      "revId": "b98088bf8afe1be4528a15e5c06197f7c78efbdc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "708ef409_f29d367e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-27T19:34:01Z",
+      "side": 1,
+      "message": "Unrelated formatting",
+      "revId": "b98088bf8afe1be4528a15e5c06197f7c78efbdc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b936dcc0_19c19a8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-27T19:34:01Z",
+      "side": 1,
+      "message": "Same (i think this file doesn\u0027t need to be touched at all).",
+      "revId": "b98088bf8afe1be4528a15e5c06197f7c78efbdc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
