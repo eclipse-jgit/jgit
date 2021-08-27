@@ -282,6 +282,30 @@
       "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e4f7bd3_2fcf57a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackSendPackException.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-08-27T10:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61498897_a515d2e7",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 40
+      },
+      "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
