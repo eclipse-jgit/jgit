@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "2289bbec_4877d8d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/StaleFileHandleOnPackfile.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-27T09:57:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8aea6754_e2504572",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 43
+      },
+      "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "479761e8_b825af3a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
         "patchSetId": 23
@@ -225,6 +249,30 @@
       "side": 1,
       "message": "What about just SendPackException ? It is a generic error happening during a send pack, not necessarily while doing a refresh pack.",
       "parentUuid": "2e6710ce_69dc9754",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 40
+      },
+      "revId": "26ce9629ac473b6d9035eac9fadce5aeda77e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61498897_a515d2e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackSendPackException.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-27T09:57:25Z",
+      "side": 1,
+      "message": "I thought this name could signal the intention of throwing this exception, the code throwing it wants that the code handling it refreshes the pack list.\n\nMaybe TriggerRefreshPackListException would be clearer ?",
+      "parentUuid": "b51b5132_b1b317e2",
       "range": {
         "startLine": 19,
         "startChar": 13,
