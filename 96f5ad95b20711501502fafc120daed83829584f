@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "568237ac_f5d31ad2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-29T10:08:47Z",
+      "side": 1,
+      "message": "while we are editing this remove the final modifier ? See https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 715,
+        "startChar": 2,
+        "endLine": 715,
+        "endChar": 7
+      },
+      "revId": "96f5ad95b20711501502fafc120daed83829584f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92d22c3a_86cb3fd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-08-29T10:08:47Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 725,
+        "startChar": 3,
+        "endLine": 725,
+        "endChar": 8
+      },
+      "revId": "96f5ad95b20711501502fafc120daed83829584f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
