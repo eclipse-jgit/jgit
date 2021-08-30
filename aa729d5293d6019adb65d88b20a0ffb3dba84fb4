@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "8509e133_517eb05c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RegularSuperprojectWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-30T20:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3238867_52f72b97",
+      "revId": "aa729d5293d6019adb65d88b20a0ffb3dba84fb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea0b064a_b9e7df46",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RegularSuperprojectWriter.java",
         "patchSetId": 1
@@ -84,6 +102,24 @@
       "revId": "aa729d5293d6019adb65d88b20a0ffb3dba84fb4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcd9e4af_0c85d4a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RegularSuperprojectWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-30T20:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0b064a_b9e7df46",
+      "revId": "aa729d5293d6019adb65d88b20a0ffb3dba84fb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
