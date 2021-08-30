@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "916cd0be_34810ade",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-30T20:04:46Z",
+      "side": 1,
+      "message": "Thanks! The guidelines even mention explicitly to fix it when the code is moved.",
+      "parentUuid": "568237ac_f5d31ad2",
+      "range": {
+        "startLine": 715,
+        "startChar": 2,
+        "endLine": 715,
+        "endChar": 7
+      },
+      "revId": "96f5ad95b20711501502fafc120daed83829584f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92d22c3a_86cb3fd4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "96f5ad95b20711501502fafc120daed83829584f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff6b68f0_dda021ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-30T20:04:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d22c3a_86cb3fd4",
+      "range": {
+        "startLine": 725,
+        "startChar": 3,
+        "endLine": 725,
+        "endChar": 8
+      },
+      "revId": "96f5ad95b20711501502fafc120daed83829584f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
