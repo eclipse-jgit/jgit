@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0d64f78_309e9fd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-08-30T04:08:52Z",
+      "side": 1,
+      "message": "I have a new idea to further optimize this method.\n\nIf A can reach B, C can reach A, then C can reach B.\n\nMaybe we can use TEMP_MARK to mark the commit which can reach the needle, and then break the loop early if next has TEMP_MARK flag.\n\nFor example:\n```\nif (References.isSameObject(next, needle) || (next.flag \u0026 TEMP_MARK) !\u003d 0) {\n    result.add(r);\n    commitFound \u003d true;\n    c.flags |\u003d TEMP_MARK;\n    break;\n}\n```",
+      "range": {
+        "startLine": 517,
+        "startChar": 5,
+        "endLine": 517,
+        "endChar": 49
+      },
+      "revId": "0bd2f4bf77c856213e09d656a948e71f71cfd038",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
