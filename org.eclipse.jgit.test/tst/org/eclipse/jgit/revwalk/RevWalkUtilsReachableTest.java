@@ -76,6 +76,28 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 		}
 	}
 
+	@Test
+	public void findBranchesReachableManyTimes() throws Exception {
+		/*
+		 *  a   b
+		 *  |   |
+		 *  c   d
+		 */
+		RevCommit a = commit();
+		RevCommit b = commit();
+		RevCommit c = commit(a);
+		RevCommit d = commit(b);
+		Ref branchA = branch("a", a);
+		Ref branchB = branch("b", b);
+		Ref branchC = branch("c", c);
+		Ref branchD = branch("d", d);
+
+		assertContains(a, asList(branchA, branchC));
+		assertContains(b, asList(branchB, branchD));
+		assertContains(c, asList(branchC));
+		assertContains(d, asList(branchD));
+	}
+
 	private Ref branch(String name, RevCommit dst) throws Exception {
 		return Git.wrap(db).branchCreate().setName(name)
 				.setStartPoint(dst.name()).call();
