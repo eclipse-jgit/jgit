@@ -79,6 +79,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 	private ProgressMonitor monitor;
 
+	private String commitBody;
+
 	/**
 	 * A callback to get ref sha1 of a repository from its uri.
 	 *
@@ -509,6 +511,28 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Set the body of the commit message for the superproject
+	 *
+	 * It forms a commit message like:
+	 *
+	 * <pre>
+	 * Added repo manifest\n
+	 * \n
+	 * &lt;commmitBody&gt;
+	 * \n
+	 * </pre>
+	 *
+	 * @param commitBody
+	 *            commit message body, without new-lines at beginning nor end.
+	 * @return this command
+	 * @since 5.13
+	 */
+	public RepoCommand setCommitBody(String commitBody) {
+		this.commitBody = commitBody;
+		return this;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public RevCommit call() throws GitAPIException {
@@ -550,7 +574,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					targetBranch,
 					author == null ? new PersonIdent(repo) : author,
 					callback == null ? new DefaultRemoteReader() : callback,
-					bareWriterConfig);
+					bareWriterConfig, commitBody);
 			return writer.write(renamedProjects);
 		}
 
