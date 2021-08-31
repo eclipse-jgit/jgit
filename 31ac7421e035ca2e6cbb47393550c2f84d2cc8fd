@@ -22,6 +22,30 @@
       "revId": "31ac7421e035ca2e6cbb47393550c2f84d2cc8fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "600aac68_74780986",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-08-31T23:31:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bfe6d3c_ba61bd6c",
+      "range": {
+        "startLine": 612,
+        "startChar": 11,
+        "endLine": 612,
+        "endChar": 26
+      },
+      "revId": "31ac7421e035ca2e6cbb47393550c2f84d2cc8fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
