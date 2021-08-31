@@ -71,6 +71,8 @@ class BareSuperprojectWriter {
 
 	private final PersonIdent author;
 
+	private final String commitBody;
+
 	static class BareWriterConfig {
 		boolean ignoreRemoteFailures;
 
@@ -96,7 +98,7 @@ class BareSuperprojectWriter {
 	BareSuperprojectWriter(Repository repo, URI targetUri,
 			String targetBranch,
 			PersonIdent author, RemoteReader callback,
-			BareWriterConfig config) {
+			BareWriterConfig config, String commitBody) {
 		assert (repo.isBare());
 		this.repo = repo;
 		this.targetUri = targetUri;
@@ -104,6 +106,7 @@ class BareSuperprojectWriter {
 		this.author = author;
 		this.callback = callback;
 		this.config = config;
+		this.commitBody = commitBody;
 	}
 
 	RevCommit write(List<RepoProject> repoProjects)
@@ -269,7 +272,14 @@ class BareSuperprojectWriter {
 		}
 		commit.setAuthor(author);
 		commit.setCommitter(author);
-		commit.setMessage(RepoText.get().repoCommitMessage);
+		StringBuilder commitMsg = new StringBuilder(
+				RepoText.get().repoCommitMessage);
+		if (commitBody != null) {
+			commitMsg.append("\n\n"); //$NON-NLS-1$
+			commitMsg.append(commitBody);
+			commitMsg.append("\n"); //$NON-NLS-1$
+		}
+		commit.setMessage(commitMsg.toString());
 
 		ObjectId commitId = inserter.insert(commit);
 		inserter.flush();
