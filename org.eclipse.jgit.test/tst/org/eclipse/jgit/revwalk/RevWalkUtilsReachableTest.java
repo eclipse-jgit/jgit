@@ -82,20 +82,33 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 		 *  a   b
 		 *  |   |
 		 *  c   d
+		 *      | \
+		 *      f  e
+		 *      | /
+		 *      g
 		 */
 		RevCommit a = commit();
 		RevCommit b = commit();
 		RevCommit c = commit(a);
 		RevCommit d = commit(b);
+		RevCommit f = commit(d);
+		RevCommit e = commit(d);
+		RevCommit g = commit(f, e);
 		Ref branchA = branch("a", a);
 		Ref branchB = branch("b", b);
 		Ref branchC = branch("c", c);
 		Ref branchD = branch("d", d);
+		Ref branchE = branch("e", e);
+		Ref branchF = branch("f", f);
+		Ref branchG = branch("g", g);
 
 		assertContains(a, asList(branchA, branchC));
-		assertContains(b, asList(branchB, branchD));
+		assertContains(b, asList(branchB, branchD, branchE, branchF, branchG));
 		assertContains(c, asList(branchC));
-		assertContains(d, asList(branchD));
+		assertContains(d, asList(branchD, branchE, branchF, branchG));
+		assertContains(e, asList(branchE, branchG));
+		assertContains(f, asList(branchF, branchG));
+		assertContains(g, asList(branchG));
 	}
 
 	private Ref branch(String name, RevCommit dst) throws Exception {
