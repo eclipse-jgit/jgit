@@ -41,10 +41,11 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 
 			BareSuperprojectWriter w = new BareSuperprojectWriter(bareRepo,
 					null, "refs/heads/master", author, mockRemoteReader,
-					BareWriterConfig.getDefault());
+					BareWriterConfig.getDefault(), null);
 
 			RevCommit commit = w.write(Arrays.asList(repoProject));
 
+			assertThat(commit.getFullMessage(), is("Added repo manifest."));
 			String contents = readContents(bareRepo, commit, ".gitmodules");
 			List<String> contentLines = Arrays
 					.asList(contents.split("\n"));
@@ -54,6 +55,29 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 					containsInAnyOrder(is("\tbranch = refs/heads/branch-x"),
 							is("\tpath = path/to"),
 							is("\turl = http://example.com/a")));
+		}
+	}
+
+	@Test
+	public void write_commitMsgWithBody() throws Exception {
+		try (Repository bareRepo = createBareRepository()) {
+			RepoProject repoProject = new RepoProject("subprojectX", "path/to",
+					"refs/heads/branch-x", "remote", "");
+			repoProject.setUrl("http://example.com/a");
+
+			RemoteReader mockRemoteReader = mock(RemoteReader.class);
+			when(mockRemoteReader.sha1("http://example.com/a",
+					"refs/heads/branch-x"))
+							.thenReturn(ObjectId.fromString(SHA1_A));
+
+			String commitBody = "Text for the commit body\n\nTag: xxxx";
+			BareSuperprojectWriter w = new BareSuperprojectWriter(bareRepo,
+					null, "refs/heads/master", author, mockRemoteReader,
+					BareWriterConfig.getDefault(), commitBody);
+
+			RevCommit commit = w.write(Arrays.asList(repoProject));
+			assertThat(commit.getFullMessage(),
+					is("Added repo manifest.\n\n" + commitBody + "\n"));
 		}
 	}
 
