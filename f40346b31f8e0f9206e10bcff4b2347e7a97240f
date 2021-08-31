@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "757b96f3_8c40faa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-08-31T19:51:32Z",
+      "side": 1,
+      "message": "A cannot reach B in the graph below, B can reach A.",
+      "revId": "f40346b31f8e0f9206e10bcff4b2347e7a97240f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63534180_31c82b45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-08-31T19:51:32Z",
+      "side": 1,
+      "message": "I am not seeing this as a situation that you can detect since it could look like this instead:\n\n A - B\n  \\\n   C\n\nHere, B can reach A, C can reach A, but C cannot reach B.",
+      "revId": "f40346b31f8e0f9206e10bcff4b2347e7a97240f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
