@@ -39,6 +39,24 @@
       "revId": "9489e6809991443139bd49708fe284aac3b01ac4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d9df7e4_030d829b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 2378,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-09-01T10:29:35Z",
+      "side": 1,
+      "message": "The Packwriter is closed in the \"finally\" at L2384. Isn\u0027t that enough?",
+      "parentUuid": "b8566b29_71af9ffa",
+      "revId": "9489e6809991443139bd49708fe284aac3b01ac4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
