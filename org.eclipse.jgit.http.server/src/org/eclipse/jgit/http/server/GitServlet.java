@@ -113,6 +113,16 @@ public class GitServlet extends MetaServlet {
 	}
 
 	/**
+	 * Set a custom error handler for git-upload-pack.
+	 *
+	 * @param h
+	 *            A custom error handler for git-upload-pack.
+	 */
+	public void setUploadPackErrorHandler(UploadPackErrorHandler h) {
+		gitFilter.setUploadPackErrorHandler(h);
+	}
+
+	/**
 	 * Add upload-pack filter
 	 *
 	 * @param filter
