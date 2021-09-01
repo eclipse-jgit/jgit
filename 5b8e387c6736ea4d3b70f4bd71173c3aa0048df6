@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dce2d9a_abae1c49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-09-01T00:14:02Z",
+      "side": 1,
+      "message": "missing javadoc",
+      "revId": "5b8e387c6736ea4d3b70f4bd71173c3aa0048df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5957b747_c45a24b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2021-09-01T00:14:02Z",
+      "side": 1,
+      "message": "nit: should this go in alphabetical order?",
+      "revId": "5b8e387c6736ea4d3b70f4bd71173c3aa0048df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
