@@ -69,6 +69,24 @@
       "revId": "f40346b31f8e0f9206e10bcff4b2347e7a97240f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "400c9fa1_616211c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-09-01T10:39:10Z",
+      "side": 1,
+      "message": "Maybe you can refer to https://en.wikipedia.org/wiki/Transitive_relation",
+      "parentUuid": "d1c2c5f5_8ca09ce8",
+      "revId": "f40346b31f8e0f9206e10bcff4b2347e7a97240f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
