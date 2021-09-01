@@ -113,6 +113,17 @@ public class GitServlet extends MetaServlet {
 	}
 
 	/**
+	 * Set a custom error handler for git-upload-pack.
+	 *
+	 * @param h
+	 *            A custom error handler for git-upload-pack.
+	 * @since 5.9.1
+	 */
+	public void setUploadPackErrorHandler(UploadPackErrorHandler h) {
+		gitFilter.setUploadPackErrorHandler(h);
+	}
+
+	/**
 	 * Add upload-pack filter
 	 *
 	 * @param filter
@@ -134,6 +145,17 @@ public class GitServlet extends MetaServlet {
 	 */
 	public void setReceivePackFactory(ReceivePackFactory<HttpServletRequest> f) {
 		gitFilter.setReceivePackFactory(f);
+	}
+
+	/**
+	 * Set a custom error handler for git-receive-pack.
+	 *
+	 * @param h
+	 *            A custom error handler for git-receive-pack.
+	 * @since 5.9.1
+	 */
+	public void setReceivePackErrorHandler(ReceivePackErrorHandler h) {
+		gitFilter.setReceivePackErrorHandler(h);
 	}
 
 	/**
