@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2e386e8_dea8a69d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-01T11:44:53Z",
+      "side": 1,
+      "message": "- similarly we should also add setReceivePackErrorHandler()\n- we should do this on master, adding new API to a service release should be only done in exceptional cases\n- if you think this is an exceptional case please explain why\n- if this should reach 5.13 we need to hurry up, I will tag RC1 today",
+      "revId": "48af0b90f3999ffebaf8287c91d08dca6527907f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
