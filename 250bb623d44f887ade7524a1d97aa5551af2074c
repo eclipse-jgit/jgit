@@ -34,6 +34,24 @@
       "revId": "250bb623d44f887ade7524a1d97aa5551af2074c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d29c4b7_274d70d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-09-01T15:13:04Z",
+      "side": 1,
+      "message": "Done. \n\u003e And if it is like that and if the tests are still green \nBecause it will not affect the result, but takes more time.",
+      "parentUuid": "07cce627_221ca8b4",
+      "revId": "250bb623d44f887ade7524a1d97aa5551af2074c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
