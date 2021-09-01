@@ -34,6 +34,24 @@
       "revId": "48af0b90f3999ffebaf8287c91d08dca6527907f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ab70309_a908b89b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-01T13:34:13Z",
+      "side": 1,
+      "message": "ok, then let\u0027s do this as an exception",
+      "parentUuid": "081b374e_b8ad1c2d",
+      "revId": "48af0b90f3999ffebaf8287c91d08dca6527907f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
