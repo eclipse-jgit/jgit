@@ -16,6 +16,24 @@
       "revId": "48af0b90f3999ffebaf8287c91d08dca6527907f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081b374e_b8ad1c2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2021-09-01T13:14:08Z",
+      "side": 1,
+      "message": "\u003e - similarly we should also add setReceivePackErrorHandler()\n\ngood point. Done.\n\n\u003e - we should do this on master, adding new API to a service release should be only done in exceptional cases\n\u003e - if you think this is an exceptional case please explain why\n\u003e - if this should reach 5.13 we need to hurry up, I will tag RC1 today\n\nThis change has to be read in the context of [1].\n\nI am willing to fix a Gerrit issue whereby failures to git-upload-pack transfers are only logged as 200 OK, when the response was successfully committed to the client but the transfer terminated prematurely (for any reason).\n\nat the moment, it is not possible to determine whether the overall transfer was successful or not, since the httpd_log just shows 200 OK and the error logged in the error_log cannot be mapped uniquely to the request.\n\nThis is in contrast to sshd_log for example, where it is possible to determine the overall status of a git-upload-pack result. \n\nAllowing to customise the upload-pack-handler in gerrit, allows to overcome this, so that it\u0027s possible to properly log such results.\n\nWe would like to address stable-3.2 with this, which is the earliest supported version.\n\nAdding setReceivePackErrorHandler and setReceivePackErrorHandler to the GitServlet does not constitute a breaking change.\n\nDo you envisage any problem with that?\n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/316942",
+      "parentUuid": "a2e386e8_dea8a69d",
+      "revId": "48af0b90f3999ffebaf8287c91d08dca6527907f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
