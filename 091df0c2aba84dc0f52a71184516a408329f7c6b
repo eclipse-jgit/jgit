@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "db965e56_cb7695c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-09-02T00:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bf33397_f1d698e1",
+      "revId": "091df0c2aba84dc0f52a71184516a408329f7c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95bd86eb_cde6ce55",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "091df0c2aba84dc0f52a71184516a408329f7c6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "203386b2_95ad36a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-09-02T00:11:21Z",
+      "side": 1,
+      "message": "Thanks for catching. Done.",
+      "parentUuid": "95bd86eb_cde6ce55",
+      "revId": "091df0c2aba84dc0f52a71184516a408329f7c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b909a510_4f2bcef8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-09-02T00:11:21Z",
+      "side": 1,
+      "message": "Because it makes more sense to keep optional configurable variables together. I don\u0027t see an order in the earlier version whether it\u0027s alphabetical or anything else. Moved it back down.",
+      "parentUuid": "c3cc73a6_d782dd7c",
+      "revId": "091df0c2aba84dc0f52a71184516a408329f7c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e72fe5_ee84d963",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "091df0c2aba84dc0f52a71184516a408329f7c6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63fd0aad_94a262c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-09-02T00:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e72fe5_ee84d963",
+      "revId": "091df0c2aba84dc0f52a71184516a408329f7c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -90,6 +162,30 @@
       "revId": "091df0c2aba84dc0f52a71184516a408329f7c6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5993e42_4ea9a002",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-09-02T00:11:21Z",
+      "side": 1,
+      "message": "I see, great points. So I went with hotCount not to get confused with total hit counts that I\u0027m adding in a follow up CL. The const makes it more confusing, and I renamed it instead.",
+      "parentUuid": "10a0f130_a325f581",
+      "range": {
+        "startLine": 704,
+        "startChar": 23,
+        "endLine": 704,
+        "endChar": 31
+      },
+      "revId": "091df0c2aba84dc0f52a71184516a408329f7c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
