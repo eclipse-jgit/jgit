@@ -541,7 +541,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 					return result;
 				}
 				monitor.update(1);
-				RevObject o = parseAny(r.getObjectId());
+				RevObject o = peel(parseAny(r.getObjectId()));
 				if (!(o instanceof RevCommit)) {
 					continue;
 				}
