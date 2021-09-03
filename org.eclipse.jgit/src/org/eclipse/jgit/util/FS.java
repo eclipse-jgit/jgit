@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
@@ -1507,7 +1506,7 @@ public abstract class FS {
 		try {
 			v = readPipe(gitExe.getParentFile(),
 					new String[] { gitExe.getPath(), "--version" }, //$NON-NLS-1$
-				Charset.defaultCharset().name());
+					SystemReader.getInstance().getDefaultCharset().name());
 		} catch (CommandFailedException e) {
 			LOG.warn(e.getMessage());
 			return null;
@@ -1527,7 +1526,7 @@ public abstract class FS {
 			w = readPipe(gitExe.getParentFile(),
 					new String[] { gitExe.getPath(), "config", "--system", //$NON-NLS-1$ //$NON-NLS-2$
 							"--edit" }, //$NON-NLS-1$
-				Charset.defaultCharset().name(), env);
+					SystemReader.getInstance().getDefaultCharset().name(), env);
 		} catch (CommandFailedException e) {
 			LOG.warn(e.getMessage());
 			return null;
