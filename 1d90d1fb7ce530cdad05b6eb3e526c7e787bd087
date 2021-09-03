@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76273bf9_219c218c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-09-03T19:25:08Z",
+      "side": 1,
+      "message": "This is meaningful only on this Gerrit instance. Please include instead the standard message that \"git revert\" normally produces:\n\n  This reverts commit 3cd7eb1b23dcf3d0477e8cd22a57f1b799a5ba5f.",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "1d90d1fb7ce530cdad05b6eb3e526c7e787bd087",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
