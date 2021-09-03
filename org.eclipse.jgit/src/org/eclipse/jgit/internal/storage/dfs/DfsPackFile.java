@@ -59,8 +59,12 @@ public final class DfsPackFile extends BlockBasedFile {
 	private static final int REC_SIZE = Constants.OBJECT_ID_LENGTH + 8;
 	private static final long REF_POSITION = 0;
 
-	/** Lock for initialization of {@link #index} and {@link #reverseIndex}. */
-	private final Object indexLock = new Object();
+	/**
+	 * Lock for initialization of {@link #index} and {@link #corruptObjects}.
+	 * <p>
+	 * This lock ensures only one thread can perform the initialization work.
+	 */
+	private final Object initLock = new Object();
 
 	/** Index mapping {@link ObjectId} to position within the pack stream. */
 	private volatile PackIndex index;
@@ -68,14 +72,8 @@ public final class DfsPackFile extends BlockBasedFile {
 	/** Reverse version of {@link #index} mapping position to {@link ObjectId}. */
 	private volatile PackReverseIndex reverseIndex;
 
-	/** Lock for initialization of {@link #bitmapIndex}. */
-	private final Object bitmapIndexLock = new Object();
-
 	/** Index of compressed bitmap mapping entire object graph. */
 	private volatile PackBitmapIndex bitmapIndex;
-
-	/** Lock for {@link #corruptObjects}. */
-	private final Object corruptObjectsLock = new Object();
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -158,7 +156,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		Repository.getGlobalListenerList()
 				.dispatch(new BeforeDfsPackIndexLoadedEvent(this));
 
-		synchronized (indexLock) {
+		synchronized (initLock) {
 			if (index != null) {
 				return index;
 			}
@@ -193,17 +191,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		return desc.getPackSource() == UNREACHABLE_GARBAGE;
 	}
 
-	/**
-	 * Get the BitmapIndex for this PackFile.
-	 *
-	 * @param ctx
-	 *            reader context to support reading from the backing store if
-	 *            the index is not already loaded in memory.
-	 * @return the BitmapIndex.
-	 * @throws java.io.IOException
-	 *             the bitmap index is not available, or is corrupt.
-	 */
-	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
+	PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
 		if (invalid || isGarbage() || !desc.hasFileExt(BITMAP_INDEX)) {
 			return null;
 		}
@@ -212,11 +200,13 @@ public final class DfsPackFile extends BlockBasedFile {
 			return bitmapIndex;
 		}
 
-		synchronized (bitmapIndexLock) {
+		synchronized (initLock) {
 			if (bitmapIndex != null) {
 				return bitmapIndex;
 			}
 
+			PackIndex idx = idx(ctx);
+			PackReverseIndex revidx = getReverseIdx(ctx);
 			DfsStreamKey bitmapKey = desc.getStreamKey(BITMAP_INDEX);
 			AtomicBoolean cacheHit = new AtomicBoolean(true);
 			DfsBlockCache.Ref<PackBitmapIndex> idxref = cache.getOrLoadRef(
@@ -229,6 +219,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			if (cacheHit.get()) {
 				ctx.stats.bitmapCacheHit++;
 			}
+					() -> loadBitmapIndex(ctx, bitmapKey, idx, revidx));
 			PackBitmapIndex bmidx = idxref.get();
 			if (bitmapIndex == null && bmidx != null) {
 				bitmapIndex = bmidx;
@@ -242,7 +233,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			return reverseIndex;
 		}
 
-		synchronized (indexLock) {
+		synchronized (initLock) {
 			if (reverseIndex != null) {
 				return reverseIndex;
 			}
@@ -1013,7 +1004,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	private void setCorrupt(long offset) {
 		LongList list = corruptObjects;
 		if (list == null) {
-			synchronized (corruptObjectsLock) {
+			synchronized (initLock) {
 				list = corruptObjects;
 				if (list == null) {
 					list = new LongList();
@@ -1076,8 +1067,11 @@ public final class DfsPackFile extends BlockBasedFile {
 				revidx);
 	}
 
-	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(DfsReader ctx,
-			DfsStreamKey bitmapKey) throws IOException {
+	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(
+			DfsReader ctx,
+			DfsStreamKey bitmapKey,
+			PackIndex idx,
+			PackReverseIndex revidx) throws IOException {
 		ctx.stats.readBitmap++;
 		long start = System.nanoTime();
 		try (ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX)) {
@@ -1093,8 +1087,7 @@ public final class DfsPackFile extends BlockBasedFile {
 					bs = wantSize;
 				}
 				in = new BufferedInputStream(in, bs);
-				bmidx = PackBitmapIndex.read(in, () -> idx(ctx),
-						() -> getReverseIdx(ctx));
+				bmidx = PackBitmapIndex.read(in, idx, revidx);
 			} finally {
 				size = rc.position();
 				ctx.stats.readBitmapIdxBytes += size;
