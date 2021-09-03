@@ -1160,7 +1160,7 @@ public final class RawParseUtils {
 
 		// Try the default character set. A small group of people
 		// might actually use the same (or very similar) locale.
-		Charset defcs = Charset.defaultCharset();
+		Charset defcs = SystemReader.getInstance().getDefaultCharset();
 		if (!defcs.equals(cs) && !defcs.equals(UTF_8)) {
 			try {
 				return decode(b, defcs);

@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileStore;
 import java.nio.file.FileSystemException;
@@ -119,8 +118,8 @@ public class FS_POSIX extends FS {
 					new String[] { "sh", "-c", "umask" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					null, null);
 			try (BufferedReader lineRead = new BufferedReader(
-					new InputStreamReader(p.getInputStream(), Charset
-							.defaultCharset().name()))) {
+					new InputStreamReader(p.getInputStream(), SystemReader
+							.getInstance().getDefaultCharset().name()))) {
 				if (p.waitFor() == 0) {
 					String s = lineRead.readLine();
 					if (s != null && s.matches("0?\\d{3}")) { //$NON-NLS-1$
@@ -150,7 +149,8 @@ public class FS_POSIX extends FS {
 					try {
 						String w = readPipe(userHome(),
 							new String[]{"bash", "--login", "-c", "which git"}, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-							Charset.defaultCharset().name());
+								SystemReader.getInstance().getDefaultCharset()
+										.name());
 						if (!StringUtils.isEmptyOrNull(w)) {
 							gitExe = new File(w);
 						}
@@ -168,7 +168,8 @@ public class FS_POSIX extends FS {
 				try {
 					String w = readPipe(userHome(),
 							new String[] { "xcode-select", "-p" }, //$NON-NLS-1$ //$NON-NLS-2$
-							Charset.defaultCharset().name());
+							SystemReader.getInstance().getDefaultCharset()
+									.name());
 					if (StringUtils.isEmptyOrNull(w)) {
 						gitExe = null;
 					} else {
