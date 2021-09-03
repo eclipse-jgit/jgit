@@ -46,6 +46,30 @@
       "revId": "1d90d1fb7ce530cdad05b6eb3e526c7e787bd087",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b5f996_07f73fd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2021-09-03T20:23:14Z",
+      "side": 1,
+      "message": "Yes, it\u0027s minimal, partial revert to resolve the deadlock. We\u0027ll work on a fix soon. Thanks for the suggestion on the commit message, uploaded a new patchset.",
+      "parentUuid": "0e87ef58_15bea45f",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "1d90d1fb7ce530cdad05b6eb3e526c7e787bd087",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
