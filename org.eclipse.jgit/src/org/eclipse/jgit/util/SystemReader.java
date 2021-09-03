@@ -17,6 +17,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -197,6 +200,8 @@ public abstract class SystemReader {
 	private AtomicReference<FileBasedConfig> userConfig = new AtomicReference<>();
 
 	private AtomicReference<FileBasedConfig> jgitConfig = new AtomicReference<>();
+
+	private volatile Charset defaultCharset;
 
 	private void init() {
 		// Creating ObjectChecker must be deferred. Unit tests change
@@ -436,6 +441,35 @@ public abstract class SystemReader {
 	 */
 	public Locale getLocale() {
 		return Locale.getDefault();
+	}
+
+	/**
+	 * Retrieves the default {@link Charset} depending on the system locale.
+	 *
+	 * @return the {@link Charset}
+	 * @since 5.13
+	 * @see <a href="https://openjdk.java.net/jeps/400">JEP 400</a>
+	 */
+	public Charset getDefaultCharset() {
+		Charset result = defaultCharset;
+		if (result == null) {
+			// JEP 400: Java 18 populates this system property.
+			String encoding = getProperty("native.encoding"); //$NON-NLS-1$
+			try {
+				if (!StringUtils.isEmptyOrNull(encoding)) {
+					result = Charset.forName(encoding);
+				}
+			} catch (IllegalCharsetNameException
+					| UnsupportedCharsetException e) {
+				LOG.error(JGitText.get().logInvalidDefaultCharset, encoding);
+			}
+			if (result == null) {
+				// This is always UTF-8 on Java >= 18.
+				result = Charset.defaultCharset();
+			}
+			defaultCharset = result;
+		}
+		return result;
 	}
 
 	/**

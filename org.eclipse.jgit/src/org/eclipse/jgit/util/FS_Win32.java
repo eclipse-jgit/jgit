@@ -13,7 +13,6 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -150,8 +149,10 @@ public class FS_Win32 extends FS {
 				String w;
 				try {
 					w = readPipe(userHome(),
-						new String[]{"bash", "--login", "-c", "which git"}, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-						Charset.defaultCharset().name());
+							new String[] { "bash", "--login", "-c", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+									"which git" }, // //$NON-NLS-1$
+							SystemReader.getInstance().getDefaultCharset()
+									.name());
 				} catch (CommandFailedException e) {
 					LOG.warn(e.getMessage());
 					return null;
