@@ -22,6 +22,30 @@
       "revId": "1d90d1fb7ce530cdad05b6eb3e526c7e787bd087",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e87ef58_15bea45f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-09-03T19:33:13Z",
+      "side": 1,
+      "message": "Actually, looking at the code change, it\u0027s not full revert. So the commit message should be something like\n\n  Dfs block cache: no separate lock for the bitmap index\n\n  Undo the locking changes from commit 3cd7eb1b2. Using different\n  locks causes deadlocks between loading the pack index and the\n  bitmap index.\n\nI presume there\u0027s a lock inversion? Could that be fixed?",
+      "parentUuid": "76273bf9_219c218c",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "1d90d1fb7ce530cdad05b6eb3e526c7e787bd087",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
