@@ -57,7 +57,7 @@ public abstract class ReachabilityCheckerTestCase
 		assertReachable("reachable from another tip",
 				checker.areAllReachable(Arrays.asList(a), Stream.of(b2)));
 		assertReachable("reachable from itself",
-				checker.areAllReachable(Arrays.asList(a), Stream.of(b2)));
+				checker.areAllReachable(Arrays.asList(a), Stream.of(a)));
 	}
 
 	@Test

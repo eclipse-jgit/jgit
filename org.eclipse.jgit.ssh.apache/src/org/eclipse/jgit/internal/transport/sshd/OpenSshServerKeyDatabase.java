@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2019 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -182,10 +182,13 @@ public class OpenSshServerKeyDatabase
 		for (HostKeyFile file : filesToUse) {
 			for (HostEntryPair current : file.get()) {
 				KnownHostEntry entry = current.getHostEntry();
-				for (SshdSocketAddress host : candidates) {
-					if (entry.isHostMatch(host.getHostName(), host.getPort())) {
-						result.add(current.getServerKey());
-						break;
+				if (!isRevoked(entry)) {
+					for (SshdSocketAddress host : candidates) {
+						if (entry.isHostMatch(host.getHostName(),
+								host.getPort())) {
+							result.add(current.getServerKey());
+							break;
+						}
 					}
 				}
 			}
@@ -266,6 +269,10 @@ public class OpenSshServerKeyDatabase
 		private static final long serialVersionUID = 1L;
 	}
 
+	private boolean isRevoked(KnownHostEntry entry) {
+		return MARKER_REVOKED.equals(entry.getMarker());
+	}
+
 	private boolean find(Collection<SshdSocketAddress> candidates,
 			PublicKey serverKey, List<HostEntryPair> entries,
 			HostEntryPair[] modified) throws RevokedKeyException {
@@ -273,22 +280,22 @@ public class OpenSshServerKeyDatabase
 			KnownHostEntry entry = current.getHostEntry();
 			for (SshdSocketAddress host : candidates) {
 				if (entry.isHostMatch(host.getHostName(), host.getPort())) {
-					boolean isRevoked = MARKER_REVOKED
-							.equals(entry.getMarker());
+					boolean revoked = isRevoked(entry);
 					if (KeyUtils.compareKeys(serverKey,
 							current.getServerKey())) {
 						// Exact match
-						if (isRevoked) {
+						if (revoked) {
 							throw new RevokedKeyException();
 						}
 						modified[0] = null;
 						return true;
-					} else if (!isRevoked) {
+					} else if (!revoked) {
 						// Server sent a different key
 						modified[0] = current;
 						// Keep going -- maybe there's another entry for this
 						// host
 					}
+					break;
 				}
 			}
 		}

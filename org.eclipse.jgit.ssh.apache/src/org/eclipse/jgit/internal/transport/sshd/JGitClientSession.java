@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2019 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.StreamCorruptedException;
 import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,17 +28,27 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.ClientFactoryManager;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.common.AttributeRepository;
 import org.apache.sshd.common.FactoryManager;
+import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.PropertyResolver;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.IoWriteFuture;
+import org.apache.sshd.common.kex.BuiltinDHFactories;
+import org.apache.sshd.common.kex.DHFactory;
 import org.apache.sshd.common.kex.KexProposalOption;
+import org.apache.sshd.common.kex.KeyExchangeFactory;
+import org.apache.sshd.common.kex.extension.KexExtensionHandler;
+import org.apache.sshd.common.kex.extension.KexExtensionHandler.AvailabilityPhase;
+import org.apache.sshd.common.kex.extension.KexExtensions;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.signature.BuiltinSignatures;
 import org.apache.sshd.common.util.Readable;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.eclipse.jgit.errors.InvalidPatternException;
@@ -69,6 +78,8 @@ public class JGitClientSession extends ClientSessionImpl {
 	 * is 16kb.
 	 */
 	private static final int DEFAULT_MAX_IDENTIFICATION_SIZE = 64 * 1024;
+
+	private static final AttributeKey<Boolean> INITIAL_KEX_DONE = new AttributeKey<>();
 
 	private HostConfigEntry hostConfig;
 
@@ -136,51 +147,38 @@ public class JGitClientSession extends ClientSessionImpl {
 	}
 
 	@Override
-	protected IoWriteFuture sendIdentification(String ident)
-			throws IOException {
+	protected IoWriteFuture sendIdentification(String ident,
+			List<String> extraLines) throws Exception {
 		StatefulProxyConnector proxy = proxyHandler;
 		if (proxy != null) {
-			try {
-				// We must not block here; the framework starts reading messages
-				// from the peer only once the initial sendKexInit() following
-				// this call to sendIdentification() has returned!
-				proxy.runWhenDone(() -> {
-					JGitClientSession.super.sendIdentification(ident);
-					return null;
-				});
-				// Called only from the ClientSessionImpl constructor, where the
-				// return value is ignored.
+			// We must not block here; the framework starts reading messages
+			// from the peer only once the initial sendKexInit() following
+			// this call to sendIdentification() has returned!
+			proxy.runWhenDone(() -> {
+				JGitClientSession.super.sendIdentification(ident, extraLines);
 				return null;
-			} catch (IOException e) {
-				throw e;
-			} catch (Exception other) {
-				throw new IOException(other.getLocalizedMessage(), other);
-			}
+			});
+			// Called only from the ClientSessionImpl constructor, where the
+			// return value is ignored.
+			return null;
 		}
-		return super.sendIdentification(ident);
+		return super.sendIdentification(ident, extraLines);
 	}
 
 	@Override
-	protected byte[] sendKexInit()
-			throws IOException, GeneralSecurityException {
+	protected byte[] sendKexInit() throws Exception {
 		StatefulProxyConnector proxy = proxyHandler;
 		if (proxy != null) {
-			try {
-				// We must not block here; the framework starts reading messages
-				// from the peer only once the initial sendKexInit() has
-				// returned!
-				proxy.runWhenDone(() -> {
-					JGitClientSession.super.sendKexInit();
-					return null;
-				});
-				// This is called only from the ClientSessionImpl
-				// constructor, where the return value is ignored.
+			// We must not block here; the framework starts reading messages
+			// from the peer only once the initial sendKexInit() has
+			// returned!
+			proxy.runWhenDone(() -> {
+				JGitClientSession.super.sendKexInit();
 				return null;
-			} catch (IOException | GeneralSecurityException e) {
-				throw e;
-			} catch (Exception other) {
-				throw new IOException(other.getLocalizedMessage(), other);
-			}
+			});
+			// This is called only from the ClientSessionImpl
+			// constructor, where the return value is ignored.
+			return null;
 		}
 		return super.sendKexInit();
 	}
@@ -219,6 +217,32 @@ public class JGitClientSession extends ClientSessionImpl {
 		return result;
 	}
 
+	Set<String> getAllAvailableSignatureAlgorithms() {
+		Set<String> allAvailable = new HashSet<>();
+		BuiltinSignatures.VALUES.forEach(s -> allAvailable.add(s.getName()));
+		BuiltinSignatures.getRegisteredExtensions()
+				.forEach(s -> allAvailable.add(s.getName()));
+		return allAvailable;
+	}
+
+	private void setNewFactories(Collection<String> defaultFactories,
+			Collection<String> finalFactories) {
+		// If new factory names were added make sure we actually have factories
+		// for them all.
+		//
+		// But add new ones at the end: we don't want to change the order for
+		// pubkey auth, and any new ones added here were not included in the
+		// default set for some reason, such as being deprecated or weak.
+		//
+		// The order for KEX is determined by the order in the proposal string,
+		// but the order in pubkey auth is determined by the order in the
+		// factory list (possibly overridden via ssh config
+		// PubkeyAcceptedAlgorithms; see JGitPublicKeyAuthentication).
+		Set<String> resultSet = new LinkedHashSet<>(defaultFactories);
+		resultSet.addAll(finalFactories);
+		setSignatureFactoriesNames(resultSet);
+	}
+
 	@Override
 	protected String resolveAvailableSignaturesProposal(
 			FactoryManager manager) {
@@ -229,16 +253,17 @@ public class JGitClientSession extends ClientSessionImpl {
 				.getProperty(SshConstants.HOST_KEY_ALGORITHMS);
 		if (!StringUtils.isEmptyOrNull(algorithms)) {
 			List<String> result = modifyAlgorithmList(defaultSignatures,
-					algorithms, SshConstants.HOST_KEY_ALGORITHMS);
+					getAllAvailableSignatureAlgorithms(), algorithms,
+					SshConstants.HOST_KEY_ALGORITHMS);
 			if (!result.isEmpty()) {
 				if (log.isDebugEnabled()) {
 					log.debug(SshConstants.HOST_KEY_ALGORITHMS + ' ' + result);
 				}
+				setNewFactories(defaultSignatures, result);
 				return String.join(",", result); //$NON-NLS-1$
 			}
 			log.warn(format(SshdText.get().configNoKnownAlgorithms,
-					SshConstants.HOST_KEY_ALGORITHMS,
-					algorithms));
+					SshConstants.HOST_KEY_ALGORITHMS, algorithms));
 		}
 		// No HostKeyAlgorithms; using default -- change order to put existing
 		// keys first.
@@ -253,6 +278,11 @@ public class JGitClientSession extends ClientSessionImpl {
 				if (key != null) {
 					String keyType = KeyUtils.getKeyType(key);
 					if (keyType != null) {
+						if (KeyPairProvider.SSH_RSA.equals(keyType)) {
+							// Add all available signatures for ssh-rsa.
+							reordered.add(KeyUtils.RSA_SHA512_KEY_TYPE_ALIAS);
+							reordered.add(KeyUtils.RSA_SHA256_KEY_TYPE_ALIAS);
+						}
 						reordered.add(keyType);
 					}
 				}
@@ -260,6 +290,10 @@ public class JGitClientSession extends ClientSessionImpl {
 			reordered.addAll(defaultSignatures);
 			if (log.isDebugEnabled()) {
 				log.debug(SshConstants.HOST_KEY_ALGORITHMS + ' ' + reordered);
+			}
+			// Make sure we actually have factories for them all.
+			if (reordered.size() > defaultSignatures.size()) {
+				setNewFactories(defaultSignatures, reordered);
 			}
 			return String.join(",", reordered); //$NON-NLS-1$
 		}
@@ -270,15 +304,87 @@ public class JGitClientSession extends ClientSessionImpl {
 		return String.join(",", defaultSignatures); //$NON-NLS-1$
 	}
 
+	private List<String> determineKexProposal() {
+		List<KeyExchangeFactory> kexFactories = getKeyExchangeFactories();
+		List<String> defaultKexMethods = NamedResource
+				.getNameList(kexFactories);
+		HostConfigEntry config = resolveAttribute(
+				JGitSshClient.HOST_CONFIG_ENTRY);
+		String algorithms = config.getProperty(SshConstants.KEX_ALGORITHMS);
+		if (!StringUtils.isEmptyOrNull(algorithms)) {
+			Set<String> allAvailable = new HashSet<>();
+			BuiltinDHFactories.VALUES
+					.forEach(s -> allAvailable.add(s.getName()));
+			BuiltinDHFactories.getRegisteredExtensions()
+					.forEach(s -> allAvailable.add(s.getName()));
+			List<String> result = modifyAlgorithmList(defaultKexMethods,
+					allAvailable, algorithms, SshConstants.KEX_ALGORITHMS);
+			if (!result.isEmpty()) {
+				// If new ones were added, update the installed factories
+				Set<String> configuredKexMethods = new HashSet<>(
+						defaultKexMethods);
+				List<KeyExchangeFactory> newKexFactories = new ArrayList<>();
+				result.forEach(name -> {
+					if (!configuredKexMethods.contains(name)) {
+						DHFactory factory = BuiltinDHFactories
+								.resolveFactory(name);
+						if (factory == null) {
+							// Should not occur here
+							if (log.isDebugEnabled()) {
+								log.debug(
+										"determineKexProposal({}) unknown KEX algorithm {} ignored", //$NON-NLS-1$
+										this, name);
+							}
+						} else {
+							newKexFactories
+									.add(ClientBuilder.DH2KEX.apply(factory));
+						}
+					}
+				});
+				if (!newKexFactories.isEmpty()) {
+					newKexFactories.addAll(kexFactories);
+					setKeyExchangeFactories(newKexFactories);
+				}
+				return result;
+			}
+			log.warn(format(SshdText.get().configNoKnownAlgorithms,
+					SshConstants.KEX_ALGORITHMS, algorithms));
+		}
+		return defaultKexMethods;
+	}
+
+	@Override
+	protected String resolveSessionKexProposal(String hostKeyTypes)
+			throws IOException {
+		String kexMethods = String.join(",", determineKexProposal()); //$NON-NLS-1$
+		Boolean isRekey = getAttribute(INITIAL_KEX_DONE);
+		if (isRekey == null || !isRekey.booleanValue()) {
+			// First time
+			KexExtensionHandler extHandler = getKexExtensionHandler();
+			if (extHandler != null && extHandler.isKexExtensionsAvailable(this,
+					AvailabilityPhase.PROPOSAL)) {
+				if (kexMethods.isEmpty()) {
+					kexMethods = KexExtensions.CLIENT_KEX_EXTENSION;
+				} else {
+					kexMethods += ',' + KexExtensions.CLIENT_KEX_EXTENSION;
+				}
+			}
+			setAttribute(INITIAL_KEX_DONE, Boolean.TRUE);
+		}
+		if (log.isDebugEnabled()) {
+			log.debug(SshConstants.KEX_ALGORITHMS + ' ' + kexMethods);
+		}
+		return kexMethods;
+	}
+
 	/**
 	 * Modifies a given algorithm list according to a list from the ssh config,
-	 * including remove ('-') and reordering ('^') operators. Addition ('+') is
-	 * not handled since we have no way of adding dynamically implementations,
-	 * and the defaultList is supposed to contain all known implementations
-	 * already.
+	 * including add ('+'), remove ('-') and reordering ('^') operators.
 	 *
 	 * @param defaultList
 	 *            to modify
+	 * @param allAvailable
+	 *            all available values
 	 * @param fromConfig
 	 *            telling how to modify the {@code defaultList}, must not be
 	 *            {@code null} or empty
@@ -288,22 +394,22 @@ public class JGitClientSession extends ClientSessionImpl {
 	 *         set
 	 */
 	public List<String> modifyAlgorithmList(List<String> defaultList,
-			String fromConfig, String overrideKey) {
+			Set<String> allAvailable, String fromConfig, String overrideKey) {
 		Set<String> defaults = new LinkedHashSet<>();
 		defaults.addAll(defaultList);
 		switch (fromConfig.charAt(0)) {
 		case '+':
-			// Additions make not much sense -- it's either in
-			// defaultList already, or we have no implementation for
-			// it. No point in proposing it.
-			return defaultList;
+			List<String> newSignatures = filteredList(allAvailable, overrideKey,
+					fromConfig.substring(1));
+			defaults.addAll(newSignatures);
+			return new ArrayList<>(defaults);
 		case '-':
 			// This takes wildcard patterns!
 			removeFromList(defaults, overrideKey, fromConfig.substring(1));
 			return new ArrayList<>(defaults);
 		case '^':
 			// Specified entries go to the front of the default list
-			List<String> allSignatures = filteredList(defaults,
+			List<String> allSignatures = filteredList(allAvailable, overrideKey,
 					fromConfig.substring(1));
 			Set<String> atFront = new HashSet<>(allSignatures);
 			for (String sig : defaults) {
@@ -315,7 +421,7 @@ public class JGitClientSession extends ClientSessionImpl {
 		default:
 			// Default is overridden -- only accept the ones for which we do
 			// have an implementation.
-			return filteredList(defaults, fromConfig);
+			return filteredList(allAvailable, overrideKey, fromConfig);
 		}
 	}
 
@@ -342,11 +448,15 @@ public class JGitClientSession extends ClientSessionImpl {
 		}
 	}
 
-	private List<String> filteredList(Set<String> known, String values) {
+	private List<String> filteredList(Set<String> known, String key,
+			String values) {
 		List<String> newNames = new ArrayList<>();
 		for (String newValue : values.split("\\s*,\\s*")) { //$NON-NLS-1$
 			if (known.contains(newValue)) {
 				newNames.add(newValue);
+			} else {
+				log.warn(format(SshdText.get().configUnknownAlgorithm, this,
+						newValue, key, values));
 			}
 		}
 		return newNames;

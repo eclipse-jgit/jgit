@@ -30,7 +30,7 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 public interface ServerKeyDatabase {
 
 	/**
-	 * Retrieves all known host keys for the given addresses.
+	 * Retrieves all known and not revoked host keys for the given addresses.
 	 *
 	 * @param connectAddress
 	 *            IP address the session tried to connect to
@@ -39,7 +39,7 @@ public interface ServerKeyDatabase {
 	 * @param config
 	 *            giving access to potentially interesting configuration
 	 *            settings
-	 * @return the list of known keys for the given addresses
+	 * @return the list of known and not revoked keys for the given addresses
 	 */
 	@NonNull
 	List<PublicKey> lookup(@NonNull String connectAddress,

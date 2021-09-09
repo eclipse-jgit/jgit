@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Sets;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -59,7 +58,6 @@ class ObjectIdMatcher extends TypeSafeMatcher<Collection<ObjectId>> {
 	 * @return true if examined and specified sets contains exactly the same
 	 *         elements.
 	 */
-	@Factory
 	static Matcher<Collection<ObjectId>> hasOnlyObjectIds(
 			String... oids) {
 		return new ObjectIdMatcher(Sets.of(oids));
