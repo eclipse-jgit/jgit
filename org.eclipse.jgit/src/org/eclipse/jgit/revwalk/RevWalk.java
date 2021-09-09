@@ -527,10 +527,12 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
 				Enum returnStrategy, ProgressMonitor monitor) throws IOException {
 		List<Ref> result = new ArrayList<>();
+		List<RevCommit> uninteresting = new ArrayList<>();
 		RevFilter oldRF = filter;
 		TreeFilter oldTF = treeFilter;
 		try {
 			finishDelayedFreeFlags();
+			reset(~freeFlags & APP_FLAGS);
 			filter = RevFilter.ALL;
 			treeFilter = TreeFilter.ALL;
 			for (Ref r: haystacks) {
@@ -559,13 +561,14 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				}
 				if(!commitFound){
 					markUninteresting(c);
+					uninteresting.add(c);
 					if (returnStrategy == GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND) {
 						return result;
 					}
 				}
 			}
 		} finally {
-			reset(~freeFlags & APP_FLAGS);
+			roots.addAll(uninteresting);
 			filter = oldRF;
 			treeFilter = oldTF;
 		}

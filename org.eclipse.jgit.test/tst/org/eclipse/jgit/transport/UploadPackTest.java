@@ -460,6 +460,8 @@ public class UploadPackTest {
 
 		private FetchV2Request fetchRequest;
 
+		private ObjectInfoRequest objectInfoRequest;
+
 		@Override
 		public void onCapabilities(CapabilitiesV2Request req) {
 			capabilitiesRequest = req;
@@ -473,6 +475,11 @@ public class UploadPackTest {
 		@Override
 		public void onFetch(FetchV2Request req) {
 			fetchRequest = req;
+		}
+
+		@Override
+		public void onObjectInfo(ObjectInfoRequest req) {
+			objectInfoRequest = req;
 		}
 	}
 
@@ -2640,5 +2647,45 @@ public class UploadPackTest {
 		public RefDatabase getRefDatabase() {
 			return refdb;
 		}
+	}
+
+	@Test
+	public void testObjectInfo() throws Exception {
+		server.getConfig().setBoolean("uploadpack", null, "advertiseobjectinfo",
+				true);
+
+		RevBlob blob1 = remote.blob("foobar");
+		RevBlob blob2 = remote.blob("fooba");
+		RevTree tree = remote.tree(remote.file("1", blob1),
+				remote.file("2", blob2));
+		RevCommit commit = remote.commit(tree);
+		remote.update("master", commit);
+
+		TestV2Hook hook = new TestV2Hook();
+		ByteArrayInputStream recvStream = uploadPackV2((UploadPack up) -> {
+			up.setProtocolV2Hook(hook);
+		}, "command=object-info\n", "size",
+				"oid " + ObjectId.toString(blob1.getId()),
+				"oid " + ObjectId.toString(blob2.getId()), PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(hook.objectInfoRequest, notNullValue());
+		assertThat(pckIn.readString(), is("size"));
+		assertThat(pckIn.readString(),
+				is(ObjectId.toString(blob1.getId()) + " 6"));
+		assertThat(pckIn.readString(),
+				is(ObjectId.toString(blob2.getId()) + " 5"));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
+	public void testObjectInfo_invalidOid() throws Exception {
+		server.getConfig().setBoolean("uploadpack", null, "advertiseobjectinfo",
+				true);
+
+		assertThrows(UploadPackInternalServerErrorException.class,
+				() -> uploadPackV2("command=object-info\n", "size",
+						"oid invalid",
+						PacketLineIn.end()));
 	}
 }

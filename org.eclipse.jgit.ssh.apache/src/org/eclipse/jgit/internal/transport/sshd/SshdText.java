@@ -28,6 +28,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String configNoKnownAlgorithms;
 	/***/ public String configProxyJumpNotSsh;
 	/***/ public String configProxyJumpWithPath;
+	/***/ public String configUnknownAlgorithm;
 	/***/ public String ftpCloseFailed;
 	/***/ public String gssapiFailure;
 	/***/ public String gssapiInitFailure;

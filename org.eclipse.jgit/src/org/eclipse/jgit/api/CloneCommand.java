@@ -173,7 +173,11 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		Repository repository = init();
 		FetchResult fetchResult = null;
 		Thread cleanupHook = new Thread(() -> cleanup());
-		Runtime.getRuntime().addShutdownHook(cleanupHook);
+		try {
+			Runtime.getRuntime().addShutdownHook(cleanupHook);
+		} catch (IllegalStateException e) {
+			// ignore - the VM is already shutting down
+		}
 		try {
 			fetchResult = fetch(repository, u);
 		} catch (IOException ioe) {
@@ -197,7 +201,11 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			cleanup();
 			throw e;
 		} finally {
-			Runtime.getRuntime().removeShutdownHook(cleanupHook);
+			try {
+				Runtime.getRuntime().removeShutdownHook(cleanupHook);
+			} catch (IllegalStateException e) {
+				// ignore - the VM is already shutting down
+			}
 		}
 		if (!noCheckout) {
 			try {

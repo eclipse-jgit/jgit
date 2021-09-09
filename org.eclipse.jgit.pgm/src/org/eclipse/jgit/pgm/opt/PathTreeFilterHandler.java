@@ -25,7 +25,7 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 /**
- * Create a {@link org.eclipse.jgit.treewalk.filter.TreeFilter} to patch math
+ * Create a {@link org.eclipse.jgit.treewalk.filter.TreeFilter} to match path
  * names.
  * <p>
  * This handler consumes all arguments to the end of the command line, and is

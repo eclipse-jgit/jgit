@@ -152,17 +152,17 @@
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>5.12.0.202106070339-r</jgit-last-release-version>
-    <apache-sshd-version>2.6.0</apache-sshd-version>
+    <apache-sshd-version>2.7.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.1</jzlib-version>
-    <javaewah-version>1.1.7</javaewah-version>
+    <javaewah-version>1.1.12</javaewah-version>
     <junit-version>4.13</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.33</args4j-version>
-    <commons-compress-version>1.19</commons-compress-version>
+    <commons-compress-version>1.20</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
     <servlet-api-version>3.1.0</servlet-api-version>
-    <jetty-version>9.4.42.v20210604</jetty-version>
+    <jetty-version>9.4.43.v20210629</jetty-version>
     <japicmp-version>0.15.3</japicmp-version>
     <httpclient-version>4.5.13</httpclient-version>
     <httpcore-version>4.4.14</httpcore-version>
@@ -170,15 +170,17 @@
     <log4j-version>1.2.15</log4j-version>
     <maven-javadoc-plugin-version>3.2.0</maven-javadoc-plugin-version>
     <tycho-extras-version>1.7.0</tycho-extras-version>
-    <gson-version>2.8.6</gson-version>
-    <bouncycastle-version>1.65</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.2.3</spotbugs-maven-plugin-version>
+    <gson-version>2.8.7</gson-version>
+    <bouncycastle-version>1.69</bouncycastle-version>
+    <spotbugs-maven-plugin-version>4.3.0</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.1.2</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.1.1</maven-jxr-plugin-version>
     <maven-surefire-plugin-version>3.0.0-M5</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
     <plexus-compiler-version>2.8.8</plexus-compiler-version>
+    <hamcrest-version>2.2</hamcrest-version>
+    <assertj-version>3.20.2</assertj-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -688,7 +690,7 @@
       <dependency>
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>
-        <version>1.8</version>
+        <version>1.9</version>
         <optional>true</optional>
       </dependency>
 
@@ -767,7 +769,13 @@
       <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcprov-jdk15on</artifactId>
-        <version>1.65.01</version>
+        <version>${bouncycastle-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcutil-jdk15on</artifactId>
+        <version>${bouncycastle-version}</version>
       </dependency>
 
       <dependency>
@@ -779,7 +787,7 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.14.0</version>
+        <version>${assertj-version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

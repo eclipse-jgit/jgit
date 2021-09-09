@@ -15,6 +15,7 @@ junit_tests(
     deps = [
         "//lib:bcpg",
         "//lib:bcprov",
+        "//lib:bcutil",
         "//lib:junit",
         "//org.eclipse.jgit.gpg.bc:gpg-bc",
         "//org.eclipse.jgit:jgit",

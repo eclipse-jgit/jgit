@@ -42,6 +42,8 @@ public final class BCText extends TranslationBundle {
 	/***/ public String gpgNotASigningKey;
 	/***/ public String gpgKeyInfo;
 	/***/ public String gpgSigningCancelled;
+	/***/ public String logWarnGnuPGHome;
+	/***/ public String logWarnGpgHomeProperty;
 	/***/ public String nonSignatureError;
 	/***/ public String secretKeyTooShort;
 	/***/ public String sexprHexNotClosed;

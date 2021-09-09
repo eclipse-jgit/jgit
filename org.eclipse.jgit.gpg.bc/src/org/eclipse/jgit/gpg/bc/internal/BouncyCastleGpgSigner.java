@@ -195,7 +195,7 @@ public class BouncyCastleGpgSigner extends GpgSigner
 				}
 			}
 			if (userId != null) {
-				subpackets.setSignerUserID(false, userId);
+				subpackets.addSignerUserID(false, userId);
 			}
 			signatureGenerator
 					.setHashedSubpackets(subpackets.generate());

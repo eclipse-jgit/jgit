@@ -34,13 +34,18 @@ import java.util.stream.Collectors;
 
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
 import org.apache.sshd.client.config.hosts.KnownHostHashValue;
+import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
+import org.apache.sshd.common.kex.BuiltinDHFactories;
+import org.apache.sshd.common.kex.DHFactory;
+import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.session.Session;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.server.ServerAuthenticationManager;
+import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.forward.StaticDecisionForwardingFilter;
 import org.eclipse.jgit.api.Git;
@@ -695,6 +700,44 @@ public class ApacheSshTest extends SshTestBase {
 					"Port " + oldServer.getPort(), //
 					"User " + TEST_USER, //
 					"IdentityFile " + privateKey1.getAbsolutePath());
+			RemoteSession session = getSessionFactory().getSession(
+					new URIish("ssh://server/doesntmatter"), null, FS.DETECTED,
+					10000);
+			assertNotNull(session);
+			session.disconnect();
+		}
+	}
+
+	/**
+	 * Tests that one can log in at an even poorer server that also only has the
+	 * SHA1 KEX methods available. Apparently this is the case for at least some
+	 * Microsoft TFS instances. The user has to enable the poor KEX methods in
+	 * the ssh config explicitly; we don't enable them by default.
+	 *
+	 * @throws Exception
+	 *             on failure
+	 */
+	@Test
+	public void testConnectOnlyRsaSha1() throws Exception {
+		try (SshServer oldServer = createServer(TEST_USER, publicKey1)) {
+			oldServer.setSignatureFactoriesNames("ssh-rsa");
+			List<DHFactory> sha1Factories = BuiltinDHFactories
+					.parseDHFactoriesList(
+							"diffie-hellman-group1-sha1,diffie-hellman-group14-sha1")
+					.getParsedFactories();
+			assertEquals(2, sha1Factories.size());
+			List<KeyExchangeFactory> kexFactories = NamedFactory
+					.setUpTransformedFactories(true, sha1Factories,
+							ServerBuilder.DH2KEX);
+			oldServer.setKeyExchangeFactories(kexFactories);
+			oldServer.start();
+			registerServer(oldServer);
+			installConfig("Host server", //
+					"HostName localhost", //
+					"Port " + oldServer.getPort(), //
+					"User " + TEST_USER, //
+					"IdentityFile " + privateKey1.getAbsolutePath(), //
+					"KexAlgorithms +diffie-hellman-group1-sha1");
 			RemoteSession session = getSessionFactory().getSession(
 					new URIish("ssh://server/doesntmatter"), null, FS.DETECTED,
 					10000);
