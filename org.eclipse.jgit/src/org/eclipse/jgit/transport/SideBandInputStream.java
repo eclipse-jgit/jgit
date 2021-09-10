@@ -11,14 +11,19 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.transport.SideBandOutputStream.HDR_SIZE;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.io.Writer;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,7 +52,9 @@ import org.eclipse.jgit.util.RawParseUtils;
  */
 public class SideBandInputStream extends InputStream {
 	static final int CH_DATA = 1;
+
 	static final int CH_PROGRESS = 2;
+
 	static final int CH_ERROR = 3;
 
 	private static Pattern P_UNBOUNDED = Pattern
@@ -65,8 +72,6 @@ public class SideBandInputStream extends InputStream {
 	private final Writer messages;
 
 	private final OutputStream out;
-
-	private String progressBuffer = ""; //$NON-NLS-1$
 
 	private String currentTask;
 
@@ -149,25 +154,48 @@ public class SideBandInputStream extends InputStream {
 		}
 	}
 
-	private void progress(String pkt) throws IOException {
-		pkt = progressBuffer + pkt;
-		for (;;) {
-			final int lf = pkt.indexOf('\n');
-			final int cr = pkt.indexOf('\r');
-			final int s;
-			if (0 <= lf && 0 <= cr)
-				s = Math.min(lf, cr);
-			else if (0 <= lf)
-				s = lf;
-			else if (0 <= cr)
-				s = cr;
-			else
-				break;
-
-			doProgressLine(pkt.substring(0, s + 1));
-			pkt = pkt.substring(s + 1);
+	/**
+	 * {@link #doProgressLine(String) Issues a Progress Line} for each line in
+	 * the {@code progressMessages} provided. {@link #trimmedLines(String) Lines
+	 * are trimmed}. This method performs processing of <emph>Channel 2</emph>
+	 * messages.
+	 * <p/>
+	 * <q>Channel 2 is transparently unpacked and 'scraped' to update a progress
+	 * monitor. The scraping is performed behind the scenes as part of any of
+	 * the read methods offered by this stream.</q>
+	 *
+	 * @param progressMessages
+	 *            a buffer of messages transferred via Channel 2. These can
+	 *            contain newlines, but do not have to be terminated by a
+	 *            newline.
+	 * @throws IOException
+	 *             if thrown by {@link #doProgressLine(String)}.
+	 */
+	private void progress(final String progressMessages) throws IOException {
+		for (String line : trimmedLines(progressMessages)) {
+			doProgressLine(line + lineSeparator());
 		}
-		progressBuffer = pkt;
+	}
+
+	/**
+	 * Breaks provided string by line, trims each resultant string and returns
+	 * them as a list. Note that a String that does not end with a line
+	 * terminator will also be returned. Lines with no content after trim will
+	 * be returned as empty Strings in the list.
+	 *
+	 * @implNote This method should be ported to <code>String</code> utility
+	 *           methods when Java 11 arrives. Compare <a href=
+	 *           "https://bugs.eclipse.org/bugs/show_bug.cgi?id=569917">Bug
+	 *           569917 - Bump JGit minimum execution environment to Java SE
+	 *           11</a>.
+	 *
+	 * @param multiLineString
+	 *            a String, usually consisting of one or more lines.
+	 * @return the list of strings
+	 */
+	static final List<String> trimmedLines(final String multiLineString) {
+		return new BufferedReader(new StringReader(multiLineString)).lines()
+				.map(String::trim).collect(toList());
 	}
 
 	private void doProgressLine(String msg) throws IOException {
