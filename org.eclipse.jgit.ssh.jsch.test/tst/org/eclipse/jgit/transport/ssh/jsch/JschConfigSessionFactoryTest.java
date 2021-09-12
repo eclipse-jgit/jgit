@@ -9,7 +9,7 @@
  */
 
 //TODO(ms): move to org.eclipse.jgit.ssh.jsch in 6.0
-package org.eclipse.jgit.transport;
+package org.eclipse.jgit.transport.ssh.jsch;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.junit.MockSystemReader;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
