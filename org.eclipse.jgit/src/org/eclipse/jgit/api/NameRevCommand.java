@@ -66,12 +66,13 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder(getClass().getSimpleName())
 				.append('[');
-			if (tip != null)
+			if (tip != null) {
 				sb.append(format());
-			else
+			} else {
 				sb.append((Object) null);
+			}
 			sb.append(',').append(cost).append(']').append(' ')
-				.append(super.toString()).toString();
+					.append(super.toString());
 			return sb.toString();
 		}
 	}
