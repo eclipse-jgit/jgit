@@ -15,7 +15,6 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
-import org.bouncycastle.asn1.cryptlib.CryptlibObjectIdentifiers;
 import org.bouncycastle.asn1.x9.ECNamedCurveTable;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.bcpg.DSAPublicBCPGKey;
@@ -51,6 +50,9 @@ public final class KeyGrip {
 	private static String OID_RFC8410_CURVE25519 = "1.3.101.110"; //$NON-NLS-1$
 
 	private static String OID_RFC8410_ED25519 = "1.3.101.112"; //$NON-NLS-1$
+
+	private static ASN1ObjectIdentifier CURVE25519 = ECNamedCurveTable
+			.getOID("curve25519"); //$NON-NLS-1$
 
 	private KeyGrip() {
 		// No instantiation
@@ -105,7 +107,7 @@ public final class KeyGrip {
 			if (OID_OPENPGP_ED25519.equals(curveOID.getId())
 					|| OID_RFC8410_ED25519.equals(curveOID.getId())) {
 				return hashEd25519(grip, ec.getEncodedPoint());
-			} else if (CryptlibObjectIdentifiers.curvey25519.equals(curveOID)
+			} else if (CURVE25519.equals(curveOID)
 					|| OID_RFC8410_CURVE25519.equals(curveOID.getId())) {
 				// curvey25519 actually is the OpenPGP OID for Curve25519 and is
 				// known to BC, but the parameters are for the short Weierstrass
