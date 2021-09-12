@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -8,8 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-//TODO(ms): move to org.eclipse.jgit.ssh.jsch in 6.0
-package org.eclipse.jgit.transport;
+package org.eclipse.jgit.transport.ssh.jsch;
 
 import static org.junit.Assert.assertTrue;
 
@@ -20,18 +19,23 @@ import java.nio.file.Files;
 import java.util.Arrays;
 
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.junit.ssh.SshBasicTestBase;
+import org.eclipse.jgit.junit.ssh.SshTestBase;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.transport.OpenSshConfig.Host;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.RemoteSession;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.ssh.jsch.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FS;
+import org.junit.experimental.theories.Theories;
+import org.junit.runner.RunWith;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-public class JSchSshProtocol2Test extends SshBasicTestBase {
+@RunWith(Theories.class)
+public class JSchSshTest extends SshTestBase {
 
 	private class TestSshSessionFactory extends JschConfigSessionFactory {
 
@@ -82,11 +86,4 @@ public class JSchSshProtocol2Test extends SshBasicTestBase {
 		return new OpenSshConfig(getTemporaryDirectory(), configFile);
 	}
 
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		StoredConfig config = ((Repository) db).getConfig();
-		config.setInt("protocol", null, "version", 2);
-		config.save();
-	}
 }
