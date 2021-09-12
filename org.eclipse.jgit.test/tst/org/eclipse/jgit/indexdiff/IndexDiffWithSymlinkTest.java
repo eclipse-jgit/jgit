@@ -59,6 +59,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
@@ -227,7 +228,8 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 				return (byte[]) method.invoke(p);
 			}
 		} catch (NoSuchMethodException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException e) {
+				| IllegalArgumentException | InvocationTargetException
+				| InaccessibleObjectException e) {
 			// Ignore and fall through.
 		}
 		return null;
