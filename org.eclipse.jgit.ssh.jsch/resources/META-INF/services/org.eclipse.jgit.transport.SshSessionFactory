@@ -1,1 +1,1 @@
-org.eclipse.jgit.transport.JschConfigSessionFactory
+org.eclipse.jgit.transport.jsch.JschConfigSessionFactory

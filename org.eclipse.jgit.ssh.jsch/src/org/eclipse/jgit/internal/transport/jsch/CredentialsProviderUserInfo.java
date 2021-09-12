@@ -8,12 +8,15 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-//TODO(ms): move to org.eclipse.jgit.ssh.jsch in 6.0
-package org.eclipse.jgit.transport;
+package org.eclipse.jgit.internal.transport.jsch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.URIish;
 
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UIKeyboardInteractive;
