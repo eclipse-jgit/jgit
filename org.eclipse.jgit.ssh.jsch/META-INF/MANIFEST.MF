@@ -9,12 +9,7 @@ Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
 Bundle-Version: 6.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: org.eclipse.jgit.internal.transport.jsch;version="6.0.0";x-friends:="org.eclipse.egit.core",
- org.eclipse.jgit.transport;version="6.0.0";
-  uses:="org.eclipse.jgit.transport,
-   org.eclipse.jgit.internal.transport.ssh,
-   org.eclipse.jgit.util,
-   com.jcraft.jsch"
+Export-Package: org.eclipse.jgit.transport.ssh.jsch;version="6.0.0"
 Import-Package: com.jcraft.jsch;version="[0.1.37,0.2.0)",
  org.eclipse.jgit.errors;version="[6.0.0,6.1.0)",
  org.eclipse.jgit.internal;version="[6.0.0,6.1.0)",
