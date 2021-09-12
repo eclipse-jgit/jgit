@@ -15,8 +15,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-//TODO(ms): move to org.eclipse.jgit.ssh.jsch in 6.0
-package org.eclipse.jgit.transport;
+package org.eclipse.jgit.transport.ssh.jsch;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -38,7 +37,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.internal.transport.jsch.JSchText;
+import org.eclipse.jgit.internal.transport.ssh.jsch.CredentialsProviderUserInfo;
+import org.eclipse.jgit.internal.transport.ssh.jsch.JSchText;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.RemoteSession;
+import org.eclipse.jgit.transport.SshConstants;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,8 +65,10 @@ import com.jcraft.jsch.Session;
  * used by C Git.
  * <p>
  * The factory does not provide UI behavior. Override the method
- * {@link #configure(org.eclipse.jgit.transport.OpenSshConfig.Host, Session)} to
- * supply appropriate {@link com.jcraft.jsch.UserInfo} to the session.
+ * {@link #configure(org.eclipse.jgit.transport.ssh.jsch.OpenSshConfig.Host, Session)}
+ * to supply appropriate {@link com.jcraft.jsch.UserInfo} to the session.
+ *
+ * @since 6.0
  */
 public class JschConfigSessionFactory extends SshSessionFactory {
 
@@ -177,8 +184,20 @@ public class JschConfigSessionFactory extends SshSessionFactory {
 		return e.getCause() == null && e.getMessage().equals("Auth cancel"); //$NON-NLS-1$
 	}
 
-	// Package visibility for tests
-	Session createSession(CredentialsProvider credentialsProvider,
+	/**
+	 * Use for tests only
+	 *
+	 * @param credentialsProvider
+	 * @param fs
+	 * @param user
+	 * @param pass
+	 * @param host
+	 * @param port
+	 * @param hc
+	 * @return session
+	 * @throws JSchException
+	 */
+	public Session createSession(CredentialsProvider credentialsProvider,
 			FS fs, String user, final String pass, String host, int port,
 			final OpenSshConfig.Host hc) throws JSchException {
 		final Session session = createSession(hc, user, host, port, fs);
@@ -535,7 +554,7 @@ public class JschConfigSessionFactory extends SshSessionFactory {
 	 * @param config
 	 *            to use
 	 */
-	synchronized void setConfig(OpenSshConfig config) {
+	public synchronized void setConfig(OpenSshConfig config) {
 		this.config = config;
 	}
 }
