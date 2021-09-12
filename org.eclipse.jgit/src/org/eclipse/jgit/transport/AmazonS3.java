@@ -31,6 +31,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -46,10 +47,11 @@ import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.time.Instant;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -64,7 +66,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * A simple HTTP REST client for the Amazon S3 service.
@@ -683,8 +684,9 @@ public class AmazonS3 {
 
 					final XMLReader xr;
 					try {
-						xr = XMLReaderFactory.createXMLReader();
-					} catch (SAXException e) {
+						xr = SAXParserFactory.newInstance().newSAXParser()
+								.getXMLReader();
+					} catch (SAXException | ParserConfigurationException e) {
 						throw new IOException(
 								JGitText.get().noXMLParserAvailable, e);
 					}
