@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0075c4a0_fef3060b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-09-14T10:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "556d40ab_aaa96c50",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9473d00f_3348e254",
         "filename": "/COMMIT_MSG",
         "patchSetId": 32
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "eb8899c3_42985ce6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-09-14T10:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9473d00f_3348e254",
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91c47f41_70634fbe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 32
@@ -56,6 +98,24 @@
       "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec2ae265_bc4ff774",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-09-14T10:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91c47f41_70634fbe",
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "fb213c26_f16a5e9c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/LocalCachedPackTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-09-14T10:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09cf6143_7af9f513",
+      "range": {
+        "startLine": 44,
+        "startChar": 20,
+        "endLine": 44,
+        "endChar": 41
+      },
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8062643_0b0f009a",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/LocalCachedPackTest.java",
         "patchSetId": 32
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "bfab6e23_71aa4f9f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/LocalCachedPackTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-09-14T10:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8062643_0b0f009a",
+      "range": {
+        "startLine": 69,
+        "startChar": 41,
+        "endLine": 69,
+        "endChar": 53
+      },
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15b3324_edfa307a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 32
@@ -125,6 +233,30 @@
       "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "603e5bba_bdae53e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-09-14T10:56:18Z",
+      "side": 1,
+      "message": "Updated the comment. Similarly to other retry parameters (i.e.: MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS), this is not exposed in a configuration.",
+      "parentUuid": "c15b3324_edfa307a",
+      "range": {
+        "startLine": 228,
+        "startChar": 50,
+        "endLine": 228,
+        "endChar": 53
+      },
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
