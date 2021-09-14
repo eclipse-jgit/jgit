@@ -49,6 +49,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.TagOpt;
+import org.eclipse.jgit.util.LfsFactory;
 
 /**
  * The Pull command
@@ -314,66 +315,63 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 				Repository.shortenRefName(remoteBranchName), remoteUri);
 
 		PullResult result;
-		if (pullRebaseMode != BranchRebaseMode.NONE) {
-			try {
-				Ref head = repo.exactRef(Constants.HEAD);
-				if (head == null) {
-					throw new NoHeadException(JGitText
-							.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
-				}
-				ObjectId headId = head.getObjectId();
-				if (headId == null) {
-					// Pull on an unborn branch: checkout
-					try (RevWalk revWalk = new RevWalk(repo)) {
-						RevCommit srcCommit = revWalk
-								.parseCommit(commitToMerge);
-						DirCacheCheckout dco = new DirCacheCheckout(repo,
-								repo.lockDirCache(), srcCommit.getTree());
-						dco.setFailOnConflict(true);
-						dco.setProgressMonitor(monitor);
-						dco.checkout();
-						RefUpdate refUpdate = repo
-								.updateRef(head.getTarget().getName());
-						refUpdate.setNewObjectId(commitToMerge);
-						refUpdate.setExpectedOldObjectId(null);
-						refUpdate.setRefLogMessage("initial pull", false); //$NON-NLS-1$
-						if (refUpdate.update() != Result.NEW) {
-							throw new NoHeadException(JGitText
-									.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
-						}
-						monitor.endTask();
-						return new PullResult(fetchRes, remote,
-								RebaseResult.result(
-										RebaseResult.Status.FAST_FORWARD,
-										srcCommit));
+
+		try {
+			LfsFactory.setCredentialsProvider(credentialsProvider);
+			if (pullRebaseMode != BranchRebaseMode.NONE) {
+				try {
+					Ref head = repo.exactRef(Constants.HEAD);
+					if (head == null) {
+						throw new NoHeadException(JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
 					}
+					ObjectId headId = head.getObjectId();
+					if (headId == null) {
+						// Pull on an unborn branch: checkout
+						try (RevWalk revWalk = new RevWalk(repo)) {
+							RevCommit srcCommit = revWalk.parseCommit(commitToMerge);
+							DirCacheCheckout dco = new DirCacheCheckout(repo, repo.lockDirCache(), srcCommit.getTree());
+							dco.setFailOnConflict(true);
+							dco.setProgressMonitor(monitor);
+							dco.checkout();
+							RefUpdate refUpdate = repo.updateRef(head.getTarget().getName());
+							refUpdate.setNewObjectId(commitToMerge);
+							refUpdate.setExpectedOldObjectId(null);
+							refUpdate.setRefLogMessage("initial pull", false); //$NON-NLS-1$
+							if (refUpdate.update() != Result.NEW) {
+								throw new NoHeadException(JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
+							}
+							monitor.endTask();
+							return new PullResult(fetchRes, remote,
+								RebaseResult.result(RebaseResult.Status.FAST_FORWARD, srcCommit));
+						}
+					}
+				} catch (NoHeadException e) {
+					throw e;
+				} catch (IOException e) {
+					throw new JGitInternalException(JGitText.get().exceptionCaughtDuringExecutionOfPullCommand, e);
 				}
-			} catch (NoHeadException e) {
-				throw e;
-			} catch (IOException e) {
-				throw new JGitInternalException(JGitText
-						.get().exceptionCaughtDuringExecutionOfPullCommand, e);
-			}
-			RebaseCommand rebase = new RebaseCommand(repo);
-			RebaseResult rebaseRes = rebase.setUpstream(commitToMerge)
+				RebaseCommand rebase = new RebaseCommand(repo);
+				RebaseResult rebaseRes = rebase.setUpstream(commitToMerge)
 					.setProgressMonitor(monitor)
 					.setUpstreamName(upstreamName)
 					.setOperation(Operation.BEGIN)
 					.setStrategy(strategy)
 					.setContentMergeStrategy(contentStrategy)
-					.setPreserveMerges(
-							pullRebaseMode == BranchRebaseMode.PRESERVE)
+					.setPreserveMerges(pullRebaseMode == BranchRebaseMode.PRESERVE)
 					.call();
-			result = new PullResult(fetchRes, remote, rebaseRes);
-		} else {
-			MergeCommand merge = new MergeCommand(repo);
-			MergeResult mergeRes = merge.include(upstreamName, commitToMerge)
+				result = new PullResult(fetchRes, remote, rebaseRes);
+			} else {
+				MergeCommand merge = new MergeCommand(repo);
+				MergeResult mergeRes = merge.include(upstreamName, commitToMerge)
 					.setProgressMonitor(monitor)
 					.setStrategy(strategy)
 					.setContentMergeStrategy(contentStrategy)
 					.setFastForward(getFastForwardMode()).call();
-			monitor.update(1);
-			result = new PullResult(fetchRes, remote, mergeRes);
+				monitor.update(1);
+				result = new PullResult(fetchRes, remote, mergeRes);
+			}
+		} finally {
+			LfsFactory.removeCredentialsProvider();
 		}
 		monitor.endTask();
 		return result;
