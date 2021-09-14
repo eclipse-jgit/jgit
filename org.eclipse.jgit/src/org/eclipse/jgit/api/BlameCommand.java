@@ -23,12 +23,14 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.util.LfsFactory;
 
 /**
  * Blame command for building a {@link org.eclipse.jgit.blame.BlameResult} for a
  * file path.
  */
-public class BlameCommand extends GitCommand<BlameResult> {
+public class BlameCommand extends CredentialsAwareCommand<BlameCommand, BlameResult> {
 
 	private String path;
 
@@ -164,7 +166,13 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	@Override
 	public BlameResult call() throws GitAPIException {
 		checkCallable();
+		CredentialsProvider prevProvider = null;
 		try (BlameGenerator gen = new BlameGenerator(repo, path)) {
+			if (credentialsProvider != null) {
+				prevProvider = LfsFactory.getCredentialsProvider();
+				LfsFactory.setCredentialsProvider(credentialsProvider);
+			}
+
 			if (diffAlgorithm != null)
 				gen.setDiffAlgorithm(diffAlgorithm);
 			if (textComparator != null)
@@ -182,6 +190,10 @@ public class BlameCommand extends GitCommand<BlameResult> {
 			return gen.computeBlameResult();
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
+		} finally {
+			if (credentialsProvider != null) {
+				LfsFactory.setCredentialsProvider(prevProvider);
+			}
 		}
 	}
 }

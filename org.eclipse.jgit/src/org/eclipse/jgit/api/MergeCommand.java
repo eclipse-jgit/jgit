@@ -56,7 +56,9 @@ import org.eclipse.jgit.merge.SquashMessageFormatter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.RevWalkUtils;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -68,7 +70,7 @@ import org.eclipse.jgit.util.StringUtils;
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-merge.html"
  *      >Git documentation about Merge</a>
  */
-public class MergeCommand extends GitCommand<MergeResult> {
+public class MergeCommand extends CredentialsAwareCommand<MergeCommand, MergeResult> {
 
 	private MergeStrategy mergeStrategy = MergeStrategy.RECURSIVE;
 
@@ -224,7 +226,13 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		checkParameters();
 
 		DirCacheCheckout dco = null;
+		CredentialsProvider prevProvider = null;
 		try (RevWalk revWalk = new RevWalk(repo)) {
+			if (credentialsProvider != null) {
+				prevProvider = LfsFactory.getCredentialsProvider();
+				LfsFactory.setCredentialsProvider(credentialsProvider);
+			}
+
 			Ref head = repo.exactRef(Constants.HEAD);
 			if (head == null)
 				throw new NoHeadException(
@@ -422,6 +430,10 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					MessageFormat.format(
 							JGitText.get().exceptionCaughtDuringExecutionOfMergeCommand,
 							e), e);
+		} finally {
+			if (credentialsProvider != null) {
+				LfsFactory.setCredentialsProvider(prevProvider);
+			}
 		}
 	}
 

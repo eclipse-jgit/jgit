@@ -46,7 +46,9 @@ import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.LfsFactory;
 
 /**
  * A class used to execute a {@code cherry-pick} command. It has setters for all
@@ -58,7 +60,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
  *      href="http://www.kernel.org/pub/software/scm/git/docs/git-cherry-pick.html"
  *      >Git documentation about cherry-pick</a>
  */
-public class CherryPickCommand extends GitCommand<CherryPickResult> {
+public class CherryPickCommand extends CredentialsAwareCommand<CherryPickCommand, CherryPickResult> {
 	private String reflogPrefix = "cherry-pick:"; //$NON-NLS-1$
 
 	private List<Ref> commits = new LinkedList<>();
@@ -101,7 +103,12 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 		List<Ref> cherryPickedRefs = new LinkedList<>();
 		checkCallable();
 
+		CredentialsProvider prevProvider = null;
 		try (RevWalk revWalk = new RevWalk(repo)) {
+			if (credentialsProvider != null) {
+				prevProvider = LfsFactory.getCredentialsProvider();
+				LfsFactory.setCredentialsProvider(credentialsProvider);
+			}
 
 			// get the head commit
 			Ref headRef = repo.exactRef(Constants.HEAD);
@@ -203,6 +210,10 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					MessageFormat.format(
 							JGitText.get().exceptionCaughtDuringExecutionOfCherryPickCommand,
 							e), e);
+		} finally {
+			if (credentialsProvider != null) {
+				LfsFactory.setCredentialsProvider(prevProvider);
+			}
 		}
 		return new CherryPickResult(newHead, cherryPickedRefs);
 	}

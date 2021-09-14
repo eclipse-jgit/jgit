@@ -38,7 +38,9 @@ import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.LfsFactory;
 
 /**
  * A class used to execute a submodule update command.
@@ -185,22 +187,35 @@ public class SubmoduleUpdateCommand extends
 						merge.include(commit);
 						merge.setProgressMonitor(monitor);
 						merge.setStrategy(strategy);
+						merge.setCredentialsProvider(credentialsProvider);
 						merge.call();
 					} else if (ConfigConstants.CONFIG_KEY_REBASE.equals(update)) {
 						RebaseCommand rebase = new RebaseCommand(submoduleRepo);
 						rebase.setUpstream(commit);
 						rebase.setProgressMonitor(monitor);
 						rebase.setStrategy(strategy);
+						rebase.setCredentialsProvider(credentialsProvider);
 						rebase.call();
 					} else {
-						// Checkout commit referenced in parent repository's
-						// index as a detached HEAD
-						DirCacheCheckout co = new DirCacheCheckout(
-								submoduleRepo, submoduleRepo.lockDirCache(),
-								commit.getTree());
-						co.setFailOnConflict(true);
-						co.setProgressMonitor(monitor);
-						co.checkout();
+						CredentialsProvider prevProvider = null;
+						try {
+							if (credentialsProvider != null) {
+								prevProvider = LfsFactory.getCredentialsProvider();
+								LfsFactory.setCredentialsProvider(credentialsProvider);
+							}
+							// Checkout commit referenced in parent repository's
+							// index as a detached HEAD
+							DirCacheCheckout co = new DirCacheCheckout(
+									submoduleRepo, submoduleRepo.lockDirCache(),
+									commit.getTree());
+							co.setFailOnConflict(true);
+							co.setProgressMonitor(monitor);
+							co.checkout();
+						} finally {
+							if (credentialsProvider != null) {
+								LfsFactory.setCredentialsProvider(prevProvider);
+							}
+						}
 						RefUpdate refUpdate = submoduleRepo.updateRef(
 								Constants.HEAD, true);
 						refUpdate.setNewObjectId(commit);

@@ -9,15 +9,20 @@
  */
 package org.eclipse.jgit.lfs.internal;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
+import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -27,24 +32,33 @@ import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.CommandFailedException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lfs.LfsPointer;
 import org.eclipse.jgit.lfs.Protocol;
 import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.HttpConfig;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.HttpSupport;
+import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.SshSupport;
 import org.eclipse.jgit.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides means to get a valid LFS connection for a given repository.
  */
 public class LfsConnectionFactory {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(LfsConnectionFactory.class);
 
 	private static final int SSH_AUTH_TIMEOUT_SECONDS = 30;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
@@ -90,7 +104,69 @@ public class LfsConnectionFactory {
 				Protocol.CONTENTTYPE_VND_GIT_LFS_JSON);
 		additionalHeaders
 				.forEach((k, v) -> connection.setRequestProperty(k, v));
+
+		if (!authorizeFromUri(connection, lfsUrl)) {
+			authorizeFromCredentialsProvider(connection);
+		}
+
 		return connection;
+	}
+
+	private static void authorizeFromCredentialsProvider(HttpConnection connection) {
+		CredentialsProvider provider = LfsFactory.getCredentialsProvider();
+
+		if (provider == null) {
+			return;
+		}
+
+		CredentialItem.Username u = new CredentialItem.Username();
+		CredentialItem.Password p = new CredentialItem.Password();
+
+		final URIish uri = new URIish(connection.getURL());
+		provider.get(uri, u);
+		provider.get(uri, p);
+
+		if (provider.supports(u, p) && provider.get(uri, u, p)) {
+			String username;
+			String password;
+			username = u.getValue();
+			char[] v = p.getValue();
+			password = (v == null) ? null : new String(v);
+			p.clear();
+
+			authorizeConnection(connection, username, password);
+		}
+	}
+
+	private static boolean authorizeFromUri(HttpConnection connection, String lfsUrl) {
+		try {
+			URIish uri = new URIish(lfsUrl);
+			String user = uri.getUser();
+			String pass = uri.getPass();
+
+			if (user != null && pass != null) {
+				// User/password are _not_ application/x-www-form-urlencoded. In
+				// particular the "+" sign would be replaced by a space.
+				user = URLDecoder.decode(user.replace("+", "%2B"), //$NON-NLS-1$ //$NON-NLS-2$
+						StandardCharsets.UTF_8.name());
+				pass = URLDecoder.decode(pass.replace("+", "%2B"), //$NON-NLS-1$ //$NON-NLS-2$
+						StandardCharsets.UTF_8.name());
+
+				authorizeConnection(connection, user, pass);
+
+				return true;
+			}
+		} catch (URISyntaxException | UnsupportedEncodingException e) {
+			LOG.warn(JGitText.get().httpUserInfoDecodeError, lfsUrl);
+		}
+
+		return false;
+	}
+
+	private static void authorizeConnection(HttpConnection connection, String username, String password) {
+		String ident = username + ":" + password; //$NON-NLS-1$
+		String enc = Base64.encodeBytes(ident.getBytes(UTF_8));
+		connection.setRequestProperty(HDR_AUTHORIZATION, "Basic " + enc); //$NON-NLS-1$
 	}
 
 	/**

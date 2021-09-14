@@ -37,7 +37,6 @@ import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.TagBuilder;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
  * Create/update an annotated tag object or a simple unannotated tag
@@ -62,7 +61,7 @@ import org.eclipse.jgit.transport.CredentialsProvider;
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-tag.html"
  *      >Git documentation about Tag</a>
  */
-public class TagCommand extends GitCommand<Ref> {
+public class TagCommand extends CredentialsAwareCommand<TagCommand, Ref> {
 
 	private RevObject id;
 
@@ -84,8 +83,6 @@ public class TagCommand extends GitCommand<Ref> {
 
 	private GpgObjectSigner gpgSigner;
 
-	private CredentialsProvider credentialsProvider;
-
 	/**
 	 * <p>Constructor for TagCommand.</p>
 	 *
@@ -93,7 +90,6 @@ public class TagCommand extends GitCommand<Ref> {
 	 */
 	protected TagCommand(Repository repo) {
 		super(repo);
-		this.credentialsProvider = CredentialsProvider.getDefault();
 	}
 
 	/**
@@ -497,21 +493,4 @@ public class TagCommand extends GitCommand<Ref> {
 	public String getSigningKey() {
 		return signingKey;
 	}
-
-	/**
-	 * Sets a {@link CredentialsProvider}
-	 *
-	 * @param credentialsProvider
-	 *            the provider to use when querying for credentials (eg., during
-	 *            signing)
-	 * @return {@code this}
-	 * @since 5.11
-	 */
-	public TagCommand setCredentialsProvider(
-			CredentialsProvider credentialsProvider) {
-		checkCallable();
-		this.credentialsProvider = credentialsProvider;
-		return this;
-	}
-
 }

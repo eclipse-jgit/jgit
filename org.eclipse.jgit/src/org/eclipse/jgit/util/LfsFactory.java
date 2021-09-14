@@ -23,6 +23,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
@@ -35,6 +36,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 public class LfsFactory {
 
 	private static LfsFactory instance = new LfsFactory();
+	private static final ThreadLocal<CredentialsProvider> credentialsProviderHolder = new ThreadLocal<>();
 
 	/**
 	 * Constructor
@@ -56,6 +58,31 @@ public class LfsFactory {
 	 */
 	public static void setInstance(LfsFactory instance) {
 		LfsFactory.instance = instance;
+	}
+
+	/**
+	 * @return credentials provider used by LFS.
+	 */
+	public static CredentialsProvider getCredentialsProvider() {
+		return credentialsProviderHolder.get();
+	}
+
+	/**
+	 * @param credentialsProvider set credentials provider used by LFS.
+	 */
+	public static void setCredentialsProvider(CredentialsProvider credentialsProvider) {
+		if (credentialsProvider == null) {
+			removeCredentialsProvider();
+		} else {
+			credentialsProviderHolder.set(credentialsProvider);
+		}
+	}
+
+	/**
+	 * Remove credentials provider.
+	 */
+	public static void removeCredentialsProvider() {
+		credentialsProviderHolder.remove();
 	}
 
 	/**

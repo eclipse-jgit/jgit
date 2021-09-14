@@ -10,7 +10,6 @@
 package org.eclipse.jgit.api;
 
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.Transport;
 
 /**
@@ -25,12 +24,7 @@ import org.eclipse.jgit.transport.Transport;
  * @param <T>
  */
 public abstract class TransportCommand<C extends GitCommand, T> extends
-		GitCommand<T> {
-
-	/**
-	 * Configured credentials provider
-	 */
-	protected CredentialsProvider credentialsProvider;
+		CredentialsAwareCommand<C, T> {
 
 	/**
 	 * Configured transport timeout
@@ -49,21 +43,6 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 	 */
 	protected TransportCommand(Repository repo) {
 		super(repo);
-		setCredentialsProvider(CredentialsProvider.getDefault());
-	}
-
-	/**
-	 * Set the <code>credentialsProvider</code>.
-	 *
-	 * @param credentialsProvider
-	 *            the {@link org.eclipse.jgit.transport.CredentialsProvider} to
-	 *            use
-	 * @return {@code this}
-	 */
-	public C setCredentialsProvider(
-			final CredentialsProvider credentialsProvider) {
-		this.credentialsProvider = credentialsProvider;
-		return self();
 	}
 
 	/**
@@ -94,16 +73,6 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 			final TransportConfigCallback transportConfigCallback) {
 		this.transportConfigCallback = transportConfigCallback;
 		return self();
-	}
-
-	/**
-	 * Return this command cast to {@code C}
-	 *
-	 * @return {@code this} cast to {@code C}
-	 */
-	@SuppressWarnings("unchecked")
-	protected final C self() {
-		return (C) this;
 	}
 
 	/**

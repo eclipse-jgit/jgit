@@ -54,8 +54,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.LfsFactory;
 
 /**
  * Checkout a branch to the working tree.
@@ -99,7 +101,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
  *      "http://www.kernel.org/pub/software/scm/git/docs/git-checkout.html" >Git
  *      documentation about Checkout</a>
  */
-public class CheckoutCommand extends GitCommand<Ref> {
+public class CheckoutCommand extends CredentialsAwareCommand<CheckoutCommand, Ref> {
 
 	/**
 	 * Stage to check out, see {@link CheckoutCommand#setStage(Stage)}.
@@ -172,7 +174,12 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			RefNotFoundException, InvalidRefNameException,
 			CheckoutConflictException {
 		checkCallable();
+		CredentialsProvider prevProvider = null;
 		try {
+			if (credentialsProvider != null) {
+				prevProvider = LfsFactory.getCredentialsProvider();
+				LfsFactory.setCredentialsProvider(credentialsProvider);
+			}
 			processOptions();
 			if (checkoutAllPaths || !paths.isEmpty()) {
 				checkoutPaths();
@@ -306,6 +313,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		} finally {
+			if (credentialsProvider != null) {
+				LfsFactory.setCredentialsProvider(prevProvider);
+			}
 			if (status == null)
 				status = CheckoutResult.ERROR_RESULT;
 		}
