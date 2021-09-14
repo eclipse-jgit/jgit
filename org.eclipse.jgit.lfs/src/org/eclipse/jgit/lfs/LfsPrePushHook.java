@@ -122,6 +122,8 @@ public class LfsPrePushHook extends PrePushHook {
 					// walk all commits to populate objects
 				}
 				findLfsPointers(toPush, walk);
+
+				walk.reset();
 			}
 		}
 		return toPush;
