@@ -53,6 +53,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.util.LfsFactory;
 
 /**
  * Connects two Git repositories together and copies objects between them.
@@ -1373,10 +1374,13 @@ public abstract class Transport implements AutoCloseable {
 		}
 		if (prePush != null) {
 			try {
+				LfsFactory.setCredentialsProvider(credentialsProvider);
 				prePush.setRefs(toPush);
 				prePush.call();
 			} catch (AbortedByHookException | IOException e) {
 				throw new TransportException(e.getMessage(), e);
+			} finally {
+				LfsFactory.removeCredentialsProvider();
 			}
 		}
 
