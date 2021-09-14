@@ -10,6 +10,8 @@
 package org.eclipse.jgit.lfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lfs.Protocol.ACTION_UPLOAD;
+import static org.eclipse.jgit.lfs.Protocol.ACTION_VERIFY;
 import static org.eclipse.jgit.lfs.Protocol.OPERATION_UPLOAD;
 import static org.eclipse.jgit.lfs.internal.LfsConnectionFactory.toRequest;
 import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_OK;
@@ -215,7 +217,7 @@ public class LfsPrePushHook extends PrePushHook {
 					// received an object we didn't request
 					continue;
 				}
-				Protocol.Action uploadAction = o.actions.get(OPERATION_UPLOAD);
+				Protocol.Action uploadAction = o.actions.get(ACTION_UPLOAD);
 				if (uploadAction == null || uploadAction.href == null) {
 					continue;
 				}
@@ -227,6 +229,21 @@ public class LfsPrePushHook extends PrePushHook {
 							.format(LfsText.get().missingLocalObject, path));
 				}
 				uploadFile(o, uploadAction, path);
+
+				Protocol.Action verifyAction = o.actions.get(ACTION_VERIFY);
+				if (verifyAction != null) {
+					HttpConnection verifyServer = LfsConnectionFactory
+						.getLfsContentConnection(getRepository(), verifyAction,
+							METHOD_POST);
+
+					verifyServer.setDoOutput(true);
+					verifyServer.getOutputStream().write(Protocol.gson().toJson(ptr).getBytes(UTF_8));
+					int responseCode = verifyServer.getResponseCode();
+					if (responseCode != HTTP_OK) {
+						throw new IOException(
+							MessageFormat.format(LfsText.get().serverFailure, verifyServer.getURL(), responseCode));
+					}
+				}
 			}
 		}
 	}
