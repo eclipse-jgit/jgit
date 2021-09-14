@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "556d40ab_aaa96c50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-09-14T08:19:42Z",
+      "side": 1,
+      "message": "nit: use imperative form in commit messages",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9473d00f_3348e254",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-09-14T08:19:42Z",
+      "side": 1,
+      "message": "4. The git-upload-pack starts transferring the whole packfile and finds a stable file handle instead",
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91c47f41_70634fbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-09-14T08:19:42Z",
+      "side": 1,
+      "message": "It would be best to also say why previously it wasn\u0027t working and why a Git client retry would have not worked whilst with this change it does work.",
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09cf6143_7af9f513",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/LocalCachedPackTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-09-14T08:19:42Z",
+      "side": 1,
+      "message": "TriggerRefreshPackListException",
+      "range": {
+        "startLine": 44,
+        "startChar": 20,
+        "endLine": 44,
+        "endChar": 41
+      },
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8062643_0b0f009a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/LocalCachedPackTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-09-14T08:19:42Z",
+      "side": 1,
+      "message": "AnyIOException",
+      "range": {
+        "startLine": 69,
+        "startChar": 41,
+        "endLine": 69,
+        "endChar": 53
+      },
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c15b3324_edfa307a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-09-14T08:19:42Z",
+      "side": 1,
+      "message": "Could you explain in the comment the reason why you\u0027ve chosen \u00273\u0027 as number and why it isn\u0027t configurable?",
+      "range": {
+        "startLine": 228,
+        "startChar": 50,
+        "endLine": 228,
+        "endChar": 53
+      },
+      "revId": "5fde28161064c9f8a144549547b3e41985afadcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
