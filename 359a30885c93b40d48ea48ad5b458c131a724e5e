@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2adf5d10_9462328f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 209389
+      },
+      "writtenOn": "2021-09-15T02:38:30Z",
+      "side": 1,
+      "message": "What‘s the reason to recreate the factory and parser instance on every call? Do they change the internal state?",
+      "revId": "359a30885c93b40d48ea48ad5b458c131a724e5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
