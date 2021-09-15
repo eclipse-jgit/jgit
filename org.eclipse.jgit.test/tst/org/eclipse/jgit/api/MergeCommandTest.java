@@ -1881,6 +1881,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	@Test
 	public void testRecursiveMergeWithConflict() throws Exception {
 		try (TestRepository<Repository> db_t = new TestRepository<>(db)) {
+			db.incrementOpen();
 			BranchBuilder master = db_t.branch("master");
 			RevCommit m0 = master.commit()
 					.add("f", "1\n2\n3\n4\n5\n6\n7\n8\n9\n").message("m0")
