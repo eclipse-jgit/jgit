@@ -50,6 +50,7 @@ public class PushCommandTest extends RepositoryTestCase {
 
 		// create other repository
 		Repository db2 = createWorkRepository();
+		addRepoToClose(db2);
 		final StoredConfig config2 = db2.getConfig();
 
 		// this tests that this config can be parsed properly
@@ -297,6 +298,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	public void testPushAfterGC() throws Exception {
 		// create other repository
 		Repository db2 = createWorkRepository();
+		addRepoToClose(db2);
 
 		// setup the first repository
 		final StoredConfig config = db.getConfig();
@@ -360,6 +362,7 @@ public class PushCommandTest extends RepositoryTestCase {
 
 		// create other repository
 		Repository db2 = createWorkRepository();
+		addRepoToClose(db2);
 
 		// setup the first repository
 		final StoredConfig config = db.getConfig();

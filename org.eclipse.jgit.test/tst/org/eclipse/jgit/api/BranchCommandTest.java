@@ -71,6 +71,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 
 	private Git setUpRepoWithRemote() throws Exception {
 		Repository remoteRepository = createWorkRepository();
+		addRepoToClose(remoteRepository);
 		try (Git remoteGit = new Git(remoteRepository)) {
 			// commit something
 			writeTrashFile("Test.txt", "Hello world");
@@ -85,6 +86,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 			rup.forceUpdate();
 
 			Repository localRepository = createWorkRepository();
+			addRepoToClose(localRepository);
 			Git localGit = new Git(localRepository);
 			StoredConfig config = localRepository.getConfig();
 			RemoteConfig rc = new RemoteConfig(config, "origin");

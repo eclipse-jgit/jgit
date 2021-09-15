@@ -567,6 +567,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		dbTarget = createWorkRepository();
+		addRepoToClose(dbTarget);
 		source = new Git(db);
 		target = new Git(dbTarget);
 
