@@ -242,6 +242,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		ListenerHandle handle = null;
 		try (Git git = new Git(db);
 				TestRepository<Repository> db_t = new TestRepository<>(db)) {
+			db.incrementOpen();
 			handle = db.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			BranchBuilder master = db_t.branch("master");
@@ -261,6 +262,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			String attributes) throws Exception {
 		try (Git git = new Git(db);
 				TestRepository<Repository> db_t = new TestRepository<>(db)) {
+			db.incrementOpen();
 			BranchBuilder master = db_t.branch("master");
 			master.commit().add("f", inIndex).message("m0").create();
 			if (!StringUtils.isEmptyOrNull(attributes)) {
@@ -2065,6 +2067,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void testCheckoutWithEmptyIndexDoesntOverwrite() throws Exception {
 		try (Git git = new Git(db);
 				TestRepository<Repository> db_t = new TestRepository<>(db)) {
+			db.incrementOpen();
 			// prepare the commits
 			BranchBuilder master = db_t.branch("master");
 			RevCommit mergeCommit = master.commit()
