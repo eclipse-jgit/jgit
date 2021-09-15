@@ -110,6 +110,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testTinyThinPack() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
+			db.incrementOpen();
 			a = d.blob("a");
 		}
 
@@ -132,6 +133,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testPackWithDuplicateBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789abcdefg");
 		try (TestRepository<Repository> d = new TestRepository<>(db)) {
+			db.incrementOpen();
 			assertTrue(db.getObjectDatabase().has(d.blob(data)));
 		}
 
@@ -151,6 +153,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testPackWithTrailingGarbage() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
+			db.incrementOpen();
 			a = d.blob("a");
 		}
 
@@ -180,6 +183,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testMaxObjectSizeFullBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789");
 		try (TestRepository d = new TestRepository<Repository>(db)) {
+			db.incrementOpen();
 			d.blob(data);
 		}
 
@@ -213,6 +217,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testMaxObjectSizeDeltaBlock() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
+			db.incrementOpen();
 			a = d.blob("a");
 		}
 
@@ -246,6 +251,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testMaxObjectSizeDeltaResultSize() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
+			db.incrementOpen();
 			a = d.blob("0123456789");
 		}
 
@@ -278,6 +284,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testNonMarkingInputStream() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
+			db.incrementOpen();
 			a = d.blob("a");
 		}
 
@@ -318,6 +325,7 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testDataAfterPackFooterSingleRead() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
+			db.incrementOpen();
 			a = d.blob("a");
 		}
 
@@ -379,6 +387,7 @@ public class PackParserTest extends RepositoryTestCase {
 		final byte[] data = Constants.encode("a");
 		RevBlob b;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
+			db.incrementOpen();
 			b = d.blob(data);
 		}
 
