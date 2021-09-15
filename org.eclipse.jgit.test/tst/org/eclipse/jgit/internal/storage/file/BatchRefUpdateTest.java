@@ -127,6 +127,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 
 		diskRepo = fileRepo;
+		addRepoToClose(diskRepo);
 		setLogAllRefUpdates(true);
 
 		if (!useReftable) {

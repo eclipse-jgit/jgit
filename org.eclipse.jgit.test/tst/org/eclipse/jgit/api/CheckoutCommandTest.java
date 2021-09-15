@@ -292,6 +292,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	@Test
 	public void testCheckoutRemoteTrackingWithUpstream() throws Exception {
 		Repository db2 = createRepositoryWithRemote();
+		addRepoToClose(db2);
 
 		Git.wrap(db2).checkout().setCreateBranch(true).setName("test")
 				.setStartPoint("origin/test")
@@ -311,6 +312,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	@Test
 	public void testCheckoutRemoteTrackingWithoutLocalBranch() throws Exception {
 		Repository db2 = createRepositoryWithRemote();
+		addRepoToClose(db2);
 
 		// checkout remote tracking branch in second repository
 		// (no local branches exist yet in second repository)

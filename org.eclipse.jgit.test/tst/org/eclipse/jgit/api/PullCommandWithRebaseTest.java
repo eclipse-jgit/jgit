@@ -323,6 +323,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 		dbTarget = createWorkRepository();
 		source = new Git(db);
 		target = new Git(dbTarget);
+		addRepoToClose(dbTarget);
 
 		// put some file in the source repo
 		sourceFile = new File(db.getWorkTree(), "SomeFile.txt");
