@@ -73,7 +73,9 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		super.setUp();
 
 		src = createBareRepository();
+		addRepoToClose(src);
 		dst = createBareRepository();
+		addRepoToClose(dst);
 
 		// Fill dst with a some common history.
 		//

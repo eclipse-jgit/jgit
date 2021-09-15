@@ -33,6 +33,7 @@ public class FetchTest extends CLIRepositoryTestCase {
 		git.commit().setMessage("initial commit").call();
 
 		Repository remoteRepository = createWorkRepository();
+		addRepoToClose(remoteRepository);
 		remoteGit = new Git(remoteRepository);
 
 		// setup the first repository to fetch from the second repository
