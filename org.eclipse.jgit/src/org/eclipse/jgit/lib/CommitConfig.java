@@ -18,6 +18,8 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 import java.text.MessageFormat;
+
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
@@ -77,6 +79,9 @@ public class CommitConfig {
 	 * {@code commit.template}. If no {@code i18n.commitEncoding} is specified,
 	 * UTF-8 fallback is used.
 	 *
+	 * @param repository
+	 *            to resolve relative path in local git repo config
+	 *
 	 * @return content of the commit template or {@code null} if not present.
 	 * @throws IOException
 	 *             if the template file can not be read
@@ -86,7 +91,7 @@ public class CommitConfig {
 	 *             if a {@code commitEncoding} is specified and is invalid
 	 */
 	@Nullable
-	public String getCommitTemplateContent()
+	public String getCommitTemplateContent(@NonNull Repository repository)
 			throws FileNotFoundException, IOException, ConfigInvalidException {
 
 		if (commitTemplatePath == null) {
@@ -94,11 +99,17 @@ public class CommitConfig {
 		}
 
 		File commitTemplateFile;
+		FS fileSystem = repository.getFS();
 		if (commitTemplatePath.startsWith("~/")) { //$NON-NLS-1$
-			commitTemplateFile = FS.DETECTED.resolve(FS.DETECTED.userHome(),
+			commitTemplateFile = fileSystem.resolve(fileSystem.userHome(),
 					commitTemplatePath.substring(2));
 		} else {
-			commitTemplateFile = FS.DETECTED.resolve(null, commitTemplatePath);
+			commitTemplateFile = fileSystem.resolve(null, commitTemplatePath);
+		}
+		if (!commitTemplateFile.isAbsolute()) {
+			commitTemplateFile = fileSystem.resolve(
+					repository.getWorkTree().getAbsoluteFile(),
+					commitTemplatePath);
 		}
 
 		Charset commitMessageEncoding = getEncoding();
