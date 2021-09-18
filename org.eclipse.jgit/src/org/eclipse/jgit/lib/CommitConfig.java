@@ -77,6 +77,9 @@ public class CommitConfig {
 	 * {@code commit.template}. If no {@code i18n.commitEncoding} is specified,
 	 * UTF-8 fallback is used.
 	 *
+	 * @param repository
+	 *            to resolve relative path in local git repo config
+	 *
 	 * @return content of the commit template or {@code null} if not present.
 	 * @throws IOException
 	 *             if the template file can not be read
@@ -86,7 +89,7 @@ public class CommitConfig {
 	 *             if a {@code commitEncoding} is specified and is invalid
 	 */
 	@Nullable
-	public String getCommitTemplateContent()
+	public String getCommitTemplateContent(Repository repository)
 			throws FileNotFoundException, IOException, ConfigInvalidException {
 
 		if (commitTemplatePath == null) {
@@ -99,6 +102,11 @@ public class CommitConfig {
 					commitTemplatePath.substring(2));
 		} else {
 			commitTemplateFile = FS.DETECTED.resolve(null, commitTemplatePath);
+		}
+		if (!commitTemplateFile.isAbsolute()) {
+			commitTemplateFile = FS.DETECTED.resolve(
+					repository.getWorkTree().getAbsoluteFile(),
+					commitTemplatePath);
 		}
 
 		Charset commitMessageEncoding = getEncoding();
