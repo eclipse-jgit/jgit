@@ -62,6 +62,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 	private RefDirectory refdir;
 
+	private Map<String, Ref> loadedRefsByPrefix;
+
 	private RevCommit A;
 
 	private RevCommit B;
@@ -74,7 +76,14 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		super.setUp();
 
 		diskRepo = createBareRepository();
-		refdir = (RefDirectory) diskRepo.getRefDatabase();
+		refdir = new WrappedRefDirectory(
+				(RefDirectory) diskRepo.getRefDatabase()) {
+			@Override
+			public Map<String, Ref> getRefs(String prefix) throws IOException {
+				loadedRefsByPrefix = super.getRefs(prefix);
+				return loadedRefsByPrefix;
+			}
+		};
 
 		repo = new TestRepository<>(diskRepo);
 		A = repo.commit().create();
@@ -172,6 +181,27 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertFalse(master.isSymbolic());
 		assertSame(LOOSE, master.getStorage());
 		assertEquals(A, master.getObjectId());
+	}
+
+	@Test
+	public void testGetRefsByPrefix_HeadShouldLoadSingleRef()
+			throws IOException {
+		List<Ref> headRefs;
+		Ref head;
+
+		writeLooseRef("refs/heads/master", A);
+		writeLooseRef("refs/heads/branch", B);
+
+		headRefs = refdir.getRefsByPrefix(HEAD);
+		assertEquals(1, headRefs.size());
+		assertNull(loadedRefsByPrefix);
+
+		head = headRefs.get(0);
+
+		assertEquals(HEAD, head.getName());
+		assertTrue(head.isSymbolic());
+		assertEquals("refs/heads/master", head.getLeaf().getName());
+		assertEquals(A, head.getLeaf().getObjectId());
 	}
 
 	@Test
