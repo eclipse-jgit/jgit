@@ -12,9 +12,11 @@ package org.eclipse.jgit.lib;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -394,10 +396,12 @@ public abstract class RefDatabase {
 	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
 		Map<String, Ref> coarseRefs;
 		int lastSlash = prefix.lastIndexOf('/');
-		if (lastSlash == -1) {
-			coarseRefs = getRefs(ALL);
-		} else {
+		if (lastSlash > -1) {
 			coarseRefs = getRefs(prefix.substring(0, lastSlash + 1));
+		} else if (prefix.equals(HEAD)) {
+			return Collections.unmodifiableList(Arrays.asList(exactRef(HEAD)));
+		} else {
+			coarseRefs = getRefs(ALL);
 		}
 
 		List<Ref> result;
