@@ -175,6 +175,25 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testGetRefs_HeadShouldReturnSingleRef()
+			throws IOException {
+		Map<String, Ref> all;
+		Ref head;
+
+		writeLooseRef("refs/heads/master", A);
+		writeLooseRef("refs/heads/branch", B);
+
+		all = refdir.getRefs(HEAD);
+		assertEquals(1, all.size());
+		assertTrue("has HEAD", all.containsKey(HEAD));
+
+		head = all.get(HEAD);
+		assertTrue(head.isSymbolic());
+		assertEquals("refs/heads/master", head.getLeaf().getName());
+		assertEquals(A, head.getLeaf().getObjectId());
+	}
+
+	@Test
 	public void testGetRefs_DeatchedHead1() throws IOException {
 		Map<String, Ref> all;
 		Ref head;
