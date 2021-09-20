@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd337d07_48fa5192",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-20T21:55:54Z",
+      "side": 1,
+      "message": "- change the order of checks to avoid the more expensive call to the equals method for the more likely case containing a slash ?\n\n if (lastSlash \u003e -1) {\n     coarseRefs \u003d getRefs(prefix.substring(0, lastSlash + 1));\n } else if (prefix.equals(HEAD)) {\n     coarseRefs \u003d getRefs(prefix);\n } else {\n     coarseRefs \u003d getRefs(ALL);\n }\n\n- add a test to RefTest ?",
+      "revId": "ae9c9745c48f87d290d807d36208c608569e3bce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
