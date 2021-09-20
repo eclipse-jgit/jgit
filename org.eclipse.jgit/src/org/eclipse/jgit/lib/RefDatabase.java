@@ -12,6 +12,7 @@ package org.eclipse.jgit.lib;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -395,12 +397,40 @@ public abstract class RefDatabase {
 	 */
 	@NonNull
 	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
+		return getRefsByPrefix(prefix, this);
+	}
+
+	/**
+	 * Returns refs whose names start with a given prefix.
+	 * <p>
+	 * The default implementation uses {@link #getRefs(String)}. Implementors of
+	 * {@link RefDatabase} should override this method directly if a better
+	 * implementation is possible.
+	 *
+	 * @param prefix
+	 *            string that names of refs should start with; may be empty (to
+	 *            return all refs).
+	 * @param refDb
+	 *            ref database to use for looking up the refs.
+	 * @return immutable list of refs whose names start with {@code prefix}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 6.1
+	 */
+	public List<Ref> getRefsByPrefix(String prefix, RefDatabase refDb)
+			throws IOException {
 		Map<String, Ref> coarseRefs;
+
+		if (prefix.equals(HEAD)) {
+			return Optional.ofNullable(refDb.exactRef(HEAD)).stream()
+					.collect(Collectors.toUnmodifiableList());
+		}
+
 		int lastSlash = prefix.lastIndexOf('/');
 		if (lastSlash == -1) {
-			coarseRefs = getRefs(ALL);
+			coarseRefs = refDb.getRefs(ALL);
 		} else {
-			coarseRefs = getRefs(prefix.substring(0, lastSlash + 1));
+			coarseRefs = refDb.getRefs(prefix.substring(0, lastSlash + 1));
 		}
 
 		List<Ref> result;

@@ -18,6 +18,7 @@ HELPERS = glob(
     "internal/revwalk/ReachabilityCheckerTestCase.java",
     "internal/storage/file/GcTestCase.java",
     "internal/storage/file/PackIndexTestCase.java",
+    "internal/storage/file/WrappedRefDirectory.java",
     "internal/storage/file/XInputStream.java",
     "nls/GermanTranslatedBundle.java",
     "nls/MissingPropertyBundle.java",
