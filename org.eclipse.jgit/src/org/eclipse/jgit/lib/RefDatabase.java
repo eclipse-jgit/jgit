@@ -12,6 +12,7 @@ package org.eclipse.jgit.lib;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -397,7 +398,9 @@ public abstract class RefDatabase {
 	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
 		Map<String, Ref> coarseRefs;
 		int lastSlash = prefix.lastIndexOf('/');
-		if (lastSlash == -1) {
+		if (prefix.equals(HEAD)) {
+			coarseRefs = getRefs(prefix);
+		} else if (lastSlash == -1) {
 			coarseRefs = getRefs(ALL);
 		} else {
 			coarseRefs = getRefs(prefix.substring(0, lastSlash + 1));

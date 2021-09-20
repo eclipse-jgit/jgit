@@ -363,7 +363,7 @@ public class RefDirectory extends RefDatabase {
 		}
 		symbolic.sort();
 
-		return new RefMap(prefix, packed, upcast(loose), symbolic.toRefList());
+		return new RefMap(HEAD.equals(prefix) ? "": prefix, packed, upcast(loose), symbolic.toRefList());
 	}
 
 	/** {@inheritDoc} */
@@ -397,7 +397,9 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		void scan(String prefix) {
-			if (ALL.equals(prefix)) {
+			if (HEAD.equals(prefix)) {
+				scanOne(HEAD);
+			} else if (ALL.equals(prefix)) {
 				scanOne(HEAD);
 				scanTree(R_REFS, refsDir);
 
