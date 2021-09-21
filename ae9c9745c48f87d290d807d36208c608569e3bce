@@ -16,6 +16,24 @@
       "revId": "ae9c9745c48f87d290d807d36208c608569e3bce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc4037d5_f753f794",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-09-21T22:39:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "dd337d07_48fa5192",
+      "revId": "ae9c9745c48f87d290d807d36208c608569e3bce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
