@@ -16,6 +16,24 @@
       "revId": "359a30885c93b40d48ea48ad5b458c131a724e5e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fbaf475_a0523475",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-22T06:31:04Z",
+      "side": 1,
+      "message": "not sure if SAXParserFactory is thread safe, this old javadoc \nhttps://docs.oracle.com/cd/E17802_01/webservices/webservices/docs/1.5/api/javax/xml/parsers/SAXParserFactory.html\nsays it\u0027s not guaranteed to be thread-safe, this newer one \nhttps://docs.oracle.com/en/java/javase/11/docs/api/java.xml/javax/xml/parsers/SAXParserFactory.html\ndoesn\u0027t mention thread safety.",
+      "parentUuid": "2adf5d10_9462328f",
+      "revId": "359a30885c93b40d48ea48ad5b458c131a724e5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
