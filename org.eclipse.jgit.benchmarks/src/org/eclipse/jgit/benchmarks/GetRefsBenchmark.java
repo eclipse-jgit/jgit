@@ -44,7 +44,7 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 @State(Scope.Thread)
-public class GetExactRefBenchmark {
+public class GetRefsBenchmark {
 
 	AtomicInteger branchIndex = new AtomicInteger();
 
@@ -53,7 +53,7 @@ public class GetExactRefBenchmark {
 
 		boolean useRefTable = false;
 
-		@Param({ "100", "500", "2500" })
+		@Param({ "100", "2500", "10000", "50000" })
 		int numBranches;
 
 		@Param({ "true", "false" })
@@ -97,7 +97,7 @@ public class GetExactRefBenchmark {
 			System.out.println("- doGc: \t\t" + doGc);
 			System.out.println("- branches: \t\t" + numBranches);
 			for (int branchIdx = 0; branchIdx < numBranches;) {
-				String branchName = "branch-" + branchIdx;
+				String branchName = "branch/" + branchIdx % 100 + "/" + branchIdx;
 				branches.add(branchName);
 				git.checkout().setCreateBranch(true).setName(branchName).call();
 				git.commit().setMessage("Test commit on " + branchName).call();
@@ -126,13 +126,23 @@ public class GetExactRefBenchmark {
 	@Benchmark
 	@BenchmarkMode({ Mode.AverageTime })
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	@Warmup(iterations = 5, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.SECONDS)
+	@Warmup(iterations = 2, time = 10, timeUnit = TimeUnit.MILLISECONDS)
+	@Measurement(iterations = 2, time = 10, timeUnit = TimeUnit.SECONDS)
 	public void testGetExactRef(Blackhole blackhole, BenchmarkState state)
 			throws IOException {
 		String branchName = state.branches
 				.get(branchIndex.incrementAndGet() % state.numBranches);
 		blackhole.consume(state.repo.exactRef(branchName));
+	}
+
+	@Benchmark
+	@BenchmarkMode({ Mode.AverageTime })
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	@Warmup(iterations = 2, time = 10, timeUnit = TimeUnit.MILLISECONDS)
+	@Measurement(iterations = 2, time = 10, timeUnit = TimeUnit.SECONDS)
+	public void testGetRefsByPrefix(Blackhole blackhole, BenchmarkState state) throws IOException {
+		String branchPrefix = "refs/heads/branch/" + branchIndex.incrementAndGet() % 100 + "/";
+		blackhole.consume(state.repo.getRefDatabase().getRefsByPrefix(branchPrefix));
 	}
 
 	public static void main(String[] args) throws RunnerException {
