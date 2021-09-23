@@ -53,7 +53,7 @@ public class GetExactRefBenchmark {
 
 		boolean useRefTable = false;
 
-		@Param({ "100", "500", "2500" })
+		@Param({ "100", "500", "2500", "5000", "10000", "50000" })
 		int numBranches;
 
 		@Param({ "true", "false" })
