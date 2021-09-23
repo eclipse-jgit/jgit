@@ -1084,8 +1084,14 @@ public class RefDirectory extends RefDatabase {
 
 		if (ref != null) {
 			currentSnapshot = ref.getSnapShot();
-			if (!currentSnapshot.isModified(path))
+			// TODO: we should not read the config for each loose ref but cache
+			// it higher in the stack
+			boolean trustFolderStat = parent.getConfig().getBoolean(
+					ConfigConstants.CONFIG_CORE_SECTION,
+					ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+			if (trustFolderStat && !currentSnapshot.isModified(path)) {
 				return ref;
+			}
 			name = ref.getName();
 		}
 
