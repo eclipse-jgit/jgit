@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7d11e953_82c750e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-09-23T18:39:45Z",
+      "side": 1,
+      "message": "is this method expected to handle refs outside of the refs/ namespace? if yes, seems like we\u0027d need to fix more than just HEAD? It seems wrong to expect this method to handle a non-prefix string other than empty.",
+      "range": {
+        "startLine": 396,
+        "startChar": 18,
+        "endLine": 396,
+        "endChar": 33
+      },
+      "revId": "323a3f5b76be1361cf097a284c8eed07dc0bd61f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3c8fa7d_e51f66fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 4
