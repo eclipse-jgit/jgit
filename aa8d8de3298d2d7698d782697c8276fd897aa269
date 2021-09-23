@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7be92f60_adb32206",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-23T21:41:31Z",
+      "side": 1,
+      "message": "needs to be also updated in packaging pom",
+      "revId": "aa8d8de3298d2d7698d782697c8276fd897aa269",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
