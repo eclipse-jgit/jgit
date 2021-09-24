@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1755fc8_4aa9d0fb",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-24T08:29:59Z",
+      "side": 1,
+      "message": "this takes forever to setup the test, to speed this up we could try to create objects and refs in a bare repo in memory and not by checking out to the working tree in the file system, similar to how Gerrit creates commits on a bare repo, this could then be done in multiple threads to speed up the test setup",
+      "range": {
+        "startLine": 56,
+        "startChar": 35,
+        "endLine": 56,
+        "endChar": 42
+      },
+      "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6097b12b_7d4613fc",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-24T08:29:59Z",
+      "side": 1,
+      "message": "100ms was already a short warmup, I think 10ms might be too short",
+      "range": {
+        "startLine": 129,
+        "startChar": 32,
+        "endLine": 129,
+        "endChar": 34
+      },
+      "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfa2ebb7_b3b606b8",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-24T08:29:59Z",
+      "side": 1,
+      "message": "you renamed the class so this reference needs to be updated",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 33
+      },
+      "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
