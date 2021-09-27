@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72ddc761_b117a79f",
+        "filename": "org.eclipse.jgit.benchmarks/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-09-27T14:24:28Z",
+      "side": 1,
+      "message": "probably needs ewah as well?\n\n Running GC ... \u003cfailure\u003e\n\njava.lang.NoClassDefFoundError: com/googlecode/javaewah/EWAHCompressedBitmap\n\tat org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder.\u003cinit\u003e(PackBitmapIndexBuilder.java:69)\n\tat org.eclipse.jgit.internal.storage.pack.PackWriter.prepareBitmapIndex(PackWriter.java:2333)\n\tat org.eclipse.jgit.internal.storage.file.GC.writePack(GC.java:1204)\n\tat org.eclipse.jgit.internal.storage.file.GC.repack(GC.java:852)\n\tat org.eclipse.jgit.internal.storage.file.GC.doGc(GC.java:269)\n\tat org.eclipse.jgit.internal.storage.file.GC.gc(GC.java:220)",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "a5b472fb40485c273d0a852d788818c016c1a77e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
