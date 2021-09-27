@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1453a2b_75ef36f2",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-09-27T11:23:57Z",
+      "side": 1,
+      "message": "this is a bit clumsy. If you want to create N branches, just do \n\n```\nrepo \u003d OpenRepository ()\n\nfor (int i \u003d 0; i \u003c N; i++) {\n  update \u003drepo.getRefDb().newUpdate(\"refs/heads/branch\" + i);\n  update.setNewObjectId(..).update()\n}\n```\n\nor use a single BatchRefUpdate.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 0
+      },
+      "revId": "677910252bcd5b59d4b2a71106deaa0ef9ae7ee3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
