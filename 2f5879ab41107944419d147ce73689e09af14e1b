@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "baaefeb7_8bfecbaa",
+        "filename": "org.eclipse.jgit/.classpath",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-09-28T11:47:21Z",
+      "side": 1,
+      "message": "Jain. By default, JDT adds this attribute to mark the JRE as modular, but in most cases it doesn\u0027t use it. I would keep it because by default tooling will add it.",
+      "parentUuid": "698e3842_5d9b5b29",
+      "revId": "2f5879ab41107944419d147ce73689e09af14e1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18031824_f0b08c91",
         "filename": "pom.xml",
         "patchSetId": 6
