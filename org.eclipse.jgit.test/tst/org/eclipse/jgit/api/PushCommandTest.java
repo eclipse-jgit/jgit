@@ -324,7 +324,7 @@ public class PushCommandTest extends RepositoryTestCase {
 
 			// run a gc to ensure we have a bitmap index
 			Properties res = git1.gc().setExpire(null).call();
-			assertEquals(7, res.size());
+			assertEquals(8, res.size());
 
 			// create another commit so we have something else to push
 			writeTrashFile("b", "content of b");
