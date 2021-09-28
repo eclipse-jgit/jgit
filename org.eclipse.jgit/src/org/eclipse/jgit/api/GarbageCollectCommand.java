@@ -221,6 +221,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	@SuppressWarnings("boxing")
 	private static Properties toProperties(RepoStatistics stats) {
 		Properties p = new Properties();
+		p.put("numberOfBitmaps", stats.numberOfBitmaps); //$NON-NLS-1$
 		p.put("numberOfLooseObjects", stats.numberOfLooseObjects); //$NON-NLS-1$
 		p.put("numberOfLooseRefs", stats.numberOfLooseRefs); //$NON-NLS-1$
 		p.put("numberOfPackedObjects", stats.numberOfPackedObjects); //$NON-NLS-1$
