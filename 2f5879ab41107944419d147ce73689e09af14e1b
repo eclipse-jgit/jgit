@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6ef7db9_66a3363b",
+        "filename": "org.eclipse.jgit.test/org.eclipse.jgit.core--All-Tests (Java 8).launch",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-09-28T11:26:35Z",
+      "side": 1,
+      "message": "Prabably the file names should be changed, too? They still say \"(Java 8)\".",
+      "revId": "2f5879ab41107944419d147ce73689e09af14e1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e7edfdf_2ddb6d4d",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-09-28T11:26:35Z",
+      "side": 1,
+      "message": "TODO (after the Java 11 switch): we can bump this now to the latest 3.27.0.",
+      "revId": "2f5879ab41107944419d147ce73689e09af14e1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a064e06_94731813",
+        "filename": "tools/eclipse-JGit-Format.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-09-28T11:26:35Z",
+      "side": 1,
+      "message": "This one should be 11, too.",
+      "revId": "2f5879ab41107944419d147ce73689e09af14e1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
