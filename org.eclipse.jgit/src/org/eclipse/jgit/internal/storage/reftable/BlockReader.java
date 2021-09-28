@@ -92,7 +92,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 class BlockReader {
 	private byte blockType;
 	private long endPosition;
-	private boolean truncated;
 
 	private byte[] buf;
 	private int bufLen;
@@ -110,10 +109,6 @@ class BlockReader {
 
 	byte type() {
 		return blockType;
-	}
-
-	boolean truncated() {
-		return truncated;
 	}
 
 	long endPosition() {
@@ -331,16 +326,8 @@ class BlockReader {
 			// Log blocks must be inflated after the header.
 			long deflatedSize = inflateBuf(src, pos, blockLen, fileBlockSize);
 			endPosition = pos + 4 + deflatedSize;
-		}
-		if (bufLen < blockLen) {
-			if (blockType != INDEX_BLOCK_TYPE) {
-				throw invalidBlock();
-			}
-			// Its OK during sequential scan for an index block to have been
-			// partially read and be truncated in-memory. This happens when
-			// the index block is larger than the file's blockSize. Caller
-			// will break out of its scan loop once it sees the blockType.
-			truncated = true;
+		} else if (bufLen < blockLen) {
+			readBlockIntoBuf(src, pos, blockLen);
 		} else if (bufLen > blockLen) {
 			bufLen = blockLen;
 		}
@@ -405,7 +392,7 @@ class BlockReader {
 	}
 
 	void verifyIndex() throws IOException {
-		if (blockType != INDEX_BLOCK_TYPE || truncated) {
+		if (blockType != INDEX_BLOCK_TYPE) {
 			throw invalidBlock();
 		}
 	}
