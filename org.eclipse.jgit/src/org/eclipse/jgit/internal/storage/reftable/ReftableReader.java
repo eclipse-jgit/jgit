@@ -468,7 +468,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 
 		BlockReader b = new BlockReader();
 		b.readBlock(src, pos, sz);
-		if (b.type() == INDEX_BLOCK_TYPE && !b.truncated()) {
+		if (b.type() == INDEX_BLOCK_TYPE) {
 			if (indexCache == null) {
 				indexCache = new LongMap<>();
 			}
