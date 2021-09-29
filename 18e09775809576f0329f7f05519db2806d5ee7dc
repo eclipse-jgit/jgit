@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32819793_57934653",
+        "filename": "org.eclipse.jgit.ant.test/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-29T15:35:49Z",
+      "side": 1,
+      "message": "Eclipse uses its own compiler called ecj and these are the settings for ecj which can be tweaked in each Eclipse project\u0027s properties under \"Java compiler\", see https://imgur.com/an0wT2Z\n\nthe settings used here are the default settings as I mentioned in the commit message",
+      "parentUuid": "731bede5_dcbdd1de",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 59
+      },
+      "revId": "18e09775809576f0329f7f05519db2806d5ee7dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "54302d3f_60bc0c96",
         "filename": "org.eclipse.jgit.ant.test/.settings/org.eclipse.jdt.core.prefs",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2021-09-29T14:21:13Z",
       "side": 1,
       "message": "Is this setting to warn the user when a preview feature is disabled? If so, why we need to set it if the preview features are disabled?",
+      "range": {
+        "startLine": 84,
+        "startChar": 38,
+        "endLine": 84,
+        "endChar": 59
+      },
+      "revId": "18e09775809576f0329f7f05519db2806d5ee7dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe4c3ded_8698d616",
+        "filename": "org.eclipse.jgit.ant.test/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-29T15:35:49Z",
+      "side": 1,
+      "message": "that\u0027s the default, I guess this is done to ensure that as soon as you switch on preview features you are warned about this fact since preview features are experimental and e.g. you need to run them on the Java version they have been compiled for since they can change in any way or even disappear in later Java releases until they go GA.\n\nsee\nhttps://docs.oracle.com/en/java/javase/16/language/preview-language-and-vm-features.html\nhttps://www.baeldung.com/java-preview-features",
+      "parentUuid": "54302d3f_60bc0c96",
       "range": {
         "startLine": 84,
         "startChar": 38,
