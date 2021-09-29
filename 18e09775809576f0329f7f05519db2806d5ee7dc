@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "54302d3f_60bc0c96",
+        "filename": "org.eclipse.jgit.ant.test/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-09-29T14:21:13Z",
+      "side": 1,
+      "message": "Is this setting to warn the user when a preview feature is disabled? If so, why we need to set it if the preview features are disabled?",
+      "range": {
+        "startLine": 84,
+        "startChar": 38,
+        "endLine": 84,
+        "endChar": 59
+      },
+      "revId": "18e09775809576f0329f7f05519db2806d5ee7dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b5a026c_690ccbab",
         "filename": "org.eclipse.jgit.benchmarks/.settings/org.eclipse.jdt.core.prefs",
         "patchSetId": 8
