@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d61a5fe7_5e544412",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-09-29T06:40:09Z",
+      "side": 1,
+      "message": "You\u0027ll also need to remove pack200, it doesn\u0027t exist anymore in tycho 2.4.0.",
+      "revId": "ca943f4307b9917006024efb861376b6a54aa155",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
