@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fae0765_bc929e05",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-09-29T06:36:52Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be just \u003crelease\u003e${java.version}\u003c/release\u003e?",
+      "revId": "73ba5334557ccb193c8aa3e8e0d4c67fbb37f85e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6b2d906_bf5a6d35",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-09-29T06:36:52Z",
+      "side": 1,
+      "message": "\u003crelease\u003e needed here, too.",
+      "revId": "73ba5334557ccb193c8aa3e8e0d4c67fbb37f85e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
