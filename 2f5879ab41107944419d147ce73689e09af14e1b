@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "2cd1c23c_1b4fcb0b",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-09-29T00:14:37Z",
+      "side": 1,
+      "message": "see Ia3845a14d8169595425fd435ef3ef09c08e82f53",
+      "parentUuid": "f05cf205_1f572ee5",
+      "revId": "2f5879ab41107944419d147ce73689e09af14e1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a064e06_94731813",
         "filename": "tools/eclipse-JGit-Format.xml",
         "patchSetId": 6
