@@ -223,7 +223,7 @@ public class JGitSshClient extends SshClient {
 	private SshFutureListener<IoConnectFuture> createConnectCompletionListener(
 			ConnectFuture connectFuture, String username,
 			InetSocketAddress address, HostConfigEntry hostConfig) {
-		return new SshFutureListener<IoConnectFuture>() {
+		return new SshFutureListener<>() {
 
 			@Override
 			public void operationComplete(IoConnectFuture future) {
@@ -406,7 +406,7 @@ public class JGitSshClient extends SshClient {
 
 		@Override
 		public Iterable<KeyPair> loadKeys(SessionContext context) {
-			return () -> new Iterator<KeyPair>() {
+			return () -> new Iterator<>() {
 
 				private Iterator<KeyIdentityProvider> factories = providers
 						.iterator();

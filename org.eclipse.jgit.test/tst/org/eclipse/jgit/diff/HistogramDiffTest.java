@@ -61,7 +61,8 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 		hd.setFallbackAlgorithm(null);
 		hd.setMaxChainLength(3);
 
-		SequenceComparator<RawText> cmp = new SequenceComparator<RawText>() {
+		SequenceComparator<RawText> cmp = new SequenceComparator<>() {
+
 			@Override
 			public boolean equals(RawText a, int ai, RawText b, int bi) {
 				return RawTextComparator.DEFAULT.equals(a, ai, b, bi);

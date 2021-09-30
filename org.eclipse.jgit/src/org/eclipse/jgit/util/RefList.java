@@ -73,7 +73,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 	/** {@inheritDoc} */
 	@Override
 	public Iterator<Ref> iterator() {
-		return new Iterator<Ref>() {
+		return new Iterator<>() {
 			private int idx;
 
 			@Override

@@ -199,7 +199,8 @@ public class RefMap extends AbstractMap<String, Ref> {
 	@Override
 	public Set<Entry<String, Ref>> entrySet() {
 		if (entrySet == null) {
-			entrySet = new AbstractSet<Entry<String, Ref>>() {
+			entrySet = new AbstractSet<>() {
+
 				@Override
 				public Iterator<Entry<String, Ref>> iterator() {
 					return new SetIterator();

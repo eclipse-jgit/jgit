@@ -35,7 +35,8 @@ final class NoParameterFilterConfig implements FilterConfig {
 	/** {@inheritDoc} */
 	@Override
 	public Enumeration<String> getInitParameterNames() {
-		return new Enumeration<String>() {
+		return new Enumeration<>() {
+
 			@Override
 			public boolean hasMoreElements() {
 				return false;

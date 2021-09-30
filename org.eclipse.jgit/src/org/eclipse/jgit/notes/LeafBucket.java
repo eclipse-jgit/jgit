@@ -86,7 +86,7 @@ class LeafBucket extends InMemoryNoteBucket {
 
 	@Override
 	Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader) {
-		return new Iterator<Note>() {
+		return new Iterator<>() {
 			private int idx;
 
 			@Override

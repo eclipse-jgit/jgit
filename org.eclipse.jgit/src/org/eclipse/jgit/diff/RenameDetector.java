@@ -40,7 +40,8 @@ import org.eclipse.jgit.lib.Repository;
 public class RenameDetector {
 	private static final int EXACT_RENAME_SCORE = 100;
 
-	private static final Comparator<DiffEntry> DIFF_COMPARATOR = new Comparator<DiffEntry>() {
+	private static final Comparator<DiffEntry> DIFF_COMPARATOR = new Comparator<>() {
+
 		@Override
 		public int compare(DiffEntry a, DiffEntry b) {
 			int cmp = nameOf(a).compareTo(nameOf(b));

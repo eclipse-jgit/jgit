@@ -116,7 +116,8 @@ public class MetaFilter implements Filter {
 
 	private static Set<Object> newIdentitySet() {
 		final Map<Object, Object> m = new IdentityHashMap<>();
-		return new AbstractSet<Object>() {
+		return new AbstractSet<>() {
+
 			@Override
 			public boolean add(Object o) {
 				return m.put(o, o) == null;

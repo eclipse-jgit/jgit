@@ -102,7 +102,7 @@ class FanoutBucket extends InMemoryNoteBucket {
 		final MutableObjectId id = new MutableObjectId();
 		id.fromObjectId(objId);
 
-		return new Iterator<Note>() {
+		return new Iterator<>() {
 			private int cell;
 
 			private Iterator<Note> itr;

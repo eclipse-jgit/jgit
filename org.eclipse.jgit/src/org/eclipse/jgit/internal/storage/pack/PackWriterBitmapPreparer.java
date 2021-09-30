@@ -518,7 +518,7 @@ class PackWriterBitmapPreparer {
 		public Iterator<RevCommit> iterator() {
 			// Member variables referenced by this iterator will have synthetic
 			// accessors generated for them if they are made private.
-			return new Iterator<RevCommit>() {
+			return new Iterator<>() {
 				int pos = newCommitStartPos;
 
 				@Override

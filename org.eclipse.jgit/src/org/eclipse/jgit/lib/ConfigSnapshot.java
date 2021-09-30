@@ -253,7 +253,8 @@ class ConfigSnapshot {
 		@Override
 		public Iterator<String> iterator() {
 			final Iterator<String> i = names.values().iterator();
-			return new Iterator<String>() {
+			return new Iterator<>() {
+
 				@Override
 				public boolean hasNext() {
 					return i.hasNext();

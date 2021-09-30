@@ -1552,7 +1552,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public Iterator<RevCommit> iterator() {
 		RevCommit first = nextForIterator();
 
-		return new Iterator<RevCommit>() {
+		return new Iterator<>() {
 			RevCommit next = first;
 
 			@Override

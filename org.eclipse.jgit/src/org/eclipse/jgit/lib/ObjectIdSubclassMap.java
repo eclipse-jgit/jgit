@@ -165,7 +165,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	/** {@inheritDoc} */
 	@Override
 	public Iterator<V> iterator() {
-		return new Iterator<V>() {
+		return new Iterator<>() {
 			private int found;
 
 			private int i;

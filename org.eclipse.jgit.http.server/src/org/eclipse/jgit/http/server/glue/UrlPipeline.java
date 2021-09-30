@@ -95,7 +95,8 @@ abstract class UrlPipeline {
 
 				@Override
 				public Enumeration<String> getInitParameterNames() {
-					return new Enumeration<String>() {
+					return new Enumeration<>() {
+
 						@Override
 						public boolean hasMoreElements() {
 							return false;

@@ -261,7 +261,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	public <T extends ObjectId> AsyncObjectLoaderQueue<T> open(
 			Iterable<T> objectIds, final boolean reportMissing) {
 		final Iterator<T> idItr = objectIds.iterator();
-		return new AsyncObjectLoaderQueue<T>() {
+		return new AsyncObjectLoaderQueue<>() {
 			private T cur;
 
 			@Override
@@ -347,7 +347,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	public <T extends ObjectId> AsyncObjectSizeQueue<T> getObjectSize(
 			Iterable<T> objectIds, final boolean reportMissing) {
 		final Iterator<T> idItr = objectIds.iterator();
-		return new AsyncObjectSizeQueue<T>() {
+		return new AsyncObjectSizeQueue<>() {
 			private T cur;
 
 			private long sz;

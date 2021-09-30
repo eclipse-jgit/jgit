@@ -325,7 +325,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 			final IntIterator trees = ofObjectType(Constants.OBJ_TREE);
 			final IntIterator blobs = ofObjectType(Constants.OBJ_BLOB);
 			final IntIterator tags = ofObjectType(Constants.OBJ_TAG);
-			return new Iterator<BitmapObject>() {
+			return new Iterator<>() {
 				private final BitmapObjectImpl out = new BitmapObjectImpl();
 				private int type;
 				private IntIterator cached = dynamic;

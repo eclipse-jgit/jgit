@@ -202,7 +202,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	/** {@inheritDoc} */
 	@Override
 	public Iterator<V> iterator() {
-		return new Iterator<V>() {
+		return new Iterator<>() {
 			private int found;
 			private int dirIdx;
 			private int tblIdx;
