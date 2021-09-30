@@ -1807,7 +1807,7 @@ public class UploadPack {
 
 	private boolean shouldGiveUp(List<ObjectId> peerHas, PacketLineOut out, int missCnt)
 			throws IOException {
-		boolean sentReady = false;
+		boolean readySent = false;
 		boolean didOkToGiveUp = false;
 		if (0 < missCnt) {
 			for (int i = peerHas.size() - 1; i >= 0; i--) {
@@ -1825,7 +1825,7 @@ public class UploadPack {
 						case DETAILED:
 							out.writeString(
 									"ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
-							sentReady = true;
+							readySent = true;
 							break;
 						}
 					}
@@ -1838,10 +1838,10 @@ public class UploadPack {
 				&& okToGiveUp()) {
 			ObjectId id = peerHas.get(peerHas.size() - 1);
 			out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			sentReady = true;
+			readySent = true;
 		}
 
-		return sentReady;
+		return readySent;
 	}
 
 	private void parseWants(PackStatistics.Accumulator accumulator) throws IOException {
