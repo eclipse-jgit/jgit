@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "592c261e_4c7e9be7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-01T21:20:12Z",
+      "side": 1,
+      "message": "@since 6.0 ?",
+      "revId": "650ee474145dad8e9e923fb65902257481865594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
