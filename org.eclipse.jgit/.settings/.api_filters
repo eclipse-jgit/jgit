@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/BatchRefUpdate.java" type="org.eclipse.jgit.lib.BatchRefUpdate">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchRefUpdate"/>
+                <message_argument value="refCache"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="refCache"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="setRefCache(RefCache)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/RefCache.java" type="org.eclipse.jgit.lib.RefCache">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="org.eclipse.jgit.lib.RefCache"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/RefDatabase.java" type="org.eclipse.jgit.lib.RefDatabase">
         <filter id="336658481">
             <message_arguments>
@@ -9,8 +37,38 @@
         </filter>
         <filter id="1142947843">
             <message_arguments>
-                <message_argument value="5.1.12"/>
+                <message_argument value="5.12.1"/>
                 <message_argument value="additionalRefsNames"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/RefRename.java" type="org.eclipse.jgit.lib.RefRename">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="setRefCache(RefCache)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/RefUpdate.java" type="org.eclipse.jgit.lib.RefUpdate">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="getUpdatedRef()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="setRefCache(RefCache)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/RefUpdate.java" type="org.eclipse.jgit.lib.RefUpdate$Result">
+        <filter id="1176502275">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="updateSucceeded()"/>
             </message_arguments>
         </filter>
     </resource>

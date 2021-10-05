@@ -831,7 +831,16 @@ public class RefDirectory extends RefDatabase {
 				f.getObjectId());
 	}
 
-	void log(boolean force, RefUpdate update, String msg, boolean deref)
+	/**
+	 * Write reflog record, use only in tests
+	 *
+	 * @param force
+	 * @param update
+	 * @param msg
+	 * @param deref
+	 * @throws IOException
+	 */
+	public void log(boolean force, RefUpdate update, String msg, boolean deref)
 			throws IOException {
 		newLogWriter(force).log(update, msg, deref);
 	}
