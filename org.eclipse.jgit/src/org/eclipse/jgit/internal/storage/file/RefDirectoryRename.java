@@ -15,9 +15,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -42,6 +45,8 @@ class RefDirectoryRename extends RefRename {
 
 	private final RefDirectory refdb;
 
+	private Optional<RefCache> refCache = Optional.empty();
+
 	/**
 	 * The value of the source reference at the start of the rename.
 	 * <p>
@@ -57,13 +62,34 @@ class RefDirectoryRename extends RefRename {
 	RefDirectoryRename(RefDirectoryUpdate src, RefDirectoryUpdate dst) {
 		super(src, dst);
 		refdb = src.getRefDatabase();
+		this.refCache = refdb.getRefCache();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	protected Result doRename() throws IOException {
-		if (source.getRef().isSymbolic())
+		if (!refCache.isPresent()) {
+			return doRenameImpl();
+		}
+
+		Lock cacheLock = refCache.get().getLock().writeLock();
+		cacheLock.lock();
+		try {
+			Result result = doRenameImpl();
+			if (result.updateSucceeded()) {
+				refCache.get().rename(source.getRef(),
+						destination.getUpdatedRef());
+			}
+			return result;
+		} finally {
+			cacheLock.unlock();
+		}
+	}
+
+	private Result doRenameImpl() throws IOException {
+		if (source.getRef().isSymbolic()) {
 			return Result.IO_FAILURE; // not supported
+		}
 
 		objId = source.getOldObjectId();
 		boolean updateHEAD = needToUpdateHEAD();
@@ -84,8 +110,9 @@ class RefDirectoryRename extends RefRename {
 
 			// Save the source's log under the temporary name, we must do
 			// this before we delete the source, otherwise we lose the log.
-			if (!renameLog(source, tmp))
+			if (!renameLog(source, tmp)) {
 				return Result.IO_FAILURE;
+			}
 
 			// If HEAD has to be updated, link it now to destination.
 			// We have to link before we delete, otherwise the delete
@@ -109,8 +136,9 @@ class RefDirectoryRename extends RefRename {
 			source.disableRefLog();
 			if (source.delete(rw) != Result.FORCED) {
 				renameLog(tmp, source);
-				if (updateHEAD)
+				if (updateHEAD) {
 					linkHEAD(source);
+				}
 				return source.getResult();
 			}
 
@@ -120,8 +148,9 @@ class RefDirectoryRename extends RefRename {
 				source.setExpectedOldObjectId(ObjectId.zeroId());
 				source.setNewObjectId(objId);
 				source.update(rw);
-				if (updateHEAD)
+				if (updateHEAD) {
 					linkHEAD(source);
+				}
 				return Result.IO_FAILURE;
 			}
 
@@ -131,13 +160,15 @@ class RefDirectoryRename extends RefRename {
 			if (dst.update(rw) != Result.NEW) {
 				// If we didn't create the destination we have to undo
 				// our work. Put the log back and restore source.
-				if (renameLog(destination, tmp))
+				if (renameLog(destination, tmp)) {
 					renameLog(tmp, source);
+				}
 				source.setExpectedOldObjectId(ObjectId.zeroId());
 				source.setNewObjectId(objId);
 				source.update(rw);
-				if (updateHEAD)
+				if (updateHEAD) {
 					linkHEAD(source);
+				}
 				return dst.getResult();
 			}
 
