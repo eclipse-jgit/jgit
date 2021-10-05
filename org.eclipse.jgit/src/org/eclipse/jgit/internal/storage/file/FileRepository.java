@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepository;
+import org.eclipse.jgit.internal.storage.memory.InMemoryRefDatabase;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -50,6 +52,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
@@ -185,7 +188,13 @@ public class FileRepository extends Repository {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}
 		} else {
-			refs = new RefDirectory(this);
+			RefDirectory refDir = new RefDirectory(this);
+			refs = refDir;
+			if (repoConfig.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+					ConfigConstants.CONFIG_KEY_REFCACHE, false)) {
+				RefCache refCache = new InMemoryRefDatabase(refDir);
+				refDir.setRefCache(Optional.of(refCache));
+			}
 		}
 
 		objectDatabase = new ObjectDirectory(repoConfig, //
@@ -826,4 +835,5 @@ public class FileRepository extends Repository {
 					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
 	}
+
 }

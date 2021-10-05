@@ -22,9 +22,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.Map.Entry;
+import java.util.concurrent.locks.Lock;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.LockFailedException;
@@ -37,6 +41,7 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -87,15 +92,18 @@ import org.eclipse.jgit.util.RefList;
 class PackedBatchRefUpdate extends BatchRefUpdate {
 	private RefDirectory refdb;
 	private boolean shouldLockLooseRefs;
+	private Optional<RefCache> refCache = Optional.empty();
+
 
 	PackedBatchRefUpdate(RefDirectory refdb) {
 		this(refdb, true);
 	}
 
 	PackedBatchRefUpdate(RefDirectory refdb, boolean shouldLockLooseRefs) {
-	  super(refdb);
-	  this.refdb = refdb;
-	  this.shouldLockLooseRefs = shouldLockLooseRefs;
+		super(refdb);
+		this.refdb = refdb;
+		this.refCache = refdb.getRefCache();
+		this.shouldLockLooseRefs = shouldLockLooseRefs;
 	}
 
 	/** {@inheritDoc} */
@@ -159,6 +167,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 		Map<String, LockFile> locks = null;
 		refdb.inProcessPackedRefsLock.lock();
+		Lock cacheLock = null;
 		try {
 			PackedRefList oldPackedList;
 			if (!refdb.isInClone() && shouldLockLooseRefs) {
@@ -182,11 +191,23 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				lockFailure(pending.get(0), pending);
 				return;
 			}
+			if (refCache.isPresent()) {
+				cacheLock = refCache.get().getLock().writeLock();
+				cacheLock.lock();
+			}
+
 			// commitPackedRefs removes lock file (by renaming over real file).
-			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
-					true);
+			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList, true);
+
+			if (refCache.isPresent()) {
+				Iterable<Entry<String, Ref>> loader = newIterable(newRefs);
+				refCache.get().replace(loader);
+			}
 		} finally {
 			try {
+				if (cacheLock != null) {
+					cacheLock.unlock();
+				}
 				unlockAll(locks);
 			} finally {
 				refdb.inProcessPackedRefsLock.unlock();
@@ -196,6 +217,55 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		refdb.fireRefsChanged();
 		pending.forEach(c -> c.setResult(ReceiveCommand.Result.OK));
 		writeReflog(pending);
+	}
+
+	/**
+	 * Create new Iterable<Entry<String, Ref>> for the given list of refs
+	 *
+	 * @param refs
+	 *            RefList
+	 * @return new Iterable<Entry<String, Ref>> for the given RefList
+	 */
+	private static Iterable<Entry<String, Ref>> newIterable(RefList<Ref> refs) {
+		return new Iterable<>() {
+
+			private int i = 0;
+
+			@Override
+			public Iterator<Entry<String, Ref>> iterator() {
+				Iterator<Entry<String, Ref>> it = new Iterator<>() {
+
+					@Override
+					public boolean hasNext() {
+						return i < refs.size();
+					}
+
+					@Override
+					public Entry<String, Ref> next() {
+						Ref r = refs.get(i);
+						i++;
+						return new Entry<>() {
+
+							@Override
+							public String getKey() {
+								return r.getName();
+							}
+
+							@Override
+							public Ref getValue() {
+								return r;
+							}
+
+							@Override
+							public Ref setValue(Ref value) {
+								throw new UnsupportedOperationException();
+							}
+						};
+					}
+				};
+				return it;
+			}
+		};
 	}
 
 	private static boolean containsSymrefs(List<ReceiveCommand> commands) {
