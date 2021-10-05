@@ -136,6 +136,25 @@ public abstract class RefUpdate {
 		 * @since 4.9
 		 */
 		REJECTED_OTHER_REASON;
+
+		/**
+		 * Whether this update was successful
+		 *
+		 * @return {@code true} if the ref was updated, {@code false} otherwise
+		 * @since 6.0
+		 */
+		public boolean updateSucceeded() {
+			switch (this) {
+			case NEW:
+			case FORCED:
+			case FAST_FORWARD:
+			case RENAMED:
+				return true;
+			default:
+				return false;
+			}
+		}
+
 	}
 
 	/** New value the caller wants this ref to have. */
@@ -186,6 +205,8 @@ public abstract class RefUpdate {
 
 	private boolean checkConflicting = true;
 
+	private RefCache refCache;
+
 	/**
 	 * Construct a new update operation for the reference.
 	 * <p>
@@ -199,6 +220,17 @@ public abstract class RefUpdate {
 		this.ref = ref;
 		oldValue = ref.getObjectId();
 		refLogMessage = ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * Set an optional ref cache which needs to be notified about updates
+	 *
+	 * @param refCache
+	 *            the ref cache to be notified
+	 * @since 6.0
+	 */
+	public void setRefCache(RefCache refCache) {
+		this.refCache = refCache;
 	}
 
 	/**
@@ -592,7 +624,11 @@ public abstract class RefUpdate {
 				Result execute(Result status) throws IOException {
 					if (status == Result.NO_CHANGE)
 						return status;
-					return doUpdate(status);
+					Result res = doUpdate(status);
+					if (refCache != null && status.updateSucceeded()) {
+						refCache.onUpdated(RefUpdate.this, status);
+					}
+					return res;
 				}
 			});
 		} catch (IOException x) {
@@ -647,7 +683,11 @@ public abstract class RefUpdate {
 			return result = updateImpl(walk, new Store() {
 				@Override
 				Result execute(Result status) throws IOException {
-					return doDelete(status);
+					Result res = doDelete(status);
+					if (refCache != null && status.updateSucceeded()) {
+						refCache.onDeleted(RefUpdate.this, status);
+					}
+					return res;
 				}
 			});
 		} catch (IOException x) {
@@ -691,8 +731,11 @@ public abstract class RefUpdate {
 			final Ref dst = getRefDatabase().exactRef(target);
 			if (dst != null && dst.getObjectId() != null)
 				setNewObjectId(dst.getObjectId());
-
-			return result = doLink(target);
+			result = doLink(target);
+			if (refCache != null && result.updateSucceeded()) {
+				refCache.onLinked(this, result);
+			}
+			return result;
 		} catch (IOException x) {
 			result = Result.IO_FAILURE;
 			throw x;

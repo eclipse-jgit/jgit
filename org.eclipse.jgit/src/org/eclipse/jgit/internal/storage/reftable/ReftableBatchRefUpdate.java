@@ -33,10 +33,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Map.Entry;
 import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 
@@ -125,6 +127,48 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 						// XXX this is a bug in DFS ?
 						cmd.setResult(OK);
 					}
+				}
+				if (refCache != null) {
+					Iterable<Entry<String, Ref>> loader = new Iterable<>() {
+
+						private int i = 0;
+
+						@Override
+						public Iterator<Entry<String, Ref>> iterator() {
+							Iterator<Entry<String, Ref>> it = new Iterator<>() {
+
+								@Override
+								public boolean hasNext() {
+									return i < newRefs.size() - 1;
+								}
+
+								@Override
+								public Entry<String, Ref> next() {
+									i++;
+									Ref r = newRefs.get(i);
+									return new Entry<>() {
+
+										@Override
+										public String getKey() {
+											return r.getName();
+										}
+
+										@Override
+										public Ref getValue() {
+											return r;
+										}
+
+										@Override
+										public Ref setValue(Ref value) {
+											throw new UnsupportedOperationException();
+										}
+									};
+								}
+							};
+							return it;
+						}
+					};
+					refCache.onBatchUpdated(loader);
 				}
 			} finally {
 				lock.unlock();
