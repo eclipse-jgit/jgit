@@ -386,6 +386,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String illegalCombinationOfArguments;
 	/***/ public String illegalHookName;
 	/***/ public String illegalPackingPhase;
+	/***/ public String illegalTernarySearchTreeKey;
+	/***/ public String illegalTernarySearchTreeValue;
 	/***/ public String incorrectHashFor;
 	/***/ public String incorrectOBJECT_ID_LENGTH;
 	/***/ public String indexFileCorruptedNegativeBucketCount;
