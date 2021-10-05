@@ -34,12 +34,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import org.eclipse.jgit.internal.storage.memory.InMemoryRefDatabase;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -1047,10 +1049,16 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 	private static void writeReflog(Repository db, ObjectId newId, String msg,
 			String refName) throws IOException {
-		RefDirectory refs = (RefDirectory) db.getRefDatabase();
-		RefDirectoryUpdate update = refs.newUpdate(refName, true);
+		RefDatabase refs = db.getRefDatabase();
+		RefUpdate update = refs.newUpdate(refName, true);
 		update.setNewObjectId(newId);
-		refs.log(false, update, msg, true);
+		if (refs instanceof RefDirectory) {
+			RefDirectory refDir = (RefDirectory) refs;
+			refDir.log(false, update, msg, true);
+		} else if (refs instanceof InMemoryRefDatabase) {
+			InMemoryRefDatabase refCache = (InMemoryRefDatabase) refs;
+			refCache.log(false, update, msg, true);
+		}
 	}
 
 	private static class SubclassedId extends ObjectId {

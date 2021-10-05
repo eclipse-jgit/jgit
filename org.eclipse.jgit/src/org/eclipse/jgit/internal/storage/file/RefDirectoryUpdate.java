@@ -14,8 +14,10 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.eclipse.jgit.lib.Constants.encode;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
@@ -28,7 +30,11 @@ class RefDirectoryUpdate extends RefUpdate {
 	private LockFile lock;
 
 	RefDirectoryUpdate(RefDirectory r, Ref ref) {
-		super(ref);
+		this(r, ref, Optional.empty());
+	}
+
+	RefDirectoryUpdate(RefDirectory r, Ref ref, Optional<RefCache> refCache) {
+		super(ref, refCache);
 		database = r;
 	}
 

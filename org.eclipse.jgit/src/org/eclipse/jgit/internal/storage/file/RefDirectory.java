@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -62,6 +63,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -170,6 +172,15 @@ public class RefDirectory extends RefDatabase {
 	private final AtomicInteger lastNotifiedModCnt = new AtomicInteger();
 
 	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
+
+	/**
+	 * Cache wrapping Refs stored in this RefDatabase
+	 */
+	private Optional<RefCache> refCache = Optional.empty();
+
+	Optional<RefCache> getRefCache() {
+		return refCache;
+	}
 
 	RefDirectory(FileRepository db) {
 		final FS fs = db.getFS();
@@ -560,7 +571,8 @@ public class RefDirectory extends RefDatabase {
 		else {
 			detachingSymbolicRef = detach && ref.isSymbolic();
 		}
-		RefDirectoryUpdate refDirUpdate = new RefDirectoryUpdate(this, ref);
+		RefDirectoryUpdate refDirUpdate = new RefDirectoryUpdate(this, ref,
+				refCache);
 		if (detachingSymbolicRef)
 			refDirUpdate.setDetachingSymbolicRef();
 		return refDirUpdate;
@@ -845,7 +857,22 @@ public class RefDirectory extends RefDatabase {
 				f.getObjectId());
 	}
 
-	void log(boolean force, RefUpdate update, String msg, boolean deref)
+	/**
+	 * Write the given ref update to the ref's log, use only in tests
+	 *
+	 * @param force
+	 *            {@code true} to write to disk all entries logged,
+	 *            {@code false} to respect the repository's config and current
+	 *            log file status
+	 * @param update
+	 *            a {@link RefUpdate}
+	 * @param msg
+	 *            reflog message
+	 * @param deref
+	 *            whether to dereference symbolic refs
+	 * @throws IOException
+	 */
+	public void log(boolean force, RefUpdate update, String msg, boolean deref)
 			throws IOException {
 		newLogWriter(force).log(update, msg, deref);
 	}
@@ -1217,7 +1244,7 @@ public class RefDirectory extends RefDatabase {
 		File tmp = File.createTempFile("renamed_", "_ref", refsDir); //$NON-NLS-1$ //$NON-NLS-2$
 		String name = Constants.R_REFS + tmp.getName();
 		Ref ref = new ObjectIdRef.Unpeeled(NEW, name, null);
-		return new RefDirectoryUpdate(this, ref);
+		return new RefDirectoryUpdate(this, ref, refCache);
 	}
 
 	/**
@@ -1329,6 +1356,16 @@ public class RefDirectory extends RefDatabase {
 			ie.initCause(e);
 			throw ie;
 		}
+	}
+
+	/**
+	 * Set an optional Ref cache wrapping access to this RefDirectory
+	 *
+	 * @param refCache
+	 *            the Ref cache
+	 */
+	void setRefCache(Optional<RefCache> refCache) {
+		this.refCache = refCache;
 	}
 
 	static class PackedRefList extends RefList<Ref> {

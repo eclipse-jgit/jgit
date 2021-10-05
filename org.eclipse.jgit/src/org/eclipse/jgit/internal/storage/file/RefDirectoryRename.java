@@ -15,9 +15,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -42,6 +45,8 @@ class RefDirectoryRename extends RefRename {
 
 	private final RefDirectory refdb;
 
+	private Optional<RefCache> refCache = Optional.empty();
+
 	/**
 	 * The value of the source reference at the start of the rename.
 	 * <p>
@@ -57,13 +62,34 @@ class RefDirectoryRename extends RefRename {
 	RefDirectoryRename(RefDirectoryUpdate src, RefDirectoryUpdate dst) {
 		super(src, dst);
 		refdb = src.getRefDatabase();
+		this.refCache = refdb.getRefCache();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	protected Result doRename() throws IOException {
-		if (source.getRef().isSymbolic())
+		if (!refCache.isPresent()) {
+			return doRenameImpl();
+		}
+
+		Lock cacheLock = refCache.get().getLock().writeLock();
+		cacheLock.lock();
+		try {
+			Result result = doRenameImpl();
+			if (result.updateSucceeded()) {
+				refCache.get().rename(source.getRef(),
+						destination.getUpdatedRef());
+			}
+			return result;
+		} finally {
+			cacheLock.unlock();
+		}
+	}
+
+	private Result doRenameImpl() throws IOException {
+		if (source.getRef().isSymbolic()) {
 			return Result.IO_FAILURE; // not supported
+		}
 
 		objId = source.getOldObjectId();
 		boolean updateHEAD = needToUpdateHEAD();
