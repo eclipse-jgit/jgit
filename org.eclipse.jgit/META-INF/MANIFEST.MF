@@ -92,6 +92,8 @@ Export-Package: org.eclipse.jgit.annotations;version="6.0.0",
   x-friends:="org.eclipse.jgit.junit,
    org.eclipse.jgit.test,
    org.eclipse.jgit.pgm",
+ org.eclipse.jgit.internal.storage.memory;version="6.0.0";
+  x-friends:="org.eclipse.jgit.test",
  org.eclipse.jgit.internal.storage.pack;version="6.0.0";
   x-friends:="org.eclipse.jgit.junit,
    org.eclipse.jgit.test,
