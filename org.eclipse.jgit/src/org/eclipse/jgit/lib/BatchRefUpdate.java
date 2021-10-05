@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -54,6 +55,13 @@ public class BatchRefUpdate {
 	protected static final Duration MAX_WAIT = Duration.ofSeconds(5);
 
 	private final RefDatabase refdb;
+
+	/**
+	 * Optional RefCache
+	 *
+	 * @since 6.5
+	 */
+	protected final Optional<RefCache> refCache;
 
 	/** Commands to apply during this batch. */
 	private final List<ReceiveCommand> commands;
@@ -96,6 +104,23 @@ public class BatchRefUpdate {
 	 */
 	protected BatchRefUpdate(RefDatabase refdb) {
 		this.refdb = refdb;
+		this.refCache = Optional.empty();
+		this.commands = new ArrayList<>();
+		this.atomic = refdb.performsAtomicTransactions();
+	}
+
+	/**
+	 * Initialize a new batch update.
+	 *
+	 * @param refdb
+	 *            the reference database of the repository to be updated.
+	 * @param refCache
+	 *            optional RefCache
+	 * @since 6.5
+	 */
+	protected BatchRefUpdate(RefDatabase refdb, Optional<RefCache> refCache) {
+		this.refdb = refdb;
+		this.refCache = refCache;
 		this.commands = new ArrayList<>();
 		this.atomic = refdb.performsAtomicTransactions();
 	}
