@@ -32,6 +32,8 @@ public abstract class RefRename {
 
 	private Result result = Result.NOT_ATTEMPTED;
 
+	private RefCache refCache;
+
 	/**
 	 * Initialize a new rename operation.
 	 *
@@ -51,6 +53,17 @@ public abstract class RefRename {
 		setRefLogMessage(cmd + "renamed " //$NON-NLS-1$
 				+ Repository.shortenRefName(source.getName()) + " to " //$NON-NLS-1$
 				+ Repository.shortenRefName(destination.getName()));
+	}
+
+	/**
+	 * Set an optional ref cache which needs to be notified about updates
+	 *
+	 * @param refCache
+	 *            the ref cache to be notified
+	 * @since 6.0
+	 */
+	public void setRefCache(RefCache refCache) {
+		this.refCache = refCache;
 	}
 
 	/**
@@ -126,6 +139,9 @@ public abstract class RefRename {
 	public Result rename() throws IOException {
 		try {
 			result = doRename();
+			if (refCache != null && result.updateSucceeded()) {
+				refCache.onRenamed(source, destination, result);
+			}
 			return result;
 		} catch (IOException err) {
 			result = Result.IO_FAILURE;
