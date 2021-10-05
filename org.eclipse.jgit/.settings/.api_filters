@@ -8,6 +8,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/BatchRefUpdate.java" type="org.eclipse.jgit.lib.BatchRefUpdate">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchRefUpdate"/>
+                <message_argument value="refCache"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/RefDatabase.java" type="org.eclipse.jgit.lib.RefDatabase">
         <filter id="336658481">
             <message_arguments>

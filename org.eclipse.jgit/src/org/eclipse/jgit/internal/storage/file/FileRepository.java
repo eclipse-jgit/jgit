@@ -29,8 +29,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
@@ -40,6 +42,7 @@ import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepository;
+import org.eclipse.jgit.internal.storage.memory.InMemoryRefDatabase;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -51,6 +54,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
@@ -185,7 +189,14 @@ public class FileRepository extends Repository {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}
 		} else {
-			refs = new RefDirectory(this);
+			RefDirectory refDir = new RefDirectory(this);
+			refs = refDir;
+			if (repoConfig.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+					ConfigConstants.CONFIG_KEY_REFCACHE, false)) {
+				InMemoryRefDatabase refCache = new InMemoryRefDatabase(refDir);
+				refDir.setRefCache(Optional.of(refCache));
+				refs = refCache;
+			}
 		}
 
 		objectDatabase = new ObjectDirectory(repoConfig, //
@@ -475,6 +486,19 @@ public class FileRepository extends Repository {
 	 */
 	public void openPack(File pack) throws IOException {
 		objectDatabase.openPack(pack);
+	}
+
+	@Override
+	@NonNull
+	public RefUpdate updateRef(String ref, boolean detach) throws IOException {
+		return getRefDatabase().newUpdate(ref, detach);
+	}
+
+	@Override
+	@NonNull
+	public RefRename renameRef(String fromRef, String toRef)
+			throws IOException {
+		return getRefDatabase().newRename(fromRef, toRef);
 	}
 
 	/** {@inheritDoc} */
@@ -826,4 +850,5 @@ public class FileRepository extends Repository {
 					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
 	}
+
 }

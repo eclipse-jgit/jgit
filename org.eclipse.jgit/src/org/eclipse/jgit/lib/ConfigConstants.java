@@ -362,6 +362,13 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_PACKED_GIT_USE_STRONGREFS = "packedgitusestrongrefs";
 
+	/**
+	 * The "refcache" key
+	 *
+	 * @since 6.5
+	 */
+	public static final String CONFIG_KEY_REFCACHE = "refcache";
+
 	/** The "remote" key */
 	public static final String CONFIG_KEY_REMOTE = "remote";
 
