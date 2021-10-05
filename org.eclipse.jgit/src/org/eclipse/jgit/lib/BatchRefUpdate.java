@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -89,6 +90,13 @@ public class BatchRefUpdate {
 	private List<ProposedTimestamp> timestamps;
 
 	/**
+	 * Optional ref cache
+	 *
+	 * @since 6.0
+	 */
+	protected Optional<RefCache> refCache = Optional.empty();
+
+	/**
 	 * Initialize a new batch update.
 	 *
 	 * @param refdb
@@ -98,6 +106,17 @@ public class BatchRefUpdate {
 		this.refdb = refdb;
 		this.commands = new ArrayList<>();
 		this.atomic = refdb.performsAtomicTransactions();
+	}
+
+	/**
+	 * Set an optional ref cache which needs to be notified about updates
+	 *
+	 * @param refCache
+	 *            the ref cache to be notified
+	 * @since 6.0
+	 */
+	public void setRefCache(RefCache refCache) {
+		this.refCache = Optional.of(refCache);
 	}
 
 	/**
