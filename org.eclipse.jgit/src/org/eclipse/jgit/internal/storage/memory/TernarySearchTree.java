@@ -106,6 +106,7 @@ public final class TernarySearchTree<Value> {
 
 	/**
 	 * Get the lock guarding read and write access to the cache.
+	 *
 	 * @return lock guarding read and write access to the cache
 	 */
 	public ReadWriteLock getLock() {

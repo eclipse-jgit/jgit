@@ -13,6 +13,8 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -136,6 +138,26 @@ public abstract class RefUpdate {
 		 * @since 4.9
 		 */
 		REJECTED_OTHER_REASON;
+
+		/**
+		 * Whether this update was successful
+		 *
+		 * @return {@code true} if the ref was updated, {@code false} otherwise
+		 * @since 5.12.1
+		 */
+		public boolean updateSucceeded() {
+			switch (this) {
+			case NO_CHANGE:
+			case NEW:
+			case FORCED:
+			case FAST_FORWARD:
+			case RENAMED:
+				return true;
+			default:
+				return false;
+			}
+		}
+
 	}
 
 	/** New value the caller wants this ref to have. */
@@ -186,6 +208,8 @@ public abstract class RefUpdate {
 
 	private boolean checkConflicting = true;
 
+	private Optional<RefCache> refCache = Optional.empty();
+
 	/**
 	 * Construct a new update operation for the reference.
 	 * <p>
@@ -199,6 +223,17 @@ public abstract class RefUpdate {
 		this.ref = ref;
 		oldValue = ref.getObjectId();
 		refLogMessage = ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * Set an optional ref cache which needs to be notified about updates
+	 *
+	 * @param refCache
+	 *            the ref cache to be notified
+	 * @since 5.12.1
+	 */
+	public void setRefCache(RefCache refCache) {
+		this.refCache = Optional.of(refCache);
 	}
 
 	/**
@@ -284,6 +319,17 @@ public abstract class RefUpdate {
 	 */
 	public Ref getRef() {
 		return ref;
+	}
+
+	/**
+	 * Re-read the updated ref after update finished.
+	 *
+	 * @return the updated ref after update finished
+	 * @throws IOException
+	 * @since 5.12.1
+	 */
+	public Ref getUpdatedRef() throws IOException {
+		return getRefDatabase().exactRef(RefUpdate.this.getRef().getName());
 	}
 
 	/**
@@ -590,9 +636,24 @@ public abstract class RefUpdate {
 			return result = updateImpl(walk, new Store() {
 				@Override
 				Result execute(Result status) throws IOException {
-					if (status == Result.NO_CHANGE)
+					if (status == Result.NO_CHANGE) {
 						return status;
-					return doUpdate(status);
+					}
+					if (!refCache.isPresent()) {
+						return doUpdate(status);
+					}
+
+					Lock cacheLock = refCache.get().getLock().writeLock();
+					cacheLock.lock();
+					try {
+						Result res = doUpdate(status);
+						if (status.updateSucceeded()) {
+							refCache.get().insert(getUpdatedRef());
+						}
+						return res;
+					} finally {
+						cacheLock.unlock();
+					}
 				}
 			});
 		} catch (IOException x) {
@@ -647,7 +708,21 @@ public abstract class RefUpdate {
 			return result = updateImpl(walk, new Store() {
 				@Override
 				Result execute(Result status) throws IOException {
-					return doDelete(status);
+					if (!refCache.isPresent()) {
+						return doDelete(status);
+					}
+
+					Lock cacheLock = refCache.get().getLock().writeLock();
+					cacheLock.lock();
+					try {
+						Result res = doDelete(status);
+						if (status.updateSucceeded()) {
+							refCache.get().delete(RefUpdate.this.getName());
+						}
+						return res;
+					} finally {
+						cacheLock.unlock();
+					}
 				}
 			});
 		} catch (IOException x) {
@@ -691,8 +766,21 @@ public abstract class RefUpdate {
 			final Ref dst = getRefDatabase().exactRef(target);
 			if (dst != null && dst.getObjectId() != null)
 				setNewObjectId(dst.getObjectId());
+			if (!refCache.isPresent()) {
+				return doLink(target);
+			}
 
-			return result = doLink(target);
+			Lock cacheLock = refCache.get().getLock().writeLock();
+			cacheLock.lock();
+			try {
+				result = doLink(target);
+				if (result.updateSucceeded()) {
+					refCache.get().insert(getUpdatedRef());
+				}
+				return result;
+			} finally {
+				cacheLock.unlock();
+			}
 		} catch (IOException x) {
 			result = Result.IO_FAILURE;
 			throw x;
