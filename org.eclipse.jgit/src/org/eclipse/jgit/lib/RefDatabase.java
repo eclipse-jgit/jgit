@@ -71,7 +71,7 @@ public abstract class RefDatabase {
 	/**
 	 * The names of additional refs
 	 *
-	 * @since 6.0
+	 * @since 5.12.1
 	 */
 	protected static final String[] additionalRefsNames = new String[] {
 			Constants.MERGE_HEAD, Constants.FETCH_HEAD, Constants.ORIG_HEAD,

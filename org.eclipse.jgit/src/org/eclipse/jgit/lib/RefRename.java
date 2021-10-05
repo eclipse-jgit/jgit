@@ -14,6 +14,8 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 
 import org.eclipse.jgit.lib.RefUpdate.Result;
 
@@ -31,6 +33,8 @@ public abstract class RefRename {
 	protected final RefUpdate destination;
 
 	private Result result = Result.NOT_ATTEMPTED;
+
+	private Optional<RefCache> refCache = Optional.empty();
 
 	/**
 	 * Initialize a new rename operation.
@@ -51,6 +55,17 @@ public abstract class RefRename {
 		setRefLogMessage(cmd + "renamed " //$NON-NLS-1$
 				+ Repository.shortenRefName(source.getName()) + " to " //$NON-NLS-1$
 				+ Repository.shortenRefName(destination.getName()));
+	}
+
+	/**
+	 * Set an optional ref cache which needs to be notified about updates
+	 *
+	 * @param refCache
+	 *            the ref cache to be notified
+	 * @since 5.12.1
+	 */
+	public void setRefCache(RefCache refCache) {
+		this.refCache = Optional.of(refCache);
 	}
 
 	/**
@@ -125,8 +140,22 @@ public abstract class RefRename {
 	 */
 	public Result rename() throws IOException {
 		try {
-			result = doRename();
-			return result;
+			if (!refCache.isPresent()) {
+				return doRename();
+			}
+
+			Lock cacheLock = refCache.get().getLock().writeLock();
+			cacheLock.lock();
+			try {
+				result = doRename();
+				if (result.updateSucceeded()) {
+					refCache.get().rename(source.getRef(),
+							destination.getUpdatedRef());
+				}
+				return result;
+			} finally {
+				cacheLock.unlock();
+			}
 		} catch (IOException err) {
 			result = Result.IO_FAILURE;
 			throw err;
