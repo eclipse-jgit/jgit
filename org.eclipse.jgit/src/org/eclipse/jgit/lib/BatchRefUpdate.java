@@ -89,6 +89,13 @@ public class BatchRefUpdate {
 	private List<ProposedTimestamp> timestamps;
 
 	/**
+	 * Optional ref cache
+	 *
+	 * @since 6.0
+	 */
+	protected RefCache refCache;
+
+	/**
 	 * Initialize a new batch update.
 	 *
 	 * @param refdb
@@ -98,6 +105,17 @@ public class BatchRefUpdate {
 		this.refdb = refdb;
 		this.commands = new ArrayList<>();
 		this.atomic = refdb.performsAtomicTransactions();
+	}
+
+	/**
+	 * An optional ref cache which needs to be notified about updates
+	 *
+	 * @param refCache
+	 *            the ref cache to be notified
+	 * @since 6.0
+	 */
+	public void setRefCache(RefCache refCache) {
+		this.refCache = refCache;
 	}
 
 	/**
