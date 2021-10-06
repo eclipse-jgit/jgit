@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27d6f932_09b29139",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-06T13:00:30Z",
+      "side": 1,
+      "message": "it\u0027s in the change before this one\nhttps://git.eclipse.org/r/c/jgit/jgit/+/186204",
+      "parentUuid": "00ee6ccc_f4e38a0e",
+      "range": {
+        "startLine": 42,
+        "startChar": 9,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b9ee2df6_54644a6f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 1
