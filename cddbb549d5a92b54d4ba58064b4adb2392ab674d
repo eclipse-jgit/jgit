@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cdab3da_35f2f5e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2021-10-06T11:57:03Z",
+      "side": 1,
+      "message": "There is a race here. If the event says that \"foo was deleted\" then for the time until the\nnewRefCache is being populated and before the replace is called in the line 120, all the concurrent searches are done in the existing refCache. This will find \"foo\" although it doesn\u0027t exist.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 63
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
