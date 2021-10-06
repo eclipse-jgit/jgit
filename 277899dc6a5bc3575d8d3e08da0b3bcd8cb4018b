@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef99522d_dd086276",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2021-10-06T11:23:07Z",
+      "side": 1,
+      "message": "optional: use direct comparison instead of this method i.e.:\n\n  if (node.c \u003c other) {\n\nIHHO this is slightly better readable than:\n\n  if (node.lowerThan(other))",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "277899dc6a5bc3575d8d3e08da0b3bcd8cb4018b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a7ce060_b8cc78de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2021-10-06T11:23:07Z",
+      "side": 1,
+      "message": "If the intention is to provide a thread safe implementation of the TernarySearchTree then this should also be documented in the javadoc of this class.",
+      "revId": "277899dc6a5bc3575d8d3e08da0b3bcd8cb4018b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
