@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "d4377149_efbea39a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-06T21:45:02Z",
+      "side": 1,
+      "message": "Why is Constants.REVERT_HEAD not needed? (I see it\u0027s also missing in RefDirectory...)",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "875d6eea_103e4e95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-06T21:45:02Z",
+      "side": 1,
+      "message": "This relies on this RefsChangedListener being called before any other RefsChangedListener on the repo, otherwise those other listeners might not see the update. Probably this is true with the current implementation of the ListenerList, but it looks fragile.",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7306e26_d1513773",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-06T21:45:02Z",
+      "side": 1,
+      "message": "Detach the listener?",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cdab3da_35f2f5e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 4
