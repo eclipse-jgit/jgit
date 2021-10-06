@@ -2,6 +2,121 @@
   "comments": [
     {
       "key": {
+        "uuid": "00ee6ccc_f4e38a0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-06T10:45:03Z",
+      "side": 1,
+      "message": "I can\u0027t find this class. Did you forget to add a file?",
+      "range": {
+        "startLine": 42,
+        "startChar": 9,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9ee2df6_54644a6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-06T10:45:03Z",
+      "side": 1,
+      "message": "why? isn\u0027t GC enough?",
+      "range": {
+        "startLine": 63,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 19
+      },
+      "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c25c3641_34a905c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-06T10:45:03Z",
+      "side": 1,
+      "message": "the doc of getRefs says that the prefix should be removed from the return value. Am I missing something?",
+      "range": {
+        "startLine": 93,
+        "startChar": 12,
+        "endLine": 93,
+        "endChar": 15
+      },
+      "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9871935a_cf3d04dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-06T10:45:03Z",
+      "side": 1,
+      "message": "why not ArrayList?",
+      "range": {
+        "startLine": 100,
+        "startChar": 28,
+        "endLine": 100,
+        "endChar": 38
+      },
+      "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20a8699e_36dc244f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-06T10:45:03Z",
+      "side": 1,
+      "message": "this works if the whole event machinery is synchronous, right? Could do with a comment.\n\nOtherwise, you\u0027d have to wrap the (Batch)RefUpdate.",
+      "range": {
+        "startLine": 116,
+        "startChar": 13,
+        "endLine": 116,
+        "endChar": 26
+      },
+      "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5fa1799_07293a1f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 1
@@ -13,6 +128,24 @@
       "writtenOn": "2021-10-06T01:18:33Z",
       "side": 1,
       "message": "- this implements a simple brute force update of the complete ref cache on every RefsChangedEvent\n- wrapping RefUpdate by an InMemoryRefUpdate and RefRename by an InMemoryRefRename would allow incremental update of the cache, but this requires bigger changes since RefUpdate assumes that specific implementations have to subclass RefUpdate so delegation isn\u0027t straight forward",
+      "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46826c07_21eaee01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-06T10:45:03Z",
+      "side": 1,
+      "message": "yeah, I think this is the way to go. Reads are more frequent than writes, so lets not overcomplicate this.",
+      "parentUuid": "a5fa1799_07293a1f",
       "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
