@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5fa1799_07293a1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-06T01:18:33Z",
+      "side": 1,
+      "message": "- this implements a simple brute force update of the complete ref cache on every RefsChangedEvent\n- wrapping RefUpdate by an InMemoryRefUpdate and RefRename by an InMemoryRefRename would allow incremental update of the cache, but this requires bigger changes since RefUpdate assumes that specific implementations have to subclass RefUpdate so delegation isn\u0027t straight forward",
+      "revId": "a6039bd64ee36cc38a2fb184d87ab06bdef33d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
