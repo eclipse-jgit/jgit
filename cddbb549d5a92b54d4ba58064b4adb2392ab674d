@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5b7af198_dfeff279",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-10-07T08:56:51Z",
+      "side": 1,
+      "message": "This is going to be problematic for Gerrit use-case. Gerrit uses the Git repository for storing the review meta-data *and* also draft comments. That makes the repository highly volatile and refs are updated all the times.\n\nRefreshing the *whole refs* of a large mono-repo (e.g. up to millions of refs) isn\u0027t practical.\n\nWhy not just refreshing the refs that have actually changed?\n\nP.S. The cache could also be write-through, so that you do not necessarily need to reload it because you can do update it as you write to disk.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1d63c90_c01bc7ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-10-07T08:56:51Z",
+      "side": 1,
+      "message": "Is that just a WIP of the current status? Or do you see blocking issues for being able to get that implemented?",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 44
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4377149_efbea39a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 4
