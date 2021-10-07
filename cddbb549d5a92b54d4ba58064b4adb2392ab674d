@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5a5954b_3f628d4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-07T14:43:51Z",
+      "side": 1,
+      "message": "Do you have numbers on write load vs. read load?\n\nit\u0027s true that refreshing the whole thing is slow, but if reads outnumber writes by a large enough margin, it\u0027s still going to be a win. I think the refresh will be done by the writer thread, so it\u0027s the writer that pays the cost.\n\nThe JGit RefChangedEvent doesn\u0027t include a list of which refs were updated, so incremental updates need a different approach.  \n\nI looked for a bit at making a full delegate, but it looks hairy; if you want incremental updates, we\u0027d probably need to add a API surface to (Batch)RefUpdate to register a callback on execute()",
+      "parentUuid": "5b7af198_dfeff279",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1d63c90_c01bc7ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -110,6 +134,30 @@
       "writtenOn": "2021-10-06T11:57:03Z",
       "side": 1,
       "message": "There is a race here. If the event says that \"foo was deleted\" then for the time until the\nnewRefCache is being populated and before the replace is called in the line 120, all the concurrent searches are done in the existing refCache. This will find \"foo\" although it doesn\u0027t exist.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 63
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63a92ec4_12f66972",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-07T14:43:51Z",
+      "side": 1,
+      "message": "but that is working as intended, no? The whole point of this exercise is to avoid that concurrent processes check the filesystem to see if they are up-to-date all the time.",
+      "parentUuid": "7cdab3da_35f2f5e7",
       "range": {
         "startLine": 118,
         "startChar": 0,
