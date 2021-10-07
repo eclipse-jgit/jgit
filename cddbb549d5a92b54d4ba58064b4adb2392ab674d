@@ -146,6 +146,23 @@
     },
     {
       "key": {
+        "uuid": "0739a863_eef30b8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-07T17:14:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t refCache be volatile?",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cdab3da_35f2f5e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 4
