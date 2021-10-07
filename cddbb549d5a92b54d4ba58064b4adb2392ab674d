@@ -72,6 +72,29 @@
     },
     {
       "key": {
+        "uuid": "d847ee32_4bc34825",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2021-10-07T15:04:16Z",
+      "side": 1,
+      "message": "I took an AI to look into if Google\u0027s own Repository/RefDb implementation is thread-safe. It\u0027s not and can\u0027t be shared across requests because it encodes ACL information in the Repository object.\n\nThat\u0027s OK, though. Open-source Gerrit through LocalDiskRepositoryManager already uses JGit\u0027s RepositoryCache. As far as I understand, this caches repos across requests - if configured - and will allow the new InMemoryRefDatabase to just work. It works with time-based eviction if a repo is no longer open. For busy instances, All-Users should be opened often enough so that when the expiryTime is reasonably configured, we actually retrain the cached Repo.",
+      "range": {
+        "startLine": 29,
+        "startChar": 51,
+        "endLine": 29,
+        "endChar": 56
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4377149_efbea39a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 4
