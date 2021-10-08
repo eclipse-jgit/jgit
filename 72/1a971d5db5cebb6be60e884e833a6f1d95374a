@@ -1,0 +1,8 @@
+Code-Review+1: Luca Milanesio <luca.milanesio@gmail.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Fri, 08 Oct 2021 06:03:29 -0400
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/186297
+Project: jgit/jgit
+Branch: refs/heads/stable-5.8
