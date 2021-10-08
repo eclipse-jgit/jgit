@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7995d701_672c5750",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-08T12:54:01Z",
+      "side": 1,
+      "message": "If the test is supposed to fail, but we are making it pass, is it worth merging it as it is?\n\nShall we set the correct assertion and skip it if we cannot fix it? Not sure what is the policy in jgit.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "5f8c8d8e1cd315e2fdb661fcf6763f51baeed69e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1fb9996_69b8e790",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/CherryPickTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-08T12:54:01Z",
+      "side": 1,
+      "message": "I found useful a graph explaining what is going on, similarly to the other tests, see L#33.\n\nSomething like:\n\n// --- A(\"content\") -- B(\"content\")\n// \\---B(\"content\") --/",
+      "revId": "5f8c8d8e1cd315e2fdb661fcf6763f51baeed69e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "744fc1bf_521af9e1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/CherryPickTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-08T12:54:01Z",
+      "side": 1,
+      "message": "since it is a merge, what about: testMergeWithRenameNoContentChange",
+      "range": {
+        "startLine": 99,
+        "startChar": 13,
+        "endLine": 99,
+        "endChar": 37
+      },
+      "revId": "5f8c8d8e1cd315e2fdb661fcf6763f51baeed69e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cd16383_4a16a1b6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/CherryPickTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-08T12:54:01Z",
+      "side": 1,
+      "message": "Same as before, what about testMergeWithRenameAndModificationFail",
+      "range": {
+        "startLine": 156,
+        "startChar": 13,
+        "endLine": 156,
+        "endChar": 57
+      },
+      "revId": "5f8c8d8e1cd315e2fdb661fcf6763f51baeed69e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
