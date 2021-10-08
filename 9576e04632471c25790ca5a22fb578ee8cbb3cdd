@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b22b4171_5ba000d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-08T18:43:11Z",
+      "side": 1,
+      "message": "It would be great if some of these larger functions were further broken up to paint a better high level picture. For example, perhaps this would look something vaguely like:\n\n createChunks();\n writeHeader();\n writeChunkLookup()\n writeChunks();\n writeDigest();\n\nAs this might lead to quite a few more functions, perhaps a few extra classes are merited also, should some of the generation number stuff live in a separate file?",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fd72d91_6aa99d56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-08T18:43:11Z",
+      "side": 1,
+      "message": "These are referred in the code as chunks, perhaps that should be the class name (drop the Info)?",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54218a2a_131cb52b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-08T18:43:11Z",
+      "side": 1,
+      "message": "Use Optionals for the APIs that can return null?",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dcdd2a8_f4b97656",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-08T18:43:11Z",
+      "side": 1,
+      "message": "Should this (or a potential superclass of this) potentially be designed in a way that a RevCommit could implement it?",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
