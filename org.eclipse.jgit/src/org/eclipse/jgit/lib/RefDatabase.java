@@ -69,6 +69,15 @@ public abstract class RefDatabase {
 	public static final String ALL = "";//$NON-NLS-1$
 
 	/**
+	 * The names of additional refs
+	 *
+	 * @since 6.0
+	 */
+	protected static final String[] additionalRefsNames = new String[] {
+			Constants.MERGE_HEAD, Constants.FETCH_HEAD, Constants.ORIG_HEAD,
+			Constants.CHERRY_PICK_HEAD, Constants.REVERT_HEAD };
+
+	/**
 	 * Initialize a new reference database at this location.
 	 *
 	 * @throws java.io.IOException
@@ -423,7 +432,7 @@ public abstract class RefDatabase {
 	 * <p>
 	 * The default implementation is not efficient. Implementors of {@link RefDatabase}
 	 * should override this method directly if a better implementation is possible.
-	 * 
+	 *
 	 * @param include string that names of refs should start with; may be empty.
 	 * @param excludes strings that names of refs can't start with; may be empty.
 	 * @return immutable list of refs whose names start with {@code prefix} and none
