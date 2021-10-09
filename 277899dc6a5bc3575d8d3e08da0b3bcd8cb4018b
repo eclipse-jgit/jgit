@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5bc6de34_fbe40026",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-09T01:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef99522d_dd086276",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "277899dc6a5bc3575d8d3e08da0b3bcd8cb4018b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a7ce060_b8cc78de",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5b1cce23_596ff625",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-09T01:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a7ce060_b8cc78de",
+      "revId": "277899dc6a5bc3575d8d3e08da0b3bcd8cb4018b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b275a7c_4ad5d3b9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
         "patchSetId": 4
@@ -56,6 +98,24 @@
       "revId": "277899dc6a5bc3575d8d3e08da0b3bcd8cb4018b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97fc434c_091f2771",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-09T01:01:34Z",
+      "side": 1,
+      "message": "now done in reload()",
+      "parentUuid": "2b275a7c_4ad5d3b9",
+      "revId": "277899dc6a5bc3575d8d3e08da0b3bcd8cb4018b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
