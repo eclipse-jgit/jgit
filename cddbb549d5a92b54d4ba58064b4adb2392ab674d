@@ -112,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "03c9547f_baf504d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-09T01:00:07Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "d4377149_efbea39a",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "875d6eea_103e4e95",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 4
@@ -146,6 +164,24 @@
     },
     {
       "key": {
+        "uuid": "4afe1e7c_5fab2a1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-09T01:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7306e26_d1513773",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0739a863_eef30b8f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 4
@@ -160,6 +196,24 @@
       "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aa75cc9_576fd68f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-09T01:00:07Z",
+      "side": 1,
+      "message": "not anymore since it\u0027s now final",
+      "parentUuid": "0739a863_eef30b8f",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +261,30 @@
       "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35e49cf7_93488473",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-09T01:00:07Z",
+      "side": 1,
+      "message": "- fixed the race\n- RefsChangedEvent doesn\u0027t provide any details, it just says \"some refs changed\". If we want to update the cache incrementally we need to improve these events to provide details",
+      "parentUuid": "7cdab3da_35f2f5e7",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 63
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
