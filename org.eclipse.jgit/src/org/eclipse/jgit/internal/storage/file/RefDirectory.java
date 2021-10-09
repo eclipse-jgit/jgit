@@ -109,11 +109,6 @@ public class RefDirectory extends RefDatabase {
 	/** If in the header, denotes the file has peeled data. */
 	public static final String PACKED_REFS_PEELED = " peeled"; //$NON-NLS-1$
 
-	/** The names of the additional refs supported by this class */
-	private static final String[] additionalRefsNames = new String[] {
-			Constants.MERGE_HEAD, Constants.FETCH_HEAD, Constants.ORIG_HEAD,
-			Constants.CHERRY_PICK_HEAD };
-
 	@SuppressWarnings("boxing")
 	private static final List<Integer> RETRY_SLEEP_MS =
 			Collections.unmodifiableList(Arrays.asList(0, 100, 200, 400, 800, 1600));
