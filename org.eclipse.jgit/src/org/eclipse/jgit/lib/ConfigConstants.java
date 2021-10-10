@@ -584,6 +584,12 @@ public final class ConfigConstants {
 	public static final String CONFIG_REF_STORAGE_REFTABLE = "reftable";
 
 	/**
+	 * The "refdir" refStorage format
+	 * @since 6.0
+	 */
+	public static final String CONFIG_REF_STORAGE_REFDIR = "refdir";
+
+	/**
 	 * The "jmx" section
 	 * @since 5.1.13
 	 */
