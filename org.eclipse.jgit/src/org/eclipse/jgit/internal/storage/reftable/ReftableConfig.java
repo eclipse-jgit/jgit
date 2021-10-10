@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.storage.reftable;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.MAX_BLOCK_SIZE;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -214,11 +215,18 @@ public class ReftableConfig {
 	 *            configuration to read properties from.
 	 */
 	public void fromConfig(Config rc) {
-		refBlockSize = rc.getInt("reftable", "blockSize", refBlockSize); //$NON-NLS-1$ //$NON-NLS-2$
-		logBlockSize = rc.getInt("reftable", "logBlockSize", logBlockSize); //$NON-NLS-1$ //$NON-NLS-2$
-		restartInterval = rc.getInt("reftable", "restartInterval", restartInterval); //$NON-NLS-1$ //$NON-NLS-2$
-		maxIndexLevels = rc.getInt("reftable", "indexLevels", maxIndexLevels); //$NON-NLS-1$ //$NON-NLS-2$
-		alignBlocks = rc.getBoolean("reftable", "alignBlocks", alignBlocks); //$NON-NLS-1$ //$NON-NLS-2$
-		indexObjects = rc.getBoolean("reftable", "indexObjects", indexObjects); //$NON-NLS-1$ //$NON-NLS-2$
+		refBlockSize = rc.getInt(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE,
+				"blockSize", refBlockSize); //$NON-NLS-1$
+		logBlockSize = rc.getInt(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE,
+				"logBlockSize", logBlockSize); //$NON-NLS-1$
+		restartInterval = rc.getInt(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE,
+				"restartInterval", restartInterval); //$NON-NLS-1$
+		maxIndexLevels = rc.getInt(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE,
+				"indexLevels", maxIndexLevels); //$NON-NLS-1$
+		alignBlocks = rc.getBoolean(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE,
+				"alignBlocks", alignBlocks); //$NON-NLS-1$
+		indexObjects = rc.getBoolean(
+				ConfigConstants.CONFIG_REF_STORAGE_REFTABLE, "indexObjects", //$NON-NLS-1$
+				indexObjects);
 	}
 }
