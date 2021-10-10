@@ -809,11 +809,11 @@ public class FileRepository extends Repository {
 	 */
 	public void convertRefStorage(String format, boolean writeLogs,
 			boolean backup) throws IOException {
-		if (format.equals("reftable")) { //$NON-NLS-1$
+		if (format.equals(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE)) {
 			if (refs instanceof RefDirectory) {
 				convertToReftable(writeLogs, backup);
 			}
-		} else if (format.equals("refdir")) {//$NON-NLS-1$
+		} else if (format.equals(ConfigConstants.CONFIG_REF_STORAGE_REFDIR)) {
 			if (refs instanceof FileReftableDatabase) {
 				convertToPackedRefs(writeLogs, backup);
 			}
