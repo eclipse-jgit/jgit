@@ -11,6 +11,7 @@
 package org.eclipse.jgit.pgm;
 
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
@@ -18,7 +19,7 @@ import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 class ConvertRefStorage extends TextBuiltin {
 
 	@Option(name = "--format", usage = "usage_convertRefStorageFormat")
-	private String format = "reftable"; //$NON-NLS-1$
+	private String format = ConfigConstants.CONFIG_REF_STORAGE_REFTABLE;
 
 	@Option(name = "--backup", handler = ExplicitBooleanOptionHandler.class, aliases = {
 			"-b" }, usage = "usage_convertRefStorageBackup")
