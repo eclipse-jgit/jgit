@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "d8272d3c_a82ccc85",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-11T10:16:15Z",
+      "side": 1,
+      "message": "did you mean: \"commit-graph generation\"?",
+      "range": {
+        "startLine": 144,
+        "startChar": 44,
+        "endLine": 144,
+        "endChar": 67
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b287a11b_f75e6e93",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-11T10:16:15Z",
+      "side": 1,
+      "message": "nit: \"commit graph\" for consistency with the other messages",
+      "range": {
+        "startLine": 144,
+        "startChar": 44,
+        "endLine": 144,
+        "endChar": 56
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dfed373_da9c1dbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-11T10:16:15Z",
+      "side": 1,
+      "message": "Can you add a note explaining where this number comes from?",
+      "range": {
+        "startLine": 28,
+        "startChar": 45,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0195e465_5bcd81c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-11T10:16:15Z",
+      "side": 1,
+      "message": "Can you add a note explaining where this number comes from?",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 47
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b22b4171_5ba000d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 9
