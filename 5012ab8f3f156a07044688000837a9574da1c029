@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3efbca41_f7870966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-10-11T16:03:06Z",
+      "side": 1,
+      "message": "I think this is too vague. Is JGit the client, the server, both? It sounds like this maybe only happens when there\u0027s a concurrent repack happening?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "5012ab8f3f156a07044688000837a9574da1c029",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55687e65_c49ab1a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-10-11T16:03:06Z",
+      "side": 1,
+      "message": "I think this scenario is already solved if you\u0027re using the preserved pack functionality. Did you try that?",
+      "revId": "5012ab8f3f156a07044688000837a9574da1c029",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
