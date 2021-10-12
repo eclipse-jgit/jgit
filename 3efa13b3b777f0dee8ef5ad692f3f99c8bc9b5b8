@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e67770f4_fdadd4cc",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2021-10-12T06:10:31Z",
+      "side": 1,
+      "message": "nit: s/cannot/Cannot/",
+      "range": {
+        "startLine": 345,
+        "startChar": 30,
+        "endLine": 345,
+        "endChar": 36
+      },
+      "revId": "3efa13b3b777f0dee8ef5ad692f3f99c8bc9b5b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5af85b31_c9abf4de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2021-10-12T06:10:31Z",
+      "side": 1,
+      "message": "Is height of the stack trace a problem or I understand it correct that it will be in the worst case equal to the key length?",
+      "revId": "3efa13b3b777f0dee8ef5ad692f3f99c8bc9b5b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
