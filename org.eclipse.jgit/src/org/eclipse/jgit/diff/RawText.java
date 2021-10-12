@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -38,11 +39,20 @@ import org.eclipse.jgit.util.RawParseUtils;
  * they are converting from "line number" to "element index".
  */
 public class RawText extends Sequence {
+
 	/** A RawText of length 0 */
 	public static final RawText EMPTY_TEXT = new RawText(new byte[0]);
 
-	/** Number of bytes to check for heuristics in {@link #isBinary(byte[])} */
-	static final int FIRST_FEW_BYTES = 8000;
+	/**
+	 * Default and minimum for {@link #BUFFER_SIZE}.
+	 */
+	private static final int FIRST_FEW_BYTES = 8 * 1024;
+
+	/**
+	 * Number of bytes to check for heuristics in {@link #isBinary(byte[])}.
+	 */
+	private static final AtomicInteger BUFFER_SIZE = new AtomicInteger(
+			FIRST_FEW_BYTES);
 
 	/** The file content for this sequence. */
 	protected final byte[] content;
@@ -248,6 +258,31 @@ public class RawText extends Sequence {
 	}
 
 	/**
+	 * Obtains the buffer size to use for analyzing whether certain content is
+	 * text or binary, or what line endings are used if it's text.
+	 *
+	 * @return the buffer size, by default {@link #FIRST_FEW_BYTES} bytes
+	 * @since 6.0
+	 */
+	public static int getBufferSize() {
+		return BUFFER_SIZE.get();
+	}
+
+	/**
+	 * Sets the buffer size to use for analyzing whether certain content is text
+	 * or binary, or what line endings are used if it's text. If the given
+	 * {@code bufferSize} is smaller than {@link #FIRST_FEW_BYTES} set the
+	 * buffer size to {@link #FIRST_FEW_BYTES}.
+	 *
+	 * @param bufferSize
+	 *            Size to set
+	 * @since 6.0
+	 */
+	public static void setBufferSize(int bufferSize) {
+		BUFFER_SIZE.set(Math.max(FIRST_FEW_BYTES, bufferSize));
+	}
+
+	/**
 	 * Determine heuristically whether the bytes contained in a stream
 	 * represents binary (as opposed to text) content.
 	 *
@@ -263,7 +298,7 @@ public class RawText extends Sequence {
 	 *             if input stream could not be read
 	 */
 	public static boolean isBinary(InputStream raw) throws IOException {
-		final byte[] buffer = new byte[FIRST_FEW_BYTES];
+		final byte[] buffer = new byte[getBufferSize()];
 		int cnt = 0;
 		while (cnt < buffer.length) {
 			final int n = raw.read(buffer, cnt, buffer.length - cnt);
@@ -287,13 +322,16 @@ public class RawText extends Sequence {
 	 * @return true if raw is likely to be a binary file, false otherwise
 	 */
 	public static boolean isBinary(byte[] raw, int length) {
-		// Same heuristic as C Git
-		if (length > FIRST_FEW_BYTES)
-			length = FIRST_FEW_BYTES;
-		for (int ptr = 0; ptr < length; ptr++)
-			if (raw[ptr] == '\0')
+		// Same heuristic as C Git (except for the buffer size)
+		int maxLength = getBufferSize();
+		if (length > maxLength) {
+			length = maxLength;
+		}
+		for (int ptr = 0; ptr < length; ptr++) {
+			if (raw[ptr] == '\0') {
 				return true;
-
+			}
+		}
 		return false;
 	}
 
@@ -329,7 +367,7 @@ public class RawText extends Sequence {
 	 * @since 5.3
 	 */
 	public static boolean isCrLfText(InputStream raw) throws IOException {
-		byte[] buffer = new byte[FIRST_FEW_BYTES];
+		byte[] buffer = new byte[getBufferSize()];
 		int cnt = 0;
 		while (cnt < buffer.length) {
 			int n = raw.read(buffer, cnt, buffer.length - cnt);
@@ -409,15 +447,16 @@ public class RawText extends Sequence {
 			throw new BinaryBlobException();
 		}
 
-		if (sz <= FIRST_FEW_BYTES) {
-			byte[] data = ldr.getCachedBytes(FIRST_FEW_BYTES);
+		int bufferSize = getBufferSize();
+		if (sz <= bufferSize) {
+			byte[] data = ldr.getCachedBytes(bufferSize);
 			if (isBinary(data)) {
 				throw new BinaryBlobException();
 			}
 			return new RawText(data);
 		}
 
-		byte[] head = new byte[FIRST_FEW_BYTES];
+		byte[] head = new byte[bufferSize];
 		try (InputStream stream = ldr.openStream()) {
 			int off = 0;
 			int left = head.length;

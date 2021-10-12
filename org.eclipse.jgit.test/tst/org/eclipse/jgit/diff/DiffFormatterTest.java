@@ -665,9 +665,9 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	private static String largeCrLfString() {
 		String line = "012345678901234567890123456789012345678901234567\r\n";
-		StringBuilder builder = new StringBuilder(
-				2 * RawText.FIRST_FEW_BYTES);
-		while (builder.length() < 2 * RawText.FIRST_FEW_BYTES) {
+		int bufferSize = RawText.getBufferSize();
+		StringBuilder builder = new StringBuilder(2 * bufferSize);
+		while (builder.length() < 2 * bufferSize) {
 			builder.append(line);
 		}
 		return builder.toString();
@@ -677,9 +677,9 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		// Create a CR-LF string longer than RawText.FIRST_FEW_BYTES whose
 		// canonical representation is shorter than RawText.FIRST_FEW_BYTES.
 		String line = "01234567\r\n"; // 10 characters
-		StringBuilder builder = new StringBuilder(
-				RawText.FIRST_FEW_BYTES + line.length());
-		while (builder.length() <= RawText.FIRST_FEW_BYTES) {
+		int bufferSize = RawText.getBufferSize();
+		StringBuilder builder = new StringBuilder(bufferSize + line.length());
+		while (builder.length() <= bufferSize) {
 			builder.append(line);
 		}
 		return builder.toString();
