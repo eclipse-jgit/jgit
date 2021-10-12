@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "835962e7_f0c252ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-12T12:27:16Z",
+      "side": 1,
+      "message": "Amended commit message",
+      "parentUuid": "3efbca41_f7870966",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "5012ab8f3f156a07044688000837a9574da1c029",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55687e65_c49ab1a6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 47
@@ -36,6 +60,24 @@
       "writtenOn": "2021-10-11T16:03:06Z",
       "side": 1,
       "message": "I think this scenario is already solved if you\u0027re using the preserved pack functionality. Did you try that?",
+      "revId": "5012ab8f3f156a07044688000837a9574da1c029",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbb8401_50e37c89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-12T12:27:16Z",
+      "side": 1,
+      "message": "I have added a comment in the commit about it. Check if it makes sense.",
+      "parentUuid": "55687e65_c49ab1a6",
       "revId": "5012ab8f3f156a07044688000837a9574da1c029",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
