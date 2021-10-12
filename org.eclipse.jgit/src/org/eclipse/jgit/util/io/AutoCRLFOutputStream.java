@@ -137,6 +137,9 @@ public class AutoCRLFOutputStream extends OutputStream {
 	private void decideMode() throws IOException {
 		if (detectBinary) {
 			isBinary = RawText.isBinary(binbuf, binbufcnt);
+			if (!isBinary) {
+				isBinary = RawText.isCrLfText(binbuf, binbufcnt);
+			}
 			detectBinary = false;
 		}
 		int cachedLen = binbufcnt;

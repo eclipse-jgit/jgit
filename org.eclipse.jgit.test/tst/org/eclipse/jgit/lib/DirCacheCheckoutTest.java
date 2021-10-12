@@ -337,6 +337,34 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 				"first line\r\nsecond line\r\n", "f text=auto eol=crlf");
 	}
 
+	@Test
+	public void testCheckoutMixedAutoEolCrLf() throws Exception {
+		checkoutLineEndings("first line\nsecond line\r\n",
+				"first line\nsecond line\r\n", "f text=auto eol=crlf");
+	}
+
+	@Test
+	public void testCheckoutMixedAutoEolLf() throws Exception {
+		checkoutLineEndings("first line\nsecond line\r\n",
+				"first line\nsecond line\r\n", "f text=auto eol=lf");
+	}
+
+	@Test
+	public void testCheckoutMixedTextCrLf() throws Exception {
+		// Huh? Is this a bug in git? Both git 2.18.0 and git 2.33.0 do
+		// write the file with CRLF (and consequently report the file as
+		// modified in "git status" after check-out), however the CRLF in the
+		// repository is _not_ replaced by LF with eol=lf (see test below).
+		checkoutLineEndings("first line\nsecond line\r\n",
+				"first line\r\nsecond line\r\n", "f text eol=crlf");
+	}
+
+	@Test
+	public void testCheckoutMixedTextLf() throws Exception {
+		checkoutLineEndings("first line\nsecond line\r\nfoo",
+				"first line\nsecond line\r\nfoo", "f text eol=lf");
+	}
+
 	private DirCacheCheckout resetHard(RevCommit commit)
 			throws NoWorkTreeException,
 			CorruptObjectException, IOException {
