@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.eclipse.jgit.diff.RawText;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -40,7 +41,8 @@ public class AutoCRLFOutputStreamTest {
 
 	@Test
 	public void testBoundary() throws IOException {
-		for (int i = AutoCRLFOutputStream.BUFFER_SIZE - 10; i < AutoCRLFOutputStream.BUFFER_SIZE + 10; i++) {
+		int bufferSize = RawText.getBufferSize();
+		for (int i = bufferSize - 10; i < bufferSize + 10; i++) {
 			String s1 = Strings.repeat("a", i);
 			assertNoCrLf(s1, s1);
 			String s2 = Strings.repeat("\0", i);

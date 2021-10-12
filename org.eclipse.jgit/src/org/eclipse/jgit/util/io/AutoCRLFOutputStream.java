@@ -20,18 +20,17 @@ import org.eclipse.jgit.diff.RawText;
  *
  * Existing CRLF are not expanded to CRCRLF, but retained as is.
  *
- * A binary check on the first 8000 bytes is performed and in case of binary
- * files, canonicalization is turned off (for the complete file).
+ * A binary check on the first {@link RawText#getBufferSize()} bytes is
+ * performed and in case of binary files, canonicalization is turned off (for
+ * the complete file).
  */
 public class AutoCRLFOutputStream extends OutputStream {
-
-	static final int BUFFER_SIZE = 8000;
 
 	private final OutputStream out;
 
 	private int buf = -1;
 
-	private byte[] binbuf = new byte[BUFFER_SIZE];
+	private byte[] binbuf = new byte[RawText.getBufferSize()];
 
 	private byte[] onebytebuf = new byte[1];
 
