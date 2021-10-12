@@ -83,7 +83,8 @@ public class EolStreamTypeUtilTest {
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "\r\n", "\r\n");
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "\n\r", "\r\n\r");
 
-		testCheckout(TEXT_CRLF, AUTO_CRLF, "\n\r\n", "\r\n\r\n");
+		testCheckout(null, AUTO_CRLF, "\n\r\n", "\n\r\n");
+		testCheckout(TEXT_CRLF, null, "\n\r\n", "\r\n\r\n");
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "\r\n\r", "\r\n\r");
 
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "a\nb\n", "a\r\nb\r\n");
