@@ -21,11 +21,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -144,10 +150,57 @@ public class DfsBlockCacheTest {
 		assertEquals(0, cache.getEvictions()[PackExt.INDEX.getPosition()]);
 	}
 
+	@SuppressWarnings("resource")
+	@Test
+	public void noConcurrencySerializedReads() throws Exception {
+		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
+		InMemoryRepository r1 = new InMemoryRepository(repo);
+		TestRepository<InMemoryRepository> repository = new TestRepository<>(
+				r1);
+		RevCommit commit = repository.branch("/refs/ref1").commit()
+				.add("blob1", "blob1").create();
+		repository.branch("/refs/ref2").commit().add("blob2", "blob2")
+				.parent(commit).create();
+
+		new DfsGarbageCollector(r1).pack(null);
+		// Reset cache with concurrency Level at 1 i.e. no concurrency.
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
+				.setBlockLimit(1 << 20).setConcurrencyLevel(1));
+		cache = DfsBlockCache.getInstance();
+
+		DfsReader reader = (DfsReader) r1.newObjectReader();
+		ExecutorService pool = Executors.newFixedThreadPool(10);
+		for (DfsPackFile pack : r1.getObjectDatabase().getPacks()) {
+			// Only load non-garbage pack with bitmap.
+			if (pack.isGarbage()) {
+				continue;
+			}
+			asyncRun(pool, () -> pack.getBitmapIndex(reader));
+			asyncRun(pool, () -> pack.getPackIndex(reader));
+			asyncRun(pool, () -> pack.getBitmapIndex(reader));
+		}
+
+		pool.shutdown();
+		pool.awaitTermination(500, TimeUnit.MILLISECONDS);
+		assertTrue("Threads did not complete, likely due to a deadlock.",
+				pool.isTerminated());
+		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
+		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
+	}
+
 	private void resetCache() {
-		DfsBlockCache.reconfigure(new DfsBlockCacheConfig()
-				.setBlockSize(512)
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
 				.setBlockLimit(1 << 20));
 		cache = DfsBlockCache.getInstance();
+	}
+
+	private void asyncRun(ExecutorService pool, Callable<?> call) {
+		pool.execute(() -> {
+			try {
+				call.call();
+			} catch (Exception e) {
+				// Ignore.
+			}
+		});
 	}
 }
