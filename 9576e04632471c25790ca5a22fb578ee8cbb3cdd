@@ -312,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "2a58b27b_7846d555",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-13T20:32:06Z",
+      "side": 1,
+      "message": "\u003e There is an option in ObjectReader.\n\u003e If core.commitgraph is false, then ObjectReader will not read the commit-graph file.\n\u003e See [1].\n\u003e \n\u003e [1] https://git.eclipse.org/r/c/jgit/jgit/+/183079/7/org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java\n\nI\u0027m not sure how this relates to my comment. I was referring to doing something like this:\n\n Optional\u003cCommitData\u003e getCommitData()\n\nso that we don\u0027t introduce new APIs that return null. Optionals were introduced as an alternative safer practice than returning nulls.",
+      "parentUuid": "66ebdc56_774e446c",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8dcdd2a8_f4b97656",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 9
@@ -341,6 +359,24 @@
       "side": 1,
       "message": "Personally, I don\u0027t think so.\nCommit-Graph simply makes commit headers parse faster, and it\u0027s not a new type of RevCommit.\nBy the way, rewriting revwalk.parseheaders() instead of implement superclass also keeps us from changing too much code.",
       "parentUuid": "8dcdd2a8_f4b97656",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f95792b_2aebafd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-13T20:32:06Z",
+      "side": 1,
+      "message": "Even if we keep separate objects, is there a reason we would not want a single Commit interface in jgit, one that can live outside of CommitGraph and RevWalking code? I have found it to always be a sore spot in jgit that we can only talk about commits when using a RevWalker. This new use case shows that there are use cases for Commits beyond RevWalking.",
+      "parentUuid": "8435fd59_fd312e46",
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
