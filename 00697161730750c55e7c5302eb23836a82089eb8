@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a76b0f4d_96d3ccad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-13T19:45:06Z",
+      "side": 1,
+      "message": "I guess by small counts, I meant like 1. :) What I am really trying to gather is whether there is a now a startup cost of reading the entire commit graph that could impact small walks, or RevCommit parsing, which would not be there without commit graphs. Could you quantify this cost somehow, and in which situations it might be possible to see a performance degradation due to this?",
+      "parentUuid": "62c639f4_1de90306",
+      "revId": "00697161730750c55e7c5302eb23836a82089eb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc0f78e5_3347850e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 6
