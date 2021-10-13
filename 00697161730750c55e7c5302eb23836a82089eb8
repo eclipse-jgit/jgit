@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "62c639f4_1de90306",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-13T06:01:38Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "cec4fa9c_bd42fca3",
+      "revId": "00697161730750c55e7c5302eb23836a82089eb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc0f78e5_3347850e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 6
