@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "47348522_d96215be",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-13T05:35:13Z",
+      "side": 1,
+      "message": "Done.\nI just wanted to say commit-graph writing was canceled.\nOn second thought, commit-graph might be a better fit, so I changed other \"commit graph\" to \"commit-graph\" to distinguish it from the DAG of commit.",
+      "parentUuid": "b287a11b_f75e6e93",
+      "range": {
+        "startLine": 144,
+        "startChar": 44,
+        "endLine": 144,
+        "endChar": 56
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7dfed373_da9c1dbb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphConstants.java",
         "patchSetId": 9
@@ -68,6 +92,30 @@
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba5fd8b6_93e1b94d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-13T05:35:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "7dfed373_da9c1dbb",
+      "range": {
+        "startLine": 28,
+        "startChar": 45,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "2404d8d2_5b0dd129",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-13T05:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0195e465_5bcd81c1",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 47
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b22b4171_5ba000d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 9
@@ -105,6 +177,24 @@
       "writtenOn": "2021-10-08T18:43:11Z",
       "side": 1,
       "message": "It would be great if some of these larger functions were further broken up to paint a better high level picture. For example, perhaps this would look something vaguely like:\n\n createChunks();\n writeHeader();\n writeChunkLookup()\n writeChunks();\n writeDigest();\n\nAs this might lead to quite a few more functions, perhaps a few extra classes are merited also, should some of the generation number stuff live in a separate file?",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8974152_ef835225",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-13T05:35:13Z",
+      "side": 1,
+      "message": "Nice idea.\nBut I haven\u0027t figured out a better way to break up this function yet because of some temporary variables.\nMaybe we can fix it when it gets more complicated?",
+      "parentUuid": "b22b4171_5ba000d3",
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -128,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "3bbb20e2_04cb54b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-13T05:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fd72d91_6aa99d56",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54218a2a_131cb52b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 9
@@ -145,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "66ebdc56_774e446c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-13T05:35:13Z",
+      "side": 1,
+      "message": "There is an option in ObjectReader.\nIf core.commitgraph is false, then ObjectReader will not read the commit-graph file.\nSee [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/183079/7/org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+      "parentUuid": "54218a2a_131cb52b",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8dcdd2a8_f4b97656",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 9
@@ -156,6 +282,24 @@
       "writtenOn": "2021-10-08T18:43:11Z",
       "side": 1,
       "message": "Should this (or a potential superclass of this) potentially be designed in a way that a RevCommit could implement it?",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8435fd59_fd312e46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-13T05:35:13Z",
+      "side": 1,
+      "message": "Personally, I don\u0027t think so.\nCommit-Graph simply makes commit headers parse faster, and it\u0027s not a new type of RevCommit.\nBy the way, rewriting revwalk.parseheaders() instead of implement superclass also keeps us from changing too much code.",
+      "parentUuid": "8dcdd2a8_f4b97656",
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
