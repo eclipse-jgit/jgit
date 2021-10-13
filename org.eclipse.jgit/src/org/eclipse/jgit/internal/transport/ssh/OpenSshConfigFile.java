@@ -151,6 +151,18 @@ public class OpenSshConfigFile implements SshConfigStore {
 	@NonNull
 	public HostEntry lookup(@NonNull String hostName, int port,
 			String userName) {
+		return lookup(hostName, port, userName, false);
+	}
+
+	@Override
+	@NonNull
+	public HostEntry lookupDefault(@NonNull String hostName, int port,
+			String userName) {
+		return lookup(hostName, port, userName, true);
+	}
+
+	private HostEntry lookup(@NonNull String hostName, int port,
+			String userName, boolean fillDefaults) {
 		final State cache = refresh();
 		String cacheKey = toCacheKey(hostName, port, userName);
 		HostEntry h = cache.hosts.get(cacheKey);
@@ -169,7 +181,8 @@ public class OpenSshConfigFile implements SshConfigStore {
 				}
 			});
 		}
-		fullConfig.substitute(hostName, port, userName, localUserName, home);
+		fullConfig.substitute(hostName, port, userName, localUserName, home,
+				fillDefaults);
 		cache.hosts.put(cacheKey, fullConfig);
 		return fullConfig;
 	}
@@ -725,12 +738,12 @@ public class OpenSshConfigFile implements SshConfigStore {
 		}
 
 		void substitute(String originalHostName, int port, String userName,
-				String localUserName, File home) {
-			int p = port >= 0 ? port : positive(getValue(SshConstants.PORT));
-			if (p < 0) {
+				String localUserName, File home, boolean fillDefaults) {
+			int p = port > 0 ? port : positive(getValue(SshConstants.PORT));
+			if (p <= 0) {
 				p = SshConstants.SSH_DEFAULT_PORT;
 			}
-			String u = userName != null && !userName.isEmpty() ? userName
+			String u = !StringUtils.isEmptyOrNull(userName) ? userName
 					: getValue(SshConstants.USER);
 			if (u == null || u.isEmpty()) {
 				u = localUserName;
@@ -747,6 +760,8 @@ public class OpenSshConfigFile implements SshConfigStore {
 					options.put(SshConstants.HOST_NAME, hostName);
 					r.update('h', hostName);
 				}
+			} else if (fillDefaults) {
+				setValue(SshConstants.HOST_NAME, originalHostName);
 			}
 			if (multiOptions != null) {
 				List<String> values = multiOptions
@@ -803,6 +818,19 @@ public class OpenSshConfigFile implements SshConfigStore {
 			}
 			// Match is not implemented and would need to be done elsewhere
 			// anyway.
+			if (fillDefaults) {
+				String s = options.get(SshConstants.USER);
+				if (StringUtils.isEmptyOrNull(s)) {
+					options.put(SshConstants.USER, u);
+				}
+				if (positive(options.get(SshConstants.PORT)) <= 0) {
+					options.put(SshConstants.PORT, Integer.toString(p));
+				}
+				if (positive(
+						options.get(SshConstants.CONNECTION_ATTEMPTS)) <= 0) {
+					options.put(SshConstants.CONNECTION_ATTEMPTS, "1"); //$NON-NLS-1$
+				}
+			}
 		}
 
 		/**
