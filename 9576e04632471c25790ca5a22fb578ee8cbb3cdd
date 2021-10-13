@@ -201,6 +201,47 @@
     },
     {
       "key": {
+        "uuid": "896e5b6f_5a4008a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-13T20:16:01Z",
+      "side": 1,
+      "message": "\u003e But I haven\u0027t figured out a better way to break up this function yet because of some temporary variables.\n\nHmm, I only see method level variables. hashsz is effectively a constant. writeCount and ChunkOffset are each only used by one step. That leaves numChunks which can easily be passed around. Am I missing something?\n\nWhat I have found is that if you don\u0027t want to pass around variables (which I agree is a good thing, even for one variable sometimes), you can resolve this by creating a small inner class which holds the variables you don\u0027t want to pass down, and move the methods using them to that inner class. This results in much easier to read code.\n\n\u003e Maybe we can fix it when it gets more complicated?\n\nI think it\u0027s already very complicated. I think we have way too much code like this already in jgit and I don\u0027t think we should add any more.",
+      "parentUuid": "a8974152_ef835225",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d7e842b_f1177e60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-13T20:16:01Z",
+      "side": 1,
+      "message": "Define variables as late as possible, i.e. line 192 for this one.",
+      "range": {
+        "startLine": 158,
+        "startChar": 7,
+        "endLine": 158,
+        "endChar": 18
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fd72d91_6aa99d56",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 9
