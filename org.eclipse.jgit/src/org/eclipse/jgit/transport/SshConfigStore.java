@@ -37,6 +37,48 @@ public interface SshConfigStore {
 	HostConfig lookup(@NonNull String hostName, int port, String userName);
 
 	/**
+	 * Locate the configuration for a specific host request and if the
+	 * configuration has no values for {@link SshConstants#HOST_NAME},
+	 * {@link SshConstants#PORT}, {@link SshConstants#USER}, or
+	 * {@link SshConstants#CONNECTION_ATTEMPTS}, fill those values with defaults
+	 * from the arguments:
+	 * <table>
+	 * <tr>
+	 * <th>ssh config key</th>
+	 * <th>value from argument</th>
+	 * </tr>
+	 * <tr>
+	 * <td>{@code HostName}</td>
+	 * <td>{@code hostName}</td>
+	 * </tr>
+	 * <tr>
+	 * <td>{@code Port}</td>
+	 * <td>{@code port > 0 ? port : 22}</td>
+	 * </tr>
+	 * <tr>
+	 * <td>{@code User}</td>
+	 * <td>{@code userName}</td>
+	 * </tr>
+	 * <tr>
+	 * <td>{@code ConnectionAttempts}</td>
+	 * <td>{@code 1}</td>
+	 * </tr>
+	 * </table>
+	 *
+	 * @param hostName
+	 *            host name to look up
+	 * @param port
+	 *            port number; <= 0 if none
+	 * @param userName
+	 *            the user name, may be {@code null} or empty if none given
+	 * @return the configuration for the requested name.
+	 * @since 6.0
+	 */
+	@NonNull
+	HostConfig lookupDefault(@NonNull String hostName, int port,
+			String userName);
+
+	/**
 	 * A host entry from the ssh config. Any merging of global values and of
 	 * several matching host entries, %-substitutions, and ~ replacement have
 	 * all been done.
