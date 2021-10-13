@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f0a92d1_d6a4a592",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 48
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-10-13T21:24:58Z",
+      "side": 1,
+      "message": "Why is the pack list not being refreshed? That seems broken. JGit has to look for new/removed packs.",
+      "range": {
+        "startLine": 27,
+        "startChar": 49,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "2ff5f6f6eaf7857f54b0d925d7b10238333fa523",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
