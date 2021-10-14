@@ -22,6 +22,30 @@
       "revId": "2ff5f6f6eaf7857f54b0d925d7b10238333fa523",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b78c500_1c589b47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 48
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2021-10-14T11:04:49Z",
+      "side": 1,
+      "message": "It is probably broken. Not sure if this change will address that case as well.",
+      "parentUuid": "9f0a92d1_d6a4a592",
+      "range": {
+        "startLine": 27,
+        "startChar": 49,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "2ff5f6f6eaf7857f54b0d925d7b10238333fa523",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
