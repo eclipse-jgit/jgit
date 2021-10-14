@@ -219,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "fd6d32fe_f7c34b98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-14T05:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "896e5b6f_5a4008a2",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d7e842b_f1177e60",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 9
@@ -239,6 +257,30 @@
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d1b6733_f045bd64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-14T05:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d7e842b_f1177e60",
+      "range": {
+        "startLine": 158,
+        "startChar": 7,
+        "endLine": 158,
+        "endChar": 18
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -330,6 +372,24 @@
     },
     {
       "key": {
+        "uuid": "a304cbea_4997bc47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-14T05:04:58Z",
+      "side": 1,
+      "message": "Gotcha. I thought by mistake \"options\" you told was a Git config that makes the API always return null.",
+      "parentUuid": "2a58b27b_7846d555",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8dcdd2a8_f4b97656",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 9
@@ -377,6 +437,24 @@
       "side": 1,
       "message": "Even if we keep separate objects, is there a reason we would not want a single Commit interface in jgit, one that can live outside of CommitGraph and RevWalking code? I have found it to always be a sore spot in jgit that we can only talk about commits when using a RevWalker. This new use case shows that there are use cases for Commits beyond RevWalking.",
       "parentUuid": "8435fd59_fd312e46",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c43b1060_0c35c2e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-14T05:04:58Z",
+      "side": 1,
+      "message": "I prefer to use revwalk to get a single Commit, such like revWalk.parseCommit(objectId).\nThat way, you can always get the results you want with or without a commit-graph.\n\nIf we directly get RevCommit from CommitGraph, there are a number of things we need to consider:\n1. Repo may not have commit-graph.\n2. Repo has a commit-graph, but the commit we want may not be in the commit-graph.\nIn this case, we still need to get a commit from RevWalk and search it in packs or loose objects.",
+      "parentUuid": "1f95792b_2aebafd3",
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
