@@ -46,6 +46,30 @@
       "revId": "2ff5f6f6eaf7857f54b0d925d7b10238333fa523",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef1c687a_603dbf41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 48
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-10-14T15:06:05Z",
+      "side": 1,
+      "message": "I\u0027m going to strongly recommend that be tested and fixed. That\u0027s a fundamental problem and this change is likely unnecessary if it\u0027s fixed.\n\nWe\u0027re running an older version of JGit and are using preserve pack and we never have stale file handle issues in JGit (the last one we had I fixed in change I6901157b).\n\nIf this change was trivial and obviously correct I would think differently about it, but adding this retry isn\u0027t obviously correct. For example, I don\u0027t think clients are prepared to handle partial data being sent to that output stream and then data starting over again when this retries. Let\u0027s fix the obvious problems first.",
+      "parentUuid": "9b78c500_1c589b47",
+      "range": {
+        "startLine": 27,
+        "startChar": 49,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "2ff5f6f6eaf7857f54b0d925d7b10238333fa523",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
