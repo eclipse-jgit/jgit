@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1682510e_24be82d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2021-10-14T15:26:16Z",
+      "side": 1,
+      "message": "nit: It confused me that you need three locks but effectively, it\u0027s just one r/w lock and you keep the references to the inner locks.\n\nIs there a performance gain by doing so (i.e. is returning the read and write lock from the ReadWriteLock not free)? If not, I would just keep a single ReadWriteLock for better readability.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "af4f9153ab297c2a7f1a6a8b48b14e44ebcf4ddd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
