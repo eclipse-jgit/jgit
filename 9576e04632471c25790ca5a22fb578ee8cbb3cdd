@@ -458,6 +458,24 @@
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a700b5c6_d13d8238",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-14T05:29:24Z",
+      "side": 1,
+      "message": "mistake: \n\u003e I prefer to use revwalk to get a single Commit, such like revWalk.parseCommit(objectId).\n\n   revWalk.parseCommit(objectId)\nto \n\n   RevCommit commit \u003d revWalk.lookupCommit(objectId);\n   revWalk.parseHeaders(commit);",
+      "parentUuid": "c43b1060_0c35c2e5",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
