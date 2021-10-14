@@ -22,6 +22,30 @@
       "revId": "af4f9153ab297c2a7f1a6a8b48b14e44ebcf4ddd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "783a7727_432dbb87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-14T21:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1682510e_24be82d3",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "af4f9153ab297c2a7f1a6a8b48b14e44ebcf4ddd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
