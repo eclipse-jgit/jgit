@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc5e7570_5788358a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-15T21:43:07Z",
+      "side": 1,
+      "message": "AFAIK in some cases where memory footprint is important jgit uses arrays since they need less memory compared to collection classes",
+      "parentUuid": "bf008561_202ae5f9",
+      "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f6b9aff_ae29cc5e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ObjectToCommitData.java",
         "patchSetId": 11
@@ -53,6 +71,24 @@
       "writtenOn": "2021-10-15T16:06:40Z",
       "side": 1,
       "message": "Unfortunately, this doesn\u0027t seem to mention anything about lib: https://git.eclipse.org/c/jgit/jgit.git/tree/README.md however I suspect that stuff in lib is considered part of the jgit API? @Matthias, do you know? If so, then I don\u0027t think we want to add the CommitGraph to the API since the CommitGraph should likely be an internal only optimization that users should never know about?",
+      "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "036cd98a_2e551907",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-15T21:43:07Z",
+      "side": 1,
+      "message": "all public classes are considered public API except if they are located in a package containing a segment \"internal\", e.g. org.eclipse.jgit.lib.internal. In the META-INF those internal packages are marked x-internal:\u003dtrue which says in OSGi terminology that the package is exported but not considered official API, so there is no guarantee that there are no breaking changes.",
+      "parentUuid": "010f727b_f7197ba5",
       "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true

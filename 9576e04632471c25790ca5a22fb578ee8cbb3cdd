@@ -166,6 +166,69 @@
     },
     {
       "key": {
+        "uuid": "b1b3886c_663cee57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-15T21:43:07Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 42,
+        "startChar": 52,
+        "endLine": 42,
+        "endChar": 56
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69820589_8b4515f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutPutStream.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-15T21:43:07Z",
+      "side": 1,
+      "message": "OutPut looks odd, CommitGraphOutputStream seems easier to understand",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e724041_bb748267",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutPutStream.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-15T21:43:07Z",
+      "side": 1,
+      "message": "I\u0027d move incrementing count after line 84 otherwise count would be incremented already in case of the monitoring canceling the write or an IOException thrown by out.write",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b22b4171_5ba000d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 9
@@ -473,6 +536,23 @@
       "side": 1,
       "message": "mistake: \n\u003e I prefer to use revwalk to get a single Commit, such like revWalk.parseCommit(objectId).\n\n   revWalk.parseCommit(objectId)\nto \n\n   RevCommit commit \u003d revWalk.lookupCommit(objectId);\n   revWalk.parseHeaders(commit);",
       "parentUuid": "c43b1060_0c35c2e5",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2ed9fa9_5c34c579",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-15T21:43:07Z",
+      "side": 1,
+      "message": "Why is this needed ? C git doesn\u0027t seem to support this.",
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
