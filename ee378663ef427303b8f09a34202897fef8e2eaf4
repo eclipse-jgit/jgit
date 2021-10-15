@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07ec9c13_0d8684ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphDataV1.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-15T16:13:06Z",
+      "side": 1,
+      "message": "If I am understanding the code in the class correctly, the constructor loads the entire file in memory upfront? It also looks like this is using a binary search to find objectId positions? I think the file format was designed to make binary searching possible without loading the entire file in memory, and I would expect a binary search to be used with that approach. Since this class seems to be using a load-the-entire-file approach, a binary search is likely not the most efficient approach O(log(n)), using a ObjectIdMap probably makes more sense O(1)?",
+      "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
