@@ -147,6 +147,12 @@
    <bundle id="org.bouncycastle.bcprov.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
+   <bundle id="org.bouncycastle.bcutil">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.bouncycastle.bcutil.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <bundle id="org.kohsuke.args4j">
       <category name="JGit-dependency-bundles"/>
    </bundle>

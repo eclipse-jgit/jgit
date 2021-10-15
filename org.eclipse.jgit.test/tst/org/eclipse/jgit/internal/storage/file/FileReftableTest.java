@@ -25,7 +25,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -133,20 +135,21 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertTrue(db.getRefDatabase().hasFastTipsWithSha1());
 	}
 
+
 	@Test
-	public void testConvertToRefdir() throws Exception {
+	public void testConvertBrokenObjectId() throws Exception {
 		db.convertToPackedRefs(false, false);
-		assertTrue(db.getRefDatabase() instanceof RefDirectory);
-		Ref h = db.exactRef("HEAD");
-		assertTrue(h.isSymbolic());
-		assertEquals("refs/heads/master", h.getTarget().getName());
+		new File(db.getDirectory(), "refs/heads").mkdirs();
 
-		Ref b = db.exactRef("refs/heads/b");
-		assertFalse(b.isSymbolic());
-		assertTrue(b.isPeeled());
-		assertEquals(bCommit, b.getObjectId().name());
+		String invalidId = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+		File headFile = new File(db.getDirectory(), "refs/heads/broken");
+		try (OutputStream os = new FileOutputStream(headFile)) {
+			os.write(Constants.encodeASCII(invalidId + "\n"));
+		}
 
-		assertFalse(db.getRefDatabase().hasFastTipsWithSha1());
+		Ref r = db.exactRef("refs/heads/broken");
+		assertNotNull(r);
+		db.convertToReftable(true, false);
 	}
 
 	@Test
