@@ -8,6 +8,8 @@ jmh_java_benchmarks(
     name = "benchmarks",
     srcs = SRCS,
     deps = [
+        "//lib:javaewah",
+        "//lib:slf4j-api",
         "//org.eclipse.jgit:jgit",
     ],
 )

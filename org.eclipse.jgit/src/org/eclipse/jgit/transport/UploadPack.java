@@ -1092,6 +1092,7 @@ public class UploadPack {
 
 		rawOut.stopBuffering();
 		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
+		adv.init(db);
 		adv.setUseProtocolV2(true);
 		if (req.getPeel()) {
 			adv.setDerefTags(true);

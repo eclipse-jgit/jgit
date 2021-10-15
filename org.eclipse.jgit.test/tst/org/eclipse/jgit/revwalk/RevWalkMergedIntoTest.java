@@ -99,7 +99,7 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 		createBranch(commit(commit(a)), b);
 		createBranch(commit(commit(i)), c);
 
-		assertTrue( rw.isMergedIntoAny(a, getRefs()));
+		assertTrue(rw.isMergedIntoAny(a, getRefs()));
 	}
 
 	@Test
@@ -122,6 +122,25 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 		createBranch(commit(o1), b);
 		createBranch(commit(o1, o2), c);
 		createBranch(commit(o2), d);
+
+		assertTrue(rw.isMergedIntoAll(a, getRefs()));
+	}
+
+	@Test
+	public void testMergeIntoAnnotatedTag() throws Exception {
+		/*
+		 *        a
+		 *        |
+		 *        b
+		 *       / \
+		 *      c  v1 (annotated tag)
+		 */
+		String c = "refs/heads/c";
+		String v1 = "refs/tags/v1";
+		final RevCommit a = commit();
+		final RevCommit b = commit(a);
+		createBranch(commit(b), c);
+		createBranch(tag("v1", b), v1);
 
 		assertTrue(rw.isMergedIntoAll(a, getRefs()));
 	}
