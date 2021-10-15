@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5913fb30_ac147f38",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-10-15T19:08:03Z",
+      "side": 1,
+      "message": "No, pool has a rather random size. In this setup there are 3 threads started: bitmap, idx, bitmap. That\u0027s because I excluded garbage. Size 10 is a safe number, 5 can work too.",
+      "parentUuid": "ef18ac9c_9ad31ca5",
+      "range": {
+        "startLine": 155,
+        "startChar": 13,
+        "endLine": 155,
+        "endChar": 42
+      },
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e643e31_b54947d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c6a88fc_8f601614",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-10-15T19:08:03Z",
+      "side": 1,
+      "message": "I restored my previous code in this file where I initially moved the comment because it applied to ObjectID map initialized below.",
+      "parentUuid": "8e643e31_b54947d6",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
