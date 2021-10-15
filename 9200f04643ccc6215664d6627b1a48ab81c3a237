@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf008561_202ae5f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-15T16:06:40Z",
+      "side": 1,
+      "message": "I know that jgit hasn\u0027t done the best job with this in the past (a lot of it looks like C code ported to java), unless justified with benchmarks that using arrays instead of standard java Collection objects is needed, please use standard Collections so that iterations like this can use modern \"for\" loops avoiding many potential programming gotchas. Most of us reviewers don\u0027t want to have to spend brain cycles on figuring out whether this sort of loop is correct, or if the indexing below is going to go beyond bounds.\n\nI am not that familiar with the jgit guidelines, but I suspect that this should probably get documented somewhere also if it isn\u0027t already. @Matthis, perhaps here: https://wiki.eclipse.org/EGit/Contributor_Guide#Granularity_of_Changes ?",
+      "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f6b9aff_ae29cc5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ObjectToCommitData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-15T16:06:40Z",
+      "side": 1,
+      "message": "As a general thought for this whole series, I suspect we want to avoid naming objects with \"data\" of \"info\".",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "010f727b_f7197ba5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-15T16:06:40Z",
+      "side": 1,
+      "message": "Unfortunately, this doesn\u0027t seem to mention anything about lib: https://git.eclipse.org/c/jgit/jgit.git/tree/README.md however I suspect that stuff in lib is considered part of the jgit API? @Matthias, do you know? If so, then I don\u0027t think we want to add the CommitGraph to the API since the CommitGraph should likely be an internal only optimization that users should never know about?",
+      "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
