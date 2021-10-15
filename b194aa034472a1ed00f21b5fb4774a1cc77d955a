@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef18ac9c_9ad31ca5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2021-10-15T18:20:49Z",
+      "side": 1,
+      "message": "the thread pool is created with 10 threads, did you mean to say concurrentcyLevel10ParallelLoad()?",
+      "range": {
+        "startLine": 155,
+        "startChar": 13,
+        "endLine": 155,
+        "endChar": 42
+      },
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e643e31_b54947d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2021-10-15T18:20:49Z",
+      "side": 1,
+      "message": "Did this comment block get moved from below by accident?",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
