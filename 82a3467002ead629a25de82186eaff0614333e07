@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec8bc5dc_08d62858",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-15T20:23:37Z",
+      "side": 1,
+      "message": "from",
+      "range": {
+        "startLine": 32,
+        "startChar": 66,
+        "endLine": 32,
+        "endChar": 70
+      },
+      "revId": "82a3467002ead629a25de82186eaff0614333e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0a2e06_2993e5c7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackLsRefsFileRepositoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-15T20:23:37Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "82a3467002ead629a25de82186eaff0614333e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
