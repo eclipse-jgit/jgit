@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.locks.ReadWriteLock;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Ref;
@@ -153,5 +154,10 @@ public class InMemoryRefDatabase extends RefDatabase
 	@Override
 	public void onBatchUpdated(Iterable<Entry<String, Ref>> newRefs) {
 		cache.reload(newRefs);
+	}
+
+	@Override
+	public ReadWriteLock getLock() {
+		return cache.getLock();
 	}
 }

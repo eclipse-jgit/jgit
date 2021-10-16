@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.concurrent.locks.Lock;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.LockFailedException;
@@ -155,6 +156,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 		Map<String, LockFile> locks = null;
 		refdb.inProcessPackedRefsLock.lock();
+		Lock cacheLock = null;
 		try {
 			PackedRefList oldPackedList;
 			if (!refdb.isInClone()) {
@@ -178,53 +180,23 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				lockFailure(pending.get(0), pending);
 				return;
 			}
-			// commitPackedRefs removes lock file (by renaming over real file).
-			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
-					true);
 			if (refCache != null) {
-				Iterable<Entry<String, Ref>> loader = new Iterable<>() {
+				cacheLock = refCache.getLock().writeLock();
+				cacheLock.lock();
+			}
 
-					private int i = 0;
+			// commitPackedRefs removes lock file (by renaming over real file).
+			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList, true);
 
-					@Override
-					public Iterator<Entry<String, Ref>> iterator() {
-						Iterator<Entry<String, Ref>> it = new Iterator<>() {
-
-							@Override
-							public boolean hasNext() {
-								return i < newRefs.size() - 1;
-							}
-
-							@Override
-							public Entry<String, Ref> next() {
-								i++;
-								Ref r = newRefs.get(i);
-								return new Entry<>() {
-
-									@Override
-									public String getKey() {
-										return r.getName();
-									}
-
-									@Override
-									public Ref getValue() {
-										return r;
-									}
-
-									@Override
-									public Ref setValue(Ref value) {
-										throw new UnsupportedOperationException();
-									}
-								};
-							}
-						};
-						return it;
-					}
-				};
+			if (refCache != null) {
+				Iterable<Entry<String, Ref>> loader = newIterable(newRefs);
 				refCache.onBatchUpdated(loader);
 			}
 		} finally {
 			try {
+				if (cacheLock != null) {
+					cacheLock.unlock();
+				}
 				unlockAll(locks);
 			} finally {
 				refdb.inProcessPackedRefsLock.unlock();
@@ -234,6 +206,55 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		refdb.fireRefsChanged();
 		pending.forEach(c -> c.setResult(ReceiveCommand.Result.OK));
 		writeReflog(pending);
+	}
+
+	/**
+	 * Create new Iterable<Entry<String, Ref>> for the given list of refs
+	 *
+	 * @param refs
+	 *            RefList
+	 * @return new Iterable<Entry<String, Ref>> for the given RefList
+	 */
+	private Iterable<Entry<String, Ref>> newIterable(RefList<Ref> refs) {
+		return new Iterable<>() {
+
+			private int i = 0;
+
+			@Override
+			public Iterator<Entry<String, Ref>> iterator() {
+				Iterator<Entry<String, Ref>> it = new Iterator<>() {
+
+					@Override
+					public boolean hasNext() {
+						return i < refs.size() - 1;
+					}
+
+					@Override
+					public Entry<String, Ref> next() {
+						i++;
+						Ref r = refs.get(i);
+						return new Entry<>() {
+
+							@Override
+							public String getKey() {
+								return r.getName();
+							}
+
+							@Override
+							public Ref getValue() {
+								return r;
+							}
+
+							@Override
+							public Ref setValue(Ref value) {
+								throw new UnsupportedOperationException();
+							}
+						};
+					}
+				};
+				return it;
+			}
+		};
 	}
 
 	private static boolean containsSymrefs(List<ReceiveCommand> commands) {

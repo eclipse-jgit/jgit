@@ -13,6 +13,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.concurrent.locks.Lock;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -622,13 +623,24 @@ public abstract class RefUpdate {
 			return result = updateImpl(walk, new Store() {
 				@Override
 				Result execute(Result status) throws IOException {
-					if (status == Result.NO_CHANGE)
+					if (status == Result.NO_CHANGE) {
 						return status;
-					Result res = doUpdate(status);
-					if (refCache != null && status.updateSucceeded()) {
-						refCache.onUpdated(RefUpdate.this, status);
 					}
-					return res;
+					if (refCache == null) {
+						return doUpdate(status);
+					}
+
+					Lock cacheLock = refCache.getLock().writeLock();
+					cacheLock.lock();
+					try {
+						Result res = doUpdate(status);
+						if (status.updateSucceeded()) {
+							refCache.onUpdated(RefUpdate.this, status);
+						}
+						return res;
+					} finally {
+						cacheLock.unlock();
+					}
 				}
 			});
 		} catch (IOException x) {
@@ -683,11 +695,21 @@ public abstract class RefUpdate {
 			return result = updateImpl(walk, new Store() {
 				@Override
 				Result execute(Result status) throws IOException {
-					Result res = doDelete(status);
-					if (refCache != null && status.updateSucceeded()) {
-						refCache.onDeleted(RefUpdate.this, status);
+					if (refCache == null) {
+						return doDelete(status);
 					}
-					return res;
+
+					Lock cacheLock = refCache.getLock().writeLock();
+					cacheLock.lock();
+					try {
+						Result res = doDelete(status);
+						if (status.updateSucceeded()) {
+							refCache.onDeleted(RefUpdate.this, status);
+						}
+						return res;
+					} finally {
+						cacheLock.unlock();
+					}
 				}
 			});
 		} catch (IOException x) {
@@ -731,11 +753,21 @@ public abstract class RefUpdate {
 			final Ref dst = getRefDatabase().exactRef(target);
 			if (dst != null && dst.getObjectId() != null)
 				setNewObjectId(dst.getObjectId());
-			result = doLink(target);
-			if (refCache != null && result.updateSucceeded()) {
-				refCache.onLinked(this, result);
+			if (refCache == null) {
+				return doLink(target);
 			}
-			return result;
+
+			Lock cacheLock = refCache.getLock().writeLock();
+			cacheLock.lock();
+			try {
+				result = doLink(target);
+				if (result.updateSucceeded()) {
+					refCache.onLinked(this, result);
+				}
+				return result;
+			} finally {
+				cacheLock.unlock();
+			}
 		} catch (IOException x) {
 			result = Result.IO_FAILURE;
 			throw x;

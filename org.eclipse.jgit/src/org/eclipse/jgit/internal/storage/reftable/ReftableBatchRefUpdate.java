@@ -107,6 +107,11 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 			pending = getPending();
 
 			lock.lock();
+			Lock cacheLock = null;
+			if (refCache != null) {
+				cacheLock = refCache.getLock().writeLock();
+				cacheLock.lock();
+			}
 			try {
 				if (!checkExpected(pending)) {
 					return;
@@ -128,55 +133,70 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 						cmd.setResult(OK);
 					}
 				}
+
 				if (refCache != null) {
-					Iterable<Entry<String, Ref>> loader = new Iterable<>() {
-
-						private int i = 0;
-
-						@Override
-						public Iterator<Entry<String, Ref>> iterator() {
-							Iterator<Entry<String, Ref>> it = new Iterator<>() {
-
-								@Override
-								public boolean hasNext() {
-									return i < newRefs.size() - 1;
-								}
-
-								@Override
-								public Entry<String, Ref> next() {
-									i++;
-									Ref r = newRefs.get(i);
-									return new Entry<>() {
-
-										@Override
-										public String getKey() {
-											return r.getName();
-										}
-
-										@Override
-										public Ref getValue() {
-											return r;
-										}
-
-										@Override
-										public Ref setValue(Ref value) {
-											throw new UnsupportedOperationException();
-										}
-									};
-								}
-							};
-							return it;
-						}
-					};
+					Iterable<Entry<String, Ref>> loader = newIterable(newRefs);
 					refCache.onBatchUpdated(loader);
 				}
 			} finally {
 				lock.unlock();
+				if (cacheLock != null) {
+					cacheLock.unlock();
+				}
 			}
 		} catch (IOException e) {
 			pending.get(0).setResult(LOCK_FAILURE, "io error"); //$NON-NLS-1$
 			ReceiveCommand.abort(pending);
 		}
+	}
+
+	/**
+	 * Create new Iterable<Entry<String, Ref>> for the given list of refs
+	 *
+	 * @param refs
+	 *            list of refs
+	 * @return new Iterable<Entry<String, Ref>> for the given list of refs
+	 */
+	private Iterable<Entry<String, Ref>> newIterable(List<Ref> refs) {
+		return new Iterable<>() {
+
+			private int i = 0;
+
+			@Override
+			public Iterator<Entry<String, Ref>> iterator() {
+				Iterator<Entry<String, Ref>> it = new Iterator<>() {
+
+					@Override
+					public boolean hasNext() {
+						return i < refs.size() - 1;
+					}
+
+					@Override
+					public Entry<String, Ref> next() {
+						i++;
+						Ref r = refs.get(i);
+						return new Entry<>() {
+
+							@Override
+							public String getKey() {
+								return r.getName();
+							}
+
+							@Override
+							public Ref getValue() {
+								return r;
+							}
+
+							@Override
+							public Ref setValue(Ref value) {
+								throw new UnsupportedOperationException();
+							}
+						};
+					}
+				};
+				return it;
+			}
+		};
 	}
 
 	/**

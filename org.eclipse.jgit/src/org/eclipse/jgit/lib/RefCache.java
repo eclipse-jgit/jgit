@@ -10,6 +10,7 @@
 package org.eclipse.jgit.lib;
 
 import java.util.Map.Entry;
+import java.util.concurrent.locks.ReadWriteLock;
 
 import org.eclipse.jgit.lib.RefUpdate.Result;
 
@@ -19,6 +20,13 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
  * @since 6.0
  */
 public interface RefCache {
+
+	/**
+	 * Get the lock guarding read and write access to the cache
+	 *
+	 * @return lock guarding read and write access to the cache
+	 */
+	ReadWriteLock getLock();
 
 	/**
 	 * Ref was updated

@@ -14,6 +14,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
 
 import org.eclipse.jgit.lib.RefUpdate.Result;
 
@@ -138,11 +139,21 @@ public abstract class RefRename {
 	 */
 	public Result rename() throws IOException {
 		try {
-			result = doRename();
-			if (refCache != null && result.updateSucceeded()) {
-				refCache.onRenamed(source, destination, result);
+			if (refCache == null) {
+				return doRename();
 			}
-			return result;
+
+			Lock cacheLock = refCache.getLock().writeLock();
+			cacheLock.lock();
+			try {
+				result = doRename();
+				if (result.updateSucceeded()) {
+					refCache.onRenamed(source, destination, result);
+				}
+				return result;
+			} finally {
+				cacheLock.unlock();
+			}
 		} catch (IOException err) {
 			result = Result.IO_FAILURE;
 			throw err;
