@@ -16,6 +16,24 @@
       "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d404f5b_cbd4c440",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphDataV1.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-18T02:40:17Z",
+      "side": 1,
+      "message": "\u003e If I am understanding the code in the class correctly, the constructor loads the entire file in memory upfront? \nYes\n\u003e It also looks like this is using a binary search to find objectId positions? \nYes\n\n\u003e I think the file format was designed to make binary searching possible without loading the entire file in memory, and I would expect a binary search to be used with that approach. \nNo, It still requires all files to be mapped into memory. If you have looked at CGit code, you would see that CGit maps the entire file into memory using mmap[1].\n   graph_map \u003d xmmap(NULL, graph_size, PROT_READ, MAP_PRIVATE, fd, 0);\n\nThis is very similar to PackIndex, which is an index for binary lookup and fully loaded in memory in JGit.\n\n[1] https://github.com/git/git/commit/2a2e32bdc5a80221981939e77643cec3462b4793",
+      "parentUuid": "07ec9c13_0d8684ed",
+      "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
