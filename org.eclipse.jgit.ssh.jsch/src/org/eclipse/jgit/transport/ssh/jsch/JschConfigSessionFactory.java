@@ -45,6 +45,7 @@ import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -417,12 +418,24 @@ public class JschConfigSessionFactory extends SshSessionFactory {
 	 */
 	protected JSch createDefaultJSch(FS fs) throws JSchException {
 		final JSch jsch = new JSch();
-		JSch.setConfig("ssh-rsa", JSch.getConfig("signature.rsa")); //$NON-NLS-1$ //$NON-NLS-2$
-		JSch.setConfig("ssh-dss", JSch.getConfig("signature.dss")); //$NON-NLS-1$ //$NON-NLS-2$
+		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=537790 and
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=576604
+		copyGlobalConfigIfNotSet("signature.rsa", "ssh-rsa"); //$NON-NLS-1$ //$NON-NLS-2$
+		copyGlobalConfigIfNotSet("signature.dss", "ssh-dss"); //$NON-NLS-1$ //$NON-NLS-2$
 		configureJSch(jsch);
 		knownHosts(jsch, fs);
 		identities(jsch, fs);
 		return jsch;
+	}
+
+	private void copyGlobalConfigIfNotSet(String from, String to) {
+		String toValue = JSch.getConfig(to);
+		if (StringUtils.isEmptyOrNull(toValue)) {
+			String fromValue = JSch.getConfig(from);
+			if (!StringUtils.isEmptyOrNull(fromValue)) {
+				JSch.setConfig(to, fromValue);
+			}
+		}
 	}
 
 	private static void knownHosts(JSch sch, FS fs) throws JSchException {
