@@ -112,6 +112,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	private String initialBranch = Constants.MASTER;
 
+	private boolean doCacheRefs;
+
 	/** Directories limiting the search for a Git repository. */
 	private List<File> ceilingDirectories;
 
@@ -516,6 +518,36 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 				addCeilingDirectory(path);
 		}
 		return self();
+	}
+
+	/**
+	 * Set whether the underlying RefDatabase should be wrapped with a ref cache
+	 * to speedup read access.
+	 *
+	 * @param cached
+	 *            {@code true} if the underlying RefDatabase should be wrapped
+	 *            with a RefCache to speedup read access, {@code false}
+	 *            otherwise.
+	 * @return {@code this} (for chaining calls).
+	 *
+	 * @since 5.12.1
+	 */
+	public B setCacheRefs(boolean cached) {
+		this.doCacheRefs = cached;
+		return self();
+	}
+
+	/**
+	 * Get whether the underlying RefDatabase should be wrapped with a ref cache
+	 * to speedup read access.
+	 *
+	 * @return {@code true} if the underlying RefDatabase should be wrapped with
+	 *         a RefCache to speedup read access, {@code false} otherwise.
+	 *
+	 * @since 5.12.1
+	 */
+	public boolean getCacheRefs() {
+		return doCacheRefs;
 	}
 
 	/**
