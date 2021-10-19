@@ -34,6 +34,24 @@
       "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4820bc42_357eace0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphDataV1.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-19T22:17:12Z",
+      "side": 1,
+      "message": "\u003e \u003e I think the file format was designed to make binary searching possible without loading the entire file in memory, and I would expect a binary search to be used with that approach. \n\u003e No, It still requires all files to be mapped into memory. If you have looked at CGit code, you would see that CGit maps the entire file into memory using mmap[1].\n\u003e    graph_map \u003d xmmap(NULL, graph_size, PROT_READ, MAP_PRIVATE, fd, 0);\n\nmmap() is a lazy IO operation, i.e. it will only load those portions of a file which are actually accessed. From what I can tell here: https://github.com/git/git/blob/2a2e32bdc5a80221981939e77643cec3462b4793/commit-graph.c it looks like CGit mmap()s the file to a pointer on line 81, and after that if things go well, it places that pointer along with a \"still open\" filedescriptor into the \u0027graph\u0027 struct, and then it returns that \u0027graph\u0027 struct on line 174 without closing the file. If the entire file were already read, would they not have closed the file? \n\nI believe the commit graph (and the .idx file) was designed to be fast for programs which startup, read a few commits, and then exit. This is the typical C Git command line usage. Such programs don\u0027t have the benefit of being able to cache an index across many user invocations. This mmap/binary search operation allows a program to avoid reading the whole file which is very expensive for the normal C Git use cases.\n\nHowever most JGit applications, such as eclipse and Gerrit, can benefit from caching the contents of indexes across many different unrelated user operations. So it certainly would be valuable to have the ability to read the entire commit graph into memory, but that may be expensive in some situations (when only a few commits need to be looked up). We may also eventually want the ability to do an mmap() binary search. However, I am not suggesting that you have to implement both ways to introduce commit graphs to JGit, just that depending on which approach is picked, that we then use the right lookup approach to go with it.\n\n\u003e This is very similar to PackIndex, which is an index for binary lookup and fully loaded in memory in JGit.\n\nIf we are going to load the entire commit graph in memory, and then do a binary search, then I think we need to justify why, either because it is faster or because it saves memory. I would not assume that just because PackIndex does things that way (and it does appear to), that it is a good way to do things.\n\nI don\u0027t know why PackInded does this, and it probably could be improved to not do that. Although improving PackIndex to have an O(1) lookup may not make much of a difference in practice because usually the index is only used to then do I/O to fetch an object from the pack anyway. However, it might help in the case of not found objects (Bup suffered here), especially/and when there are many packs (which is terribly slow now in jgit). Perhaps the PackIndex code was originally written to do an mmap() and then it turned out not to work well in java, but then the binary lookup code was just left behind? It sure would be nice to be able to improve something this fundamental for JGit!\n\nAs for Commit Graphs, the use case that they are intended to improved, is one of accessing many commits without doing I/O. In this case, the extra cost of an O(log(n)) lookup could be significant compared to an O(1) lookup?",
+      "parentUuid": "0d404f5b_cbd4c440",
+      "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
