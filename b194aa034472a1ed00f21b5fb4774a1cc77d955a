@@ -49,6 +49,40 @@
     },
     {
       "key": {
+        "uuid": "54d714ec_103f8abc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-10-19T21:34:16Z",
+      "side": 1,
+      "message": "IIUC This is testing that without concurrency, loads are serialized without deadlock (?)\n\nIf so, maybe \"noConcurrencySerializedReads\" would be more descriptive?",
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9517a9e2_564190e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-10-19T21:34:16Z",
+      "side": 1,
+      "message": "Unrelated format change? (there are few other lines like this)",
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e643e31_b54947d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
         "patchSetId": 2
@@ -93,6 +127,23 @@
       "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e656c50_71ee54b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-10-19T21:34:16Z",
+      "side": 1,
+      "message": "Could we add this if/when that XorStoredBitmap is implemented?\n\nIIUC right now it just sets a property that is not used in an object in a local list (idxPositionBitmapList) that will be freed soon.",
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
