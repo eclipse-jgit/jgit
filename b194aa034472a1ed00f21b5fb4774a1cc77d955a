@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "95caac10_17a9ecba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-10-19T21:52:11Z",
+      "side": 1,
+      "message": "That is correct. Thanks for the suggestion, changed the test name.",
+      "parentUuid": "54d714ec_103f8abc",
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9517a9e2_564190e1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
         "patchSetId": 2
@@ -80,6 +98,24 @@
       "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08ec0c14_522068be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-10-19T21:52:11Z",
+      "side": 1,
+      "message": "I used Eclipse default formatter, it keeps changing these lines once I save. I believe that it is the recommended formatter for Jgit.",
+      "parentUuid": "9517a9e2_564190e1",
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +180,24 @@
       "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb03e5b4_91b63431",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-10-19T21:52:11Z",
+      "side": 1,
+      "message": "Oh, \"future\" here does not mean that it is to be implemented in future. XorStoredBitmap is created later on call of getXorStoredBitmap(). Thus it\u0027s called future since it\u0027s not created yet, but will be.",
+      "parentUuid": "2e656c50_71ee54b2",
+      "revId": "b194aa034472a1ed00f21b5fb4774a1cc77d955a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
