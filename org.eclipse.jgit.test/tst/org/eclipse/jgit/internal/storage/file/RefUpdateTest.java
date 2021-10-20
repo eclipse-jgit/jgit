@@ -29,6 +29,8 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -52,8 +54,32 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class RefUpdateTest extends SampleDataRepositoryTestCase {
+	private static final Options NO_REFCACHE = new Options();
+
+	private static final Options REFCACHE = new Options()
+			.setUseRefCache(true);
+
+	@Parameter(0)
+	public boolean useRefCache;
+
+	@Parameters(name = "useRefCache={0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] { //
+				{ Boolean.FALSE }, { Boolean.TRUE }, });
+	}
+
+	@Override
+	protected Options getOptions() {
+		return useRefCache ? REFCACHE : NO_REFCACHE;
+	}
+
 	private void writeSymref(String src, String dst) throws IOException {
 		RefUpdate u = db.updateRef(src);
 		switch (u.link(dst)) {
@@ -1050,15 +1076,13 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	private static void writeReflog(Repository db, ObjectId newId, String msg,
 			String refName) throws IOException {
 		RefDatabase refs = db.getRefDatabase();
+		RefUpdate update = refs.newUpdate(refName, true);
+		update.setNewObjectId(newId);
 		if (refs instanceof RefDirectory) {
 			RefDirectory refDir = (RefDirectory) refs;
-			RefUpdate update = refDir.newUpdate(refName, true);
-			update.setNewObjectId(newId);
 			refDir.log(false, update, msg, true);
 		} else if (refs instanceof InMemoryRefDatabase) {
 			InMemoryRefDatabase refCache = (InMemoryRefDatabase) refs;
-			RefUpdate update = refCache.newUpdate(refName, true);
-			update.setNewObjectId(newId);
 			refCache.log(false, update, msg, true);
 		}
 	}
