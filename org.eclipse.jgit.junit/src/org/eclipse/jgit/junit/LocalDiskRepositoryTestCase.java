@@ -39,6 +39,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -65,6 +66,84 @@ import org.junit.Before;
  * descriptors or address space for the test process.
  */
 public abstract class LocalDiskRepositoryTestCase {
+
+	/**
+	 * Builder to set options for creating test repositories
+	 */
+	public static class Options {
+
+		private boolean bare;
+
+		private boolean autoClose;
+
+		private boolean useRefCache;
+
+		/**
+		 * Set whether the builder should build a bare repository, otherwise a
+		 * repository with a working directory will be created
+		 *
+		 * @param bare
+		 *            whether the builder should build a bare repository,
+		 *            default is {@code false}
+		 *
+		 * @return this options
+		 */
+		public Options setBare(boolean bare) {
+			this.bare = bare;
+			return this;
+		}
+
+		/**
+		 * Set whether the repository should be auto-closed. Only to be used by
+		 * RepositoryCacheTest.
+		 *
+		 * @param autoClose
+		 *            whether the repository should be auto-closed, default is
+		 *            {@code false}
+		 * @return this options
+		 */
+		public Options setAutoClose(boolean autoClose) {
+			this.autoClose = autoClose;
+			return this;
+		}
+
+		/**
+		 * Set whether the repository should use a ref cache.
+		 *
+		 * @param useRefCache
+		 *            whether the repository should use a ref cache, default is
+		 *            {@code false}
+		 * @return this options
+		 */
+
+		public Options setUseRefCache(boolean useRefCache) {
+			this.useRefCache = useRefCache;
+			return this;
+		}
+
+		/**
+		 * @return whether the repository should be bare
+		 */
+		public boolean bare() {
+			return bare;
+		}
+
+		/**
+		 * @return whether the repository should be auto-closed
+		 */
+		public boolean autoClose() {
+			return autoClose;
+		}
+
+		/**
+		 * @return whether the repository's RefDatabase should be wrapped by a
+		 *         ref cache
+		 */
+		public boolean useRefCache() {
+			return useRefCache;
+		}
+	}
+
 	private static final boolean useMMAP = "true".equals(System
 			.getProperty("jgit.junit.usemmap"));
 
@@ -355,7 +434,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *             the repository could not be created in the temporary area
 	 */
 	protected FileRepository createBareRepository() throws IOException {
-		return createRepository(true /* bare */);
+		return createRepository(new Options().setBare(true));
 	}
 
 	/**
@@ -368,7 +447,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *             the repository could not be created in the temporary area
 	 */
 	protected FileRepository createWorkRepository() throws IOException {
-		return createRepository(false /* not bare */);
+		return createRepository(new Options());
 	}
 
 	/**
@@ -386,7 +465,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 */
 	protected FileRepository createRepository(boolean bare)
 			throws IOException {
-		return createRepository(bare, false /* auto close */);
+		return createRepository(new Options().setBare(bare));
 	}
 
 	/**
@@ -405,14 +484,51 @@ public abstract class LocalDiskRepositoryTestCase {
 	@Deprecated
 	public FileRepository createRepository(boolean bare, boolean autoClose)
 			throws IOException {
-		File gitdir = createUniqueTestGitDir(bare);
-		FileRepository db = new FileRepository(gitdir);
+		return createRepository(new Options().setBare(bare).setAutoClose(autoClose));
+	}
+
+	/**
+	 * Creates a new empty repository.
+	 *
+	 * @param options
+	 *            options for creating the repository
+	 * @return the newly created repository, opened for access
+	 * @throws IOException
+	 */
+	protected FileRepository createRepository(Options options)
+			throws IOException {
+		File gitdir = createUniqueTestGitDir(options.bare());
+		FileRepository db = new FileRepository(new FileRepositoryBuilder()
+				.setGitDir(gitdir).setCacheRefs(options.useRefCache()).setup());
 		assertFalse(gitdir.exists());
-		db.create(bare);
-		if (autoClose) {
+		db.create(options.bare());
+		if (options.autoClose()) {
 			addRepoToClose(db);
 		}
 		return db;
+	}
+
+	/**
+	 * Creates a new empty repository using the options obtained by calling
+	 * getOptions() which can be overridden by subclasses.
+	 *
+	 * @return the newly created repository, opened for access
+	 * @throws IOException
+	 */
+	protected FileRepository createRepository() throws IOException {
+		return createRepository(getOptions());
+	}
+
+	/**
+	 * Get options to create repository via {@link #createRepository()}, can be
+	 * overridden in subclasses to customize repository creation options for a
+	 * test class.
+	 *
+	 * @return default options creating a working repository (bare=false,
+	 *         autoClose=false, useRefCache=false)
+	 */
+	protected Options getOptions() {
+		return new Options();
 	}
 
 	/**
