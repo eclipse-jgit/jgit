@@ -17,8 +17,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.memory.InMemoryRefDatabase;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.RefDatabase;
 
 
 /** Test case which includes C Git generated pack files for testing. */
@@ -54,5 +56,10 @@ public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 
 		JGitTestUtil.copyTestResource("packed-refs",
 				new File(repo.getDirectory(), "packed-refs"));
+		RefDatabase refDb = repo.getRefDatabase();
+		if (refDb instanceof InMemoryRefDatabase) {
+			InMemoryRefDatabase refCache = (InMemoryRefDatabase) refDb;
+			refCache.reload();
+		}
 	}
 }
