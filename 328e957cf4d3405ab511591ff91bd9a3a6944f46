@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a290b75_562eb594",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2021-10-20T11:50:13Z",
+      "side": 1,
+      "message": "Does RefTable really need a RefCache? From the design my gut says \"no\" because reftable offers near-constant time random access.\n\nFrom my understanding, the packed ref storage is slow on NFS not because you have to stat or read the packed refs file, but because for each DB request, you have to look into the loose storage as well which involves stating/reading many files and folders.\n\nMaybe spare this for now?",
+      "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edba6a46_368c0ce0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2021-10-20T11:50:13Z",
+      "side": 1,
+      "message": "@Nullable or optional?\n\nThis doesn\u0027t have to be set, right?",
+      "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c9e4033_d163a716",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2021-10-20T11:50:13Z",
+      "side": 1,
+      "message": "Aren\u0027t these all just \u0027RefUpdates\u0027 covered by \u0027onUpdate\u0027?",
+      "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

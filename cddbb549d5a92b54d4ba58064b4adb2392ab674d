@@ -217,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "6e92d5b6_bface8c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2021-10-20T11:50:13Z",
+      "side": 1,
+      "message": "Or an AtomicReference?",
+      "parentUuid": "0739a863_eef30b8f",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cdab3da_35f2f5e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
         "patchSetId": 4

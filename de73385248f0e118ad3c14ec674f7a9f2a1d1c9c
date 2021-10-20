@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa7cbc9c_8f73296f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2021-10-20T11:50:13Z",
+      "side": 1,
+      "message": "This is n * log(n) complexity, but could be n.\n\nYour prefix tree is likely always optimal because you construct it from all refs and you don\u0027t insert afterwards.\n\nIf your prefix tree is of height log(n), then calling get() requires log(n) complexity. \n\nIf the prefix is \"refs/\", you iterate over all refs here each doing a call of complexity log(n), so you end up with n * log(n) (worst case would be n2 for badly shaped trees).\n\nCan the Ternarty tree offer \"getWithPrefix\"?",
+      "range": {
+        "startLine": 106,
+        "startChar": 17,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "de73385248f0e118ad3c14ec674f7a9f2a1d1c9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
