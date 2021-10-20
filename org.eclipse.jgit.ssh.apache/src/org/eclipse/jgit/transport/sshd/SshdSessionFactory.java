@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -56,11 +56,14 @@ import org.eclipse.jgit.internal.transport.sshd.JGitUserInteraction;
 import org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase;
 import org.eclipse.jgit.internal.transport.sshd.PasswordProviderWrapper;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
+import org.eclipse.jgit.internal.transport.sshd.agent.ConnectorFactoryProvider;
+import org.eclipse.jgit.internal.transport.sshd.agent.JGitSshAgentFactory;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConfigStore;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -216,6 +219,11 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						new JGitUserInteraction(credentialsProvider));
 				client.setUserAuthFactories(getUserAuthFactories());
 				client.setKeyIdentityProvider(defaultKeysProvider);
+				ConnectorFactory connectors = getConnectorFactory();
+				if (connectors != null) {
+					client.setAgentFactory(
+							new JGitSshAgentFactory(connectors, home));
+				}
 				// JGit-specific things:
 				JGitSshClient jgitClient = (JGitSshClient) client;
 				jgitClient.setKeyCache(getKeyCache());
@@ -434,6 +442,17 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			@NonNull File sshDir) {
 		return new OpenSshServerKeyDatabase(true,
 				getDefaultKnownHostsFiles(sshDir));
+	}
+
+	/**
+	 * Gets a {@link ConnectorFactory}. If this returns {@code null}, SSH agents
+	 * are not supported.
+	 *
+	 * @return the factory, or {@code null} if no SSH agent support is desired
+	 * @since 6.0
+	 */
+	protected ConnectorFactory getConnectorFactory() {
+		return ConnectorFactoryProvider.getDefaultFactory();
 	}
 
 	/**
