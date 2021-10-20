@@ -88,6 +88,24 @@
       "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be79d65a_bcc47918",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphDataV1.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2021-10-20T05:32:27Z",
+      "side": 1,
+      "message": "\u003e I disagree with this conclusion. Just because the format on disk is designed for binary search, does not mean that once we have the data in memory that we are limited to a binary search. Did you understand my suggestion of using loading a HashMap (better a ObjectIdMaP) with the objectIds on file load?\n\nDoes this mean that when the commit-graph is initialized, we need to iterate over all the commit using binary lookups?\nIf there are a lot of commits, initialization can take much time.",
+      "parentUuid": "8685ebff_9e1307b6",
+      "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
