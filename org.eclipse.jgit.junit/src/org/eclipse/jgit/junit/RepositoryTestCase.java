@@ -186,7 +186,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		db = createWorkRepository();
+		db = createRepository();
 		trash = db.getWorkTree();
 	}
 
