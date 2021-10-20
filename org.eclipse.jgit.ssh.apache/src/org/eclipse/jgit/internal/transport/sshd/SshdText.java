@@ -1,3 +1,12 @@
+/*
+ * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 package org.eclipse.jgit.internal.transport.sshd;
 
 import org.eclipse.jgit.nls.NLS;
@@ -39,6 +48,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String identityFileMultipleKeys;
 	/***/ public String identityFileNotFound;
 	/***/ public String identityFileUnsupportedFormat;
+	/***/ public String invalidSignatureAlgorithm;
 	/***/ public String kexServerKeyInvalid;
 	/***/ public String keyEncryptedMsg;
 	/***/ public String keyEncryptedPrompt;
@@ -96,6 +106,10 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String serverIdWithNul;
 	/***/ public String sessionCloseFailed;
 	/***/ public String sessionWithoutUsername;
+	/***/ public String sshAgentReplyLengthError;
+	/***/ public String sshAgentReplyUnexpected;
+	/***/ public String sshAgentShortReadBuffer;
+	/***/ public String sshAgentWrongNumberOfKeys;
 	/***/ public String sshClosingDown;
 	/***/ public String sshCommandTimeout;
 	/***/ public String sshProcessStillRunning;
