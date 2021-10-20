@@ -70,6 +70,24 @@
       "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8685ebff_9e1307b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphDataV1.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-10-20T04:50:14Z",
+      "side": 1,
+      "message": "\u003e I thought about teaching JGit to have the ability to do an mmap() binary search before，but didn\u0027t implement it. There are several reasons:\n...\nYou make many great points about mmap that I agree with! My point is not so much that we should be mmaping, but rather that the on disk format was designed for this..\n\n\u003e \u003e However, it might help in the case of not found objects (Bup suffered here), especially/and when there are many packs (which is terribly slow now in jgit).\n\u003e \n\u003e The multi-pack-index[1] can help solve this problem, maybe we can work on that in the future.\n\nIndeed, that would be great!\n\n\u003e \u003e As for Commit Graphs, the use case that they are intended to improved, is one of accessing many commits without doing I/O. In this case, the extra cost of an O(log(n)) lookup could be significant compared to an O(1) lookup?\n\u003e \n\u003e OID Fanout Chunk and OID Lookup Chunk are designed to provide binary lookup, see [2].\n\u003e These actually serves the same function as .idx file. \n\u003e Commit-graph currently focuses on these two main costs instead of the complexity of the lookup:\n\u003e \n\u003e  1. Decompressing and parsing commits.\n\u003e \n\u003e  2. Walking the entire graph to satisfy topological order constraints.\n\u003e \n\u003e for more detail:[3].\n\nYes, agreed.\n\n\u003e\u003e O(1) lookup looks pretty good! If this is implemented, not only commit-graph, but.idx will see significant performance improvements.\n\u003e This means that we need to design an on-disk format to meet this requirement. \n\nI disagree with this conclusion. Just because the format on disk is designed for binary search, does not mean that once we have the data in memory that we are limited to a binary search. Did you understand my suggestion of using loading a HashMap (better a ObjectIdMaP) with the objectIds on file load?",
+      "parentUuid": "30f4778f_d6e7c47e",
+      "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
