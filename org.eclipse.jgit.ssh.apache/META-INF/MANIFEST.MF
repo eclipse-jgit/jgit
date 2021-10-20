@@ -23,6 +23,7 @@ Export-Package: org.eclipse.jgit.internal.transport.sshd;version="6.0.0";x-inter
    org.apache.sshd.common.signature,
    org.apache.sshd.common.util.buffer,
    org.eclipse.jgit.transport",
+ org.eclipse.jgit.internal.transport.sshd.agent;version="6.0.0";x-internal:=true,
  org.eclipse.jgit.internal.transport.sshd.auth;version="6.0.0";x-internal:=true,
  org.eclipse.jgit.internal.transport.sshd.proxy;version="6.0.0";x-friends:="org.eclipse.jgit.ssh.apache.test",
  org.eclipse.jgit.transport.sshd;version="6.0.0";
@@ -31,7 +32,8 @@ Export-Package: org.eclipse.jgit.internal.transport.sshd;version="6.0.0";x-inter
    org.apache.sshd.common.keyprovider,
    org.eclipse.jgit.util,
    org.apache.sshd.client.session,
-   org.apache.sshd.client.keyverifier"
+   org.apache.sshd.client.keyverifier",
+ org.eclipse.jgit.transport.sshd.agent;version="6.0.0"
 Import-Package: net.i2p.crypto.eddsa;version="[0.3.0,0.4.0)",
  org.apache.sshd.agent;version="[2.7.0,2.8.0)",
  org.apache.sshd.client;version="[2.7.0,2.8.0)",
