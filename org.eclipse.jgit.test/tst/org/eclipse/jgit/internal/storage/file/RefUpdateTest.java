@@ -29,6 +29,8 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -52,8 +54,32 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class RefUpdateTest extends SampleDataRepositoryTestCase {
+	private static final Options NO_REFCACHE = new Options();
+
+	private static final Options WITH_REFCACHE = new Options()
+			.setUseRefCache(true);
+
+	@Parameter(0)
+	public boolean useRefCache;
+
+	@Parameters(name = "useRefCache={0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] { //
+				{ Boolean.FALSE }, { Boolean.TRUE }, });
+	}
+
+	@Override
+	protected Options getOptions() {
+		return useRefCache ? WITH_REFCACHE : NO_REFCACHE;
+	}
+
 	private void writeSymref(String src, String dst) throws IOException {
 		RefUpdate u = db.updateRef(src);
 		switch (u.link(dst)) {
