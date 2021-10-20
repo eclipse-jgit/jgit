@@ -52,8 +52,43 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class RefUpdateTest extends SampleDataRepositoryTestCase {
+	protected static class TestData {
+
+		Options options;
+
+		TestData(Options options) {
+			this.options = options;
+		}
+
+		@Override
+		public String toString() {
+			return options.useRefCache() ? "using Ref cache"
+					: "without Ref cache";
+		}
+	}
+
+	@Parameters(name = "{0}")
+	public static TestData[] initTestData() {
+		return new TestData[] { new TestData(new Options()),
+				new TestData(new Options().setUseRefCache(true)) };
+	}
+
+	// Injected by JUnit
+	@Parameter
+	public TestData data;
+
+	@Override
+	protected Options getOptions() {
+		return data.options;
+	}
+
 	private void writeSymref(String src, String dst) throws IOException {
 		RefUpdate u = db.updateRef(src);
 		switch (u.link(dst)) {
