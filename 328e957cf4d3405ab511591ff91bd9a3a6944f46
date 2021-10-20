@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4ed22774_bf54f5b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-10-20T20:04:28Z",
+      "side": 1,
+      "message": "\u003e From my understanding, the packed ref storage is slow on NFS not because you have to stat or read the packed refs file, but because for each DB request, you have to look into the loose storage as well which involves stating/reading many files and folders.\n\n(not necessarily directed at Patrick)\n\nDo we (JGit?) have some kind of performance testing data showing this?\n\nDo you (anyone) expect that a repo with only packed refs has performance on-par with reftable? (for maybe each of exactRef() and getRefsByPrefix()?)",
+      "parentUuid": "2a290b75_562eb594",
+      "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edba6a46_368c0ce0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 10
