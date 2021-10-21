@@ -57,6 +57,18 @@
    <bundle id="com.jcraft.jzlib.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
+   <bundle id="com.sun.jna">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="com.sun.jna.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="com.sun.jna.platform">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="com.sun.jna.platform.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <bundle id="javaewah">
       <category name="JGit-dependency-bundles"/>
    </bundle>
