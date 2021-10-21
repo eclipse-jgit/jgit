@@ -22,8 +22,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
@@ -34,6 +36,8 @@ import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -58,10 +62,13 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -73,6 +80,13 @@ public class MergerTest extends RepositoryTestCase {
 	@DataPoints
 	public static MergeStrategy[] strategiesUnderTest = new MergeStrategy[] {
 			MergeStrategy.RECURSIVE, MergeStrategy.RESOLVE };
+
+	@Before
+	public void enableRename() throws IOException, ConfigInvalidException {
+		StoredConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_DIFF_SECTION, null, ConfigConstants.CONFIG_KEY_RENAMES, "true");
+		config.save();
+	}
 
 	@Theory
 	public void failingDeleteOfDirectoryWithUntrackedContent(
@@ -1727,6 +1741,123 @@ public class MergerTest extends RepositoryTestCase {
 		// children
 		mergeResult = git.merge().include(commitC3S).call();
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.MERGED);
+
+	}
+
+	private AbstractTreeIterator getTreeIterator(String name) throws IOException {
+		final ObjectId id = db.resolve(name);
+		if (id == null)
+			throw new IllegalArgumentException(name);
+		final CanonicalTreeParser p = new CanonicalTreeParser();
+		try (ObjectReader or = db.newObjectReader(); RevWalk rw = new RevWalk(db)) {
+			p.reset(or, rw.parseTree(id));
+			return p;
+		}
+	}
+
+	@Theory
+	public void checkRenameSubDir_modifyConflict(MergeStrategy strategy) throws Exception {
+		if (!strategy.equals(MergeStrategy.RECURSIVE)) {
+			return;
+		}
+
+		Git git = Git.wrap(db);
+		String originalContent = "a\nb\nc";
+		String slightlyModifiedContent = "a\nb\nb";
+		// master
+		writeTrashFile("test/file1", originalContent);
+		git.add().addFilepattern("test/file1").call();
+		RevCommit commitI = git.commit().setMessage("Initial commit").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(commitI).setName("second-branch").call();
+		// test/file1 is renamed to test/sub/file1 on second-branch
+		git.rm().addFilepattern("test/file1").call();
+		writeTrashFile("test/sub/file1", originalContent);
+		git.add().addFilepattern("test/sub/file1").call();
+		RevCommit renameCommit = git.commit().setMessage("Rename file").call();
+
+		// back to master, modify file
+		git.checkout().setName("master").call();
+		writeTrashFile("test/file1", slightlyModifiedContent);
+		git.add().addFilepattern("test/file1").call();
+
+		RevCommit modifyContentCommit = git.commit().setMessage("Commit slightly modified content").call();
+
+		// Merge master into second-branch
+		MergeResult mergeResult = git.merge().include(renameCommit).setStrategy(strategy).call();
+		assertEquals(mergeResult.getNewHead(), null);
+		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
+		assertEquals(slightlyModifiedContent, read("test/file1"));
+		assertEquals(originalContent, read("test/sub/file1"));
+
+		// We get conflicting content, rename was not detected y merge.
+		// The merger assumed the file 'test/file1' was modified on master and deleted
+		// by renameCommit on second-branch.
+		assertEquals(
+				"[test/file1, mode:100644, stage:1, content:a\nb\nc][test/file1, mode:100644, stage:2, content:a\nb\nb][test/sub/file1, mode:100644, content:a\nb\nc]",
+				indexState(CONTENT));
+		// With enabled rename detection on repository, rename is detected by diff.
+		OutputStream out = new ByteArrayOutputStream();
+		List<DiffEntry> entries = git.diff().setOutputStream(out).setOldTree(getTreeIterator("master"))
+				.setNewTree(getTreeIterator("second-branch")).call();
+		assertEquals(1, entries.size());
+		assertEquals(ChangeType.RENAME, entries.get(0).getChangeType());
+
+		assertEquals("test/file1", entries.get(0).getOldPath());
+		assertEquals("test/sub/file1", entries.get(0).getNewPath());
+		assertEquals("diff --git a/test/file1 b/test/sub/file1\n" + "similarity index 79%\n"
+				+ "rename from test/file1\n" + "rename to test/sub/file1\n" + "index e8b9973..1c943a9 100644\n"
+				+ "--- a/test/file1\n" + "+++ b/test/sub/file1\n" + "@@ -1,3 +1,3 @@\n" + " a\n" + " b\n" + "-b\n"
+				+ "\\ No newline at end of file\n" + "+c\n" + "\\ No newline at end of file\n", out.toString());
+
+	}
+
+	@Theory
+	public void checkRenameSubDir_renameOnly_noConflict(MergeStrategy strategy) throws Exception {
+		if (!strategy.equals(MergeStrategy.RECURSIVE)) {
+			return;
+		}
+
+		Git git = Git.wrap(db);
+		String originalContent = "a\nb\nc";
+		String slightlyModifiedContent = "a\nb\nb";
+		// master
+		writeTrashFile("test/file1", originalContent);
+		git.add().addFilepattern("test/file1").call();
+		RevCommit commitI = git.commit().setMessage("Initial commit").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(commitI).setName("second-branch").call();
+		// test/file1 is renamed to test/sub/file1 on second-branch
+		git.rm().addFilepattern("test/file1").call();
+		writeTrashFile("test/sub/file1", originalContent);
+		git.add().addFilepattern("test/sub/file1").call();
+		RevCommit renameCommit = git.commit().setMessage("Rename file").call();
+
+		// back to master do not modify content.
+		git.checkout().setName("master").call();
+		writeTrashFile("test/file1", originalContent);
+		git.add().addFilepattern("test/file1").call();
+
+		RevCommit modifyContentCommit = git.commit().setMessage("Commit same content").call();
+
+		// Merge master into second-branch
+		MergeResult mergeResult = git.merge().include(renameCommit).setStrategy(strategy).call();
+		assertEquals(mergeResult.getMergeStatus(), MergeStatus.MERGED);
+		assertEquals(originalContent, read("test/sub/file1"));
+
+		// Change was merged, since the merger assumed the renameCommit just deleted the
+		// original file, and the content was not modified on master.
+		assertEquals("[test/sub/file1, mode:100644, content:a\nb\nc]", indexState(CONTENT));
+		// With enabled rename detection on repository, rename is detected by diff.
+		OutputStream out = new ByteArrayOutputStream();
+		List<DiffEntry> entries = git.diff().setOutputStream(out).setOldTree(getTreeIterator("master"))
+				.setNewTree(getTreeIterator("second-branch")).call();
+		assertEquals(1, entries.size());
+		assertEquals(ChangeType.RENAME, entries.get(0).getChangeType());
+
+		assertEquals("test/file1", entries.get(0).getOldPath());
+		assertEquals("test/sub/file1", entries.get(0).getNewPath());
+		assertEquals("", out.toString());
 
 	}
 
