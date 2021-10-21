@@ -50,6 +50,10 @@ public class NoFilesSshBuilderTest extends SshTestHarness {
 	@Override
 	protected SshSessionFactory createSessionFactory() {
 		return new SshdSessionFactoryBuilder() //
+				// No proxies in tests
+				.setProxyDataFactory(null)
+				// No ssh-agent in tests
+				.setConnectorFactory(null)
 				.setConfigStoreFactory((h, f, u) -> null)
 				.setDefaultKeysProvider(f -> new KeyAuthenticator())
 				.setServerKeyDatabase((h, s) -> new ServerKeyDatabase() {
