@@ -26,12 +26,15 @@ public class ApacheSshProtocol2Test extends SshBasicTestBase {
 
 	@Override
 	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null);
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
+		return new SshdSessionFactoryBuilder()
+				// No proxies in tests
+				.setProxyDataFactory(null)
+				// No ssh-agent in tests
+				.setConnectorFactory(null)
+				// The home directory is mocked at this point!
+				.setHomeDirectory(FS.DETECTED.userHome())
+				.setSshDirectory(sshDir)
+				.build(new JGitKeyCache());
 	}
 
 	@Override

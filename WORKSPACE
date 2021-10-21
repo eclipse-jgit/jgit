@@ -134,6 +134,18 @@ maven_jar(
 )
 
 maven_jar(
+    name = "jna",
+    artifact = "net.java.dev.jna:jna:5.9.0",
+    sha1 = "8f503e6d9b500ceff299052d6be75b38c7257758",
+)
+
+maven_jar(
+    name = "jna-platform",
+    artifact = "net.java.dev.jna:jna-platform:5.9.0",
+    sha1 = "c535a5bda553d7d7690356c825010da74b2671b5",
+)
+
+maven_jar(
     name = "commons-codec",
     artifact = "commons-codec:commons-codec:1.14",
     sha1 = "3cb1181b2141a7e752f5bdc998b7ef1849f726cf",
