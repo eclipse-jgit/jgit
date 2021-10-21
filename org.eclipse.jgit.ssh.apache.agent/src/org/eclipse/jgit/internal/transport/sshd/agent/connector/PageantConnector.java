@@ -1,0 +1,56 @@
+/*
+ * Copyright (C) 2021, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+package org.eclipse.jgit.internal.transport.sshd.agent.connector;
+
+import java.io.IOException;
+
+import org.eclipse.jgit.transport.sshd.agent.AbstractConnector;
+
+/**
+ * A connector using Pageant's shared memory IPC mechanism.
+ */
+public class PageantConnector extends AbstractConnector {
+
+	private final WindowsLibrary lib;
+
+	/**
+	 * Creates a new {@link PageantConnector}.
+	 */
+	public PageantConnector() {
+		super(); // Use default maximum message size
+		this.lib = new WindowsLibrary();
+	}
+
+	@Override
+	public boolean connect() throws IOException {
+		return lib.isPageantAvailable();
+	}
+
+	@Override
+	public void close() throws IOException {
+		// Nothing to do
+	}
+
+	@Override
+	public byte[] rpc(byte command, byte[] message) throws IOException {
+		try (WindowsLibrary.Pipe pipe = lib
+				.createPipe(getClass().getSimpleName(),
+						getMaximumMessageLength())) {
+			prepareMessage(command, message);
+			pipe.send(message);
+			byte[] lengthBuf = new byte[4];
+			pipe.receive(lengthBuf);
+			int length = toLength(command, lengthBuf);
+			byte[] payload = new byte[length];
+			pipe.receive(payload);
+			return payload;
+		}
+	}
+}
