@@ -85,6 +85,29 @@
       "revId": "5f8c8d8e1cd315e2fdb661fcf6763f51baeed69e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "140d578f_fc6c27bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/CherryPickTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2021-10-21T16:15:04Z",
+      "side": 1,
+      "message": "This exception is actually misleading, it comes from the test set up that does not insert the file content blob into repository object database[1].\nThe exception is gone once it is fixed in the change I chained. Looks like the actual problem is that there is no implementation in git merge to detect the renames. It exists in git diff though (see the chained change as well).\n\nNot sure what to do about it yet though :)\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/5f8c8d8e1cd315e2fdb661fcf6763f51baeed69e/org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java#529",
+      "range": {
+        "startLine": 199,
+        "startChar": 2,
+        "endLine": 200,
+        "endChar": 93
+      },
+      "revId": "5f8c8d8e1cd315e2fdb661fcf6763f51baeed69e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
