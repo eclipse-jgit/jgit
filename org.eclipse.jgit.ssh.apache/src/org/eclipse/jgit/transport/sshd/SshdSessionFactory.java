@@ -63,6 +63,7 @@ import org.eclipse.jgit.transport.SshConfigStore;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.sshd.agent.Connector;
 import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
 import org.eclipse.jgit.util.FS;
 
@@ -105,9 +106,9 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 
 	/**
 	 * Creates a new {@link SshdSessionFactory} using the given {@link KeyCache}
-	 * and {@link ProxyDataFactory}. The {@code keyCache} is used for all sessions
-	 * created through this session factory; cached keys are destroyed when the
-	 * session factory is {@link #close() closed}.
+	 * and {@link ProxyDataFactory}. The {@code keyCache} is used for all
+	 * sessions created through this session factory; cached keys are destroyed
+	 * when the session factory is {@link #close() closed}.
 	 * <p>
 	 * Caching ssh keys in memory for an extended period of time is generally
 	 * considered bad practice, but there may be circumstances where using a
@@ -117,12 +118,20 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * to use a {@link #createKeyPasswordProvider(CredentialsProvider)
 	 * KeyPasswordProvider} that has access to some secure storage and can save
 	 * and retrieve passwords from there without user interaction. Another
-	 * approach is to use an ssh agent.
+	 * approach is to use an SSH agent.
 	 * </p>
 	 * <p>
 	 * Note that the underlying ssh library (Apache MINA sshd) may or may not
 	 * keep ssh keys in memory for unspecified periods of time irrespective of
 	 * the use of a {@link KeyCache}.
+	 * </p>
+	 * <p>
+	 * By default, the factory uses the {@link java.util.ServiceLoader} to find
+	 * a {@link ConnectorFactory} for creating a {@link Connector} to connect to
+	 * a running SSH agent. If it finds one, the SSH agent is used in publickey
+	 * authentication. If there is none, no SSH agent will ever be contacted.
+	 * Note that one can define {@code IdentitiesOnly yes} for a host entry in
+	 * the {@code ~/.ssh/config} file to bypass the SSH agent in any case.
 	 * </p>
 	 *
 	 * @param keyCache
