@@ -5,10 +5,27 @@ load(
 )
 load("@rules_java//java:defs.bzl", "java_package_configuration")
 
+JDK11_JVM_OPTS = [
+    "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+    "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+    "--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+    "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+    "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+    "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+    "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+    "--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+    "--patch-module=java.compiler=$(location @bazel_tools//tools/jdk:java_compiler_jar)",
+    "--patch-module=jdk.compiler=$(location @bazel_tools//tools/jdk:jdk_compiler_jar)",
+    "--add-opens=java.base/java.nio=ALL-UNNAMED",
+    "--add-opens=java.base/java.lang=ALL-UNNAMED",
+]
+
 default_java_toolchain(
     name = "error_prone_warnings_toolchain",
     bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
-    jvm_opts = JDK9_JVM_OPTS,
+    jvm_opts = JDK11_JVM_OPTS,
+    source_version = "11",
+    target_version = "11",
     package_configuration = [
         ":error_prone",
     ],
@@ -92,6 +109,7 @@ package_group(
         "//org.eclipse.jgit.ant/...",
         "//org.eclipse.jgit.archive/...",
         "//org.eclipse.jgit.http.apache/...",
+        "//org.eclipse.jgit.http.apache.agent/...",
         "//org.eclipse.jgit.http.server/...",
         "//org.eclipse.jgit.http.test/...",
         "//org.eclipse.jgit.junit.http/...",
