@@ -131,7 +131,9 @@ public class CherryPickTest extends RepositoryTestCase {
 		final ObjectInserter ow = db.newObjectInserter();
 		final ObjectId firstOriginalCommit = commit(ow, firstTreeOriginal, new ObjectId[]{});
 		final ObjectId firstNextChildCommit = commit(ow, firstTreeNextChild, new ObjectId[]{firstOriginalCommit});
+		// second-branch commit
 		final ObjectId secondOriginalCommit = commit(ow, secondTreeOriginal, new ObjectId[]{firstOriginalCommit});
+		// rename commit on second branch?
 		final ObjectId secondNextChildCommit = commit(ow, secondTreeNextChild, new ObjectId[]{secondOriginalCommit});
 
 		ThreeWayMerger threeWayMerger = MergeStrategy.RECURSIVE.newMerger(db, true);
@@ -195,9 +197,7 @@ public class CherryPickTest extends RepositoryTestCase {
 		ThreeWayMerger threeWayMerger = MergeStrategy.RECURSIVE.newMerger(db, true);
 		threeWayMerger.setBase(secondOriginalCommit);
 
-		// TODO(paiking): this method should succeed.
-		assertThrows(MissingObjectException.class,
-				() -> threeWayMerger.merge(new ObjectId[]{firstNextChildCommit, secondNextChildCommit}));
+		assertFalse(threeWayMerger.merge(new ObjectId[]{firstNextChildCommit, secondNextChildCommit}));
 	}
 
 	@Test

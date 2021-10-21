@@ -496,8 +496,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @param path
 	 * @param mode
 	 * @return the DirCacheEntry
+	 * @throws IOException
 	 */
-	protected DirCacheEntry createEntry(String path, FileMode mode) {
+	protected DirCacheEntry createEntry(String path, FileMode mode) throws IOException {
 		return createEntry(path, mode, DirCacheEntry.STAGE_0, path);
 	}
 
@@ -508,9 +509,10 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @param mode
 	 * @param content
 	 * @return the DirCacheEntry
+	 * @throws IOException
 	 */
 	protected DirCacheEntry createEntry(final String path, final FileMode mode,
-			final String content) {
+			final String content) throws IOException {
 		return createEntry(path, mode, DirCacheEntry.STAGE_0, content);
 	}
 
@@ -522,14 +524,15 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @param stage
 	 * @param content
 	 * @return the DirCacheEntry
+	 * @throws IOException
 	 */
-	protected DirCacheEntry createEntry(final String path, final FileMode mode,
-			final int stage, final String content) {
+	protected DirCacheEntry createEntry(final String path, final FileMode mode, final int stage, final String content)
+			throws IOException {
 		final DirCacheEntry entry = new DirCacheEntry(path, stage);
 		entry.setFileMode(mode);
-		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
-			entry.setObjectId(formatter.idFor(
-					Constants.OBJ_BLOB, Constants.encode(content)));
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			entry.setObjectId(ins.insert(Constants.OBJ_BLOB, Constants.encode(content)));
+			ins.flush();
 		}
 		return entry;
 	}
