@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64037780_77eec576",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-23T16:44:39Z",
+      "side": 1,
+      "message": "Reported upstream as SSHD-1219.[1]\n\n[1] https://issues.apache.org/jira/browse/SSHD-1219",
+      "range": {
+        "startLine": 19,
+        "startChar": 36,
+        "endLine": 19,
+        "endChar": 41
+      },
+      "revId": "f4e57daaa860a64fa32762ad553406a3a7a6fe43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
