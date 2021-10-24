@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "20f56251_5422b18e",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-24T19:38:34Z",
+      "side": 1,
+      "message": "Of course, let\u0027s change to 5.8.0. Apparently I didn\u0027t pay attention and just used the top version from Maven Central.\n\nDone.",
+      "parentUuid": "e62266d8_5f045144",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "428d73c2876baaba0306acde1a039d7c1011c199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8988fe38_0363f4a3",
         "filename": "org.eclipse.jgit.ssh.apache.agent/pom.xml",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "428d73c2876baaba0306acde1a039d7c1011c199",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c709e713_06e981e6",
+        "filename": "org.eclipse.jgit.ssh.apache.agent/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-24T19:38:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8988fe38_0363f4a3",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 22
+      },
+      "revId": "428d73c2876baaba0306acde1a039d7c1011c199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
