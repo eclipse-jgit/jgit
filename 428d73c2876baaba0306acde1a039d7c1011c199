@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e62266d8_5f045144",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-24T19:18:11Z",
+      "side": 1,
+      "message": "In the Maven build and in target platform we use 5.8.0, shouldn\u0027t we use the same version here ? \nWe could add 5.9.0 to Orbit and update to 5.9.0 later when this is available.\nIt seems eclipse platform is currently using 5.8.0.\n\nAlso see https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d566100.",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "428d73c2876baaba0306acde1a039d7c1011c199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8988fe38_0363f4a3",
+        "filename": "org.eclipse.jgit.ssh.apache.agent/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-24T19:18:11Z",
+      "side": 1,
+      "message": "bad indentation",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 22
+      },
+      "revId": "428d73c2876baaba0306acde1a039d7c1011c199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
