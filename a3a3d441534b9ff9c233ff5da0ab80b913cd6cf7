@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2405d4e5_9d5495ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-25T23:52:16Z",
+      "side": 1,
+      "message": "remove trailing whitespace",
+      "revId": "a3a3d441534b9ff9c233ff5da0ab80b913cd6cf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

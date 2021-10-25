@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ff0000ee_5c1d24c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-25T23:52:16Z",
+      "side": 1,
+      "message": "I removed support for wrapping RefTable with the cache\n\nWe have an implementation of WindowCache using FileChannel#map to mmap pack files (implemented by Shawn, RIP) which was tried in the wild on different OSes and it turned out to cause random crashes, probably due to the fact that Java doesn\u0027t provide a deterministic way to unmap. And so far we didn\u0027t go down the slippery slope of using Unsafe trying to fix this. With Java 17 or later we can try again using the new foreign memory API (still preview feature in Java 17) which looks promising.\n\nthis series contains several benchmarks to help replacing guessing by measuring :-)\nwill run them again and post results when the remaining test failures have been fixed",
+      "parentUuid": "4ed22774_bf54f5b9",
+      "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edba6a46_368c0ce0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 10
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "3eae9e4c_a8dad6f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-25T23:52:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edba6a46_368c0ce0",
+      "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c9e4033_d163a716",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefCache.java",
         "patchSetId": 10
@@ -86,6 +122,24 @@
       "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f457ee21_703e31db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-25T23:52:16Z",
+      "side": 1,
+      "message": "I changed this interface to expose the methods the underlying tree provides",
+      "parentUuid": "4c9e4033_d163a716",
+      "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
