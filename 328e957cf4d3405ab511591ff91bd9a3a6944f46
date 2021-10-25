@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "98d887ea_f487c601",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableBatchRefUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-10-25T10:17:26Z",
+      "side": 1,
+      "message": "\u003eDo you (anyone) expect that a repo with only packed refs has performance on-par with reftable? (for maybe each of exactRef() and getRefsByPrefix()?)\n\nit could be made like that, but the current code reads the entire packed-refs file, so for individual lookups, it is suboptimal. If JGit would use a mmap\u0027d file (or something similar), and read the packed-refs file incrementally.\n\n\u003eDoes RefTable really need a RefCache? From the design my gut says \"no\" because reftable offers near-constant time random access.\n\nAdding the refcache on top of reftable slows the whole thing down, because this cache rereads all refs on refresh. Reftable keeps files open across writes, so it doesn\u0027t have to do work for handling an update (it just has to read the incremental table)",
+      "parentUuid": "4ed22774_bf54f5b9",
+      "revId": "328e957cf4d3405ab511591ff91bd9a3a6944f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edba6a46_368c0ce0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 10
