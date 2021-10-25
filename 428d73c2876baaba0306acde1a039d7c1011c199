@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "46d632a5_fb9e03f1",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-25T21:13:00Z",
+      "side": 1,
+      "message": "BTW, what did you mean by\n\n\u003e Also see https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d566100.\n\nApparently platform had a problem somewhere with an upper bound in the httpclient.win32 being too low. All I can say is: this JGit installs fine in Eclipse 2021-12 M1 on Windows, where that httpclient bundle is present, and JNA 4.5.1 is also included by default. Installing JGit built from this change, I get an Eclipse that has both JNA 4.5.1 and 5.8.0, and I don\u0027t notice any problems.\n\nIt would be a shame if 566100 prevented us from using JNA. It gives us unix sockets without needing BREE Java 17 (I guess that\u0027s still quite far away); it gives us Pageant integration, and once we have Apache MINA sshd 2.8.0 (not yet released), I can even add support for the SSH agent from Win32-OpenSSH (uses named pipes) and possible even the MinGW git bash ssh-agent (uses WinSockets; exposed in the normal Windows file system, so perhaps that might work). And gpg-agent on Windows can emulate Pageant, or use Winsockets.",
+      "parentUuid": "20f56251_5422b18e",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "428d73c2876baaba0306acde1a039d7c1011c199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8988fe38_0363f4a3",
         "filename": "org.eclipse.jgit.ssh.apache.agent/pom.xml",
         "patchSetId": 5
