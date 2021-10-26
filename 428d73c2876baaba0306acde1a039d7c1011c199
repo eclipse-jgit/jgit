@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "cf26e671_4e8b9519",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-26T00:00:47Z",
+      "side": 1,
+      "message": "that\u0027s great news, I didn\u0027t yet try this change",
+      "parentUuid": "46d632a5_fb9e03f1",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "428d73c2876baaba0306acde1a039d7c1011c199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8988fe38_0363f4a3",
         "filename": "org.eclipse.jgit.ssh.apache.agent/pom.xml",
         "patchSetId": 5
