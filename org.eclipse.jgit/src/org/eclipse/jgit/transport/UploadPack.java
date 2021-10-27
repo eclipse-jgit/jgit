@@ -57,6 +57,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -406,14 +407,16 @@ public class UploadPack {
 	 *            were advertised.
 	 */
 	public void setAdvertisedRefs(@Nullable Map<String, Ref> allRefs) {
-		if (allRefs != null)
+		if (allRefs != null) {
 			refs = allRefs;
-		else
-			refs = db.getAllRefs();
-		if (refFilter == RefFilter.DEFAULT)
+		} else {
+			refs = getAllRefs();
+		}
+		if (refFilter == RefFilter.DEFAULT) {
 			refs = transferConfig.getRefFilter().filter(refs);
-		else
+		} else {
 			refs = refFilter.filter(refs);
+		}
 	}
 
 	/**
@@ -864,6 +867,20 @@ public class UploadPack {
 		return statistics;
 	}
 
+	/**
+	 * Extract the full list of refs from the ref-db.
+	 *
+	 * @return Map of all refname/ref
+	 */
+	private Map<String, Ref> getAllRefs() {
+		try {
+			return db.getRefDatabase().getRefs().stream().collect(
+					Collectors.toMap(Ref::getName, Function.identity()));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
 		if (refs != null) {
 			return refs;
@@ -1092,6 +1109,7 @@ public class UploadPack {
 
 		rawOut.stopBuffering();
 		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
+		adv.init(db);
 		adv.setUseProtocolV2(true);
 		if (req.getPeel()) {
 			adv.setDerefTags(true);

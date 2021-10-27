@@ -28,6 +28,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
 import org.eclipse.jgit.internal.storage.reftable.ReftableBatchRefUpdate;
@@ -592,15 +593,20 @@ public class FileReftableDatabase extends RefDatabase {
 					r.getTarget().getName(), null));
 		}
 		ObjectId newId = r.getObjectId();
-		RevObject obj = rw.parseAny(newId);
 		RevObject peel = null;
-		if (obj instanceof RevTag) {
-			peel = rw.peel(obj);
+		try {
+			RevObject obj = rw.parseAny(newId);
+			if (obj instanceof RevTag) {
+				peel = rw.peel(obj);
+			}
+		} catch (MissingObjectException e) {
+			/* ignore this error and copy the dangling object ID into reftable too. */
 		}
 		if (peel != null) {
-			return new ObjectIdRef.PeeledTag(PACKED, r.getName(), newId,
-					peel.copy());
-		}
+				return new ObjectIdRef.PeeledTag(PACKED, r.getName(), newId,
+						peel.copy());
+			}
+
 		return new ObjectIdRef.PeeledNonTag(PACKED, r.getName(), newId);
 	}
 

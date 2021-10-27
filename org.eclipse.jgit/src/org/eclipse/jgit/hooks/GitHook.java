@@ -12,13 +12,13 @@ package org.eclipse.jgit.hooks;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.ProcessResult;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.TeeOutputStream;
 
 /**
@@ -171,7 +171,8 @@ public abstract class GitHook<T> implements Callable<T> {
 				getStdinArgs());
 		if (result.isExecutedWithError()) {
 			handleError(new String(errorByteArray.toByteArray(),
-					Charset.defaultCharset().name()), result);
+					SystemReader.getInstance().getDefaultCharset().name()),
+					result);
 		}
 	}
 

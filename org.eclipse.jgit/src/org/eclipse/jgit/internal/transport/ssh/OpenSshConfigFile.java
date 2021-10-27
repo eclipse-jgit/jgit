@@ -210,7 +210,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 		// The man page doesn't say so, but the openssh parser (readconf.c)
 		// starts out in active mode and thus always applies any lines that
 		// occur before the first host block. We gather those options in a
-		// HostEntry for DEFAULT_NAME.
+		// HostEntry.
 		HostEntry defaults = new HostEntry();
 		HostEntry current = defaults;
 		entries.add(defaults);
@@ -309,8 +309,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 	 * @return the validated and possibly sanitized value
 	 */
 	protected String validate(String key, String value) {
-		if (String.CASE_INSENSITIVE_ORDER.compare(key,
-				SshConstants.PREFERRED_AUTHENTICATIONS) == 0) {
+		if (SshConstants.PREFERRED_AUTHENTICATIONS.equalsIgnoreCase(key)) {
 			return stripWhitespace(value);
 		}
 		return value;

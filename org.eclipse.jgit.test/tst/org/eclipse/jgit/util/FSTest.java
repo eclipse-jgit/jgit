@@ -19,7 +19,6 @@ import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -182,7 +181,7 @@ public class FSTest {
 
 		FS.readPipe(fs.userHome(),
 				new String[] { "/bin/sh", "-c", "exit 1" },
-				Charset.defaultCharset().name());
+				SystemReader.getInstance().getDefaultCharset().name());
 	}
 
 	@Test(expected = CommandFailedException.class)
@@ -192,7 +191,7 @@ public class FSTest {
 
 		FS.readPipe(fs.userHome(),
 				  new String[] { "this-command-does-not-exist" },
-				  Charset.defaultCharset().name());
+				  SystemReader.getInstance().getDefaultCharset().name());
 	}
 
 	@Test
