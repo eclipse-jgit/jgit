@@ -11,6 +11,8 @@ package org.eclipse.jgit.internal.transport.sshd.agent.connector;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.jgit.transport.sshd.agent.Connector;
 import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
@@ -40,5 +42,27 @@ public class Factory implements ConnectorFactory {
 	@Override
 	public String getName() {
 		return NAME;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * This factory returns on Windows a
+	 * {@link org.eclipse.jgit.transport.sshd.agent.ConnectorFactory.ConnectorDescriptor
+	 * ConnectorDescriptor} for the internal name "pageant"; on Unix one for
+	 * "SSH_AUTH_SOCK".
+	 * </p>
+	 */
+	@Override
+	public Collection<ConnectorDescriptor> getSupportedConnectors() {
+		return Collections.singleton(getDefaultConnector());
+	}
+
+	@Override
+	public ConnectorDescriptor getDefaultConnector() {
+		if (SystemReader.getInstance().isWindows()) {
+			return PageantConnector.DESCRIPTOR;
+		}
+		return UnixDomainSocketConnector.DESCRIPTOR;
 	}
 }

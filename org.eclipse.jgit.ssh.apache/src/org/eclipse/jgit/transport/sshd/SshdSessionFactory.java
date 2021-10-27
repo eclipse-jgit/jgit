@@ -56,7 +56,6 @@ import org.eclipse.jgit.internal.transport.sshd.JGitUserInteraction;
 import org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase;
 import org.eclipse.jgit.internal.transport.sshd.PasswordProviderWrapper;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
-import org.eclipse.jgit.internal.transport.sshd.agent.ConnectorFactoryProvider;
 import org.eclipse.jgit.internal.transport.sshd.agent.JGitSshAgentFactory;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConfigStore;
@@ -456,12 +455,15 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	/**
 	 * Gets a {@link ConnectorFactory}. If this returns {@code null}, SSH agents
 	 * are not supported.
+	 * <p>
+	 * The default implementation uses {@link ConnectorFactory#getDefault()}
+	 * </p>
 	 *
 	 * @return the factory, or {@code null} if no SSH agent support is desired
 	 * @since 6.0
 	 */
 	protected ConnectorFactory getConnectorFactory() {
-		return ConnectorFactoryProvider.getDefaultFactory();
+		return ConnectorFactory.getDefault();
 	}
 
 	/**

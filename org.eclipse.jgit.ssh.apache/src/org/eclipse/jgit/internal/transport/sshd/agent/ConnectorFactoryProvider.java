@@ -19,7 +19,7 @@ import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
  */
 public final class ConnectorFactoryProvider {
 
-	private static final ConnectorFactory FACTORY = loadDefaultFactory();
+	private static volatile ConnectorFactory INSTANCE = loadDefaultFactory();
 
 	private static ConnectorFactory loadDefaultFactory() {
 		ServiceLoader<ConnectorFactory> loader = ServiceLoader
@@ -35,17 +35,27 @@ public final class ConnectorFactoryProvider {
 
 	}
 
-	private ConnectorFactoryProvider() {
-		// No instantiation
-	}
-
 	/**
-	 * Retrieves the default {@link ConnectorFactory} obtained via the
-	 * {@link ServiceLoader}.
+	 * Retrieves the currently set default {@link ConnectorFactory}.
 	 *
 	 * @return the {@link ConnectorFactory}, or {@code null} if none.
 	 */
 	public static ConnectorFactory getDefaultFactory() {
-		return FACTORY;
+		return INSTANCE;
+	}
+
+	/**
+	 * Sets the default {@link ConnectorFactory}.
+	 *
+	 * @param factory
+	 *            {@link ConnectorFactory} to use, or {@code null} to use the
+	 *            factory discovered via the {@link ServiceLoader}.
+	 */
+	public static void setDefaultFactory(ConnectorFactory factory) {
+		INSTANCE = factory == null ? loadDefaultFactory() : factory;
+	}
+
+	private ConnectorFactoryProvider() {
+		// No instantiation
 	}
 }
