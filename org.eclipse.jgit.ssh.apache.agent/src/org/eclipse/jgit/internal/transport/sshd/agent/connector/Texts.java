@@ -42,5 +42,7 @@ public final class Texts extends TranslationBundle {
 	/***/ public String msgSendFailed2;
 	/***/ public String msgSharedMemoryFailed;
 	/***/ public String msgShortRead;
+	/***/ public String pageant;
+	/***/ public String unixDefaultAgent;
 
 }

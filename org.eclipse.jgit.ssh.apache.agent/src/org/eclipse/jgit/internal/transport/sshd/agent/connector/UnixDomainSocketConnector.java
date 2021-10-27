@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.sshd.common.SshException;
 import org.eclipse.jgit.transport.sshd.agent.AbstractConnector;
+import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory.ConnectorDescriptor;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
@@ -37,6 +38,22 @@ import com.sun.jna.platform.unix.LibCAPI;
  * JNA-based implementation of communication through a Unix domain socket.
  */
 public class UnixDomainSocketConnector extends AbstractConnector {
+
+	/**
+	 * {@link ConnectorDescriptor} for the {@link UnixDomainSocketConnector}.
+	 */
+	public static final ConnectorDescriptor DESCRIPTOR = new ConnectorDescriptor() {
+
+		@Override
+		public String getIdentityAgent() {
+			return ENV_SSH_AUTH_SOCK;
+		}
+
+		@Override
+		public String getDisplayName() {
+			return Texts.get().unixDefaultAgent;
+		}
+	};
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(UnixDomainSocketConnector.class);

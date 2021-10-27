@@ -12,11 +12,28 @@ package org.eclipse.jgit.internal.transport.sshd.agent.connector;
 import java.io.IOException;
 
 import org.eclipse.jgit.transport.sshd.agent.AbstractConnector;
+import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory.ConnectorDescriptor;
 
 /**
  * A connector using Pageant's shared memory IPC mechanism.
  */
 public class PageantConnector extends AbstractConnector {
+
+	/**
+	 * {@link ConnectorDescriptor} for the {@link PageantConnector}.
+	 */
+	public static final ConnectorDescriptor DESCRIPTOR = new ConnectorDescriptor() {
+
+		@Override
+		public String getIdentityAgent() {
+			return "pageant"; //$NON-NLS-1$
+		}
+
+		@Override
+		public String getDisplayName() {
+			return Texts.get().pageant;
+		}
+	};
 
 	private final PageantLibrary lib;
 
