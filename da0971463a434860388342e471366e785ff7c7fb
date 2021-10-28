@@ -16,6 +16,24 @@
       "revId": "da0971463a434860388342e471366e785ff7c7fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5939da2_0dc53c51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2021-10-28T16:45:37Z",
+      "side": 1,
+      "message": "If the caller of getCommitTemplateContent(Repository repository) (will be egit then) passes null repository AND the path is relative, then this could happen. So in essence, the caller should not pass null parameter.",
+      "parentUuid": "01275cc0_b1469446",
+      "revId": "da0971463a434860388342e471366e785ff7c7fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
