@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "51ffeb02_aaee95cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-28T19:17:41Z",
+      "side": 1,
+      "message": "And just noticed: this should be repository.getFs()?",
+      "range": {
+        "startLine": 107,
+        "startChar": 24,
+        "endLine": 107,
+        "endChar": 35
+      },
+      "revId": "da0971463a434860388342e471366e785ff7c7fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01275cc0_b1469446",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 3
@@ -49,6 +72,24 @@
       "side": 1,
       "message": "then I\u0027d add a null check here and return null in that case",
       "parentUuid": "a5939da2_0dc53c51",
+      "revId": "da0971463a434860388342e471366e785ff7c7fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d17213a9_25e67b67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-28T19:17:41Z",
+      "side": 1,
+      "message": "Why not @NotNull on the argument?",
+      "parentUuid": "5e5076f8_846c6476",
       "revId": "da0971463a434860388342e471366e785ff7c7fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
