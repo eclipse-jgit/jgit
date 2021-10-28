@@ -93,6 +93,24 @@
       "revId": "da0971463a434860388342e471366e785ff7c7fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c422f50_378fd9bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-28T19:20:15Z",
+      "side": 1,
+      "message": "that\u0027s better",
+      "parentUuid": "d17213a9_25e67b67",
+      "revId": "da0971463a434860388342e471366e785ff7c7fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
