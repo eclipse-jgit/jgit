@@ -77,18 +77,34 @@ import org.junit.runners.Parameterized.Parameters;
 @SuppressWarnings("boxing")
 @RunWith(Parameterized.class)
 public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
+	private static final Options NO_REFCACHE = new Options();
+
+	private static final Options WITH_REFCACHE = new Options()
+			.setUseRefCache(true);
+
 	@Parameter(0)
 	public boolean atomic;
 
 	@Parameter(1)
 	public boolean useReftable;
 
-	@Parameters(name = "atomic={0} reftable={1}")
+	@Parameter(2)
+	public boolean useRefCache;
+
+	@Parameters(name = "atomic={0} reftable={1} useRefCache={2}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] { { Boolean.FALSE, Boolean.FALSE },
-				{ Boolean.TRUE, Boolean.FALSE },
-				{ Boolean.FALSE, Boolean.TRUE },
-				{ Boolean.TRUE, Boolean.TRUE }, });
+		return Arrays.asList(new Object[][] { //
+				{ Boolean.FALSE, Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.FALSE, Boolean.FALSE, Boolean.TRUE },
+				{ Boolean.TRUE, Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.FALSE, Boolean.TRUE },
+				{ Boolean.FALSE, Boolean.TRUE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.TRUE, Boolean.FALSE }, });
+	}
+
+	@Override
+	protected Options getOptions() {
+		return useRefCache ? WITH_REFCACHE : NO_REFCACHE;
 	}
 
 	private Repository diskRepo;
