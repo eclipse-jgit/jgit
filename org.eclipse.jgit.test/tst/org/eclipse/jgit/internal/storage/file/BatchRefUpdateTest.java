@@ -41,12 +41,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Predicate;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RefsChangedListener;
+import org.eclipse.jgit.internal.storage.memory.InMemoryRefDatabase;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.StrictWorkMonitor;
 import org.eclipse.jgit.junit.TestRepository;
@@ -59,6 +60,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
@@ -79,18 +81,34 @@ import org.junit.runners.Parameterized.Parameters;
 @SuppressWarnings("boxing")
 @RunWith(Parameterized.class)
 public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
+	private static final Options NO_REFCACHE = new Options().setBare(true);
+
+	private static final Options WITH_REFCACHE = new Options().setBare(true)
+			.setUseRefCache(true);
+
 	@Parameter(0)
 	public boolean atomic;
 
 	@Parameter(1)
 	public boolean useReftable;
 
-	@Parameters(name = "atomic={0} reftable={1}")
+	@Parameter(2)
+	public boolean useRefCache;
+
+	@Parameters(name = "atomic={0} reftable={1} useRefCache={2}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] { { Boolean.FALSE, Boolean.FALSE },
-				{ Boolean.TRUE, Boolean.FALSE },
-				{ Boolean.FALSE, Boolean.TRUE },
-				{ Boolean.TRUE, Boolean.TRUE }, });
+		return Arrays.asList(new Object[][] { //
+				{ Boolean.FALSE, Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.FALSE, Boolean.FALSE, Boolean.TRUE },
+				{ Boolean.TRUE, Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.FALSE, Boolean.TRUE },
+				{ Boolean.FALSE, Boolean.TRUE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.TRUE, Boolean.FALSE }, });
+	}
+
+	@Override
+	protected Options getOptions() {
+		return useRefCache ? WITH_REFCACHE : NO_REFCACHE;
 	}
 
 	private Repository diskRepo;
@@ -123,7 +141,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		FileRepository fileRepo = createBareRepository();
+		FileRepository fileRepo = createRepositoryWithOptions();
 		if (useReftable) {
 			fileRepo.convertToReftable(false, false);
 		}
@@ -133,8 +151,14 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		setLogAllRefUpdates(true);
 
 		if (!useReftable) {
-			refdir = (RefDirectory) diskRepo.getRefDatabase();
-			refdir.setRetrySleepMs(Arrays.asList(0, 0));
+			RefDatabase refDb = diskRepo.getRefDatabase();
+			if (refDb instanceof RefDirectory) {
+				refdir = (RefDirectory) refDb;
+				refdir.setRetrySleepMs(Arrays.asList(0, 0));
+			} else if (refDb instanceof InMemoryRefDatabase) {
+				refdir = (RefDirectory) ((InMemoryRefDatabase) refDb)
+						.getWrappedRefDatabase();
+			}
 		}
 
 		repo = new TestRepository<>(diskRepo);
@@ -550,6 +574,35 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				"refs/heads/branch2", A);
 		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
 				: initialRefsChangedEvents + 2, refsChangedEvents);
+		assertReflogEquals(reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/heads/master"));
+		assertReflogEquals(
+				reflog(zeroId(), B, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/heads/branch1"));
+		assertReflogUnchanged(oldLogs, "refs/heads/branch2");
+	}
+
+	@Test
+	public void updateCreateDelete() throws IOException {
+		writeRef("refs/heads/master", A);
+		writeRef("refs/heads/branch2", A);
+		writeRef("refs/heads/branch3", A);
+		int initialRefsChangedEvents = refsChangedEvents;
+
+		Map<String, ReflogEntry> oldLogs = getLastReflogs("refs/heads/master",
+				"refs/heads/branch1", "refs/heads/branch2");
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch1", CREATE),
+				new ReceiveCommand(A, zeroId(), "refs/heads/branch3", DELETE));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true)
+				.setRefLogMessage("a reflog", false));
+
+		assertResults(cmds, OK, OK, OK);
+		assertRefs("refs/heads/master", B, "refs/heads/branch1", B,
+				"refs/heads/branch2", A);
+		assertEquals(batchesRefUpdates() ? initialRefsChangedEvents + 1
+				: initialRefsChangedEvents + 3, refsChangedEvents);
 		assertReflogEquals(reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
 				getLastReflog("refs/heads/master"));
 		assertReflogEquals(
@@ -1112,7 +1165,13 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			// was created. We do this to get the events fired during the test
 			// 'setup' out of the way and this allows us to now accurately
 			// assert only for the new events fired during the BatchRefUpdate.
-			refdir.exactRef(name);
+			Ref r = refdir.exactRef(name);
+			if (!refdir.getRefCache().isEmpty()) {
+				// insert ref into cache which was created behind RefDirectory's
+				// back
+				RefCache c = refdir.getRefCache().get();
+				c.insert(r);
+			}
 		}
 	}
 
