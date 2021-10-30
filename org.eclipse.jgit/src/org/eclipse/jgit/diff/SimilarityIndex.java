@@ -108,7 +108,8 @@ public class SimilarityIndex {
 				return RawText.isBinary(in1);
 			}
 		}
-		return RawText.isBinary(obj.getCachedBytes());
+		byte[] raw = obj.getCachedBytes();
+		return RawText.isBinary(raw, raw.length, true);
 	}
 
 	void hash(ObjectLoader obj) throws MissingObjectException, IOException,
@@ -132,7 +133,7 @@ public class SimilarityIndex {
 	}
 
 	void hash(byte[] raw, int ptr, int end) throws TableFullException {
-		final boolean text = !RawText.isBinary(raw);
+		final boolean text = !RawText.isBinary(raw, raw.length, true);
 		hashedCnt = 0;
 		while (ptr < end) {
 			int hash = 5381;

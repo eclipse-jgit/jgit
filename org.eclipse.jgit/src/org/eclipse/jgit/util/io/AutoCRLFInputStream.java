@@ -123,7 +123,7 @@ public class AutoCRLFInputStream extends InputStream {
 			return false;
 		}
 		if (detectBinary) {
-			isBinary = RawText.isBinary(buf, cnt);
+			isBinary = RawText.isBinary(buf, cnt, cnt < buf.length);
 			detectBinary = false;
 		}
 		ptr = 0;

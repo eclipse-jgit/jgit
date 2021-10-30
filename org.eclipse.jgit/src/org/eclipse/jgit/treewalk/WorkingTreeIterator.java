@@ -1513,7 +1513,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					ObjectLoader loader = reader.open(blobId,
 							Constants.OBJ_BLOB);
 					try {
-						return RawText.isCrLfText(loader.getCachedBytes());
+						byte[] raw = loader.getCachedBytes();
+						return RawText.isCrLfText(raw, raw.length, true);
 					} catch (LargeObjectException e) {
 						try (InputStream in = loader.openStream()) {
 							return RawText.isCrLfText(in);

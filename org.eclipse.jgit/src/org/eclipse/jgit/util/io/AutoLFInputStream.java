@@ -262,14 +262,14 @@ public class AutoLFInputStream extends InputStream {
 			return false;
 		}
 		if (detectBinary) {
-			isBinary = RawText.isBinary(buf, cnt);
+			isBinary = RawText.isBinary(buf, cnt, cnt < buf.length);
 			passAsIs = isBinary;
 			detectBinary = false;
 			if (isBinary && abortIfBinary) {
 				throw new IsBinaryException();
 			}
 			if (!passAsIs && forCheckout) {
-				passAsIs = RawText.isCrLfText(buf, cnt);
+				passAsIs = RawText.isCrLfText(buf, cnt, cnt < buf.length);
 			}
 		}
 		ptr = 0;

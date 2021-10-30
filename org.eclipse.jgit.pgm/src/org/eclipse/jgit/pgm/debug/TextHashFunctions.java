@@ -286,7 +286,7 @@ class TextHashFunctions extends TextBuiltin {
 					continue;
 				}
 
-				if (RawText.isBinary(raw))
+				if (RawText.isBinary(raw, raw.length, true))
 					continue;
 
 				RawText txt = new RawText(raw);

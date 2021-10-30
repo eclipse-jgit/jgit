@@ -146,16 +146,16 @@ public class AutoLFOutputStream extends OutputStream {
 		binbufcnt += copy;
 		int remaining = len - copy;
 		if (remaining > 0) {
-			decideMode();
+			decideMode(false);
 		}
 		return remaining;
 	}
 
-	private void decideMode() throws IOException {
+	private void decideMode(boolean complete) throws IOException {
 		if (detectBinary) {
-			isBinary = RawText.isBinary(binbuf, binbufcnt);
+			isBinary = RawText.isBinary(binbuf, binbufcnt, complete);
 			if (!isBinary) {
-				isBinary = RawText.isCrLfText(binbuf, binbufcnt);
+				isBinary = RawText.isCrLfText(binbuf, binbufcnt, complete);
 			}
 			detectBinary = false;
 		}
@@ -168,7 +168,7 @@ public class AutoLFOutputStream extends OutputStream {
 	@Override
 	public void flush() throws IOException {
 		if (binbufcnt <= binbuf.length) {
-			decideMode();
+			decideMode(true);
 		}
 		out.flush();
 	}

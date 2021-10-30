@@ -246,18 +246,6 @@ public class RawText extends Sequence {
 	}
 
 	/**
-	 * Determine heuristically whether a byte array represents binary (as
-	 * opposed to text) content.
-	 *
-	 * @param raw
-	 *            the raw file content.
-	 * @return true if raw is likely to be a binary file, false otherwise
-	 */
-	public static boolean isBinary(byte[] raw) {
-		return isBinary(raw, raw.length);
-	}
-
-	/**
 	 * Obtains the buffer size to use for analyzing whether certain content is
 	 * text or binary, or what line endings are used if it's text.
 	 *
@@ -308,7 +296,19 @@ public class RawText extends Sequence {
 				break;
 			cnt += n;
 		}
-		return isBinary(buffer, cnt);
+		return isBinary(buffer, cnt, cnt < buffer.length);
+	}
+
+	/**
+	 * Determine heuristically whether a byte array represents binary (as
+	 * opposed to text) content.
+	 *
+	 * @param raw
+	 *            the raw file content.
+	 * @return true if raw is likely to be a binary file, false otherwise
+	 */
+	public static boolean isBinary(byte[] raw) {
+		return isBinary(raw, raw.length);
 	}
 
 	/**
@@ -324,17 +324,61 @@ public class RawText extends Sequence {
 	 * @return true if raw is likely to be a binary file, false otherwise
 	 */
 	public static boolean isBinary(byte[] raw, int length) {
-		// Same heuristic as C Git (except for the buffer size)
+		return isBinary(raw, length, false);
+	}
+
+	/**
+	 * Determine heuristically whether a byte array represents binary (as
+	 * opposed to text) content.
+	 *
+	 * @param raw
+	 *            the raw file content.
+	 * @param length
+	 *            number of bytes in {@code raw} to evaluate. This should be
+	 *            {@code raw.length} unless {@code raw} was over-allocated by
+	 *            the caller.
+	 * @param complete
+	 *            whether {@code raw} contains the whole data
+	 * @return true if raw is likely to be a binary file, false otherwise
+	 * @since 6.0
+	 */
+	public static boolean isBinary(byte[] raw, int length, boolean complete) {
+		// Similar heuristic as C Git. Differences:
+		// - limited buffer size; may be only the beginning of a large blob
+		// - no counting of printable vs. non-printable bytes < 0x20 and 0x7F
 		int maxLength = getBufferSize();
 		if (length > maxLength) {
 			length = maxLength;
 		}
+		byte last = 'x'; // Just something inconspicuous.
 		for (int ptr = 0; ptr < length; ptr++) {
-			if (raw[ptr] == '\0') {
+			byte curr = raw[ptr];
+			if (isBinary(curr, last)) {
 				return true;
 			}
+			last = curr;
+		}
+		if (complete) {
+			// Buffer contains everything...
+			return last == '\r'; // ... so this must be a lone CR
 		}
 		return false;
+	}
+
+	/**
+	 * Determines from the last two bytes read from a source if it looks like
+	 * binary content.
+	 *
+	 * @param curr
+	 *            the last byte, read after {@code prev}
+	 * @param prev
+	 *            the previous byte, read before {@code last}
+	 * @return {@code true} if either byte is NUL, or if prev is CR and curr is
+	 *         not LF, {@code false} otherwise
+	 * @since 6.0
+	 */
+	public static boolean isBinary(byte curr, byte prev) {
+		return curr == '\0' || curr != '\n' && prev == '\r' || prev == '\0';
 	}
 
 	/**
@@ -394,13 +438,44 @@ public class RawText extends Sequence {
 	 * @since 5.3
 	 */
 	public static boolean isCrLfText(byte[] raw, int length) {
+		return isCrLfText(raw, length, false);
+	}
+
+	/**
+	 * Determine heuristically whether a byte array represents text content
+	 * using CR-LF as line separator.
+	 *
+	 * @param raw
+	 *            the raw file content.
+	 * @param length
+	 *            number of bytes in {@code raw} to evaluate.
+	 * @return {@code true} if raw is likely to be CR-LF delimited text,
+	 *         {@code false} otherwise
+	 * @param complete
+	 *            whether {@code raw} contains the whole data
+	 * @since 6.0
+	 */
+	public static boolean isCrLfText(byte[] raw, int length, boolean complete) {
 		boolean has_crlf = false;
-		for (int ptr = 0; ptr < length - 1; ptr++) {
-			if (raw[ptr] == '\0') {
-				return false; // binary
-			} else if (raw[ptr] == '\r' && raw[ptr + 1] == '\n') {
+		byte last = 'x'; // Just something inconspicuous
+		for (int ptr = 0; ptr < length; ptr++) {
+			byte curr = raw[ptr];
+			if (isBinary(curr, last)) {
+				return false;
+			}
+			if (curr == '\n' && last == '\r') {
 				has_crlf = true;
 			}
+			last = curr;
+		}
+		if (last == '\r') {
+			if (complete) {
+				// Lone CR: it's binary after all.
+				return false;
+			}
+			// Tough call. If the next byte, which we don't have, would be a
+			// '\n', it'd be a CR-LF text, otherwise it'd be binary. Just decide
+			// based on what we already scanned; it wasn't binary until now.
 		}
 		return has_crlf;
 	}
@@ -452,7 +527,7 @@ public class RawText extends Sequence {
 		int bufferSize = getBufferSize();
 		if (sz <= bufferSize) {
 			byte[] data = ldr.getCachedBytes(bufferSize);
-			if (isBinary(data)) {
+			if (isBinary(data, data.length, true)) {
 				throw new BinaryBlobException();
 			}
 			return new RawText(data);
@@ -462,6 +537,7 @@ public class RawText extends Sequence {
 		try (InputStream stream = ldr.openStream()) {
 			int off = 0;
 			int left = head.length;
+			byte last = 'x'; // Just something inconspicuous
 			while (left > 0) {
 				int n = stream.read(head, off, left);
 				if (n < 0) {
@@ -470,9 +546,11 @@ public class RawText extends Sequence {
 				left -= n;
 
 				while (n > 0) {
-					if (head[off] == '\0') {
+					byte curr = head[off];
+					if (isBinary(curr, last)) {
 						throw new BinaryBlobException();
 					}
+					last = curr;
 					off++;
 					n--;
 				}

@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -679,36 +680,30 @@ public final class RawParseUtils {
 	 *            1 past the end of the content within <code>buf</code>.
 	 * @return a line map indicating the starting position of each line.
 	 * @throws BinaryBlobException
-	 *            if a NUL byte is found.
+	 *             if a NUL byte or a lone CR is found.
 	 * @since 5.0
 	 */
 	public static final IntList lineMapOrBinary(byte[] buf, int ptr, int end)
 			throws BinaryBlobException {
-		IntList map = lineMapOrNull(buf, ptr, end);
-		if (map == null) {
-			throw new BinaryBlobException();
-		}
-		return map;
-	}
-
-	@Nullable
-	private static IntList lineMapOrNull(byte[] buf, int ptr, int end) {
 		// Experimentally derived from multiple source repositories
 		// the average number of bytes/line is 36. Its a rough guess
 		// to initially size our map close to the target.
 		IntList map = new IntList((end - ptr) / 36);
 		map.add(Integer.MIN_VALUE);
-		boolean foundLF = true;
+		byte last = '\n'; // Must be \n to add the initial ptr
 		for (; ptr < end; ptr++) {
-			if (foundLF) {
+			if (last == '\n') {
 				map.add(ptr);
 			}
-
-			if (buf[ptr] == '\0') {
-				return null;
+			byte curr = buf[ptr];
+			if (RawText.isBinary(curr, last)) {
+				throw new BinaryBlobException();
 			}
-
-			foundLF = (buf[ptr] == '\n');
+			last = curr;
+		}
+		if (last == '\r') {
+			// Counts as binary
+			throw new BinaryBlobException();
 		}
 		map.add(end);
 		return map;

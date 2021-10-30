@@ -32,7 +32,7 @@ public class AutoCRLFOutputStreamTest {
 		assertNoCrLf("\r\n", "\n");
 		assertNoCrLf("\r\n", "\r\n");
 		assertNoCrLf("\r\r", "\r\r");
-		assertNoCrLf("\r\n\r", "\n\r");
+		assertNoCrLf("\n\r", "\n\r"); // Lone CR
 		assertNoCrLf("\r\n\r\r", "\r\n\r\r");
 		assertNoCrLf("\r\n\r\n", "\r\n\r\n");
 		assertNoCrLf("\n\r\n\r", "\n\r\n\r");

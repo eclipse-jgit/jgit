@@ -122,22 +122,24 @@ public class AutoCRLFOutputStream extends OutputStream {
 	}
 
 	private int buffer(byte[] b, int off, int len) throws IOException {
-		if (binbufcnt > binbuf.length)
+		if (binbufcnt > binbuf.length) {
 			return len;
+		}
 		int copy = Math.min(binbuf.length - binbufcnt, len);
 		System.arraycopy(b, off, binbuf, binbufcnt, copy);
 		binbufcnt += copy;
 		int remaining = len - copy;
-		if (remaining > 0)
-			decideMode();
+		if (remaining > 0) {
+			decideMode(false);
+		}
 		return remaining;
 	}
 
-	private void decideMode() throws IOException {
+	private void decideMode(boolean complete) throws IOException {
 		if (detectBinary) {
-			isBinary = RawText.isBinary(binbuf, binbufcnt);
+			isBinary = RawText.isBinary(binbuf, binbufcnt, complete);
 			if (!isBinary) {
-				isBinary = RawText.isCrLfText(binbuf, binbufcnt);
+				isBinary = RawText.isCrLfText(binbuf, binbufcnt, complete);
 			}
 			detectBinary = false;
 		}
@@ -149,8 +151,9 @@ public class AutoCRLFOutputStream extends OutputStream {
 	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
-		if (binbufcnt <= binbuf.length)
-			decideMode();
+		if (binbufcnt <= binbuf.length) {
+			decideMode(true);
+		}
 		buf = -1;
 		out.flush();
 	}
