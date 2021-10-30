@@ -22,6 +22,30 @@
       "revId": "de73385248f0e118ad3c14ec674f7a9f2a1d1c9c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c25a0894_b9e12e7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-30T23:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa7cbc9c_8f73296f",
+      "range": {
+        "startLine": 106,
+        "startChar": 17,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "de73385248f0e118ad3c14ec674f7a9f2a1d1c9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
