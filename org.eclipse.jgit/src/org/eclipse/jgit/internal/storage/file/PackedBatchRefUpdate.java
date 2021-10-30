@@ -226,13 +226,13 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 					@Override
 					public boolean hasNext() {
-						return i < refs.size() - 1;
+						return i < refs.size();
 					}
 
 					@Override
 					public Entry<String, Ref> next() {
-						i++;
 						Ref r = refs.get(i);
+						i++;
 						return new Entry<String, Ref>() {
 
 							@Override
