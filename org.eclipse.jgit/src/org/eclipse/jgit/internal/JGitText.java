@@ -821,6 +821,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String URINotSupported;
 	/***/ public String userConfigInvalid;
 	/***/ public String validatingGitModules;
+	/***/ public String valueExceedsRange;
 	/***/ public String verifySignatureBad;
 	/***/ public String verifySignatureExpired;
 	/***/ public String verifySignatureGood;

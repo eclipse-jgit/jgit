@@ -42,6 +42,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Git style {@code .config}, {@code .gitconfig}, {@code .gitmodules} file.
@@ -50,9 +51,6 @@ public class Config {
 
 	private static final String[] EMPTY_STRING_ARRAY = {};
 
-	static final long KiB = 1024;
-	static final long MiB = 1024 * KiB;
-	static final long GiB = 1024 * MiB;
 	private static final int MAX_DEPTH = 10;
 
 	private static final TypedConfigGetter DEFAULT_GETTER = new DefaultTypedConfigGetter();
@@ -765,18 +763,8 @@ public class Config {
 	 */
 	public void setLong(final String section, final String subsection,
 			final String name, final long value) {
-		final String s;
-
-		if (value >= GiB && (value % GiB) == 0)
-			s = String.valueOf(value / GiB) + "g"; //$NON-NLS-1$
-		else if (value >= MiB && (value % MiB) == 0)
-			s = String.valueOf(value / MiB) + "m"; //$NON-NLS-1$
-		else if (value >= KiB && (value % KiB) == 0)
-			s = String.valueOf(value / KiB) + "k"; //$NON-NLS-1$
-		else
-			s = String.valueOf(value);
-
-		setString(section, subsection, name, s);
+		setString(section, subsection, name,
+				StringUtils.formatWithSuffix(value));
 	}
 
 	/**
