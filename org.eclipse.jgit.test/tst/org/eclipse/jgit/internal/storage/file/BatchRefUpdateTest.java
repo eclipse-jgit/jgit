@@ -41,8 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Predicate;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.events.ListenerHandle;
@@ -79,18 +79,34 @@ import org.junit.runners.Parameterized.Parameters;
 @SuppressWarnings("boxing")
 @RunWith(Parameterized.class)
 public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
+	private static final Options NO_REFCACHE = new Options().setBare(true);
+
+	private static final Options WITH_REFCACHE = new Options().setBare(true)
+			.setUseRefCache(true);
+
 	@Parameter(0)
 	public boolean atomic;
 
 	@Parameter(1)
 	public boolean useReftable;
 
-	@Parameters(name = "atomic={0} reftable={1}")
+	@Parameter(2)
+	public boolean useRefCache;
+
+	@Parameters(name = "atomic={0} reftable={1} useRefCache={2}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] { { Boolean.FALSE, Boolean.FALSE },
-				{ Boolean.TRUE, Boolean.FALSE },
-				{ Boolean.FALSE, Boolean.TRUE },
-				{ Boolean.TRUE, Boolean.TRUE }, });
+		return Arrays.asList(new Object[][] { //
+				{ Boolean.FALSE, Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.FALSE, Boolean.FALSE, Boolean.TRUE },
+				{ Boolean.TRUE, Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.FALSE, Boolean.TRUE },
+				{ Boolean.FALSE, Boolean.TRUE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.TRUE, Boolean.FALSE }, });
+	}
+
+	@Override
+	protected Options getOptions() {
+		return useRefCache ? WITH_REFCACHE : NO_REFCACHE;
 	}
 
 	private Repository diskRepo;
@@ -123,7 +139,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		FileRepository fileRepo = createBareRepository();
+		FileRepository fileRepo = createRepositoryWithOptions();
 		if (useReftable) {
 			fileRepo.convertToReftable(false, false);
 		}
@@ -133,8 +149,11 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		setLogAllRefUpdates(true);
 
 		if (!useReftable) {
-			refdir = (RefDirectory) diskRepo.getRefDatabase();
-			refdir.setRetrySleepMs(Arrays.asList(0, 0));
+			RefDatabase refDb = diskRepo.getRefDatabase();
+			if (refDb instanceof RefDirectory) {
+				refdir = (RefDirectory) refDb;
+				refdir.setRetrySleepMs(Arrays.asList(0, 0));
+			}
 		}
 
 		repo = new TestRepository<>(diskRepo);
