@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "94039689_9f2ee215",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-30T21:20:05Z",
+      "side": 1,
+      "message": "added API for incremental updates",
+      "parentUuid": "c5a5954b_3f628d4d",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1d63c90_c01bc7ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -69,6 +93,30 @@
       "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e26c811f_7b69dcab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-30T21:20:05Z",
+      "side": 1,
+      "message": "added API for incremental updates",
+      "parentUuid": "d1d63c90_c01bc7ab",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 44
+      },
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +192,24 @@
       "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "858a5d35_7fcd5828",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-30T21:20:05Z",
+      "side": 1,
+      "message": "added RefCache to fix this",
+      "parentUuid": "875d6eea_103e4e95",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +298,24 @@
       "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "484243dc_4d04d0d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-10-30T21:20:05Z",
+      "side": 1,
+      "message": "it\u0027s final now",
+      "parentUuid": "6e92d5b6_bface8c7",
+      "revId": "cddbb549d5a92b54d4ba58064b4adb2392ab674d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
