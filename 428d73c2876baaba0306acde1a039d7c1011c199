@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "386951aa_fb745a8d",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-10-31T14:38:33Z",
+      "side": 1,
+      "message": "I explicitly asked on bug 566100 whether we should worry. The answer was \"no\". Apparently the only problem is that the EPP will include both JNA 4.5.1 and 5.8.0. CDT ships with JNA 5.8.0 for a while already.",
+      "parentUuid": "cf26e671_4e8b9519",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "428d73c2876baaba0306acde1a039d7c1011c199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8988fe38_0363f4a3",
         "filename": "org.eclipse.jgit.ssh.apache.agent/pom.xml",
         "patchSetId": 5
