@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -44,9 +43,9 @@ import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.util.io.IoUtils;
+import org.apache.sshd.common.util.io.functors.IOFunction;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.sftp.client.SftpClient;
-import org.apache.sshd.sftp.client.SftpClient.CloseableHandle;
 import org.apache.sshd.sftp.client.SftpClient.CopyMode;
 import org.apache.sshd.sftp.client.SftpClientFactory;
 import org.apache.sshd.sftp.common.SftpException;
@@ -416,20 +415,6 @@ public class SshdSession implements RemoteSession2 {
 		}
 	}
 
-	/**
-	 * Helper interface like {@link Supplier}, but possibly raising an
-	 * {@link IOException}.
-	 *
-	 * @param <T>
-	 *            return type
-	 */
-	@FunctionalInterface
-	private interface FtpOperation<T> {
-
-		T call() throws IOException;
-
-	}
-
 	private class SshdFtpChannel implements FtpChannel {
 
 		private SftpClient ftp;
@@ -485,9 +470,9 @@ public class SshdSession implements RemoteSession2 {
 			return path;
 		}
 
-		private <T> T map(FtpOperation<T> op) throws IOException {
+		private <T> T map(IOFunction<Void, T> op) throws IOException {
 			try {
-				return op.call();
+				return op.apply(null);
 			} catch (IOException e) {
 				if (e instanceof SftpException) {
 					throw new FtpChannel.FtpException(e.getLocalizedMessage(),
@@ -499,7 +484,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void cd(String path) throws IOException {
-			cwd = map(() -> ftp.canonicalPath(absolute(path)));
+			cwd = map(x -> ftp.canonicalPath(absolute(path)));
 			if (cwd.isEmpty()) {
 				cwd += '/';
 			}
@@ -512,39 +497,28 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public Collection<DirEntry> ls(String path) throws IOException {
-			return map(() -> {
+			return map(x -> {
 				List<DirEntry> result = new ArrayList<>();
-				try (CloseableHandle handle = ftp.openDir(absolute(path))) {
-					AtomicReference<Boolean> atEnd = new AtomicReference<>(
-							Boolean.FALSE);
-					while (!atEnd.get().booleanValue()) {
-						List<SftpClient.DirEntry> chunk = ftp.readDir(handle,
-								atEnd);
-						if (chunk == null) {
-							break;
+				for (SftpClient.DirEntry remote : ftp.readDir(absolute(path))) {
+					result.add(new DirEntry() {
+
+						@Override
+						public String getFilename() {
+							return remote.getFilename();
 						}
-						for (SftpClient.DirEntry remote : chunk) {
-							result.add(new DirEntry() {
 
-								@Override
-								public String getFilename() {
-									return remote.getFilename();
-								}
-
-								@Override
-								public long getModifiedTime() {
-									return remote.getAttributes()
-											.getModifyTime().toMillis();
-								}
-
-								@Override
-								public boolean isDirectory() {
-									return remote.getAttributes().isDirectory();
-								}
-
-							});
+						@Override
+						public long getModifiedTime() {
+							return remote.getAttributes().getModifyTime()
+									.toMillis();
 						}
-					}
+
+						@Override
+						public boolean isDirectory() {
+							return remote.getAttributes().isDirectory();
+						}
+
+					});
 				}
 				return result;
 			});
@@ -552,7 +526,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void rmdir(String path) throws IOException {
-			map(() -> {
+			map(x -> {
 				ftp.rmdir(absolute(path));
 				return null;
 			});
@@ -561,7 +535,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void mkdir(String path) throws IOException {
-			map(() -> {
+			map(x -> {
 				ftp.mkdir(absolute(path));
 				return null;
 			});
@@ -569,17 +543,17 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public InputStream get(String path) throws IOException {
-			return map(() -> ftp.read(absolute(path)));
+			return map(x -> ftp.read(absolute(path)));
 		}
 
 		@Override
 		public OutputStream put(String path) throws IOException {
-			return map(() -> ftp.write(absolute(path)));
+			return map(x -> ftp.write(absolute(path)));
 		}
 
 		@Override
 		public void rm(String path) throws IOException {
-			map(() -> {
+			map(x -> {
 				ftp.remove(absolute(path));
 				return null;
 			});
@@ -587,7 +561,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void rename(String from, String to) throws IOException {
-			map(() -> {
+			map(x -> {
 				String src = absolute(from);
 				String dest = absolute(to);
 				try {
