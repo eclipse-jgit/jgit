@@ -185,6 +185,13 @@
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+
+    <!--
+      javaodoc generation fails on case-insensitive file systems because of the name clash
+      between package org.eclipse.jgit.util.io and class org.eclipse.jgit.util.IO. On case-
+      insensitive file systems, run the maven build with option -DcaseInsensitive=true.
+    -->
+    <caseInsensitive>false</caseInsensitive>
   </properties>
 
   <repositories>
@@ -452,6 +459,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <skip>${caseInsensitive}</skip>
           <additionalJOption>-Xdoclint:-missing</additionalJOption>
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
