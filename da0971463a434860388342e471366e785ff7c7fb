@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "863aa8b1_de5059ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2021-11-01T19:35:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51ffeb02_aaee95cd",
+      "range": {
+        "startLine": 107,
+        "startChar": 24,
+        "endLine": 107,
+        "endChar": 35
+      },
+      "revId": "da0971463a434860388342e471366e785ff7c7fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01275cc0_b1469446",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
         "patchSetId": 3
@@ -111,6 +135,24 @@
       "revId": "da0971463a434860388342e471366e785ff7c7fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9f68854_3c63d643",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 252514
+      },
+      "writtenOn": "2021-11-01T19:35:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c422f50_378fd9bd",
+      "revId": "da0971463a434860388342e471366e785ff7c7fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
