@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c761ad16_0b24d9a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-11-02T09:55:04Z",
+      "side": 1,
+      "message": "might be good to crosscheck with the git source code. I can\u0027t recall if they have an official name for this. \n\n```\n$ cat refs/files-backend.c \n...\nstruct ref_storage_be refs_be_files \u003d {\n        NULL,\n        \"files\",\n        files_ref_store_create,\n        files_init_db,\n\n```\n \nthe backend is called \u0027files\u0027 there.",
+      "range": {
+        "startLine": 586,
+        "startChar": 4,
+        "endLine": 590,
+        "endChar": 65
+      },
+      "revId": "c37288eb655be3c4ce41ec1e930f9e58786665b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
