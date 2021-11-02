@@ -121,6 +121,7 @@ package_group(
         "//org.eclipse.jgit.pgm.test/...",
         "//org.eclipse.jgit.pgm/...",
         "//org.eclipse.jgit.ssh.apache/...",
+        "//org.eclipse.jgit.ssh.apache.agent/...",
         "//org.eclipse.jgit.test/...",
         "//org.eclipse.jgit.ui/...",
         "//org.eclipse.jgit/...",

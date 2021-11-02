@@ -15,7 +15,10 @@ import java.io.IOException;
 import org.eclipse.jgit.annotations.NonNull;
 
 /**
- * A factory for creating {@link Connector}s.
+ * A factory for creating {@link Connector}s. This is a service provider
+ * interface; implementations are discovered via the
+ * {@link java.util.ServiceLoader}, or can be set explicitly on a
+ * {@link org.eclipse.jgit.transport.sshd.SshdSessionFactory}.
  *
  * @since 6.0
  */
