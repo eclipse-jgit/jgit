@@ -378,7 +378,7 @@ public class RawText extends Sequence {
 	 * @since 6.0
 	 */
 	public static boolean isBinary(byte curr, byte prev) {
-		return curr == '\0' || curr != '\n' && prev == '\r' || prev == '\0';
+		return curr == '\0' || (curr != '\n' && prev == '\r') || prev == '\0';
 	}
 
 	/**
