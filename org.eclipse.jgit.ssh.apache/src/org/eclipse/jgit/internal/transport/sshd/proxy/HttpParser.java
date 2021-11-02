@@ -31,6 +31,23 @@ public final class HttpParser {
 
 		private static final long serialVersionUID = -1634090143702048640L;
 
+		/**
+		 * Creates a new {@link ParseException} without cause.
+		 */
+		public ParseException() {
+			super();
+		}
+
+		/**
+		 * Creates a new {@link ParseException} with the given {@code cause}.
+		 *
+		 * @param cause
+		 *            {@link Throwable} that caused this exception, or
+		 *            {@code null} if none
+		 */
+		public ParseException(Throwable cause) {
+			super(cause);
+		}
 	}
 
 	private HttpParser() {
@@ -64,7 +81,7 @@ public final class HttpParser {
 			resultCode = Integer.parseUnsignedInt(
 					line.substring(firstBlank + 1, secondBlank));
 		} catch (NumberFormatException e) {
-			throw new ParseException();
+			throw new ParseException(e);
 		}
 		// Again, accept even if the reason is missing
 		String reason = ""; //$NON-NLS-1$

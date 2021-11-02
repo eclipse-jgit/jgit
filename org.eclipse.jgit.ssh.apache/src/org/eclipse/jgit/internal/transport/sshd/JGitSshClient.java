@@ -439,7 +439,7 @@ public class JGitSshClient extends SshClient {
 
 				@Override
 				public KeyPair next() {
-					if (hasElement == null && !hasNext()
+					if ((hasElement == null && !hasNext())
 							|| !hasElement.booleanValue()) {
 						throw new NoSuchElementException();
 					}
