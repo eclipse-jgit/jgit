@@ -383,7 +383,10 @@ public final class StringUtils {
 		try {
 			return Math.multiplyExact(mul, number);
 		} catch (ArithmeticException e) {
-			throw new NumberFormatException(e.getLocalizedMessage());
+			NumberFormatException nfe = new NumberFormatException(
+					e.getLocalizedMessage());
+			nfe.initCause(e);
+			throw nfe;
 		}
 	}
 
@@ -413,9 +416,11 @@ public final class StringUtils {
 		try {
 			return Math.toIntExact(parseLongWithSuffix(value, positiveOnly));
 		} catch (ArithmeticException e) {
-			throw new NumberFormatException(
+			NumberFormatException nfe = new NumberFormatException(
 					MessageFormat.format(JGitText.get().valueExceedsRange,
 							value, Integer.class.getSimpleName()));
+			nfe.initCause(e);
+			throw nfe;
 		}
 	}
 
