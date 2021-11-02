@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.20" sequenceNumber="1635977786">
+<target name="jgit-4.20" sequenceNumber="1635979596">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.43.v20210629"/>
@@ -31,6 +31,10 @@
       <unit id="com.jcraft.jsch.source" version="0.1.55.v20190404-1902"/>
       <unit id="com.jcraft.jzlib" version="1.1.1.v201205102305"/>
       <unit id="com.jcraft.jzlib.source" version="1.1.1.v201205102305"/>
+      <unit id="com.sun.jna" version="5.8.0.v20210503-0343"/>
+      <unit id="com.sun.jna.source" version="5.8.0.v20210503-0343"/>
+      <unit id="com.sun.jna.platform" version="5.8.0.v20210406-1004"/>
+      <unit id="com.sun.jna.platform.source" version="5.8.0.v20210406-1004"/>
       <unit id="javaewah" version="1.1.12.v20210622-2206"/>
       <unit id="javaewah.source" version="1.1.12.v20210622-2206"/>
       <unit id="javax.servlet" version="3.1.0.v201410161800"/>

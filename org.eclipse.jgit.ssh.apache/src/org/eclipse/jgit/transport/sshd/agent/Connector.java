@@ -16,6 +16,7 @@ import java.io.IOException;
  * Simple interface for connecting to something and making RPC-style
  * request-reply calls.
  *
+ * @see ConnectorFactory
  * @since 6.0
  */
 public interface Connector extends Closeable {
