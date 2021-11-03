@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0866352e_deda034d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-03T17:12:16Z",
+      "side": 1,
+      "message": "I can likely test a few more of the options defined in the DiffTool class, let me know if that is necessary.\n\nI think the most meaningful command option to test would be \"--prompt\", but that requires interaction with the input stream of the command. I\u0027m not sure how to do that; I\u0027ve used TextBuiltinTest as a base for this test, I guess runAndCaptureUsingInitRaw() can be adjusted to also write something on the command input stream. Let me know if you think a test like this is required.",
+      "revId": "60a167e8ba29800f038fe089adccdb8085b4ae27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d0167eb_b4c9e059",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/diffmergetool/ExternalDiffToolTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-03T17:12:16Z",
+      "side": 1,
+      "message": "This is a mostly pointless test, due to the current DiffTools class being mostly empty.\n\nLet me know if I should remove it. I\u0027m guessing if we don\u0027t remove it, we will fill out the current test cases with more meaningful testing, as we progress through the suggested commits.",
+      "revId": "60a167e8ba29800f038fe089adccdb8085b4ae27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
