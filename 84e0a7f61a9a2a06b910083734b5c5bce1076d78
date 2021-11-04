@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe772451_9e3190ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-04T19:31:02Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this one. I think the difference is only relevant on Windows for Cygwin users. Which home directory should be taken -- the Windows one or the Cygwin one? Or are they in the end the same?\n\nIn org.eclipse.jgit.ssh.apache, I had opted for FS.DETECTED.userHome() as default.\n\nMatthias, do you know?",
+      "revId": "84e0a7f61a9a2a06b910083734b5c5bce1076d78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
