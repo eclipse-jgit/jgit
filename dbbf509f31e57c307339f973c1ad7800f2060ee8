@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc95e9e_281c888a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-04T10:00:45Z",
+      "side": 1,
+      "message": "unnecessary since",
+      "revId": "dbbf509f31e57c307339f973c1ad7800f2060ee8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e51e8a4_4d29714a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/ExternalDiffTool.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-04T10:00:45Z",
+      "side": 1,
+      "message": "the since is not needed, the classes aren\u0027t API anymore",
+      "revId": "dbbf509f31e57c307339f973c1ad7800f2060ee8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
