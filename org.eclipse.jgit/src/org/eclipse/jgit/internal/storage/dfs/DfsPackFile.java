@@ -415,8 +415,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		try {
 			readFully(src.offset, buf, 0, 20, ctx);
 		} catch (IOException ioError) {
-			throw new StoredObjectRepresentationNotAvailableException(src,
-					ioError);
+			throw new StoredObjectRepresentationNotAvailableException(ioError);
 		}
 		int c = buf[0] & 0xff;
 		final int typeCode = (c >> 4) & 7;
@@ -537,12 +536,11 @@ public final class DfsPackFile extends BlockBasedFile {
 							Long.valueOf(src.offset), getFileName()),
 					dataFormat);
 
-			throw new StoredObjectRepresentationNotAvailableException(src,
+			throw new StoredObjectRepresentationNotAvailableException(
 					corruptObject);
 
 		} catch (IOException ioError) {
-			throw new StoredObjectRepresentationNotAvailableException(src,
-					ioError);
+			throw new StoredObjectRepresentationNotAvailableException(ioError);
 		}
 
 		if (quickCopy != null) {
