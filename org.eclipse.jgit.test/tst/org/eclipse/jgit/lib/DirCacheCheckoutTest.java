@@ -240,8 +240,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void testInitialCheckout() throws Exception {
 		ChangeRecorder recorder = new ChangeRecorder();
 		ListenerHandle handle = null;
-		try (Git git = new Git(db);
-				TestRepository<Repository> db_t = new TestRepository<>(db)) {
+		try (Git git = new Git(db)) {
+			@SuppressWarnings("resource")
+			TestRepository<Repository> db_t = new TestRepository<>(db);
 			handle = db.getListenerList()
 					.addWorkingTreeModifiedListener(recorder);
 			BranchBuilder master = db_t.branch("master");
@@ -259,8 +260,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	private void checkoutLineEndings(String inIndex, String expected,
 			String attributes) throws Exception {
-		try (Git git = new Git(db);
-				TestRepository<Repository> db_t = new TestRepository<>(db)) {
+		try (Git git = new Git(db)) {
+			@SuppressWarnings("resource")
+			TestRepository<Repository> db_t = new TestRepository<>(db);
 			BranchBuilder master = db_t.branch("master");
 			master.commit().add("f", inIndex).message("m0").create();
 			if (!StringUtils.isEmptyOrNull(attributes)) {
@@ -2034,8 +2036,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testCheckoutWithEmptyIndexDoesntOverwrite() throws Exception {
-		try (Git git = new Git(db);
-				TestRepository<Repository> db_t = new TestRepository<>(db)) {
+		try (Git git = new Git(db)) {
+			@SuppressWarnings("resource")
+			TestRepository<Repository> db_t = new TestRepository<>(db);
 			// prepare the commits
 			BranchBuilder master = db_t.branch("master");
 			RevCommit mergeCommit = master.commit()

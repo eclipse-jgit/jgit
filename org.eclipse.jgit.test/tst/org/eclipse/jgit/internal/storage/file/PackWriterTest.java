@@ -643,7 +643,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			c3 = bb.commit().add("c", contentC).create();
 			c4 = bb.commit().add("d", contentD).create();
 			c5 = bb.commit().add("e", contentE).create();
-			r.getRevWalk().parseHeaders(c5); // fully initialize the tip RevCommit
+			r.getRevWalk().parseHeaders(c5); // fully initialize the tip
+												// RevCommit
 			return repo;
 		}
 	}

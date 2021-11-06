@@ -109,9 +109,9 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testTinyThinPack() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
-			a = d.blob("a");
-		}
+		@SuppressWarnings("resource")
+		TestRepository d = new TestRepository<Repository>(db);
+		a = d.blob("a");
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 
@@ -131,9 +131,9 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testPackWithDuplicateBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789abcdefg");
-		try (TestRepository<Repository> d = new TestRepository<>(db)) {
-			assertTrue(db.getObjectDatabase().has(d.blob(data)));
-		}
+		@SuppressWarnings("resource")
+		TestRepository<Repository> d = new TestRepository<>(db);
+		assertTrue(db.getObjectDatabase().has(d.blob(data)));
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 		packHeader(pack, 1);
@@ -150,9 +150,9 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testPackWithTrailingGarbage() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
-			a = d.blob("a");
-		}
+		@SuppressWarnings("resource")
+		TestRepository d = new TestRepository<Repository>(db);
+		a = d.blob("a");
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 		packHeader(pack, 1);
@@ -179,9 +179,9 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testMaxObjectSizeFullBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789");
-		try (TestRepository d = new TestRepository<Repository>(db)) {
-			d.blob(data);
-		}
+		@SuppressWarnings("resource")
+		TestRepository d = new TestRepository<Repository>(db);
+		d.blob(data);
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 
@@ -212,9 +212,9 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testMaxObjectSizeDeltaBlock() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
-			a = d.blob("a");
-		}
+		@SuppressWarnings("resource")
+		TestRepository d = new TestRepository<Repository>(db);
+		a = d.blob("a");
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 
@@ -245,9 +245,9 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testMaxObjectSizeDeltaResultSize() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
-			a = d.blob("0123456789");
-		}
+		@SuppressWarnings("resource")
+		TestRepository d = new TestRepository<Repository>(db);
+		a = d.blob("0123456789");
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 
@@ -277,9 +277,9 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testNonMarkingInputStream() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
-			a = d.blob("a");
-		}
+		@SuppressWarnings("resource")
+		TestRepository d = new TestRepository<Repository>(db);
+		a = d.blob("a");
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 		packHeader(pack, 1);
@@ -317,9 +317,9 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void testDataAfterPackFooterSingleRead() throws Exception {
 		RevBlob a;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
-			a = d.blob("a");
-		}
+		@SuppressWarnings("resource")
+		TestRepository d = new TestRepository<Repository>(db);
+		a = d.blob("a");
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(32*1024);
 		packHeader(pack, 1);
@@ -378,9 +378,9 @@ public class PackParserTest extends RepositoryTestCase {
 	public void testDataAfterPackFooterSplitHeaderRead() throws Exception {
 		final byte[] data = Constants.encode("a");
 		RevBlob b;
-		try (TestRepository d = new TestRepository<Repository>(db)) {
-			b = d.blob(data);
-		}
+		@SuppressWarnings("resource")
+		TestRepository d = new TestRepository<Repository>(db);
+		b = d.blob(data);
 
 		int objects = 248;
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(32 * 1024);
