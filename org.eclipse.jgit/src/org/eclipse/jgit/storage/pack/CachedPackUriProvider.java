@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.internal.storage.pack;
+package org.eclipse.jgit.storage.pack;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -16,28 +16,33 @@ import org.eclipse.jgit.annotations.Nullable;
 /**
  * Provider of URIs corresponding to cached packs. For use with the
  * "packfile-uris" feature.
- * @since 5.5
+ *
+ * @since 6.0
  */
 public interface CachedPackUriProvider {
 
 	/**
-	 * @param pack the cached pack for which to check if a corresponding URI
-	 *	exists
-	 * @param protocolsSupported the protocols that the client has declared
-	 *	support for; if a URI is returned, it must be of one of these
-	 *	protocols
-	 * @throws IOException implementations may throw this
-	 * @return if a URI corresponds to the cached pack, an object
-	 *	containing the URI and some other information; null otherwise
-	 * @since 5.5
+	 * Obtains information about a cached pack file.
+	 *
+	 * @param pack
+	 *            the cached pack for which to check if a corresponding URI
+	 *            exists
+	 * @param protocolsSupported
+	 *            the protocols that the client has declared support for; if a
+	 *            URI is returned, it must be of one of these protocols
+	 * @throws IOException
+	 *             implementations may throw this
+	 * @return if a URI corresponds to the cached pack, an object containing the
+	 *         URI and some other information; {@code null} otherwise
 	 */
 	@Nullable
-	PackInfo getInfo(CachedPack pack, Collection<String> protocolsSupported)
+	PackInfo getInfo(ICachedPack pack, Collection<String> protocolsSupported)
 		throws IOException;
 
 	/**
 	 * Information about a packfile.
-	 * @since 5.5
+	 *
+	 * @since 6.0
 	 */
 	public static class PackInfo {
 		private final String hash;

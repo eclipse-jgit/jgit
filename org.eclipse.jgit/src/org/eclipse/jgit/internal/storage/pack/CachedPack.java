@@ -12,12 +12,14 @@ package org.eclipse.jgit.internal.storage.pack;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.storage.pack.ICachedPack;
+
 /**
  * Describes a pack file
  * {@link org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs} can append
  * onto a stream.
  */
-public abstract class CachedPack {
+public abstract class CachedPack implements ICachedPack {
 	/**
 	 * Get the number of objects in this pack.
 	 *
