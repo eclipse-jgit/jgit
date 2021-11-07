@@ -48,7 +48,6 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.internal.transport.connectivity.FullConnectivityChecker;

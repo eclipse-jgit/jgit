@@ -29,7 +29,6 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -490,7 +489,7 @@ public abstract class PackParser {
 	 *         {@link #setLockMessage(String)}.
 	 * @throws java.io.IOException
 	 *             the stream is malformed, or contains corrupt objects.
-	 * @since 3.0
+	 * @since 6.0
 	 */
 	public final PackLock parse(ProgressMonitor progress) throws IOException {
 		return parse(progress, progress);
@@ -509,7 +508,7 @@ public abstract class PackParser {
 	 *         {@link #setLockMessage(String)}.
 	 * @throws java.io.IOException
 	 *             the stream is malformed, or contains corrupt objects.
-	 * @since 3.0
+	 * @since 6.0
 	 */
 	public PackLock parse(ProgressMonitor receiving, ProgressMonitor resolving)
 			throws IOException {
