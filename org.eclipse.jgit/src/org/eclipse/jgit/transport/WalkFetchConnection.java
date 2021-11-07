@@ -32,7 +32,6 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
-import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.storage.file.UnpackedObject;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;

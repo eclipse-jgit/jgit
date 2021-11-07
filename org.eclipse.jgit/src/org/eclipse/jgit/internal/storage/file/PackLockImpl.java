@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.transport.PackLock;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 
@@ -21,7 +22,7 @@ import org.eclipse.jgit.util.FileUtils;
  * Keeps track of a {@link org.eclipse.jgit.internal.storage.file.Pack}'s
  * associated <code>.keep</code> file.
  */
-public class PackLock {
+public class PackLockImpl implements PackLock {
 	private final File keepFile;
 
 	/**
@@ -32,7 +33,7 @@ public class PackLock {
 	 * @param fs
 	 *            the filesystem abstraction used by the repository.
 	 */
-	public PackLock(File packFile, FS fs) {
+	public PackLockImpl(File packFile, FS fs) {
 		final File p = packFile.getParentFile();
 		final String n = packFile.getName();
 		keepFile = new File(p, n.substring(0, n.length() - 5) + ".keep"); //$NON-NLS-1$
@@ -59,12 +60,7 @@ public class PackLock {
 		return lf.commit();
 	}
 
-	/**
-	 * Remove the <code>.keep</code> file that holds this pack in place.
-	 *
-	 * @throws java.io.IOException
-	 *             if deletion of .keep file failed
-	 */
+	@Override
 	public void unlock() throws IOException {
 		FileUtils.delete(keepFile);
 	}

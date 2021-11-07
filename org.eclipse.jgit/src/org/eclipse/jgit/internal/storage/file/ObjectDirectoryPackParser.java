@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.transport.PackLock;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.FileUtils;
@@ -431,7 +432,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 		File packDir = new File(db.getDirectory(), "pack"); //$NON-NLS-1$
 		PackFile finalPack = new PackFile(packDir, id, PackExt.PACK);
 		PackFile finalIdx = finalPack.create(PackExt.INDEX);
-		final PackLock keep = new PackLock(finalPack, db.getFS());
+		final PackLockImpl keep = new PackLockImpl(finalPack, db.getFS());
 
 		if (!packDir.exists() && !packDir.mkdir() && !packDir.exists()) {
 			// The objects/pack directory isn't present, and we are unable

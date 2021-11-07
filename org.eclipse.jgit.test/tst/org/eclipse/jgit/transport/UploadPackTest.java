@@ -34,7 +34,6 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.junit.TestRepository;
