@@ -16,6 +16,24 @@
       "revId": "84e0a7f61a9a2a06b910083734b5c5bce1076d78",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f628052_1362a8b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-07T21:05:05Z",
+      "side": 1,
+      "message": "no, I don\u0027t remember, it\u0027s been a long time since I last used cygwin (and Windows as well)\n\nSetting the FS explicitly for a new Repository was introduced in\nhttps://git.eclipse.org/r/c/jgit/jgit/+/588\nit looks like the intention was to allow an application using jgit to explicitly specify if it\u0027s using cygwin or plain Windows. The path translation necessary for cygwin comes with a performance penalty. I doubt if this is done consistently across jgit\u0027s source code.\n\nNot sure how many jgit users use cygwin.",
+      "parentUuid": "fe772451_9e3190ec",
+      "revId": "84e0a7f61a9a2a06b910083734b5c5bce1076d78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
