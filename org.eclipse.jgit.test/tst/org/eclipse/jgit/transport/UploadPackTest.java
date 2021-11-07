@@ -34,8 +34,6 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.internal.storage.pack.CachedPack;
-import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -52,6 +50,8 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.storage.pack.CachedPackUriProvider;
+import org.eclipse.jgit.storage.pack.ICachedPack;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.util.io.NullOutputStream;
@@ -2318,27 +2318,27 @@ public class UploadPackTest {
 		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
 
 		ByteArrayInputStream recvStream = uploadPackV2(
-			(UploadPack up) -> {
-				up.setCachedPackUriProvider(new CachedPackUriProvider() {
-					@Override
-					public PackInfo getInfo(CachedPack pack,
-							Collection<String> protocolsSupported)
-							throws IOException {
-						assertThat(protocolsSupported, hasItems("https"));
-						if (!protocolsSupported.contains("https"))
-							return null;
-						return new PackInfo("myhash", "myuri", 100);
-					}
+				(UploadPack up) -> {
+					up.setCachedPackUriProvider(new CachedPackUriProvider() {
+						@Override
+						public PackInfo getInfo(ICachedPack pack,
+								Collection<String> protocolsSupported)
+								throws IOException {
+							assertThat(protocolsSupported, hasItems("https"));
+							if (!protocolsSupported.contains("https"))
+								return null;
+							return new PackInfo("myhash", "myuri", 100);
+						}
 
-				});
-			},
-			"command=fetch\n",
-			PacketLineIn.delimiter(),
-			"want " + commit2.getName() + "\n",
-			"sideband-all\n",
-			"packfile-uris https\n",
-			"done\n",
-			PacketLineIn.end());
+					});
+				},
+				"command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + commit2.getName() + "\n",
+				"sideband-all\n",
+				"packfile-uris https\n",
+				"done\n",
+				PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		String s;
