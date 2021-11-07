@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc0628b1_7f3fa3a5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1883,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-07T16:21:20Z",
+      "side": 1,
+      "message": "This is the wrong approach since the TestRepository\u0027s inserter is also closed by its close() method. Looks like we have to make configurable whether TestRepository#close should close the repository.",
+      "revId": "0eb635e471fcc0c808f731f0341448d41d67cd31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
