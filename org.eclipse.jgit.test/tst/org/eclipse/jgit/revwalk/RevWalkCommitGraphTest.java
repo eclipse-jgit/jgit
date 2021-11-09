@@ -14,17 +14,21 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static java.util.Arrays.asList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.CommitGraph;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
@@ -134,6 +138,68 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertCommitCntInGraph(11);
 		testRevWalkBehavior("commits/8", "merge/1");
 		testRevWalkBehavior("commits/8", "merge/2");
+	}
+
+	@Test
+	public void testMergeInto() throws Exception {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, true);
+
+		RevCommit c1 = commit();
+		Ref branch1 = branch("commits/1", c1);
+		RevCommit c2 = commit(c1);
+		Ref branch2 = branch("commits/2", c2);
+		RevCommit c3 = commit(c2);
+		Ref branch3 = branch("commits/3", c3);
+		RevCommit c4 = commit(c1);
+		Ref branch4 = branch("commits/4", c4);
+		RevCommit c5 = commit(c4);
+		Ref branch5 = branch("commits/5", c5);
+		RevCommit c6 = commit(c1);
+		Ref branch6 = branch("commits/6", c6);
+		RevCommit c7 = commit(c2, c4);
+		Ref branch7 = branch("commits/7", c7);
+		RevCommit c8 = commit(c5);
+		Ref branch8 = branch("commits/8", c8);
+		RevCommit c9 = commit(c4, c6);
+		Ref branch9 = branch("commits/9", c9);
+		writeCommitGraph();
+
+		/*
+		 * <pre>
+		 * current graph structure:
+		 *       8
+		 *       |
+		 *  3  7 5  9
+		 *  |/  \|/  \
+		 *  2    4    6
+		 *  |___/____/
+		 *  1
+		 * </pre>
+		 */
+
+		assertRefsEquals(asList(branch8), allMergedInto(c8));
+		assertRefsEquals(asList(branch5, branch8), allMergedInto(c5));
+		assertRefsEquals(asList(branch4, branch5, branch7, branch8, branch9),
+				allMergedInto(c4));
+		assertRefsEquals(asList(branch2, branch3, branch7), allMergedInto(c2));
+		assertRefsEquals(asList(branch1, branch2, branch3, branch4, branch5,
+				branch6, branch7, branch8, branch9), allMergedInto(c1));
+	}
+
+	private List<Ref> allMergedInto(RevCommit needle) throws IOException {
+		List<Ref> refs = db.getRefDatabase().getRefs();
+		return rw.getMergedInto(needle, refs);
+	}
+
+	private void assertRefsEquals(List<Ref> expecteds, List<Ref> actuals) {
+
+		assertArrayEquals(expecteds.toArray(), actuals.toArray());
+	}
+
+	private Ref branch(String name, RevCommit dst) throws Exception {
+		return Git.wrap(db).branchCreate().setName(name)
+				.setStartPoint(dst.name()).call();
 	}
 
 	void assertCommitCntInGraph(int expect) {
