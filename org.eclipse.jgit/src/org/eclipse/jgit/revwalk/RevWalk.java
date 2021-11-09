@@ -550,6 +550,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			reset(~freeFlags & APP_FLAGS);
 			filter = RevFilter.ALL;
 			treeFilter = TreeFilter.ALL;
+
+			int cutoff = getGeneration(needle);
 			for (Ref r : haystacks) {
 				if (monitor.isCancelled()) {
 					return result;
@@ -565,6 +567,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				boolean commitFound = false;
 				RevCommit next;
 				while ((next = next()) != null) {
+					if (next.getGeneration() < cutoff) {
+						markUninteresting(next);
+						uninteresting.add(next);
+					}
 					if (References.isSameObject(next, needle)
 							|| (next.flags & TEMP_MARK) != 0) {
 						result.add(r);
@@ -594,6 +600,17 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			}
 		}
 		return result;
+	}
+
+	private int getGeneration(RevCommit commit) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		int generation = Constants.COMMIT_GENERATION_UNKNOWN;
+		if (commit instanceof RevCommitCG) {
+			// Make sure commit is parsed from commit-graph
+			commit.parseHeaders(this);
+			generation = commit.getGeneration();
+		}
+		return generation;
 	}
 
 	/**
