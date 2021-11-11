@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e66ae10_2b1826b2",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-11T15:33:11Z",
+      "side": 1,
+      "message": "This runs into Spotbugs issue 1601.[1] Compare bug 576296: in EGit, we had to completely suppress all *EXPOSE_REP* findings.\n\n[1] https://github.com/spotbugs/spotbugs/issues/1601",
+      "revId": "df3ef92ea47cf58e2eed7b74a9f7b0f13b1d4611",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
