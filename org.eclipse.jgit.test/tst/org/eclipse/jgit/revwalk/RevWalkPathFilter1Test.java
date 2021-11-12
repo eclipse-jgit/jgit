@@ -15,6 +15,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Collections;
 
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -252,5 +253,24 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		assertCommit(a, rw.next());
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
+	}
+
+	@Test
+	public void testStopWhenPathDisappears() throws Exception {
+		DirCacheEntry file1 = file("src/d1/file1", blob("a"));
+		DirCacheEntry file2 = file("src/d1/file2", blob("a"));
+		DirCacheEntry file3 = file("src/d1/file3", blob("a"));
+		RevCommit a = commit(tree(file1));
+		RevCommit b = commit(tree(file1, file2), a);
+		RevCommit c = commit(tree(file1, file3), a);
+		RevCommit d = commit(tree(file1, file2, file3), b, c);
+		filter("src/d1");
+		markStart(d);
+		rw.setRewriteParents(false);
+
+		assertCommit(d, rw.next());
+		assertCommit(c, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(a, rw.next());
 	}
 }
