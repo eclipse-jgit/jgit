@@ -166,7 +166,32 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 		assertPort(2222, lookup("unquoted"));
 		assertPort(2222, lookup("hosts"));
 		assertHost(" spaced\ttld ", lookup("spaced"));
-		assertHost("bad.tld\"", lookup("bad"));
+		assertHost("bad.tld", lookup("bad"));
+	}
+
+	@Test
+	public void testAdvancedParsing() throws Exception {
+		// Escaped quotes, and line comments
+		config("Host foo\n"
+				+ " HostName=\"foo\\\"d.tld\"\n"
+				+ " User= someone#foo\n"
+				+ "Host bar\n"
+				+ " User ' some one#two' # Comment\n"
+				+ " GlobalKnownHostsFile '/a folder/with spaces/hosts' '/other/more hosts' # Comment\n"
+				+ "Host foobar\n"
+				+ " User a\\ u\\ thor\n"
+				+ "Host backslash\n"
+				+ " User some\\one\\\\\\ foo\n");
+		assertHost("foo\"d.tld", lookup("foo"));
+		assertUser("someone#foo", lookup("foo"));
+		HostConfig c = lookup("bar");
+		assertUser(" some one#two", c);
+		assertArrayEquals(
+				new Object[] { "/a folder/with spaces/hosts",
+						"/other/more hosts" },
+				c.getValues("GlobalKnownHostsFile").toArray());
+		assertUser("a u thor", lookup("foobar"));
+		assertUser("some\\one\\\\ foo", lookup("backslash"));
 	}
 
 	@Test
@@ -258,7 +283,7 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 	@Test
 	public void testAlias_InheritPreferredAuthentications() throws Exception {
 		config("Host orcz\n" + "\tHostName repo.or.cz\n" + "\n" + "Host *\n"
-				+ "\tPreferredAuthentications publickey, hostbased\n");
+				+ "\tPreferredAuthentications 'publickey, hostbased'\n");
 		final HostConfig h = lookup("orcz");
 		assertNotNull(h);
 		assertEquals("publickey,hostbased",
