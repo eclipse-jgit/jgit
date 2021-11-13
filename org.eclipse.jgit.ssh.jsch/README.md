@@ -56,4 +56,4 @@ FetchCommand fetch = git.fetch()
 JGit has built-in support for not using any Java SSH implementation but an external SSH
 executable. To use an external SSH executable, set environment variable **GIT_SSH** to
 the path of the executable. JGit will create a sub-process to run the executable and
-communicate with this sup-process to perform the git operation.
+communicate with this sub-process to perform the git operation.
