@@ -20,6 +20,20 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="CONFIG_KEY_REFCACHE"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.12.1"/>
+                <message_argument value="CONFIG_REF_STORAGE_REFDIR"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/RefCache.java" type="org.eclipse.jgit.lib.RefCache">
         <filter id="1109393411">
             <message_arguments>
