@@ -767,13 +767,15 @@ public class OpenSshConfigFile implements SshConfigStore {
 				List<String> values = multiOptions
 						.get(SshConstants.IDENTITY_FILE);
 				if (values != null) {
-					values = substitute(values, "dhlru", r, true); //$NON-NLS-1$
+					values = substitute(values, Replacer.DEFAULT_TOKENS, r,
+							true);
 					values = replaceTilde(values, home);
 					multiOptions.put(SshConstants.IDENTITY_FILE, values);
 				}
 				values = multiOptions.get(SshConstants.CERTIFICATE_FILE);
 				if (values != null) {
-					values = substitute(values, "dhlru", r, true); //$NON-NLS-1$
+					values = substitute(values, Replacer.DEFAULT_TOKENS, r,
+							true);
 					values = replaceTilde(values, home);
 					multiOptions.put(SshConstants.CERTIFICATE_FILE, values);
 				}
@@ -782,6 +784,8 @@ public class OpenSshConfigFile implements SshConfigStore {
 				List<String> values = listOptions
 						.get(SshConstants.USER_KNOWN_HOSTS_FILE);
 				if (values != null) {
+					values = substitute(values, Replacer.DEFAULT_TOKENS, r,
+							true);
 					values = replaceTilde(values, home);
 					listOptions.put(SshConstants.USER_KNOWN_HOSTS_FILE, values);
 				}
@@ -790,29 +794,29 @@ public class OpenSshConfigFile implements SshConfigStore {
 				// HOSTNAME already done above
 				String value = options.get(SshConstants.IDENTITY_AGENT);
 				if (value != null) {
-					value = r.substitute(value, "dhlru", true); //$NON-NLS-1$
+					value = r.substitute(value, Replacer.DEFAULT_TOKENS, true);
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.IDENTITY_AGENT, value);
 				}
 				value = options.get(SshConstants.CONTROL_PATH);
 				if (value != null) {
-					value = r.substitute(value, "ChLlnpru", true); //$NON-NLS-1$
+					value = r.substitute(value, Replacer.DEFAULT_TOKENS, true);
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.CONTROL_PATH, value);
 				}
 				value = options.get(SshConstants.LOCAL_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "CdhlnprTu", false); //$NON-NLS-1$
+					value = r.substitute(value, "CdhLlnprTu", false); //$NON-NLS-1$
 					options.put(SshConstants.LOCAL_COMMAND, value);
 				}
 				value = options.get(SshConstants.REMOTE_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "Cdhlnpru", false); //$NON-NLS-1$
+					value = r.substitute(value, Replacer.DEFAULT_TOKENS, false);
 					options.put(SshConstants.REMOTE_COMMAND, value);
 				}
 				value = options.get(SshConstants.PROXY_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "hpr", false); //$NON-NLS-1$
+					value = r.substitute(value, "hnpr", false); //$NON-NLS-1$
 					options.put(SshConstants.PROXY_COMMAND, value);
 				}
 			}
@@ -880,6 +884,15 @@ public class OpenSshConfigFile implements SshConfigStore {
 	}
 
 	private static class Replacer {
+
+		/**
+		 * Tokens applicable to most keys.
+		 *
+		 * @see <a href="https://man.openbsd.org/ssh_config.5#TOKENS">man
+		 *      ssh_config</a>
+		 */
+		public static final String DEFAULT_TOKENS = "CdhLlnpru"; //$NON-NLS-1$
+
 		private final Map<Character, String> replacements = new HashMap<>();
 
 		public Replacer(String host, int port, String user,
