@@ -187,7 +187,9 @@ public class FileRepository extends Repository {
 			}
 		} else {
 			refs = new RefDirectory(this);
-			if (options.getCacheRefs()) {
+			if (options.getCacheRefs() || repoConfig.getBoolean(
+					ConfigConstants.CONFIG_CORE_SECTION,
+					ConfigConstants.CONFIG_KEY_REFCACHE, false)) {
 				refs = new InMemoryRefDatabase(this);
 			}
 		}
