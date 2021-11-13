@@ -355,6 +355,21 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
+	public void testJumpHostNone() throws Exception {
+		// Should not try to go through the non-existing proxy
+		cloneWith("ssh://server/doesntmatter", defaultCloneDir, null, //
+				"Host server", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath(), //
+				"ProxyJump none", //
+				"", //
+				"Host *", //
+				"ProxyJump " + TEST_USER + "@localhost:1234");
+	}
+
+	@Test
 	public void testJumpHostWrongKeyAtProxy() throws Exception {
 		// Test that we find the proxy server's URI in the exception message
 		SshdSocketAddress[] forwarded = { null };
