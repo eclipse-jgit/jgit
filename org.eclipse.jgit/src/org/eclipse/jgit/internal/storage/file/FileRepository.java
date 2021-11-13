@@ -40,6 +40,7 @@ import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepository;
+import org.eclipse.jgit.internal.storage.memory.InMemoryRefDatabase;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -186,6 +187,10 @@ public class FileRepository extends Repository {
 			}
 		} else {
 			refs = new RefDirectory(this);
+			if (repoConfig.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+					ConfigConstants.CONFIG_KEY_REFCACHE, false)) {
+				refs = new InMemoryRefDatabase(this);
+			}
 		}
 
 		objectDatabase = new ObjectDirectory(repoConfig, //
