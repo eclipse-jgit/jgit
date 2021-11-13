@@ -219,7 +219,8 @@ public class SshdSession implements RemoteSession2 {
 			HostConfigEntry hostConfig, String host) throws IOException {
 		if (currentHops.isEmpty()) {
 			String jumpHosts = hostConfig.getProperty(SshConstants.PROXY_JUMP);
-			if (!StringUtils.isEmptyOrNull(jumpHosts)) {
+			if (!StringUtils.isEmptyOrNull(jumpHosts)
+					&& !SshConstants.NONE.equals(jumpHosts)) {
 				try {
 					return parseProxyJump(jumpHosts);
 				} catch (URISyntaxException e) {

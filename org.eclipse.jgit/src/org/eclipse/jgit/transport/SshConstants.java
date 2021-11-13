@@ -191,6 +191,26 @@ public final class SshConstants {
 	/** Flag value. */
 	public static final String FALSE = "false";
 
+	/**
+	 * Property value. Some keys accept a special 'none' value to override and
+	 * clear a setting otherwise contributed by another host entry, for instance
+	 * {@link #PROXY_COMMAND} or {@link #PROXY_JUMP}. Example:
+	 *
+	 * <pre>
+	 * Host bastion.example.org
+	 *   ProxyJump none
+	 *
+	 * Host *.example.org
+	 *   ProxyJump bastion.example.org
+	 * </pre>
+	 * <p>
+	 * OpenSSH supports this since OpenSSH 7.8.
+	 * </p>
+	 *
+	 * @since 6.0
+	 */
+	public static final String NONE = "none";
+
 	// Default identity file names
 
 	/** Name of the default RSA private identity file. */
@@ -202,7 +222,7 @@ public final class SshConstants {
 	/** Name of the default ECDSA private identity file. */
 	public static final String ID_ECDSA = "id_ecdsa";
 
-	/** Name of the default ECDSA private identity file. */
+	/** Name of the default ED25519 private identity file. */
 	public static final String ID_ED25519 = "id_ed25519";
 
 	/** All known default identity file names. */
