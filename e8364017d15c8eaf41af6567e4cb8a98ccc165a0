@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd48b8a9_8e3b0fe7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/ssh/OpenSshConfigFileTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-13T14:55:05Z",
+      "side": 1,
+      "message": "OpenSSH handles backslashes also outside of strings for \\\", \\\u0027, and \\\\ . It handles \"\\ \" only outside of strings.",
+      "revId": "e8364017d15c8eaf41af6567e4cb8a98ccc165a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
