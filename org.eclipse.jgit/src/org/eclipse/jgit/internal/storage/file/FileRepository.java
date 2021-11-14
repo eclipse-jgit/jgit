@@ -836,4 +836,15 @@ public class FileRepository extends Repository {
 		}
 	}
 
+	/**
+	 * Get the ref cache if used by this repository
+	 *
+	 * @return the ref cache if used by this repository
+	 */
+	public Optional<RefCache> getRefCache() {
+		if (refs instanceof InMemoryRefDatabase) {
+			return Optional.of((InMemoryRefDatabase) refs);
+		}
+		return Optional.empty();
+	}
 }
