@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -51,6 +52,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
@@ -822,5 +824,17 @@ public class FileRepository extends Repository {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
+	}
+
+	/**
+	 * Get the ref cache if used by this repository
+	 *
+	 * @return the ref cache if used by this repository
+	 */
+	public Optional<RefCache> getRefCache() {
+		if (refs instanceof InMemoryRefDatabase) {
+			return Optional.of((InMemoryRefDatabase) refs);
+		}
+		return Optional.empty();
 	}
 }
