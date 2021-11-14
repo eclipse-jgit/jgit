@@ -53,6 +53,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefCache;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -850,5 +851,17 @@ public class FileRepository extends Repository {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
+	}
+
+	/**
+	 * Get the ref cache if used by this repository
+	 *
+	 * @return the ref cache if used by this repository
+	 */
+	public Optional<RefCache> getRefCache() {
+		if (refs instanceof InMemoryRefDatabase) {
+			return Optional.of((InMemoryRefDatabase) refs);
+		}
+		return Optional.empty();
 	}
 }
