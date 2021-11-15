@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f82c106_0e6fbf84",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-15T08:39:45Z",
+      "side": 1,
+      "message": "need to setBare(true) since this test uses bare repository",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 25
+      },
+      "revId": "7ec7d6dab786cf69e1bd87cae68e65263e330b95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7df735d8_09e171ef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BatchRefUpdateTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-15T08:39:45Z",
+      "side": 1,
+      "message": "need to use createRepository() here otherwise callback getOptions() won\u0027t be called",
+      "range": {
+        "startLine": 140,
+        "startChar": 28,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "7ec7d6dab786cf69e1bd87cae68e65263e330b95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
