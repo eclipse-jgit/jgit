@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1fe446a0_822b60da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-15T14:46:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a430310_30a3c1de",
+      "range": {
+        "startLine": 229,
+        "startChar": 28,
+        "endLine": 229,
+        "endChar": 32
+      },
+      "revId": "2c48e9ac9668961ab92cfecb104ff8e123cbadc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "748a7802_3423b620",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 20
@@ -45,6 +69,30 @@
       "revId": "2c48e9ac9668961ab92cfecb104ff8e123cbadc8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0535ce4_2655689a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-15T14:46:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "748a7802_3423b620",
+      "range": {
+        "startLine": 234,
+        "startChar": 6,
+        "endLine": 234,
+        "endChar": 10
+      },
+      "revId": "2c48e9ac9668961ab92cfecb104ff8e123cbadc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
