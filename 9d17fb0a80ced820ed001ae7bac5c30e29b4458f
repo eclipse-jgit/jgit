@@ -45,6 +45,30 @@
       "revId": "9d17fb0a80ced820ed001ae7bac5c30e29b4458f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ffec88c_434f4c63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-15T14:42:52Z",
+      "side": 1,
+      "message": "added reload() and update() methods [1] to allow triggering full or partial reloading of refs from the underlying RefDirectory\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/186205/20/org.eclipse.jgit/src/org/eclipse/jgit/lib/RefCache.java",
+      "parentUuid": "29390bcb_b640d861",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 2
+      },
+      "revId": "9d17fb0a80ced820ed001ae7bac5c30e29b4458f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
