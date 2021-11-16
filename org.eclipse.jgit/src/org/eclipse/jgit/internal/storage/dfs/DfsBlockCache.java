@@ -104,9 +104,10 @@ public final class DfsBlockCache {
 	private final ReentrantLock[] loadLocks;
 
 	/**
-	 * A separate pool of locks to prevent concurrent loads for same index or bitmap from PackFile.
+	 * A separate pool of locks per pack extension to prevent concurrent loads
+	 * for same index or bitmap from PackFile.
 	 */
-	private final ReentrantLock[] refLocks;
+	private final ReentrantLock[][] refLocks;
 
 	/** Maximum number of bytes the cache should hold. */
 	private final long maxBytes;
@@ -173,13 +174,16 @@ public final class DfsBlockCache {
 		}
 
 		table = new AtomicReferenceArray<>(tableSize);
-		loadLocks = new ReentrantLock[cfg.getConcurrencyLevel()];
+		int concurrencyLevel = cfg.getConcurrencyLevel();
+		loadLocks = new ReentrantLock[concurrencyLevel];
 		for (int i = 0; i < loadLocks.length; i++) {
 			loadLocks[i] = new ReentrantLock(true /* fair */);
 		}
-		refLocks = new ReentrantLock[cfg.getConcurrencyLevel()];
-		for (int i = 0; i < refLocks.length; i++) {
-			refLocks[i] = new ReentrantLock(true /* fair */);
+		refLocks = new ReentrantLock[PackExt.values().length][concurrencyLevel];
+		for (int i = 0; i < PackExt.values().length; i++) {
+			for (int j = 0; j < concurrencyLevel; ++j) {
+				refLocks[i][j] = new ReentrantLock(true /* fair */);
+			}
 		}
 
 		maxBytes = cfg.getBlockLimit();
@@ -636,7 +640,8 @@ public final class DfsBlockCache {
 	}
 
 	private ReentrantLock lockForRef(DfsStreamKey key) {
-		return refLocks[(key.hash >>> 1) % refLocks.length];
+		int slot = (key.hash >>> 1) % refLocks[key.packExtPos].length;
+		return refLocks[key.packExtPos][slot];
 	}
 
 	private static AtomicLong[] newCounters() {

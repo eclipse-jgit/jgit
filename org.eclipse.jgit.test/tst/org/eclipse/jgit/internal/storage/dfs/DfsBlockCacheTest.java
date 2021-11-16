@@ -43,9 +43,12 @@ public class DfsBlockCacheTest {
 	private TestRng rng;
 	private DfsBlockCache cache;
 
+	private ExecutorService pool;
+
 	@Before
 	public void setUp() {
 		rng = new TestRng(testName.getMethodName());
+		pool = Executors.newFixedThreadPool(10);
 		resetCache();
 	}
 
@@ -152,49 +155,169 @@ public class DfsBlockCacheTest {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void noConcurrencySerializedReads() throws Exception {
-		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
-		InMemoryRepository r1 = new InMemoryRepository(repo);
-		TestRepository<InMemoryRepository> repository = new TestRepository<>(
-				r1);
-		RevCommit commit = repository.branch("/refs/ref1").commit()
-				.add("blob1", "blob1").create();
-		repository.branch("/refs/ref2").commit().add("blob2", "blob2")
-				.parent(commit).create();
-
-		new DfsGarbageCollector(r1).pack(null);
+	public void noConcurrencySerializedReads_oneRepo() throws Exception {
+		InMemoryRepository r1 = createRepoWithBitmap("test");
 		// Reset cache with concurrency Level at 1 i.e. no concurrency.
-		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
-				.setBlockLimit(1 << 20).setConcurrencyLevel(1));
-		cache = DfsBlockCache.getInstance();
+		resetCache(1);
 
 		DfsReader reader = (DfsReader) r1.newObjectReader();
-		ExecutorService pool = Executors.newFixedThreadPool(10);
 		for (DfsPackFile pack : r1.getObjectDatabase().getPacks()) {
 			// Only load non-garbage pack with bitmap.
 			if (pack.isGarbage()) {
 				continue;
 			}
-			asyncRun(pool, () -> pack.getBitmapIndex(reader));
-			asyncRun(pool, () -> pack.getPackIndex(reader));
-			asyncRun(pool, () -> pack.getBitmapIndex(reader));
+			asyncRun(() -> pack.getBitmapIndex(reader));
+			asyncRun(() -> pack.getPackIndex(reader));
+			asyncRun(() -> pack.getBitmapIndex(reader));
 		}
+		waitForExecutorPoolTermination();
 
-		pool.shutdown();
-		pool.awaitTermination(500, TimeUnit.MILLISECONDS);
-		assertTrue("Threads did not complete, likely due to a deadlock.",
-				pool.isTerminated());
 		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
+		// Reverse index has no pack extension, it defaults to 0.
+		assertEquals(1, cache.getMissCount()[0]);
+	}
+
+	@SuppressWarnings("resource")
+	@Test
+	public void noConcurrencySerializedReads_twoRepos() throws Exception {
+		InMemoryRepository r1 = createRepoWithBitmap("test1");
+		InMemoryRepository r2 = createRepoWithBitmap("test2");
+		resetCache(1);
+
+		DfsReader reader = (DfsReader) r1.newObjectReader();
+		DfsPackFile[] r1Packs = r1.getObjectDatabase().getPacks();
+		DfsPackFile[] r2Packs = r2.getObjectDatabase().getPacks();
+		// Safety check that both repos have the same number of packs.
+		assertEquals(r1Packs.length, r2Packs.length);
+
+		for (int i = 0; i < r1.getObjectDatabase().getPacks().length; ++i) {
+			DfsPackFile pack1 = r1Packs[i];
+			DfsPackFile pack2 = r2Packs[i];
+			if (pack1.isGarbage() || pack2.isGarbage()) {
+				continue;
+			}
+			asyncRun(() -> pack1.getBitmapIndex(reader));
+			asyncRun(() -> pack2.getBitmapIndex(reader));
+		}
+
+		waitForExecutorPoolTermination();
+		assertEquals(2, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
+		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
+		assertEquals(2, cache.getMissCount()[0]);
+	}
+
+	@SuppressWarnings("resource")
+	@Test
+	public void highConcurrencySerializedReads_oneRepo() throws Exception {
+		InMemoryRepository r1 = createRepoWithBitmap("test");
+		resetCache();
+
+		DfsReader reader = (DfsReader) r1.newObjectReader();
+		for (DfsPackFile pack : r1.getObjectDatabase().getPacks()) {
+			// Only load non-garbage pack with bitmap.
+			if (pack.isGarbage()) {
+				continue;
+			}
+			asyncRun(() -> pack.getBitmapIndex(reader));
+			asyncRun(() -> pack.getPackIndex(reader));
+			asyncRun(() -> pack.getBitmapIndex(reader));
+		}
+		waitForExecutorPoolTermination();
+
+		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
+		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
+		assertEquals(1, cache.getMissCount()[0]);
+	}
+
+	@SuppressWarnings("resource")
+	@Test
+	public void lowConcurrencySerializedReads_twoRepos() throws Exception {
+		InMemoryRepository r1 = createRepoWithBitmap("test1");
+		InMemoryRepository r2 = createRepoWithBitmap("test2");
+		resetCache(2);
+
+		DfsReader reader = (DfsReader) r1.newObjectReader();
+		DfsPackFile[] r1Packs = r1.getObjectDatabase().getPacks();
+		DfsPackFile[] r2Packs = r2.getObjectDatabase().getPacks();
+		// Safety check that both repos have the same number of packs.
+		assertEquals(r1Packs.length, r2Packs.length);
+
+		for (int i = 0; i < r1.getObjectDatabase().getPacks().length; ++i) {
+			DfsPackFile pack1 = r1Packs[i];
+			DfsPackFile pack2 = r2Packs[i];
+			if (pack1.isGarbage() || pack2.isGarbage()) {
+				continue;
+			}
+			asyncRun(() -> pack1.getBitmapIndex(reader));
+			asyncRun(() -> pack2.getBitmapIndex(reader));
+		}
+
+		waitForExecutorPoolTermination();
+		assertEquals(2, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
+		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
+		assertEquals(2, cache.getMissCount()[0]);
+	}
+
+	@SuppressWarnings("resource")
+	@Test
+	public void lowConcurrencySerializedReads_twoReposLoadIndex()
+			throws Exception {
+		InMemoryRepository r1 = createRepoWithBitmap("test1");
+		InMemoryRepository r2 = createRepoWithBitmap("test2");
+		resetCache(2);
+
+		DfsReader reader = (DfsReader) r1.newObjectReader();
+		DfsPackFile[] r1Packs = r1.getObjectDatabase().getPacks();
+		DfsPackFile[] r2Packs = r2.getObjectDatabase().getPacks();
+		// Safety check that both repos have the same number of packs.
+		assertEquals(r1Packs.length, r2Packs.length);
+
+		for (int i = 0; i < r1.getObjectDatabase().getPacks().length; ++i) {
+			DfsPackFile pack1 = r1Packs[i];
+			DfsPackFile pack2 = r2Packs[i];
+			if (pack1.isGarbage() || pack2.isGarbage()) {
+				continue;
+			}
+			asyncRun(() -> pack1.getBitmapIndex(reader));
+			asyncRun(() -> pack1.getPackIndex(reader));
+			asyncRun(() -> pack2.getBitmapIndex(reader));
+		}
+		waitForExecutorPoolTermination();
+
+		assertEquals(2, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
+		// Index is loaded once for each repo.
+		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
+		assertEquals(2, cache.getMissCount()[0]);
 	}
 
 	private void resetCache() {
+		resetCache(32);
+	}
+
+	private void resetCache(int concurrencyLevel) {
 		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
-				.setBlockLimit(1 << 20));
+				.setConcurrencyLevel(concurrencyLevel).setBlockLimit(1 << 20));
 		cache = DfsBlockCache.getInstance();
 	}
 
-	private void asyncRun(ExecutorService pool, Callable<?> call) {
+	private InMemoryRepository createRepoWithBitmap(String repoName)
+			throws Exception {
+		DfsRepositoryDescription repoDesc = new DfsRepositoryDescription(
+				repoName);
+		InMemoryRepository repo = new InMemoryRepository(repoDesc);
+		try (TestRepository<InMemoryRepository> repository = new TestRepository<>(
+				repo)) {
+			RevCommit commit = repository.branch("/refs/ref1" + repoName)
+					.commit().add("blob1", "blob1" + repoName).create();
+			repository.branch("/refs/ref2" + repoName).commit()
+					.add("blob2", "blob2" + repoName).parent(commit).create();
+		}
+		new DfsGarbageCollector(repo).pack(null);
+		return repo;
+	}
+
+	private void asyncRun(Callable<?> call) {
 		pool.execute(() -> {
 			try {
 				call.call();
@@ -202,5 +325,12 @@ public class DfsBlockCacheTest {
 				// Ignore.
 			}
 		});
+	}
+
+	private void waitForExecutorPoolTermination() throws Exception {
+		pool.shutdown();
+		pool.awaitTermination(500, TimeUnit.MILLISECONDS);
+		assertTrue("Threads did not complete, likely due to a deadlock.",
+				pool.isTerminated());
 	}
 }
