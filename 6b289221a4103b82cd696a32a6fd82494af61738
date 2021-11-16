@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34de6571_4f2ac513",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-16T19:17:43Z",
+      "side": 1,
+      "message": "Nit: The recommendation is to use a first paragraph to describe the current situation and a second paragraph for the proposed solution.",
+      "revId": "6b289221a4103b82cd696a32a6fd82494af61738",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01f60ec6_70950a93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-16T19:17:43Z",
+      "side": 1,
+      "message": "I miss here the link between using two locks and splitting the lock pool. Could you elaborate a bit?\n\nFrom the patch I understand that we pick those two locks with locks[hash(packKey)] and get collisions (e.g. loading packA-bitmap and packB-index can wait on the same lock) that dead-lock threads.",
+      "range": {
+        "startLine": 12,
+        "startChar": 53,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "6b289221a4103b82cd696a32a6fd82494af61738",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0db37cbb_4f91344c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-16T19:17:43Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "6b289221a4103b82cd696a32a6fd82494af61738",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73d34c33_6ffc0697",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-16T19:17:43Z",
+      "side": 1,
+      "message": "This is great, thanks!",
+      "revId": "6b289221a4103b82cd696a32a6fd82494af61738",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
