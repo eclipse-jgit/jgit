@@ -173,7 +173,7 @@ class DiffAlgorithms extends TextBuiltin {
 					} catch (LargeObjectException tooBig) {
 						continue;
 					}
-					if (RawText.isBinary(raw0))
+					if (RawText.isBinary(raw0, raw0.length, true))
 						continue;
 
 					byte[] raw1;
@@ -183,7 +183,7 @@ class DiffAlgorithms extends TextBuiltin {
 					} catch (LargeObjectException tooBig) {
 						continue;
 					}
-					if (RawText.isBinary(raw1))
+					if (RawText.isBinary(raw1, raw1.length, true))
 						continue;
 
 					RawText txt0 = new RawText(raw0);

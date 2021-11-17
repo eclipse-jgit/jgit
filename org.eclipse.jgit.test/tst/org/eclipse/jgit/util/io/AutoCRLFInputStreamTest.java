@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.jgit.diff.RawText;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,16 +30,17 @@ public class AutoCRLFInputStreamTest {
 		assertNoCrLf("\r\n", "\n");
 		assertNoCrLf("\r\n", "\r\n");
 		assertNoCrLf("\r\r", "\r\r");
-		assertNoCrLf("\r\n\r", "\n\r");
+		assertNoCrLf("\n\r", "\n\r"); // Lone CR
 		assertNoCrLf("\r\n\r\r", "\r\n\r\r");
 		assertNoCrLf("\r\n\r\n", "\r\n\r\n");
-		assertNoCrLf("\r\n\r\n\r", "\n\r\n\r");
+		assertNoCrLf("\n\r\n\r", "\n\r\n\r"); // Lone CR
 		assertNoCrLf("\0\n", "\0\n");
 	}
 
 	@Test
 	public void testBoundary() throws IOException {
-		for (int i = AutoCRLFInputStream.BUFFER_SIZE - 10; i < AutoCRLFInputStream.BUFFER_SIZE + 10; i++) {
+		int boundary = RawText.getBufferSize();
+		for (int i = boundary - 10; i < boundary + 10; i++) {
 			String s1 = Strings.repeat("a", i);
 			assertNoCrLf(s1, s1);
 			String s2 = Strings.repeat("\0", i);

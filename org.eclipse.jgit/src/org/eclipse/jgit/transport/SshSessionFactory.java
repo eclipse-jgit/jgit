@@ -36,7 +36,7 @@ import org.eclipse.jgit.util.SystemReader;
  */
 public abstract class SshSessionFactory {
 
-	private static SshSessionFactory INSTANCE = loadSshSessionFactory();
+	private static volatile SshSessionFactory INSTANCE = loadSshSessionFactory();
 
 	private static SshSessionFactory loadSshSessionFactory() {
 		ServiceLoader<SshSessionFactory> loader = ServiceLoader.load(SshSessionFactory.class);

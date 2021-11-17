@@ -33,6 +33,7 @@ import org.eclipse.jgit.junit.ssh.SshTestHarness;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
 import org.eclipse.jgit.util.FS;
 import org.junit.After;
 import org.junit.Test;
@@ -78,6 +79,12 @@ public class NoFilesSshTest extends SshTestHarness {
 					}
 
 				};
+			}
+
+			@Override
+			protected ConnectorFactory getConnectorFactory() {
+				// No ssh-agent in tests
+				return null;
 			}
 
 			@Override

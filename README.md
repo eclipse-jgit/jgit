@@ -56,8 +56,12 @@ The CI builds use Maven and run on [Jenkins](https://ci.eclipse.org/jgit/).
 
 - __org.eclipse.jgit.ssh.apache__
 
-    Client support for the ssh protocol based on
+    Client support for the SSH protocol based on
     [Apache Mina sshd](https://mina.apache.org/sshd-project/).
+
+- __org.eclipse.jgit.ssh.apache.agent__
+
+    Optional support for SSH agents for org.eclipse.jgit.ssh.apache.
 
 - __org.eclipse.jgit.ui__
 
@@ -83,7 +87,7 @@ __org.eclipse.jgit.junit.ssh__: Helpers for unit testing
 - Only the timestamp of the index is used by JGit if the index is
   dirty.
 
-- JGit requires at least a Java 8 JDK.
+- JGit 6.0 and newer requires at least Java 11. Older versions require at least Java 1.8.
 
 - CRLF conversion is performed depending on the `core.autocrlf` setting,
   however Git for Windows by default stores that setting during
@@ -123,7 +127,7 @@ __org.eclipse.jgit.junit.ssh__: Helpers for unit testing
   - Object transport
 
       Fetch via ssh, git, http, Amazon S3 and bundles.
-      Push via ssh, git and Amazon S3. JGit does not yet deltify
+      Push via ssh, git, http, and Amazon S3. JGit does not yet deltify
       the pushed packs so they may be a lot larger than C Git packs.
 
   - Garbage collection
@@ -145,9 +149,17 @@ __org.eclipse.jgit.junit.ssh__: Helpers for unit testing
 
 There are some missing features:
 
-- verifying signed commits
-- signing tags
 - signing push
+- shallow and partial cloning
+- support for remote helpers
+- support for credential helpers
+- support for multiple working trees (git-worktree)
+- using external diff tools
+- support for HTTPS client certificates
+- SHA-256 object IDs
+- git protocol V2 (client side): packfile-uris
+- multi-pack index
+- split index
 
 ## Support
 

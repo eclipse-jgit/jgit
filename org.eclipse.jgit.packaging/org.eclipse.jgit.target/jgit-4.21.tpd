@@ -1,8 +1,8 @@
 target "jgit-4.21" with source configurePhase
 
 include "projects/jetty-9.4.x.tpd"
-include "orbit/R20210825222808-2021-09.tpd"
+include "orbit/S20211108222137.tpd"
 
-location "https://download.eclipse.org/staging/2021-09/" {
+location "https://download.eclipse.org/releases/2021-09/" {
 	org.eclipse.osgi lazy
 }

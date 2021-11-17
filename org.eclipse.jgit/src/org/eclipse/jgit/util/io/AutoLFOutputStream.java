@@ -22,23 +22,21 @@ import org.eclipse.jgit.diff.RawText;
  * Existing single CR are not changed to LF, but retained as is.
  * </p>
  * <p>
- * A binary check on the first 8000 bytes is performed and in case of binary
- * files, canonicalization is turned off (for the complete file). If the binary
- * check determines that the input is not binary but text with CR/LF,
- * canonicalization is also turned off.
+ * A binary check on the first {@link RawText#getBufferSize()} bytes is
+ * performed and in case of binary files, canonicalization is turned off (for
+ * the complete file). If the binary check determines that the input is not
+ * binary but text with CR/LF, canonicalization is also turned off.
  * </p>
  *
  * @since 4.3
  */
 public class AutoLFOutputStream extends OutputStream {
 
-	static final int BUFFER_SIZE = 8000;
-
 	private final OutputStream out;
 
 	private int buf = -1;
 
-	private byte[] binbuf = new byte[BUFFER_SIZE];
+	private byte[] binbuf = new byte[RawText.getBufferSize()];
 
 	private byte[] onebytebuf = new byte[1];
 
@@ -148,16 +146,16 @@ public class AutoLFOutputStream extends OutputStream {
 		binbufcnt += copy;
 		int remaining = len - copy;
 		if (remaining > 0) {
-			decideMode();
+			decideMode(false);
 		}
 		return remaining;
 	}
 
-	private void decideMode() throws IOException {
+	private void decideMode(boolean complete) throws IOException {
 		if (detectBinary) {
-			isBinary = RawText.isBinary(binbuf, binbufcnt);
+			isBinary = RawText.isBinary(binbuf, binbufcnt, complete);
 			if (!isBinary) {
-				isBinary = RawText.isCrLfText(binbuf, binbufcnt);
+				isBinary = RawText.isCrLfText(binbuf, binbufcnt, complete);
 			}
 			detectBinary = false;
 		}
@@ -170,7 +168,7 @@ public class AutoLFOutputStream extends OutputStream {
 	@Override
 	public void flush() throws IOException {
 		if (binbufcnt <= binbuf.length) {
-			decideMode();
+			decideMode(true);
 		}
 		out.flush();
 	}

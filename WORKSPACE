@@ -105,8 +105,8 @@ maven_jar(
 
 maven_jar(
     name = "javaewah",
-    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.12",
-    sha1 = "9feecc2b24d6bc9ff865af8d082f192238a293eb",
+    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.13",
+    sha1 = "32cd724a42dc73f99ca08453d11a4bb83e0034c7",
 )
 
 maven_jar(
@@ -131,6 +131,18 @@ maven_jar(
     name = "sshd-sftp",
     artifact = "org.apache.sshd:sshd-sftp:2.7.0",
     sha1 = "0c9eff7145e20b338c1dd6aca36ba93ed7c0147c",
+)
+
+maven_jar(
+    name = "jna",
+    artifact = "net.java.dev.jna:jna:5.8.0",
+    sha1 = "3551d8d827e54858214107541d3aff9c615cb615",
+)
+
+maven_jar(
+    name = "jna-platform",
+    artifact = "net.java.dev.jna:jna-platform:5.8.0",
+    sha1 = "2f12f6d7f7652270d13624cef1b82d8cd9a5398e",
 )
 
 maven_jar(
@@ -165,8 +177,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-compress",
-    artifact = "org.apache.commons:commons-compress:1.20",
-    sha1 = "b8df472b31e1f17c232d2ad78ceb1c84e00c641b",
+    artifact = "org.apache.commons:commons-compress:1.21",
+    sha1 = "4ec95b60d4e86b5c95a0e919cb172a0af98011ef",
 )
 
 maven_jar(
@@ -183,8 +195,8 @@ maven_jar(
 
 maven_jar(
     name = "junit",
-    artifact = "junit:junit:4.13",
-    sha1 = "e49ccba652b735c93bd6e6f59760d8254cf597dd",
+    artifact = "junit:junit:4.13.2",
+    sha1 = "8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12",
 )
 
 maven_jar(
@@ -227,59 +239,59 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.7",
-    sha1 = "69d9503ea0a40ee16f0bcdac7e3eaf83d0fa914a",
+    artifact = "com.google.code.gson:gson:2.8.8",
+    sha1 = "431fc3cbc0ff81abdbfde070062741089c3ba874",
 )
 
-JETTY_VER = "9.4.43.v20210629"
+JETTY_VER = "9.4.44.v20210927"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VER,
-    sha1 = "ee000c7dcdbe7b4ef94e3fa67be8f56a46915944",
-    src_sha1 = "50236764fe1d3619ca07f346e148189c4f5b801a",
+    sha1 = "1cb43a0d74b7395c7207dbf3dc2ca97eac89f5fd",
+    src_sha1 = "2bbc54fc1835c963744a4e82ba2541e94fcbcf9b",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VER,
-    sha1 = "ae1958da077c46bac61be9b8de2b45a3aa112353",
-    src_sha1 = "6e5271e91da37e381f566e0db07ab4d936d86104",
+    sha1 = "ecb80b8e008daa46e95e5691b2611d4007922497",
+    src_sha1 = "d67d4705a08d9b76592b3e177e2bb1aac968d832",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VER,
-    sha1 = "8ba04f6b5d00223983684a563a3edaa12282bcf0",
-    src_sha1 = "51600567dbd082fb03feeb9c786f5e7cc9e0a17d",
+    sha1 = "0bf2de0d31925a8ca71ad80f721236850b636e0d",
+    src_sha1 = "3582cbf081cf3652f6507093585c2a0f3b8738bb",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VER,
-    sha1 = "5171466337a6da7efbf317490b9c4574c0b4b640",
-    src_sha1 = "52f477161fd0fc90869f48a145aa2c86624c496e",
+    sha1 = "37f0e30cdc02128e40d095ad63cb18e10ecb7726",
+    src_sha1 = "7f1a6e3ab54e541f33b8ed100d553d4034d2e3a9",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VER,
-    sha1 = "acf672c64ac21851069c5b5b789e5c185a25933f",
-    src_sha1 = "824d5cffce7a72af7c11d9cd87f86184e2a05c17",
+    sha1 = "a2ec01e2b5552b777a3d7085163f80756ef8c1ce",
+    src_sha1 = "6262966b3cd10ff6b98f0bed428640bbbe4f7e79",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VER,
-    sha1 = "97306fd3c76171602caad2acc54ca779c9240d5f",
-    src_sha1 = "dffff7271c248d4e21e2b1629c57896b8e631051",
+    sha1 = "3c7151c5a04a93119988b48a1577a972d90f8990",
+    src_sha1 = "f7f0420221772bc63ebae21571bb9925ca971a82",
 )
 
 maven_jar(
     name = "jetty-util-ajax",
     artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VER,
-    sha1 = "2500d180c6e8e28eb3b75372b6ea9d457cf37658",
-    src_sha1 = "682470f5ad074e64fc0e9c93bdc2784482f79362",
+    sha1 = "ed2f30e8eef939ab2825e607d83f82f85167e2c0",
+    src_sha1 = "1a48ae7a45683d20afb90784d1db314be2c73c92",
 )
 
 BOUNCYCASTLE_VER = "1.69"

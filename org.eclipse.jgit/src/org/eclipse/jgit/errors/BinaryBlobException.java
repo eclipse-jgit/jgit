@@ -22,4 +22,9 @@ public class BinaryBlobException extends Exception {
 	 * Construct a BinaryBlobException.
 	 */
 	public BinaryBlobException() {}
+
+	@Override
+	public synchronized Throwable fillInStackTrace() {
+		return this;
+	}
 }

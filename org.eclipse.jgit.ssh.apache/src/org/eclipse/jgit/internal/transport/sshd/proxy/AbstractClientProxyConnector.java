@@ -31,7 +31,7 @@ public abstract class AbstractClientProxyConnector
 			.toMillis(30L);
 
 	/** Guards {@link #done} and {@link #bufferedCommands}. */
-	private Object lock = new Object();
+	private final Object lock = new Object();
 
 	private boolean done;
 

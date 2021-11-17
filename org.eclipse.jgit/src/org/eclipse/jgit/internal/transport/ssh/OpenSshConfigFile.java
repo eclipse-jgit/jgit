@@ -151,6 +151,18 @@ public class OpenSshConfigFile implements SshConfigStore {
 	@NonNull
 	public HostEntry lookup(@NonNull String hostName, int port,
 			String userName) {
+		return lookup(hostName, port, userName, false);
+	}
+
+	@Override
+	@NonNull
+	public HostEntry lookupDefault(@NonNull String hostName, int port,
+			String userName) {
+		return lookup(hostName, port, userName, true);
+	}
+
+	private HostEntry lookup(@NonNull String hostName, int port,
+			String userName, boolean fillDefaults) {
 		final State cache = refresh();
 		String cacheKey = toCacheKey(hostName, port, userName);
 		HostEntry h = cache.hosts.get(cacheKey);
@@ -169,7 +181,8 @@ public class OpenSshConfigFile implements SshConfigStore {
 				}
 			});
 		}
-		fullConfig.substitute(hostName, port, userName, localUserName, home);
+		fullConfig.substitute(hostName, port, userName, localUserName, home,
+				fillDefaults);
 		cache.hosts.put(cacheKey, fullConfig);
 		return fullConfig;
 	}
@@ -217,27 +230,39 @@ public class OpenSshConfigFile implements SshConfigStore {
 
 		String line;
 		while ((line = reader.readLine()) != null) {
-			// OpenSsh ignores trailing comments on a line. Anything after the
-			// first # on a line is trimmed away (yes, even if the hash is
-			// inside quotes).
-			//
-			// See https://github.com/openssh/openssh-portable/commit/2bcbf679
-			int i = line.indexOf('#');
-			if (i >= 0) {
-				line = line.substring(0, i);
-			}
-			line = line.trim();
+			line = line.strip();
 			if (line.isEmpty()) {
 				continue;
 			}
 			String[] parts = line.split("[ \t]*[= \t]", 2); //$NON-NLS-1$
-			// Although the ssh-config man page doesn't say so, the openssh
-			// parser does allow quoted keywords.
-			String keyword = dequote(parts[0].trim());
+			String keyword = parts[0].strip();
+			if (keyword.isEmpty()) {
+				continue;
+			}
+			switch (keyword.charAt(0)) {
+			case '#':
+				continue;
+			case '"':
+				// Although the ssh-config man page doesn't say so, the openssh
+				// parser does allow quoted keywords.
+				List<String> dequoted = parseList(keyword);
+				keyword = dequoted.isEmpty() ? "" : dequoted.get(0); //$NON-NLS-1$
+				break;
+			default:
+				// Keywords never contain hashes, nor whitespace
+				int i = keyword.indexOf('#');
+				if (i >= 0) {
+					keyword = keyword.substring(0, i);
+				}
+				break;
+			}
+			if (keyword.isEmpty()) {
+				continue;
+			}
 			// man 5 ssh-config says lines had the format "keyword arguments",
 			// with no indication that arguments were optional. However, let's
 			// not crap out on missing arguments. See bug 444319.
-			String argValue = parts.length > 1 ? parts[1].trim() : ""; //$NON-NLS-1$
+			String argValue = parts.length > 1 ? parts[1].strip() : ""; //$NON-NLS-1$
 
 			if (StringUtils.equalsIgnoreCase(SshConstants.HOST, keyword)) {
 				current = new HostEntry(parseList(argValue));
@@ -249,7 +274,9 @@ public class OpenSshConfigFile implements SshConfigStore {
 				List<String> args = validate(keyword, parseList(argValue));
 				current.setValue(keyword, args);
 			} else if (!argValue.isEmpty()) {
-				argValue = validate(keyword, dequote(argValue));
+				List<String> args = parseList(argValue);
+				String arg = args.isEmpty() ? "" : args.get(0); //$NON-NLS-1$
+				argValue = validate(keyword, arg);
 				current.setValue(keyword, argValue);
 			}
 		}
@@ -260,6 +287,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 	/**
 	 * Splits the argument into a list of whitespace-separated elements.
 	 * Elements containing whitespace must be quoted and will be de-quoted.
+	 * Backslash-escapes are handled for quotes and blanks.
 	 *
 	 * @param argument
 	 *            argument part of the configuration line as read from the
@@ -267,35 +295,105 @@ public class OpenSshConfigFile implements SshConfigStore {
 	 * @return a {@link List} of elements, possibly empty and possibly
 	 *         containing empty elements, but not containing {@code null}
 	 */
-	private List<String> parseList(String argument) {
+	private static List<String> parseList(String argument) {
 		List<String> result = new ArrayList<>(4);
 		int start = 0;
 		int length = argument.length();
 		while (start < length) {
 			// Skip whitespace
-			if (Character.isWhitespace(argument.charAt(start))) {
+			char ch = argument.charAt(start);
+			if (Character.isWhitespace(ch)) {
 				start++;
-				continue;
-			}
-			if (argument.charAt(start) == '"') {
-				int stop = argument.indexOf('"', ++start);
-				if (stop < start) {
-					// No closing double quote: skip
-					break;
-				}
-				result.add(argument.substring(start, stop));
-				start = stop + 1;
+			} else if (ch == '#') {
+				break; // Comment start
 			} else {
-				int stop = start + 1;
-				while (stop < length
-						&& !Character.isWhitespace(argument.charAt(stop))) {
-					stop++;
-				}
-				result.add(argument.substring(start, stop));
-				start = stop + 1;
+				// Parse one token now.
+				start = parseToken(argument, start, length, result);
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Parses a token up to the next whitespace not inside a string quoted by
+	 * single or double quotes. Inside a string, quotes can be escaped by
+	 * backslash characters. Outside of a string, "\ " can be used to include a
+	 * space in a token; inside a string "\ " is taken literally as '\' followed
+	 * by ' '.
+	 *
+	 * @param argument
+	 *            to parse the token out of
+	 * @param from
+	 *            index at the beginning of the token
+	 * @param to
+	 *            index one after the last character to look at
+	 * @param result
+	 *            a list collecting tokens to which the parsed token is added
+	 * @return the index after the token
+	 */
+	private static int parseToken(String argument, int from, int to,
+			List<String> result) {
+		StringBuilder b = new StringBuilder();
+		int i = from;
+		char quote = 0;
+		boolean escaped = false;
+		SCAN: while (i < to) {
+			char ch = argument.charAt(i);
+			switch (ch) {
+			case '"':
+			case '\'':
+				if (quote == 0) {
+					if (escaped) {
+						b.append(ch);
+					} else {
+						quote = ch;
+					}
+				} else if (!escaped && quote == ch) {
+					quote = 0;
+				} else {
+					b.append(ch);
+				}
+				escaped = false;
+				break;
+			case '\\':
+				if (escaped) {
+					b.append(ch);
+				}
+				escaped = !escaped;
+				break;
+			case ' ':
+				if (quote == 0) {
+					if (escaped) {
+						b.append(ch);
+						escaped = false;
+					} else {
+						break SCAN;
+					}
+				} else {
+					if (escaped) {
+						b.append('\\');
+					}
+					b.append(ch);
+					escaped = false;
+				}
+				break;
+			default:
+				if (escaped) {
+					b.append('\\');
+				}
+				if (quote == 0 && Character.isWhitespace(ch)) {
+					break SCAN;
+				}
+				b.append(ch);
+				escaped = false;
+				break;
+			}
+			i++;
+		}
+		if (b.length() > 0) {
+			result.add(b.toString());
+		}
+		return i;
 	}
 
 	/**
@@ -343,13 +441,6 @@ public class OpenSshConfigFile implements SshConfigStore {
 		}
 		// Not a pattern but a full host name
 		return pattern.equals(name);
-	}
-
-	private static String dequote(String value) {
-		if (value.startsWith("\"") && value.endsWith("\"") //$NON-NLS-1$ //$NON-NLS-2$
-				&& value.length() > 1)
-			return value.substring(1, value.length() - 1);
-		return value;
 	}
 
 	private static String stripWhitespace(String value) {
@@ -725,12 +816,12 @@ public class OpenSshConfigFile implements SshConfigStore {
 		}
 
 		void substitute(String originalHostName, int port, String userName,
-				String localUserName, File home) {
-			int p = port >= 0 ? port : positive(getValue(SshConstants.PORT));
-			if (p < 0) {
+				String localUserName, File home, boolean fillDefaults) {
+			int p = port > 0 ? port : positive(getValue(SshConstants.PORT));
+			if (p <= 0) {
 				p = SshConstants.SSH_DEFAULT_PORT;
 			}
-			String u = userName != null && !userName.isEmpty() ? userName
+			String u = !StringUtils.isEmptyOrNull(userName) ? userName
 					: getValue(SshConstants.USER);
 			if (u == null || u.isEmpty()) {
 				u = localUserName;
@@ -747,18 +838,22 @@ public class OpenSshConfigFile implements SshConfigStore {
 					options.put(SshConstants.HOST_NAME, hostName);
 					r.update('h', hostName);
 				}
+			} else if (fillDefaults) {
+				setValue(SshConstants.HOST_NAME, originalHostName);
 			}
 			if (multiOptions != null) {
 				List<String> values = multiOptions
 						.get(SshConstants.IDENTITY_FILE);
 				if (values != null) {
-					values = substitute(values, "dhlru", r, true); //$NON-NLS-1$
+					values = substitute(values, Replacer.DEFAULT_TOKENS, r,
+							true);
 					values = replaceTilde(values, home);
 					multiOptions.put(SshConstants.IDENTITY_FILE, values);
 				}
 				values = multiOptions.get(SshConstants.CERTIFICATE_FILE);
 				if (values != null) {
-					values = substitute(values, "dhlru", r, true); //$NON-NLS-1$
+					values = substitute(values, Replacer.DEFAULT_TOKENS, r,
+							true);
 					values = replaceTilde(values, home);
 					multiOptions.put(SshConstants.CERTIFICATE_FILE, values);
 				}
@@ -767,6 +862,8 @@ public class OpenSshConfigFile implements SshConfigStore {
 				List<String> values = listOptions
 						.get(SshConstants.USER_KNOWN_HOSTS_FILE);
 				if (values != null) {
+					values = substitute(values, Replacer.DEFAULT_TOKENS, r,
+							true);
 					values = replaceTilde(values, home);
 					listOptions.put(SshConstants.USER_KNOWN_HOSTS_FILE, values);
 				}
@@ -775,34 +872,47 @@ public class OpenSshConfigFile implements SshConfigStore {
 				// HOSTNAME already done above
 				String value = options.get(SshConstants.IDENTITY_AGENT);
 				if (value != null) {
-					value = r.substitute(value, "dhlru", true); //$NON-NLS-1$
+					value = r.substitute(value, Replacer.DEFAULT_TOKENS, true);
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.IDENTITY_AGENT, value);
 				}
 				value = options.get(SshConstants.CONTROL_PATH);
 				if (value != null) {
-					value = r.substitute(value, "ChLlnpru", true); //$NON-NLS-1$
+					value = r.substitute(value, Replacer.DEFAULT_TOKENS, true);
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.CONTROL_PATH, value);
 				}
 				value = options.get(SshConstants.LOCAL_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "CdhlnprTu", false); //$NON-NLS-1$
+					value = r.substitute(value, "CdhLlnprTu", false); //$NON-NLS-1$
 					options.put(SshConstants.LOCAL_COMMAND, value);
 				}
 				value = options.get(SshConstants.REMOTE_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "Cdhlnpru", false); //$NON-NLS-1$
+					value = r.substitute(value, Replacer.DEFAULT_TOKENS, false);
 					options.put(SshConstants.REMOTE_COMMAND, value);
 				}
 				value = options.get(SshConstants.PROXY_COMMAND);
 				if (value != null) {
-					value = r.substitute(value, "hpr", false); //$NON-NLS-1$
+					value = r.substitute(value, "hnpr", false); //$NON-NLS-1$
 					options.put(SshConstants.PROXY_COMMAND, value);
 				}
 			}
 			// Match is not implemented and would need to be done elsewhere
 			// anyway.
+			if (fillDefaults) {
+				String s = options.get(SshConstants.USER);
+				if (StringUtils.isEmptyOrNull(s)) {
+					options.put(SshConstants.USER, u);
+				}
+				if (positive(options.get(SshConstants.PORT)) <= 0) {
+					options.put(SshConstants.PORT, Integer.toString(p));
+				}
+				if (positive(
+						options.get(SshConstants.CONNECTION_ATTEMPTS)) <= 0) {
+					options.put(SshConstants.CONNECTION_ATTEMPTS, "1"); //$NON-NLS-1$
+				}
+			}
 		}
 
 		/**
@@ -852,6 +962,15 @@ public class OpenSshConfigFile implements SshConfigStore {
 	}
 
 	private static class Replacer {
+
+		/**
+		 * Tokens applicable to most keys.
+		 *
+		 * @see <a href="https://man.openbsd.org/ssh_config.5#TOKENS">man
+		 *      ssh_config</a>
+		 */
+		public static final String DEFAULT_TOKENS = "CdhLlnpru"; //$NON-NLS-1$
+
 		private final Map<Character, String> replacements = new HashMap<>();
 
 		public Replacer(String host, int port, String user,

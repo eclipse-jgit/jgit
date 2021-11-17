@@ -33,6 +33,7 @@ import org.eclipse.jgit.api.RebaseResult;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -826,6 +827,8 @@ public class MergerTest extends RepositoryTestCase {
 		RevCommit sideCommit = git.commit().setAll(true)
 			.setMessage("modified file l 1500").call();
 
+		int originalBufferSize = RawText.getBufferSize();
+		int smallBufferSize = RawText.setBufferSize(8000);
 		try (ObjectInserter ins = db.newObjectInserter()) {
 			// Check that we don't read the large blobs.
 			ObjectInserter forbidInserter = new ObjectInserter.Filter() {
@@ -836,7 +839,8 @@ public class MergerTest extends RepositoryTestCase {
 
 				@Override
 				public ObjectReader newReader() {
-					return new BigReadForbiddenReader(super.newReader(), 8000);
+					return new BigReadForbiddenReader(super.newReader(),
+							smallBufferSize);
 				}
 			};
 
@@ -844,6 +848,8 @@ public class MergerTest extends RepositoryTestCase {
 				(ResolveMerger) strategy.newMerger(forbidInserter, db.getConfig());
 			boolean noProblems = merger.merge(masterCommit, sideCommit);
 			assertFalse(noProblems);
+		} finally {
+			RawText.setBufferSize(originalBufferSize);
 		}
 	}
 

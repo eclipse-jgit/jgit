@@ -113,8 +113,8 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 		IoSession session = sshSession.getIoSession();
 		session.addCloseFutureListener(f -> close());
 		StringBuilder msg = connect();
-		if (proxyUser != null && !proxyUser.isEmpty()
-				|| proxyPassword != null && proxyPassword.length > 0) {
+		if ((proxyUser != null && !proxyUser.isEmpty())
+				|| (proxyPassword != null && proxyPassword.length > 0)) {
 			authenticator = basic;
 			basic.setParams(null);
 			basic.start();
@@ -232,7 +232,8 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 		} catch (HttpParser.ParseException e) {
 			throw new IOException(
 					format(SshdText.get().proxyHttpUnexpectedReply,
-					proxyAddress, reply.get(0)));
+							proxyAddress, reply.get(0)),
+					e);
 		}
 	}
 

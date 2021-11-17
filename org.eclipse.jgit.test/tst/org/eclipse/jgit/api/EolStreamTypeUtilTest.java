@@ -81,7 +81,8 @@ public class EolStreamTypeUtilTest {
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "\n", "\r\n");
 
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "\r\n", "\r\n");
-		testCheckout(TEXT_CRLF, AUTO_CRLF, "\n\r", "\r\n\r");
+		testCheckout(TEXT_CRLF, null, "\n\r", "\r\n\r");
+		testCheckout(null, AUTO_CRLF, "\n\r", "\n\r"); // Lone CR
 
 		testCheckout(null, AUTO_CRLF, "\n\r\n", "\n\r\n");
 		testCheckout(TEXT_CRLF, null, "\n\r\n", "\r\n\r\n");
@@ -89,7 +90,8 @@ public class EolStreamTypeUtilTest {
 
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "a\nb\n", "a\r\nb\r\n");
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "a\rb\r", "a\rb\r");
-		testCheckout(TEXT_CRLF, AUTO_CRLF, "a\n\rb\n\r", "a\r\n\rb\r\n\r");
+		testCheckout(TEXT_CRLF, null, "a\n\rb\n\r", "a\r\n\rb\r\n\r");
+		testCheckout(null, AUTO_CRLF, "a\n\rb\n\r", "a\n\rb\n\r"); // Lone CR
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "a\r\nb\r\n", "a\r\nb\r\n");
 	}
 
@@ -199,7 +201,8 @@ public class EolStreamTypeUtilTest {
 		testCheckin(TEXT_LF, AUTO_LF, "\n\r", "\n\r");
 
 		testCheckin(TEXT_LF, AUTO_LF, "\n\r\n", "\n\n");
-		testCheckin(TEXT_LF, AUTO_LF, "\r\n\r", "\n\r");
+		testCheckin(TEXT_LF, null, "\r\n\r", "\n\r");
+		testCheckin(null, AUTO_LF, "\r\n\r", "\r\n\r"); // Lone CR
 
 		testCheckin(TEXT_LF, AUTO_LF, "a\nb\n", "a\nb\n");
 		testCheckin(TEXT_LF, AUTO_LF, "a\rb\r", "a\rb\r");
@@ -214,14 +217,16 @@ public class EolStreamTypeUtilTest {
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "\n", "\r\n");
 
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "\r\n", "\r\n");
-		testCheckin(TEXT_CRLF, AUTO_CRLF, "\n\r", "\r\n\r");
+		testCheckin(TEXT_CRLF, null, "\n\r", "\r\n\r");
+		testCheckin(null, AUTO_CRLF, "\n\r", "\n\r"); // Lone CR
 
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "\n\r\n", "\r\n\r\n");
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "\r\n\r", "\r\n\r");
 
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "a\nb\n", "a\r\nb\r\n");
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "a\rb\r", "a\rb\r");
-		testCheckin(TEXT_CRLF, AUTO_CRLF, "a\n\rb\n\r", "a\r\n\rb\r\n\r");
+		testCheckin(TEXT_CRLF, null, "a\n\rb\n\r", "a\r\n\rb\r\n\r");
+		testCheckin(null, AUTO_CRLF, "a\n\rb\n\r", "a\n\rb\n\r"); // Lone CR
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "a\r\nb\r\n", "a\r\nb\r\n");
 	}
 
@@ -257,47 +262,55 @@ public class EolStreamTypeUtilTest {
 		byte[] inputBytes = input.getBytes(UTF_8);
 		byte[] expectedConversionBytes = expectedConversion.getBytes(UTF_8);
 
-		// test using input text and assuming it was declared TEXT
-		try (InputStream in = EolStreamTypeUtil.wrapInputStream(
-				new ByteArrayInputStream(inputBytes),
-				streamTypeText)) {
-			byte[] b = new byte[1024];
-			int len = IO.readFully(in, b, 0);
-			assertArrayEquals(expectedConversionBytes, Arrays.copyOf(b, len));
+		if (streamTypeText != null) {
+			// test using input text and assuming it was declared TEXT
+			try (InputStream in = EolStreamTypeUtil.wrapInputStream(
+					new ByteArrayInputStream(inputBytes), streamTypeText)) {
+				byte[] b = new byte[1024];
+				int len = IO.readFully(in, b, 0);
+				assertArrayEquals(expectedConversionBytes,
+						Arrays.copyOf(b, len));
+			}
 		}
 
-		// test using input text and assuming it was declared AUTO, using binary
-		// detection
-		try (InputStream in = EolStreamTypeUtil.wrapInputStream(
-				new ByteArrayInputStream(inputBytes),
-				streamTypeWithBinaryCheck)) {
-			byte[] b = new byte[1024];
-			int len = IO.readFully(in, b, 0);
-			assertArrayEquals(expectedConversionBytes, Arrays.copyOf(b, len));
+		if (streamTypeWithBinaryCheck != null) {
+			// test using input text and assuming it was declared AUTO, using
+			// binary detection
+			try (InputStream in = EolStreamTypeUtil.wrapInputStream(
+					new ByteArrayInputStream(inputBytes),
+					streamTypeWithBinaryCheck)) {
+				byte[] b = new byte[1024];
+				int len = IO.readFully(in, b, 0);
+				assertArrayEquals(expectedConversionBytes,
+						Arrays.copyOf(b, len));
+			}
 		}
-
 		// now pollute input text with some binary bytes
 		inputBytes = extendWithBinaryData(inputBytes);
 		expectedConversionBytes = extendWithBinaryData(expectedConversionBytes);
 
-		// again, test using input text and assuming it was declared TEXT
-		try (InputStream in = EolStreamTypeUtil.wrapInputStream(
-				new ByteArrayInputStream(inputBytes), streamTypeText)) {
-			byte[] b = new byte[1024];
-			int len = IO.readFully(in, b, 0);
-			assertArrayEquals(expectedConversionBytes, Arrays.copyOf(b, len));
+		if (streamTypeText != null) {
+			// again, test using input text and assuming it was declared TEXT
+			try (InputStream in = EolStreamTypeUtil.wrapInputStream(
+					new ByteArrayInputStream(inputBytes), streamTypeText)) {
+				byte[] b = new byte[1024];
+				int len = IO.readFully(in, b, 0);
+				assertArrayEquals(expectedConversionBytes,
+						Arrays.copyOf(b, len));
+			}
 		}
 
-		// again, test using input text and assuming it was declared AUTO, using
-		// binary
-		// detection
-		try (InputStream in = EolStreamTypeUtil.wrapInputStream(
-				new ByteArrayInputStream(inputBytes),
-				streamTypeWithBinaryCheck)) {
-			byte[] b = new byte[1024];
-			int len = IO.readFully(in, b, 0);
-			// expect no conversion
-			assertArrayEquals(inputBytes, Arrays.copyOf(b, len));
+		if (streamTypeWithBinaryCheck != null) {
+			// again, test using input text and assuming it was declared AUTO,
+			// using binary detection
+			try (InputStream in = EolStreamTypeUtil.wrapInputStream(
+					new ByteArrayInputStream(inputBytes),
+					streamTypeWithBinaryCheck)) {
+				byte[] b = new byte[1024];
+				int len = IO.readFully(in, b, 0);
+				// expect no conversion
+				assertArrayEquals(inputBytes, Arrays.copyOf(b, len));
+			}
 		}
 	}
 

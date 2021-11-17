@@ -95,8 +95,8 @@ public abstract class BasicAuthentication<ParameterType, TokenType>
 
 	@Override
 	public final void start() throws Exception {
-		if (user != null && !user.isEmpty()
-				|| password != null && password.length > 0) {
+		if ((user != null && !user.isEmpty())
+				|| (password != null && password.length > 0)) {
 			return;
 		}
 		askCredentials();

@@ -25,10 +25,11 @@ import org.eclipse.jgit.diff.RawText;
  * Existing single CR are not changed to LF but are retained as is.
  * </p>
  * <p>
- * Optionally, a binary check on the first 8kB is performed and in case of
- * binary files, canonicalization is turned off (for the complete file). If
- * binary checking determines that the input is CR/LF-delimited text and the
- * stream has been created for checkout, canonicalization is also turned off.
+ * Optionally, a binary check on the first {@link RawText#getBufferSize()} bytes
+ * is performed and in case of binary files, canonicalization is turned off (for
+ * the complete file). If binary checking determines that the input is
+ * CR/LF-delimited text and the stream has been created for checkout,
+ * canonicalization is also turned off.
  * </p>
  *
  * @since 4.3
@@ -64,7 +65,7 @@ public class AutoLFInputStream extends InputStream {
 
 	private final byte[] single = new byte[1];
 
-	private final byte[] buf = new byte[8 * 1024];
+	private final byte[] buf = new byte[RawText.getBufferSize()];
 
 	private final InputStream in;
 
@@ -261,14 +262,14 @@ public class AutoLFInputStream extends InputStream {
 			return false;
 		}
 		if (detectBinary) {
-			isBinary = RawText.isBinary(buf, cnt);
+			isBinary = RawText.isBinary(buf, cnt, cnt < buf.length);
 			passAsIs = isBinary;
 			detectBinary = false;
 			if (isBinary && abortIfBinary) {
 				throw new IsBinaryException();
 			}
 			if (!passAsIs && forCheckout) {
-				passAsIs = RawText.isCrLfText(buf, cnt);
+				passAsIs = RawText.isCrLfText(buf, cnt, cnt < buf.length);
 			}
 		}
 		ptr = 0;

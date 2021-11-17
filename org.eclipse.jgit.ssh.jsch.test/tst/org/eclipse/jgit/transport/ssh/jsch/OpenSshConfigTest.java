@@ -138,7 +138,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		assertEquals(2222, osc.lookup("unquoted").getPort());
 		assertEquals(2222, osc.lookup("hosts").getPort());
 		assertEquals(" spaced\ttld ", osc.lookup("spaced").getHostName());
-		assertEquals("bad.tld\"", osc.lookup("bad").getHostName());
+		assertEquals("bad.tld", osc.lookup("bad").getHostName());
 	}
 
 	@Test
@@ -229,7 +229,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	@Test
 	public void testAlias_InheritPreferredAuthentications() throws Exception {
 		config("Host orcz\n" + "\tHostName repo.or.cz\n" + "\n" + "Host *\n"
-				+ "\tPreferredAuthentications publickey, hostbased\n");
+				+ "\tPreferredAuthentications 'publickey, hostbased'\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
 		assertEquals("publickey,hostbased", h.getPreferredAuthentications());
