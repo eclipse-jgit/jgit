@@ -218,6 +218,12 @@ public class FileSnapshot {
 	private FileStoreAttributes fileStoreAttributeCache;
 
 	/**
+	 * if {@code true} read filesystem time resolution from configuration file
+	 * otherwise use fallback resolution
+	 */
+	private boolean useConfig;
+
+	/**
 	 * Object that uniquely identifies the given file, or {@code
 	 * null} if a file key is not available
 	 */
@@ -253,9 +259,8 @@ public class FileSnapshot {
 	protected FileSnapshot(File file, boolean useConfig) {
 		this.file = file;
 		this.lastRead = Instant.now();
-		this.fileStoreAttributeCache = useConfig
-				? FS.getFileStoreAttributes(file.toPath().getParent())
-				: FALLBACK_FILESTORE_ATTRIBUTES;
+		this.useConfig = useConfig;
+
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(file);
@@ -265,6 +270,8 @@ public class FileSnapshot {
 			this.fileKey = MISSING_FILEKEY;
 			return;
 		}
+
+		lazyLoadFileStoreAttributeCache();
 		this.lastModified = fileAttributes.lastModifiedTime().toInstant();
 		this.size = fileAttributes.size();
 		this.fileKey = getFileKey(fileAttributes);
@@ -399,6 +406,7 @@ public class FileSnapshot {
 	 *             if sleep was interrupted
 	 */
 	public void waitUntilNotRacy() throws InterruptedException {
+		lazyLoadFileStoreAttributeCache();
 		long timestampResolution = fileStoreAttributeCache
 				.getFsTimestampResolution().toNanos();
 		while (isRacyClean(Instant.now())) {
@@ -519,6 +527,7 @@ public class FileSnapshot {
 	}
 
 	private long getEffectiveRacyThreshold() {
+		lazyLoadFileStoreAttributeCache();
 		long timestampResolution = fileStoreAttributeCache
 				.getFsTimestampResolution().toNanos();
 		long minRacyInterval = fileStoreAttributeCache.getMinimalRacyInterval()
@@ -581,5 +590,13 @@ public class FileSnapshot {
 					file, Long.valueOf(size), Long.valueOf(currSize));
 		}
 		return changed;
+	}
+
+	private void lazyLoadFileStoreAttributeCache() {
+		if (fileStoreAttributeCache == null) {
+			fileStoreAttributeCache = useConfig
+					? FS.getFileStoreAttributes(file.toPath().getParent())
+					: FALLBACK_FILESTORE_ATTRIBUTES;
+		}
 	}
 }
