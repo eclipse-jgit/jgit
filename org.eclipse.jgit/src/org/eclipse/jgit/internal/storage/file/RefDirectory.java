@@ -1102,7 +1102,6 @@ public class RefDirectory extends RefDatabase {
 
 		final int limit = 4096;
 		final byte[] buf;
-		FileSnapshot otherSnapshot = FileSnapshot.save(path);
 		try {
 			buf = IO.readSome(path, limit);
 		} catch (FileNotFoundException noFile) {
@@ -1131,10 +1130,10 @@ public class RefDirectory extends RefDatabase {
 			if (ref != null && ref.isSymbolic()
 					&& ref.getTarget().getName().equals(target)) {
 				assert(currentSnapshot != null);
-				currentSnapshot.setClean(otherSnapshot);
+				currentSnapshot.setClean(FileSnapshot.save(path));
 				return ref;
 			}
-			return newSymbolicRef(otherSnapshot, name, target);
+			return newSymbolicRef(FileSnapshot.save(path), name, target);
 		}
 
 		if (n < OBJECT_ID_STRING_LENGTH)
@@ -1146,7 +1145,7 @@ public class RefDirectory extends RefDatabase {
 			if (ref != null && !ref.isSymbolic()
 					&& id.equals(ref.getTarget().getObjectId())) {
 				assert(currentSnapshot != null);
-				currentSnapshot.setClean(otherSnapshot);
+				currentSnapshot.setClean(FileSnapshot.save(path));
 				return ref;
 			}
 
@@ -1158,7 +1157,7 @@ public class RefDirectory extends RefDatabase {
 			throw new IOException(MessageFormat.format(JGitText.get().notARef,
 					name, content), notRef);
 		}
-		return new LooseUnpeeled(otherSnapshot, name, id);
+		return new LooseUnpeeled(FileSnapshot.save(path), name, id);
 	}
 
 	private static boolean isSymRef(byte[] buf, int n) {
