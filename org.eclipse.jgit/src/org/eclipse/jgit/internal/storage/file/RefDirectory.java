@@ -1102,7 +1102,6 @@ public class RefDirectory extends RefDatabase {
 
 		final int limit = 4096;
 		final byte[] buf;
-		FileSnapshot otherSnapshot = FileSnapshot.save(path);
 		try {
 			buf = IO.readSome(path, limit);
 		} catch (FileNotFoundException noFile) {
@@ -1115,6 +1114,8 @@ public class RefDirectory extends RefDatabase {
 		int n = buf.length;
 		if (n == 0)
 			return null; // empty file; not a reference.
+
+		FileSnapshot otherSnapshot = FileSnapshot.save(path);
 
 		if (isSymRef(buf, n)) {
 			if (n == limit)
