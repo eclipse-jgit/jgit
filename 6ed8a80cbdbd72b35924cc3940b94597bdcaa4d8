@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8bde224f_b7dcc60f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-19T09:12:54Z",
+      "side": 1,
+      "message": "in addition we should cleanup these empty dirs",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "6ed8a80cbdbd72b35924cc3940b94597bdcaa4d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41696ab3_acf15b53",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
@@ -13,6 +36,24 @@
       "writtenOn": "2021-11-19T03:04:25Z",
       "side": 1,
       "message": "move below this next if too? Or if this is really that expensive, you could lazily populate just in the 3 places we need it.",
+      "revId": "6ed8a80cbdbd72b35924cc3940b94597bdcaa4d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec1e27bf_7bb5c8db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-19T09:12:54Z",
+      "side": 1,
+      "message": "thanks, that\u0027s a good catch :-)\n\nyes, do it lazily only in the places (before line 1131, 1148, 1161) where we need it in order to avoid the unnecessary stat call + getFileStore in the cases where we don\u0027t use otherSnapshot",
+      "parentUuid": "41696ab3_acf15b53",
       "revId": "6ed8a80cbdbd72b35924cc3940b94597bdcaa4d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
