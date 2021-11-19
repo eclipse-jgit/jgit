@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e45f85a8_2d9bed36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-19T22:26:47Z",
+      "side": 1,
+      "message": "Simple and effective; the regex takes only the first three components and stops at a non-digit, so if it\u0027s 2.21.3-abcdef, it\u0027ll just extract 2.21.3.\n\nI chose this way because I was unsure whether we\u0027d want to backport this. This will also work on Java 8. For a Java 11 only solution I\u0027d use java.lang.module.ModuleDescriptor.Version instead.",
+      "revId": "478089f9a43d3c61491c849dc0674efafceabbf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
