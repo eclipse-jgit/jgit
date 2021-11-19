@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "179252a9_eb280624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2021-11-19T14:26:55Z",
+      "side": 1,
+      "message": "We thought about that, but it turns out that this seems to be very expensive over NFS. It is worth considering, but I suspect that you would not want this slowdown to happen in BatchRefUpdate in atomic mode. The empty dirs are caused by the locks in this mode since the update still needs to create a lock for each ref in the loose ref location even though there is no loose ref.",
+      "parentUuid": "8bde224f_b7dcc60f",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "6ed8a80cbdbd72b35924cc3940b94597bdcaa4d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41696ab3_acf15b53",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
