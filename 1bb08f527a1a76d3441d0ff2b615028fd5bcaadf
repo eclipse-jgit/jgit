@@ -16,6 +16,24 @@
       "revId": "1bb08f527a1a76d3441d0ff2b615028fd5bcaadf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ada92c55_7587ae4c",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-19T10:36:18Z",
+      "side": 1,
+      "message": "Not sure what you mean by \"this\", but... does [1] help?\n\n[1] https://stackoverflow.com/questions/65674450/jetty-ssl-factory-using-http2-doesnt-work",
+      "parentUuid": "8e98dd9d_584c9770",
+      "revId": "1bb08f527a1a76d3441d0ff2b615028fd5bcaadf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
