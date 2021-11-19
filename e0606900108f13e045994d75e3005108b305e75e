@@ -159,6 +159,24 @@
       "revId": "e0606900108f13e045994d75e3005108b305e75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2a3f84c_7b9444bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-19T10:49:41Z",
+      "side": 1,
+      "message": "I think BooleanTriState should be close to Config which is in the package org.eclipse.jgit.lib",
+      "parentUuid": "81983fb4_768db978",
+      "revId": "e0606900108f13e045994d75e3005108b305e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
