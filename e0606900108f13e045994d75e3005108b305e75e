@@ -69,6 +69,24 @@
       "revId": "e0606900108f13e045994d75e3005108b305e75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9df3352_f6e26d14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-19T09:17:16Z",
+      "side": 1,
+      "message": "The linked blog just says \"Optional is bad bad bad, use it only for return\".\n\nEarlier in this patch we had a dedicated tri-state BooleanOption and it was requested to replace it:\n\n\"For the current use of this BooleanOption thing I think indeed simply using a Boolean and treating null as \"unset\" would be good enough\"\n\nHowever, passing \"null\" for a Boolean argument is another anti-pattern, because all the typical uses of a Boolean do NOT mean it  is a tri-state value, so dereferencing this argument can happen very easy.\n\nhttps://softwareengineering.stackexchange.com/questions/12777/are-null-references-really-a-bad-thing\n\nOptional\u003cBoolean\u003e states exactly what it means - we might have a value, but be aware it could be not set.\n\nAsking google, it links to few stack overflows where Optional\u003cBoolean\u003e is often proposed as tri-state boolean values (after a dedicated tri-state class):\n\nhttps://stackoverflow.com/questions/314800/best-way-to-define-true-false-unset-state\nhttps://softwareengineering.stackexchange.com/questions/275370/should-a-java-boolean-be-used-for-ternary-3-state-logic\n\nSo I think that the use of Optional\u003cBoolean\u003e is OK here.",
+      "parentUuid": "cac03d5e_1ab68df4",
+      "revId": "e0606900108f13e045994d75e3005108b305e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
