@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7be7ddcc_6266898a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/diffmergetool/ExternalToolTest.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-19T08:54:34Z",
+      "side": 1,
+      "message": "I\u0027ll adjust it with the next patch set.",
+      "parentUuid": "ee7c288d_7418abe6",
+      "revId": "e0606900108f13e045994d75e3005108b305e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56faefaf_55ff2678",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
         "patchSetId": 41
@@ -30,6 +48,24 @@
       "writtenOn": "2021-11-19T07:52:24Z",
       "side": 1,
       "message": "Why are all these boolean parameters Optionals? That looks super fishy.[1]\n\n[1] https://blog.indrek.io/articles/misusing-java-optional/#3-using-optional-as-a-method-parameter",
+      "revId": "e0606900108f13e045994d75e3005108b305e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cac03d5e_1ab68df4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-19T08:54:34Z",
+      "side": 1,
+      "message": "The optionals are needed to differentiate between 3 values, set to true, set to false and unset. Previously Andre defined a separate class for this, the class was replaced by optionals due to review feedback.\n\nThis is not an attempt to simulate optional parameters. Or do you have other concerns (\"fishy\"\" can mean any number of things and I only briefly looked at the linked blog post)?",
+      "parentUuid": "56faefaf_55ff2678",
       "revId": "e0606900108f13e045994d75e3005108b305e75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
