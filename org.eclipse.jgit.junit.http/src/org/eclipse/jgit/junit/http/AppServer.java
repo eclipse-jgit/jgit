@@ -21,20 +21,23 @@ import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.security.Authenticator;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.RolePrincipal;
+import org.eclipse.jetty.security.UserPrincipal;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
@@ -146,9 +149,15 @@ public class AppServer {
 			SslContextFactory sslContextFactory = createTestSslContextFactory(
 					hostName);
 			secureConfig = new HttpConfiguration(config);
+			// Add the SecureRequestCustomizer because we are using TLS.
+			secureConfig.addCustomizer(new SecureRequestCustomizer());
+
+			// The ConnectionFactory for HTTP/1.1.
+			HttpConnectionFactory http11 = new HttpConnectionFactory(
+					secureConfig);
 			secureConnector = new ServerConnector(server,
 					new SslConnectionFactory(sslContextFactory,
-							HttpVersion.HTTP_1_1.asString()),
+							http11.getProtocol()),
 					new HttpConnectionFactory(secureConfig));
 			secureConnector.setPort(sslPort);
 			secureConnector.setHost(ip);
@@ -260,12 +269,12 @@ public class AppServer {
 	}
 
 	static class TestMappedLoginService extends AbstractLoginService {
-		private String role;
+		private RolePrincipal role;
 
 		protected final Map<String, UserPrincipal> users = new ConcurrentHashMap<>();
 
 		TestMappedLoginService(String role) {
-			this.role = role;
+			this.role = new RolePrincipal(role);
 		}
 
 		@Override
@@ -277,16 +286,16 @@ public class AppServer {
 		}
 
 		@Override
-		protected String[] loadRoleInfo(UserPrincipal user) {
-			if (users.get(user.getName()) == null) {
-				return null;
-			}
-			return new String[] { role };
+		protected UserPrincipal loadUserInfo(String user) {
+			return users.get(user);
 		}
 
 		@Override
-		protected UserPrincipal loadUserInfo(String user) {
-			return users.get(user);
+		protected List<RolePrincipal> loadRoleInfo(UserPrincipal user) {
+			if (users.get(user.getName()) == null) {
+				return null;
+			}
+			return Collections.singletonList(role);
 		}
 	}
 
