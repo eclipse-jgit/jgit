@@ -21,20 +21,23 @@ import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.security.Authenticator;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.RolePrincipal;
+import org.eclipse.jetty.security.UserPrincipal;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
@@ -143,13 +146,15 @@ public class AppServer {
 		}
 
 		if (sslPort >= 0) {
-			SslContextFactory sslContextFactory = createTestSslContextFactory(
+			SslContextFactory.Server sslContextFactory = createTestSslContextFactory(
 					hostName);
 			secureConfig = new HttpConfiguration(config);
-			secureConnector = new ServerConnector(server,
-					new SslConnectionFactory(sslContextFactory,
-							HttpVersion.HTTP_1_1.asString()),
-					new HttpConnectionFactory(secureConfig));
+			secureConfig.addCustomizer(new SecureRequestCustomizer());
+			HttpConnectionFactory http11 = new HttpConnectionFactory(
+					secureConfig);
+			SslConnectionFactory tls = new SslConnectionFactory(
+					sslContextFactory, http11.getProtocol());
+			secureConnector = new ServerConnector(server, tls, http11);
 			secureConnector.setPort(sslPort);
 			secureConnector.setHost(ip);
 		} else {
@@ -171,8 +176,9 @@ public class AppServer {
 		server.setHandler(log);
 	}
 
-	private SslContextFactory createTestSslContextFactory(String hostName) {
-		SslContextFactory.Client factory = new SslContextFactory.Client(true);
+	private SslContextFactory.Server createTestSslContextFactory(
+			String hostName) {
+		SslContextFactory.Server factory = new SslContextFactory.Server();
 
 		String dName = "CN=,OU=,O=,ST=,L=,C=";
 
@@ -260,12 +266,12 @@ public class AppServer {
 	}
 
 	static class TestMappedLoginService extends AbstractLoginService {
-		private String role;
+		private RolePrincipal role;
 
 		protected final Map<String, UserPrincipal> users = new ConcurrentHashMap<>();
 
 		TestMappedLoginService(String role) {
-			this.role = role;
+			this.role = new RolePrincipal(role);
 		}
 
 		@Override
@@ -277,16 +283,16 @@ public class AppServer {
 		}
 
 		@Override
-		protected String[] loadRoleInfo(UserPrincipal user) {
-			if (users.get(user.getName()) == null) {
-				return null;
-			}
-			return new String[] { role };
+		protected UserPrincipal loadUserInfo(String user) {
+			return users.get(user);
 		}
 
 		@Override
-		protected UserPrincipal loadUserInfo(String user) {
-			return users.get(user);
+		protected List<RolePrincipal> loadRoleInfo(UserPrincipal user) {
+			if (users.get(user.getName()) == null) {
+				return null;
+			}
+			return Collections.singletonList(role);
 		}
 	}
 
