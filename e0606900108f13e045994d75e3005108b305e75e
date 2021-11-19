@@ -105,6 +105,24 @@
       "revId": "e0606900108f13e045994d75e3005108b305e75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a850f6c1_56c72655",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-19T09:48:53Z",
+      "side": 1,
+      "message": "I agree that Boolean + null for tristate boolean is ugly, we have many other places where we use an enum for multi-state options which is clean and nice to read.\n\nI think the BooleanOption proposed in \nhttps://git.eclipse.org/r/c/jgit/jgit/+/137468/8/org.eclipse.jgit/src/org/eclipse/jgit/diffmergetool/BooleanOption.java#51\nis unnecessarily complex. \n\nHow about a simple enum :\n\n public enum BooleanTriState {\n     TRUE,\n     FALSE,\n     UNSET\n }\n\nI think there is no need for methods like isUndefined() instead do\n\n if (option \u003d\u003d BooleanTriState.UNSET)\n\nenum also allows to use switch if all three states are needed\n\n switch (option) {\n case TRUE:\n     break;\n case FALSE:\n     break;\n case UNSET:\n     break;\n }\n\nThe Config#getBoolean methods all have a defaultValue parameter so they should be implementable on top of such a tri-state boolean enum. There is Config#unset to go back from TRUE or FALSE to UNSET.\n\nIf we can agree on this we should fix all tri-state boolean options currently using nullable Boolean to use this new enum (in separate changes).",
+      "parentUuid": "dc9667bb_fa86513b",
+      "revId": "e0606900108f13e045994d75e3005108b305e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
