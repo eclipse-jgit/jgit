@@ -87,6 +87,24 @@
       "revId": "e0606900108f13e045994d75e3005108b305e75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc9667bb_fa86513b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-19T09:28:10Z",
+      "side": 1,
+      "message": "\u003e The linked blog just says \"Optional is bad bad bad, use it only for return\".\n\nIt argues the case, and even points to a statement from Brian Goetz to the same effect. Just because it\u0027s a blog post is not a reason to dismiss it lightly.\n\nWhatever. IMO this tri-state Boolean thing shows that something isn\u0027t quite right yet with the interface here, but as it\u0027s an internal class we can refactor into something better (if we find something better) later.",
+      "parentUuid": "b9df3352_f6e26d14",
+      "revId": "e0606900108f13e045994d75e3005108b305e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
