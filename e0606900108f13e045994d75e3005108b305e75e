@@ -141,6 +141,24 @@
       "revId": "e0606900108f13e045994d75e3005108b305e75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81983fb4_768db978",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2021-11-19T10:31:31Z",
+      "side": 1,
+      "message": "I accept all changes that are proposed to make this understandable (readable) for all reviewers to push this change and continue with later commits :)",
+      "parentUuid": "d5f0087e_17314b2a",
+      "revId": "e0606900108f13e045994d75e3005108b305e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
