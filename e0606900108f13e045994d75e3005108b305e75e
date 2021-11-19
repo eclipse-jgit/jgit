@@ -123,6 +123,24 @@
       "revId": "e0606900108f13e045994d75e3005108b305e75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5f0087e_17314b2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffTools.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-19T10:20:58Z",
+      "side": 1,
+      "message": "Same to me. It would complicate adjusting the rest of the changes, but not by much. Andrey?\n\nWhich package would the BooleanTriState be in, if we were adding it?\n\nI don\u0027t know what Andre thinks about this, but considering the original BooleanOption was changed to Optional\u003cBoolean\u003e, likely Andre wouldn\u0027t mind the newly proposed change either.",
+      "parentUuid": "a850f6c1_56c72655",
+      "revId": "e0606900108f13e045994d75e3005108b305e75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
