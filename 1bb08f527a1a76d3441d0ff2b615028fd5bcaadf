@@ -52,6 +52,24 @@
       "revId": "1bb08f527a1a76d3441d0ff2b615028fd5bcaadf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f56ef2cb_39817e96",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-19T16:04:02Z",
+      "side": 1,
+      "message": "That seems to have been always wrong. Make createTestSslContextFactory return a SslContextFactory.Server. When I do that on Jetty 9.4.x, the HTTP tests still work.\n\nOn Jetty 10 I get errors and warnings:\n\n  2021-11-19 17:02:40 WARN  main SecurityHandler:744 - null has uncovered HTTP methods for the following paths: [/*]\n  2021-11-19 17:02:40 WARN  qtp270313690-1559 ManagedSelector:904 - Could not accept java.nio.channels.SocketChannel[closed]: java.lang.NoClassDefFoundError: javax/servlet/http/HttpServletMapping",
+      "parentUuid": "14f60b10_384c5488",
+      "revId": "1bb08f527a1a76d3441d0ff2b615028fd5bcaadf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
