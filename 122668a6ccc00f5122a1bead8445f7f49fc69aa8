@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea89ac5a_c624db4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BooleanTriState.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-19T13:09:12Z",
+      "side": 1,
+      "message": "Should be possible to add this in package \"org.eclipse.jgit.lib.internal\", so that this is not \"API\". I assume this would be preferable.\n\nWhoever wants to use the new type would have to become \"friends\" of the package, at the very least the bundle jgit.pgm would have to be a new \"friend\".\n\nLet me know if I should move it there (I assume yes, but I\u0027m not sure).",
+      "revId": "122668a6ccc00f5122a1bead8445f7f49fc69aa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
