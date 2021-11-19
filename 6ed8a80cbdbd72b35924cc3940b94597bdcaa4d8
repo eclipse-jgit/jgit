@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41696ab3_acf15b53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-11-19T03:04:25Z",
+      "side": 1,
+      "message": "move below this next if too? Or if this is really that expensive, you could lazily populate just in the 3 places we need it.",
+      "revId": "6ed8a80cbdbd72b35924cc3940b94597bdcaa4d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
