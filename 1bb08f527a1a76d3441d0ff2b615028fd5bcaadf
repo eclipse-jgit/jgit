@@ -34,6 +34,24 @@
       "revId": "1bb08f527a1a76d3441d0ff2b615028fd5bcaadf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14f60b10_384c5488",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-19T15:03:19Z",
+      "side": 1,
+      "message": "the problem is the compile error in line 159 \n\nSslConnectionFactory expects SslContextFactory.Server as the first parameter but createTestSslContextFactory creates SslContextFactory.Client",
+      "parentUuid": "ada92c55_7587ae4c",
+      "revId": "1bb08f527a1a76d3441d0ff2b615028fd5bcaadf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
