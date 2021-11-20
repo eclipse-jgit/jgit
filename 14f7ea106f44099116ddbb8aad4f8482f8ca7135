@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6fee18b_a5a0adf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-20T23:42:33Z",
+      "side": 1,
+      "message": "What if some other thread or process modifies the file between the read above and the snapshot creation below? To me this looks like a race condition.\n\nCan\u0027t we handle this inside FileSnapshot? Seems to me one could gain something there by calling FS.getFileStoreAttributes() more lazily: it\u0027s not needed if the file does not exist.",
+      "revId": "14f7ea106f44099116ddbb8aad4f8482f8ca7135",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
