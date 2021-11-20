@@ -9,19 +9,19 @@
  */
 package org.eclipse.jgit.transport.http.apache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.net.MalformedURLException;
+import java.util.List;
+import java.util.Locale;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.message.AbstractHttpMessage;
 import org.junit.Test;
-
-import java.net.MalformedURLException;
-import java.util.List;
-import java.util.Locale;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class HttpClientConnectionTest {
 	@Test
