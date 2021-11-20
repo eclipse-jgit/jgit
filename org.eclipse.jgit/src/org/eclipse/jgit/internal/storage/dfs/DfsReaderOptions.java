@@ -33,6 +33,7 @@ public class DfsReaderOptions {
 	private int streamFileThreshold;
 
 	private int streamPackBufferSize;
+	private boolean parallelLoadReverseIndexForBitmap;
 
 	/**
 	 * Create a default reader configuration.
@@ -40,6 +41,7 @@ public class DfsReaderOptions {
 	public DfsReaderOptions() {
 		setDeltaBaseCacheLimit(10 * MiB);
 		setStreamFileThreshold(PackConfig.DEFAULT_BIG_FILE_THRESHOLD);
+		setParallelLoadReverseIndexForBitmap(false);
 	}
 
 	/**
@@ -113,6 +115,28 @@ public class DfsReaderOptions {
 	}
 
 	/**
+	 * Check if reverse index is loaded in parallel for bitmap index.
+	 *
+	 * @return true if reverse index is loaded in parallel for bitmap index.
+	 */
+	public boolean isParallelLoadReverseIndexForBitmap() {
+		return parallelLoadReverseIndexForBitmap;
+	}
+
+	/**
+	 * Enable (or disable) parallel loading of reverse index for bitmap index.
+	 *
+	 * @param parallelLoadReverseIndexForBitmap
+	 *            whether to load reverse index in parallel for firmap index.
+	 * @return {@code this}
+	 */
+	public DfsReaderOptions setParallelLoadReverseIndexForBitmap(
+			boolean parallelLoadReverseIndexForBitmap) {
+		this.parallelLoadReverseIndexForBitmap = parallelLoadReverseIndexForBitmap;
+		return this;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 * <p>
 	 * If a property is not defined in the configuration, then it is left
@@ -144,6 +168,7 @@ public class DfsReaderOptions {
 				CONFIG_DFS_SECTION,
 				CONFIG_KEY_STREAM_BUFFER,
 				getStreamPackBufferSize()));
+		setParallelLoadReverseIndexForBitmap(false);
 		return this;
 	}
 }
