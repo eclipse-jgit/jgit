@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7145c979_9f8218ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-21T15:08:45Z",
+      "side": 1,
+      "message": "I cannot reproduce this on master. I do see some speed improvement, but nowhere near a factor of 10. Perhaps because in my tests the repo is on a fast disk. Creating 100k refs with that pattern:\n\n  final int numberOfShards \u003d 50000;\n  final int numberOfPatchsets \u003d 2;\n  BatchRefUpdate bu \u003d diskRepo.getRefDatabase().newBatchUpdate();\n  bu.setAtomic(true);\n  for (int i \u003d 0; i \u003c numberOfShards; i++) {\n    for (int j \u003d 1; j \u003c\u003d numberOfPatchsets; j++) {\n      String name \u003d String.format(\"refs/new-refs/%02d/%d/%d\", i % 100,\n          i, j);\n      ReceiveCommand c \u003d new ReceiveCommand(ObjectId.zeroId(), A,\n          name);\n      bu.addCommand(c);\n    }\n  }\n  try (RevWalk rw \u003d new RevWalk(diskRepo)) {\n    bu.execute(rw, NullProgressMonitor.INSTANCE);\n  }\n  List\u003cReceiveCommand\u003e cmds \u003d bu.getCommands();\n  assertEquals(numberOfPatchsets * numberOfShards, cmds.size());\n  assertTrue(cmds.stream()\n      .allMatch(c -\u003e ReceiveCommand.Result.OK.equals(c.getResult())));\n\n  long start \u003d System.currentTimeMillis();\n  for (ReceiveCommand c : cmds) {\n    Ref ref \u003d diskRepo.exactRef(c.getRefName());\n    assertNotNull(ref);\n  }\n  System.err\n      .println(\"Took \" + (System.currentTimeMillis() - start) + \"ms\");\n\nI get about 7.2s for the 100000 exactRef calls. (In a non-bare repo with non-dangling head.)\n\nWith this change here I get about 3.1 s.\n\nWith making FileSnapshot do the FS.getFileStoreAttributes() call lazily, I get about 4.3s.\n\nAdding in FileSnapshot\n\n  public boolean exists() {\n    return !MISSING_FILEKEY.equals(this.fileKey);\n  }\n\nand using it in RefDirectory:\n\n  FileSnapshot otherSnapshot \u003d FileSnapshot.save(path);\n  if (!otherSnapshot.exists()) {\n    return null;\n  }\n  try {\n    buf \u003d IO.readSome(path, limit);\n  ...\n\nI get about 2.5s.\n\nSo for me on master:\n\n* 7.2s as is\n* 3.1s with this change\n* 4.3s without this change, loading FS resolution lazily\n* 2.5s without this change, loading FS resolution lazily, plus exists()",
+      "revId": "14f7ea106f44099116ddbb8aad4f8482f8ca7135",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6fee18b_a5a0adf5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
