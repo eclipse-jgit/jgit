@@ -142,7 +142,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 	 *            real host name, or it may just be a "Host" block in the
 	 *            configuration file.
 	 * @param port
-	 *            the user supplied; <= 0 if none
+	 *            the user supplied; &lt;= 0 if none
 	 * @param userName
 	 *            the user supplied, may be {@code null} or empty if none given
 	 * @return the configuration for the requested name.

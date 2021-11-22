@@ -27,6 +27,10 @@
     JUnit tests for the various ant tasks.
   </description>
 
+  <properties>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

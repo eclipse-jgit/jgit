@@ -27,6 +27,10 @@
     Tests for command line client tools built on top of JGit.
   </description>
 
+  <properties>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

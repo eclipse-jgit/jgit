@@ -1530,7 +1530,8 @@ public class GC {
 	}
 
 	/**
-	 * @return {@code true} if number of packs > gc.autopacklimit (default 50)
+	 * @return {@code true} if number of packs &gt; gc.autopacklimit (default
+	 *         50)
 	 */
 	boolean tooManyPacks() {
 		int autopacklimit = repo.getConfig().getInt(
@@ -1549,7 +1550,8 @@ public class GC {
 	 * Quickly estimate number of loose objects, SHA1 is distributed evenly so
 	 * counting objects in one directory (bucket 17) is sufficient
 	 *
-	 * @return {@code true} if number of loose objects > gc.auto (default 6700)
+	 * @return {@code true} if number of loose objects &gt; gc.auto (default
+	 *         6700)
 	 */
 	boolean tooManyLooseObjects() {
 		int auto = getLooseObjectLimit();
