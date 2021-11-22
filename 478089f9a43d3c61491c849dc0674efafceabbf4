@@ -16,6 +16,24 @@
       "revId": "478089f9a43d3c61491c849dc0674efafceabbf4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "898e6115_0353a730",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-22T22:33:26Z",
+      "side": 1,
+      "message": "I think we should back-port this fix to 5.x in order to provide a fix for those who still need Java 8. Maybe 5.9 which is the version the oldest supported Gerrit version 3.2 is currently using ?",
+      "parentUuid": "e45f85a8_2d9bed36",
+      "revId": "478089f9a43d3c61491c849dc0674efafceabbf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
