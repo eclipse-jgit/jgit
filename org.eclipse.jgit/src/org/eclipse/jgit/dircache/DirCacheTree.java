@@ -280,12 +280,12 @@ public class DirCacheTree {
 	 *            number of bytes of <code>cache[cacheIdx].path</code> that
 	 *            matches this tree's path. The value at array position
 	 *            <code>cache[cacheIdx].path[pathOff-1]</code> is always '/' if
-	 *            <code>pathOff</code> is > 0.
+	 *            <code>pathOff</code> is &gt; 0.
 	 * @param ow
 	 *            the writer to use when serializing to the store.
 	 * @return identity of this tree.
 	 * @throws UnmergedPathException
-	 *             one or more paths contain higher-order stages (stage > 0),
+	 *             one or more paths contain higher-order stages (stage &gt; 0),
 	 *             which cannot be stored in a tree object.
 	 * @throws IOException
 	 *             an unexpected error occurred writing to the object store.
@@ -401,7 +401,7 @@ public class DirCacheTree {
 	 *            number of bytes of <code>cache[cacheIdx].path</code> that
 	 *            matches this tree's path. The value at array position
 	 *            <code>cache[cacheIdx].path[pathOff-1]</code> is always '/' if
-	 *            <code>pathOff</code> is > 0.
+	 *            <code>pathOff</code> is &gt; 0.
 	 */
 	void validate(final DirCacheEntry[] cache, final int cCnt, int cIdx,
 			final int pathOff) {
