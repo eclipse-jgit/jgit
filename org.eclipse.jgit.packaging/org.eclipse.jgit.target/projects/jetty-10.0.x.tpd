@@ -1,0 +1,20 @@
+target "jetty-10.0.x" with source configurePhase
+
+location jetty-10.0.x "https://download.eclipse.org/eclipse/jetty/10.0.6/" {
+	jakarta.servlet-api [4.0.0, 5.0.0)
+	jakarta.servlet-api.source [4.0.0, 5.0.0)
+	org.eclipse.jetty.http [10.0.6,10.0.6]
+	org.eclipse.jetty.http.source [10.0.6,10.0.6]
+	org.eclipse.jetty.io [10.0.6,10.0.6]
+	org.eclipse.jetty.io.source [10.0.6,10.0.6]
+	org.eclipse.jetty.security [10.0.6,10.0.6]
+	org.eclipse.jetty.security.source [10.0.6,10.0.6]
+	org.eclipse.jetty.server [10.0.6,10.0.6]
+	org.eclipse.jetty.server.source [10.0.6,10.0.6]
+	org.eclipse.jetty.servlet [10.0.6,10.0.6]
+	org.eclipse.jetty.servlet.source [10.0.6,10.0.6]
+	org.eclipse.jetty.util [10.0.6,10.0.6]
+	org.eclipse.jetty.util.source [10.0.6,10.0.6]
+	org.eclipse.jetty.util.ajax [10.0.6,10.0.6]
+	org.eclipse.jetty.util.ajax.source [10.0.6,10.0.6]
+}
