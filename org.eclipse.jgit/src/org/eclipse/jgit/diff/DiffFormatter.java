@@ -29,12 +29,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.BinaryBlobException;
-import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -578,7 +578,7 @@ public class DiffFormatter implements AutoCloseable {
 		renameDetector.addAll(files);
 		try {
 			return renameDetector.compute(reader, progressMonitor);
-		} catch (CancelledException e) {
+		} catch (CanceledException e) {
 			// TODO: consider propagating once bug 536323 is tackled
 			// (making DiffEntry.scan() and DiffFormatter.scan() and
 			// format() cancellable).
