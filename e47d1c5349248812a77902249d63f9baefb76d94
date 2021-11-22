@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f28e8f37_6a3848fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BooleanTriState.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-22T11:11:36Z",
+      "side": 1,
+      "message": "move this class to org.eclipse.jgit.lib.internal",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "e47d1c5349248812a77902249d63f9baefb76d94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
