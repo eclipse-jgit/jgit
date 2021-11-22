@@ -89,6 +89,7 @@ public class CommitConfig {
 	 *             if the template file does not exists
 	 * @throws ConfigInvalidException
 	 *             if a {@code commitEncoding} is specified and is invalid
+	 * @since 6.0
 	 */
 	@Nullable
 	public String getCommitTemplateContent(@NonNull Repository repository)
