@@ -197,7 +197,8 @@ public class AppServer {
 							"-storepass", keyPassword,
 							"-alias", hostName, //
 							"-ext",
-							String.format("san=IP:%s,DNS:%s", ip, hostName), //
+							String.format("san=IP:%s,DNS:localhost,DNS:%s", ip,
+									hostName), //
 							"-genkeypair", //
 							"-keyalg", "RSA", //
 							"-keypass", keyPassword, //
