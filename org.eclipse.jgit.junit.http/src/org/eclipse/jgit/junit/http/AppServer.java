@@ -180,7 +180,7 @@ public class AppServer {
 			String hostName, String ip) {
 		SslContextFactory.Server factory = new SslContextFactory.Server();
 
-		String dName = "CN=,OU=,O=,ST=,L=,C=";
+		String dName = "CN=localhost,OU=JGit,O=Eclipse,ST=Ontario,L=Toronto,C=CA";
 
 		try {
 			File tmpDir = Files.createTempDirectory("jks").toFile();
@@ -196,8 +196,11 @@ public class AppServer {
 							"-keystore", keyStore.getAbsolutePath(), //
 							"-storepass", keyPassword,
 							"-alias", hostName, //
+							"-ext", "bc=ca:true", //
 							"-ext",
-							String.format("san=IP:%s,DNS:%s", ip, hostName), //
+							String.format(
+									"san=ip:%s,ip:127.0.0.1,ip:[::1],DNS:%s",
+									ip, hostName), //
 							"-genkeypair", //
 							"-keyalg", "RSA", //
 							"-keypass", keyPassword, //
