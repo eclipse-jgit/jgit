@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8d9c157_fd621b47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectoryPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2021-11-23T11:50:34Z",
+      "side": 1,
+      "message": "not for this change, but I wonder if the constructor could acquire the lock implicitly.",
+      "range": {
+        "startLine": 435,
+        "startChar": 8,
+        "endLine": 435,
+        "endChar": 20
+      },
+      "revId": "403a6996ec66b6ad5897f3e07ff2825745bdf03e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
