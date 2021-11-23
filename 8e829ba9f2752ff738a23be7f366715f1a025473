@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5c570ba_cd69afb0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2324,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-23T20:02:33Z",
+      "side": 1,
+      "message": "Done; the Eclipse formatter got confused by the single-TAB indent on line 2321.",
+      "parentUuid": "13256404_45e41020",
+      "revId": "8e829ba9f2752ff738a23be7f366715f1a025473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b9ba4e5_71a19e0f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9b8584b1_2bd2da9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-23T20:02:33Z",
+      "side": 1,
+      "message": "Yes, it is. Before it was in the same package (internal.storage.pack) and thus implicitly visible, now it is in storage.pack.",
+      "parentUuid": "8b9ba4e5_71a19e0f",
+      "revId": "8e829ba9f2752ff738a23be7f366715f1a025473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab062888_ff14ed06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/CachedPackUriProvider.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2021-11-23T18:14:13Z",
       "side": 1,
       "message": "CachedPack is kinda out-of-place here, because any implementor needs to cast to a more specific class to return the PackInfo (e.g. size is not in CachedPack).\n\nMaybe we could hide it defining a PackInfoForUri class and a PackInfoForUriProvider interface (that CachedPack implements). \n\nPackInfoForUri should contain, at least, pack size, checksum and offloadPath. CachedPackUriProvider would form the full URL (e.g. choosing the domain based on other conditions, checking ACLs...).\n\nNot something to do a week before release. For 7.0? :)",
+      "revId": "8e829ba9f2752ff738a23be7f366715f1a025473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fccef76_3ace1ad8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/CachedPackUriProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-23T20:02:33Z",
+      "side": 1,
+      "message": "Yes, the strange thing with CachedPack is that it has no operations that would make sense to a CachedPackUriProvider. (At least as far as I understand it without seeing any implementation of this.) CachedPack is abstract, though: could we simply add meaningful methods to ICachedPack? getSize(), getChecksum() (or getHash()?), getPath()?\n\nJGit doesn\u0027t have any implementation of this, so I\u0027m not in a good position to know how to improve this. You do. Can you figure out how that empty ICacheedPack interface might be made more useful, perhaps to the point that downcasting would not be necessary?",
+      "parentUuid": "ab062888_ff14ed06",
       "revId": "8e829ba9f2752ff738a23be7f366715f1a025473",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
