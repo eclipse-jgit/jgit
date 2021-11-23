@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13256404_45e41020",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2324,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-23T18:14:13Z",
+      "side": 1,
+      "message": "Odd aligment of @Override and method",
+      "revId": "8e829ba9f2752ff738a23be7f366715f1a025473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b9ba4e5_71a19e0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-23T18:14:13Z",
+      "side": 1,
+      "message": "It this really needed? (I wonder why it wasn\u0027t before)",
+      "revId": "8e829ba9f2752ff738a23be7f366715f1a025473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab062888_ff14ed06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/CachedPackUriProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-23T18:14:13Z",
+      "side": 1,
+      "message": "CachedPack is kinda out-of-place here, because any implementor needs to cast to a more specific class to return the PackInfo (e.g. size is not in CachedPack).\n\nMaybe we could hide it defining a PackInfoForUri class and a PackInfoForUriProvider interface (that CachedPack implements). \n\nPackInfoForUri should contain, at least, pack size, checksum and offloadPath. CachedPackUriProvider would form the full URL (e.g. choosing the domain based on other conditions, checking ACLs...).\n\nNot something to do a week before release. For 7.0? :)",
+      "revId": "8e829ba9f2752ff738a23be7f366715f1a025473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8561174b_9ed62de2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/ICachedPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-23T18:14:13Z",
+      "side": 1,
+      "message": "I see why it is here, but the empty interface is rather odd in the API. \n\nCould we explain/warn in the javadoc: \"Pseudo-interface to expose internal CachedPack in the public UploadPack.CachedPackUriProvider interface. Implementors: do not use this interface, work with CachedPack instead.\"?",
+      "revId": "8e829ba9f2752ff738a23be7f366715f1a025473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
