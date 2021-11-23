@@ -28,6 +28,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
+import org.eclipse.jgit.gitrepo.BareSuperprojectWriter.ExtraContent;
 import org.eclipse.jgit.gitrepo.ManifestParser.IncludedFileReader;
 import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
@@ -78,6 +79,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			.getDefault();
 
 	private ProgressMonitor monitor;
+
+	private final List<ExtraContent> extraContents = new ArrayList<>();
 
 	/**
 	 * A callback to get ref sha1 of a repository from its uri.
@@ -509,6 +512,22 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Create a file with the given content in the destination repository
+	 *
+	 * @param path
+	 *            where to create the file in the destination repository
+	 * @param contents
+	 *            content for the create file
+	 * @return this command
+	 *
+	 * @since 6.1
+	 */
+	public RepoCommand addToDestination(String path, String contents) {
+		this.extraContents.add(new ExtraContent(path, contents));
+		return this;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public RevCommit call() throws GitAPIException {
@@ -550,7 +569,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					targetBranch,
 					author == null ? new PersonIdent(repo) : author,
 					callback == null ? new DefaultRemoteReader() : callback,
-					bareWriterConfig);
+					bareWriterConfig, extraContents);
 			return writer.write(renamedProjects);
 		}
 
@@ -662,6 +681,5 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		j.add(destFile);
 		return URI.create(j.toString());
 	}
-
 
 }

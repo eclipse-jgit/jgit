@@ -71,6 +71,8 @@ class BareSuperprojectWriter {
 
 	private final PersonIdent author;
 
+	private List<ExtraContent> extraContents;
+
 	static class BareWriterConfig {
 		boolean ignoreRemoteFailures = false;
 
@@ -88,10 +90,22 @@ class BareSuperprojectWriter {
 		}
 	}
 
+	static class ExtraContent {
+		final String path;
+
+		final String content;
+
+		ExtraContent(String path, String content) {
+			this.path = path;
+			this.content = content;
+		}
+	}
+
 	BareSuperprojectWriter(Repository repo, URI targetUri,
 			String targetBranch,
 			PersonIdent author, RemoteReader callback,
-			BareWriterConfig config) {
+			BareWriterConfig config,
+			List<ExtraContent> extraContents) {
 		assert (repo.isBare());
 		this.repo = repo;
 		this.targetUri = targetUri;
@@ -99,6 +113,7 @@ class BareSuperprojectWriter {
 		this.author = author;
 		this.callback = callback;
 		this.config = config;
+		this.extraContents = extraContents;
 	}
 
 	RevCommit write(List<RepoProject> repoProjects)
@@ -242,6 +257,16 @@ class BareSuperprojectWriter {
 			dcEntryAttr.setObjectId(attrId);
 			dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
 			builder.add(dcEntryAttr);
+		}
+
+		for (ExtraContent ec : extraContents) {
+			DirCacheEntry extraDcEntry = new DirCacheEntry(ec.path);
+
+			ObjectId oid = inserter.insert(Constants.OBJ_BLOB,
+					ec.content.getBytes(UTF_8));
+			extraDcEntry.setObjectId(oid);
+			extraDcEntry.setFileMode(FileMode.REGULAR_FILE);
+			builder.add(extraDcEntry);
 		}
 
 		builder.finish();
