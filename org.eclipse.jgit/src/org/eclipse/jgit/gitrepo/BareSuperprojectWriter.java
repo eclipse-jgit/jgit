@@ -23,6 +23,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.gitrepo.RepoCommand.ManifestErrorException;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteReader;
@@ -118,12 +119,12 @@ class BareSuperprojectWriter {
 
 	RevCommit write(List<RepoProject> repoProjects)
 			throws GitAPIException {
-		DirCache index = DirCache.newInCore();
 		ObjectInserter inserter = repo.newObjectInserter();
+		IndexWriter treeWriter = new IndexWriter(inserter);
 
 		try (RevWalk rw = new RevWalk(repo)) {
-			prepareIndex(repoProjects, index, inserter);
-			ObjectId treeId = index.writeTree(inserter);
+			prepareIndex(repoProjects, treeWriter);
+			ObjectId treeId = treeWriter.create();
 			long prevDelay = 0;
 			for (int i = 0; i < LOCK_FAILURE_MAX_RETRIES - 1; i++) {
 				try {
@@ -143,11 +144,10 @@ class BareSuperprojectWriter {
 		}
 	}
 
-	private void prepareIndex(List<RepoProject> projects, DirCache index,
-			ObjectInserter inserter) throws IOException, GitAPIException {
+	private void prepareIndex(List<RepoProject> projects, IndexWriter tw)
+			throws IOException, GitAPIException {
 		Config cfg = new Config();
 		StringBuilder attributes = new StringBuilder();
-		DirCacheBuilder builder = index.builder();
 		for (RepoProject proj : projects) {
 			String name = proj.getName();
 			String path = proj.getPath();
@@ -202,20 +202,14 @@ class BareSuperprojectWriter {
 
 			// create gitlink
 			if (objectId != null) {
-				DirCacheEntry dcEntry = new DirCacheEntry(path);
-				dcEntry.setObjectId(objectId);
-				dcEntry.setFileMode(FileMode.GITLINK);
-				builder.add(dcEntry);
+				tw.addGitlink(path, objectId);
+
 
 				for (CopyFile copyfile : proj.getCopyFiles()) {
 					RemoteFile rf = callback.readFileWithMode(url,
 							proj.getRevision(), copyfile.src);
-					objectId = inserter.insert(Constants.OBJ_BLOB,
-							rf.getContents());
-					dcEntry = new DirCacheEntry(copyfile.dest);
-					dcEntry.setObjectId(objectId);
-					dcEntry.setFileMode(rf.getFileMode());
-					builder.add(dcEntry);
+					tw.addFileWithMode(copyfile.dest, rf.getContents(),
+							rf.getFileMode());
 				}
 				for (LinkFile linkfile : proj.getLinkFiles()) {
 					String link;
@@ -228,48 +222,21 @@ class BareSuperprojectWriter {
 						link = proj.getPath() + "/" + linkfile.src; //$NON-NLS-1$
 					}
 
-					objectId = inserter.insert(Constants.OBJ_BLOB,
-							link.getBytes(UTF_8));
-					dcEntry = new DirCacheEntry(linkfile.dest);
-					dcEntry.setObjectId(objectId);
-					dcEntry.setFileMode(FileMode.SYMLINK);
-					builder.add(dcEntry);
+					tw.addSymlink(linkfile.dest, link);
 				}
 			}
 		}
-		String content = cfg.toText();
-
-		// create a new DirCacheEntry for .gitmodules file.
-		DirCacheEntry dcEntry = new DirCacheEntry(
-				Constants.DOT_GIT_MODULES);
-		ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
-				content.getBytes(UTF_8));
-		dcEntry.setObjectId(objectId);
-		dcEntry.setFileMode(FileMode.REGULAR_FILE);
-		builder.add(dcEntry);
+		String gitModulesContent = cfg.toText();
+		tw.addRegularFile(Constants.DOT_GIT_MODULES, gitModulesContent);
 
 		if (config.recordSubmoduleLabels) {
-			// create a new DirCacheEntry for .gitattributes file.
-			DirCacheEntry dcEntryAttr = new DirCacheEntry(
-					Constants.DOT_GIT_ATTRIBUTES);
-			ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
-					attributes.toString().getBytes(UTF_8));
-			dcEntryAttr.setObjectId(attrId);
-			dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
-			builder.add(dcEntryAttr);
+			tw.addRegularFile(Constants.DOT_GIT_ATTRIBUTES,
+					attributes.toString());
 		}
 
 		for (ExtraContent ec : extraContents) {
-			DirCacheEntry extraDcEntry = new DirCacheEntry(ec.path);
-
-			ObjectId oid = inserter.insert(Constants.OBJ_BLOB,
-					ec.content.getBytes(UTF_8));
-			extraDcEntry.setObjectId(oid);
-			extraDcEntry.setFileMode(FileMode.REGULAR_FILE);
-			builder.add(extraDcEntry);
+			tw.addRegularFile(ec.path, ec.content);
 		}
-
-		builder.finish();
 	}
 
 	private RevCommit commitTreeOnCurrentTip(ObjectInserter inserter,
@@ -315,5 +282,59 @@ class BareSuperprojectWriter {
 		}
 
 		return rw.parseCommit(commitId);
+	}
+
+	private static class IndexWriter {
+		private DirCache index;
+
+		private DirCacheBuilder builder;
+
+		private ObjectInserter inserter;
+
+		IndexWriter(ObjectInserter inserter) {
+			this.index = DirCache.newInCore();
+			this.builder = index.builder();
+			this.inserter = inserter;
+
+		}
+
+		void addRegularFile(String path, String contents) throws IOException {
+			addFileWithMode(path, contents.getBytes(UTF_8),
+					FileMode.REGULAR_FILE);
+		}
+
+		void addSymlink(String path, String link) throws IOException {
+			addFileWithMode(path, link.getBytes(UTF_8), FileMode.SYMLINK);
+		}
+
+		void addFileWithMode(String path, byte[] contents, FileMode mode)
+				throws IOException {
+			DirCacheEntry dce = new DirCacheEntry(path);
+
+			ObjectId oid = inserter.insert(Constants.OBJ_BLOB,
+					contents);
+			dce.setObjectId(oid);
+			dce.setFileMode(mode);
+			builder.add(dce);
+		}
+
+		void addGitlink(String path, ObjectId objectId) {
+			DirCacheEntry dce = new DirCacheEntry(path);
+			dce.setObjectId(objectId);
+			dce.setFileMode(FileMode.GITLINK);
+			builder.add(dce);
+		}
+
+		/**
+		 * Write the tree to the object store and return its id.
+		 *
+		 * @return object id of the new tree object
+		 * @throws UnmergedPathException
+		 * @throws IOException
+		 */
+		ObjectId create() throws UnmergedPathException, IOException {
+			builder.finish();
+			return index.writeTree(inserter);
+		}
 	}
 }
