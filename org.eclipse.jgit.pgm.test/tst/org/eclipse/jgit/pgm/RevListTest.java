@@ -55,21 +55,21 @@ public class RevListTest extends CLIRepositoryTestCase {
 		assertEquals(expect, result);
 	}
 
-	private List<RevCommit> createCommitsForParentsFlag(Git git)
+	private List<RevCommit> createCommitsForParentsFlag(Git repo)
 			throws Exception {
 		List<RevCommit> commits = new ArrayList<>();
 		writeTrashFile("Test1.txt", "Hello world");
-		git.add().addFilepattern("Test1.txt").call();
-		commits.add(git.commit().setMessage("commit#0").call());
+		repo.add().addFilepattern("Test1.txt").call();
+		commits.add(repo.commit().setMessage("commit#0").call());
 		writeTrashFile("Test.txt", "Hello world!");
-		git.add().addFilepattern("Test.txt").call();
-		commits.add(git.commit().setMessage("commit#1").call());
+		repo.add().addFilepattern("Test.txt").call();
+		commits.add(repo.commit().setMessage("commit#1").call());
 		writeTrashFile("Test1.txt", "Hello world!!");
-		git.add().addFilepattern("Test1.txt").call();
-		commits.add(git.commit().setMessage("commit#2").call());
+		repo.add().addFilepattern("Test1.txt").call();
+		commits.add(repo.commit().setMessage("commit#2").call());
 		writeTrashFile("Test.txt", "Hello world!!!");
-		git.add().addFilepattern("Test.txt").call();
-		commits.add(git.commit().setMessage("commit#3").call());
+		repo.add().addFilepattern("Test.txt").call();
+		commits.add(repo.commit().setMessage("commit#3").call());
 		return commits;
 	}
 }
