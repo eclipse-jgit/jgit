@@ -75,10 +75,52 @@
    <bundle id="javaewah.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="javax.servlet">
+   <bundle id="jakarta.servlet-api">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="javax.servlet.source">
+   <bundle id="jakarta.servlet-api.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.http">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.http.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.io">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.io.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.security">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.security.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.server">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.server.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.servlet">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.servlet.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.util">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.util.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.util.ajax">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.util.ajax.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="net.i2p.crypto.eddsa">

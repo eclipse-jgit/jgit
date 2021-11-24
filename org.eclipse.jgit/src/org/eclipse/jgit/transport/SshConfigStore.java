@@ -28,7 +28,7 @@ public interface SshConfigStore {
 	 * @param hostName
 	 *            to look up
 	 * @param port
-	 *            the user supplied; <= 0 if none
+	 *            the user supplied; &lt;= 0 if none
 	 * @param userName
 	 *            the user supplied, may be {@code null} or empty if none given
 	 * @return the configuration for the requested name.
@@ -68,7 +68,7 @@ public interface SshConfigStore {
 	 * @param hostName
 	 *            host name to look up
 	 * @param port
-	 *            port number; <= 0 if none
+	 *            port number; &lt;= 0 if none
 	 * @param userName
 	 *            the user name, may be {@code null} or empty if none given
 	 * @return the configuration for the requested name.

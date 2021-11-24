@@ -27,7 +27,7 @@ class Region {
 	/** First position in the {@link Candidate} that owns this Region. */
 	int sourceStart;
 
-	/** Length of the region, always >= 1. */
+	/** Length of the region, always &gt;= 1. */
 	int length;
 
 	Region(int rs, int ss, int len) {

@@ -27,6 +27,10 @@
     Tests for the Large File Extension (LFS).
   </description>
 
+  <properties>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
