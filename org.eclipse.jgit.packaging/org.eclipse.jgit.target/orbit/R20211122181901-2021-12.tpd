@@ -1,7 +1,7 @@
-target "S20211108222137" with source configurePhase
+target "R20211122181901-2021-12" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/S20211108222137/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/R20211122181901/repository" {
 	com.google.gson [2.8.8.v20211029-0838,2.8.8.v20211029-0838]
 	com.google.gson.source [2.8.8.v20211029-0838,2.8.8.v20211029-0838]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
