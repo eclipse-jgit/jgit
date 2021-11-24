@@ -21,7 +21,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * An object database stores one or more Git objects, indexed by their unique
  * {@link org.eclipse.jgit.lib.ObjectId}.
  */
-public abstract class ObjectDatabase {
+public abstract class ObjectDatabase implements AutoCloseable {
 	/**
 	 * Initialize a new database instance for access.
 	 */
@@ -74,6 +74,7 @@ public abstract class ObjectDatabase {
 	/**
 	 * Close any resources held by this database.
 	 */
+	@Override
 	public abstract void close();
 
 	/**
