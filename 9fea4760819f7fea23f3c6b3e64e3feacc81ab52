@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a2ca64f_4cc95bcf",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 46
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-25T14:25:44Z",
+      "side": 1,
+      "message": "You need to rebase and change versions to 6.1 since we bumped the jgit version on master to 6.1. We will tag the final 6.0 release Monday next week.",
+      "revId": "9fea4760819f7fea23f3c6b3e64e3feacc81ab52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f191bf9b_e4ade7a0",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-25T14:25:44Z",
+      "side": 1,
+      "message": "we don\u0027t use final for local variables see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 8
+      },
+      "revId": "9fea4760819f7fea23f3c6b3e64e3feacc81ab52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b289f36_970eff96",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-25T14:25:44Z",
+      "side": 1,
+      "message": "remove final",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 7
+      },
+      "revId": "9fea4760819f7fea23f3c6b3e64e3feacc81ab52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95c1575_c80f9a10",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 46
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-25T14:25:44Z",
+      "side": 1,
+      "message": "6.1.0",
+      "range": {
+        "startLine": 73,
+        "startChar": 50,
+        "endLine": 73,
+        "endChar": 55
+      },
+      "revId": "9fea4760819f7fea23f3c6b3e64e3feacc81ab52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
