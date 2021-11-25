@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "11061f77_6780e22d",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 46
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-25T17:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a2ca64f_4cc95bcf",
+      "revId": "9fea4760819f7fea23f3c6b3e64e3feacc81ab52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f191bf9b_e4ade7a0",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
         "patchSetId": 46
@@ -85,6 +103,30 @@
       "revId": "9fea4760819f7fea23f3c6b3e64e3feacc81ab52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c0858ea_d41af5d8",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 46
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-11-25T17:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a95c1575_c80f9a10",
+      "range": {
+        "startLine": 73,
+        "startChar": 50,
+        "endLine": 73,
+        "endChar": 55
+      },
+      "revId": "9fea4760819f7fea23f3c6b3e64e3feacc81ab52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
