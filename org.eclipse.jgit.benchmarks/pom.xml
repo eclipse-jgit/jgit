@@ -22,8 +22,6 @@
 
   <properties>
     <java.version>11</java.version>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jmh.version>1.32</jmh.version>
     <uberjar.name>benchmarks</uberjar.name>
@@ -77,8 +75,7 @@
         <version>3.8.1</version>
         <configuration>
           <encoding>UTF-8</encoding>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
+          <release>${java.version}</release>
           <fork>true</fork>
           <compilerArgs>
             <arg>-XDcompilePolicy=simple</arg>
