@@ -126,7 +126,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			// setup a repo which has at least one pack file and trigger
 			// scanning of the packs directory
 			ObjectId id = commitFile("file.txt", "test", "master").getId();
-			gc.gc();
+			gc.gc().get();
 			assertFalse(receivingDB.getObjectDatabase().has(unknownID));
 			assertTrue(receivingDB.getObjectDatabase().hasPackedObject(id));
 
@@ -155,7 +155,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 
 			// trigger a gc. This will create packfiles which have likely the
 			// same mtime than the packfolder
-			gc.gc();
+			gc.gc().get();
 
 			// To deal with racy-git situations JGit's Filesnapshot class will
 			// report a file/folder potentially dirty if
