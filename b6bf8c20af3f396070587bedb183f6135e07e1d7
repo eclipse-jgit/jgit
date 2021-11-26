@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d61b6d2_945a11ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-26T17:16:32Z",
+      "side": 1,
+      "message": "We can remove all @since tags from non-API",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 14
+      },
+      "revId": "b6bf8c20af3f396070587bedb183f6135e07e1d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df6092d3_f00eac5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-26T17:16:32Z",
+      "side": 1,
+      "message": "Please remove",
+      "range": {
+        "startLine": 25,
+        "startChar": 3,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "b6bf8c20af3f396070587bedb183f6135e07e1d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fae7bfa8_e87ea62d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-26T17:16:32Z",
+      "side": 1,
+      "message": "Import static ConfigConstants.* would reduce boilerplate code here and below.",
+      "range": {
+        "startLine": 43,
+        "startChar": 26,
+        "endLine": 43,
+        "endChar": 42
+      },
+      "revId": "b6bf8c20af3f396070587bedb183f6135e07e1d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2934f89b_61a0e215",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-26T17:16:32Z",
+      "side": 1,
+      "message": "Boolean.parseBoolean(trustStr)",
+      "range": {
+        "startLine": 52,
+        "startChar": 19,
+        "endLine": 52,
+        "endChar": 59
+      },
+      "revId": "b6bf8c20af3f396070587bedb183f6135e07e1d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a78c84b_3f54e4cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/UserDefinedDiffTool.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-26T17:16:32Z",
+      "side": 1,
+      "message": "I think we should add javadoc *why* it is not final and why it is protected (to allow subclasses to set the value without providing setPath() in this class). Not sure we can remove \"protected\" here, since it is supposed to be used from this package only.\n\nOn the other side, I don\u0027t see a reason to have it not private and not to provide setPath() here, so subclasses can call that instead of accessing protected field.\n\nSo I would make it private and move setPath() from PreDefinedDiffTool to this class\n\nThoughts?",
+      "revId": "b6bf8c20af3f396070587bedb183f6135e07e1d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
