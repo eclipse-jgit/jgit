@@ -34,6 +34,24 @@
       "revId": "903e3b2a6a0e867d5050609d212a68c2fdfb59b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "480b8833_953a5d4f",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 37
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-26T08:57:50Z",
+      "side": 1,
+      "message": "Created change: https://git.eclipse.org/r/c/jgit/jgit/+/188164",
+      "parentUuid": "a58572f1_c6629f01",
+      "revId": "903e3b2a6a0e867d5050609d212a68c2fdfb59b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
