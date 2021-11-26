@@ -25,7 +25,7 @@ public class BitmappedReachabilityCheckerTest
 		// GC generates the bitmaps
 		GC gc = new GC(repo.getRepository());
 		gc.setAuto(false);
-		gc.gc();
+		gc.gc().get();
 
 		// This is null when the test didn't create any branch
 		assertNotNull("Probably the test didn't define any ref",

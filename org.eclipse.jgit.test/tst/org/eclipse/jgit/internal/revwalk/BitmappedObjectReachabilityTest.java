@@ -23,7 +23,7 @@ public class BitmappedObjectReachabilityTest
 		// GC generates the bitmaps
 		GC gc = new GC(repository.getRepository());
 		gc.setAuto(false);
-		gc.gc();
+		gc.gc().get();
 
 		return new BitmappedObjectReachabilityChecker(
 				repository.getRevWalk().toObjectWalkWithSameObjects());

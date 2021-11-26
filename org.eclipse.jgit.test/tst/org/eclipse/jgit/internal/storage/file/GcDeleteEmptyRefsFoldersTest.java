@@ -48,7 +48,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 		setLastModifiedTime(fileTime, heads, REF_FOLDER_02);
 		assertTrue(refDir01.toFile().exists());
 		assertTrue(refDir02.toFile().exists());
-		gc.gc();
+		gc.gc().get();
 
 		assertFalse(refDir01.toFile().exists());
 		assertFalse(refDir01.getParent().toFile().exists());
@@ -68,7 +68,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 		setLastModifiedTime(fileTime, heads, REF_FOLDER_02);
 		assertTrue(refDir01.toFile().exists());
 		assertTrue(refDir02.toFile().exists());
-		gc.gc();
+		gc.gc().get();
 		assertTrue(Files.exists(refFile));
 	}
 
@@ -88,7 +88,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 		Path refDir02 = Files.createDirectories(heads.resolve(REF_FOLDER_02));
 		assertTrue(refDir01.toFile().exists());
 		assertTrue(refDir02.toFile().exists());
-		gc.gc();
+		gc.gc().get();
 
 		assertTrue(refDir01.toFile().exists());
 		assertTrue(refDir02.toFile().exists());
@@ -104,7 +104,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 		assertTrue(refDir02.toFile().exists());
 		assertTrue(ref01.toFile().exists());
 		assertTrue(ref02.toFile().exists());
-		gc.gc();
+		gc.gc().get();
 		assertTrue(refDir01.toFile().exists());
 		assertTrue(refDir02.toFile().exists());
 		assertTrue(ref01.toFile().exists());
