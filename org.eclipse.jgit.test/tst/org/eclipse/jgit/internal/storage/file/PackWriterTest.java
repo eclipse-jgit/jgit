@@ -28,7 +28,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -232,15 +231,13 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 * Use a repo with bitmap indexes because then PackWriter will use
 	 * PackWriterBitmapWalker which had problems with this situation.
 	 *
-	 * @throws IOException
-	 * @throws ParseException
+	 * @throws Exception
 	 */
 	@Test
-	public void testIgnoreNonExistingObjectsWithBitmaps() throws IOException,
-			ParseException {
+	public void testIgnoreNonExistingObjectsWithBitmaps() throws Exception {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-		new GC(db).gc();
+		new GC(db).gc().get();
 		createVerifyOpenPack(NONE, haves(nonExisting), false, true, true);
 		// shouldn't throw anything
 	}
@@ -732,11 +729,11 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			gc.setPackExpireAgeMillis(Long.MAX_VALUE);
 			gc.setExpireAgeMillis(Long.MAX_VALUE);
 			// Creates packfile P1 (containing C1, T1)
-			gc.gc();
+			gc.gc().get();
 			// Creates 1 object (C2 commit)
 			git.commit().setMessage("Second commit").call();
 			// Creates packfile P2 (containing C1, T1, C2)
-			gc.gc();
+			gc.gc().get();
 			// Create 1 object (C3 commit)
 			git.commit().setMessage("Third commit").call();
 		}

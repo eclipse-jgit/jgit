@@ -31,6 +31,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
@@ -282,7 +283,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 
 	private Pack repackAndCheck(int compressionLevel, String oldName,
 			Long oldLength, AnyObjectId oldChkSum)
-			throws IOException, ParseException {
+			throws IOException, ParseException, InterruptedException,
+			ExecutionException {
 		Pack p = getSinglePack(gc(compressionLevel));
 		File pf = p.getPackFile();
 		// The following two assumptions should not cause the test to fail. If
@@ -306,7 +308,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 	}
 
 	private Collection<Pack> gc(int compressionLevel)
-			throws IOException, ParseException {
+			throws IOException, ParseException, InterruptedException,
+			ExecutionException {
 		GC gc = new GC(db);
 		PackConfig pc = new PackConfig(db.getConfig());
 		pc.setCompressionLevel(compressionLevel);
@@ -322,7 +325,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		gc.setPackConfig(pc);
 		gc.setExpireAgeMillis(0);
 		gc.setPackExpireAgeMillis(0);
-		return gc.gc();
+		return gc.gc().get();
 	}
 
 }

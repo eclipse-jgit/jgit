@@ -80,7 +80,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 		assertEquals(0, stats.numberOfPackedObjects);
 		gc.setExpireAgeMillis(0);
 		fsTick();
-		gc.gc();
+		gc.gc().get();
 		stats = gc.getStatistics();
 		assertNoEmptyFanoutDirectories();
 		assertEquals(0, stats.numberOfLooseObjects);

@@ -25,7 +25,7 @@ public class GcDirCacheSavesObjectsTest extends GcTestCase {
 		stats = gc.getStatistics();
 		assertEquals(9, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
-		gc.gc();
+		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(1, stats.numberOfLooseObjects);
 		assertEquals(8, stats.numberOfPackedObjects);
@@ -43,7 +43,7 @@ public class GcDirCacheSavesObjectsTest extends GcTestCase {
 		assertEquals(0, stats.numberOfPackedObjects);
 		gc.setExpireAgeMillis(0);
 		fsTick();
-		gc.gc();
+		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(8, stats.numberOfPackedObjects);

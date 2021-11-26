@@ -110,7 +110,7 @@ public class GcConcurrentTest extends GcTestCase {
 		test.commit().add("a", "a").create();
 		GC gc1 = new GC(tr.getRepository());
 		gc1.setPackExpireAgeMillis(0);
-		gc1.gc();
+		gc1.gc().get();
 		test.commit().add("b", "b").create();
 
 		// Create a new Repository instance and trigger a gc
@@ -120,7 +120,7 @@ public class GcConcurrentTest extends GcTestCase {
 				tr.getRepository().getDirectory());
 		GC gc2 = new GC(r2);
 		gc2.setPackExpireAgeMillis(0);
-		gc2.gc();
+		gc2.gc().get();
 
 		new GC(tr.getRepository()).getStatistics();
 	}
@@ -133,7 +133,7 @@ public class GcConcurrentTest extends GcTestCase {
 
 		GC gc1 = new GC(tr.getRepository());
 		gc1.setPackExpireAgeMillis(0);
-		gc1.gc();
+		gc1.gc().get();
 
 		RevCommit b = test.commit().add("b", "b").create();
 
@@ -141,7 +141,7 @@ public class GcConcurrentTest extends GcTestCase {
 				tr.getRepository().getDirectory());
 		GC gc2 = new GC(r2);
 		gc2.setPackExpireAgeMillis(0);
-		gc2.gc();
+		gc2.gc().get();
 
 		// Simulate parts of an UploadPack. This is the situation on
 		// server side (e.g. gerrit) when clients are
@@ -172,7 +172,7 @@ public class GcConcurrentTest extends GcTestCase {
 		FileRepository repository = tr.getRepository();
 		GC gc1 = new GC(repository);
 		gc1.setPackExpireAgeMillis(0);
-		gc1.gc();
+		gc1.gc().get();
 		String oldPackName = getSinglePack(repository).getPackName();
 		RevCommit b = test.commit().add("b", "b").create();
 
@@ -180,7 +180,7 @@ public class GcConcurrentTest extends GcTestCase {
 		FileRepository repository2 = new FileRepository(repository.getDirectory());
 		GC gc2 = new GC(repository2);
 		gc2.setPackExpireAgeMillis(0);
-		gc2.gc();
+		gc2.gc().get();
 		String newPackName = getSinglePack(repository2).getPackName();
 		// make sure gc() has caused creation of a new packfile
 		assertNotEquals(oldPackName, newPackName);
@@ -210,7 +210,7 @@ public class GcConcurrentTest extends GcTestCase {
 			long start = System.currentTimeMillis();
 			System.out.println("starting gc");
 			latch.countDown();
-			Collection<Pack> r = gc.gc();
+			Collection<Pack> r = gc.gc().get();
 			System.out.println(
 					"gc took " + (System.currentTimeMillis() - start) + " ms");
 			return r;
