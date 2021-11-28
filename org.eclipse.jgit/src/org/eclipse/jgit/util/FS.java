@@ -1530,6 +1530,7 @@ public abstract class FS {
 
 			String w;
 			try {
+				// This command prints the path even if it doesn't exist
 				w = readPipe(gitExe.getParentFile(),
 						new String[] { gitExe.getPath(), "config", "--system", //$NON-NLS-1$ //$NON-NLS-2$
 								"--edit" }, //$NON-NLS-1$
@@ -1552,7 +1553,10 @@ public abstract class FS {
 							"--show-origin", "--list", "-z" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					SystemReader.getInstance().getDefaultCharset().name());
 		} catch (CommandFailedException e) {
-			LOG.warn(e.getMessage());
+			// This command fails if the system config doesn't exist
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage());
+			}
 			return null;
 		}
 		if (w == null) {
