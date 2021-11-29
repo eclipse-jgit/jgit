@@ -108,6 +108,24 @@
       "revId": "b6bf8c20af3f396070587bedb183f6135e07e1d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31483961_069d6e9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/UserDefinedDiffTool.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-29T07:47:21Z",
+      "side": 1,
+      "message": "I checked the \"complete version\", I assume this is protected in order to not expose it API-wise. But since the class is now in an internal package, this is no longer API and we can expose whatever we want (Andre, correct me if I\u0027m wrong).\n\nSo I\u0027ve added a setPath() method.",
+      "parentUuid": "4a78c84b_3f54e4cf",
+      "revId": "b6bf8c20af3f396070587bedb183f6135e07e1d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
