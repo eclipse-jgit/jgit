@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1b9f64f9_29abbe57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-29T21:19:44Z",
+      "side": 1,
+      "message": "\u003e Hmm, our test setup is a bare repo I think, but I wouldn\u0027t expect that to matter much. Do you see the same kind of output from those \u0027find\u0027 commands?\n\nYes. I double-checked when I couldn\u0027t reproduce your numbers :-) But there\u0027s a few factors that can influence this:\n\n* I was running on master, with Java 11. Java 11 reports file timestamps with a finer granularity than Java 8 on Linux/OS X, so one has to wait much less long to resolve a racy state.\n* My repo was in the system tempdir on my Mac. I didn\u0027t check where that is actually, but I\u0027d guess it\u0027s on the SSD (my mac has a hybrid drive). If you tested in a container or with a repo on NFS or even only on a spinning disk, that might explain the timing differences.",
+      "parentUuid": "6dd21ede_b09e5588",
+      "revId": "14f7ea106f44099116ddbb8aad4f8482f8ca7135",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6fee18b_a5a0adf5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
