@@ -21,6 +21,7 @@ artifacts = [group,
              group + '.lfs.server',
              group + '.pgm',
              group + '.ssh.apache',
+             group + '.ssh.apache.agent',
              group + '.ssh.jsch',
              group + '.ui']
 
