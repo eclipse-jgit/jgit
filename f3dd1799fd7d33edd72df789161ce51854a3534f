@@ -16,6 +16,29 @@
       "revId": "f3dd1799fd7d33edd72df789161ce51854a3534f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f0ec912_00d17013",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-11-29T22:30:36Z",
+      "side": 1,
+      "message": "If you make this return the non-null fileStoreAttributeCache and ensure all current users of the variable switch to calling this method instead (s/fileStoreAttributeCache/fileStoreAttributeCache()/), you\u0027ll have a cleaner interface.",
+      "range": {
+        "startLine": 595,
+        "startChar": 14,
+        "endLine": 595,
+        "endChar": 45
+      },
+      "revId": "f3dd1799fd7d33edd72df789161ce51854a3534f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
