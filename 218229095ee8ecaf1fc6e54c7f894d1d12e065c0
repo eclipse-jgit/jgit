@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "d7bc5e5b_dea23527",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-29T17:36:49Z",
+      "side": 1,
+      "message": "This should be userToolNames",
+      "range": {
+        "startLine": 214,
+        "startChar": 3,
+        "endLine": 214,
+        "endChar": 21
+      },
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8c2da2e_20df1daa",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/diffmergetool/ExternalDiffToolTest.java",
         "patchSetId": 41
