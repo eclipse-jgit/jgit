@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e9c6b59b_8050f1df",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 41
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-29T16:49:15Z",
+      "side": 1,
+      "message": "Please add org.eclipse.jgit.pgm.test to x-friends in /org.eclipse.jgit/META-INF/MANIFEST.MF",
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f43e7521_c01fb5ee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
         "patchSetId": 41
