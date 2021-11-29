@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b38b3ac6_f897b91d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-11-29T20:14:52Z",
+      "side": 1,
+      "message": "\u003e I get about 7.2s for the 100000 exactRef calls. (In a non-bare repo with non-dangling head.)\n\nHmm, our test setup is a bare repo I think, but I wouldn\u0027t expect that to matter much. Do you see the same kind of output from those \u0027find\u0027 commands?\n\n\u003e So for me on master:\n\u003e \n\u003e * 7.2s as is\n\u003e * 3.1s with this change\n\u003e * 4.3s without this change, loading FS resolution lazily\n\u003e * 2.5s without this change, loading FS resolution lazily, plus exists()\n\n+1 for doing the lazy FS resolution and exists(), but we need it on this stable branch for Gerrit 2.16 to use. Will that be ok? I think it will help to have these two changes backported too:\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/174188/1\nhttps://git.eclipse.org/r/c/jgit/jgit/+/174191/1",
+      "parentUuid": "7145c979_9f8218ae",
+      "revId": "14f7ea106f44099116ddbb8aad4f8482f8ca7135",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6fee18b_a5a0adf5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2021-11-20T23:42:33Z",
       "side": 1,
       "message": "What if some other thread or process modifies the file between the read above and the snapshot creation below? To me this looks like a race condition.\n\nCan\u0027t we handle this inside FileSnapshot? Seems to me one could gain something there by calling FS.getFileStoreAttributes() more lazily: it\u0027s not needed if the file does not exist.",
+      "revId": "14f7ea106f44099116ddbb8aad4f8482f8ca7135",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f7c0889_10590f61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-11-29T20:14:52Z",
+      "side": 1,
+      "message": "\u003e What if some other thread or process modifies the file between the read above and the snapshot creation below? To me this looks like a race condition.\n\nI agree. We need to fix.\n\n\u003e \n\u003e Can\u0027t we handle this inside FileSnapshot? Seems to me one could gain something there by calling FS.getFileStoreAttributes() more lazily: it\u0027s not needed if the file does not exist.\n\nYes, this makes sense to me too. We\u0027ll try it out following the ideas you have in your other comment.",
+      "parentUuid": "a6fee18b_a5a0adf5",
       "revId": "14f7ea106f44099116ddbb8aad4f8482f8ca7135",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
