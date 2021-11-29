@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f43e7521_c01fb5ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-11-29T16:33:26Z",
+      "side": 1,
+      "message": "super.setPath(), otherwise stack overflow.\nWe should add test that overrides some \"known\" tool path and check that the default path is NOT  used by jgit. I\u0027ve used such config:\n\n[difftool \"guiffy\"]\n\tpath \u003d echo",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 9
+      },
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
