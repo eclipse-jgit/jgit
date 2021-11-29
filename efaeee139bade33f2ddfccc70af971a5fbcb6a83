@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479d0372_0fc727af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-11-29T23:37:20Z",
+      "side": 1,
+      "message": "I think this could bypass the throw that happens on 1114 since we also get to this case from an IOException.",
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
