@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e5ee2a1_4be1d9a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "This is the solution you are proposing, could you move it to a second paragraph? Maybe add afterwards the \"This reduces the latency from (x + y) to max(x, y)\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3cd91d4_534cfd9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "Do you mean something else? Based on previous sentence, pack index should be ready to build the reverse index (?!).",
+      "range": {
+        "startLine": 12,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7739d8f_3cca7e13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "Do we need to expose this option? Could we just assume true (for DFS) and false when not explicitely mentioned (i.e. using the older constructor).\n\nThinking that a new option is a path to maintain/test, and if we expose it we won\u0027t get rid of it easily.",
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ad4f471_354b3960",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "Thanks for the test! I think you don\u0027t need to mention it in the commit message.",
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2947abec_90c0fbb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "You don\u0027t need to invoke this here (the boolean will be false by default).",
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1359a82c_d02a91f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "Optional: Could we shorten this name? Does it need the \"for bitmap\"? maybe e.g. loadRevIndexInParallel? (not sure this is an improvement, but has less characters).",
+      "range": {
+        "startLine": 123,
+        "startChar": 9,
+        "endLine": 123,
+        "endChar": 42
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f61319_2209bb57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "with?",
+      "range": {
+        "startLine": 127,
+        "startChar": 58,
+        "endLine": 127,
+        "endChar": 61
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "621ff44c_8121db5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 130,
+        "startChar": 61,
+        "endLine": 130,
+        "endChar": 67
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd6efd34_2a39547c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-11-29T22:44:10Z",
+      "side": 1,
+      "message": "Optional: for the case of \"no parallel loading\", would it be clearer implementing a Future that wraps a function and invokes it in the Future::get? \n\nHere it would do: \nFuture\u003cPackReverseIndex\u003e reverseIndexFuture \u003d loadParallelRevIndex ? executor... : asFuture(reverseIndexSupplier::get);\n\nand below: this.reverseIndex \u003d reverseIndexFuture.get();",
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
