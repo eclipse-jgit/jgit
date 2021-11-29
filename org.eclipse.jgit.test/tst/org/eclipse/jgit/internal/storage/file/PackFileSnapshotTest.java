@@ -25,8 +25,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
-//import java.nio.file.attribute.BasicFileAttributes;
-import java.text.ParseException;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Iterator;
@@ -281,8 +279,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 	}
 
 	private Pack repackAndCheck(int compressionLevel, String oldName,
-			Long oldLength, AnyObjectId oldChkSum)
-			throws IOException, ParseException {
+			Long oldLength, AnyObjectId oldChkSum) throws Exception {
 		Pack p = getSinglePack(gc(compressionLevel));
 		File pf = p.getPackFile();
 		// The following two assumptions should not cause the test to fail. If
@@ -305,8 +302,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		return p;
 	}
 
-	private Collection<Pack> gc(int compressionLevel)
-			throws IOException, ParseException {
+	private Collection<Pack> gc(int compressionLevel) throws Exception {
 		GC gc = new GC(db);
 		PackConfig pc = new PackConfig(db.getConfig());
 		pc.setCompressionLevel(compressionLevel);
@@ -322,7 +318,7 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		gc.setPackConfig(pc);
 		gc.setExpireAgeMillis(0);
 		gc.setPackExpireAgeMillis(0);
-		return gc.gc();
+		return gc.gc().get();
 	}
 
 }
