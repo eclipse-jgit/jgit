@@ -42,7 +42,6 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.IoWriteFuture;
 import org.apache.sshd.common.kex.BuiltinDHFactories;
 import org.apache.sshd.common.kex.DHFactory;
-import org.apache.sshd.common.kex.KexProposalOption;
 import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.kex.extension.KexExtensionHandler;
 import org.apache.sshd.common.kex.extension.KexExtensionHandler.AvailabilityPhase;
@@ -197,24 +196,6 @@ public class JGitClientSession extends ClientSessionImpl {
 		} else {
 			super.messageReceived(buffer);
 		}
-	}
-
-	@Override
-	protected Map<KexProposalOption, String> setNegotiationResult(
-			Map<KexProposalOption, String> guess) {
-		Map<KexProposalOption, String> result = super.setNegotiationResult(
-				guess);
-		// This should be doable with a SessionListener, too, but I don't see
-		// how to add a listener in time to catch the negotiation end for sure
-		// given that the super-constructor already starts KEX.
-		//
-		// TODO: This override can be removed once we use sshd 2.8.0.
-		if (log.isDebugEnabled()) {
-			result.forEach((option, value) -> log.debug(
-					"setNegotiationResult({}) Kex: {} = {}", this, //$NON-NLS-1$
-					option.getDescription(), value));
-		}
-		return result;
 	}
 
 	Set<String> getAllAvailableSignatureAlgorithms() {

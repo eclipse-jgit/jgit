@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.sshd.agent.SshAgent;
 import org.apache.sshd.agent.SshAgentConstants;
+import org.apache.sshd.agent.SshAgentKeyConstraint;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.session.SessionContext;
@@ -230,7 +231,8 @@ public class SshAgentClient implements SshAgent {
 	}
 
 	@Override
-	public void addIdentity(KeyPair key, String comment) throws IOException {
+	public void addIdentity(KeyPair key, String comment,
+			SshAgentKeyConstraint... constraints) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
