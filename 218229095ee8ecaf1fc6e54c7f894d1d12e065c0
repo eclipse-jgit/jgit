@@ -82,6 +82,30 @@
     },
     {
       "key": {
+        "uuid": "cad53285_ba897bf2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/diffmergetool/ExternalDiffToolTest.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-30T09:25:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure how comparing a set to a list works in JUnit (semantically). Whereas comparing 2 sets should be obvious.\n\nLet me know if you want an ArrayList regardless, its the same to me.",
+      "parentUuid": "a8c2da2e_20df1daa",
+      "range": {
+        "startLine": 42,
+        "startChar": 38,
+        "endLine": 42,
+        "endChar": 51
+      },
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b5bd0c6_0354fa73",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
         "patchSetId": 41
@@ -99,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "1df39afe_57e19e1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-30T09:25:23Z",
+      "side": 1,
+      "message": "Andre, I\u0027ll remove the commented out lines (I see the final version also has this commented out). Let me know if you prefer something else here.",
+      "parentUuid": "1b5bd0c6_0354fa73",
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f0ade86_27ba96a6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
         "patchSetId": 41
@@ -110,6 +152,24 @@
       "writtenOn": "2021-11-29T17:01:08Z",
       "side": 1,
       "message": "do we need all these $NON-NLS-n comments if nls warnings are suppressed ?",
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1133dd1_e146d864",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-30T09:25:23Z",
+      "side": 1,
+      "message": "I\u0027ve removed the suppression, IMO here its better to not have it.",
+      "parentUuid": "8f0ade86_27ba96a6",
       "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
