@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aa023b6_70e38599",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2021-11-30T17:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef9adaf_f188b920",
+      "revId": "f3dd1799fd7d33edd72df789161ce51854a3534f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f0ec912_00d17013",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "f3dd1799fd7d33edd72df789161ce51854a3534f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ececf2f_66b3b0f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2021-11-30T17:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f0ec912_00d17013",
+      "range": {
+        "startLine": 595,
+        "startChar": 14,
+        "endLine": 595,
+        "endChar": 45
+      },
+      "revId": "f3dd1799fd7d33edd72df789161ce51854a3534f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
