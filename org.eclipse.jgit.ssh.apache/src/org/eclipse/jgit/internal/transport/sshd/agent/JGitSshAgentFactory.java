@@ -20,6 +20,7 @@ import org.apache.sshd.agent.SshAgentServer;
 import org.apache.sshd.common.FactoryManager;
 import org.apache.sshd.common.channel.ChannelFactory;
 import org.apache.sshd.common.session.ConnectionService;
+import org.apache.sshd.common.session.Session;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
 
@@ -54,7 +55,8 @@ public class JGitSshAgentFactory implements SshAgentFactory {
 	}
 
 	@Override
-	public SshAgent createClient(FactoryManager manager) throws IOException {
+	public SshAgent createClient(Session session, FactoryManager manager)
+			throws IOException {
 		// sshd 2.8.0 will pass us the session here. At that point, we can get
 		// the HostConfigEntry and extract and handle the IdentityAgent setting.
 		// For now, pass null to let the ConnectorFactory do its default

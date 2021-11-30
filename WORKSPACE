@@ -123,14 +123,14 @@ maven_jar(
 
 maven_jar(
     name = "sshd-osgi",
-    artifact = "org.apache.sshd:sshd-osgi:2.7.0",
-    sha1 = "a101aad0f79ad424498098f7e91c39d3d92177c1",
+    artifact = "org.apache.sshd:sshd-osgi:2.8.0",
+    sha1 = "b2a59b73c045f40d5722b9160d4f909a646d86c9",
 )
 
 maven_jar(
     name = "sshd-sftp",
-    artifact = "org.apache.sshd:sshd-sftp:2.7.0",
-    sha1 = "0c9eff7145e20b338c1dd6aca36ba93ed7c0147c",
+    artifact = "org.apache.sshd:sshd-sftp:2.8.0",
+    sha1 = "d3cd9bc8d335b3ed1a86d2965deb4d202de27442",
 )
 
 maven_jar(
