@@ -16,6 +16,47 @@
       "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02db2a5b_67287e3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-30T08:16:05Z",
+      "side": 1,
+      "message": "That\u0027s true. 1114 seems to handle the case of an existing but inaccessible file; it was added in If4a94217fb5b7cfd4c04d881902f3e86193c7008. I don\u0027t quite understand under what conditions this can occur. BTW, see below.",
+      "parentUuid": "479d0372_0fc727af",
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e49917f1_4a49ec00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-11-30T08:16:05Z",
+      "side": 1,
+      "message": "Could be simplified to path.isFile(). No need to query file attributes twice.",
+      "range": {
+        "startLine": 1113,
+        "startChar": 7,
+        "endLine": 1113,
+        "endChar": 37
+      },
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
