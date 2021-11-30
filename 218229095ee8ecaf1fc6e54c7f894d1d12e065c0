@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "c7bdad57_f01a74af",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-11-30T09:09:04Z",
+      "side": 1,
+      "message": "Is there any reason for this to not use StringBuilder? Andre?",
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d7bc5e5b_dea23527",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 41
