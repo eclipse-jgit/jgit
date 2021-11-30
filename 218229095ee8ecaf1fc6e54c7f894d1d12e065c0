@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8e35b0ec_721fa3d4",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2021-11-30T09:42:20Z",
+      "side": 1,
+      "message": "i do not remember, but yes StringBuilder would be better solution",
+      "parentUuid": "c7bdad57_f01a74af",
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d7bc5e5b_dea23527",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 41
@@ -47,6 +65,30 @@
       "writtenOn": "2021-11-29T17:36:49Z",
       "side": 1,
       "message": "This should be userToolNames",
+      "range": {
+        "startLine": 214,
+        "startChar": 3,
+        "endLine": 214,
+        "endChar": 21
+      },
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09236351_bf454d21",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2021-11-30T09:42:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d7bc5e5b_dea23527",
       "range": {
         "startLine": 214,
         "startChar": 3,
@@ -135,6 +177,24 @@
       "side": 1,
       "message": "Andre, I\u0027ll remove the commented out lines (I see the final version also has this commented out). Let me know if you prefer something else here.",
       "parentUuid": "1b5bd0c6_0354fa73",
+      "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "450b139a_c30de1ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2021-11-30T09:42:20Z",
+      "side": 1,
+      "message": "i think, it was tested and not finished investigation, but if comment / hint is right tortoismerge cannot diff, please remove it",
+      "parentUuid": "1df39afe_57e19e1e",
       "revId": "218229095ee8ecaf1fc6e54c7f894d1d12e065c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
