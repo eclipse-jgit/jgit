@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b32248e4_ca0fc764",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-02T23:14:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "179252a9_eb280624",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "6ed8a80cbdbd72b35924cc3940b94597bdcaa4d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41696ab3_acf15b53",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
