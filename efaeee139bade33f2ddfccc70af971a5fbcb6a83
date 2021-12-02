@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c559e768_4301e2f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2021-12-02T14:38:44Z",
+      "side": 1,
+      "message": "We could save this exception for later inspection/re-throwing? That will add overhead to a lot of FileSnapshots that expect to hit this exception, but maybe that can be offset by skipping currently duplicated work where we probably re-do this existence check?",
+      "range": {
+        "startLine": 267,
+        "startChar": 11,
+        "endLine": 267,
+        "endChar": 24
+      },
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "479d0372_0fc727af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
