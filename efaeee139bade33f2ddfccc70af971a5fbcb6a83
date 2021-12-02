@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f1e7508e_27cdbfe7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-02T15:26:59Z",
+      "side": 1,
+      "message": "I don\u0027t understand what we would gain by saving this exception, RefDirectory.scanRef line 1111 tries to read the loose ref at a different time and anything could happen in between.",
+      "parentUuid": "c559e768_4301e2f6",
+      "range": {
+        "startLine": 267,
+        "startChar": 11,
+        "endLine": 267,
+        "endChar": 24
+      },
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "479d0372_0fc727af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "there are multiple cases where this can happen\n\n- missing file permissions\n- incompatible read vs. read/write open modes\n- filesystem locking\n- temporary lack of resources (e.g. too many open files)\n\nsee I03c6f6891de3c343d3d517092eaa75dba282c0cd",
       "parentUuid": "02db2a5b_67287e3e",
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32e4d8c9_9094ecce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-02T15:26:59Z",
+      "side": 1,
+      "message": "looks like there are 2 cases:\n\n1. the file exists when line 1106 is executed, reading from it in 1111 can fail for any of the reasons mentioned above or if the file disappeared until we reach line 1111, due to a race.\n\n2. the file does not exist when line 1106 is executed but could exist again in line 1111, due to a race, if we wouldn\u0027t return null in line 1107.\n\nI think case 2 shouldn\u0027t cause new issues since the same problem could occur without this change if the timing of the race is slightly different",
+      "parentUuid": "e9433452_b924d629",
       "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
