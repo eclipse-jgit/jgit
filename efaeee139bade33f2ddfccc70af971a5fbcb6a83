@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e9433452_b924d629",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-02T11:08:01Z",
+      "side": 1,
+      "message": "there are multiple cases where this can happen\n\n- missing file permissions\n- incompatible read vs. read/write open modes\n- filesystem locking\n- temporary lack of resources (e.g. too many open files)\n\nsee I03c6f6891de3c343d3d517092eaa75dba282c0cd",
+      "parentUuid": "02db2a5b_67287e3e",
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e49917f1_4a49ec00",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2021-11-30T08:16:05Z",
       "side": 1,
       "message": "Could be simplified to path.isFile(). No need to query file attributes twice.",
+      "range": {
+        "startLine": 1113,
+        "startChar": 7,
+        "endLine": 1113,
+        "endChar": 37
+      },
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73533722_c99acc6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-02T11:08:01Z",
+      "side": 1,
+      "message": "yep File.isFile() checks if the file exists and is a normal file\n\nsee https://docs.oracle.com/javase/8/docs/api/java/io/File.html#isFile--",
+      "parentUuid": "e49917f1_4a49ec00",
       "range": {
         "startLine": 1113,
         "startChar": 7,
