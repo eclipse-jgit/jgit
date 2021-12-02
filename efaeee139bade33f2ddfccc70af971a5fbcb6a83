@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "f579a2df_4ca3616b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-02T23:11:33Z",
+      "side": 1,
+      "message": "In the FileSnapshot constructor in line 266 we read the file\u0027s attributes here in line 1111 we read the file content. At least on Linux according to [1] no permissions on the file are needed to read the file attributes using stat but read permission is required to read the file content. Hence I am not sure if it would be correct to throw the saved IOException which might have occurred in FileSnapshot() and throw it here. If missing file permissions are causing FileNotFoundException in 1112 then this wouldn\u0027t cause an IOException in FileSnapshot().\n\n[1] https://man7.org/linux/man-pages/man2/lstat.2.html",
+      "parentUuid": "af151c33_fef302a0",
+      "revId": "efaeee139bade33f2ddfccc70af971a5fbcb6a83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e49917f1_4a49ec00",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
