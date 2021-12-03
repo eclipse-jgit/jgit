@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2b0fedb5_6d05cf19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "I re-worded. I made paragraph 2 clear about why the change is needed and moved implementation details in the third paragraph.",
+      "parentUuid": "0e5ee2a1_4be1d9a9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3cd91d4_534cfd9a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7b1b5efe_8ef499f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "Well, the way I worded it might not be the best. I am just going to remove that sentence.\n\nTrue, idx should be ready, but it may not be, so it\u0027ll be loaded first. Here are two cases to demonstrate the changes.\n\ncase 1 - index is NOT in cache, revIdx is not NOT in cache\nthreadRevIdx - 1. load index from storage, t(idx) 2. compute revIdx, t(revIdx)\nthreadMain - 1. load bitmap from storage, t(bitmap)\nTime: max(t(idx) + t(revIdx), t(bitmap))\nWithout parallel: t(bitmap) + t(idx) + t(revIdx)\n\ncase 2 - index is in cache, revIdx is not NOT in cache\nthreadRevIdx - 1. compute revIdx, t(revIdx)\nthreadMain - 1. load bitmap from storage, t(bitmap)\nTime: max(t(revIdx), t(bitmap))\nWithout parallel: t(bitmap) + t(revIdx)\n\nThat\u0027s why I added just one extra parallel call to load revIdx and not both, because idx will be loaded for revIdx anyways.",
+      "parentUuid": "f3cd91d4_534cfd9a",
+      "range": {
+        "startLine": 12,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7739d8f_3cca7e13",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "117ff4d7_3e2804be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "I added this as an option on purpose because I want to be extra careful not to break/change default behavior, be able to easily fallback and allow experimenting with the new option.\n\nI plan to leave it as an option in DfsReadOptions and not remove later. We at Google will set this value to true explictly.",
+      "parentUuid": "d7739d8f_3cca7e13",
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "1793e543_b9a6fc22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ad4f471_354b3960",
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2947abec_90c0fbb5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
         "patchSetId": 3
@@ -96,6 +180,24 @@
       "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "835189a5_51dc7d70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2947abec_90c0fbb5",
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "eeb1fba2_e32144b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "Thanks for the suggestion.",
+      "parentUuid": "1359a82c_d02a91f8",
+      "range": {
+        "startLine": 123,
+        "startChar": 9,
+        "endLine": 123,
+        "endChar": 42
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37f61319_2209bb57",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
         "patchSetId": 3
@@ -142,6 +268,30 @@
       "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70e8755c_96caf58b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "Remove bitmap since name was changed",
+      "parentUuid": "37f61319_2209bb57",
+      "range": {
+        "startLine": 127,
+        "startChar": 58,
+        "endLine": 127,
+        "endChar": 61
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "15013516_9948a5f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "Yes :), this was removed.",
+      "parentUuid": "621ff44c_8121db5e",
+      "range": {
+        "startLine": 130,
+        "startChar": 61,
+        "endLine": 130,
+        "endChar": 67
+      },
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd6efd34_2a39547c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
         "patchSetId": 3
@@ -182,6 +356,24 @@
       "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cbbe511_4100f781",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-03T19:08:51Z",
+      "side": 1,
+      "message": "I did not wrap supplier with future because it\u0027s not a basic supplier, but one that throws IOException. So to wrap it up I\u0027d need to catch it and re-throw. It gets uglier.\n\nI\u0027ll leave it as is.",
+      "parentUuid": "bd6efd34_2a39547c",
+      "revId": "70d3f84dc965010d8f4d4d66bfd9a49a84758473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
