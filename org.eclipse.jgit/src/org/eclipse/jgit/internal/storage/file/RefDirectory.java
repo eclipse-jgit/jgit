@@ -1110,7 +1110,7 @@ public class RefDirectory extends RefDatabase {
 		try {
 			buf = IO.readSome(path, limit);
 		} catch (FileNotFoundException noFile) {
-			if (path.exists() && path.isFile()) {
+			if (path.isFile()) {
 				throw noFile;
 			}
 			return null; // doesn't exist or no file; not a reference.
