@@ -273,6 +273,30 @@
       "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4aa21fe_bcbf4b4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-03T16:30:29Z",
+      "side": 1,
+      "message": "After reading Andres comment and digesting the information, I did my best to capture it in a JavaDoc comment.\n\nHowever now that I think I understand what Andre explained, don\u0027t we need an extra method that does the concatenation?\n\nLeave getCommand() and getPath() to be trivial getters, and define something such as \"getInvocationCommand()\". In case of a user defined diff tool this is just the command that was configured. And in the case of a pre-defined diff tool, its the concatenation of path and command, to allow overriding the path of the pre-defined diff tool.\n\nWe can then document what the new method does differently for pre-defined and user defined tools, and we don\u0027t have to spread the information between the documentation of getPath() and getCommand().",
+      "parentUuid": "0d2bdce2_2f4613dd",
+      "range": {
+        "startLine": 68,
+        "startChar": 9,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
