@@ -159,6 +159,30 @@
       "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac29bee9_6d227622",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-03T14:44:11Z",
+      "side": 1,
+      "message": "In the final version of the changes, the only place where this code would matter is in: DiffTools.compare()\n\nThe code there is:\n\n\t\t\tString command \u003d ExternalToolUtils.prepareCommand(tool.getCommand(),\n\t\t\t\t\tlocalFile, remoteFile, null, null);\n\nThe other calls to getCommand() are when showing help (full path there doesn\u0027t help but I don\u0027t think its mandatory) and a null check when adding a user defined tool.\n\nI assume in both cases (when creating help text and the compare() method) can be adjusted to concatenate command name and path. If the path is not set, we would just use the command and \"hope\" its on PATH.\n\nFor UserDefinedDiffTool, I\u0027m guessing its expected that the command is on PATH, as the path there is not concatenated, but likely has to be (unless, the command is on PATH).\n\nEither that or the configuration must contain the full path of the command.\n\nJust to be certain, Andre do you agree with the above?",
+      "parentUuid": "feeeb522_59b2bb5c",
+      "range": {
+        "startLine": 68,
+        "startChar": 9,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
