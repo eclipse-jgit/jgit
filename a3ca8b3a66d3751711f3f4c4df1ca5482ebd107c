@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f1b65bc_70cd0d8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T13:58:23Z",
+      "side": 1,
+      "message": "Please add either \u003cp\u003e or \u003cli\u003e before following \"see\" lines",
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a87658f_45341db7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T13:58:23Z",
+      "side": 1,
+      "message": "Please remove empty line before, and replace this formatter on/off with \u003cpre\u003e \u003c/pre\u003e.\n\nCurrent javadoc is not properly rendered in the IDE",
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c112bd45_c8d32c69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T13:58:23Z",
+      "side": 1,
+      "message": "please remove too",
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "549a59ae_a40e31af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T13:58:23Z",
+      "side": 1,
+      "message": "\"@see: url\" is not valid.\n\nPlease change \n@see: url\nto\n@see \u003ca href\u003d\"url\"\u003eurl\u003c/a\u003e\n\nSame with other tags below",
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "229669c1_09555fd8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T13:58:23Z",
+      "side": 1,
+      "message": "\"@hint\" is not valid tag.\nPlease write it above the see tag like\n\nHint: check ...\n@see \u003ca href\u003d\"url\"\u003eurl\u003c/a\u003e\n\nsame with other @hint pseudo tags below.",
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95362155_11228299",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T13:58:23Z",
+      "side": 1,
+      "message": "this(from.getPath(), from.getParameters());",
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fda028f_5544a8e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T13:58:23Z",
+      "side": 1,
+      "message": "this(path, from.getParameters());",
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feeeb522_59b2bb5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T13:58:23Z",
+      "side": 1,
+      "message": "This is surprising at least.\n\nFrom the API POV user I would expect PreDefinedDiffTool as subclass from UserDefinedDiffTool can be used in uniform way with the parent, but to run UserDefinedDiffTool I have to concatenate getPath() + getCommand() manually, while if I have PreDefinedDiffTool that would result in getPath() + getPath() + getCommand(), so a different code is needed or a subtle error is guaranteed.\n\nCould you please check why it is done this way?",
+      "range": {
+        "startLine": 68,
+        "startChar": 9,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
