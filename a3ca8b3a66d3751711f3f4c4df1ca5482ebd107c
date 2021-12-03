@@ -249,6 +249,30 @@
       "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d2bdce2_2f4613dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T15:35:11Z",
+      "side": 1,
+      "message": "OK, this makes it somewhat clear.\n\n@Simeon: Can we please add this information and link to the git man page to the javadoc of the UserDefinedDiffTool getPath() and getCommand() methods, add {@inheritDoc} here and append the note that PreDefinedDiffTool always concatenates both parts?",
+      "parentUuid": "0dcc91f7_71f73bca",
+      "range": {
+        "startLine": 68,
+        "startChar": 9,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
