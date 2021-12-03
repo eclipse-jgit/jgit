@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "1b5bed27_598ca190",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-03T14:32:01Z",
+      "side": 1,
+      "message": "That doesn\u0027t work, as it reads:\n\nHint:\nSee also:\n     \u003ccommand docu URL\u003e\n\n\nWhat about this?\n\n\t/**\n\t * See: \u003ca href\u003d\"url\"\u003ehttp://www.manpagez.com/man/1/opendiff/\u003c/a\u003e\n\t * \u003cp\u003e\n\t * Hint: check the \u0027 | cat\u0027 for the call\n\t * \u003c/p\u003e\n\t */\n\topendiff(\"opendiff\", \"\\\"$LOCAL\\\" \\\"$REMOTE\\\"\"),\n\nIt reads:\n\nSee: http://www.manpagez.com/man/1/opendiff/\n\nHint: check the \u0027 | cat\u0027 for the call\n\n\nWould have to change all @see tags to \"See: \", to be consistent.",
+      "parentUuid": "229669c1_09555fd8",
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "95362155_11228299",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
         "patchSetId": 43
