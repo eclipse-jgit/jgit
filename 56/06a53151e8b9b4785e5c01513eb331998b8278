@@ -1,0 +1,8 @@
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Nasser Grainawi <quic_nasserg@quicinc.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Fri, 03 Dec 2021 17:46:11 -0500
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/187910
+Project: jgit/jgit
+Branch: refs/heads/stable-5.1
