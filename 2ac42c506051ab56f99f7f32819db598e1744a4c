@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d925e69_67c331ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandLineDiffTool.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T16:35:26Z",
+      "side": 1,
+      "message": "This must be the same url as the url text inside the href tag\nPlease also remove line breaks andspaces between \"href\u003d\" and the following \"url\" content",
+      "range": {
+        "startLine": 57,
+        "startChar": 5,
+        "endLine": 57,
+        "endChar": 8
+      },
+      "revId": "2ac42c506051ab56f99f7f32819db598e1744a4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6857427b_d3c031c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/UserDefinedDiffTool.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2021-12-03T16:35:26Z",
+      "side": 1,
+      "message": "same here, must be https://git-scm.com/docs/git-difftool etc",
+      "range": {
+        "startLine": 71,
+        "startChar": 17,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "2ac42c506051ab56f99f7f32819db598e1744a4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
