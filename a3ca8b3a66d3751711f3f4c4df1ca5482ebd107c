@@ -201,6 +201,30 @@
       "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10254ce7_6b7a1bd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2021-12-03T15:18:56Z",
+      "side": 1,
+      "message": "Yes, it was also suprise for us ;)\n\nWe have investigated C-Git behaviour, but it may be not true anymore for the latest Git version:\n- user can set path only (difftool.\u003ctool\u003e.path), but command is used still from predefined tool -\u003e user changes only the path, because of different tool location. This is done via PreDefinedDiffTool::setPath() and getCommand() returns this concatenation path + \" \" + command\n- user can set the command (difftool.\u003ctool\u003e.cmd) and therefore creates new UserDefinedDiffTool with command only (there is no path). If name is same as PreDefinedDiffTool, it overwrites this tool as UserDefinedDiffTool with cmd only -\u003e here cmd must work without path, in lot of cases cmd includes full path to a tool and parameters.\n\nIt\u0027s not clear from discription, but see: https://git-scm.com/docs/git-difftool\n\n...\ndifftool.\u003ctool\u003e.path\nOverride the path for the given tool. This is useful in case your tool is not in the PATH.\n\ndifftool.\u003ctool\u003e.cmd\nSpecify the command to invoke the specified diff tool.\n...\n\nWe can check this again, but i do not know if i find time...",
+      "parentUuid": "feeeb522_59b2bb5c",
+      "range": {
+        "startLine": 68,
+        "startChar": 9,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
