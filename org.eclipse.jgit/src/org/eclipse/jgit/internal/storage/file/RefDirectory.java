@@ -1103,10 +1103,14 @@ public class RefDirectory extends RefDatabase {
 		final int limit = 4096;
 		final byte[] buf;
 		FileSnapshot otherSnapshot = FileSnapshot.save(path);
+		if (!otherSnapshot.fileExists()) {
+			return null;
+		}
+
 		try {
 			buf = IO.readSome(path, limit);
 		} catch (FileNotFoundException noFile) {
-			if (path.exists() && path.isFile()) {
+			if (path.isFile()) {
 				throw noFile;
 			}
 			return null; // doesn't exist or no file; not a reference.

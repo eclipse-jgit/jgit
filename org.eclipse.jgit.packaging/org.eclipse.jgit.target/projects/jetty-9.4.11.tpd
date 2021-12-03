@@ -1,6 +1,6 @@
 target "jetty-9.4.11" with source configurePhase
 
-location jetty-9.4.11 "http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.11.v20180605" {
+location jetty-9.4.11 "https://archive.eclipse.org/jetty/updates/jetty-bundles-9.x/jetty-bundles-9.x/9.4.11.v20180605/" {
 	org.eclipse.jetty.client [9.4.11.v20180605,9.4.11.v20180605]
 	org.eclipse.jetty.client.source [9.4.11.v20180605,9.4.11.v20180605]
 	org.eclipse.jetty.continuation [9.4.11.v20180605,9.4.11.v20180605]
