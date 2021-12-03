@@ -225,6 +225,30 @@
       "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dcc91f7_71f73bca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/PreDefinedDiffTool.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 159690
+      },
+      "writtenOn": "2021-12-03T15:23:06Z",
+      "side": 1,
+      "message": "additionally we investigated: if difftool.\u003ctool\u003e.cmd is set in the user config it always wins and difftool.\u003ctool\u003e.path is not used (\u003dnot concatenated)",
+      "parentUuid": "10254ce7_6b7a1bd6",
+      "range": {
+        "startLine": 68,
+        "startChar": 9,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "a3ca8b3a66d3751711f3f4c4df1ca5482ebd107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
