@@ -53,6 +53,8 @@ import org.eclipse.jgit.util.FS;
 
 /**
  * Utility methods for handling timestamps
+ *
+ * @since 5.1.9
  */
 public class TimeUtil {
 	/**

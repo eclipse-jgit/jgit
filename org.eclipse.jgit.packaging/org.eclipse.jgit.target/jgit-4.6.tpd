@@ -3,6 +3,6 @@ target "jgit-4.6" with source configurePhase
 include "projects/jetty-9.4.22.tpd"
 include "orbit/R20191126223242-2019-12.tpd"
 
-location "http://download.eclipse.org/releases/neon/" {
+location "https://download.eclipse.org/releases/neon/" {
 	org.eclipse.osgi lazy
 }

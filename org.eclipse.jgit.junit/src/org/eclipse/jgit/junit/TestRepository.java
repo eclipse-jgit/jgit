@@ -370,6 +370,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 *            zero or more IDs of the commit's parents.
 	 * @return the ID of the new commit.
 	 * @throws Exception
+	 * @since 5.5
 	 */
 	public ObjectId unparsedCommit(ObjectId... parents) throws Exception {
 		return unparsedCommit(1, tree(), parents);
@@ -462,6 +463,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 *            zero or more IDs of the commit's parents.
 	 * @return the ID of the new commit.
 	 * @throws Exception
+	 * @since 5.5
 	 */
 	public ObjectId unparsedCommit(final int secDelta, final RevTree tree,
 			final ObjectId... parents) throws Exception {

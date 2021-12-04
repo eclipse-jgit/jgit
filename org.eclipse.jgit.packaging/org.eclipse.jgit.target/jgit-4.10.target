@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.10" sequenceNumber="1575495623">
+<target name="jgit-4.10" sequenceNumber="1638636816">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.22.v20191022"/>
@@ -20,7 +20,7 @@
       <unit id="org.eclipse.jetty.servlet.source" version="9.4.22.v20191022"/>
       <unit id="org.eclipse.jetty.util" version="9.4.22.v20191022"/>
       <unit id="org.eclipse.jetty.util.source" version="9.4.22.v20191022"/>
-      <repository id="jetty-9.4.22" location="https://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.22.v20191022/"/>
+      <repository id="jetty-9.4.22" location="https://archive.eclipse.org/jetty/updates/jetty-bundles-9.x/jetty-bundles-9.x/9.4.22.v20191022/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.google.gson" version="2.8.2.v20180104-1110"/>
@@ -86,7 +86,7 @@
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/releases/2018-12/"/>
+      <repository location="https://download.eclipse.org/releases/2018-12/"/>
     </location>
   </locations>
 </target>
