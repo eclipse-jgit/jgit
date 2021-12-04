@@ -218,6 +218,12 @@ public class FileSnapshot {
 	private FileStoreAttributes fileStoreAttributeCache;
 
 	/**
+	 * if {@code true} read filesystem time resolution from configuration file
+	 * otherwise use fallback resolution
+	 */
+	private boolean useConfig;
+
+	/**
 	 * Object that uniquely identifies the given file, or {@code
 	 * null} if a file key is not available
 	 */
@@ -253,9 +259,7 @@ public class FileSnapshot {
 	protected FileSnapshot(File file, boolean useConfig) {
 		this.file = file;
 		this.lastRead = Instant.now();
-		this.fileStoreAttributeCache = useConfig
-				? FS.getFileStoreAttributes(file.toPath().getParent())
-				: FALLBACK_FILESTORE_ATTRIBUTES;
+		this.useConfig = useConfig;
 		BasicFileAttributes fileAttributes = null;
 		try {
 			fileAttributes = FS.DETECTED.fileAttributes(file);
@@ -399,7 +403,7 @@ public class FileSnapshot {
 	 *             if sleep was interrupted
 	 */
 	public void waitUntilNotRacy() throws InterruptedException {
-		long timestampResolution = fileStoreAttributeCache
+		long timestampResolution = fileStoreAttributeCache()
 				.getFsTimestampResolution().toNanos();
 		while (isRacyClean(Instant.now())) {
 			TimeUnit.NANOSECONDS.sleep(timestampResolution);
@@ -434,6 +438,15 @@ public class FileSnapshot {
 		}
 		FileSnapshot other = (FileSnapshot) obj;
 		return equals(other);
+	}
+
+	/**
+	 * Check if the file exists
+	 *
+	 * @return true if the file exists
+	 */
+	public boolean fileExists() {
+		return !MISSING_FILEKEY.equals(this.fileKey);
 	}
 
 	/** {@inheritDoc} */
@@ -520,10 +533,10 @@ public class FileSnapshot {
 	}
 
 	private long getEffectiveRacyThreshold() {
-		long timestampResolution = fileStoreAttributeCache
+		long timestampResolution = fileStoreAttributeCache()
 				.getFsTimestampResolution().toNanos();
-		long minRacyInterval = fileStoreAttributeCache.getMinimalRacyInterval()
-				.toNanos();
+		long minRacyInterval = fileStoreAttributeCache()
+				.getMinimalRacyInterval().toNanos();
 		long max = Math.max(timestampResolution, minRacyInterval);
 		// safety margin: factor 2.5 below 100ms otherwise 1.25
 		return max < 100_000_000L ? max * 5 / 2 : max * 5 / 4;
@@ -582,5 +595,14 @@ public class FileSnapshot {
 					file, Long.valueOf(size), Long.valueOf(currSize));
 		}
 		return changed;
+	}
+
+	private FileStoreAttributes fileStoreAttributeCache() {
+		if (fileStoreAttributeCache == null) {
+			fileStoreAttributeCache = useConfig
+					? FS.getFileStoreAttributes(file.toPath().getParent())
+					: FALLBACK_FILESTORE_ATTRIBUTES;
+		}
+		return fileStoreAttributeCache;
 	}
 }
