@@ -31,7 +31,7 @@ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
  * If a custom handler is not specified, JGit will use the default error
  * handler.
  *
- * @since 5.6
+ * @since 5.7
  */
 public interface ReceivePackErrorHandler {
 	/**

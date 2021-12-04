@@ -80,6 +80,7 @@ public class MockSystemReader extends SystemReader {
 	 * @param userGitConfig
 	 *            set another user-level git config
 	 * @return the old user-level git config
+	 * @since 5.1.9
 	 */
 	public FileBasedConfig setUserGitConfig(FileBasedConfig userGitConfig) {
 		FileBasedConfig old = this.userGitConfig;
@@ -92,6 +93,7 @@ public class MockSystemReader extends SystemReader {
 	 *
 	 * @param jgitConfig
 	 *            set the jgit configuration
+	 * @since 5.5
 	 */
 	public void setJGitConfig(FileBasedConfig jgitConfig) {
 		this.jgitConfig = jgitConfig;
@@ -103,6 +105,7 @@ public class MockSystemReader extends SystemReader {
 	 * @param systemGitConfig
 	 *            the new system-level git config
 	 * @return the old system-level config
+	 * @since 5.1.9
 	 */
 	public FileBasedConfig setSystemGitConfig(FileBasedConfig systemGitConfig) {
 		FileBasedConfig old = this.systemGitConfig;
