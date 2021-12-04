@@ -153,7 +153,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 		String p = pack.getAbsolutePath();
 		String i = p.substring(0, p.length() - ".pack".length()) + ".idx"; //$NON-NLS-1$ //$NON-NLS-2$
 		File idx = new File(i);
-		if (idx.exists() && idx.isFile())
+		if (idx.isFile())
 			size += idx.length();
 		return size;
 	}

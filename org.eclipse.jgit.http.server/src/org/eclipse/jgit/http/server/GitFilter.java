@@ -125,6 +125,7 @@ public class GitFilter extends MetaFilter {
 	 *
 	 * @param h
 	 *            A custom error handler for git-upload-pack.
+	 * @since 5.6
 	 */
 	public void setUploadPackErrorHandler(UploadPackErrorHandler h) {
 		assertNotInitialized();
@@ -163,6 +164,7 @@ public class GitFilter extends MetaFilter {
 	 *
 	 * @param h
 	 *            A custom error handler for git-receive-pack.
+	 * @since 5.7
 	 */
 	public void setReceivePackErrorHandler(ReceivePackErrorHandler h) {
 		assertNotInitialized();
