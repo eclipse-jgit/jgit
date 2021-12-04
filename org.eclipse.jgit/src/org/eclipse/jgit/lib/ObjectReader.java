@@ -333,6 +333,37 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
+	 * Check if the object size is less or equal than certain value
+	 *
+	 * By default, it reads the object from storage to get the size. Subclasses
+	 * can implement more efficient lookups.
+	 *
+	 * @param objectId
+	 *            identity of the object to open.
+	 * @param typeHint
+	 *            hint about the type of object being requested, e.g.
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB};
+	 *            {@link #OBJ_ANY} if the object type is not known, or does not
+	 *            matter to the caller.
+	 * @param size
+	 *            threshold value for the size of the object in bytes.
+	 * @return true if the object size is equal or smaller than the threshold
+	 *         value
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
+	 *             the object does not exist.
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
+	 *             typeHint was not OBJ_ANY, and the object's actual type does
+	 *             not match typeHint.
+	 * @throws java.io.IOException
+	 *             the object store cannot be accessed.
+	 */
+	public boolean isSmallerThan(AnyObjectId objectId, int typeHint, long size)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		return open(objectId, typeHint).getSize() < size;
+	}
+
+	/**
 	 * Asynchronous object size lookup.
 	 *
 	 * @param objectIds
