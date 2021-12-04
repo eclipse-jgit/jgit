@@ -199,15 +199,14 @@
     <httpcore-version>4.4.10</httpcore-version>
     <slf4j-version>1.7.2</slf4j-version>
     <log4j-version>1.2.15</log4j-version>
-    <maven-javadoc-plugin-version>3.1.0</maven-javadoc-plugin-version>
-    <tycho-extras-version>1.4.0</tycho-extras-version>
+    <maven-javadoc-plugin-version>3.3.1</maven-javadoc-plugin-version>
+    <tycho-extras-version>1.7.0</tycho-extras-version>
     <gson-version>2.8.2</gson-version>
     <bouncycastle-version>1.61</bouncycastle-version>
-    <spotbugs-maven-plugin-version>3.1.12</spotbugs-maven-plugin-version>
-    <maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
-    <maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
-    <spotbugs-maven-plugin-version>3.1.12</spotbugs-maven-plugin-version>
-    <maven-surefire-plugin-version>3.0.0-M3</maven-surefire-plugin-version>
+    <maven-project-info-reports-plugin-version>3.1.2</maven-project-info-reports-plugin-version>
+    <maven-surefire-plugin-version>3.0.0-M5</maven-surefire-plugin-version>
+    <spotbugs-maven-plugin-version>4.3.0</spotbugs-maven-plugin-version>
+    <maven-surefire-plugin-version>3.0.0-M5</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
 
@@ -241,7 +240,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.2.0</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -266,25 +265,25 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.2.4</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.8</version>
+          <version>3.0.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.2.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.1</version>
         </plugin>
 
         <plugin>
@@ -307,7 +306,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.2.0</version>
         </plugin>
 
         <plugin>
@@ -330,7 +329,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.12.0</version>
+          <version>3.15.0</version>
           <configuration>
             <sourceEncoding>utf-8</sourceEncoding>
             <minimumTokens>100</minimumTokens>
@@ -353,7 +352,7 @@
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
-          <version>1.1.5</version>
+          <version>1.3.2</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
@@ -368,12 +367,12 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.4</version>
+          <version>0.8.7</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>3.9.1</version>
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
@@ -415,7 +414,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.springframework.boot</groupId>
@@ -429,7 +428,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.0.0-M2</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
