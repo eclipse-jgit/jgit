@@ -94,7 +94,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 		// JSON(9),
 		NONE_ACCEPTABLE(0xFF);
 
-		private byte value;
+		private final byte value;
 
 		SocksAuthenticationMethod(int value) {
 			this.value = (byte) value;

@@ -31,7 +31,7 @@ public interface KeyPasswordProvider {
 	 *            identifying the key resource that is being attempted to be
 	 *            loaded
 	 * @param attempt
-	 *            the number of previous attempts to get a passphrase; >= 0
+	 *            the number of previous attempts to get a passphrase; &gt;= 0
 	 * @return the passphrase
 	 * @throws IOException
 	 *             if no password can be obtained
@@ -44,7 +44,7 @@ public interface KeyPasswordProvider {
 	 *
 	 * @param maxNumberOfAttempts
 	 *            number of times to ask for a passphrase;
-	 *            {@link IllegalArgumentException} may be thrown if <= 0
+	 *            {@link IllegalArgumentException} may be thrown if &lt;= 0
 	 */
 	void setAttempts(int maxNumberOfAttempts);
 
@@ -53,7 +53,7 @@ public interface KeyPasswordProvider {
 	 * attempted for one identity resource through this provider. The default
 	 * return 1.
 	 *
-	 * @return the number of times to ask for a passphrase; should be >= 1.
+	 * @return the number of times to ask for a passphrase; should be &gt;= 1.
 	 */
 	default int getAttempts() {
 		return 1;

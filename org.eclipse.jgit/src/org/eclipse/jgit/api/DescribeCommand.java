@@ -235,7 +235,7 @@ public class DescribeCommand extends GitCommand<String> {
 		return this;
 	}
 
-	private final Comparator<Ref> TAG_TIE_BREAKER = new Comparator<Ref>() {
+	private final Comparator<Ref> TAG_TIE_BREAKER = new Comparator<>() {
 
 		@Override
 		public int compare(Ref o1, Ref o2) {

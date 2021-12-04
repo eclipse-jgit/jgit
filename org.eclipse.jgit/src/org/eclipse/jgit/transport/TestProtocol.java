@@ -158,7 +158,7 @@ public class TestProtocol<C> extends TransportProtocol {
 		public FetchConnection openFetch() throws NotSupportedException,
 				TransportException {
 			handle.remote.incrementOpen();
-			return new InternalFetchConnection<C>(this, uploadPackFactory,
+			return new InternalFetchConnection<>(this, uploadPackFactory,
 					handle.req, handle.remote) {
 				@Override
 				FetchConfig getFetchConfig() {

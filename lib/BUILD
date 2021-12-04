@@ -76,6 +76,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.junit.ssh:__pkg__",
         "//org.eclipse.jgit.ssh.apache:__pkg__",
+        "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
@@ -91,6 +92,22 @@ java_library(
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@sshd-sftp//jar"],
+)
+
+java_library(
+    name = "jna",
+    visibility = [
+         "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
+    ],
+    exports = ["@jna//jar"],
+)
+
+java_library(
+    name = "jna-platform",
+    visibility = [
+         "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
+    ],
+    exports = ["@jna-platform//jar"],
 )
 
 java_library(

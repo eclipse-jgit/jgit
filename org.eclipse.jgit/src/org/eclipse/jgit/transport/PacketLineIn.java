@@ -388,7 +388,8 @@ public class PacketLineIn {
 
 		@Override
 		public Iterator<String> iterator() {
-			return new Iterator<String>() {
+			return new Iterator<>() {
+
 				@Override
 				public boolean hasNext() {
 					return !PacketLineIn.isEnd(current);

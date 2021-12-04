@@ -60,6 +60,7 @@ public class RepeatRule implements TestRule {
 		 *
 		 * @param message
 		 *            the error message
+		 * @since 5.1.9
 		 */
 		public RepeatedTestException(String message) {
 			super(message);

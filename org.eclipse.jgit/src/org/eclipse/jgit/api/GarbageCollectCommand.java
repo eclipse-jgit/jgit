@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -176,9 +177,10 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 					gc.setExpire(expire);
 
 				try {
-					gc.gc();
+					gc.gc().get();
 					return toProperties(gc.getStatistics());
-				} catch (ParseException e) {
+				} catch (ParseException | InterruptedException
+						| ExecutionException e) {
 					throw new JGitInternalException(JGitText.get().gcFailed, e);
 				}
 			} else if (repo instanceof DfsRepository) {
@@ -221,6 +223,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	@SuppressWarnings("boxing")
 	private static Properties toProperties(RepoStatistics stats) {
 		Properties p = new Properties();
+		p.put("numberOfBitmaps", stats.numberOfBitmaps); //$NON-NLS-1$
 		p.put("numberOfLooseObjects", stats.numberOfLooseObjects); //$NON-NLS-1$
 		p.put("numberOfLooseRefs", stats.numberOfLooseRefs); //$NON-NLS-1$
 		p.put("numberOfPackedObjects", stats.numberOfPackedObjects); //$NON-NLS-1$

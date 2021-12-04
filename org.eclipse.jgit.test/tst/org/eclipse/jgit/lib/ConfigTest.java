@@ -55,6 +55,7 @@ import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.merge.MergeConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
@@ -1471,14 +1472,17 @@ public class ConfigTest {
 		// no values defined nowhere
 		Config config = new Config(null);
 		assertNull(config.get(CommitConfig.KEY).getCommitTemplatePath());
-		assertNull(config.get(CommitConfig.KEY).getCommitTemplateContent());
+		assertNull(config.get(CommitConfig.KEY)
+				.getCommitTemplateContent(null));
 	}
 
 	@Test
 	public void testCommitTemplateConfig()
 			throws ConfigInvalidException, IOException {
 
+		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
+		Repository repo = FileRepositoryBuilder.create(workTree);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		String expectedTemplatePath = tempFile.getPath();
@@ -1492,7 +1496,32 @@ public class ConfigTest {
 				.getCommitEncoding();
 		assertEquals(expectedTemplatePath, templatePath);
 		assertEquals(templateContent,
-				config.get(CommitConfig.KEY).getCommitTemplateContent());
+				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
+		assertNull("no commitEncoding has been set so it must be null",
+				commitEncoding);
+	}
+
+	@Test
+	public void testCommitTemplateConfigRelativePath()
+			throws ConfigInvalidException, IOException {
+
+		File workTree = tmp.newFolder("dummy-worktree");
+		File tempFile = tmp.newFile("testCommitTemplate-");
+		String templateContent = "content of the template";
+		JGitTestUtil.write(tempFile, templateContent);
+		String expectedTemplatePath = "../" + tempFile.getName();
+
+		Config config = parse(
+				"[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+
+		String templatePath = config.get(CommitConfig.KEY)
+				.getCommitTemplatePath();
+		String commitEncoding = config.get(CommitConfig.KEY)
+				.getCommitEncoding();
+		assertEquals(expectedTemplatePath, templatePath);
+		assertEquals(templateContent, config.get(CommitConfig.KEY)
+				.getCommitTemplateContent(
+						new RepositoryBuilder().setWorkTree(workTree).build()));
 		assertNull("no commitEncoding has been set so it must be null",
 				commitEncoding);
 	}
@@ -1501,6 +1530,8 @@ public class ConfigTest {
 	public void testCommitTemplateEncoding()
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
+		File workTree = tmp.newFolder("dummy-worktree");
+		Repository repo = FileRepositoryBuilder.create(workTree);
 		File tempFile = tmp.newFile("testCommitTemplate-");
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
@@ -1508,7 +1539,7 @@ public class ConfigTest {
 		config = parse("[i18n]\n\tcommitEncoding = utf-8\n"
 				+ "[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
 		assertEquals(templateContent,
-				config.get(CommitConfig.KEY).getCommitTemplateContent());
+				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
 		String commitEncoding = config.get(CommitConfig.KEY)
 				.getCommitEncoding();
 		assertEquals("commitEncoding has been set to utf-8 it must be utf-8",
@@ -1520,6 +1551,8 @@ public class ConfigTest {
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
 		File tempFile = tmp.newFile("testCommitTemplate-");
+		File workTree = tmp.newFolder("dummy-worktree");
+		Repository repo = FileRepositoryBuilder.create(workTree);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		// proper evaluation of the ~/ directory
@@ -1535,35 +1568,39 @@ public class ConfigTest {
 				.getCommitTemplatePath();
 		assertEquals(expectedTemplatePath, templatePath);
 		assertEquals(templateContent,
-				config.get(CommitConfig.KEY).getCommitTemplateContent());
+				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
 	}
 
 	@Test(expected = ConfigInvalidException.class)
 	public void testCommitTemplateWithInvalidEncoding()
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
+		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
+		Repository repo = FileRepositoryBuilder.create(workTree);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
 				+ "[commit]\n\ttemplate = " + tempFile.getPath() + "\n");
-		config.get(CommitConfig.KEY).getCommitTemplateContent();
+		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
 	}
 
 	@Test(expected = FileNotFoundException.class)
 	public void testCommitTemplateWithInvalidPath()
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
+		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
+		Repository repo = FileRepositoryBuilder.create(workTree);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		// commit message encoding
-		String expectedTemplatePath = "nonExistingTemplate";
+		String expectedTemplatePath = "/nonExistingTemplate";
 		config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
 		String templatePath = config.get(CommitConfig.KEY)
 				.getCommitTemplatePath();
 		assertEquals(expectedTemplatePath, templatePath);
-		config.get(CommitConfig.KEY).getCommitTemplateContent();
+		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
 	}
 
 	private static void assertValueRoundTrip(String value)

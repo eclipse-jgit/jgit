@@ -50,7 +50,7 @@ public class GcTemporaryFilesTest extends GcTestCase {
 				- 24 * 60 * 62 * 1000;
 		tempIndex.setLastModified(_24HoursBefore);
 		tempPack.setLastModified(_24HoursBefore);
-		gc.gc();
+		gc.gc().get();
 		assertFalse(tempIndex.exists());
 		assertFalse(tempPack.exists());
 	}
@@ -66,7 +66,7 @@ public class GcTemporaryFilesTest extends GcTestCase {
 		assertTrue(tempIndex.createNewFile());
 		assertTrue(tempIndex.exists());
 		assertTrue(tempPack.exists());
-		gc.gc();
+		gc.gc().get();
 		assertTrue(tempIndex.exists());
 		assertTrue(tempPack.exists());
 	}

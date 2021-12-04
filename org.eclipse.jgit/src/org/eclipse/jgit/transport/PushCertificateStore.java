@@ -159,7 +159,7 @@ public class PushCertificateStore implements AutoCloseable {
 	 *         close resources.
 	 */
 	public Iterable<PushCertificate> getAll(String refName) {
-		return () -> new Iterator<PushCertificate>() {
+		return () -> new Iterator<>() {
 			private final String path = pathName(refName);
 
 			private PushCertificate next;
@@ -219,11 +219,10 @@ public class PushCertificateStore implements AutoCloseable {
 
 			@Override
 			public PushCertificate next() {
-				hasNext();
-				PushCertificate n = next;
-				if (n == null) {
+				if (!hasNext()) {
 					throw new NoSuchElementException();
 				}
+				PushCertificate n = next;
 				next = null;
 				return n;
 			}

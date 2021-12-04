@@ -608,7 +608,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	public void testDiffAutoCrlfMediumFile() throws Exception {
 		String content = mediumCrLfString();
 		String expectedDiff = "diff --git a/test.txt b/test.txt\n"
-				+ "index 215c502..c10f08c 100644\n" //
+				+ "index 6d9ffed..50d7b5a 100644\n" //
 				+ "--- a/test.txt\n" //
 				+ "+++ b/test.txt\n" //
 				+ "@@ -1,4 +1,5 @@\n" //
@@ -624,7 +624,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	public void testDiffAutoCrlfLargeFile() throws Exception {
 		String content = largeCrLfString();
 		String expectedDiff = "diff --git a/test.txt b/test.txt\n"
-				+ "index 7014942..c0487a7 100644\n" //
+				+ "index d6399a1..de26ce5 100644\n" //
 				+ "--- a/test.txt\n" //
 				+ "+++ b/test.txt\n" //
 				+ "@@ -1,4 +1,5 @@\n"
@@ -665,9 +665,9 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	private static String largeCrLfString() {
 		String line = "012345678901234567890123456789012345678901234567\r\n";
-		StringBuilder builder = new StringBuilder(
-				2 * RawText.FIRST_FEW_BYTES);
-		while (builder.length() < 2 * RawText.FIRST_FEW_BYTES) {
+		int bufferSize = RawText.getBufferSize();
+		StringBuilder builder = new StringBuilder(2 * bufferSize);
+		while (builder.length() < 2 * bufferSize) {
 			builder.append(line);
 		}
 		return builder.toString();
@@ -677,9 +677,9 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		// Create a CR-LF string longer than RawText.FIRST_FEW_BYTES whose
 		// canonical representation is shorter than RawText.FIRST_FEW_BYTES.
 		String line = "01234567\r\n"; // 10 characters
-		StringBuilder builder = new StringBuilder(
-				RawText.FIRST_FEW_BYTES + line.length());
-		while (builder.length() <= RawText.FIRST_FEW_BYTES) {
+		int bufferSize = RawText.getBufferSize();
+		StringBuilder builder = new StringBuilder(bufferSize + line.length());
+		while (builder.length() <= bufferSize) {
 			builder.append(line);
 		}
 		return builder.toString();

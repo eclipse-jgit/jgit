@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit.source"
       label="%featureName"
-      version="6.0.0.qualifier"
+      version="6.1.0.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
@@ -23,7 +23,7 @@
    </url>
 
    <requires>
-      <import feature="org.eclipse.jgit" version="6.0.0" match="equivalent"/>
+      <import feature="org.eclipse.jgit" version="6.1.0" match="equivalent"/>
    </requires>
 
    <plugin
@@ -105,6 +105,13 @@
 
    <plugin
          id="org.eclipse.jgit.ssh.apache.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jgit.ssh.apache.agent.source"
          download-size="0"
          install-size="0"
          version="0.0.0"

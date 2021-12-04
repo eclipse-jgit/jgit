@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2020, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -20,6 +20,7 @@ import java.util.function.Function;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConfigStore;
+import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -114,7 +115,7 @@ public final class SshdSessionFactoryBuilder {
 	}
 
 	/**
-	 * A factory interface for creating a @link SshConfigStore}.
+	 * A factory interface for creating a {@link SshConfigStore}.
 	 */
 	@FunctionalInterface
 	public interface ConfigStoreFactory {
@@ -233,6 +234,41 @@ public final class SshdSessionFactoryBuilder {
 	}
 
 	/**
+	 * Sets an explicit {@link ConnectorFactory}. If {@code null}, there will be
+	 * no support for SSH agents.
+	 * <p>
+	 * If not set, the created {@link SshdSessionFactory} will use the
+	 * {@link java.util.ServiceLoader} to find an {@link ConnectorFactory}.
+	 * </p>
+	 *
+	 * @param factory
+	 *            {@link ConnectorFactory} to use
+	 * @return this {@link SshdSessionFactoryBuilder}
+	 * @since 6.0
+	 */
+	public SshdSessionFactoryBuilder setConnectorFactory(
+			ConnectorFactory factory) {
+		this.state.connectorFactory = factory;
+		this.state.connectorFactorySet = true;
+		return this;
+	}
+
+	/**
+	 * Removes a previously set {@link ConnectorFactory}. The created
+	 * {@link SshdSessionFactory} will use the {@link java.util.ServiceLoader}
+	 * to find an {@link ConnectorFactory}. This is also the default if
+	 * {@link #setConnectorFactory(ConnectorFactory)} isn't called at all.
+	 *
+	 * @return this {@link SshdSessionFactoryBuilder}
+	 * @since 6.0
+	 */
+	public SshdSessionFactoryBuilder withDefaultConnectorFactory() {
+		this.state.connectorFactory = null;
+		this.state.connectorFactorySet = false;
+		return this;
+	}
+
+	/**
 	 * Builds a {@link SshdSessionFactory} as configured, using the given
 	 * {@link KeyCache} for caching keys.
 	 * <p>
@@ -277,6 +313,10 @@ public final class SshdSessionFactoryBuilder {
 
 		BiFunction<File, File, ServerKeyDatabase> serverKeyDatabaseCreator;
 
+		ConnectorFactory connectorFactory;
+
+		boolean connectorFactorySet;
+
 		State copy() {
 			State c = new State();
 			c.proxyDataFactory = proxyDataFactory;
@@ -290,6 +330,8 @@ public final class SshdSessionFactoryBuilder {
 			c.defaultKeyFileFinder = defaultKeyFileFinder;
 			c.defaultKeysProvider = defaultKeysProvider;
 			c.serverKeyDatabaseCreator = serverKeyDatabaseCreator;
+			c.connectorFactory = connectorFactory;
+			c.connectorFactorySet = connectorFactorySet;
 			return c;
 		}
 
@@ -387,6 +429,15 @@ public final class SshdSessionFactoryBuilder {
 				}
 				return super.createSshConfigStore(homeDir, configFile,
 						localUserName);
+			}
+
+			@Override
+			protected ConnectorFactory getConnectorFactory() {
+				if (connectorFactorySet) {
+					return connectorFactory;
+				}
+				// Use default via ServiceLoader
+				return super.getConnectorFactory();
 			}
 		}
 	}

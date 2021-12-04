@@ -1051,13 +1051,14 @@ public abstract class Repository implements AutoCloseable {
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without
-	 * exposing any other details about the other repository.  This may help
-	 * a client trying to push changes avoid pushing more than it needs to.
+	 * exposing any other details about the other repository. This may help a
+	 * client trying to push changes avoid pushing more than it needs to.
 	 *
 	 * @return unmodifiable collection of other known objects.
+	 * @throws IOException
 	 */
 	@NonNull
-	public Set<ObjectId> getAdditionalHaves() {
+	public Set<ObjectId> getAdditionalHaves() throws IOException {
 		return Collections.emptySet();
 	}
 
@@ -1160,12 +1161,14 @@ public abstract class Repository implements AutoCloseable {
 	 * Get a map with all objects referenced by a peeled ref.
 	 *
 	 * @return a map with all objects referenced by a peeled ref.
+	 * @throws IOException
 	 */
 	@NonNull
-	public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
-		Map<String, Ref> allRefs = getAllRefs();
+	public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId()
+			throws IOException {
+		List<Ref> allRefs = getRefDatabase().getRefs();
 		Map<AnyObjectId, Set<Ref>> ret = new HashMap<>(allRefs.size());
-		for (Ref ref : allRefs.values()) {
+		for (Ref ref : allRefs) {
 			ref = peel(ref);
 			AnyObjectId target = ref.getPeeledObjectId();
 			if (target == null)

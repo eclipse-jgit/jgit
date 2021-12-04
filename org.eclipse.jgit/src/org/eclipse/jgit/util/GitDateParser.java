@@ -40,7 +40,7 @@ public class GitDateParser {
 	// be cached. Since they are also not threadsafe they are cached using
 	// ThreadLocal.
 	private static ThreadLocal<Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>>> formatCache =
-			new ThreadLocal<Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>>>() {
+			new ThreadLocal<>() {
 
 		@Override
 		protected Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>> initialValue() {

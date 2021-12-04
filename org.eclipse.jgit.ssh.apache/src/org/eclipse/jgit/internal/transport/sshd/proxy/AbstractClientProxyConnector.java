@@ -31,7 +31,7 @@ public abstract class AbstractClientProxyConnector
 			.toMillis(30L);
 
 	/** Guards {@link #done} and {@link #bufferedCommands}. */
-	private Object lock = new Object();
+	private final Object lock = new Object();
 
 	private boolean done;
 
@@ -105,7 +105,7 @@ public abstract class AbstractClientProxyConnector
 	/**
 	 * Obtains the timeout for the whole rest of the proxy connection protocol.
 	 *
-	 * @return the timeout in milliseconds, always > 0L
+	 * @return the timeout in milliseconds, always &gt; 0L
 	 */
 	protected long getTimeout() {
 		long last = lastProxyOperationTime;

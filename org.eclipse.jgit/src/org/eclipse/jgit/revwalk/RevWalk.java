@@ -528,6 +528,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				Enum returnStrategy, ProgressMonitor monitor) throws IOException {
 		List<Ref> result = new ArrayList<>();
 		List<RevCommit> uninteresting = new ArrayList<>();
+		List<RevCommit> marked = new ArrayList<>();
 		RevFilter oldRF = filter;
 		TreeFilter oldTF = treeFilter;
 		try {
@@ -540,22 +541,25 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 					return result;
 				}
 				monitor.update(1);
-				RevObject o = parseAny(r.getObjectId());
+				RevObject o = peel(parseAny(r.getObjectId()));
 				if (!(o instanceof RevCommit)) {
 					continue;
 				}
 				RevCommit c = (RevCommit) o;
-				resetRetain(RevFlag.UNINTERESTING);
+				reset(UNINTERESTING | TEMP_MARK);
 				markStart(c);
 				boolean commitFound = false;
 				RevCommit next;
 				while ((next = next()) != null) {
-					if (References.isSameObject(next, needle)) {
+					if (References.isSameObject(next, needle)
+							|| (next.flags & TEMP_MARK) != 0) {
 						result.add(r);
 						if (returnStrategy == GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND) {
 							return result;
 						}
 						commitFound = true;
+						c.flags |= TEMP_MARK;
+						marked.add(c);
 						break;
 					}
 				}
@@ -571,6 +575,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			roots.addAll(uninteresting);
 			filter = oldRF;
 			treeFilter = oldTF;
+			for (RevCommit c : marked) {
+				c.flags &= ~TEMP_MARK;
+			}
 		}
 		return result;
 	}
@@ -1552,7 +1559,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public Iterator<RevCommit> iterator() {
 		RevCommit first = nextForIterator();
 
-		return new Iterator<RevCommit>() {
+		return new Iterator<>() {
 			RevCommit next = first;
 
 			@Override

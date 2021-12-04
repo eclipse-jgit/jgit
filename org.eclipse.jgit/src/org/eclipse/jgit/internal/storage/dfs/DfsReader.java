@@ -371,7 +371,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 		final Iterator<FoundObject<T>> idItr = order.iterator();
 		final IOException findAllError = error;
-		return new AsyncObjectLoaderQueue<T>() {
+		return new AsyncObjectLoaderQueue<>() {
 			private FoundObject<T> cur;
 
 			@Override
@@ -431,7 +431,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 		final Iterator<FoundObject<T>> idItr = order.iterator();
 		final IOException findAllError = error;
-		return new AsyncObjectSizeQueue<T>() {
+		return new AsyncObjectSizeQueue<>() {
 			private FoundObject<T> cur;
 			private long sz;
 

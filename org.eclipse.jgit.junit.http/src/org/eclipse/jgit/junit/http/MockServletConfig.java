@@ -44,7 +44,8 @@ public class MockServletConfig implements ServletConfig {
 	@Override
 	public Enumeration<String> getInitParameterNames() {
 		final Iterator<String> i = parameters.keySet().iterator();
-		return new Enumeration<String>() {
+		return new Enumeration<>() {
+
 			@Override
 			public boolean hasMoreElements() {
 				return i.hasNext();

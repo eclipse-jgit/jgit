@@ -131,7 +131,7 @@ public class NetRC {
 
 	private Map<String, NetRCEntry> hosts = new HashMap<>();
 
-	private static final TreeMap<String, State> STATE = new TreeMap<String, NetRC.State>() {
+	private static final TreeMap<String, State> STATE = new TreeMap<>() {
 		private static final long serialVersionUID = -4285910831814853334L;
 		{
 			put("machine", State.MACHINE); //$NON-NLS-1$

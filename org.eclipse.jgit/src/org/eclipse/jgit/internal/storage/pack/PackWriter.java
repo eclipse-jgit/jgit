@@ -144,7 +144,7 @@ public class PackWriter implements AutoCloseable {
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =
 			new ConcurrentHashMap<>();
 
-	private static final Iterable<PackWriter> instancesIterable = () -> new Iterator<PackWriter>() {
+	private static final Iterable<PackWriter> instancesIterable = () -> new Iterator<>() {
 
 		private final Iterator<WeakReference<PackWriter>> it = instances
 				.keySet().iterator();

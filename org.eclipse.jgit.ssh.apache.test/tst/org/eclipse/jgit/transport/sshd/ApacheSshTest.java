@@ -65,12 +65,15 @@ public class ApacheSshTest extends SshTestBase {
 
 	@Override
 	protected SshSessionFactory createSessionFactory() {
-		SshdSessionFactory result = new SshdSessionFactory(new JGitKeyCache(),
-				null);
-		// The home directory is mocked at this point!
-		result.setHomeDirectory(FS.DETECTED.userHome());
-		result.setSshDirectory(sshDir);
-		return result;
+		return new SshdSessionFactoryBuilder()
+				// No proxies in tests
+				.setProxyDataFactory(null)
+				// No ssh-agent in tests
+				.setConnectorFactory(null)
+				// The home directory is mocked at this point!
+				.setHomeDirectory(FS.DETECTED.userHome())
+				.setSshDirectory(sshDir)
+				.build(new JGitKeyCache());
 	}
 
 	@Override
@@ -349,6 +352,21 @@ public class ApacheSshTest extends SshTestBase {
 				proxy.stop();
 			}
 		}
+	}
+
+	@Test
+	public void testJumpHostNone() throws Exception {
+		// Should not try to go through the non-existing proxy
+		cloneWith("ssh://server/doesntmatter", defaultCloneDir, null, //
+				"Host server", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath(), //
+				"ProxyJump none", //
+				"", //
+				"Host *", //
+				"ProxyJump " + TEST_USER + "@localhost:1234");
 	}
 
 	@Test

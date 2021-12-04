@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
@@ -60,6 +59,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -94,6 +95,9 @@ public abstract class FS {
 	 * @since 5.0
 	 */
 	protected static final Entry[] NO_ENTRIES = {};
+
+	private static final Pattern VERSION = Pattern
+			.compile("\\s(\\d+)\\.(\\d+)\\.(\\d+)"); //$NON-NLS-1$
 
 	private volatile Boolean supportSymlinks;
 
@@ -1507,7 +1511,7 @@ public abstract class FS {
 		try {
 			v = readPipe(gitExe.getParentFile(),
 					new String[] { gitExe.getPath(), "--version" }, //$NON-NLS-1$
-				Charset.defaultCharset().name());
+					SystemReader.getInstance().getDefaultCharset().name());
 		} catch (CommandFailedException e) {
 			LOG.warn(e.getMessage());
 			return null;
@@ -1517,26 +1521,80 @@ public abstract class FS {
 			return null;
 		}
 
-		// Trick Git into printing the path to the config file by using "echo"
-		// as the editor.
-		Map<String, String> env = new HashMap<>();
-		env.put("GIT_EDITOR", "echo"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (parseVersion(v) < makeVersion(2, 8, 0)) {
+			// --show-origin was introduced in git 2.8.0. For older git: trick
+			// it into printing the path to the config file by using "echo" as
+			// the editor.
+			Map<String, String> env = new HashMap<>();
+			env.put("GIT_EDITOR", "echo"); //$NON-NLS-1$ //$NON-NLS-2$
 
+			String w;
+			try {
+				// This command prints the path even if it doesn't exist
+				w = readPipe(gitExe.getParentFile(),
+						new String[] { gitExe.getPath(), "config", "--system", //$NON-NLS-1$ //$NON-NLS-2$
+								"--edit" }, //$NON-NLS-1$
+						SystemReader.getInstance().getDefaultCharset().name(),
+						env);
+			} catch (CommandFailedException e) {
+				LOG.warn(e.getMessage());
+				return null;
+			}
+			if (StringUtils.isEmptyOrNull(w)) {
+				return null;
+			}
+
+			return new File(w);
+		}
 		String w;
 		try {
 			w = readPipe(gitExe.getParentFile(),
 					new String[] { gitExe.getPath(), "config", "--system", //$NON-NLS-1$ //$NON-NLS-2$
-							"--edit" }, //$NON-NLS-1$
-				Charset.defaultCharset().name(), env);
+							"--show-origin", "--list", "-z" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					SystemReader.getInstance().getDefaultCharset().name());
 		} catch (CommandFailedException e) {
-			LOG.warn(e.getMessage());
+			// This command fails if the system config doesn't exist
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage());
+			}
 			return null;
 		}
-		if (StringUtils.isEmptyOrNull(w)) {
+		if (w == null) {
 			return null;
 		}
+		// We get NUL-terminated items; the first one will be a file name,
+		// prefixed by "file:". (Using -z is crucial, otherwise git quotes file
+		// names with special characters.)
+		int nul = w.indexOf(0);
+		if (nul <= 0) {
+			return null;
+		}
+		w = w.substring(0, nul);
+		int colon = w.indexOf(':');
+		if (colon < 0) {
+			return null;
+		}
+		w = w.substring(colon + 1);
+		return w.isEmpty() ? null : new File(w);
+	}
 
-		return new File(w);
+	private long parseVersion(String version) {
+		Matcher m = VERSION.matcher(version);
+		if (m.find()) {
+			try {
+				return makeVersion(
+						Integer.parseInt(m.group(1)),
+						Integer.parseInt(m.group(2)),
+						Integer.parseInt(m.group(3)));
+			} catch (NumberFormatException e) {
+				// Ignore
+			}
+		}
+		return -1;
+	}
+
+	private long makeVersion(int major, int minor, int patch) {
+		return ((major * 10_000L) + minor) * 10_000L + patch;
 	}
 
 	/**

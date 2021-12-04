@@ -21,16 +21,15 @@ import org.eclipse.jgit.diff.RawText;
  *
  * Existing CRLF are not expanded to CRCRLF, but retained as is.
  *
- * Optionally, a binary check on the first 8000 bytes is performed and in case
- * of binary files, canonicalization is turned off (for the complete file).
+ * Optionally, a binary check on the first {@link RawText#getBufferSize()} bytes
+ * is performed and in case of binary files, canonicalization is turned off (for
+ * the complete file).
  */
 public class AutoCRLFInputStream extends InputStream {
 
-	static final int BUFFER_SIZE = 8096;
-
 	private final byte[] single = new byte[1];
 
-	private final byte[] buf = new byte[BUFFER_SIZE];
+	private final byte[] buf = new byte[RawText.getBufferSize()];
 
 	private final InputStream in;
 
@@ -124,7 +123,7 @@ public class AutoCRLFInputStream extends InputStream {
 			return false;
 		}
 		if (detectBinary) {
-			isBinary = RawText.isBinary(buf, cnt);
+			isBinary = RawText.isBinary(buf, cnt, cnt < buf.length);
 			detectBinary = false;
 		}
 		ptr = 0;

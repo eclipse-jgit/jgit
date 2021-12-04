@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
@@ -137,6 +138,8 @@ public class OpenSshServerKeyDatabase
 	private final Map<Path, HostKeyFile> knownHostsFiles = new ConcurrentHashMap<>();
 
 	private final List<HostKeyFile> defaultFiles = new ArrayList<>();
+
+	private Random prng;
 
 	/**
 	 * Creates a new {@link OpenSshServerKeyDatabase}.
@@ -680,7 +683,9 @@ public class OpenSshServerKeyDatabase
 			// or to Apache MINA sshd.
 			NamedFactory<Mac> digester = KnownHostDigest.SHA1;
 			Mac mac = digester.create();
-			SecureRandom prng = new SecureRandom();
+			if (prng == null) {
+				prng = new SecureRandom();
+			}
 			byte[] salt = new byte[mac.getDefaultBlockSize()];
 			for (SshdSocketAddress address : patterns) {
 				if (result.length() > 0) {

@@ -340,6 +340,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *         greater than then the lastmodification time of lastfile.
 	 * @throws InterruptedException
 	 * @throws IOException
+	 * @since 5.1.9
 	 */
 	public static Instant fsTick(File lastFile)
 			throws InterruptedException,

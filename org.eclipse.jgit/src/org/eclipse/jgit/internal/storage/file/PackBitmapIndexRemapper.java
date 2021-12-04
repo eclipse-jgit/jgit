@@ -111,7 +111,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			return Collections.<Entry> emptyList().iterator();
 
 		final Iterator<StoredBitmap> it = oldPackIndex.getBitmaps().iterator();
-		return new Iterator<Entry>() {
+		return new Iterator<>() {
 			private Entry entry;
 
 			@Override

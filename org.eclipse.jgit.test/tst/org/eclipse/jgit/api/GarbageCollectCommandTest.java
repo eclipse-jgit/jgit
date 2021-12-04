@@ -39,7 +39,7 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 		Date expire = GitDateParser.parse("now", null, SystemReader
 				.getInstance().getLocale());
 		Properties res = git.gc().setExpire(expire).call();
-		assertTrue(res.size() == 7);
+		assertTrue(res.size() == 8);
 	}
 
 	@Test
@@ -57,6 +57,6 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 				.setExpire(
 						GitDateParser.parse("now", null, SystemReader
 								.getInstance().getLocale())).call();
-		assertTrue(res.size() == 7);
+		assertTrue(res.size() == 8);
 	}
 }

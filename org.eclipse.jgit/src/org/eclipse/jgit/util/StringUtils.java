@@ -13,12 +13,20 @@ package org.eclipse.jgit.util;
 import java.text.MessageFormat;
 import java.util.Collection;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Miscellaneous string comparison utility methods.
  */
 public final class StringUtils {
+
+	private static final long KiB = 1024;
+
+	private static final long MiB = 1024 * KiB;
+
+	private static final long GiB = 1024 * MiB;
+
 	private static final char[] LC;
 
 	static {
@@ -306,5 +314,136 @@ public final class StringUtils {
 			}
 		}
 		return new String(buf, 0, o);
+	}
+
+	/**
+	 * Parses a number with optional case-insensitive suffix 'k', 'm', or 'g'
+	 * indicating KiB, MiB, and GiB, respectively. The suffix may follow the
+	 * number with optional separation by one or more blanks.
+	 *
+	 * @param value
+	 *            {@link String} to parse; with leading and trailing whitespace
+	 *            ignored
+	 * @param positiveOnly
+	 *            {@code true} to only accept positive numbers, {@code false} to
+	 *            allow negative numbers, too
+	 * @return the value parsed
+	 * @throws NumberFormatException
+	 *             if the {@value} is not parseable, or beyond the range of
+	 *             {@link Long}
+	 * @throws StringIndexOutOfBoundsException
+	 *             if the string is empty or contains only whitespace, or
+	 *             contains only the letter 'k', 'm', or 'g'
+	 * @since 6.0
+	 */
+	public static long parseLongWithSuffix(@NonNull String value,
+			boolean positiveOnly)
+			throws NumberFormatException, StringIndexOutOfBoundsException {
+		String n = value.strip();
+		if (n.isEmpty()) {
+			throw new StringIndexOutOfBoundsException();
+		}
+		long mul = 1;
+		switch (n.charAt(n.length() - 1)) {
+		case 'g':
+		case 'G':
+			mul = GiB;
+			break;
+		case 'm':
+		case 'M':
+			mul = MiB;
+			break;
+		case 'k':
+		case 'K':
+			mul = KiB;
+			break;
+		default:
+			break;
+		}
+		if (mul > 1) {
+			n = n.substring(0, n.length() - 1).trim();
+		}
+		if (n.isEmpty()) {
+			throw new StringIndexOutOfBoundsException();
+		}
+		long number;
+		if (positiveOnly) {
+			number = Long.parseUnsignedLong(n);
+			if (number < 0) {
+				throw new NumberFormatException(
+						MessageFormat.format(JGitText.get().valueExceedsRange,
+								value, Long.class.getSimpleName()));
+			}
+		} else {
+			number = Long.parseLong(n);
+		}
+		if (mul == 1) {
+			return number;
+		}
+		try {
+			return Math.multiplyExact(mul, number);
+		} catch (ArithmeticException e) {
+			NumberFormatException nfe = new NumberFormatException(
+					e.getLocalizedMessage());
+			nfe.initCause(e);
+			throw nfe;
+		}
+	}
+
+	/**
+	 * Parses a number with optional case-insensitive suffix 'k', 'm', or 'g'
+	 * indicating KiB, MiB, and GiB, respectively. The suffix may follow the
+	 * number with optional separation by blanks.
+	 *
+	 * @param value
+	 *            {@link String} to parse; with leading and trailing whitespace
+	 *            ignored
+	 * @param positiveOnly
+	 *            {@code true} to only accept positive numbers, {@code false} to
+	 *            allow negative numbers, too
+	 * @return the value parsed
+	 * @throws NumberFormatException
+	 *             if the {@value} is not parseable or beyond the range of
+	 *             {@link Integer}
+	 * @throws StringIndexOutOfBoundsException
+	 *             if the string is empty or contains only whitespace, or
+	 *             contains only the letter 'k', 'm', or 'g'
+	 * @since 6.0
+	 */
+	public static int parseIntWithSuffix(@NonNull String value,
+			boolean positiveOnly)
+			throws NumberFormatException, StringIndexOutOfBoundsException {
+		try {
+			return Math.toIntExact(parseLongWithSuffix(value, positiveOnly));
+		} catch (ArithmeticException e) {
+			NumberFormatException nfe = new NumberFormatException(
+					MessageFormat.format(JGitText.get().valueExceedsRange,
+							value, Integer.class.getSimpleName()));
+			nfe.initCause(e);
+			throw nfe;
+		}
+	}
+
+	/**
+	 * Formats an integral value as a decimal number with 'k', 'm', or 'g'
+	 * suffix if it is an exact multiple of 1024, otherwise returns the value
+	 * representation as a decimal number without suffix.
+	 *
+	 * @param value
+	 *            Value to format
+	 * @return the value's String representation
+	 * @since 6.0
+	 */
+	public static String formatWithSuffix(long value) {
+		if (value >= GiB && (value % GiB) == 0) {
+			return String.valueOf(value / GiB) + 'g';
+		}
+		if (value >= MiB && (value % MiB) == 0) {
+			return String.valueOf(value / MiB) + 'm';
+		}
+		if (value >= KiB && (value % KiB) == 0) {
+			return String.valueOf(value / KiB) + 'k';
+		}
+		return String.valueOf(value);
 	}
 }

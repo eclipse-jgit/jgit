@@ -12,8 +12,8 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -46,8 +46,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -214,19 +215,18 @@ public class GC {
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
 	 */
-	// TODO(ms): change signature and return Future<Collection<Pack>>
-	@SuppressWarnings("FutureReturnValueIgnored")
-	public Collection<Pack> gc() throws IOException, ParseException {
+	public CompletableFuture<Collection<Pack>> gc()
+			throws IOException, ParseException {
 		if (!background) {
-			return doGc();
+			return CompletableFuture.completedFuture(doGc());
 		}
 		final GcLog gcLog = new GcLog(repo);
 		if (!gcLog.lock()) {
 			// there is already a background gc running
-			return Collections.emptyList();
+			return CompletableFuture.completedFuture(Collections.emptyList());
 		}
 
-		Callable<Collection<Pack>> gcTask = () -> {
+		Supplier<Collection<Pack>> gcTask = () -> {
 			try {
 				Collection<Pack> newPacks = doGc();
 				if (automatic && tooManyLooseObjects()) {
@@ -251,9 +251,7 @@ public class GC {
 			}
 			return Collections.emptyList();
 		};
-		// TODO(ms): change signature and return the Future
-		executor().submit(gcTask);
-		return Collections.emptyList();
+		return CompletableFuture.supplyAsync(gcTask, executor());
 	}
 
 	private ExecutorService executor() {
@@ -1530,7 +1528,8 @@ public class GC {
 	}
 
 	/**
-	 * @return {@code true} if number of packs > gc.autopacklimit (default 50)
+	 * @return {@code true} if number of packs &gt; gc.autopacklimit (default
+	 *         50)
 	 */
 	boolean tooManyPacks() {
 		int autopacklimit = repo.getConfig().getInt(
@@ -1549,7 +1548,8 @@ public class GC {
 	 * Quickly estimate number of loose objects, SHA1 is distributed evenly so
 	 * counting objects in one directory (bucket 17) is sufficient
 	 *
-	 * @return {@code true} if number of loose objects > gc.auto (default 6700)
+	 * @return {@code true} if number of loose objects &gt; gc.auto (default
+	 *         6700)
 	 */
 	boolean tooManyLooseObjects() {
 		int auto = getLooseObjectLimit();

@@ -100,7 +100,7 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	/** {@inheritDoc} */
 	@Override
 	public Iterator<MergeChunk> iterator() {
-		return new Iterator<MergeChunk>() {
+		return new Iterator<>() {
 			int idx;
 
 			@Override
