@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.6" sequenceNumber="1566244561">
+<target name="jgit-4.6" sequenceNumber="1638579461">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.14.v20181114"/>
@@ -20,7 +20,7 @@
       <unit id="org.eclipse.jetty.servlet.source" version="9.4.14.v20181114"/>
       <unit id="org.eclipse.jetty.util" version="9.4.14.v20181114"/>
       <unit id="org.eclipse.jetty.util.source" version="9.4.14.v20181114"/>
-      <repository id="jetty-9.4.14" location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.14.v20181114"/>
+      <repository id="jetty-9.4.14" location="https://archive.eclipse.org/jetty/updates/jetty-bundles-9.x/jetty-bundles-9.x/9.4.14.v20181114"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.10.5.v20190526-1402"/>
@@ -86,7 +86,7 @@
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/releases/neon/"/>
+      <repository location="https://download.eclipse.org/releases/neon/"/>
     </location>
   </locations>
 </target>
