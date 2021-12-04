@@ -54,6 +54,8 @@ import org.junit.runners.model.InitializationError;
  * This class is used when it's required to load jgit classes in separate
  * classloader for each test class. It can be needed to isolate static field
  * initialization between separate tests.
+ *
+ * @since 5.5
  */
 public class SeparateClassloaderTestRunner extends BlockJUnit4ClassRunner {
 
