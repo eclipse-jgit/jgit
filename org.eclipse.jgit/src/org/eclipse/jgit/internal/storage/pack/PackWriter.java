@@ -2245,17 +2245,17 @@ public class PackWriter implements AutoCloseable {
 			int pathHashCode, @NonNull Set<? extends AnyObjectId> want)
 			throws IOException {
 
-		// Check if this object needs to be rejected, doing the cheaper
-		// checks first.
-		boolean reject =
-			(!filterSpec.allowsType(type) && !want.contains(src)) ||
-			(filterSpec.getBlobLimit() >= 0 &&
-				type == OBJ_BLOB &&
-				!want.contains(src) &&
-				reader.getObjectSize(src, OBJ_BLOB) > filterSpec.getBlobLimit());
-		if (!reject) {
-			addObject(src, type, pathHashCode);
+		// Cheaper checks first
+		if (!filterSpec.allowsType(type) && !want.contains(src)) {
+			return;
 		}
+
+		long blobLimit = filterSpec.getBlobLimit();
+		if (blobLimit >= 0 && type == OBJ_BLOB && !want.contains(src)
+				&& !reader.isSmallerThan(src, OBJ_BLOB, blobLimit)) {
+			return;
+		}
+		addObject(src, type, pathHashCode);
 	}
 
 	private boolean exclude(AnyObjectId objectId) {
