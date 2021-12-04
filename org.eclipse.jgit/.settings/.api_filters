@@ -4,7 +4,7 @@
         <filter id="305324134">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.CredentialsProviderUserInfo"/>
-                <message_argument value="org.eclipse.jgit_5.8.0"/>
+                <message_argument value="org.eclipse.jgit_5.8.2"/>
             </message_arguments>
         </filter>
     </resource>
@@ -12,7 +12,7 @@
         <filter id="305324134">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.DefaultSshSessionFactory"/>
-                <message_argument value="org.eclipse.jgit_5.8.0"/>
+                <message_argument value="org.eclipse.jgit_5.8.2"/>
             </message_arguments>
         </filter>
     </resource>
@@ -20,7 +20,7 @@
         <filter id="305324134">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.JschConfigSessionFactory"/>
-                <message_argument value="org.eclipse.jgit_5.8.0"/>
+                <message_argument value="org.eclipse.jgit_5.8.2"/>
             </message_arguments>
         </filter>
     </resource>
@@ -28,7 +28,7 @@
         <filter id="305324134">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.JschSession"/>
-                <message_argument value="org.eclipse.jgit_5.8.0"/>
+                <message_argument value="org.eclipse.jgit_5.8.2"/>
             </message_arguments>
         </filter>
     </resource>
@@ -36,7 +36,7 @@
         <filter id="305324134">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.OpenSshConfig"/>
-                <message_argument value="org.eclipse.jgit_5.8.0"/>
+                <message_argument value="org.eclipse.jgit_5.8.2"/>
             </message_arguments>
         </filter>
     </resource>
