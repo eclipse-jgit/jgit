@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ff77c0b_cd515a53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-06T22:39:07Z",
+      "side": 1,
+      "message": "Agree :) I tried hard to fit 50. updated.",
+      "parentUuid": "a855d89a_6ab9bb8a",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "ca549a5045a28e74968b0f3db0a0ddc828445c76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e7f84b_7d296809",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
         "patchSetId": 4
@@ -74,6 +98,24 @@
       "revId": "ca549a5045a28e74968b0f3db0a0ddc828445c76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c87cc805_61de3641",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2021-12-06T22:39:07Z",
+      "side": 1,
+      "message": "I have considered both and started with fixed pool. The reason I went with cached pool is that number of calls to load bitmap is limited indirectly by DfsBlockCacheConfig.concurrencyLevel. Another reason is that cached pool consumed little resources when not in use.",
+      "parentUuid": "2adc38ae_7939b2a9",
+      "revId": "ca549a5045a28e74968b0f3db0a0ddc828445c76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
