@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e7f84b_7d296809",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2021-12-06T19:01:56Z",
+      "side": 1,
+      "message": "The boolean will be false by default, no need to set the value here.",
+      "revId": "ca549a5045a28e74968b0f3db0a0ddc828445c76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
