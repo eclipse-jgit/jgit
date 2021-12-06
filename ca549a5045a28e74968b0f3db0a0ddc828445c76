@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a855d89a_6ab9bb8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-06T22:00:35Z",
+      "side": 1,
+      "message": "that\u0027s cryptic, s/revidx/reverse index/",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "ca549a5045a28e74968b0f3db0a0ddc828445c76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02e7f84b_7d296809",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
         "patchSetId": 4
@@ -34,6 +57,23 @@
       "revId": "ca549a5045a28e74968b0f3db0a0ddc828445c76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2adc38ae_7939b2a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-06T22:00:35Z",
+      "side": 1,
+      "message": "It seems this could create an unbounded number of threads in extreme cases.\nShouldn\u0027t we better limit the number of threads ?\n\nhttps://www.baeldung.com/java-executors-cached-fixed-threadpool",
+      "revId": "ca549a5045a28e74968b0f3db0a0ddc828445c76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
