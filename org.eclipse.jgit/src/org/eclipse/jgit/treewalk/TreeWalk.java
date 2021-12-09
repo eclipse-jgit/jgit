@@ -1041,6 +1041,17 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *         repository. If the current entry is in a subtree there will be at
 	 *         least one '/' in the returned string.
 	 */
+	public byte[] getRawPath(int nth) {
+		final AbstractTreeIterator t = trees[nth];
+		if(t.matches != currentHead){
+			return null;
+		}
+		final int n = t.pathLen;
+		final byte[] r = new byte[n];
+		System.arraycopy(t.path, 0, r, 0, n);
+		return r;
+	}
+
 	public byte[] getRawPath() {
 		final AbstractTreeIterator t = currentHead;
 		final int n = t.pathLen;
