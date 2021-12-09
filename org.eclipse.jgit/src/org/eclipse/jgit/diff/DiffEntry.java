@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.attributes.Attribute;
+import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -168,6 +169,7 @@ public class DiffEntry {
 			if (walk.getAttributesNodeProvider() != null) {
 				entry.diffAttribute = walk.getAttributes()
 						.get(Constants.ATTR_DIFF);
+				entry.attributes = walk.getAttributes();
 			}
 
 			if (treeFilterMarker != null)
@@ -257,6 +259,7 @@ public class DiffEntry {
 		del.newPath = DiffEntry.DEV_NULL;
 		del.changeType = ChangeType.DELETE;
 		del.diffAttribute = entry.diffAttribute;
+		del.attributes = entry.attributes;
 
 		DiffEntry add = new DiffEntry();
 		add.oldId = A_ZERO;
@@ -268,6 +271,7 @@ public class DiffEntry {
 		add.newPath = entry.getNewPath();
 		add.changeType = ChangeType.ADD;
 		add.diffAttribute = entry.diffAttribute;
+		add.attributes = entry.attributes;
 		return Arrays.asList(del, add);
 	}
 
@@ -283,6 +287,7 @@ public class DiffEntry {
 		r.newMode = dst.newMode;
 		r.newPath = dst.newPath;
 		r.diffAttribute = dst.diffAttribute;
+		r.attributes = dst.attributes;
 
 		r.changeType = changeType;
 		r.score = score;
@@ -291,6 +296,8 @@ public class DiffEntry {
 
 		return r;
 	}
+
+	protected Attributes attributes;
 
 	/** File name of the old (pre-image). */
 	protected String oldPath;
@@ -328,6 +335,11 @@ public class DiffEntry {
 	 * {@link #scan(TreeWalk, boolean, TreeFilter...)}
 	 */
 	private int treeFilterMarks = 0;
+
+
+	public Attributes getAttributes() {
+		return this.attributes;
+	}
 
 	/**
 	 * Get the old name associated with this file.
