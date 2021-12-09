@@ -37,12 +37,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
+import org.eclipse.jgit.diff.DiffConfig;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
@@ -75,6 +82,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory;
@@ -254,6 +262,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected MergeAlgorithm mergeAlgorithm;
 
+	protected DiffConfig diffCfg;
+
 	/**
 	 * The {@link WorkingTreeOptions} are needed to determine line endings for
 	 * merged files.
@@ -314,7 +324,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		inCoreLimit = getInCoreLimit(config);
 		commitNames = defaultCommitNames();
 		this.inCore = inCore;
-
+		this.diffCfg = config.get(DiffConfig.KEY);
 		if (inCore) {
 			implicitDirCache = false;
 			dircache = DirCache.newInCore();
@@ -454,6 +464,128 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Maybe just use {@link org.eclipse.jgit.diff.DiffFormatter#scan}
+	 * @param treeWalk
+	 * @throws NoWorkTreeException
+	 * @throws IOException
+	 */
+	protected void detectAndProcessRenames(TreeWalk treeWalk) throws NoWorkTreeException,
+			IOException {
+		if (unmergedPaths.isEmpty()) {
+			return;
+		}
+		RenameDetector renameDetector = new RenameDetector(reader, diffCfg);
+		AbstractTreeIterator base = treeWalk.getTree(T_BASE, CanonicalTreeParser.class);
+		AbstractTreeIterator head = treeWalk.getTree(T_OURS, CanonicalTreeParser.class);
+		AbstractTreeIterator merge = treeWalk.getTree(T_THEIRS, CanonicalTreeParser.class);
+		AbstractTreeIterator index = treeWalk.getTree(T_INDEX, DirCacheBuildIterator.class);
+		index.reset();
+		TreeFilter unmergedPathFilter = PathFilterGroup.createFromStrings(unmergedPaths);
+		List<DiffEntry> headRenames = computeRenames(renameDetector, base, head, unmergedPathFilter);
+		List<DiffEntry> mergeRenames = computeRenames(renameDetector, base, merge, unmergedPathFilter);
+		Map<String, DiffEntry> baseToHeadRename = new HashMap<>();
+		for (DiffEntry diffEntry : headRenames) {
+			baseToHeadRename.put(diffEntry.getOldPath(), diffEntry);
+		}
+		Map<String, DiffEntry> baseToMergeRename = new HashMap<>();
+		for (DiffEntry diffEntry : mergeRenames) {
+			baseToMergeRename.put(diffEntry.getOldPath(), diffEntry);
+		}
+		Stream<String> interestingPaths = Stream.concat(Stream.concat(headRenames.stream().map(x -> x.getNewPath()), headRenames.stream().map(x -> x.getOldPath())), Stream.concat(mergeRenames.stream().map(x ->x.getOldPath()), mergeRenames.stream().map(x -> x.getNewPath())));
+		TreeFilter renamedPathFilter = PathFilterGroup.createFromStrings(interestingPaths.collect(
+				Collectors.joining()));
+		base.reset();
+		head.reset();
+		merge.reset();
+		index.reset();
+		TreeWalk tw = new TreeWalk(db, reader);
+		tw.reset();
+		tw.addTree(base);
+		tw.addTree(head);
+		tw.addTree(merge);
+		tw.addTree(index);
+		tw.setFilter(renamedPathFilter);
+		// Case 1: one renamed, one has content modification
+		// -> rename and merge
+		for (int i = 0; i < headRenames.size(); i++) {
+			DiffEntry headDiff = headRenames.get(i);
+			boolean isRenameInHead =
+					headDiff.getChangeType().equals(ChangeType.COPY) || headDiff.getChangeType()
+							.equals(ChangeType.RENAME);
+			DiffEntry mergeDiff = baseToMergeRename.get(headDiff.getOldPath());
+			boolean isRenameInMerge =
+					mergeDiff.getChangeType().equals(ChangeType.COPY) || mergeDiff.getChangeType()
+							.equals(ChangeType.RENAME);
+			if (isRenameInMerge && isRenameInHead) {
+				if (headDiff.getNewPath().equals(mergeDiff.getNewPath()) && !mergeResults.containsKey(
+						headDiff.getNewPath())) {
+					throw new IllegalStateException(
+							String.format("Expected merge result for path: %s ", headDiff.getNewPath()));
+				}
+
+				RenameEntry entry = new RenameEntry(headDiff, mergeDiff);
+				handleRenameBoth(entry);
+			}
+		}
+	}
+
+	private void handleRenameBoth(RenameEntry renameEntry) throws IOException {
+		MergeResult result;
+		ContentMergeStrategy mergeStrategy = getContentMergeStrategy();
+		if (mergeStrategy.equals(ContentMergeStrategy.CONFLICT)) {
+			result = new MergeResult<>(Collections.emptyList());
+			result.setContainsConflicts(true);
+			mergeResults.put(renameEntry.newPath, result);
+			mergeResults.put(renameEntry.oldPath, result);
+			// TODO: What happens to the files in index?
+		} else {
+			try {
+				result = contentMerge(renameEntry.getBaseId(), renameEntry.getOldId(),
+						renameEntry.getNewId(), NO_ATTRIBUTES, mergeStrategy);
+			} catch (BinaryBlobException | IOException e) {
+				result = new MergeResult<>(Collections.emptyList());
+				result.setContainsConflicts(true);
+			}
+			// Both should be added in commit?
+			if (mergeStrategy.equals(ContentMergeStrategy.OURS)) {
+				DirCacheEntry entry = add(Constants.encode(renameEntry.getOldPath()),
+						renameEntry.getOldId(), renameEntry.getOldMode(),
+						DirCacheEntry.STAGE_0, EPOCH, 0);
+				addToCheckout(renameEntry.oldPath, entry, renameEntry.getOldAttributes());
+				mergeResults.put(renameEntry.oldPath, result);
+				modifiedFiles.add(renameEntry.oldPath);
+				addDeletion(renameEntry.oldPath, false, renameEntry.getNewAttributes());
+			} else if (mergeStrategy.equals(ContentMergeStrategy.THEIRS)) {
+				DirCacheEntry entry = add(Constants.encode(renameEntry.getNewPath()),
+						renameEntry.getNewId(), renameEntry.getNewMode(),
+						DirCacheEntry.STAGE_0, EPOCH, 0);
+				addToCheckout(renameEntry.newPath, entry, renameEntry.getOldAttributes());
+				mergeResults.put(renameEntry.newPath, result);
+				modifiedFiles.add(renameEntry.newPath);
+				addDeletion(renameEntry.oldPath, true, renameEntry.getOldAttributes());
+			}
+		}
+	}
+
+	private List<DiffEntry> computeRenames(RenameDetector renameDetector, AbstractTreeIterator baseTree, AbstractTreeIterator otherTree, TreeFilter pathFilter)
+			throws IOException {
+		TreeWalk tw = new TreeWalk(db, reader);
+		baseTree.reset();
+		otherTree.reset();
+		tw.reset();
+		tw.addTree(baseTree);
+		tw.addTree(otherTree);
+		tw.setFilter(pathFilter);
+		renameDetector.reset();
+		renameDetector.addAll(DiffEntry.scan(tw));
+		try {
+			return renameDetector.compute(reader, monitor);
+		} catch (CanceledException ex) {
+			throw new IOException(ex);
+		}
+	}
+
+	/**
 	 * adds a new path with the specified stage to the index builder
 	 *
 	 * @param path
@@ -469,6 +601,20 @@ public class ResolveMerger extends ThreeWayMerger {
 			DirCacheEntry e = new DirCacheEntry(path, stage);
 			e.setFileMode(p.getEntryFileMode());
 			e.setObjectId(p.getEntryObjectId());
+			e.setLastModified(lastMod);
+			e.setLength(len);
+			builder.add(e);
+			return e;
+		}
+		return null;
+	}
+
+	private DirCacheEntry add(byte[] path, ObjectId objectId, FileMode fileMode, int stage,
+			Instant lastMod, long len) {
+		if (!fileMode.equals(FileMode.TREE)) {
+			DirCacheEntry e = new DirCacheEntry(path, stage);
+			e.setFileMode(fileMode);
+			e.setObjectId(objectId);
 			e.setLastModified(lastMod);
 			e.setLength(len);
 			builder.add(e);
@@ -958,6 +1104,21 @@ public class ResolveMerger extends ThreeWayMerger {
 				ourText, theirsText);
 	}
 
+	private MergeResult<RawText> contentMerge(ObjectId base,
+			ObjectId ours, ObjectId theirs,
+			Attributes attributes, ContentMergeStrategy strategy)
+			throws BinaryBlobException, IOException {
+		RawText baseText = base == null ? RawText.EMPTY_TEXT
+				: getRawText(base, attributes);
+		RawText ourText = ours == null ? RawText.EMPTY_TEXT
+				: getRawText(ours, attributes);
+		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
+				: getRawText(theirs, attributes);
+		mergeAlgorithm.setContentMergeStrategy(strategy);
+		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
+				ourText, theirsText);
+	}
+
 	private boolean isIndexDirty() {
 		if (inCore)
 			return false;
@@ -1404,6 +1565,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				.getAttributesNodeProvider() != null;
 		while (treeWalk.next()) {
 			if (!processEntry(
+
 					treeWalk.getTree(T_BASE, CanonicalTreeParser.class),
 					treeWalk.getTree(T_OURS, CanonicalTreeParser.class),
 					treeWalk.getTree(T_THEIRS, CanonicalTreeParser.class),
@@ -1413,6 +1575,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					ignoreConflicts, hasAttributeNodeProvider
 							? treeWalk.getAttributes()
 							: NO_ATTRIBUTES)) {
+				detectAndProcessRenames(treeWalk);
 				cleanUp();
 				return false;
 			}
