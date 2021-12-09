@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "353366f2_c8fdd486",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-09T14:35:17Z",
+      "side": 1,
+      "message": "I\u0027m not happy with this, ideally we use also \u0027$LOCAL\u0027 and \u0027$REMOTE\u0027.\n\nBut doing so will require pattern matching for the diff tool command output. Currently the 2 placeholders are replaced with a temporary file created in /tmp/, the patch to this file is \"random\". We would need to match it (and I guess, matching it under Windows would be different).",
+      "revId": "d01d87ace7b7b9d53817b60fd267cd3e15218e69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "952b75ad_716fbd51",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 39
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-09T14:35:17Z",
+      "side": 1,
+      "message": "This was missing the exception. Currently the exception type is listed, let me know if we want only the exception message (and then, replace \u0027exception\u0027 with \u0027error\u0027).",
+      "revId": "d01d87ace7b7b9d53817b60fd267cd3e15218e69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3589fee1_3bf8bcef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/DiffToolConfig.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-09T14:35:17Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether those are added in latter commits, but I needed working \u0027prompt\u0027 configuration for the tests in jgit.pgm (in order to disable the prompt already in the test tool configuration).",
+      "revId": "d01d87ace7b7b9d53817b60fd267cd3e15218e69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
