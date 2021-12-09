@@ -68,6 +68,9 @@ public abstract class AbstractTreeIterator {
 	/** The iterator this current entry is path equal to. */
 	AbstractTreeIterator matches;
 
+	/** The iterator that was tree was assigned to before the rename shift. */
+	AbstractTreeIterator originator;
+
 	/**
 	 * Parsed rules of .gitattributes file if it exists.
 	 *
@@ -81,6 +84,11 @@ public abstract class AbstractTreeIterator {
 	 * @see NameConflictTreeWalk
 	 */
 	int matchShift;
+
+	/**
+	 * Number of entries, shifted, caused by rename search
+	 */
+	int depthShift;
 
 	/**
 	 * Mode bits for the current entry.

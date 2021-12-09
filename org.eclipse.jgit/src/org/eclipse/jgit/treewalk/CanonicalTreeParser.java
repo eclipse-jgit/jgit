@@ -170,6 +170,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		}
 	}
 
+
 	/**
 	 * Reset this parser to walk through the given tree.
 	 *

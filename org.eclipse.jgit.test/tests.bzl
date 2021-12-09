@@ -24,7 +24,7 @@ def tests(tests):
         # and remove the flaky attribute.
         flaky = src.endswith("CrissCrossMergeTest.java")
 
-        additional_deps = []
+        additional_deps = [ "//lib:assertj-core",]
         if src.endswith("RootLocaleTest.java"):
             additional_deps = [
                 "//org.eclipse.jgit.pgm:pgm",
