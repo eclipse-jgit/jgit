@@ -18,6 +18,7 @@ java_library(
     srcs = SRCS,
     resource_strip_prefix = "org.eclipse.jgit/resources",
     resources = RESOURCES,
+    javacopts = ["-XepDisableAllChecks"],
     deps = [
         ":insecure_cipher_factory",
         "//lib:javaewah",

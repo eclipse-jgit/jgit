@@ -38,11 +38,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
+import org.eclipse.jgit.diff.DiffConfig;
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
@@ -70,11 +74,14 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.submodule.SubmoduleConflict;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
+import org.eclipse.jgit.treewalk.RenameDetectingTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory;
@@ -104,7 +111,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @since 3.4
 	 */
-	protected NameConflictTreeWalk tw;
+	protected RenameDetectingTreeWalk tw;
 
 	/**
 	 * string versions of a list of commit SHA1s
@@ -254,6 +261,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected MergeAlgorithm mergeAlgorithm;
 
+	protected DiffConfig diffCfg;
+
 	/**
 	 * The {@link WorkingTreeOptions} are needed to determine line endings for
 	 * merged files.
@@ -314,7 +323,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		inCoreLimit = getInCoreLimit(config);
 		commitNames = defaultCommitNames();
 		this.inCore = inCore;
-
+		this.diffCfg = config.get(DiffConfig.KEY);
 		if (inCore) {
 			implicitDirCache = false;
 			dircache = DirCache.newInCore();
@@ -453,6 +462,37 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 	}
 
+
+	private void addRenames(RenameDetectingTreeWalk tw, RevTree baseTree,
+			RevTree head, RevTree merge) throws IOException {
+		RenameDetector renameDetector = new RenameDetector(reader, diffCfg);
+		List<DiffEntry> headRenames = computeRenames(renameDetector, baseTree, head);
+		List<DiffEntry> mergeRenames = computeRenames(renameDetector, baseTree, merge);
+		tw.addRenames(T_BASE, T_OURS, headRenames);
+		tw.addRenames(T_BASE, T_THEIRS, mergeRenames);
+	}
+
+
+
+	private List<DiffEntry> computeRenames(RenameDetector renameDetector, RevTree baseTree, RevTree otherTree)
+			throws IOException {
+		TreeWalk tw = new NameConflictTreeWalk(db, reader);
+		tw.reset();
+		tw.addTree(baseTree);
+		tw.addTree(otherTree);
+		// path filter: test/file -> test/sub/file. The failing path is test/file. test/sub/file is not returned in this case. Could be entirely moved. So looks like we need all renames after all? Any optimizations?
+		tw.setFilter(TreeFilter.ANY_DIFF);
+
+
+		renameDetector.reset();
+		renameDetector.addAll(DiffEntry.scan(tw, true));
+		try {
+			return renameDetector.compute(reader, monitor);
+		} catch (CanceledException ex) {
+			throw new IOException(ex);
+		}
+	}
+
 	/**
 	 * adds a new path with the specified stage to the index builder
 	 *
@@ -469,6 +509,20 @@ public class ResolveMerger extends ThreeWayMerger {
 			DirCacheEntry e = new DirCacheEntry(path, stage);
 			e.setFileMode(p.getEntryFileMode());
 			e.setObjectId(p.getEntryObjectId());
+			e.setLastModified(lastMod);
+			e.setLength(len);
+			builder.add(e);
+			return e;
+		}
+		return null;
+	}
+
+	private DirCacheEntry add(byte[] path, ObjectId objectId, FileMode fileMode, int stage,
+			Instant lastMod, long len) {
+		if (!fileMode.equals(FileMode.TREE)) {
+			DirCacheEntry e = new DirCacheEntry(path, stage);
+			e.setFileMode(fileMode);
+			e.setObjectId(objectId);
 			e.setLastModified(lastMod);
 			e.setLength(len);
 			builder.add(e);
@@ -639,6 +693,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				ourDce.setFileMode(tw.getFileMode(T_OURS));
 			}
 		} else {
+			// this is not right, we should always construct the entry with the correct path
 			ourDce = index.getDirCacheEntry();
 		}
 
@@ -681,9 +736,10 @@ public class ResolveMerger extends ThreeWayMerger {
 				// length.
 				// This path can be skipped on ignoreConflicts, so the caller
 				// could use virtual commit.
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				add(tw.getRawPath(T_BASE), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(T_OURS), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(T_THEIRS), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+			// all paths in case of rename?
 				unmergedPaths.add(tw.getPathString());
 				mergeResults.put(tw.getPathString(),
 						new MergeResult<>(Collections.emptyList()));
@@ -748,11 +804,11 @@ public class ResolveMerger extends ThreeWayMerger {
 					return true;
 				}
 				if (nonTree(modeB))
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+					add(tw.getRawPath(T_BASE), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 				if (nonTree(modeO))
-					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+					add(tw.getRawPath(T_OURS), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				if (nonTree(modeT))
-					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+					add(tw.getRawPath(T_THEIRS), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				unmergedPaths.add(tw.getPathString());
 				enterSubtree = false;
 				return true;
@@ -782,9 +838,9 @@ public class ResolveMerger extends ThreeWayMerger {
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0, EPOCH, 0);
 				return true;
 			} else if (gitLinkMerging) {
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				add(tw.getRawPath(T_BASE), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(T_OURS), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(T_THEIRS), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
 						base, ours, theirs);
 				result.setContainsConflicts(true);
@@ -805,9 +861,9 @@ public class ResolveMerger extends ThreeWayMerger {
 				default:
 					break;
 				}
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				add(tw.getRawPath(T_BASE), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(T_OURS), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(T_THEIRS), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 
 				// attribute merge issues are conflicts but not failures
 				unmergedPaths.add(tw.getPathString());
@@ -854,11 +910,11 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
 					.idEqual(T_BASE, T_THEIRS)))) {
 				if (gitLinkMerging && ignoreConflicts) {
-					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0, EPOCH, 0);
+					add(tw.getRawPath(T_OURS), ours, DirCacheEntry.STAGE_0, EPOCH, 0);
 				} else if (gitLinkMerging) {
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+					add(tw.getRawPath(T_BASE), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+					add(tw.getRawPath(T_OURS), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+					add(tw.getRawPath(T_THEIRS), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 					MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
 							base, ours, theirs);
 					result.setContainsConflicts(true);
@@ -883,11 +939,11 @@ public class ResolveMerger extends ThreeWayMerger {
 						result.setContainsConflicts(false);
 						updateIndex(base, ours, theirs, result, attributes);
 					} else {
-						add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH,
+						add(tw.getRawPath(T_BASE), base, DirCacheEntry.STAGE_1, EPOCH,
 								0);
-						add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH,
+						add(tw.getRawPath(T_OURS), ours, DirCacheEntry.STAGE_2, EPOCH,
 								0);
-						DirCacheEntry e = add(tw.getRawPath(), theirs,
+						DirCacheEntry e = add(tw.getRawPath(T_THEIRS), theirs,
 								DirCacheEntry.STAGE_3, EPOCH, 0);
 
 						// OURS was deleted checkout THEIRS
@@ -953,6 +1009,21 @@ public class ResolveMerger extends ThreeWayMerger {
 				: getRawText(ours.getEntryObjectId(), attributes);
 		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
 				: getRawText(theirs.getEntryObjectId(), attributes);
+		mergeAlgorithm.setContentMergeStrategy(strategy);
+		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
+				ourText, theirsText);
+	}
+
+	private MergeResult<RawText> contentMerge(ObjectId base,
+			ObjectId ours, ObjectId theirs,
+			Attributes attributes, ContentMergeStrategy strategy)
+			throws BinaryBlobException, IOException {
+		RawText baseText = base == null ? RawText.EMPTY_TEXT
+				: getRawText(base, attributes);
+		RawText ourText = ours == null ? RawText.EMPTY_TEXT
+				: getRawText(ours, attributes);
+		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
+				: getRawText(theirs, attributes);
 		mergeAlgorithm.setContentMergeStrategy(strategy);
 		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
 				ourText, theirsText);
@@ -1030,9 +1101,9 @@ public class ResolveMerger extends ThreeWayMerger {
 				// A conflict occurred, the file will contain conflict markers
 				// the index will be populated with the three stages and the
 				// workdir (if used) contains the halfway merged content.
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				add(tw.getRawPath(T_BASE), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(tw.getRawPath(T_OURS), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(tw.getRawPath(T_THEIRS), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				mergeResults.put(tw.getPathString(), result);
 				return;
 			}
@@ -1045,6 +1116,58 @@ public class ResolveMerger extends ThreeWayMerger {
 			// we can't merge modes of OURS and THEIRS.
 			int newMode = mergeFileModes(tw.getRawMode(0), tw.getRawMode(1),
 					tw.getRawMode(2));
+			dce.setFileMode(newMode == FileMode.MISSING.getBits()
+					? FileMode.REGULAR_FILE : FileMode.fromBits(newMode));
+			if (mergedFile != null) {
+				dce.setLastModified(
+						nonNullRepo().getFS().lastModifiedInstant(mergedFile));
+				dce.setLength((int) mergedFile.length());
+			}
+			dce.setObjectId(insertMergeResult(rawMerged, attributes));
+			builder.add(dce);
+		} finally {
+			if (rawMerged != null) {
+				rawMerged.destroy();
+			}
+		}
+	}
+
+	private void updateIndex(MergeEntry base,
+			MergeEntry ours, MergeEntry theirs,
+			MergeResult<RawText> result, Attributes attributes) throws IOException {
+		TemporaryBuffer rawMerged = null;
+		try {
+			rawMerged = doMerge(result);
+			File mergedFile = inCore ? null
+					: writeMergedFile(rawMerged, attributes);
+			if (result.containsConflicts()) {
+				// A conflict occurred, the file will contain conflict markers
+				// the index will be populated with the three stages and the
+				// workdir (if used) contains the halfway merged content.
+				add(base.path, base.objectId, base.fileMode, DirCacheEntry.STAGE_1, EPOCH, 0);
+				add(ours.path, ours.objectId, ours.fileMode, DirCacheEntry.STAGE_2, EPOCH, 0);
+				add(theirs.path, theirs.objectId, theirs.fileMode, DirCacheEntry.STAGE_3, EPOCH, 0);
+				mergeResults.put(base.pathString, result);
+				mergeResults.put(ours.pathString, result);
+				mergeResults.put(theirs.pathString, result);
+				return;
+			}
+
+			// No conflict occurred, the file will contain fully merged content.
+			// The index will be populated with the new merged version.
+			// Should we be checking if rename in both? report conflict?
+			if(!theirs.pathString.equals(base.pathString) && !ours.pathString.equals(base.pathString)){
+				// Should rename in both be treated as conflict (instead of addition of two files)?
+				throw new IllegalStateException("Rename both sides is not supported");
+			}
+			// Should the resulting path depend on the strategy, or do we just always select a rename?
+			String mergePath = theirs.pathString.equals(base.pathString)? ours.pathString: theirs.pathString;
+
+			DirCacheEntry dce = new DirCacheEntry(mergePath);
+
+			// Set the mode for the new content. Fall back to REGULAR_FILE if
+			// we can't merge modes of OURS and THEIRS.
+			int newMode = mergeFileModes(base.rawFileMode, ours.rawFileMode, theirs.rawFileMode);
 			dce.setFileMode(newMode == FileMode.MISSING.getBits()
 					? FileMode.REGULAR_FILE : FileMode.fromBits(newMode));
 			if (mergedFile != null) {
@@ -1333,17 +1456,17 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws java.io.IOException
 	 * @since 3.5
 	 */
-	protected boolean mergeTrees(AbstractTreeIterator baseTree,
+	protected boolean mergeTrees(RevTree baseTree,
 			RevTree headTree, RevTree mergeTree, boolean ignoreConflicts)
 			throws IOException {
-
 		builder = dircache.builder();
 		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
 
-		tw = new NameConflictTreeWalk(db, reader);
-		tw.addTree(baseTree);
+		tw = new RenameDetectingTreeWalk(db, reader);
+		tw.addTree(baseTree == null? new EmptyTreeIterator(): openTree(baseTree));
 		tw.addTree(headTree);
 		tw.addTree(mergeTree);
+		addRenames(tw, baseTree, headTree, mergeTree);
 		int dciPos = tw.addTree(buildIt);
 		if (workingTreeIterator != null) {
 			tw.addTree(workingTreeIterator);
@@ -1352,7 +1475,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			tw.setFilter(TreeFilter.ANY_DIFF);
 		}
 
-		if (!mergeTreeWalk(tw, ignoreConflicts)) {
+		if (!mergeTreeWalk(baseTree, headTree, mergeTree,tw, ignoreConflicts)) {
 			return false;
 		}
 
@@ -1397,13 +1520,16 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws java.io.IOException
 	 * @since 3.5
 	 */
-	protected boolean mergeTreeWalk(TreeWalk treeWalk, boolean ignoreConflicts)
+	protected boolean mergeTreeWalk(RevTree baseTree,
+			RevTree headTree, RevTree mergeTree, TreeWalk treeWalk, boolean ignoreConflicts)
 			throws IOException {
 		boolean hasWorkingTreeIterator = tw.getTreeCount() > T_FILE;
 		boolean hasAttributeNodeProvider = treeWalk
 				.getAttributesNodeProvider() != null;
+
 		while (treeWalk.next()) {
 			if (!processEntry(
+
 					treeWalk.getTree(T_BASE, CanonicalTreeParser.class),
 					treeWalk.getTree(T_OURS, CanonicalTreeParser.class),
 					treeWalk.getTree(T_THEIRS, CanonicalTreeParser.class),
@@ -1419,6 +1545,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (treeWalk.isSubtree() && enterSubtree)
 				treeWalk.enterSubtree();
 		}
+		// If we don't set ignore conflicts, we do not care about non-clean merges. Or we can process 'unmerged paths'
+		// detectAndProcessRenames(baseTree, headTree, mergeTree);
 		return true;
 	}
 }
