@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.14" sequenceNumber="1638648143">
+<target name="jgit-4.14" sequenceNumber="1639436780">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.43.v20210629"/>
@@ -25,28 +25,28 @@
       <repository id="jetty-9.4.x" location="https://archive.eclipse.org/jetty/updates/jetty-bundles-9.x/jetty-bundles-9.x/9.4.43.v20210629/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
-      <unit id="com.google.gson" version="2.8.7.v20210624-1215"/>
-      <unit id="com.google.gson.source" version="2.8.7.v20210624-1215"/>
+      <unit id="com.google.gson" version="2.8.8.v20211029-0838"/>
+      <unit id="com.google.gson.source" version="2.8.8.v20211029-0838"/>
       <unit id="com.jcraft.jsch" version="0.1.55.v20190404-1902"/>
       <unit id="com.jcraft.jsch.source" version="0.1.55.v20190404-1902"/>
       <unit id="com.jcraft.jzlib" version="1.1.1.v201205102305"/>
       <unit id="com.jcraft.jzlib.source" version="1.1.1.v201205102305"/>
-      <unit id="javaewah" version="1.1.12.v20210622-2206"/>
-      <unit id="javaewah.source" version="1.1.12.v20210622-2206"/>
+      <unit id="javaewah" version="1.1.13.v20211029-0839"/>
+      <unit id="javaewah.source" version="1.1.13.v20211029-0839"/>
       <unit id="javax.servlet" version="3.1.0.v201410161800"/>
       <unit id="javax.servlet.source" version="3.1.0.v201410161800"/>
       <unit id="net.bytebuddy.byte-buddy" version="1.9.0.v20181107-1410"/>
       <unit id="net.bytebuddy.byte-buddy-agent" version="1.9.0.v20181106-1534"/>
       <unit id="net.bytebuddy.byte-buddy-agent.source" version="1.9.0.v20181106-1534"/>
       <unit id="net.bytebuddy.byte-buddy.source" version="1.9.0.v20181107-1410"/>
-      <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20181102-1323"/>
-      <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20181102-1323"/>
-      <unit id="org.apache.ant" version="1.10.11.v20210720-1445"/>
-      <unit id="org.apache.ant.source" version="1.10.11.v20210720-1445"/>
+      <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20210923-1401"/>
+      <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20210923-1401"/>
+      <unit id="org.apache.ant" version="1.10.12.v20211102-1452"/>
+      <unit id="org.apache.ant.source" version="1.10.12.v20211102-1452"/>
       <unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
       <unit id="org.apache.commons.codec.source" version="1.14.0.v20200818-1422"/>
-      <unit id="org.apache.commons.compress" version="1.20.0.v20210713-1928"/>
-      <unit id="org.apache.commons.compress.source" version="1.20.0.v20210713-1928"/>
+      <unit id="org.apache.commons.compress" version="1.21.0.v20211103-2100"/>
+      <unit id="org.apache.commons.compress.source" version="1.21.0.v20211103-2100"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.httpcomponents.httpclient" version="4.5.13.v20210128-2225"/>
@@ -65,8 +65,8 @@
       <unit id="org.bouncycastle.bcpg.source" version="1.69.0.v20210713-1924"/>
       <unit id="org.bouncycastle.bcpkix" version="1.69.0.v20210713-1924"/>
       <unit id="org.bouncycastle.bcpkix.source" version="1.69.0.v20210713-1924"/>
-      <unit id="org.bouncycastle.bcprov" version="1.69.0.v20210713-1924"/>
-      <unit id="org.bouncycastle.bcprov.source" version="1.69.0.v20210713-1924"/>
+      <unit id="org.bouncycastle.bcprov" version="1.69.0.v20210923-1401"/>
+      <unit id="org.bouncycastle.bcprov.source" version="1.69.0.v20210923-1401"/>
       <unit id="org.bouncycastle.bcutil" version="1.69.0.v20210713-1924"/>
       <unit id="org.bouncycastle.bcutil.source" version="1.69.0.v20210713-1924"/>
       <unit id="org.hamcrest" version="2.2.0.v20210711-0821"/>
@@ -75,8 +75,8 @@
       <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
       <unit id="org.hamcrest.library" version="1.3.0.v20180524-2246"/>
       <unit id="org.hamcrest.library.source" version="1.3.0.v20180524-2246"/>
-      <unit id="org.junit" version="4.13.0.v20200204-1500"/>
-      <unit id="org.junit.source" version="4.13.0.v20200204-1500"/>
+      <unit id="org.junit" version="4.13.2.v20211018-1956"/>
+      <unit id="org.junit.source" version="4.13.2.v20211018-1956"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
       <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
       <unit id="org.mockito" version="2.23.0.v20200310-1642"/>
@@ -89,7 +89,7 @@
       <unit id="org.slf4j.binding.log4j12.source" version="1.7.30.v20201108-2042"/>
       <unit id="org.tukaani.xz" version="1.9.0.v20210624-1259"/>
       <unit id="org.tukaani.xz.source" version="1.9.0.v20210624-1259"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20210825222808/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>

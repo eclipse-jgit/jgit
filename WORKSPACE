@@ -105,8 +105,8 @@ maven_jar(
 
 maven_jar(
     name = "javaewah",
-    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.12",
-    sha1 = "9feecc2b24d6bc9ff865af8d082f192238a293eb",
+    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.13",
+    sha1 = "32cd724a42dc73f99ca08453d11a4bb83e0034c7",
 )
 
 maven_jar(
@@ -165,8 +165,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-compress",
-    artifact = "org.apache.commons:commons-compress:1.20",
-    sha1 = "b8df472b31e1f17c232d2ad78ceb1c84e00c641b",
+    artifact = "org.apache.commons:commons-compress:1.21",
+    sha1 = "4ec95b60d4e86b5c95a0e919cb172a0af98011ef",
 )
 
 maven_jar(
@@ -183,8 +183,8 @@ maven_jar(
 
 maven_jar(
     name = "junit",
-    artifact = "junit:junit:4.13",
-    sha1 = "e49ccba652b735c93bd6e6f59760d8254cf597dd",
+    artifact = "junit:junit:4.13.2",
+    sha1 = "8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12",
 )
 
 maven_jar(
@@ -227,8 +227,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.7",
-    sha1 = "69d9503ea0a40ee16f0bcdac7e3eaf83d0fa914a",
+    artifact = "com.google.code.gson:gson:2.8.8",
+    sha1 = "431fc3cbc0ff81abdbfde070062741089c3ba874",
 )
 
 JETTY_VER = "9.4.43.v20210629"
