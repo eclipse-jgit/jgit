@@ -34,6 +34,91 @@ public class DfsReaderTest {
 	}
 
 	@Test
+	public void isNotLargerThan_objAboveThreshold()
+			throws IOException {
+		setObjectSizeIndexMinBytes(100);
+		ObjectId obj = insertBlobWithSize(200);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertFalse("limit < threshold < obj",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 50));
+			assertEquals(1, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(1, ctx.stats.objectSizeIndexHit);
+
+			assertFalse("limit = threshold < obj",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 100));
+			assertEquals(2, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(2, ctx.stats.objectSizeIndexHit);
+
+			assertFalse("threshold < limit < obj",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 150));
+			assertEquals(3, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(3, ctx.stats.objectSizeIndexHit);
+
+			assertTrue("threshold < limit = obj",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 200));
+			assertEquals(4, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(4, ctx.stats.objectSizeIndexHit);
+
+			assertTrue("threshold < obj < limit",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 250));
+			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(5, ctx.stats.objectSizeIndexHit);
+		}
+	}
+
+
+	@Test
+	public void isNotLargerThan_objBelowThreshold()
+			throws IOException {
+		setObjectSizeIndexMinBytes(100);
+		insertBlobWithSize(1000); // index not empty
+		ObjectId obj = insertBlobWithSize(50);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertFalse("limit < obj < threshold",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 10));
+			assertEquals(1, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(1, ctx.stats.objectSizeIndexMiss);
+
+			assertTrue("limit = obj < threshold",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 50));
+			assertEquals(2, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(2, ctx.stats.objectSizeIndexMiss);
+
+			assertTrue("obj < limit < threshold",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 80));
+			assertEquals(3, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(3, ctx.stats.objectSizeIndexMiss);
+
+			assertTrue("obj < limit = threshold",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 100));
+			assertEquals(4, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(4, ctx.stats.objectSizeIndexMiss);
+
+			assertTrue("obj < threshold < limit",
+					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 120));
+			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(5, ctx.stats.objectSizeIndexMiss);
+		}
+	}
+
+	@Test
+	public void isNotLargerThan_emptyIdx() throws IOException {
+		setObjectSizeIndexMinBytes(100);
+		ObjectId obj = insertBlobWithSize(10);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertFalse(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 0));
+			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 10));
+			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 40));
+			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 50));
+			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 100));
+
+			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(5, ctx.stats.objectSizeIndexMiss);
+			assertEquals(0, ctx.stats.objectSizeIndexHit);
+		}
+	}
+
+	@Test
 	public void isNotLargerThan_noObjectSizeIndex() throws IOException {
 		setObjectSizeIndexMinBytes(-1);
 		ObjectId obj = insertBlobWithSize(10);
