@@ -31,6 +31,8 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 
 	private long sizeBeforeInflating;
 
+	private long fullSize;
+
 	PackedObjectInfo(final long headerOffset, final int packedCRC,
 			final AnyObjectId id) {
 		super(id);
@@ -117,5 +119,22 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 
 	long getSize() {
 		return sizeBeforeInflating;
+	}
+
+	/**
+	 * Size before deltifying
+	 *
+	 * @param size
+	 *            size of the object in bytes, without deltifying
+	 */
+	public void setFullSize(long size) {
+		this.fullSize = size;
+	}
+
+	/**
+	 * @return size of the fully formed object
+	 */
+	public long getFullSize() {
+		return fullSize;
 	}
 }
