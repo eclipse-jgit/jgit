@@ -42,6 +42,8 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndex;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -315,6 +317,18 @@ public class DfsInserter extends ObjectInserter {
 	private static void index(OutputStream out, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
 		PackIndexWriter.createVersion(out, INDEX_VERSION).write(list, packHash);
+	}
+
+	PackObjectSizeIndex writerObjectSizeIndex(DfsPackDescription pack,
+			List<PackedObjectInfo> packedObjs) throws IOException {
+		PackObjectSizeIndex sizeIdx = null;
+		try (DfsOutputStream os = db.writeFile(pack,
+				PackExt.OBJECT_SIZE_INDEX)) {
+			PackObjectSizeIndexWriter
+					.createWriter(os, 1 << 20) // 1MB make it conf
+					.write(packedObjs);
+		}
+		return sizeIdx;
 	}
 
 	private class PackStream extends OutputStream {
