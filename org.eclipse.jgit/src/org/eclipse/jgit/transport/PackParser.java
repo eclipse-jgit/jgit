@@ -658,7 +658,8 @@ public abstract class PackParser {
 			}
 
 			byte[] delta = inflateAndReturn(Source.DATABASE, info.size);
-			checkIfTooLarge(type, BinaryDelta.getResultSize(delta));
+			long finalSz = BinaryDelta.getResultSize(delta);
+			checkIfTooLarge(type, finalSz);
 
 			visit.data = BinaryDelta.apply(visit.parent.data, delta);
 			delta = null;
@@ -684,6 +685,7 @@ public abstract class PackParser {
 
 			PackedObjectInfo oe;
 			oe = newInfo(tempObjectId, visit.delta, visit.parent.id);
+			oe.setFullSize(finalSz);
 			oe.setOffset(visit.delta.position);
 			oe.setType(type);
 			onInflatedObjectData(oe, type, visit.data);
@@ -861,6 +863,7 @@ public abstract class PackParser {
 			final int typeCode = ldr.getType();
 			final PackedObjectInfo oe = newInfo(baseId, null, null);
 			oe.setType(typeCode);
+			oe.setFullSize(ldr.getSize());
 			if (onAppendBase(typeCode, visit.data, oe))
 				entries[entryCount++] = oe;
 			visit.nextChild = firstChildOf(oe);
@@ -1078,6 +1081,7 @@ public abstract class PackParser {
 		obj.setOffset(pos);
 		obj.setType(type);
 		obj.setSize(sizeBeforeInflating);
+		obj.setFullSize(sz);
 		onEndWholeObject(obj);
 		if (data != null)
 			onInflatedObjectData(obj, type, data);
