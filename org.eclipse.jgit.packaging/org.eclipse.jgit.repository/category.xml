@@ -111,12 +111,6 @@
    <bundle id="org.apache.httpcomponents.httpcore.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.log4j">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
-   <bundle id="org.apache.log4j.source">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
    <bundle id="org.apache.sshd.osgi">
       <category name="JGit-dependency-bundles"/>
    </bundle>
@@ -165,10 +159,10 @@
    <bundle id="org.slf4j.api.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.binding.log4j12">
+   <bundle id="org.slf4j.binding.simple">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.binding.log4j12.source">
+   <bundle id="org.slf4j.binding.simple.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.tukaani.xz">
