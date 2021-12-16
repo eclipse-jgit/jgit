@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.9" sequenceNumber="1639436784">
+<target name="jgit-4.9" sequenceNumber="1639438138">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.43.v20210629"/>
@@ -53,8 +53,6 @@
       <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.13.v20210128-2225"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.14.v20210128-2225"/>
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.14.v20210128-2225"/>
-      <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
-      <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
       <unit id="org.apache.sshd.osgi" version="2.7.0.v20210623-0618"/>
       <unit id="org.apache.sshd.osgi.source" version="2.7.0.v20210623-0618"/>
       <unit id="org.apache.sshd.sftp" version="2.7.0.v20210623-0618"/>
@@ -85,8 +83,8 @@
       <unit id="org.objenesis.source" version="2.6.0.v20180420-1519"/>
       <unit id="org.slf4j.api" version="1.7.30.v20200204-2150"/>
       <unit id="org.slf4j.api.source" version="1.7.30.v20200204-2150"/>
-      <unit id="org.slf4j.binding.log4j12" version="1.7.30.v20201108-2042"/>
-      <unit id="org.slf4j.binding.log4j12.source" version="1.7.30.v20201108-2042"/>
+      <unit id="org.slf4j.binding.simple" version="1.7.30.v20200204-2150"/>
+      <unit id="org.slf4j.binding.simple.source" version="1.7.30.v20200204-2150"/>
       <unit id="org.tukaani.xz" version="1.9.0.v20210624-1259"/>
       <unit id="org.tukaani.xz.source" version="1.9.0.v20210624-1259"/>
       <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository"/>
