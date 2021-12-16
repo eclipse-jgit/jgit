@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
@@ -76,6 +79,49 @@ public class PackParserTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testParsePack1ReadsObjectSizes() throws IOException {
+		File packFile = JGitTestUtil.getTestResourceFile(
+				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack");
+
+		// Sizes from git cat-file -s after unpacking in a local repo
+		Map<String, Long> expected = new HashMap<>();
+		// Commits
+		expected.put("540a36d136cf413e4b064c2b0e0a4db60f77feab",
+				Long.valueOf(191));
+		expected.put("c59759f143fb1fe21c197981df75a7ee00290799",
+				Long.valueOf(240));
+		expected.put("82c6b885ff600be425b4ea96dee75dca255b69e7",
+				Long.valueOf(245));
+
+		// Trees
+		expected.put("4b825dc642cb6eb9a060e54bf8d69288fbee4904",
+				Long.valueOf(0)); // empty
+		expected.put("902d5476fa249b7abc9d84c611577a81381f0327",
+				Long.valueOf(35));
+		expected.put("aabf2ffaec9b497f0950352b3e582d73035c2035",
+				Long.valueOf(35));
+
+		// Blobs
+		expected.put("6ff87c4664981e4397625791c8ea3bbb5f2279a3",
+				Long.valueOf(18787));
+
+		// Deltas
+		expected.put("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259",
+				Long.valueOf(18009)); // delta-oid blob
+
+
+		try (InputStream is = new FileInputStream(packFile)) {
+			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
+			p.parse(NullProgressMonitor.INSTANCE);
+			List<PackedObjectInfo> parsedObjects = p.getSortedObjectList(null);
+			for (PackedObjectInfo objInfo: parsedObjects) {
+				assertEquals(objInfo.getName(), objInfo.getFullSize(),
+						expected.get(objInfo.getName()).longValue());
+			}
+		}
+	}
+
 	/**
 	 * This is just another pack. It so happens that we have two convenient pack to
 	 * test with in the repository.
@@ -103,6 +149,39 @@ public class PackParserTest extends RepositoryTestCase {
 			assertTrue(pack.hasObject(ObjectId.fromString("20a8ade77639491ea0bd667bf95de8abf3a434c8")));
 			assertTrue(pack.hasObject(ObjectId.fromString("2675188fd86978d5bc4d7211698b2118ae3bf658")));
 			// and lots more...
+		}
+	}
+
+	@Test
+	public void testParsePack2ReadsObjectSizes() throws IOException {
+		File packFile = JGitTestUtil.getTestResourceFile(
+				"pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.pack");
+		Map<String, Long> expected = new HashMap<>();
+		// Deltified commit
+		expected.put("d0114ab8ac326bab30e3a657a0397578c5a1af88",
+				Long.valueOf(222));
+		// Delta of delta of commit
+		expected.put("f73b95671f326616d66b2afb3bdfcdbbce110b44",
+				Long.valueOf(221));
+		// Deltified tree
+		expected.put("be9b45333b66013bde1c7314efc50fabd9b39c6d",
+				Long.valueOf(94));
+
+		try (InputStream is = new FileInputStream(packFile)) {
+			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
+			p.parse(NullProgressMonitor.INSTANCE);
+			List<PackedObjectInfo> parsedObjects = p.getSortedObjectList(null);
+			// Check only the interesting objects
+			int assertedObjs = 0;
+			for (PackedObjectInfo objInfo : parsedObjects) {
+				if (!expected.containsKey(objInfo.getName())) {
+					continue;
+				}
+				assertEquals(objInfo.getName(), objInfo.getFullSize(),
+						expected.get(objInfo.getName()).longValue());
+				assertedObjs += 1;
+			}
+			assertEquals(assertedObjs, expected.size());
 		}
 	}
 
@@ -147,6 +226,45 @@ public class PackParserTest extends RepositoryTestCase {
 		PackParser p = index(new ByteArrayInputStream(pack.toByteArray()));
 		p.setAllowThin(false);
 		p.parse(NullProgressMonitor.INSTANCE);
+	}
+
+	@Test
+	public void testParseOfsDeltaFullSize() throws Exception {
+		final byte[] data = Constants.encode("0123456789");
+		try (TestRepository<Repository> d = new TestRepository<>(db)) {
+			db.incrementOpen();
+			assertTrue(db.getObjectDatabase().has(d.blob(data)));
+		}
+
+		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
+		packHeader(pack, 2);
+		pack.write((Constants.OBJ_BLOB) << 4 | 10); // offset 12
+		deflate(pack, data);
+		pack.write((Constants.OBJ_OFS_DELTA) << 4 | 4); // offset 31
+		pack.write(19);
+		deflate(pack, new byte[] { 0xA, 0xB, 0x1, 'b' });
+		digest(pack);
+
+		PackParser p = index(new ByteArrayInputStream(pack.toByteArray()));
+		p.parse(NullProgressMonitor.INSTANCE);
+
+		List<PackedObjectInfo> sortedObjectList = p.getSortedObjectList(null);
+		assertEquals(sortedObjectList.size(), 2);
+
+		// Deltified comes first because they are sorted by SHA1
+		PackedObjectInfo deltifiedObj = sortedObjectList.get(0);
+		assertEquals(deltifiedObj.getName(),
+				"16646543f87fb53e30b032eec7dfc88f2e717966");
+		assertEquals(deltifiedObj.getOffset(), 31);
+		assertEquals(deltifiedObj.getType(), Constants.OBJ_BLOB);
+		assertEquals(deltifiedObj.getFullSize(), 11);
+
+		PackedObjectInfo baseObj = sortedObjectList.get(1);
+		assertEquals(baseObj.getName(),
+				"ad471007bd7f5983d273b9584e5629230150fd54");
+		assertEquals(baseObj.getOffset(), 12);
+		assertEquals(baseObj.getType(), Constants.OBJ_BLOB);
+		assertEquals(baseObj.getFullSize(), 10);
 	}
 
 	@Test
