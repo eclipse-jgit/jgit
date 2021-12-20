@@ -38,6 +38,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.OrTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
@@ -45,6 +46,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.eclipse.jgit.util.io.NullOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -634,6 +636,42 @@ public class DiffFormatterTest extends RepositoryTestCase {
 				+ " 012345678901234567890123456789012345678901234567\n"
 				+ " 012345678901234567890123456789012345678901234567\n";
 		doAutoCrLfTest(content, expectedDiff);
+	}
+
+	@Test
+	public void testDiffMaxCount() throws Exception {
+		// given
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db);
+				DiffFormatter dfmt = new DiffFormatter(
+						NullOutputStream.INSTANCE)) {
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			FileUtils.mkdir(new File(db.getWorkTree(), "b"));
+			writeTrashFile("a.txt", "a");
+			writeTrashFile("b/1.txt", "b1");
+			writeTrashFile("b/2.txt", "b2");
+			writeTrashFile("c.txt", "c");
+			git.add().addFilepattern("a.txt").addFilepattern("b")
+					.addFilepattern("c.txt").call();
+			RevCommit c2 = git.commit().setMessage("second commit").call();
+
+			dfmt.setReader(walk.getObjectReader(), db.getConfig());
+			dfmt.setDetectRenames(false);
+
+			List<DiffEntry> diffs;
+
+			dfmt.setMaxDiffEntryScan(1);
+			diffs = dfmt.scan(c1.getTree(), c2.getTree());
+			assertEquals(1, diffs.size());
+
+			dfmt.setMaxDiffEntryScan(2);
+			diffs = dfmt.scan(c1.getTree(), c2.getTree());
+			assertEquals(2, diffs.size());
+
+			dfmt.setMaxDiffEntryScan(-1);
+			diffs = dfmt.scan(c1.getTree(), c2.getTree());
+			assertEquals(4, diffs.size());
+		}
 	}
 
 	private void doAutoCrLfTest(String content, String expectedDiff)

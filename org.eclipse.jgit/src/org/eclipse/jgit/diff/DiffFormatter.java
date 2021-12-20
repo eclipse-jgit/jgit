@@ -92,6 +92,8 @@ public class DiffFormatter implements AutoCloseable {
 
 	private int abbreviationLength = 7;
 
+	private int maxDiffEntryScan = -1;
+
 	private DiffAlgorithm diffAlgorithm;
 
 	private RawTextComparator comparator = RawTextComparator.DEFAULT;
@@ -368,6 +370,18 @@ public class DiffFormatter implements AutoCloseable {
 	}
 
 	/**
+	 * Set the maximum number of scans without rename detection. if max <= 0,
+	 * there is no limit. Default is -1.
+	 *
+	 * @param max
+	 *            the maximum number of scans
+	 * @since 6.1
+	 */
+	public void setMaxDiffEntryScan(int max) {
+		this.maxDiffEntryScan = max;
+	}
+
+	/**
 	 * Set the filter to produce only specific paths.
 	 *
 	 * If the filter is an instance of
@@ -527,7 +541,8 @@ public class DiffFormatter implements AutoCloseable {
 
 		source = new ContentSource.Pair(source(a), source(b));
 
-		List<DiffEntry> files = DiffEntry.scan(walk);
+		List<DiffEntry> files = DiffEntry.scan(walk, false, null,
+				maxDiffEntryScan);
 		if (pathFilter instanceof FollowFilter && isAdd(files)) {
 			// The file we are following was added here, find where it
 			// came from so we can properly show the rename or copy,

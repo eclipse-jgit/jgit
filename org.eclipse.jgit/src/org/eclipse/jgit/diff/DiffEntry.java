@@ -137,6 +137,38 @@ public class DiffEntry {
 	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees,
 			TreeFilter[] markTreeFilters)
 			throws IOException {
+		return scan(walk, includeTrees, markTreeFilters, -1);
+	}
+
+	/**
+	 * Convert the TreeWalk into DiffEntry headers, depending on
+	 * {@code includeTrees} it will add tree objects into result or not.
+	 *
+	 * @param walk
+	 *            the TreeWalk to walk through. Must have exactly two trees and
+	 *            when {@code includeTrees} parameter is {@code true} it can't
+	 *            be recursive.
+	 * @param includeTrees
+	 *            include tree objects.
+	 * @param markTreeFilters
+	 *            array of tree filters which will be tested for each entry. If
+	 *            an entry matches, the entry will later return true when
+	 *            queried through {{@link #isMarked(int)} (with the index from
+	 *            this passed array).
+	 * @param max
+	 *            maximum number of results. if max <= 0, there is no limit.
+	 * @return headers describing the changed files.
+	 * @throws java.io.IOException
+	 *             the repository cannot be accessed.
+	 * @throws java.lang.IllegalArgumentException
+	 *             when {@code includeTrees} is true and given TreeWalk is
+	 *             recursive. Or when given TreeWalk doesn't have exactly two
+	 *             trees
+	 * @since 6.1
+	 */
+	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees,
+			TreeFilter[] markTreeFilters, int max)
+			throws IOException {
 		if (walk.getTreeCount() != 2)
 			throw new IllegalArgumentException(
 					JGitText.get().treeWalkMustHaveExactlyTwoTrees);
@@ -152,6 +184,7 @@ public class DiffEntry {
 
 		List<DiffEntry> r = new ArrayList<>();
 		MutableObjectId idBuf = new MutableObjectId();
+		boolean limitSize = max > 0 ? true : false;
 		while (walk.next()) {
 			DiffEntry entry = new DiffEntry();
 
@@ -193,7 +226,9 @@ public class DiffEntry {
 				entry.changeType = ChangeType.MODIFY;
 				r.add(entry);
 			}
-
+			if (limitSize && r.size() >= max) {
+				break;
+			}
 			if (includeTrees && walk.isSubtree())
 				walk.enterSubtree();
 		}
