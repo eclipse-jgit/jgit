@@ -311,6 +311,43 @@ public class DiffEntryTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testMaxLimit() throws Exception {
+		// given
+		try (Git git = new Git(db); TreeWalk walk = new TreeWalk(db)) {
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			FileUtils.mkdir(new File(db.getWorkTree(), "b"));
+			writeTrashFile("a.txt", "a");
+			writeTrashFile("b/1.txt", "b1");
+			writeTrashFile("b/2.txt", "b2");
+			writeTrashFile("c.txt", "c");
+			git.add().addFilepattern("a.txt").addFilepattern("b")
+					.addFilepattern("c.txt").call();
+			RevCommit c2 = git.commit().setMessage("second commit").call();
+			TreeFilter filterA = PathFilterGroup.createFromStrings("a.txt");
+			TreeFilter filterB = PathFilterGroup.createFromStrings("b");
+			TreeFilter filterB2 = PathFilterGroup.createFromStrings("b/2.txt");
+
+			// when
+			walk.addTree(c1.getTree());
+			walk.addTree(c2.getTree());
+
+			List<DiffEntry> result = DiffEntry.scan(walk, true,
+					new TreeFilter[] { filterA, filterB, filterB2 }, 1);
+			assertEquals(1, result.size());
+
+			walk.reset(c1.getTree(), c2.getTree());
+			result = DiffEntry.scan(walk, true,
+					new TreeFilter[] { filterA, filterB, filterB2 }, 4);
+			assertEquals(4, result.size());
+
+			walk.reset(c1.getTree(), c2.getTree());
+			result = DiffEntry.scan(walk, true,
+					new TreeFilter[] { filterA, filterB, filterB2 }, -1);
+			assertEquals(5, result.size());
+		}
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowIAEWhenTreeWalkHasLessThanTwoTrees()
 			throws Exception {
