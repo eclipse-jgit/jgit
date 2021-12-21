@@ -821,4 +821,25 @@ public final class ConfigConstants {
 	 * @since 6.1
 	 */
 	public static final String CONFIG_KEY_WRITE_COMMIT_GRAPH = "writeCommitGraph";
+
+	/**
+	 * The "computeChangedPaths" key in the "commitGraph" section
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_COMPUTE_CHANGED_PATHS = "computeChangedPaths";
+
+	/**
+	 * The "readChangedPaths" key in the "commitGraph" section
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_READ_CHANGED_PATHS = "readChangedPaths";
+
+	/**
+	 * The "maxNewFilters" key in the "commitGraph" section
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_MAX_NEW_FILTERS = "maxNewFilters";
 }

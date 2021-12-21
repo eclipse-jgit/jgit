@@ -24,6 +24,8 @@ class ObjectToCommitData extends ObjectIdOwnerMap.Entry {
 
 	private int oidPosition = -1;
 
+	private ChangedPathFilter filter;
+
 	/**
 	 * Initialize this entry with a specific ObjectId.
 	 *
@@ -48,5 +50,13 @@ class ObjectToCommitData extends ObjectIdOwnerMap.Entry {
 
 	void setOidPosition(int oidPosition) {
 		this.oidPosition = oidPosition;
+	}
+
+	ChangedPathFilter getBloomFilter() {
+		return filter;
+	}
+
+	void setBloomFilter(ChangedPathFilter filter) {
+		this.filter = filter;
 	}
 }

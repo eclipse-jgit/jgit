@@ -11,6 +11,8 @@
 package org.eclipse.jgit.internal.storage.commitgraph;
 
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BloomFilter;
+import org.eclipse.jgit.lib.BloomFilter.Key;
 import org.eclipse.jgit.lib.CommitGraph;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -47,6 +49,18 @@ public class CommitGraphSingleImpl implements CommitGraph {
 			return null;
 		}
 		return graphData.getCommitData(graphPos);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public BloomFilter findBloomFilter(AnyObjectId commit) {
+		return null;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Key newBloomKey(String path) {
+		return null;
 	}
 
 	/** {@inheritDoc} */

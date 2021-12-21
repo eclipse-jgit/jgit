@@ -10,6 +10,13 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter.TRUNCATED_EMPTY_FILTER;
+import static org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter.TRUNCATED_LARGE_FILTER;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.BLOOM_BITS_PER_ENTRY;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.BLOOM_KEY_NUM_HASHES;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.BLOOM_MAX_CHANGED_PATHS;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_DATA;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_INDEXES;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_COMMIT_DATA;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_OID_FANOUT;
@@ -26,14 +33,19 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.BloomFilter;
 import org.eclipse.jgit.lib.CommitGraph;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -47,6 +59,8 @@ import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.io.NullOutputStream;
 
 /**
  * Writes a commit-graph formatted file.
@@ -59,7 +73,7 @@ public class CommitGraphWriter {
 
 	private static final int GENERATION_NUMBER_MAX = 0x3FFFFFFF;
 
-	private static final int MAX_NUM_CHUNKS = 5;
+	private static final int MAX_NUM_CHUNKS = 7;
 
 	private static final int GRAPH_FANOUT_SIZE = 4 * 256;
 
@@ -74,6 +88,16 @@ public class CommitGraphWriter {
 	private int numExtraEdges;
 
 	private boolean computeGeneration;
+
+	private boolean computeChangedPaths;
+
+	private int maxNewFilters;
+
+	private int bloomFilterComputedCount;
+
+	private int totalBloomFilterDataSize;
+
+	private CommitGraph oldGraph;
 
 	/**
 	 * Create writer for specified repository.
@@ -108,6 +132,8 @@ public class CommitGraphWriter {
 	public CommitGraphWriter(CommitGraphConfig cfg, ObjectReader reader) {
 		this.walk = new RevWalk(reader);
 		this.computeGeneration = cfg.isComputeGeneration();
+		this.computeChangedPaths = cfg.isComputeChangedPaths();
+		this.maxNewFilters = cfg.getMaxNewFilters();
 		this.hashsz = OBJECT_ID_LENGTH;
 	}
 
@@ -116,19 +142,23 @@ public class CommitGraphWriter {
 	 *
 	 * @param findingMonitor
 	 *            progress monitor to report the number of commits found.
-	 * @param computeGenerationMonitor
-	 *            progress monitor to report generation computation work.
+	 * @param computeMonitor
+	 *            progress monitor to report computation work.
 	 * @param wants
 	 *            the list of wanted objects, writer walks commits starting at
 	 *            these. Must not be {@code null}.
 	 * @throws IOException
 	 */
 	public void prepareCommitGraph(ProgressMonitor findingMonitor,
-			ProgressMonitor computeGenerationMonitor,
+			ProgressMonitor computeMonitor,
 			@NonNull Set<? extends ObjectId> wants) throws IOException {
+		oldGraph = walk.getObjectReader().getCommitGraph();
 		BlockList<RevCommit> commits = findCommits(findingMonitor, wants);
 		if (computeGeneration) {
-			computeGenerationNumbers(computeGenerationMonitor, commits);
+			computeGenerationNumbers(computeMonitor, commits);
+		}
+		if (computeChangedPaths) {
+			computeChangedPaths(computeMonitor, commits);
 		}
 	}
 
@@ -152,6 +182,9 @@ public class CommitGraphWriter {
 		Chunk[] chunks = createChunks();
 
 		long writeCount = 256 + 2 * commitDataList.size() + numExtraEdges;
+		if (totalBloomFilterDataSize > 0) {
+			writeCount += 2 * commitDataList.size();
+		}
 		beginPhase(
 				MessageFormat.format(JGitText.get().writingOutCommitGraph,
 						Integer.valueOf(chunks.length)),
@@ -187,6 +220,16 @@ public class CommitGraphWriter {
 		if (numExtraEdges > 0) {
 			chunks[numChunks].id = CHUNK_ID_EXTRA_EDGE_LIST;
 			chunks[numChunks].size = numExtraEdges * 4;
+			numChunks++;
+		}
+
+		if (totalBloomFilterDataSize > 0) {
+			chunks[numChunks].id = CommitGraphConstants.CHUNK_ID_BLOOM_INDEXES;
+			chunks[numChunks].size = 4 * commitDataList.size();
+			numChunks++;
+
+			chunks[numChunks].id = CommitGraphConstants.CHUNK_ID_BLOOM_DATA;
+			chunks[numChunks].size = 12 + totalBloomFilterDataSize;
 			numChunks++;
 		}
 		chunks[numChunks].id = 0;
@@ -236,6 +279,12 @@ public class CommitGraphWriter {
 			case CHUNK_ID_EXTRA_EDGE_LIST:
 				writeExtraEdges(out);
 				break;
+			case CHUNK_ID_BLOOM_INDEXES:
+				writeBloomIndexes(out);
+				break;
+			case CHUNK_ID_BLOOM_DATA:
+				writeBloomData(out);
+				break;
 			}
 		}
 	}
@@ -276,6 +325,67 @@ public class CommitGraphWriter {
 	 */
 	public void setComputeGeneration(boolean computeGeneration) {
 		this.computeGeneration = computeGeneration;
+	}
+
+	/**
+	 * True is writer is allowed to compute and write information about the
+	 * paths changed between a commit and its first parent.
+	 *
+	 * Default setting: {@value CommitGraphConfig#DEFAULT_COMPUTE_CHANGED_PATHS}
+	 *
+	 * @return whether to compute changed paths
+	 */
+	public boolean isComputeChangedPaths() {
+		return computeChangedPaths;
+	}
+
+	/**
+	 * Enable computing and writing information about the paths changed between
+	 * a commit and its first parent.
+	 *
+	 * This operation can take a while on large repositories. It provides
+	 * significant performance gains for getting history of a directory or a
+	 * file with {@code git log -- <path>}.
+	 *
+	 * Default setting: {@value CommitGraphConfig#DEFAULT_COMPUTE_CHANGED_PATHS}
+	 *
+	 * @param computeChangedPaths
+	 *            true to compute and write changed paths
+	 */
+	public void setComputeChangedPaths(boolean computeChangedPaths) {
+		this.computeChangedPaths = computeChangedPaths;
+	}
+
+	/**
+	 * Get the maximum number of new bloom filters. Only commits present in the
+	 * new layer count against this limit.
+	 *
+	 * Default setting: {@value CommitGraphConfig#DEFAULT_MAX_NEW_FILTERS}
+	 *
+	 * @return the maximum number of new bloom filters.
+	 */
+	public int getMaxNewFilters() {
+		return maxNewFilters;
+	}
+
+	/**
+	 * Set the maximum number of new bloom filters.
+	 *
+	 * With tht value n, generate at most n new Bloom Filters.(if
+	 * {@link #isComputeChangedPaths()} is true) If n is -1, no limit is
+	 * enforced. Only commits present in the new layer count against this limit.
+	 *
+	 * Default setting: {@value CommitGraphConfig#DEFAULT_MAX_NEW_FILTERS}
+	 *
+	 * @param n
+	 *            maximum number of new bloom filters
+	 */
+	public void setMaxNewFilters(int n) {
+		this.maxNewFilters = n;
+	}
+
+	int getTotalBloomFilterDataSize() {
+		return totalBloomFilterDataSize;
 	}
 
 	/**
@@ -387,6 +497,41 @@ public class CommitGraphWriter {
 		}
 	}
 
+	private void writeBloomIndexes(CommitGraphOutputStream out)
+			throws IOException {
+		byte[] tmp = new byte[4];
+		long curPos = 0;
+
+		for (ObjectToCommitData oc : commitDataList) {
+			ChangedPathFilter filter = oc.getBloomFilter();
+			long len = filter != null ? filter.getSize() : 0;
+			curPos += len;
+			NB.encodeInt32(tmp, 0, (int) curPos);
+			out.write(tmp);
+			out.updateMonitor();
+		}
+	}
+
+	private void writeBloomData(CommitGraphOutputStream out)
+			throws IOException {
+		byte[] tmp = new byte[4];
+		NB.encodeInt32(tmp, 0, OID_HASH_VERSION);
+		out.write(tmp);
+		NB.encodeInt32(tmp, 0, BLOOM_KEY_NUM_HASHES);
+		out.write(tmp);
+		NB.encodeInt32(tmp, 0, BLOOM_BITS_PER_ENTRY);
+		out.write(tmp);
+
+		for (ObjectToCommitData oc : commitDataList) {
+			ChangedPathFilter filter = oc.getBloomFilter();
+			if (filter != null) {
+				byte[] data = filter.getData();
+				out.write(data);
+			}
+			out.updateMonitor();
+		}
+	}
+
 	private BlockList<RevCommit> findCommits(ProgressMonitor findingMonitor,
 			Set<? extends ObjectId> wants) throws IOException {
 		if (findingMonitor == null) {
@@ -471,6 +616,114 @@ public class CommitGraphWriter {
 		endPhase(computeGenerationMonitor);
 	}
 
+	private void computeChangedPaths(ProgressMonitor computeBloomFilterMonitor,
+			List<RevCommit> commits) throws IOException {
+		bloomFilterComputedCount = 0;
+		int newFiltersLimit = maxNewFilters > 0 ? maxNewFilters
+				: commits.size();
+
+		beginPhase(JGitText.get().computingCommitChangedPathsBloomFilters,
+				computeBloomFilterMonitor, commits.size());
+
+		totalBloomFilterDataSize = 0;
+		DiffFormatter formatter = new DiffFormatter(NullOutputStream.INSTANCE);
+		formatter.setReader(walk.getObjectReader(), new Config());
+		formatter.setDetectRenames(false);
+		formatter.setMaxDiffEntryScan(BLOOM_MAX_CHANGED_PATHS + 1);
+
+		for (RevCommit c : commits) {
+			ChangedPathFilter filter = getOrComputeBloomFilter(formatter, c,
+					BLOOM_MAX_CHANGED_PATHS, BLOOM_BITS_PER_ENTRY, BLOOM_KEY_NUM_HASHES,
+					bloomFilterComputedCount < newFiltersLimit);
+			if (filter != null) {
+				totalBloomFilterDataSize += filter.getSize();
+				setBloomFilter(c, filter);
+			}
+			computeBloomFilterMonitor.update(1);
+		}
+		endPhase(computeBloomFilterMonitor);
+	}
+
+	private ChangedPathFilter getOrComputeBloomFilter(DiffFormatter formatter,
+			RevCommit c, int maxChangedPaths, int bitsPerEntry, int numHashes,
+			boolean computeIfNotPresent) throws IOException {
+		if (oldGraph != null) {
+			BloomFilter filter = oldGraph.findBloomFilter(c);
+			if (filter != null && filter instanceof ChangedPathFilter) {
+				return (ChangedPathFilter) filter;
+			}
+		}
+
+		if (!computeIfNotPresent) {
+			return null;
+		}
+
+		List<DiffEntry> diffs;
+
+		if (c.getParentCount() > 0) {
+			diffs = formatter.scan(c.getParent(0).getTree(), c.getTree());
+		} else {
+			diffs = formatter.scan(null, c.getTree());
+		}
+		bloomFilterComputedCount++;
+
+		if (diffs.size() > maxChangedPaths) {
+			return TRUNCATED_LARGE_FILTER;
+		}
+
+		Set<String> pathSet = new HashSet<>();
+		for (DiffEntry diff : diffs) {
+			String path;
+			if (diff.getChangeType().equals(DiffEntry.ChangeType.DELETE)) {
+				path = diff.getOldPath();
+			} else {
+				path = diff.getNewPath();
+			}
+
+			/*
+			 * Add each leading directory of the changed file, i.e. for
+			 * 'dir/subdir/file' add 'dir' and 'dir/subdir' as well, so the
+			 * Bloom filter could be used to speed up commands like 'git log
+			 * dir/subdir', too.
+			 *
+			 * Note that directories are added without the trailing '/'.
+			 */
+			if (path != null) {
+				do {
+					pathSet.add(path);
+
+					int pos = path.lastIndexOf('/');
+					if (pos > 0) {
+						path = path.substring(0, pos);
+					} else {
+						path = null;
+					}
+				} while (!StringUtils.isEmptyOrNull(path));
+			}
+		}
+
+		if (pathSet.size() > maxChangedPaths) {
+			return TRUNCATED_LARGE_FILTER;
+		}
+
+		int filterLen = (pathSet.size() * bitsPerEntry + Byte.SIZE - 1)
+				/ Byte.SIZE;
+
+		if (filterLen <= 0) {
+			return TRUNCATED_EMPTY_FILTER;
+		}
+
+		ChangedPathFilter filter = new ChangedPathFilter(filterLen, numHashes);
+
+		for (String path : pathSet) {
+			BloomFilter.Key key = ChangedPathFilter.newBloomKey(path,
+					numHashes);
+			filter.addKey(key);
+		}
+
+		return filter;
+	}
+
 	private int getVersion() {
 		return COMMIT_GRAPH_VERSION_GENERATED;
 	}
@@ -497,6 +750,15 @@ public class CommitGraphWriter {
 			throw new MissingObjectException(commit, Constants.OBJ_COMMIT);
 		}
 		oc.setGeneration(generation);
+	}
+
+	private void setBloomFilter(RevCommit commit, ChangedPathFilter filter)
+			throws MissingObjectException {
+		ObjectToCommitData oc = commitDataMap.get(commit);
+		if (oc == null) {
+			throw new MissingObjectException(commit, Constants.OBJ_COMMIT);
+		}
+		oc.setBloomFilter(filter);
 	}
 
 	private int getCommitOidPosition(RevCommit commit)
