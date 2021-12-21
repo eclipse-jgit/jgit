@@ -61,6 +61,24 @@ public interface CommitGraph {
 	CommitData getCommitData(int graphPos);
 
 	/**
+	 * Finds the bloom filter in the commit-graph of the commit.
+	 *
+	 * @param commit
+	 *            the commit object id to inspect.
+	 * @return the bloom filter or null if it was not found.
+	 */
+	BloomFilter findBloomFilter(AnyObjectId commit);
+
+	/**
+	 * Generates a new key by the path.
+	 *
+	 * @param path
+	 *            the input string
+	 * @return the key or null if commit-graph does not contain a bloom filter.
+	 */
+	BloomFilter.Key newBloomKey(String path);
+
+	/**
 	 * Get the object at the commit-graph position.
 	 *
 	 * @param graphPos

@@ -25,6 +25,10 @@ class CommitGraphConstants {
 
 	static final int CHUNK_ID_EXTRA_EDGE_LIST = 0x45444745; /* "EDGE" */
 
+	static final int CHUNK_ID_BLOOM_INDEXES = 0x42494458; /* "BIDX" */
+
+	static final int CHUNK_ID_BLOOM_DATA = 0x42444154; /* "BDAT" */
+
 	/**
 	 * First 4 bytes describe the chunk id. Value 0 is a terminating label.
 	 * Other 8 bytes provide the byte-offset in current file for chunk to start.
@@ -52,4 +56,10 @@ class CommitGraphConstants {
 	 * Chunk Extra Edge List
 	 */
 	static final int GRAPH_EXTRA_EDGES_NEEDED = 0x80000000;
+
+	static final int BLOOM_KEY_NUM_HASHES = 7;
+
+	static final int BLOOM_BITS_PER_ENTRY = 10;
+
+	static final int BLOOM_MAX_CHANGED_PATHS = 512;
 }
