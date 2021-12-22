@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -62,5 +63,24 @@ public class TreeFilterTest extends RepositoryTestCase {
 	@Test
 	public void testANY_DIFF_IdentityClone() throws Exception {
 		assertSame(TreeFilter.ANY_DIFF, TreeFilter.ANY_DIFF.clone());
+	}
+
+	@Test
+	public void testAndTreeFilter_getTreeFilters() throws Exception {
+		TreeFilter a = PathFilter.create("a");
+		TreeFilter b = PathFilter.create("b");
+		TreeFilter c = PathFilter.create("c");
+
+		TreeFilter andFilters = AndTreeFilter.create(a, b);
+		assertTrue(andFilters instanceof AndTreeFilter);
+		TreeFilter[] result = ((AndTreeFilter) andFilters).getTreeFilters();
+
+		assertArrayEquals(new TreeFilter[] { a, b }, result);
+
+		TreeFilter[] list = new TreeFilter[] { a, b, c };
+		andFilters = AndTreeFilter.create(list);
+		assertTrue(andFilters instanceof AndTreeFilter);
+		result = ((AndTreeFilter) andFilters).getTreeFilters();
+		assertArrayEquals(list, result);
 	}
 }

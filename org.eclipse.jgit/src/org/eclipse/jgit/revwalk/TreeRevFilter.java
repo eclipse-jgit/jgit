@@ -21,9 +21,12 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
+import org.eclipse.jgit.lib.BloomFilter;
+import org.eclipse.jgit.lib.CommitGraph;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.BloomKeyParser;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -43,6 +46,8 @@ public class TreeRevFilter extends RevFilter {
 
 	private final int rewriteFlag;
 	private final TreeWalk pathFilter;
+	private BloomFilter.Key[] bloomKeys;
+	private CommitGraph commitGraph;
 
 	/**
 	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
@@ -88,6 +93,7 @@ public class TreeRevFilter extends RevFilter {
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
 		this.rewriteFlag = rewriteFlag;
+		preparedBloomFilter(t, walker);
 	}
 
 	/** {@inheritDoc} */
@@ -113,6 +119,14 @@ public class TreeRevFilter extends RevFilter {
 				p.parseHeaders(walker);
 			}
 			trees[i] = p.getTree();
+		}
+
+		if (!checkMaybeDifferentInBloomFilter(c)) {
+			c.flags |= rewriteFlag;
+			if (c.parents.length > 1) {
+				c.parents = new RevCommit[] { c.parents[0] };
+			}
+			return false;
 		}
 		trees[nParents] = c.getTree();
 		tw.reset(trees);
@@ -241,6 +255,37 @@ public class TreeRevFilter extends RevFilter {
 	/** {@inheritDoc} */
 	@Override
 	public boolean requiresCommitBody() {
+		return false;
+	}
+
+	private void preparedBloomFilter(TreeFilter tf, RevWalk walker) {
+		commitGraph = walker.getObjectReader().getCommitGraph();
+		if (commitGraph == null) {
+			return;
+		}
+		bloomKeys = BloomKeyParser.parse(tf, commitGraph);
+	}
+
+	private boolean checkMaybeDifferentInBloomFilter(RevCommit commit) {
+		if (commitGraph == null || bloomKeys == null) {
+			return true;
+		}
+
+		if (commit.generation == CommitGraph.GENERATION_UNKNOWN) {
+			return true;
+		}
+
+		BloomFilter filter = commitGraph.findBloomFilter(commit);
+
+		if (filter == null) {
+			return true;
+		}
+
+		for (BloomFilter.Key key : bloomKeys) {
+			if (filter.contains(key)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
