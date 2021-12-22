@@ -21,6 +21,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphData;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphSingleImpl;
 import org.eclipse.jgit.lib.CommitGraph;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,15 +42,20 @@ public class FileCommitGraph {
 
 	private final AtomicReference<GraphInfo> graph;
 
+	private final Config config;
+
 	/**
 	 * Initialize a reference to an on-disk commit-graph.
 	 *
+	 * @param config
+	 *            to use.
 	 * @param objectsDir
 	 *            the location of the <code>objects</code> directory.
 	 */
-	FileCommitGraph(File objectsDir) {
+	FileCommitGraph(Config config, File objectsDir) {
 		this.baseFile = new File(objectsDir, Constants.INFO_COMMIT_GRAPH);
 		this.graph = new AtomicReference<>(NO_COMMIT_GRAPH);
+		this.config = config;
 	}
 
 	CommitGraph get() {
@@ -58,7 +65,8 @@ public class FileCommitGraph {
 		}
 
 		if (now.baseGraph != null) {
-			return new CommitGraphSingleImpl(now.baseGraph.graphData);
+			return new CommitGraphSingleImpl(now.baseGraph.graphData,
+					readChangedPaths());
 		}
 
 		return null;
@@ -138,5 +146,10 @@ public class FileCommitGraph {
 			this.snapshot = FileSnapshot.save(file);
 			this.graphData = CommitGraphData.open(file);
 		}
+	}
+
+	private boolean readChangedPaths() {
+		return config.getBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
 	}
 }

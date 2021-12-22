@@ -137,6 +137,15 @@ public abstract class CommitGraphData {
 	public abstract CommitGraph.CommitData getCommitData(int graphPos);
 
 	/**
+	 * Finds the bloom filter in the commit-graph of the object.
+	 *
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return the bloom filter or -1 if the object was not found.
+	 */
+	public abstract ChangedPathFilter findBloomFilter(int graphPos);
+
+	/**
 	 * Obtain the total number of commits described by this commit-graph.
 	 *
 	 * @return number of commits in this commit-graph
@@ -149,6 +158,12 @@ public abstract class CommitGraphData {
 	 * @return object hash length
 	 */
 	public abstract int getHashLength();
+
+	abstract int getNumHashes();
+
+	abstract int getBitsPerEntry();
+
+	abstract boolean noBloomFilter();
 
 	static class CommitDataImpl implements CommitGraph.CommitData {
 
