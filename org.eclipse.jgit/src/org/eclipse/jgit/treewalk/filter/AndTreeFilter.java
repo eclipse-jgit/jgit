@@ -82,6 +82,8 @@ public abstract class AndTreeFilter extends TreeFilter {
 		return new List(subfilters);
 	}
 
+	abstract TreeFilter[] getTreeFilters();
+
 	private static class Binary extends AndTreeFilter {
 		private final TreeFilter a;
 
@@ -115,6 +117,11 @@ public abstract class AndTreeFilter extends TreeFilter {
 				return -1;
 			}
 			return 0;
+		}
+
+		@Override
+		TreeFilter[] getTreeFilters() {
+			return new TreeFilter[]{a, b};
 		}
 
 		@Override
@@ -163,6 +170,11 @@ public abstract class AndTreeFilter extends TreeFilter {
 				}
 			}
 			return m;
+		}
+
+		@Override
+		TreeFilter[] getTreeFilters() {
+			return subfilters;
 		}
 
 		@Override

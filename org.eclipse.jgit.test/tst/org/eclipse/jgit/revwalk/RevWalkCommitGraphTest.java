@@ -32,6 +32,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
@@ -187,6 +188,91 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 				branch6, branch7, branch8, branch9), allMergedInto(c1));
 	}
 
+	@Test
+	public void testWriteBloomFilter() throws Exception {
+		RevCommit c1 = commitFile("file1", "1", "master");
+		RevCommit c2 = commitFile("file2", "2", "master");
+
+		writeCommitGraph();
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, true);
+		CommitGraph graph = rw.getCommitGraph();
+		assertNotNull(graph);
+		assertCommitCntInGraph(2);
+		assertNull(graph.findBloomFilter(c1));
+		assertNull(graph.findBloomFilter(c2));
+
+		writeChangedPathCommitGraph();
+		rw.dispose();
+		graph = rw.getCommitGraph();
+		assertCommitCntInGraph(2);
+		assertNotNull(graph.findBloomFilter(c1));
+		assertNotNull(graph.findBloomFilter(c2));
+	}
+
+	@Test
+	public void testPathFilter_Simple() throws Exception {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, true);
+
+		RevCommit a = commit(tree(file("src/d1/file", blob("a"))));
+		RevCommit b = commit(tree(file("src/d1/file", blob("a"))), a);
+		RevCommit c = commit(tree(file("src/d1/file", blob("b"))), b);
+		RevCommit d = commit(tree(file("src/d1/file", blob("c"))), c);
+		RevCommit e = commit(tree(file("src/d1/file", blob("c"))), d);
+		branch(e, "master");
+		writeChangedPathCommitGraph();
+		rw.dispose();
+		rw.setRewriteParents(false);
+		CommitGraph graph = rw.getCommitGraph();
+		assertNotNull(graph);
+		assertNotNull(graph.findBloomFilter(a));
+
+		filter("src/d1/file");
+		markStart(rw.lookupCommit(e));
+
+		assertEquals(d.getId(), rw.next().getId());
+		assertEquals(c.getId(), rw.next().getId());
+		assertEquals(a.getId(), rw.next().getId());
+	}
+
+	@Test
+	public void testPathFilter_Group() throws Exception {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, true);
+
+		RevCommit a = commit(tree(file("src/d1/file", blob("a"))));
+		RevCommit b = commit(tree(file("src/d1/file", blob("a")),
+				file("src/README", blob("1"))), a);
+		RevCommit c = commit(tree(file("src/d1/file", blob("b")),
+				file("src/README", blob("1"))), b);
+		RevCommit d = commit(tree(file("src/d1/file", blob("c")),
+				file("src/README", blob("2"))), c);
+		RevCommit e = commit(tree(file("src/d1/file", blob("c")),
+				file("src/README", blob("2"))), d);
+		branch(e, "master");
+		writeChangedPathCommitGraph();
+		rw.dispose();
+		rw.setRewriteParents(false);
+		CommitGraph graph = rw.getCommitGraph();
+		assertNotNull(graph);
+		assertNotNull(graph.findBloomFilter(a));
+
+		filter("src/d1/file", "src/README");
+		markStart(rw.lookupCommit(e));
+
+		assertEquals(d.getId(), rw.next().getId());
+		assertEquals(c.getId(), rw.next().getId());
+		assertEquals(b.getId(), rw.next().getId());
+		assertEquals(a.getId(), rw.next().getId());
+	}
+
+	void filter(String... paths) {
+		rw.setTreeFilter(AndTreeFilter.create(
+				PathFilterGroup.createFromStrings(paths),
+				TreeFilter.ANY_DIFF));
+	}
+
 	private List<Ref> allMergedInto(RevCommit needle) throws IOException {
 		List<Ref> refs = db.getRefDatabase().getRefs();
 		return rw.getMergedInto(needle, refs);
@@ -236,6 +322,15 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 	void writeCommitGraph() throws Exception {
 		GC gc = new GC(db);
+		gc.writeCommitGraph();
+	}
+
+	void writeChangedPathCommitGraph() throws Exception {
+		GC gc = new GC(db);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+				null, ConfigConstants.CONFIG_KEY_COMPUTE_CHANGED_PATHS, true);
 		gc.writeCommitGraph();
 	}
 
