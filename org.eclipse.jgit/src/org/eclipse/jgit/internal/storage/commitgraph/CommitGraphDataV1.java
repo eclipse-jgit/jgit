@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_DATA;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_INDEXES;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_COMMIT_DATA;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_OID_FANOUT;
@@ -51,11 +53,21 @@ public class CommitGraphDataV1 extends CommitGraphData {
 
 	private final int commitDataLength;
 
+	private final boolean noBloomFilters;
+
+	private int numHashes;
+
+	private int bitsPerEntry;
+
 	private long[] oidFanout;
 
 	private byte[][] oidLookup;
 
 	private byte[][] commitData;
+
+	private byte[][] bloomIdx;
+
+	private byte[] bloomData;
 
 	private byte[] extraEdgeList;
 
@@ -101,6 +113,9 @@ public class CommitGraphDataV1 extends CommitGraphData {
 
 		oidLookup = new byte[FANOUT][];
 		commitData = new byte[FANOUT][];
+		bloomIdx = new byte[FANOUT][];
+
+		boolean bloomIdxLoaded = false;
 		for (int i = 0; i < numberOfChunks; i++) {
 			long length = chunkOffset[i + 1] - chunkOffset[i];
 			long lengthReaded;
@@ -126,6 +141,14 @@ public class CommitGraphDataV1 extends CommitGraphData {
 			case CHUNK_ID_EXTRA_EDGE_LIST:
 				lengthReaded = loadChunkExtraEdgeList(fd, length);
 				break;
+			case CHUNK_ID_BLOOM_INDEXES:
+				lengthReaded = loadChunkDataBasedOnFanout(fd, Integer.BYTES,
+						bloomIdx);
+				bloomIdxLoaded = true;
+				break;
+			case CHUNK_ID_BLOOM_DATA:
+				lengthReaded = loadChunkBloomData(fd, length);
+				break;
 			default:
 				throw new CommitGraphFormatException(MessageFormat.format(
 						JGitText.get().commitGraphChunkUnknown,
@@ -142,6 +165,11 @@ public class CommitGraphDataV1 extends CommitGraphData {
 		if (oidFanout == null) {
 			throw new CommitGraphFormatException(
 					JGitText.get().commitGraphOidFanoutNeeded);
+		}
+		if (bloomIdxLoaded && bloomData != null) {
+			noBloomFilters = false;
+		} else {
+			noBloomFilters = true;
 		}
 		commitCnt = oidFanout[FANOUT - 1];
 	}
@@ -195,6 +223,28 @@ public class CommitGraphDataV1 extends CommitGraphData {
 		}
 		extraEdgeList = new byte[(int) len];
 		IO.readFully(fd, extraEdgeList, 0, extraEdgeList.length);
+		return len;
+	}
+
+	private long loadChunkBloomData(InputStream fd, long len) throws IOException {
+		if (len > Integer.MAX_VALUE - 8) { // http://stackoverflow.com/a/8381338
+			throw new CommitGraphFormatException(
+					JGitText.get().commitGraphFileIsTooLargeForJgit);
+		}
+		byte[] header = new byte[12];
+		IO.readFully(fd, header, 0, header.length);
+
+		int hashVersion = NB.decodeInt32(header, 0);
+		if (hashVersion != 1) {
+			throw new CommitGraphFormatException(MessageFormat.format(
+					JGitText.get().requiredHashFunctionNotAvailable,
+					Integer.valueOf(hashVersion)));
+		}
+		numHashes = NB.decodeInt32(header, 4);
+		bitsPerEntry = NB.decodeInt32(header, 8);
+
+		bloomData = new byte[(int) len - header.length];
+		IO.readFully(fd, bloomData, 0, bloomData.length);
 		return len;
 	}
 
@@ -302,6 +352,31 @@ public class CommitGraphDataV1 extends CommitGraphData {
 		return commit;
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public ChangedPathFilter findBloomFilter(int graphPos) {
+		if (noBloomFilters || graphPos < 0 || graphPos > commitCnt) {
+			return null;
+		}
+		int levelOne = findLevelOne(graphPos);
+		int p = getLevelTwo(graphPos, levelOne);
+
+		int endIdx = NB.decodeInt32(bloomIdx[levelOne], p * 4);
+		int startIdx = 0;
+		if (graphPos > 0) {
+			levelOne = findLevelOne(graphPos - 1);
+			p = getLevelTwo(graphPos - 1, levelOne);
+			startIdx = NB.decodeInt32(bloomIdx[levelOne], p * 4);
+		}
+
+		if (endIdx - startIdx <= 0) {
+			return null;
+		}
+		byte[] data = new byte[endIdx - startIdx];
+		System.arraycopy(bloomData, startIdx, data, 0, data.length);
+		return new ChangedPathFilter(data, numHashes);
+	}
+
 	/**
 	 * Find the list of commit-graph position in extra edge list chunk.
 	 * <p>
@@ -359,6 +434,21 @@ public class CommitGraphDataV1 extends CommitGraphData {
 	@Override
 	public int getHashLength() {
 		return hashLength;
+	}
+
+	@Override
+	int getNumHashes() {
+		return numHashes;
+	}
+
+	@Override
+	int getBitsPerEntry() {
+		return bitsPerEntry;
+	}
+
+	@Override
+	boolean noBloomFilter() {
+		return noBloomFilters;
 	}
 
 	private int findLevelOne(long nthPosition) {

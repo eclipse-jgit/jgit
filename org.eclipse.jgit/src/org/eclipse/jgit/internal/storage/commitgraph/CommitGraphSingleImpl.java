@@ -25,6 +25,8 @@ public class CommitGraphSingleImpl implements CommitGraph {
 
 	private final CommitGraphData graphData;
 
+	private final boolean noBloomFilter;
+
 	/**
 	 * Creates CommitGraph by a single commit-graph file.
 	 *
@@ -32,7 +34,25 @@ public class CommitGraphSingleImpl implements CommitGraph {
 	 *            the commit-graph file in memory
 	 */
 	public CommitGraphSingleImpl(CommitGraphData graphData) {
+		this(graphData, true);
+	}
+
+	/**
+	 * Creates CommitGraph by a single commit-graph file.
+	 *
+	 * @param graphData
+	 *            the commit-graph file in memory
+	 * @param readChangedPaths
+	 *            whether to read changed paths
+	 */
+	public CommitGraphSingleImpl(CommitGraphData graphData,
+			boolean readChangedPaths) {
 		this.graphData = graphData;
+		if (readChangedPaths) {
+			this.noBloomFilter = graphData.noBloomFilter();
+		} else {
+			this.noBloomFilter = true;
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -54,13 +74,24 @@ public class CommitGraphSingleImpl implements CommitGraph {
 	/** {@inheritDoc} */
 	@Override
 	public BloomFilter findBloomFilter(AnyObjectId commit) {
-		return null;
+		if (noBloomFilter) {
+			return null;
+		}
+		int graphPos = graphData.findGraphPosition(commit);
+		return graphData.findBloomFilter(graphPos);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public Key newBloomKey(String path) {
-		return null;
+		if (noBloomFilter) {
+			return null;
+		}
+		int numHashes = graphData.getNumHashes();
+		if (numHashes <= 0) {
+			return null;
+		}
+		return ChangedPathFilter.newBloomKey(path, numHashes);
 	}
 
 	/** {@inheritDoc} */
