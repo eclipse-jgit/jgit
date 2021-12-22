@@ -126,7 +126,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		loose = new LooseObjects(objects);
 		packed = new PackDirectory(config, packDirectory);
 		preserved = new PackDirectory(config, preservedDirectory);
-		fileCommitGraph = new FileCommitGraph(objects);
+		fileCommitGraph = new FileCommitGraph(config, objects);
 		this.fs = fs;
 		this.shallowFile = shallowFile;
 
