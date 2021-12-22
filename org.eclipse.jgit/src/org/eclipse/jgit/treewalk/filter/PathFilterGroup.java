@@ -123,6 +123,10 @@ public class PathFilterGroup {
 			raw = path.pathRaw;
 		}
 
+		String getPath() {
+			return path.getPath();
+		}
+
 		@Override
 		public boolean include(TreeWalk walker) {
 			final int cmp = walker.isPathPrefix(raw, raw.length);
@@ -190,6 +194,10 @@ public class PathFilterGroup {
 					newMax[i] = max[i];
 			newMax[newMax.length - 1] = '/';
 			max = newMax;
+		}
+
+		ByteArraySet getFullpaths() {
+			return fullpaths;
 		}
 
 		private static int compare(byte[] a, byte[] b) {
