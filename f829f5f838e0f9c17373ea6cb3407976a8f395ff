@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60512376_6fd22bf8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-12-23T23:56:33Z",
+      "side": 1,
+      "message": "Unfortunately this is not good on Windows. Windows has no file keys, so _all_ file snapshots have MISSING_FILEKEY, even for existing files. See bug 577954.",
+      "revId": "f829f5f838e0f9c17373ea6cb3407976a8f395ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
