@@ -18,10 +18,12 @@ import org.eclipse.jgit.util.FS_POSIX;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Ignore;
 
 /**
  * Base test case for external merge and diff tool tests.
  */
+@Ignore
 public abstract class ExternalToolTest extends RepositoryTestCase {
 
 	protected static final String DEFAULT_CONTENT = "line1";

@@ -13,6 +13,7 @@ HELPERS = glob(
 ) + [PKG + c for c in [
     "api/AbstractRemoteCommandTest.java",
     "diff/AbstractDiffTestCase.java",
+    "internal/diffmergetool/ExternalToolTest.java",
     "internal/revwalk/ObjectReachabilityTestCase.java",
     "internal/revwalk/ReachabilityCheckerTestCase.java",
     "internal/storage/file/GcTestCase.java",

@@ -595,6 +595,13 @@ public class FileRepository extends Repository {
 
 	/** {@inheritDoc} */
 	@Override
+	/*
+	org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java:605: error: [FutureReturnValueIgnored] Return value of methods returning Future must be checked. Ignoring returned Futures suppresses exceptions thrown from the code that completes the Future.
+			gc.gc();
+			     ^
+    (see https://errorprone.info/bugpattern/FutureReturnValueIgnored)
+    */
+	@SuppressWarnings("FutureReturnValueIgnored")
 	public void autoGC(ProgressMonitor monitor) {
 		GC gc = new GC(this);
 		gc.setPackConfig(new PackConfig(this));

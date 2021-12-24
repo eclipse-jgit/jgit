@@ -180,7 +180,10 @@ public class RecordingLogger extends MarkerIgnoringBase {
 
 	@Override
 	public void warn(String format, Object arg) {
-		warn(format, Collections.singleton(arg));
+		// Fix InfiniteRecursion bug pattern flagged by error prone:
+		// https://errorprone.info/bugpattern/InfiniteRecursion
+		Object [] singleton = { arg };
+		warn(format, singleton);
 	}
 
 	@Override
