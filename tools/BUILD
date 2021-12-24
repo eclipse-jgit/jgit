@@ -5,12 +5,24 @@ load(
 load("@rules_java//java:defs.bzl", "java_package_configuration")
 
 default_java_toolchain(
-    name = "error_prone_warnings_toolchain",
+    name = "error_prone_warnings_toolchain_java11",
     package_configuration = [
         ":error_prone",
     ],
     source_version = "11",
     target_version = "11",
+    visibility = ["//visibility:public"],
+)
+
+default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java17",
+    configuration = dict(),
+    java_runtime = "@bazel_tools//tools/jdk:remotejdk_17",
+    package_configuration = [
+        ":error_prone",
+    ],
+    source_version = "17",
+    target_version = "17",
     visibility = ["//visibility:public"],
 )
 
