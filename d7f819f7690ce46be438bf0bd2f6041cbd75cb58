@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "476444a8_d539b36c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-12-24T01:41:34Z",
+      "side": 1,
+      "message": "+ v2 protocol",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c396d66b_9814f927",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-12-24T01:41:34Z",
+      "side": 1,
+      "message": "Can you put an example of a meta-ref in Gerrit?",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c71c9ea5_58e9a7a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-12-24T01:41:34Z",
+      "side": 1,
+      "message": "nit: missing space",
+      "range": {
+        "startLine": 12,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
