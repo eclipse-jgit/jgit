@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "1949f709_2f4fb013",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-24T11:03:40Z",
+      "side": 1,
+      "message": "what is a ref parent ?\n\nbasically refs are named pointers to git objects\n\nI guess you mean a ref pointing to a commit (RevCommit in jgit)  which has no parent aka orphan commit\n\na branch starting from an orphan commit is called orphan branch [1], hence I think we could use the term orphan ref (refs/meta/config or refs/changes are not in the namespace refs/heads which is used for branches)",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39925f16_d801fd80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-24T11:03:40Z",
+      "side": 1,
+      "message": "nit: missing blank before \u0027(\u0027",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c396d66b_9814f927",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
