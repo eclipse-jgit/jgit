@@ -2,21 +2,9 @@ workspace(name = "jgit")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-http_archive(
-    name = "bazel_skylib",
-    sha256 = "2ea8a5ed2b448baf4a6855d3ce049c4c452a6470b1efd1504fdb7c1c134d220a",
-    strip_prefix = "bazel-skylib-0.8.0",
-    urls = ["https://github.com/bazelbuild/bazel-skylib/archive/0.8.0.tar.gz"],
-)
+register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
-# Check Bazel version when invoked by Bazel directly
-load("//tools:bazelisk_version.bzl", "bazelisk_version")
-
-bazelisk_version(name = "bazelisk_version")
-
-load("@bazelisk_version//:check.bzl", "check_bazel_version")
-
-check_bazel_version()
+register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
 load("//tools:bazlets.bzl", "load_bazlets")
 

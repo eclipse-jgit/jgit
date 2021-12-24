@@ -5,30 +5,25 @@ load(
 )
 load("@rules_java//java:defs.bzl", "java_package_configuration")
 
-JDK11_JVM_OPTS = [
-    "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
-    "--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-    "--patch-module=java.compiler=$(location @bazel_tools//tools/jdk:java_compiler_jar)",
-    "--patch-module=jdk.compiler=$(location @bazel_tools//tools/jdk:jdk_compiler_jar)",
-    "--add-opens=java.base/java.nio=ALL-UNNAMED",
-    "--add-opens=java.base/java.lang=ALL-UNNAMED",
-]
-
 default_java_toolchain(
-    name = "error_prone_warnings_toolchain",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
-    jvm_opts = JDK11_JVM_OPTS,
-    source_version = "11",
-    target_version = "11",
+    name = "error_prone_warnings_toolchain_java11",
     package_configuration = [
         ":error_prone",
     ],
+    source_version = "11",
+    target_version = "11",
+    visibility = ["//visibility:public"],
+)
+
+default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java17",
+    configuration = dict(),
+    java_runtime = "@bazel_tools//tools/jdk:remotejdk_17",
+    package_configuration = [
+        ":error_prone",
+    ],
+    source_version = "17",
+    target_version = "17",
     visibility = ["//visibility:public"],
 )
 
@@ -108,11 +103,14 @@ package_group(
         "//org.eclipse.jgit.ant.test/...",
         "//org.eclipse.jgit.ant/...",
         "//org.eclipse.jgit.archive/...",
+        "//org.eclipse.jgit.gpg.bc.test/...",
+        "//org.eclipse.jgit.gpg.bc/...",
         "//org.eclipse.jgit.http.apache/...",
         "//org.eclipse.jgit.http.server/...",
         "//org.eclipse.jgit.http.test/...",
-        "//org.eclipse.jgit.junit.http/...",
+        "//org.eclipse.jgit.junit.ssh/...",
         "//org.eclipse.jgit.junit/...",
+        "//org.eclipse.jgit.junit/http/...",
         "//org.eclipse.jgit.lfs.server.test/...",
         "//org.eclipse.jgit.lfs.server/...",
         "//org.eclipse.jgit.lfs.test/...",
@@ -120,8 +118,11 @@ package_group(
         "//org.eclipse.jgit.packaging/...",
         "//org.eclipse.jgit.pgm.test/...",
         "//org.eclipse.jgit.pgm/...",
-        "//org.eclipse.jgit.ssh.apache/...",
         "//org.eclipse.jgit.ssh.apache.agent/...",
+        "//org.eclipse.jgit.ssh.apache.test/...",
+        "//org.eclipse.jgit.ssh.apache/...",
+        "//org.eclipse.jgit.ssh.jsch.test/...",
+        "//org.eclipse.jgit.ssh.jsch/...",
         "//org.eclipse.jgit.test/...",
         "//org.eclipse.jgit.ui/...",
         "//org.eclipse.jgit/...",
