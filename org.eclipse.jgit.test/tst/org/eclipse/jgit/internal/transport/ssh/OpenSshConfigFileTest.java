@@ -563,6 +563,14 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testIdentityAgentNone() throws Exception {
+		config("Host orcz\nIdentityAgent none\n");
+		HostConfig h = lookup("orcz");
+		assertEquals(SshConstants.NONE,
+				h.getValue(SshConstants.IDENTITY_AGENT));
+	}
+
+	@Test
 	public void testNegativeMatch() throws Exception {
 		config("Host foo.bar !foobar.baz *.baz\n" + "Port 29418\n");
 		HostConfig h = lookup("foo.bar");
