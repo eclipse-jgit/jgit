@@ -211,7 +211,10 @@ public class TreeRevFilter extends RevFilter {
 				// "empty tree root" and thus their history is not relevant.
 				// Cut our grandparents to be an empty list.
 				//
-				pList[i].parents = RevCommit.NO_PARENTS;
+				tw.reset(pList[i].getTree());
+				if (!tw.next()) {
+					pList[i].parents = RevCommit.NO_PARENTS;
+				}
 			}
 
 			// We have an interesting difference relative to this parent.
