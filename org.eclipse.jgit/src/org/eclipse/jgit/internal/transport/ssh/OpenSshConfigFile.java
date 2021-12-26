@@ -871,7 +871,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 			if (options != null) {
 				// HOSTNAME already done above
 				String value = options.get(SshConstants.IDENTITY_AGENT);
-				if (value != null) {
+				if (value != null && !SshConstants.NONE.equals(value)) {
 					value = r.substitute(value, Replacer.DEFAULT_TOKENS, true);
 					value = toFile(value, home).getPath();
 					options.put(SshConstants.IDENTITY_AGENT, value);
