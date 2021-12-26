@@ -17,11 +17,14 @@ import java.util.List;
 import org.apache.sshd.agent.SshAgent;
 import org.apache.sshd.agent.SshAgentFactory;
 import org.apache.sshd.agent.SshAgentServer;
+import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.common.FactoryManager;
 import org.apache.sshd.common.channel.ChannelFactory;
 import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.session.Session;
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.internal.transport.sshd.JGitClientSession;
+import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
 
 /**
@@ -50,19 +53,24 @@ public class JGitSshAgentFactory implements SshAgentFactory {
 	@Override
 	public List<ChannelFactory> getChannelForwardingFactories(
 			FactoryManager manager) {
-		// No agent forwarding supported yet.
+		// No agent forwarding supported.
 		return Collections.emptyList();
 	}
 
 	@Override
 	public SshAgent createClient(Session session, FactoryManager manager)
 			throws IOException {
-		// sshd 2.8.0 will pass us the session here. At that point, we can get
-		// the HostConfigEntry and extract and handle the IdentityAgent setting.
-		// For now, pass null to let the ConnectorFactory do its default
-		// behavior (Pageant on Windows, SSH_AUTH_SOCK on Unixes with the
-		// jgit-builtin factory).
-		return new SshAgentClient(factory.create(null, homeDir));
+		String identityAgent = null;
+		if (session instanceof JGitClientSession) {
+			HostConfigEntry hostConfig = ((JGitClientSession) session)
+					.getHostConfigEntry();
+			identityAgent = hostConfig.getProperty(SshConstants.IDENTITY_AGENT,
+					null);
+		}
+		if (SshConstants.NONE.equals(identityAgent)) {
+			return null;
+		}
+		return new SshAgentClient(factory.create(identityAgent, homeDir));
 	}
 
 	@Override
