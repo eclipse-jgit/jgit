@@ -73,11 +73,18 @@ public class SshAgentClient implements SshAgent {
 			}
 			return false;
 		}
-		boolean connected = connector != null && connector.connect();
-		if (!connected) {
-			if (debugging) {
-				LOG.debug("No SSH agent (SSH_AUTH_SOCK not set)"); //$NON-NLS-1$
+		boolean connected;
+		try {
+			connected = connector != null && connector.connect();
+			if (!connected && debugging) {
+				LOG.debug("No SSH agent"); //$NON-NLS-1$
 			}
+		} catch (IOException e) {
+			// Agent not running?
+			if (debugging) {
+				LOG.debug("No SSH agent", e); //$NON-NLS-1$
+			}
+			throw e;
 		}
 		return connected;
 	}
