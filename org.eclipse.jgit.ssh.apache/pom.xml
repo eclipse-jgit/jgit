@@ -154,6 +154,9 @@
                   <includes>
                       <include>org.eclipse.jgit.*</include>
                   </includes>
+                  <excludes>
+                      <exclude>*.internal.*</exclude>
+                  </excludes>
                   <accessModifier>public</accessModifier>
                   <breakBuildOnModifications>false</breakBuildOnModifications>
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
@@ -207,6 +210,9 @@
                   <includes>
                       <include>org.eclipse.jgit.*</include>
                   </includes>
+                  <excludes>
+                      <exclude>*.internal.*</exclude>
+                  </excludes>
                   <accessModifier>public</accessModifier>
                   <breakBuildOnModifications>false</breakBuildOnModifications>
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>

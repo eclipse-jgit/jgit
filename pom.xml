@@ -150,7 +150,7 @@
     <java.version>11</java.version>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jgit-last-release-version>5.13.0.202109080827-r</jgit-last-release-version>
+    <jgit-last-release-version>6.0.0.202111291000-r</jgit-last-release-version>
     <ant-version>1.10.12</ant-version>
     <apache-sshd-version>2.7.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
