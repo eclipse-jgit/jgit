@@ -31,9 +31,11 @@ public final class Texts extends TranslationBundle {
 	/***/ public String errLastError;
 	/***/ public String errReleaseSharedMemory;
 	/***/ public String errUnknown;
+	/***/ public String errUnknownIdentityAgent;
 	/***/ public String logErrorLoadLibrary;
 	/***/ public String msgCloseFailed;
 	/***/ public String msgConnectFailed;
+	/***/ public String msgConnectPipeFailed;
 	/***/ public String msgNoMappedFile;
 	/***/ public String msgNoSharedMemory;
 	/***/ public String msgPageantUnavailable;
@@ -44,5 +46,6 @@ public final class Texts extends TranslationBundle {
 	/***/ public String msgShortRead;
 	/***/ public String pageant;
 	/***/ public String unixDefaultAgent;
+	/***/ public String winOpenSsh;
 
 }

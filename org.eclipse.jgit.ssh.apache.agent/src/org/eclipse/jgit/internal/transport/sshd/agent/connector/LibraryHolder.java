@@ -53,6 +53,10 @@ class LibraryHolder {
 		kernel = Kernel32.INSTANCE;
 	}
 
+	String systemError() {
+		return systemError("[{0}] - {1}"); //$NON-NLS-1$
+	}
+
 	String systemError(String pattern) {
 		int lastError = kernel.GetLastError();
 		String msg;
