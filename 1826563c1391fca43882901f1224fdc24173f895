@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9853c640_ecbc49df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathPrefixFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-12-27T12:03:31Z",
+      "side": 1,
+      "message": "Is this correct? Are you working for Google?",
+      "range": {
+        "startLine": 2,
+        "startChar": 28,
+        "endLine": 2,
+        "endChar": 39
+      },
+      "revId": "1826563c1391fca43882901f1224fdc24173f895",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "295eedb8_dadba7d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathPrefixFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-12-27T12:03:31Z",
+      "side": 1,
+      "message": "What\u0027s the difference to a normal PathFilter? (Also, the javadoc says \"suffix match\".)",
+      "revId": "1826563c1391fca43882901f1224fdc24173f895",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2531e783_07cf1168",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathPrefixFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2021-12-27T12:03:31Z",
+      "side": 1,
+      "message": "The javadoc above says the filter would match all paths starting with \"foo/\". But this looks as if it would enter all subtrees? (Also in include() above.)",
+      "revId": "1826563c1391fca43882901f1224fdc24173f895",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
