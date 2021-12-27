@@ -30,6 +30,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String authenticationCanceled;
 	/***/ public String authenticationOnClosedSession;
 	/***/ public String closeListenerFailed;
+	/***/ public String cannotReadPublicKey;
 	/***/ public String configInvalidPath;
 	/***/ public String configInvalidPattern;
 	/***/ public String configInvalidPositive;
