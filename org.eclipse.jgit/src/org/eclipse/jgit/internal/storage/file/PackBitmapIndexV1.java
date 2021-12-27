@@ -17,6 +17,12 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
@@ -40,6 +46,23 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 	private static final int MAX_XOR_OFFSET = 126;
 
+	private static final ExecutorService executor = Executors
+			.newCachedThreadPool(new ThreadFactory() {
+				private final ThreadFactory baseFactory = Executors
+						.defaultThreadFactory();
+
+				private final AtomicInteger threadNumber = new AtomicInteger(0);
+
+				@Override
+				public Thread newThread(Runnable runnable) {
+					Thread thread = baseFactory.newThread(runnable);
+					thread.setName("JGit-PackBitmapIndexV1-" //$NON-NLS-1$
+							+ threadNumber.getAndIncrement());
+					thread.setDaemon(true);
+					return thread;
+				}
+			});
+
 	private final PackIndex packIndex;
 	private final PackReverseIndex reverseIndex;
 	private final EWAHCompressedBitmap commits;
@@ -49,14 +72,27 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 	private final ObjectIdOwnerMap<StoredBitmap> bitmaps;
 
+	PackBitmapIndexV1(final InputStream fd, PackIndex packIndex,
+			PackReverseIndex reverseIndex) throws IOException {
+		this(fd, () -> packIndex, () -> reverseIndex, false);
+	}
+
 	PackBitmapIndexV1(final InputStream fd,
 			SupplierWithIOException<PackIndex> packIndexSupplier,
-			SupplierWithIOException<PackReverseIndex> reverseIndexSupplier)
+			SupplierWithIOException<PackReverseIndex> reverseIndexSupplier,
+			boolean loadParallelRevIndex)
 			throws IOException {
 		// An entry is object id, xor offset, flag byte, and a length encoded
 		// bitmap. The object id is an int32 of the nth position sorted by name.
 		super(new ObjectIdOwnerMap<StoredBitmap>());
 		this.bitmaps = getBitmaps();
+
+		// Optionally start loading reverse index in parallel to loading bitmap
+		// from storage.
+		Future<PackReverseIndex> reverseIndexFuture = null;
+		if (loadParallelRevIndex) {
+			reverseIndexFuture = executor.submit(reverseIndexSupplier::get);
+		}
 
 		final byte[] scratch = new byte[32];
 		IO.readFully(fd, scratch, 0, scratch.length);
@@ -164,7 +200,18 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 			bitmaps.add(sb);
 		}
 
-		this.reverseIndex = reverseIndexSupplier.get();
+		PackReverseIndex computedReverseIndex;
+		if (loadParallelRevIndex && reverseIndexFuture != null) {
+			try {
+				computedReverseIndex = reverseIndexFuture.get();
+			} catch (InterruptedException | ExecutionException e) {
+				// Fallback to loading reverse index through a supplier.
+				computedReverseIndex = reverseIndexSupplier.get();
+			}
+		} else {
+			computedReverseIndex = reverseIndexSupplier.get();
+		}
+		this.reverseIndex = computedReverseIndex;
 	}
 
 	/** {@inheritDoc} */

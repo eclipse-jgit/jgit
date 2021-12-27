@@ -34,6 +34,8 @@ public class DfsReaderOptions {
 
 	private int streamPackBufferSize;
 
+	private boolean loadRevIndexInParallel;
+
 	/**
 	 * Create a default reader configuration.
 	 */
@@ -109,6 +111,28 @@ public class DfsReaderOptions {
 	 */
 	public DfsReaderOptions setStreamPackBufferSize(int bufsz) {
 		streamPackBufferSize = Math.max(0, bufsz);
+		return this;
+	}
+
+	/**
+	 * Check if reverse index should be loaded in parallel.
+	 *
+	 * @return true if reverse index is loaded in parallel for bitmap index.
+	 */
+	public boolean shouldLoadRevIndexInParallel() {
+		return loadRevIndexInParallel;
+	}
+
+	/**
+	 * Enable (or disable) parallel loading of reverse index.
+	 *
+	 * @param loadRevIndexInParallel
+	 *            whether to load reverse index in parallel.
+	 * @return {@code this}
+	 */
+	public DfsReaderOptions setLoadRevIndexInParallel(
+			boolean loadRevIndexInParallel) {
+		this.loadRevIndexInParallel = loadRevIndexInParallel;
 		return this;
 	}
 

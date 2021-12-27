@@ -95,7 +95,7 @@ public abstract class PackBitmapIndex {
 	 */
 	public static PackBitmapIndex read(InputStream fd, PackIndex packIndex,
 			PackReverseIndex reverseIndex) throws IOException {
-		return new PackBitmapIndexV1(fd, () -> packIndex, () -> reverseIndex);
+		return new PackBitmapIndexV1(fd, packIndex, reverseIndex);
 	}
 
 	/**
@@ -114,6 +114,8 @@ public abstract class PackBitmapIndex {
 	 * @param reverseIndexSupplier
 	 *            the supplier for pack reverse index for the corresponding pack
 	 *            file.
+	 * @param loadParallelRevIndex
+	 *            whether reverse index should be loaded in parallel
 	 * @return a copy of the index in-memory.
 	 * @throws java.io.IOException
 	 *             the stream cannot be read.
@@ -122,10 +124,11 @@ public abstract class PackBitmapIndex {
 	 */
 	public static PackBitmapIndex read(InputStream fd,
 			SupplierWithIOException<PackIndex> packIndexSupplier,
-			SupplierWithIOException<PackReverseIndex> reverseIndexSupplier)
+			SupplierWithIOException<PackReverseIndex> reverseIndexSupplier,
+			boolean loadParallelRevIndex)
 			throws IOException {
 		return new PackBitmapIndexV1(fd, packIndexSupplier,
-				reverseIndexSupplier);
+				reverseIndexSupplier, loadParallelRevIndex);
 	}
 
 	/** Footer checksum applied on the bottom of the pack file. */

@@ -1061,7 +1061,8 @@ public final class DfsPackFile extends BlockBasedFile {
 				}
 				in = new BufferedInputStream(in, bs);
 				bmidx = PackBitmapIndex.read(in, () -> idx(ctx),
-						() -> getReverseIdx(ctx));
+						() -> getReverseIdx(ctx),
+						ctx.getOptions().shouldLoadRevIndexInParallel());
 			} finally {
 				size = rc.position();
 				ctx.stats.readBitmapIdxBytes += size;

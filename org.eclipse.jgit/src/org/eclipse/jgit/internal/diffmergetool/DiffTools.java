@@ -23,6 +23,8 @@ import org.eclipse.jgit.lib.internal.BooleanTriState;
  */
 public class DiffTools {
 
+	private final DiffToolConfig config;
+
 	private Map<String, ExternalDiffTool> predefinedTools;
 
 	private Map<String, ExternalDiffTool> userDefinedTools;
@@ -31,9 +33,10 @@ public class DiffTools {
 	 * Creates the external diff-tools manager for given repository.
 	 *
 	 * @param repo
-	 *            the repository database
+	 *            the repository
 	 */
 	public DiffTools(Repository repo) {
+		config = repo.getConfig().get(DiffToolConfig.KEY);
 		setupPredefinedTools();
 		setupUserDefinedTools();
 	}
@@ -69,7 +72,7 @@ public class DiffTools {
 	 * @return the tool names
 	 */
 	public Set<String> getToolNames() {
-		return Collections.emptySet();
+		return config.getToolNames();
 	}
 
 	/**
@@ -112,10 +115,29 @@ public class DiffTools {
 
 	private void setupPredefinedTools() {
 		predefinedTools = new TreeMap<>();
+		for (CommandLineDiffTool tool : CommandLineDiffTool.values()) {
+			predefinedTools.put(tool.name(), new PreDefinedDiffTool(tool));
+		}
 	}
 
 	private void setupUserDefinedTools() {
 		userDefinedTools = new TreeMap<>();
+		Map<String, ExternalDiffTool> userTools = config.getTools();
+		for (String name : userTools.keySet()) {
+			ExternalDiffTool userTool = userTools.get(name);
+			// if difftool.<name>.cmd is defined we have user defined tool
+			if (userTool.getCommand() != null) {
+				userDefinedTools.put(name, userTool);
+			} else if (userTool.getPath() != null) {
+				// if difftool.<name>.path is defined we just overload the path
+				// of predefined tool
+				PreDefinedDiffTool predefTool = (PreDefinedDiffTool) predefinedTools
+						.get(name);
+				if (predefTool != null) {
+					predefTool.setPath(userTool.getPath());
+				}
+			}
+		}
 	}
 
 }

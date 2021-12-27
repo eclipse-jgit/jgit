@@ -12,10 +12,12 @@ package org.eclipse.jgit.pgm;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.internal.diffmergetool.CommandLineDiffTool;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
@@ -135,16 +137,24 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testToolHelp() throws Exception {
-		String[] expectedOutput = {
-				"git difftool --tool=<tool> may be set to one of the following:",
+		CommandLineDiffTool[] defaultTools = CommandLineDiffTool.values();
+		List<String> expectedOutput = new ArrayList<>();
+		expectedOutput.add("git difftool --tool=<tool> may be set to one of the following:");
+		for (CommandLineDiffTool defaultTool : defaultTools) {
+			String toolName = defaultTool.name();
+			expectedOutput.add(toolName);
+		}
+		String[] userDefinedToolsHelp = {
 				"user-defined:",
 				"The following tools are valid, but not currently available:",
 				"Some of the tools listed above only work in a windowed",
-				"environment. If run in a terminal-only session, they will fail.", };
+				"environment. If run in a terminal-only session, they will fail.",
+		};
+		expectedOutput.addAll(Arrays.asList(userDefinedToolsHelp));
 
 		String option = "--tool-help";
 		assertArrayOfLinesEquals("Incorrect output for option: " + option,
-				expectedOutput, runAndCaptureUsingInitRaw("difftool", option));
+				expectedOutput.toArray(new String[0]), runAndCaptureUsingInitRaw("difftool", option));
 	}
 
 	private RevCommit createUnstagedChanges() throws Exception {

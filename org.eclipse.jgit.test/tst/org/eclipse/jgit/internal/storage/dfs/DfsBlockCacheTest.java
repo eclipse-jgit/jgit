@@ -290,6 +290,31 @@ public class DfsBlockCacheTest {
 		assertEquals(1, cache.getMissCount()[0]);
 	}
 
+	@SuppressWarnings("resource")
+	@Test
+	public void highConcurrencyParallelReads_oneRepoParallelReverseIndex()
+			throws Exception {
+		InMemoryRepository r1 = createRepoWithBitmap("test");
+		resetCache();
+
+		DfsReader reader = (DfsReader) r1.newObjectReader();
+		reader.getOptions().setLoadRevIndexInParallel(true);
+		for (DfsPackFile pack : r1.getObjectDatabase().getPacks()) {
+			// Only load non-garbage pack with bitmap.
+			if (pack.isGarbage()) {
+				continue;
+			}
+			asyncRun(() -> pack.getBitmapIndex(reader));
+			asyncRun(() -> pack.getPackIndex(reader));
+			asyncRun(() -> pack.getBitmapIndex(reader));
+		}
+		waitForExecutorPoolTermination();
+
+		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
+		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
+		assertEquals(1, cache.getMissCount()[0]);
+	}
+
 	private void resetCache() {
 		resetCache(32);
 	}
