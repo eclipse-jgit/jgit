@@ -295,9 +295,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	/**
 	 * Return the size of the object from the object-size index.
 	 *
-	 * Size will be negative in a number of conditions. Caller can use the
-	 * specific value or the {@link #hasObject(AnyObjectId)} and
-	 * {@link #hasObjSizeIndex()} to find out the specific error:
+	 * Size can be negative because the object is not in the index (which is
+	 * fine) or due to an error (no size index or object not in pack). Caller
+	 * should use {@link #hasObject(AnyObjectId)} and {@link #hasObjSizeIndex()}
+	 * before calling to prevent these errors.
+	 *
+	 * A negative returned value encodes the specific problem:
 	 * <li>-1 object not found in the size index (below threshold or non-blob)
 	 * <li>-2 object not found in pack
 	 * <li>-3 no object-size index for this pack
@@ -311,7 +314,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public long getIndexedObjectSize(AnyObjectId id) throws IOException {
 		final long offset = idx().findOffset(id);
-		if (0 < offset && !isCorrupt(offset)) {
+		if (offset < 0 || isCorrupt(offset)) {
 			return -2;
 		}
 
