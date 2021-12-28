@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fd968be_5c1d31fa",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 34
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-28T16:38:49Z",
+      "side": 1,
+      "message": "For a merge tool, the messages include \"[y/n]\". Here, its \"[Y/n]\" (notice the capital \u0027Y\u0027). I think we should keep them all in sink.\n\nAndre?",
+      "revId": "cd8eb10801ea207ee7285bbf27376363fbceffda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d521c17_41888366",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 34
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-28T16:38:49Z",
+      "side": 1,
+      "message": "Some of the messages list files with \u0027example.txt\u0027, where other messages list the filename without single quotes (i.e. with no quotes at all).\n\nAndre, is this intentional? Or we want each message listing a filename to list it between single quotes?",
+      "revId": "cd8eb10801ea207ee7285bbf27376363fbceffda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9c02e2b_2c5f9f16",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-28T16:38:49Z",
+      "side": 1,
+      "message": "I\u0027ve done the same change in MergeTool. I think the previous code would have worked for the console input stream, where the user types a small amount of text and hits enter.\n\nBut for the ByteArrayInputStream I use during tests, creating a new BufferedReader for each input read means the underlying stream is fully read by the first BufferedReader. Each subsequent BufferedReader then has nothing to read.",
+      "revId": "cd8eb10801ea207ee7285bbf27376363fbceffda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
