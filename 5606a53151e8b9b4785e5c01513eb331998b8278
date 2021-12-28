@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e04bfb2_a65e438e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-12-28T20:34:36Z",
+      "side": 1,
+      "message": "I believe this is what caused the Gerrit Issue 15491 [1]. I believe the fileStoreAttributeCache should be volatile, if two threads are entering into the method at the same time, they won\u0027t see each other values isn\u0027t it? Alternative, it could be synchronised.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15491",
+      "range": {
+        "startLine": 591,
+        "startChar": 6,
+        "endLine": 591,
+        "endChar": 29
+      },
+      "revId": "5606a53151e8b9b4785e5c01513eb331998b8278",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
