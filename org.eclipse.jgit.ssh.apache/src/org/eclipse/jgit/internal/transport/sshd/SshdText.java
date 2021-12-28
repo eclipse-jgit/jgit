@@ -99,6 +99,8 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String proxySocksUnexpectedMessage;
 	/***/ public String proxySocksUnexpectedVersion;
 	/***/ public String proxySocksUsernameTooLong;
+	/***/ public String pubkeyAuthAddKeyToAgentError;
+	/***/ public String pubkeyAuthAddKeyToAgentQuestion;
 	/***/ public String pubkeyAuthWrongCommand;
 	/***/ public String pubkeyAuthWrongKey;
 	/***/ public String pubkeyAuthWrongSignatureAlgorithm;
@@ -107,6 +109,8 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String serverIdWithNul;
 	/***/ public String sessionCloseFailed;
 	/***/ public String sessionWithoutUsername;
+	/***/ public String sshAgentEdDSAFormatError;
+	/***/ public String sshAgentPayloadLengthError;
 	/***/ public String sshAgentReplyLengthError;
 	/***/ public String sshAgentReplyUnexpected;
 	/***/ public String sshAgentShortReadBuffer;
