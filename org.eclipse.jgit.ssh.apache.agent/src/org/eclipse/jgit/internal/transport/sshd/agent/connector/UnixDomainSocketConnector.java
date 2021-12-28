@@ -11,10 +11,10 @@ package org.eclipse.jgit.internal.transport.sshd.agent.connector;
 
 import static org.eclipse.jgit.internal.transport.sshd.agent.connector.Sockets.AF_UNIX;
 import static org.eclipse.jgit.internal.transport.sshd.agent.connector.Sockets.DEFAULT_PROTOCOL;
-import static org.eclipse.jgit.internal.transport.sshd.agent.connector.Sockets.ENV_SSH_AUTH_SOCK;
 import static org.eclipse.jgit.internal.transport.sshd.agent.connector.Sockets.SOCK_STREAM;
 import static org.eclipse.jgit.internal.transport.sshd.agent.connector.UnixSockets.FD_CLOEXEC;
 import static org.eclipse.jgit.internal.transport.sshd.agent.connector.UnixSockets.F_SETFD;
+import static org.eclipse.jgit.transport.SshConstants.ENV_SSH_AUTH_SOCKET;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -46,7 +46,7 @@ public class UnixDomainSocketConnector extends AbstractConnector {
 
 		@Override
 		public String getIdentityAgent() {
-			return ENV_SSH_AUTH_SOCK;
+			return ENV_SSH_AUTH_SOCKET;
 		}
 
 		@Override
@@ -91,8 +91,9 @@ public class UnixDomainSocketConnector extends AbstractConnector {
 	public UnixDomainSocketConnector(String socketFile) {
 		super();
 		String file = socketFile;
-		if (StringUtils.isEmptyOrNull(file)) {
-			file = SystemReader.getInstance().getenv(ENV_SSH_AUTH_SOCK);
+		if (StringUtils.isEmptyOrNull(file)
+				|| ENV_SSH_AUTH_SOCKET.equals(file)) {
+			file = SystemReader.getInstance().getenv(ENV_SSH_AUTH_SOCKET);
 		}
 		this.socketFile = file;
 	}
