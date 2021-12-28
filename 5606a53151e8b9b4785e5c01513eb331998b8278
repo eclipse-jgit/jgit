@@ -22,6 +22,30 @@
       "revId": "5606a53151e8b9b4785e5c01513eb331998b8278",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07bdde8e_d4c311c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-12-28T21:49:34Z",
+      "side": 1,
+      "message": "I was wrong: [1] isn\u0027t really caused by concurrently on fileStoreAttributeCache not being volatile or being called concurrently.\n\nI will comment on [1] on my findings.",
+      "parentUuid": "6e04bfb2_a65e438e",
+      "range": {
+        "startLine": 591,
+        "startChar": 6,
+        "endLine": 591,
+        "endChar": 29
+      },
+      "revId": "5606a53151e8b9b4785e5c01513eb331998b8278",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
