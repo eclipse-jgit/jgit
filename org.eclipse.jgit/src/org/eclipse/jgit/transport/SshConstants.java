@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -229,4 +229,12 @@ public final class SshConstants {
 	public static final String[] DEFAULT_IDENTITIES = { //
 			ID_RSA, ID_DSA, ID_ECDSA, ID_ED25519
 	};
+
+	/**
+	 * Name of the environment variable holding the Unix domain socket for
+	 * communication with an SSH agent.
+	 *
+	 * @since 6.1
+	 */
+	public static final String ENV_SSH_AUTH_SOCKET = "SSH_AUTH_SOCK";
 }
