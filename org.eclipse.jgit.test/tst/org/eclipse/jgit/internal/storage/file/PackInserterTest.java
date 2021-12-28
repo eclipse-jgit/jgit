@@ -53,6 +53,7 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
@@ -75,14 +76,17 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.util.IO;
@@ -489,6 +493,38 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void createsObjectSizeIndex() throws Exception {
+		FileBasedConfig jGitConfig = mockSystemReader.getJGitConfig();
+		jGitConfig.setInt(
+				ConfigConstants.CONFIG_PACK_SECTION,
+				null,
+				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, 10);
+		jGitConfig.save();
+		byte[] oneBlob = Constants.encode("a blob with some content");
+		byte[] anotherBlob = Constants.encode("some more contents");
+		byte[] streamMeBlob = Constants.encode("some more content to write");
+
+		ObjectId oneBlobOid, anotherBlobOid, streamMeBlobOid;
+		try (PackInserter ins = newInserter()) {
+			oneBlobOid = ins.insert(OBJ_BLOB, oneBlob);
+			anotherBlobOid = ins.insert(OBJ_BLOB, anotherBlob);
+			streamMeBlobOid = ins.insert(OBJ_BLOB, streamMeBlob.length,
+					new ByteArrayInputStream(streamMeBlob));
+			ins.flush();
+		}
+
+		List<Pack> listPacks = listPacks(db);
+		assertEquals(1, listPacks.size());
+		Pack thePack = listPacks.get(0);
+		assertTrue(thePack.hasObjSizeIndex());
+		assertEquals(oneBlob.length, thePack.getIndexedObjectSize(oneBlobOid));
+		assertEquals(anotherBlob.length,
+				thePack.getIndexedObjectSize(anotherBlobOid));
+		assertEquals(streamMeBlob.length,
+				thePack.getIndexedObjectSize(streamMeBlobOid));
+	}
+
 	private List<Pack> listPacks() throws Exception {
 		List<Pack> fromOpenDb = listPacks(db);
 		List<Pack> reopened;
@@ -549,7 +585,8 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	private void assertPacksOnly() throws Exception {
-		new BadFileCollector(f -> !f.endsWith(".pack") && !f.endsWith(".idx"))
+		new BadFileCollector(f -> !f.endsWith(".pack") && !f.endsWith(".idx")
+				&& !f.endsWith(".objsize"))
 				.assertNoBadFiles(db.getObjectDatabase().getDirectory());
 	}
 
