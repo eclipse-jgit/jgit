@@ -61,6 +61,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -95,6 +96,7 @@ import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.WriteAbortedException;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.TemporaryBuffer;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 
 /**
  * <p>
@@ -1091,6 +1093,32 @@ public class PackWriter implements AutoCloseable {
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
 
+	/**
+	 * Write the object-size index to the output stream
+	 *
+	 * @param objIdxStream where to write
+	 * @throws IOException errors while writing
+	 */
+	public void writeObjectSizeIndex(OutputStream objIdxStream)
+			throws IOException {
+		// TODO: DO i need also the edge objects?
+		AsyncObjectSizeQueue<ObjectToPack> sizeQueue = reader.getObjectSize(
+				objectsLists[OBJ_BLOB], /* reportMissing= */false);
+		try {
+			while (sizeQueue.next()) {
+				ObjectToPack otp = sizeQueue.getCurrent();
+				long sz = sizeQueue.getSize();
+				otp.setFullSize(sz);
+			}
+		} finally {
+			sizeQueue.release();
+		}
+		PackObjectSizeIndexWriter iw = PackObjectSizeIndexWriter
+				.createWriter(objIdxStream,
+						config.getMinBytesForObjSizeIndex());
+		List<PackedObjectInfo> otps = new ArrayList<>(objectsLists[OBJ_BLOB]);
+		iw.write(otps);
+	}
 	/**
 	 * Create a bitmap index file to match the pack file just written.
 	 * <p>
@@ -2254,6 +2282,7 @@ public class PackWriter implements AutoCloseable {
 				!want.contains(src) &&
 								reader.isSmallerThan(src, OBJ_BLOB,
 										filterSpec.getBlobLimit()));
+
 		if (!reject) {
 			addObject(src, type, pathHashCode);
 		}
