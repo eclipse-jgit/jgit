@@ -46,6 +46,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.pathToString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -53,6 +54,8 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.MockSystemReader;
@@ -82,11 +85,13 @@ public class FileBasedConfigTest {
 
 	private Path trash;
 
+	private MockSystemReader mockSystemReader;
+
 	@Before
 	public void setUp() throws Exception {
-		SystemReader.setInstance(new MockSystemReader());
+		mockSystemReader = new MockSystemReader();
+		SystemReader.setInstance(mockSystemReader);
 		trash = Files.createTempDirectory("tmp_");
-		FS.getFileStoreAttributes(trash.getParent());
 	}
 
 	@After
@@ -243,6 +248,37 @@ public class FileBasedConfigTest {
 		final FileBasedConfig config = new FileBasedConfig(file.toFile(), fs);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
+	}
+
+	@Test
+	public void testSavedConfigFileShouldNotReadUserGitConfig()
+			throws IOException {
+		AtomicBoolean userConfigTimeRead = new AtomicBoolean(false);
+
+		Path userConfigFile = createFile(CONTENT1.getBytes(), "home");
+		mockSystemReader.setUserGitConfig(
+				new FileBasedConfig(userConfigFile.toFile(), FS.DETECTED) {
+
+					@Override
+					public long getTimeUnit(String section, String subsection,
+							String name, long defaultValue, TimeUnit wantUnit) {
+						userConfigTimeRead.set(true);
+						return super.getTimeUnit(section, subsection, name,
+								defaultValue, wantUnit);
+					}
+				});
+
+		Path file = createFile(CONTENT2.getBytes(), "repo");
+		FileBasedConfig fileBasedConfig = new FileBasedConfig(file.toFile(),
+				FS.DETECTED);
+		fileBasedConfig.save();
+
+		// Needed to trigger the read of FileSnapshot filesystem settings
+		fileBasedConfig.isOutdated();
+		assertFalse(
+				"User config should not be read when accessing config files "
+						+ "for avoiding deadlocks",
+				userConfigTimeRead.get());
 	}
 
 	private Path createFile(byte[] content) throws IOException {
