@@ -61,6 +61,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -1088,6 +1089,48 @@ public class PackWriter implements AutoCloseable {
 		final PackIndexWriter iw = PackIndexWriter.createVersion(
 				indexStream, getIndexVersion());
 		iw.write(sortByName(), packcsum);
+		stats.timeWriting += System.currentTimeMillis() - writeStart;
+	}
+
+	/**
+	 * Create an object size index file for the contents of the pack file just
+	 * written.
+	 * <p>
+	 * Called after
+	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
+	 * <p>
+	 * Writing an index is only required for local pack storage. Packs sent on
+	 * the network do not need to create an object size index.
+	 *
+	 * @param objIdxStream
+	 *            output for the object size index data. Caller is responsible
+	 *            for closing this stream.
+	 * @throws IOException
+	 *             errors while writing
+	 */
+	public void writeObjectSizeIndex(OutputStream objIdxStream)
+			throws IOException {
+		if (config.getMinBytesForObjSizeIndex() < 0) {
+			return;
+		}
+
+		long writeStart = System.currentTimeMillis();
+		// We only need to populate the size of blobs
+		AsyncObjectSizeQueue<ObjectToPack> sizeQueue = reader
+				.getObjectSize(objectsLists[OBJ_BLOB], /* reportMissing= */false);
+		try {
+			while (sizeQueue.next()) {
+				ObjectToPack otp = sizeQueue.getCurrent();
+				long sz = sizeQueue.getSize();
+				otp.setFullSize(sz);
+			}
+		} finally {
+			sizeQueue.release();
+		}
+		PackObjectSizeIndexWriter iw = PackObjectSizeIndexWriter.createWriter(
+				objIdxStream, config.getMinBytesForObjSizeIndex());
+		// All indexed object because their positions must match primary index order
+		iw.write(sortByName());
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
 
