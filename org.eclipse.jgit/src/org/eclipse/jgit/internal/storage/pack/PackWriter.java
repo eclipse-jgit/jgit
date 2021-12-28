@@ -61,6 +61,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -1089,6 +1090,35 @@ public class PackWriter implements AutoCloseable {
 				indexStream, getIndexVersion());
 		iw.write(sortByName(), packcsum);
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
+	}
+
+	/**
+	 * Write the object-size index to the output stream
+	 *
+	 * @param objIdxStream where to write
+	 * @throws IOException errors while writing
+	 */
+	public void writeObjectSizeIndex(OutputStream objIdxStream)
+			throws IOException {
+		if (config.getMinBytesForObjSizeIndex() < 0) {
+			return;
+		}
+
+		AsyncObjectSizeQueue<ObjectToPack> sizeQueue = reader.getObjectSize(
+				sortByName(), /* reportMissing= */false);
+		try {
+			while (sizeQueue.next()) {
+				ObjectToPack otp = sizeQueue.getCurrent();
+				long sz = sizeQueue.getSize();
+				otp.setFullSize(sz);
+			}
+		} finally {
+			sizeQueue.release();
+		}
+		PackObjectSizeIndexWriter iw = PackObjectSizeIndexWriter
+				.createWriter(objIdxStream,
+						config.getMinBytesForObjSizeIndex());
+		iw.write(sortByName());
 	}
 
 	/**
