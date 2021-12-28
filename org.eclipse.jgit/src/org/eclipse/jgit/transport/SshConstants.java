@@ -44,6 +44,14 @@ public final class SshConstants {
 
 	// Config file keys
 
+	/**
+	 * Property to control whether private keys are added to an SSH agent, if
+	 * one is running, after having been loaded.
+	 *
+	 * @since 6.1
+	 */
+	public static final String ADD_KEYS_TO_AGENT = "AddKeysToAgent";
+
 	/** Key in an ssh config file. */
 	public static final String BATCH_MODE = "BatchMode";
 
@@ -158,6 +166,14 @@ public final class SshConstants {
 
 	/** Key in an ssh config file. */
 	public static final String REMOTE_FORWARD = "RemoteForward";
+
+	/**
+	 * (Absolute) path to a middleware library the SSH agent shall use to load
+	 * SK (U2F) keys.
+	 *
+	 * @since 6.1
+	 */
+	public static final String SECURITY_KEY_PROVIDER = "SecurityKeyProvider";
 
 	/** Key in an ssh config file. */
 	public static final String SEND_ENV = "SendEnv";

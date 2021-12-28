@@ -649,4 +649,61 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 		assertNotNull(h);
 		assertPort(22, h);
 	}
+
+	@Test
+	public void testTimeSpec() throws Exception {
+		assertEquals(-1, OpenSshConfigFile.timeSpec(null));
+		assertEquals(-1, OpenSshConfigFile.timeSpec(""));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("  "));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("  s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec(" +s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec(" -s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("1ms"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("600"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("600s"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("  600s"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("  600s  "));
+		assertEquals(600, OpenSshConfigFile.timeSpec("\t600s"));
+		assertEquals(600, OpenSshConfigFile.timeSpec(" \t600  "));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("  600 s  "));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("600 s"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("10m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h30m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h 30m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h \t30m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h+30m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h +30m"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("1h + 30m"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("1h -30m"));
+		assertEquals(3630, OpenSshConfigFile.timeSpec("1h30s"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("30m 1h"));
+		assertEquals(3600, OpenSshConfigFile.timeSpec("30m 30m"));
+		assertEquals(60, OpenSshConfigFile.timeSpec("30 30"));
+		assertEquals(0, OpenSshConfigFile.timeSpec("0"));
+		assertEquals(1, OpenSshConfigFile.timeSpec("1"));
+		assertEquals(1, OpenSshConfigFile.timeSpec("1S"));
+		assertEquals(1, OpenSshConfigFile.timeSpec("1s"));
+		assertEquals(60, OpenSshConfigFile.timeSpec("1M"));
+		assertEquals(60, OpenSshConfigFile.timeSpec("1m"));
+		assertEquals(3600, OpenSshConfigFile.timeSpec("1H"));
+		assertEquals(3600, OpenSshConfigFile.timeSpec("1h"));
+		assertEquals(86400, OpenSshConfigFile.timeSpec("1D"));
+		assertEquals(86400, OpenSshConfigFile.timeSpec("1d"));
+		assertEquals(604800, OpenSshConfigFile.timeSpec("1W"));
+		assertEquals(604800, OpenSshConfigFile.timeSpec("1w"));
+		assertEquals(172800, OpenSshConfigFile.timeSpec("2d"));
+		assertEquals(604800, OpenSshConfigFile.timeSpec("1w"));
+		assertEquals(604800 + 172800 + 3 * 3600 + 30 * 60 + 10,
+				OpenSshConfigFile.timeSpec("1w2d3h30m10s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("-7"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("-9d"));
+		assertEquals(Integer.MAX_VALUE, OpenSshConfigFile
+				.timeSpec(Integer.toString(Integer.MAX_VALUE)));
+		assertEquals(-1, OpenSshConfigFile
+				.timeSpec(Long.toString(Integer.MAX_VALUE + 1L)));
+		assertEquals(-1, OpenSshConfigFile
+				.timeSpec(Integer.toString(Integer.MAX_VALUE / 60 + 1) + 'M'));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("1000000000000000000000w"));
+	}
 }

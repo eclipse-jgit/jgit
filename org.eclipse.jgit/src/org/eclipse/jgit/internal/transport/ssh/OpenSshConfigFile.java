@@ -502,6 +502,98 @@ public class OpenSshConfigFile implements SshConfigStore {
 	}
 
 	/**
+	 * Converts an OpenSSH time value into a number of seconds. The format is
+	 * defined by OpenSSH as a sequence of (positive) integers with suffixes for
+	 * seconds, minutes, hours, days, and weeks.
+	 *
+	 * @param value
+	 *            to convert
+	 * @return the parsed value as a number of seconds, or -1 if the value is
+	 *         not a valid OpenSSH time value
+	 * @see <a href="https://man.openbsd.org/sshd_config.5#TIME_FORMATS">OpenBSD
+	 *      man 5 sshd_config, section TIME FORMATS</a>
+	 */
+	public static int timeSpec(String value) {
+		if (value == null) {
+			return -1;
+		}
+		try {
+			int length = value.length();
+			int i = 0;
+			int seconds = 0;
+			boolean valueSeen = false;
+			while (i < length) {
+				// Skip whitespace
+				char ch = value.charAt(i);
+				if (Character.isWhitespace(ch)) {
+					i++;
+					continue;
+				}
+				if (ch == '+') {
+					// OpenSSH uses strtol with base 10: a leading plus sign is
+					// allowed.
+					i++;
+				}
+				int val = 0;
+				int j = i;
+				while (j < length) {
+					ch = value.charAt(j++);
+					if (ch >= '0' && ch <= '9') {
+						val = Math.addExact(Math.multiplyExact(val, 10),
+								ch - '0');
+					} else {
+						j--;
+						break;
+					}
+				}
+				if (i == j) {
+					// No digits seen
+					return -1;
+				}
+				i = j;
+				int multiplier = 1;
+				if (i < length) {
+					ch = value.charAt(i++);
+					switch (ch) {
+					case 's':
+					case 'S':
+						break;
+					case 'm':
+					case 'M':
+						multiplier = 60;
+						break;
+					case 'h':
+					case 'H':
+						multiplier = 3600;
+						break;
+					case 'd':
+					case 'D':
+						multiplier = 24 * 3600;
+						break;
+					case 'w':
+					case 'W':
+						multiplier = 7 * 24 * 3600;
+						break;
+					default:
+						if (Character.isWhitespace(ch)) {
+							break;
+						}
+						// Invalid time spec
+						return -1;
+					}
+				}
+				seconds = Math.addExact(seconds,
+						Math.multiplyExact(val, multiplier));
+				valueSeen = true;
+			}
+			return valueSeen ? seconds : -1;
+		} catch (ArithmeticException e) {
+			// Overflow
+			return -1;
+		}
+	}
+
+	/**
 	 * Retrieves the local user name as given in the constructor.
 	 *
 	 * @return the user name
@@ -549,6 +641,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 			LIST_KEYS.add(SshConstants.GLOBAL_KNOWN_HOSTS_FILE);
 			LIST_KEYS.add(SshConstants.SEND_ENV);
 			LIST_KEYS.add(SshConstants.USER_KNOWN_HOSTS_FILE);
+			LIST_KEYS.add(SshConstants.ADD_KEYS_TO_AGENT); // confirm timeSpec
 		}
 
 		/**
