@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b95948b2_3b2de597",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-28T10:34:55Z",
+      "side": 1,
+      "message": "Andre, please check this when you have time. Reading the \"--no-prompt\" documentation, I\u0027ve added checking for the parameter here: otherwise my test hangs on waiting for user input.\n\nThe documentation is:\n\nusage_prompt\u003dPrompt before each invocation of the diff tool. This is the default behaviour; the option is provided to override any configuration settings.\nusage_noPrompt\u003dDo not prompt before launching a diff tool.\n\nSo I assume the prompt check is fine here, but I would like your confirmation.\n\nI\u0027ll also move the prompt check above the outw.print() code, to avoid printing text if the user is not asked anything (due to specifying \"no prompt\").",
+      "revId": "c76accc42ad5c81d2b4045b0c5b6b20d1f9f7459",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ce959cd_930d4663",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-28T10:34:55Z",
+      "side": 1,
+      "message": "Andre, here and below (\"getDeletedMergeDecision()\"), the user is asked for input. How does this relate to the \"--no-prompt\" argument?",
+      "revId": "c76accc42ad5c81d2b4045b0c5b6b20d1f9f7459",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
