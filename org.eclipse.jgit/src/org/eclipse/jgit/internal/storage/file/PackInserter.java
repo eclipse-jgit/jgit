@@ -166,7 +166,7 @@ public class PackInserter extends ObjectInserter {
 		long offset = beginObject(type, len);
 		packOut.compress.write(data, off, len);
 		packOut.compress.finish();
-		return endObject(id, offset);
+		return endObject(id, offset, len, type);
 	}
 
 	/** {@inheritDoc} */
@@ -196,7 +196,7 @@ public class PackInserter extends ObjectInserter {
 			len -= n;
 		}
 		packOut.compress.finish();
-		return endObject(md.toObjectId(), offset);
+		return endObject(md.toObjectId(), offset, len, type);
 	}
 
 	private long beginObject(int type, long len) throws IOException {
@@ -208,10 +208,12 @@ public class PackInserter extends ObjectInserter {
 		return offset;
 	}
 
-	private ObjectId endObject(ObjectId id, long offset) {
+	private ObjectId endObject(ObjectId id, long offset, long len, int type) {
 		PackedObjectInfo obj = new PackedObjectInfo(id);
+		obj.setType(type);
 		obj.setOffset(offset);
 		obj.setCRC((int) packOut.crc32.getValue());
+		obj.setFullSize(len);
 		objectList.add(obj);
 		objectMap.addIfAbsent(obj);
 		return id;
@@ -222,6 +224,12 @@ public class PackInserter extends ObjectInserter {
 		return new File(
 				packFile.getParentFile(),
 				p.substring(0, p.lastIndexOf('.')) + ".idx"); //$NON-NLS-1$
+	}
+
+	private static File getFileFor(File packFile, PackExt ext) {
+		String p = packFile.getName();
+		return new File(packFile.getParentFile(),
+				p.substring(0, p.lastIndexOf('.')) + ext.getExtension());
 	}
 
 	private void beginPack() throws IOException {
@@ -276,7 +284,11 @@ public class PackInserter extends ObjectInserter {
 		Collections.sort(objectList);
 		File tmpIdx = idxFor(tmpPack); // TODO(nasserg) Use PackFile?
 		writePackIndex(tmpIdx, packHash, objectList);
-
+		File tmpObjSizeIdx = null;
+		if (pconfig.isWriteObjSizeIndex()) {
+			tmpObjSizeIdx = getFileFor(tmpPack, PackExt.OBJECT_SIZE_INDEX);
+			writeObjectSizeIndex(tmpObjSizeIdx, objectList, pconfig);
+		}
 		PackFile realPack = new PackFile(db.getPackDirectory(),
 				computeName(objectList), PackExt.PACK);
 		db.closeAllPackHandles(realPack);
@@ -299,6 +311,17 @@ public class PackInserter extends ObjectInserter {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().panicCantRenameIndexFile, newIdx,
 					realIdx), e);
+		}
+
+		if (tmpObjSizeIdx != null) {
+			PackFile realObjSizeIdx = realPack
+					.create(PackExt.OBJECT_SIZE_INDEX);
+			tmpObjSizeIdx.setReadOnly();
+			try {
+				FileUtils.rename(tmpObjSizeIdx, realObjSizeIdx, ATOMIC_MOVE);
+			} catch (IOException e) {
+				throw new IOException("Cannot write object size index");//$NON-NLS-1$
+			}
 		}
 
 		boolean interrupted = false;
@@ -327,6 +350,15 @@ public class PackInserter extends ObjectInserter {
 		try (OutputStream os = new FileOutputStream(idx)) {
 			PackIndexWriter w = PackIndexWriter.createVersion(os, INDEX_VERSION);
 			w.write(list, packHash);
+		}
+	}
+
+	private static void writeObjectSizeIndex(File objIdx,
+			List<PackedObjectInfo> list, PackConfig cfg) throws IOException {
+		try (OutputStream os = new FileOutputStream(objIdx)) {
+			PackObjectSizeIndexWriter w = PackObjectSizeIndexWriter
+					.createWriter(os, cfg.getMinBytesForObjSizeIndex());
+			w.write(list);
 		}
 	}
 
