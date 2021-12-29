@@ -70,6 +70,15 @@ public final class SshConstants {
 	/** Key in an ssh config file. */
 	public static final String CONNECTION_ATTEMPTS = "ConnectionAttempts";
 
+	/**
+	 * An OpenSSH time value for the connection timeout. In OpenSSH, this
+	 * includes everything until the end of the initial key exchange; in JGit it
+	 * covers only the underlying TCP connect.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONNECT_TIMEOUT = "ConnectTimeout";
+
 	/** Key in an ssh config file. */
 	public static final String CONTROL_PATH = "ControlPath";
 
