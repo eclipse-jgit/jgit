@@ -14,6 +14,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -206,6 +207,19 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Copy a {@link org.eclipse.jgit.lib.PersonIdent}, but alter the clone's
+	 * time stamp
+	 *
+	 * @param pi
+	 *            original {@link org.eclipse.jgit.lib.PersonIdent}
+	 * @param aWhen
+	 *            local time as Instant
+	 */
+	public PersonIdent(PersonIdent pi, Instant aWhen) {
+		this(pi.getName(), pi.getEmailAddress(), aWhen.toEpochMilli(), pi.tzOffset);
+	}
+
+	/**
 	 * Construct a PersonIdent from simple data
 	 *
 	 * @param aName a {@link java.lang.String} object.
@@ -219,6 +233,22 @@ public class PersonIdent implements Serializable {
 			final Date aWhen, final TimeZone aTZ) {
 		this(aName, aEmailAddress, aWhen.getTime(), aTZ.getOffset(aWhen
 				.getTime()) / (60 * 1000));
+	}
+
+	/**
+	 * Construct a PersonIdent from simple data
+	 *
+	 * @param aName a {@link java.lang.String} object.
+	 * @param aEmailAddress a {@link java.lang.String} object.
+	 * @param aWhen
+	 *            local time stamp
+	 * @param aTZ
+	 *            time zone
+	 */
+	public PersonIdent(final String aName, final String aEmailAddress,
+			final Instant aWhen, final TimeZone aTZ) {
+		this(aName, aEmailAddress, aWhen.toEpochMilli() , aTZ.getOffset(aWhen
+				.toEpochMilli()) / (60 * 1000));
 	}
 
 	/**
@@ -301,6 +331,15 @@ public class PersonIdent implements Serializable {
 	 */
 	public Date getWhen() {
 		return new Date(when);
+	}
+
+	/**
+	 * Get when attribute as instant
+	 *
+	 * @return timestamp
+	 */
+	public Instant getWhenAsInstant() {
+		return Instant.ofEpochMilli(when);
 	}
 
 	/**
