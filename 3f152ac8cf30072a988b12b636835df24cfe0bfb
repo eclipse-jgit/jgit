@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cca51cb9_5fbebf33",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-29T14:43:02Z",
+      "side": 1,
+      "message": "Andre, the respective merge tool test doesn\u0027t throw an exception.\n\nThis seems like a discrepancy (mergetool doesn\u0027t throw an exception for an undefined tool, difftool does). Could you clarify if this is intentional or if its a bug?",
+      "revId": "3f152ac8cf30072a988b12b636835df24cfe0bfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c096a300_205fbf79",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-29T14:43:02Z",
+      "side": 1,
+      "message": "Andre, please take a look here. From my POV the \u0027araxis\u0027 tool is not configured correctly?\n\n(when passing an empty tool name, which is tested here, the first available tool is used, which at least on my workstation is the \u0027araxis\u0027 tool)",
+      "revId": "3f152ac8cf30072a988b12b636835df24cfe0bfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
