@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a4d2f99_a2d4f65d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2021-12-29T07:01:51Z",
+      "side": 1,
+      "message": "obtained",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "13323c13b6eeac9c31ea511de79e4341f9e97808",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "063e0ef6_9c13d45e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2021-12-29T07:01:51Z",
+      "side": 1,
+      "message": "Can we add a check to detect misuse and avoid similar dead locks in future?",
+      "range": {
+        "startLine": 415,
+        "startChar": 2,
+        "endLine": 416,
+        "endChar": 61
+      },
+      "revId": "13323c13b6eeac9c31ea511de79e4341f9e97808",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
