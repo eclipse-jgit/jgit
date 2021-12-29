@@ -20,6 +20,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsPackCompactor.configureRe
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
@@ -80,6 +81,7 @@ public class DfsGarbageCollector {
 	private ReftableConfig reftableConfig;
 	private boolean convertToReftable = true;
 	private boolean writeCommitGraph;
+	private boolean writeObjSizeIdx;
 	private boolean includeDeletes;
 	private long reftableInitialMinUpdateIndex = 1;
 	private long reftableInitialMaxUpdateIndex = 1;
@@ -294,6 +296,18 @@ public class DfsGarbageCollector {
 	 */
 	public DfsGarbageCollector setWriteCommitGraph(boolean enable) {
 		writeCommitGraph = enable;
+		return this;
+	}
+
+	/**
+	 * Toggle obbject size index generation
+	 *
+	 * @param enable
+	 *            if the object size index must be written with the pack.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setWriteObjectSizeIndex(boolean enable) {
+		writeObjSizeIdx = enable;
 		return this;
 	}
 
@@ -678,6 +692,15 @@ public class DfsGarbageCollector {
 			pack.setFileSize(INDEX, cnt.getCount());
 			pack.setBlockSize(INDEX, out.blockSize());
 			pack.setIndexVersion(pw.getIndexVersion());
+		}
+
+		if (writeObjSizeIdx) {
+			try (DfsOutputStream out = objdb.writeFile(pack,
+					OBJECT_SIZE_INDEX)) {
+				pw.writeObjectSizeIndex(out);
+				pack.addFileExt(OBJECT_SIZE_INDEX);
+				pack.setBlockSize(OBJECT_SIZE_INDEX, out.blockSize());
+			}
 		}
 
 		if (pw.prepareBitmapIndex(pm)) {
