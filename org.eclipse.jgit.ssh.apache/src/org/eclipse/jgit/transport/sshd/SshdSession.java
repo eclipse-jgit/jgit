@@ -51,6 +51,7 @@ import org.apache.sshd.sftp.client.SftpClientFactory;
 import org.apache.sshd.sftp.common.SftpException;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.FtpChannel;
@@ -138,7 +139,11 @@ public class SshdSession implements RemoteSession2 {
 						JGitSshClient.LOCAL_FORWARD_ADDRESS,
 						portForward.getBoundAddress());
 			}
-			resultSession = connect(hostConfig, context, timeout);
+			int timeoutInSec = OpenSshConfigFile.timeSpec(
+					hostConfig.getProperty(SshConstants.CONNECT_TIMEOUT));
+			resultSession = connect(hostConfig, context,
+					timeoutInSec > 0 ? Duration.ofSeconds(timeoutInSec)
+							: timeout);
 			if (proxySession != null) {
 				final PortForwardingTracker tracker = portForward;
 				final ClientSession pSession = proxySession;
