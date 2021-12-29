@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
@@ -1100,6 +1101,70 @@ public class DfsGarbageCollectorTest {
 		}
 	}
 
+	@Test
+	public void objectSizeIdx_reachableBlob_bigEnough_indexed() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		RevBlob headsBlob = git.blob("twelve bytes");
+		git.branch(master).commit()
+				.message("commit on head")
+				.add("file.txt", headsBlob)
+				.parent(root)
+				.create();
+
+		gcWithObjectSizeIndex(10);
+
+		DfsReader reader = odb.newReader();
+		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
+		assertTrue(gcPack.hasObjectSizeIndex(reader));
+		assertEquals(12, gcPack.getIndexedObjectSize(reader, headsBlob));
+	}
+
+	@Test
+	public void objectSizeIdx_reachableBlob_tooSmall_notIndexed() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		RevBlob tooSmallBlob = git.blob("small");
+		git.branch(master).commit()
+				.message("commit on head")
+				.add("small.txt", tooSmallBlob)
+				.parent(root)
+				.create();
+
+		gcWithObjectSizeIndex(10);
+
+		DfsReader reader = odb.newReader();
+		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
+		assertTrue(gcPack.hasObjectSizeIndex(reader));
+		assertEquals(-1, gcPack.getIndexedObjectSize(reader, tooSmallBlob));
+	}
+
+	@Test
+	public void objectSizeIndex_unreachableGarbage_noIdx() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		git.branch(master).commit()
+				.message("commit on head")
+				.add("file.txt", git.blob("a blob"))
+				.parent(root)
+				.create();
+		git.update(master, root); // blob is unreachable
+		gcWithObjectSizeIndex(0);
+
+		DfsReader reader = odb.newReader();
+		DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
+		assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+	}
+
+	private static DfsPackFile findFirstBySource(DfsPackFile[] packs, PackSource source) {
+		return Arrays.stream(packs)
+				.filter(p -> p.getPackDescription().getPackSource() == source)
+				.findFirst().get();
+	}
+
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
 		return git.commit();
 	}
@@ -1107,6 +1172,12 @@ public class DfsGarbageCollectorTest {
 	private void gcWithCommitGraph() throws IOException {
 		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
 		gc.setWriteCommitGraph(true);
+		run(gc);
+	}
+
+	private void gcWithObjectSizeIndex(int threshold) throws IOException {
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.getPackConfig().setMinBytesForObjSizeIndex(threshold);
 		run(gc);
 	}
 
