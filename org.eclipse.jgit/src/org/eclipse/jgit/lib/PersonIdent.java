@@ -14,6 +14,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -222,6 +223,22 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Construct a PersonIdent from simple data
+	 *
+	 * @param aName a {@link java.lang.String} object.
+	 * @param aEmailAddress a {@link java.lang.String} object.
+	 * @param aWhen
+	 *            local time stamp
+	 * @param aTZ
+	 *            time zone
+	 */
+	public PersonIdent(final String aName, final String aEmailAddress,
+			final Instant aWhen, final TimeZone aTZ) {
+		this(aName, aEmailAddress, aWhen.toEpochMilli() , aTZ.getOffset(aWhen
+				.toEpochMilli()) / (60 * 1000));
+	}
+
+	/**
 	 * Copy a PersonIdent, but alter the clone's time stamp
 	 *
 	 * @param pi
@@ -301,6 +318,15 @@ public class PersonIdent implements Serializable {
 	 */
 	public Date getWhen() {
 		return new Date(when);
+	}
+
+	/**
+	 * Get when attribute as instant
+	 *
+	 * @return timestamp
+	 */
+	public Instant getWhenAsInstant() {
+		return Instant.ofEpochMilli(when);
 	}
 
 	/**
