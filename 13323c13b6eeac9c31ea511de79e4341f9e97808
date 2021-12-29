@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8a6d1189_b17a9694",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-12-29T20:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a4d2f99_a2d4f65d",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "13323c13b6eeac9c31ea511de79e4341f9e97808",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "063e0ef6_9c13d45e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
         "patchSetId": 2

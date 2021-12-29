@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06155bbb_ab73e192",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-12-29T20:03:01Z",
+      "side": 1,
+      "message": "weird formatting?",
+      "range": {
+        "startLine": 504,
+        "startChar": 36,
+        "endLine": 506,
+        "endChar": 25
+      },
+      "revId": "61ecab0152a7dd222e2e4800e3bf5838c890a156",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
