@@ -33,6 +33,7 @@ import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.BufferException;
 import org.apache.sshd.common.util.buffer.BufferUtils;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
+import org.apache.sshd.common.util.buffer.keys.BufferPublicKeyParser;
 import org.apache.sshd.common.util.io.der.DERParser;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.sshd.agent.Connector;
@@ -141,14 +142,17 @@ public class SshAgentClient implements SshAgent {
 			List<Map.Entry<PublicKey, String>> keys = new ArrayList<>(
 					numberOfKeys);
 			for (int i = 0; i < numberOfKeys; i++) {
-				PublicKey key = reply.getPublicKey();
+				PublicKey key = readKey(reply);
 				String comment = reply.getString();
-				if (tracing) {
-					LOG.trace("Got SSH agent {} key: {} {}", //$NON-NLS-1$
-							KeyUtils.getKeyType(key),
-							KeyUtils.getFingerPrint(key), comment);
+				if (key != null) {
+					if (tracing) {
+						LOG.trace("Got SSH agent {} key: {} {}", //$NON-NLS-1$
+								KeyUtils.getKeyType(key),
+								KeyUtils.getFingerPrint(key), comment);
+					}
+					keys.add(new AbstractMap.SimpleImmutableEntry<>(key,
+							comment));
 				}
-				keys.add(new AbstractMap.SimpleImmutableEntry<>(key, comment));
 			}
 			return keys;
 		} catch (BufferException e) {
@@ -401,6 +405,48 @@ public class SshAgentClient implements SshAgent {
 			if (privateKey != null) {
 				Arrays.fill(privateKey, (byte) 0);
 			}
+		}
+	}
+
+	/**
+	 * A safe version of {@link Buffer#getPublicKey()}. Upon return the
+	 * buffers's read position is always after the key blob; any exceptions
+	 * thrown by trying to read the key are logged and <em>not</em> propagated.
+	 * <p>
+	 * This is needed because an SSH agent might contain and deliver keys that
+	 * we cannot handle (for instance ed448 keys).
+	 * </p>
+	 *
+	 * @param buffer
+	 *            to read the key from
+	 * @return the {@link PublicKey}, or {@code null} if the key could not be
+	 *         read
+	 * @throws BufferException
+	 *             if the length of the key blob cannot be read or is corrupted
+	 */
+	private static PublicKey readKey(Buffer buffer) throws BufferException {
+		int endOfBuffer = buffer.wpos();
+		int keyLength = buffer.getInt();
+		int afterKey = buffer.rpos() + keyLength;
+		if (keyLength <= 0 || afterKey > endOfBuffer) {
+			throw new BufferException(
+					MessageFormat.format(SshdText.get().sshAgentWrongKeyLength,
+							Integer.toString(keyLength),
+							Integer.toString(buffer.rpos()),
+							Integer.toString(endOfBuffer)));
+		}
+		// Limit subsequent reads to the public key blob
+		buffer.wpos(afterKey);
+		try {
+			return buffer.getRawPublicKey(BufferPublicKeyParser.DEFAULT);
+		} catch (Exception e) {
+			LOG.warn(SshdText.get().sshAgentUnknownKey, e);
+			return null;
+		} finally {
+			// Restore real buffer end
+			buffer.wpos(endOfBuffer);
+			// Set the read position to after this key, even if failed
+			buffer.rpos(afterKey);
 		}
 	}
 

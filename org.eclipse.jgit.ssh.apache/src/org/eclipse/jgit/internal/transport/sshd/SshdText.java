@@ -114,6 +114,8 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String sshAgentReplyLengthError;
 	/***/ public String sshAgentReplyUnexpected;
 	/***/ public String sshAgentShortReadBuffer;
+	/***/ public String sshAgentUnknownKey;
+	/***/ public String sshAgentWrongKeyLength;
 	/***/ public String sshAgentWrongNumberOfKeys;
 	/***/ public String sshClosingDown;
 	/***/ public String sshCommandTimeout;
