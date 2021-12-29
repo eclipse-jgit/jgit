@@ -20,6 +20,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsPackCompactor.configureRe
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
@@ -577,6 +578,7 @@ public class DfsGarbageCollector {
 		cfg.setReuseObjects(true);
 		cfg.setDeltaCompress(false);
 		cfg.setBuildBitmaps(false);
+		cfg.setMinBytesForObjSizeIndex(-1);
 
 		try (PackWriter pw = new PackWriter(cfg, ctx);
 				RevWalk pool = new RevWalk(ctx)) {
@@ -678,6 +680,13 @@ public class DfsGarbageCollector {
 			pack.setFileSize(INDEX, cnt.getCount());
 			pack.setBlockSize(INDEX, out.blockSize());
 			pack.setIndexVersion(pw.getIndexVersion());
+		}
+
+		try (DfsOutputStream out = objdb.writeFile(pack,
+				OBJECT_SIZE_INDEX)) {
+			pw.writeObjectSizeIndex(out);
+			pack.addFileExt(OBJECT_SIZE_INDEX);
+			pack.setBlockSize(OBJECT_SIZE_INDEX, out.blockSize());
 		}
 
 		if (pw.prepareBitmapIndex(pm)) {
