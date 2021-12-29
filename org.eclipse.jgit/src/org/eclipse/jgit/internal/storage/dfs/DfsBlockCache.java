@@ -12,6 +12,10 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -166,6 +170,12 @@ public final class DfsBlockCache {
 	/** Limits of cache hot count per pack file extension. */
 	private final int[] cacheHotLimits = new int[PackExt.values().length];
 
+	/** Consumer of loading and eviction events of indexes. */
+	private final DfsBlockCacheConfig.IndexEventConsumer indexEventConsumer;
+
+	/** Stores timestamps of the last eviction of indexes. */
+	private final Map<EvictKey, Long> indexEvictionMap = new ConcurrentHashMap<>();
+
 	@SuppressWarnings("unchecked")
 	private DfsBlockCache(DfsBlockCacheConfig cfg) {
 		tableSize = tableSize(cfg);
@@ -213,6 +223,7 @@ public final class DfsBlockCache {
 				cacheHotLimits[i] = DfsBlockCacheConfig.DEFAULT_CACHE_HOT_MAX;
 			}
 		}
+		indexEventConsumer = cfg.getIndexEventConsumer();
 	}
 
 	boolean shouldCopyThroughCache(long length) {
@@ -461,6 +472,7 @@ public final class DfsBlockCache {
 					live -= dead.size;
 					getStat(liveBytes, dead.key).addAndGet(-dead.size);
 					getStat(statEvict, dead.key).incrementAndGet();
+					maybeReportIndexEvictedEvent(dead);
 				} while (maxBytes < live);
 				clockHand = prev;
 			}
@@ -515,11 +527,13 @@ public final class DfsBlockCache {
 	<T> Ref<T> getOrLoadRef(
 			DfsStreamKey key, long position, RefLoader<T> loader)
 			throws IOException {
+		long start = System.nanoTime();
 		int slot = slot(key, position);
 		HashEntry e1 = table.get(slot);
 		Ref<T> ref = scanRef(e1, key, position);
 		if (ref != null) {
 			getStat(statHit, key).incrementAndGet();
+			maybeReportIndexLoadedEvent(ref, true /* cacheHit */, start);
 			return ref;
 		}
 
@@ -532,6 +546,8 @@ public final class DfsBlockCache {
 				ref = scanRef(e2, key, position);
 				if (ref != null) {
 					getStat(statHit, key).incrementAndGet();
+					maybeReportIndexLoadedEvent(ref, true /* cacheHit */,
+							start);
 					return ref;
 				}
 			}
@@ -556,6 +572,7 @@ public final class DfsBlockCache {
 		} finally {
 			regionLock.unlock();
 		}
+		maybeReportIndexLoadedEvent(ref, false /* cacheHit */, start);
 		return ref;
 	}
 
@@ -682,13 +699,52 @@ public final class DfsBlockCache {
 	}
 
 	private static HashEntry clean(HashEntry top) {
-		while (top != null && top.ref.next == null)
+		while (top != null && top.ref.next == null) {
 			top = top.next;
+		}
 		if (top == null) {
 			return null;
 		}
 		HashEntry n = clean(top.next);
 		return n == top.next ? top : new HashEntry(n, top.ref);
+	}
+
+	private void maybeReportIndexLoadedEvent(Ref<?> ref, boolean cacheHit,
+			long start) {
+		if (indexEventConsumer == null
+				|| !isIndexOrBitmapExtPos(ref.key.packExtPos)) {
+			return;
+		}
+		EvictKey evictKey = new EvictKey(ref);
+		Long prevEvictedTime = indexEvictionMap.get(evictKey);
+		long now = System.nanoTime();
+		long sinceLastEvictionNanos = prevEvictedTime == null ? 0L
+				: now - prevEvictedTime.longValue();
+		indexEventConsumer.acceptLoadedEvent(ref.key.packExtPos, cacheHit,
+				(now - start) / 1000L /* micros */, ref.size,
+				Duration.ofNanos(sinceLastEvictionNanos));
+	}
+
+	private void maybeReportIndexEvictedEvent(Ref<?> dead) {
+		if (indexEventConsumer == null
+				|| !indexEventConsumer.shouldReportEvictedEvent()
+				|| !isIndexOrBitmapExtPos(dead.key.packExtPos)) {
+			return;
+		}
+		EvictKey evictKey = new EvictKey(dead);
+		Long prevEvictedTime = indexEvictionMap.get(evictKey);
+		long now = System.nanoTime();
+		long sinceLastEvictionNanos = prevEvictedTime == null ? 0L
+				: now - prevEvictedTime.longValue();
+		indexEvictionMap.put(evictKey, Long.valueOf(now));
+		indexEventConsumer.acceptEvictedEvent(dead.key.packExtPos, dead.size,
+				dead.totalHitCount.get(),
+				Duration.ofNanos(sinceLastEvictionNanos));
+	}
+
+	private static boolean isIndexOrBitmapExtPos(int packExtPos) {
+		return packExtPos == PackExt.INDEX.getPosition()
+				|| packExtPos == PackExt.BITMAP_INDEX.getPosition();
 	}
 
 	private static final class HashEntry {
@@ -712,6 +768,7 @@ public final class DfsBlockCache {
 		Ref next;
 
 		private volatile int hotCount;
+		private AtomicInteger totalHitCount = new AtomicInteger();
 
 		Ref(DfsStreamKey key, long position, long size, T v) {
 			this.key = key;
@@ -736,6 +793,7 @@ public final class DfsBlockCache {
 			int cap = DfsBlockCache
 					.getInstance().cacheHotLimits[key.packExtPos];
 			hotCount = Math.min(cap, hotCount + 1);
+			totalHitCount.incrementAndGet();
 		}
 
 		void markColder() {
@@ -744,6 +802,34 @@ public final class DfsBlockCache {
 
 		boolean isHot() {
 			return hotCount > 0;
+		}
+	}
+
+	private static final class EvictKey {
+		private final int keyHash;
+		private final int packExtPos;
+		private final long position;
+
+		EvictKey(Ref<?> ref) {
+			keyHash = ref.key.hash;
+			packExtPos = ref.key.packExtPos;
+			position = ref.position;
+		}
+
+		@Override
+		public boolean equals(Object object) {
+			if (object instanceof EvictKey) {
+				EvictKey other = (EvictKey) object;
+				return keyHash == other.keyHash
+						&& packExtPos == other.packExtPos
+						&& position == other.position;
+			}
+			return false;
+		}
+
+		@Override
+		public int hashCode() {
+			return DfsBlockCache.getInstance().hash(keyHash, position);
 		}
 	}
 
