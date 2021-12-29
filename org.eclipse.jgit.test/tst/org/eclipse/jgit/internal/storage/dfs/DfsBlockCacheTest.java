@@ -15,16 +15,19 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.LongStream;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.IndexEventConsumer;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
@@ -150,6 +153,120 @@ public class DfsBlockCacheTest {
 		assertEquals(0, LongStream.of(cache.getMissCount()).sum());
 		assertTrue(cache.getEvictions()[PackExt.PACK.getPosition()] > 0);
 		assertEquals(0, cache.getEvictions()[PackExt.INDEX.getPosition()]);
+	}
+
+	@SuppressWarnings("resource")
+	@Test
+	public void hasIndexEventConsumerOnlyLoaded() throws Exception {
+		AtomicInteger loaded = new AtomicInteger();
+		IndexEventConsumer indexEventConsumer = new IndexEventConsumer() {
+			@Override
+			public void acceptRequestedEvent(int packExtPos, boolean cacheHit,
+					long loadMicros, long bytes,
+					Duration lastEvictionDuration) {
+				assertEquals(PackExt.INDEX.getPosition(), packExtPos);
+				assertTrue(cacheHit);
+				assertTrue(lastEvictionDuration.isZero());
+				loaded.incrementAndGet();
+			}
+		};
+
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
+				.setBlockLimit(512 * 4)
+				.setIndexEventConsumer(indexEventConsumer));
+		cache = DfsBlockCache.getInstance();
+
+		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
+		InMemoryRepository r1 = new InMemoryRepository(repo);
+		byte[] content = rng.nextBytes(424242);
+		ObjectId id;
+		try (ObjectInserter ins = r1.newObjectInserter()) {
+			id = ins.insert(OBJ_BLOB, content);
+			ins.flush();
+		}
+
+		try (ObjectReader rdr = r1.newObjectReader()) {
+			byte[] actual = rdr.open(id, OBJ_BLOB).getBytes();
+			assertTrue(Arrays.equals(content, actual));
+		}
+		// All cache entries are hot and cache is at capacity.
+		assertTrue(LongStream.of(cache.getHitCount()).sum() > 0);
+		assertEquals(99, cache.getFillPercentage());
+
+		InMemoryRepository r2 = new InMemoryRepository(repo);
+		content = rng.nextBytes(424242);
+		try (ObjectInserter ins = r2.newObjectInserter()) {
+			ins.insert(OBJ_BLOB, content);
+			ins.flush();
+		}
+		assertTrue(cache.getEvictions()[PackExt.PACK.getPosition()] > 0);
+		assertEquals(1, cache.getEvictions()[PackExt.INDEX.getPosition()]);
+		assertEquals(1, loaded.get());
+	}
+
+	@SuppressWarnings("resource")
+	@Test
+	public void hasIndexEventConsumerLoadedAndEvicted() throws Exception {
+		AtomicInteger loaded = new AtomicInteger();
+		AtomicInteger evicted = new AtomicInteger();
+		IndexEventConsumer indexEventConsumer = new IndexEventConsumer() {
+			@Override
+			public void acceptRequestedEvent(int packExtPos, boolean cacheHit,
+					long loadMicros, long bytes,
+					Duration lastEvictionDuration) {
+				assertEquals(PackExt.INDEX.getPosition(), packExtPos);
+				assertTrue(cacheHit);
+				assertTrue(lastEvictionDuration.isZero());
+				loaded.incrementAndGet();
+			}
+
+			@Override
+			public void acceptEvictedEvent(int packExtPos, long bytes,
+					int totalCacheHitCount, Duration lastEvictionDuration) {
+				assertEquals(PackExt.INDEX.getPosition(), packExtPos);
+				assertTrue(totalCacheHitCount > 0);
+				assertTrue(lastEvictionDuration.isZero());
+				evicted.incrementAndGet();
+			}
+
+			@Override
+			public boolean shouldReportEvictedEvent() {
+				return true;
+			}
+		};
+
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
+				.setBlockLimit(512 * 4)
+				.setIndexEventConsumer(indexEventConsumer));
+		cache = DfsBlockCache.getInstance();
+
+		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
+		InMemoryRepository r1 = new InMemoryRepository(repo);
+		byte[] content = rng.nextBytes(424242);
+		ObjectId id;
+		try (ObjectInserter ins = r1.newObjectInserter()) {
+			id = ins.insert(OBJ_BLOB, content);
+			ins.flush();
+		}
+
+		try (ObjectReader rdr = r1.newObjectReader()) {
+			byte[] actual = rdr.open(id, OBJ_BLOB).getBytes();
+			assertTrue(Arrays.equals(content, actual));
+		}
+		// All cache entries are hot and cache is at capacity.
+		assertTrue(LongStream.of(cache.getHitCount()).sum() > 0);
+		assertEquals(99, cache.getFillPercentage());
+
+		InMemoryRepository r2 = new InMemoryRepository(repo);
+		content = rng.nextBytes(424242);
+		try (ObjectInserter ins = r2.newObjectInserter()) {
+			ins.insert(OBJ_BLOB, content);
+			ins.flush();
+		}
+		assertTrue(cache.getEvictions()[PackExt.PACK.getPosition()] > 0);
+		assertEquals(1, cache.getEvictions()[PackExt.INDEX.getPosition()]);
+		assertEquals(1, loaded.get());
+		assertEquals(1, evicted.get());
 	}
 
 	@SuppressWarnings("resource")
