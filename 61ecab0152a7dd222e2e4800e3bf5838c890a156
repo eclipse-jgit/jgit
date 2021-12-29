@@ -22,6 +22,30 @@
       "revId": "61ecab0152a7dd222e2e4800e3bf5838c890a156",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "567907ec_550c9e02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-29T20:06:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06155bbb_ab73e192",
+      "range": {
+        "startLine": 504,
+        "startChar": 36,
+        "endLine": 506,
+        "endChar": 25
+      },
+      "revId": "61ecab0152a7dd222e2e4800e3bf5838c890a156",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
