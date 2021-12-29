@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
@@ -131,7 +132,7 @@ public class GC {
 	private static final Set<PackExt> PARENT_EXTS = Set.of(PACK, KEEP);
 
 	private static final Set<PackExt> CHILD_EXTS = Set.of(BITMAP_INDEX, INDEX,
-			REVERSE_INDEX);
+            REVERSE_INDEX, OBJECT_SIZE_INDEX);
 
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
@@ -412,6 +413,10 @@ public class GC {
 	 */
 	private void removeOldPack(PackFile packFile, int deleteOptions)
 			throws IOException {
+		if (!packFile.exists()) {
+			return;
+		}
+
 		if (pconfig.isPreserveOldPacks()) {
 			File oldPackDir = repo.getObjectDatabase().getPreservedDirectory();
 			FileUtils.mkdir(oldPackDir, true);
@@ -1340,6 +1345,7 @@ public class GC {
 				idxChannel.force(true);
 			}
 
+
 			if (pw.isReverseIndexEnabled()) {
 				File tmpReverseIndexFile = new File(packdir,
 						tmpBase + REVERSE_INDEX.getTmpExtension());
@@ -1356,6 +1362,19 @@ public class GC {
 								.newOutputStream(channel)) {
 					pw.writeReverseIndex(stream);
 					channel.force(true);
+                                }
+                        }
+
+			// write the object size
+			if (pconfig.isWriteObjSizeIndex()) {
+				File tmpSizeIdx = new File(packdir, tmpBase + ".objsize_tmp"); //$NON-NLS-1$
+				tmpExts.put(OBJECT_SIZE_INDEX, tmpSizeIdx);
+				try (FileOutputStream fos = new FileOutputStream(tmpSizeIdx);
+						FileChannel idxChannel = fos.getChannel();
+						OutputStream idxStream = Channels
+								.newOutputStream(idxChannel)) {
+					pw.writeObjectSizeIndex(idxStream);
+					idxChannel.force(true);
 				}
 			}
 
@@ -1525,6 +1544,11 @@ public class GC {
 		 */
 		public long numberOfBitmaps;
 
+		/**
+		 * The number of objects in the size-index of the packs
+		 */
+		public long numberOfSizeIndexedObjects;
+
 		@Override
 		public String toString() {
 			final StringBuilder b = new StringBuilder();
@@ -1540,6 +1564,8 @@ public class GC {
 			b.append(", sizeOfLooseObjects=").append(sizeOfLooseObjects); //$NON-NLS-1$
 			b.append(", sizeOfPackedObjects=").append(sizeOfPackedObjects); //$NON-NLS-1$
 			b.append(", numberOfBitmaps=").append(numberOfBitmaps); //$NON-NLS-1$
+			b.append(", numberOfSizeIndexedObjects=") //$NON-NLS-1$
+					.append(numberOfSizeIndexedObjects);
 			return b.toString();
 		}
 	}
@@ -1548,7 +1574,7 @@ public class GC {
 	 * Returns information about objects and pack files for a FileRepository.
 	 *
 	 * @return information about objects and pack files for a FileRepository
-	 * @throws java.io.IOException
+         * @throws java.io.IOException
 	 *             if an IO error occurred
 	 */
 	public RepoStatistics getStatistics() throws IOException {
@@ -1560,16 +1586,16 @@ public class GC {
 			ret.numberOfPackedObjects += packedObjects;
 			ret.numberOfPackFiles++;
 			ret.sizeOfPackedObjects += p.getPackFile().length();
+			ret.numberOfSizeIndexedObjects += p.getObjectCountSizeIndex();
 			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
 				if (latestBitmapTime == 0L) {
 					latestBitmapTime = p.getFileSnapshot().lastModifiedInstant().toEpochMilli();
 				}
-			}
-			else if (latestBitmapTime == 0L) {
-				ret.numberOfPackFilesSinceBitmap++;
-				ret.numberOfObjectsSinceBitmap += packedObjects;
-			}
+			} else if (latestBitmapTime == 0L) {
+                          ret.numberOfPackFilesSinceBitmap++;
+                          ret.numberOfObjectsSinceBitmap += packedObjects;
+                        }
 		}
 		File objDir = repo.getObjectsDirectory();
 		String[] fanout = objDir.list();
