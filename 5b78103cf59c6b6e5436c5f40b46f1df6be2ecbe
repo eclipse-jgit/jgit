@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfa28080_a6a5ffa0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/MergeTools.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2021-12-29T15:44:37Z",
+      "side": 1,
+      "message": "This code (incl. the inform call above) no longer exists in DiffTools.\n\nWhat is the intent here Andre? It doesn\u0027t seem correct that mergetool would call this code, but difftool does not.",
+      "revId": "5b78103cf59c6b6e5436c5f40b46f1df6be2ecbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
