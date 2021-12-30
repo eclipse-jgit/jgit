@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.http.server;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Parses Git client User-Agent strings.
