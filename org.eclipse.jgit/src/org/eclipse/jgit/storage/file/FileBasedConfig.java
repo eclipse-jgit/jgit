@@ -235,7 +235,7 @@ public class FileBasedConfig extends StoredConfig {
 		if (!lf.lock())
 			throw new LockFailedException(getFile());
 		try {
-			lf.setNeedSnapshot(true);
+			lf.setNeedSnapshotNoConfig(true);
 			lf.write(out);
 			if (!lf.commit())
 				throw new IOException(MessageFormat.format(JGitText.get().cannotCommitWriteTo, getFile()));
