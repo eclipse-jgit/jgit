@@ -16,6 +16,24 @@
       "revId": "234b8787d700e537b26aa3381a82b4f8d940d3b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01eb2755_e2c4056d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileBasedConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2021-12-30T10:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e21a7781_6b183c6e",
+      "revId": "234b8787d700e537b26aa3381a82b4f8d940d3b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
