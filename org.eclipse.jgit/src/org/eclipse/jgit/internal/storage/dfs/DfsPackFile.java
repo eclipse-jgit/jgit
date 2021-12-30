@@ -16,6 +16,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UN
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
@@ -42,6 +43,8 @@ import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphLoader;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndex;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexLoader;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndexFactory;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
@@ -75,6 +78,11 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	/** Index of compressed commit graph mapping entire object graph. */
 	private volatile CommitGraph commitGraph;
+
+	/** Index by size */
+	private boolean objectSizeIndexLoadAttempted;
+
+	private volatile PackObjectSizeIndex objectSizeIndex;
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -290,6 +298,39 @@ public final class DfsPackFile extends BlockBasedFile {
 			reverseIndex = revidx;
 		}
 		return reverseIndex;
+	}
+
+	private PackObjectSizeIndex getObjectSizeIndex(DfsReader ctx)
+			throws IOException {
+		if (objectSizeIndex != null) {
+			return objectSizeIndex;
+		}
+
+		if (objectSizeIndexLoadAttempted) {
+			// Pack doesn't have object size index
+			return null;
+		}
+
+		DfsStreamKey objSizeKey = desc.getStreamKey(OBJECT_SIZE_INDEX);
+		AtomicBoolean cacheHit = new AtomicBoolean(true);
+		try {
+			DfsBlockCache.Ref<PackObjectSizeIndex> sizeIdxRef = cache
+					.getOrLoadRef(objSizeKey, REF_POSITION, () -> {
+						cacheHit.set(false);
+						return loadObjectSizeIndex(ctx, objSizeKey);
+					});
+			if (cacheHit.get()) {
+				ctx.stats.objectSizeIndexCacheHit++;
+			}
+			PackObjectSizeIndex sizeIdx = sizeIdxRef.get();
+			if (sizeIdx != null) {
+				objectSizeIndex = sizeIdx;
+			}
+		} finally {
+			objectSizeIndexLoadAttempted = true;
+		}
+
+		return objectSizeIndex;
 	}
 
 	/**
@@ -968,6 +1009,81 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
+	/**
+	 * Return if this packfile has an object size index attached.
+	 *
+	 * This loads the index if it is not already in memory.
+	 *
+	 * @param ctx
+	 *            reader context to support reading from the backing store if
+	 *            the object size index is not already loaded in memory.
+	 * @return true if the packfile has an object size index.
+	 * @throws IOException
+	 *             a problem accessing storage while looking for the index
+	 */
+	boolean hasObjectSizeIndex(DfsReader ctx) throws IOException {
+			return getObjectSizeIndex(ctx) != null;
+	}
+
+	/**
+	 * Return minimum size for an object to be included in the object size
+	 * index.
+	 *
+	 * Caller must make sure the pack has an object size index with
+	 * {@link #hasObjectSizeIndex} before calling this method.
+	 *
+	 * @param ctx
+	 *            reader context to support reading from the backing store if
+	 *            the object size index is not already loaded in memory.
+	 * @return minimum size for indexing in bytes
+	 * @throws IOException
+	 *             no object size index or a problem loading it.
+	 */
+	int getObjectSizeIndexThreshold(DfsReader ctx) throws IOException {
+		PackObjectSizeIndex index = getObjectSizeIndex(ctx);
+		if (index == null) {
+			throw new IOException("Asking threshold of non-existing obj-size"); //$NON-NLS-1$
+		}
+		return index.getThreshold();
+	}
+
+	/**
+	 * Return the size of the object from the object-size index. The object
+	 * should be a blob. Any other type is not indexed and returns -1.
+	 *
+	 * Caller MUST be sure that the object is in the pack (e.g. with
+	 * {@link #hasObject(DfsReader, AnyObjectId)}) and the pack has object size
+	 * index (e.g. with {@link #hasObjectSizeIndex(DfsReader)}) before asking
+	 * the indexed size.
+	 *
+	 * @param ctx
+	 *            reader context to support reading from the backing store if
+	 *            the object size index is not already loaded in memory.
+	 * @param id
+	 *            object id of an object in the pack
+	 * @return size of the object from the index. Negative if object is not in
+	 *         the index (below threshold or not a blob)
+	 * @throws IOException
+	 *             could not read the object size index. IO problem or the pack
+	 *             doesn't have it.
+	 */
+	long getIndexedObjectSize(DfsReader ctx, AnyObjectId id)
+			throws IOException {
+		int idxPosition = idx(ctx).findPosition(id);
+		if (idxPosition < 0) {
+			throw new IllegalArgumentException(
+					"Cannot get size from index since object is not in pack"); //$NON-NLS-1$
+		}
+
+		PackObjectSizeIndex sizeIdx = getObjectSizeIndex(ctx);
+		if (sizeIdx == null) {
+			throw new IllegalStateException(
+					"Asking indexed size from a pack without object size index"); //$NON-NLS-1$
+		}
+
+		return sizeIdx.getSize(idxPosition);
+	}
+
 	void representation(DfsObjectRepresentation r, final long pos,
 			DfsReader ctx, PackReverseIndex rev)
 			throws IOException {
@@ -1087,6 +1203,39 @@ public final class DfsPackFile extends BlockBasedFile {
 				REF_POSITION,
 				idx.getObjectCount() * 8,
 				revidx);
+	}
+
+	private DfsBlockCache.Ref<PackObjectSizeIndex> loadObjectSizeIndex(
+			DfsReader ctx, DfsStreamKey objectSizeIndexKey) throws IOException {
+		ctx.stats.readObjectSizeIndex++;
+		long start = System.nanoTime();
+		long size = 0;
+		Exception parsingError = null;
+		try (ReadableChannel rc = ctx.db.openFile(desc, OBJECT_SIZE_INDEX)) {
+			try {
+				objectSizeIndex = PackObjectSizeIndexLoader
+						.load(Channels.newInputStream(rc));
+				size = rc.position();
+			} catch (IOException e) {
+				parsingError = e;
+			}
+		} catch (IOException e) {
+			// No object size index in this pack
+			return new DfsBlockCache.Ref<>(objectSizeIndexKey, REF_POSITION, 0,
+					null);
+		}
+
+		if (parsingError != null) {
+			throw new IOException(
+					MessageFormat.format(DfsText.get().shortReadOfIndex,
+							desc.getFileName(OBJECT_SIZE_INDEX)),
+					parsingError);
+		}
+
+		ctx.stats.readObjectSizeIndexBytes += size;
+		ctx.stats.readObjectSizeIndexMicros += elapsedMicros(start);
+		return new DfsBlockCache.Ref<>(objectSizeIndexKey, REF_POSITION, size,
+				objectSizeIndex);
 	}
 
 	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(DfsReader ctx,
