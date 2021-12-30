@@ -15,6 +15,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
@@ -39,6 +40,8 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndex;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexLoader;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
@@ -68,6 +71,11 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	/** Index of compressed bitmap mapping entire object graph. */
 	private volatile PackBitmapIndex bitmapIndex;
+
+	/** Index by size */
+	private boolean objSizeIdxLoadAttempted;
+
+	private volatile PackObjectSizeIndex objSizeIdx;
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -236,6 +244,40 @@ public final class DfsPackFile extends BlockBasedFile {
 			reverseIndex = revidx;
 		}
 		return reverseIndex;
+	}
+
+	private PackObjectSizeIndex getObjectSizeIdx(DfsReader ctx) {
+		if (objSizeIdx != null) {
+			return objSizeIdx;
+		}
+
+		if (objSizeIdxLoadAttempted) {
+			// Pack doesn't have object size index
+			return null;
+		}
+
+		DfsStreamKey objSizeKey = desc.getStreamKey(OBJECT_SIZE_INDEX);
+		AtomicBoolean cacheHit = new AtomicBoolean(true);
+		try {
+			DfsBlockCache.Ref<PackObjectSizeIndex> sizeIdxRef = cache
+					.getOrLoadRef(objSizeKey, REF_POSITION, () -> {
+						cacheHit.set(false);
+						return loadObjectSizeIdx(ctx, objSizeKey);
+					});
+			if (cacheHit.get()) {
+				ctx.stats.objSizeCacheHit++;
+			}
+			PackObjectSizeIndex sizeIdx = sizeIdxRef.get();
+			if (objSizeIdx == null && sizeIdx != null) {
+				objSizeIdx = sizeIdx;
+			}
+		} catch (IOException e) {
+			// It is OK if we fail to load the object index size
+		} finally {
+			objSizeIdxLoadAttempted = true;
+		}
+
+		return objSizeIdx;
 	}
 
 	/**
@@ -914,6 +956,47 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
+	boolean hasObjSizeIndex(DfsReader ctx) {
+		return getObjectSizeIdx(ctx) != null;
+	}
+
+	long getObjectCountSizeIndex(DfsReader ctx) {
+		PackObjectSizeIndex objectSizeIdx = getObjectSizeIdx(ctx);
+		return objectSizeIdx == null ? 0 : objectSizeIdx.getObjectCount();
+	}
+
+	/**
+	 * Return the size of the object from the object-size index.
+	 *
+	 * Caller MUST be sure that the object is in the pack (e.g. with
+	 * {@link #hasObject(DfsReader, AnyObjectId)}) and the pack has object size
+	 * index that the pack has object size index (e.g. with
+	 * {@link #hasObjSizeIndex(DfsReader)}) before asking the indexed size.
+	 *
+	 * @param ctx
+	 * @param id
+	 *            object id of an object in the pack
+	 * @return size of the object from the index. Negative if object is not in
+	 *         the index (below threshold)
+	 * @throws IOException
+	 */
+	long getIndexedObjectSize(DfsReader ctx, AnyObjectId id)
+			throws IOException {
+		final long offset = idx(ctx).findOffset(id);
+		if (0 < offset && !isCorrupt(offset)) {
+			throw new IllegalStateException(
+					"Cannot get size from index if object is not in pack"); //$NON-NLS-1$
+		}
+
+		PackObjectSizeIndex sizeIdx = getObjectSizeIdx(ctx);
+		if (sizeIdx == null) {
+			throw new IllegalStateException(
+					"Asking indexed size from a pack without object size index"); //$NON-NLS-1$
+		}
+
+		return sizeIdx.getSize(offset);
+	}
+
 	void representation(DfsObjectRepresentation r, final long pos,
 			DfsReader ctx, PackReverseIndex rev)
 			throws IOException {
@@ -1041,6 +1124,42 @@ public final class DfsPackFile extends BlockBasedFile {
 				REF_POSITION,
 				idx.getObjectCount() * 8,
 				revidx);
+	}
+
+	private DfsBlockCache.Ref<PackObjectSizeIndex> loadObjectSizeIdx(
+			DfsReader ctx,
+			DfsStreamKey objIdxKey) throws IOException {
+		ctx.stats.readObjSizeIdx++;
+		long start = System.nanoTime();
+		try (ReadableChannel rc = ctx.db.openFile(desc,
+				OBJECT_SIZE_INDEX)) {
+			long size;
+			try {
+				InputStream in = Channels.newInputStream(rc);
+				int wantSize = 8192;
+				int bs = rc.blockSize();
+				if (0 < bs && bs < wantSize) {
+					bs = (wantSize / bs) * bs;
+				} else if (bs <= 0) {
+					bs = wantSize;
+				}
+				in = new BufferedInputStream(in, bs);
+				objSizeIdx = PackObjectSizeIndexLoader.load(in);
+			} finally {
+				size = rc.position();
+				ctx.stats.readBitmapIdxBytes += size;
+				ctx.stats.readBitmapIdxMicros += elapsedMicros(start);
+			}
+			return new DfsBlockCache.Ref<>(
+					objIdxKey, REF_POSITION, size, objSizeIdx);
+			// Let IOException pass to signal that this pack doesn't have object
+			// size index
+		} catch (EOFException e) {
+			throw new IOException(MessageFormat.format(
+					DfsText.get().shortReadOfIndex,
+					desc.getFileName(OBJECT_SIZE_INDEX)), e);
+		}
+
 	}
 
 	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(DfsReader ctx,
