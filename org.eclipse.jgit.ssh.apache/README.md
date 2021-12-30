@@ -43,6 +43,53 @@ FetchCommand fetch = git.fetch()
   .call();
 ```
 
+## Support for SSH agents
+
+There exist two IETF draft RFCs for communication with an SSH agent:
+
+* an older [SSH1 protocol](https://tools.ietf.org/html/draft-ietf-secsh-agent-02) that can deal only with DSA and RSA keys, and
+* a newer [SSH2 protocol](https://tools.ietf.org/html/draft-miller-ssh-agent-04) (from OpenSSH).
+
+JGit only supports the newer OpenSSH protocol.
+
+Communication with an SSH agent can occur over any transport protocol, and different
+SSH agents may use different transports for local communication. JGit provides some
+transports via the [org.eclipse.jgit.ssh.apache.agent](../org.eclipse.jgit.ssh.apache.agent/README.md)
+fragment, which are discovered from `org.eclipse.jgit.ssh.apache` also via the `ServiceLoader` mechanism;
+the SPI (service provider interface) is `org.eclipse.jgit.transport.sshd.agent.ConnectorFactory`.
+
+If such a `ConnectorFactory` implementation is found, JGit may use an SSH agent. If none
+is available, JGit cannot communicate with an SSH agent, and will not attempt to use one.
+
+### SSH configurations for SSH agents
+
+There are several SSH properties that can be used in the `~/.ssh/config` file to configure
+the use of an SSH agent. For the details, see the [OpenBSD ssh-config documentation](https://man.openbsd.org/ssh_config.5).
+
+* **AddKeysToAgent** can be set to `no`, `yes`, or `ask`. If set to `yes`, keys will be added
+  to the agent if they're not yet in the agent. If set to `ask`, the user will be prompted
+  before doing so, and can opt out of adding the key. JGit also supports the additional
+  settings `confirm` and key lifetimes.
+* **IdentityAgent** can be set to choose which SSH agent to use, if there are several running.
+  It can also be set to `none` to explicitly switch off using an SSH agent at all.
+* **IdentitiesOnly** if set to `yes` and an SSH agent is used, only keys from the agent that are
+  also listed in an `IdentityFile` property will be considered. (It'll also switch off trying
+  default key names, such as `~/.ssh/id_rsa` or `~/.ssh/id_ed25519`; only keys listed explicitly
+  will be used.)
+
+### Limitations
+
+As mentioned above JGit only implements the newer OpenSSH protocol. OpenSSH fully implements this,
+but some other SSH agents only offer partial implementations. In particular on Windows, neither
+Pageant nor Win32-OpenSSH implement the `confirm` or lifetime constraints for `AddKeysToAgent`. With
+such SSH agents, these settings should not be used in `~/.ssh/config`. GPG's gpg-agent can be run
+with option `enable_putty_support` and can then be used as a Pageant replacement. gpg-agent appears
+to support these key constraints.
+
+OpenSSH does not implement ed448 keys, and neither does Apache MINA sshd, and hence such keys are
+not supported in JGit if its built-in SSH implementation is used. ed448 or other unsupported keys
+provided by an SSH agent are ignored.
+
 ## Using a different SSH implementation
 
 To use a different SSH implementation:
