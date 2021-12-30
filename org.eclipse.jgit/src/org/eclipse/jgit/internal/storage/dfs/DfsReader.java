@@ -509,6 +509,53 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		throw new MissingObjectException(objectId.copy(), typeHint);
 	}
 
+
+	@Override
+	public boolean isNotLargerThan(AnyObjectId objectId, int typeHint,
+			long size)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		if (last != null && !skipGarbagePack(last)) {
+			long sz = last.getIndexedObjectSize(this, objectId);
+			// -1 means the object is in the pack but not in the object-size
+			// index
+			if (sz >= DfsPackFile.OBJ_SIZE_IDX_NOT_INDEXED) {
+				return sz <= size;
+			}
+		}
+
+		PackList packList = db.getPackList();
+		long sz = findSizeInObjSizeIndex(packList, objectId);
+		if (sz < -1 && packList.dirty()) {
+			sz = findSizeInObjSizeIndex(packList, objectId);
+		}
+
+		if (sz >= DfsPackFile.OBJ_SIZE_IDX_NOT_INDEXED) {
+			return sz <= size;
+		}
+
+		if (typeHint == OBJ_ANY) {
+			throw new MissingObjectException(objectId.copy(),
+					JGitText.get().unknownObjectType2);
+		}
+		throw new MissingObjectException(objectId.copy(), typeHint);
+	}
+
+	private long findSizeInObjSizeIndex(PackList packList,
+			AnyObjectId objectId) throws IOException {
+		for (DfsPackFile pack : packList.packs) {
+			if (pack == last || skipGarbagePack(pack)) {
+				continue;
+			}
+			long sz = pack.getIndexedObjectSize(this, objectId);
+			if (-1 <= sz) {
+				last = pack;
+				return sz;
+			}
+		}
+		return -2;
+	}
+
 	private long getObjectSizeImpl(PackList packList, AnyObjectId objectId)
 			throws IOException {
 		for (DfsPackFile pack : packList.packs) {
