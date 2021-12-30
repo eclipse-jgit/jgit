@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.http.server.resolver;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -27,7 +27,7 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
  * Writing by receive-pack is permitted if any of the following is true:
  * <ul>
  * <li>The container has authenticated the user and set
- * {@link javax.servlet.http.HttpServletRequest#getRemoteUser()} to the
+ * {@link jakarta.servlet.http.HttpServletRequest#getRemoteUser()} to the
  * authenticated name.
  * <li>The repository configuration file has {@code http.receivepack} explicitly
  * set to true.
