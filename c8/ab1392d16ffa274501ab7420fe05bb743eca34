@@ -1,0 +1,7 @@
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Thu, 30 Dec 2021 18:41:39 -0500
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/189206
+Project: jgit/jgit
+Branch: refs/heads/stable-5.13
