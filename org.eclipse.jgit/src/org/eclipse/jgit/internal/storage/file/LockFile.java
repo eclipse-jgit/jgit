@@ -137,6 +137,8 @@ public class LockFile {
 
 	private boolean needSnapshot;
 
+	private boolean snapshotNoConfig;
+
 	boolean fsync;
 
 	private FileSnapshot commitSnapshot;
@@ -407,6 +409,21 @@ public class LockFile {
 	}
 
 	/**
+	 * Request that {@link #commit()} remember the
+	 * {@link org.eclipse.jgit.internal.storage.file.FileSnapshot} without using
+	 * config file to get filesystem timestamp resolution.
+	 * This method should be invoked before the file is accessed.
+	 * It is used by FileBasedConfig to avoid endless recursion.
+	 *
+	 * @param on
+	 *            true if the commit method must remember the FileSnapshot.
+	 */
+	public void setNeedSnapshotNoConfig(boolean on) {
+		needSnapshot = on;
+		snapshotNoConfig = on;
+	}
+
+	/**
 	 * Request that {@link #commit()} force dirty data to the drive.
 	 *
 	 * @param on
@@ -482,8 +499,12 @@ public class LockFile {
 	}
 
 	private void saveStatInformation() {
-		if (needSnapshot)
-			commitSnapshot = FileSnapshot.save(lck);
+		if (needSnapshot) {
+			commitSnapshot = snapshotNoConfig ?
+				// don't use config in this snapshot to avoid endless recursion
+				FileSnapshot.saveNoConfig(lck)
+				: FileSnapshot.save(lck);
+		}
 	}
 
 	/**
