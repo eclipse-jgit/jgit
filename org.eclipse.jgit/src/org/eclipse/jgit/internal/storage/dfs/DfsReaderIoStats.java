@@ -28,6 +28,9 @@ public class DfsReaderIoStats {
 		/** Total number of cache hits for bitmap indexes. */
 		long bitmapCacheHit;
 
+		/** Total number of cache hits for object size indexes. */
+		long objSizeCacheHit;
+
 		/** Total number of complete pack indexes read into memory. */
 		long readIdx;
 
@@ -36,6 +39,9 @@ public class DfsReaderIoStats {
 
 		/** Total number of reverse indexes added into memory. */
 		long readReverseIdx;
+
+		/** Total number of object size indexes added into memory. */
+		long readObjSizeIdx;
 
 		/** Total number of bytes read from pack indexes. */
 		long readIdxBytes;
@@ -123,6 +129,15 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of object size index cache hits.
+	 *
+	 * @return total number of objrect size index cache hits.
+	 */
+	public long getObjectSizeIndexCacheHits() {
+		return stats.objSizeCacheHit;
+	}
+
+	/**
 	 * Get total number of complete pack indexes read into memory.
 	 *
 	 * @return total number of complete pack indexes read into memory.
@@ -147,6 +162,15 @@ public class DfsReaderIoStats {
 	 */
 	public long getReadBitmapIndexCount() {
 		return stats.readBitmap;
+	}
+
+	/**
+	 * Get total number of complete object size indexes read into memory.
+	 *
+	 * @return total number of complete object size indexes read into memory.
+	 */
+	public long getReadObjectSizeIndexCount() {
+		return stats.readObjSizeIdx;
 	}
 
 	/**
