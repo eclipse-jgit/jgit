@@ -10,12 +10,15 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import org.eclipse.jgit.lib.AnyObjectId;
+
 /**
  * IO statistics for a {@link org.eclipse.jgit.internal.storage.dfs.DfsReader}.
  */
 public class DfsReaderIoStats {
 	/** POJO to accumulate IO statistics. */
 	public static class Accumulator {
+
 		/** Number of times the reader explicitly called scanPacks. */
 		long scanPacks;
 
@@ -31,6 +34,9 @@ public class DfsReaderIoStats {
 		/** Total number of cache hits for commit graphs. */
 		long commitGraphCacheHit;
 
+		/** Total number of cache hits for object size indexes. */
+		long objSizeCacheHit;
+
 		/** Total number of complete pack indexes read into memory. */
 		long readIdx;
 
@@ -43,11 +49,17 @@ public class DfsReaderIoStats {
 		/** Total number of complete commit graphs read into memory. */
 		long readCommitGraph;
 
+		/** Total number of object size indexes added into memory. */
+		long readObjSizeIdx;
+
 		/** Total number of bytes read from pack indexes. */
 		long readIdxBytes;
 
 		/** Total number of bytes read from commit graphs. */
 		long readCommitGraphBytes;
+
+		/** Total numer of bytes read from object size index */
+		long readObjSizeBytes;
 
 		/** Total microseconds spent reading pack indexes. */
 		long readIdxMicros;
@@ -57,6 +69,9 @@ public class DfsReaderIoStats {
 
 		/** Total microseconds spent creating commit graphs. */
 		long readCommitGraphMicros;
+
+		/** Total microseconds spent creating object size indexes */
+		long readObjSizeMicros;
 
 		/** Total number of bytes read from bitmap indexes. */
 		long readBitmapIdxBytes;
@@ -87,6 +102,15 @@ public class DfsReaderIoStats {
 
 		/** Total microseconds spent inflating compressed bytes. */
 		long inflationMicros;
+
+		/** Count of queries for the size of an object via #isNotLargerThan */
+		long isNotLargerThanCallCount;
+
+		/** Object was below threshold in the object size index */
+		long objSizeIndexMiss;
+
+		/** Object size found in the object size index */
+		long objSizeIndexHit;
 
 		Accumulator() {
 		}
@@ -144,6 +168,15 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of object size index cache hits.
+	 *
+	 * @return total number of objrect size index cache hits.
+	 */
+	public long getObjectSizeIndexCacheHits() {
+		return stats.objSizeCacheHit;
+	}
+
+	/**
 	 * Get total number of complete pack indexes read into memory.
 	 *
 	 * @return total number of complete pack indexes read into memory.
@@ -177,6 +210,15 @@ public class DfsReaderIoStats {
 	 */
 	public long getReadBitmapIndexCount() {
 		return stats.readBitmap;
+	}
+
+	/**
+	 * Get total number of complete object size indexes read into memory.
+	 *
+	 * @return total number of complete object size indexes read into memory.
+	 */
+	public long getReadObjectSizeIndexCount() {
+		return stats.readObjSizeIdx;
 	}
 
 	/**
@@ -296,5 +338,42 @@ public class DfsReaderIoStats {
 	 */
 	public long getInflationMicros() {
 		return stats.inflationMicros;
+	}
+
+	/**
+	 * Get count of invocations to
+	 * {@link DfsReader#isNotLargerThan(AnyObjectId, int, long)}
+	 * <p>
+	 * Each call could use the object-size index or not.
+	 *
+	 * @return how many times the size of an object was checked with
+	 *         {@link DfsReader#isNotLargerThan(AnyObjectId, int, long)}
+	 */
+	public long getIsNotLargerThanCallCount() {
+		return stats.isNotLargerThanCallCount;
+	}
+
+	/**
+	 * Get number of times the size of a blob was found in the object size
+	 * index.
+	 * <p>
+	 * This counts only queries for blobs on packs with object size index.
+	 *
+	 * @return count of object size index hits
+	 */
+	public long getObjectSizeIndexHits() {
+		return stats.objSizeIndexHit;
+	}
+
+	/**
+	 * Get number of times the size of an object was not found in the object
+	 * size index. This usually means it was below the threshold.
+	 * <p>
+	 * This counts only queries for blobs on packs with object size index.
+	 *
+	 * @return count of object size index misses.
+	 */
+	public long getObjectSizeIndexMisses() {
+		return stats.objSizeIndexMiss;
 	}
 }
