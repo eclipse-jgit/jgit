@@ -15,11 +15,11 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.http.server.glue.ErrorServlet;
 import org.eclipse.jgit.http.server.glue.MetaFilter;
@@ -139,6 +139,7 @@ public class GitFilter extends MetaFilter {
 	 *            filter to apply before any of the UploadPack operations. The
 	 *            UploadPack instance is available in the request attribute
 	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
+	 * @since 7.0
 	 */
 	public void addUploadPackFilter(Filter filter) {
 		assertNotInitialized();
@@ -178,6 +179,7 @@ public class GitFilter extends MetaFilter {
 	 *            filter to apply before any of the ReceivePack operations. The
 	 *            ReceivePack instance is available in the request attribute
 	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
+	 * @since 7.0
 	 */
 	public void addReceivePackFilter(Filter filter) {
 		assertNotInitialized();

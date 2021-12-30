@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.http.server.resolver;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -81,6 +81,7 @@ public class AsIsFileService {
 	 * @throws ServiceNotAuthorizedException
 	 *             bare file access is not allowed for this HTTP request and
 	 *             repository, such as due to a permission error.
+	 * @since 7.0
 	 */
 	public void access(HttpServletRequest req, Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {

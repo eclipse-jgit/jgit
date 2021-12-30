@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lfs.errors.InvalidLongObjectIdException;
@@ -93,7 +93,7 @@ public class FileLfsServlet extends HttpServlet {
 	 *         retrieved
 	 * @throws java.io.IOException
 	 *             if an I/O error occurs
-	 * @since 4.6
+	 * @since 7.0
 	 */
 	protected AnyLongObjectId getObjectToTransfer(HttpServletRequest req,
 			HttpServletResponse rsp) throws IOException {
@@ -140,7 +140,7 @@ public class FileLfsServlet extends HttpServlet {
 	 *            error message
 	 * @throws java.io.IOException
 	 *             on failure to send the response
-	 * @since 4.6
+	 * @since 7.0
 	 */
 	protected static void sendError(HttpServletResponse rsp, int status, String message)
 			throws IOException {

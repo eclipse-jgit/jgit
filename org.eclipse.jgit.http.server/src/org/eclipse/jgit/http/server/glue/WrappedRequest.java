@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.http.server.glue;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 /**
  * Overrides the path and path info.
@@ -30,6 +30,7 @@ public class WrappedRequest extends HttpServletRequestWrapper {
 	 *            new servlet path to report to callers.
 	 * @param pathInfo
 	 *            new path info to report to callers.
+	 * @since 7.0
 	 */
 	public WrappedRequest(final HttpServletRequest originalRequest,
 			final String path, final String pathInfo) {

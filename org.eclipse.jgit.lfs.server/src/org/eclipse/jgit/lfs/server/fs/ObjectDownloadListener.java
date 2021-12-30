@@ -17,10 +17,10 @@ import java.nio.channels.WritableByteChannel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.WriteListener;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
@@ -64,6 +64,7 @@ public class ObjectDownloadListener implements WriteListener {
 	 *            id of the object to be downloaded
 	 * @throws java.io.IOException
 	 *             if an IO error occurred
+	 * @since 7.0
 	 */
 	public ObjectDownloadListener(FileLfsRepository repository,
 			AsyncContext context, HttpServletResponse response,

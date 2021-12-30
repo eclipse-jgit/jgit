@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.http.server;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Parses Git client User-Agent strings.
@@ -154,6 +154,7 @@ public class ClientVersionUtil {
 	 *            incoming HTTP request.
 	 * @return true if the client has the chunked encoding bug.
 	 * @deprecated no widely used Git versions need this any more
+	 * @since 7.0
 	 */
 	@Deprecated
 	public static boolean hasChunkedEncodingRequestBug(
