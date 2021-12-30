@@ -49,6 +49,7 @@ import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -509,6 +510,59 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 					JGitText.get().unknownObjectType2);
 		}
 		throw new MissingObjectException(objectId.copy(), typeHint);
+	}
+
+
+	@Override
+	public boolean isNotLargerThan(AnyObjectId objectId, int typeHint,
+			long limit) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		DfsPackFile pack = findPackWithObject(objectId);
+		if (pack == null) {
+			if (typeHint == OBJ_ANY) {
+				throw new MissingObjectException(objectId.copy(),
+						JGitText.get().unknownObjectType2);
+			}
+			throw new MissingObjectException(objectId.copy(), typeHint);
+		}
+
+		stats.isNotLargerThanCallCount += 1;
+		if (typeHint != Constants.OBJ_BLOB || !pack.hasObjectSizeIndex(this)) {
+			return pack.getObjectSize(this, objectId) <= limit;
+		}
+
+		long sz = pack.getIndexedObjectSize(this, objectId);
+		if (sz < 0) {
+			stats.objectSizeIndexMiss += 1;
+		} else {
+			stats.objectSizeIndexHit += 1;
+		}
+
+		// Got size from index or we didn't but we are sure it should be there.
+		if (sz >= 0 || pack.getObjectSizeIndexThreshold(this) <= limit) {
+			return sz <= limit;
+		}
+
+		return pack.getObjectSize(this, objectId) <= limit;
+	}
+
+	private DfsPackFile findPackWithObject(AnyObjectId objectId)
+			throws IOException {
+		if (last != null && !skipGarbagePack(last)
+				&& last.hasObject(this, objectId)) {
+			return last;
+		}
+		PackList packList = db.getPackList();
+		// hasImpl doesn't check "last", but leaves "last" pointing to the pack
+		// with the object
+		if (hasImpl(packList, objectId)) {
+			return last;
+		} else if (packList.dirty()) {
+			if (hasImpl(db.getPackList(), objectId)) {
+				return last;
+			}
+		}
+		return null;
 	}
 
 	private long getObjectSizeImpl(PackList packList, AnyObjectId objectId)
