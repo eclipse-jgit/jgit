@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.lfs.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static org.eclipse.jgit.lfs.lib.Constants.DOWNLOAD;
 import static org.eclipse.jgit.lfs.lib.Constants.UPLOAD;
 import static org.eclipse.jgit.lfs.lib.Constants.VERIFY;

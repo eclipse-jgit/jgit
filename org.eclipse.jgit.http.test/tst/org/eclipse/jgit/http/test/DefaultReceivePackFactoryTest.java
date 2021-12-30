@@ -17,8 +17,8 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
