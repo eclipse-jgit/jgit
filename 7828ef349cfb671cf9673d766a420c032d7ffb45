@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5020f760_389a24f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileBasedConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2021-12-30T00:15:55Z",
+      "side": 0,
+      "message": "@Matthias I needed to remove this call because it would have filled the filesystem attributes\u0027 cache that would have hidden the issue",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 89,
+        "endChar": 47
+      },
+      "revId": "7828ef349cfb671cf9673d766a420c032d7ffb45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
