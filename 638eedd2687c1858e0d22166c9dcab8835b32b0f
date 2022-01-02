@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44a7c5a4_21f2fcad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-02T22:03:04Z",
+      "side": 1,
+      "message": "Stderr in all likelihood will have been written by the executed command with the current locale. Use SystemReader.getDefaultCharset() here.",
+      "revId": "638eedd2687c1858e0d22166c9dcab8835b32b0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "321f230d_e770bc6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-02T22:03:04Z",
+      "side": 1,
+      "message": "Files.writeString() would be the Java 11 one-liner for this. What Charset is to be used? UTF-8, or the current locale? (SystemReader.getDefaultCharset())",
+      "revId": "638eedd2687c1858e0d22166c9dcab8835b32b0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
