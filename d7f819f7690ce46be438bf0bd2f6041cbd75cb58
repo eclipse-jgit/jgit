@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "1ff5337a_5cff83e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2022-01-03T07:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "476444a8_d539b36c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0698fe60_39baafc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2022-01-03T07:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1949f709_2f4fb013",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39925f16_d801fd80",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2f68dc0e_33c680e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2022-01-03T07:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39925f16_d801fd80",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c396d66b_9814f927",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2021-12-24T01:41:34Z",
       "side": 1,
       "message": "Can you put an example of a meta-ref in Gerrit?",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4e38aab_99afbc44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2022-01-03T07:26:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure what kind of an example I should add here",
+      "parentUuid": "c396d66b_9814f927",
       "range": {
         "startLine": 9,
         "startChar": 63,
@@ -114,6 +210,30 @@
       "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b815f7_793b1f6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2022-01-03T07:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c71c9ea5_58e9a7a2",
+      "range": {
+        "startLine": 12,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "d7f819f7690ce46be438bf0bd2f6041cbd75cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
