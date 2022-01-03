@@ -13,11 +13,19 @@ Import-Package: org.eclipse.jgit.api;version="[6.1.0,6.2.0)",
  org.eclipse.jgit.junit;version="[6.1.0,6.2.0)",
  org.eclipse.jgit.lfs;version="[6.1.0,6.2.0)",
  org.eclipse.jgit.lfs.errors;version="[6.1.0,6.2.0)",
+<<<<<<< Upstream, based on origin/master
  org.eclipse.jgit.lfs.internal;version="[6.1.0,6.2.0)",
+=======
+ org.eclipse.jgit.lfs.internal;version="6.1.0",
+>>>>>>> a338660 Support for "lfs.url" from ".lfsconfig"
  org.eclipse.jgit.lfs.lib;version="[6.1.0,6.2.0)",
  org.eclipse.jgit.lib;version="[6.1.0,6.2.0)",
  org.eclipse.jgit.revwalk;version="[6.1.0,6.2.0)",
  org.eclipse.jgit.transport;version="[6.1.0,6.2.0)",
+<<<<<<< Upstream, based on origin/master
+=======
+ org.eclipse.jgit.transport.http;version="[6.1.0,6.2.0)",
+>>>>>>> a338660 Support for "lfs.url" from ".lfsconfig"
  org.eclipse.jgit.treewalk;version="[6.1.0,6.2.0)",
  org.eclipse.jgit.treewalk.filter;version="[6.1.0,6.2.0)",
  org.eclipse.jgit.util;version="[6.1.0,6.2.0)",
