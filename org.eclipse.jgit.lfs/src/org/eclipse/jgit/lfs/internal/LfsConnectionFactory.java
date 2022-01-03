@@ -14,6 +14,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
@@ -26,17 +27,30 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.CommandFailedException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lfs.LfsPointer;
 import org.eclipse.jgit.lfs.Protocol;
 import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
+import org.eclipse.jgit.lfs.lib.Constants;
+import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.HttpConfig;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SshSupport;
 
@@ -44,7 +58,6 @@ import org.eclipse.jgit.util.SshSupport;
  * Provides means to get a valid LFS connection for a given repository.
  */
 public class LfsConnectionFactory {
-
 	private static final int SSH_AUTH_TIMEOUT_SECONDS = 30;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
@@ -97,8 +110,21 @@ public class LfsConnectionFactory {
 			throws LfsConfigInvalidException {
 		StoredConfig config = db.getConfig();
 		String lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
-				null,
-				ConfigConstants.CONFIG_KEY_URL);
+				null, ConfigConstants.CONFIG_KEY_URL);
+		if (lfsUrl == null) {
+			/*
+			 * @formatter:off
+			 *
+			 * Try to get url from lfsconfig if not available in other git
+			 * config files.
+			 * See https://github.com/git-lfs/git-lfs/blob/main/docs/man/git-lfs-config.5.ronn#configuration-files
+			 *
+			 * @formatter:on
+			 */
+			lfsUrl = getLfsConfig(db).getString(
+					ConfigConstants.CONFIG_SECTION_LFS,
+					null, ConfigConstants.CONFIG_KEY_URL);
+		}
 		Exception ex = null;
 		if (lfsUrl == null) {
 			String remoteUrl = null;
@@ -137,6 +163,94 @@ public class LfsConnectionFactory {
 			throw new LfsConfigInvalidException(LfsText.get().lfsNoDownloadUrl);
 		}
 		return lfsUrl;
+	}
+
+	/**
+	 * @formatter:off
+	 *
+	 * Read the .lfsconfig file from the repository
+	 *
+	 * According to the document
+	 * https://github.com/git-lfs/git-lfs/blob/main/docs/man/git-lfs-config.5.ronn
+	 * the order to find the .lfsconfig file is:
+	 * 1. in the root of the working tree
+	 * 2. in the index
+	 * 3. in the HEAD (For bare repositories this is the only place that is searched)
+	 *
+	 * @param db
+	 *            the associated repo
+	 * @return The loaded lfs config or null if it does not exist
+	 *
+	 * @throws LfsConfigInvalidException
+	 *
+	 * @formatter:on
+	 */
+	private static Config getLfsConfig(Repository db)
+			throws LfsConfigInvalidException {
+		if (!db.isBare()) {
+			/* Search in Working Tree */
+			File lfsConfig = db.getFS().resolve(db.getWorkTree(),
+					Constants.DOT_LFS_CONFIG);
+			/* If config file exists, create a file based config for it */
+			if (lfsConfig.exists() && lfsConfig.isFile()) {
+				FileBasedConfig config = new FileBasedConfig(lfsConfig,
+						db.getFS());
+				try {
+					config.load();
+					return config;
+				} catch (ConfigInvalidException | IOException e) {
+					/*
+					 * .lfsonfig file is present, but reading failed anyway.
+					 * Seems to be a real error, e.g. invalid config file
+					 * syntax.
+					 */
+					throw new LfsConfigInvalidException(
+							LfsText.get().dotLfsConfigReadFailed, e);
+				}
+			}
+
+			/* Search in Index */
+			try {
+				DirCacheEntry Entry = db.readDirCache()
+						.getEntry(Constants.DOT_LFS_CONFIG);
+				if (Entry != null) {
+					return new BlobBasedConfig(null, db, Entry.getObjectId());
+				}
+			} catch (NoWorkTreeException | IOException
+					| ConfigInvalidException e) {
+				/*
+				 * Entry for .lfsonfig file is exists, but reading failed
+				 * anyway. Seems to be a real error, e.g. invalid config file
+				 * syntax.
+				 */
+				throw new LfsConfigInvalidException(
+						LfsText.get().dotLfsConfigReadFailed, e);
+			}
+		}
+
+		/* Search in HEAD Revision */
+		try (RevWalk revWalk = new RevWalk(db)) {
+			ObjectId headCommitId = db
+					.resolve(org.eclipse.jgit.lib.Constants.HEAD);
+			RevCommit commit = revWalk.parseCommit(headCommitId);
+			RevTree tree = commit.getTree();
+			TreeWalk treewalk = TreeWalk.forPath(db, Constants.DOT_LFS_CONFIG,
+					tree);
+			if (treewalk != null) {
+				return new BlobBasedConfig(null, db, treewalk.getObjectId(0));
+			}
+		} catch (RevisionSyntaxException | IOException
+				| ConfigInvalidException e) {
+			/*
+			 * Entry for .lfsonfig file is exists, but reading failed anyway.
+			 * Seems to be a real error, e.g. invalid config file syntax.
+			 */
+			throw new LfsConfigInvalidException(
+					LfsText.get().dotLfsConfigReadFailed, e);
+		}
+
+		/* Create empty config to avoid null pointer handling */
+		return new Config();
 	}
 
 	private static String discoverLfsUrl(Repository db, String purpose,
