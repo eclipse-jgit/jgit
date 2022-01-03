@@ -44,7 +44,6 @@ import org.eclipse.jgit.util.SshSupport;
  * Provides means to get a valid LFS connection for a given repository.
  */
 public class LfsConnectionFactory {
-
 	private static final int SSH_AUTH_TIMEOUT_SECONDS = 30;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
@@ -96,9 +95,15 @@ public class LfsConnectionFactory {
 			Map<String, String> additionalHeaders)
 			throws LfsConfigInvalidException {
 		StoredConfig config = db.getConfig();
+		LfsConfig lfsConfig = null;
 		String lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
-				null,
-				ConfigConstants.CONFIG_KEY_URL);
+				null, ConfigConstants.CONFIG_KEY_URL);
+		if (lfsUrl == null) {
+			lfsConfig = new LfsConfig(db);
+			lfsUrl = lfsConfig.getString(
+					ConfigConstants.CONFIG_SECTION_LFS,
+					null, ConfigConstants.CONFIG_KEY_URL);
+		}
 		Exception ex = null;
 		if (lfsUrl == null) {
 			String remoteUrl = null;
@@ -106,6 +111,13 @@ public class LfsConnectionFactory {
 				lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
 						remote,
 						ConfigConstants.CONFIG_KEY_URL);
+				/* Null check of lfsConfig only to satisfy the compiler */
+				if (lfsUrl == null && lfsConfig != null) {
+					lfsUrl = lfsConfig.getString(
+							ConfigConstants.CONFIG_SECTION_LFS, remote,
+							ConfigConstants.CONFIG_KEY_URL);
+				}
+
 				// This could be done better (more precise logic), but according
 				// to https://github.com/git-lfs/git-lfs/issues/1759 git-lfs
 				// generally only supports 'origin' in an integrated workflow.
