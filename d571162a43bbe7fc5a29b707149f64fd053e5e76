@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58d51163_4c5a990b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 307158
+      },
+      "writtenOn": "2022-01-04T14:20:04Z",
+      "side": 1,
+      "message": "Would it be better if this was ZoneId?",
+      "range": {
+        "startLine": 249,
+        "startChar": 30,
+        "endLine": 249,
+        "endChar": 38
+      },
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c593950b_cb69c497",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 307158
+      },
+      "writtenOn": "2022-01-04T14:20:04Z",
+      "side": 1,
+      "message": "Maybe we could also add:\n\n  public ZoneId getZoneId() {\n    return getTimeZone().toZoneId()?\n  }",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
