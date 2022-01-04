@@ -33,7 +33,10 @@ public enum PackExt {
 	REVERSE_INDEX("rev"), //$NON-NLS-1$
 
 	/** A commit graph file extension. */
-	COMMIT_GRAPH("graph"); //$NON-NLS-1$
+	COMMIT_GRAPH("graph"), //$NON-NLS-1$
+
+	/** An object size index. */
+	OBJECT_SIZE_INDEX("objsize"); //$NON-NLS-1$
 
 	private final String ext;
 
