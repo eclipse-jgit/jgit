@@ -27,7 +27,10 @@ public enum PackExt {
 	BITMAP_INDEX("bitmap"), //$NON-NLS-1$
 
 	/** A reftable file. */
-	REFTABLE("ref"); //$NON-NLS-1$
+	REFTABLE("ref"),
+
+	/** An object size index. */
+	OBJECT_SIZE_INDEX("objsize"); //$NON-NLS-1$
 
 	private final String ext;
 
