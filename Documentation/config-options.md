@@ -99,6 +99,7 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.deltaCompression` | `true` | &#x20DE; | Whether the writer will create new deltas on the fly. `true` if the pack writer will create a new delta when either `pack.reuseDeltas` is false, or no suitable delta is available for reuse. |
 | `pack.depth` | `50` | &#x2705; | Maximum depth of delta chain set up for the pack writer. |
 | `pack.indexVersion` | `2` | &#x2705; | Pack index file format version. |
+| `pack.minBytesForObjSizeIndex` | `-1` | &#x20DE; | Minimum size of an object (inclusive, in bytes) to be included in the size index. -1 to disable the object size index. |
 | `pack.minSizePreventRacyPack` | `100 MiB` | &#x20DE; | Minimum packfile size for which we wait before opening a newly written pack to prevent its lastModified timestamp could be racy if `pack.waitPreventRacyPack` is `true`. |
 | `pack.preserveOldPacks` | `false` | &#x20DE; | Whether to preserve old packs in a preserved directory. |
 | `prunePreserved`, only via API of PackConfig | `false` | &#x20DE; | Whether to remove preserved pack files in a preserved directory. |
