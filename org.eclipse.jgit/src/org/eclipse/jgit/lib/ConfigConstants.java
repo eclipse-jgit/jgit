@@ -774,6 +774,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_WINDOW_MEMORY = "windowmemory";
 
 	/**
+	 * the "pack.minBytesForObjSizeIndex" key
+	 *
+	 * @since 6.0
+	 */
+	public static final String CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX = "minBytesForObjSizeIndex";
+
+	/**
 	 * The "feature" section
 	 *
 	 * @since 5.9
