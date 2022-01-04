@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "196bb900_dad4d7b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-04T22:02:37Z",
+      "side": 1,
+      "message": "Missing @since 6.1",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecd03443_bc6b347f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-04T22:02:37Z",
+      "side": 1,
+      "message": "Missing @since 6.1",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58d51163_4c5a990b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
         "patchSetId": 2
@@ -25,6 +59,40 @@
     },
     {
       "key": {
+        "uuid": "d17ceba7_e1709189",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-04T22:02:37Z",
+      "side": 1,
+      "message": "In new code, we usually don\u0027t use final on parameters anymore.",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f11ed010_5c7d3b0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-04T22:02:37Z",
+      "side": 1,
+      "message": "Missing @since 6.1",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c593950b_cb69c497",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
         "patchSetId": 2
@@ -36,6 +104,24 @@
       "writtenOn": "2022-01-04T14:20:04Z",
       "side": 1,
       "message": "Maybe we could also add:\n\n  public ZoneId getZoneId() {\n    return getTimeZone().toZoneId()?\n  }",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba28da93_be0f632f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-04T22:02:37Z",
+      "side": 1,
+      "message": "Why? What\u0027s the benefit? Client code could just as well do this.",
+      "parentUuid": "c593950b_cb69c497",
       "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
