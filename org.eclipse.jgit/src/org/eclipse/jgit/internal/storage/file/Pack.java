@@ -14,9 +14,11 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -110,6 +112,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private volatile PackIndex loadedIdx;
 
+	private volatile PackObjectSizeIndex loadedObjSizeIdx;
+
+	private volatile boolean attemptLoadObjSizeIdx;
+
 	private PackReverseIndex reverseIdx;
 
 	private PackBitmapIndex bitmapIdx;
@@ -197,6 +203,49 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		}
 		return idx;
 	}
+
+	private PackObjectSizeIndex objSizeIdx() throws IOException {
+		PackObjectSizeIndex sizeIdx = loadedObjSizeIdx;
+		if (sizeIdx == null && !attemptLoadObjSizeIdx) {
+			synchronized (this) {
+				sizeIdx = loadedObjSizeIdx;
+				if (sizeIdx == null) {
+					try {
+						long start = System.currentTimeMillis();
+						PackFile sizeIdxFile = packFile
+								.create(OBJECT_SIZE_INDEX);
+						if (attemptLoadObjSizeIdx || !sizeIdxFile.exists()) {
+							attemptLoadObjSizeIdx = true;
+							return null;
+						}
+						sizeIdx = PackObjectSizeIndexLoader
+								.load(new FileInputStream(
+										sizeIdxFile.getAbsoluteFile()));
+						if (LOG.isDebugEnabled()) {
+							LOG.debug(String.format(
+									"Opening obj size index %s, size %.3f MB took %d ms", //$NON-NLS-1$
+									sizeIdxFile.getAbsolutePath(),
+									Float.valueOf(
+											sizeIdxFile.length()
+													/ (1024f * 1024)),
+									Long.valueOf(System.currentTimeMillis()
+											- start)));
+						}
+
+						loadedObjSizeIdx = sizeIdx;
+					} catch (InterruptedIOException e) {
+						// don't invalidate the pack, we are interrupted from
+						// another thread
+						return null;
+					} finally {
+						attemptLoadObjSizeIdx = true;
+					}
+				}
+			}
+		}
+		return sizeIdx;
+	}
+
 	/**
 	 * Get the File object which locates this pack on disk.
 	 *
@@ -214,6 +263,65 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public PackIndex getIndex() throws IOException {
 		return idx();
+	}
+
+	/**
+	 * Get the object size index for this pack file
+	 *
+	 * @return the object size index for this pack file if it exists (null
+	 *         otherwise)
+	 * @throws IOException
+	 *             problem reading the index
+	 */
+	public boolean hasObjSizeIndex() throws IOException {
+		return objSizeIdx() != null;
+	}
+
+	/**
+	 * Number of objects in the object-size index of this pack
+	 *
+	 * @return number of objects in the index (0 if either the index is empty or
+	 *         it doesn't exist)
+	 * @throws IOException
+	 */
+	public long getObjectCountSizeIndex() throws IOException {
+		if (!hasObjSizeIndex()) {
+			return 0;
+		}
+
+		return objSizeIdx().getObjectCount();
+	}
+
+	/**
+	 * Return the size of the object from the object-size index.
+	 *
+	 * Size will be negative in a number of conditions. Caller can use the
+	 * specific value or the {@link #hasObject(AnyObjectId)} and
+	 * {@link #hasObjSizeIndex()} to find out the specific error:
+	 * <li>-1 object not found in the size index (below threshold or non-blob)
+	 * <li>-2 object not found in pack
+	 * <li>-3 no object-size index for this pack
+	 *
+	 * @param id
+	 *            object id of an object in the pack
+	 * @return size of the object from the index. Negative if object not in
+	 *         pack, pack doesn't have object-size index or object not in the
+	 *         index.
+	 * @throws IOException
+	 */
+	public long getIndexedObjectSize(AnyObjectId id) throws IOException {
+		final long offset = idx().findOffset(id);
+		if (0 < offset && !isCorrupt(offset)) {
+			return -2;
+		}
+
+		PackObjectSizeIndex sizeIdx = objSizeIdx();
+		if (sizeIdx == null) {
+			return -3;
+		}
+
+		long sz = sizeIdx.getSize(offset);
+		return sz < 0 ? -1 : sz;
 	}
 
 	/**
