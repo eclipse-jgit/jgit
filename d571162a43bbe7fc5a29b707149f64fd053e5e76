@@ -125,6 +125,24 @@
       "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33f6a92f_5057fa60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 307158
+      },
+      "writtenOn": "2022-01-05T09:04:32Z",
+      "side": 1,
+      "message": "IIUC Date + TimeZone are the old types, which are replaced by Instant + ZoneId. If we start exposing Instant now, it feels like we should also expose ZoneId?",
+      "parentUuid": "ba28da93_be0f632f",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
