@@ -15,6 +15,7 @@ package org.eclipse.jgit.pgm;
 
 import static java.lang.Integer.valueOf;
 import static java.lang.Long.valueOf;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import java.io.IOException;
@@ -116,7 +117,7 @@ class Blame extends TextBuiltin {
 
 		boolean autoAbbrev = abbrev == 0;
 		if (abbrev == 0) {
-			abbrev = db.getConfig().getInt("core", "abbrev", 7); //$NON-NLS-1$ //$NON-NLS-2$
+			abbrev = db.getConfig().getInt("core", "abbrev", OBJECT_ID_ABBREV_LENGTH); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (!showBlankBoundary) {
 			root = db.getConfig().getBoolean("blame", "blankboundary", false); //$NON-NLS-1$ //$NON-NLS-2$
