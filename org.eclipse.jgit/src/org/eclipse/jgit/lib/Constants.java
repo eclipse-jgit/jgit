@@ -41,6 +41,15 @@ public final class Constants {
 	public static final int OBJECT_ID_LENGTH = 20;
 
 	/**
+	 * The historic length of an abbreviated Git object hash. Git 2.11 changed
+	 * this static number to a dynamically calculated one that scales as the
+	 * repository grows.
+	 *
+	 * @since 6.1
+	 */
+	public static final int OBJECT_ID_ABBREV_LENGTH = 7;
+
+	/**
 	 * A Git object can be expressed as a 40 character string of hexadecimal
 	 * digits.
 	 *
