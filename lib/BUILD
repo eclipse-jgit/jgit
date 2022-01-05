@@ -277,7 +277,6 @@ java_library(
 
 java_library(
     name = "slf4j-simple",
-    testonly = 1,
     visibility = ["//visibility:public"],
     exports = ["@slf4j-simple//jar"],
 )
