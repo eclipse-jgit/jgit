@@ -10,9 +10,11 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedWriter;
@@ -108,6 +110,21 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("3747db3", describe(c2, false, true));
 			assertEquals("44579eb", describe(c3, false, true));
 			assertEquals("3e563c5", describe(c4, false, true));
+
+			assertEquals("3747db3267", describe(c2, false, true, 10));
+			assertEquals("44579ebe7f", describe(c3, false, true, 10));
+			assertEquals("3e563c5592", describe(c4, false, true, 10));
+
+			assertEquals("3e", describe(c4, false, true, 2));
+			assertEquals("3e563c55927905f21e3bc7c00a3d83a31bf4ed3a",
+					describe(c4, false, true, 40));
+
+			assertThrows(StringIndexOutOfBoundsException.class,
+					() -> describe(c4, false, true, -10));
+			assertThrows(StringIndexOutOfBoundsException.class,
+					() -> describe(c4, false, true, 1));
+			assertThrows(StringIndexOutOfBoundsException.class,
+					() -> describe(c4, false, true, 41));
 		}
 
 		// test default target
@@ -474,10 +491,15 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	private String describe(ObjectId c1, boolean longDesc, boolean always,
+			int abbrev) throws GitAPIException, IOException {
+		return git.describe().setTarget(c1).setTags(describeUseAllTags)
+				.setLong(longDesc).setAlways(always).setAbbrev(abbrev).call();
+	}
+
 	private String describe(ObjectId c1, boolean longDesc, boolean always)
 			throws GitAPIException, IOException {
-		return git.describe().setTarget(c1).setTags(describeUseAllTags)
-				.setLong(longDesc).setAlways(always).call();
+		return describe(c1, longDesc, always, OBJECT_ID_ABBREV_STRING_LENGTH);
 	}
 
 	private String describe(ObjectId c1) throws GitAPIException, IOException {
