@@ -14,9 +14,11 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -71,6 +73,18 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private static final Logger LOG = LoggerFactory.getLogger(Pack.class);
 
 	/**
+	 * The object is in the pack but not in the index (below threshold or not a
+	 * blob)
+	 */
+	public static long OBJ_SIZE_IDX_NOT_INDEXED = -1;
+
+	/** The requested object is not in the pack */
+	public static long OBJ_SIZE_IDX_NOT_IN_PACK = -2;
+
+	/** This pack doesn't have object size index */
+	public static long OBJ_SIZE_IDX_UNAVAILABLE = -3;
+
+	/**
 	 * Sorts PackFiles to be most recently created to least recently created.
 	 */
 	public static final Comparator<Pack> SORT = (a, b) -> b.packLastModified
@@ -109,6 +123,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private byte[] packChecksum;
 
 	private volatile PackIndex loadedIdx;
+
+	private volatile PackObjectSizeIndex loadedObjSizeIdx;
+
+	private volatile boolean attemptLoadObjSizeIdx;
 
 	private PackReverseIndex reverseIdx;
 
@@ -197,6 +215,49 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		}
 		return idx;
 	}
+
+	private PackObjectSizeIndex objSizeIdx() throws IOException {
+		PackObjectSizeIndex sizeIdx = loadedObjSizeIdx;
+		if (sizeIdx == null && !attemptLoadObjSizeIdx) {
+			synchronized (this) {
+				sizeIdx = loadedObjSizeIdx;
+				if (sizeIdx == null) {
+					try {
+						long start = System.currentTimeMillis();
+						PackFile sizeIdxFile = packFile
+								.create(OBJECT_SIZE_INDEX);
+						if (attemptLoadObjSizeIdx || !sizeIdxFile.exists()) {
+							attemptLoadObjSizeIdx = true;
+							return null;
+						}
+						sizeIdx = PackObjectSizeIndexLoader
+								.load(new FileInputStream(
+										sizeIdxFile.getAbsoluteFile()));
+						if (LOG.isDebugEnabled()) {
+							LOG.debug(String.format(
+									"Opening obj size index %s, size %.3f MB took %d ms", //$NON-NLS-1$
+									sizeIdxFile.getAbsolutePath(),
+									Float.valueOf(
+											sizeIdxFile.length()
+													/ (1024f * 1024)),
+									Long.valueOf(System.currentTimeMillis()
+											- start)));
+						}
+
+						loadedObjSizeIdx = sizeIdx;
+					} catch (InterruptedIOException e) {
+						// don't invalidate the pack, we are interrupted from
+						// another thread
+						return null;
+					} finally {
+						attemptLoadObjSizeIdx = true;
+					}
+				}
+			}
+		}
+		return sizeIdx;
+	}
+
 	/**
 	 * Get the File object which locates this pack on disk.
 	 *
@@ -214,6 +275,64 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public PackIndex getIndex() throws IOException {
 		return idx();
+	}
+
+	/**
+	 * Get the object size index for this pack file
+	 *
+	 * @return the object size index for this pack file if it exists (null
+	 *         otherwise)
+	 * @throws IOException
+	 *             problem reading the index
+	 */
+	public boolean hasObjSizeIndex() throws IOException {
+		return objSizeIdx() != null;
+	}
+
+	/**
+	 * Number of objects in the object-size index of this pack
+	 *
+	 * @return number of objects in the index (0 if either the index is empty or
+	 *         it doesn't exist)
+	 * @throws IOException
+	 */
+	public long getObjectCountSizeIndex() throws IOException {
+		if (!hasObjSizeIndex()) {
+			return 0;
+		}
+
+		return objSizeIdx().getObjectCount();
+	}
+
+	/**
+	 * Return the size of the object from the object-size index if available.
+	 *
+	 * If the object is in the index, this returns its size (always positive). Negative values
+	 * indicate an error:
+	 * <li>{@link #OBJ_SIZE_IDX_NOT_INDEXED} object not found in the size index (below threshold or it is not a blob)
+	 * <li>{@link #OBJ_SIZE_IDX_NOT_IN_PACK} object not found in pack
+	 * <li>{@link #OBJ_SIZE_IDX_UNAVAILABLE} no object-size index for this pack
+	 *
+	 * @param id
+	 *            object id of an object in the pack
+	 * @return size of the object from the index. Negative if object not in
+	 *         pack, pack doesn't have object-size index or object not in the
+	 *         index.
+	 * @throws IOException
+	 */
+	public long getIndexedObjectSize(AnyObjectId id) throws IOException {
+		final long offset = idx().findOffset(id);
+		if (offset < 0 || isCorrupt(offset)) {
+			return OBJ_SIZE_IDX_NOT_IN_PACK;
+		}
+
+		PackObjectSizeIndex sizeIdx = objSizeIdx();
+		if (sizeIdx == null) {
+			return OBJ_SIZE_IDX_UNAVAILABLE;
+		}
+
+		long sz = sizeIdx.getSize(offset);
+		return sz < 0 ? OBJ_SIZE_IDX_NOT_INDEXED : sz;
 	}
 
 	/**
