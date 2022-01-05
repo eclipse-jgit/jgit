@@ -73,6 +73,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -987,7 +988,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
 			NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 
-			final PackFile pack, idx;
+			PackFile pack;
 			try (PackWriter pw = new PackWriter(db)) {
 				Set<ObjectId> all = new HashSet<>();
 				for (Ref r : db.getRefDatabase().getRefs())
@@ -1002,12 +1003,22 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 				}
 				pack.setReadOnly();
 
-				idx = pack.create(PackExt.INDEX);
+				PackFile idx = pack.create(PackExt.INDEX);
 				try (OutputStream out =
 						new BufferedOutputStream(new FileOutputStream(idx))) {
 					pw.writeIndex(out);
 				}
 				idx.setReadOnly();
+
+				PackConfig pc = new PackConfig(db);
+				if (pc.getMinBytesForObjSizeIndex() >= 0) {
+					PackFile oidx = pack.create(PackExt.OBJECT_SIZE_INDEX);
+					try (OutputStream out = new BufferedOutputStream(
+							new FileOutputStream(oidx))) {
+						pw.writeObjectSizeIndex(out);
+					}
+					oidx.setReadOnly();
+				}
 			}
 
 			odb.openPack(pack);
