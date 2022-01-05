@@ -16,6 +16,8 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 /**
  * Update of a locally stored tracking branch.
  */
@@ -184,9 +186,9 @@ public class TrackingRefUpdate {
 		if (forceUpdate)
 			sb.append(" (forced)");
 		sb.append(" ");
-		sb.append(oldObjectId == null ? "" : oldObjectId.abbreviate(7).name());
+		sb.append(oldObjectId == null ? "" : oldObjectId.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name());
 		sb.append("..");
-		sb.append(newObjectId == null ? "" : newObjectId.abbreviate(7).name());
+		sb.append(newObjectId == null ? "" : newObjectId.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name());
 		sb.append("]");
 		return sb.toString();
 	}

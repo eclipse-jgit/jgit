@@ -44,6 +44,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 /**
  * A class used to execute a {@code revert} command. It has setters for all
  * supported options and arguments of this command and a {@link #call()} method
@@ -128,7 +130,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 				revWalk.parseHeaders(srcParent);
 
 				String ourName = calculateOurName(headRef);
-				String revertName = srcCommit.getId().abbreviate(7).name()
+				String revertName = srcCommit.getId().abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name()
 						+ " " + srcCommit.getShortMessage(); //$NON-NLS-1$
 
 				ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);

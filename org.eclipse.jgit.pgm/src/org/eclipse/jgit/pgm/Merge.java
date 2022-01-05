@@ -33,6 +33,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 @Command(common = true, usage = "usage_MergesTwoDevelopmentHistories")
 class Merge extends TextBuiltin {
 
@@ -144,8 +146,8 @@ class Merge extends TextBuiltin {
 			case FAST_FORWARD:
 				ObjectId oldHeadId = oldHead.getObjectId();
 				if (oldHeadId != null) {
-					String oldId = oldHeadId.abbreviate(7).name();
-					String newId = result.getNewHead().abbreviate(7).name();
+					String oldId = oldHeadId.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name();
+					String newId = result.getNewHead().abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name();
 					outw.println(MessageFormat.format(CLIText.get().updating,
 							oldId, newId));
 				}

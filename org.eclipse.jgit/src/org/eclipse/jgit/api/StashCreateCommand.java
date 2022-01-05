@@ -52,6 +52,8 @@ import org.eclipse.jgit.treewalk.filter.IndexDiffFilter;
 import org.eclipse.jgit.treewalk.filter.SkipWorkTreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 /**
  * Command class to stash changes in the working directory and index in a
  * commit.
@@ -302,7 +304,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 				builder.setParentId(headCommit);
 				builder.setTreeId(cache.writeTree(inserter));
 				builder.setMessage(MessageFormat.format(indexMessage, branch,
-						headCommit.abbreviate(7).name(),
+						headCommit.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name(),
 						headCommit.getShortMessage()));
 				ObjectId indexCommit = inserter.insert(builder);
 
@@ -319,7 +321,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 					builder.setParentIds(new ObjectId[0]);
 					builder.setTreeId(untrackedDirCache.writeTree(inserter));
 					builder.setMessage(MessageFormat.format(MSG_UNTRACKED,
-							branch, headCommit.abbreviate(7).name(),
+							branch, headCommit.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name(),
 							headCommit.getShortMessage()));
 					untrackedCommit = inserter.insert(builder);
 				}
@@ -339,7 +341,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 					builder.addParentId(untrackedCommit);
 				builder.setMessage(MessageFormat.format(
 						workingDirectoryMessage, branch,
-						headCommit.abbreviate(7).name(),
+						headCommit.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name(),
 						headCommit.getShortMessage()));
 				builder.setTreeId(cache.writeTree(inserter));
 				commitId = inserter.insert(builder);
