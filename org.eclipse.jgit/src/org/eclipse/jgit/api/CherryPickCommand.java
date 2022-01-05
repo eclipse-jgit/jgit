@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
@@ -124,7 +126,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				final RevCommit srcParent = getParentCommit(srcCommit, revWalk);
 
 				String ourName = calculateOurName(headRef);
-				String cherryPickName = srcCommit.getId().abbreviate(7).name()
+				String cherryPickName = srcCommit.getId().abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name()
 						+ " " + srcCommit.getShortMessage(); //$NON-NLS-1$
 
 				Merger merger = strategy.newMerger(repo);

@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
@@ -128,8 +130,9 @@ public class RevertCommand extends GitCommand<RevCommit> {
 				revWalk.parseHeaders(srcParent);
 
 				String ourName = calculateOurName(headRef);
-				String revertName = srcCommit.getId().abbreviate(7).name()
-						+ " " + srcCommit.getShortMessage(); //$NON-NLS-1$
+				String revertName = srcCommit.getId()
+						.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name() + " " //$NON-NLS-1$
+						+ srcCommit.getShortMessage();
 
 				ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
 				merger.setWorkingTreeIterator(new FileTreeIterator(repo));

@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,7 +78,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 */
 	public AbbreviatedObjectId abbreviate(AnyObjectId objectId)
 			throws IOException {
-		return abbreviate(objectId, 7);
+		return abbreviate(objectId, OBJECT_ID_ABBREV_STRING_LENGTH);
 	}
 
 	/**

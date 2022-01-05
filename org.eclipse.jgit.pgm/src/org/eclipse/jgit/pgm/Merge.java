@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Map;
@@ -144,8 +146,10 @@ class Merge extends TextBuiltin {
 			case FAST_FORWARD:
 				ObjectId oldHeadId = oldHead.getObjectId();
 				if (oldHeadId != null) {
-					String oldId = oldHeadId.abbreviate(7).name();
-					String newId = result.getNewHead().abbreviate(7).name();
+					String oldId = oldHeadId
+							.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name();
+					String newId = result.getNewHead()
+							.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name();
 					outw.println(MessageFormat.format(CLIText.get().updating,
 							oldId, newId));
 				}

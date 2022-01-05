@@ -18,6 +18,7 @@ import static org.eclipse.jgit.diff.DiffEntry.ChangeType.MODIFY;
 import static org.eclipse.jgit.diff.DiffEntry.ChangeType.RENAME;
 import static org.eclipse.jgit.diff.DiffEntry.Side.NEW;
 import static org.eclipse.jgit.diff.DiffEntry.Side.OLD;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
 import static org.eclipse.jgit.lib.FileMode.GITLINK;
@@ -90,7 +91,7 @@ public class DiffFormatter implements AutoCloseable {
 
 	private int context = 3;
 
-	private int abbreviationLength = 7;
+	private int abbreviationLength = OBJECT_ID_ABBREV_STRING_LENGTH;
 
 	private DiffAlgorithm diffAlgorithm;
 
