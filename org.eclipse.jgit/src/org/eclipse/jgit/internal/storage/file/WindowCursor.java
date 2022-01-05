@@ -53,6 +53,8 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	private DeltaBaseCache baseCache;
 
+	private Pack lastPack;
+
 	@Nullable
 	private final ObjectInserter createdFromInserter;
 
@@ -160,6 +162,44 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 		return sz;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public boolean isSmallerThan(AnyObjectId objectId, int typeHint, long size)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		if (!db.has(objectId)) {
+			throw new MissingObjectException(
+					AbbreviatedObjectId.fromObjectId(objectId), typeHint);
+		}
+
+		if (typeHint != Constants.OBJ_BLOB) {
+			return db.getObjectSize(this, objectId) <= size;
+		}
+
+		Pack pack = findPack(objectId);
+		if (pack == null) {
+			// Non-packed object (e.g. loose or in alternates)
+			return db.getObjectSize(this, objectId) <= size;
+		}
+
+		return pack.getIndexedObjectSize(objectId) <= size;
+	}
+
+	private Pack findPack(AnyObjectId objectId) throws IOException {
+		if (lastPack != null && lastPack.hasObject(objectId)) {
+			return lastPack;
+		}
+
+		for (Pack p : db.getPacks()) {
+			if (p.hasObject(objectId)) {
+				lastPack = p;
+				return p;
+			}
+		}
+
+		return null;
 	}
 
 	/** {@inheritDoc} */
