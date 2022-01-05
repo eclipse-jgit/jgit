@@ -10,6 +10,7 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
@@ -108,6 +109,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("3747db3", describe(c2, false, true));
 			assertEquals("44579eb", describe(c3, false, true));
 			assertEquals("3e563c5", describe(c4, false, true));
+
+			assertEquals("3747db3267", describe(c2, false, true, 10));
+			assertEquals("44579ebe7f", describe(c3, false, true, 10));
+			assertEquals("3e563c5592", describe(c4, false, true, 10));
 		}
 
 		// test default target
@@ -474,10 +479,14 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private String describe(ObjectId c1, boolean longDesc, boolean always)
+	private String describe(ObjectId c1, boolean longDesc, boolean always, int abbrev)
 			throws GitAPIException, IOException {
 		return git.describe().setTarget(c1).setTags(describeUseAllTags)
-				.setLong(longDesc).setAlways(always).call();
+				.setLong(longDesc).setAlways(always).setAbbrev(abbrev).call();
+	}
+
+	private String describe(ObjectId c1, boolean longDesc, boolean always) throws GitAPIException, IOException {
+		return describe(c1, longDesc, always, OBJECT_ID_ABBREV_STRING_LENGTH);
 	}
 
 	private String describe(ObjectId c1) throws GitAPIException, IOException {

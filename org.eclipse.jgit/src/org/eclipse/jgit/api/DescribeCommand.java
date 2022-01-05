@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
@@ -87,6 +88,11 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Whether to show a uniquely abbreviated commit hash as a fallback or not.
 	 */
 	private boolean always;
+
+	/**
+	 * The prefix length to use when abbreviating a commit hash.
+	 */
+	private int abbrev = OBJECT_ID_ABBREV_STRING_LENGTH;
 
 	/**
 	 * Constructor for DescribeCommand.
@@ -205,11 +211,25 @@ public class DescribeCommand extends GitCommand<String> {
 		return this;
 	}
 
+	/**
+	 * Sets the prefix length to use when abbreviating an object SHA-1.
+	 *
+	 * @param abbrev
+	 *            minimum length of the abbreviated string. Must be in the range
+	 *            [2, {@value Constants#OBJECT_ID_STRING_LENGTH}].
+	 * @return {@code this}
+	 * @since 6.1
+	 */
+	public DescribeCommand setAbbrev(int abbrev) {
+		this.abbrev = abbrev;
+		return this;
+	}
+
 	private String longDescription(Ref tag, int depth, ObjectId tip)
 			throws IOException {
 		return String.format(
 				"%s-%d-g%s", formatRefName(tag.getName()), //$NON-NLS-1$
-				Integer.valueOf(depth), w.getObjectReader().abbreviate(tip)
+				Integer.valueOf(depth), w.getObjectReader().abbreviate(tip, abbrev)
 						.name());
 	}
 
@@ -413,7 +433,7 @@ public class DescribeCommand extends GitCommand<String> {
 
 			// if all the nodes are dominated by all the tags, the walk stops
 			if (candidates.isEmpty()) {
-				return always ? w.getObjectReader().abbreviate(target).name() : null;
+				return always ? w.getObjectReader().abbreviate(target, abbrev).name() : null;
 			}
 
 			Candidate best = Collections.min(candidates,
