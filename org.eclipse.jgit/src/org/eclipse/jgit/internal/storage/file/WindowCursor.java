@@ -53,6 +53,8 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	private DeltaBaseCache baseCache;
 
+	private Pack lastPack;
+
 	@Nullable
 	private final ObjectInserter createdFromInserter;
 
@@ -147,9 +149,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return db.getShallowCommits();
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public long getObjectSize(AnyObjectId objectId, int typeHint)
+	private long getObjectSizeStorage(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		long sz = db.getObjectSize(this, objectId);
@@ -160,6 +160,66 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 		return sz;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public long getObjectSize(AnyObjectId objectId, int typeHint)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		// Async queue uses hint OBJ_ANY
+		if (typeHint != Constants.OBJ_BLOB) {
+			return getObjectSizeStorage(objectId, typeHint);
+		}
+
+		Pack pack = findPack(objectId);
+		if (pack == null) {
+			// Non-packed object (e.g. loose or in alternates)
+			return getObjectSizeStorage(objectId, typeHint);
+		}
+
+		long sz = pack.getIndexedObjectSize(objectId);
+		if (sz > 0) {
+			return sz;
+		}
+		return getObjectSizeStorage(objectId, typeHint);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public boolean isSmallerThan(AnyObjectId objectId, int typeHint, long size)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		if (typeHint != Constants.OBJ_BLOB) {
+			return getObjectSizeStorage(objectId, typeHint) <= size;
+		}
+
+		Pack pack = findPack(objectId);
+		if (pack == null || !pack.hasObjSizeIndex()) {
+			// Non-packed object (e.g. loose or in alternates)
+			return getObjectSizeStorage(objectId, typeHint) <= size;
+		}
+
+		long sz = pack.getIndexedObjectSize(objectId);
+		if (sz == Pack.OBJ_SIZE_IDX_NOT_IN_PACK) {
+			throw new IllegalStateException("Object should be in pack");
+		}
+		return sz <= size;
+	}
+
+	private Pack findPack(AnyObjectId objectId) throws IOException {
+		if (lastPack != null && lastPack.hasObject(objectId)) {
+			return lastPack;
+		}
+
+		for (Pack p : db.getPacks()) {
+			if (p.hasObject(objectId)) {
+				lastPack = p;
+				return p;
+			}
+		}
+
+		return null;
 	}
 
 	/** {@inheritDoc} */
