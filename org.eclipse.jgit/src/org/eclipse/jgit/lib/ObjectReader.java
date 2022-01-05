@@ -30,6 +30,8 @@ import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 /**
  * Reads an {@link org.eclipse.jgit.lib.ObjectDatabase} for a single thread.
  * <p>
@@ -76,7 +78,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 */
 	public AbbreviatedObjectId abbreviate(AnyObjectId objectId)
 			throws IOException {
-		return abbreviate(objectId, 7);
+		return abbreviate(objectId, OBJECT_ID_ABBREV_STRING_LENGTH);
 	}
 
 	/**
