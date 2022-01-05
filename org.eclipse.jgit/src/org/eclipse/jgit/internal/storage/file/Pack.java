@@ -17,9 +17,11 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -126,6 +128,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private Optionally<PackReverseIndex> reverseIdx = Optionally.empty();
 
+	private volatile PackObjectSizeIndex loadedObjSizeIdx;
+
+	private volatile boolean attemptLoadObjSizeIdx;
+
 	private Optionally<PackBitmapIndex> bitmapIdx = Optionally.empty();
 
 	/**
@@ -210,6 +216,48 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
+	private PackObjectSizeIndex objectSizeIndex() throws IOException {
+		PackObjectSizeIndex sizeIdx = loadedObjSizeIdx;
+		if (sizeIdx == null && !attemptLoadObjSizeIdx) {
+			synchronized (this) {
+				sizeIdx = loadedObjSizeIdx;
+				if (sizeIdx == null) {
+					try {
+						long start = System.currentTimeMillis();
+						PackFile sizeIdxFile = packFile
+								.create(OBJECT_SIZE_INDEX);
+						if (attemptLoadObjSizeIdx || !sizeIdxFile.exists()) {
+							attemptLoadObjSizeIdx = true;
+							return null;
+						}
+						sizeIdx = PackObjectSizeIndexLoader
+								.load(new FileInputStream(
+										sizeIdxFile.getAbsoluteFile()));
+						if (LOG.isDebugEnabled()) {
+							LOG.debug(String.format(
+									"Opening obj size index %s, size %.3f MB took %d ms", //$NON-NLS-1$
+									sizeIdxFile.getAbsolutePath(),
+									Float.valueOf(
+											sizeIdxFile.length()
+													/ (1024f * 1024)),
+									Long.valueOf(System.currentTimeMillis()
+											- start)));
+						}
+
+						loadedObjSizeIdx = sizeIdx;
+					} catch (InterruptedIOException e) {
+						// don't invalidate the pack, we are interrupted from
+						// another thread
+						return null;
+					} finally {
+						attemptLoadObjSizeIdx = true;
+					}
+				}
+			}
+		}
+		return sizeIdx;
+	}
+
 	/**
 	 * Get the File object which locates this pack on disk.
 	 *
@@ -228,6 +276,62 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public PackIndex getIndex() throws IOException {
 		return idx();
+	}
+
+	/**
+	 * Get the object size index for this pack file
+	 *
+	 * @return the object size index for this pack file if it exists (null
+	 *         otherwise)
+	 * @throws IOException
+	 *             problem reading the index
+	 */
+	public boolean hasObjectSizeIndex() throws IOException {
+		return objectSizeIndex() != null;
+	}
+
+	/**
+	 * Number of objects in the object-size index of this pack
+	 *
+	 * @return number of objects in the index (0 if either the index is empty or
+	 *         it doesn't exist)
+	 * @throws IOException
+	 *             if an IO error occurred while reading the index
+	 */
+	public long getObjectSizeIndexCount() throws IOException {
+		if (!hasObjectSizeIndex()) {
+			return 0;
+		}
+
+		return objectSizeIndex().getObjectCount();
+	}
+
+	/**
+	 * Return the size of the object from the object-size index.
+	 *
+	 * Caller MUST check that the pack has object-size index
+	 * ({@link #hasObjectSizeIndex()}) and that the pack contains the object.
+	 *
+	 * @param id
+	 *            object id of an object in the pack
+	 * @return size of the object from the index. Negative if the object is not
+	 *         in the index.
+	 * @throws IOException
+	 *             if an IO error occurred while reading the index
+	 */
+	public long getIndexedObjectSize(AnyObjectId id) throws IOException {
+		int idxPos = idx().findPosition(id);
+		if (idxPos < 0) {
+			return -1;
+		}
+
+		PackObjectSizeIndex sizeIdx = objectSizeIndex();
+		if (sizeIdx == null) {
+			throw new IllegalStateException(
+					"Asking indexed size from a pack without object size index"); //$NON-NLS-1$
+		}
+
+		return sizeIdx.getSize(idxPos);
 	}
 
 	/**
