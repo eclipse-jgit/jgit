@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba8439f8_1f99a16a",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-06T08:32:32Z",
+      "side": 1,
+      "message": "Spurious empty line",
+      "revId": "08e04266b5b097704976075998cbe49ac277810f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a6ff9b_93893cc7",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-06T08:32:32Z",
+      "side": 1,
+      "message": "Spurious empty line",
+      "revId": "08e04266b5b097704976075998cbe49ac277810f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5afadf65_2e29bf7f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-06T08:32:32Z",
+      "side": 1,
+      "message": "Convention is to use ALL_CAPS for \"static final\" things. Please rename to \"LOG\". (I know it\u0027s not done 100% consistently in JGit; some old code uses lower-case. But usually we use upper case.)",
+      "range": {
+        "startLine": 64,
+        "startChar": 29,
+        "endLine": 64,
+        "endChar": 32
+      },
+      "revId": "08e04266b5b097704976075998cbe49ac277810f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec7cb1f_81202261",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-06T08:32:32Z",
+      "side": 1,
+      "message": "Is it really correct to continue after a ConfigInvalidException? Wouldn\u0027t it be better to error out?\n\nOr would that lead to problems when cloning? (I\u0027m thinking: invalid .lfsonfig is committed to the repo, repo contains LFS objects, then the repo is cloned. During cloning, checkout after fetch would either checkout the broken .lfsconfig and then try to use that when checking out the LFS object, or find the broken .lfsconfig in HEAD. If we error out, the clone would fail?)\n\nHow does this work when switching branches? Currently checked out branch has a .lfsconfig with url X. Now we check out branch \"foo\", which has .lfsconfig pointing to Y. Which URL is used to check out LFS objects? (What if the LFS object is named \".a\"? If it is named \".m\"? Difference being that in git traversal .a comes before .lfsconfig, and .m comes after.)",
+      "revId": "08e04266b5b097704976075998cbe49ac277810f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d279e0ae_6dfaf4a8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-06T08:32:32Z",
+      "side": 1,
+      "message": "Please start variable with a lower-case character. \"entry\".",
+      "range": {
+        "startLine": 211,
+        "startChar": 18,
+        "endLine": 211,
+        "endChar": 23
+      },
+      "revId": "08e04266b5b097704976075998cbe49ac277810f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2206b991_dd7196f5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-06T08:32:32Z",
+      "side": 1,
+      "message": "Missing @since 6.1",
+      "revId": "08e04266b5b097704976075998cbe49ac277810f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
