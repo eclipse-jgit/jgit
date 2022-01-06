@@ -107,6 +107,32 @@ public class ApacheSshTest extends SshTestBase {
 				"IdentityFile " + privateKey1.getAbsolutePath());
 	}
 
+	/**
+	 * Test for SSHD-1231. If authentication is attempted first with an RSA key,
+	 * which is rejected, and then with some other key type (here ed25519),
+	 * authentication fails in bug SSHD-1231.
+	 *
+	 * @throws Exception
+	 *             on errors
+	 * @see <a href=
+	 *      "https://issues.apache.org/jira/browse/SSHD-1231">SSHD-1231</a>
+	 */
+	@Test
+	public void testWrongKeyFirst() throws Exception {
+		File userKey = new File(getTemporaryDirectory(), "userkey");
+		copyTestResource("id_ed25519", userKey);
+		File publicKey = new File(getTemporaryDirectory(), "userkey.pub");
+		copyTestResource("id_ed25519.pub", publicKey);
+		server.setTestUserPublicKey(publicKey.toPath());
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath(), // RSA
+				"IdentityFile " + userKey.getAbsolutePath());
+	}
+
 	@Test
 	public void testHashedKnownHosts() throws Exception {
 		assertTrue("Failed to delete known_hosts", knownHosts.delete());
