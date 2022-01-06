@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de3c7d84_3305f200",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-06T09:54:05Z",
+      "side": 1,
+      "message": "With content assist, long names are not a big problem, and abbreviating abbreviation is probably taking abbreviating too far :-) How about \"setOidOutputLength\"?",
+      "range": {
+        "startLine": 223,
+        "startChar": 24,
+        "endLine": 223,
+        "endChar": 33
+      },
+      "revId": "a516234c9622953224f5bd71f9bf4e59900a87b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c8a1f3_15bebed9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-06T09:54:05Z",
+      "side": 1,
+      "message": "Validate the constraint 2 \u003c\u003d abbrev \u003c\u003d Constants#OBJECT_ID_STRING_LENGTH] and throw IllegalArgumentException if violated? At least the lower bound should be checked; the upper bound might be different with SHA256 hashes (which JGit doesn\u0027t support yet)?",
+      "revId": "a516234c9622953224f5bd71f9bf4e59900a87b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
