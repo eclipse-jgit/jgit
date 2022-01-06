@@ -16,6 +16,24 @@
       "revId": "a2f2a644a2ce25c6327c97f6619c182ebb6ae760",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27e5c104_0fb3b68a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 23125
+      },
+      "writtenOn": "2022-01-06T10:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e477379_e13dd2b6",
+      "revId": "a2f2a644a2ce25c6327c97f6619c182ebb6ae760",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
