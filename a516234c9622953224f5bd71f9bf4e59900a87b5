@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4c082a2c_1bb5deac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 23125
+      },
+      "writtenOn": "2022-01-06T10:12:21Z",
+      "side": 1,
+      "message": "With the `DescribeCommand` resembling `git describe`, my goal was not to abbreviate the word \"abbreviate\", but to resemble cgit\u0027s `--abbrev` command line option (just like `setAlways` resembles `--always`). With that in mind I\u0027d prefer to keep the current name.",
+      "parentUuid": "de3c7d84_3305f200",
+      "range": {
+        "startLine": 223,
+        "startChar": 24,
+        "endLine": 223,
+        "endChar": 33
+      },
+      "revId": "a516234c9622953224f5bd71f9bf4e59900a87b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98c8a1f3_15bebed9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2022-01-06T09:54:05Z",
       "side": 1,
       "message": "Validate the constraint 2 \u003c\u003d abbrev \u003c\u003d Constants#OBJECT_ID_STRING_LENGTH] and throw IllegalArgumentException if violated? At least the lower bound should be checked; the upper bound might be different with SHA256 hashes (which JGit doesn\u0027t support yet)?",
+      "revId": "a516234c9622953224f5bd71f9bf4e59900a87b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bf698c7_c22d6cec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 23125
+      },
+      "writtenOn": "2022-01-06T10:12:21Z",
+      "side": 1,
+      "message": "Such a check is already implicitly done by the called `abbreviate` function, and I did not want to repeat similar code here.",
+      "parentUuid": "98c8a1f3_15bebed9",
       "revId": "a516234c9622953224f5bd71f9bf4e59900a87b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
