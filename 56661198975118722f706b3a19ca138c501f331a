@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "575ccda6_b83ad7b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-07T00:22:01Z",
+      "side": 1,
+      "message": "Why \"maybe\" in the name? It reports the event. If conf disables it, is not the problem of the caller (thinking of it like a logging call).\n\n\"Loaded\" is misleading, no? Because if there is a cache hit, nothing gets really loaded (?). What about \"reportIndexRequest\" and then the \"cacheHit\" tells if it was in cache of was read from storage. The other method would be \"reportIndexEviction\".",
+      "revId": "56661198975118722f706b3a19ca138c501f331a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
