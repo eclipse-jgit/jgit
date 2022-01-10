@@ -1,34 +1,16 @@
 load(
     "@bazel_tools//tools/jdk:default_java_toolchain.bzl",
-    "JDK9_JVM_OPTS",
     "default_java_toolchain",
 )
 load("@rules_java//java:defs.bzl", "java_package_configuration")
 
-JDK11_JVM_OPTS = [
-    "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
-    "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
-    "--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-    "--patch-module=java.compiler=$(location @bazel_tools//tools/jdk:java_compiler_jar)",
-    "--patch-module=jdk.compiler=$(location @bazel_tools//tools/jdk:jdk_compiler_jar)",
-    "--add-opens=java.base/java.nio=ALL-UNNAMED",
-    "--add-opens=java.base/java.lang=ALL-UNNAMED",
-]
-
 default_java_toolchain(
     name = "error_prone_warnings_toolchain",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
-    jvm_opts = JDK11_JVM_OPTS,
-    source_version = "11",
-    target_version = "11",
     package_configuration = [
         ":error_prone",
     ],
+    source_version = "11",
+    target_version = "11",
     visibility = ["//visibility:public"],
 )
 
