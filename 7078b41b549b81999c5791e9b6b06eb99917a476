@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb972d2b_0d7ce0e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-10T20:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4cf107e_8763c201",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 57
+      },
+      "revId": "7078b41b549b81999c5791e9b6b06eb99917a476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65941c8e_6e47042c",
         "filename": "WORKSPACE",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7a28b67a_2667f688",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-10T20:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65941c8e_6e47042c",
+      "revId": "7078b41b549b81999c5791e9b6b06eb99917a476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4191727_8088661f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/diffmergetool/ExternalToolTest.java",
         "patchSetId": 3
@@ -56,6 +98,24 @@
       "revId": "7078b41b549b81999c5791e9b6b06eb99917a476",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7e9b57f_f453a675",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/diffmergetool/ExternalToolTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-10T20:47:06Z",
+      "side": 1,
+      "message": "Because this class ends with \"Test\"-suffix, but is abstract class and doesn\u0027t have any tests. Found a better alternative and renamed it to TestCase-suffix, in its own change. Done.",
+      "parentUuid": "c4191727_8088661f",
+      "revId": "7078b41b549b81999c5791e9b6b06eb99917a476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
