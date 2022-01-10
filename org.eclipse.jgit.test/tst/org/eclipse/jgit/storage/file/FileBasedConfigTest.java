@@ -276,7 +276,7 @@ public class FileBasedConfigTest {
 			throws IOException {
 		AtomicBoolean userConfigTimeRead = new AtomicBoolean(false);
 
-		Path userConfigFile = createFile(CONTENT1.getBytes(), "home");
+		Path userConfigFile = createFile(CONTENT1.getBytes(UTF_8), "home");
 		mockSystemReader.setUserGitConfig(
 				new FileBasedConfig(userConfigFile.toFile(), FS.DETECTED) {
 
@@ -289,7 +289,7 @@ public class FileBasedConfigTest {
 					}
 				});
 
-		Path file = createFile(CONTENT2.getBytes(), "repo");
+		Path file = createFile(CONTENT2.getBytes(UTF_8), "repo");
 		FileBasedConfig fileBasedConfig = new FileBasedConfig(file.toFile(),
 				FS.DETECTED);
 		fileBasedConfig.save();
