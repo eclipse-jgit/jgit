@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import java.io.BufferedOutputStream;
@@ -188,7 +189,7 @@ class DiffTool extends TextBuiltin {
 		outw.println(MessageFormat.format(CLIText.get().diffToolLaunch,
 				fileIndex, fileCount, fileName, toolNamePrompt));
 		outw.flush();
-		BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+		BufferedReader br = new BufferedReader(new InputStreamReader(ins, UTF_8));
 		String line = null;
 		if ((line = br.readLine()) != null) {
 			if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
