@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4cf107e_8763c201",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-10T17:56:34Z",
+      "side": 1,
+      "message": "can we split this into separate changes preceding this change ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 57
+      },
+      "revId": "7078b41b549b81999c5791e9b6b06eb99917a476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65941c8e_6e47042c",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-10T17:56:34Z",
+      "side": 1,
+      "message": "this is a breaking change, we can only do this in next major release 7.0\n\nlooks like this is unrelated and you already pushed another change for bumping to jakarta servlet which should be moved to the \"next\" branch which is aiming at jgit 7.0",
+      "revId": "7078b41b549b81999c5791e9b6b06eb99917a476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4191727_8088661f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/diffmergetool/ExternalToolTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-10T17:56:34Z",
+      "side": 1,
+      "message": "why is this ignored ?",
+      "revId": "7078b41b549b81999c5791e9b6b06eb99917a476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
