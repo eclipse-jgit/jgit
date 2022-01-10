@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.Future;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -602,7 +603,7 @@ public class FileRepository extends Repository {
 		gc.setAuto(true);
 		gc.setBackground(shouldAutoDetach());
 		try {
-			gc.gc();
+			Future<?> unusedFuture = gc.gc();
 		} catch (ParseException | IOException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		}
