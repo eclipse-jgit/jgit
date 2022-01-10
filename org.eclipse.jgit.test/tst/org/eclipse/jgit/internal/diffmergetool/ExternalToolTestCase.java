@@ -22,7 +22,7 @@ import org.junit.Before;
 /**
  * Base test case for external merge and diff tool tests.
  */
-public abstract class ExternalToolTest extends RepositoryTestCase {
+public abstract class ExternalToolTestCase extends RepositoryTestCase {
 
 	protected static final String DEFAULT_CONTENT = "line1";
 

@@ -30,7 +30,7 @@ import org.junit.Test;
 /**
  * Testing external diff tools.
  */
-public class ExternalDiffToolTest extends ExternalToolTest {
+public class ExternalDiffToolTest extends ExternalToolTestCase {
 
 	@Test
 	public void testToolNames() {
