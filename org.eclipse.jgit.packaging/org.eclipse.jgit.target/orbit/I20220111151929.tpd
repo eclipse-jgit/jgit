@@ -1,9 +1,9 @@
-target "I20220105095044" with source configurePhase
+target "I20220111151929" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/I20220105095044/repository" {
-	com.google.gson [2.8.8.v20211029-0838,2.8.8.v20211029-0838]
-	com.google.gson.source [2.8.8.v20211029-0838,2.8.8.v20211029-0838]
+location "https://download.eclipse.org/tools/orbit/downloads/drops/I20220111151929/repository" {
+	com.google.gson [2.8.9.v20220111-1409,2.8.9.v20220111-1409]
+	com.google.gson.source [2.8.9.v20220111-1409,2.8.9.v20220111-1409]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
 	com.jcraft.jsch.source [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
 	com.jcraft.jzlib [1.1.1.v201205102305,1.1.1.v201205102305]
@@ -38,14 +38,14 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/I202201050950
 	org.apache.sshd.sftp.source [2.8.0.v20211227-1750,2.8.0.v20211227-1750]
 	org.assertj [3.20.2.v20210706-1104,3.20.2.v20210706-1104]
 	org.assertj.source [3.20.2.v20210706-1104,3.20.2.v20210706-1104]
-	org.bouncycastle.bcpg [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
-	org.bouncycastle.bcpg.source [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
-	org.bouncycastle.bcpkix [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
-	org.bouncycastle.bcpkix.source [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
-	org.bouncycastle.bcprov [1.69.0.v20210923-1401,1.69.0.v20210923-1401]
-	org.bouncycastle.bcprov.source [1.69.0.v20210923-1401,1.69.0.v20210923-1401]
-	org.bouncycastle.bcutil [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
-	org.bouncycastle.bcutil.source [1.69.0.v20210713-1924,1.69.0.v20210713-1924]
+	org.bouncycastle.bcpg [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcpg.source [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcpkix [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcpkix.source [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcprov [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcprov.source [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcutil [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcutil.source [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
 	org.hamcrest [2.2.0.v20210711-0821,2.2.0.v20210711-0821]
 	org.hamcrest.source [2.2.0.v20210711-0821,2.2.0.v20210711-0821]
 	org.hamcrest.core [1.3.0.v20180420-1519,1.3.0.v20180420-1519]
