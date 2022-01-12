@@ -160,7 +160,7 @@
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.33</args4j-version>
     <commons-compress-version>1.21</commons-compress-version>
-    <osgi-core-version>4.3.1</osgi-core-version>
+    <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>4.0.0</servlet-api-version>
     <jetty-version>10.0.6</jetty-version>
     <japicmp-version>0.15.3</japicmp-version>
