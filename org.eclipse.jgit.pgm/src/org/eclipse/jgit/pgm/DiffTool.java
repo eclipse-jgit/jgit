@@ -16,6 +16,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
@@ -188,7 +189,8 @@ class DiffTool extends TextBuiltin {
 		outw.println(MessageFormat.format(CLIText.get().diffToolLaunch,
 				fileIndex, fileCount, fileName, toolNamePrompt));
 		outw.flush();
-		BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+		BufferedReader br = new BufferedReader(
+				new InputStreamReader(ins, StandardCharsets.UTF_8));
 		String line = null;
 		if ((line = br.readLine()) != null) {
 			if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
