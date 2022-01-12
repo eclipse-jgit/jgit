@@ -16,6 +16,24 @@
       "revId": "56661198975118722f706b3a19ca138c501f331a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dff5c65_d340de2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2022-01-12T00:58:53Z",
+      "side": 1,
+      "message": "Good points. I have renamed to reportIndexRequested and reportIndexEvicted.",
+      "parentUuid": "575ccda6_b83ad7b1",
+      "revId": "56661198975118722f706b3a19ca138c501f331a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
