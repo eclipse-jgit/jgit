@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -594,6 +595,7 @@ public class FileRepository extends Repository {
 	}
 
 	/** {@inheritDoc} */
+	@SuppressWarnings("unused")
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
 		GC gc = new GC(this);
@@ -602,8 +604,9 @@ public class FileRepository extends Repository {
 		gc.setAuto(true);
 		gc.setBackground(shouldAutoDetach());
 		try {
-			gc.gc();
-		} catch (ParseException | IOException e) {
+			gc.gc().get();
+		} catch (ParseException | IOException | InterruptedException
+				| ExecutionException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		}
 	}
