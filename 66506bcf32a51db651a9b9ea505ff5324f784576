@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "439ae777_6cd6ab91",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/RecordingLogger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-13T05:19:52Z",
+      "side": 1,
+      "message": "I fixed it differently in change 189448, I am fine with your version.",
+      "revId": "66506bcf32a51db651a9b9ea505ff5324f784576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
