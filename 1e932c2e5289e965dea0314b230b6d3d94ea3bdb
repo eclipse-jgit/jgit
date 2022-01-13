@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76db76e_4fb626b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-13T05:18:00Z",
+      "side": 0,
+      "message": "I uploaded another change and added new unusedVariable, see change 189450.",
+      "range": {
+        "startLine": 605,
+        "startChar": 3,
+        "endLine": 605,
+        "endChar": 11
+      },
+      "revId": "1e932c2e5289e965dea0314b230b6d3d94ea3bdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
