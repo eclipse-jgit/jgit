@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28ac2214_4d9b84e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-01-13T10:01:03Z",
+      "side": 1,
+      "message": "We typically use the past tense for how the code behaved before this change and the imperative form to describe what this change does and why.\n\nThis should then be \"The fetch of a single orphan ref did not stop ...\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9af14be1ba008146f1dc555567051834d75c78dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eaef0fa_927c078c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-01-13T10:01:03Z",
+      "side": 1,
+      "message": "Can you also describe in the commit message what you have done and how that is resolving the issue described?",
+      "revId": "9af14be1ba008146f1dc555567051834d75c78dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
