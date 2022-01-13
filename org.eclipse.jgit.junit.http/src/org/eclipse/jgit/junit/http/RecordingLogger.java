@@ -180,11 +180,15 @@ public class RecordingLogger extends MarkerIgnoringBase {
 
 	@Override
 	public void warn(String format, Object arg) {
-		warn(format, Collections.singleton(arg));
+		addWarnings(format, Collections.singleton(arg));
 	}
 
 	@Override
 	public void warn(String format, Object... arguments) {
+		addWarnings(format, arguments);
+	}
+
+	private void addWarnings(String format, Object... arguments) {
 		synchronized (warnings) {
 			int i = 0;
 			int index = format.indexOf("{}");

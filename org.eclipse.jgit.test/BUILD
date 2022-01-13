@@ -42,6 +42,7 @@ DATA = [
 EXCLUDED = [
     PKG + "api/SecurityManagerTest.java",
     PKG + "api/SecurityManagerMissingPermissionsTest.java",
+    PKG + "lib/CommitTemplateConfigTest.java",
 ]
 
 tests(tests = glob(
