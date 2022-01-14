@@ -1,0 +1,266 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e6c7c93_babbf65f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "Maybe you can assert that the header is there? I guess the reader later will check that the output is valid.",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "840e212b_d9aac026",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "Could this be more concrete? what is custom about it?\n\ne.g. \"An OutputStream that keeps a digest and checks every N bytes for cancellation\"",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ea22aa_ce2b9150",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "It seems the only CommitGraph specific bit here is writing the header and that fits better in the writer... should this be called \"DigestOutputStream\"? or \"CancellableDigestOutputStream\"?",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b25c15e_4c1b61ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "Could you add a unit test? \n\nIt should check that the cancellation is called at the expected times.",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03e5432f_0f45c581",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "Why this value? A comment in the code would help.",
+      "range": {
+        "startLine": 30,
+        "startChar": 63,
+        "endLine": 30,
+        "endChar": 73
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e880bb83_1ef05e21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "If this is incrementing the count, shouldn\u0027t it also check if it is cancelled?",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38a0108d_fd0f2e65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "I find this logic hard to follow (or I misunderstood the intention of this code).\n\nMaybe \"count\" could become \"bytesSinceLastCheck\", and then you just need to check if bytesSinceLastCheck \u003e BYTES_TO_WRITE and reset accordingly?",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65aff0a1_31761722",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "This functionality seems to be a CommitGraphWriter concern (not part of an output stream).",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4286412_3387705f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "Is there any value in this wrapper? the caller of this method can probably update it itself (it is never used in this class).",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e294d1ae_cc14aa83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "ObjectWalk goes into the commits to browse the trees and all following objects... is that really needed here? I always assumed that CommitGraph is only for commits. If so RevWalk should be enough (and probably more efficient).",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfbeee51_5539e954",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "Nit: Not sure if we have a style guide about this, but I think we usually put getters/setters after the constructors (so the public API is at the top?).",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83fd7c2a_cd1be252",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "Do you need to keep this in two lists? \n\nIIUC commitDataList is the unsorted list, and commitDataSortedByName is the list sorted. Could we create the commitDataSortedByName directly from commitDataMap.iterator() when needed?\n\nAlso commitDataSortByName() seems to be called only once, do we need to keep the sorted list cached?",
+      "range": {
+        "startLine": 515,
+        "startChar": 2,
+        "endLine": 515,
+        "endChar": 16
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8876844_d56fe8b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ObjectToCommitData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "This is always going to be a RevCommit, right? If so the \"Object\" in the name is misleading.\n\nMaybe \"GraphCommit\" or \"GraphCommitNode\"? (just suggestions, feel free to choose something else).",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "821d1131_c92f2312",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-14T19:01:51Z",
+      "side": 1,
+      "message": "If I want to use this API, where do I get the graphPos? I don\u0027t see any method to get it and is not in the CommitData.",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
