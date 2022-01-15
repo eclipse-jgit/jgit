@@ -182,6 +182,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_TAG_SECTION = "tag";
 
 	/**
+	 * The "cleanup" key
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_CLEANUP = "cleanup";
+
+	/**
 	 * The "gpgSign" key
 	 *
 	 * @since 5.2
