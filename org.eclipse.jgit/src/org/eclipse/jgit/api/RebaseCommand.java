@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
@@ -52,6 +53,8 @@ import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitConfig;
+import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -205,6 +208,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private InteractiveHandler interactiveHandler;
 
+	private CommitConfig commitConfig;
+
 	private boolean stopAfterInitialization = false;
 
 	private RevCommit newHead;
@@ -246,6 +251,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		lastStepWasForward = false;
 		checkCallable();
 		checkParameters();
+		commitConfig = repo.getConfig().get(CommitConfig.KEY);
 		try {
 			switch (operation) {
 			case ABORT:
@@ -441,8 +447,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return null; // continue rebase process on pick command
 		case REWORD:
 			String oldMessage = commitToPick.getFullMessage();
-			String newMessage = interactiveHandler
-					.modifyCommitMessage(oldMessage);
+			CleanupMode mode = commitConfig.resolve(CleanupMode.DEFAULT, true);
+			String newMessage = editCommitMessage(oldMessage, mode);
 			try (Git git = new Git(repo)) {
 				newHead = git.commit().setMessage(newMessage).setAmend(true)
 						.setNoVerify(true).call();
@@ -469,6 +475,25 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					messageFixupFile, messageSquashFile);
 		}
 		return null;
+	}
+
+	private String editCommitMessage(String message,
+			@NonNull CleanupMode mode) {
+		String newMessage;
+		CommitConfig.CleanupMode cleanup;
+		if (interactiveHandler instanceof InteractiveHandler2) {
+			InteractiveHandler2.ModifyResult modification = ((InteractiveHandler2) interactiveHandler)
+					.editCommitMessage(message, mode, '#');
+			newMessage = modification.getMessage();
+			cleanup = modification.getCleanupMode();
+			if (CleanupMode.DEFAULT.equals(cleanup)) {
+				cleanup = mode;
+			}
+		} else {
+			newMessage = interactiveHandler.modifyCommitMessage(message);
+			cleanup = CommitConfig.CleanupMode.STRIP;
+		}
+		return CommitConfig.cleanText(newMessage, cleanup, '#');
 	}
 
 	private RebaseResult cherryPickCommit(RevCommit commitToPick)
@@ -767,11 +792,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					&& (nextStep.getAction() != Action.SQUASH))) {
 				// this is the last step in this sequence
 				if (sequenceContainsSquash) {
-					commitMessage = interactiveHandler
-							.modifyCommitMessage(commitMessage);
+					commitMessage = editCommitMessage(commitMessage,
+							CleanupMode.STRIP);
+				} else {
+					commitMessage = CommitConfig.cleanText(commitMessage,
+							CleanupMode.STRIP, '#');
 				}
 				retNewHead = git.commit()
-						.setMessage(stripCommentLines(commitMessage))
+						.setMessage(commitMessage)
 						.setAmend(true).setNoVerify(true).call();
 				rebaseState.getFile(MESSAGE_SQUASH).delete();
 				rebaseState.getFile(MESSAGE_FIXUP).delete();
@@ -783,21 +811,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 		}
 		return retNewHead;
-	}
-
-	private static String stripCommentLines(String commitMessage) {
-		StringBuilder result = new StringBuilder();
-		for (String line : commitMessage.split("\n")) { //$NON-NLS-1$
-			if (!line.trim().startsWith("#")) //$NON-NLS-1$
-				result.append(line).append("\n"); //$NON-NLS-1$
-		}
-		if (!commitMessage.endsWith("\n")) { //$NON-NLS-1$
-			int bufferSize = result.length();
-			if (bufferSize > 0 && result.charAt(bufferSize - 1) == '\n') {
-				result.deleteCharAt(bufferSize - 1);
-			}
-		}
-		return result.toString();
 	}
 
 	@SuppressWarnings("nls")
@@ -1625,26 +1638,96 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	/**
-	 * Allows configure rebase interactive process and modify commit message
+	 * Allows to configure the interactive rebase process steps and to modify
+	 * commit messages.
 	 */
 	public interface InteractiveHandler {
+
 		/**
-		 * Given list of {@code steps} should be modified according to user
-		 * rebase configuration
+		 * Callback API to modify the initial list of interactive rebase steps.
+		 *
 		 * @param steps
-		 *            initial configuration of rebase interactive
+		 *            initial configuration of interactive rebase
 		 */
 		void prepareSteps(List<RebaseTodoLine> steps);
 
 		/**
-		 * Used for editing commit message on REWORD
+		 * Used for editing commit message on REWORD or SQUASH.
 		 *
-		 * @param commit
+		 * @param message
+		 *            existing commit message
 		 * @return new commit message
 		 */
-		String modifyCommitMessage(String commit);
+		String modifyCommitMessage(String message);
 	}
 
+	/**
+	 * Extends {@link InteractiveHandler} with an enhanced callback for editing
+	 * commit messages.
+	 *
+	 * @since 6.1
+	 */
+	public interface InteractiveHandler2 extends InteractiveHandler {
+
+		/**
+		 * Callback API for editing a commit message on REWORD or SQUASH.
+		 * <p>
+		 * The callback gets the comment character currently set, and the
+		 * clean-up mode. It can use this information when presenting the
+		 * message to the user, and it also has the possibility to clean the
+		 * message itself (in which case the returned {@link ModifyResult}
+		 * should have {@link CleanupMode#VERBATIM} set lest JGit cleans the
+		 * message again). It can also override the initial clean-up mode by
+		 * returning clean-up mode other than {@link CleanupMode#DEFAULT}. If it
+		 * does return {@code DEFAULT}, the passed-in {@code mode} will be
+		 * applied.
+		 * </p>
+		 *
+		 * @param message
+		 *            existing commit message
+		 * @param mode
+		 *            {@link CleanupMode} currently set
+		 * @param commentChar
+		 *            comment character used
+		 * @return a {@link ModifyResult}
+		 */
+		@NonNull
+		ModifyResult editCommitMessage(@NonNull String message,
+				@NonNull CleanupMode mode, char commentChar);
+
+		@Override
+		default String modifyCommitMessage(String message) {
+			// Should actually not be called; but do something reasonable anyway
+			ModifyResult result = editCommitMessage(
+					message == null ? "" : message, CleanupMode.STRIP, //$NON-NLS-1$
+					'#');
+			return result.getMessage();
+		}
+
+		/**
+		 * Describes the result of editing a commit message: the new message,
+		 * and how it should be cleaned.
+		 */
+		interface ModifyResult {
+
+			/**
+			 * Retrieves the new commit message.
+			 *
+			 * @return the message
+			 */
+			@NonNull
+			String getMessage();
+
+			/**
+			 * Tells how the message returned by {@link #getMessage()} should be
+			 * cleaned.
+			 *
+			 * @return the {@link CleanupMode}
+			 */
+			@NonNull
+			CleanupMode getCleanupMode();
+		}
+	}
 
 	PersonIdent parseAuthor(byte[] raw) {
 		if (raw.length == 0)
