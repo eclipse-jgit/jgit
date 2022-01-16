@@ -183,7 +183,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					if (unmergedPaths != null) {
 						message = new MergeMessageFormatter()
 							.formatWithConflicts(srcCommit.getFullMessage(),
-										unmergedPaths);
+										unmergedPaths, '#');
 					} else {
 						message = srcCommit.getFullMessage();
 					}

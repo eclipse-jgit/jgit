@@ -232,7 +232,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
 			assertEquals("Revert \"" + sideCommit.getShortMessage()
 					+ "\"\n\nThis reverts commit " + sideCommit.getId().getName()
-					+ ".\n\nConflicts:\n\ta\n",
+					+ ".\n\n# Conflicts:\n#\ta\n",
 					db.readMergeCommitMsg());
 			assertTrue(new File(db.getDirectory(), Constants.REVERT_HEAD)
 					.exists());
