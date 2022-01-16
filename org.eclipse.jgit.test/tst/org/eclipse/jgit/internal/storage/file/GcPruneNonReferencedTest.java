@@ -24,6 +24,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class GcPruneNonReferencedTest extends GcTestCase {
@@ -57,8 +58,11 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 
 	@Test
 	public void nonReferencedObjects_onlyExpiredPruned() throws Exception {
+		long timestampResolutionMillis = FS
+				.getFileStoreAttributes(repo.getDirectory().toPath())
+				.getFsTimestampResolution().toMillis();
 		RevBlob a = tr.blob("a");
-		gc.setExpire(new Date(lastModified(a) + 1));
+		gc.setExpire(new Date(lastModified(a) + timestampResolutionMillis));
 
 		fsTick();
 		RevBlob b = tr.blob("b");
