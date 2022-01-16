@@ -175,7 +175,8 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 
 			assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
 			assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
-			assertEquals("side\n\nConflicts:\n\ta\n", db.readMergeCommitMsg());
+			assertEquals("side\n\n# Conflicts:\n#\ta\n",
+					db.readMergeCommitMsg());
 			assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
 					.exists());
 			assertEquals(sideCommit.getId(), db.readCherryPickHead());
@@ -207,7 +208,7 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		String expected = "<<<<<<< master\na(master)\n=======\na(side)\n>>>>>>> 527460a side\n";
 		assertEquals(expected, read("a"));
 		assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
-		assertEquals("side\n\nConflicts:\n\ta\n", db.readMergeCommitMsg());
+		assertEquals("side\n\n# Conflicts:\n#\ta\n", db.readMergeCommitMsg());
 		assertFalse(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
 				.exists());
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());

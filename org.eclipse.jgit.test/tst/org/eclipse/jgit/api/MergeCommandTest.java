@@ -554,7 +554,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.merge().include(sideBranch)
 					.setStrategy(MergeStrategy.RESOLVE).call();
 
-			assertEquals("Merge branch 'side'\n\nConflicts:\n\ta\n",
+			assertEquals("Merge branch 'side'\n\n# Conflicts:\n#\ta\n",
 					db.readMergeCommitMsg());
 		}
 
@@ -1787,7 +1787,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 							+ dateFormatter.formatDate(third
 									.getAuthorIdent()) + "\n\n\tthird commit\n",
 					db.readSquashCommitMsg());
-			assertEquals("\nConflicts:\n\tfile2\n", db.readMergeCommitMsg());
+			assertEquals("\n# Conflicts:\n#\tfile2\n", db.readMergeCommitMsg());
 
 			Status stat = git.status().call();
 			assertEquals(Sets.of("file2"), stat.getConflicting());
@@ -2013,7 +2013,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
 					.setMessage("user message").call();
 
-			assertEquals("user message\n\nConflicts:\n\ta\n",
+			assertEquals("user message\n\n# Conflicts:\n#\ta\n",
 					db.readMergeCommitMsg());
 		}
 	}

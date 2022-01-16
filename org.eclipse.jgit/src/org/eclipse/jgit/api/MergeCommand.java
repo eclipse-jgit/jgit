@@ -405,7 +405,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 							failingPaths, null);
 				}
 				String mergeMessageWithConflicts = new MergeMessageFormatter()
-						.formatWithConflicts(mergeMessage, unmergedPaths);
+						.formatWithConflicts(mergeMessage, unmergedPaths, '#');
 				repo.writeMergeCommitMsg(mergeMessageWithConflicts);
 				return new MergeResult(null, merger.getBaseCommitId(),
 						new ObjectId[] { headCommit.getId(),

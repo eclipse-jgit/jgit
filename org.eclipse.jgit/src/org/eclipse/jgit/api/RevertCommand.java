@@ -183,8 +183,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 								merger.getMergeResults(), failingPaths, null);
 					if (!merger.failed() && !unmergedPaths.isEmpty()) {
 						String message = new MergeMessageFormatter()
-						.formatWithConflicts(newMessage,
-								merger.getUnmergedPaths());
+								.formatWithConflicts(newMessage,
+										merger.getUnmergedPaths(), '#');
 						repo.writeRevertHead(srcCommit.getId());
 						repo.writeMergeCommitMsg(message);
 					}
