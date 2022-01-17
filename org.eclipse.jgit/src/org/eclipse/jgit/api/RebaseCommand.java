@@ -466,12 +466,23 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			resetSoftToParent();
 			List<RebaseTodoLine> steps = repo.readRebaseTodo(
 					rebaseState.getPath(GIT_REBASE_TODO), false);
-			RebaseTodoLine nextStep = steps.isEmpty() ? null : steps.get(0);
+			boolean isLast = steps.isEmpty();
+			if (!isLast) {
+				switch (steps.get(0).getAction()) {
+				case FIXUP:
+				case SQUASH:
+					break;
+				default:
+					isLast = true;
+					break;
+				}
+			}
 			File messageFixupFile = rebaseState.getFile(MESSAGE_FIXUP);
 			File messageSquashFile = rebaseState.getFile(MESSAGE_SQUASH);
-			if (isSquash && messageFixupFile.exists())
+			if (isSquash && messageFixupFile.exists()) {
 				messageFixupFile.delete();
-			newHead = doSquashFixup(isSquash, commitToPick, nextStep,
+			}
+			newHead = doSquashFixup(isSquash, commitToPick, isLast,
 					messageFixupFile, messageSquashFile);
 		}
 		return null;
@@ -732,7 +743,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RevCommit doSquashFixup(boolean isSquash, RevCommit commitToPick,
-			RebaseTodoLine nextStep, File messageFixup, File messageSquash)
+			boolean isLast, File messageFixup, File messageSquash)
 			throws IOException, GitAPIException {
 
 		if (!messageSquash.exists()) {
@@ -742,24 +753,20 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 			initializeSquashFixupFile(MESSAGE_SQUASH,
 					previousCommit.getFullMessage());
-			if (!isSquash)
-				initializeSquashFixupFile(MESSAGE_FIXUP,
-					previousCommit.getFullMessage());
+			if (!isSquash) {
+				rebaseState.createFile(MESSAGE_FIXUP,
+						previousCommit.getFullMessage());
+			}
 		}
-		String currSquashMessage = rebaseState
-				.readFile(MESSAGE_SQUASH);
+		String currSquashMessage = rebaseState.readFile(MESSAGE_SQUASH);
 
 		int count = parseSquashFixupSequenceCount(currSquashMessage) + 1;
 
 		String content = composeSquashMessage(isSquash,
 				commitToPick, currSquashMessage, count);
 		rebaseState.createFile(MESSAGE_SQUASH, content);
-		if (messageFixup.exists())
-			rebaseState.createFile(MESSAGE_FIXUP, content);
 
-		return squashIntoPrevious(
-				!messageFixup.exists(),
-				nextStep);
+		return squashIntoPrevious(!messageFixup.exists(), isLast);
 	}
 
 	private void resetSoftToParent() throws IOException,
@@ -781,29 +788,26 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RevCommit squashIntoPrevious(boolean sequenceContainsSquash,
-			RebaseTodoLine nextStep)
+			boolean isLast)
 			throws IOException, GitAPIException {
 		RevCommit retNewHead;
-		String commitMessage = rebaseState
-				.readFile(MESSAGE_SQUASH);
-
+		String commitMessage;
+		if (!isLast || sequenceContainsSquash) {
+			commitMessage = rebaseState.readFile(MESSAGE_SQUASH);
+		} else {
+			commitMessage = rebaseState.readFile(MESSAGE_FIXUP);
+		}
 		try (Git git = new Git(repo)) {
-			if (nextStep == null || ((nextStep.getAction() != Action.FIXUP)
-					&& (nextStep.getAction() != Action.SQUASH))) {
-				// this is the last step in this sequence
+			if (isLast) {
 				if (sequenceContainsSquash) {
 					commitMessage = editCommitMessage(commitMessage,
 							CleanupMode.STRIP);
-				} else {
-					commitMessage = CommitConfig.cleanText(commitMessage,
-							CleanupMode.STRIP, '#');
 				}
 				retNewHead = git.commit()
 						.setMessage(commitMessage)
 						.setAmend(true).setNoVerify(true).call();
 				rebaseState.getFile(MESSAGE_SQUASH).delete();
 				rebaseState.getFile(MESSAGE_FIXUP).delete();
-
 			} else {
 				// Next step is either Squash or Fixup
 				retNewHead = git.commit().setMessage(commitMessage)
