@@ -39,6 +39,29 @@
       "revId": "9af14be1ba008146f1dc555567051834d75c78dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6142f69_830c2e1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-17T08:50:26Z",
+      "side": 1,
+      "message": "I failed to reproduce this, probably since I don\u0027t know exactly what you tried.\nCan you provide details how to reproduce this problem on a test instance ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 42,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "9af14be1ba008146f1dc555567051834d75c78dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
