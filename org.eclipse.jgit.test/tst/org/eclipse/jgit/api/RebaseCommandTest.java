@@ -2927,8 +2927,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void testRebaseInteractiveFixupWithBlankLines() throws Exception {
+	private void simpleFixup(String firstMessage, String secondMessage)
+			throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -2938,13 +2938,13 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// create file2 on master
 		writeTrashFile("file2", "file2");
 		git.add().addFilepattern("file2").call();
-		git.commit().setMessage("Add file2").call();
+		git.commit().setMessage(firstMessage).call();
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 
 		// update FILE1 on master
 		writeTrashFile(FILE1, "blah");
 		git.add().addFilepattern(FILE1).call();
-		git.commit().setMessage("updated file1 on master\n\nsome text").call();
+		git.commit().setMessage(secondMessage).call();
 
 		git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
@@ -2968,9 +2968,31 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		try (RevWalk walk = new RevWalk(db)) {
 			ObjectId headId = db.resolve(Constants.HEAD);
 			RevCommit headCommit = walk.parseCommit(headId);
-			assertEquals("Add file2",
-					headCommit.getFullMessage());
+			assertEquals(firstMessage, headCommit.getFullMessage());
 		}
+
+	}
+
+	@Test
+	public void testRebaseInteractiveFixupWithBlankLines() throws Exception {
+		simpleFixup("Add file2", "updated file1 on master\n\nsome text");
+	}
+
+	@Test
+	public void testRebaseInteractiveFixupWithBlankLines2() throws Exception {
+		simpleFixup("Add file2\n\nBody\n",
+				"updated file1 on master\n\nsome text");
+	}
+
+	@Test
+	public void testRebaseInteractiveFixupWithHash() throws Exception {
+		simpleFixup("#Add file2", "updated file1 on master");
+	}
+
+	@Test
+	public void testRebaseInteractiveFixupWithHash2() throws Exception {
+		simpleFixup("#Add file2\n\nHeader has hash\n",
+				"#updated file1 on master");
 	}
 
 	@Test(expected = InvalidRebaseStepException.class)
