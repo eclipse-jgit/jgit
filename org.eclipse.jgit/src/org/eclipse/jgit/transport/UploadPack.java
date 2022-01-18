@@ -2158,6 +2158,11 @@ public class UploadPack {
 		if (want.has(SATISFIED))
 			return true;
 
+		if (((RevCommit) want).getParentCount() == 0) {
+			want.add(SATISFIED);
+			return true;
+		}
+
 		walk.resetRetain(SAVE);
 		walk.markStart((RevCommit) want);
 		if (oldestTime != 0)
