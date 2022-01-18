@@ -34,6 +34,24 @@
       "revId": "ecaef79bf0c01a4700495f6bc5d717ffc9e111b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16d2a4e9_25b62cbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-18T22:21:51Z",
+      "side": 1,
+      "message": "This fails the build both in Eclipse and using Maven with eclipse java compiler. If you find a way to configure the eclipse java compiler to ignore this occurrence of an unused local variable as an exception to the general compiler configuration we can use it.",
+      "parentUuid": "5ac17323_643cdd29",
+      "revId": "ecaef79bf0c01a4700495f6bc5d717ffc9e111b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
