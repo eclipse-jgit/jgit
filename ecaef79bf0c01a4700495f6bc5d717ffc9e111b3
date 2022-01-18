@@ -16,6 +16,24 @@
       "revId": "ecaef79bf0c01a4700495f6bc5d717ffc9e111b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ac17323_643cdd29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-18T19:09:49Z",
+      "side": 1,
+      "message": "We do something similar in gerrit: (java/com/google/gerrit/server/change/EmailReviewComments.java)\n\n  public void sendAsync() {\n    @SuppressWarnings(\"unused\")\n    Future\u003c?\u003e possiblyIgnoredError \u003d sendEmailsExecutor.submit(this);\n  }\n\nShould we do the same here, or prefer your version with suppression of FutureReturnValueIgnored?",
+      "parentUuid": "4b3fa8d4_5bfd0d5b",
+      "revId": "ecaef79bf0c01a4700495f6bc5d717ffc9e111b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
