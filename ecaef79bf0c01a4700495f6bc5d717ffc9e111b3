@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b3fa8d4_5bfd0d5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-18T14:30:48Z",
+      "side": 1,
+      "message": "eclipse compiler fails with an error on this unused local variable:\n\n [ERROR] /src/git/jgit/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java:[606,14] The value of the local variable unusedFuture is not used",
+      "revId": "ecaef79bf0c01a4700495f6bc5d717ffc9e111b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
