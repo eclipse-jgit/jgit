@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0656102_50746a0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-18T10:34:03Z",
+      "side": 1,
+      "message": "had",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "af5f11be14fa53070c6078d874a97a745de8bb39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27a4997f_58e00cb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-18T10:34:03Z",
+      "side": 1,
+      "message": "I could reproduce this factor 20 between fetching meta ref and a ref with parent. \n\nI observed that this patch doubled the performance  for fetching meta ref with (1sec) and without this patch (2sec).\n\nWithout the patch fetch packet trace had 2372 lines with this patch only 109. This clearly shows the improvement for refs referring to orphan commits like `refs/changes/01/1/meta`.",
+      "revId": "af5f11be14fa53070c6078d874a97a745de8bb39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16aa2d54_b8528ce0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-18T10:34:03Z",
+      "side": 1,
+      "message": "UploadPack, used on the server side, now checks",
+      "range": {
+        "startLine": 16,
+        "startChar": 20,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "af5f11be14fa53070c6078d874a97a745de8bb39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8695042_d5f30966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-18T10:34:03Z",
+      "side": 1,
+      "message": ", hence the server responds with `ready`",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 45
+      },
+      "revId": "af5f11be14fa53070c6078d874a97a745de8bb39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66255593_d4fd74d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-18T10:34:03Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "range": {
+        "startLine": 19,
+        "startChar": 22,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "af5f11be14fa53070c6078d874a97a745de8bb39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
