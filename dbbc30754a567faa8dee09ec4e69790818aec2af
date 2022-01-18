@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7334e75b_fa86bcb0",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-18T19:28:37Z",
+      "side": 1,
+      "message": "Thanks for the additional tests. But this tests that the .lfsconfig file itself got checked out correctly. That wasn\u0027t what I was worried about. I was wondering about the case where the two commits actually do have LFS pointer objects. Will they always fetch from the right server on checkout? Will they also do so if the LFS object has a name that comes before \".lfsconfig\" in git order?",
+      "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
