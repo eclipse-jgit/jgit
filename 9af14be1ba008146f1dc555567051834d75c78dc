@@ -62,6 +62,30 @@
       "revId": "9af14be1ba008146f1dc555567051834d75c78dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "040f9f43_e717463d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2022-01-18T09:18:09Z",
+      "side": 1,
+      "message": "I\u0027ve create a follow up change without the fix to reproduce the issue in tests [189727](https://git.eclipse.org/r/c/jgit/jgit/+/189727/1)\n\nTo reproduce it locally:\n1. Create a Gerrit instance with mirror of the Gerrit project\n2. Do a mirror clone: `git clone --mirror ssh://admin@localhost:29418/gerrit`\n3. Create a new change\n4. Fetch meta ref of the new change: `GIT_TRACE_PACKET\u003dtrue git fetch ssh://admin@localhost:29418/gerrit refs/changes/21/21/meta`\n\nWithout the fix in the output you will see 811 `fetch\u003e have ...` calls, with the fix it will be just 16",
+      "parentUuid": "d6142f69_830c2e1d",
+      "range": {
+        "startLine": 12,
+        "startChar": 42,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "9af14be1ba008146f1dc555567051834d75c78dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
