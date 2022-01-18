@@ -171,8 +171,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet-api",
-    artifact = "javax.servlet:javax.servlet-api:3.1.0",
-    sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
+    artifact = "javax.servlet:javax.servlet-api:4.0.0",
+    sha1 = "60200affc2fe0165136ed3690faf00b66aed581a",
 )
 
 maven_jar(

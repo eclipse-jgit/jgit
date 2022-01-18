@@ -1107,6 +1107,61 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2FetchServerStopsNegotiationForRefWithoutParents()
+			throws Exception {
+		RevCommit fooCommit = remote.commit().message("x").create();
+		RevCommit barCommit = remote.commit().message("y").create();
+		remote.update("refs/changes/01/1/1", fooCommit);
+		remote.update("refs/changes/02/2/1", barCommit);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + fooCommit.toObjectId().getName() + "\n",
+				"have " + barCommit.toObjectId().getName() + "\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(pckIn.readString(),
+				is("ACK " + barCommit.toObjectId().getName()));
+		assertThat(pckIn.readString(), is("ready"));
+		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.getObjectDatabase().has(fooCommit.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchServerDoesNotStopNegotiationWhenOneRefWithoutParentAndOtherWithParents()
+			throws Exception {
+		RevCommit fooCommit = remote.commit().message("x").create();
+		RevCommit barParent = remote.commit().message("y").create();
+		RevCommit barChild = remote.commit().message("y").parent(barParent)
+				.create();
+		RevCommit fooBarParent = remote.commit().message("z").create();
+		RevCommit fooBarChild = remote.commit().message("y")
+				.parent(fooBarParent)
+				.create();
+		remote.update("refs/changes/01/1/1", fooCommit);
+		remote.update("refs/changes/02/2/1", barChild);
+		remote.update("refs/changes/03/3/1", fooBarChild);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + fooCommit.toObjectId().getName() + "\n",
+				"want " + barChild.toObjectId().getName() + "\n",
+				"want " + fooBarChild.toObjectId().getName() + "\n",
+				"have " + fooBarParent.toObjectId().getName() + "\n",
+				PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(pckIn.readString(),
+				is("ACK " + fooBarParent.toObjectId().getName()));
+		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
 	public void testV2FetchThinPack() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
