@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c3faf61_9a0424d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-01-19T23:16:01Z",
+      "side": 1,
+      "message": "Switching to using toolchain resolution feels like it should be the subject though. I\u0027m conflicted because they both seem like important things.\n\nYou could also split the change and do the 5.0.0 bump first with .bazelrc updated for the new default value of --incompatible_use_toolchain_resolution_for_java_rules, and then remove that update from .bazelrc and update the java rules. Maybe that doesn\u0027t provide much value aside from letting you have separate commit messages for each (it would be more valuable if the 5.0.0 bump had other impacts).",
+      "parentUuid": "f0871689_4024cbe1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "b6828f46fea2963d54f79c2772f5adee450467ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "667ff95f_aecee398",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
