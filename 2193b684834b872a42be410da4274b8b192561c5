@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "46b42988_5a0c86c8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "7e6c7c93_babbf65f",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "840e212b_d9aac026",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
         "patchSetId": 14
@@ -33,6 +51,24 @@
       "revId": "2193b684834b872a42be410da4274b8b192561c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7511a62a_4ccbb70b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "840e212b_d9aac026",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +112,48 @@
     },
     {
       "key": {
+        "uuid": "e30604fe_b4069f99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "4b25c15e_4c1b61ea",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c48d272d_921874ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "When the monitor is canceled, the thrown exception clearly refers to \nJGitText.get().commitGraphWritingCancelled.\n\nI turned this class into a protected class for commit-graph only, it made it will not be misused in the future.",
+      "parentUuid": "06ea22aa_ce2b9150",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03e5432f_0f45c581",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
         "patchSetId": 14
@@ -87,6 +165,30 @@
       "writtenOn": "2022-01-14T19:01:51Z",
       "side": 1,
       "message": "Why this value? A comment in the code would help.",
+      "range": {
+        "startLine": 30,
+        "startChar": 63,
+        "endLine": 30,
+        "endChar": 73
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3985821_86098d61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "Actually I don\u0027t know either. The logic of this part of the code mostly refers to org.eclipse.jgit.internal.storage.pack.PackOutputStream 😂.",
+      "parentUuid": "03e5432f_0f45c581",
       "range": {
         "startLine": 30,
         "startChar": 63,
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "19f1afb2_287b6494",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "e880bb83_1ef05e21",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38a0108d_fd0f2e65",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
         "patchSetId": 14
@@ -127,6 +247,24 @@
       "writtenOn": "2022-01-14T19:01:51Z",
       "side": 1,
       "message": "I find this logic hard to follow (or I misunderstood the intention of this code).\n\nMaybe \"count\" could become \"bytesSinceLastCheck\", and then you just need to check if bytesSinceLastCheck \u003e BYTES_TO_WRITE and reset accordingly?",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fc27f74_0c57a99f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "In my understanding, \"count\" refers to the total number of bytes write.\nWhen the \"count\" reaches \"checkCancelAt\", a cancel check is required.",
+      "parentUuid": "38a0108d_fd0f2e65",
       "revId": "2193b684834b872a42be410da4274b8b192561c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -167,6 +305,24 @@
     },
     {
       "key": {
+        "uuid": "f6948717_30bb826a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "I originally designed this method so that CommitGraphWriter\u0027s methods don\u0027t need to always pass the ProgressMonitor parameter.",
+      "parentUuid": "c4286412_3387705f",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e294d1ae_cc14aa83",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 14
@@ -181,6 +337,24 @@
       "revId": "2193b684834b872a42be410da4274b8b192561c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af2cde5_b6ee844e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "I agree, done.",
+      "parentUuid": "e294d1ae_cc14aa83",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -201,6 +375,24 @@
     },
     {
       "key": {
+        "uuid": "c3e89bbe_d7a8eab6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "According to [1], I did not find such a style guide.\n\nIf we want to modify it, maybe we can push a new change, because moving the location of the method requires me to spend too much time to resolve the conflict of the rebase.\n\n[1] http://wiki.eclipse.org/EGit/Contributor_Guide#Coding_standards",
+      "parentUuid": "dfbeee51_5539e954",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83fd7c2a_cd1be252",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 14
@@ -212,6 +404,30 @@
       "writtenOn": "2022-01-14T19:01:51Z",
       "side": 1,
       "message": "Do you need to keep this in two lists? \n\nIIUC commitDataList is the unsorted list, and commitDataSortedByName is the list sorted. Could we create the commitDataSortedByName directly from commitDataMap.iterator() when needed?\n\nAlso commitDataSortByName() seems to be called only once, do we need to keep the sorted list cached?",
+      "range": {
+        "startLine": 515,
+        "startChar": 2,
+        "endLine": 515,
+        "endChar": 16
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff9a2c3c_641d18df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "done.\nIn method writeOidLookUp(), the commitDataList was already sorted, so I removed commitDataSortedByName.",
+      "parentUuid": "83fd7c2a_cd1be252",
       "range": {
         "startLine": 515,
         "startChar": 2,
@@ -247,6 +463,30 @@
     },
     {
       "key": {
+        "uuid": "6e134a14_8c68834e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ObjectToCommitData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "I agree, but changing the name would take me a lot of time to resolve the conflict of the rebase (this class is used in many places in subsequent commits), maybe we can fix it in a new change.",
+      "parentUuid": "c8876844_d56fe8b5",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "821d1131_c92f2312",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 14
@@ -258,6 +498,24 @@
       "writtenOn": "2022-01-14T19:01:51Z",
       "side": 1,
       "message": "If I want to use this API, where do I get the graphPos? I don\u0027t see any method to get it and is not in the CommitData.",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9049862e_40b5db9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-19T08:07:23Z",
+      "side": 1,
+      "message": "You can get the graphPos in CommitData#getParents() and RevCommit#graphPosition, refer to [1].\n\nIn the process of commit traversal, we can get the graphPos of the commit in advance, so that we can avoid O(logN) lookup and use O(1) lookup instead.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/183079/11/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+      "parentUuid": "821d1131_c92f2312",
       "revId": "2193b684834b872a42be410da4274b8b192561c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
