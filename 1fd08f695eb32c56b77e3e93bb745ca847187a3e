@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4fd8fd8_be76f60f",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-19T22:50:00Z",
+      "side": 1,
+      "message": "I think we can remove the packaging build.\nIt contains no source code but only Tycho build instructions for creation of Eclipse features, target platform and p2 repository which aren\u0027t implemented in the bazel build.",
+      "revId": "1fd08f695eb32c56b77e3e93bb745ca847187a3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
