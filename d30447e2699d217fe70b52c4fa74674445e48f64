@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1e9775e_cd1548ec",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/RecordingLogger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-01-19T12:05:09Z",
+      "side": 0,
+      "message": "Well done @DavidO, good catch 👍",
+      "range": {
+        "startLine": 183,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 43
+      },
+      "revId": "d30447e2699d217fe70b52c4fa74674445e48f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
