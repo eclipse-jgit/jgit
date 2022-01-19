@@ -594,6 +594,7 @@ public class FileRepository extends Repository {
 	}
 
 	/** {@inheritDoc} */
+	@SuppressWarnings("FutureReturnValueIgnored")
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
 		GC gc = new GC(this);
