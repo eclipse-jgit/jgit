@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38661a25_733c6a95",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-19T18:43:28Z",
+      "side": 1,
+      "message": "This file was shamelessly stolen from gerrit repository.",
+      "revId": "f9faf7d286edecd66348ed1e97c3454312b86605",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4f76290_cc9e80e5",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-19T18:43:28Z",
+      "side": 1,
+      "message": "Update this?",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "f9faf7d286edecd66348ed1e97c3454312b86605",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
