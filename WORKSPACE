@@ -10,6 +10,16 @@ load(
     "maven_jar",
 )
 
+http_archive(
+    name = "rbe_jdk11",
+    sha256 = "766796de71916118e528b9f4334c29c9c9b4e926227bf3264dee555e6a4306c8",
+    strip_prefix = "rbe_autoconfig-2.0.0",
+    urls = [
+        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v2.0.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/archive/v2.0.0.tar.gz",
+    ],
+)
+
 register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
