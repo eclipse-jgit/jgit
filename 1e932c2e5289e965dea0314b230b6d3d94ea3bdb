@@ -22,6 +22,30 @@
       "revId": "1e932c2e5289e965dea0314b230b6d3d94ea3bdb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1285c841_a93f0ef9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-19T08:43:21Z",
+      "side": 0,
+      "message": "that raises an error when compiled with eclipse java compiler",
+      "parentUuid": "e76db76e_4fb626b9",
+      "range": {
+        "startLine": 605,
+        "startChar": 3,
+        "endLine": 605,
+        "endChar": 11
+      },
+      "revId": "1e932c2e5289e965dea0314b230b6d3d94ea3bdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
