@@ -1,0 +1,8 @@
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Code-Review+1: David Ostrovsky <d.ostrovsky@gmx.de>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Wed, 19 Jan 2022 03:43:27 -0500
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/189572
+Project: jgit/jgit
+Branch: refs/heads/stable-6.0
