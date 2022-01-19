@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e71b598_4db0b84d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-19T22:51:27Z",
+      "side": 1,
+      "message": "it seems this change is only renaming this class",
+      "revId": "97d260691cd3fcf624295cf1d0f481526d037e3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
