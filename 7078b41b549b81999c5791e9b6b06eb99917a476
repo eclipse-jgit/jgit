@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "86577ad7_a6916480",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-19T17:45:09Z",
+      "side": 1,
+      "message": "PTAL, I have updated this series. And Bazel 5.0.0 release was released today.",
+      "parentUuid": "cb972d2b_0d7ce0e0",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 57
+      },
+      "revId": "7078b41b549b81999c5791e9b6b06eb99917a476",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65941c8e_6e47042c",
         "filename": "WORKSPACE",
         "patchSetId": 3
