@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e8e1399_03ac2e59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2022-01-19T21:30:04Z",
+      "side": 1,
+      "message": "While I did make some comments on this change, I never gave it a +1. I\u0027m not sure what the conventions are for this Review-by: tag (they seem inappropriate since we use Gerrit), but I would definitely not expect to see my name here unless I gave a change a +1.",
+      "revId": "d5a7ff5023ee6e67c0162b878f1c536b9ac2102d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
