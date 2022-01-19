@@ -52,6 +52,24 @@
       "revId": "ecaef79bf0c01a4700495f6bc5d717ffc9e111b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45725b6a_3d6fb33f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-19T06:29:53Z",
+      "side": 1,
+      "message": "Let\u0027s go with your exclusion version then.",
+      "parentUuid": "16d2a4e9_25b62cbd",
+      "revId": "ecaef79bf0c01a4700495f6bc5d717ffc9e111b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
