@@ -19,6 +19,7 @@ import static org.junit.Assert.assertFalse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -276,7 +277,8 @@ public class FileBasedConfigTest {
 			throws IOException {
 		AtomicBoolean userConfigTimeRead = new AtomicBoolean(false);
 
-		Path userConfigFile = createFile(CONTENT1.getBytes(), "home");
+		Path userConfigFile = createFile(
+				CONTENT1.getBytes(StandardCharsets.UTF_8), "home");
 		mockSystemReader.setUserGitConfig(
 				new FileBasedConfig(userConfigFile.toFile(), FS.DETECTED) {
 
@@ -289,7 +291,8 @@ public class FileBasedConfigTest {
 					}
 				});
 
-		Path file = createFile(CONTENT2.getBytes(), "repo");
+		Path file = createFile(CONTENT2.getBytes(StandardCharsets.UTF_8),
+				"repo");
 		FileBasedConfig fileBasedConfig = new FileBasedConfig(file.toFile(),
 				FS.DETECTED);
 		fileBasedConfig.save();
