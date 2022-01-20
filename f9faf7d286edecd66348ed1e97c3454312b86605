@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4ac336d1_87ed5840",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-20T21:52:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "38661a25_733c6a95",
+      "revId": "f9faf7d286edecd66348ed1e97c3454312b86605",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4f76290_cc9e80e5",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "f9faf7d286edecd66348ed1e97c3454312b86605",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d41752_8d7a6ef3",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-20T21:52:54Z",
+      "side": 1,
+      "message": "I think that\u0027s not necessary",
+      "parentUuid": "b4f76290_cc9e80e5",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "f9faf7d286edecd66348ed1e97c3454312b86605",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
