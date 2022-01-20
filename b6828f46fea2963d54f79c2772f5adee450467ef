@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "16bb5786_f3a5c0eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-20T00:15:19Z",
+      "side": 1,
+      "message": "No need to spend time on this detail, I am also fine with the current commit message.",
+      "parentUuid": "3c3faf61_9a0424d5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "b6828f46fea2963d54f79c2772f5adee450467ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "667ff95f_aecee398",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
