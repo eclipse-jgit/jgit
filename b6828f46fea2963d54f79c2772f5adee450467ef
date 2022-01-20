@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "0e98c561_0742b3a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-20T14:50:02Z",
+      "side": 1,
+      "message": "\u003e This doesn\u0027t work. And that\u0027s why it was done in single change: bump Bazel and left the option unflipped.\n\nTo add to this, see my comment year ago on this issue: [1]. It was not completely fixed: the build ist not failing but old toolchain option doesn\u0027t really work. So basically, the only way forward is to start using toolchain_resolution_for_java_rules with Bazel 5.x. \n\nWhat I have not tried, though, is to flip --incompatible_use_toolchain_resolution_for_java_rules\u003dtrue with Bazel 4.2. That way we would do one single step in single change, and not two steps in the same change. I have not tried this combination yet, though.\n\n[1] https://github.com/bazelbuild/bazel/issues/7849#issuecomment-803290280",
+      "parentUuid": "20bd22ab_761d0ccf",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "b6828f46fea2963d54f79c2772f5adee450467ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6076695_9eb9f9af",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
