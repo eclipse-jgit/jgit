@@ -73,6 +73,53 @@
     },
     {
       "key": {
+        "uuid": "20bd22ab_761d0ccf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-20T05:47:07Z",
+      "side": 1,
+      "message": "\u003e You could also split the change and do the 5.0.0 bump first with .bazelrc updated for the new default value of --incompatible_use_toolchain_resolution_for_java_rules, and then remove that update from .bazelrc and update the java rules.\n\nThis doesn\u0027t work. And that\u0027s why it was done in single change: bump Bazel and left the option unflipped.\n\nWhen I only bump bazel version:\n\n  diff --git a/.bazelversion b/.bazelversion\n  index fcdb2e109..0062ac971 100644\n  --- a/.bazelversion\n  +++ b/.bazelversion\n  @@ -1 +1 @@\n  -4.0.0\n  +5.0.0\n\nAnd run this command, the compilation is failing:\n\n  $ bazelisk build --incompatible_use_toolchain_resolution_for_java_rules\u003dfalse :all\n  WARNING: Option \u0027java_toolchain\u0027 is deprecated\n  [...]\n  org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java:264: error: cannot infer type arguments for AsyncObjectLoaderQueue\u003cT\u003e\n\t\treturn new AsyncObjectLoaderQueue\u003c\u003e() {\n\t\t                                 ^\n  reason: \u0027\u003c\u003e\u0027 with anonymous inner classes is not supported in -source 8\n    (use -source 9 or higher to enable \u0027\u003c\u003e\u0027 with anonymous inner classes)",
+      "parentUuid": "16bb5786_f3a5c0eb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "b6828f46fea2963d54f79c2772f5adee450467ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6076695_9eb9f9af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-20T05:47:07Z",
+      "side": 1,
+      "message": "This part of this commit can be separated in its own change, these lines in .bazelrc:\n\n  # Builds using remote_jdk17, executes using remote_jdk11 or \nlocal_jdk\n  build:java17 --java_language_version\u003d17\n  build:java17 --java_runtime_version\u003d17\n  build:java17 --tool_java_language_version\u003d17\n  build:java17 --tool_java_runtime_version\u003d17",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "b6828f46fea2963d54f79c2772f5adee450467ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "667ff95f_aecee398",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
