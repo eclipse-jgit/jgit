@@ -97,10 +97,10 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.GitProtocolConstants.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.TransferConfig.ProtocolVersion;
-import org.eclipse.jgit.util.io.InterruptTimer;
-import org.eclipse.jgit.util.io.NullOutputStream;
-import org.eclipse.jgit.util.io.TimeoutInputStream;
-import org.eclipse.jgit.util.io.TimeoutOutputStream;
+import org.eclipse.jgit.util.stream.InterruptTimer;
+import org.eclipse.jgit.util.stream.NullOutputStream;
+import org.eclipse.jgit.util.stream.TimeoutInputStream;
+import org.eclipse.jgit.util.stream.TimeoutOutputStream;
 
 /**
  * Implements the server side of a fetch connection, transmitting objects.

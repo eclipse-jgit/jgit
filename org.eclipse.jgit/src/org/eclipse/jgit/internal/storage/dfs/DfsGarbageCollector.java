@@ -56,7 +56,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.util.SystemReader;
-import org.eclipse.jgit.util.io.CountingOutputStream;
+import org.eclipse.jgit.util.stream.CountingOutputStream;
 
 /**
  * Repack and garbage collect a repository.

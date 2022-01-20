@@ -26,7 +26,7 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.io.ThrowingPrintWriter;
+import org.eclipse.jgit.util.stream.ThrowingPrintWriter;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 

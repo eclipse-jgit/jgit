@@ -30,7 +30,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.io.SilentFileInputStream;
+import org.eclipse.jgit.util.stream.SilentFileInputStream;
 
 /**
  * Access path to locate objects by {@link org.eclipse.jgit.lib.ObjectId} in a

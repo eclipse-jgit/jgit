@@ -94,7 +94,7 @@ import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.io.CountingOutputStream;
+import org.eclipse.jgit.util.stream.CountingOutputStream;
 import org.eclipse.jgit.util.sha1.SHA1;
 
 /**

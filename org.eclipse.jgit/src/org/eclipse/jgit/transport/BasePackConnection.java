@@ -50,9 +50,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.util.StringUtils;
-import org.eclipse.jgit.util.io.InterruptTimer;
-import org.eclipse.jgit.util.io.TimeoutInputStream;
-import org.eclipse.jgit.util.io.TimeoutOutputStream;
+import org.eclipse.jgit.util.stream.InterruptTimer;
+import org.eclipse.jgit.util.stream.TimeoutInputStream;
+import org.eclipse.jgit.util.stream.TimeoutOutputStream;
 
 /**
  * Base helper class for pack-based operations implementations. Provides partial

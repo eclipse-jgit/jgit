@@ -80,7 +80,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.LfsFactory.LfsInputStream;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.eclipse.jgit.util.io.EolStreamTypeUtil;
+import org.eclipse.jgit.util.stream.EolStreamTypeUtil;
 
 /**
  * A three-way merger performing a content-merge if necessary

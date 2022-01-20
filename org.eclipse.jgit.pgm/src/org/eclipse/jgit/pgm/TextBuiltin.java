@@ -41,7 +41,7 @@ import org.eclipse.jgit.transport.ssh.jsch.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
 import org.eclipse.jgit.transport.sshd.JGitKeyCache;
 import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.util.io.ThrowingPrintWriter;
+import org.eclipse.jgit.util.stream.ThrowingPrintWriter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 

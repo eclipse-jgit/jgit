@@ -35,8 +35,8 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.io.MessageWriter;
-import org.eclipse.jgit.util.io.StreamCopyThread;
+import org.eclipse.jgit.util.stream.MessageWriter;
+import org.eclipse.jgit.util.stream.StreamCopyThread;
 
 /**
  * Transport to access a local directory as though it were a remote peer.

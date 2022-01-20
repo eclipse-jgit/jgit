@@ -31,7 +31,7 @@ HELPERS = glob(
     "test/resources/SampleDataRepositoryTestCase.java",
     "util/CPUTimeStopWatch.java",
     "util/http/HttpCookiesMatcher.java",
-    "util/io/Strings.java",
+    "util/stream/Strings.java",
 ]]
 
 DATA = [

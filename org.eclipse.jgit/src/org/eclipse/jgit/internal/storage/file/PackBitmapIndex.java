@@ -19,7 +19,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.util.io.SilentFileInputStream;
+import org.eclipse.jgit.util.stream.SilentFileInputStream;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 

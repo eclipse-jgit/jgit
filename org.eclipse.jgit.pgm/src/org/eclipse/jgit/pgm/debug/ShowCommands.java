@@ -18,7 +18,7 @@ import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
-import org.eclipse.jgit.util.io.ThrowingPrintWriter;
+import org.eclipse.jgit.util.stream.ThrowingPrintWriter;
 import org.kohsuke.args4j.Option;
 
 @Command(usage = "usage_displayAListOfAllRegisteredJgitCommands")

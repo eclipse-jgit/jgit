@@ -17,7 +17,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.util.io.UnionInputStream;
+import org.eclipse.jgit.util.stream.UnionInputStream;
 
 /**
  * Default implementation of the {@link org.eclipse.jgit.notes.NoteMerger}.

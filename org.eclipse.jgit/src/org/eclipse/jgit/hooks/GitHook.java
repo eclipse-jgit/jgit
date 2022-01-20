@@ -19,7 +19,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.ProcessResult;
 import org.eclipse.jgit.util.SystemReader;
-import org.eclipse.jgit.util.io.TeeOutputStream;
+import org.eclipse.jgit.util.stream.TeeOutputStream;
 
 /**
  * Git can fire off custom scripts when certain important actions occur. These

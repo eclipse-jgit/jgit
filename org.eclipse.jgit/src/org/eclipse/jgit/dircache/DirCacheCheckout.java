@@ -71,7 +71,7 @@ import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.eclipse.jgit.util.io.EolStreamTypeUtil;
+import org.eclipse.jgit.util.stream.EolStreamTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

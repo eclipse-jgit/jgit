@@ -41,7 +41,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.eclipse.jgit.util.io.UnionInputStream;
+import org.eclipse.jgit.util.stream.UnionInputStream;
 import org.junit.After;
 import org.junit.Test;
 

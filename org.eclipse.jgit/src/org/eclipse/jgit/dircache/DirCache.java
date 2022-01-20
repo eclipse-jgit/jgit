@@ -58,7 +58,7 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.eclipse.jgit.util.io.SilentFileInputStream;
+import org.eclipse.jgit.util.stream.SilentFileInputStream;
 
 /**
  * Support for the Git dircache (aka index file).

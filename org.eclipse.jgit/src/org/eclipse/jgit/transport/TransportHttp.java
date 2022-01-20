@@ -107,8 +107,8 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.eclipse.jgit.util.io.UnionInputStream;
+import org.eclipse.jgit.util.stream.DisabledOutputStream;
+import org.eclipse.jgit.util.stream.UnionInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

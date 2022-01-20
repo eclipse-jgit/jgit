@@ -48,7 +48,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.io.EolStreamTypeUtil;
+import org.eclipse.jgit.util.stream.EolStreamTypeUtil;
 
 /**
  * Walks one or more {@link org.eclipse.jgit.treewalk.AbstractTreeIterator}s in

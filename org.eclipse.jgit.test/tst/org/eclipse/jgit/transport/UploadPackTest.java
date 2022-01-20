@@ -54,7 +54,7 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
-import org.eclipse.jgit.util.io.NullOutputStream;
+import org.eclipse.jgit.util.stream.NullOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

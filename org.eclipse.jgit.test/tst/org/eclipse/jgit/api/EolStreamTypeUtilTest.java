@@ -26,7 +26,7 @@ import java.util.Arrays;
 
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.io.EolStreamTypeUtil;
+import org.eclipse.jgit.util.stream.EolStreamTypeUtil;
 import org.junit.Test;
 
 /**

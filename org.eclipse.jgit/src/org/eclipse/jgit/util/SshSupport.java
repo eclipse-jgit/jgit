@@ -20,8 +20,8 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.io.MessageWriter;
-import org.eclipse.jgit.util.io.StreamCopyThread;
+import org.eclipse.jgit.util.stream.MessageWriter;
+import org.eclipse.jgit.util.stream.StreamCopyThread;
 
 /**
  * Extra utilities to support usage of SSH.

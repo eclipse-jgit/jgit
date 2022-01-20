@@ -44,7 +44,7 @@ import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.eclipse.jgit.util.stream.DisabledOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

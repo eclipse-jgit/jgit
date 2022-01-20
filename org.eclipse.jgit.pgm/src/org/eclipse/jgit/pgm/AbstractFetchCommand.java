@@ -26,7 +26,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
-import org.eclipse.jgit.util.io.ThrowingPrintWriter;
+import org.eclipse.jgit.util.stream.ThrowingPrintWriter;
 import org.kohsuke.args4j.Option;
 
 abstract class AbstractFetchCommand extends TextBuiltin {

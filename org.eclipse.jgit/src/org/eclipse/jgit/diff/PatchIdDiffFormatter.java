@@ -16,7 +16,7 @@ import java.security.MessageDigest;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.util.io.NullOutputStream;
+import org.eclipse.jgit.util.stream.NullOutputStream;
 
 /**
  * A DiffFormatter used to calculate the patch-id of the diff.

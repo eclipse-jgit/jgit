@@ -37,8 +37,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.SystemReader;
-import org.eclipse.jgit.util.io.MessageWriter;
-import org.eclipse.jgit.util.io.StreamCopyThread;
+import org.eclipse.jgit.util.stream.MessageWriter;
+import org.eclipse.jgit.util.stream.StreamCopyThread;
 
 /**
  * Transport through an SSH tunnel.

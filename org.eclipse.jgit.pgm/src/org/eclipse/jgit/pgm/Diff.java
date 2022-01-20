@@ -40,7 +40,7 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.eclipse.jgit.util.io.ThrowingPrintWriter;
+import org.eclipse.jgit.util.stream.ThrowingPrintWriter;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 

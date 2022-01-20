@@ -75,10 +75,10 @@ import org.eclipse.jgit.transport.ConnectivityChecker.ConnectivityCheckInfo;
 import org.eclipse.jgit.transport.PacketLineIn.InputOverLimitIOException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
-import org.eclipse.jgit.util.io.InterruptTimer;
-import org.eclipse.jgit.util.io.LimitedInputStream;
-import org.eclipse.jgit.util.io.TimeoutInputStream;
-import org.eclipse.jgit.util.io.TimeoutOutputStream;
+import org.eclipse.jgit.util.stream.InterruptTimer;
+import org.eclipse.jgit.util.stream.LimitedInputStream;
+import org.eclipse.jgit.util.stream.TimeoutInputStream;
+import org.eclipse.jgit.util.stream.TimeoutOutputStream;
 
 /**
  * Implements the server side of a push connection, receiving objects.

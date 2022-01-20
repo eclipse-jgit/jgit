@@ -32,7 +32,7 @@ import org.eclipse.jgit.internal.transport.ssh.jsch.JSchText;
 import org.eclipse.jgit.transport.FtpChannel;
 import org.eclipse.jgit.transport.RemoteSession2;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.io.IsolatedOutputStream;
+import org.eclipse.jgit.util.stream.IsolatedOutputStream;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;

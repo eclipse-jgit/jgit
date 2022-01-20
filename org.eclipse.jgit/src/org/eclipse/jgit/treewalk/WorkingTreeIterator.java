@@ -70,7 +70,7 @@ import org.eclipse.jgit.util.Paths;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
-import org.eclipse.jgit.util.io.EolStreamTypeUtil;
+import org.eclipse.jgit.util.stream.EolStreamTypeUtil;
 import org.eclipse.jgit.util.sha1.SHA1;
 
 /**

@@ -943,7 +943,7 @@ public class DiffFormatter implements AutoCloseable {
 	 * This method does not use the OutputStream associated with this
 	 * DiffFormatter instance. It is therefore safe to instantiate this
 	 * DiffFormatter instance with a
-	 * {@link org.eclipse.jgit.util.io.DisabledOutputStream} if this method is
+	 * {@link org.eclipse.jgit.util.stream.DisabledOutputStream} if this method is
 	 * the only one that will be used.
 	 *
 	 * @param ent

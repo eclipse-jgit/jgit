@@ -25,7 +25,7 @@ import java.util.zip.DeflaterOutputStream;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.io.CountingOutputStream;
+import org.eclipse.jgit.util.stream.CountingOutputStream;
 
 /**
  * Wrapper to assist formatting a reftable to an {@link OutputStream}.

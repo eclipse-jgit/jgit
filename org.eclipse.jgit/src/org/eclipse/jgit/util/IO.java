@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.util.io.SilentFileInputStream;
+import org.eclipse.jgit.util.stream.SilentFileInputStream;
 
 /**
  * Input/Output utilities

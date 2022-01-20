@@ -32,7 +32,7 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.eclipse.jgit.util.io.NullOutputStream;
+import org.eclipse.jgit.util.stream.NullOutputStream;
 
 /**
  * Show changes between commits, commit and working tree, etc.

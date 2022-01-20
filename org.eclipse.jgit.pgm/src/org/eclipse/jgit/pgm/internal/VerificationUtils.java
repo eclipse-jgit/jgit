@@ -15,7 +15,7 @@ import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.SignatureUtils;
-import org.eclipse.jgit.util.io.ThrowingPrintWriter;
+import org.eclipse.jgit.util.stream.ThrowingPrintWriter;
 
 /**
  * Utilities for signature verification.
