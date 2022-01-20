@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e536385_221a4810",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-20T17:33:39Z",
+      "side": 1,
+      "message": "Jgit doesn\u0027t know yet how to use the commit-graph file. In this change it is just parsing it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "630aba80_fd17c0ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-20T17:33:39Z",
+      "side": 1,
+      "message": "This is not done in this change. You can explain this in the change were you enable the writing.\n\nInstead of this paragraph, write two:\nFirst explaining the problem: git introduced a new file storing the topology and some metadata of the commits in the repo (commitGraph). With this data, git can browse commit history without parsing the pack, speeding up e.g. reachability checks.\n\nSecond paragraph explains your solution: teach Jgit to write the commit-graph file, following the upstream format (link).",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a6f99e6_12c07467",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-20T17:33:39Z",
+      "side": 1,
+      "message": "Thanks for mentioning this.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1472230_e45efa23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-20T17:33:39Z",
+      "side": 1,
+      "message": "This is not done in this change.",
+      "range": {
+        "startLine": 15,
+        "startChar": 16,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29986624_3659644d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-20T17:33:39Z",
+      "side": 1,
+      "message": "Graph chain can be tricky... how does the implementation request the files in the chain-file? Either caller passes all commit graph files or we need some kind of opener (?). Not sure myself how to implement it yet, but we can probably fit it later.",
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
