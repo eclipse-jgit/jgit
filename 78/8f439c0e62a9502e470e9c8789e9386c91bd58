@@ -1,0 +1,8 @@
+Code-Review+1: Fabio Ponciroli <ponch78@gmail.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Thu, 20 Jan 2022 09:42:17 -0500
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/189822
+Project: jgit/jgit
+Branch: refs/heads/stable-6.0
