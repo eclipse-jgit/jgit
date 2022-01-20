@@ -16,6 +16,24 @@
       "revId": "d5a7ff5023ee6e67c0162b878f1c536b9ac2102d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27ecd98f_a9cbbb16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-20T06:35:34Z",
+      "side": 1,
+      "message": "The tags have been removed.\n\nThey are added by myself before, it looks like my understanding of the meaning of this tag might be wrong.",
+      "parentUuid": "5e8e1399_03ac2e59",
+      "revId": "d5a7ff5023ee6e67c0162b878f1c536b9ac2102d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

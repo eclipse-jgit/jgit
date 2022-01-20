@@ -243,6 +243,30 @@
     },
     {
       "key": {
+        "uuid": "a42fd13b_6330ff91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-20T06:35:34Z",
+      "side": 1,
+      "message": "\u003e Interesting! Any chance we could refactor that class to reuse instead of duplicating it here?\n\nGood idea! I create a new class named \"CancellableDigestOutputStream\", Then PackOutputStream can extends this class in the future.",
+      "parentUuid": "2e3d790c_de057f27",
+      "range": {
+        "startLine": 30,
+        "startChar": 63,
+        "endLine": 30,
+        "endChar": 73
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e880bb83_1ef05e21",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
         "patchSetId": 14
@@ -331,6 +355,24 @@
     },
     {
       "key": {
+        "uuid": "e58f3008_3f4fa083",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-20T06:35:34Z",
+      "side": 1,
+      "message": "count is a \"long\" instead of \"int\", it will not overflow when it reaches 2g.\nI think the size of the commit-graph should be very hard to reach the max limit of the long.",
+      "parentUuid": "51795c28_d06f1d5a",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65aff0a1_31761722",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
         "patchSetId": 14
@@ -345,6 +387,24 @@
       "revId": "2193b684834b872a42be410da4274b8b192561c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a44b4d2_1c7e649e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphOutputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-20T06:35:34Z",
+      "side": 1,
+      "message": "done. I moved it to CommitGraphWriter.",
+      "parentUuid": "65aff0a1_31761722",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -595,6 +655,30 @@
     },
     {
       "key": {
+        "uuid": "941231d3_56972da9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ObjectToCommitData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-20T06:35:34Z",
+      "side": 1,
+      "message": "Thanks for your suggestion, but I tried another way. \nI splitted the commit chain into 2 chains, and until there is no problem with the first chain, I will not modify the changes after https://git.eclipse.org/r/c/jgit/jgit/+/189099.",
+      "parentUuid": "b51803bc_e848b0a0",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "821d1131_c92f2312",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 14
@@ -645,6 +729,24 @@
       "revId": "2193b684834b872a42be410da4274b8b192561c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e146873_c317f85f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-20T06:35:34Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "bfb8b565_7042bd7e",
+      "revId": "2193b684834b872a42be410da4274b8b192561c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
