@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9af7161_cee3ac27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-01-21T23:57:53Z",
+      "side": 1,
+      "message": "deleting",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "1f66113e2e81f0adf15ce21e3632932160f5d1c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6c78d49_ebd31d35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-01-21T23:57:53Z",
+      "side": 1,
+      "message": "Can you describe more insights on the issue and the solution?",
+      "revId": "1f66113e2e81f0adf15ce21e3632932160f5d1c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b63461c8_bd54c3ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-01-21T23:57:53Z",
+      "side": 1,
+      "message": "nit: typically Bug: should come before the Change-Id footer.",
+      "revId": "1f66113e2e81f0adf15ce21e3632932160f5d1c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db827a8_a5ae5f1e",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-01-21T23:57:53Z",
+      "side": 1,
+      "message": "can be factored out as variable \u0027destRef\u0027",
+      "range": {
+        "startLine": 137,
+        "startChar": 72,
+        "endLine": 137,
+        "endChar": 99
+      },
+      "revId": "1f66113e2e81f0adf15ce21e3632932160f5d1c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
