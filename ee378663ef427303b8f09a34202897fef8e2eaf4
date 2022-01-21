@@ -124,6 +124,24 @@
       "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48e077e8_87f7a926",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphDataV1.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-21T05:25:26Z",
+      "side": 1,
+      "message": "\u003e If I am understanding the code in the class correctly, the constructor loads the entire file in memory upfront? It also looks like this is using a binary search to find objectId positions? I think the file format was designed to make binary searching possible without loading the entire file in memory, and I would expect a binary search to be used with that approach. Since this class seems to be using a load-the-entire-file approach, a binary search is likely not the most efficient approach O(log(n)), using a ObjectIdMap probably makes more sense O(1)?\n\nHi, Martin. After the last discussion, I thought about this comment again.\n\nWhen we use commit-graph to optimize commit history traversal, we mostly call CommitGraph#getCommitData(int graph) instead of CommitGraph#getCommitData(AnyObjectId commit).\n\nIn the process of commit traversal, we can get the graphPos of the commit in advance \n(CommitData#getParents() and RevCommit#graphPosition, refer to [1].), so that we can avoid O(logN) lookup and use O(1) lookup instead.\n\nI have tested with \"git rev-list\" and \"git merge-base\" and found that CommitGraph#getCommitData(AnyObjectId commit) was called no more than 10 times, while CommitGraph#getCommitData(int graph) was called thousands of times.\n\nThe optimization of binary search only has obvious effect when \"randomly\" accessing commits\n(As far as I know, we rarely access commits like this).\n\n\nCreating a hashmap makes CommitGraphData take longer to initialize, but for most common commands(eg. git rev-list, git merge-base, git log filtering...), the optimization is not obvious (as it is called very few times). So I think it\u0027s better to keep the original logic.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/183079/11/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+      "parentUuid": "81af9827_710835da",
+      "revId": "ee378663ef427303b8f09a34202897fef8e2eaf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
