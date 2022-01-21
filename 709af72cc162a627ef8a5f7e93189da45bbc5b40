@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20155edb_9d6e28dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T19:01:48Z",
+      "side": 1,
+      "message": "What about something like \"An index request has been served, either from cache or from storage.\"\n\nBecuase if cacheHit is true, nothing got loaded into cache.",
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10ddffc0_364aa1aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T19:01:48Z",
+      "side": 1,
+      "message": "Maybe a more specific description of cacheHit? e.g. \"true if the index was already in cache. Otherwise, the index was loaded from storage into the cache in this request.\"",
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41354a4a_48ca0b3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T19:01:48Z",
+      "side": 1,
+      "message": "If the index was in cache, this is 0? In other words, this is the whole time of the \"give me the index\" request or only the loading from storage part?\n\nIn any case, a more explicit description here would help.",
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "776be5b9_f82ccebb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T19:01:48Z",
+      "side": 1,
+      "message": "Should this also have a default implementation doing nothing? (like acceptEvictedEvent)",
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd8f166f_b4e49a7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T19:01:48Z",
+      "side": 1,
+      "message": "Optional: acceptRequestedEvent? Loaded sounds like it was actually loaded from storage.",
+      "range": {
+        "startLine": 316,
+        "startChar": 7,
+        "endLine": 316,
+        "endChar": 24
+      },
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
