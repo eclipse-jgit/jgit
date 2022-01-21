@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "6053b824_8e03863e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-21T04:30:07Z",
+      "side": 1,
+      "message": "agree",
+      "parentUuid": "0e536385_221a4810",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a6f99e6_12c07467",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "6d3983f2_1e57a715",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-21T04:30:07Z",
+      "side": 1,
+      "message": "agree",
+      "parentUuid": "f1472230_e45efa23",
+      "range": {
+        "startLine": 15,
+        "startChar": 16,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29986624_3659644d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -105,6 +153,24 @@
       "writtenOn": "2022-01-20T17:33:39Z",
       "side": 1,
       "message": "Graph chain can be tricky... how does the implementation request the files in the chain-file? Either caller passes all commit graph files or we need some kind of opener (?). Not sure myself how to implement it yet, but we can probably fit it later.",
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6031d80_46d82835",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-21T04:30:07Z",
+      "side": 1,
+      "message": "In CGit, the single-commit-graph file is only one .git/objects/info/commit-graph, and the multiple-commit-graph files are stored in the .git/objects/info/commit-graphs folder.\n\nIf we want to implement multiple-commit-graph, I think we need to implement the following points:\n1. JGit can find the commit-graph-chains of the repository, and is able to sense if it has been modified.\n2. JGit can find commit-graph-files by the {hash} value in chains.",
+      "parentUuid": "29986624_3659644d",
       "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
