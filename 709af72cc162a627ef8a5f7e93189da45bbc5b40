@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "52dac025_29fea32a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2022-01-21T19:28:09Z",
+      "side": 1,
+      "message": "Oh so true. Thanks for catching all this. I updated the javadoc.",
+      "parentUuid": "20155edb_9d6e28dc",
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10ddffc0_364aa1aa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "12c58d0e_3a40247b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2022-01-21T19:28:09Z",
+      "side": 1,
+      "message": "Thanks, updated.",
+      "parentUuid": "10ddffc0_364aa1aa",
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41354a4a_48ca0b3c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1513c0b8_d6c9af63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2022-01-21T19:28:09Z",
+      "side": 1,
+      "message": "If an index is in cache, it\u0027s not 0. Usually this number is small, but it could be big too when another thread was loading the index into cache, and the current one was waiting for it.\n\nI think the confusion is related to using \"load\" here. But \"load\" is a pretty versatile. You can load from storage or cache. I will not rename the variable itself, but I expended the comment,",
+      "parentUuid": "41354a4a_48ca0b3c",
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -90,6 +144,48 @@
       "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d99f4d7a_9e60445c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2022-01-21T19:28:09Z",
+      "side": 1,
+      "message": "Good point actually since I already renamed a corresponding method in DfsBlockCache.",
+      "parentUuid": "cd8f166f_b4e49a7d",
+      "range": {
+        "startLine": 316,
+        "startChar": 7,
+        "endLine": 316,
+        "endChar": 24
+      },
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6353d648_f645f68c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2022-01-21T19:28:09Z",
+      "side": 1,
+      "message": "I made the other method optional because it is heavier on the system. Making all methods default will make it sort of useless, and this consumer is already optional. So when adding a consumer to the config it should at least be meaningful for one event type. That\u0027s my logic around it.",
+      "parentUuid": "776be5b9_f82ccebb",
+      "revId": "709af72cc162a627ef8a5f7e93189da45bbc5b40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
