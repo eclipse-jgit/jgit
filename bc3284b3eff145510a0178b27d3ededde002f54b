@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26160a03_f2139aaf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/CancellableDigestOutputStreamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T22:52:53Z",
+      "side": 1,
+      "message": "Some cases I am missing here:\n\n* not cancelled, the stream keeps writing over the limit\n* cancelled after first check, throws after reaching next threshold\n* single byte writes trigger the check\n\nThis test should go to the change extracting the class from PackOutputStream.",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3b23f4b_3b628f4d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/CancellableDigestOutputStreamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T22:52:53Z",
+      "side": 1,
+      "message": "Add a comment that the check happens after 128 * 1024 bytes are written (or make public the constant and calculate the chunks, so it is clearer when the limit is hit).",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3c7ae43_0d42419b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T22:52:53Z",
+      "side": 1,
+      "message": "When do we use different ProgressMonitors vs one with different tasks? I think we have both things in the code.\n\nIn the GC change, these 3 (!) progress monitors are the same instance. Maybe we could use one with different tasks?",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4acb4784_f7d9081e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T22:52:53Z",
+      "side": 1,
+      "message": "These begin/endPhase wrappers don\u0027t offer anything over the direct call.",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90bfb73f_dbd618cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/CancellableDigestOutputStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T22:52:53Z",
+      "side": 1,
+      "message": "This package is public... maybe .internal.storage.io is a good place for it?",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87c890a2_7ffcc3e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/CancellableDigestOutputStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T22:52:53Z",
+      "side": 1,
+      "message": "Instead of \"copy-and-dedup-later\", could you \"extract-and-reuse\" from PackOutputStream? Prepare a change before this one, where this code from PackOutputStream code is lifted the superclass.",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71b8e8c0_af4cff34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/CancellableDigestOutputStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-01-21T22:52:53Z",
+      "side": 1,
+      "message": "private?\n\nI realize that this monitor is here only to pass the \"cancel\" state. On the other hand, the cancellation is set at a higher level... so I guess we cannot get rid of it.",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
