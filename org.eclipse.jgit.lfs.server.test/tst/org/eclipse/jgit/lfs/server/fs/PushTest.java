@@ -11,6 +11,7 @@ package org.eclipse.jgit.lfs.server.fs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -29,6 +30,7 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
@@ -128,4 +130,16 @@ public class PushTest extends LfsServerTest {
 				server.getRequests().toString());
 	}
 
+	@Test
+	public void testDeleteBranch() throws Exception {
+		String branch = "new-branch";
+		git.branchCreate().setName(branch).call();
+		git.push().setRefSpecs(new RefSpec().setSource(branch).setDestination(Constants.R_HEADS + branch)).call();
+
+		// Should not fail on push.
+		git.branchDelete().setBranchNames(branch).setForce(true).call();
+		git.push().setRefSpecs(new RefSpec().setSource(null).setDestination(Constants.R_HEADS + branch)).call();
+
+		assertTrue(server.getRequests().isEmpty());
+	}
 }
