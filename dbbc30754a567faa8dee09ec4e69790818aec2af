@@ -16,6 +16,24 @@
       "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df9ee61a_ff82b5e2",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-01-21T08:02:14Z",
+      "side": 1,
+      "message": "OK, I see your point. I have though about the problem a little bit and also written some test cases. I came up to 2 different cases that should be addressed:\n1. The .lfsconfig changes from one branch to another (or in reset). Currently the old .lfsconfig is used for files that are checked out before the .lfsconfig and the new .lfsconfig is used for files checked out after. This behavior could be assumed as correct regarding to the specification that states \"use the .lfs config in the working tree first\", although it is a little bit strange and unintuitive.\n2. The .lfs config has changed in the working directory. In this case the modified working version is used. This should be ok and stay like this.\n\nThe only valid solution for this problem seems to be to checkout the .lfsconfig first. Alone I have no idea how to achieve this behavior. Currently the checkout order is not \"well defined\" since the entries to be checked out are put into a dictionary/set where the order is undefined by default.",
+      "parentUuid": "7334e75b_fa86bcb0",
+      "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
