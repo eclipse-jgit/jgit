@@ -18,6 +18,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -46,8 +47,9 @@ public class DfsBlockCacheConfig {
 	private int concurrencyLevel;
 
 	private Consumer<Long> refLock;
-
 	private Map<PackExt, Integer> cacheHotMap;
+
+	private IndexEventConsumer indexEventConsumer;
 
 	/**
 	 * Create a default configuration.
@@ -216,6 +218,28 @@ public class DfsBlockCacheConfig {
 	}
 
 	/**
+	 * Get the consumer of cache index events.
+	 *
+	 * @return consumer of cache index events.
+	 */
+	public IndexEventConsumer getIndexEventConsumer() {
+		return indexEventConsumer;
+	}
+
+	/**
+	 * Set the consumer of cache index events.
+	 *
+	 * @param indexEventConsumer
+	 *            consumer of cache index events.
+	 * @return {@code this}
+	 */
+	public DfsBlockCacheConfig setIndexEventConsumer(
+			IndexEventConsumer indexEventConsumer) {
+		this.indexEventConsumer = indexEventConsumer;
+		return this;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 * <p>
 	 * If a property is not defined in the configuration, then it is left
@@ -271,5 +295,53 @@ public class DfsBlockCacheConfig {
 			}
 		}
 		return this;
+	}
+
+	/** Consumer of DfsBlockCache loading and eviction events for indexes. */
+	public interface IndexEventConsumer {
+		/**
+		 * Accept an event of an index requested. It could be loaded from either
+		 * cache or storage.
+		 *
+		 * @param packExtPos
+		 *            position in {@code PackExt} enum
+		 * @param cacheHit
+		 *            true if an index was already in cache. Otherwise, the
+		 *            index was loaded from storage into the cache in the
+		 *            current request,
+		 * @param loadMicros
+		 *            time to load an index from cache or storage in
+		 *            microseconds
+		 * @param bytes
+		 *            number of bytes loaded
+		 * @param lastEvictionDuration
+		 *            time since last eviction, 0 if was not evicted yet
+		 */
+		void acceptRequestedEvent(int packExtPos, boolean cacheHit,
+				long loadMicros, long bytes, Duration lastEvictionDuration);
+
+		/**
+		 * Accept an event of an index evicted from cache.
+		 *
+		 * @param packExtPos
+		 *            position in {@code PackExt} enum
+		 * @param bytes
+		 *            number of bytes evicted
+		 * @param totalCacheHitCount
+		 *            number of times an index was accessed while in cache
+		 * @param lastEvictionDuration
+		 *            time since last eviction, 0 if was not evicted yet
+		 */
+		default void acceptEvictedEvent(int packExtPos, long bytes,
+				int totalCacheHitCount, Duration lastEvictionDuration) {
+			// Off by default.
+		}
+
+		/**
+		 * @return true if reporting evicted events is enabled.
+		 */
+		default boolean shouldReportEvictedEvent() {
+			return false;
+		}
 	}
 }
