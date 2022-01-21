@@ -34,6 +34,24 @@
       "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9023a525_04bb2adc",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-21T08:47:53Z",
+      "side": 1,
+      "message": "All right. Can we first establish what happens in such a case on the command line with C git and the \"normal\" Github LFS support? (Might not be easy, since if you just create a local repo with such a setup, it\u0027ll have the cached blobs already and won\u0027t fetch at all on branch switching. At least I think so. One might need to remove the blobs under .git somewhere first before trying a branch switch.)\n\n.gitattributes and .gitignore are similar, but those are known to git and handled specially. But .lfsconfig is, like all LFS stuff, unknown to core git...\n\nI also wonder what happens if one checks out a single path, and that path is an LFS pointer, but the .lfsconfig in the workspace has a different URL than the one in the commit. That might be even easier to test. (And in fact, might be a more common case than having an LFS pointer with a name that comes before .lfsconfig in git order.)\n\nBut in the end, these are obscure corner cases. If it\u0027s too difficult to figure this out, I\u0027m fine with putting this in as-is. (But then please remove this test -- it\u0027s well written, but tests simple file checkout, which is tested umpteen times already elsewhere.) If this .lfsconfig implementation does something different than on the command line, we\u0027ll get a bug report about it.\n\n(Note: I can\u0027t test this myself. Have no LFS setp, and never needed LFS.)",
+      "parentUuid": "df9ee61a_ff82b5e2",
+      "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
