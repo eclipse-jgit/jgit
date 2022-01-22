@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72917dcc_2905985d",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/agent/SshAgentClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-22T23:19:21Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 349,
+        "startChar": 13,
+        "endLine": 349,
+        "endChar": 16
+      },
+      "revId": "4a404b73f8f33ef56eaf64ff03ee60cb572bbee0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
