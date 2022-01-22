@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Julian Ruppel <julian.ruppel@sap.com>
+ * Copyright (c) 2020, 2022 Julian Ruppel <julian.ruppel@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -29,6 +29,7 @@ import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * The standard "commit" configuration parameters.
@@ -43,6 +44,9 @@ public class CommitConfig {
 	public static final Config.SectionParser<CommitConfig> KEY = CommitConfig::new;
 
 	private static final String CUT = " ------------------------ >8 ------------------------\n"; //$NON-NLS-1$
+
+	private static final char[] COMMENT_CHARS = { '#', ';', '@', '!', '$', '%',
+			'^', '&', '|', ':' };
 
 	/**
 	 * How to clean up commit messages when committing.
@@ -99,6 +103,10 @@ public class CommitConfig {
 
 	private CleanupMode cleanupMode;
 
+	private char commentCharacter = '#';
+
+	private boolean autoCommentChar = false;
+
 	private CommitConfig(Config rc) {
 		commitTemplatePath = rc.getString(ConfigConstants.CONFIG_COMMIT_SECTION,
 				null, ConfigConstants.CONFIG_KEY_COMMIT_TEMPLATE);
@@ -106,6 +114,18 @@ public class CommitConfig {
 				null, ConfigConstants.CONFIG_KEY_COMMIT_ENCODING);
 		cleanupMode = rc.getEnum(ConfigConstants.CONFIG_COMMIT_SECTION, null,
 				ConfigConstants.CONFIG_KEY_CLEANUP, CleanupMode.DEFAULT);
+		String comment = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_COMMENT_CHAR);
+		if (!StringUtils.isEmptyOrNull(comment)) {
+			if ("auto".equalsIgnoreCase(comment)) { //$NON-NLS-1$
+				autoCommentChar = true;
+			} else {
+				char first = comment.charAt(0);
+				if (first > ' ' && first < 127) {
+					commentCharacter = first;
+				}
+			}
+		}
 	}
 
 	/**
@@ -128,6 +148,51 @@ public class CommitConfig {
 	@Nullable
 	public String getCommitEncoding() {
 		return i18nCommitEncoding;
+	}
+
+	/**
+	 * Retrieves the comment character set by git config
+	 * {@code core.commentChar}.
+	 *
+	 * @return the character to use for comments in commit messages
+	 * @since 6.2
+	 */
+	public char getCommentChar() {
+		return commentCharacter;
+	}
+
+	/**
+	 * Determines the comment character to use for a particular text. If
+	 * {@code core.commentChar} is "auto", tries to determine an unused
+	 * character; if none is found, falls back to '#'. Otherwise returns the
+	 * character given by {@code core.commentChar}.
+	 *
+	 * @param text
+	 *            existing text
+	 *
+	 * @return the character to use
+	 * @since 6.2
+	 */
+	public char getCommentChar(String text) {
+		if (isAutoCommentChar()) {
+			char toUse = determineCommentChar(text);
+			if (toUse > 0) {
+				return toUse;
+			}
+			return '#';
+		}
+		return getCommentChar();
+	}
+
+	/**
+	 * Tells whether the comment character should be determined by choosing a
+	 * character not occurring in a commit message.
+	 *
+	 * @return {@code true} if git config {@code core.commentChar} is "auto"
+	 * @since 6.2
+	 */
+	public boolean isAutoCommentChar() {
+		return autoCommentChar;
 	}
 
 	/**
@@ -314,5 +379,42 @@ public class CommitConfig {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Determines a comment character by choosing one from a limited set of
+	 * 7-bit ASCII characters that do not occur in the given text at the
+	 * beginning of any line. If none can be determined, {@code (char) 0} is
+	 * returned.
+	 *
+	 * @param text
+	 *            to get a comment character for
+	 * @return the comment character, or {@code (char) 0} if none could be
+	 *         determined
+	 * @since 6.2
+	 */
+	public static char determineCommentChar(String text) {
+		if (StringUtils.isEmptyOrNull(text)) {
+			return '#';
+		}
+		final boolean[] inUse = new boolean[127];
+		for (String line : text.split("\n")) { //$NON-NLS-1$
+			int len = line.length();
+			for (int i = 0; i < len; i++) {
+				char ch = line.charAt(i);
+				if (!Character.isWhitespace(ch)) {
+					if (ch >= 0 && ch < inUse.length) {
+						inUse[ch] = true;
+					}
+					break;
+				}
+			}
+		}
+		for (char candidate : COMMENT_CHARS) {
+			if (!inUse[candidate]) {
+				return candidate;
+			}
+		}
+		return (char) 0;
 	}
 }
