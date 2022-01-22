@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf3bda51_d14f5839",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/CancellableDigestOutputStreamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-22T09:20:51Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "26160a03_f2139aaf",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3b23f4b_3b628f4d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/CancellableDigestOutputStreamTest.java",
         "patchSetId": 17
@@ -33,6 +51,24 @@
       "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c1c8da6_b9239da5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/CancellableDigestOutputStreamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-22T09:20:51Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "e3b23f4b_3b628f4d",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "82950d7b_8913a755",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-22T09:20:51Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "b3c7ae43_0d42419b",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4acb4784_f7d9081e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 17
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "da38779d_5d161098",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-22T09:20:51Z",
+      "side": 1,
+      "message": "I have removed these begin/endPhase wrappers.",
+      "parentUuid": "4acb4784_f7d9081e",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90bfb73f_dbd618cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/CancellableDigestOutputStream.java",
         "patchSetId": 17
@@ -84,6 +156,24 @@
       "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad7d4243_c3c002ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/CancellableDigestOutputStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-22T09:20:51Z",
+      "side": 1,
+      "message": "agree, done.",
+      "parentUuid": "90bfb73f_dbd618cf",
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "63d46ffb_551a7173",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/CancellableDigestOutputStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-22T09:20:51Z",
+      "side": 1,
+      "message": "done. Please refer to https://git.eclipse.org/r/c/jgit/jgit/+/189909.",
+      "parentUuid": "87c890a2_7ffcc3e3",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71b8e8c0_af4cff34",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/CancellableDigestOutputStream.java",
         "patchSetId": 17
@@ -130,6 +244,30 @@
       "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "319cd3c6_1a764bac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/CancellableDigestOutputStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-22T09:20:51Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "71b8e8c0_af4cff34",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "bc3284b3eff145510a0178b27d3ededde002f54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
