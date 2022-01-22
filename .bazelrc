@@ -31,3 +31,5 @@ build:remote17 --tool_java_runtime_version=remotejdk_17
 test --build_tests_only
 test --test_output=errors
 
+import %workspace%/tools/remote-bazelrc
+
