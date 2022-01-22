@@ -2,7 +2,7 @@
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
  * Copyright (C) 2012-2013, Robin Rosenberg
- * Copyright (C) 2018-2021, Andre Bossert <andre.bossert@siemens.com> and others
+ * Copyright (C) 2018-2022, Andre Bossert <andre.bossert@siemens.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -201,6 +201,13 @@ public final class ConfigConstants {
 	 * @since 5.11
 	 */
 	public static final String CONFIG_KEY_FORCE_SIGN_ANNOTATED = "forceSignAnnotated";
+
+	/**
+	 * The "commentChar" key.
+	 *
+	 * @since 6.2
+	 */
+	public static final String CONFIG_KEY_COMMENT_CHAR = "commentChar";
 
 	/**
 	 * The "hooksPath" key.
