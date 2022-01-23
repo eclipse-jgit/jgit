@@ -449,7 +449,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			String oldMessage = commitToPick.getFullMessage();
 			CleanupMode mode = commitConfig.resolve(CleanupMode.DEFAULT, true);
 			boolean[] doChangeId = { false };
-			String newMessage = editCommitMessage(doChangeId, oldMessage, mode);
+			String newMessage = editCommitMessage(doChangeId, oldMessage, mode,
+					commitConfig.getCommentChar(oldMessage));
 			try (Git git = new Git(repo)) {
 				newHead = git.commit()
 						.setMessage(newMessage)
@@ -494,12 +495,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private String editCommitMessage(boolean[] doChangeId, String message,
-			@NonNull CleanupMode mode) {
+			@NonNull CleanupMode mode, char commentChar) {
 		String newMessage;
 		CommitConfig.CleanupMode cleanup;
 		if (interactiveHandler instanceof InteractiveHandler2) {
 			InteractiveHandler2.ModifyResult modification = ((InteractiveHandler2) interactiveHandler)
-					.editCommitMessage(message, mode, '#');
+					.editCommitMessage(message, mode, commentChar);
 			newMessage = modification.getMessage();
 			cleanup = modification.getCleanupMode();
 			if (CleanupMode.DEFAULT.equals(cleanup)) {
@@ -511,7 +512,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			cleanup = CommitConfig.CleanupMode.STRIP;
 			doChangeId[0] = false;
 		}
-		return CommitConfig.cleanText(newMessage, cleanup, '#');
+		return CommitConfig.cleanText(newMessage, cleanup, commentChar);
 	}
 
 	private RebaseResult cherryPickCommit(RevCommit commitToPick)
@@ -808,8 +809,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			if (isLast) {
 				boolean[] doChangeId = { false };
 				if (sequenceContainsSquash) {
+					char commentChar = commitMessage.charAt(0);
 					commitMessage = editCommitMessage(doChangeId, commitMessage,
-							CleanupMode.STRIP);
+							CleanupMode.STRIP, commentChar);
 				}
 				retNewHead = git.commit()
 						.setMessage(commitMessage)
@@ -829,28 +831,58 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	@SuppressWarnings("nls")
-	private static String composeSquashMessage(boolean isSquash,
+	private String composeSquashMessage(boolean isSquash,
 			RevCommit commitToPick, String currSquashMessage, int count) {
 		StringBuilder sb = new StringBuilder();
 		String ordinal = getOrdinal(count);
-		sb.setLength(0);
-		sb.append("# This is a combination of ").append(count)
-				.append(" commits.\n");
-		// Add the previous message without header (i.e first line)
-		sb.append(currSquashMessage
-				.substring(currSquashMessage.indexOf('\n') + 1));
-		sb.append("\n");
-		if (isSquash) {
-			sb.append("# This is the ").append(count).append(ordinal)
-					.append(" commit message:\n");
-			sb.append(commitToPick.getFullMessage());
+		// currSquashMessage is always non-empty here, and the first character
+		// is the comment character used so far.
+		char commentChar = currSquashMessage.charAt(0);
+		String newMessage = commitToPick.getFullMessage();
+		if (!isSquash) {
+			sb.append(commentChar).append(" This is a combination of ")
+					.append(count).append(" commits.\n");
+			// Add the previous message without header (i.e first line)
+			sb.append(currSquashMessage
+					.substring(currSquashMessage.indexOf('\n') + 1));
+			sb.append('\n');
+			sb.append(commentChar).append(" The ").append(count).append(ordinal)
+					.append(" commit message will be skipped:\n")
+					.append(commentChar).append(' ');
+			sb.append(newMessage.replaceAll("([\n\r])",
+					"$1" + commentChar + ' '));
 		} else {
-			sb.append("# The ").append(count).append(ordinal)
-					.append(" commit message will be skipped:\n# ");
-			sb.append(commitToPick.getFullMessage().replaceAll("([\n\r])",
-					"$1# "));
+			String currentMessage = currSquashMessage;
+			if (commitConfig.isAutoCommentChar()) {
+				// Figure out a new comment character taking into account the
+				// new message
+				String cleaned = CommitConfig.cleanText(currentMessage,
+						CommitConfig.CleanupMode.STRIP, commentChar) + '\n'
+						+ newMessage;
+				char newCommentChar = commitConfig.getCommentChar(cleaned);
+				if (newCommentChar != commentChar) {
+					currentMessage = replaceCommentChar(currentMessage,
+							commentChar, newCommentChar);
+					commentChar = newCommentChar;
+				}
+			}
+			sb.append(commentChar).append(" This is a combination of ")
+					.append(count).append(" commits.\n");
+			// Add the previous message without header (i.e first line)
+			sb.append(
+					currentMessage.substring(currentMessage.indexOf('\n') + 1));
+			sb.append('\n');
+			sb.append(commentChar).append(" This is the ").append(count)
+					.append(ordinal).append(" commit message:\n");
+			sb.append(newMessage);
 		}
 		return sb.toString();
+	}
+
+	private String replaceCommentChar(String message, char oldChar,
+			char newChar) {
+		// (?m) - Switch on multi-line matching; \h - horizontal whitespace
+		return message.replaceAll("(?m)^(\\h*)" + oldChar, "$1" + newChar); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private static String getOrdinal(int count) {
@@ -886,10 +918,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private void initializeSquashFixupFile(String messageFile,
 			String fullMessage) throws IOException {
-		rebaseState
-				.createFile(
-						messageFile,
-						"# This is a combination of 1 commits.\n# The first commit's message is:\n" + fullMessage); //$NON-NLS-1$);
+		char commentChar = commitConfig.getCommentChar(fullMessage);
+		rebaseState.createFile(messageFile,
+				commentChar + " This is a combination of 1 commits.\n" //$NON-NLS-1$
+						+ commentChar + " The first commit's message is:\n" //$NON-NLS-1$
+						+ fullMessage);
 	}
 
 	private String getOurCommitName() {

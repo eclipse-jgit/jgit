@@ -30,6 +30,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitConfig;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -185,9 +186,12 @@ public class RevertCommand extends GitCommand<RevCommit> {
 								MergeStatus.CONFLICTING, strategy,
 								merger.getMergeResults(), failingPaths, null);
 					if (!merger.failed() && !unmergedPaths.isEmpty()) {
+						CommitConfig config = repo.getConfig()
+								.get(CommitConfig.KEY);
+						char commentChar = config.getCommentChar(newMessage);
 						String message = new MergeMessageFormatter()
 								.formatWithConflicts(newMessage,
-										merger.getUnmergedPaths(), '#');
+										merger.getUnmergedPaths(), commentChar);
 						repo.writeRevertHead(srcCommit.getId());
 						repo.writeMergeCommitMsg(message);
 					}

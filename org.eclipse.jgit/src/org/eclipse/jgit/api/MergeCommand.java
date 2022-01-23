@@ -34,6 +34,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitConfig;
 import org.eclipse.jgit.lib.Config.ConfigEnum;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -404,8 +405,11 @@ public class MergeCommand extends GitCommand<MergeResult> {
 							MergeStatus.FAILED, mergeStrategy, lowLevelResults,
 							failingPaths, null);
 				}
+				CommitConfig cfg = repo.getConfig().get(CommitConfig.KEY);
+				char commentChar = cfg.getCommentChar(message);
 				String mergeMessageWithConflicts = new MergeMessageFormatter()
-						.formatWithConflicts(mergeMessage, unmergedPaths, '#');
+						.formatWithConflicts(mergeMessage, unmergedPaths,
+								commentChar);
 				repo.writeMergeCommitMsg(mergeMessageWithConflicts);
 				return new MergeResult(null, merger.getBaseCommitId(),
 						new ObjectId[] { headCommit.getId(),
