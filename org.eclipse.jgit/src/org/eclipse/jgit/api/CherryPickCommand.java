@@ -30,6 +30,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitConfig;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -183,9 +184,13 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 
 					String message;
 					if (unmergedPaths != null) {
+						CommitConfig cfg = repo.getConfig()
+								.get(CommitConfig.KEY);
+						message = srcCommit.getFullMessage();
+						char commentChar = cfg.getCommentChar(message);
 						message = new MergeMessageFormatter()
-							.formatWithConflicts(srcCommit.getFullMessage(),
-										unmergedPaths, '#');
+								.formatWithConflicts(message, unmergedPaths,
+										commentChar);
 					} else {
 						message = srcCommit.getFullMessage();
 					}

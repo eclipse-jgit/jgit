@@ -233,11 +233,25 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				config = repo.getConfig().get(CommitConfig.KEY);
 				cleanupMode = config.resolve(cleanupMode, cleanDefaultIsStrip);
 			}
-			char comments;
-			if (commentChar == null) {
-				comments = '#'; // TODO use git config core.commentChar
-			} else {
-				comments = commentChar.charValue();
+			char comments = (char) 0;
+			if (CleanupMode.STRIP.equals(cleanupMode)
+					|| CleanupMode.SCISSORS.equals(cleanupMode)) {
+				if (commentChar == null) {
+					if (config == null) {
+						config = repo.getConfig().get(CommitConfig.KEY);
+					}
+					if (config.isAutoCommentChar()) {
+						// We're supposed to pick a character that isn't used,
+						// but then cleaning up won't remove any lines. So don't
+						// bother.
+						comments = (char) 0;
+						cleanupMode = CleanupMode.WHITESPACE;
+					} else {
+						comments = config.getCommentChar();
+					}
+				} else {
+					comments = commentChar.charValue();
+				}
 			}
 			message = CommitConfig.cleanText(message, cleanupMode, comments);
 

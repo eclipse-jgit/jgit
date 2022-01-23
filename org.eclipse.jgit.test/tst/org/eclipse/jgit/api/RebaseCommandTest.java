@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseCommand.InteractiveHandler;
+import org.eclipse.jgit.api.RebaseCommand.InteractiveHandler2;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.errors.InvalidRebaseStepException;
@@ -46,6 +47,7 @@ import org.eclipse.jgit.events.ChangeRecorder;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -56,6 +58,7 @@ import org.eclipse.jgit.lib.RebaseTodoLine.Action;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -3408,6 +3411,99 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				+ "[file1, mode:100644, content:modified file1 a second time]",
 				indexState(CONTENT));
 
+	}
+
+	@Test
+	public void testInteractiveRebaseSquashFixupSequence() throws Exception {
+		// create file1, add and commit
+		writeTrashFile(FILE1, "file1");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("commit1").call();
+
+		// modify file1, add and commit
+		writeTrashFile(FILE1, "modified file1");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("commit2").call();
+
+		// modify file1, add and commit
+		writeTrashFile(FILE1, "modified file1 a second time");
+		git.add().addFilepattern(FILE1).call();
+		// Make it difficult; use git standard comment characters in the commit
+		// messages
+		git.commit().setMessage("#commit3").call();
+
+		// modify file1, add and commit
+		writeTrashFile(FILE1, "modified file1 a third time");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("@commit4").call();
+
+		// modify file1, add and commit
+		writeTrashFile(FILE1, "modified file1 a fourth time");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage(";commit5").call();
+
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("core", null, "commentChar", "auto");
+		// With "auto", we should end up with '@' being used as comment
+		// character (commit4 is skipped, so it should not advance the
+		// character).
+		RebaseResult result = git.rebase().setUpstream("HEAD~4")
+				.runInteractively(new InteractiveHandler2() {
+
+					@Override
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						try {
+							steps.get(0).setAction(Action.PICK);
+							steps.get(1).setAction(Action.SQUASH);
+							steps.get(2).setAction(Action.FIXUP);
+							steps.get(3).setAction(Action.SQUASH);
+						} catch (IllegalTodoFileModification e) {
+							fail("unexpected exception: " + e);
+						}
+					}
+
+					@Override
+					public String modifyCommitMessage(String commit) {
+						fail("should not be called");
+						return commit;
+					}
+
+					@Override
+					public ModifyResult editCommitMessage(String message,
+							CleanupMode mode, char commentChar) {
+						assertEquals('@', commentChar);
+						assertEquals("@ This is a combination of 4 commits.\n"
+								+ "@ The first commit's message is:\n"
+								+ "commit2\n"
+								+ "@ This is the 2nd commit message:\n"
+								+ "#commit3\n"
+								+ "@ The 3rd commit message will be skipped:\n"
+								+ "@ @commit4\n"
+								+ "@ This is the 4th commit message:\n"
+								+ ";commit5", message);
+						return new ModifyResult() {
+
+							@Override
+							public String getMessage() {
+								return message;
+							}
+
+							@Override
+							public CleanupMode getCleanupMode() {
+								return mode;
+							}
+
+							@Override
+							public boolean shouldAddChangeId() {
+								return false;
+							}
+						};
+					}
+				}).call();
+		assertEquals(Status.OK, result.getStatus());
+		Iterator<RevCommit> logIterator = git.log().all().call().iterator();
+		String actualCommitMsg = logIterator.next().getFullMessage();
+		assertEquals("commit2\n#commit3\n;commit5", actualCommitMsg);
 	}
 
 	private File getTodoFile() {

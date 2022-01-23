@@ -36,6 +36,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.Sets;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
@@ -2014,6 +2015,73 @@ public class MergeCommandTest extends RepositoryTestCase {
 					.setMessage("user message").call();
 
 			assertEquals("user message\n\n# Conflicts:\n#\ta\n",
+					db.readMergeCommitMsg());
+		}
+	}
+
+	@Test
+	public void testMergeConflictWithMessageAndCommentChar() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			git.add().addFilepattern("a").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "1\na(side)\n3\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("side").call();
+
+			checkoutBranch("refs/heads/master");
+
+			writeTrashFile("a", "1\na(main)\n3\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
+
+			StoredConfig config = db.getConfig();
+			config.setString("core", null, "commentChar", "^");
+
+			Ref sideBranch = db.exactRef("refs/heads/side");
+
+			git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
+					.setMessage("user message").call();
+
+			assertEquals("user message\n\n^ Conflicts:\n^\ta\n",
+					db.readMergeCommitMsg());
+		}
+	}
+
+	@Test
+	public void testMergeConflictWithMessageAndCommentCharAuto()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			git.add().addFilepattern("a").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "1\na(side)\n3\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("side").call();
+
+			checkoutBranch("refs/heads/master");
+
+			writeTrashFile("a", "1\na(main)\n3\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
+
+			StoredConfig config = db.getConfig();
+			config.setString("core", null, "commentChar", "auto");
+
+			Ref sideBranch = db.exactRef("refs/heads/side");
+
+			git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
+					.setMessage("#user message").call();
+
+			assertEquals("#user message\n\n; Conflicts:\n;\ta\n",
 					db.readMergeCommitMsg());
 		}
 	}
