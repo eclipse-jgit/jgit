@@ -52,6 +52,24 @@
       "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab828e33_41d0fc7d",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-01-24T09:30:08Z",
+      "side": 1,
+      "message": "The checkout order problem order seems to be available in native git also. After modifying the lfs url to an invalid value, deleting an lfs file and clearing the lfs objects folder an \"git reset --hard\" fails due to the erroneous configuration in the working directory. After this step the .lfsconfig is reset to the state in the index and follow up resets work fine.\n\nThe order problem is not limited to .lfsconfig. If the .gitaatibute is modified it is also checked out/resetted after a file with name \".aaa.txt\" and before \"zzz.txt\" (I have not reproduced that ´case with native git).\n\nSo for now, I think I can live with this behavior. A solution of this problem should include all config files, since the .gitattributes affects the smudge/clean behavior of lfs.\n\nNevertheless I have added test cases that passes with the current behavior, and can be easily adapted if the behavior is changed in future.",
+      "parentUuid": "9023a525_04bb2adc",
+      "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
