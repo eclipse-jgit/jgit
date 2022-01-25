@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60b1ae39_64f8367f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-01-25T15:29:44Z",
+      "side": 1,
+      "message": "I should create an issue for that and add the \u0027Bug:\u0027 reference here.",
+      "revId": "02f6a5fa252e24f26174155519d31657f3074cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
