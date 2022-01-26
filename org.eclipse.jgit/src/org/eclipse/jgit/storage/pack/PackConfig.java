@@ -233,7 +233,7 @@ public class PackConfig {
 	 * @see #setMinBytesForObjSizeIndex(int)
 	 * @since 6.4
 	 */
-	public static final int DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX = -1;
+	public static final int DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX = 0;
 
 	/**
 	 * Default max time to spend during the search for reuse phase. This
