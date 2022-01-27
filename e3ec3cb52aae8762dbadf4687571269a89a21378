@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "549f27b7_85eca306",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsConfigGitTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-27T19:44:41Z",
+      "side": 1,
+      "message": "We generally don\u0027t use @author; the copyright line suffices.",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05588b56_430af7a5",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsConfigGitTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-27T19:44:41Z",
+      "side": 1,
+      "message": "Nice catch! That should probably be fixed in a follow-up change to use a LinkedHashMap. Otherwise indeed we might get strange effects where things _sometimes_ go wrong.",
+      "range": {
+        "startLine": 152,
+        "startChar": 19,
+        "endLine": 152,
+        "endChar": 47
+      },
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bc8e4f5_8ba39fdc",
+        "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-27T19:44:41Z",
+      "side": 1,
+      "message": "The quotes are not needed. (Also not in the other messages above; I\u0027ll fix those in a later change.)",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e2fbea4_c89705a0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-27T19:44:41Z",
+      "side": 1,
+      "message": "Just noticed: is this really the right place? Probably the lfs.\u003cremote\u003e.url git config should also override .lfsconfig?",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
