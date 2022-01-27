@@ -16,6 +16,24 @@
       "revId": "62851ffcd27d0ac0f030b334543c936ef0f73a46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2358ca55_2e6cba51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-01-27T11:26:17Z",
+      "side": 1,
+      "message": "\u003e PackOutputStream: Extract cancellation and digest to superclass\n\u003e \n\u003e Checking the cancelled status and keeping a digest of the written data is useful for other output streams. e.g. to write commit-graphs.\n\u003e \n\u003e Pull up that functionality to a superclass, so it can be reused.\nThe commit message looks much better.\nDone.",
+      "parentUuid": "bc494ee1_90233511",
+      "revId": "62851ffcd27d0ac0f030b334543c936ef0f73a46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
