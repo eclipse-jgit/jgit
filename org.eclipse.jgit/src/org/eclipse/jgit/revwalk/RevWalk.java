@@ -215,7 +215,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		this(or, false);
 	}
 
-	private RevWalk(ObjectReader or, boolean closeReader) {
+	RevWalk(ObjectReader or, boolean closeReader) {
 		reader = or;
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdOwnerMap<>();
