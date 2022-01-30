@@ -2,7 +2,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008-2011, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2008-2011, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2010, 2020 Christian Halstrick <christian.halstrick@sap.com> and others
+ * Copyright (C) 2010, 2022 Christian Halstrick <christian.halstrick@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -313,8 +313,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testCheckoutWithLFAuto() throws Exception {
-		checkoutLineEndings("first line\nsecond line\n",
-				"first line\nsecond line\n", "f text=auto");
+		String expected = String.format("first line%nsecond line%n");
+		checkoutLineEndings("first line\nsecond line\n", expected,
+				"f text=auto");
 	}
 
 	@Test
@@ -325,9 +326,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testCheckoutWithLFAutoEolNative() throws Exception {
+		String expected = String.format("first line%nsecond line%n");
 		checkoutLineEndings(
-				"first line\nsecond line\n", "first line\nsecond line\n"
-						.replaceAll("\n", System.lineSeparator()),
+				"first line\nsecond line\n", expected,
 				"f text=auto eol=native");
 	}
 
