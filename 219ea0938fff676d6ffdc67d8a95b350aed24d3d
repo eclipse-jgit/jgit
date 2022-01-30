@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "81a10e13_cd2a74f8",
+        "filename": "org.eclipse.jgit.ssh.apache.agent/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-30T16:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fa77952_ad602274",
+      "range": {
+        "startLine": 39,
+        "startChar": 51,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "219ea0938fff676d6ffdc67d8a95b350aed24d3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8eede92c_9fcc70ab",
         "filename": "org.eclipse.jgit.ssh.apache/README.md",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2022-01-30T09:26:35Z",
       "side": 1,
       "message": "But there is a request to add a support for it in Apache MINA issue tracker: [1], [2].\n\n[1] https://issues.apache.org/jira/browse/SSHD-985\n[2] https://issues.apache.org/jira/browse/SSHD-988",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 72
+      },
+      "revId": "219ea0938fff676d6ffdc67d8a95b350aed24d3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b5e269a_81996d81",
+        "filename": "org.eclipse.jgit.ssh.apache/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-30T16:21:56Z",
+      "side": 1,
+      "message": "I know. There\u0027s also a request to implement it for OpenSSH: [3].\n\n[3] https://bugzilla.mindrot.org/show_bug.cgi?id\u003d3087",
+      "parentUuid": "8eede92c_9fcc70ab",
       "range": {
         "startLine": 89,
         "startChar": 0,
