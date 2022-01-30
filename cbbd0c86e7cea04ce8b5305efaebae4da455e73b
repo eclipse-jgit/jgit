@@ -16,6 +16,23 @@
       "revId": "cbbd0c86e7cea04ce8b5305efaebae4da455e73b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8296bfb3_566cfe41",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/CommitConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-01-30T23:18:14Z",
+      "side": 1,
+      "message": "And comment wrong. Copy-paste error; comment is to be removed.",
+      "revId": "cbbd0c86e7cea04ce8b5305efaebae4da455e73b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
