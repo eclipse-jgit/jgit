@@ -868,7 +868,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			coCommand.setName(crudCommit.getName()).call();
 			CheckoutResult result = coCommand.getResult();
 			assertEquals(Status.NONDELETED, result.getStatus());
-			assertEquals("[Test.txt, toBeDeleted.txt]",
+			assertEquals("[toBeDeleted.txt]",
 					result.getRemovedList().toString());
 			assertEquals("[toBeCreated.txt, toBeModified.txt]",
 					result.getModifiedList().toString());
