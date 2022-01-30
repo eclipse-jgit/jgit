@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e185d8dc_706b9e3d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/CommitConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-30T23:13:15Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "cbbd0c86e7cea04ce8b5305efaebae4da455e73b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
