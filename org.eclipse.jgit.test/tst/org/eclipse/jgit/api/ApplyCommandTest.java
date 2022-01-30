@@ -32,6 +32,7 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.junit.Test;
 
@@ -402,7 +403,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testAddM1() throws Exception {
 		ApplyResult result = init("M1", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertTrue(result.getUpdatedFiles().get(0).canExecute());
+		if (FS.DETECTED.supportsExecute()) {
+			assertTrue(FS.DETECTED.canExecute(result.getUpdatedFiles().get(0)));
+		}
 		checkFile(new File(db.getWorkTree(), "M1"),
 				b.getString(0, b.size(), false));
 	}
@@ -411,7 +414,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testModifyM2() throws Exception {
 		ApplyResult result = init("M2", true, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertTrue(result.getUpdatedFiles().get(0).canExecute());
+		if (FS.DETECTED.supportsExecute()) {
+			assertTrue(FS.DETECTED.canExecute(result.getUpdatedFiles().get(0)));
+		}
 		checkFile(new File(db.getWorkTree(), "M2"),
 				b.getString(0, b.size(), false));
 	}
@@ -420,7 +425,10 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testModifyM3() throws Exception {
 		ApplyResult result = init("M3", true, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertFalse(result.getUpdatedFiles().get(0).canExecute());
+		if (FS.DETECTED.supportsExecute()) {
+			assertFalse(
+					FS.DETECTED.canExecute(result.getUpdatedFiles().get(0)));
+		}
 		checkFile(new File(db.getWorkTree(), "M3"),
 				b.getString(0, b.size(), false));
 	}
