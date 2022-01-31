@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 SAP SE and others
+ * Copyright (C) 2021, 2022 SAP SE and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -47,8 +47,7 @@ public class CommitTemplateConfigTest {
 				".tmp", new File(homeDir));
 		tempFileInHomeDirectory.deleteOnExit();
 		JGitTestUtil.write(tempFileInHomeDirectory, templateContent);
-		String expectedTemplatePath = tempFileInHomeDirectory.getPath()
-				.replace(homeDir, "~");
+		String expectedTemplatePath = "~/" + tempFileInHomeDirectory.getName();
 		config = ConfigTest
 				.parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
 		String templatePath = config.get(CommitConfig.KEY)
