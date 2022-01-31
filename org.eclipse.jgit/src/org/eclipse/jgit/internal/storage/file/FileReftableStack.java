@@ -40,6 +40,7 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * A mutable stack of reftables on local filesystem storage. Not thread-safe.
@@ -527,11 +528,19 @@ public class FileReftableStack implements AutoCloseable {
 				return false;
 			}
 
+			reload();
 			for (File f : deleteOnSuccess) {
-				Files.delete(f.toPath());
+				try {
+					Files.delete(f.toPath());
+				} catch (IOException e) {
+					// Ignore: this can happen on Windows in case of concurrent processes.
+					// leave the garbage and continue.
+					if (!SystemReader.getInstance().isWindows()) {
+						throw e;
+					}
+				}
 			}
 
-			reload();
 			return true;
 		} finally {
 			if (tmpTable != null) {
