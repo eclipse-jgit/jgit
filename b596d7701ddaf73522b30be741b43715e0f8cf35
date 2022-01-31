@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4da747a_296b570b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-31T21:46:45Z",
+      "side": 1,
+      "message": "6.1, 6.0 was already released in December",
+      "range": {
+        "startLine": 524,
+        "startChar": 11,
+        "endLine": 524,
+        "endChar": 14
+      },
+      "revId": "b596d7701ddaf73522b30be741b43715e0f8cf35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
