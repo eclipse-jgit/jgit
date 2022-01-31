@@ -14,6 +14,7 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeFalse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,9 +33,11 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 
 public class FileReftableStackTest {
 
@@ -118,6 +121,9 @@ public class FileReftableStackTest {
 	@SuppressWarnings({ "resource", "unused" })
 	@Test
 	public void missingReftable() throws Exception {
+		// Can't delete in-use files on Windows.
+		assumeFalse(SystemReader.getInstance().isWindows());
+
 		try (FileReftableStack stack = new FileReftableStack(
 				new File(reftableDir, "refs"), reftableDir, null,
 				() -> new Config())) {
