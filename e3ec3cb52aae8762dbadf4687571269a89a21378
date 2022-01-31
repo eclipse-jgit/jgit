@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4325e413_db6b2b3a",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsConfigGitTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-01-31T10:12:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "549f27b7_85eca306",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05588b56_430af7a5",
         "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsConfigGitTest.java",
         "patchSetId": 5
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "edbafe88_aa851018",
+        "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-01-31T10:12:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bc8e4f5_8ba39fdc",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2fbea4_c89705a0",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
         "patchSetId": 5
@@ -70,6 +106,24 @@
       "writtenOn": "2022-01-27T19:44:41Z",
       "side": 1,
       "message": "Just noticed: is this really the right place? Probably the lfs.\u003cremote\u003e.url git config should also override .lfsconfig?",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2c9881f_3ab3811d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-01-31T10:12:26Z",
+      "side": 1,
+      "message": "After looking into this I saw some problems with the remote config. The \"lfsUrl\" is modified in this case and \"/info/lfs\" is appended (Line: 155).\nFurther according to this document \"https://github.com/git-lfs/git-lfs/blob/main/docs/man/git-lfs-config.5.ronn\" the key should be \u0027remotes.\u003cremote\u003e.lfsurl\u0027. So any test for this will fail if I assume the stated document to be the specification.\nBesides this, I also was not sure if this place is correct. Maybe a \".lfsconfig\" specific class should be provided using the LfsFactory and prepended to the configuration during creation of the repository config.\nShould I make a proposal for that within this request/bug, or create a new bug for both issues?",
+      "parentUuid": "7e2fbea4_c89705a0",
       "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
