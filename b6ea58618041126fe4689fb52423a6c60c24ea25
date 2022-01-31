@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d44e3d2_d99c1969",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-31T20:28:15Z",
+      "side": 1,
+      "message": "Bad location of \"import static\" directives. JGit is not using google-java-format, but in other files \"import static\" is always on the to of the import list and not on the bottom. See: [1]. \n\n[1] org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTest.java",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 43
+      },
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00f8410e_185cfff7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-31T20:28:15Z",
+      "side": 1,
+      "message": "Nit: Uppercase first word in the statement.",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 10
+      },
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecd946af_bf95bad3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-31T20:28:15Z",
+      "side": 1,
+      "message": "Nit: Uppercase?\n\n$ git grep \"Windows\" | wc -l\n  182\n\n$ git grep \"windows\" | wc -l\n  72",
+      "range": {
+        "startLine": 124,
+        "startChar": 34,
+        "endLine": 124,
+        "endChar": 41
+      },
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

@@ -86,6 +86,30 @@
       "revId": "16aaf53fea1acf513b6d8e7038244c5987ebf64d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70551539_786c3eee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-31T20:28:15Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "b706a89f_7758a82e",
+      "range": {
+        "startLine": 535,
+        "startChar": 5,
+        "endLine": 536,
+        "endChar": 39
+      },
+      "revId": "16aaf53fea1acf513b6d8e7038244c5987ebf64d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
