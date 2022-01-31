@@ -1488,7 +1488,9 @@ public class ConfigTest {
 		String expectedTemplatePath = tempFile.getPath();
 
 		Config config = parse(
-				"[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+				"[commit]\n\ttemplate = \""
+						+ expectedTemplatePath.replaceAll("\\\\", "\\\\\\\\")
+						+ "\"\n");
 
 		String templatePath = config.get(CommitConfig.KEY)
 				.getCommitTemplatePath();
@@ -1537,7 +1539,8 @@ public class ConfigTest {
 		JGitTestUtil.write(tempFile, templateContent);
 		String expectedTemplatePath = tempFile.getPath();
 		config = parse("[i18n]\n\tcommitEncoding = utf-8\n"
-				+ "[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+				+ "[commit]\n\ttemplate = \""
+				+ expectedTemplatePath.replaceAll("\\\\", "\\\\\\\\") + "\"\n");
 		assertEquals(templateContent,
 				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
 		String commitEncoding = config.get(CommitConfig.KEY)
@@ -1556,7 +1559,8 @@ public class ConfigTest {
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
-				+ "[commit]\n\ttemplate = " + tempFile.getPath() + "\n");
+				+ "[commit]\n\ttemplate = \""
+				+ tempFile.getPath().replaceAll("\\\\", "\\\\\\\\") + "\"\n");
 		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
 	}
 
@@ -1570,7 +1574,7 @@ public class ConfigTest {
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		// commit message encoding
-		String expectedTemplatePath = "/nonExistingTemplate";
+		String expectedTemplatePath = "~/nonExistingTemplate";
 		config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
 		String templatePath = config.get(CommitConfig.KEY)
 				.getCommitTemplatePath();
