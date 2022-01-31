@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3fb2531_33294695",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-31T21:19:38Z",
+      "side": 1,
+      "message": "jgit uses the Eclipse formatter with the configuration in .settings/org.eclipse.jdt.core.prefs\nin Eclipse modified/new jgit code is auto-formatted on save",
+      "parentUuid": "6d44e3d2_d99c1969",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 43
+      },
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00f8410e_185cfff7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
         "patchSetId": 2
@@ -65,6 +89,23 @@
         "endLine": 124,
         "endChar": 41
       },
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d885118_88036e95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-01-31T21:19:38Z",
+      "side": 1,
+      "message": "- maybe it would make sense to log the exception with debug level on Windows to allow tracing cause of failing garbage collection\n- should the exception be rethrown if it occurs on another OS ?",
       "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
