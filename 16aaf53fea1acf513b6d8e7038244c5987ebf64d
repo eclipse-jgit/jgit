@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682cd900_00b89165",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-31T18:56:05Z",
+      "side": 1,
+      "message": "Add the reference to the tracking issue:\n\nBug: 578454",
+      "revId": "16aaf53fea1acf513b6d8e7038244c5987ebf64d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "140acd28_fa9597cb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-31T18:56:05Z",
+      "side": 1,
+      "message": "Please use assumption violation way to skip tests, like it is done in other places in the code base:\n\n  org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());\n\nThis way it is also highlighted in the IDE (e.g. Eclipse), that this method was skipped, due to assumption violation.",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "16aaf53fea1acf513b6d8e7038244c5987ebf64d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705f8166_15653aea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-01-31T18:56:05Z",
+      "side": 1,
+      "message": "May be log the failure anyway?",
+      "range": {
+        "startLine": 535,
+        "startChar": 5,
+        "endLine": 536,
+        "endChar": 39
+      },
+      "revId": "16aaf53fea1acf513b6d8e7038244c5987ebf64d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
