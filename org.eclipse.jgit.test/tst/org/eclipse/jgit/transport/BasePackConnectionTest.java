@@ -10,16 +10,24 @@
 package org.eclipse.jgit.transport;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.errors.NoRemoteRepositoryException;
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -28,6 +36,21 @@ import org.eclipse.jgit.lib.SymbolicRef;
 import org.junit.Test;
 
 public class BasePackConnectionTest {
+
+	@Test
+	public void testReadAdvertisedShouldHandleExceptionCorrectly() throws URISyntaxException {
+		URIish uri = new URIish("uri");
+		EOFException exceptionToSuppress = new EOFException("Cause to suppress");
+		EOFException originalException = new EOFException("Original exception");
+		NoRemoteRepositoryException noRepo = new NoRemoteRepositoryException(uri, "not found");
+
+		FailingBasePackConnection basePackConnection = new FailingBasePackConnection(uri, originalException, exceptionToSuppress, noRepo);
+
+		Exception exception = assertThrows(NoRemoteRepositoryException.class, basePackConnection::callReadAdvertisedRefs);
+		assertThat(exception.getCause(), equalTo(originalException));
+		assertEquals(1, exception.getSuppressed().length);
+		assertThat(exception.getSuppressed()[0], equalTo(exceptionToSuppress));
+	}
 
 	@Test
 	public void testUpdateWithSymRefsAdds() {
@@ -243,5 +266,42 @@ public class BasePackConnectionTest {
 		assertSame(mainRef, headSymRef.getTarget());
 		assertEquals(oidName, headRef.getObjectId().name());
 		assertEquals(oidName, mainRef.getObjectId().name());
+	}
+
+	private static class FailingBasePackConnection extends BasePackConnection {
+		private final Throwable noRepositoryCauseException;
+		private final TransportException noRepositoryException;
+
+		FailingBasePackConnection(URIish uri, Throwable noRepositoryCauseException, IOException readStringException, TransportException noRepositoryException) {
+			super(new TransportLocal(uri, new java.io.File("")));
+			this.noRepositoryCauseException = noRepositoryCauseException;
+			this.noRepositoryException = noRepositoryException;
+			class Pli extends PacketLineIn {
+				public Pli() {
+					super(new InputStream() {
+						@Override
+						public int read() throws IOException {
+							return 0;
+						}
+					});
+				}
+
+				@Override
+				public String readString() throws IOException {
+					throw readStringException;
+				}
+			}
+			pckIn = new Pli();
+		}
+
+		@Override
+		protected TransportException noRepository() {
+			noRepositoryException.initCause(noRepositoryCauseException);
+			return noRepositoryException;
+		}
+
+		public boolean callReadAdvertisedRefs() throws TransportException {
+			return readAdvertisedRefs();
+		}
 	}
 }
