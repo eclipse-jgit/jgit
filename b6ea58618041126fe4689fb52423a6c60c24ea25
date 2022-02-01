@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d2a8bf56_a7b63c2b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-02-01T10:53:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a3fb2531_33294695",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 43
+      },
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00f8410e_185cfff7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
         "patchSetId": 2
@@ -95,6 +119,54 @@
     },
     {
       "key": {
+        "uuid": "6341b0c5_89ccf1d0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-02-01T10:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00f8410e_185cfff7",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 10
+      },
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eebeb0fe_91aa463d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableStackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-02-01T10:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecd946af_bf95bad3",
+      "range": {
+        "startLine": 124,
+        "startChar": 34,
+        "endLine": 124,
+        "endChar": 41
+      },
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d885118_88036e95",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
         "patchSetId": 2
@@ -106,6 +178,24 @@
       "writtenOn": "2022-01-31T21:19:38Z",
       "side": 1,
       "message": "- maybe it would make sense to log the exception with debug level on Windows to allow tracing cause of failing garbage collection\n- should the exception be rethrown if it occurs on another OS ?",
+      "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7faf9d58_2f69e6a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-02-01T10:53:31Z",
+      "side": 1,
+      "message": "\u003emaybe it would make sense to log the exception with debug level on Windows to allow tracing cause of failing garbage collection\n\nI assume other code paths in JGit struggle with the same problem. How do they handle this?\n\n\u003eshould the exception be rethrown if it occurs on another OS ?\n\nI suppose so.",
+      "parentUuid": "9d885118_88036e95",
       "revId": "b6ea58618041126fe4689fb52423a6c60c24ea25",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
