@@ -665,17 +665,19 @@ public class FileRepository extends Repository {
 
 			if (writeLogs) {
 				List<ReflogEntry> logs = oldDb.getReflogReader(r.getName())
-					.getReverseEntries();
+						.getReverseEntries();
 				Collections.reverse(logs);
 				for (ReflogEntry e : logs) {
 					logWriter.log(r.getName(), e);
 				}
-		}
+			}
 		}
 
 		try (RevWalk rw = new RevWalk(this)) {
 			bru.execute(rw, NullProgressMonitor.INSTANCE);
 		}
+
+		oldDb.close();
 
 		List<String> failed = new ArrayList<>();
 		for (ReceiveCommand cmd : bru.getCommands()) {
