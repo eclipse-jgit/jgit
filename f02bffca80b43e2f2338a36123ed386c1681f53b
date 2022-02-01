@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1363b7fc_c9f7b5d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-01T22:01:17Z",
+      "side": 1,
+      "message": "Nit: missing {}",
+      "revId": "f02bffca80b43e2f2338a36123ed386c1681f53b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
