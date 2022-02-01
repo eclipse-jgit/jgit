@@ -211,7 +211,11 @@ abstract class BasePackConnection extends BaseConnection {
 					line = readLine();
 				} catch (EOFException e) {
 					TransportException noRepo = noRepository();
-					noRepo.initCause(e);
+					if (noRepo.getCause() == null) {
+						noRepo.initCause(e);
+					} else {
+						noRepo.addSuppressed(e);
+					}
 					throw noRepo;
 				}
 				if (line != null && VERSION_1.equals(line)) {
