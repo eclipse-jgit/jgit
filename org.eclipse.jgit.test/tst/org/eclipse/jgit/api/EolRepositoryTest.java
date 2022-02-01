@@ -1,40 +1,11 @@
 /*
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>
+ * Copyright (C) 2015, 2022 Ivan Motsch <ivan.motsch@bsiag.com> and others
  *
- * This program and the accompanying materials are made available
- * under the terms of the Eclipse Distribution License v1.0 which
- * accompanies this distribution, is reproduced below, and is
- * available at http://www.eclipse.org/org/documents/edl-v10.php
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
  *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or
- * without modification, are permitted provided that the following
- * conditions are met:
- *
- * - Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- *
- * - Redistributions in binary form must reproduce the above
- *   copyright notice, this list of conditions and the following
- *   disclaimer in the documentation and/or other materials provided
- *   with the distribution.
- *
- * - Neither the name of the Eclipse Foundation, Inc. nor the
- *   names of its contributors may be used to endorse or promote
- *   products derived from this software without specific prior
- *   written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
- * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 package org.eclipse.jgit.api;
 
@@ -173,15 +144,22 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 	private DirCache dirCache;
 
+	private boolean isDefaultCrLf() {
+		String eol = mockSystemReader.getProperty("line.separator");
+		return "\r\n".equals(eol);
+	}
+
 	@Test
 	public void testDefaultSetup() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(null, null, null, null, "* text=auto");
 		collectRepositoryState();
 		assertEquals("text=auto", entryCRLF.attrs);
-		checkEntryContent(entryCRLF, CONTENT_LF, CONTENT_LF);
-		checkEntryContent(entryLF, CONTENT_LF, CONTENT_LF);
-		checkEntryContent(entryMixed, CONTENT_LF, CONTENT_LF);
+		// eol=native is the default!
+		String expected = isDefaultCrLf() ? CONTENT_CRLF : CONTENT_LF;
+		checkEntryContent(entryCRLF, expected, CONTENT_LF);
+		checkEntryContent(entryLF, expected, CONTENT_LF);
+		checkEntryContent(entryMixed, expected, CONTENT_LF);
 	}
 
 	public void checkEntryContent(ActualEntry entry, String fileContent,
@@ -199,9 +177,11 @@ public class EolRepositoryTest extends RepositoryTestCase {
 		setupGitAndDoHardReset(AutoCRLF.FALSE, null, null, null, "* text=auto");
 		collectRepositoryState();
 		assertEquals("text=auto", entryCRLF.attrs);
-		checkEntryContent(entryCRLF, CONTENT_LF, CONTENT_LF);
-		checkEntryContent(entryLF, CONTENT_LF, CONTENT_LF);
-		checkEntryContent(entryMixed, CONTENT_LF, CONTENT_LF);
+		// eol=native is the default!
+		String expected = isDefaultCrLf() ? CONTENT_CRLF : CONTENT_LF;
+		checkEntryContent(entryCRLF, expected, CONTENT_LF);
+		checkEntryContent(entryLF, expected, CONTENT_LF);
+		checkEntryContent(entryMixed, expected, CONTENT_LF);
 	}
 
 	@Test
@@ -250,34 +230,24 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 	@Test
 	public void test_ConfigEOL_native_windows() throws Exception {
-		String origLineSeparator = System.getProperty("line.separator", "\n");
-		System.setProperty("line.separator", "\r\n");
-		try {
-			// for EOL to work, the text attribute must be set
-			setupGitAndDoHardReset(null, EOL.NATIVE, "*.txt text", null, null);
-			collectRepositoryState();
-			assertEquals("text", entryCRLF.attrs);
-			checkEntryContent(entryCRLF, CONTENT_LF, CONTENT_LF);
-			checkEntryContent(entryLF, CONTENT_LF, CONTENT_LF);
-		} finally {
-			System.setProperty("line.separator", origLineSeparator);
-		}
+		mockSystemReader.setWindows();
+		// for EOL to work, the text attribute must be set
+		setupGitAndDoHardReset(null, EOL.NATIVE, "*.txt text", null, null);
+		collectRepositoryState();
+		assertEquals("text", entryCRLF.attrs);
+		checkEntryContent(entryCRLF, CONTENT_CRLF, CONTENT_LF);
+		checkEntryContent(entryLF, CONTENT_CRLF, CONTENT_LF);
 	}
 
 	@Test
 	public void test_ConfigEOL_native_xnix() throws Exception {
-		String origLineSeparator = System.getProperty("line.separator", "\n");
-		System.setProperty("line.separator", "\n");
-		try {
-			// for EOL to work, the text attribute must be set
-			setupGitAndDoHardReset(null, EOL.NATIVE, "*.txt text", null, null);
-			collectRepositoryState();
-			assertEquals("text", entryCRLF.attrs);
-			checkEntryContent(entryCRLF, CONTENT_LF, CONTENT_LF);
-			checkEntryContent(entryLF, CONTENT_LF, CONTENT_LF);
-		} finally {
-			System.setProperty("line.separator", origLineSeparator);
-		}
+		mockSystemReader.setUnix();
+		// for EOL to work, the text attribute must be set
+		setupGitAndDoHardReset(null, EOL.NATIVE, "*.txt text", null, null);
+		collectRepositoryState();
+		assertEquals("text", entryCRLF.attrs);
+		checkEntryContent(entryCRLF, CONTENT_LF, CONTENT_LF);
+		checkEntryContent(entryLF, CONTENT_LF, CONTENT_LF);
 	}
 
 	@Test
@@ -297,9 +267,10 @@ public class EolRepositoryTest extends RepositoryTestCase {
 		setupGitAndDoHardReset(AutoCRLF.FALSE, EOL.NATIVE, "*.txt text", null, null);
 		collectRepositoryState();
 		assertEquals("text", entryCRLF.attrs);
-		checkEntryContent(entryCRLF, CONTENT_LF, CONTENT_LF);
-		checkEntryContent(entryLF, CONTENT_LF, CONTENT_LF);
-		checkEntryContent(entryMixed, CONTENT_LF, CONTENT_LF);
+		String expected = isDefaultCrLf() ? CONTENT_CRLF : CONTENT_LF;
+		checkEntryContent(entryCRLF, expected, CONTENT_LF);
+		checkEntryContent(entryLF, expected, CONTENT_LF);
+		checkEntryContent(entryMixed, expected, CONTENT_LF);
 	}
 
 	@Test
@@ -524,9 +495,12 @@ public class EolRepositoryTest extends RepositoryTestCase {
 		// info overrides all
 		collectRepositoryState();
 		assertEquals("text", entryCRLF.attrs);
-		checkEntryContent(entryCRLF, CONTENT_LF, CONTENT_LF);
-		checkEntryContent(entryLF, CONTENT_LF, CONTENT_LF);
-		checkEntryContent(entryMixed, CONTENT_LF, CONTENT_LF);
+		// !eol means unspecified, so use the default of core.eol, which is
+		// native.
+		String expected = isDefaultCrLf() ? CONTENT_CRLF : CONTENT_LF;
+		checkEntryContent(entryCRLF, expected, CONTENT_LF);
+		checkEntryContent(entryLF, expected, CONTENT_LF);
+		checkEntryContent(entryMixed, expected, CONTENT_LF);
 	}
 
 	@Test
