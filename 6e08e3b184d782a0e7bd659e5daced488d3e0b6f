@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ab77674_1dd54eb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-02T22:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813b30ad_1e90a678",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad60f8f1_04e93749",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c327a3d_cacc9918",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-02T22:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad60f8f1_04e93749",
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "668d660d_666738cd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-02T22:30:00Z",
+      "side": 1,
+      "message": "Agree this was lazy. Reworded slightly.",
+      "parentUuid": "e3e1add1_384da036",
+      "range": {
+        "startLine": 41,
+        "startChar": 52,
+        "endLine": 41,
+        "endChar": 61
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15d2ff32_ad9785c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
         "patchSetId": 6
@@ -76,6 +142,30 @@
       "writtenOn": "2022-02-02T18:36:43Z",
       "side": 1,
       "message": "Good catch 👍 I am wondering how many times we have the same problem in JGit?",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 6
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "022f7b5e_6041c006",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-02T22:30:00Z",
+      "side": 1,
+      "message": "I believe Thomas looked at this and left a comment in the bug ticket [1] - apparently it\u0027s only an issue here.\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d578511#c3",
+      "parentUuid": "15d2ff32_ad9785c4",
       "range": {
         "startLine": 214,
         "startChar": 0,
