@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f064dca_3ff4c9e6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-02T22:42:15Z",
+      "side": 1,
+      "message": "Line too long. We use Eclipse formatting rules as defined in .settings/, with a line length of 80 characters.\n\nAlso below and at the bottom.",
+      "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdc50896_ed37deb3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-02T22:42:15Z",
+      "side": 1,
+      "message": "Produces a warning about an unclosed resource.",
+      "range": {
+        "startLine": 47,
+        "startChar": 28,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e15c096b_14969316",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-02T22:42:15Z",
+      "side": 1,
+      "message": "What\u0027s the intent here? To signal EOF one should return -1.",
+      "range": {
+        "startLine": 287,
+        "startChar": 14,
+        "endLine": 287,
+        "endChar": 15
+      },
+      "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e66a8fc_277b09b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-02T22:42:15Z",
+      "side": 1,
+      "message": "Please have that on one line.\n\n  } else {\n\nis the style used in the rest of JGit.",
+      "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
