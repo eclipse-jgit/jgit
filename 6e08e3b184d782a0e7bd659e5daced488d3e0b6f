@@ -175,6 +175,30 @@
       "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6da9f0fa_da4f7c26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-02-02T22:32:02Z",
+      "side": 1,
+      "message": "Was wondering if this is sth to be used in more places? If yes, maybe it makes sense to add a method (e.g. `initOrAdd(e)`) to TransportException that performs the check and acts accordingly...",
+      "parentUuid": "15d2ff32_ad9785c4",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 6
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
