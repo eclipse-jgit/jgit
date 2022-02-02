@@ -32,18 +32,22 @@ public class CancellableDigestOutputStreamTest {
 
 		@Override
 		public void start(int totalTasks) {
+			// not implemented
 		}
 
 		@Override
 		public void beginTask(String title, int totalWork) {
+			// not implemented
 		}
 
 		@Override
 		public void update(int completed) {
+			// not implemented
 		}
 
 		@Override
 		public void endTask() {
+			// not implemented
 		}
 
 		@Override
