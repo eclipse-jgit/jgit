@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "292233fb_dbc9af28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-02T18:18:13Z",
+      "side": 1,
+      "message": "It would be best so split this into categories of resources leaks fixes:\n- Close repositories in tests\n- Close CancellableDigestOutputStream in tests\n\nOne change \u003d one thing :-)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "faeb2492e209b6a45adb9f880ca53364a0064118",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
