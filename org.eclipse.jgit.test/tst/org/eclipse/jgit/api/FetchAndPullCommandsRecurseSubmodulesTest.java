@@ -259,8 +259,8 @@ public class FetchAndPullCommandsRecurseSubmodulesTest extends RepositoryTestCas
 		// the commit that was created
 		try (SubmoduleWalk w = SubmoduleWalk.forIndex(git.getRepository())) {
 			assertTrue(w.next());
-			try (Repository repository = w.getRepository()) {
-				Git g = new Git(repository);
+			try (Repository repository = w.getRepository();
+					Git g = new Git(repository)) {
 				g.fetch().setRemote(REMOTE).setRefSpecs(REFSPEC).call();
 				g.reset().setMode(ResetType.HARD).setRef(commit1.name()).call();
 			}
