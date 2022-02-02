@@ -1,0 +1,8 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: David Ostrovsky <d.ostrovsky@gmx.de>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Wed, 02 Feb 2022 08:39:25 -0500
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/190200
+Project: jgit/jgit
+Branch: refs/heads/master
