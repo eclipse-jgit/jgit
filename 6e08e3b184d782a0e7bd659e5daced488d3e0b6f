@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "813b30ad_1e90a678",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-02T18:36:43Z",
+      "side": 1,
+      "message": "Can this be more specific on which part of the code the problem has been fixed? (I know you specify that in the body below, however, a git log --oneline won\u0027t show anything significant)",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad60f8f1_04e93749",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-02T18:36:43Z",
+      "side": 1,
+      "message": "Can you also describe the higher-level problem that this resolves?\n(e.g. The NoRepositoryException not thrown as it should)",
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3e1add1_384da036",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-02T18:36:43Z",
+      "side": 1,
+      "message": "Correctly doesn\u0027t really tell about the expectation.\n\nWhat about \u0027ByKeepingTheOriginalCause\u0027 ?",
+      "range": {
+        "startLine": 41,
+        "startChar": 52,
+        "endLine": 41,
+        "endChar": 61
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15d2ff32_ad9785c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-02T18:36:43Z",
+      "side": 1,
+      "message": "Good catch 👍 I am wondering how many times we have the same problem in JGit?",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 6
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
