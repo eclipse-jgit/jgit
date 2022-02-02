@@ -55,46 +55,47 @@ public class CancellableDigestOutputStreamTest {
 	@Test
 	public void testCancelInProcess() throws Exception {
 		CancelledTestMonitor m = new CancelledTestMonitor();
-		CancellableDigestOutputStream out = new CancellableDigestOutputStream(m,
-				NullOutputStream.INSTANCE);
+		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(
+				m, NullOutputStream.INSTANCE)) {
+			byte[] KB = new byte[1024];
+			int triggerCancelWriteCnt = BYTES_TO_WRITE_BEFORE_CANCEL_CHECK
+					/ KB.length;
+			for (int i = 0; i < triggerCancelWriteCnt + 1; i++) {
+				out.write(KB);
+			}
+			assertTrue(out.length() > BYTES_TO_WRITE_BEFORE_CANCEL_CHECK);
+			m.setCancelled(true);
 
-		byte[] KB = new byte[1024];
-		int triggerCancelWriteCnt = BYTES_TO_WRITE_BEFORE_CANCEL_CHECK
-				/ KB.length;
-		for (int i = 0; i < triggerCancelWriteCnt + 1; i++) {
-			out.write(KB);
+			for (int i = 0; i < triggerCancelWriteCnt - 1; i++) {
+				out.write(KB);
+			}
+
+			long lastLength = out.length();
+			assertThrows(InterruptedIOException.class, () -> {
+				out.write(1);
+			});
+			assertEquals(lastLength, out.length());
+
+			assertThrows(InterruptedIOException.class, () -> {
+				out.write(new byte[1]);
+			});
+			assertEquals(lastLength, out.length());
 		}
-		assertTrue(out.length() > BYTES_TO_WRITE_BEFORE_CANCEL_CHECK);
-		m.setCancelled(true);
-
-		for (int i = 0; i < triggerCancelWriteCnt - 1; i++) {
-			out.write(KB);
-		}
-
-		long lastLength = out.length();
-		assertThrows(InterruptedIOException.class, () -> {
-			out.write(1);
-		});
-		assertEquals(lastLength, out.length());
-
-		assertThrows(InterruptedIOException.class, () -> {
-			out.write(new byte[1]);
-		});
-		assertEquals(lastLength, out.length());
 	}
 
 	@Test
 	public void testTriggerCheckAfterSingleBytes() throws Exception {
 		CancelledTestMonitor m = new CancelledTestMonitor();
-		CancellableDigestOutputStream out = new CancellableDigestOutputStream(m,
-				NullOutputStream.INSTANCE);
+		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(
+				m, NullOutputStream.INSTANCE)) {
 
-		byte[] bytes = new byte[BYTES_TO_WRITE_BEFORE_CANCEL_CHECK + 1];
-		m.setCancelled(true);
+			byte[] bytes = new byte[BYTES_TO_WRITE_BEFORE_CANCEL_CHECK + 1];
+			m.setCancelled(true);
 
-		assertThrows(InterruptedIOException.class, () -> {
-			out.write(bytes);
-		});
-		assertEquals(BYTES_TO_WRITE_BEFORE_CANCEL_CHECK, out.length());
+			assertThrows(InterruptedIOException.class, () -> {
+				out.write(bytes);
+			});
+			assertEquals(BYTES_TO_WRITE_BEFORE_CANCEL_CHECK, out.length());
+		}
 	}
 }
