@@ -223,6 +223,30 @@
       "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b316663a_5bc23602",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-02T23:48:08Z",
+      "side": 1,
+      "message": "This convoluted code in BasePackPushConnection predates the move of jgit to Eclipse in 2009.\nIt was added to differentiate if a push failed due to the fact that the repository doesn\u0027t exist in the remote or the user lacks permissions to access it. In the former case it throws NoRemoteRepositoryException in the latter case a TransportException with message \"push not permitted\"",
+      "parentUuid": "2527fcd9_e05e3f60",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 6
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
