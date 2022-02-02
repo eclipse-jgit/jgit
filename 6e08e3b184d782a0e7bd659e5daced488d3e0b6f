@@ -199,6 +199,30 @@
       "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2527fcd9_e05e3f60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-02T22:45:05Z",
+      "side": 1,
+      "message": "No, this is the only place in all of JGit. This overrideable noRepository() is rather special (and I find it highly convoluted that the BasePackPushConnection overrides this and initiates a fetch).",
+      "parentUuid": "6da9f0fa_da4f7c26",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 6
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
