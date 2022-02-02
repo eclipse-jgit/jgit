@@ -22,6 +22,29 @@
       "revId": "4c1578e713a82e94407f4224c2532469fdb2e0d4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05e957f4_7b6ab1c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-02T07:40:58Z",
+      "side": 1,
+      "message": "Please use bug 534731 for this.",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "4c1578e713a82e94407f4224c2532469fdb2e0d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
