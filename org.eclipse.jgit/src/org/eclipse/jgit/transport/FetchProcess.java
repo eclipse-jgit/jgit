@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -566,7 +567,9 @@ class FetchProcess {
 		if (localRefs == null) {
 			try {
 				localRefs = transport.local.getRefDatabase()
-						.getRefs(RefDatabase.ALL);
+						.getRefsStreamByPrefix(RefDatabase.ALL)
+						.collect(Collectors.toMap(Ref::getName,
+								Function.identity()));
 			} catch (IOException err) {
 				throw new TransportException(JGitText.get().cannotListRefs, err);
 			}
