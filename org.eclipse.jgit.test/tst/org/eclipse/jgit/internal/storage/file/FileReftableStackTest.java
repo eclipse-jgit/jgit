@@ -80,6 +80,7 @@ public class FileReftableStackTest {
 		}
 	}
 
+
 	public void testCompaction(int N) throws Exception {
 		try (FileReftableStack stack = new FileReftableStack(
 				new File(reftableDir, "refs"), reftableDir, null,
@@ -118,7 +119,6 @@ public class FileReftableStackTest {
 		testCompaction(1024);
 	}
 
-	@SuppressWarnings({ "resource", "unused" })
 	@Test
 	public void missingReftable() throws Exception {
 		// Can't delete in-use files on Windows.
