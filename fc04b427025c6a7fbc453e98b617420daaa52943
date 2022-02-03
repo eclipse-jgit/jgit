@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62cc4474_f4b5f448",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-03T09:33:54Z",
+      "side": 1,
+      "message": "Whilst this get rid of the use of a deprecated method, it would double the memory used during the execution of this method.\n\nIf you look at the RefDatabase implementation of getRefsByPrefix, it uses internally the getRefs and does the conversion into a List\u003cRef\u003e. Why not making a getRefsStreamByPrefix() and returning a stream of refs instead? You could then use the stream directly here and in many other places.\n\nMoving forward, when navigating refs, we should *always* avoid to get all of them in memory: any part of the JGit code should think about \"navigating\" refs rather than having all of them in memory, which could be problematic for a large mono-repo.\n\nWDYT?\n\n@Thomas @Matthias any opinion on the above?",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 30
+      },
+      "revId": "fc04b427025c6a7fbc453e98b617420daaa52943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
