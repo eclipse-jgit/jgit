@@ -715,9 +715,6 @@ public abstract class PackParser {
 						Integer.valueOf(typeCode)));
 			}
 		}
-		if (size > Integer.MAX_VALUE - 8) {
-			throw new TooLargeObjectInPackException(size, Integer.MAX_VALUE - 8);
-		}
 	}
 
 	/**
