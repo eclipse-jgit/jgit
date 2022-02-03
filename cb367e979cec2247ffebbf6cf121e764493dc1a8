@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d74aa68d_86f68bbc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-03T15:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f064dca_3ff4c9e6",
+      "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdc50896_ed37deb3",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
         "patchSetId": 7
@@ -39,6 +57,30 @@
       "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d09edd5_c44146a5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-03T15:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdc50896_ed37deb3",
+      "range": {
+        "startLine": 47,
+        "startChar": 28,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f6eddcb3_e3845238",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-03T15:53:46Z",
+      "side": 1,
+      "message": "We\u0027ve now replaced this with a throw directly, simplifying things.",
+      "parentUuid": "e15c096b_14969316",
+      "range": {
+        "startLine": 287,
+        "startChar": 14,
+        "endLine": 287,
+        "endChar": 15
+      },
+      "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e66a8fc_277b09b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
         "patchSetId": 7
@@ -79,6 +145,24 @@
       "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf13a42a_d3510aff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-03T15:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e66a8fc_277b09b6",
+      "revId": "cb367e979cec2247ffebbf6cf121e764493dc1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
