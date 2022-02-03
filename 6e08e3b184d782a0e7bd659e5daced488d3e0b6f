@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "91c44f3c_b130eabb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-03T08:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "668d660d_666738cd",
+      "range": {
+        "startLine": 41,
+        "startChar": 52,
+        "endLine": 41,
+        "endChar": 61
+      },
+      "revId": "6e08e3b184d782a0e7bd659e5daced488d3e0b6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15d2ff32_ad9785c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
         "patchSetId": 6
