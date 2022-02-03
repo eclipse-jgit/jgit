@@ -22,6 +22,30 @@
       "revId": "fc04b427025c6a7fbc453e98b617420daaa52943",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d1218a_cd937186",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-03T22:13:34Z",
+      "side": 1,
+      "message": "this sounds tempting though I think it\u0027s non-trivial to implement\n\nfor RefDirectory we have to care for (see RefDirectory#getRefs(String)):\n- packed-refs\n- loose refs\n- symbolic refs which need to be resolved\n- loose refs take precedence over entries with the same name in packed-refs (see RefMap#get(Object))\n\nI guess for RefTable this is more straight forward",
+      "parentUuid": "62cc4474_f4b5f448",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 30
+      },
+      "revId": "fc04b427025c6a7fbc453e98b617420daaa52943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
