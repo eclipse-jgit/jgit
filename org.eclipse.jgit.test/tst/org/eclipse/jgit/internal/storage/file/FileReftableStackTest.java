@@ -118,7 +118,6 @@ public class FileReftableStackTest {
 		testCompaction(1024);
 	}
 
-	@SuppressWarnings({ "resource", "unused" })
 	@Test
 	public void missingReftable() throws Exception {
 		// Can't delete in-use files on Windows.
