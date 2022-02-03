@@ -15,6 +15,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -97,7 +98,8 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 		ObjectId modId = repo.resolve(idStr);
 		try (ObjectReader reader = repo.newObjectReader()) {
 			return new String(
-					reader.open(modId).getCachedBytes(Integer.MAX_VALUE));
+					reader.open(modId).getCachedBytes(Integer.MAX_VALUE),
+					StandardCharsets.UTF_8);
 
 		}
 	}
