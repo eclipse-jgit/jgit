@@ -448,10 +448,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		case REWORD:
 			String oldMessage = commitToPick.getFullMessage();
 			CleanupMode mode = commitConfig.resolve(CleanupMode.DEFAULT, true);
-			String newMessage = editCommitMessage(oldMessage, mode);
+			boolean[] doChangeId = { false };
+			String newMessage = editCommitMessage(doChangeId, oldMessage, mode);
 			try (Git git = new Git(repo)) {
-				newHead = git.commit().setMessage(newMessage).setAmend(true)
-						.setNoVerify(true).call();
+				newHead = git.commit()
+						.setMessage(newMessage)
+						.setAmend(true)
+						.setNoVerify(true)
+						.setInsertChangeId(doChangeId[0])
+						.call();
 			}
 			return null;
 		case EDIT:
@@ -488,7 +493,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return null;
 	}
 
-	private String editCommitMessage(String message,
+	private String editCommitMessage(boolean[] doChangeId, String message,
 			@NonNull CleanupMode mode) {
 		String newMessage;
 		CommitConfig.CleanupMode cleanup;
@@ -500,9 +505,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			if (CleanupMode.DEFAULT.equals(cleanup)) {
 				cleanup = mode;
 			}
+			doChangeId[0] = modification.shouldAddChangeId();
 		} else {
 			newMessage = interactiveHandler.modifyCommitMessage(message);
 			cleanup = CommitConfig.CleanupMode.STRIP;
+			doChangeId[0] = false;
 		}
 		return CommitConfig.cleanText(newMessage, cleanup, '#');
 	}
@@ -799,13 +806,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 		try (Git git = new Git(repo)) {
 			if (isLast) {
+				boolean[] doChangeId = { false };
 				if (sequenceContainsSquash) {
-					commitMessage = editCommitMessage(commitMessage,
+					commitMessage = editCommitMessage(doChangeId, commitMessage,
 							CleanupMode.STRIP);
 				}
 				retNewHead = git.commit()
 						.setMessage(commitMessage)
-						.setAmend(true).setNoVerify(true).call();
+						.setAmend(true)
+						.setNoVerify(true)
+						.setInsertChangeId(doChangeId[0])
+						.call();
 				rebaseState.getFile(MESSAGE_SQUASH).delete();
 				rebaseState.getFile(MESSAGE_FIXUP).delete();
 			} else {
@@ -1730,6 +1741,16 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			 */
 			@NonNull
 			CleanupMode getCleanupMode();
+
+			/**
+			 * Tells whether a Gerrit Change-Id should be computed and added to
+			 * the commit message, as with
+			 * {@link CommitCommand#setInsertChangeId(boolean)}.
+			 *
+			 * @return {@code true} if a Change-Id should be handled,
+			 *         {@code false} otherwise
+			 */
+			boolean shouldAddChangeId();
 		}
 	}
 
