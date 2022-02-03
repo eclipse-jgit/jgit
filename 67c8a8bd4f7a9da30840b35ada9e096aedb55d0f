@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c56a3cbc_ebcc99d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-03T23:29:09Z",
+      "side": 1,
+      "message": "mention that errorprone raised this warning",
+      "revId": "67c8a8bd4f7a9da30840b35ada9e096aedb55d0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
