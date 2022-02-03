@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1e681e4_9d36b9cd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-03T20:47:02Z",
+      "side": 1,
+      "message": "Any reason why we specifically use an EOFException? Could we reuse one of the Exceptions we imported or even a generic Throwable?",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c1bb4e6_d61d823e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-03T20:47:02Z",
+      "side": 1,
+      "message": "nit: what about calling it \"noRepositoryException\"? I think using the same name used in the class makes it easier to follow.",
+      "range": {
+        "startLine": 47,
+        "startChar": 30,
+        "endLine": 47,
+        "endChar": 36
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80c712d3_2abbb8f6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-03T20:47:02Z",
+      "side": 1,
+      "message": "Do we need to pass it? we don\u0027t do any assertion on it",
+      "range": {
+        "startLine": 52,
+        "startChar": 27,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
