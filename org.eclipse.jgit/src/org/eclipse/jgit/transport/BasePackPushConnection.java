@@ -139,7 +139,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 	/** {@inheritDoc} */
 	@Override
-	protected TransportException noRepository() {
+	protected TransportException noRepository(Throwable cause) {
 		// Sadly we cannot tell the "invalid URI" case from "push not allowed".
 		// Opening a fetch connection can help us tell the difference, as any
 		// useful repository is going to support fetch if it also would allow
@@ -154,6 +154,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		} catch (NoRemoteRepositoryException e) {
 			// Fetch concluded the repository doesn't exist.
 			//
+			e.addSuppressed(cause);
 			return e;
 		} catch (TransportException e) {
 			// Fall through.

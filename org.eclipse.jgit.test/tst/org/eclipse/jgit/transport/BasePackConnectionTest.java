@@ -15,11 +15,16 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -28,6 +33,20 @@ import org.eclipse.jgit.lib.SymbolicRef;
 import org.junit.Test;
 
 public class BasePackConnectionTest {
+
+	@Test
+	public void testReadAdvertisedRefsShouldThrowExceptionWithOriginalCause() {
+		EOFException eofException = new EOFException("Original exception");
+
+		try(FailingBasePackConnection basePackConnection =
+				new FailingBasePackConnection(eofException)
+		) {
+			Exception result = assertThrows(
+					NoRemoteRepositoryException.class,
+					basePackConnection::readAdvertisedRefs);
+			assertEquals(eofException, result.getCause());
+		}
+	}
 
 	@Test
 	public void testUpdateWithSymRefsAdds() {
@@ -243,5 +262,18 @@ public class BasePackConnectionTest {
 		assertSame(mainRef, headSymRef.getTarget());
 		assertEquals(oidName, headRef.getObjectId().name());
 		assertEquals(oidName, mainRef.getObjectId().name());
+	}
+
+	private static class FailingBasePackConnection extends BasePackConnection {
+		@SuppressWarnings("InputStreamSlowMultibyteRead")
+		FailingBasePackConnection(IOException ioException) {
+			super(new TransportLocal(new URIish(), new java.io.File("")));
+			pckIn = new PacketLineIn(new InputStream() {
+				@Override
+				public int read() throws IOException {
+					throw ioException;
+				}
+			});
+		}
 	}
 }
