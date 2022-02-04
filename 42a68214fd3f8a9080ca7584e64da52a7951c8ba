@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19e9e469_dc6dcc92",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T10:22:44Z",
+      "side": 1,
+      "message": "This was to emulate the failure we saw in production - in reality it could probably be any exception. We\u0027ll look into whether it makes sense to keep it as is or use a more generic exception.",
+      "parentUuid": "a1e681e4_9d36b9cd",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c1bb4e6_d61d823e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2022-02-03T20:47:02Z",
       "side": 1,
       "message": "nit: what about calling it \"noRepositoryException\"? I think using the same name used in the class makes it easier to follow.",
+      "range": {
+        "startLine": 47,
+        "startChar": 30,
+        "endLine": 47,
+        "endChar": 36
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1449509_bdde0bff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T10:22:44Z",
+      "side": 1,
+      "message": "I\u0027ll change this if it stays.",
+      "parentUuid": "8c1bb4e6_d61d823e",
       "range": {
         "startLine": 47,
         "startChar": 30,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e427c287_817bd20c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T10:22:44Z",
+      "side": 1,
+      "message": "Good suggestion, will look into removing this.",
+      "parentUuid": "80c712d3_2abbb8f6",
+      "range": {
+        "startLine": 52,
+        "startChar": 27,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d29974e0_603d8c5d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2022-02-03T21:55:17Z",
       "side": 1,
       "message": "I propose to fix this in a different way:\n- add another constructor NoRemoteRepositoryException(URIish uri, String s, Throwable cause) passing the cause to the corresponding constructor of its superclass\n- add parameter \"Throwable cause\" to the protected method #noRepository\n- suppress the resulting API error raised by Eclipse API tooling, this API change is not affecting consumers of the API but only providers subclassing BasePackConnection, according to OSGi semantic versioning breaking providers in a minor release is ok [1]\n- then we can change this catch clause to\n\n return noRepository(e);\n\n[1] http://docs.osgi.org/whitepaper/semantic-versioning/040-semantic-versions.html",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 18
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04662f1e_1ce86260",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T10:22:44Z",
+      "side": 1,
+      "message": "I like this suggestion, we\u0027ll roll with it and see where it leads us.\n\nI\u0027m not familiar with the Eclipse API tooling, I\u0027ll have a look in the developer docs and see if there\u0027s mention of it. If I\u0027m off track a nudge in the right direction would be appreciated.",
+      "parentUuid": "d29974e0_603d8c5d",
       "range": {
         "startLine": 213,
         "startChar": 0,
