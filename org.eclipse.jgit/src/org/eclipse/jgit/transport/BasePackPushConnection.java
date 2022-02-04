@@ -139,7 +139,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 	/** {@inheritDoc} */
 	@Override
-	protected TransportException noRepository() {
+	protected TransportException noRepository(Throwable cause) {
 		// Sadly we cannot tell the "invalid URI" case from "push not allowed".
 		// Opening a fetch connection can help us tell the difference, as any
 		// useful repository is going to support fetch if it also would allow
@@ -147,18 +147,18 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		// URI is wrong. Otherwise we can correctly state push isn't allowed
 		// as the fetch connection opened successfully.
 		//
+		TransportException te = new TransportException(uri, JGitText.get().pushNotPermitted);
 		try {
 			transport.openFetch().close();
-		} catch (NotSupportedException e) {
-			// Fall through.
 		} catch (NoRemoteRepositoryException e) {
 			// Fetch concluded the repository doesn't exist.
-			//
+			e.addSuppressed(cause);
 			return e;
-		} catch (TransportException e) {
-			// Fall through.
+		} catch (NotSupportedException | TransportException e) {
+			te.initCause(e);
 		}
-		return new TransportException(uri, JGitText.get().pushNotPermitted);
+		te.addSuppressed(cause);
+		return te;
 	}
 
 	/**
