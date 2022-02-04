@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f77dc422_e239e87f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-04T10:30:21Z",
+      "side": 1,
+      "message": "Will add also an E2E example on the commit message.",
+      "parentUuid": "f05e7485_e3cfc569",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e3c60b97_ebc09db9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 13
