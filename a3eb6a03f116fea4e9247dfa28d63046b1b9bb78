@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "26a1238d_941eef63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-04T15:30:30Z",
+      "side": 1,
+      "message": "I have clarified the use-case in the commit message and, also, verified that it is exactly what happens at JGit-level.",
+      "parentUuid": "f77dc422_e239e87f",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c60b97_ebc09db9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 13
