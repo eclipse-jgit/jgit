@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5ffdf7ad_10d9343e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-04T10:29:42Z",
+      "side": 1,
+      "message": "The first parameter represents the extra slicing performed on the RefMap. The refs are already filtered by the RefDirectory and have a single item, therefore there isn\u0027t any further filtering needed here.\n\nWorth adding one extra comment on it? WDYT?",
+      "parentUuid": "e3c60b97_ebc09db9",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3dd89d32_bc1ccad2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 13
@@ -47,6 +65,24 @@
       "writtenOn": "2022-02-04T00:47:10Z",
       "side": 1,
       "message": "why is this needed ? RefDirectoryTest also succeeds without this change",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebfbb39c_857446a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-04T10:29:42Z",
+      "side": 1,
+      "message": "RefDirectoryTest succeeds, yes, but at the cost of loading all refs in memory. I\u0027ve added another test that would demonstrate the failure: if you comment this line the extra test would fail.",
+      "parentUuid": "3dd89d32_bc1ccad2",
       "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
