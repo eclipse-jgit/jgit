@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1bbe58a1_eab1d312",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T19:30:44Z",
+      "side": 1,
+      "message": "This needs to be an EOFException because that\u0027s the exception that gets caught and transformed into a NoRemoteRepositoryException.",
+      "parentUuid": "19e9e469_dc6dcc92",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c1bb4e6_d61d823e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
         "patchSetId": 8
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "60fb3dab_dbb90cb5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T19:30:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1449509_bdde0bff",
+      "range": {
+        "startLine": 47,
+        "startChar": 30,
+        "endLine": 47,
+        "endChar": 36
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80c712d3_2abbb8f6",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
         "patchSetId": 8
@@ -140,6 +188,30 @@
       "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0bf2883_25586a00",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T19:30:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e427c287_817bd20c",
+      "range": {
+        "startLine": 52,
+        "startChar": 27,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -202,6 +274,30 @@
       "side": 1,
       "message": "I think the configuration for using the Eclipse API tooling is explained in the contributor guide [1]. We also have an automated Eclipse setup for JGit/EGit development [2] which configures that automatically. Though this doesn\u0027t fully match for JGit/Gerrit development. Maybe we could implement a similar automated setup for Gerrit development. \n\nIf you need help with the Eclipse setup let me know and I can improve the contributor guide based on your feedback.\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Java_Requirements\n[2] https://wiki.eclipse.org/EGit/Contributor_Guide#Automated_Developer_Setup",
       "parentUuid": "04662f1e_1ce86260",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 18
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66177e0f_7e461d19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T19:30:44Z",
+      "side": 1,
+      "message": "I was developing on JGit in isolation - I\u0027m new to Gerrit/JGit in general, so I\u0027m picking things up as I go along, thanks for the suggestion on Gerrit, it might be useful, probably too early for me to tell still!\n\nThe links you sent helped, I\u0027m also new to Eclipse, but I seem to have things running. I\u0027m still looking for the API error, not exactly sure where to look, I was hoping for a CI failure. I\u0027ll look further.",
+      "parentUuid": "e63798d9_525f3db2",
       "range": {
         "startLine": 213,
         "startChar": 0,
