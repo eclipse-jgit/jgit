@@ -15,11 +15,15 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 
+import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -28,6 +32,16 @@ import org.eclipse.jgit.lib.SymbolicRef;
 import org.junit.Test;
 
 public class BasePackConnectionTest {
+
+	@Test
+	public void testReadAdvertisedRefsShouldThrowExceptionWithOriginalCause() {
+		try (FailingBasePackConnection basePackConnection =
+				new FailingBasePackConnection()) {
+			Exception result = assertThrows(NoRemoteRepositoryException.class,
+					basePackConnection::readAdvertisedRefs);
+			assertEquals(EOFException.class, result.getCause().getClass());
+		}
+	}
 
 	@Test
 	public void testUpdateWithSymRefsAdds() {
@@ -243,5 +257,13 @@ public class BasePackConnectionTest {
 		assertSame(mainRef, headSymRef.getTarget());
 		assertEquals(oidName, headRef.getObjectId().name());
 		assertEquals(oidName, mainRef.getObjectId().name());
+	}
+
+	private static class FailingBasePackConnection extends BasePackConnection {
+		FailingBasePackConnection() {
+			super(new TransportLocal(new URIish(),
+					new java.io.File("")));
+			pckIn = new PacketLineIn(new ByteArrayInputStream(new byte[0]));
+		}
 	}
 }
