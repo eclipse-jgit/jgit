@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa1c297d_81069cd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-04T23:28:09Z",
+      "side": 1,
+      "message": "chain the cause here as well\n\n return new TransportException(uri, JGitText.get().pushNotPermitted, cause);",
+      "revId": "13cd0525f511e5c088efd4265fd8e762f129b8a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
