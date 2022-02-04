@@ -46,6 +46,30 @@
       "revId": "fc04b427025c6a7fbc453e98b617420daaa52943",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a26f48a_83850f96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-04T11:06:08Z",
+      "side": 1,
+      "message": "\u003e this sounds tempting though I think it\u0027s non-trivial to implement\n\nTrue, but the getRefs() already creates a stream() and then do a collection as List\u003cRef\u003e. It could just expose that stream() as a new method (getRefsStream()) for now, so that localRefs() doesn\u0027t have to create yet another one for collecting it directly.\n\nFor the non-trivial of the full change of reading refs in a streaming fashion: yes, I know, but we are here to help in doing non-trivial stuff :-)\n\nI know refTable would be easier, but also refTable isn\u0027t production-ready yet and isn\u0027t supported on c-git either. Also, even when it will be production-ready and supported in c-git, the RefDirectory will continue to be supported for a while I imagine.",
+      "parentUuid": "b0d1218a_cd937186",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 30
+      },
+      "revId": "fc04b427025c6a7fbc453e98b617420daaa52943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
