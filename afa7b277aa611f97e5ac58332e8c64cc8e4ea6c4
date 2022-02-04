@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "071ceb2e_64a5d344",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T20:06:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb6c7a1d_0306d162",
+      "revId": "afa7b277aa611f97e5ac58332e8c64cc8e4ea6c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bbedc928_753f2316",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackPushConnectionTest.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2022-02-04T18:44:19Z",
       "side": 1,
       "message": "The original problem was that calling fbpcc.readAdvertisedRefs() threw an IllegalStateException. There should be a test for this. I.e, a FailingBasePackPushConnection configured with an empty pckIn, then call readAdvertsiedRefs(), then verify that you get a NoRemoteRepositoryException that has both a cause and a suppressed exception.",
+      "revId": "afa7b277aa611f97e5ac58332e8c64cc8e4ea6c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35926c21_950e9f32",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackPushConnectionTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T20:06:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bbedc928_753f2316",
       "revId": "afa7b277aa611f97e5ac58332e8c64cc8e4ea6c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "512ea20b_21fd62ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/NoRemoteRepositoryException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T20:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d32c134d_84106fed",
+      "revId": "afa7b277aa611f97e5ac58332e8c64cc8e4ea6c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c27ada30_feeaca30",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
         "patchSetId": 11
@@ -67,6 +121,24 @@
       "revId": "afa7b277aa611f97e5ac58332e8c64cc8e4ea6c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "361080c1_e10412ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-04T20:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c27ada30_feeaca30",
+      "revId": "afa7b277aa611f97e5ac58332e8c64cc8e4ea6c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
