@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b3217dc_913a21bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-04T16:47:41Z",
+      "side": 0,
+      "message": "I don\u0027t think this is correct. This was added in https://git.eclipse.org/r/c/jgit/jgit/+/111312 which explains in the commit message\n\n  JGit\u0027s delta handling code requires the target to be a single byte\n  array. Any attempt to inflate a delta larger than fits in the 2GiB\n  limit will fail with some form of array index exceptions. Check for\n  this overflow early and abort pack parsing.\n\nThis statement is correct. If cloning worked in your tests, then probably only because no delta compression was involved.\n\nBut the check can probably be limited to typeCode OBJ_OFS_DELTA or OBJ_REFS_DELTA.",
+      "revId": "20bdcf9ea82c390ee70180c3edb51888e7d237bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
