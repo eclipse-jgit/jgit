@@ -8,6 +8,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/BasePackPushConnection.java" type="org.eclipse.jgit.transport.BasePackPushConnection">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BasePackPushConnection"/>
+                <message_argument value="noRepository()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/ProtocolV2Hook.java" type="org.eclipse.jgit.transport.ProtocolV2Hook">
         <filter id="404000815">
             <message_arguments>
