@@ -187,6 +187,30 @@
       "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e63798d9_525f3db2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-04T10:40:53Z",
+      "side": 1,
+      "message": "I think the configuration for using the Eclipse API tooling is explained in the contributor guide [1]. We also have an automated Eclipse setup for JGit/EGit development [2] which configures that automatically. Though this doesn\u0027t fully match for JGit/Gerrit development. Maybe we could implement a similar automated setup for Gerrit development. \n\nIf you need help with the Eclipse setup let me know and I can improve the contributor guide based on your feedback.\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Java_Requirements\n[2] https://wiki.eclipse.org/EGit/Contributor_Guide#Automated_Developer_Setup",
+      "parentUuid": "04662f1e_1ce86260",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 18
+      },
+      "revId": "42a68214fd3f8a9080ca7584e64da52a7951c8ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
