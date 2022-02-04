@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f05e7485_e3cfc569",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-04T00:47:10Z",
+      "side": 1,
+      "message": "when does the client only request HEAD ?",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3c60b97_ebc09db9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-04T00:47:10Z",
+      "side": 1,
+      "message": "why should this return all refs for prefix HEAD ?",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dd89d32_bc1ccad2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-04T00:47:10Z",
+      "side": 1,
+      "message": "why is this needed ? RefDirectoryTest also succeeds without this change",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
