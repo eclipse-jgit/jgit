@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "15b41593_2d263a88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-05T09:31:44Z",
+      "side": 1,
+      "message": "I don\u0027t understand how this helps to improve memory consumption or performance.\n\nThis seems to contradict the javadoc of RefMap.prefix:\n\n\t/**\n\t * Prefix denoting the reference subspace this map contains.\n\t * \u003cp\u003e\n\t * All reference names in this map must start with this prefix. If the\n\t * prefix is not the empty string, it must end with a \u0027/\u0027.\n\t */\n\nif we replace \"HEAD/\" by \"\" then prefix no longer denotes the reference subspace this map contains",
+      "parentUuid": "5ffdf7ad_10d9343e",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3dd89d32_bc1ccad2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 13
