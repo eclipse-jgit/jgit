@@ -127,6 +127,24 @@
       "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd704e34_c362ec78",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-05T21:09:13Z",
+      "side": 1,
+      "message": "OK. So it\u0027s remote.\u003cremote\u003e.lfsurl. That is described so since [1] in the Github LFS implementation, before it was unclear and seemed to say lfs.\u003cremote\u003e.lfsurl. But the existing implementation uses lfs.\u003cremote\u003e.url\n\nNo, I wouldn\u0027t add another config to the repo. Reading the .lfsconfig here in getLfsUrl seems OK for now. Perhaps it might make sense later on if we use other settings that .lfsconfig can override. But it\u0027d e special anyway since it may change with every checkout. Let\u0027s not complicate this change even more.\n\nWhat I meant is: shouldn\u0027t it come after having read the remote.\u003cremote\u003e.lfsurl ? (So: first try to get a URL via remote.\u003cremote\u003e.lsfUrl/lfsPushUrl or lfs.url/lfs.pushUrl from the normal repo config; if neither can determine one, then try the same in .lsfconfig.)\n\nThat bit should be done in this change I think (without correcting lfs.\u003cremote\u003e.url to remote.\u003cremote\u003e.lfsurl). Once we have that, I think this can go in.\n\nThen we\u0027d need follow-up Bugzilla issues and changes:\n\n* Correcting lfs.\u003cremote\u003e.url to remote.\u003cremote\u003e.lfsurl\n* Implementing the better default remote handling described at [2] (remote.lfsdefault/lfspushdefault)\n* Implementing separate pushurls at all.\n\n[1] https://github.com/git-lfs/git-lfs/commit/94e30aa29e058f095990015ddec11438e434e059\n[2] https://github.com/git-lfs/git-lfs/blob/main/docs/man/git-lfs-config.5.ronn",
+      "parentUuid": "d2c9881f_3ab3811d",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
