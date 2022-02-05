@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "4d71618e_c3d424bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-05T23:13:06Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand how this helps to improve memory consumption or performance.\n\nLook at RefDatabase.getRefsByPrefix(): when you pass \"HEAD\" as a prefix, it makes a FULL scan of all refs in memory at L398 (potentially millions of entries) and then makes a scan in memory for all of them at L409 for filtering a single one.\n\nHope that clarifies the focus of the change. I\u0027ll add another test to demonstrate that now there isn\u0027t a full scan involved anymore.",
+      "parentUuid": "9d28e9d2_25c22ce9",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3dd89d32_bc1ccad2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 13
