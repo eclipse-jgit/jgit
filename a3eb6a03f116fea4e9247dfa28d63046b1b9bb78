@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "9d28e9d2_25c22ce9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-05T11:39:13Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand how this helps to improve memory consumption or performance.\n\nBy keeping only 1 ref in memory in RefMap, instead of potentially millions of them.\nI need to add one more assertion to that condition.\n\n\u003e This seems to contradict the javadoc of RefMap.prefix:\n\u003e \n\u003e \t/**\n\u003e \t * Prefix denoting the reference subspace this map contains.\n\u003e \t * \u003cp\u003e\n\u003e \t * All reference names in this map must start with this prefix. If the\n\u003e \t * prefix is not the empty string, it must end with a \u0027/\u0027.\n\u003e \t */\n\nBefore this fix, packed and loose contained all refs, even if the client only requested HEAD. After this fix, packed and loose contain only HEAD and the refs it is pointing to.\n\nI should add one more assertion on the above condition, which it will show that it wasn\u0027t doing its job before this fix.\n\n\u003e if we replace \"HEAD/\" by \"\" then prefix no longer denotes the reference subspace this map contains\n\nWell, HEAD isn\u0027t really a prefix isn\u0027t it? We do not know upfront to which ref it is pointing to.",
+      "parentUuid": "15b41593_2d263a88",
+      "revId": "a3eb6a03f116fea4e9247dfa28d63046b1b9bb78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3dd89d32_bc1ccad2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 13
