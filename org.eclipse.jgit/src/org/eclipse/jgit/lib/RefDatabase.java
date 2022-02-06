@@ -10,7 +10,6 @@
 
 package org.eclipse.jgit.lib;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import java.io.IOException;
@@ -381,13 +380,10 @@ public abstract class RefDatabase {
 
 	/**
 	 * Returns refs whose names start with a given prefix.
-	 * <p>
-	 * The default implementation uses {@link #getRefs(String)}. Implementors of
-	 * {@link RefDatabase} should override this method directly if a better
-	 * implementation is possible.
 	 *
-	 * @param prefix string that names of refs should start with; may be
-	 *             empty (to return all refs).
+	 * @param prefix
+	 *            string that names of refs should start with; may be empty (to
+	 *            return all refs).
 	 * @return immutable list of refs whose names start with {@code prefix}.
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
@@ -395,6 +391,28 @@ public abstract class RefDatabase {
 	 */
 	@NonNull
 	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
+		return getRefsStreamByPrefix(prefix)
+				.collect(Collectors.toUnmodifiableList());
+	}
+
+	/**
+	 * Returns a stream of refs whose names start with a given prefix.
+	 * <p>
+	 * The default implementation uses {@link #getRefs(String)}. Implementors of
+	 * {@link RefDatabase} should override this method directly if a better
+	 * implementation is possible, avoiding the load of all refs in memory
+	 * whenever possible.
+	 *
+	 * @param prefix
+	 *            string that names of refs should start with; may be empty (to
+	 *            return all refs).
+	 * @return stream of refs whose names start with {@code prefix}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 6.1
+	 */
+	@NonNull
+	public Stream<Ref> getRefsStreamByPrefix(String prefix) throws IOException {
 		Map<String, Ref> coarseRefs;
 		int lastSlash = prefix.lastIndexOf('/');
 		if (lastSlash == -1) {
@@ -403,17 +421,16 @@ public abstract class RefDatabase {
 			coarseRefs = getRefs(prefix.substring(0, lastSlash + 1));
 		}
 
-		List<Ref> result;
+		Stream<Ref> result;
 		if (lastSlash + 1 == prefix.length()) {
-			result = coarseRefs.values().stream().collect(toList());
+			result = coarseRefs.values().stream();
 		} else {
 			String p = prefix.substring(lastSlash + 1);
 			result = coarseRefs.entrySet().stream()
 					.filter(e -> e.getKey().startsWith(p))
-					.map(e -> e.getValue())
-					.collect(toList());
+					.map(e -> e.getValue());
 		}
-		return Collections.unmodifiableList(result);
+		return result;
 	}
 
 	/**
@@ -423,7 +440,7 @@ public abstract class RefDatabase {
 	 * <p>
 	 * The default implementation is not efficient. Implementors of {@link RefDatabase}
 	 * should override this method directly if a better implementation is possible.
-	 * 
+	 *
 	 * @param include string that names of refs should start with; may be empty.
 	 * @param excludes strings that names of refs can't start with; may be empty.
 	 * @return immutable list of refs whose names start with {@code prefix} and none
