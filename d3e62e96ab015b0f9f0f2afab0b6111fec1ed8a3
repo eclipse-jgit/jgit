@@ -22,6 +22,23 @@
       "revId": "d3e62e96ab015b0f9f0f2afab0b6111fec1ed8a3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb793e47_8116d423",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-06T13:08:30Z",
+      "side": 1,
+      "message": "I\u0027m sorry; I don\u0027t understand how this solves the problem that is might not work with all back-ends. If there is an implementation that overrides getRefsByPrefix(String), there\u0027s still no guarantee that this HEAD special case is handled without loading all refs. So why not do this, if at all, directly in getRefsByPrefix(String)? Why add a new method? Besides I find it strange to have a new method that doesn\u0027t operate on \u0027this\u0027 but on an externally provided database \u0027refDb\u0027.\n\nI get the impression that the difficulties to implement this (18 patch sets clearly show that this is not as trivial as it might have looked originally) show one thing: this operation is about \"normal\" refs, and HEAD is special. Maybe it\u0027d be better not to change RefDatabase at all but handle the HEAD special case at the call site where you observed the problem?\n\nBesides, the @since is wrong.",
+      "revId": "d3e62e96ab015b0f9f0f2afab0b6111fec1ed8a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
