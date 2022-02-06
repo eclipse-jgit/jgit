@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -295,7 +296,19 @@ public class RefTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testGetRefsByPrefix() throws IOException {
-		List<Ref> refs = db.getRefDatabase().getRefsByPrefix("refs/heads/g");
+		testGetRefsByPrefix(
+				db.getRefDatabase().getRefsByPrefix("refs/heads/g"));
+	}
+
+	@Test
+	public void testGetRefsStreamByPrefix() throws IOException {
+		testGetRefsByPrefix(
+				db.getRefDatabase().getRefsStreamByPrefix("refs/heads/g")
+						.collect(Collectors.toUnmodifiableList()));
+	}
+
+	private void testGetRefsByPrefix(List<Ref> refs)
+			throws IOException {
 		assertEquals(2, refs.size());
 		checkContainsRef(refs, db.exactRef("refs/heads/g"));
 		checkContainsRef(refs, db.exactRef("refs/heads/gitlink"));

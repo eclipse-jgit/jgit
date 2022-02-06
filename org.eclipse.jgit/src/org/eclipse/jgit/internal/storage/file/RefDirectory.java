@@ -254,7 +254,7 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		// Cannot be the container of an existing reference.
-		return !getRefsByPrefix(name + '/').isEmpty();
+		return getRefsStreamByPrefix(name + '/').findFirst().isPresent();
 	}
 
 	@Nullable

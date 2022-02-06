@@ -1193,7 +1193,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 
 		Map<String, Ref> refs = diskRepo.getRefDatabase()
-				.getRefsByPrefix(RefDatabase.ALL).stream()
+				.getRefsStreamByPrefix(RefDatabase.ALL)
 				.collect(Collectors.toMap(Ref::getName, Function.identity()));
 		Ref actualHead = refs.remove(Constants.HEAD);
 		if (actualHead != null) {
