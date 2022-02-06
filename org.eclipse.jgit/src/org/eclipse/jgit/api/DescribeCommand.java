@@ -303,9 +303,9 @@ public class DescribeCommand extends GitCommand<String> {
 				setTarget(Constants.HEAD);
 			}
 
-			Collection<Ref> tagList = repo.getRefDatabase()
-					.getRefsByPrefix(useAll ? R_REFS : R_TAGS);
-			Map<ObjectId, List<Ref>> tags = tagList.stream()
+			Stream<Ref> tagList = repo.getRefDatabase()
+					.getRefsStreamByPrefix(useAll ? R_REFS : R_TAGS);
+			Map<ObjectId, List<Ref>> tags = tagList
 					.filter(this::filterLightweightTags)
 					.collect(Collectors.groupingBy(this::getObjectIdFromRef));
 
