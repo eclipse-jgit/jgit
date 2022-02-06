@@ -39,6 +39,24 @@
       "revId": "d3e62e96ab015b0f9f0f2afab0b6111fec1ed8a3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51edb0d2_a308f7e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-06T20:00:23Z",
+      "side": 1,
+      "message": "\u003e I\u0027m sorry; I don\u0027t understand how this solves the problem that is might not work with all back-ends. If there is an implementation that overrides getRefsByPrefix(String), there\u0027s still no guarantee that this HEAD special case is handled without loading all refs.\n\nTrue, that can be said for any of the other methods isn\u0027t it?\nI believe we should introduce a more well-defined interface \u003c implementation relationship moving forward, otherwise it is always unclear whether the implementation should/can/must\noverride and implement it or not.\n\n\u003e So why not do this, if at all, directly in getRefsByPrefix(String)? Why add a new method? \n\nGood question indeed :-) I had to introduce a new method for being able to actually test that it was NOT triggering the loading of all refs. Do you have another suggestion on how to achieve the same without this extra method?\n\n\u003e Besides I find it strange to have a new method that doesn\u0027t operate on \u0027this\u0027 but on an externally provided database \u0027refDb\u0027.\n\nYes, it seems strange, agreed.\n\n\u003e I get the impression that the difficulties to implement this (18 patch sets clearly show that this is not as trivial as it might have looked originally) show one thing: this operation is about \"normal\" refs, and HEAD is special.\n\nYep, that\u0027s exactly the culprit of the problem.\n\n\u003e Maybe it\u0027d be better not to change RefDatabase at all but handle the HEAD special case at the call site where you observed the problem?\n\nSure, but then we should reject \u0027HEAD\u0027 in getRefsByPrefix() and force the caller to manage it in a different way. It *has to be* managed differently, agreed. Either by the caller or by getRefsByPrefix. I\u0027m open to either of the two solutions :-)\n\n\u003e Besides, the @since is wrong.\n\nThanks, fixed.",
+      "parentUuid": "cb793e47_8116d423",
+      "revId": "d3e62e96ab015b0f9f0f2afab0b6111fec1ed8a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
