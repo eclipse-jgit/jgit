@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e78bb896_7575ef0a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-06T00:53:54Z",
+      "side": 1,
+      "message": "@Matthias I have verified that this test is failing without the fix, because even though the ref returned is one, the ones loaded are all the refs in the RefDatabase, which is exactly the problem I am trying to resolve.",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 2
+      },
+      "revId": "d3e62e96ab015b0f9f0f2afab0b6111fec1ed8a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
