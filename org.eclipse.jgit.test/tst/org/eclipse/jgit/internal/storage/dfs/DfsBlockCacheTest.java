@@ -269,7 +269,6 @@ public class DfsBlockCacheTest {
 		assertEquals(1, evicted.get());
 	}
 
-	@SuppressWarnings("resource")
 	@Test
 	public void noConcurrencySerializedReads_oneRepo() throws Exception {
 		InMemoryRepository r1 = createRepoWithBitmap("test");
@@ -384,7 +383,6 @@ public class DfsBlockCacheTest {
 		assertEquals(2, cache.getMissCount()[0]);
 	}
 
-	@SuppressWarnings("resource")
 	@Test
 	public void highConcurrencyParallelReads_oneRepo() throws Exception {
 		InMemoryRepository r1 = createRepoWithBitmap("test");
@@ -407,7 +405,6 @@ public class DfsBlockCacheTest {
 		assertEquals(1, cache.getMissCount()[0]);
 	}
 
-	@SuppressWarnings("resource")
 	@Test
 	public void highConcurrencyParallelReads_oneRepoParallelReverseIndex()
 			throws Exception {
