@@ -94,6 +94,30 @@
       "revId": "fc04b427025c6a7fbc453e98b617420daaa52943",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ffb0e14_d92d3519",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-07T18:26:12Z",
+      "side": 1,
+      "message": "Rebased",
+      "parentUuid": "0f952859_55eb6ab0",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 30
+      },
+      "revId": "fc04b427025c6a7fbc453e98b617420daaa52943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
