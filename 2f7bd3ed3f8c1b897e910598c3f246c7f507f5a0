@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf106f93_9bf0f3ed",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-07T23:46:08Z",
+      "side": 1,
+      "message": "don\u0027t switch off the formatter unnecessarily",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "544a5587_5c7a7559",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-07T23:46:08Z",
+      "side": 1,
+      "message": "remove unnecessary comment",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23fc01f8_300c07da",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-07T23:46:08Z",
+      "side": 1,
+      "message": "don\u0027t switch off the formatter unnecessarily",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c660c05_3107bc6f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-07T23:46:08Z",
+      "side": 1,
+      "message": "try to refactor the code so that comments aren\u0027t necessary, e.g. this code block could be extracted to another private method named in a way that the purpose is clear",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
