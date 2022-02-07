@@ -145,6 +145,24 @@
       "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a59d3a1_9761663f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-07T16:38:30Z",
+      "side": 1,
+      "message": "Ok, added the lookup of lfs.\u003cremote\u003e.url from .lfsconfig as well as a test for this.\nI will create the 3 follow-up bugs where the desired behavior can be discussed and if backwards compatiblity for \"lfs.\u003cremote\u003e.url\" is required. Further must be discussed if \"/info/lfs/\" should be appended to \"lfs.\u003cremote\u003e.url\" or \"remote.\u003cremote\u003e.lfsurl\", which I think is undesired behavior.",
+      "parentUuid": "dd704e34_c362ec78",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
