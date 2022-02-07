@@ -20,7 +20,7 @@ import java.util.TimeZone;
 
 import org.junit.Test;
 
-public class T0001_PersonIdentTest {
+public class PersonIdentTest {
 
 	@Test
 	public void test001_NewIdent() {
