@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "d2562ae0_6e4203e1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-07T19:06:32Z",
+      "side": 1,
+      "message": "this is not used, right? It can be removed.",
+      "range": {
+        "startLine": 266,
+        "startChar": 3,
+        "endLine": 266,
+        "endChar": 8
+      },
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98090f53_2838f69f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackPushConnectionTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-07T19:06:32Z",
+      "side": 1,
+      "message": "this is not used, right? It can be removed.",
+      "range": {
+        "startLine": 93,
+        "startChar": 3,
+        "endLine": 93,
+        "endChar": 8
+      },
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "29b85c4a_63b53af0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 15
