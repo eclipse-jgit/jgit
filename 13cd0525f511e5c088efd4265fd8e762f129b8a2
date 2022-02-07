@@ -34,6 +34,24 @@
       "revId": "13cd0525f511e5c088efd4265fd8e762f129b8a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32b2c386_8b1d62a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-07T17:06:19Z",
+      "side": 1,
+      "message": "Done, but the cause passed to `noRepository` will be suppressed to be consistent with the no remote repository branch. The cause will be set to that thrown by `openFetch`. We also added a test for this.",
+      "parentUuid": "d1822644_182bc7df",
+      "revId": "13cd0525f511e5c088efd4265fd8e762f129b8a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
