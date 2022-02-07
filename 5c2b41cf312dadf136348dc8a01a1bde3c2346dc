@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29b85c4a_63b53af0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-07T18:15:00Z",
+      "side": 1,
+      "message": "creating this already here is producing unnecessary garbage if openFetch throws NoRemoteRepositoryException",
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "560210cd_f59f51b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-07T18:15:00Z",
+      "side": 1,
+      "message": "why back to the convoluted legacy way to chain exceptions ?",
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0be44755_0af0b8e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-07T18:15:00Z",
+      "side": 1,
+      "message": "I don\u0027t understand why the cause needs to be suppressed in this case\n\nI prefer\n\n try {\n\ttransport.openFetch().close();\n } catch (NoRemoteRepositoryException e) {\n\t// Fetch concluded the repository doesn\u0027t exist.\n\te.addSuppressed(cause);\n\treturn e;\n } catch (NotSupportedException | TransportException e) {\n\t// Fall through.\n }\n return new TransportException(uri, JGitText.get().pushNotPermitted, cause);",
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
