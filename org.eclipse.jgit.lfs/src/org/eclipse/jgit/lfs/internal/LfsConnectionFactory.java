@@ -64,7 +64,7 @@ public class LfsConnectionFactory {
 	 *            be used for
 	 * @param purpose
 	 *            the action, e.g. Protocol.OPERATION_DOWNLOAD
-	 * @return the url for the lfs server. e.g.
+	 * @return the connection for the lfs server. e.g.
 	 *         "https://github.com/github/git-lfs.git/info/lfs"
 	 * @throws IOException
 	 */
@@ -92,7 +92,22 @@ public class LfsConnectionFactory {
 		return connection;
 	}
 
-	private static String getLfsUrl(Repository db, String purpose,
+	/**
+	 * Get LFS Server URL.
+	 *
+	 * @param db
+	 *            the repository to work with
+	 * @param purpose
+	 * the action, e.g. Protocol.OPERATION_DOWNLOAD
+	 * @param additionalHeaders
+	 *            additional headers that can be used to connect to LFS server
+	 * @return the url for the lfs server. e.g.
+	 *         "https://github.com/github/git-lfs.git/info/lfs"
+	 * @throws LfsConfigInvalidException if LFS config is invalid
+	 * @see <a href="https://github.com/git-lfs/git-lfs/blob/main/docs/api/server-discovery.md">
+	 *     Server Discovery documentation</a>
+	 */
+	static String getLfsUrl(Repository db, String purpose,
 			Map<String, String> additionalHeaders)
 			throws LfsConfigInvalidException {
 		StoredConfig config = db.getConfig();
@@ -125,8 +140,6 @@ public class LfsConnectionFactory {
 						| CommandFailedException e) {
 					ex = e;
 				}
-			} else {
-				lfsUrl = lfsUrl + Protocol.INFO_LFS_ENDPOINT;
 			}
 		}
 		if (lfsUrl == null) {
@@ -149,7 +162,7 @@ public class LfsConnectionFactory {
 			additionalHeaders.putAll(action.header);
 			return action.href;
 		}
-		return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
+		return (remoteUrl.endsWith(".git") ? remoteUrl : remoteUrl + ".git") + Protocol.INFO_LFS_ENDPOINT;
 	}
 
 	private static Protocol.ExpiringAction getSshAuthentication(
