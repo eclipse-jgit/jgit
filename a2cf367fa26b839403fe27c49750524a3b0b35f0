@@ -1,0 +1,348 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33090f62_60506e95",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "this doesn\u0027t create a config but loads it, so how about load() ?",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 72,
+        "endChar": 36
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bc5d544_48640bab",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "loadFromWorkingTree",
+      "range": {
+        "startLine": 101,
+        "startChar": 25,
+        "endLine": 101,
+        "endChar": 55
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c96f53_b73a2bd5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "- why don\u0027t you return Config here ?\n- @Nullable",
+      "range": {
+        "startLine": 101,
+        "startChar": 9,
+        "endLine": 101,
+        "endChar": 24
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f154bafb_8edb223c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "I think this comment is unnecessary",
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82a3b0b4_3a6d9c0b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "I think we should only throw LfsConfigInvalidException if we catch ConfigInvalidException, you can\u0027t deduce from a generic IOException that the config is invalid, maybe we lack permissions to read it. Hence I think this method should throw IOException\n\nand then the following comment is obsolete",
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "942415e4_b68af4aa",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "loadFromIndex",
+      "range": {
+        "startLine": 130,
+        "startChar": 16,
+        "endLine": 130,
+        "endChar": 40
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3ca4197_f1a5d056",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 130,
+        "startChar": 9,
+        "endLine": 130,
+        "endChar": 15
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba672b69_144f204e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "this shouldn\u0027t happen since we check if the repo is bare above",
+      "range": {
+        "startLine": 139,
+        "startChar": 11,
+        "endLine": 139,
+        "endChar": 30
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff498dd7_da9a30cf",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "comment in line 111 also applies here",
+      "range": {
+        "startLine": 139,
+        "startChar": 33,
+        "endLine": 139,
+        "endChar": 44
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02b6d764_43e64593",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 157,
+        "startChar": 9,
+        "endLine": 157,
+        "endChar": 15
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c77df3f0_e0cbb900",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "loadFromHead",
+      "range": {
+        "startLine": 157,
+        "startChar": 16,
+        "endLine": 157,
+        "endChar": 47
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4809ab71_1ba977d7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "use static import to avoid FQCN",
+      "range": {
+        "startLine": 161,
+        "startChar": 14,
+        "endLine": 161,
+        "endChar": 49
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca26b8ab_b477c397",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "comment in line 111 also applies here",
+      "range": {
+        "startLine": 169,
+        "startChar": 37,
+        "endLine": 169,
+        "endChar": 48
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "115cefa2_f90310d9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "emptyConfig",
+      "range": {
+        "startLine": 186,
+        "startChar": 16,
+        "endLine": 186,
+        "endChar": 33
+      },
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26c80026_3ba8c47d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "move declaration of lfsConfig to line 102",
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c196b8b_5287be96",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T09:49:14Z",
+      "side": 1,
+      "message": "move this line up and merge the two \"if (lfsUrl \u003d\u003d null)\" blocks\n\nthis method has an insane number of null checks",
+      "revId": "a2cf367fa26b839403fe27c49750524a3b0b35f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
