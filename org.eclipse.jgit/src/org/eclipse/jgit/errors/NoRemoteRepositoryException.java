@@ -29,4 +29,19 @@ public class NoRemoteRepositoryException extends TransportException {
 	public NoRemoteRepositoryException(URIish uri, String s) {
 		super(uri, s);
 	}
+
+	/**
+	 * Constructs an exception indicating a repository does not exist.
+	 *
+	 * @param uri
+	 *            URI used for transport
+	 * @param s
+	 *            message
+	 * @param cause
+	 *            root cause exception
+	 * @since 5.13
+	 */
+	public NoRemoteRepositoryException(URIish uri, String s, Throwable cause) {
+		super(uri, s, cause);
+	}
 }
