@@ -163,6 +163,24 @@
       "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6443ce9_ac8a37a1",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-08T09:38:46Z",
+      "side": 1,
+      "message": "Created follow-up issues:\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d578626\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d578632\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d578633",
+      "parentUuid": "8a59d3a1_9761663f",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
