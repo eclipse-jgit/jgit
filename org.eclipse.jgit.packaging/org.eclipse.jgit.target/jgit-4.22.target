@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.22" sequenceNumber="1641941287">
+<target name="jgit-4.22" sequenceNumber="1644362193">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="jakarta.servlet-api" version="4.0.0"/>
@@ -87,7 +87,7 @@
       <unit id="org.slf4j.binding.simple.source" version="1.7.30.v20200204-2150"/>
       <unit id="org.tukaani.xz" version="1.9.0.v20210624-1259"/>
       <unit id="org.tukaani.xz.source" version="1.9.0.v20210624-1259"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20220111151929/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20220208191225/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
