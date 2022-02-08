@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a5cd456_2be9f7a6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/T0001_PersonIdentTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-02-08T04:39:28Z",
+      "side": 1,
+      "message": "Not related to this change, but why this strange class name?",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "b8c618b3edeb190f3cec9c74c8d90bead7d7d68c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
