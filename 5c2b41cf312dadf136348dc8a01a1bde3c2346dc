@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b3d4a630_c26c2f1b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackConnectionTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-08T09:53:36Z",
+      "side": 1,
+      "message": "This is the line that will throw an exception when called.",
+      "parentUuid": "d2562ae0_6e4203e1",
+      "range": {
+        "startLine": 266,
+        "startChar": 3,
+        "endLine": 266,
+        "endChar": 8
+      },
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98090f53_2838f69f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackPushConnectionTest.java",
         "patchSetId": 15
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ef06e809_32905434",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BasePackPushConnectionTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-08T09:53:36Z",
+      "side": 1,
+      "message": "This is the line that will throw an exception when called.",
+      "parentUuid": "98090f53_2838f69f",
+      "range": {
+        "startLine": 93,
+        "startChar": 3,
+        "endLine": 93,
+        "endChar": 8
+      },
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29b85c4a_63b53af0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 15
@@ -62,6 +110,24 @@
       "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dfa86e1_10c0c488",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-08T09:53:36Z",
+      "side": 1,
+      "message": "Yes, true - it\u0027s suboptimal. We opted for this approach to reduce duplication, but we\u0027ll remove it.",
+      "parentUuid": "29b85c4a_63b53af0",
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "9191f868_99e3c326",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-08T09:53:36Z",
+      "side": 1,
+      "message": "Same as above, we did this to reduce duplication. We thought it acceptable as we create the exception on line 150, so we don\u0027t risk throwing.",
+      "parentUuid": "560210cd_f59f51b0",
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be44755_0af0b8e9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 15
@@ -93,6 +177,24 @@
       "writtenOn": "2022-02-07T18:15:00Z",
       "side": 1,
       "message": "I don\u0027t understand why the cause needs to be suppressed in this case\n\nI prefer\n\n try {\n\ttransport.openFetch().close();\n } catch (NoRemoteRepositoryException e) {\n\t// Fetch concluded the repository doesn\u0027t exist.\n\te.addSuppressed(cause);\n\treturn e;\n } catch (NotSupportedException | TransportException e) {\n\t// Fall through.\n }\n return new TransportException(uri, JGitText.get().pushNotPermitted, cause);",
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f306a590_94704502",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 307213
+      },
+      "writtenOn": "2022-02-08T09:53:36Z",
+      "side": 1,
+      "message": "In the approach you suggest we lose the exception thrown in the second catch branch (L157).\n\nAlso it\u0027s not symmetrical with the first catch (L153), where we catch and return the exception thrown by the try block, and suppress the exception passed as an argument.\n\nIn order to have a consistent return value, we always assign the cause to be from the try block, and the exception passed as an argument is always suppressed.\n\nWhat do you think?",
+      "parentUuid": "0be44755_0af0b8e9",
       "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
