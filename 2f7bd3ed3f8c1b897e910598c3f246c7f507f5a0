@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e7aecbd9_94feeedb",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-08T08:16:13Z",
+      "side": 1,
+      "message": "Switched the formatter of since it keep breaking the url at the 80 charecter limit. Seems not useful.\nWhole comment is no longer necessary here, since functionality is now docmented in extracted class LfsConfig.",
+      "parentUuid": "cf106f93_9bf0f3ed",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "544a5587_5c7a7559",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2c81a29_ec7d6ae3",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-08T08:16:13Z",
+      "side": 1,
+      "message": "My intention was to state that the second part of the is not necesary from a logical point of view, since at this point lfsconfig should never be null, but the compile just failed to analyze this correctly.\nBut anyway, removed the comment. Seems not really important.",
+      "parentUuid": "544a5587_5c7a7559",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "17e0a532_2644352b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-08T08:16:13Z",
+      "side": 1,
+      "message": "Switched the formatter of since it keeps destroying the list. Seems not useful.\nComment moved to docstring of new class without formatter switched off.",
+      "parentUuid": "23fc01f8_300c07da",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c660c05_3107bc6f",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2022-02-07T23:46:08Z",
       "side": 1,
       "message": "try to refactor the code so that comments aren\u0027t necessary, e.g. this code block could be extracted to another private method named in a way that the purpose is clear",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e4c2fa7_04b44ed1",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-08T08:16:13Z",
+      "side": 1,
+      "message": "This code is moved, as suggested, into the new class LfsConfig. There it has been splitted into several methods with hapefully descriptive names.",
+      "parentUuid": "5c660c05_3107bc6f",
       "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
