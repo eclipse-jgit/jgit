@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/errors/NoRemoteRepositoryException.java" type="org.eclipse.jgit.errors.NoRemoteRepositoryException">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="5.13"/>
+                <message_argument value="6.0"/>
+                <message_argument value="NoRemoteRepositoryException(URIish, String, Throwable)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
