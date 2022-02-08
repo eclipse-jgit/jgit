@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeea91dd_79f84fcd",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-08T08:06:43Z",
+      "side": 1,
+      "message": "Order of imports is non-standard.",
+      "revId": "b94c9d7b107b8862726df31bf111901d70ebc091",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035ca84b_196985d4",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-08T08:06:43Z",
+      "side": 1,
+      "message": "Use assertThrows() instead.",
+      "revId": "b94c9d7b107b8862726df31bf111901d70ebc091",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b47390ab_25dc3643",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-08T08:06:43Z",
+      "side": 1,
+      "message": "Formatting.",
+      "revId": "b94c9d7b107b8862726df31bf111901d70ebc091",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b7eccee_4bb81c56",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-08T08:06:43Z",
+      "side": 1,
+      "message": "Use Constants.DOT_GIT_EXT. I\u0027m also surprised we don\u0027t have a utility method for this (conditionally adding the suffix)...",
+      "revId": "b94c9d7b107b8862726df31bf111901d70ebc091",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
