@@ -198,6 +198,24 @@
       "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e9bcc0_5be19c6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-08T10:56:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f306a590_94704502",
+      "revId": "5c2b41cf312dadf136348dc8a01a1bde3c2346dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
