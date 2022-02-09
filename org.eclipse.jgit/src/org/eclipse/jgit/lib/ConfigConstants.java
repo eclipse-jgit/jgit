@@ -808,4 +808,18 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT = "searchforreusetimeout";
 
+	/**
+	 * The "push" section.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_PUSH_SECTION = "push";
+
+	/**
+	 * The "default" key.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_DEFAULT = "default";
+
 }

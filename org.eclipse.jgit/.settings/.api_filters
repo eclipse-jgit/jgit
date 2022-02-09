@@ -17,4 +17,12 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/PushConfig.java" type="org.eclipse.jgit.transport.PushConfig">
+        <filter id="338722907">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.PushConfig"/>
+                <message_argument value="PushConfig()"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
