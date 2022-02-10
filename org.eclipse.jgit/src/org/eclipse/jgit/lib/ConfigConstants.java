@@ -329,6 +329,20 @@ public final class ConfigConstants {
 	/** The "remote" key */
 	public static final String CONFIG_KEY_REMOTE = "remote";
 
+	/**
+	 * The "pushRemote" key.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_PUSH_REMOTE = "pushRemote";
+
+	/**
+	 * The "pushDefault" key.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_PUSH_DEFAULT = "pushDefault";
+
 	/** The "merge" key */
 	public static final String CONFIG_KEY_MERGE = "merge";
 

@@ -33,6 +33,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BranchConfig;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -58,7 +59,7 @@ import org.eclipse.jgit.transport.Transport;
 public class PushCommand extends
 		TransportCommand<PushCommand, Iterable<PushResult>> {
 
-	private String remote = Constants.DEFAULT_REMOTE_NAME;
+	private String remote;
 
 	private final List<RefSpec> refSpecs;
 
@@ -114,6 +115,7 @@ public class PushCommand extends
 
 		try {
 			Config config = repo.getConfig();
+			remote = determineRemote(config, remote);
 			if (refSpecs.isEmpty()) {
 				RemoteConfig rc = new RemoteConfig(config,
 						getRemote());
@@ -179,6 +181,34 @@ public class PushCommand extends
 		}
 
 		return pushResults;
+	}
+
+	private String determineRemote(Config config, String remoteName)
+			throws IOException {
+		if (remoteName != null) {
+			return remoteName;
+		}
+		Ref head = repo.exactRef(Constants.HEAD);
+		String effectiveRemote = null;
+		BranchConfig branchCfg = null;
+		if (head != null && head.isSymbolic()) {
+			String currentBranch = head.getLeaf().getName();
+			branchCfg = new BranchConfig(config,
+					Repository.shortenRefName(currentBranch));
+			effectiveRemote = branchCfg.getPushRemote();
+		}
+		if (effectiveRemote == null) {
+			effectiveRemote = config.getString(
+					ConfigConstants.CONFIG_REMOTE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_PUSH_DEFAULT);
+			if (effectiveRemote == null && branchCfg != null) {
+				effectiveRemote = branchCfg.getRemote();
+			}
+		}
+		if (effectiveRemote == null) {
+			effectiveRemote = Constants.DEFAULT_REMOTE_NAME;
+		}
+		return effectiveRemote;
 	}
 
 	private String getCurrentBranch()

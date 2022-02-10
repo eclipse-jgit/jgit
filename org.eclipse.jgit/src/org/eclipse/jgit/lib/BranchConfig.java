@@ -138,6 +138,18 @@ public class BranchConfig {
 	}
 
 	/**
+	 * Get the remote this branch is configured to push to.
+	 *
+	 * @return the remote this branch is configured to push to, or {@code null}
+	 *         if not defined
+	 * @since 6.1
+	 */
+	public String getPushRemote() {
+		return config.getString(ConfigConstants.CONFIG_BRANCH_SECTION,
+				branchName, ConfigConstants.CONFIG_KEY_PUSH_REMOTE);
+	}
+
+	/**
 	 * Get the name of the upstream branch as it is called on the remote
 	 *
 	 * @return the name of the upstream branch as it is called on the remote, or
