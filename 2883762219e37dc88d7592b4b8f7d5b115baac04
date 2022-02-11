@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c054fc2a_052848ca",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-11T19:01:01Z",
+      "side": 0,
+      "message": "It looks like this was leaving the out opened on-purpose: closing it now causes the SmartClientSmartServerTest failing.\n\nWorth possibly a comment on the @SuppressWarning(\"resource\") at L172? So that next time people will know why it need to stay in this way.",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 12
+      },
+      "revId": "2883762219e37dc88d7592b4b8f7d5b115baac04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
