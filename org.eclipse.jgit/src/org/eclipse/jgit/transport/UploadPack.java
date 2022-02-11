@@ -2339,7 +2339,7 @@ public class UploadPack {
 						: req.getDepth() - 1;
 				pw.setShallowPack(req.getDepth(), unshallowCommits);
 
-				@SuppressWarnings("resource") // Ownership is transferred below
+				// Ownership is transferred below
 				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
 						walk.getObjectReader(), walkDepth);
 				dw.setDeepenSince(req.getDeepenSince());
