@@ -169,32 +169,33 @@ class UploadPackServlet extends HttpServlet {
 
 		UploadPackRunnable r = () -> {
 			UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
-			@SuppressWarnings("resource")
-			SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
+			try (SmartOutputStream out = new SmartOutputStream(req, rsp,
+					false) {
 				@Override
 				public void flush() throws IOException {
 					doFlush();
 				}
-			};
+			}) {
 
-			up.setBiDirectionalPipe(false);
-			rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
+				up.setBiDirectionalPipe(false);
+				rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
 
-			try {
-				up.uploadWithExceptionPropagation(getInputStream(req), out,
-						null);
-				out.close();
-			} catch (ServiceMayNotContinueException e) {
-				if (e.isOutput()) {
+				try {
+					up.uploadWithExceptionPropagation(getInputStream(req), out,
+							null);
+					out.close();
+				} catch (ServiceMayNotContinueException e) {
+					if (e.isOutput()) {
+						consumeRequestBody(req);
+						out.close();
+					}
+					throw e;
+				} catch (UploadPackInternalServerErrorException e) {
+					// Special case exception, error message was sent to client.
+					log(up.getRepository(), e.getCause());
 					consumeRequestBody(req);
 					out.close();
 				}
-				throw e;
-			} catch (UploadPackInternalServerErrorException e) {
-				// Special case exception, error message was sent to client.
-				log(up.getRepository(), e.getCause());
-				consumeRequestBody(req);
-				out.close();
 			}
 		};
 
