@@ -169,7 +169,8 @@ class UploadPackServlet extends HttpServlet {
 
 		UploadPackRunnable r = () -> {
 			UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
-			@SuppressWarnings("resource")
+			@SuppressWarnings("resource") // Explicitly closed in try/catch
+											// block if necessary
 			SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
 				@Override
 				public void flush() throws IOException {
