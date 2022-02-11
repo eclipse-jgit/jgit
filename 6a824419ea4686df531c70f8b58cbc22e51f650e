@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c482cc5_2de9dadd",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-11T09:59:30Z",
+      "side": 1,
+      "message": "This is now done automatically by the try-with-resource: remove it.",
+      "range": {
+        "startLine": 186,
+        "startChar": 5,
+        "endLine": 186,
+        "endChar": 17
+      },
+      "revId": "6a824419ea4686df531c70f8b58cbc22e51f650e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc90e594_42b2dadb",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-11T09:59:30Z",
+      "side": 1,
+      "message": "This is now done automatically by the try-with-resource: remove it.",
+      "range": {
+        "startLine": 190,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 18
+      },
+      "revId": "6a824419ea4686df531c70f8b58cbc22e51f650e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad60368_b62fd688",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-11T09:59:30Z",
+      "side": 1,
+      "message": "This is now done automatically by the try-with-resource: remove it.",
+      "range": {
+        "startLine": 197,
+        "startChar": 5,
+        "endLine": 197,
+        "endChar": 17
+      },
+      "revId": "6a824419ea4686df531c70f8b58cbc22e51f650e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
