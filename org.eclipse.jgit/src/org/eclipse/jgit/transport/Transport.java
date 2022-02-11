@@ -2,7 +2,7 @@
  * Copyright (C) 2008, 2009 Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -656,14 +656,18 @@ public abstract class Transport implements AutoCloseable {
 	private static Collection<RefSpec> expandPushWildcardsFor(
 			final Repository db, final Collection<RefSpec> specs)
 			throws IOException {
-		final List<Ref> localRefs = db.getRefDatabase().getRefs();
 		final Collection<RefSpec> procRefs = new LinkedHashSet<>();
 
+		List<Ref> localRefs = null;
 		for (RefSpec spec : specs) {
 			if (spec.isWildcard()) {
+				if (localRefs == null) {
+					localRefs = db.getRefDatabase().getRefs();
+				}
 				for (Ref localRef : localRefs) {
-					if (spec.matchSource(localRef))
+					if (spec.matchSource(localRef)) {
 						procRefs.add(spec.expandFromSource(localRef));
+					}
 				}
 			} else {
 				procRefs.add(spec);
