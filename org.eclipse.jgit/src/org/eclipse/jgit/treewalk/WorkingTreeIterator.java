@@ -2,7 +2,7 @@
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
- * Copyright (C) 2012-2021, Robin Rosenberg and others
+ * Copyright (C) 2012, 2022, Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -387,8 +387,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				state.initializeReadBuffer();
 
 				final long len = e.getLength();
-				InputStream filteredIs = possiblyFilteredInputStream(e, is, len,
-						OperationType.CHECKIN_OP);
+				InputStream filteredIs = possiblyFilteredInputStream(e, is,
+						len);
 				return computeHash(filteredIs, canonLen);
 			} finally {
 				safeClose(is);
@@ -400,23 +400,18 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private InputStream possiblyFilteredInputStream(final Entry e,
-			final InputStream is, final long len) throws IOException {
-		return possiblyFilteredInputStream(e, is, len, null);
-
-	}
-
-	private InputStream possiblyFilteredInputStream(final Entry e,
-			final InputStream is, final long len, OperationType opType)
+			final InputStream is, final long len)
 			throws IOException {
 		if (getCleanFilterCommand() == null
-				&& getEolStreamType(opType) == EolStreamType.DIRECT) {
+				&& getEolStreamType(
+						OperationType.CHECKIN_OP) == EolStreamType.DIRECT) {
 			canonLen = len;
 			return is;
 		}
 
 		if (len <= MAXIMUM_FILE_SIZE_TO_READ_FULLY) {
 			ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
-			rawbuf = filterClean(rawbuf.array(), rawbuf.limit(), opType);
+			rawbuf = filterClean(rawbuf.array(), rawbuf.limit());
 			canonLen = rawbuf.limit();
 			return new ByteArrayInputStream(rawbuf.array(), 0, (int) canonLen);
 		}
@@ -426,14 +421,13 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				return is;
 			}
 
-		final InputStream lenIs = filterClean(e.openInputStream(),
-				opType);
+			final InputStream lenIs = filterClean(e.openInputStream());
 		try {
 			canonLen = computeLength(lenIs);
 		} finally {
 			safeClose(lenIs);
 		}
-		return filterClean(is, opType);
+		return filterClean(is);
 	}
 
 	private static void safeClose(InputStream in) {
@@ -455,23 +449,20 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private ByteBuffer filterClean(byte[] src, int n, OperationType opType)
+	private ByteBuffer filterClean(byte[] src, int n)
 			throws IOException {
 		InputStream in = new ByteArrayInputStream(src);
 		try {
-			return IO.readWholeStream(filterClean(in, opType), n);
+			return IO.readWholeStream(filterClean(in), n);
 		} finally {
 			safeClose(in);
 		}
 	}
 
-	private InputStream filterClean(InputStream in) throws IOException {
-		return filterClean(in, null);
-	}
-
-	private InputStream filterClean(InputStream in, OperationType opType)
+	private InputStream filterClean(InputStream in)
 			throws IOException {
-		in = handleAutoCRLF(in, opType);
+		in = EolStreamTypeUtil.wrapInputStream(in,
+				getEolStreamType(OperationType.CHECKIN_OP));
 		String filterCommand = getCleanFilterCommand();
 		if (filterCommand != null) {
 			if (FilterCommandRegistry.isRegistered(filterCommand)) {
@@ -507,11 +498,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return result.getStdout().openInputStreamWithAutoDestroy();
 		}
 		return in;
-	}
-
-	private InputStream handleAutoCRLF(InputStream in, OperationType opType)
-			throws IOException {
-		return EolStreamTypeUtil.wrapInputStream(in, getEolStreamType(opType));
 	}
 
 	/**
@@ -664,7 +650,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	public InputStream openEntryStream() throws IOException {
 		InputStream rawis = current().openInputStream();
 		if (getCleanFilterCommand() == null
-				&& getEolStreamType() == EolStreamType.DIRECT) {
+				&& getEolStreamType(
+						OperationType.CHECKIN_OP) == EolStreamType.DIRECT) {
 			return rawis;
 		}
 		return filterClean(rawis);
