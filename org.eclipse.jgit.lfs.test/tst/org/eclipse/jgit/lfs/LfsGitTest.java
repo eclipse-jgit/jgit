@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2021, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -65,6 +65,27 @@ public class LfsGitTest extends RepositoryTestCase {
 		config.setString("filter", "lfs", "clean", CLEAN_NAME);
 		config.setString("filter", "lfs", "smudge", SMUDGE_NAME);
 		config.save();
+	}
+
+	@Test
+	public void testBranchSwitch() throws Exception {
+		git.branchCreate().setName("abranch").call();
+		git.checkout().setName("abranch").call();
+		File aFile = writeTrashFile("a.bin", "aaa");
+		writeTrashFile(".gitattributes", "a.bin filter=lfs");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("acommit").call();
+		git.checkout().setName("master").call();
+		git.branchCreate().setName("bbranch").call();
+		git.checkout().setName("bbranch").call();
+		File bFile = writeTrashFile("b.bin", "bbb");
+		writeTrashFile(".gitattributes", "b.bin filter=lfs");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("bcommit").call();
+		git.checkout().setName("abranch").call();
+		checkFile(aFile, "aaa");
+		git.checkout().setName("bbranch").call();
+		checkFile(bFile, "bbb");
 	}
 
 	@Test
