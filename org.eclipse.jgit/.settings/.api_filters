@@ -39,6 +39,26 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="addCheckoutMetadata(String, Attributes)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="addToCheckout(String, DirCacheEntry, Attributes)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator, boolean, Attributes)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/BasePackPushConnection.java" type="org.eclipse.jgit.transport.BasePackPushConnection">
         <filter id="338792546">
             <message_arguments>
