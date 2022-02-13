@@ -4,7 +4,8 @@
  * Copyright (C) 2008, Roger C. Soares <rogersoares@intelinet.com.br>
  * Copyright (C) 2006, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Chrisian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2019-2020, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, 2020, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2017, 2022, Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -299,7 +300,7 @@ public class DirCacheCheckout {
 		walk = new NameConflictTreeWalk(repo);
 		builder = dc.builder();
 
-		addTree(walk, headCommitTree);
+		walk.setHead(addTree(walk, headCommitTree));
 		addTree(walk, mergeCommitTree);
 		int dciPos = walk.addTree(new DirCacheBuildIterator(builder));
 		walk.addTree(workingTree);
@@ -313,13 +314,6 @@ public class DirCacheCheckout {
 			if (walk.isSubtree())
 				walk.enterSubtree();
 		}
-	}
-
-	private void addTree(TreeWalk tw, ObjectId id) throws MissingObjectException, IncorrectObjectTypeException, IOException {
-		if (id == null)
-			tw.addTree(new EmptyTreeIterator());
-		else
-			tw.addTree(id);
 	}
 
 	/**
@@ -341,7 +335,7 @@ public class DirCacheCheckout {
 		builder = dc.builder();
 
 		walk = new NameConflictTreeWalk(repo);
-		addTree(walk, mergeCommitTree);
+		walk.setHead(addTree(walk, mergeCommitTree));
 		int dciPos = walk.addTree(new DirCacheBuildIterator(builder));
 		walk.addTree(workingTree);
 		workingTree.setDirCacheIterator(walk, dciPos);
@@ -354,6 +348,14 @@ public class DirCacheCheckout {
 				walk.enterSubtree();
 		}
 		conflicts.removeAll(removed);
+	}
+
+	private int addTree(TreeWalk tw, ObjectId id) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		if (id == null) {
+			return tw.addTree(new EmptyTreeIterator());
+		}
+		return tw.addTree(id);
 	}
 
 	/**
@@ -382,17 +384,14 @@ public class DirCacheCheckout {
 						// failOnConflict is false. Putting something to conflicts
 						// would mean we delete it. Instead we want the mergeCommit
 						// content to be checked out.
-						update(m.getEntryPathString(), m.getEntryObjectId(),
-								m.getEntryFileMode());
+						update(m);
 					}
 				} else
-					update(m.getEntryPathString(), m.getEntryObjectId(),
-						m.getEntryFileMode());
+					update(m);
 			} else if (f == null || !m.idEqual(i)) {
 				// The working tree file is missing or the merge content differs
 				// from index content
-				update(m.getEntryPathString(), m.getEntryObjectId(),
-						m.getEntryFileMode());
+				update(m);
 			} else if (i.getDirCacheEntry() != null) {
 				// The index contains a file (and not a folder)
 				if (f.isModified(i.getDirCacheEntry(), true,
@@ -400,8 +399,7 @@ public class DirCacheCheckout {
 						|| i.getDirCacheEntry().getStage() != 0)
 					// The working tree file is dirty or the index contains a
 					// conflict
-					update(m.getEntryPathString(), m.getEntryObjectId(),
-							m.getEntryFileMode());
+					update(m);
 				else {
 					// update the timestamp of the index with the one from the
 					// file if not set, as we are sure to be in sync here.
@@ -802,7 +800,7 @@ public class DirCacheCheckout {
 				if (f != null && isModifiedSubtree_IndexWorkingtree(name)) {
 					conflict(name, dce, h, m); // 1
 				} else {
-					update(name, mId, mMode); // 2
+					update(1, name, mId, mMode); // 2
 				}
 
 				break;
@@ -828,7 +826,7 @@ public class DirCacheCheckout {
 				// are found later
 				break;
 			case 0xD0F: // 19
-				update(name, mId, mMode);
+				update(1, name, mId, mMode);
 				break;
 			case 0xDF0: // conflict without a rule
 			case 0x0FD: // 15
@@ -839,7 +837,7 @@ public class DirCacheCheckout {
 					if (isModifiedSubtree_IndexWorkingtree(name))
 						conflict(name, dce, h, m); // 8
 					else
-						update(name, mId, mMode); // 7
+						update(1, name, mId, mMode); // 7
 				} else
 					conflict(name, dce, h, m); // 9
 				break;
@@ -859,7 +857,7 @@ public class DirCacheCheckout {
 				break;
 			case 0x0DF: // 16 17
 				if (!isModifiedSubtree_IndexWorkingtree(name))
-					update(name, mId, mMode);
+					update(1, name, mId, mMode);
 				else
 					conflict(name, dce, h, m);
 				break;
@@ -929,7 +927,7 @@ public class DirCacheCheckout {
 				// At least one of Head, Index, Merge is not empty
 				// -> only Merge contains something for this path. Use it!
 				// Potentially update the file
-				update(name, mId, mMode); // 1
+				update(1, name, mId, mMode); // 1
 			else if (m == null)
 				// Nothing in Merge
 				// Something in Head
@@ -947,7 +945,7 @@ public class DirCacheCheckout {
 				// find in Merge. Potentially updates the file.
 				if (equalIdAndMode(hId, hMode, mId, mMode)) {
 					if (initialCheckout || force) {
-						update(name, mId, mMode);
+						update(1, name, mId, mMode);
 					} else {
 						keep(name, dce, f);
 					}
@@ -1131,7 +1129,7 @@ public class DirCacheCheckout {
 
 						// TODO check that we don't overwrite some unsaved
 						// file content
-						update(name, mId, mMode);
+						update(1, name, mId, mMode);
 					} else if (dce != null
 							&& (f != null && f.isModified(dce, true,
 									this.walk.getObjectReader()))) {
@@ -1150,7 +1148,7 @@ public class DirCacheCheckout {
 						// -> Standard case when switching between branches:
 						// Nothing new in index but something different in
 						// Merge. Update index and file
-						update(name, mId, mMode);
+						update(1, name, mId, mMode);
 					}
 				} else {
 					// Head differs from index or merge is same as index
@@ -1237,12 +1235,17 @@ public class DirCacheCheckout {
 		removed.add(path);
 	}
 
-	private void update(String path, ObjectId mId, FileMode mode)
-			throws IOException {
+	private void update(CanonicalTreeParser tree) throws IOException {
+		update(0, tree.getEntryPathString(), tree.getEntryObjectId(),
+				tree.getEntryFileMode());
+	}
+
+	private void update(int index, String path, ObjectId mId,
+			FileMode mode) throws IOException {
 		if (!FileMode.TREE.equals(mode)) {
 			updated.put(path, new CheckoutMetadata(
-					walk.getEolStreamType(CHECKOUT_OP),
-					walk.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE)));
+					walk.getCheckoutEolStreamType(index),
+					walk.getSmudgeCommand(index)));
 
 			DirCacheEntry entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0);
 			entry.setObjectId(mId);

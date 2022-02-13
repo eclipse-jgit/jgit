@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2009 Google Inc.
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -14,6 +14,7 @@ package org.eclipse.jgit.treewalk;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -73,6 +74,7 @@ import org.eclipse.jgit.util.io.EolStreamTypeUtil;
  * threads.
  */
 public class TreeWalk implements AutoCloseable, AttributesProvider {
+
 	private static final AbstractTreeIterator[] NO_TREES = {};
 
 	/**
@@ -92,7 +94,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
-	 *            Type of operation you want to retrieve the git attributes for.
+	 * Type of operation you want to retrieve the git attributes for.
 	 */
 	private OperationType operationType = OperationType.CHECKOUT_OP;
 
@@ -284,11 +286,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	AbstractTreeIterator currentHead;
 
-	/** Cached attribute for the current entry */
-	private Attributes attrs = null;
+	/** Cached attributes for the current entry; per tree */
+	private Attributes[] attrs;
 
-	/** Cached attributes handler */
-	private AttributesHandler attributesHandler;
+	/** Cached attributes handler; per tree */
+	private AttributesHandler[] attributesHandlers;
+
+	/** Can be set to identify the tree to use for {@link #getAttributes()}. */
+	private int headIndex = -1;
 
 	private Config config;
 
@@ -515,6 +520,24 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * Identifies the tree at the given index as the head tree. This is the tree
+	 * use by default to determine attributes and EOL modes.
+	 *
+	 * @param index
+	 *            of the tree to use as head
+	 * @throws IllegalArgumentException
+	 *             if the index is out of range
+	 * @since 6.1
+	 */
+	public void setHead(int index) {
+		if (index < 0 || index >= trees.length) {
+			throw new IllegalArgumentException("Head index " + index //$NON-NLS-1$
+					+ " out of range [0," + trees.length + ')'); //$NON-NLS-1$
+		}
+		headIndex = index;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Retrieve the git attributes for the current entry.
@@ -556,25 +579,51 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	@Override
 	public Attributes getAttributes() {
-		if (attrs != null)
-			return attrs;
+		if (headIndex >= 0) {
+			return getAttributes(headIndex);
+		}
+		// Legacy behavior: just take the first CanonicalTreeParser
+		for (int i = 0; i < trees.length; i++) {
+			if (trees[i] instanceof CanonicalTreeParser) {
+				return getAttributes(i);
+			}
+		}
+		return getAttributes(0);
+	}
 
+	/**
+	 * Retrieves the git attributes based on the given tree.
+	 *
+	 * @param index
+	 *            of the tree to use as base for the attributes
+	 * @return the attributes
+	 * @since 6.1
+	 */
+	public Attributes getAttributes(int index) {
+		Attributes result = attrs[index];
+		if (result != null) {
+			return result;
+		}
 		if (attributesNodeProvider == null) {
-			// The work tree should have a AttributesNodeProvider to be able to
-			// retrieve the info and global attributes node
 			throw new IllegalStateException(
 					"The tree walk should have one AttributesNodeProvider set in order to compute the git attributes."); //$NON-NLS-1$
 		}
 
 		try {
-			// Lazy create the attributesHandler on the first access of
-			// attributes. This requires the info, global and root
-			// attributes nodes
-			if (attributesHandler == null) {
-				attributesHandler = new AttributesHandler(this);
+			AttributesHandler handler = attributesHandlers[index];
+			if (handler == null) {
+				AbstractTreeIterator tree = trees[index];
+				if (!(tree instanceof CanonicalTreeParser)) {
+					handler = new AttributesHandler(this, null);
+				} else {
+					handler = new AttributesHandler(this,
+							(CanonicalTreeParser) tree);
+				}
+				attributesHandlers[index] = handler;
 			}
-			attrs = attributesHandler.getAttributes();
-			return attrs;
+			result = handler.getAttributes();
+			attrs[index] = result;
+			return result;
 		} catch (IOException e) {
 			throw new JGitInternalException("Error while parsing attributes", //$NON-NLS-1$
 					e);
@@ -595,19 +644,41 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	@Nullable
 	public EolStreamType getEolStreamType(OperationType opType) {
-		if (attributesNodeProvider == null || config == null)
+		if (attributesNodeProvider == null || config == null) {
 			return null;
-		return EolStreamTypeUtil.detectStreamType(
-				opType != null ? opType : operationType,
-					config.get(WorkingTreeOptions.KEY), getAttributes());
+		}
+		OperationType op = opType != null ? opType : operationType;
+		return EolStreamTypeUtil.detectStreamType(op,
+				config.get(WorkingTreeOptions.KEY), getAttributes());
 	}
 
+	/**
+	 * Get the EOL stream type of the current entry for checking out using the
+	 * config and {@link #getAttributes()}.
+	 *
+	 * @param tree
+	 *            index of the tree the check-out is to be from
+	 * @return the EOL stream type of the current entry using the config and
+	 *         {@link #getAttributes()}. Note that this method may return null
+	 *         if the {@link org.eclipse.jgit.treewalk.TreeWalk} is not based on
+	 *         a working tree
+	 * @since 6.1
+	 */
+	@Nullable
+	public EolStreamType getCheckoutEolStreamType(int tree) {
+		if (attributesNodeProvider == null || config == null) {
+			return null;
+		}
+		Attributes attr = getAttributes(tree);
+		return EolStreamTypeUtil.detectStreamType(OperationType.CHECKOUT_OP,
+				config.get(WorkingTreeOptions.KEY), attr);
+	}
 	/**
 	 * Reset this walker so new tree iterators can be added to it.
 	 */
 	public void reset() {
 		attrs = null;
-		attributesHandler = null;
+		attributesHandlers = null;
 		trees = NO_TREES;
 		advance = false;
 		depth = 0;
@@ -651,7 +722,9 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 		advance = false;
 		depth = 0;
-		attrs = null;
+		attrs = new Attributes[1];
+		attributesHandlers = new AttributesHandler[1];
+		headIndex = 0;
 	}
 
 	/**
@@ -701,7 +774,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		trees = r;
 		advance = false;
 		depth = 0;
-		attrs = null;
+		if (oldLen == newLen) {
+			Arrays.fill(attrs, null);
+			Arrays.fill(attributesHandlers, null);
+		} else {
+			attrs = new Attributes[newLen];
+			attributesHandlers = new AttributesHandler[newLen];
+		}
+		headIndex = -1;
 	}
 
 	/**
@@ -758,6 +838,16 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		p.matchShift = 0;
 
 		trees = newTrees;
+		if (attrs == null) {
+			attrs = new Attributes[n + 1];
+		} else {
+			attrs = Arrays.copyOf(attrs, n + 1);
+		}
+		if (attributesHandlers == null) {
+			attributesHandlers = new AttributesHandler[n + 1];
+		} else {
+			attributesHandlers = Arrays.copyOf(attributesHandlers, n + 1);
+		}
 		return n;
 	}
 
@@ -800,7 +890,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			}
 
 			for (;;) {
-				attrs = null;
+				Arrays.fill(attrs, null);
 				final AbstractTreeIterator t = min();
 				if (t.eof()) {
 					if (depth > 0) {
@@ -1255,7 +1345,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	public void enterSubtree() throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		attrs = null;
+		Arrays.fill(attrs, null);
 		final AbstractTreeIterator ch = currentHead;
 		final AbstractTreeIterator[] tmp = new AbstractTreeIterator[trees.length];
 		for (int i = 0; i < trees.length; i++) {
@@ -1374,11 +1464,12 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	/**
 	 * Inspect config and attributes to return a filtercommand applicable for
-	 * the current path, but without expanding %f occurences
+	 * the current path.
 	 *
 	 * @param filterCommandType
 	 *            which type of filterCommand should be executed. E.g. "clean",
-	 *            "smudge"
+	 *            "smudge". For "smudge" consider using
+	 *            {{@link #getSmudgeCommand(int)} instead.
 	 * @return a filter command
 	 * @throws java.io.IOException
 	 * @since 4.2
@@ -1398,6 +1489,54 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 		String filterCommand = getFilterCommandDefinition(filterValue,
 				filterCommandType);
+		if (filterCommand == null) {
+			return null;
+		}
+		return filterCommand.replaceAll("%f", //$NON-NLS-1$
+				Matcher.quoteReplacement(
+						QuotedString.BOURNE.quote((getPathString()))));
+	}
+
+	/**
+	 * Inspect config and attributes to return a filtercommand applicable for
+	 * the current path.
+	 *
+	 * @param index
+	 *            of the tree the item to be smudged is in
+	 * @return a filter command
+	 * @throws java.io.IOException
+	 * @since 6.1
+	 */
+	public String getSmudgeCommand(int index)
+			throws IOException {
+		return getSmudgeCommand(getAttributes(index));
+	}
+
+	/**
+	 * Inspect config and attributes to return a filtercommand applicable for
+	 * the current path.
+	 *
+	 * @param attributes
+	 *            to use
+	 * @return a filter command
+	 * @throws java.io.IOException
+	 * @since 6.1
+	 */
+	public String getSmudgeCommand(Attributes attributes) throws IOException {
+		if (attributes == null) {
+			return null;
+		}
+		Attribute f = attributes.get(Constants.ATTR_FILTER);
+		if (f == null) {
+			return null;
+		}
+		String filterValue = f.getValue();
+		if (filterValue == null) {
+			return null;
+		}
+
+		String filterCommand = getFilterCommandDefinition(filterValue,
+				Constants.ATTR_FILTER_TYPE_SMUDGE);
 		if (filterCommand == null) {
 			return null;
 		}
