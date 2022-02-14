@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fc7365b_b48ce778",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-02-14T17:03:36Z",
+      "side": 1,
+      "message": "The commit message suggests that `getRefsByPrefix` is going to be used but `getRefsStreamByPrefix` is used instead...",
+      "range": {
+        "startLine": 523,
+        "startChar": 7,
+        "endLine": 525,
+        "endChar": 29
+      },
+      "revId": "5066b59f09b7ef23404ec021946c75a6944fd488",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
