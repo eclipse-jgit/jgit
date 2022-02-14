@@ -98,6 +98,7 @@ public class PushCommand extends
 			InvalidRemoteException,
 			org.eclipse.jgit.api.errors.TransportException {
 		checkCallable();
+		setCallable(false);
 
 		ArrayList<PushResult> pushResults = new ArrayList<>(3);
 
