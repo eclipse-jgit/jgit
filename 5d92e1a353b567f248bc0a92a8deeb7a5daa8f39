@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53406a6e_2b5719ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-14T13:58:00Z",
+      "side": 1,
+      "message": "- move unrelated fix to another change\n- will push that in a minute",
+      "revId": "5d92e1a353b567f248bc0a92a8deeb7a5daa8f39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
