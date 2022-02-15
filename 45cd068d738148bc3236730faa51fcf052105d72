@@ -16,6 +16,24 @@
       "revId": "45cd068d738148bc3236730faa51fcf052105d72",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "279c8a6b_ef6fddb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-15T19:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20f4de08_c583444d",
+      "revId": "45cd068d738148bc3236730faa51fcf052105d72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
