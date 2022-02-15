@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20f4de08_c583444d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-15T16:24:04Z",
+      "side": 1,
+      "message": "Probably not good enough. This needs to fetch the tree again. Will have to write another test to check, and if so, use a Supplier\u003cCanonicalTreeParser\u003e instead.",
+      "revId": "45cd068d738148bc3236730faa51fcf052105d72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
