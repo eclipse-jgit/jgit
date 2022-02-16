@@ -16,6 +16,24 @@
       "revId": "db2d379c9ccb90f6f958da85d4d72e2567348b7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5d2dd11_1a65a55f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-16T18:01:27Z",
+      "side": 0,
+      "message": "Gone :-) I had overlooked that this was a public operation. All uses within JGit are exclusively for the check-in case. But as it\u0027s public, it is of course possible that someone calls it on an iterator used in a TreeWalk with OperationType CHECKOUT_OP. (Though I wonder: if there\u0027s no such use case in JGit or EGit, who would have such a use case?)\n\nI\u0027ve restored this bit. getEolStreamType() is now not called anywhere inside JGit or EGit.",
+      "parentUuid": "39962fcb_ad591053",
+      "revId": "db2d379c9ccb90f6f958da85d4d72e2567348b7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
