@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "650e6fef_325722d2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-16T16:07:19Z",
+      "side": 1,
+      "message": "incomplete conflict resolution ?",
+      "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5ffe38_6303dd45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-16T16:07:19Z",
+      "side": 1,
+      "message": "fix unresolved conflicts",
+      "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62006531_d72853df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-16T16:07:19Z",
+      "side": 1,
+      "message": "this is still racy",
+      "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
