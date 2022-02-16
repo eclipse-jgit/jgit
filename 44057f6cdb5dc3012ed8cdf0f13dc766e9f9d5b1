@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "21a85bec_49655043",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-16T16:55:33Z",
+      "side": 1,
+      "message": "- which build are you referring to ?\n- we have 3: maven, bazel, Eclipse",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "44057f6cdb5dc3012ed8cdf0f13dc766e9f9d5b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60a86d22_4b6e57f1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
