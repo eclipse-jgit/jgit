@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.22" sequenceNumber="1644362193">
+<target name="jgit-4.22" sequenceNumber="1645013273">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="jakarta.servlet-api" version="4.0.0"/>
@@ -51,8 +51,8 @@
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.httpcomponents.httpclient" version="4.5.13.v20210128-2225"/>
       <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.13.v20210128-2225"/>
-      <unit id="org.apache.httpcomponents.httpcore" version="4.4.14.v20210128-2225"/>
-      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.14.v20210128-2225"/>
+      <unit id="org.apache.httpcomponents.httpcore" version="4.4.15.v20220209-2345"/>
+      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.15.v20220209-2345"/>
       <unit id="org.apache.sshd.osgi" version="2.8.0.v20211227-1750"/>
       <unit id="org.apache.sshd.osgi.source" version="2.8.0.v20211227-1750"/>
       <unit id="org.apache.sshd.sftp" version="2.8.0.v20211227-1750"/>
@@ -87,7 +87,7 @@
       <unit id="org.slf4j.binding.simple.source" version="1.7.30.v20200204-2150"/>
       <unit id="org.tukaani.xz" version="1.9.0.v20210624-1259"/>
       <unit id="org.tukaani.xz.source" version="1.9.0.v20210624-1259"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20220208191225/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20220215213605/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>

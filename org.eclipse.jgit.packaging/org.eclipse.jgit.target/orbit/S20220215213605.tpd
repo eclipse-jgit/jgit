@@ -1,7 +1,7 @@
-target "S20220208191225" with source configurePhase
+target "S20220215213605" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/S20220208191225/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/S20220215213605/repository" {
 	com.google.gson [2.8.9.v20220111-1409,2.8.9.v20220111-1409]
 	com.google.gson.source [2.8.9.v20220111-1409,2.8.9.v20220111-1409]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -30,8 +30,8 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/S202202081912
 	org.apache.commons.logging.source [1.2.0.v20180409-1502,1.2.0.v20180409-1502]
 	org.apache.httpcomponents.httpclient [4.5.13.v20210128-2225,4.5.13.v20210128-2225]
 	org.apache.httpcomponents.httpclient.source [4.5.13.v20210128-2225,4.5.13.v20210128-2225]
-	org.apache.httpcomponents.httpcore [4.4.14.v20210128-2225,4.4.14.v20210128-2225]
-	org.apache.httpcomponents.httpcore.source [4.4.14.v20210128-2225,4.4.14.v20210128-2225]
+	org.apache.httpcomponents.httpcore [4.4.15.v20220209-2345,4.4.15.v20220209-2345]
+	org.apache.httpcomponents.httpcore.source [4.4.15.v20220209-2345,4.4.15.v20220209-2345]
 	org.apache.sshd.osgi [2.8.0.v20211227-1750,2.8.0.v20211227-1750]
 	org.apache.sshd.osgi.source [2.8.0.v20211227-1750,2.8.0.v20211227-1750]
 	org.apache.sshd.sftp [2.8.0.v20211227-1750,2.8.0.v20211227-1750]
