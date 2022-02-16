@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "633caacf_0cfed5ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-02-16T09:10:04Z",
+      "side": 1,
+      "message": "Have you verified that also errorprone with Bazel build doesn\u0027t check the unclosed closeable?",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "37e652f9ee5a9b91b561ca27c233b3b5a9dd07d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
