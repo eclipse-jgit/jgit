@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c3e821d_74e2dbe7",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-02-16T11:49:57Z",
+      "side": 1,
+      "message": "batchrefupdate?  For reftable, the RefDb will serialize the operations again.",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 26
+      },
+      "revId": "10b4d31660b8a98b5a88b793ecb8a0d162b6d589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d92682d_68bd46ff",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-02-16T11:49:57Z",
+      "side": 1,
+      "message": "this is reading the branches in ascending order. I\u0027d put a randomization step to be more representative.",
+      "revId": "10b4d31660b8a98b5a88b793ecb8a0d162b6d589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
