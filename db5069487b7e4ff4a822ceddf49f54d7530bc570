@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e7d3a5f_2f0ca48c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-02-17T08:54:45Z",
+      "side": 1,
+      "message": "I am wondering if this would fix the bug as well：\n\nfor (RemoteRefUpdate up : refs) { \n    //..\n    walk.markStart(walk.parseCommit(up.getNewObjectId())\n    //..\n}\nwhile (walk.next() !\u003d null) {\n// walk all commits to populate objects\n}\nfindLfsPointers(toPush, walk);\n\nIn this case, only need to perform one object traversal.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 17
+      },
+      "revId": "db5069487b7e4ff4a822ceddf49f54d7530bc570",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
