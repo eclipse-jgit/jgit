@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85e293b8_8a82bee7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-19T21:19:48Z",
+      "side": 1,
+      "message": "them",
+      "range": {
+        "startLine": 249,
+        "startChar": 16,
+        "endLine": 249,
+        "endChar": 20
+      },
+      "revId": "03fe661cda44ccee0a7ebcb57463740c463e050e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc33193_8a2e0744",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-19T21:19:48Z",
+      "side": 1,
+      "message": "@code",
+      "range": {
+        "startLine": 315,
+        "startChar": 53,
+        "endLine": 315,
+        "endChar": 58
+      },
+      "revId": "03fe661cda44ccee0a7ebcb57463740c463e050e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47488023_75f2df78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-19T21:19:48Z",
+      "side": 1,
+      "message": "whether {@link RefSpec} is the",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 221,
+        "endChar": 43
+      },
+      "revId": "03fe661cda44ccee0a7ebcb57463740c463e050e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
