@@ -230,7 +230,7 @@ public class PushCommand extends
 			refSpecs.add(new RefSpec(getCurrentBranch()));
 			break;
 		case MATCHING:
-			setPushAll();
+			refSpecs.add(new RefSpec(":")); //$NON-NLS-1$
 			break;
 		case NOTHING:
 			throw new InvalidRefNameException(

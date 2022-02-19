@@ -358,7 +358,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 
 	private PushResult executePush() throws NotSupportedException,
 			TransportException {
-		process = new PushProcess(transport, refUpdates);
+		process = new PushProcess(transport, refUpdates, null);
 		return process.execute(new TextProgressMonitor());
 	}
 
