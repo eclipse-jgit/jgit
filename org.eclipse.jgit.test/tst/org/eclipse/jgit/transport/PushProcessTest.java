@@ -14,14 +14,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -31,6 +36,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.eclipse.jgit.util.io.NullOutputStream;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -220,7 +226,17 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 						.fromString("0000000000000000000000000000000000000001"));
 		final Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, "refs/heads/master",
 				ObjectId.fromString("ac7e7e44c1885efb472ad54a78327d66bfc4ecef"));
-		testOneUpdateStatus(rru, ref, Status.REJECTED_REMOTE_CHANGED, null);
+		try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+				PrintStream out = new PrintStream(bytes, true,
+						StandardCharsets.UTF_8);
+				PrintStream err = new PrintStream(NullOutputStream.INSTANCE)) {
+			MockPrePushHook hook = new MockPrePushHook(db, out, err);
+			testOneUpdateStatus(rru, ref, Status.REJECTED_REMOTE_CHANGED, null,
+					hook);
+			out.flush();
+			String result = new String(bytes.toString(StandardCharsets.UTF_8));
+			assertEquals("", result);
+		}
 	}
 
 	/**
@@ -256,10 +272,22 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 		refUpdates.add(rruOk);
 		refUpdates.add(rruReject);
 		advertisedRefs.add(refToChange);
-		executePush();
-		assertEquals(Status.OK, rruOk.getStatus());
-		assertTrue(rruOk.isFastForward());
-		assertEquals(Status.NON_EXISTING, rruReject.getStatus());
+		try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+				PrintStream out = new PrintStream(bytes, true,
+						StandardCharsets.UTF_8);
+				PrintStream err = new PrintStream(NullOutputStream.INSTANCE)) {
+			MockPrePushHook hook = new MockPrePushHook(db, out, err);
+			executePush(hook);
+			assertEquals(Status.OK, rruOk.getStatus());
+			assertTrue(rruOk.isFastForward());
+			assertEquals(Status.NON_EXISTING, rruReject.getStatus());
+			out.flush();
+			String result = new String(bytes.toString(StandardCharsets.UTF_8));
+			assertEquals(
+					"null 0000000000000000000000000000000000000000 "
+							+ "refs/heads/master 2c349335b7f797072cf729c4f3bb0914ecb6dec9\n",
+					result);
+		}
 	}
 
 	/**
@@ -346,10 +374,18 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 			final Ref advertisedRef, final Status expectedStatus,
 			Boolean fastForward) throws NotSupportedException,
 			TransportException {
+		return testOneUpdateStatus(rru, advertisedRef, expectedStatus,
+				fastForward, null);
+	}
+
+	private PushResult testOneUpdateStatus(final RemoteRefUpdate rru,
+			final Ref advertisedRef, final Status expectedStatus,
+			Boolean fastForward, PrePushHook hook)
+			throws NotSupportedException, TransportException {
 		refUpdates.add(rru);
 		if (advertisedRef != null)
 			advertisedRefs.add(advertisedRef);
-		final PushResult result = executePush();
+		final PushResult result = executePush(hook);
 		assertEquals(expectedStatus, rru.getStatus());
 		if (fastForward != null)
 			assertEquals(fastForward, Boolean.valueOf(rru.isFastForward()));
@@ -358,7 +394,12 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 
 	private PushResult executePush() throws NotSupportedException,
 			TransportException {
-		process = new PushProcess(transport, refUpdates);
+		return executePush(null);
+	}
+
+	private PushResult executePush(PrePushHook hook)
+			throws NotSupportedException, TransportException {
+		process = new PushProcess(transport, refUpdates, hook);
 		return process.execute(new TextProgressMonitor());
 	}
 
@@ -414,6 +455,22 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 				assertEquals(Status.NOT_ATTEMPTED, rru.getStatus());
 				rru.setStatus(connectionUpdateStatus);
 			}
+		}
+	}
+
+	private static class MockPrePushHook extends PrePushHook {
+
+		private final PrintStream output;
+
+		public MockPrePushHook(Repository repo, PrintStream out,
+				PrintStream err) {
+			super(repo, out, err);
+			output = out;
+		}
+
+		@Override
+		protected void doRun() throws AbortedByHookException, IOException {
+			output.print(getStdinArgs());
 		}
 	}
 }
