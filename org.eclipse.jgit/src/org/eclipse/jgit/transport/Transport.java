@@ -40,7 +40,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.hooks.Hooks;
@@ -1375,16 +1374,9 @@ public abstract class Transport implements AutoCloseable {
 			if (toPush.isEmpty())
 				throw new TransportException(JGitText.get().nothingToPush);
 		}
-		if (prePush != null) {
-			try {
-				prePush.setRefs(toPush);
-				prePush.call();
-			} catch (AbortedByHookException | IOException e) {
-				throw new TransportException(e.getMessage(), e);
-			}
-		}
 
-		final PushProcess pushProcess = new PushProcess(this, toPush, out);
+		final PushProcess pushProcess = new PushProcess(this, toPush, prePush,
+				out);
 		return pushProcess.execute(monitor);
 	}
 

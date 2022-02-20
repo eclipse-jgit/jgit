@@ -18,10 +18,13 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -58,6 +61,8 @@ class PushProcess {
 	/** A list of option strings associated with this push */
 	private List<String> pushOptions;
 
+	private final PrePushHook prePush;
+
 	/**
 	 * Create process for specified transport and refs updates specification.
 	 *
@@ -66,12 +71,15 @@ class PushProcess {
 	 *            connection.
 	 * @param toPush
 	 *            specification of refs updates (and local tracking branches).
-	 *
+	 * @param prePush
+	 *            {@link PrePushHook} to run after the remote advertisement has
+	 *            been gotten
 	 * @throws TransportException
 	 */
 	PushProcess(final Transport transport,
-			final Collection<RemoteRefUpdate> toPush) throws TransportException {
-		this(transport, toPush, null);
+			final Collection<RemoteRefUpdate> toPush, PrePushHook prePush)
+			throws TransportException {
+		this(transport, toPush, prePush, null);
 	}
 
 	/**
@@ -82,16 +90,20 @@ class PushProcess {
 	 *            connection.
 	 * @param toPush
 	 *            specification of refs updates (and local tracking branches).
+	 * @param prePush
+	 *            {@link PrePushHook} to run after the remote advertisement has
+	 *            been gotten
 	 * @param out
 	 *            OutputStream to write messages to
 	 * @throws TransportException
 	 */
 	PushProcess(final Transport transport,
-			final Collection<RemoteRefUpdate> toPush, OutputStream out)
-			throws TransportException {
+			final Collection<RemoteRefUpdate> toPush, PrePushHook prePush,
+			OutputStream out) throws TransportException {
 		this.walker = new RevWalk(transport.local);
 		this.transport = transport;
 		this.toPush = new LinkedHashMap<>();
+		this.prePush = prePush;
 		this.out = out;
 		this.pushOptions = transport.getPushOptions();
 		for (RemoteRefUpdate rru : toPush) {
@@ -133,6 +145,30 @@ class PushProcess {
 				monitor.endTask();
 
 				final Map<String, RemoteRefUpdate> preprocessed = prepareRemoteUpdates();
+				List<RemoteRefUpdate> willBeAttempted = preprocessed.values()
+						.stream().filter(u -> {
+							switch (u.getStatus()) {
+							case NON_EXISTING:
+							case REJECTED_NODELETE:
+							case REJECTED_NONFASTFORWARD:
+							case REJECTED_OTHER_REASON:
+							case REJECTED_REMOTE_CHANGED:
+							case UP_TO_DATE:
+								return false;
+							default:
+								return true;
+							}
+						}).collect(Collectors.toList());
+				if (!willBeAttempted.isEmpty()) {
+					if (prePush != null) {
+						try {
+							prePush.setRefs(willBeAttempted);
+							prePush.call();
+						} catch (AbortedByHookException | IOException e) {
+							throw new TransportException(e.getMessage(), e);
+						}
+					}
+				}
 				if (transport.isDryRun())
 					modifyUpdatesForDryRun();
 				else if (!preprocessed.isEmpty())
