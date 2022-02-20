@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com> and others
+ * Copyright (C) 2008, 2022 Marek Zawirski <marek.zawirski@gmail.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -166,6 +166,7 @@ class PushProcess {
 					if (prePush != null) {
 						try {
 							prePush.setRefs(willBeAttempted);
+							prePush.setDryRun(transport.isDryRun());
 							prePush.call();
 						} catch (AbortedByHookException | IOException e) {
 							throw new TransportException(e.getMessage(), e);
