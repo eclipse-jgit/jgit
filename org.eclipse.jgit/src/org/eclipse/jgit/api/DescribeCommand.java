@@ -232,7 +232,13 @@ public class DescribeCommand extends GitCommand<String> {
 		}
 		return String.format("%s-%d-g%s", formatRefName(tag.getName()), //$NON-NLS-1$
 				Integer.valueOf(depth),
-				w.getObjectReader().abbreviate(tip, abbrev).name());
+				w.getObjectReader().abbreviate(tip, getCappedAbbrev()).name());
+	}
+
+	private int getCappedAbbrev() {
+		int len = Math.max(abbrev, 4);
+		len = Math.min(len, Constants.OBJECT_ID_STRING_LENGTH);
+		return len;
 	}
 
 	/**
@@ -436,7 +442,9 @@ public class DescribeCommand extends GitCommand<String> {
 			// if all the nodes are dominated by all the tags, the walk stops
 			if (candidates.isEmpty()) {
 				return always
-						? w.getObjectReader().abbreviate(target, abbrev).name()
+						? w.getObjectReader()
+								.abbreviate(target, getCappedAbbrev())
+								.name()
 						: null;
 			}
 
