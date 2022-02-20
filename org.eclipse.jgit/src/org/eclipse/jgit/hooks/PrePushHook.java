@@ -38,6 +38,8 @@ public class PrePushHook extends GitHook<String> {
 
 	private String refs;
 
+	private boolean dryRun;
+
 	/**
 	 * Constructor for PrePushHook
 	 * <p>
@@ -142,6 +144,27 @@ public class PrePushHook extends GitHook<String> {
 	 */
 	public void setRemoteLocation(String location) {
 		remoteLocation = location;
+	}
+
+	/**
+	 * Sets whether the push is a dry run.
+	 *
+	 * @param dryRun
+	 *            {@code true} if the push is a dry run, {@code false} otherwise
+	 * @since 6.1
+	 */
+	public void setDryRun(boolean dryRun) {
+		this.dryRun = dryRun;
+	}
+
+	/**
+	 * Tells whether the push is a dry run.
+	 *
+	 * @return {@code true} if the push is a dry run, {@code false} otherwise
+	 * @since 6.1
+	 */
+	protected boolean isDryRun() {
+		return dryRun;
 	}
 
 	/**

@@ -166,6 +166,7 @@ class PushProcess {
 					if (prePush != null) {
 						try {
 							prePush.setRefs(willBeAttempted);
+							prePush.setDryRun(transport.isDryRun());
 							prePush.call();
 						} catch (AbortedByHookException | IOException e) {
 							throw new TransportException(e.getMessage(), e);
