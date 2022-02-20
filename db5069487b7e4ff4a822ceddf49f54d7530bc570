@@ -22,6 +22,30 @@
       "revId": "db5069487b7e4ff4a822ceddf49f54d7530bc570",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4adab56d_b97540d0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-20T18:03:52Z",
+      "side": 1,
+      "message": "\u003e I am wondering if this would fix the bug as well：\n\nThis comment clearly shows that this change needs a test. If there was a test, you wouldn\u0027t have to be wondering, you could just have made the change locally and run the test :-)\n\nI agree that your proposed refactoring looks reasonable.\n\nI\u0027m a bit a confused, though. This thing traverses everything from the commits to be pushed to the last locally known upstream tips. If there was already a push without updating the remote tracking branch, this will upload the files again. It\u0027ll also upload the files even if the push later will be rejected (bug 578852), or on a dry-run (bug 546567).\n\nBug 546567 also exists with the Canonical LFS implementation and C git. See [2]. The solution proposed there (telling the hook via an environment variable whether it was executed in a dry-run) apparently never made it into C git.\n\nBug 578852 is to be fixed independently of LFS; once fixed, this hook won\u0027t even see rejected or up-to-date updates. It could then also restrict the parts traversed even more by marking all\nup.getExpectedOldObjectId() commits as uninteresting.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/190980/3/org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java#22\n[2] https://github.com/git-lfs/git-lfs/issues/3418",
+      "parentUuid": "1e7d3a5f_2f0ca48c",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 17
+      },
+      "revId": "db5069487b7e4ff4a822ceddf49f54d7530bc570",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
