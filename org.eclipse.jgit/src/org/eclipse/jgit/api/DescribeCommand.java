@@ -227,6 +227,9 @@ public class DescribeCommand extends GitCommand<String> {
 
 	private String longDescription(Ref tag, int depth, ObjectId tip)
 			throws IOException {
+		if (abbrev == 0) {
+			return formatRefName(tag.getName());
+		}
 		return String.format("%s-%d-g%s", formatRefName(tag.getName()), //$NON-NLS-1$
 				Integer.valueOf(depth),
 				w.getObjectReader().abbreviate(tip, abbrev).name());
