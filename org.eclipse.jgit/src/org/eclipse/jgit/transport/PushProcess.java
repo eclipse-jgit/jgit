@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -141,9 +142,13 @@ class PushProcess {
 				res.setAdvertisedRefs(transport.getURI(), connection
 						.getRefsMap());
 				res.peerUserAgent = connection.getPeerUserAgent();
-				res.setRemoteUpdates(toPush);
 				monitor.endTask();
 
+				Map<String, RemoteRefUpdate> expanded = expandMatching();
+				toPush.clear();
+				toPush.putAll(expanded);
+
+				res.setRemoteUpdates(toPush);
 				final Map<String, RemoteRefUpdate> preprocessed = prepareRemoteUpdates();
 				List<RemoteRefUpdate> willBeAttempted = preprocessed.values()
 						.stream().filter(u -> {
@@ -237,25 +242,8 @@ class PushProcess {
 				continue;
 			}
 
-			// check for fast-forward:
-			// - both old and new ref must point to commits, AND
-			// - both of them must be known for us, exist in repository, AND
-			// - old commit must be ancestor of new commit
-			boolean fastForward = true;
-			try {
-				RevObject oldRev = walker.parseAny(advertisedOld);
-				final RevObject newRev = walker.parseAny(rru.getNewObjectId());
-				if (!(oldRev instanceof RevCommit)
-						|| !(newRev instanceof RevCommit)
-						|| !walker.isMergedInto((RevCommit) oldRev,
-								(RevCommit) newRev))
-					fastForward = false;
-			} catch (MissingObjectException x) {
-				fastForward = false;
-			} catch (Exception x) {
-				throw new TransportException(transport.getURI(), MessageFormat.format(
-						JGitText.get().readingObjectsFromLocalRepositoryFailed, x.getMessage()), x);
-			}
+			boolean fastForward = isFastForward(advertisedOld,
+					rru.getNewObjectId());
 			rru.setFastForward(fastForward);
 			if (!fastForward && !rru.isForceUpdate()) {
 				rru.setStatus(Status.REJECTED_NONFASTFORWARD);
@@ -267,6 +255,134 @@ class PushProcess {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Determines whether an update from {@code oldOid} to {@code newOid} is a
+	 * fast-forward update:
+	 * <ul>
+	 * <li>both old and new must be commits, AND</li>
+	 * <li>both of them must be known to us and exist in the repository,
+	 * AND</li>
+	 * <li>the old commit must be an ancestor of the new commit.</li>
+	 * </ul>
+	 *
+	 * @param oldOid
+	 *            {@link ObjectId} of the old commit
+	 * @param newOid
+	 *            {@link ObjectId} of the new commit
+	 * @return {@code true} if the update fast-forwards, {@code false} otherwise
+	 * @throws TransportException
+	 */
+	private boolean isFastForward(ObjectId oldOid, ObjectId newOid)
+			throws TransportException {
+		try {
+			RevObject oldRev = walker.parseAny(oldOid);
+			RevObject newRev = walker.parseAny(newOid);
+			if (!(oldRev instanceof RevCommit) || !(newRev instanceof RevCommit)
+					|| !walker.isMergedInto((RevCommit) oldRev,
+							(RevCommit) newRev)) {
+				return false;
+			}
+		} catch (MissingObjectException x) {
+			return false;
+		} catch (Exception x) {
+			throw new TransportException(transport.getURI(),
+					MessageFormat.format(JGitText
+							.get().readingObjectsFromLocalRepositoryFailed,
+							x.getMessage()),
+					x);
+		}
+		return true;
+	}
+
+	/**
+	 * Expands all placeholder {@link RemoteRefUpdate}s for "matching"
+	 * {@link RefSpec}s ":" in {@link #toPush} and returns the resulting map in
+	 * which the placeholders have been replaced by their expansion.
+	 *
+	 * @return a new map of {@link RemoteRefUpdate}s keyed by remote name
+	 * @throws TransportException
+	 *             if the expansion results in duplicate updates
+	 */
+	private Map<String, RemoteRefUpdate> expandMatching()
+			throws TransportException {
+		Map<String, RemoteRefUpdate> result = new LinkedHashMap<>();
+		boolean hadMatch = false;
+		for (RemoteRefUpdate update : toPush.values()) {
+			if (update.isMatching()) {
+				if (hadMatch) {
+					throw new TransportException(MessageFormat.format(
+							JGitText.get().duplicateRemoteRefUpdateIsIllegal,
+							":")); //$NON-NLS-1$
+				}
+				expandMatching(result, update);
+				hadMatch = true;
+			} else if (result.put(update.getRemoteName(), update) != null) {
+				throw new TransportException(MessageFormat.format(
+						JGitText.get().duplicateRemoteRefUpdateIsIllegal,
+						update.getRemoteName()));
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Expands the placeholder {@link RemoteRefUpdate} {@code match} for a
+	 * "matching" {@link RefSpec} ":" or "+:" and puts the expansion into the
+	 * given map {@code updates}.
+	 *
+	 * @param updates
+	 *            map to put the expansion in
+	 * @param match
+	 *            the placeholder {@link RemoteRefUpdate} to expand
+	 *
+	 * @throws TransportException
+	 *             if the expansion results in duplicate updates, or the local
+	 *             branches cannot be determined
+	 */
+	private void expandMatching(Map<String, RemoteRefUpdate> updates,
+			RemoteRefUpdate match) throws TransportException {
+		try {
+			Map<String, Ref> advertisement = connection.getRefsMap();
+			Collection<RefSpec> fetchSpecs = match.getFetchSpecs();
+			boolean forceUpdate = match.isForceUpdate();
+			for (Ref local : transport.local.getRefDatabase()
+					.getRefsByPrefix(Constants.R_HEADS)) {
+				if (local.isSymbolic()) {
+					continue;
+				}
+				String name = local.getName();
+				Ref advertised = advertisement.get(name);
+				if (advertised == null || advertised.isSymbolic()) {
+					continue;
+				}
+				ObjectId oldOid = advertised.getObjectId();
+				if (oldOid == null || ObjectId.zeroId().equals(oldOid)) {
+					continue;
+				}
+				ObjectId newOid = local.getObjectId();
+				if (newOid == null || ObjectId.zeroId().equals(newOid)) {
+					continue;
+				}
+
+				RemoteRefUpdate rru = new RemoteRefUpdate(transport.local, name,
+						newOid, name, forceUpdate,
+						Transport.findTrackingRefName(name, fetchSpecs),
+						oldOid);
+				if (updates.put(rru.getRemoteName(), rru) != null) {
+					throw new TransportException(MessageFormat.format(
+							JGitText.get().duplicateRemoteRefUpdateIsIllegal,
+							rru.getRemoteName()));
+				}
+			}
+		} catch (IOException x) {
+			throw new TransportException(transport.getURI(),
+					MessageFormat.format(JGitText
+							.get().readingObjectsFromLocalRepositoryFailed,
+							x.getMessage()),
+					x);
+		}
 	}
 
 	private Map<String, RemoteRefUpdate> rejectAll() {
