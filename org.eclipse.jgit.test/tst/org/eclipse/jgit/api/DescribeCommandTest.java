@@ -102,6 +102,8 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("alice-t1-2-g3e563c5", describe(c4, "alice*"));
 			assertEquals("bob-t2-1-g3e563c5", describe(c4, "bob*"));
 			assertEquals("bob-t2-1-g3e563c5", describe(c4, "a*", "b*", "c*"));
+
+			assertEquals("bob-t2", describe(c4, false, true, 0));
 		} else {
 			assertEquals(null, describe(c2));
 			assertEquals(null, describe(c3));
