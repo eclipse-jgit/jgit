@@ -589,6 +589,11 @@ public abstract class Transport implements AutoCloseable {
 		final Collection<RefSpec> procRefs = expandPushWildcardsFor(db, specs);
 
 		for (RefSpec spec : procRefs) {
+			if (spec.isMatching()) {
+				result.add(new RemoteRefUpdate(db, spec.isForceUpdate(),
+						fetchSpecs));
+				continue;
+			}
 			String srcSpec = spec.getSource();
 			final Ref srcRef = db.findRef(srcSpec);
 			if (srcRef != null)
@@ -659,7 +664,7 @@ public abstract class Transport implements AutoCloseable {
 
 		List<Ref> localRefs = null;
 		for (RefSpec spec : specs) {
-			if (spec.isWildcard()) {
+			if (!spec.isMatching() && spec.isWildcard()) {
 				if (localRefs == null) {
 					localRefs = db.getRefDatabase().getRefs();
 				}
@@ -675,7 +680,7 @@ public abstract class Transport implements AutoCloseable {
 		return procRefs;
 	}
 
-	private static String findTrackingRefName(final String remoteName,
+	static String findTrackingRefName(final String remoteName,
 			final Collection<RefSpec> fetchSpecs) {
 		// try to find matching tracking refs
 		for (RefSpec fetchSpec : fetchSpecs) {
