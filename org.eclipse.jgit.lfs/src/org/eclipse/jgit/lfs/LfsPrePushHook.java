@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Markus Duft <markus.duft@ssi-schaefer.com> and others
+ * Copyright (C) 2017, 2022 Markus Duft <markus.duft@ssi-schaefer.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -101,8 +101,10 @@ public class LfsPrePushHook extends PrePushHook {
 		}
 		HttpConnection api = LfsConnectionFactory.getLfsConnection(
 				getRepository(), METHOD_POST, OPERATION_UPLOAD);
-		Map<String, LfsPointer> oid2ptr = requestBatchUpload(api, toPush);
-		uploadContents(api, oid2ptr);
+		if (!isDryRun()) {
+			Map<String, LfsPointer> oid2ptr = requestBatchUpload(api, toPush);
+			uploadContents(api, oid2ptr);
+		}
 		return EMPTY;
 
 	}
