@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4bd77deb_1f1a0fec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-21T20:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21a85bec_49655043",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "44057f6cdb5dc3012ed8cdf0f13dc766e9f9d5b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60a86d22_4b6e57f1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "44057f6cdb5dc3012ed8cdf0f13dc766e9f9d5b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0aebf11_71ec2963",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-21T20:01:30Z",
+      "side": 1,
+      "message": "Done. This is only raised by Eclipse.",
+      "parentUuid": "60a86d22_4b6e57f1",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "44057f6cdb5dc3012ed8cdf0f13dc766e9f9d5b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
