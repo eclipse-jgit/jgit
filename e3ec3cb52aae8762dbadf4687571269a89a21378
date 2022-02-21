@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "30e9592a_e29e1e42",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsConfigGitTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-21T14:06:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "05588b56_430af7a5",
+      "range": {
+        "startLine": 152,
+        "startChar": 19,
+        "endLine": 152,
+        "endChar": 47
+      },
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bc8e4f5_8ba39fdc",
         "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
         "patchSetId": 5
@@ -181,6 +205,24 @@
       "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cccc460_b96a2be0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-21T14:06:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6443ce9_ac8a37a1",
+      "revId": "e3ec3cb52aae8762dbadf4687571269a89a21378",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

@@ -70,6 +70,24 @@
       "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66efc657_6e4f397b",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/internal/LfsConnectionFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-21T14:06:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ab828e33_41d0fc7d",
+      "revId": "dbbc30754a567faa8dee09ec4e69790818aec2af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

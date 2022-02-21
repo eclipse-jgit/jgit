@@ -139,6 +139,24 @@
       "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aec1fc26_8992adcf",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-02-21T14:06:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4c2fa7_04b44ed1",
+      "revId": "2f7bd3ed3f8c1b897e910598c3f246c7f507f5a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
