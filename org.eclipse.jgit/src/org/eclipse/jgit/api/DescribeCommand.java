@@ -9,7 +9,6 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
@@ -34,6 +33,7 @@ import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.AbbrevConfig;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -92,7 +92,7 @@ public class DescribeCommand extends GitCommand<String> {
 	/**
 	 * The prefix length to use when abbreviating a commit hash.
 	 */
-	private int abbrev = OBJECT_ID_ABBREV_STRING_LENGTH;
+	private int abbrev;
 
 	/**
 	 * Constructor for DescribeCommand.
@@ -104,6 +104,7 @@ public class DescribeCommand extends GitCommand<String> {
 		super(repo);
 		w = new RevWalk(repo);
 		w.setRetainBody(false);
+		abbrev = AbbrevConfig.parseFromConfig(repo.getConfig()).get(repo);
 	}
 
 	/**
@@ -232,13 +233,9 @@ public class DescribeCommand extends GitCommand<String> {
 		}
 		return String.format("%s-%d-g%s", formatRefName(tag.getName()), //$NON-NLS-1$
 				Integer.valueOf(depth),
-				w.getObjectReader().abbreviate(tip, getCappedAbbrev()).name());
-	}
-
-	private int getCappedAbbrev() {
-		int len = Math.max(abbrev, 4);
-		len = Math.min(len, Constants.OBJECT_ID_STRING_LENGTH);
-		return len;
+				w.getObjectReader()
+						.abbreviate(tip, AbbrevConfig.capAbbrev(abbrev))
+						.name());
 	}
 
 	/**
@@ -443,7 +440,8 @@ public class DescribeCommand extends GitCommand<String> {
 			if (candidates.isEmpty()) {
 				return always
 						? w.getObjectReader()
-								.abbreviate(target, getCappedAbbrev())
+								.abbreviate(target,
+										AbbrevConfig.capAbbrev(abbrev))
 								.name()
 						: null;
 			}

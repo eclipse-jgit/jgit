@@ -155,4 +155,13 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	public ObjectDatabase newCachedDatabase() {
 		return this;
 	}
+
+	/**
+	 * Get a quick, rough count of objects in this repository. Ignores loose
+	 * objects.
+	 *
+	 * @return quick, rough count of objects in this repository
+	 * @since 6.1
+	 */
+	public abstract long getApproximateObjectCount();
 }
