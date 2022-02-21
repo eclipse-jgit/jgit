@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34262815_c7ac29e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "So this always accesses the config, even if the user calls setAbbrev() later. Normally we do that in call() if by then abbrev has not been set.",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea79d4c5_a65d0783",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "Cap here? Why does the javadoc say the minimum value allowed was 2? I thought 4?",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec32c680_2733bd48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90b833e1_129cc051",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "This needs tests. Certainly for expected values and not being set, but also for plain wrong values like \"nonsense\", \"2k\", \"400000\", \"-1\", \"-1000\".",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "838f9fe8_98e3fd92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "This is wrong. There is no getString() with a default. This reads core.abbrev.auto.",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d3a7ea9_addf9018",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "Can we pass this through a TypedGetter to be able to report buggy configs appropriately? I.e., get it again via config.getInt(\"core\", null, \"abbrev\", -1), and if you get -1, fall back to AUTO.\n\nAlso: check that the value obtained is in an allowed range (4..40). Should we have a typed getter for getting an int within some range?",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b07297b8_24dd4003",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "Make this constructor private and have a public constructor AbbrevConfig(Config)? Or maybe AbbrevConfig(Repository, Config) and compute the value for the auto case right away?",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fbe92a3_68d13ec2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "Make getApproximateObjectCount() return -1 (unknown) when it encounters an exception, and fall back to 7 in that case?",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a43a779_ffa0f80c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:35:48Z",
+      "side": 1,
+      "message": "-1 ?",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 31
+      },
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
