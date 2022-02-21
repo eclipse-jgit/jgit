@@ -22,6 +22,30 @@
       "revId": "37e652f9ee5a9b91b561ca27c233b3b5a9dd07d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce4fce00_16032583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-02-21T20:05:22Z",
+      "side": 1,
+      "message": "bazel doesn\u0027t report it at the moment.",
+      "parentUuid": "633caacf_0cfed5ba",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "37e652f9ee5a9b91b561ca27c233b3b5a9dd07d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
