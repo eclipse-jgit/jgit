@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21723f13_ec05b4ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-21T14:37:20Z",
+      "side": 1,
+      "message": "Why not cap here? Also, why minimum 2?",
+      "revId": "db2843f62909f8dc1830ac4a010c127104861361",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
