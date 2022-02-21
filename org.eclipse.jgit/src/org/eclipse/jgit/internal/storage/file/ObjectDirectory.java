@@ -212,6 +212,20 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return packed.getPacks();
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public long getApproximateObjectCount() {
+		long count = 0;
+		for (Pack p : getPacks()) {
+			try {
+				count += p.getIndex().getObjectCount();
+			} catch (IOException e) {
+				// ignore
+			}
+		}
+		return count;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
