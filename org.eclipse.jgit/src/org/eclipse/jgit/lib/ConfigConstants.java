@@ -836,4 +836,11 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_DEFAULT = "default";
 
+	/**
+	 * The "abbrev" key
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_ABBREV = "abbrev";
+
 }
