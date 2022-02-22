@@ -9,6 +9,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/TypedConfigGetter.java" type="org.eclipse.jgit.lib.TypedConfigGetter">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
+                <message_argument value="getIntInRange(Config, String, String, String, int, int, int)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/BasePackPushConnection.java" type="org.eclipse.jgit.transport.BasePackPushConnection">
         <filter id="338792546">
             <message_arguments>

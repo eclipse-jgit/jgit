@@ -120,6 +120,21 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 
 	/** {@inheritDoc} */
 	@Override
+	public int getIntInRange(Config config, String section, String subsection,
+			String name, int minValue, int maxValue, int defaultValue) {
+		int val = getInt(config, section, subsection, name, defaultValue);
+		if (val >= minValue && val <= maxValue) {
+			return val;
+		}
+		throw new IllegalArgumentException(MessageFormat
+				.format(JGitText.get().integerValueNotInRange, section,
+						subsection, name, Integer.valueOf(val),
+						Integer.valueOf(minValue),
+						Integer.valueOf(maxValue)));
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public long getLong(Config config, String section, String subsection,
 			String name, long defaultValue) {
 		final String str = config.getString(section, subsection, name);
