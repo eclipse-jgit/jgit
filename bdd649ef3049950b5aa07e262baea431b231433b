@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92e6ebf3_0194ab98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-22T07:52:07Z",
+      "side": 1,
+      "message": "So the defaultValue must also be in the range. Is that intended? I would have thought that\n\n  int val \u003d getIntInRange(config, \"section\", null, \"value\", 3, 10, -1);\n\nwould have been useful: I can do\n\n  if (val \u003c 0) {\n    // Not set at all, do whatever is appropriate\n  } else {\n    // Was set, and val is in range.\n  }\n\nIf the default value needs to be in range, I can\u0027t make this distinction.\n\nIn the core.abbrev case, we make the distinction earlier when we get the value as a string, but there may be other cases. If we add a general getIntInRange, it should support this use case.",
+      "revId": "bdd649ef3049950b5aa07e262baea431b231433b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
