@@ -29,6 +29,13 @@ import org.eclipse.jgit.util.FS;
 public interface TypedConfigGetter {
 
 	/**
+	 * Use {@code Integer#MIN_VALUE} as unset int value
+	 *
+	 * @since 6.1
+	 */
+	public static final int UNSET_INT = Integer.MIN_VALUE;
+
+	/**
 	 * Get a boolean value from a git {@link Config}.
 	 *
 	 * @param config
@@ -85,6 +92,32 @@ public interface TypedConfigGetter {
 	 */
 	int getInt(Config config, String section, String subsection, String name,
 			int defaultValue);
+
+	/**
+	 * Obtain an integer value from a git {@link Config} which must be in given
+	 * range.
+	 *
+	 * @param config
+	 *            to get the value from
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection name, such a remote or branch name.
+	 * @param name
+	 *            name of the key to get.
+	 * @param minValue
+	 *            minimal value
+	 * @param maxValue
+	 *            maximum value
+	 * @param defaultValue
+	 *            default value to return if no value was present. Use
+	 *            {@code #UNSET_INT} to set the default to unset.
+	 * @return an integer value from the configuration, or defaultValue.
+	 *         {@code #UNSET_INT} if unset.
+	 * @since 6.1
+	 */
+	int getIntInRange(Config config, String section, String subsection,
+			String name, int minValue, int maxValue, int defaultValue);
 
 	/**
 	 * Obtain a long value from a git {@link Config}.
