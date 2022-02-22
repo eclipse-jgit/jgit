@@ -382,6 +382,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String inMemoryBufferLimitExceeded;
 	/***/ public String inputDidntMatchLength;
 	/***/ public String inputStreamMustSupportMark;
+	/***/ public String integerValueNotInRange;
+	/***/ public String integerValueNotInRangeSubSection;
 	/***/ public String integerValueOutOfRange;
 	/***/ public String internalRevisionError;
 	/***/ public String internalServerError;
