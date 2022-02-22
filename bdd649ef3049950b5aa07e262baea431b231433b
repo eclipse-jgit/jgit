@@ -16,6 +16,24 @@
       "revId": "bdd649ef3049950b5aa07e262baea431b231433b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14e2cbaa_9b09d1c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T10:23:57Z",
+      "side": 1,
+      "message": "good idea, I now use Integer.MIN_VALUE to denote unset assuming it\u0027s unlikely that this is a meaningful value for an integer option",
+      "parentUuid": "92e6ebf3_0194ab98",
+      "revId": "bdd649ef3049950b5aa07e262baea431b231433b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
