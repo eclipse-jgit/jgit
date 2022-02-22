@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "630a8986_bba9af7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T10:23:30Z",
+      "side": 1,
+      "message": "now use Integer.MIN_VALUE as unset indicator",
+      "parentUuid": "29848eb7_a3cfaeab",
+      "revId": "7f0786488f58f262e70a94ea4354bf312689d22a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "698db269_8d2b2041",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "7f0786488f58f262e70a94ea4354bf312689d22a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17dcf057_f1d6f2b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T10:23:30Z",
+      "side": 1,
+      "message": "now we use Integer.MIN_VALUE to denote an unset int\n\nthis default should never be used here since we return AUTO if value isn\u0027t set already in line 71",
+      "parentUuid": "698db269_8d2b2041",
+      "range": {
+        "startLine": 79,
+        "startChar": 40,
+        "endLine": 79,
+        "endChar": 42
+      },
+      "revId": "7f0786488f58f262e70a94ea4354bf312689d22a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
