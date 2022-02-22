@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29848eb7_a3cfaeab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-22T08:03:36Z",
+      "side": 1,
+      "message": "Fine by me, though I think you could leave it as primitive int and avoid the back-and-forth with Integer.valueOf()/.intValue() if you just used -1 as \"unset\" indicator?",
+      "revId": "7f0786488f58f262e70a94ea4354bf312689d22a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "698db269_8d2b2041",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-22T08:03:36Z",
+      "side": 1,
+      "message": "Oh. See my comment in the parent change.",
+      "range": {
+        "startLine": 79,
+        "startChar": 40,
+        "endLine": 79,
+        "endChar": 42
+      },
+      "revId": "7f0786488f58f262e70a94ea4354bf312689d22a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
