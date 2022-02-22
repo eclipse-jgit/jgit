@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0c3a756_ce7e8293",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34262815_c7ac29e5",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea79d4c5_a65d0783",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32fc6450_31505346",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea79d4c5_a65d0783",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7f7e328c_00706b18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec32c680_2733bd48",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90b833e1_129cc051",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8cdcd95_a77737c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90b833e1_129cc051",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0d117702_00b043a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "838f9fe8_98e3fd92",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d3a7ea9_addf9018",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
         "patchSetId": 1
@@ -101,6 +191,24 @@
       "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c88bf64_35502a93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d3a7ea9_addf9018",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "3101357a_1bb4072f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b07297b8_24dd4003",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fbe92a3_68d13ec2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
         "patchSetId": 1
@@ -135,6 +261,24 @@
       "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9535dc74_ef261b53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fbe92a3_68d13ec2",
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -158,6 +302,30 @@
       "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081b7bbf_1c770939",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-02-22T01:51:20Z",
+      "side": 1,
+      "message": "removed this since we now compute abbrev for auto already in the constructor",
+      "parentUuid": "3a43a779_ffa0f80c",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 31
+      },
+      "revId": "241bb5a851a2494cda3237ad8e584d619a416f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
