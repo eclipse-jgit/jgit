@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c080b84_dc4eec07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2256,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-23T10:27:48Z",
+      "side": 1,
+      "message": "Tests are failing, probably because this should be !reader.isSmallerThan(...).\n\nThis effectively changes the \u003e from the old version to to \u003e\u003d. Does that matter?\n\nAlso the indentation looks broken.",
+      "revId": "f59f9feca7f24a2bd8cfe853fa8326f18bb04285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
