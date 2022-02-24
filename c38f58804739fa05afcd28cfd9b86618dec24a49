@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b162939e_81eef29b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-24T15:20:46Z",
+      "side": 1,
+      "message": "How about\n\n  int len \u003d config.getIntInRange(ConfigConstants.CONFIG_CORE_SECTION,\n      ConfigConstants.CONFIG_KEY_ABBREV, MIN_ABBREV,\n      Constants.OBJECT_ID_STRING_LENGTH, UNSET_INT);\n  if (len \u003d\u003d UNSET_INT) {\n    // Unset was checked above. If we get UNSET_INT here, then either the value was\n    // UNSET_INT, or it was an invalid value (not an integer, or out of range), and\n    // EGit\u0027s ReportingTypedGetter caught the exception and has logged a warning. In\n    // either case we should fall back to some sane default.\n    len \u003d 7;\n  }",
+      "revId": "c38f58804739fa05afcd28cfd9b86618dec24a49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
