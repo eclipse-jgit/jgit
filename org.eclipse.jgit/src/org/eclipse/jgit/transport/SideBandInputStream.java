@@ -16,11 +16,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.transport.SideBandOutputStream.HDR_SIZE;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.io.Writer;
 import java.text.MessageFormat;
 import java.util.List;
@@ -178,24 +176,17 @@ public class SideBandInputStream extends InputStream {
 	}
 
 	/**
-	 * Breaks provided string by line, trims each resultant string and returns
-	 * them as a list. Note that a String that does not end with a line
-	 * terminator will also be returned. Lines with no content after trim will
-	 * be returned as empty Strings in the list.
-	 *
-	 * @implNote This method should be ported to <code>String</code> utility
-	 *           methods when Java 11 arrives. Compare <a href=
-	 *           "https://bugs.eclipse.org/bugs/show_bug.cgi?id=569917">Bug
-	 *           569917 - Bump JGit minimum execution environment to Java SE
-	 *           11</a>.
+	 * Breaks provided string by line, trims resultant strings and returns them
+	 * as a list. Note that a String that does not end with a line terminator
+	 * will also be returned. Lines with no content after trim will be returned
+	 * as empty Strings in the list.
 	 *
 	 * @param multiLineString
 	 *            a String, usually consisting of one or more lines.
 	 * @return the list of strings
 	 */
 	static final List<String> trimmedLines(final String multiLineString) {
-		return new BufferedReader(new StringReader(multiLineString)).lines()
-				.map(String::trim).collect(toList());
+		return multiLineString.lines().map(String::trim).collect(toList());
 	}
 
 	private void doProgressLine(String msg) throws IOException {
