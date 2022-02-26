@@ -79,6 +79,8 @@ public class SideBandInputStreamTest {
 		init(packet("message"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("", messages.toString());
+		sideband.drainMessages();
+		assertEquals("message\n", messages.toString());
 	}
 
 	@Test
@@ -128,6 +130,8 @@ public class SideBandInputStreamTest {
 		init(packet("message   0%\rmessage 100%"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\r", messages.toString());
+		sideband.drainMessages();
+		assertEquals("message   0%\rmessage 100%\n", messages.toString());
 	}
 
 	@Test
@@ -135,6 +139,8 @@ public class SideBandInputStreamTest {
 		init(packet("message   0%\nmessage 100%"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\n", messages.toString());
+		sideband.drainMessages();
+		assertEquals("message   0%\nmessage 100%\n", messages.toString());
 	}
 
 	@Test
@@ -142,6 +148,8 @@ public class SideBandInputStreamTest {
 		init(packet("message   0%\r\nmessage 100%"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\r\n", messages.toString());
+		sideband.drainMessages();
+		assertEquals("message   0%\r\nmessage 100%\n", messages.toString());
 	}
 
 	@Test
@@ -152,6 +160,8 @@ public class SideBandInputStreamTest {
 		assertEquals("", messages.toString());
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\r", messages.toString());
+		sideband.drainMessages();
+		assertEquals("message   0%\rmessage 100%\n", messages.toString());
 	}
 
 	@Test
@@ -162,6 +172,8 @@ public class SideBandInputStreamTest {
 		assertEquals("", messages.toString());
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\n", messages.toString());
+		sideband.drainMessages();
+		assertEquals("message   0%\nmessage 100%\n", messages.toString());
 	}
 
 	@Test
@@ -172,6 +184,8 @@ public class SideBandInputStreamTest {
 		assertEquals("", messages.toString());
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\r\n", messages.toString());
+		sideband.drainMessages();
+		assertEquals("message   0%\r\nmessage 100%\n", messages.toString());
 	}
 
 	@Test
@@ -197,6 +211,9 @@ public class SideBandInputStreamTest {
 		assertEquals("message   0%\r", messages.toString());
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\rmessage  10%\r", messages.toString());
+		sideband.drainMessages();
+		assertEquals("message   0%\rmessage  10%\rmessage 100%\n",
+				messages.toString());
 	}
 
 	private String packet(String data) {

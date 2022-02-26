@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008, 2010 Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -1004,9 +1004,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			OutputStream outputStream) throws IOException {
 		onReceivePack();
 		InputStream input = in;
-		if (sideband)
-			input = new SideBandInputStream(input, monitor, getMessageWriter(),
-					outputStream);
+		SideBandInputStream sidebandIn = null;
+		if (sideband) {
+			sidebandIn = new SideBandInputStream(input, monitor,
+					getMessageWriter(), outputStream);
+			input = sidebandIn;
+		}
 
 		try (ObjectInserter ins = local.newObjectInserter()) {
 			PackParser parser = ins.newPackParser(input);
@@ -1015,6 +1018,10 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			parser.setLockMessage(lockMessage);
 			packLock = parser.parse(monitor);
 			ins.flush();
+		} finally {
+			if (sidebandIn != null) {
+				sidebandIn.drainMessages();
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -194,10 +194,11 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 					// the other data channels.
 					//
 					int b = in.read();
-					if (0 <= b)
+					if (0 <= b) {
 						throw new TransportException(uri, MessageFormat.format(
 								JGitText.get().expectedEOFReceived,
 								Character.valueOf((char) b)));
+					}
 				}
 			}
 		} catch (TransportException e) {
@@ -205,6 +206,9 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		} catch (Exception e) {
 			throw new TransportException(uri, e.getMessage(), e);
 		} finally {
+			if (in instanceof SideBandInputStream) {
+				((SideBandInputStream) in).drainMessages();
+			}
 			close();
 		}
 	}
