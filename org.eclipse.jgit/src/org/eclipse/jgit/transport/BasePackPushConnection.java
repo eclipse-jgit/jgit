@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -178,26 +178,34 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			final Map<String, RemoteRefUpdate> refUpdates,
 			OutputStream outputStream) throws TransportException {
 		try {
-			writeCommands(refUpdates.values(), monitor, outputStream);
+			try {
+				writeCommands(refUpdates.values(), monitor, outputStream);
 
-			if (pushOptions != null && capablePushOptions)
-				transmitOptions();
-			if (writePack)
-				writePack(refUpdates, monitor);
-			if (sentCommand) {
-				if (capableReport)
-					readStatusReport(refUpdates);
-				if (capableSideBand) {
-					// Ensure the data channel is at EOF, so we know we have
-					// read all side-band data from all channels and have a
-					// complete copy of the messages (if any) buffered from
-					// the other data channels.
-					//
-					int b = in.read();
-					if (0 <= b)
-						throw new TransportException(uri, MessageFormat.format(
-								JGitText.get().expectedEOFReceived,
-								Character.valueOf((char) b)));
+				if (pushOptions != null && capablePushOptions)
+					transmitOptions();
+				if (writePack)
+					writePack(refUpdates, monitor);
+				if (sentCommand) {
+					if (capableReport)
+						readStatusReport(refUpdates);
+					if (capableSideBand) {
+						// Ensure the data channel is at EOF, so we know we have
+						// read all side-band data from all channels and have a
+						// complete copy of the messages (if any) buffered from
+						// the other data channels.
+						//
+						int b = in.read();
+						if (0 <= b) {
+							throw new TransportException(uri,
+									MessageFormat.format(
+											JGitText.get().expectedEOFReceived,
+											Character.valueOf((char) b)));
+						}
+					}
+				}
+			} finally {
+				if (in instanceof SideBandInputStream) {
+					((SideBandInputStream) in).drainMessages();
 				}
 			}
 		} catch (TransportException e) {
