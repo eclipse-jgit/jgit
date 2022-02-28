@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ef5f63_d16471ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-28T22:27:14Z",
+      "side": 1,
+      "message": "I think this should be rephrased now. The new LfsConfig which ensures the correct precedence deserves mention here.",
+      "revId": "e2e3b465c1aae176e3a9a37ef10ac2212ef38627",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caf413e0_fce60ff1",
+        "filename": "org.eclipse.jgit.lfs.test/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-02-28T22:27:14Z",
+      "side": 1,
+      "message": "Oops. An unresolved merge conflict. Interesting that the build succeeded.",
+      "revId": "e2e3b465c1aae176e3a9a37ef10ac2212ef38627",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
