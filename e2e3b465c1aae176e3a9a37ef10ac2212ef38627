@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "26b05fcd_810ba256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-03-01T11:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ef5f63_d16471ee",
+      "revId": "e2e3b465c1aae176e3a9a37ef10ac2212ef38627",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf413e0_fce60ff1",
         "filename": "org.eclipse.jgit.lfs.test/META-INF/MANIFEST.MF",
         "patchSetId": 12
@@ -33,6 +51,24 @@
       "revId": "e2e3b465c1aae176e3a9a37ef10ac2212ef38627",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab7f7a24_f3bec8d5",
+        "filename": "org.eclipse.jgit.lfs.test/META-INF/MANIFEST.MF",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 307044
+      },
+      "writtenOn": "2022-03-01T11:14:59Z",
+      "side": 1,
+      "message": "Sorry. Don\u0027t know how this could happen :-(",
+      "parentUuid": "caf413e0_fce60ff1",
+      "revId": "e2e3b465c1aae176e3a9a37ef10ac2212ef38627",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
