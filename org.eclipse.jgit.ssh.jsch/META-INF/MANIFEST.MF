@@ -7,7 +7,7 @@ Fragment-Host: org.eclipse.jgit;bundle-version="[6.1.0,6.2.0)"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 6.1.0.202202221755-m3
+Bundle-Version: 6.1.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.jgit.transport.ssh.jsch;version="6.1.0"
 Import-Package: com.jcraft.jsch;version="[0.1.37,0.2.0)",

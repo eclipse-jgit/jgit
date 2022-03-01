@@ -3,5 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.junit.http - Sources
 Bundle-SymbolicName: org.eclipse.jgit.junit.http.source
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 6.1.0.202202221755-m3
-Eclipse-SourceBundle: org.eclipse.jgit.junit.http;version="6.1.0.202202221755-m3";roots="."
+Bundle-Version: 6.1.0.qualifier
+Eclipse-SourceBundle: org.eclipse.jgit.junit.http;version="6.1.0.qualifier";roots="."

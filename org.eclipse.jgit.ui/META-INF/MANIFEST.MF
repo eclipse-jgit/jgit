@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ui
 Bundle-SymbolicName: org.eclipse.jgit.ui
-Bundle-Version: 6.1.0.202202221755-m3
+Bundle-Version: 6.1.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.jgit.awtui;version="6.1.0"
