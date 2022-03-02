@@ -34,6 +34,24 @@
       "revId": "c38f58804739fa05afcd28cfd9b86618dec24a49",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba95740_02475ddd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-02T09:01:14Z",
+      "side": 1,
+      "message": "I know. That\u0027s what I wrote in the comment. The point is: If the ReportingTypedGetter is used, it\u0027ll log a warning and return the default value. So we can get UNSET_INT here. In that case we don\u0027t want to create new AbbrevConfig(UNSET_INT).",
+      "parentUuid": "063c39fd_b38a33d2",
+      "revId": "c38f58804739fa05afcd28cfd9b86618dec24a49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
