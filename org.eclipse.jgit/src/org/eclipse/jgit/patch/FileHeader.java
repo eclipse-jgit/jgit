@@ -26,6 +26,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.EditList;
@@ -241,7 +242,7 @@ public class FileHeader extends DiffEntry {
 		if (charsetGuess == null)
 			return true;
 		for (int i = 1; i < charsetGuess.length; i++) {
-			if (charsetGuess[i] != charsetGuess[0])
+			if (!Objects.equals(charsetGuess[i], charsetGuess[0]))
 				return false;
 		}
 		return true;
@@ -485,13 +486,13 @@ public class FileHeader extends DiffEntry {
 
 	void parseOldName(int ptr, int eol) {
 		oldPath = p1(parseName(oldPath, ptr + OLD_NAME.length, eol));
-		if (oldPath == DEV_NULL)
+		if (DEV_NULL.equals(oldPath))
 			changeType = ChangeType.ADD;
 	}
 
 	void parseNewName(int ptr, int eol) {
 		newPath = p1(parseName(newPath, ptr + NEW_NAME.length, eol));
-		if (newPath == DEV_NULL)
+		if (DEV_NULL.equals(newPath))
 			changeType = ChangeType.DELETE;
 	}
 
