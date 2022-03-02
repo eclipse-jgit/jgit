@@ -22,6 +22,30 @@
       "revId": "cbf81ff6fbfda52a2db77d6cf5d47ba03cd0a93a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1044ba04_657613cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-02T08:54:23Z",
+      "side": 1,
+      "message": "Without a special unset value we cannot differentiate between the unset option and an explicitly given default. For the option core.abbrev  according to [1] we should assume AUTO if the value is not set otherwise use the given default.\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreabbrev",
+      "parentUuid": "ecbf1e74_07d4ccce",
+      "range": {
+        "startLine": 126,
+        "startChar": 53,
+        "endLine": 126,
+        "endChar": 62
+      },
+      "revId": "cbf81ff6fbfda52a2db77d6cf5d47ba03cd0a93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
