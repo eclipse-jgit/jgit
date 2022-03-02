@@ -52,6 +52,24 @@
       "revId": "c38f58804739fa05afcd28cfd9b86618dec24a49",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abb2e7e0_16b47c67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-02T11:19:54Z",
+      "side": 1,
+      "message": "now I see, done",
+      "parentUuid": "cba95740_02475ddd",
+      "revId": "c38f58804739fa05afcd28cfd9b86618dec24a49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
