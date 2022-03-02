@@ -14,7 +14,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>6.1.0.202203021511-rc1</version>
+    <version>6.1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -27,88 +27,88 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ant</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.archive</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.http.apache</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.http.server</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.lfs</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.lfs.server</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.pgm</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ui</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.test</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ant.test</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.http.test</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.pgm.test</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.lfs.test</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.lfs.server.test</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ssh.apache.test</artifactId>
-      <version>6.1.0.202203021511-rc1</version>
+      <version>6.1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
