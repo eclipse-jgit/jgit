@@ -241,7 +241,8 @@ public class FileHeader extends DiffEntry {
 		if (charsetGuess == null)
 			return true;
 		for (int i = 1; i < charsetGuess.length; i++) {
-			if (charsetGuess[i] != charsetGuess[0])
+			if (charsetGuess[0] == null
+					|| charsetGuess[0].compareTo(charsetGuess[i]) != 0)
 				return false;
 		}
 		return true;
@@ -485,13 +486,13 @@ public class FileHeader extends DiffEntry {
 
 	void parseOldName(int ptr, int eol) {
 		oldPath = p1(parseName(oldPath, ptr + OLD_NAME.length, eol));
-		if (oldPath == DEV_NULL)
+		if (DEV_NULL.equals(oldPath))
 			changeType = ChangeType.ADD;
 	}
 
 	void parseNewName(int ptr, int eol) {
 		newPath = p1(parseName(newPath, ptr + NEW_NAME.length, eol));
-		if (newPath == DEV_NULL)
+		if (DEV_NULL.equals(newPath))
 			changeType = ChangeType.DELETE;
 	}
 
