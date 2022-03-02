@@ -1,7 +1,7 @@
 target "jgit-4.22" with source configurePhase
 
 include "projects/jetty-10.0.x.tpd"
-include "orbit/S20220215213605.tpd"
+include "orbit/R20220302172233-2022-03.tpd"
 
 location "https://download.eclipse.org/releases/2021-12/" {
 	org.eclipse.osgi lazy
