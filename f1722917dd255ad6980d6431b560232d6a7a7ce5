@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f18f7d10_dc528336",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-02T18:42:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cda7aeff_b2407657",
+      "range": {
+        "startLine": 357,
+        "startChar": 68,
+        "endLine": 357,
+        "endChar": 77
+      },
+      "revId": "f1722917dd255ad6980d6431b560232d6a7a7ce5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7116a8d1_92836ed1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "f1722917dd255ad6980d6431b560232d6a7a7ce5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3914f6d5_fe77c7f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-02T18:42:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7116a8d1_92836ed1",
+      "revId": "f1722917dd255ad6980d6431b560232d6a7a7ce5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
