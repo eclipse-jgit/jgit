@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc215c04_325ffea8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-02T15:43:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "196bb900_dad4d7b4",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecd03443_bc6b347f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6b44472_c1e3bf25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-02T15:43:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecd03443_bc6b347f",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -73,6 +109,48 @@
       "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2990ecc2_c13f1c41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-02T15:43:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58d51163_4c5a990b",
+      "range": {
+        "startLine": 249,
+        "startChar": 30,
+        "endLine": 249,
+        "endChar": 38
+      },
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78ab9e88_16e01687",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-02T15:43:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d17ceba7_e1709189",
+      "revId": "d571162a43bbe7fc5a29b707149f64fd053e5e76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
