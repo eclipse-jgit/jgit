@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3309e02_50144fff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-02T09:48:25Z",
+      "side": 1,
+      "message": "This doesn\u0027t suppress the warning. It resolves it by using equals instead of \u003d\u003d.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "5029e72227fe644b2cd7dd68e469731e5a5daae5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1558db55_1b316114",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-02T09:48:25Z",
+      "side": 1,
+      "message": "According to line 174 we can have nulls in this array.",
+      "revId": "5029e72227fe644b2cd7dd68e469731e5a5daae5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b90448_36e3cf5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-02T09:48:25Z",
+      "side": 1,
+      "message": "Probably oldPath cannot be null here. It\u0027d still be safer to write this as DEV_NULL.equals(oldPath).",
+      "revId": "5029e72227fe644b2cd7dd68e469731e5a5daae5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e856c916_bc5ea298",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-02T09:48:25Z",
+      "side": 1,
+      "message": "See above.",
+      "revId": "5029e72227fe644b2cd7dd68e469731e5a5daae5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
