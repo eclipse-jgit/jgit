@@ -117,7 +117,7 @@ public class PushConfig {
 		@Override
 		public boolean matchConfigValue(String in) {
 			return toConfigValue().equalsIgnoreCase(in)
-					|| alias != null && alias.equalsIgnoreCase(in);
+					|| (alias != null && alias.equalsIgnoreCase(in));
 		}
 	}
 
