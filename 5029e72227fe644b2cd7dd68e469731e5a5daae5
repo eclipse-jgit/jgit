@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "58e31f5d_fbad4204",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-03-02T11:03:51Z",
+      "side": 1,
+      "message": "so in this case it would be better to use:\n\n  Objects.equals()\n\nright?",
+      "parentUuid": "1558db55_1b316114",
+      "revId": "5029e72227fe644b2cd7dd68e469731e5a5daae5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28b90448_36e3cf5f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
         "patchSetId": 1
