@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5f78571_cc9e93e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbrevConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-02T15:41:40Z",
+      "side": 1,
+      "message": "Duplicated comment.",
+      "revId": "16938b5768ed6473dfbef6ffb1e4b1eab9652f73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
