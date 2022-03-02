@@ -14,7 +14,6 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedWriter;
@@ -102,6 +101,12 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("alice-t1-2-g3e563c5", describe(c4, "alice*"));
 			assertEquals("bob-t2-1-g3e563c5", describe(c4, "bob*"));
 			assertEquals("bob-t2-1-g3e563c5", describe(c4, "a*", "b*", "c*"));
+
+			assertEquals("bob-t2", describe(c4, false, true, 0));
+			assertEquals("bob-t2-1-g3e56", describe(c4, false, true, 1));
+			assertEquals("bob-t2-1-g3e56", describe(c4, false, true, -10));
+			assertEquals("bob-t2-1-g3e563c55927905f21e3bc7c00a3d83a31bf4ed3a",
+					describe(c4, false, true, 50));
 		} else {
 			assertEquals(null, describe(c2));
 			assertEquals(null, describe(c3));
@@ -115,16 +120,13 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("44579ebe7f", describe(c3, false, true, 10));
 			assertEquals("3e563c5592", describe(c4, false, true, 10));
 
-			assertEquals("3e", describe(c4, false, true, 2));
+			assertEquals("3e56", describe(c4, false, true, -10));
+			assertEquals("3e56", describe(c4, false, true, 0));
+			assertEquals("3e56", describe(c4, false, true, 2));
 			assertEquals("3e563c55927905f21e3bc7c00a3d83a31bf4ed3a",
 					describe(c4, false, true, 40));
-
-			assertThrows(StringIndexOutOfBoundsException.class,
-					() -> describe(c4, false, true, -10));
-			assertThrows(StringIndexOutOfBoundsException.class,
-					() -> describe(c4, false, true, 1));
-			assertThrows(StringIndexOutOfBoundsException.class,
-					() -> describe(c4, false, true, 41));
+			assertEquals("3e563c55927905f21e3bc7c00a3d83a31bf4ed3a",
+					describe(c4, false, true, 42));
 		}
 
 		// test default target
