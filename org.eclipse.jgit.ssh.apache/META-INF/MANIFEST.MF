@@ -6,9 +6,9 @@ Bundle-SymbolicName: org.eclipse.jgit.ssh.apache
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 6.1.0.qualifier
+Bundle-Version: 6.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: org.eclipse.jgit.internal.transport.sshd;version="6.1.0";x-internal:=true;
+Export-Package: org.eclipse.jgit.internal.transport.sshd;version="6.2.0";x-internal:=true;
   uses:="org.apache.sshd.client,
    org.apache.sshd.client.auth,
    org.apache.sshd.client.auth.keyboard,
@@ -23,17 +23,17 @@ Export-Package: org.eclipse.jgit.internal.transport.sshd;version="6.1.0";x-inter
    org.apache.sshd.common.signature,
    org.apache.sshd.common.util.buffer,
    org.eclipse.jgit.transport",
- org.eclipse.jgit.internal.transport.sshd.agent;version="6.1.0";x-internal:=true,
- org.eclipse.jgit.internal.transport.sshd.auth;version="6.1.0";x-internal:=true,
- org.eclipse.jgit.internal.transport.sshd.proxy;version="6.1.0";x-friends:="org.eclipse.jgit.ssh.apache.test",
- org.eclipse.jgit.transport.sshd;version="6.1.0";
+ org.eclipse.jgit.internal.transport.sshd.agent;version="6.2.0";x-internal:=true,
+ org.eclipse.jgit.internal.transport.sshd.auth;version="6.2.0";x-internal:=true,
+ org.eclipse.jgit.internal.transport.sshd.proxy;version="6.2.0";x-friends:="org.eclipse.jgit.ssh.apache.test",
+ org.eclipse.jgit.transport.sshd;version="6.2.0";
   uses:="org.eclipse.jgit.transport,
    org.apache.sshd.client.config.hosts,
    org.apache.sshd.common.keyprovider,
    org.eclipse.jgit.util,
    org.apache.sshd.client.session,
    org.apache.sshd.client.keyverifier",
- org.eclipse.jgit.transport.sshd.agent;version="6.1.0"
+ org.eclipse.jgit.transport.sshd.agent;version="6.2.0"
 Import-Package: net.i2p.crypto.eddsa;version="[0.3.0,0.4.0)",
  org.apache.sshd.agent;version="[2.8.0,2.9.0)",
  org.apache.sshd.client;version="[2.8.0,2.9.0)",
@@ -86,12 +86,12 @@ Import-Package: net.i2p.crypto.eddsa;version="[0.3.0,0.4.0)",
  org.apache.sshd.sftp;version="[2.8.0,2.9.0)",
  org.apache.sshd.sftp.client;version="[2.8.0,2.9.0)",
  org.apache.sshd.sftp.common;version="[2.8.0,2.9.0)",
- org.eclipse.jgit.annotations;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.errors;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.fnmatch;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.internal.storage.file;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.internal.transport.ssh;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.nls;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.transport;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.util;version="[6.1.0,6.2.0)",
+ org.eclipse.jgit.annotations;version="[6.2.0,6.3.0)",
+ org.eclipse.jgit.errors;version="[6.2.0,6.3.0)",
+ org.eclipse.jgit.fnmatch;version="[6.2.0,6.3.0)",
+ org.eclipse.jgit.internal.storage.file;version="[6.2.0,6.3.0)",
+ org.eclipse.jgit.internal.transport.ssh;version="[6.2.0,6.3.0)",
+ org.eclipse.jgit.nls;version="[6.2.0,6.3.0)",
+ org.eclipse.jgit.transport;version="[6.2.0,6.3.0)",
+ org.eclipse.jgit.util;version="[6.2.0,6.3.0)",
  org.slf4j;version="[1.7.0,2.0.0)"

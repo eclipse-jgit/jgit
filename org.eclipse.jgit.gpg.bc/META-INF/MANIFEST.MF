@@ -3,10 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.gpg.bc
 Bundle-SymbolicName: org.eclipse.jgit.gpg.bc;singleton:=true
-Fragment-Host: org.eclipse.jgit;bundle-version="[6.1.0,6.2.0)"
+Fragment-Host: org.eclipse.jgit;bundle-version="[6.2.0,6.3.0)"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Bundle-Version: 6.1.0.qualifier
+Bundle-Version: 6.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.bouncycastle.asn1;version="[1.69.0,2.0.0)",
  org.bouncycastle.asn1.cryptlib;version="[1.69.0,2.0.0)",
@@ -29,9 +29,9 @@ Import-Package: org.bouncycastle.asn1;version="[1.69.0,2.0.0)",
  org.bouncycastle.util;version="[1.69.0,2.0.0)",
  org.bouncycastle.util.encoders;version="[1.69.0,2.0.0)",
  org.bouncycastle.util.io;version="[1.69.0,2.0.0)",
- org.eclipse.jgit.annotations;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.api.errors;version="[6.1.0,6.2.0)",
+ org.eclipse.jgit.annotations;version="[6.2.0,6.3.0)",
+ org.eclipse.jgit.api.errors;version="[6.2.0,6.3.0)",
  org.slf4j;version="[1.7.0,2.0.0)"
-Export-Package: org.eclipse.jgit.gpg.bc;version="6.1.0",
- org.eclipse.jgit.gpg.bc.internal;version="6.1.0";x-friends:="org.eclipse.jgit.gpg.bc.test",
- org.eclipse.jgit.gpg.bc.internal.keys;version="6.1.0";x-friends:="org.eclipse.jgit.gpg.bc.test"
+Export-Package: org.eclipse.jgit.gpg.bc;version="6.2.0",
+ org.eclipse.jgit.gpg.bc.internal;version="6.2.0";x-friends:="org.eclipse.jgit.gpg.bc.test",
+ org.eclipse.jgit.gpg.bc.internal.keys;version="6.2.0";x-friends:="org.eclipse.jgit.gpg.bc.test"

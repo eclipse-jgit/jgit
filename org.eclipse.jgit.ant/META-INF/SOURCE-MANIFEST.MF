@@ -3,5 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.ant - Sources
 Bundle-SymbolicName: org.eclipse.jgit.ant.source
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 6.1.0.qualifier
-Eclipse-SourceBundle: org.eclipse.jgit.ant;version="6.1.0.qualifier";roots="."
+Bundle-Version: 6.2.0.qualifier
+Eclipse-SourceBundle: org.eclipse.jgit.ant;version="6.2.0.qualifier";roots="."
