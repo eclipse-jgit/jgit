@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e77ed57e_e23ec3e4",
+        "filename": "DEPENDENCIES",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-03T21:23:32Z",
+      "side": 1,
+      "message": "corrected manually and filed bug https://github.com/eclipse/dash-licenses/issues/150 for dash IP log tool",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 81
+      },
+      "revId": "aed354a1edbce4e683b3ef2060d277bbf29af6a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
