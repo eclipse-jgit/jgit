@@ -90,7 +90,7 @@ public class WinPipeConnector extends AbstractConnector {
 			file = libs.kernel.CreateFile(pipeName,
 					WinNT.GENERIC_READ | WinNT.GENERIC_WRITE, FILE_SHARE_NONE,
 					null, WinNT.OPEN_EXISTING, FILE_ATTRIBUTE_NONE, null);
-			if (file == null || file == WinBase.INVALID_HANDLE_VALUE) {
+			if (file == null || WinBase.INVALID_HANDLE_VALUE.equals(file)) {
 				int errorCode = libs.kernel.GetLastError();
 				if (errorCode == WinError.ERROR_FILE_NOT_FOUND
 						&& CANONICAL_PIPE_NAME.equalsIgnoreCase(pipeName)) {
