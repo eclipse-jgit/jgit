@@ -36,7 +36,7 @@ public class LfsText extends TranslationBundle {
 	/***/ public String invalidLongIdLength;
 	/***/ public String lfsFailedToGetRepository;
 	/***/ public String lfsNoDownloadUrl;
-	/***/ public String lfsUnathorized;
+	/***/ public String lfsUnauthorized;
 	/***/ public String lfsUnavailable;
 	/***/ public String missingLocalObject;
 	/***/ public String protocolError;
@@ -45,5 +45,5 @@ public class LfsText extends TranslationBundle {
 	/***/ public String requiredHashFunctionNotAvailable;
 	/***/ public String serverFailure;
 	/***/ public String userConfigInvalid;
-	/***/ public String wrongAmoutOfDataReceived;
+	/***/ public String wrongAmountOfDataReceived;
 }
