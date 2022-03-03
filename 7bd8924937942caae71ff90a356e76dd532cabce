@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dd0d1b28_1de92470",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/LfsConfigGitTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-03T09:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de5cd623_9d5b0cf7",
+      "range": {
+        "startLine": 147,
+        "startChar": 5,
+        "endLine": 147,
+        "endChar": 8
+      },
+      "revId": "7bd8924937942caae71ff90a356e76dd532cabce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8573949_6b654927",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
         "patchSetId": 13
@@ -45,6 +69,30 @@
       "revId": "7bd8924937942caae71ff90a356e76dd532cabce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3bdb8d2_a8fd108a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-03T09:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8573949_6b654927",
+      "range": {
+        "startLine": 182,
+        "startChar": 12,
+        "endLine": 182,
+        "endChar": 16
+      },
+      "revId": "7bd8924937942caae71ff90a356e76dd532cabce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
