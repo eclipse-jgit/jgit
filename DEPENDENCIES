@@ -59,8 +59,8 @@ maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit/6.1.0-SNAPSHOT, BSD-3-Claus
 maven/mavencentral/org.hamcrest/hamcrest-core/1.3, BSD-2-Clause, approved, CQ11429
 maven/mavencentral/org.mockito/mockito-core/2.23.0, Apache-2.0 AND MIT, approved, #958
 maven/mavencentral/org.objenesis/objenesis/2.6, Apache-2.0, approved, CQ15478
-maven/mavencentral/org.openjdk.jmh/jmh-core/1.32, GPL-2.0-only with Classpath-exception-2.0, restricted, #959
-maven/mavencentral/org.openjdk.jmh/jmh-generator-annprocess/1.32, GPL-2.0-only with Classpath-exception-2.0, restricted, #962
+maven/mavencentral/org.openjdk.jmh/jmh-core/1.32, GPL-2.0-only with Classpath-exception-2.0, approved, #959
+maven/mavencentral/org.openjdk.jmh/jmh-generator-annprocess/1.32, GPL-2.0-only with Classpath-exception-2.0, approved, #962
 maven/mavencentral/org.osgi/org.osgi.core/6.0.0, Apache-2.0, approved, #1794
 maven/mavencentral/org.slf4j/jcl-over-slf4j/1.7.32, Apache-2.0, approved, CQ12843
 maven/mavencentral/org.slf4j/slf4j-api/1.7.30, MIT, approved, CQ13368
