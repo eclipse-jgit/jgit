@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c03542a_09790e89",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-05T16:56:20Z",
+      "side": 1,
+      "message": "Why is this in lfs.server.PushTest? I don\u0027t see any connection to pushing. Maybe LfsGitTest is a better place for this test?\n\nI\u0027m puzzled by this test, though. By the time you set the LFS attributes, a.blob is already checked-in as a normal file. It\u0027s not an LFS pointer, and committing the .gitattributes doesn\u0027t change it into an LFS pointer. So in what way is the problem or this test related to LFS at all?\n\nBTW, can you take a look at https://git.eclipse.org/r/c/jgit/jgit/+/190766 , please?",
+      "revId": "475e2475373afa33983e78ae1bc833476e1b5541",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
