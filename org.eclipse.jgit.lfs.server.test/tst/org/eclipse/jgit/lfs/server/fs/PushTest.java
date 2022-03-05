@@ -18,6 +18,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.MergeCommand;
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.RemoteAddCommand;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
@@ -143,5 +145,41 @@ public class PushTest extends LfsServerTest {
 		git.push().setRefSpecs(new RefSpec().setSource(null).setDestination(destRef)).call();
 
 		assertTrue(server.getRequests().isEmpty());
+	}
+
+	@Test
+	public void testMergeDotGitAttributes() throws Exception {
+		// Prepare commits.
+		String branch = "new-branch";
+		git.branchCreate().setName(branch).call();
+
+		git.checkout().setName(Constants.MASTER).setForced(true).call();
+		JGitTestUtil.writeTrashFile(localDb.getRepository(), "a.blob",
+				"blob");
+		git.add().addFilepattern("a.blob").call();
+		git.commit().setMessage("add blob").call();
+
+		git.checkout().setName(branch).call();
+		JGitTestUtil.writeTrashFile(localDb.getRepository(), "b.txt",
+				"text");
+		git.add().addFilepattern("b.txt").call();
+		git.commit().setMessage("add txt").call();
+
+		// Track *.blob files in master branch.
+		git.checkout().setName(Constants.MASTER).setForced(true).call();
+		JGitTestUtil.writeTrashFile(localDb.getRepository(), Constants.DOT_GIT_ATTRIBUTES,
+				"*.blob filter=lfs diff=lfs merge=lfs -text ");
+		git.add().addFilepattern(Constants.DOT_GIT_ATTRIBUTES).call();
+		git.commit().setMessage("modify .gitattributes").call();
+
+		// Checkout with --force flag to the branch and merge changes from master.
+		git.checkout().setName(branch).setForced(true).call();
+		MergeResult result = git.merge()
+				.include(git.getRepository().findRef(Constants.MASTER))
+				.setCommit(false)
+				.setMessage("Merged 2 branches")
+				.setFastForward(MergeCommand.FastForwardMode.NO_FF)
+				.call();
+		assertTrue(result.getMergeStatus().isSuccessful());
 	}
 }
