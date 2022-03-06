@@ -349,8 +349,7 @@ public class RefSpec implements Serializable {
 	 *             The wildcard status of the new source disagrees with the
 	 *             wildcard status of the new destination.
 	 */
-	public RefSpec setSourceDestination(final String source,
-			final String destination) {
+	public RefSpec setSourceDestination(String source, String destination) {
 		if (isWildcard(source) != isWildcard(destination))
 			throw new IllegalStateException(JGitText.get().sourceDestinationMustMatch);
 		final RefSpec r = new RefSpec(this);

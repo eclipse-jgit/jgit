@@ -77,9 +77,8 @@ class PushProcess {
 	 *            been gotten
 	 * @throws TransportException
 	 */
-	PushProcess(final Transport transport,
-			final Collection<RemoteRefUpdate> toPush, PrePushHook prePush)
-			throws TransportException {
+	PushProcess(Transport transport, Collection<RemoteRefUpdate> toPush,
+			PrePushHook prePush) throws TransportException {
 		this(transport, toPush, prePush, null);
 	}
 
@@ -98,9 +97,8 @@ class PushProcess {
 	 *            OutputStream to write messages to
 	 * @throws TransportException
 	 */
-	PushProcess(final Transport transport,
-			final Collection<RemoteRefUpdate> toPush, PrePushHook prePush,
-			OutputStream out) throws TransportException {
+	PushProcess(Transport transport, Collection<RemoteRefUpdate> toPush,
+			PrePushHook prePush, OutputStream out) throws TransportException {
 		this.walker = new RevWalk(transport.local);
 		this.transport = transport;
 		this.toPush = new LinkedHashMap<>();

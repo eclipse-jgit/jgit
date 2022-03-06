@@ -165,9 +165,8 @@ public class RemoteRefUpdate {
 	 * @throws java.lang.IllegalArgumentException
 	 *             if some required parameter was null
 	 */
-	public RemoteRefUpdate(final Repository localDb, final String srcRef,
-			final String remoteName, final boolean forceUpdate,
-			final String localName, final ObjectId expectedOldObjectId)
+	public RemoteRefUpdate(Repository localDb, String srcRef, String remoteName,
+			boolean forceUpdate, String localName, ObjectId expectedOldObjectId)
 			throws IOException {
 		this(localDb, srcRef, srcRef != null ? localDb.resolve(srcRef)
 				: ObjectId.zeroId(), remoteName, forceUpdate, localName,
@@ -211,9 +210,8 @@ public class RemoteRefUpdate {
 	 * @throws java.lang.IllegalArgumentException
 	 *             if some required parameter was null
 	 */
-	public RemoteRefUpdate(final Repository localDb, final Ref srcRef,
-			final String remoteName, final boolean forceUpdate,
-			final String localName, final ObjectId expectedOldObjectId)
+	public RemoteRefUpdate(Repository localDb, Ref srcRef, String remoteName,
+			boolean forceUpdate, String localName, ObjectId expectedOldObjectId)
 			throws IOException {
 		this(localDb, srcRef != null ? srcRef.getName() : null,
 				srcRef != null ? srcRef.getObjectId() : null, remoteName,
@@ -263,10 +261,9 @@ public class RemoteRefUpdate {
 	 * @throws java.lang.IllegalArgumentException
 	 *             if some required parameter was null
 	 */
-	public RemoteRefUpdate(final Repository localDb, final String srcRef,
-			final ObjectId srcId, final String remoteName,
-			final boolean forceUpdate, final String localName,
-			final ObjectId expectedOldObjectId) throws IOException {
+	public RemoteRefUpdate(Repository localDb, String srcRef, ObjectId srcId,
+			String remoteName, boolean forceUpdate, String localName,
+			ObjectId expectedOldObjectId) throws IOException {
 		this(localDb, srcRef, srcId, remoteName, forceUpdate, localName, null,
 				expectedOldObjectId);
 	}
@@ -339,8 +336,8 @@ public class RemoteRefUpdate {
 	 *             local tracking branch or srcRef of base object no longer can
 	 *             be resolved to any object.
 	 */
-	public RemoteRefUpdate(final RemoteRefUpdate base,
-			final ObjectId newExpectedOldObjectId) throws IOException {
+	public RemoteRefUpdate(RemoteRefUpdate base,
+			ObjectId newExpectedOldObjectId) throws IOException {
 		this(base.localDb, base.srcRef, base.newObjectId, base.remoteName,
 				base.forceUpdate,
 				(base.trackingRefUpdate == null ? null : base.trackingRefUpdate
