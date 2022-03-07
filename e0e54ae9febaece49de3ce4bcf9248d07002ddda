@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d4c9957f_62f59be3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-07T22:24:17Z",
+      "side": 1,
+      "message": "charsetGuess \u003d\u003d null || (charsetGuess.length \u003e 0 \u0026\u0026 charsetGuess[0] \u003d\u003d null)",
+      "range": {
+        "startLine": 242,
+        "startChar": 6,
+        "endLine": 242,
+        "endChar": 26
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "863c930a_11eda1bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
         "patchSetId": 4
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "according to @Thomas (see earlier comments) one of them can be `null`...",
       "parentUuid": "863c930a_11eda1bb",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64801cbf_bc50e585",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-07T22:24:17Z",
+      "side": 1,
+      "message": "Should the check be then:\ncharsetGuess[i] \u003d\u003d null || charsetGuess[0].compareTo(charsetGuess[i]) !\u003d 0",
+      "parentUuid": "cbe34f46_5e13cbdd",
       "range": {
         "startLine": 245,
         "startChar": 8,
