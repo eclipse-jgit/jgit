@@ -231,12 +231,7 @@
             <resolver>p2</resolver>
             <pomDependencies>consider</pomDependencies>
             <target>
-              <artifact>
-                <groupId>org.eclipse.jgit</groupId>
-                <artifactId>org.eclipse.jgit.target</artifactId>
-                <version>${project.version}</version>
-                <classifier>${target-platform}</classifier>
-              </artifact>
+              <file>${project.basedir}/../org.eclipse.jgit.target/${target-platform}.target</file>
             </target>
             <environments>
               <environment>
