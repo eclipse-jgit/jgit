@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "020c37c0_3ed551de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-07T09:08:18Z",
+      "side": 0,
+      "message": "Comparing strings with \u0027\u003d\u003d\u0027 would always fail in Java, unless they are public static final.\nNo tests were broken though: are we missing some tests?",
+      "range": {
+        "startLine": 488,
+        "startChar": 6,
+        "endLine": 488,
+        "endChar": 25
+      },
+      "revId": "dc6be13640b3850448a7635b9a55a885128bc32b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "863c930a_11eda1bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-07T09:08:18Z",
+      "side": 1,
+      "message": "Charset is an abstract class that implements a Comparable interface, which means all subclass would have to implement the compareTo() method, which returns zero if objects are the same.\n\nIt would make sense to change this to:\nif(charsetGuess[i].compareTo(charsetGuess[0]) !\u003d 0)",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
