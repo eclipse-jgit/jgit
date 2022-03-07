@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18f41404_84ce1baa",
+        "filename": "org.eclipse.jgit.ssh.apache.agent/src/org/eclipse/jgit/internal/transport/sshd/agent/connector/WinPipeConnector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-07T09:12:42Z",
+      "side": 1,
+      "message": "Not sure this is appropriate in this case: WinBase.INVALID_HANDLE_VALUE is a static final object, which is unique in the whole JVM AFAIK.\n\nI believe it would be best to just suppress the warning in this particular case. @Ponch WDYT?",
+      "range": {
+        "startLine": 93,
+        "startChar": 23,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "940a396b6ebfba3c6e20ff175951f48e5a5df591",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
