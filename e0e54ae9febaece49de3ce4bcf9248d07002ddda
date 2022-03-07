@@ -22,6 +22,30 @@
       "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbe34f46_5e13cbdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-03-07T22:17:30Z",
+      "side": 1,
+      "message": "according to @Thomas (see earlier comments) one of them can be `null`...",
+      "parentUuid": "863c930a_11eda1bb",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
