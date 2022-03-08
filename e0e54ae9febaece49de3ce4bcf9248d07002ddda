@@ -117,6 +117,30 @@
       "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59188795_86482900",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-03-08T09:16:58Z",
+      "side": 1,
+      "message": "+1 for JC comment. What would be the issue with using `Objects.equals`?",
+      "parentUuid": "43f8f4ae_2d19b361",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
