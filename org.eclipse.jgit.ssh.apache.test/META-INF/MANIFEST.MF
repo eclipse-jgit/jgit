@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ssh.apache.test
 Bundle-SymbolicName: org.eclipse.jgit.ssh.apache.test
-Bundle-Version: 6.1.0.qualifier
+Bundle-Version: 6.1.0.202203080745-r
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
