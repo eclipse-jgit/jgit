@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18e65174_0ba63d05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-08T09:35:22Z",
+      "side": 1,
+      "message": "this change for sure improves the attributes handling during checkout \n\nlet\u0027s discuss this question during the nest release and implement additional fixes if necessary",
+      "range": {
+        "startLine": 46,
+        "startChar": 48,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "f26ab4ebee52b6a595859690087a276658ea425b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bec6d9e3_bde39287",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-08T09:35:22Z",
+      "side": 1,
+      "message": "it might make sense if git attributes don\u0027t say the LFS file content is binary\nwe may run into resource issues trying to auto-merge very large text files",
+      "revId": "f26ab4ebee52b6a595859690087a276658ea425b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
