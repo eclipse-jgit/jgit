@@ -12,11 +12,11 @@ package org.eclipse.jgit.transport;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.util.References;
 
 /**
  * Describes how refs in one repository copy into another repository.
@@ -50,6 +50,9 @@ public class RefSpec implements Serializable {
 	/** Is this specification actually a wildcard match? */
 	private boolean wildcard;
 
+	/** Is this the special ":" RefSpec? */
+	private boolean matching;
+
 	/**
 	 * How strict to be about wildcards.
 	 *
@@ -71,6 +74,7 @@ public class RefSpec implements Serializable {
 		 */
 		ALLOW_MISMATCH
 	}
+
 	/** Whether a wildcard is allowed on one side but not the other. */
 	private WildcardMode allowMismatchedWildcards;
 
@@ -87,6 +91,7 @@ public class RefSpec implements Serializable {
 	 * applications, as at least one field must be set to match a source name.
 	 */
 	public RefSpec() {
+		matching = false;
 		force = false;
 		wildcard = false;
 		srcName = Constants.HEAD;
@@ -133,17 +138,25 @@ public class RefSpec implements Serializable {
 			s = s.substring(1);
 		}
 
+		boolean matchPushSpec = false;
 		final int c = s.lastIndexOf(':');
 		if (c == 0) {
 			s = s.substring(1);
-			if (isWildcard(s)) {
+			if (s.isEmpty()) {
+				matchPushSpec = true;
 				wildcard = true;
-				if (mode == WildcardMode.REQUIRE_MATCH) {
-					throw new IllegalArgumentException(MessageFormat
-							.format(JGitText.get().invalidWildcards, spec));
+				srcName = Constants.R_HEADS + '*';
+				dstName = srcName;
+			} else {
+				if (isWildcard(s)) {
+					wildcard = true;
+					if (mode == WildcardMode.REQUIRE_MATCH) {
+						throw new IllegalArgumentException(MessageFormat
+								.format(JGitText.get().invalidWildcards, spec));
+					}
 				}
+				dstName = checkValid(s);
 			}
-			dstName = checkValid(s);
 		} else if (c > 0) {
 			String src = s.substring(0, c);
 			String dst = s.substring(c + 1);
@@ -168,6 +181,7 @@ public class RefSpec implements Serializable {
 			}
 			srcName = checkValid(s);
 		}
+		matching = matchPushSpec;
 	}
 
 	/**
@@ -195,11 +209,23 @@ public class RefSpec implements Serializable {
 	}
 
 	private RefSpec(RefSpec p) {
+		matching = false;
 		force = p.isForceUpdate();
 		wildcard = p.isWildcard();
 		srcName = p.getSource();
 		dstName = p.getDestination();
 		allowMismatchedWildcards = p.allowMismatchedWildcards;
+	}
+
+	/**
+	 * Tells whether this {@link RefSpec} is the special "matching" RefSpec ":"
+	 * for pushing.
+	 *
+	 * @return whether this is a "matching" RefSpec
+	 * @since 6.1
+	 */
+	public boolean isMatching() {
+		return matching;
 	}
 
 	/**
@@ -220,6 +246,7 @@ public class RefSpec implements Serializable {
 	 */
 	public RefSpec setForceUpdate(boolean forceUpdate) {
 		final RefSpec r = new RefSpec(this);
+		r.matching = matching;
 		r.force = forceUpdate;
 		return r;
 	}
@@ -322,8 +349,7 @@ public class RefSpec implements Serializable {
 	 *             The wildcard status of the new source disagrees with the
 	 *             wildcard status of the new destination.
 	 */
-	public RefSpec setSourceDestination(final String source,
-			final String destination) {
+	public RefSpec setSourceDestination(String source, String destination) {
 		if (isWildcard(source) != isWildcard(destination))
 			throw new IllegalStateException(JGitText.get().sourceDestinationMustMatch);
 		final RefSpec r = new RefSpec(this);
@@ -541,37 +567,36 @@ public class RefSpec implements Serializable {
 		if (!(obj instanceof RefSpec))
 			return false;
 		final RefSpec b = (RefSpec) obj;
-		if (isForceUpdate() != b.isForceUpdate())
+		if (isForceUpdate() != b.isForceUpdate()) {
 			return false;
-		if (isWildcard() != b.isWildcard())
-			return false;
-		if (!eq(getSource(), b.getSource()))
-			return false;
-		if (!eq(getDestination(), b.getDestination()))
-			return false;
-		return true;
-	}
-
-	private static boolean eq(String a, String b) {
-		if (References.isSameObject(a, b)) {
-			return true;
 		}
-		if (a == null || b == null)
+		if (isMatching()) {
+			return b.isMatching();
+		} else if (b.isMatching()) {
 			return false;
-		return a.equals(b);
+		}
+		return isWildcard() == b.isWildcard()
+				&& Objects.equals(getSource(), b.getSource())
+				&& Objects.equals(getDestination(), b.getDestination());
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();
-		if (isForceUpdate())
+		if (isForceUpdate()) {
 			r.append('+');
-		if (getSource() != null)
-			r.append(getSource());
-		if (getDestination() != null) {
+		}
+		if (isMatching()) {
 			r.append(':');
-			r.append(getDestination());
+		} else {
+			if (getSource() != null) {
+				r.append(getSource());
+			}
+			if (getDestination() != null) {
+				r.append(':');
+				r.append(getDestination());
+			}
 		}
 		return r.toString();
 	}

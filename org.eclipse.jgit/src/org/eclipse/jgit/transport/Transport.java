@@ -40,7 +40,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.hooks.Hooks;
@@ -590,6 +589,11 @@ public abstract class Transport implements AutoCloseable {
 		final Collection<RefSpec> procRefs = expandPushWildcardsFor(db, specs);
 
 		for (RefSpec spec : procRefs) {
+			if (spec.isMatching()) {
+				result.add(new RemoteRefUpdate(db, spec.isForceUpdate(),
+						fetchSpecs));
+				continue;
+			}
 			String srcSpec = spec.getSource();
 			final Ref srcRef = db.findRef(srcSpec);
 			if (srcRef != null)
@@ -660,7 +664,7 @@ public abstract class Transport implements AutoCloseable {
 
 		List<Ref> localRefs = null;
 		for (RefSpec spec : specs) {
-			if (spec.isWildcard()) {
+			if (!spec.isMatching() && spec.isWildcard()) {
 				if (localRefs == null) {
 					localRefs = db.getRefDatabase().getRefs();
 				}
@@ -676,7 +680,7 @@ public abstract class Transport implements AutoCloseable {
 		return procRefs;
 	}
 
-	private static String findTrackingRefName(final String remoteName,
+	static String findTrackingRefName(final String remoteName,
 			final Collection<RefSpec> fetchSpecs) {
 		// try to find matching tracking refs
 		for (RefSpec fetchSpec : fetchSpecs) {
@@ -1375,16 +1379,9 @@ public abstract class Transport implements AutoCloseable {
 			if (toPush.isEmpty())
 				throw new TransportException(JGitText.get().nothingToPush);
 		}
-		if (prePush != null) {
-			try {
-				prePush.setRefs(toPush);
-				prePush.call();
-			} catch (AbortedByHookException | IOException e) {
-				throw new TransportException(e.getMessage(), e);
-			}
-		}
 
-		final PushProcess pushProcess = new PushProcess(this, toPush, out);
+		final PushProcess pushProcess = new PushProcess(this, toPush, prePush,
+				out);
 		return pushProcess.execute(monitor);
 	}
 
