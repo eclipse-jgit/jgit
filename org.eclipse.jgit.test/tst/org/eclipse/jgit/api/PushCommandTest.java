@@ -10,6 +10,7 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -392,28 +393,64 @@ public class PushCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("f").call();
 			RevCommit commit = git.commit().setMessage("adding f").call();
 
-			git.checkout().setName("also-pushed").setCreateBranch(true).call();
+			git.checkout().setName("not-pushed").setCreateBranch(true).call();
 			git.checkout().setName("branchtopush").setCreateBranch(true).call();
 
 			assertEquals(null,
 					git2.getRepository().resolve("refs/heads/branchtopush"));
 			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/also-pushed"));
+					git2.getRepository().resolve("refs/heads/not-pushed"));
 			assertEquals(null,
 					git2.getRepository().resolve("refs/heads/master"));
-			git.push().setRemote("test").setPushDefault(PushDefault.MATCHING)
+			// push master and branchtopush
+			git.push().setRemote("test").setRefSpecs(
+					new RefSpec("refs/heads/master:refs/heads/master"),
+					new RefSpec(
+							"refs/heads/branchtopush:refs/heads/branchtopush"))
 					.call();
 			assertEquals(commit.getId(),
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(commit.getId(),
-					git2.getRepository().resolve("refs/heads/also-pushed"));
-			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/master"));
-			assertEquals(commit.getId(), git.getRepository()
-					.resolve("refs/remotes/origin/branchtopush"));
-			assertEquals(commit.getId(), git.getRepository()
-					.resolve("refs/remotes/origin/also-pushed"));
 			assertEquals(commit.getId(),
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			// Create two different commits on these two branches
+			writeTrashFile("b", "on branchtopush");
+			git.add().addFilepattern("b").call();
+			RevCommit bCommit = git.commit().setMessage("on branchtopush")
+					.call();
+			git.checkout().setName("master").call();
+			writeTrashFile("m", "on master");
+			git.add().addFilepattern("m").call();
+			RevCommit mCommit = git.commit().setMessage("on master").call();
+			// Now push with mode "matching": should push both branches.
+			Iterable<PushResult> result = git.push().setRemote("test")
+					.setPushDefault(PushDefault.MATCHING)
+					.call();
+			int n = 0;
+			for (PushResult r : result) {
+				n++;
+				assertEquals(1, n);
+				assertEquals(2, r.getRemoteUpdates().size());
+				for (RemoteRefUpdate update : r.getRemoteUpdates()) {
+					assertFalse(update.isMatching());
+					assertTrue(update.getSrcRef()
+							.equals("refs/heads/branchtopush")
+							|| update.getSrcRef().equals("refs/heads/master"));
+					assertEquals(RemoteRefUpdate.Status.OK, update.getStatus());
+				}
+			}
+			assertEquals(bCommit.getId(),
+					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertEquals(null,
+					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertEquals(mCommit.getId(),
+					git2.getRepository().resolve("refs/heads/master"));
+			assertEquals(bCommit.getId(), git.getRepository()
+					.resolve("refs/remotes/origin/branchtopush"));
+			assertEquals(null, git.getRepository()
+					.resolve("refs/remotes/origin/not-pushed"));
+			assertEquals(mCommit.getId(),
 					git.getRepository().resolve("refs/remotes/origin/master"));
 		}
 	}

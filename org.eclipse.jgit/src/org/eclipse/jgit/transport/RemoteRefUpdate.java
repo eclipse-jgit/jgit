@@ -12,7 +12,9 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collection;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -116,6 +118,12 @@ public class RemoteRefUpdate {
 	private RefUpdate localUpdate;
 
 	/**
+	 * If set, the RemoteRefUpdate is a placeholder for the "matching" RefSpec
+	 * to be expanded after the advertisements have been received in a push.
+	 */
+	private Collection<RefSpec> fetchSpecs;
+
+	/**
 	 * Construct remote ref update request by providing an update specification.
 	 * Object is created with default
 	 * {@link org.eclipse.jgit.transport.RemoteRefUpdate.Status#NOT_ATTEMPTED}
@@ -157,9 +165,8 @@ public class RemoteRefUpdate {
 	 * @throws java.lang.IllegalArgumentException
 	 *             if some required parameter was null
 	 */
-	public RemoteRefUpdate(final Repository localDb, final String srcRef,
-			final String remoteName, final boolean forceUpdate,
-			final String localName, final ObjectId expectedOldObjectId)
+	public RemoteRefUpdate(Repository localDb, String srcRef, String remoteName,
+			boolean forceUpdate, String localName, ObjectId expectedOldObjectId)
 			throws IOException {
 		this(localDb, srcRef, srcRef != null ? localDb.resolve(srcRef)
 				: ObjectId.zeroId(), remoteName, forceUpdate, localName,
@@ -203,9 +210,8 @@ public class RemoteRefUpdate {
 	 * @throws java.lang.IllegalArgumentException
 	 *             if some required parameter was null
 	 */
-	public RemoteRefUpdate(final Repository localDb, final Ref srcRef,
-			final String remoteName, final boolean forceUpdate,
-			final String localName, final ObjectId expectedOldObjectId)
+	public RemoteRefUpdate(Repository localDb, Ref srcRef, String remoteName,
+			boolean forceUpdate, String localName, ObjectId expectedOldObjectId)
 			throws IOException {
 		this(localDb, srcRef != null ? srcRef.getName() : null,
 				srcRef != null ? srcRef.getObjectId() : null, remoteName,
@@ -255,28 +261,41 @@ public class RemoteRefUpdate {
 	 * @throws java.lang.IllegalArgumentException
 	 *             if some required parameter was null
 	 */
-	public RemoteRefUpdate(final Repository localDb, final String srcRef,
-			final ObjectId srcId, final String remoteName,
-			final boolean forceUpdate, final String localName,
-			final ObjectId expectedOldObjectId) throws IOException {
-		if (remoteName == null)
-			throw new IllegalArgumentException(JGitText.get().remoteNameCannotBeNull);
-		if (srcId == null && srcRef != null)
-			throw new IOException(MessageFormat.format(
-					JGitText.get().sourceRefDoesntResolveToAnyObject, srcRef));
+	public RemoteRefUpdate(Repository localDb, String srcRef, ObjectId srcId,
+			String remoteName, boolean forceUpdate, String localName,
+			ObjectId expectedOldObjectId) throws IOException {
+		this(localDb, srcRef, srcId, remoteName, forceUpdate, localName, null,
+				expectedOldObjectId);
+	}
 
-		if (srcRef != null)
+	private RemoteRefUpdate(Repository localDb, String srcRef, ObjectId srcId,
+			String remoteName, boolean forceUpdate, String localName,
+			Collection<RefSpec> fetchSpecs, ObjectId expectedOldObjectId)
+			throws IOException {
+		if (fetchSpecs == null) {
+			if (remoteName == null) {
+				throw new IllegalArgumentException(
+						JGitText.get().remoteNameCannotBeNull);
+			}
+			if (srcId == null && srcRef != null) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().sourceRefDoesntResolveToAnyObject,
+						srcRef));
+			}
+		}
+		if (srcRef != null) {
 			this.srcRef = srcRef;
-		else if (srcId != null && !srcId.equals(ObjectId.zeroId()))
+		} else if (srcId != null && !srcId.equals(ObjectId.zeroId())) {
 			this.srcRef = srcId.name();
-		else
+		} else {
 			this.srcRef = null;
-
-		if (srcId != null)
+		}
+		if (srcId != null) {
 			this.newObjectId = srcId;
-		else
+		} else {
 			this.newObjectId = ObjectId.zeroId();
-
+		}
+		this.fetchSpecs = fetchSpecs;
 		this.remoteName = remoteName;
 		this.forceUpdate = forceUpdate;
 		if (localName != null && localDb != null) {
@@ -292,8 +311,9 @@ public class RemoteRefUpdate {
 						? localUpdate.getOldObjectId()
 						: ObjectId.zeroId(),
 					newObjectId);
-		} else
+		} else {
 			trackingRefUpdate = null;
+		}
 		this.localDb = localDb;
 		this.expectedOldObjectId = expectedOldObjectId;
 		this.status = Status.NOT_ATTEMPTED;
@@ -316,11 +336,57 @@ public class RemoteRefUpdate {
 	 *             local tracking branch or srcRef of base object no longer can
 	 *             be resolved to any object.
 	 */
-	public RemoteRefUpdate(final RemoteRefUpdate base,
-			final ObjectId newExpectedOldObjectId) throws IOException {
-		this(base.localDb, base.srcRef, base.remoteName, base.forceUpdate,
+	public RemoteRefUpdate(RemoteRefUpdate base,
+			ObjectId newExpectedOldObjectId) throws IOException {
+		this(base.localDb, base.srcRef, base.newObjectId, base.remoteName,
+				base.forceUpdate,
 				(base.trackingRefUpdate == null ? null : base.trackingRefUpdate
-						.getLocalName()), newExpectedOldObjectId);
+						.getLocalName()),
+				base.fetchSpecs, newExpectedOldObjectId);
+	}
+
+	/**
+	 * Creates a "placeholder" update for the "matching" RefSpec ":".
+	 *
+	 * @param localDb
+	 *            local repository to push from
+	 * @param forceUpdate
+	 *            whether non-fast-forward updates shall be allowed
+	 * @param fetchSpecs
+	 *            The fetch {@link RefSpec}s to use when this placeholder is
+	 *            expanded to determine remote tracking branch updates
+	 */
+	RemoteRefUpdate(Repository localDb, boolean forceUpdate,
+			@NonNull Collection<RefSpec> fetchSpecs) {
+		this.localDb = localDb;
+		this.forceUpdate = forceUpdate;
+		this.fetchSpecs = fetchSpecs;
+		this.trackingRefUpdate = null;
+		this.srcRef = null;
+		this.remoteName = null;
+		this.newObjectId = null;
+		this.status = Status.NOT_ATTEMPTED;
+	}
+
+	/**
+	 * Tells whether this {@link RemoteRefUpdate} is a placeholder for a
+	 * "matching" {@link RefSpec}.
+	 *
+	 * @return {@code true} if this is a placeholder, {@code false} otherwise
+	 * @since 6.1
+	 */
+	public boolean isMatching() {
+		return fetchSpecs != null;
+	}
+
+	/**
+	 * Retrieves the fetch {@link RefSpec}s of this {@link RemoteRefUpdate}.
+	 *
+	 * @return the fetch {@link RefSpec}s, or {@code null} if
+	 *         {@code this.}{@link #isMatching()} {@code == false}
+	 */
+	Collection<RefSpec> getFetchSpecs() {
+		return fetchSpecs;
 	}
 
 	/**

@@ -31,7 +31,7 @@ public class LfsUnauthorized extends LfsException {
 	 *            the repository name.
 	 */
 	public LfsUnauthorized(String operation, String name) {
-		super(MessageFormat.format(LfsText.get().lfsUnathorized, operation,
+		super(MessageFormat.format(LfsText.get().lfsUnauthorized, operation,
 				name));
 	}
 }
