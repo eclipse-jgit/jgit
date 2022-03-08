@@ -17,7 +17,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>jgit.tycho.parent</artifactId>
-    <version>6.1.0.202203080745-r</version>
+    <version>6.1.1-SNAPSHOT</version>
   </parent>
 
   <groupId>org.eclipse.jgit.feature</groupId>
@@ -30,7 +30,7 @@
     <dependency>
       <groupId>org.eclipse.jgit.feature</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>6.1.0.202203080745-r</version>
+      <version>6.1.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

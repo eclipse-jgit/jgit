@@ -2,15 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.jgit.ssh.apache.agent;singleton:=true
-Bundle-Version: 6.1.0.202203080745-r
+Bundle-Version: 6.1.1.qualifier
 Bundle-Vendor: %Bundle-Vendor
-Fragment-Host: org.eclipse.jgit.ssh.apache;bundle-version="[6.1.0,6.2.0)"
+Fragment-Host: org.eclipse.jgit.ssh.apache;bundle-version="[6.1.1,6.2.0)"
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.jgit.ssh.apache.agent
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Import-Package: org.eclipse.jgit.transport.sshd;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.nls;version="[6.1.0,6.2.0)",
- org.eclipse.jgit.util;version="[6.1.0,6.2.0)"
+Import-Package: org.eclipse.jgit.transport.sshd;version="[6.1.1,6.2.0)",
+ org.eclipse.jgit.nls;version="[6.1.1,6.2.0)",
+ org.eclipse.jgit.util;version="[6.1.1,6.2.0)"
 Require-Bundle: com.sun.jna;bundle-version="[5.8.0,6.0.0)",
  com.sun.jna.platform;bundle-version="[5.8.0,6.0.0)"
-Export-Package: org.eclipse.jgit.internal.transport.sshd.agent.connector;version="6.1.0";x-internal:=true
+Export-Package: org.eclipse.jgit.internal.transport.sshd.agent.connector;version="6.1.1";x-internal:=true
