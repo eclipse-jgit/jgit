@@ -93,6 +93,30 @@
       "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43f8f4ae_2d19b361",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-03-08T06:50:47Z",
+      "side": 1,
+      "message": "I\u0027m probably missing sth important here but AFAIU code checks if two characters are not equal and `Objects.equals` was meant to do just that (nulls are taken care etc...)...\n\nNow here:\n\n  charsetGuess[i] \u003d\u003d null || charsetGuess[0].compareTo(charsetGuess[i]) !\u003d 0\n\nwhat if `charsetGuess[0]` is actually `null`? AFAICT we are starting from index `1` hence it is never checked. Would it result in NPE then?",
+      "parentUuid": "64801cbf_bc50e585",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
