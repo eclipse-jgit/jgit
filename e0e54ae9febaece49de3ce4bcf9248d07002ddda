@@ -141,6 +141,30 @@
       "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035f43f6_7c942fb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-03-09T16:50:25Z",
+      "side": 1,
+      "message": "Looks like the only methods a Charset will have to implement are `contains`, `newDecoder` and `newEncoder`. Furthermore, `compareTo` is final [1].\n\nHowever, if you think using `Objects.equals` could cause problems, to minimize the checks, I could use compareTo this way:\n\n    charsetGuess[0] \u003d\u003d null || charsetGuess[0].compareTo(charsetGuess[i]) !\u003d 0\n\nWDYT?\n\n\n[1]: https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/nio/charset/Charset.html#compareTo(java.nio.charset.Charset)",
+      "parentUuid": "59188795_86482900",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
