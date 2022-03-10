@@ -79,6 +79,7 @@ class FetchProcess {
 		toFetch = f;
 	}
 
+	@SuppressWarnings("Finally")
 	void execute(ProgressMonitor monitor, FetchResult result,
 			String initialBranch)
 			throws NotSupportedException, TransportException {
