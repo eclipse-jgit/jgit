@@ -58,6 +58,7 @@ class RewriteGenerator extends Generator {
 		return source.outputType() & ~NEEDS_REWRITE;
 	}
 
+	@SuppressWarnings("ReferenceEquality")
 	@Override
 	RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
