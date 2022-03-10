@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1659ad43_804ac6d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-03-10T15:17:43Z",
+      "side": 1,
+      "message": "Will do in a followup change.",
+      "parentUuid": "d4c9957f_62f59be3",
+      "range": {
+        "startLine": 242,
+        "startChar": 6,
+        "endLine": 242,
+        "endChar": 26
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "863c930a_11eda1bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
         "patchSetId": 4
@@ -165,6 +189,30 @@
       "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0dedd4d_d2fd742b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-03-10T15:17:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "035f43f6_7c942fb3",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "e0e54ae9febaece49de3ce4bcf9248d07002ddda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
