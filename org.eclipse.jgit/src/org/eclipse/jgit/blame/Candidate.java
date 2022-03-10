@@ -269,7 +269,7 @@ class Candidate {
 	}
 
 	boolean canMergeRegions(Candidate other) {
-		return sourceCommit == other.sourceCommit
+		return sourceCommit != null && sourceCommit.equals(other.sourceCommit)
 				&& sourcePath.getPath().equals(other.sourcePath.getPath());
 	}
 
