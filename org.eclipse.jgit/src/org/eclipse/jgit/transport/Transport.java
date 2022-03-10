@@ -1245,7 +1245,7 @@ public abstract class Transport implements AutoCloseable {
 	public FetchResult fetch(final ProgressMonitor monitor,
 			Collection<RefSpec> toFetch)
 			throws NotSupportedException, TransportException {
-		return fetch(monitor, toFetch, null);
+		return fetch(monitor, toFetch, null, null);
 	}
 
 	/**
