@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -79,8 +80,12 @@ class FetchProcess {
 		toFetch = f;
 	}
 
-	void execute(ProgressMonitor monitor, FetchResult result,
-			String initialBranch)
+	void execute(ProgressMonitor monitor, FetchResult result, String initialBranch)
+			throws NotSupportedException, TransportException {
+		execute(monitor, result, initialBranch, null);
+	}
+
+	void execute(ProgressMonitor monitor, FetchResult result, String initialBranch, Predicate<RefSpec> refSpecFilter)
 			throws NotSupportedException, TransportException {
 		askFor.clear();
 		localUpdates.clear();
@@ -90,7 +95,7 @@ class FetchProcess {
 
 		Throwable e1 = null;
 		try {
-			executeImp(monitor, result, initialBranch);
+			executeImp(monitor, result, initialBranch, refSpecFilter);
 		} catch (NotSupportedException | TransportException err) {
 			e1 = err;
 			throw err;
@@ -122,7 +127,7 @@ class FetchProcess {
 	}
 
 	private void executeImp(final ProgressMonitor monitor,
-			final FetchResult result, String initialBranch)
+			final FetchResult result, String initialBranch, Predicate<RefSpec> refSpecFilter)
 			throws NotSupportedException, TransportException {
 		final TagOpt tagopt = transport.getTagOpt();
 		String getTags = (tagopt == TagOpt.NO_TAGS) ? null : Constants.R_TAGS;
@@ -154,9 +159,9 @@ class FetchProcess {
 							JGitText.get().sourceRefNotSpecifiedForRefspec, spec));
 
 				if (spec.isWildcard())
-					expandWildcard(spec, matched);
+					expandWildcard(spec, matched, refSpecFilter);
 				else
-					expandSingle(spec, matched);
+					expandSingle(spec, matched, refSpecFilter);
 			}
 
 			Collection<Ref> additionalTags = Collections.<Ref> emptyList();
@@ -386,15 +391,19 @@ class FetchProcess {
 		}
 	}
 
-	private void expandWildcard(RefSpec spec, Set<Ref> matched)
+	private void expandWildcard(RefSpec spec, Set<Ref> matched, Predicate<RefSpec> refSpecFilter)
 			throws TransportException {
 		for (Ref src : conn.getRefs()) {
-			if (spec.matchSource(src) && matched.add(src))
-				want(src, spec.expandFromSource(src));
+			if (spec.matchSource(src) && matched.add(src)) {
+				RefSpec refSpec = spec.expandFromSource(src);
+				if (refSpecFilter == null || refSpecFilter.test(refSpec)) {
+					want(src, refSpec);
+				}
+			}
 		}
 	}
 
-	private void expandSingle(RefSpec spec, Set<Ref> matched)
+	private void expandSingle(RefSpec spec, Set<Ref> matched, Predicate<RefSpec> refSpecFilter)
 			throws TransportException {
 		String want = spec.getSource();
 		if (ObjectId.isId(want)) {
@@ -406,7 +415,8 @@ class FetchProcess {
 		if (src == null) {
 			throw new TransportException(MessageFormat.format(JGitText.get().remoteDoesNotHaveSpec, want));
 		}
-		if (matched.add(src)) {
+		if (matched.add(src)
+				&& (refSpecFilter == null || refSpecFilter.test(spec))) {
 			want(src, spec);
 		}
 	}
