@@ -470,6 +470,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
+	@SuppressWarnings("Finally")
 	private boolean downloadPackedObject(final ProgressMonitor monitor,
 			final AnyObjectId id) throws TransportException {
 		// Search for the object in a remote pack whose index we have,
