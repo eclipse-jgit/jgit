@@ -79,7 +79,7 @@ class RewriteGenerator extends Generator {
 				}
 				return c;
 			}
-			if (oldp != newp) {
+			if (newp != null && !newp.equals(oldp)) {
 				pList[i] = newp;
 				rewrote = true;
 			}
