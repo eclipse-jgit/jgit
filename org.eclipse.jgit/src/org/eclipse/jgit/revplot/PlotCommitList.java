@@ -133,7 +133,7 @@ public class PlotCommitList<L extends PlotLane> extends
 			for (int i = 0; i < nChildren; i++) {
 				@SuppressWarnings("unchecked")
 				final PlotCommit<L> c = currCommit.children[i];
-				if (c.getParent(0) == currCommit) {
+				if (c != null && currCommit.equals(c.getParent(0))) {
 					Integer len = laneLength.get(c.lane);
 					// we may be the first parent for multiple lines of
 					// development, try to continue the longest one
@@ -191,12 +191,12 @@ public class PlotCommitList<L extends PlotLane> extends
 	private void handleBlockedLanes(final int index, final PlotCommit currCommit,
 			final PlotCommit childOnLane) {
 		for (PlotCommit child : currCommit.children) {
-			if (child == childOnLane)
+			if (child == null || child.equals(childOnLane))
 				continue; // simple continuations of lanes are handled by
 							// continueActiveLanes() calls in enter()
 
 			// Is the child a merge or is it forking off?
-			boolean childIsMerge = child.getParent(0) != currCommit;
+			boolean childIsMerge = !currCommit.equals(child.getParent(0));
 			if (childIsMerge) {
 				PlotLane laneToUse = currCommit.lane;
 				laneToUse = handleMerge(index, currCommit, childOnLane, child,
@@ -224,7 +224,8 @@ public class PlotCommitList<L extends PlotLane> extends
 		BitSet blockedPositions = new BitSet();
 		for (int r = index - 1; r >= 0; r--) {
 			final PlotCommit rObj = get(r);
-			if (rObj == child) {
+			if ((rObj == null && child == null)
+					|| (rObj != null && rObj.equals(child))) {
 				childIndex = r;
 				break;
 			}
@@ -243,7 +244,7 @@ public class PlotCommitList<L extends PlotLane> extends
 			if (childOnLane != null) {
 				for (int r = index - 1; r > childIndex; r--) {
 					final PlotCommit rObj = get(r);
-					if (rObj == childOnLane) {
+					if (childOnLane.equals(rObj)) {
 						needDetour = true;
 						break;
 					}
@@ -291,7 +292,8 @@ public class PlotCommitList<L extends PlotLane> extends
 			PlotLane laneToContinue) {
 		for (int r = commitIndex - 1; r >= 0; r--) {
 			final PlotCommit rObj = get(r);
-			if (rObj == child)
+			if ((rObj == null && child == null)
+					|| (rObj != null && rObj.equals(child)))
 				break;
 			if (rObj != null)
 				rObj.addPassingLane(laneToContinue);
