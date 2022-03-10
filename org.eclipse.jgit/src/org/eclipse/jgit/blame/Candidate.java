@@ -12,6 +12,7 @@ package org.eclipse.jgit.blame;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.jgit.blame.ReverseWalk.ReverseCommit;
 import org.eclipse.jgit.diff.Edit;
@@ -269,7 +270,7 @@ class Candidate {
 	}
 
 	boolean canMergeRegions(Candidate other) {
-		return sourceCommit == other.sourceCommit
+		return Objects.equals(sourceCommit, other.sourceCommit)
 				&& sourcePath.getPath().equals(other.sourcePath.getPath());
 	}
 
