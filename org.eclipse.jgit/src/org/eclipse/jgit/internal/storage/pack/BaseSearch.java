@@ -147,7 +147,7 @@ class BaseSearch {
 		obj.setEdge();
 		obj.setPathHash(pathHash);
 
-		if (objectsMap.addIfAbsent(obj) == obj) {
+		if (objectsMap != null && objectsMap.addIfAbsent(obj).equals(obj)) {
 			edgeObjects.add(obj);
 			progress.update(1);
 		}
