@@ -46,6 +46,30 @@
       "revId": "940a396b6ebfba3c6e20ff175951f48e5a5df591",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0349e3d_664d9d74",
+        "filename": "org.eclipse.jgit.ssh.apache.agent/src/org/eclipse/jgit/internal/transport/sshd/agent/connector/WinPipeConnector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-10T16:33:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8c69fd96_cd4ba5f3",
+      "range": {
+        "startLine": 93,
+        "startChar": 23,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "940a396b6ebfba3c6e20ff175951f48e5a5df591",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
