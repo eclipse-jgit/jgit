@@ -140,7 +140,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 */
 	public final boolean isChild(PlotCommit c) {
 		for (PlotCommit a : children)
-			if (a == c)
+			if (a != null && a.equals(c))
 				return true;
 		return false;
 	}
