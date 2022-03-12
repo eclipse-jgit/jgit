@@ -22,6 +22,30 @@
       "revId": "238996f191bf1b104a44e620141228e1e12b9280",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd49b319_496c6519",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-03-12T09:24:10Z",
+      "side": 1,
+      "message": "btw: I have just checked that\n\n  charsetGuess[0].compareTo(charsetGuess[i])\n\nthrows NPE if `charsetGuess[i]` is `null`...\n\nI have also checked that both `equals` and `compareTo` are final at Charset therefore they will always result in a stable outcome regardless of how they are eventually implemented so I would again propose to either go back to `!Objects.equals(charsetGuess[0], charsetGuess[i])` as it also deals with `null` or following this spirit by making sure that neither is null prior call to `compareTo` so in this case (it is about checking if they actually don\u0027t compare) it would be:\n\n  !(charsetGuess[i] \u003d\u003d charsetGuess[0]) \u0026\u0026 (charsetGuess[i] \u003d\u003d null || charsetGuess[0] \u003d\u003d null || charsetGuess[i].compareTo(charsetGuess[0]) !\u003d 0)\n\nso it is probably worth putting in some utility function that takes `Comparable\u003cT\u003e` as argument...",
+      "parentUuid": "8a3073ec_d64fb785",
+      "range": {
+        "startLine": 244,
+        "startChar": 7,
+        "endLine": 245,
+        "endChar": 55
+      },
+      "revId": "238996f191bf1b104a44e620141228e1e12b9280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
