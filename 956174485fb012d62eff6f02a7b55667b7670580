@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef7eeb00_b539b650",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/BaseSearch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-12T13:52:35Z",
+      "side": 1,
+      "message": "This is wrong. Here a pointer comparison *must* be used.",
+      "revId": "956174485fb012d62eff6f02a7b55667b7670580",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
