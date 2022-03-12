@@ -46,6 +46,30 @@
       "revId": "238996f191bf1b104a44e620141228e1e12b9280",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ebd8cd0_8a2505f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-03-12T09:37:18Z",
+      "side": 1,
+      "message": "and here is a small gist that verifies that both would work in this case\n\n  https://gist.github.com/geminicaprograms/2b5ac8fb60aecb609a405c086a6d65fd\n\nenjoy! ;)",
+      "parentUuid": "fd49b319_496c6519",
+      "range": {
+        "startLine": 244,
+        "startChar": 7,
+        "endLine": 245,
+        "endChar": 55
+      },
+      "revId": "238996f191bf1b104a44e620141228e1e12b9280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
