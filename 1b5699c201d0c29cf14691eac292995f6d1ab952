@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4c304c0_95005c7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-12T08:35:03Z",
+      "side": 1,
+      "message": "This pointer comparison was perfectly fine. There is no need to change this. Parent rewriting is already slow, no need to make it even slower. (Though it\u0027s mainly slow because it loads and buffers the whole history.)",
+      "revId": "1b5699c201d0c29cf14691eac292995f6d1ab952",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
