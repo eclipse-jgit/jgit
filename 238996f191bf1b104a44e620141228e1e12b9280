@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a3073ec_d64fb785",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-03-12T08:43:31Z",
+      "side": 1,
+      "message": "not sure if that is real case here but if\ncharsetGuess[0] is `null` and charsetGuess[i] is also `null` it will return `false` whereas previously it would continue looping... ;)",
+      "range": {
+        "startLine": 244,
+        "startChar": 7,
+        "endLine": 245,
+        "endChar": 55
+      },
+      "revId": "238996f191bf1b104a44e620141228e1e12b9280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
