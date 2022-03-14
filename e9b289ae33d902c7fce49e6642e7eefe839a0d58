@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15771e7b_96a91f10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-03-14T19:03:02Z",
+      "side": 1,
+      "message": "From the title I thought you were introducing refspecs in jgit! The code seems to add a new refspec to limit whatever other refspecs (in the repo configuration?) decided to fetch. If so, couldn\u0027t the client just write a more specific refspec?\n\nIf really needed, should this refspec be defined with the others? It looks like one will be defined in the code and another in the repository configuration, which is confusing.",
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74d22f4_dc2c3283",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-03-14T19:03:02Z",
+      "side": 1,
+      "message": "Can you use a more explicit example? There are really no read-only branches in git; is this for gerrit branches?",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a6ea786_9be5685d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-03-14T19:03:02Z",
+      "side": 1,
+      "message": "Pass here a \"do nothing\" predicate and we don\u0027t need to check about nulls later.\n\nActually, what is the \"do nothing\" here? is the refSpecFilter acting as an allowList or a denyList?",
+      "range": {
+        "startLine": 86,
+        "startChar": 42,
+        "endLine": 86,
+        "endChar": 46
+      },
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "948e2e75_04358847",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-03-14T19:03:02Z",
+      "side": 1,
+      "message": "allowDestRefSpec would be a more descriptive name (same in the other functions)",
+      "range": {
+        "startLine": 90,
+        "startChar": 44,
+        "endLine": 90,
+        "endChar": 57
+      },
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
