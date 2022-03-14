@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f26db938_5bf8954a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-03-14T21:38:17Z",
+      "side": 1,
+      "message": "\u003e From the title I thought you were introducing refspecs in jgit! The code seems to add a new refspec to limit whatever other refspecs (in the repo configuration?) decided to fetch. If so, couldn\u0027t the client just write a more specific refspec?\n\nI modified the title a bit. refSpecs already exist in JGit. I added a predicate to filter refSpecs but no new refSpecs are included.\n\n\u003e If really needed, should this refspec be defined with the others? It looks like one will be defined in the code and another in the repository configuration, which is confusing.\n\nI didn\u0027t quite get this comment:(",
+      "parentUuid": "15771e7b_96a91f10",
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74d22f4_dc2c3283",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfaa6b92_26f116b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-03-14T21:38:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d74d22f4_dc2c3283",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "fd677cbc_4b0c04f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-03-14T21:38:17Z",
+      "side": 1,
+      "message": "\u003e Pass here a \"do nothing\" predicate and we don\u0027t need to check about nulls later.\n\nDone.\n\n\u003e Actually, what is the \"do nothing\" here? is the refSpecFilter acting as an allowList or a denyList?\n\nIt\u0027s acting as an allowlist.",
+      "parentUuid": "0a6ea786_9be5685d",
+      "range": {
+        "startLine": 86,
+        "startChar": 42,
+        "endLine": 86,
+        "endChar": 46
+      },
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "948e2e75_04358847",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
         "patchSetId": 5
@@ -85,6 +151,30 @@
       "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a0ab546_25c2d56c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-03-14T21:38:17Z",
+      "side": 1,
+      "message": "I renamed it to allowRefSpecFilter. It can also filter based on source so allowDestRefSpec is not fully accurate.",
+      "parentUuid": "948e2e75_04358847",
+      "range": {
+        "startLine": 90,
+        "startChar": 44,
+        "endLine": 90,
+        "endChar": 57
+      },
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
