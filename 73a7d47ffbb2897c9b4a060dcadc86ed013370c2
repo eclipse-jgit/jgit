@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d2a4241_4f4648d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-14T23:57:45Z",
+      "side": 1,
+      "message": "If this is added to occasionally filter out some special refs, maybe we better add a predicate denying certain refs than a predicate allowing all the other refs.",
+      "range": {
+        "startLine": 90,
+        "startChar": 44,
+        "endLine": 90,
+        "endChar": 62
+      },
+      "revId": "73a7d47ffbb2897c9b4a060dcadc86ed013370c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
