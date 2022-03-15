@@ -17,6 +17,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.CopyOption;
@@ -652,6 +653,98 @@ public class FileUtils {
 			throwable = throwable.getCause();
 		}
 		return false;
+	}
+
+	/**
+	 * Like a {@link java.util.function.Function} but throwing an
+	 * {@link Exception}.
+	 *
+	 * @param <A>
+	 *            input type
+	 * @param <B>
+	 *            output type
+	 * @since 6.2
+	 */
+	@FunctionalInterface
+	public interface IOFunction<A, B> {
+
+		/**
+		 * Performs the function.
+		 *
+		 * @param t
+		 *            input to operate on
+		 * @return the output
+		 * @throws Exception
+		 *             if a problem occurs
+		 */
+		B apply(A t) throws Exception;
+	}
+
+	private static void backOff(long delay, IOException cause)
+			throws IOException {
+		try {
+			Thread.sleep(delay);
+		} catch (InterruptedException e) {
+			IOException interruption = new InterruptedIOException();
+			interruption.addSuppressed(cause);
+			Thread.currentThread().interrupt(); // Re-set flag
+			throw interruption;
+		}
+	}
+
+	/**
+	 * Invokes the given {@link IOFunction}, performing a limited number of
+	 * re-tries if exceptions occur that indicate either a stale NFS file handle
+	 * or that indicate that the file may be written concurrently.
+	 *
+	 * @param <T>
+	 *            result type
+	 * @param file
+	 *            to read
+	 * @param reader
+	 *            for reading the file and creating an instance of {@code T}
+	 * @return the result of the {@code reader}, or {@code null} if the file
+	 *         does not exist
+	 * @throws Exception
+	 *             if a problem occurs
+	 * @since 6.2
+	 */
+	public static <T> T readWithRetries(File file,
+			IOFunction<File, ? extends T> reader)
+			throws Exception {
+		int maxStaleRetries = 5;
+		int retries = 0;
+		long backoff = 50;
+		while (true) {
+			try {
+				try {
+					return reader.apply(file);
+				} catch (IOException e) {
+					if (FileUtils.isStaleFileHandleInCausalChain(e)
+							&& retries < maxStaleRetries) {
+						if (LOG.isDebugEnabled()) {
+							LOG.debug(MessageFormat.format(
+									JGitText.get().packedRefsHandleIsStale,
+									Integer.valueOf(retries)), e);
+						}
+						retries++;
+						continue;
+					}
+					throw e;
+				}
+			} catch (FileNotFoundException noFile) {
+				if (!file.isFile()) {
+					return null;
+				}
+				// Probably Windows and some other thread is writing the file
+				// concurrently.
+				if (backoff > 1000) {
+					throw noFile;
+				}
+				backOff(backoff, noFile);
+				backoff *= 2; // 50, 100, 200, 400, 800 ms
+			}
+		}
 	}
 
 	/**
