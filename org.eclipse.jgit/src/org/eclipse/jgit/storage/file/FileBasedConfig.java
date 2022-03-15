@@ -20,7 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -37,15 +36,11 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The configuration file that is stored in the file of the file system.
  */
 public class FileBasedConfig extends StoredConfig {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(FileBasedConfig.class);
 
 	private final File configFile;
 
@@ -115,16 +110,15 @@ public class FileBasedConfig extends StoredConfig {
 	 */
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
-		final int maxRetries = 5;
-		int retryDelayMillis = 20;
-		int retries = 0;
-		while (true) {
-			final FileSnapshot oldSnapshot = snapshot;
-			final FileSnapshot newSnapshot;
-			// don't use config in this snapshot to avoid endless recursion
-			newSnapshot = FileSnapshot.saveNoConfig(getFile());
-			try {
-				final byte[] in = IO.readFully(getFile());
+		try {
+			FileSnapshot[] lastSnapshot = { null };
+			Boolean wasRead = FileUtils.readWithRetries(getFile(), f -> {
+				final FileSnapshot oldSnapshot = snapshot;
+				final FileSnapshot newSnapshot;
+				// don't use config in this snapshot to avoid endless recursion
+				newSnapshot = FileSnapshot.saveNoConfig(f);
+				lastSnapshot[0] = newSnapshot;
+				final byte[] in = IO.readFully(f);
 				final ObjectId newHash = hash(in);
 				if (hash.equals(newHash)) {
 					if (oldSnapshot.equals(newSnapshot)) {
@@ -145,47 +139,17 @@ public class FileBasedConfig extends StoredConfig {
 					snapshot = newSnapshot;
 					hash = newHash;
 				}
-				return;
-			} catch (FileNotFoundException noFile) {
-				// might be locked by another process (see exception Javadoc)
-				if (retries < maxRetries && configFile.exists()) {
-					if (LOG.isDebugEnabled()) {
-						LOG.debug(MessageFormat.format(
-								JGitText.get().configHandleMayBeLocked,
-								Integer.valueOf(retries)), noFile);
-					}
-					try {
-						Thread.sleep(retryDelayMillis);
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-					}
-					retries++;
-					retryDelayMillis *= 2; // max wait 1260 ms
-					continue;
-				}
-				if (configFile.exists()) {
-					throw noFile;
-				}
+				return Boolean.TRUE;
+			});
+			if (wasRead == null) {
 				clear();
-				snapshot = newSnapshot;
-				return;
-			} catch (IOException e) {
-				if (FileUtils.isStaleFileHandle(e)
-						&& retries < maxRetries) {
-					if (LOG.isDebugEnabled()) {
-						LOG.debug(MessageFormat.format(
-								JGitText.get().configHandleIsStale,
-								Integer.valueOf(retries)), e);
-					}
-					retries++;
-					continue;
-				}
-				throw new IOException(MessageFormat
-						.format(JGitText.get().cannotReadFile, getFile()), e);
-			} catch (ConfigInvalidException e) {
-				throw new ConfigInvalidException(MessageFormat
-						.format(JGitText.get().cannotReadFile, getFile()), e);
+				snapshot = lastSnapshot[0];
 			}
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new ConfigInvalidException(MessageFormat
+					.format(JGitText.get().cannotReadFile, getFile()), e);
 		}
 	}
 

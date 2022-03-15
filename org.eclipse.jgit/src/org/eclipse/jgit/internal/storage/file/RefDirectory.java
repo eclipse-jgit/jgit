@@ -28,7 +28,6 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
@@ -892,38 +891,27 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private PackedRefList readPackedRefs() throws IOException {
-		int maxStaleRetries = 5;
-		int retries = 0;
-		while (true) {
-			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
-			final MessageDigest digest = Constants.newMessageDigest();
-			try (BufferedReader br = new BufferedReader(new InputStreamReader(
-					new DigestInputStream(new FileInputStream(packedRefsFile),
-							digest),
-					UTF_8))) {
-				try {
-					return new PackedRefList(parsePackedRefs(br), snapshot,
-							ObjectId.fromRaw(digest.digest()));
-				} catch (IOException e) {
-					if (FileUtils.isStaleFileHandleInCausalChain(e)
-							&& retries < maxStaleRetries) {
-						if (LOG.isDebugEnabled()) {
-							LOG.debug(MessageFormat.format(
-									JGitText.get().packedRefsHandleIsStale,
-									Integer.valueOf(retries)), e);
+		try {
+			PackedRefList result = FileUtils.readWithRetries(packedRefsFile,
+					f -> {
+						final FileSnapshot snapshot = FileSnapshot.save(f);
+						final MessageDigest digest = Constants
+								.newMessageDigest();
+						try (BufferedReader br = new BufferedReader(
+								new InputStreamReader(new DigestInputStream(
+										new FileInputStream(packedRefsFile),
+										digest), UTF_8))) {
+							return new PackedRefList(parsePackedRefs(br),
+									snapshot,
+									ObjectId.fromRaw(digest.digest()));
 						}
-						retries++;
-						continue;
-					}
-					throw e;
-				}
-			} catch (FileNotFoundException noPackedRefs) {
-				if (packedRefsFile.exists()) {
-					throw noPackedRefs;
-				}
-				// Ignore it and leave the new list empty.
-				return NO_PACKED_REFS;
-			}
+					});
+			return result != null ? result : NO_PACKED_REFS;
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new IOException(MessageFormat
+					.format(JGitText.get().cannotReadFile, packedRefsFile), e);
 		}
 	}
 
@@ -1090,40 +1078,53 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		final int limit = 4096;
-		final byte[] buf;
-		FileSnapshot otherSnapshot = FileSnapshot.save(path);
-		try {
-			buf = IO.readSome(path, limit);
-		} catch (FileNotFoundException noFile) {
-			if (path.isFile()) {
-				throw noFile;
-			}
-			return null; // doesn't exist or no file; not a reference.
-		}
 
-		int n = buf.length;
+		class LooseItems {
+			byte[] buf;
+
+			FileSnapshot snapshot;
+		}
+		LooseItems loose = null;
+		try {
+			loose = FileUtils.readWithRetries(path, f -> {
+				LooseItems result = new LooseItems();
+				result.snapshot = FileSnapshot.save(f);
+				result.buf = IO.readSome(f, limit);
+				return result;
+			});
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().cannotReadFile, path),
+					e);
+		}
+		if (loose == null) {
+			return null;
+		}
+		int n = loose.buf.length;
 		if (n == 0)
 			return null; // empty file; not a reference.
 
-		if (isSymRef(buf, n)) {
+		if (isSymRef(loose.buf, n)) {
 			if (n == limit)
 				return null; // possibly truncated ref
 
 			// trim trailing whitespace
-			while (0 < n && Character.isWhitespace(buf[n - 1]))
+			while (0 < n && Character.isWhitespace(loose.buf[n - 1]))
 				n--;
 			if (n < 6) {
-				String content = RawParseUtils.decode(buf, 0, n);
+				String content = RawParseUtils.decode(loose.buf, 0, n);
 				throw new IOException(MessageFormat.format(JGitText.get().notARef, name, content));
 			}
-			final String target = RawParseUtils.decode(buf, 5, n);
+			final String target = RawParseUtils.decode(loose.buf, 5, n);
 			if (ref != null && ref.isSymbolic()
 					&& ref.getTarget().getName().equals(target)) {
 				assert(currentSnapshot != null);
-				currentSnapshot.setClean(otherSnapshot);
+				currentSnapshot.setClean(loose.snapshot);
 				return ref;
 			}
-			return newSymbolicRef(otherSnapshot, name, target);
+			return newSymbolicRef(loose.snapshot, name, target);
 		}
 
 		if (n < OBJECT_ID_STRING_LENGTH)
@@ -1131,23 +1132,23 @@ public class RefDirectory extends RefDatabase {
 
 		final ObjectId id;
 		try {
-			id = ObjectId.fromString(buf, 0);
+			id = ObjectId.fromString(loose.buf, 0);
 			if (ref != null && !ref.isSymbolic()
 					&& id.equals(ref.getTarget().getObjectId())) {
 				assert(currentSnapshot != null);
-				currentSnapshot.setClean(otherSnapshot);
+				currentSnapshot.setClean(loose.snapshot);
 				return ref;
 			}
 
 		} catch (IllegalArgumentException notRef) {
-			while (0 < n && Character.isWhitespace(buf[n - 1]))
+			while (0 < n && Character.isWhitespace(loose.buf[n - 1]))
 				n--;
-			String content = RawParseUtils.decode(buf, 0, n);
+			String content = RawParseUtils.decode(loose.buf, 0, n);
 
 			throw new IOException(MessageFormat.format(JGitText.get().notARef,
 					name, content), notRef);
 		}
-		return new LooseUnpeeled(otherSnapshot, name, id);
+		return new LooseUnpeeled(loose.snapshot, name, id);
 	}
 
 	private static boolean isSymRef(byte[] buf, int n) {
