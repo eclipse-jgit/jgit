@@ -26,9 +26,9 @@ import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -113,7 +113,7 @@ public class DirCacheCheckout {
 
 	private Repository repo;
 
-	private HashMap<String, CheckoutMetadata> updated = new HashMap<>();
+	private Map<String, CheckoutMetadata> updated = new LinkedHashMap<>();
 
 	private ArrayList<String> conflicts = new ArrayList<>();
 
