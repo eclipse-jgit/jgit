@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3c15914b_9d54386e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-03-16T23:01:32Z",
+      "side": 1,
+      "message": "\u003e FetchProcess receives a collection of RefSpecs in the constructor. I assume (I could be wrong) that those come from the repo conf. e.g from the git doc:\n\nFetchProcess.java is a package-visible class. Its constructor is used by Transport.java when Transport.fetch() is called. I don\u0027t think it\u0027s directly coming from any repo config.\n\n\u003e Now you are adding a refspec to the method, which I am not sure where does it come from (somewhere else in the code)?\n\nI didn\u0027t add a new refspec but I added a Predicate\u003cRefSpec\u003e, it\u0027s also from the new public API in Transport.java.\n\n\u003e The clearer thing to exclude refs would be add something to those fetch config refspecs (a negative spec, as other reviewers wrote, sounds great).\n\nNegative refspec doesn\u0027t work well, see my comments to other reviewrs.",
+      "parentUuid": "07833fb9_3ef1ddab",
+      "revId": "e9b289ae33d902c7fce49e6642e7eefe839a0d58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d74d22f4_dc2c3283",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
