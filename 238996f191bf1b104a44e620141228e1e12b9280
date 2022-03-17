@@ -70,6 +70,30 @@
       "revId": "238996f191bf1b104a44e620141228e1e12b9280",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b892a693_57881583",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-03-17T21:38:11Z",
+      "side": 1,
+      "message": "Cool! Thanks Jacek to put it together. In this case I would go back to Objects.equals(charsetGuess[0], charsetGuess[i]). @luca: do you see any problem with that?",
+      "parentUuid": "8ebd8cd0_8a2505f6",
+      "range": {
+        "startLine": 244,
+        "startChar": 7,
+        "endLine": 245,
+        "endChar": 55
+      },
+      "revId": "238996f191bf1b104a44e620141228e1e12b9280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
