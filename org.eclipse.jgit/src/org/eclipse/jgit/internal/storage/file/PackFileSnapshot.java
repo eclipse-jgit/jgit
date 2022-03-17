@@ -61,7 +61,7 @@ class PackFileSnapshot extends FileSnapshot {
 	}
 
 	boolean isChecksumChanged(File packFile) {
-		return wasChecksumChanged = checksum != MISSING_CHECKSUM
+		return wasChecksumChanged = !MISSING_CHECKSUM.equals(checksum)
 				&& !checksum.equals(readChecksum(packFile));
 	}
 
