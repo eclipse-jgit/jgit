@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32cc8b9a_7a5ac501",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-19T09:26:35Z",
+      "side": 1,
+      "message": "remove final markers ?",
+      "range": {
+        "startLine": 897,
+        "startChar": 6,
+        "endLine": 897,
+        "endChar": 11
+      },
+      "revId": "34cd81357426f2d2443c4903d575589758879db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01a4edd6_9c418aae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-19T09:26:35Z",
+      "side": 1,
+      "message": "static ?",
+      "revId": "34cd81357426f2d2443c4903d575589758879db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f81cf0c9_e948d86c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-19T09:26:35Z",
+      "side": 1,
+      "message": "maybe add a constructor LooseItems(FileSnapshot, byte[]) ?",
+      "revId": "34cd81357426f2d2443c4903d575589758879db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0230aa4d_c1f6c86e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-03-19T09:26:35Z",
+      "side": 1,
+      "message": "above you said it\u0027s throwing IOException ?",
+      "range": {
+        "startLine": 680,
+        "startChar": 22,
+        "endLine": 680,
+        "endChar": 31
+      },
+      "revId": "34cd81357426f2d2443c4903d575589758879db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
