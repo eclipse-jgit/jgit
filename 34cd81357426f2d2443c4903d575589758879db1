@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "41b4196c_14df8131",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-19T11:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32cc8b9a_7a5ac501",
+      "range": {
+        "startLine": 897,
+        "startChar": 6,
+        "endLine": 897,
+        "endChar": 11
+      },
+      "revId": "34cd81357426f2d2443c4903d575589758879db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01a4edd6_9c418aae",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "e2cf6455_b55527df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-19T11:07:42Z",
+      "side": 1,
+      "message": "This is a local class within the method; it cannot be static.",
+      "parentUuid": "01a4edd6_9c418aae",
+      "revId": "34cd81357426f2d2443c4903d575589758879db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f81cf0c9_e948d86c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "34cd81357426f2d2443c4903d575589758879db1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26e801a0_b6919759",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-19T11:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f81cf0c9_e948d86c",
+      "revId": "34cd81357426f2d2443c4903d575589758879db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +139,30 @@
       "revId": "34cd81357426f2d2443c4903d575589758879db1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b986ee77_ad3a6528",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-03-19T11:07:42Z",
+      "side": 1,
+      "message": "Done. It\u0027s Exception because some implementations do more that just read the file. FileBasedConfig for instance also parses the file and might throw ConfigInvalidException.",
+      "parentUuid": "0230aa4d_c1f6c86e",
+      "range": {
+        "startLine": 680,
+        "startChar": 22,
+        "endLine": 680,
+        "endChar": 31
+      },
+      "revId": "34cd81357426f2d2443c4903d575589758879db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
