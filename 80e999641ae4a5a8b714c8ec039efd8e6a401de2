@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e990b78_f947323a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-20T16:49:10Z",
+      "side": 1,
+      "message": "Well, only the IOException is managed. Any unchecked exception would be swallowed instead, which isn\u0027t desirable.",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "80e999641ae4a5a8b714c8ec039efd8e6a401de2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
