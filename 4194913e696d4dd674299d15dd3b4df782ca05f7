@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b826bc9_d3dd9096",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-20T16:55:08Z",
+      "side": 1,
+      "message": "I don\u0027t think so: if an exception is thrown at L97 you end up in the finally block where the exception can be swallowed if a new TransportException is thrown again.",
+      "range": {
+        "startLine": 13,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
