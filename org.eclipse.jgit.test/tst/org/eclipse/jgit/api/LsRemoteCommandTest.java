@@ -21,6 +21,8 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 public class LsRemoteCommandTest extends RepositoryTestCase {
@@ -102,6 +104,20 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 	public void testLsRemoteWithoutLocalRepository() throws Exception {
 		String uri = fileUri();
 		Collection<Ref> refs = Git.lsRemoteRepository().setRemote(uri).setHeads(true).call();
+		assertNotNull(refs);
+		assertEquals(2, refs.size());
+	}
+
+	@Test
+	public void testLsRemoteWithoutLocalRepositoryUrlInsteadOf()
+			throws Exception {
+		String uri = fileUri();
+		StoredConfig userConfig = SystemReader.getInstance().getUserConfig();
+		userConfig.load();
+		userConfig.setString("url", uri, "insteadOf", "file:///foo");
+		userConfig.save();
+		Collection<Ref> refs = Git.lsRemoteRepository().setRemote("file:///foo")
+				.setHeads(true).call();
 		assertNotNull(refs);
 		assertEquals(2, refs.size());
 	}
