@@ -46,6 +46,53 @@
       },
       "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "945af980_6e2959e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-22T21:59:13Z",
+      "side": 1,
+      "message": "I\u0027ve commented in the code the swallowed exception.",
+      "parentUuid": "1e23efeb_fcb30850",
+      "range": {
+        "startLine": 13,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55d5f90f_26031fed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-22T21:59:13Z",
+      "side": 1,
+      "message": "When throwing this exception, the code will continue on L100. If an IOException is thrown again, the original \u0027err\u0027 will be swallowed.",
+      "range": {
+        "startLine": 97,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
