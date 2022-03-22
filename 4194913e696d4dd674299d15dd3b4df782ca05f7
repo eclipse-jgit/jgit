@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "5b826bc9_d3dd9096",
         "filename": "/COMMIT_MSG",
@@ -20,8 +21,31 @@
         "endChar": 20
       },
       "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e23efeb_fcb30850",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-03-22T08:30:31Z",
+      "side": 1,
+      "message": "With the current code the only exception that can be Thrown is an IOException at L103. Not sure I understand how we could throw a TransportException.",
+      "parentUuid": "5b826bc9_d3dd9096",
+      "range": {
+        "startLine": 13,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
