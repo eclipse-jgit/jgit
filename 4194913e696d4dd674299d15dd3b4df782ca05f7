@@ -93,6 +93,30 @@
       },
       "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "476abc4f_d7b3087c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-03-24T09:40:49Z",
+      "side": 1,
+      "message": "Actually this is managed at L104. However, other non-checked exception may happen (e.g. timeouts, other IO errors) and those would risk to be 100% swallowed.",
+      "parentUuid": "55d5f90f_26031fed",
+      "range": {
+        "startLine": 97,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
