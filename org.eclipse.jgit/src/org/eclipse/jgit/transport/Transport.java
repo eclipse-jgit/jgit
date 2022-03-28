@@ -1230,7 +1230,9 @@ public abstract class Transport implements AutoCloseable {
 	 * @param toFetch
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
-	 *            RemoteConfig. Source for each RefSpec can't be null.
+	 *            RemoteConfig. May contains regular and negative 
+	 *            {@link RefSpec}s. Source for each regular RefSpec can't
+	 *            be null.
 	 * @return information describing the tracking refs updated.
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
 	 *             this transport implementation does not support fetching
@@ -1264,7 +1266,9 @@ public abstract class Transport implements AutoCloseable {
 	 * @param toFetch
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
-	 *            RemoteConfig. Source for each RefSpec can't be null.
+	 *            RemoteConfig. May contains regular and negative 
+	 *            {@link RefSpec}s. Source for each regular RefSpec can't
+	 *            be null.
 	 * @param branch
 	 *            the initial branch to check out when cloning the repository.
 	 *            Can be specified as ref name (<code>refs/heads/master</code>),
