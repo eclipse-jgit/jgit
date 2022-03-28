@@ -443,6 +443,26 @@ public class RefSpecTest {
 		a.setDestination("refs/remotes/origin/*/*");
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidNegativeAndForce() {
+		assertNotNull(new RefSpec("^+refs/heads/master"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidForceAndNegative() {
+		assertNotNull(new RefSpec("+^refs/heads/master"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidNegativeNoSrcDest() {
+		assertNotNull(new RefSpec("^"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidNegativeBothSrcDest() {
+		assertNotNull(new RefSpec("^refs/heads/*:refs/heads/*"));
+	}
+
 	@Test
 	public void sourceOnlywithWildcard() {
 		RefSpec a = new RefSpec("refs/heads/*",
@@ -479,5 +499,33 @@ public class RefSpecTest {
 		RefSpec a = new RefSpec("+:");
 		assertTrue(a.isMatching());
 		assertTrue(a.isForceUpdate());
+	}
+
+	@Test
+	public void negativeRefSpecWithDest() {
+		RefSpec a = new RefSpec("^:refs/readonly/*");
+		assertTrue(a.isNegative());
+		assertNull(a.getSource());
+		assertEquals(a.getDestination(), "refs/readonly/*");
+	}
+
+	// Because of some of the API's existing behavior, without a colon at the
+	// end of the refspec, dest will be null.
+	@Test
+	public void negativeRefSpecWithSrcAndNullDest() {
+		RefSpec a = new RefSpec("^refs/testdata/*");
+		assertTrue(a.isNegative());
+		assertNull(a.getDestination());
+		assertEquals(a.getSource(), "refs/testdata/*");
+	}
+
+	// Because of some of the API's existing behavior, with a colon at the end
+	// of the refspec, dest will be empty.
+	@Test
+	public void negativeRefSpecWithSrcAndEmptyDest() {
+		RefSpec a = new RefSpec("^refs/testdata/*:");
+		assertTrue(a.isNegative());
+		assertTrue(a.getDestination().isEmpty());
+		assertEquals(a.getSource(), "refs/testdata/*");
 	}
 }
