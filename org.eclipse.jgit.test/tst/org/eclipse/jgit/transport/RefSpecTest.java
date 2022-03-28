@@ -482,16 +482,15 @@ public class RefSpecTest {
 	}
 
 	@Test
-	public void emptyDest(){
+	public void emptyDest() {
 		RefSpec a = new RefSpec("refs/heads/master:");
 		assertEquals(a.getSource(), "refs/heads/master");
 		assertNull(a.getDestination());
 	}
 
 	@Test
-	public void emptySource(){
+	public void emptySource() {
 		RefSpec a = new RefSpec(":refs/heads/master");
 		assertNull(a.getSource());
-		assertEquals(a.getDestination(), "refs/heads/master");
 	}
 }
