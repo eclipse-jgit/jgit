@@ -56,6 +56,10 @@ class FetchProcess {
 	/** List of things we want to fetch from the remote repository. */
 	private final Collection<RefSpec> toFetch;
 
+	private final ArrayList<RefSpec> negativeSrcRefSpecs = new ArrayList<>();
+
+	private final ArrayList<RefSpec> negativeDestRefSpecs= new ArrayList<>();
+
 	/** Set of refs we will actually wind up asking to obtain. */
 	private final HashMap<ObjectId, Ref> askFor = new HashMap<>();
 
@@ -74,9 +78,31 @@ class FetchProcess {
 
 	private Map<String, Ref> localRefs;
 
-	FetchProcess(Transport t, Collection<RefSpec> f) {
+	FetchProcess(Transport t, Collection<RefSpec> f, Collection<RefSpec> n) {
 		transport = t;
 		toFetch = f;
+		initializeNegativeRefSpecs(n);
+	}
+
+	private void initializeNegativeRefSpecs(Collection<RefSpec> n) {
+		if(n == null){
+			return;
+		}
+
+		for (RefSpec spec : n) {
+			if (spec.getSource() != null && spec.getDestination() != null) {
+				throw new IllegalArgumentException(MessageFormat
+						.format(JGitText.get().invalidNegativeRefSpec, spec));
+			}
+
+			if (spec.getSource() == null && spec.getDestination() != null) {
+				negativeDestRefSpecs.add(spec);
+			}
+
+			if (spec.getSource() != null && spec.getDestination() == null) {
+				negativeSrcRefSpecs.add(spec);
+			}
+		}
 	}
 
 	void execute(ProgressMonitor monitor, FetchResult result,
@@ -389,7 +415,8 @@ class FetchProcess {
 	private void expandWildcard(RefSpec spec, Set<Ref> matched)
 			throws TransportException {
 		for (Ref src : conn.getRefs()) {
-			if (spec.matchSource(src) && matched.add(src))
+			if (spec.matchSource(src) && !matchNegativeRefSpec(src)
+					&& matched.add(src))
 				want(src, spec.expandFromSource(src));
 		}
 	}
@@ -406,9 +433,25 @@ class FetchProcess {
 		if (src == null) {
 			throw new TransportException(MessageFormat.format(JGitText.get().remoteDoesNotHaveSpec, want));
 		}
-		if (matched.add(src)) {
+		if (!matchNegativeRefSpec(src) && matched.add(src)) {
 			want(src, spec);
 		}
+	}
+
+	private boolean matchNegativeRefSpec(Ref r){
+		for(RefSpec spec : negativeSrcRefSpecs){
+			if(spec.matchSource(r)){
+				return true;
+			}
+		}
+
+		for(RefSpec spec : negativeDestRefSpecs){
+			if(spec.matchDestination(r)){
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private boolean localHasObject(ObjectId id) throws TransportException {
@@ -535,7 +578,7 @@ class FetchProcess {
 			}
 			String refname = ref.getName();
 			for (RefSpec spec : toFetch) {
-				if (spec.matchDestination(refname)) {
+				if (spec.matchDestination(refname) && !matchNegativeRefSpec(ref)) {
 					RefSpec s = spec.expandFromDestination(refname);
 					if (result.getAdvertisedRef(s.getSource()) == null
 							&& processed.add(ref)) {
