@@ -443,6 +443,26 @@ public class RefSpecTest {
 		a.setDestination("refs/remotes/origin/*/*");
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidNegativeAndForce() {
+		assertNotNull(new RefSpec("^+refs/heads/master"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidForceAndNegative() {
+		assertNotNull(new RefSpec("+^refs/heads/master"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidNegativeNoSrcDest() {
+		assertNotNull(new RefSpec("^"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidNegativeBothSrcDest() {
+		assertNotNull(new RefSpec("^refs/heads/*:refs/heads/*"));
+	}
+
 	@Test
 	public void sourceOnlywithWildcard() {
 		RefSpec a = new RefSpec("refs/heads/*",
@@ -499,6 +519,22 @@ public class RefSpecTest {
 	public void emptySrcDest() {
 		RefSpec a = new RefSpec("");
 		assertNull(a.getSource());
+		assertNull(a.getDestination());
+	}
+
+	@Test
+	public void negativeRefSpecWithDest() {
+		RefSpec a = new RefSpec("^:refs/readonly/*");
+		assertTrue(a.isNegative());
+		assertNull(a.getSource());
+		assertEquals(a.getDestination(), "refs/readonly/*");
+	}
+
+	@Test
+	public void negativeRefSpecWithSrc() {
+		RefSpec a = new RefSpec("^refs/testdata/*");
+		assertTrue(a.isNegative());
+		assertEquals(a.getSource(), "refs/testdata/*");
 		assertNull(a.getDestination());
 	}
 }
