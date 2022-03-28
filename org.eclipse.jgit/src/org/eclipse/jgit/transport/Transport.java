@@ -1265,6 +1265,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
 	 *            RemoteConfig. Source for each RefSpec can't be null.
+	 
 	 * @param branch
 	 *            the initial branch to check out when cloning the repository.
 	 *            Can be specified as ref name (<code>refs/heads/master</code>),
@@ -1284,8 +1285,7 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public FetchResult fetch(final ProgressMonitor monitor,
 			Collection<RefSpec> toFetch, String branch)
-			throws NotSupportedException,
-			TransportException {
+			throws NotSupportedException, TransportException {
 		if (toFetch == null || toFetch.isEmpty()) {
 			// If the caller did not ask for anything use the defaults.
 			//
