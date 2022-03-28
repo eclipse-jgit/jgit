@@ -53,6 +53,9 @@ public class RefSpec implements Serializable {
 	/** Is this the special ":" RefSpec? */
 	private boolean matching;
 
+	/** Is this a negative refspec*/
+	private boolean negative;
+
 	/**
 	 * How strict to be about wildcards.
 	 *
@@ -96,6 +99,7 @@ public class RefSpec implements Serializable {
 		wildcard = false;
 		srcName = Constants.HEAD;
 		dstName = null;
+		negative =false;
 		allowMismatchedWildcards = WildcardMode.REQUIRE_MATCH;
 	}
 
@@ -133,8 +137,19 @@ public class RefSpec implements Serializable {
 	public RefSpec(String spec, WildcardMode mode) {
 		this.allowMismatchedWildcards = mode;
 		String s = spec;
+
+		if (s.startsWith("^+") || s.startsWith("+^")) {
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().invalidRefSpec, spec));
+		}
+
 		if (s.startsWith("+")) { //$NON-NLS-1$
 			force = true;
+			s = s.substring(1);
+		}
+
+		if(s.startsWith("^")) {
+			negative = true;
 			s = s.substring(1);
 		}
 
@@ -181,6 +196,21 @@ public class RefSpec implements Serializable {
 			}
 			srcName = checkValid(s);
 		}
+
+		// Negative refspecs must only have dstName or srcName.
+		if (isNegative()) {
+			if (srcName == null && dstName == null) {
+				throw new IllegalArgumentException(MessageFormat
+						.format(JGitText.get().invalidRefSpec, spec));
+			}
+			if (srcName != null && dstName != null) {
+				throw new IllegalArgumentException(MessageFormat
+						.format(JGitText.get().invalidRefSpec, spec));
+			}
+			if(wildcard && mode == WildcardMode.REQUIRE_MATCH) {
+				throw new IllegalArgumentException(MessageFormat
+						.format(JGitText.get().invalidRefSpec, spec));}
+		}
 		matching = matchPushSpec;
 	}
 
@@ -212,6 +242,7 @@ public class RefSpec implements Serializable {
 		matching = false;
 		force = p.isForceUpdate();
 		wildcard = p.isWildcard();
+		negative = p.isNegative();
 		srcName = p.getSource();
 		dstName = p.getDestination();
 		allowMismatchedWildcards = p.allowMismatchedWildcards;
@@ -262,6 +293,17 @@ public class RefSpec implements Serializable {
 	 */
 	public boolean isWildcard() {
 		return wildcard;
+	}
+
+	/**
+	 * Check if this specification is a negative one.
+	 * <p>
+	 * If this is a
+	 *
+	 * @return true if this specification is negative.
+	 */
+	public boolean isNegative() {
+		return negative;
 	}
 
 	/**
@@ -570,6 +612,9 @@ public class RefSpec implements Serializable {
 		if (isForceUpdate() != b.isForceUpdate()) {
 			return false;
 		}
+		if(isNegative() != b.isNegative()) {
+			return false;
+		}
 		if (isMatching()) {
 			return b.isMatching();
 		} else if (b.isMatching()) {
@@ -586,6 +631,9 @@ public class RefSpec implements Serializable {
 		final StringBuilder r = new StringBuilder();
 		if (isForceUpdate()) {
 			r.append('+');
+		}
+		if(isNegative()) {
+			r.append('^');
 		}
 		if (isMatching()) {
 			r.append(':');
