@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -789,4 +789,76 @@ public class ApacheSshTest extends SshTestBase {
 			session.disconnect();
 		}
 	}
+
+	private void verifyAuthLog(String message, String first) {
+		assertTrue(message.contains(System.lineSeparator()));
+		String[] lines = message.split(System.lineSeparator());
+		int pubkeyIndex = -1;
+		int passwordIndex = -1;
+		for (int i = 0; i < lines.length; i++) {
+			String line = lines[i];
+			if (i == 0) {
+				assertTrue(line.contains(first));
+			}
+			if (line.contains("publickey:")) {
+				if (pubkeyIndex < 0) {
+					pubkeyIndex = i;
+					assertTrue(line.contains("/userkey"));
+				}
+			} else if (line.contains("password:")) {
+				if (passwordIndex < 0) {
+					passwordIndex = i;
+					assertTrue(line.contains("attempt 1"));
+				}
+			}
+		}
+		assertTrue(pubkeyIndex > 0 && passwordIndex > 0);
+		assertTrue(pubkeyIndex < passwordIndex);
+	}
+
+	@Test
+	public void testAuthFailureMessageCancel() throws Exception {
+		File userKey = new File(getTemporaryDirectory(), "userkey");
+		copyTestResource("id_ed25519", userKey);
+		File publicKey = new File(getTemporaryDirectory(), "userkey.pub");
+		copyTestResource("id_ed25519.pub", publicKey);
+		// Don't set this as the user's key; we do want to try with a wrong key.
+		server.enablePasswordAuthentication();
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass");
+		TransportException e = assertThrows(TransportException.class,
+				() -> cloneWith("ssh://git/doesntmatter", defaultCloneDir,
+						provider, //
+						"Host git", //
+						"HostName localhost", //
+						"Port " + testPort, //
+						"User " + TEST_USER, //
+						"IdentityFile " + userKey.getAbsolutePath(), //
+						"PreferredAuthentications publickey,password"));
+		verifyAuthLog(e.getMessage(), "canceled");
+	}
+
+	@Test
+	public void testAuthFailureMessage() throws Exception {
+		File userKey = new File(getTemporaryDirectory(), "userkey");
+		copyTestResource("id_ed25519", userKey);
+		File publicKey = new File(getTemporaryDirectory(), "userkey.pub");
+		copyTestResource("id_ed25519.pub", publicKey);
+		// Don't set this as the user's key; we do want to try with a wrong key.
+		server.enablePasswordAuthentication();
+		// Enough passwords not to cancel authentication
+		TestCredentialsProvider provider = new TestCredentialsProvider(
+				"wrongpass", "wrongpass", "wrongpass");
+		TransportException e = assertThrows(TransportException.class,
+				() -> cloneWith("ssh://git/doesntmatter", defaultCloneDir,
+						provider, //
+						"Host git", //
+						"HostName localhost", //
+						"Port " + testPort, //
+						"User " + TEST_USER, //
+						"IdentityFile " + userKey.getAbsolutePath(), //
+						"PreferredAuthentications publickey,password"));
+		verifyAuthLog(e.getMessage(), "log in");
+	}
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -52,6 +52,8 @@ import org.apache.sshd.sftp.common.SftpException;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
+import org.eclipse.jgit.internal.transport.sshd.AuthenticationCanceledException;
+import org.eclipse.jgit.internal.transport.sshd.AuthenticationLogger;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.transport.FtpChannel;
@@ -119,6 +121,7 @@ public class SshdSession implements RemoteSession2 {
 		ClientSession resultSession = null;
 		ClientSession proxySession = null;
 		PortForwardingTracker portForward = null;
+		AuthenticationLogger authLog = null;
 		try {
 			if (!hops.isEmpty()) {
 				URIish hop = hops.remove(0);
@@ -165,6 +168,7 @@ public class SshdSession implements RemoteSession2 {
 				resultSession.addCloseFutureListener(listener);
 			}
 			// Authentication timeout is by default 2 minutes.
+			authLog = new AuthenticationLogger(resultSession);
 			resultSession.auth().verify(resultSession.getAuthTimeout());
 			return resultSession;
 		} catch (IOException e) {
@@ -173,15 +177,32 @@ public class SshdSession implements RemoteSession2 {
 			close(resultSession, e);
 			if (e instanceof SshException && ((SshException) e)
 					.getDisconnectCode() == SSH2_DISCONNECT_NO_MORE_AUTH_METHODS_AVAILABLE) {
-				// Ensure the user gets to know on which URI the authentication
-				// was denied.
+				String message = format(SshdText.get().loginDenied, host,
+						Integer.toString(port));
 				throw new TransportException(target,
-						format(SshdText.get().loginDenied, host,
-								Integer.toString(port)),
-						e);
+						withAuthLog(message, authLog), e);
+			} else if (e instanceof SshException && e
+					.getCause() instanceof AuthenticationCanceledException) {
+				String message = e.getCause().getMessage();
+				throw new TransportException(target,
+						withAuthLog(message, authLog), e.getCause());
 			}
 			throw e;
+		} finally {
+			if (authLog != null) {
+				authLog.clear();
+			}
 		}
+	}
+
+	private String withAuthLog(String message, AuthenticationLogger authLog) {
+		if (authLog != null) {
+			String log = String.join(System.lineSeparator(), authLog.getLog());
+			if (!log.isEmpty()) {
+				return message + System.lineSeparator() + log;
+			}
+		}
+		return message;
 	}
 
 	private ClientSession connect(HostConfigEntry config,
