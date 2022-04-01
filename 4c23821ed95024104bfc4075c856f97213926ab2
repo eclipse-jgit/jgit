@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "f1755fc8_4aa9d0fb",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -20,10 +21,10 @@
         "endChar": 42
       },
       "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0a826e26_bf010f55",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -44,10 +45,34 @@
         "endChar": 42
       },
       "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea85c4f0_57590f5d",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-04-01T18:16:52Z",
+      "side": 1,
+      "message": "The BatchRefUpdate had a massive improvement on the execution times of the repository preparation (@Han-Wen thanks for pointing that out). Marking this as resolved as well.",
+      "parentUuid": "0a826e26_bf010f55",
+      "range": {
+        "startLine": 56,
+        "startChar": 35,
+        "endLine": 56,
+        "endChar": 42
+      },
+      "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6097b12b_7d4613fc",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -67,10 +92,10 @@
         "endChar": 34
       },
       "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "16a8645f_efd69cb0",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -91,10 +116,10 @@
         "endChar": 34
       },
       "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "87cf265f_09baf28c",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -115,10 +140,10 @@
         "endChar": 34
       },
       "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": false
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bfa2ebb7_b3b606b8",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -138,10 +163,10 @@
         "endChar": 33
       },
       "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "1bf947ef_8a48be15",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -162,8 +187,7 @@
         "endChar": 33
       },
       "revId": "4c23821ed95024104bfc4075c856f97213926ab2",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": false
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

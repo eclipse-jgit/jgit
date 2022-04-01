@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "d300b230_a4ba55a5",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "also parametrise this option ?\n\n@Param({ \"true\", \"false\" })",
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "32c3895d_8f3e4dca",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -32,10 +33,28 @@
       "message": "Which one? RefTable?",
       "parentUuid": "d300b230_a4ba55a5",
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa8bab0c_48ae74b2",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-04-01T18:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32c3895d_8f3e4dca",
+      "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "10cba93f_06124ce1",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -49,10 +68,10 @@
       "side": 1,
       "message": "I hit ArrayOutOfBoundsException with RefTable when trying to create \u003e10k refs\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d576250",
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "db3ffdfc_002a45ed",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -67,10 +86,10 @@
       "message": "I am not sure RefTable is ready for prod in stable-5.9. @Han-Wen WDYT?",
       "parentUuid": "10cba93f_06124ce1",
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "cd6a1c88_b8fce5be",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -85,10 +104,10 @@
       "message": "let\u0027s discuss this on the bug?",
       "parentUuid": "db3ffdfc_002a45ed",
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": false
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5a8e3a0b_ef5d99f0",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -108,10 +127,10 @@
         "endChar": 34
       },
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a47b9a82_700573f7",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -132,10 +151,10 @@
         "endChar": 34
       },
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": false
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e6329448_2969cfb2",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -155,10 +174,10 @@
         "endChar": 34
       },
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "65a44fc4_6f66dd96",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -179,8 +198,7 @@
         "endChar": 34
       },
       "revId": "101ccb298cee1bcf0d75a07cac7bf974774e6299",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": false
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "b1453a2b_75ef36f2",
         "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
@@ -20,8 +21,31 @@
         "endChar": 0
       },
       "revId": "677910252bcd5b59d4b2a71106deaa0ef9ae7ee3",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baeae0c1_192bd5bc",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-04-01T18:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1453a2b_75ef36f2",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 0
+      },
+      "revId": "677910252bcd5b59d4b2a71106deaa0ef9ae7ee3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
