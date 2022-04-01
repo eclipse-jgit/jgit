@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,6 +13,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.security.KeyPair;
 import java.time.Duration;
@@ -34,7 +35,6 @@ import org.apache.sshd.client.auth.UserAuthFactory;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
 import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
 import org.apache.sshd.common.config.keys.loader.openssh.kdf.BCryptKdfOptions;
@@ -44,7 +44,6 @@ import org.apache.sshd.common.signature.Signature;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
-import org.eclipse.jgit.internal.transport.sshd.AuthenticationCanceledException;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
@@ -243,6 +242,12 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 							JGitSshClient.PREFERRED_AUTHENTICATIONS,
 							defaultAuths);
 				}
+				try {
+					jgitClient.setAttribute(JGitSshClient.HOME_DIRECTORY,
+							home.getAbsoluteFile().toPath());
+				} catch (SecurityException | InvalidPathException e) {
+					// Ignore
+				}
 				// Other things?
 				return client;
 			});
@@ -255,13 +260,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			if (e instanceof TransportException) {
 				throw (TransportException) e;
 			}
-			Throwable cause = e;
-			if (e instanceof SshException && e
-					.getCause() instanceof AuthenticationCanceledException) {
-				// Results in a nicer error message
-				cause = e.getCause();
-			}
-			throw new TransportException(uri, cause.getMessage(), cause);
+			throw new TransportException(uri, e.getMessage(), e);
 		}
 	}
 

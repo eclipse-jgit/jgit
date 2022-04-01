@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -120,15 +120,16 @@ public class JGitUserInteraction implements UserInteraction {
 				return null;
 			}).filter(s -> s != null).toArray(String[]::new);
 		}
-		// TODO What to throw to abort the connection/authentication process?
-		// In UserAuthKeyboardInteractive.getUserResponses() it's clear that
-		// returning null is valid and signifies "an error"; we'll try the
-		// next authentication method. But if the user explicitly canceled,
-		// then we don't want to try the next methods...
-		//
-		// Probably not a serious issue with the typical order of public-key,
-		// keyboard-interactive, password.
-		return null;
+		throw new AuthenticationCanceledException();
+	}
+
+	@Override
+	public String resolveAuthPasswordAttempt(ClientSession session)
+			throws Exception {
+		String[] results = interactive(session, null, null, "", //$NON-NLS-1$
+				new String[] { SshdText.get().passwordPrompt },
+				new boolean[] { false });
+		return (results == null || results.length == 0) ? null : results[0];
 	}
 
 	@Override
