@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Salesforce. and others
+ * Copyright (C) 2018, 2022 Salesforce and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -26,22 +26,38 @@ import org.slf4j.LoggerFactory;
  * @since 5.3
  */
 public abstract class GpgSigner {
+
 	private static final Logger LOG = LoggerFactory.getLogger(GpgSigner.class);
 
-	private static GpgSigner defaultSigner = loadGpgSigner();
+	private static class DefaultSigner {
 
-	private static GpgSigner loadGpgSigner() {
-		try {
-			ServiceLoader<GpgSigner> loader = ServiceLoader
-					.load(GpgSigner.class);
-			Iterator<GpgSigner> iter = loader.iterator();
-			if (iter.hasNext()) {
-				return iter.next();
+		private static volatile GpgSigner defaultSigner = loadGpgSigner();
+
+		private static GpgSigner loadGpgSigner() {
+			try {
+				ServiceLoader<GpgSigner> loader = ServiceLoader
+						.load(GpgSigner.class);
+				Iterator<GpgSigner> iter = loader.iterator();
+				if (iter.hasNext()) {
+					return iter.next();
+				}
+			} catch (ServiceConfigurationError e) {
+				LOG.error(e.getMessage(), e);
 			}
-		} catch (ServiceConfigurationError e) {
-			LOG.error(e.getMessage(), e);
+			return null;
 		}
-		return null;
+
+		private DefaultSigner() {
+			// No instantiation
+		}
+
+		public static GpgSigner getDefault() {
+			return defaultSigner;
+		}
+
+		public static void setDefault(GpgSigner signer) {
+			defaultSigner = signer;
+		}
 	}
 
 	/**
@@ -50,7 +66,7 @@ public abstract class GpgSigner {
 	 * @return the default signer, or <code>null</code>.
 	 */
 	public static GpgSigner getDefault() {
-		return defaultSigner;
+		return DefaultSigner.getDefault();
 	}
 
 	/**
@@ -61,7 +77,7 @@ public abstract class GpgSigner {
 	 *            default.
 	 */
 	public static void setDefault(GpgSigner signer) {
-		GpgSigner.defaultSigner = signer;
+		DefaultSigner.setDefault(signer);
 	}
 
 	/**
