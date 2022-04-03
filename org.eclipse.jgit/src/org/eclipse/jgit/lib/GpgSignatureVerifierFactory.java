@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2021, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -26,20 +26,41 @@ public abstract class GpgSignatureVerifierFactory {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(GpgSignatureVerifierFactory.class);
 
-	private static volatile GpgSignatureVerifierFactory defaultFactory = loadDefault();
+	private static class DefaultFactory {
 
-	private static GpgSignatureVerifierFactory loadDefault() {
-		try {
-			ServiceLoader<GpgSignatureVerifierFactory> loader = ServiceLoader
-					.load(GpgSignatureVerifierFactory.class);
-			Iterator<GpgSignatureVerifierFactory> iter = loader.iterator();
-			if (iter.hasNext()) {
-				return iter.next();
+		private static volatile GpgSignatureVerifierFactory defaultFactory = loadDefault();
+
+		private static GpgSignatureVerifierFactory loadDefault() {
+			try {
+				ServiceLoader<GpgSignatureVerifierFactory> loader = ServiceLoader
+						.load(GpgSignatureVerifierFactory.class);
+				Iterator<GpgSignatureVerifierFactory> iter = loader.iterator();
+				if (iter.hasNext()) {
+					return iter.next();
+				}
+			} catch (ServiceConfigurationError e) {
+				LOG.error(e.getMessage(), e);
 			}
-		} catch (ServiceConfigurationError e) {
-			LOG.error(e.getMessage(), e);
+			return null;
 		}
-		return null;
+
+		private DefaultFactory() {
+			// No instantiation
+		}
+
+		public static GpgSignatureVerifierFactory getDefault() {
+			return defaultFactory;
+		}
+
+		/**
+		 * Sets the default factory.
+		 *
+		 * @param factory
+		 *            the new default factory
+		 */
+		public static void setDefault(GpgSignatureVerifierFactory factory) {
+			defaultFactory = factory;
+		}
 	}
 
 	/**
@@ -48,7 +69,7 @@ public abstract class GpgSignatureVerifierFactory {
 	 * @return the default factory or {@code null} if none set
 	 */
 	public static GpgSignatureVerifierFactory getDefault() {
-		return defaultFactory;
+		return DefaultFactory.getDefault();
 	}
 
 	/**
@@ -58,7 +79,7 @@ public abstract class GpgSignatureVerifierFactory {
 	 *            the new default factory
 	 */
 	public static void setDefault(GpgSignatureVerifierFactory factory) {
-		defaultFactory = factory;
+		DefaultFactory.setDefault(factory);
 	}
 
 	/**
