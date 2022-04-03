@@ -323,8 +323,14 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private void sign(CommitBuilder commit) throws ServiceUnavailableException,
 			CanceledException, UnsupportedSigningFormatException {
 		if (gpgSigner == null) {
-			throw new ServiceUnavailableException(
-					JGitText.get().signingServiceUnavailable);
+			gpgSigner = GpgSigner.getDefault();
+			if (gpgSigner == null) {
+				throw new ServiceUnavailableException(
+						JGitText.get().signingServiceUnavailable);
+			}
+		}
+		if (signingKey == null) {
+			signingKey = gpgConfig.getSigningKey();
 		}
 		if (gpgSigner instanceof GpgObjectSigner) {
 			((GpgObjectSigner) gpgSigner).signObject(commit,
@@ -658,12 +664,6 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		if (signCommit == null) {
 			signCommit = gpgConfig.isSignCommits() ? Boolean.TRUE
 					: Boolean.FALSE;
-		}
-		if (signingKey == null) {
-			signingKey = gpgConfig.getSigningKey();
-		}
-		if (gpgSigner == null) {
-			gpgSigner = GpgSigner.getDefault();
 		}
 	}
 
