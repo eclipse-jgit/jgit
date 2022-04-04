@@ -199,6 +199,27 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * Position the given tree walk to the specified path.
+	 * @param tw {@link TreeWalk} to position to {@code path}
+	 * @param path single path to advance the tree walk instance into.
+	 * @return true if the walk was successfully positioned to a path.
+	 */
+	public static boolean walkToPath(TreeWalk tw, final String path) throws IOException {
+		PathFilter f = PathFilter.create(path);
+		tw.setFilter(f);
+		tw.setRecursive(false);
+
+		while (tw.next()) {
+			if (f.isDone(tw)) {
+				return true;
+			} else if (tw.isSubtree()) {
+				tw.enterSubtree();
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Open a tree walk and filter to exactly one path.
 	 * <p>
 	 * The returned tree walk is already positioned on the requested path, so
@@ -523,6 +544,13 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	public AttributesNodeProvider getAttributesNodeProvider() {
 		return attributesNodeProvider;
+	}
+
+	/**
+	 * Returns if the walk has {@link org.eclipse.jgit.attributes.AttributesNodeProvider}
+	 */
+	public boolean hasAttributeNodeProvider() {
+			return getAttributesNodeProvider() != null;
 	}
 
 	/**
@@ -1133,6 +1161,18 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * Get the current entry's complete path for the nth tree.
+	 *
+	 * <p> For the regular walk, each tree that matches the currentHead is positioned at the same path, returned by {@link #getPathString()}.
+	 * <p> However, for the rename processing, the walk can force match different path tree entries. This method can be used to obtain the actual path of the nth tree.
+	 * @param nth tree to obtain entry path from.
+	 * @return complete entry's path of the nth tree, see {@link #getPathString()}
+	 */
+	public String getPathString(int nth) {
+		return pathOf(trees[nth]);
+	}
+
+	/**
 	 * Get the current entry's complete path as a UTF-8 byte array.
 	 *
 	 * @return complete path of the current entry, from the root of the
@@ -1140,12 +1180,21 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *         least one '/' in the returned string.
 	 */
 	public byte[] getRawPath() {
-		final AbstractTreeIterator t = currentHead;
-		final int n = t.pathLen;
-		final byte[] r = new byte[n];
-		System.arraycopy(t.path, 0, r, 0, n);
-		return r;
+		return rawPathOf(currentHead);
 	}
+
+	/**
+	 * Get the current entry's complete path as a UTF-8 byte array for the specified tree.
+	 *
+	 * <p> For the regular walk, each tree that matches the currentHead is positioned at the same path, returned by {@link #getRawPath()}.
+	 * <p> However, for the rename processing, the walk can force match different path tree entries. This method can be used to obtain the actual path of the nth tree.
+	 * @param nth tree to obtain entry path from.
+	 * @return complete entry's path of the nth tree, see {@link #getRawPath()}
+	 */
+	public byte[] getRawPath(int nth) {
+		return rawPathOf(trees[nth]);
+	}
+
 
 	/**
 	 * Get the path length of the current entry.
@@ -1449,6 +1498,13 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	static String pathOf(byte[] buf, int pos, int end) {
 		return RawParseUtils.decode(UTF_8, buf, pos, end);
+	}
+
+	static byte[] rawPathOf(final AbstractTreeIterator t){
+		final int n = t.pathLen;
+		final byte[] r = new byte[n];
+		System.arraycopy(t.path, 0, r, 0, n);
+		return r;
 	}
 
 	/**

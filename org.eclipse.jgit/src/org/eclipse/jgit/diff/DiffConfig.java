@@ -88,7 +88,7 @@ public class DiffConfig {
 		return renameLimit;
 	}
 
-	private static RenameDetectionType parseRenameDetectionType(
+	public static RenameDetectionType parseRenameDetectionType(
 			final String renameString) {
 		if (renameString == null)
 			return RenameDetectionType.FALSE;

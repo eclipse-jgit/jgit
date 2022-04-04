@@ -11,7 +11,10 @@ package org.eclipse.jgit.merge;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
+import org.eclipse.jgit.diff.DiffConfig;
+import org.eclipse.jgit.diff.DiffConfig.RenameDetectionType;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -31,11 +34,11 @@ public class MergeConfig {
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 * @return merge configuration for the current branch of the repository
 	 */
-	public static MergeConfig getConfigForCurrentBranch(Repository repo) {
+	public static MergeConfig getConfigForRepo(Repository repo) {
 		try {
+			Config config = repo.getConfig();
 			String branch = repo.getBranch();
-			if (branch != null)
-				return repo.getConfig().get(getParser(branch));
+			return config.get(getParser(branch));
 		} catch (IOException e) {
 			// ignore
 		}
@@ -48,13 +51,13 @@ public class MergeConfig {
 	 * {@link org.eclipse.jgit.lib.Config#get(SectionParser)}
 	 *
 	 * @param branch
-	 *            short branch name to get the configuration for, as returned
+	 *            optional short branch name to get the configuration for, as returned
 	 *            e.g. by {@link org.eclipse.jgit.lib.Repository#getBranch()}
 	 * @return a parser for use with
 	 *         {@link org.eclipse.jgit.lib.Config#get(SectionParser)}
 	 */
 	public static final SectionParser<MergeConfig> getParser(
-			final String branch) {
+			@Nullable final String branch) {
 		return new MergeConfigSectionParser(branch);
 	}
 
@@ -64,17 +67,28 @@ public class MergeConfig {
 
 	private final boolean commit;
 
+	private final boolean renames;
+
 	private MergeConfig(String branch, Config config) {
 		String[] mergeOptions = getMergeOptions(branch, config);
 		fastForwardMode = getFastForwardMode(config, mergeOptions);
 		squash = isMergeConfigOptionSet("--squash", mergeOptions); //$NON-NLS-1$
 		commit = !isMergeConfigOptionSet("--no-commit", mergeOptions); //$NON-NLS-1$
+		renames = getRenames(config);
 	}
 
+	private MergeConfig(Config config) {
+		fastForwardMode = FastForwardMode.FF;
+		squash = false;
+		commit = true;
+		renames = getRenames(config);
+	}
+	
 	private MergeConfig() {
 		fastForwardMode = FastForwardMode.FF;
 		squash = false;
 		commit = true;
+		renames = false;
 	}
 
 	/**
@@ -105,6 +119,15 @@ public class MergeConfig {
 	 */
 	public boolean isCommit() {
 		return commit;
+	}
+
+	/**
+	 * Whether rename detection is enabled.
+	 *
+	 * @return if rename detection is enabled.
+	 */
+	public boolean shouldFindRenames(){
+		return renames;
 	}
 
 	private static FastForwardMode getFastForwardMode(Config config,
@@ -139,18 +162,30 @@ public class MergeConfig {
 		return new String[0];
 	}
 
+	private static boolean getRenames(Config config) {
+		// TODO: this should default to diff.renames, when we are happy with this feature.
+		RenameDetectionType renameDetectionType = DiffConfig.parseRenameDetectionType(config.getString(
+				ConfigConstants.CONFIG_MERGE_SECTION, null, ConfigConstants.CONFIG_KEY_RENAMES));
+		return !renameDetectionType.equals(RenameDetectionType.FALSE);
+	}
+
 	private static class MergeConfigSectionParser implements
 			SectionParser<MergeConfig> {
 
+		@Nullable
 		private final String branch;
 
 		public MergeConfigSectionParser(String branch) {
 			this.branch = branch;
 		}
 
+		public MergeConfigSectionParser() {
+			this.branch = null;
+		}
+
 		@Override
 		public MergeConfig parse(Config cfg) {
-			return new MergeConfig(branch, cfg);
+			return branch != null? new MergeConfig(branch, cfg): new MergeConfig(cfg);
 		}
 
 		@Override
