@@ -88,7 +88,15 @@ public class DiffConfig {
 		return renameLimit;
 	}
 
-	private static RenameDetectionType parseRenameDetectionType(
+	/**
+	 * Returns {@link RenameDetectionType} out of string representation.
+	 * 
+	 * @param renameString
+	 *            string representation of {@link RenameDetectionType} from
+	 *            config.
+	 * @return {@link RenameDetectionType}
+	 */
+	public static RenameDetectionType parseRenameDetectionType(
 			final String renameString) {
 		if (renameString == null)
 			return RenameDetectionType.FALSE;

@@ -103,24 +103,36 @@ public abstract class ThreeWayMerger extends Merger {
 	}
 
 	/**
+	 * Return merge base for three-way merge
+	 *
+	 * @return a caller-specified merge base, or the natural merge base of the
+	 *         two input commits.
+	 * @throws java.io.IOException
+	 */
+	protected RevTree mergeBase() throws IOException {
+		if (baseTree != null) {
+			return baseTree;
+		}
+		RevCommit baseCommit = (baseCommitId != null)
+				? walk.parseCommit(baseCommitId)
+				: getBaseCommit(sourceCommits[0], sourceCommits[1]);
+		if (baseCommit == null) {
+			baseCommitId = null;
+			return null;
+		}
+		baseCommitId = baseCommit.toObjectId();
+		return baseCommit.getTree();
+	}
+
+	/**
 	 * Create an iterator to walk the merge base.
 	 *
 	 * @return an iterator over the caller-specified merge base, or the natural
 	 *         merge base of the two input commits.
 	 * @throws java.io.IOException
 	 */
-	protected AbstractTreeIterator mergeBase() throws IOException {
-		if (baseTree != null) {
-			return openTree(baseTree);
-		}
-		RevCommit baseCommit = (baseCommitId != null) ? walk
-				.parseCommit(baseCommitId) : getBaseCommit(sourceCommits[0],
-				sourceCommits[1]);
-		if (baseCommit == null) {
-			baseCommitId = null;
-			return new EmptyTreeIterator();
-		}
-		baseCommitId = baseCommit.toObjectId();
-		return openTree(baseCommit.getTree());
+	protected AbstractTreeIterator mergeBaseIterator() throws IOException {
+		RevTree baseTree = mergeBase();
+		return baseTree == null ? new EmptyTreeIterator() : openTree(baseTree);
 	}
 }
