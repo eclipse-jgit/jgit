@@ -41,6 +41,8 @@ public class TreeRevFilter extends RevFilter {
 
 	private static final int UNINTERESTING = RevWalk.UNINTERESTING;
 
+	private static final int FILTER_APPLIED = RevWalk.TREE_REV_FILTER_APPLIED;
+
 	private final int rewriteFlag;
 	private final TreeWalk pathFilter;
 
@@ -101,6 +103,7 @@ public class TreeRevFilter extends RevFilter {
 	public boolean include(RevWalk walker, RevCommit c)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		c.flags |= FILTER_APPLIED;
 		// Reset the tree filter to scan this commit and parents.
 		//
 		RevCommit[] pList = c.parents;
