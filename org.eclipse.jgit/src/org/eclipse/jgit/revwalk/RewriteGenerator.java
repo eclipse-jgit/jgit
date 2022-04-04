@@ -24,14 +24,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * commit that matched the revision walker's filters.
  * <p>
  * This generator is the second phase of a path limited revision walk and
- * assumes it is receiving RevCommits from {@link TreeRevFilter},
- * after they have been fully buffered by {@link AbstractRevQueue}. The full
- * buffering is necessary to allow the simple loop used within our own
- * {@link #rewrite(RevCommit)} to pull completely through a strand of
- * {@link RevWalk#REWRITE} colored commits and come up with a simplification
- * that makes the DAG dense. Not fully buffering the commits first would cause
- * this loop to abort early, due to commits not being parsed and colored
- * correctly.
+ * assumes it is receiving RevCommits from {@link TreeRevFilter}.
  *
  * @see TreeRevFilter
  */
@@ -43,9 +36,12 @@ class RewriteGenerator extends Generator {
 
 	private final Generator source;
 
+	private final FIFORevQueue pending;
+
 	RewriteGenerator(Generator s) {
 		super(s.firstParent);
 		source = s;
+		pending = new FIFORevQueue(s.firstParent);
 	}
 
 	@Override
@@ -62,10 +58,19 @@ class RewriteGenerator extends Generator {
 	@Override
 	RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		final RevCommit c = source.next();
+		RevCommit c = pending.next();
+
 		if (c == null) {
-			return null;
+			c = source.next();
+			if (c == null) {
+				// We are done: Both the source generator and our internal list
+				// are completely exhausted.
+				return null;
+			}
 		}
+
+		applyFilterToParents(c);
+
 		boolean rewrote = false;
 		final RevCommit[] pList = c.parents;
 		final int nParents = pList.length;
@@ -91,10 +96,43 @@ class RewriteGenerator extends Generator {
 		return c;
 	}
 
-	private RevCommit rewrite(RevCommit p) {
+	/**
+	 * Makes sure that the {@link TreeRevFilter} has been applied to all parents
+	 * of this commit by the previous {@link PendingGenerator}.
+	 *
+	 * @param c
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws IOException
+	 */
+	private void applyFilterToParents(RevCommit c)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		for (RevCommit parent : c.parents) {
+			while ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
+
+				RevCommit n = source.next();
+
+				if (n != null) {
+					pending.add(n);
+				} else {
+					// Source generator is exhausted; filter has been applied to
+					// all commits
+					return;
+				}
+
+			}
+
+		}
+	}
+
+	private RevCommit rewrite(RevCommit p) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 		for (;;) {
-			final RevCommit[] pList = p.parents;
-			if (pList.length > 1) {
+
+			applyFilterToParents(p);
+
+			if (p.parents.length > 1) {
 				// This parent is a merge, so keep it.
 				//
 				return p;
@@ -114,14 +152,15 @@ class RewriteGenerator extends Generator {
 				return p;
 			}
 
-			if (pList.length == 0) {
+			if (p.parents.length == 0) {
 				// We can't go back any further, other than to
 				// just delete the parent entirely.
 				//
 				return null;
 			}
 
-			p = pList[0];
+			p = p.parents[0];
+
 		}
 	}
 
