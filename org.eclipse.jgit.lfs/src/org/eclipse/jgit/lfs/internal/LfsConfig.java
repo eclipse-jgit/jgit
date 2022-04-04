@@ -59,7 +59,20 @@ public class LfsConfig {
 	 */
 	public LfsConfig(Repository db) throws IOException {
 		this.db = db;
-		delegate = this.load();
+		delegate = null;
+	}
+
+	/**
+	 * Getter for the delegate to allow lazy initialization.
+	 *
+	 * @return t
+	 * @throws IOException
+	 */
+	private Config getDelegate() throws IOException {
+		if (delegate == null) {
+			delegate = this.load();
+		}
+		return delegate;
 	}
 
 	/**
@@ -188,12 +201,14 @@ public class LfsConfig {
 	 * @param name
 	 *            the key name
 	 * @return a String value from the config, <code>null</code> if not found
+	 * @throws IOException
 	 */
+	@Nullable
 	public String getString(final String section, final String subsection,
-			final String name) {
+			final String name) throws IOException {
 		String result = db.getConfig().getString(section, subsection, name);
 		if (result == null) {
-			result = delegate.getString(section, subsection, name);
+			result = getDelegate().getString(section, subsection, name);
 		}
 		return result;
 	}
