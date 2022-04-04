@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Set;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -686,24 +687,41 @@ public class MergerTest extends RepositoryTestCase {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("0", "orig");
+		writeTrashFile("x", "orig");
+		git.add().addFilepattern("x").call();
 		git.add().addFilepattern("0").call();
 		RevCommit first = git.commit().setMessage("added 0").call();
 
 		writeTrashFile("0", "master");
+		git.rm().addFilepattern("x").call();
 		RevCommit masterCommit = git.commit().setAll(true)
 				.setMessage("modified 0 on master").call();
 
 		git.checkout().setCreateBranch(true).setStartPoint(first)
 				.setName("side").call();
 		writeTrashFile("0", "side");
+		writeTrashFile("1", "side");
+		git.rm().addFilepattern("x").call();
+		git.add().addFilepattern("0").call();
+		git.add().addFilepattern("1").call();
 		git.commit().setAll(true).setMessage("modified 0 on side").call();
 
-		git.rm().addFilepattern("0").call();
-		writeTrashFile("0/0", "side");
-		git.add().addFilepattern("0/0").call();
+		//git.rm().addFilepattern("0").call();
+		writeTrashFile("0", "side -z");
+		writeTrashFile("1", "side -c");
+		//git.add().addFilepattern("0").call();
+		//git.add().addFilepattern("1").call();
+		writeTrashFile("x", "side -c");
+		//git.add().addFilepattern("x").call();
 		MergeResult mergeRes = git.merge().setStrategy(strategy)
 				.include(masterCommit).call();
 		assertEquals(MergeStatus.FAILED, mergeRes.getMergeStatus());
+		assertEquals(read("1"), "side -c");
+		assertEquals(read("0"), "side -z");
+		assertEquals(read("x"), "side -c");
+	//	assertEquals(mergeRes.getFailingPaths(), Set.of());
+
+		assertEquals(mergeRes.getFailingPaths().get("0"), MergeFailureReason.DIRTY_INDEX);
 	}
 
 	/**
@@ -1744,19 +1762,16 @@ public class MergerTest extends RepositoryTestCase {
 
 	}
 
-	private AbstractTreeIterator getTreeIterator(String name) throws IOException {
-		final ObjectId id = db.resolve(name);
-		if (id == null)
-			throw new IllegalArgumentException(name);
+	private AbstractTreeIterator getTreeIterator(RevCommit commit) throws IOException {
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		try (ObjectReader or = db.newObjectReader(); RevWalk rw = new RevWalk(db)) {
-			p.reset(or, rw.parseTree(id));
+			p.reset(or, rw.parseTree(commit));
 			return p;
 		}
 	}
 
 	@Theory
-	public void checkRenameSubDir_modifyConflict(MergeStrategy strategy) throws Exception {
+	public void checkRenameModify_renameDetection(MergeStrategy strategy, boolean enableRenameDetection) throws Exception {
 		if (!strategy.equals(MergeStrategy.RECURSIVE)) {
 			return;
 		}
@@ -1781,25 +1796,35 @@ public class MergerTest extends RepositoryTestCase {
 		writeTrashFile("test/file1", slightlyModifiedContent);
 		git.add().addFilepattern("test/file1").call();
 
-		RevCommit modifyContentCommit = git.commit().setMessage("Commit slightly modified content").call();
+		RevCommit modifyContentCommit = git.commit().setMessage("Commit slightly modified content")
+				.call();
 
 		// Merge master into second-branch
-		MergeResult mergeResult = git.merge().include(renameCommit).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
-		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
-		assertEquals(slightlyModifiedContent, read("test/file1"));
-		assertEquals(originalContent, read("test/sub/file1"));
+		MergeResult mergeResult = git.merge().include(renameCommit).setStrategy(strategy)
+				.setFindRenames(enableRenameDetection).call();
 
-		// We get conflicting content, rename was not detected y merge.
-		// The merger assumed the file 'test/file1' was modified on master and deleted
-		// by renameCommit on second-branch.
-		assertEquals(
-				"[test/file1, mode:100644, stage:1, content:a\nb\nc][test/file1, mode:100644, stage:2, content:a\nb\nb][test/sub/file1, mode:100644, content:a\nb\nc]",
-				indexState(CONTENT));
-		// With enabled rename detection on repository, rename is detected by diff.
+		// Only resolved by merge if rename detection is on.
+		if (!enableRenameDetection) {
+			assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
+			assertEquals(slightlyModifiedContent, read("test/file1"));
+			assertEquals(originalContent, read("test/sub/file1"));
+
+			// We get conflicting content, rename was not detected by merge.
+			// The merger assumed the file 'test/file1' was modified on master and deleted
+			// by renameCommit on second-branch.
+			assertEquals(
+					"[test/file1, mode:100644, stage:1, content:a\nb\nc][test/file1, mode:100644, stage:2, content:a\nb\nb][test/sub/file1, mode:100644, content:a\nb\nc]",
+					indexState(CONTENT));
+		} else {
+			assertEquals(mergeResult.getMergeStatus(), MergeStatus.MERGED);
+			assertFalse(check("test/file1"));
+			assertEquals(slightlyModifiedContent, read("test/sub/file1"));
+		}
+
+		//Rename is detected by diff, when 'diff' rename detection is enabled on repository,
 		OutputStream out = new ByteArrayOutputStream();
-		List<DiffEntry> entries = git.diff().setOutputStream(out).setOldTree(getTreeIterator("master"))
-				.setNewTree(getTreeIterator("second-branch")).call();
+		List<DiffEntry> entries = git.diff().setOutputStream(out).setOldTree(getTreeIterator(modifyContentCommit))
+				.setNewTree(getTreeIterator(renameCommit)).call();
 		assertEquals(1, entries.size());
 		assertEquals(ChangeType.RENAME, entries.get(0).getChangeType());
 
@@ -1809,55 +1834,6 @@ public class MergerTest extends RepositoryTestCase {
 				+ "rename from test/file1\n" + "rename to test/sub/file1\n" + "index e8b9973..1c943a9 100644\n"
 				+ "--- a/test/file1\n" + "+++ b/test/sub/file1\n" + "@@ -1,3 +1,3 @@\n" + " a\n" + " b\n" + "-b\n"
 				+ "\\ No newline at end of file\n" + "+c\n" + "\\ No newline at end of file\n", out.toString());
-
-	}
-
-	@Theory
-	public void checkRenameSubDir_renameOnly_noConflict(MergeStrategy strategy) throws Exception {
-		if (!strategy.equals(MergeStrategy.RECURSIVE)) {
-			return;
-		}
-
-		Git git = Git.wrap(db);
-		String originalContent = "a\nb\nc";
-		String slightlyModifiedContent = "a\nb\nb";
-		// master
-		writeTrashFile("test/file1", originalContent);
-		git.add().addFilepattern("test/file1").call();
-		RevCommit commitI = git.commit().setMessage("Initial commit").call();
-
-		git.checkout().setCreateBranch(true).setStartPoint(commitI).setName("second-branch").call();
-		// test/file1 is renamed to test/sub/file1 on second-branch
-		git.rm().addFilepattern("test/file1").call();
-		writeTrashFile("test/sub/file1", originalContent);
-		git.add().addFilepattern("test/sub/file1").call();
-		RevCommit renameCommit = git.commit().setMessage("Rename file").call();
-
-		// back to master do not modify content.
-		git.checkout().setName("master").call();
-		writeTrashFile("test/file1", originalContent);
-		git.add().addFilepattern("test/file1").call();
-
-		RevCommit modifyContentCommit = git.commit().setMessage("Commit same content").call();
-
-		// Merge master into second-branch
-		MergeResult mergeResult = git.merge().include(renameCommit).setStrategy(strategy).call();
-		assertEquals(mergeResult.getMergeStatus(), MergeStatus.MERGED);
-		assertEquals(originalContent, read("test/sub/file1"));
-
-		// Change was merged, since the merger assumed the renameCommit just deleted the
-		// original file, and the content was not modified on master.
-		assertEquals("[test/sub/file1, mode:100644, content:a\nb\nc]", indexState(CONTENT));
-		// With enabled rename detection on repository, rename is detected by diff.
-		OutputStream out = new ByteArrayOutputStream();
-		List<DiffEntry> entries = git.diff().setOutputStream(out).setOldTree(getTreeIterator("master"))
-				.setNewTree(getTreeIterator("second-branch")).call();
-		assertEquals(1, entries.size());
-		assertEquals(ChangeType.RENAME, entries.get(0).getChangeType());
-
-		assertEquals("test/file1", entries.get(0).getOldPath());
-		assertEquals("test/sub/file1", entries.get(0).getNewPath());
-		assertEquals("", out.toString());
 
 	}
 
