@@ -197,6 +197,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 
 	private Boolean commit;
 
+	private Boolean findRenames;
+
 	/**
 	 * Constructor for MergeCommand.
 	 *
@@ -339,6 +341,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				if (merger instanceof ResolveMerger) {
 					ResolveMerger resolveMerger = (ResolveMerger) merger;
 					resolveMerger.setContentMergeStrategy(contentStrategy);
+					resolveMerger.setDetectRenames(this.findRenames);
+
 					resolveMerger.setCommitNames(new String[] {
 							"BASE", "HEAD", ref.getName() }); //$NON-NLS-1$ //$NON-NLS-2$
 					resolveMerger.setWorkingTreeIterator(new FileTreeIterator(repo));
@@ -449,13 +453,16 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 * defined via the setters
 	 */
 	private void fallBackToConfiguration() {
-		MergeConfig config = MergeConfig.getConfigForCurrentBranch(repo);
+		MergeConfig config = MergeConfig.getConfigForRepo(repo);
 		if (squash == null)
 			squash = Boolean.valueOf(config.isSquash());
 		if (commit == null)
 			commit = Boolean.valueOf(config.isCommit());
 		if (fastForwardMode == null)
 			fastForwardMode = config.getFastForwardMode();
+		if(findRenames == null){
+			findRenames = Boolean.valueOf(config.shouldFindRenames());
+		}
 	}
 
 	private void updateHead(StringBuilder refLogMessage, ObjectId newHeadId,
@@ -606,6 +613,11 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 */
 	public MergeCommand setCommit(boolean commit) {
 		this.commit = Boolean.valueOf(commit);
+		return this;
+	}
+
+	public MergeCommand setFindRenames(boolean findRenames) {
+		this.findRenames = Boolean.valueOf(findRenames);
 		return this;
 	}
 

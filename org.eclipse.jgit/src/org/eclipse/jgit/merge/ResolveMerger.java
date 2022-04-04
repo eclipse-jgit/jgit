@@ -19,6 +19,8 @@ import static org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm.HISTOGRAM;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFF_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_ALGORITHM;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.merge.RenameResolver.RenameType.RENAME_IN_OURS;
+import static org.eclipse.jgit.merge.RenameResolver.RenameType.RENAME_IN_THEIRS;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -30,19 +32,33 @@ import java.io.OutputStream;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
+import org.eclipse.jgit.diff.DiffConfig;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
@@ -56,6 +72,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -65,12 +82,17 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.RenameResolver.RenameConflict;
+import org.eclipse.jgit.merge.RenameResolver.RenameEntry;
+import org.eclipse.jgit.merge.RenameResolver.RenameType;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.submodule.SubmoduleConflict;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
+import org.eclipse.jgit.treewalk.RenameProcessingTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
@@ -118,35 +140,35 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @since 3.4
 	 */
-	protected static final int T_BASE = 0;
+	public static final int T_BASE = 0;
 
 	/**
 	 * Index of our tree in withthe {@link #tw tree walk}.
 	 *
 	 * @since 3.4
 	 */
-	protected static final int T_OURS = 1;
+	public static final int T_OURS = 1;
 
 	/**
 	 * Index of their tree within the {@link #tw tree walk}.
 	 *
 	 * @since 3.4
 	 */
-	protected static final int T_THEIRS = 2;
+	public static final int T_THEIRS = 2;
 
 	/**
 	 * Index of the index tree within the {@link #tw tree walk}.
 	 *
 	 * @since 3.4
 	 */
-	protected static final int T_INDEX = 3;
+	public static final int T_INDEX = 3;
 
 	/**
 	 * Index of the working directory tree within the {@link #tw tree walk}.
 	 *
 	 * @since 3.4
 	 */
-	protected static final int T_FILE = 4;
+	public static final int T_FILE = 4;
 
 	/**
 	 * Builder to update the cache during this merge.
@@ -230,6 +252,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * Set to true if this merger should use the default dircache of the
 	 * repository and should handle locking and unlocking of the dircache. If
 	 * this merger should work in-core or if an explicit dircache was specified
+	 * this merger should work n-core or if an explicit dircache was specified
 	 * during construction then this field is set to false.
 	 * @since 3.0
 	 */
@@ -247,12 +270,19 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @since 3.0
 	 */
 	protected WorkingTreeIterator workingTreeIterator;
+	protected DirCacheBuildIterator dirCacheBuildIterator;
 
 	/**
 	 * our merge algorithm
 	 * @since 3.0
 	 */
 	protected MergeAlgorithm mergeAlgorithm;
+
+	protected DiffConfig diffCfg;
+
+	protected RenameResolver renameResolver;
+
+	protected boolean detectRenames;
 
 	/**
 	 * The {@link WorkingTreeOptions} are needed to determine line endings for
@@ -318,6 +348,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		inCoreLimit = getInCoreLimit(config);
 		commitNames = defaultCommitNames();
 		this.inCore = inCore;
+		this.diffCfg = config.get(DiffConfig.KEY);
 
 		if (inCore) {
 			implicitDirCache = false;
@@ -379,6 +410,15 @@ public class ResolveMerger extends ThreeWayMerger {
 				: strategy;
 	}
 
+	/**
+	 * Whether the rename detection is on.
+	 *
+	 * @since 5.12
+	 */
+	public void setDetectRenames(boolean detectRenames){
+		this.detectRenames = detectRenames;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	protected boolean mergeImpl() throws IOException {
@@ -389,6 +429,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			checkoutMetadata = new HashMap<>();
 			cleanupMetadata = new HashMap<>();
 		}
+
 		try {
 			return mergeTrees(mergeBase(), sourceTrees[0], sourceTrees[1],
 					false);
@@ -471,7 +512,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	private DirCacheEntry add(byte[] path, CanonicalTreeParser p, int stage,
 			Instant lastMod, long len) {
-		if (p != null && !p.getEntryFileMode().equals(FileMode.TREE)) {
+		if (p != null && !p.getEntryFileMode().equals(FileMode.TREE) && !p.getEntryFileMode().equals(FileMode.MISSING)) {
 			DirCacheEntry e = new DirCacheEntry(path, stage);
 			e.setFileMode(p.getEntryFileMode());
 			e.setObjectId(p.getEntryObjectId());
@@ -624,10 +665,11 @@ public class ResolveMerger extends ThreeWayMerger {
 	protected boolean processEntry(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
 			DirCacheBuildIterator index, WorkingTreeIterator work,
-			boolean ignoreConflicts, Attributes[] attributes)
+			boolean ignoreConflicts, Attributes[] attributes, boolean isRenameProcessing)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 		enterSubtree = true;
+		// we could create a sub type walk that would swap some attributes with the correct onces.
 		final int modeO = tw.getRawMode(T_OURS);
 		final int modeT = tw.getRawMode(T_THEIRS);
 		final int modeB = tw.getRawMode(T_BASE);
@@ -646,7 +688,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			// create a fake DCE, but only if ours is valid. ours is kept only
 			// in case it is valid, so a null ourDce is ok in all other cases.
 			if (nonTree(modeO)) {
-				ourDce = new DirCacheEntry(tw.getRawPath());
+				ourDce = new DirCacheEntry(tw.getRawPath(T_OURS));
 				ourDce.setObjectId(tw.getObjectId(T_OURS));
 				ourDce.setFileMode(tw.getFileMode(T_OURS));
 			}
@@ -660,7 +702,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// content and mode of OURS and THEIRS are equal: it doesn't
 				// matter which one we choose. OURS is chosen. Since the index
 				// is clean (the index matches already OURS) we can keep the existing one
-				keep(ourDce);
+				addOursToIndex(ourDce, ours, attributes, isRenameProcessing);
 				// no checkout needed!
 				return true;
 			}
@@ -671,19 +713,14 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (newMode != FileMode.MISSING.getBits()) {
 				if (newMode == modeO) {
 					// ours version is preferred
-					keep(ourDce);
+					addOursToIndex(ourDce, ours, attributes, isRenameProcessing);
 				} else {
 					// the preferred version THEIRS has a different mode
 					// than ours. Check it out!
 					if (isWorktreeDirty(work, ourDce)) {
 						return false;
 					}
-					// we know about length and lastMod only after we have
-					// written the new content.
-					// This will happen later. Set these values to 0 for know.
-					DirCacheEntry e = add(tw.getRawPath(), theirs,
-							DirCacheEntry.STAGE_0, EPOCH, 0);
-					addToCheckout(tw.getPathString(), e, attributes);
+					addToIndexAndCheckout(theirs, attributes);
 				}
 				return true;
 			}
@@ -696,6 +733,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				// is rename with different modes possible?
 				unmergedPaths.add(tw.getPathString());
 				mergeResults.put(tw.getPathString(),
 						new MergeResult<>(Collections.emptyList()));
@@ -707,7 +745,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			// THEIRS was not changed compared to BASE. All changes must be in
 			// OURS. OURS is chosen. We can keep the existing entry.
 			if (ourDce != null)
-				keep(ourDce);
+				addOursToIndex(ourDce, ours, attributes, isRenameProcessing);
 			// no checkout needed!
 			return true;
 		}
@@ -720,14 +758,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (isWorktreeDirty(work, ourDce))
 				return false;
 			if (nonTree(modeT)) {
-				// we know about length and lastMod only after we have written
-				// the new content.
-				// This will happen later. Set these values to 0 for know.
-				DirCacheEntry e = add(tw.getRawPath(), theirs,
-						DirCacheEntry.STAGE_0, EPOCH, 0);
-				if (e != null) {
-					addToCheckout(tw.getPathString(), e, attributes);
-				}
+				addToIndexAndCheckout(theirs, attributes);
 				return true;
 			}
 			// we want THEIRS ... but THEIRS contains a folder or the
@@ -841,9 +872,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					keep(ourDce);
 					return true;
 				case THEIRS:
-					DirCacheEntry theirEntry = add(tw.getRawPath(), theirs,
-							DirCacheEntry.STAGE_0, EPOCH, 0);
-					addToCheckout(tw.getPathString(), theirEntry, attributes);
+					addToIndexAndCheckout(theirs, attributes);
 					return true;
 				default:
 					result = new MergeResult<>(Collections.emptyList());
@@ -921,6 +950,7 @@ public class ResolveMerger extends ThreeWayMerger {
 						unmergedPaths.add(tw.getPathString());
 
 						// generate a MergeResult for the deleted file
+						// TODO: index is not populated with the merge result anyway, why is it needed?
 						mergeResults.put(tw.getPathString(), result);
 					}
 				}
@@ -1182,6 +1212,10 @@ public class ResolveMerger extends ThreeWayMerger {
 		return mode != 0 && !FileMode.TREE.equals(mode);
 	}
 
+	private static boolean isTree(AbstractTreeIterator p) {
+		return p != null && FileMode.TREE.equals(p.getEntryRawMode());
+	}
+
 	private static boolean isGitLink(int mode) {
 		return FileMode.GITLINK.equals(mode);
 	}
@@ -1349,15 +1383,22 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws java.io.IOException
 	 * @since 3.5
 	 */
-	protected boolean mergeTrees(AbstractTreeIterator baseTree,
+	protected boolean mergeTrees(@Nullable RevTree baseTree,
 			RevTree headTree, RevTree mergeTree, boolean ignoreConflicts)
 			throws IOException {
 
 		builder = dircache.builder();
 		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
+		dirCacheBuildIterator = buildIt;
 
-		tw = new NameConflictTreeWalk(db, reader);
-		tw.addTree(baseTree);
+		if(detectRenames) {
+			renameResolver = new RenameResolver(db, reader, diffCfg, baseTree, headTree, mergeTree);
+
+			tw = new RenameProcessingTreeWalk(db, reader, renameResolver, true);
+		} else {
+			tw = new NameConflictTreeWalk(db, reader);
+		}
+		tw.addTree(baseTree == null? new EmptyTreeIterator(): openTree(baseTree));
 		tw.setHead(tw.addTree(headTree));
 		tw.addTree(mergeTree);
 		int dciPos = tw.addTree(buildIt);
@@ -1368,7 +1409,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			tw.setFilter(TreeFilter.ANY_DIFF);
 		}
 
-		if (!mergeTreeWalk(tw, ignoreConflicts)) {
+		if (!mergeTreeWalk(baseTree, headTree, mergeTree, tw, ignoreConflicts)) {
 			return false;
 		}
 
@@ -1413,33 +1454,271 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws java.io.IOException
 	 * @since 3.5
 	 */
-	protected boolean mergeTreeWalk(TreeWalk treeWalk, boolean ignoreConflicts)
+	protected boolean mergeTreeWalk(RevTree baseTree, RevTree headTree, RevTree theirTree, TreeWalk treeWalk, boolean ignoreConflicts)
 			throws IOException {
 		boolean hasWorkingTreeIterator = tw.getTreeCount() > T_FILE;
-		boolean hasAttributeNodeProvider = treeWalk
-				.getAttributesNodeProvider() != null;
+		boolean hasAttributeNodeProvider = treeWalk.hasAttributeNodeProvider();
 		while (treeWalk.next()) {
-			Attributes[] attributes = { NO_ATTRIBUTES, NO_ATTRIBUTES,
-					NO_ATTRIBUTES };
+			Attributes[] attributes = {NO_ATTRIBUTES, NO_ATTRIBUTES,
+					NO_ATTRIBUTES};
 			if (hasAttributeNodeProvider) {
 				attributes[T_BASE] = treeWalk.getAttributes(T_BASE);
 				attributes[T_OURS] = treeWalk.getAttributes(T_OURS);
 				attributes[T_THEIRS] = treeWalk.getAttributes(T_THEIRS);
 			}
-			if (!processEntry(
+			boolean success = processEntry(
 					treeWalk.getTree(T_BASE, CanonicalTreeParser.class),
 					treeWalk.getTree(T_OURS, CanonicalTreeParser.class),
 					treeWalk.getTree(T_THEIRS, CanonicalTreeParser.class),
 					treeWalk.getTree(T_INDEX, DirCacheBuildIterator.class),
 					hasWorkingTreeIterator ? treeWalk.getTree(T_FILE,
 							WorkingTreeIterator.class) : null,
-					ignoreConflicts, attributes)) {
+					ignoreConflicts, attributes, /*isRenameProcessing=*/ false);
+			if (!success) {
 				cleanUp();
 				return false;
 			}
 			if (treeWalk.isSubtree() && enterSubtree)
 				treeWalk.enterSubtree();
 		}
+		if (detectRenames) {
+			// No other conflict were detected. Process renames.
+			boolean success = processRenames(baseTree, headTree, theirTree, ignoreConflicts);
+			if (!success) {
+				cleanUp();
+				return false;
+			}
+		}
+
 		return true;
 	}
+
+	private DirCacheEntry addToIndexAndCheckout(CanonicalTreeParser p, Attributes attributes[]) throws IOException {
+		// we know about length and lastMod only after we have
+		// written the new content.
+		// This will happen later. Set these values to 0 for know.
+		// The entries, that do not exist in working tree need to be checked out explicitly
+		DirCacheEntry e = add(tw.getRawPath(), p,
+				DirCacheEntry.STAGE_0, EPOCH, 0);
+		if (e != null) {
+			addToCheckout(tw.getPathString(), e, attributes);
+		}
+		return e;
+	}
+
+	private DirCacheEntry addOursToIndex(DirCacheEntry oursEntry, CanonicalTreeParser ours, Attributes attributes[], boolean isRenameProcessing)
+			throws IOException {
+
+		if(!isRenameProcessing){
+			// Index is clean so we can just keep the entry in index
+			return keep(oursEntry);
+		}
+		// this is a rename, but we want to keep ours, since the content was not changed. Add the same entry with the new path to index and checkout.
+		// The entry is also present in the working tree under the old name, so we will need to remove it later on.
+
+		return addToIndexAndCheckout(ours, attributes);
+	}
+
+	// Returns the walk positioned at the path with the correct attributes
+	private TreeWalk getRenameWalk(Collection<RevTree> renameTrees, String path) throws IOException {
+		TreeWalk renameWalk = new TreeWalk(db, reader);
+		renameWalk.setAttributesNodeProvider(tw.getAttributesNodeProvider());
+		for(RevTree tree: renameTrees) {
+			renameWalk.addTree(tree);
+		}
+		// needed to retrieve the correct attributes?
+		renameWalk.addTree(new DirCacheBuildIterator(builder, false));
+		TreeWalk.walkToPath(renameWalk, path);
+		return renameWalk;
+	}
+
+	private TreeWalk getRenameWalk(RevTree renameTree, String path) throws IOException {
+		return  getRenameWalk(List.of(renameTree), path);
+	}
+
+	private void setUpRenameWalk(RenameProcessingTreeWalk walk, String walkPath,  LinkedHashMap<Integer, RevTree> swapTreeNth, String swapPath, Attributes[] attributes)
+			throws IOException {
+
+		// position to the matching path, then swap non-matching tree
+		TreeWalk.walkToPath(walk, walkPath);
+
+		boolean hasAttributeNodeProvider = walk.hasAttributeNodeProvider();
+		if (hasAttributeNodeProvider) {
+			attributes[T_BASE] = walk.getAttributes(T_BASE);
+			attributes[T_OURS] = walk.getAttributes(T_OURS);
+			attributes[T_THEIRS] = walk.getAttributes(T_THEIRS);
+		}
+		// Trees in swap walk has the same order as swapTreeNth.
+		TreeWalk swapWalk = getRenameWalk(swapTreeNth.values(), swapPath);
+		int i = 0;
+		for (int swapNth : swapTreeNth.keySet()) {
+			walk.swapRenameTree(swapNth, swapWalk.getTree(i, CanonicalTreeParser.class));
+			if(hasAttributeNodeProvider) {
+				attributes[swapNth] = swapWalk.getAttributes(i);
+			}
+			i++;
+		}
+	}
+
+	private boolean processRenames(RevTree baseTree,
+			RevTree headTree, RevTree mergeTree, boolean ignoreConflicts) throws IOException {
+		for(Entry<String, RenameEntry> sourceRenameConflict : renameResolver.getSourceConflicts()){
+			reportRenameConflict(sourceRenameConflict.getValue(), baseTree, headTree, mergeTree, ignoreConflicts);
+		}
+
+		for (Entry<String, RenameEntry> baseRename : renameResolver.getRenamesNoConflicts()) {
+
+			RenameType renameType = baseRename.getValue().renameType;
+
+			RenameProcessingTreeWalk indexTw = new RenameProcessingTreeWalk(db, reader, renameResolver, false);
+			indexTw.addTree(baseTree == null ? new EmptyTreeIterator() : openTree(baseTree));
+			indexTw.addTree(headTree);
+			indexTw.addTree(mergeTree);
+			// Reuse the already used dirCacheBuildIterator, since otherwise entries are copied to DirCacheBuilder every time they are seen by the treeWalk
+			//dirCacheBuildIterator.reset();
+			//indexTw.addTree(dirCacheBuildIterator);
+			// We already walked the entire tree. We do not need to copy all entries to builder again.
+			DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder, false);
+			int dciPos = indexTw.addTree(buildIt);
+			if (workingTreeIterator != null) {
+				workingTreeIterator.reset();
+				indexTw.addTree(workingTreeIterator);
+				workingTreeIterator.setDirCacheIterator(indexTw, T_INDEX);
+			} else {
+				indexTw.setFilter(TreeFilter.ANY_DIFF);
+			}
+			indexTw.setAttributesNodeProvider(tw.getAttributesNodeProvider());
+
+			Attributes[] attributes = {NO_ATTRIBUTES, NO_ATTRIBUTES,
+					NO_ATTRIBUTES};;
+
+			// Always position at our path
+			if (renameType.equals(RenameType.RENAME_BOTH_NO_CONFLICT)) {
+				// position at rename path, position base at the original path
+				setUpRenameWalk(indexTw, baseRename.getValue().targetPath, new LinkedHashMap<>(){{put(T_BASE, baseTree);}}, baseRename.getKey(), attributes);
+			} else if (renameType.equals(RENAME_IN_OURS)) {
+				// position at ours, swap theirs & base
+				setUpRenameWalk(indexTw,baseRename.getValue().targetPath, new LinkedHashMap<>(){{put(T_BASE, baseTree); put(T_THEIRS, mergeTree);}}, baseRename.getKey(), attributes);
+			} else if (renameType.equals(RENAME_IN_THEIRS)) {
+				// position at ours (=base), the rename side (theirs) will be swapped
+				setUpRenameWalk(indexTw, baseRename.getKey(), new LinkedHashMap<>(){{put(T_THEIRS, mergeTree);}}, baseRename.getValue().targetPath, attributes);
+			}
+
+			indexTw.setPathName(baseRename.getValue().targetPath);
+			tw = indexTw;
+			boolean success = processEntry(indexTw.getTree(T_BASE, CanonicalTreeParser.class),
+					indexTw.getTree(T_OURS, CanonicalTreeParser.class),
+					indexTw.getTree(T_THEIRS, CanonicalTreeParser.class),
+					indexTw.getTree(T_INDEX, DirCacheBuildIterator.class),
+					tw.getTreeCount() > T_FILE ? indexTw.getTree(T_FILE,
+							WorkingTreeIterator.class) : null, ignoreConflicts,
+					attributes, /*isRenameProcessing=*/ true);
+			updateWorkingTree(indexTw.getTree(T_OURS, CanonicalTreeParser.class), tw, attributes);
+			if(!success){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void updateWorkingTree(CanonicalTreeParser ours, TreeWalk treeWalk, Attributes []attributes)
+			throws IOException {
+		boolean hasWorkingTreeEntry= treeWalk.getTreeCount() > T_FILE && treeWalk.getRawMode(T_FILE) != 0 ;
+		if(!hasWorkingTreeEntry || ours == null){
+			return;
+		}
+		String oldPath = ours.getEntryPathString();
+		if (!oldPath.equals(treeWalk.getPathString()) && !renameResolver.isTargetRename(oldPath) && nonTree(
+				ours.getEntryRawMode())) {
+			addDeletion(ours.getEntryPathString(), nonTree(ours.getEntryRawMode()), attributes[T_OURS]);
+		}
+	}
+
+	private void reportRenameConflict(RenameEntry renameEntry, RevTree base, RevTree ours, RevTree theirs, boolean ignoreConflicts)
+			throws IOException {
+		// TODO: this will always result in merge conflicts on criss-cross. Consider if we can do anything better.
+		if(ignoreConflicts){
+			return;
+		}
+		// Those are the only conflict that we process for now.
+		// For all other types of conflicts we just switch off the rename detection.
+		switch (renameEntry.renameConflict) {
+			case RENAME_BOTH_SIDES_CONFLICT: {
+				reportRenameRenameConflict(renameEntry, base, ours, theirs, ignoreConflicts);
+				break;
+			}
+			case RENAME_DELETE_CONFLICT: {
+				reportRenameDeleteConflict(renameEntry, base, ours, theirs);
+				break;
+			}
+		}
+	}
+
+	private void reportRenameRenameConflict( RenameEntry renameEntry, RevTree base, RevTree ours, RevTree theirs, boolean ignoreConflicts)
+			throws IOException {
+		MergeResult conflictResult = new MergeResult<>(Collections.emptyList());
+		conflictResult.setContainsConflicts(true);
+		TreeWalk baseWalk = getRenameWalk(base, renameEntry.getSourcePath());
+		TreeWalk oursWalk = getRenameWalk(ours, renameEntry.getTargetPath(T_OURS));
+		TreeWalk theirsWalk = getRenameWalk(theirs, renameEntry.getTargetPath(T_THEIRS));
+		add(baseWalk.getRawPath(), baseWalk.getTree(CanonicalTreeParser.class),
+				DirCacheEntry.STAGE_1, EPOCH, 0);
+		add(oursWalk.getRawPath(), oursWalk.getTree(CanonicalTreeParser.class),
+				DirCacheEntry.STAGE_2, EPOCH, 0);
+		DirCacheEntry theirsEntry = add(theirsWalk.getRawPath(), theirsWalk.getTree(CanonicalTreeParser.class),
+				DirCacheEntry.STAGE_3, EPOCH, 0);
+		// TODO: It seems like C-GIT attempts content merge on rename files, with both files populated with contents with conflict markers.
+		// Consider if we need this behavior (e.g. so that the user does not need to resolve content merge manually).
+		if (theirsEntry != null && nonTree(theirsEntry.getRawMode())) {
+			Attributes[] attributes = {NO_ATTRIBUTES, NO_ATTRIBUTES, NO_ATTRIBUTES};
+			attributes[T_THEIRS] =
+					theirsWalk.hasAttributeNodeProvider() ? theirsWalk.getAttributes() : NO_ATTRIBUTES;
+			// checkout is needed to make theirs available in the working tree
+			addToCheckout(theirsEntry.getPathString(), theirsEntry, attributes);
+		}
+		unmergedPaths.add(renameEntry.getSourcePath());
+		unmergedPaths.add(renameEntry.getTargetPath(T_OURS));
+		unmergedPaths.add(renameEntry.getTargetPath(T_THEIRS));
+		mergeResults.put(renameEntry.getSourcePath(), conflictResult);
+		mergeResults.put(renameEntry.getTargetPath(T_OURS), conflictResult);
+		mergeResults.put(renameEntry.getTargetPath(T_THEIRS), conflictResult);
+
+	}
+
+	private void reportRenameDeleteConflict(RenameEntry renameEntry, RevTree base, RevTree ours, RevTree theirs)
+			throws IOException {
+		int renameSide = renameEntry.getRenameType().equals(RENAME_IN_OURS)? T_OURS: T_THEIRS;
+		MergeResult conflictResult = new MergeResult<>(Collections.emptyList());
+		conflictResult.setContainsConflicts(true);
+		TreeWalk baseWalk = getRenameWalk(base, renameEntry.getSourcePath());
+		TreeWalk oursWalk = renameSide == T_OURS ? getRenameWalk(ours, renameEntry.getTargetPath()) : null;
+		TreeWalk theirsWalk = renameSide == T_THEIRS ? getRenameWalk(theirs, renameEntry.getTargetPath()) : null;
+		Attributes[] attributes = {NO_ATTRIBUTES, NO_ATTRIBUTES, NO_ATTRIBUTES };
+		if(tw.hasAttributeNodeProvider()) {
+			attributes[T_BASE] = baseWalk.getAttributes();
+			attributes[T_OURS] = oursWalk != null ? oursWalk.getAttributes() : NO_ATTRIBUTES;
+			attributes[T_THEIRS] =
+			attributes[T_THEIRS] =
+					theirsWalk != null ? theirsWalk.getAttributes() : NO_ATTRIBUTES;
+		}
+		byte[] rawTargetPath =
+				renameSide == T_OURS ? oursWalk.getRawPath() : theirsWalk.getRawPath();
+		add(rawTargetPath, baseWalk.getTree(CanonicalTreeParser.class),
+				DirCacheEntry.STAGE_1, EPOCH, 0);
+		if(oursWalk != null) {
+			add(rawTargetPath, oursWalk.getTree(CanonicalTreeParser.class),
+					DirCacheEntry.STAGE_2, EPOCH, 0);
+		}
+		if(theirsWalk != null) {
+			DirCacheEntry theirsEntry = add(rawTargetPath, theirsWalk.getTree(CanonicalTreeParser.class),
+					DirCacheEntry.STAGE_3, EPOCH, 0);
+			if (theirsEntry != null && nonTree(theirsEntry.getRawMode())) {
+				// checkout is needed to make theirs available in the working tree
+				addToCheckout(renameEntry.getTargetPath(), theirsEntry, attributes);
+			}
+		}
+		unmergedPaths.add(renameEntry.getTargetPath());
+		mergeResults.put(renameEntry.getTargetPath(), conflictResult);
+	}
+
 }
