@@ -16,8 +16,13 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -40,6 +45,8 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
  */
 public class DirCacheBuilder extends BaseDirCacheEditor {
 	private boolean sorted;
+
+	protected List<DirCacheEntry> entriesToRemove = new ArrayList<>();
 
 	/**
 	 * Construct a new builder.
@@ -220,8 +227,46 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		}
 	}
 
+	public void remove(DirCacheEntry entry){
+		entriesToRemove.add(entry);
+	}
+	private void removeForTesting(){
+		for(int i = 0 ; i < entryCnt; i++){
+			if(i%2==0){
+				remove(entries[i]);
+			}
+		}
+	}
+
+	private void removeEntries() {
+		Collections.sort(entriesToRemove, DirCache.ENT_CMP);
+		final DirCacheEntry[] n = new DirCacheEntry[entryCnt];
+		int i = 0;
+		int j = 0;
+		int ins = 0;
+		while (i < entryCnt) {
+			int cmp =
+					j < entriesToRemove.size() ? DirCache.ENT_CMP.compare(entries[i], entriesToRemove.get(j))
+							: -1;
+			if (cmp < 0) {
+				n[ins++] = entries[i++];
+			} else if (cmp > 0) {
+				j++;
+			} else {
+				i++;
+				j++;
+			}
+		}
+		entries = n;
+		entryCnt = ins;
+	}
+
 	private void resort() {
+		//removeForTesting();
 		Arrays.sort(entries, 0, entryCnt, DirCache.ENT_CMP);
+		if(!entriesToRemove.isEmpty()){
+			removeEntries();
+		}
 
 		for (int entryIdx = 1; entryIdx < entryCnt; entryIdx++) {
 			final DirCacheEntry pe = entries[entryIdx - 1];
