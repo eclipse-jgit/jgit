@@ -34,9 +34,8 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.eclipse.jgit.treewalk.AbstractTreeIterator;
-import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
@@ -179,8 +178,7 @@ public class RecursiveMerger extends ResolveMerger {
 				parents.add(nextBase);
 				RevCommit bc = getBaseCommit(currentBase, nextBase,
 						callDepth + 1);
-				AbstractTreeIterator bcTree = (bc == null) ? new EmptyTreeIterator()
-						: openTree(bc.getTree());
+				RevTree bcTree = bc == null ? null : bc.getTree();
 				if (mergeTrees(bcTree, currentBase.getTree(),
 						nextBase.getTree(), true))
 					currentBase = createCommitForTree(resultTree, parents);
