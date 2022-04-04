@@ -30,21 +30,26 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 /**
- * Encapsulate access to the .lfsconfig.
+ * Encapsulate access to the {@code .lfsconfig}.
+ * <p>
+ * According to the git lfs documentation the order to find the
+ * {@code .lfsconfig} file is:
+ * </p>
+ * <ol>
+ * <li>in the root of the working tree</li>
+ * <li>in the index</li>
+ * <li>in the HEAD; for bare repositories this is the only place that is
+ * searched</li>
+ * </ol>
+ * <p>
+ * Values from the {@code .lfsconfig} are used only if not specified in another
+ * git config file to allow local override without modifiction of a committed
+ * file.
+ * </p>
  *
- * According to the document
- * https://github.com/git-lfs/git-lfs/blob/main/docs/man/git-lfs-config.5.ronn
- * the order to find the .lfsconfig file is:
- *
- * <pre>
- *   1. in the root of the working tree
- *   2. in the index
- *   3. in the HEAD, for bare repositories this is the only place
- *      that is searched
- * </pre>
- *
- * Values from the .lfsconfig are used only if not specified in another git
- * config file to allow local override without modifiction of a committed file.
+ * @see <a href=
+ *      "https://github.com/git-lfs/git-lfs/blob/main/docs/man/git-lfs-config.5.ronn">Configuration
+ *      options for git-lfs</a>
  */
 public class LfsConfig {
 	private Repository db;
@@ -55,17 +60,30 @@ public class LfsConfig {
 	 *
 	 * @param db
 	 *            the associated repo
+	 */
+	public LfsConfig(Repository db) {
+		this.db = db;
+	}
+
+	/**
+	 * Getter for the delegate to allow lazy initialization.
+	 *
+	 * @return the delegate {@link Config}
 	 * @throws IOException
 	 */
-	public LfsConfig(Repository db) throws IOException {
-		this.db = db;
-		delegate = this.load();
+	private Config getDelegate() throws IOException {
+		if (delegate == null) {
+			delegate = this.load();
+		}
+		return delegate;
 	}
 
 	/**
 	 * Read the .lfsconfig file from the repository
 	 *
-	 * @return The loaded lfs config or null if it does not exist
+	 * An empty config is returned be empty if no lfs config exists.
+	 *
+	 * @return The loaded lfs config
 	 *
 	 * @throws IOException
 	 */
@@ -102,7 +120,7 @@ public class LfsConfig {
 			throws IOException {
 		File lfsConfig = db.getFS().resolve(db.getWorkTree(),
 				Constants.DOT_LFS_CONFIG);
-		if (lfsConfig.exists() && lfsConfig.isFile()) {
+		if (lfsConfig.isFile()) {
 			FileBasedConfig config = new FileBasedConfig(lfsConfig, db.getFS());
 			try {
 				config.load();
@@ -188,12 +206,14 @@ public class LfsConfig {
 	 * @param name
 	 *            the key name
 	 * @return a String value from the config, <code>null</code> if not found
+	 * @throws IOException
 	 */
+	@Nullable
 	public String getString(final String section, final String subsection,
-			final String name) {
+			final String name) throws IOException {
 		String result = db.getConfig().getString(section, subsection, name);
 		if (result == null) {
-			result = delegate.getString(section, subsection, name);
+			result = getDelegate().getString(section, subsection, name);
 		}
 		return result;
 	}
