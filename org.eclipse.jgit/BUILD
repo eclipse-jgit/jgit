@@ -16,6 +16,7 @@ RESOURCES = glob(["resources/**"])
 java_library(
     name = "jgit_non_stamped",
     srcs = SRCS,
+    javacopts = ["-XepDisableAllChecks"],
     resource_strip_prefix = "org.eclipse.jgit/resources",
     resources = RESOURCES,
     deps = [

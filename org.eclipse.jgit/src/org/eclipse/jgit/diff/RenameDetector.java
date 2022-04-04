@@ -466,7 +466,8 @@ public class RenameDetector {
 
 		for (int i = 0; i < entries.size(); i++) {
 			DiffEntry e = entries.get(i);
-			if (e.getChangeType() == ChangeType.MODIFY) {
+			if (e.getChangeType() == ChangeType.MODIFY && !FileMode.TREE.equals(e.getNewMode())
+					&& !FileMode.TREE.equals(e.getOldMode())) {
 				int score = calculateModifyScore(reader, e);
 				if (score < breakScore) {
 					List<DiffEntry> tmp = DiffEntry.breakModify(e);
