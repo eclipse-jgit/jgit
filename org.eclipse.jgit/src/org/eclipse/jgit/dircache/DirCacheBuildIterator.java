@@ -51,6 +51,7 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
  */
 public class DirCacheBuildIterator extends DirCacheIterator {
 	private final DirCacheBuilder builder;
+	private final boolean copyOnSkip;
 
 	/**
 	 * Create a new iterator for an already loaded DirCache instance.
@@ -64,14 +65,19 @@ public class DirCacheBuildIterator extends DirCacheIterator {
 	 *            already loaded into memory.
 	 */
 	public DirCacheBuildIterator(DirCacheBuilder dcb) {
+		this(dcb, true);
+	}
+	public DirCacheBuildIterator(DirCacheBuilder dcb, boolean copyOnSkip) {
 		super(dcb.getDirCache());
 		builder = dcb;
+		this.copyOnSkip = copyOnSkip;
 	}
 
 	DirCacheBuildIterator(final DirCacheBuildIterator p,
-			final DirCacheTree dct) {
+			final DirCacheTree dct, boolean copyOnSkip) {
 		super(p, dct);
 		builder = p.builder;
+		this.copyOnSkip = copyOnSkip;
 	}
 
 	/** {@inheritDoc} */
@@ -81,16 +87,18 @@ public class DirCacheBuildIterator extends DirCacheIterator {
 		if (currentSubtree == null)
 			throw new IncorrectObjectTypeException(getEntryObjectId(),
 					Constants.TYPE_TREE);
-		return new DirCacheBuildIterator(this, currentSubtree);
+		return new DirCacheBuildIterator(this, currentSubtree, this.copyOnSkip);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void skip() throws CorruptObjectException {
-		if (currentSubtree != null)
-			builder.keep(ptr, currentSubtree.getEntrySpan());
-		else
-			builder.keep(ptr, 1);
+		if(copyOnSkip) {
+			if (currentSubtree != null)
+				builder.keep(ptr, currentSubtree.getEntrySpan());
+			else
+				builder.keep(ptr, 1);
+		}
 		next(1);
 	}
 

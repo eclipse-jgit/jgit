@@ -421,6 +421,7 @@ public class RenameDetector {
 			if (0 < breakScore)
 				breakModifies(reader, pm);
 
+			// This detection does not work for the cases, when the file with the original name was added in addition to renaming the original file.
 			if (!added.isEmpty() && !deleted.isEmpty())
 				findExactRenames(pm);
 
@@ -466,7 +467,8 @@ public class RenameDetector {
 
 		for (int i = 0; i < entries.size(); i++) {
 			DiffEntry e = entries.get(i);
-			if (e.getChangeType() == ChangeType.MODIFY) {
+			if (e.getChangeType() == ChangeType.MODIFY && !FileMode.TREE.equals(e.getNewMode())
+					&& !FileMode.TREE.equals(e.getOldMode())) {
 				int score = calculateModifyScore(reader, e);
 				if (score < breakScore) {
 					List<DiffEntry> tmp = DiffEntry.breakModify(e);
