@@ -26,7 +26,7 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
  * <p>
  * Like {@link org.eclipse.jgit.dircache.DirCacheIterator} this iterator allows
  * a DirCache to be used in parallel with other sorts of iterators in a
- * TreeWalk. However any entry which appears in the source DirCache and which is
+ * TreeWalk. Unless {@link #copyOnSkip} is off, any entry which appears in the source DirCache and which is
  * skipped by the TreeFilter is automatically copied into
  * {@link org.eclipse.jgit.dircache.DirCacheBuilder}, thus retaining it in the
  * newly updated index.
@@ -53,25 +53,48 @@ public class DirCacheBuildIterator extends DirCacheIterator {
 	private final DirCacheBuilder builder;
 
 	/**
+	 * Whether the iterator should copy all seen entries to {@link #builder}.
+	 */
+	private final boolean copyOnSkip;
+
+	/**
 	 * Create a new iterator for an already loaded DirCache instance.
 	 * <p>
 	 * The iterator implementation may copy part of the cache's data during
 	 * construction, so the cache must be read in prior to creating the
 	 * iterator.
 	 *
+	 * <p>When walked by {@link org.eclipse.jgit.treewalk.TreeWalk}, the created iterator will copy entries, matched by {@link org.eclipse.jgit.treewalk.filter.TreeFilter} to the {@link org.eclipse.jgit.dircache.DirCacheBuilder}
+	 *
 	 * @param dcb
 	 *            the cache builder for the cache to walk. The cache must be
 	 *            already loaded into memory.
 	 */
 	public DirCacheBuildIterator(DirCacheBuilder dcb) {
+		this(dcb, true);
+	}
+
+	/**
+	 * Create a new iterator for an already loaded DirCache instance.
+	 * <p> With {@code copyOnSkip} false, this constructor can be used to create an iterator on {@link DirCacheBuilder}
+	 * that was walked before and thus contains all interesting entries already.
+	 *
+	 * @param dcb
+	 *            the cache builder for the cache to walk. The cache must be
+	 *            already loaded into memory.
+	 * @param copyOnSkip whether the iterator should copy the matched entries to {@link #builder}
+	 */
+	public DirCacheBuildIterator(DirCacheBuilder dcb, boolean copyOnSkip) {
 		super(dcb.getDirCache());
 		builder = dcb;
+		this.copyOnSkip = copyOnSkip;
 	}
 
 	DirCacheBuildIterator(final DirCacheBuildIterator p,
-			final DirCacheTree dct) {
+			final DirCacheTree dct, boolean copyOnSkip) {
 		super(p, dct);
 		builder = p.builder;
+		this.copyOnSkip = copyOnSkip;
 	}
 
 	/** {@inheritDoc} */
@@ -81,16 +104,18 @@ public class DirCacheBuildIterator extends DirCacheIterator {
 		if (currentSubtree == null)
 			throw new IncorrectObjectTypeException(getEntryObjectId(),
 					Constants.TYPE_TREE);
-		return new DirCacheBuildIterator(this, currentSubtree);
+		return new DirCacheBuildIterator(this, currentSubtree, this.copyOnSkip);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void skip() throws CorruptObjectException {
-		if (currentSubtree != null)
-			builder.keep(ptr, currentSubtree.getEntrySpan());
-		else
-			builder.keep(ptr, 1);
+		if(copyOnSkip) {
+			if (currentSubtree != null)
+				builder.keep(ptr, currentSubtree.getEntrySpan());
+			else
+				builder.keep(ptr, 1);
+		}
 		next(1);
 	}
 
