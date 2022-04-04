@@ -198,6 +198,21 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		return null;
 	}
 
+	public static boolean walkToPath(TreeWalk tw, final String path) throws IOException {
+		PathFilter f = PathFilter.create(path);
+		tw.setFilter(f);
+		tw.setRecursive(false);
+
+		while (tw.next()) {
+			if (f.isDone(tw)) {
+				return true;
+			} else if (tw.isSubtree()) {
+				tw.enterSubtree();
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Open a tree walk and filter to exactly one path.
 	 * <p>
@@ -1141,6 +1156,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	public byte[] getRawPath() {
 		final AbstractTreeIterator t = currentHead;
+		final int n = t.pathLen;
+		final byte[] r = new byte[n];
+		System.arraycopy(t.path, 0, r, 0, n);
+		return r;
+	}
+
+	public byte[] getRawPath(int nth) {
+		final AbstractTreeIterator t = trees[nth];
 		final int n = t.pathLen;
 		final byte[] r = new byte[n];
 		System.arraycopy(t.path, 0, r, 0, n);
