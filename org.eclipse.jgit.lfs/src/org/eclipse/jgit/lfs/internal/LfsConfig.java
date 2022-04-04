@@ -55,17 +55,30 @@ public class LfsConfig {
 	 *
 	 * @param db
 	 *            the associated repo
+	 */
+	public LfsConfig(Repository db) {
+		this.db = db;
+	}
+
+	/**
+	 * Getter for the delegate to allow lazy initialization.
+	 *
+	 * @return the delegate {@link Config}
 	 * @throws IOException
 	 */
-	public LfsConfig(Repository db) throws IOException {
-		this.db = db;
-		delegate = this.load();
+	private Config getDelegate() throws IOException {
+		if (delegate == null) {
+			delegate = this.load();
+		}
+		return delegate;
 	}
 
 	/**
 	 * Read the .lfsconfig file from the repository
 	 *
-	 * @return The loaded lfs config or null if it does not exist
+	 * An empty config is returned be empty if no lfs config exists.
+	 *
+	 * @return The loaded lfs config
 	 *
 	 * @throws IOException
 	 */
@@ -188,12 +201,14 @@ public class LfsConfig {
 	 * @param name
 	 *            the key name
 	 * @return a String value from the config, <code>null</code> if not found
+	 * @throws IOException
 	 */
+	@Nullable
 	public String getString(final String section, final String subsection,
-			final String name) {
+			final String name) throws IOException {
 		String result = db.getConfig().getString(section, subsection, name);
 		if (result == null) {
-			result = delegate.getString(section, subsection, name);
+			result = getDelegate().getString(section, subsection, name);
 		}
 		return result;
 	}
