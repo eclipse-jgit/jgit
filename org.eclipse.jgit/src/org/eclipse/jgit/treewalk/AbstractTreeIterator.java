@@ -331,7 +331,7 @@ public abstract class AbstractTreeIterator {
 			int cmp = pathCompare(name, 0, name.length, 0, pathOffset);
 			if (cmp == 0) {
 				return true;
-			} else if (cmp > 0) {
+			} else if (cmp < 0) {
 				return false;
 			}
 		}
