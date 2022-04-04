@@ -109,18 +109,18 @@ public abstract class ThreeWayMerger extends Merger {
 	 *         merge base of the two input commits.
 	 * @throws java.io.IOException
 	 */
-	protected AbstractTreeIterator mergeBase() throws IOException {
+	protected RevTree mergeBase() throws IOException {
 		if (baseTree != null) {
-			return openTree(baseTree);
+			return baseTree;
 		}
 		RevCommit baseCommit = (baseCommitId != null) ? walk
 				.parseCommit(baseCommitId) : getBaseCommit(sourceCommits[0],
 				sourceCommits[1]);
 		if (baseCommit == null) {
 			baseCommitId = null;
-			return new EmptyTreeIterator();
+			return null;
 		}
 		baseCommitId = baseCommit.toObjectId();
-		return openTree(baseCommit.getTree());
+		return baseCommit.getTree();
 	}
 }

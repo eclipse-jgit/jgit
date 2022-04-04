@@ -189,8 +189,13 @@ public class NameConflictTreeWalk extends TreeWalk {
 		return FileMode.GITLINK.equals(p.mode);
 	}
 
-	private static boolean isTree(AbstractTreeIterator p) {
-		return FileMode.TREE.equals(p.mode);
+	/**
+	 * Returns true if {@link AbstractTreeIterator} is positioned to a tree.
+	 * @param p {@link AbstractTreeIterator}
+	 * @return true if {@link AbstractTreeIterator} is positioned to a tree
+	 */
+	protected boolean isTree(AbstractTreeIterator p) {
+		return p != null && FileMode.TREE.equals(p.mode);
 	}
 
 	private boolean skipEntry(AbstractTreeIterator minRef)

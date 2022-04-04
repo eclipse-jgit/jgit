@@ -527,7 +527,7 @@ public final class ConfigConstants {
 	public static final String CONFIG_RENAMELIMIT_COPIES = "copies";
 
 	/**
-	 * The "renames" key in the "diff" section
+	 * The "renames" key in the "diff" or "merge" section
 	 * @since 3.0
 	 */
 	public static final String CONFIG_KEY_RENAMES = "renames";
