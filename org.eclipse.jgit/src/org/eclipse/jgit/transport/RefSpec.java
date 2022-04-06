@@ -532,6 +532,9 @@ public class RefSpec implements Serializable {
 		if (spec != null && !isValid(spec))
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().invalidRefSpec, spec));
+		if (spec == null || spec.isEmpty()) {
+			return null;
+		}
 		return spec;
 	}
 
