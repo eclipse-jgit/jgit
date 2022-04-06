@@ -159,7 +159,7 @@ public class RefSpec implements Serializable {
 			}
 		} else if (c > 0) {
 			String src = s.substring(0, c);
-			String dst = s.substring(c + 1);
+			String dst = c == s.length() - 1 ? null : s.substring(c + 1);
 			if (isWildcard(src) && isWildcard(dst)) {
 				// Both contain wildcard
 				wildcard = true;
