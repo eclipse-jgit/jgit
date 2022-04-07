@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b27fdba_8908bccc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-07T00:14:19Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "09749e38_4edd6b28",
+      "revId": "2e06256b04ae03fcff7534ab15c0409528b1d207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b8c8f28_eb79064c",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-31T07:35:57Z",
       "side": 1,
       "message": "Why do you pass this as a separate Collection? It could be in the toFetch Collection, and be separated out inside fetch()? Then no API change would be necessary, and usage would be simpler, too. Consider the case where the RefSpecs come from remote.\u003cname\u003e.fetch: the caller would have to analyze them and separate them. Right now, it can just pass all RefSpecs read.",
+      "revId": "2e06256b04ae03fcff7534ab15c0409528b1d207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c30546e1_c2631773",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-07T00:14:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b8c8f28_eb79064c",
       "revId": "2e06256b04ae03fcff7534ab15c0409528b1d207",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
