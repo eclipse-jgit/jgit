@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d50cd7f_cfdab86c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307367
+      },
+      "writtenOn": "2022-04-07T16:53:15Z",
+      "side": 1,
+      "message": "Hi, this commit tries to fix the bug described at https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d579445",
+      "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
