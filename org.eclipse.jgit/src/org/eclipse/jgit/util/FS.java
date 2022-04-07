@@ -285,7 +285,7 @@ public abstract class FS {
 		 * small keep-alive time to avoid delays on shut-down.
 		 * </p>
 		 */
-		private static final Executor SAVE_RUNNER = new ThreadPoolExecutor(0, 1,
+		private static final ThreadPoolExecutor SAVE_RUNNER = new ThreadPoolExecutor(0, 1,
 				1L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),
 				runnable -> {
 					Thread t = new Thread(runnable,
@@ -295,6 +295,16 @@ public abstract class FS {
 					t.setDaemon(false);
 					return t;
 				});
+
+		static {
+			// wait SAVE_RUNNER terminating when System.exit()
+			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+				try {
+					SAVE_RUNNER.shutdownNow();
+					SAVE_RUNNER.awaitTermination(100, TimeUnit.MILLISECONDS);
+				} catch (Exception e) {}
+			}));
+		}
 
 		/**
 		 * Whether FileStore attributes should be determined asynchronously
@@ -452,11 +462,13 @@ public abstract class FS {
 					return null;
 				}
 				// fall through and return fallback
-			} catch (IOException | InterruptedException
-					| ExecutionException | CancellationException e) {
+			} catch (IOException | ExecutionException | CancellationException e) {
 				LOG.error(e.getMessage(), e);
 			} catch (TimeoutException | SecurityException e) {
 				// use fallback
+			} catch (InterruptedException e) {
+				LOG.error(e.getMessage(), e);
+				Thread.currentThread().interrupt();
 			}
 			LOG.debug("{}: use fallback timestamp resolution for directory {}", //$NON-NLS-1$
 					Thread.currentThread(), dir);
@@ -474,6 +486,7 @@ public abstract class FS {
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			Instant end = Instant.now().plusSeconds(3);
 			try {
+				probe.toFile().deleteOnExit();
 				Files.createFile(probe);
 				do {
 					n++;
@@ -540,6 +553,7 @@ public abstract class FS {
 			}
 			Path probe = dir.resolve(".probe-" + UUID.randomUUID()); //$NON-NLS-1$
 			try {
+				probe.toFile().deleteOnExit();
 				Files.createFile(probe);
 				Duration fsResolution = getFsResolution(s, dir, probe);
 				Duration clockResolution = measureClockResolution();
