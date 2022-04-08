@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98335a4e_bde22038",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/FetchCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-04-08T22:19:01Z",
+      "side": 1,
+      "message": "I don\u0027t know these tests... Where is this ref created? How do the commits few lines above relate to it?",
+      "revId": "c1d33924b5493c676be5ad1371b6453bbbe1347a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
