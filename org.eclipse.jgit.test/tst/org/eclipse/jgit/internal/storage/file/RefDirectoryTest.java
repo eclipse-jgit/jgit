@@ -44,10 +44,12 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.Repeat;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.util.FS;
@@ -1335,6 +1337,39 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		}
 		Ref ref = refdir.findRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());
+	}
+
+	@Test
+	public void testReadPackedRefs_ReloadPackedRefListByDefault() throws IOException {
+		writePackedRefs(A.name() + " refs/heads/master\n");
+		RefDirectory testRefDir = (RefDirectory) refdir.getRepository().getRefDatabase();
+
+		RefDirectory.PackedRefList packedRefsList = testRefDir.getPackedRefs();
+		RefDirectory.PackedRefList readPackedRefsList = testRefDir.readPackedRefs(packedRefsList);
+
+		assertEquals(readPackedRefsList.getId(), packedRefsList.getId());
+		assertNotSame(packedRefsList, readPackedRefsList);
+	}
+
+	@Test
+	public void testReadPackedRefs_CompareByContentAvoidReloadPackedRefList() throws IOException {
+		StoredConfig repoConfig = refdir.getRepository().getConfig();
+		repoConfig.setBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_COMPARE_PACKED_REFS_BY_SHA1, false);
+		repoConfig.save();
+
+		writePackedRefs(A.name() + " refs/heads/master\n");
+		// Reopen the repository to reload the amended config
+		try (FileRepository testRepository = new FileRepository(diskRepo.getDirectory())) {
+			RefDirectory testRefDir = (RefDirectory) testRepository.getRefDatabase();
+
+			RefDirectory.PackedRefList packedRefsList = testRefDir.getPackedRefs();
+			RefDirectory.PackedRefList readPackedRefsList = testRefDir.readPackedRefs(packedRefsList);
+
+			assertEquals(readPackedRefsList.getId(), packedRefsList.getId());
+			assertSame(packedRefsList, readPackedRefsList);
+		}
 	}
 
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
