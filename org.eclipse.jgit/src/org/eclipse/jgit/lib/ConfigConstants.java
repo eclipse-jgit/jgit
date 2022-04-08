@@ -405,6 +405,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_FF = "ff";
 
 	/**
+	 * The "comparePackedRefsBySha1" key in the "core" section
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_COMPARE_PACKED_REFS_BY_SHA1 = "comparepackedrefsbysha1";
+
+	/**
 	 * The "conflictStyle" key.
 	 *
 	 * @since 5.12
