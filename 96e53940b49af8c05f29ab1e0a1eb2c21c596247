@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d59c7e_b8b21e2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-04-08T15:07:06Z",
+      "side": 1,
+      "message": "This is intended to be cherry-picked to stable-5.13 and then merged upstream. I\u0027m reporting this on stable-5.1 because I need this also on a Gerrit v2.16, but this isn\u0027t supposed to be merged here.",
+      "revId": "96e53940b49af8c05f29ab1e0a1eb2c21c596247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
