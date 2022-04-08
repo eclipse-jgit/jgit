@@ -59,16 +59,16 @@ import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -640,7 +640,7 @@ public class RefDirectory extends RefDatabase {
 			try {
 				LockFile lck = lockPackedRefsOrThrow();
 				try {
-					PackedRefList cur = readPackedRefs();
+					PackedRefList cur = readPackedRefs(null);
 					int idx = cur.find(name);
 					if (0 <= idx) {
 						commitPackedRefs(lck, cur.remove(idx), packed, true);
@@ -708,7 +708,7 @@ public class RefDirectory extends RefDatabase {
 			LockFile lck = lockPackedRefsOrThrow();
 			try {
 				final PackedRefList packed = getPackedRefs();
-				RefList<Ref> cur = readPackedRefs();
+				RefList<Ref> cur = readPackedRefs(null);
 
 				// Iterate over all refs to be packed
 				boolean dirty = false;
@@ -899,7 +899,7 @@ public class RefDirectory extends RefDatabase {
 			return curList;
 		}
 
-		final PackedRefList newList = readPackedRefs();
+		final PackedRefList newList = readPackedRefs(curList);
 		if (packedRefs.compareAndSet(curList, newList)
 				&& !curList.id.equals(newList.id)) {
 			modCnt.incrementAndGet();
@@ -907,20 +907,37 @@ public class RefDirectory extends RefDatabase {
 		return newList;
 	}
 
-	private PackedRefList readPackedRefs() throws IOException {
+	private PackedRefList readPackedRefs(PackedRefList oldPackedRefs) throws IOException {
 		int maxStaleRetries = 5;
 		int retries = 0;
 		while (true) {
 			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
 			final MessageDigest digest = Constants.newMessageDigest();
-			try (BufferedReader br = new BufferedReader(new InputStreamReader(
-					new DigestInputStream(new FileInputStream(packedRefsFile),
-							digest),
+			try {
+				byte[] packedRefsContent = Files
+						.readAllBytes(packedRefsFile.toPath());
+				if (oldPackedRefs != null
+						&& oldPackedRefs.packedRefsBytes != null
+						&& Arrays.equals(
+						oldPackedRefs.packedRefsBytes, packedRefsContent)) {
+					return oldPackedRefs;
+				}
+
+				try (BufferedReader br = new BufferedReader(
+						new InputStreamReader(
+								new ByteArrayInputStream(packedRefsContent),
 					UTF_8))) {
-				try {
 					return new PackedRefList(parsePackedRefs(br), snapshot,
-							ObjectId.fromRaw(digest.digest()));
-				} catch (IOException e) {
+							ObjectId.fromRaw(digest.digest(packedRefsContent)),
+							packedRefsContent);
+				}
+			} catch (NoSuchFileException noPackedRefs) {
+				if (packedRefsFile.exists()) {
+					throw noPackedRefs;
+				}
+				// Ignore it and leave the new list empty.
+				return NO_PACKED_REFS;
+			} catch (IOException e) {
 					if (FileUtils.isStaleFileHandleInCausalChain(e)
 							&& retries < maxStaleRetries) {
 						if (LOG.isDebugEnabled()) {
@@ -933,13 +950,6 @@ public class RefDirectory extends RefDatabase {
 					}
 					throw e;
 				}
-			} catch (FileNotFoundException noPackedRefs) {
-				if (packedRefsFile.exists()) {
-					throw noPackedRefs;
-				}
-				// Ignore it and leave the new list empty.
-				return NO_PACKED_REFS;
-			}
 		}
 	}
 
@@ -1029,7 +1039,8 @@ public class RefDirectory extends RefDatabase {
 
 				byte[] digest = Constants.newMessageDigest().digest(content);
 				PackedRefList newPackedList = new PackedRefList(
-						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
+						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest),
+						content);
 
 				// This thread holds the file lock, so no other thread or process should
 				// be able to modify the packed-refs file on disk. If the list changed,
@@ -1335,16 +1346,20 @@ public class RefDirectory extends RefDatabase {
 
 		private final ObjectId id;
 
-		private PackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId i) {
+		private final byte[] packedRefsBytes;
+
+		private PackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId i,
+				byte[] refsBytes) {
 			super(src);
 			snapshot = s;
 			id = i;
+			packedRefsBytes = refsBytes;
 		}
 	}
 
 	private static final PackedRefList NO_PACKED_REFS = new PackedRefList(
 			RefList.emptyList(), FileSnapshot.MISSING_FILE,
-			ObjectId.zeroId());
+			ObjectId.zeroId(), null);
 
 	private static LooseSymbolicRef newSymbolicRef(FileSnapshot snapshot,
 			String name, String target) {

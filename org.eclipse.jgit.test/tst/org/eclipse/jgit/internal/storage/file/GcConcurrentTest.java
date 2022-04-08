@@ -51,6 +51,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.nio.channels.ClosedByInterruptException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.BrokenBarrierException;
@@ -267,7 +268,8 @@ public class GcConcurrentTest extends GcTestCase {
 			} else if (cause instanceof IOException) {
 				Throwable cause2 = cause.getCause();
 				assertTrue(cause2 instanceof InterruptedException
-						|| cause2 instanceof ExecutionException);
+						|| cause2 instanceof ExecutionException
+						|| cause instanceof ClosedByInterruptException);
 			} else {
 				fail("unexpected exception " + e);
 			}
