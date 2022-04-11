@@ -16,6 +16,24 @@
       "message": "I don\u0027t know these tests... Where is this ref created? How do the commits few lines above relate to it?",
       "revId": "c1d33924b5493c676be5ad1371b6453bbbe1347a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46786685_4cce8bcc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/FetchCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-11T21:17:48Z",
+      "side": 1,
+      "message": "The remoteGit is the repository and res is the FetchResult res is the result of the fetch from remoteGit to an empty local repo. And in this test case, we asked to fetch all refs from remote(refs/*) to a subdirectory of the local repo (refs/secret/*) except to the destination which matches certain format (^:refs/secret/*/data). The content in variable res verified that, the refs/secret/heads/master is updated while refs/secret/development/data is not.\n\nAlso, in ^:refs/secret/*/data, ^ means negative and : means destination.",
+      "parentUuid": "98335a4e_bde22038",
+      "revId": "c1d33924b5493c676be5ad1371b6453bbbe1347a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
