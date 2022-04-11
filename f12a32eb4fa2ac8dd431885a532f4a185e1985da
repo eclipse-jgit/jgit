@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8625613d_a9192979",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-11T22:10:04Z",
+      "side": 1,
+      "message": "\u003e This is tricky, because it seems #checkIsValid is NOT used in all cases to set src/destination.\n\nIn the primary constructor(line 133 to line 184), the dstName and srcName is not assigned, assigned through #checkIsValid or set to refs/heads/*. So if #checkIsValid is modified in this change, all empty/unavailable src/dest will be null.\n\n\u003e I guess your intention is:\n\u003e \"RefSpec#getDestination: return null if empty/undefined\"\n\nYes.\n\n\u003e Leave the consistency explanation for the commit message. I think this title is more helpful if later something breaks and you are looking for related changes.\n\nDone.",
+      "parentUuid": "22945c7f_d940f926",
+      "revId": "f12a32eb4fa2ac8dd431885a532f4a185e1985da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb605ec2_20b2d977",
@@ -37,6 +55,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4b285543_b58b43ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-11T22:10:04Z",
+      "side": 1,
+      "message": "\u003e \"Currenty an empty destination in a refspec is returned as empty string, while an empty source is returned as null.\n\u003e \n\u003e Make both return null when undefined, so the API is consistent.\"\n\nI\u0027d stick to my example, because there\u0027s no definition for undefined src or dest. Say \":refs/heads/master\", is the src of this refspec empty or undefined?\n\n\u003e Besides consistency, is there any other reason to change this? is it needed/helpful for a follow up change?\n\nNo. I think this one is not a necessary but a good-to-have change.",
+      "parentUuid": "cb605ec2_20b2d977",
+      "revId": "f12a32eb4fa2ac8dd431885a532f4a185e1985da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "128a5fdb_607a5ce1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -48,6 +84,24 @@
       "writtenOn": "2022-04-08T17:55:55Z",
       "side": 1,
       "message": "Thanks for the tests cases. Minor comments about the commit message.\n\nThis class sets src/destination in so many paths that it is difficult to see if this change has unintended consequences. I rely on other jgit changes to verify it is not breaking anything.",
+      "revId": "f12a32eb4fa2ac8dd431885a532f4a185e1985da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21c3009_7bb87f51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-11T22:10:04Z",
+      "side": 1,
+      "message": "Maybe this change is optional for my negative refspecs. I just want to fix the behavior when I spotted this. \n\nI believe it\u0027s not breaking anything. The diff between patchset 2, which builds successfully and patchset 4, which fails in build is only a few spaces. Also the error info is about a test which I didn\u0027t touch at all.",
+      "parentUuid": "128a5fdb_607a5ce1",
       "revId": "f12a32eb4fa2ac8dd431885a532f4a185e1985da",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
