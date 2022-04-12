@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fe2f04e_c7766513",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-04-12T21:35:23Z",
+      "side": 1,
+      "message": "Broken sentence in the javadoc",
+      "revId": "013ec628c1ac6a2fe40b1ad6803e45bb75a4c39b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
