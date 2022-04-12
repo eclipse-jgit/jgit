@@ -216,8 +216,11 @@ class UploadPackServlet extends HttpServlet {
 			log(up.getRepository(), e);
 			if (!rsp.isCommitted()) {
 				rsp.reset();
-				String msg = e instanceof PackProtocolException ? e.getMessage()
-						: null;
+				String msg = null;
+				if (e instanceof PackProtocolException ||
+						e instanceof ServiceNotEnabledException) {
+					msg = e.getMessage();
+				}
 				sendError(req, rsp, SC_INTERNAL_SERVER_ERROR, msg);
 			}
 		}
