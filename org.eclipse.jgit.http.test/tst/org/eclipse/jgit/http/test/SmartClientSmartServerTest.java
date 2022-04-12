@@ -57,7 +57,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TransportConfigCallback;
-import org.eclipse.jgit.errors.RemoteRepositoryException;
+import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.http.server.GitServlet;
@@ -496,8 +496,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 			try {
 				t.openFetch();
 				fail("fetch connection opened");
-			} catch (RemoteRepositoryException notFound) {
-				assertEquals(uri + ": Git repository not found",
+			} catch (NoRemoteRepositoryException notFound) {
+				assertEquals(uri + ": " + uri
+						+ "/info/refs?service=git-upload-pack not found: Not Found",
 						notFound.getMessage());
 			}
 		}
@@ -510,7 +511,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(join(uri, "info/refs"), info.getPath());
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-upload-pack", info.getParameter("service"));
-		assertEquals(200, info.getStatus());
+		assertEquals(404, info.getStatus());
 		assertEquals("application/x-git-upload-pack-advertisement",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
 	}
@@ -536,7 +537,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 							Collections.singletonList(
 									new RefSpec(unreachableCommit.name()))));
 			assertTrue(e.getMessage().contains(
-					"want " + unreachableCommit.name() + " not valid"));
+					"Bad Request"));
 		}
 	}
 
@@ -558,7 +559,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 					() -> t.fetch(NullProgressMonitor.INSTANCE,
 							Collections.singletonList(new RefSpec(A.name()))));
 			assertTrue(
-					e.getMessage().contains("want " + A.name() + " not valid"));
+					e.getMessage().contains("Bad Request"));
 		}
 	}
 
@@ -1605,7 +1606,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 			fail("Server accepted want " + id.name());
 		} catch (TransportException err) {
 			assertTrue(err.getMessage()
-					.contains("want " + id.name() + " not valid"));
+					.contains("Bad Request"));
 		}
 	}
 
@@ -1650,7 +1651,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 				fail("Successfully served ref with value " + c.getRef(master));
 			} catch (TransportException err) {
 				assertTrue("Unexpected exception message " + err.getMessage(),
-						err.getMessage().contains("Internal server error"));
+						err.getMessage().contains("Server Error"));
 			}
 		} finally {
 			noRefServer.tearDown();
