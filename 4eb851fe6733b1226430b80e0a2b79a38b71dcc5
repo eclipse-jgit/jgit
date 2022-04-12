@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1360be50_cb65af3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-12T18:42:14Z",
+      "side": 1,
+      "message": "I\u0027d drop this because there might be some unpredictable breakage due to many references to this API.",
+      "revId": "4eb851fe6733b1226430b80e0a2b79a38b71dcc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
