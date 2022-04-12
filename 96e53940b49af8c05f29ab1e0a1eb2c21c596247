@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba3a6d27_dfa4e715",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2022-04-12T22:17:41Z",
+      "side": 1,
+      "message": "This is a neat discovery, and these numbers are shocking. It should not take longer to process a very simple file than it does to read the data from NFS, if it does, it signals that something in the code is problematic. Can you figure out what is taking so long? Is it calculating the sha1 (something that it seems like we should not need to do)? I suspect that we don\u0027t actually want to waste memory storing the contents of a file twice as this change does, as this does not scale well for bigger files.",
+      "revId": "96e53940b49af8c05f29ab1e0a1eb2c21c596247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "09d59c7e_b8b21e2a",
