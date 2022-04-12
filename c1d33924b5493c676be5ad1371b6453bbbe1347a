@@ -34,6 +34,24 @@
       "parentUuid": "98335a4e_bde22038",
       "revId": "c1d33924b5493c676be5ad1371b6453bbbe1347a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee268977_3196ba30",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/FetchCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-12T20:16:51Z",
+      "side": 1,
+      "message": "I just realized that I accidentally deleted some branch creation code after patchset 12, which caused confusion here.",
+      "parentUuid": "46786685_4cce8bcc",
+      "revId": "c1d33924b5493c676be5ad1371b6453bbbe1347a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
