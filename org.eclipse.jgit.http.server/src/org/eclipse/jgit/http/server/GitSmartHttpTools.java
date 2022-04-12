@@ -158,11 +158,11 @@ public class GitSmartHttpTools {
 		}
 
 		if (isInfoRefs(req)) {
-			sendInfoRefsError(req, res, textForGit);
+			sendInfoRefsError(req, res, textForGit, httpStatus);
 		} else if (isUploadPack(req)) {
-			sendUploadPackError(req, res, textForGit);
+			sendUploadPackError(req, res, textForGit, httpStatus);
 		} else if (isReceivePack(req)) {
-			sendReceivePackError(req, res, textForGit);
+			sendReceivePackError(req, res, textForGit, httpStatus);
 		} else {
 			if (httpStatus < 400)
 				ServletUtils.consumeRequestBody(req);
@@ -171,29 +171,32 @@ public class GitSmartHttpTools {
 	}
 
 	private static void sendInfoRefsError(HttpServletRequest req,
-			HttpServletResponse res, String textForGit) throws IOException {
+			HttpServletResponse res, String textForGit, int httpStatus)
+			throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
 		PacketLineOut pck = new PacketLineOut(buf);
 		String svc = req.getParameter("service");
 		pck.writeString("# service=" + svc + "\n");
 		pck.end();
 		pck.writeString("ERR " + textForGit);
-		send(req, res, infoRefsResultType(svc), buf.toByteArray());
+		send(req, res, infoRefsResultType(svc), buf.toByteArray(), httpStatus);
 	}
 
 	private static void sendUploadPackError(HttpServletRequest req,
-			HttpServletResponse res, String textForGit) throws IOException {
+			HttpServletResponse res, String textForGit, int httpStatus)
+			throws IOException {
 		// Do not use sideband. Sideband is acceptable only while packfile is
 		// being sent. Other places, like acknowledgement section, do not
 		// support sideband. Use an error packet.
 		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
 		PacketLineOut pckOut = new PacketLineOut(buf);
 		writePacket(pckOut, textForGit);
-		send(req, res, UPLOAD_PACK_RESULT_TYPE, buf.toByteArray());
+		send(req, res, UPLOAD_PACK_RESULT_TYPE, buf.toByteArray(), httpStatus);
 	}
 
 	private static void sendReceivePackError(HttpServletRequest req,
-			HttpServletResponse res, String textForGit) throws IOException {
+			HttpServletResponse res, String textForGit, int httpStatus)
+			throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
 		PacketLineOut pckOut = new PacketLineOut(buf);
 
@@ -212,7 +215,7 @@ public class GitSmartHttpTools {
 			writeSideBand(buf, textForGit);
 		else
 			writePacket(pckOut, textForGit);
-		send(req, res, RECEIVE_PACK_RESULT_TYPE, buf.toByteArray());
+		send(req, res, RECEIVE_PACK_RESULT_TYPE, buf.toByteArray(), httpStatus);
 	}
 
 	private static boolean isReceivePackSideBand(HttpServletRequest req) {
@@ -246,9 +249,9 @@ public class GitSmartHttpTools {
 	}
 
 	private static void send(HttpServletRequest req, HttpServletResponse res,
-			String type, byte[] buf) throws IOException {
+			String type, byte[] buf, int httpStatus) throws IOException {
 		ServletUtils.consumeRequestBody(req);
-		res.setStatus(HttpServletResponse.SC_OK);
+		res.setStatus(httpStatus);
 		res.setContentType(type);
 		res.setContentLength(buf.length);
 		try (OutputStream os = res.getOutputStream()) {
