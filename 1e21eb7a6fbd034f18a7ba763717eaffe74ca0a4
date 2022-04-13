@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d2dc60_e536a03e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-13T17:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8f7450b_5a9e6f10",
+      "range": {
+        "startLine": 516,
+        "startChar": 2,
+        "endLine": 516,
+        "endChar": 13
+      },
+      "revId": "1e21eb7a6fbd034f18a7ba763717eaffe74ca0a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "223bb223_a3bee30b",
@@ -60,6 +84,48 @@
         "endLine": 499,
         "endChar": 31
       },
+      "revId": "1e21eb7a6fbd034f18a7ba763717eaffe74ca0a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "210556fb_ebd59e20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-13T17:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b17ce40a_90bdcd22",
+      "range": {
+        "startLine": 499,
+        "startChar": 17,
+        "endLine": 499,
+        "endChar": 31
+      },
+      "revId": "1e21eb7a6fbd034f18a7ba763717eaffe74ca0a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "944a5de5_7ce22651",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-04-13T17:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "223bb223_a3bee30b",
       "revId": "1e21eb7a6fbd034f18a7ba763717eaffe74ca0a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
