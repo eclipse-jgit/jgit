@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "223bb223_a3bee30b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-04-13T17:05:32Z",
+      "side": 1,
+      "message": "static? it doesn\u0027t use any class member",
+      "revId": "1e21eb7a6fbd034f18a7ba763717eaffe74ca0a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17ce40a_90bdcd22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-04-13T17:05:32Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 499,
+        "startChar": 17,
+        "endLine": 499,
+        "endChar": 31
+      },
+      "revId": "1e21eb7a6fbd034f18a7ba763717eaffe74ca0a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
