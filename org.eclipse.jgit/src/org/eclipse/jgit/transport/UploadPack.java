@@ -2023,7 +2023,8 @@ public class UploadPack {
 							.filter(obj -> !(obj instanceof RevCommit))
 							.limit(1)
 							.collect(Collectors.toList()).get(0);
-					throw new WantNotValidException(nonCommit);
+					throw new WantNotValidException(nonCommit,
+							new Exception("Cannot walk without bitmaps")); //$NON-NLS-1$
 				}
 
 				try (ObjectWalk objWalk = walk.toObjectWalkWithSameObjects()) {
@@ -2037,6 +2038,11 @@ public class UploadPack {
 					Optional<RevObject> unreachable = reachabilityChecker
 							.areAllReachable(wantsAsObjs, startersAsObjs);
 					if (unreachable.isPresent()) {
+						if (!repoHasBitmaps) {
+							throw new WantNotValidException(
+									unreachable.get(), new Exception(
+											"Retry with bitmaps enabled")); //$NON-NLS-1$
+						}
 						throw new WantNotValidException(unreachable.get());
 					}
 				}
