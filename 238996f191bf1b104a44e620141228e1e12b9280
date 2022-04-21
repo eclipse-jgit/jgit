@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "8a3073ec_d64fb785",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
@@ -20,10 +21,10 @@
         "endChar": 55
       },
       "revId": "238996f191bf1b104a44e620141228e1e12b9280",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fd49b319_496c6519",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
@@ -44,10 +45,10 @@
         "endChar": 55
       },
       "revId": "238996f191bf1b104a44e620141228e1e12b9280",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8ebd8cd0_8a2505f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
@@ -68,10 +69,10 @@
         "endChar": 55
       },
       "revId": "238996f191bf1b104a44e620141228e1e12b9280",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b892a693_57881583",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
@@ -92,8 +93,31 @@
         "endChar": 55
       },
       "revId": "238996f191bf1b104a44e620141228e1e12b9280",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea1120c_b0ad433a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-04-21T07:56:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b892a693_57881583",
+      "range": {
+        "startLine": 244,
+        "startChar": 7,
+        "endLine": 245,
+        "endChar": 55
+      },
+      "revId": "238996f191bf1b104a44e620141228e1e12b9280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
