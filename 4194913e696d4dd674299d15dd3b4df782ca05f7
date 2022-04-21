@@ -141,6 +141,30 @@
       },
       "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb5959d_d2bdc939",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-04-21T07:57:25Z",
+      "side": 1,
+      "message": "@Matthias?",
+      "parentUuid": "8f25035a_78d96a0b",
+      "range": {
+        "startLine": 97,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
