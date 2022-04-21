@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b89b940a_d8bdcb36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-04-21T08:01:16Z",
+      "side": 1,
+      "message": "\u003e This is a neat discovery, and these numbers are shocking. It should not take longer to process a very simple file than it does to read the data from NFS, if it does, it signals that something in the code is problematic.\n\nYes, exactly. I was also shocked when I saw that reading a 30M file from a local high-perf SSD was taking *hundreds of millisecs* !!!\n\n\u003e Can you figure out what is taking so long? Is it calculating the sha1 (something that it seems like we should not need to do)?\n\nIt\u0027s both, but I can measure how much they contributed to the overall 90% bottleneck.\n\n\u003e I suspect that we don\u0027t actually want to waste memory storing the contents of a file twice as this change does, as this does not scale well for bigger files.\n\nWell, we already waste a lot of space because the caching logic of packed-refs isn\u0027t very advanced: we store the *whole* content in memory in millions of Java objects, which is bad. I agree we should look at options to save memory regardless, any idea?",
+      "parentUuid": "ba3a6d27_dfa4e715",
+      "revId": "96e53940b49af8c05f29ab1e0a1eb2c21c596247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "09d59c7e_b8b21e2a",
