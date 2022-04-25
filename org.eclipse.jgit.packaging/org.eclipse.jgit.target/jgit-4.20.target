@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.20" sequenceNumber="1668805509">
+<target name="jgit-4.20" sequenceNumber="1668807163">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="jakarta.servlet-api" version="4.0.0"/>
@@ -53,10 +53,10 @@
       <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.13.v20221112-0806"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.15.v20220209-2345"/>
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.15.v20220209-2345"/>
-      <unit id="org.apache.sshd.osgi" version="2.8.0.v20211227-1750"/>
-      <unit id="org.apache.sshd.osgi.source" version="2.8.0.v20211227-1750"/>
-      <unit id="org.apache.sshd.sftp" version="2.8.0.v20211227-1750"/>
-      <unit id="org.apache.sshd.sftp.source" version="2.8.0.v20211227-1750"/>
+      <unit id="org.apache.sshd.osgi" version="2.9.2.v20221117-1942"/>
+      <unit id="org.apache.sshd.osgi.source" version="2.9.2.v20221117-1942"/>
+      <unit id="org.apache.sshd.sftp" version="2.9.2.v20221117-1942"/>
+      <unit id="org.apache.sshd.sftp.source" version="2.9.2.v20221117-1942"/>
       <unit id="org.assertj" version="3.20.2.v20210706-1104"/>
       <unit id="org.assertj.source" version="3.20.2.v20210706-1104"/>
       <unit id="org.bouncycastle.bcpg" version="1.72.0.v20221013-1810"/>
