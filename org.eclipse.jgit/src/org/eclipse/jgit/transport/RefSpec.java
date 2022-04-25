@@ -320,6 +320,7 @@ public class RefSpec implements Serializable {
 	 * Check if this specification is a negative one.
 	 *
 	 * @return true if this specification is negative.
+	 * @since 6.2
 	 */
 	public boolean isNegative() {
 		return negative;
