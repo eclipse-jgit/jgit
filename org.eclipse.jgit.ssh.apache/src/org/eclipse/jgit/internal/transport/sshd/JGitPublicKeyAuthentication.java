@@ -126,17 +126,6 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 	@Override
 	protected PublicKeyIdentity resolveAttemptedPublicKeyIdentity(
 			ClientSession session, String service) throws Exception {
-		PublicKeyIdentity result = getNextKey(session, service);
-		// This fixes SSHD-1231. Can be removed once we're using Apache MINA
-		// sshd > 2.8.0.
-		//
-		// See https://issues.apache.org/jira/browse/SSHD-1231
-		currentAlgorithms.clear();
-		return result;
-	}
-
-	private PublicKeyIdentity getNextKey(ClientSession session, String service)
-			throws Exception {
 		PublicKeyIdentity id = super.resolveAttemptedPublicKeyIdentity(session,
 				service);
 		if (addKeysToAgent && id != null && !(id instanceof KeyAgentIdentity)) {
