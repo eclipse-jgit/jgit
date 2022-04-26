@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2113317_1c937b30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-04-26T05:14:37Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded sshd-core artifacts built from tip of master with this PR: [1] applied to: [2]. So hat now Bazel build could be updated, like I did in: [3].\n\n[1] https://github.com/apache/mina-sshd/pull/217\n[2] https://github.com/davido/mina-sshd/releases/tag/sshd-2.9.0\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/335738",
+      "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
