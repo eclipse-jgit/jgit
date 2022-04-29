@@ -205,8 +205,13 @@ class FetchProcess {
 
 		BatchRefUpdate batch = transport.local.getRefDatabase()
 				.newBatchUpdate()
-				.setAllowNonFastForwards(true)
-				.setRefLogMessage("fetch", true); //$NON-NLS-1$
+				.setAllowNonFastForwards(true);
+
+		// Generate reflog only when fetching updates and not at the first clone
+		if (initialBranch == null) {
+			batch.setRefLogMessage("fetch", true); //$NON-NLS-1$
+		}
+
 		try (RevWalk walk = new RevWalk(transport.local)) {
 			walk.setRetainBody(false);
 			if (monitor instanceof BatchingProgressMonitor) {
