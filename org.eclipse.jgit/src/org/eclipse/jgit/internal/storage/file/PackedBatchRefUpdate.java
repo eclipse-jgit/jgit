@@ -32,6 +32,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory.PackedRefList;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -425,29 +426,59 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			if (isRefLogIncludingResult(cmd)) {
 				String strResult = toResultString(cmd);
 				if (strResult != null) {
-					msg = msg.isEmpty()
-							? strResult : msg + ": " + strResult; //$NON-NLS-1$
+					msg = msg.isEmpty() ? strResult : msg + ": " + strResult; //$NON-NLS-1$
 				}
 			}
 			try {
-				new ReflogWriter(refdb, isForceRefLog(cmd))
-						.log(name, cmd.getOldId(), cmd.getNewId(), ident, msg);
+				new ReflogWriter(refdb, isForceRefLog(cmd)).log(name,
+						cmd.getOldId(), cmd.getNewId(), ident, msg);
 			} catch (IOException e) {
-				// Ignore failures, but continue attempting to write more reflogs.
+				// Ignore failures, but continue attempting to write more
+				// reflogs.
 				//
-				// In this storage format, it is impossible to atomically write the
+				// In this storage format, it is impossible to atomically write
+				// the
 				// reflog with the ref updates, so we have to choose between:
-				// a. Propagating this exception and claiming failure, even though the
-				//    actual ref updates succeeded.
-				// b. Ignoring failures writing the reflog, so we claim success if and
-				//    only if the ref updates succeeded.
+				// a. Propagating this exception and claiming failure, even
+				// though the
+				// actual ref updates succeeded.
+				// b. Ignoring failures writing the reflog, so we claim success
+				// if and
+				// only if the ref updates succeeded.
 				// We choose (b) in order to surprise callers the least.
 				//
 				// Possible future improvements:
 				// * Log a warning to a logger.
-				// * Retry a fixed number of times in case the error was transient.
+				// * Retry a fixed number of times in case the error was
+				// transient.
 			}
 		}
+	}
+
+	/**
+	 * Packed-refs could be associated with a clone of a remote repository
+	 * including a large number of remote-tracking refs. The storage of those
+	 * refs as a single packed-refs file isn't a issue; however, the creation of
+	 * a large number of refs logs associated with them could create big issues
+	 * and also cause the saturation of the filesystem indes.
+	 *
+	 * The C implementation of git does not store a reflog when executing a
+	 * transaction using a packed-refs file, as documented in packed-backend.c:
+	 *
+	 * [...] A `ref_store` representing references stored in a `packed-refs`
+	 * file. It implements the `ref_store` interface, though it has some
+	 * limitations:
+	 *
+	 * - It cannot store symbolic references.
+	 *
+	 * - It cannot store reflogs.
+	 *
+	 * [...]
+	 */
+	@Override
+	protected boolean isRefLogDisabled(ReceiveCommand cmd) {
+		return cmd.getRefName().startsWith(Constants.R_REMOTES)
+				|| super.isRefLogDisabled();
 	}
 
 	private String toResultString(ReceiveCommand cmd) {
