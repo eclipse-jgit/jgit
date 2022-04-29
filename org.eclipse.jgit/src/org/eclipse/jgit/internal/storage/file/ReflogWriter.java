@@ -104,6 +104,9 @@ public class ReflogWriter {
 	/**
 	 * Write the given entry to the ref's log.
 	 *
+	 * NOTE: log entries associated with remote-tracking refs (refs/remotes/*)
+	 * are not written to reflog.
+	 *
 	 * @param refName
 	 *            a {@link java.lang.String} object.
 	 * @param entry
@@ -119,6 +122,9 @@ public class ReflogWriter {
 
 	/**
 	 * Write the given entry information to the ref's log
+	 *
+	 * NOTE: log entries associated with remote-tracking refs (refs/remotes/*)
+	 * are not written to reflog.
 	 *
 	 * @param refName
 	 *            ref name
@@ -141,6 +147,9 @@ public class ReflogWriter {
 
 	/**
 	 * Write the given ref update to the ref's log.
+	 *
+	 * NOTE: Updates associated with remote-tracking refs (refs/remotes/*) do
+	 * not generate a reflog.
 	 *
 	 * @param update
 	 *            a {@link org.eclipse.jgit.lib.RefUpdate}
@@ -206,24 +215,26 @@ public class ReflogWriter {
 	}
 
 	private ReflogWriter log(String refName, byte[] rec) throws IOException {
-		File log = refdb.logFor(refName);
-		boolean write = forceWrite
-				|| shouldAutoCreateLog(refName)
-				|| log.isFile();
-		if (!write)
-			return this;
+		if (!refName.startsWith(R_REMOTES)) {
+			File log = refdb.logFor(refName);
+			boolean write = forceWrite || shouldAutoCreateLog(refName)
+					|| log.isFile();
+			if (!write)
+				return this;
 
-		WriteConfig wc = refdb.getRepository().getConfig().get(WriteConfig.KEY);
-		try (FileOutputStream out = getFileOutputStream(log)) {
-			if (wc.getFSyncRefFiles()) {
-				FileChannel fc = out.getChannel();
-				ByteBuffer buf = ByteBuffer.wrap(rec);
-				while (0 < buf.remaining()) {
-					fc.write(buf);
+			WriteConfig wc = refdb.getRepository().getConfig()
+					.get(WriteConfig.KEY);
+			try (FileOutputStream out = getFileOutputStream(log)) {
+				if (wc.getFSyncRefFiles()) {
+					FileChannel fc = out.getChannel();
+					ByteBuffer buf = ByteBuffer.wrap(rec);
+					while (0 < buf.remaining()) {
+						fc.write(buf);
+					}
+					fc.force(true);
+				} else {
+					out.write(rec);
 				}
-				fc.force(true);
-			} else {
-				out.write(rec);
 			}
 		}
 		return this;
