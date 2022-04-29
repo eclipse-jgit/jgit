@@ -799,6 +799,25 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void refLogNotWrittenForRemoteTrackingRefs() throws Exception {
+		assumeFalse(useReftable);
+		setLogAllRefUpdates(true);
+
+		String remoteTrackingRef = Constants.R_REMOTES + "heads/master";
+		writeRef(remoteTrackingRef, A);
+
+		Map<String, ReflogEntry> oldLogs = getLastReflogs(remoteTrackingRef);
+		assertTrue(oldLogs.isEmpty());
+
+		List<ReceiveCommand> cmds = Arrays
+				.asList(new ReceiveCommand(A, B, remoteTrackingRef, UPDATE));
+		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", false));
+
+		assertResults(cmds, OK);
+		assertReflogUnchanged(oldLogs, remoteTrackingRef);
+	}
+
+	@Test
 	public void forceRefLogInUpdate() throws Exception {
 		assumeFalse(useReftable);
 
