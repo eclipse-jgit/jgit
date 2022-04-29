@@ -104,6 +104,9 @@ public class ReflogWriter {
 	/**
 	 * Write the given entry to the ref's log.
 	 *
+	 * NOTE: log entries associated with remote-tracking refs (refs/remotes/*)
+	 * are not written to reflog.
+	 *
 	 * @param refName
 	 *            a {@link java.lang.String} object.
 	 * @param entry
@@ -119,6 +122,9 @@ public class ReflogWriter {
 
 	/**
 	 * Write the given entry information to the ref's log
+	 *
+	 * NOTE: log entries associated with remote-tracking refs (refs/remotes/*)
+	 * are not written to reflog.
 	 *
 	 * @param refName
 	 *            ref name
@@ -141,6 +147,9 @@ public class ReflogWriter {
 
 	/**
 	 * Write the given ref update to the ref's log.
+	 *
+	 * NOTE: Updates associated with remote-tracking refs (refs/remotes/*) do
+	 * not generate a reflog.
 	 *
 	 * @param update
 	 *            a {@link org.eclipse.jgit.lib.RefUpdate}
@@ -206,6 +215,10 @@ public class ReflogWriter {
 	}
 
 	private ReflogWriter log(String refName, byte[] rec) throws IOException {
+		if (refName.startsWith(R_REMOTES)) {
+			return this;
+		}
+
 		File log = refdb.logFor(refName);
 		boolean write = forceWrite
 				|| shouldAutoCreateLog(refName)
