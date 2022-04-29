@@ -663,7 +663,9 @@ public class BatchRefUpdate {
 	 * @since 4.9
 	 */
 	protected boolean isRefLogDisabled(ReceiveCommand cmd) {
-		return cmd.hasCustomRefLog() ? cmd.isRefLogDisabled() : isRefLogDisabled();
+		return cmd.getRefName().startsWith(Constants.R_REMOTES)
+				|| cmd.hasCustomRefLog() ? cmd.isRefLogDisabled()
+						: isRefLogDisabled();
 	}
 
 	/**
