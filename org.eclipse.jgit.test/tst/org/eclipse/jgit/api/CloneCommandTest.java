@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -112,6 +113,41 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(new RefSpec("+refs/heads/*:refs/remotes/origin/*"),
 				fetchRefSpec(git2.getRepository()));
 		assertTagOption(git2.getRepository(), TagOpt.AUTO_FOLLOW);
+	}
+
+	@Test
+	public void testCloneRepository_refLogForLocalRefs() throws IOException,
+			JGitInternalException, GitAPIException {
+		File directory = createTempDirectory("testCloneRepository");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		Repository clonedRepo = git2.getRepository();
+		addRepoToClose(clonedRepo);
+
+		List<Ref> clonedRefs = clonedRepo.getRefDatabase().getRefs();
+		Stream<Ref> remoteRefs = clonedRefs.stream().filter(CloneCommandTest::isRemote);
+		Stream<Ref> localHeadsRefs = clonedRefs.stream().filter(CloneCommandTest::isLocalHead);
+
+		remoteRefs.forEach(ref -> assertFalse("Ref " + ref.getName() + " is remote and should not have a reflog", hasRefLog(clonedRepo, ref)));
+		localHeadsRefs.forEach(ref -> assertTrue("Ref " + ref.getName() + " is local head and should have a reflog", hasRefLog(clonedRepo, ref)));
+	}
+
+	private static boolean isRemote(Ref ref) {
+		return ref.getName().startsWith(Constants.R_REMOTES);
+	}
+
+	private static boolean isLocalHead(Ref ref) {
+		return !isRemote(ref) && ref.getName().startsWith(Constants.R_HEADS);
+	}
+
+	private static boolean hasRefLog(Repository repo, Ref ref) {
+		try {
+			return repo.getReflogReader(ref.getName()).getLastEntry() != null;
+		} catch (IOException ioe) {
+			throw new IllegalStateException(ioe);
+		}
 	}
 
 	@Test
