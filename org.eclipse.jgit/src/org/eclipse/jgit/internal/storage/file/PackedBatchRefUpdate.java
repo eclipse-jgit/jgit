@@ -32,6 +32,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory.PackedRefList;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -448,6 +449,32 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				// * Retry a fixed number of times in case the error was transient.
 			}
 		}
+	}
+
+	/**
+	 * Packed-refs could be associated with a clone of a remote repository
+	 * including a large number of remote-tracking refs. The storage of those
+	 * refs as a single packed-refs file isn't a issue; however, the creation of
+	 * a large number of refs logs associated with them could create big issues
+	 * and also cause the saturation of the filesystem indes.
+	 *
+	 * The C implementation of git does not store a reflog when executing a
+	 * transaction using a packed-refs file, as documented in packed-backend.c:
+	 *
+	 * [...] A `ref_store` representing references stored in a `packed-refs`
+	 * file. It implements the `ref_store` interface, though it has some
+	 * limitations:
+	 *
+	 * - It cannot store symbolic references.
+	 *
+	 * - It cannot store reflogs.
+	 *
+	 * [...]
+	 */
+	@Override
+	protected boolean isRefLogDisabled(ReceiveCommand cmd) {
+		return cmd.getRefName().startsWith(Constants.R_REMOTES)
+				|| super.isRefLogDisabled(cmd);
 	}
 
 	private String toResultString(ReceiveCommand cmd) {
