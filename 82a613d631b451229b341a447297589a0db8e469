@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa6c1f59_ba575d13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-04-30T15:40:34Z",
+      "side": 1,
+      "message": "Could just return here; no need for the label.",
+      "revId": "82a613d631b451229b341a447297589a0db8e469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23648d05_0db5e04e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-04-30T15:40:34Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be sufficient to run applyFilterToParents(p) here in line 162 instead of at the beginning of the loop? Not that it\u0027ll matter much, but it seems to fit the incremental nature of the algorithm better.",
+      "revId": "82a613d631b451229b341a447297589a0db8e469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
