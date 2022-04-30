@@ -68,6 +68,24 @@
       "parentUuid": "a0488f62_cfdd974a",
       "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7acff13_a8aa32c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-04-30T21:14:05Z",
+      "side": 1,
+      "message": "SAVE_RUNNER doesn\u0027t use a daemon thread. FUTURE_RUNNER does use daemon threads.",
+      "parentUuid": "cef0f321_28cfb318",
+      "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
