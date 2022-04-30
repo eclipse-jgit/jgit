@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "45a2ce44_edc8cba0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-04-30T14:11:00Z",
+      "side": 1,
+      "message": "Please follow the commit message guidelines[1]. In particular, please link the bugzilla entry in a footer:\n\n  Bug: 579445\n  \n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9d50cd7f_cfdab86c",
@@ -14,6 +31,23 @@
       "writtenOn": "2022-04-07T16:53:15Z",
       "side": 1,
       "message": "Hi, this commit tries to fix the bug described at https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d579445",
+      "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0488f62_cfdd974a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-04-30T14:11:00Z",
+      "side": 1,
+      "message": "This should not be necessary. You wrote in bug 579445 that a config lock and a probe file were left behind.\n\nI think the problem with the config.lock is in FileBasedConfig.save(). This should call lf.lock() inside the try-catch block, not before. FS_Posix.createNewFileAtomic() probably should ensure that it cleans up correctly if it can\u0027t get the FileStore or create the link after having created the file. Not sure if lf.unlock() also would need to be improved.\n\nAs for the left-over probe file: it\u0027s probably not a good idea to create files in a daemon thread (FUTURE_RUNNER).",
       "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
