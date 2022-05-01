@@ -50,6 +50,24 @@
       "message": "Yes. Just thinking out loud: this should run once per file store, so it should add only a handful of probe files to the system\u0027s DeleteOnExitHook, so doing this doesn\u0027t burden the JVM. Do you agree, or is my reasoning off?",
       "revId": "d9f87f79d014cfdf5a0a548dd387d0252dd85c77",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6364700a_d46855cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-01T22:27:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4c144642_a63152de",
+      "revId": "d9f87f79d014cfdf5a0a548dd387d0252dd85c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
