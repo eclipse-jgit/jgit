@@ -140,6 +140,24 @@
       "parentUuid": "7454fcb4_c7d85f36",
       "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a217d83_4135567c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-01T14:54:07Z",
+      "side": 1,
+      "message": "Maybe for the FUTURE_RUNNER it is even good enough to register the probes, before creating them, with File.deleteOnExit(). (Leaving the runner as is, using daemon threads.) Then indeed we\u0027d have to deal only with the SAVE_RUNNER, and making sure the config lock gets properly removed when that thread is interrupted.",
+      "parentUuid": "b3f937fe_e1fc22a2",
+      "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
