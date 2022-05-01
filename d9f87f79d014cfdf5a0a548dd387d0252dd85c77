@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea64bc60_304eae14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-01T18:16:32Z",
+      "side": 1,
+      "message": "Looks good. But I really think in FileBasedConfig.save() we should do\n\n  try {\n    if (!lf.lock()) {\n      throw new LockFailedException(getFile());\n    }\n    ...\n  } finally {\n    lf.unlock();\n  }\n\ninstead of\n\n  if (!lf.lock())\n    throw new LockFailedException(getFile());\n  try {\n    ...\n  } finally {\n    lf.unlock();\n  }  \n\nIf the interrupt from SAVE_RUNNER.shutdownNow() comes at an inopportune moment before we\u0027ve entered the try-finally, we might still have a config.lock left?\n\nLockFile.unlock() should be a no-op if it\u0027s already unlocked.",
+      "revId": "d9f87f79d014cfdf5a0a548dd387d0252dd85c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "687ca280_93c7cba0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-01T18:16:32Z",
+      "side": 1,
+      "message": "Could use a lambda here instead of a new Runnable?",
+      "revId": "d9f87f79d014cfdf5a0a548dd387d0252dd85c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c144642_a63152de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-01T18:16:32Z",
+      "side": 1,
+      "message": "Yes. Just thinking out loud: this should run once per file store, so it should add only a handful of probe files to the system\u0027s DeleteOnExitHook, so doing this doesn\u0027t burden the JVM. Do you agree, or is my reasoning off?",
+      "revId": "d9f87f79d014cfdf5a0a548dd387d0252dd85c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
