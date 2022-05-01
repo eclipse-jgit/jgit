@@ -104,6 +104,24 @@
       "parentUuid": "a7acff13_a8aa32c3",
       "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7454fcb4_c7d85f36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-01T07:06:07Z",
+      "side": 1,
+      "message": "OK, now I see. So if we\n\n* don\u0027t use daemon threads for the FUTURE_RUNNER\n* also shut down the FUTURE_RUNNER properly\n* handle InterruptedException properly in the future determining the FS properties\n* make sure the LockFile code properly cleans up when interrupted\n\nwe should be able to avoid having stray files (probes or lock files) being left and at the same time avoid any (noticeable) delay when shutting down.",
+      "parentUuid": "5f3c2eaf_6d1cc193",
+      "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
