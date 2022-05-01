@@ -122,6 +122,24 @@
       "parentUuid": "5f3c2eaf_6d1cc193",
       "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3f937fe_e1fc22a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 307367
+      },
+      "writtenOn": "2022-05-01T08:58:24Z",
+      "side": 1,
+      "message": "\u003e OK, now I see. So if we\n\u003e \n\u003e * don\u0027t use daemon threads for the FUTURE_RUNNER\n\u003e * also shut down the FUTURE_RUNNER properly\n\u003e * handle InterruptedException properly in the future determining the FS properties\n\u003e * make sure the LockFile code properly cleans up when interrupted\n\u003e \n\u003e we should be able to avoid having stray files (probes or lock files) being left and at the same time avoid any (noticeable) delay when shutting down.\n\nYes. To shut down FUTURE_RUNNER, it should be done in a addShutdownHook() and wait a reasonable short time (e.g. 100ms) for the threads cleaning up themselves. This also requires that we change some logic in the current busy-loop body of measureMinimalRacyInterval() to throw and catch InterruptedException.\n\nWithout shutting down FUTURE_RUNNER, like the implements in the current patch, the stray probes will also be removed. This is not guaranteed by JVM, but removing the stray probes should be done just soon before the JVM shutting down with high probability.",
+      "parentUuid": "7454fcb4_c7d85f36",
+      "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
