@@ -86,6 +86,24 @@
       "parentUuid": "cef0f321_28cfb318",
       "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f3c2eaf_6d1cc193",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 307367
+      },
+      "writtenOn": "2022-05-01T02:59:03Z",
+      "side": 1,
+      "message": "SAVE_RUNNER is indeed a non-daemon thread, while the previous description is still valid.\n\nThe root cause should be two:\n1. the \u0027finally\u0027 block for cleaning up lf.commit() is skipped when JVM is shutdown by System.exit().\n2. when writing config on the non-daemon SAVE_RUNNER thread, \u0027lf.commit()\u0027 has to wait the result of snapshot (run on a daemon FUTURE_RUNNER thread) which takes 3 seconds for detecting FS attributes.\n\nWith a addShutdownHook to kill SAVE_RUNNER gracefully, the skipped \u0027finally\u0027 block can be guaranteed to execute.",
+      "parentUuid": "a7acff13_a8aa32c3",
+      "revId": "3b85e52adeb34811602383a0fe4f429a8dc7e577",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
