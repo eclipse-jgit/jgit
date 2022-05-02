@@ -154,7 +154,7 @@
     <ant-version>1.10.12</ant-version>
     <apache-sshd-version>2.8.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
-    <jzlib-version>1.1.1</jzlib-version>
+    <jzlib-version>1.1.3</jzlib-version>
     <javaewah-version>1.1.13</javaewah-version>
     <junit-version>4.13.2</junit-version>
     <test-fork-count>1C</test-fork-count>

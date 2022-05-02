@@ -68,8 +68,8 @@ maven_jar(
 
 maven_jar(
     name = "jzlib",
-    artifact = "com.jcraft:jzlib:1.1.1",
-    sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
+    artifact = "com.jcraft:jzlib:1.1.3",
+    sha1 = "c01428efa717624f7aabf4df319939dda9646b2d",
 )
 
 maven_jar(
