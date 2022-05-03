@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe9ee182_9d81582c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-05-03T23:31:27Z",
+      "side": 1,
+      "message": "difficult to follow who throws the IOException and why we just ignore it?\nCan you explain why instead of just //ignore",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 24
+      },
+      "revId": "a492aeb6633364672893101231d4853ece5e2b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd4f1ec_7fa77b1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-05-03T23:31:27Z",
+      "side": 1,
+      "message": "should this be EmptyTreeIterator() instead\nnot sure if merge trees can merge (null, tree)",
+      "range": {
+        "startLine": 181,
+        "startChar": 34,
+        "endLine": 181,
+        "endChar": 38
+      },
+      "revId": "a492aeb6633364672893101231d4853ece5e2b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edce87e9_d361ee98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RenameResolver.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-05-03T23:31:27Z",
+      "side": 1,
+      "message": "nit: ourTree, theirTree? \nnot sure though since it was using base/headTree before as well",
+      "range": {
+        "startLine": 235,
+        "startChar": 18,
+        "endLine": 235,
+        "endChar": 52
+      },
+      "revId": "a492aeb6633364672893101231d4853ece5e2b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
