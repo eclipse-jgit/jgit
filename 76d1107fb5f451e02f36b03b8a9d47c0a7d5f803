@@ -34,6 +34,23 @@
       "parentUuid": "7dfa231d_3b14b57e",
       "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70ad1145_c88fcdab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-04T16:45:59Z",
+      "side": 1,
+      "message": "Not sure ReflogWriter is the right place to decide for which refs we want reflogs.\nJGit is a library and if the caller set forceWrite \u003d true we should probably do what he said.\n\nGit does not create reflogs in bare repos but Gerrit, hosting bare repos, does.\n\nreturn early if it\u0027s a remote tracking branch to avoid indenting the complete implementation:\n\n if (refName.startsWith(R_REMOTES)) {\n     return this;\n }",
+      "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
