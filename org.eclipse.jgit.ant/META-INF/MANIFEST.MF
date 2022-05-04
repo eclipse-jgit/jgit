@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ant
 Bundle-SymbolicName: org.eclipse.jgit.ant
-Bundle-Version: 6.2.0.qualifier
+Bundle-Version: 6.2.0.202205041315-m2
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.apache.tools.ant,
   org.eclipse.jgit.storage.file;version="[6.2.0,6.3.0)"
