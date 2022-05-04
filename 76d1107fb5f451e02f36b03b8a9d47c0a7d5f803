@@ -87,6 +87,24 @@
       "parentUuid": "70ad1145_c88fcdab",
       "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d3a4fe_3d1bb50f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-04T18:25:13Z",
+      "side": 1,
+      "message": "\u003e Not sure ReflogWriter is the right place to decide for which refs we want reflogs.\n\u003e JGit is a library and if the caller set forceWrite \u003d true we should probably do what he said.\n\nTrue, but is there really a use-case where JGit needs to track the logs of all remote refs?\n\n\u003e Git does not create reflogs in bare repos but Gerrit, hosting bare repos, does.\n\nGerrit does not use remote refs on bare repos AFAIK.",
+      "parentUuid": "532c89bd_1e2e4342",
+      "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
