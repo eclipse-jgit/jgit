@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d52c8d34_120fabf2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-05-04T19:04:48Z",
+      "side": 1,
+      "message": "I changed the signature of ResolveMerger#mergeTrees to accept the @Nullable baseTree instead of iterator.\n\nIt creates EmptyTreeIterator() for null trees.",
+      "parentUuid": "fe9ee182_9d81582c",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 24
+      },
+      "revId": "a492aeb6633364672893101231d4853ece5e2b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbd4f1ec_7fa77b1d",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "664769ff_facf5419",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-05-04T19:04:48Z",
+      "side": 1,
+      "message": "I changed the signature of ResolveMerger#mergeTrees to accept the @Nullable baseTree instead of iterator.\n\nIt creates EmptyTreeIterator() for null trees.",
+      "parentUuid": "bbd4f1ec_7fa77b1d",
+      "range": {
+        "startLine": 181,
+        "startChar": 34,
+        "endLine": 181,
+        "endChar": 38
+      },
+      "revId": "a492aeb6633364672893101231d4853ece5e2b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edce87e9_d361ee98",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-05-03T23:31:27Z",
       "side": 1,
       "message": "nit: ourTree, theirTree? \nnot sure though since it was using base/headTree before as well",
+      "range": {
+        "startLine": 235,
+        "startChar": 18,
+        "endLine": 235,
+        "endChar": 52
+      },
+      "revId": "a492aeb6633364672893101231d4853ece5e2b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e95625b_1553266c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RenameResolver.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-05-04T19:04:48Z",
+      "side": 1,
+      "message": "We need all three trees for the merge. I used the same names (base, head, merge) as ResolveMerger#mergeTrees, but can rename to (base, ours, theirs), if you think it is more clear.",
+      "parentUuid": "edce87e9_d361ee98",
       "range": {
         "startLine": 235,
         "startChar": 18,
