@@ -16,6 +16,24 @@
       "message": "We should probably filter the opposite case as well. I don\u0027t see any test doing it.",
       "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3db83fef_37f8a33b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReflogWriterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-04T14:12:04Z",
+      "side": 1,
+      "message": "True, let me add it.",
+      "parentUuid": "7dfa231d_3b14b57e",
+      "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
