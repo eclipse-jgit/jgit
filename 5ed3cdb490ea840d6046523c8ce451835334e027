@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82059661_02a7a41d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-04T09:27:04Z",
+      "side": 1,
+      "message": "This isn\u0027t the only scenario: it would be best to move the logic to disable reflog on the RefLogWriter.",
+      "range": {
+        "startLine": 666,
+        "startChar": 0,
+        "endLine": 668,
+        "endChar": 27
+      },
+      "revId": "5ed3cdb490ea840d6046523c8ce451835334e027",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
