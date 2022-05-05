@@ -3,5 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.http.apache - Sources
 Bundle-SymbolicName: org.eclipse.jgit.http.apache.source
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 6.2.0.202205041315-m2
-Eclipse-SourceBundle: org.eclipse.jgit.http.apache;version="6.2.0.202205041315-m2";roots="."
+Bundle-Version: 6.2.0.qualifier
+Eclipse-SourceBundle: org.eclipse.jgit.http.apache;version="6.2.0.qualifier";roots="."
