@@ -141,6 +141,24 @@
       "parentUuid": "626c8d15_46239b20",
       "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dbf6428_61d79684",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-05T14:59:51Z",
+      "side": 1,
+      "message": "I don\u0027t know which applications using jgit might want to write reflogs for remote tracking branches. Must be an application using non-bare repos since bare repos typically don\u0027t have remote tracking branches.\n\nI think it could make sense for some use case to enable writing reflogs for remote tracking branches. E.g. some application may want an audit log for updates of remote tracking branches to track when they got updated.\n\nI think jgit should implement the semantics of core.logAllRefUpdates as defined in [1] unless this documentation is stale and cgit changed that for a good reason. \nIt says:\n\n\"If this configuration variable is set to true, missing \"$GIT_DIR/logs/\u003cref\u003e\" file is automatically created for branch heads (i.e. under refs/heads/), remote refs (i.e. under refs/remotes/), note refs (i.e. under refs/notes/), and the symbolic ref HEAD.\"\n...\n\"This value is true by default in a repository that has a working directory associated with it, and false by default in a bare repository.\"\n\nReading this it seems the behavior you observed matches this definition. I didn\u0027t check yet if cgit behaves according to this definition, if not this should be discussed on the git list.\n\nThe forceWrite flag was introduced to support some use case in Gerrit where it wants to decide on a single RefUpdate level that a reflog entry should be written unconditionally. I think we should not break this flag\u0027s semantics for any ref. I.e. if it is true the reflog should be written in any case.\n\nWhat\u0027s a use case for a repository with millions of branches someone wants to fully clone to a non-bare repository ? Does it really need all branches in the non-bare clone ? The repositories I saw so far had sometimes thousands but not millions.",
+      "parentUuid": "2a624cb4_85e79167",
+      "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
