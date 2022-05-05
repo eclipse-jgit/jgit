@@ -123,6 +123,24 @@
       "parentUuid": "66d3a4fe_3d1bb50f",
       "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a624cb4_85e79167",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-05T14:13:09Z",
+      "side": 1,
+      "message": "\u003e ReflogWriter is a low level class which knows how to persist reflogs to the filesystem. Applications using JGit to work on git repositories may want to apply different policies on which refs to create reflogs. Hence I think we should not completely prohibit writing reflogs for remote tracking branches.\n\nAre you aware of anyone using this functionality?\nIt is specific to JGit as Git doesn\u0027t do it AFAIK.\n\n\u003e I dug a little deeper into the implementation and found the following:\n\u003e \n\u003e ReflogWriter#shouldAutoCreateLog decides for which refs reflog files are created automatically based on the configured value of option core.logAllRefUpdates [1] which is also supported by cgit.\n\u003e \n\u003e ReflogWriter#log writes a reflog message to the corresponding reflog file\n\u003e - if the reflog file already exists, also see the comment [2] in Gerrit\n\u003e - if ReflogWriter#shouldAutoCreateLog auto-creates the corresponding reflog file\n\u003e - or if the forceWrite flag is set to true by the application\n\u003e \n\u003e The intention of RefUpdate#setForceRefLog [3] is to enable applications to change the default behaviour on which refs reflogs should be written on a per-update basis.\n\u003e \n\u003e How did you set core.logAllRefUpdates when testing this with git/jgit ?\n\nRunning on defaults, I did not set anything.\n\n\u003e AFAICS the only gap in the current implementation to enable fully relying on reflogs for implementing audit logs for refs is a way to archive reflogs when their ref is deleted. Currently the reflog is deleted when its corresponding ref is deleted. AFAIR there were discussions on the git list how this could be implemented. Not sure if cgit implemented such an archiving solution.\n\nDo you see a use-case where the client should be able to recover a remote-tracking ref deleted on the server?\nIs a performance degradation (and filesystem overload of millions of inodes) of hundreds of times slower clone worth the benefit, or should this be an exceptional situation confirmed on purpose?\n\n\u003e [1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-corelogAllRefUpdates\n\u003e [2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java#210\n\u003e [3] https://git.eclipse.org/r/c/jgit/jgit/+/102396\n\nThanks for the refs, I\u0027ll have a look.",
+      "parentUuid": "626c8d15_46239b20",
+      "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
