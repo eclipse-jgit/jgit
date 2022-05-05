@@ -16,6 +16,46 @@
       "message": "@Matthias thanks for the feedback, let\u0027s discuss also next week during the Hackathon.",
       "revId": "b4c558a2da35faafc786d6f9c813f90da9e3ab91",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a58d87_41575a80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-05T15:29:53Z",
+      "side": 1,
+      "message": "The check needs to be moved upstream, as per discussion with @Matthias.",
+      "revId": "b4c558a2da35faafc786d6f9c813f90da9e3ab91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3264548_2222574c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-05T15:29:53Z",
+      "side": 1,
+      "message": "As discussed with @Matthias, this isn\u0027t the right place because it is *unconditional*. There are cases where the remote refs logs should be created.",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 3
+      },
+      "revId": "b4c558a2da35faafc786d6f9c813f90da9e3ab91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
