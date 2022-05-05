@@ -177,6 +177,24 @@
       "parentUuid": "7dbf6428_61d79684",
       "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "948d80b5_facf88fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-05T20:34:19Z",
+      "side": 1,
+      "message": "I analysed the clone.c and the absence of reflog for the remote refs is a consequence of how the clone works.\n\nThe remote refs are created as a unique packedref file and the implementation is provided by packed-backend.c.\n\nA packed refstore has some limitations compared to a file-based refstore:\n\n```\n/*\n * A `ref_store` representing references stored in a `packed-refs`\n * file. It implements the `ref_store` interface, though it has some\n * limitations:\n *\n * - It cannot store symbolic references.\n *\n * - It cannot store reflogs.\n *\n * - It does not support reference renaming (though it could).\n *\n * On the other hand, it can be locked outside of a reference\n * transaction. In that case, it remains locked even after the\n * transaction is done and the new `packed-refs` file is activated.\n */\n ```\n \nThat\u0027s the rationale behind the absence of a reflog associated to the remote refs created during clone.\n\nIn fact, when doing:\n- git init\n- git remote add origin \u003cremote\u003e\n- git fetch origin \u0027+refs/heads/*:refs/remotes/origin/*\u0027\n\n... the reflog *is populated* with all the remote refs.\n\nI am going to amend this change and simulate the behaviour implemented by cgit.\n\n@Matthias do you agree with the analysis?",
+      "parentUuid": "52b77c59_32161667",
+      "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
