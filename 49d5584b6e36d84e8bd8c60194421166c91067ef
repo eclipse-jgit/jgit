@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfdc5904_99f00c5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-05T22:00:15Z",
+      "side": 1,
+      "message": "Unrelated formatting change",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 2
+      },
+      "revId": "49d5584b6e36d84e8bd8c60194421166c91067ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
