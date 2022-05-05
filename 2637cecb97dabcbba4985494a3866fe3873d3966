@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "2637cecb97dabcbba4985494a3866fe3873d3966",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17f51675_a4aaa1dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-05T22:20:26Z",
+      "side": 1,
+      "message": "Fails:\n[ERROR]   BatchRefUpdateTest.overrideDisableRefLog:768-\u003eexecute:1170-\u003eexecute:1176 » NullPointer",
+      "revId": "2637cecb97dabcbba4985494a3866fe3873d3966",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
