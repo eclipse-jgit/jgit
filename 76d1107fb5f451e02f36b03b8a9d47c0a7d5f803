@@ -105,6 +105,24 @@
       "parentUuid": "532c89bd_1e2e4342",
       "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "626c8d15_46239b20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-05T13:37:13Z",
+      "side": 1,
+      "message": "ReflogWriter is a low level class which knows how to persist reflogs to the filesystem. Applications using JGit to work on git repositories may want to apply different policies on which refs to create reflogs. Hence I think we should not completely prohibit writing reflogs for remote tracking branches.\n\nI dug a little deeper into the implementation and found the following:\n\nReflogWriter#shouldAutoCreateLog decides for which refs reflog files are created automatically based on the configured value of option core.logAllRefUpdates [1] which is also supported by cgit.\n\nReflogWriter#log writes a reflog message to the corresponding reflog file\n- if the reflog file already exists, also see the comment [2] in Gerrit\n- if ReflogWriter#shouldAutoCreateLog auto-creates the corresponding reflog file\n- or if the forceWrite flag is set to true by the application\n\nThe intention of RefUpdate#setForceRefLog [3] is to enable applications to change the default behaviour on which refs reflogs should be written on a per-update basis.\n\nHow did you set core.logAllRefUpdates when testing this with git/jgit ?\n\nAFAICS the only gap in the current implementation to enable fully relying on reflogs for implementing audit logs for refs is a way to archive reflogs when their ref is deleted. Currently the reflog is deleted when its corresponding ref is deleted. AFAIR there were discussions on the git list how this could be implemented. Not sure if cgit implemented such an archiving solution.\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-corelogAllRefUpdates\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java#210\n[3] https://git.eclipse.org/r/c/jgit/jgit/+/102396",
+      "parentUuid": "66d3a4fe_3d1bb50f",
+      "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
