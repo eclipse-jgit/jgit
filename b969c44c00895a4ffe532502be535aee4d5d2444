@@ -16,6 +16,24 @@
       "message": "@Matthias how do you generate those commits? Do you have any scripting?",
       "revId": "b969c44c00895a4ffe532502be535aee4d5d2444",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b7814c_a97b2ce6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-05T12:19:28Z",
+      "side": 1,
+      "message": "yes, I use tools/version.sh [1] to update the snapshot version and tools/release.sh [2] to create a release\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/tools/version.sh\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Updating_build_version\n[2] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/tools/release.sh\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Creating_a_release",
+      "parentUuid": "416ea7e8_21b5cd6c",
+      "revId": "b969c44c00895a4ffe532502be535aee4d5d2444",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
