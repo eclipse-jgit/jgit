@@ -159,6 +159,24 @@
       "parentUuid": "2a624cb4_85e79167",
       "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52b77c59_32161667",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-05T15:26:58Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t know which applications using jgit might want to write reflogs for remote tracking branches. Must be an application using non-bare repos since bare repos typically don\u0027t have remote tracking branches.\n\u003e \n\u003e I think it could make sense for some use case to enable writing reflogs for remote tracking branches. E.g. some application may want an audit log for updates of remote tracking branches to track when they got updated.\n\u003e \n\u003e I think jgit should implement the semantics of core.logAllRefUpdates as defined in [1] unless this documentation is stale and cgit changed that for a good reason. \n\u003e It says:\n\u003e \n\u003e \"If this configuration variable is set to true, missing \"$GIT_DIR/logs/\u003cref\u003e\" file is automatically created for branch heads (i.e. under refs/heads/), remote refs (i.e. under refs/remotes/), note refs (i.e. under refs/notes/), and the symbolic ref HEAD.\"\n\u003e ...\n\u003e \"This value is true by default in a repository that has a working directory associated with it, and false by default in a bare repository.\"\n\nI know, however, git behaves differently for a git clone. Even if I set core.logAllRefUpdates to always, when I clone a repository with 2.8M refs, I get:\n\n```\n$ git branch -r | wc -l\n2800058\n\n$ git branch -r | wc -l\n1\n\n$find .git/logs -type f | wc -l\n3\n```\n\n\u003e Reading this it seems the behavior you observed matches this definition. I didn\u0027t check yet if cgit behaves according to this definition, if not this should be discussed on the git list.\n\nI believe the interpretation of what\u0027s written is different in jgit and cgit.\nI do see some .git/logs/refs/remotes/* in my local Gerrit workspace/.git/logs, but they are not all created during clones.\n\n\u003e The forceWrite flag was introduced to support some use case in Gerrit where it wants to decide on a single RefUpdate level that a reflog entry should be written unconditionally. I think we should not break this flag\u0027s semantics for any ref. I.e. if it is true the reflog should be written in any case.\n\nThat\u0027s not my case and yes, if set we should honour it.\n\n\u003e What\u0027s a use case for a repository with millions of branches someone wants to fully clone to a non-bare repository ? Does it really need all branches in the non-bare clone ? The repositories I saw so far had sometimes thousands but not millions.\n\nThe clone is for 1 single branch, but JGit creates the $GIT_DIR/logs/ for *ALL* remote refs, even if they are not cloned or checked out.",
+      "parentUuid": "7dbf6428_61d79684",
+      "revId": "76d1107fb5f451e02f36b03b8a9d47c0a7d5f803",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
