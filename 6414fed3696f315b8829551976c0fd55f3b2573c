@@ -16,6 +16,24 @@
       "message": "@Matthias WDYT with the new solution?",
       "revId": "6414fed3696f315b8829551976c0fd55f3b2573c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c47138c2_0bb953f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-08T23:17:53Z",
+      "side": 1,
+      "message": "no, I disagree\n\ngit clone does some shortcuts, see [1].\nWhen cloning to a non-bare repo it creates the remote tracking\n\n .git/refs/remotes/origin/HEAD\n\nwhich isn\u0027t stored in packed-refs\nand the corresponding reflog\n\n .git/logs/refs/remotes/origin/HEAD\n\n(which jgit does not (yet) do):\n\n$ cat .git/logs/refs/remotes/origin/HEAD\n0000000000000000000000000000000000000000 b92c260425606048c6906365d309f0ee01f36028 Matthias Sohn \u003cmatthias.sohn@sap.com\u003e 1652051541 +0200\tclone: from https://git.eclipse.org/r/jgit/jgit\n\nwhen later fetching updates for any remote tracking branches e.g. refs/remotes/origin/master it lazily creates the corresponding reflog.\n\n[1] https://github.com/git/git/commit/58f233ce1ed67bbc31a429fde5c65d5050fdbd7d",
+      "parentUuid": "6f12fc2c_9a87f172",
+      "revId": "6414fed3696f315b8829551976c0fd55f3b2573c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
