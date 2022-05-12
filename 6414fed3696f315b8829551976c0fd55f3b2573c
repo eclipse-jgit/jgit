@@ -34,6 +34,24 @@
       "parentUuid": "6f12fc2c_9a87f172",
       "revId": "6414fed3696f315b8829551976c0fd55f3b2573c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b19b0572_92ce70f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-05-12T15:12:22Z",
+      "side": 1,
+      "message": "\u003e no, I disagree\n\u003e \n\u003e git clone does some shortcuts, see [1].\n\u003e When cloning to a non-bare repo it creates the remote tracking\n\u003e \n\u003e  .git/refs/remotes/origin/HEAD\n\u003e \n\u003e which isn\u0027t stored in packed-refs\n\u003e and the corresponding reflog\n\u003e \n\u003e  .git/logs/refs/remotes/origin/HEAD\n\u003e \n\u003e (which jgit does not (yet) do):\n\u003e \n\u003e $ cat .git/logs/refs/remotes/origin/HEAD\n\u003e 0000000000000000000000000000000000000000 b92c260425606048c6906365d309f0ee01f36028 Matthias Sohn \u003cmatthias.sohn@sap.com\u003e 1652051541 +0200\tclone: from https://git.eclipse.org/r/jgit/jgit\n\u003e \n\u003e when later fetching updates for any remote tracking branches e.g. refs/remotes/origin/master it lazily creates the corresponding reflog.\n\nI did a debug of the C code and I did not see any reference to this later part.\nDo you have a pointer?\n\nAlso, by running it locally, none of the remote tracking refs trigger the creation of a reflog. Have you tried to clone a repo with 1M refs? Do you see 1M reflogs with c-git? and with JGit?\n\n\u003e [1] https://github.com/git/git/commit/58f233ce1ed67bbc31a429fde5c65d5050fdbd7d",
+      "parentUuid": "c47138c2_0bb953f0",
+      "revId": "6414fed3696f315b8829551976c0fd55f3b2573c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
