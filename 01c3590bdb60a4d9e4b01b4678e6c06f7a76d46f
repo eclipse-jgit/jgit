@@ -52,6 +52,24 @@
       "parentUuid": "37589ec8_4f801307",
       "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91bbb788_7e12198b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-12T11:10:27Z",
+      "side": 1,
+      "message": "I merged it since I think it is correct, all my tests and the Gerrit tests succeeded, and I didn\u0027t get any comments anymore.\n\nTL;DR: we\u0027re getting closer, but we\u0027re not there yet.\n\nA new release of Apache MINA sshd is still a bit away. I am a member of the Apache MINA PMC, but all release stuff for sshd is done by Guillaume, and the project doesn\u0027t really have a release plan. It\u0027s all very ad-hoc; basically a new release gets done when someone asks for it and the maintainers think there are enough fixes or new features to warrant a new release...\n\nRight now we can\u0027t release; Lyor has broken the build. (Again. :-( Don\u0027t know why he can\u0027t set up his Eclipse and maven correctly to build with Java 1.8; every so often he commits something that works only on Java 11, but the project\u0027s BREE is still Java 1.8.)\n\nApart from fixing the build, I want to get fixes in for SSHD-1266 (that PR is basically ready; fixes a minor bug of no importance to JGit or Gerrit) and SSHD-1262 (progressing well but still needs work, no PR yet; fixes a major bug caused by a fundamentally flawed implementation of TCP/IP port forwarding, probably of no importance to Gerrit unless it used port forwarding -- which I don\u0027t think it does).",
+      "parentUuid": "18765fdf_613dd892",
+      "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
