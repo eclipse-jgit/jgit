@@ -34,6 +34,24 @@
       "parentUuid": "b2113317_1c937b30",
       "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18765fdf_613dd892",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-05-12T10:05:07Z",
+      "side": 1,
+      "message": "The change was merged in SSHD: [1], so that we are getting closer to new SSHD release?",
+      "parentUuid": "37589ec8_4f801307",
+      "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
