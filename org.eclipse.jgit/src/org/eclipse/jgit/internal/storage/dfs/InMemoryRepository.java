@@ -1,3 +1,12 @@
+/*
+ * Copyright (C) 2011, 2022 Google Inc. and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.ByteArrayOutputStream;
@@ -6,13 +15,16 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefDatabase;
 
 /**
@@ -98,6 +110,7 @@ public class InMemoryRepository extends DfsRepository {
 	public static class MemObjDatabase extends DfsObjDatabase {
 		private List<DfsPackDescription> packs = new ArrayList<>();
 		private int blockSize;
+		private Set<ObjectId> shallowCommits = Collections.emptySet();
 
 		MemObjDatabase(DfsRepository repo) {
 			super(repo, new DfsReaderOptions());
@@ -164,6 +177,16 @@ public class InMemoryRepository extends DfsRepository {
 					memPack.put(ext, getData());
 				}
 			};
+		}
+
+		@Override
+		public Set<ObjectId> getShallowCommits() throws IOException {
+			return shallowCommits;
+		}
+
+		@Override
+		public void setShallowCommits(Set<ObjectId> shallowCommits) {
+			this.shallowCommits = shallowCommits;
 		}
 	}
 
