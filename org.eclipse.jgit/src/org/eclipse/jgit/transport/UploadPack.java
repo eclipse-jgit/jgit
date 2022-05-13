@@ -1170,6 +1170,11 @@ public class UploadPack implements Closeable {
 	}
 
 	private void fetchV2(PacketLineOut pckOut) throws IOException {
+		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
+		FetchV2Request req = parser.parseFetchRequest(pckIn);
+		currentRequest = req;
+		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+
 		// Depending on the requestValidator, #processHaveLines may
 		// require that advertised be set. Set it only in the required
 		// circumstances (to avoid a full ref lookup in the case that
@@ -1179,15 +1184,23 @@ public class UploadPack implements Closeable {
 				requestValidator instanceof AnyRequestValidator) {
 			advertised = Collections.emptySet();
 		} else {
-			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			if (req.wantIds.isEmpty()) {
+				// Only refs-in-wants. Filter just these and spare looking at the full advertisement. This
+				// improves performance and allows the client to fully use ref prefixes: When a ref prefix
+				// is provided, ls-refs returns only matching refs. These can even be refs that are not part
+				// of the default advertisement (when no prefix is provided). Respecting refs-in-wants here
+				// enables this usage end to end.
+				advertised = refIdSet(getFilteredRefs(wantedRefs.keySet()).values());
+			} else {
+				// At least one SHA1 in wants, so we need to take the full advertisement
+				// as base for a reachability check.
+				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			}
 		}
 
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		Instant negotiateStart = Instant.now();
 
-		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
-		FetchV2Request req = parser.parseFetchRequest(pckIn);
-		currentRequest = req;
 		rawOut.stopBuffering();
 
 		protocolV2Hook.onFetch(req);
@@ -1200,7 +1213,7 @@ public class UploadPack implements Closeable {
 		// copying data back to class fields
 		List<ObjectId> deepenNots = parseDeepenNots(req.getDeepenNots());
 
-		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+
 		// TODO(ifrade): Avoid mutating the parsed request.
 		req.getWantIds().addAll(wantedRefs.values());
 		wantIds = req.getWantIds();
