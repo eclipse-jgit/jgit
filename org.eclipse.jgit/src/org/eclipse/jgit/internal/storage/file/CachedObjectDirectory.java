@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Constantine Plotnikov <constantine.plotnikov@gmail.com>
- * Copyright (C) 2010, JetBrains s.r.o. and others
+ * Copyright (C) 2010, 2022 JetBrains s.r.o. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -117,9 +117,14 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	Set<ObjectId> getShallowCommits() throws IOException {
+	public Set<ObjectId> getShallowCommits() throws IOException {
 		return wrapped.getShallowCommits();
 	}
+
+    @Override
+    public void setShallowCommits(Set<ObjectId> shallowCommits) throws IOException {
+        wrapped.setShallowCommits(shallowCommits);
+    }
 
 	private CachedObjectDirectory[] myAlternates() {
 		if (alts == null) {
