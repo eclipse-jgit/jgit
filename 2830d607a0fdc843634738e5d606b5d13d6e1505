@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4cb81b9_59375e13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-05-13T16:19:47Z",
+      "side": 1,
+      "message": "Do you mean \"ref advertisement\"? the ls-refs that happens before the fetch?",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "2830d607a0fdc843634738e5d606b5d13d6e1505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63f1fce1_63679ea9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-05-13T16:19:47Z",
+      "side": 1,
+      "message": "This made me think that we would accept \"wanted-refs\" blindly, but that is not the case in the code.\n\nMaybe it could be reworded to something like:\n\"Treat wanted-refs like a ref-prefix when calculating the visible refs on v2 fetch command.\"",
+      "range": {
+        "startLine": 19,
+        "startChar": 36,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "2830d607a0fdc843634738e5d606b5d13d6e1505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24f7958a_9b01e09d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-05-13T16:19:47Z",
+      "side": 1,
+      "message": "\u003e Patch Set 3: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1246/ : FAILURE\n\nFailing tests seem to be relevant, not just flaky (for once!):\n\n05:12:23  [ERROR] Failures: \n05:12:23  [ERROR]   UploadPackTest.testSafeToClearRefsInFetchV2:2591 expected:\u003c1\u003e but was:\u003c0\u003e\n05:12:23  [ERROR] Errors: \n05:12:23  [ERROR]   UploadPackTest.testV2FetchMixedWantRef:2190-\u003euploadPackV2:452-\u003euploadPackV2:439-\u003euploadPackSetup:382 » UploadPackInternalServerErro",
+      "revId": "2830d607a0fdc843634738e5d606b5d13d6e1505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dbf58f2_515b8232",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-05-13T16:19:47Z",
+      "side": 1,
+      "message": "Probably you don\u0027t need this if here, because getFilteredRefs does:\n if (refPrefixes.isEmpty()) {\n    return getAdvertisedOrDefaultRefs();\n  }",
+      "revId": "2830d607a0fdc843634738e5d606b5d13d6e1505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
