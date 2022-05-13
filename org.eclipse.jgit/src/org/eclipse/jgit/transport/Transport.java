@@ -27,6 +27,7 @@ import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -784,6 +785,12 @@ public abstract class Transport implements AutoCloseable {
 
 	private PrePushHook prePush;
 
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> deepenNots = new ArrayList<>();
+
 	@Nullable
 	TransferConfig.ProtocolVersion protocol;
 
@@ -1084,6 +1091,61 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public final void setFilterSpec(@NonNull FilterSpec filter) {
 		filterSpec = requireNonNull(filter);
+	}
+
+
+	/**
+	 * @return the depth for a shallow clone
+	 * @since 6.2
+	 */
+	public final Integer getDepth() {
+		return depth;
+	}
+
+	/**
+	 * Set the depth for a shallow clone
+	 *
+	 * @param depth the depth
+	 * @since 6.2
+	 */
+	public final void setDepth(Integer depth) {
+		this.depth = depth;
+	}
+
+	/**
+	 * @return the deepen-since for a shallow clone
+	 * @since 6.2
+	 */
+	public final Instant getDeepenSince() {
+		return deepenSince;
+	}
+
+	/**
+	 * Set the deepen-since for a shallow clone
+	 *
+	 * @param deepenSince the deepen-since
+	 * @since 6.2
+	 */
+	public final void setDeepenSince(Instant deepenSince) {
+		this.deepenSince = deepenSince;
+	}
+
+	/**
+	 * @return the deepen-not for a shallow clone
+	 * @since 6.2
+	 */
+	public final List<String> getDeepenNots() {
+		return deepenNots;
+	}
+
+	/**
+	 * Set the deepen-not for a shallow clone
+	 *
+	 * @param deepenNots the deepen-not
+	 * @since 6.2
+	 */
+	public final void setDeepenNots(List<String> deepenNots) {
+		this.deepenNots = deepenNots;
 	}
 
 	/**

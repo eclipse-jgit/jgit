@@ -50,7 +50,7 @@ public final class FetchV2Request extends FetchRequest {
 			@NonNull List<String> wantedRefs,
 			@NonNull Set<ObjectId> wantIds,
 			@NonNull Set<ObjectId> clientShallowCommits, int deepenSince,
-			@NonNull List<String> deepenNotRefs, int depth,
+			@NonNull List<String> deepenNots, int depth,
 			@NonNull FilterSpec filterSpec,
 			boolean doneReceived, boolean waitForDone,
 			@NonNull Set<String> clientCapabilities,
@@ -58,7 +58,7 @@ public final class FetchV2Request extends FetchRequest {
 			boolean sidebandAll, @NonNull List<String> packfileUriProtocols) {
 		super(wantIds, depth, clientShallowCommits, filterSpec,
 				clientCapabilities, deepenSince,
-				deepenNotRefs, agent);
+				deepenNots, agent);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
@@ -140,7 +140,7 @@ public final class FetchV2Request extends FetchRequest {
 
 		final Set<ObjectId> clientShallowCommits = new HashSet<>();
 
-		final List<String> deepenNotRefs = new ArrayList<>();
+		final List<String> deepenNots = new ArrayList<>();
 
 		final Set<String> clientCapabilities = new HashSet<>();
 
@@ -240,17 +240,17 @@ public final class FetchV2Request extends FetchRequest {
 		 * @return true if there has been at least one "deepen not" line in the
 		 *         request so far
 		 */
-		boolean hasDeepenNotRefs() {
-			return !deepenNotRefs.isEmpty();
+		boolean hasDeepenNots() {
+			return !deepenNots.isEmpty();
 		}
 
 		/**
-		 * @param deepenNotRef
+		 * @param deepenNot
 		 *            reference received in a "deepen not" line
 		 * @return this builder
 		 */
-		Builder addDeepenNotRef(String deepenNotRef) {
-			deepenNotRefs.add(deepenNotRef);
+		Builder addDeepenNot(String deepenNot) {
+			deepenNots.add(deepenNot);
 			return this;
 		}
 
@@ -350,7 +350,7 @@ public final class FetchV2Request extends FetchRequest {
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantIds,
-					clientShallowCommits, deepenSince, deepenNotRefs,
+					clientShallowCommits, deepenSince, deepenNots,
 					depth, filterSpec, doneReceived, waitForDone, clientCapabilities,
 					agent, Collections.unmodifiableList(serverOptions),
 					sidebandAll,
