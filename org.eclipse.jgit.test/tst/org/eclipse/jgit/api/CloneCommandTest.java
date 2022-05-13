@@ -19,9 +19,11 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -849,6 +851,62 @@ public class CloneCommandTest extends RepositoryTestCase {
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 		assertEquals("refs/heads/test-copy", git2.getRepository().getFullBranch());
+	}
+
+    @Test
+    public void testCloneRepositoryWithDepth() throws IOException, JGitInternalException, GitAPIException {
+		File directory = createTempDirectory("testCloneRepositoryWithDepth");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+        command.setDepth(1);
+		command.setBranchesToClone(Set.of("refs/heads/test"));
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		assertEquals(Set.of(git2.getRepository().resolve(Constants.HEAD)), git2.getRepository().getObjectDatabase().getShallowCommits());
+	}
+
+    @Test
+	public void testCloneRepositoryWithShallowSince() throws Exception {
+		RevCommit commit = tr.commit()
+							 .parent(tr.git().log().call().iterator().next())
+							 .message("Test")
+							 .add("test.txt", "Hello world")
+							 .create();
+		tr.update("refs/heads/test", commit);
+
+        File directory = createTempDirectory("testCloneRepositoryWithShallowSince");
+        CloneCommand command = Git.cloneRepository();
+        command.setDirectory(directory);
+        command.setURI(fileUri());
+        command.setShallowSince(Instant.ofEpochSecond(commit.getCommitTime()));
+        command.setBranchesToClone(Set.of("refs/heads/test"));
+        Git git2 = command.call();
+        addRepoToClose(git2.getRepository());
+
+        assertEquals(Set.of(git2.getRepository().resolve(Constants.HEAD)), git2.getRepository().getObjectDatabase().getShallowCommits());
+    }
+
+	@Test
+	public void testCloneRepositoryWithShallowExclude() throws Exception {
+		RevCommit commit = tr.git().log().call().iterator().next();
+		tr.update("refs/heads/test", tr.commit()
+									   .parent(commit)
+									   .message("Test")
+									   .add("test.txt", "Hello world")
+									   .create());
+
+		File directory = createTempDirectory("testCloneRepositoryWithShallowExclude");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.addShallowExclude(commit.getId());
+		command.setBranchesToClone(Set.of("refs/heads/test"));
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		assertEquals(Set.of(git2.getRepository().resolve(Constants.HEAD)), git2.getRepository().getObjectDatabase().getShallowCommits());
 	}
 
 	private void assertTagOption(Repository repo, TagOpt expectedTagOption)

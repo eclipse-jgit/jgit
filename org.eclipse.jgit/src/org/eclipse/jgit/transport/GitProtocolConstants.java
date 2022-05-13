@@ -234,6 +234,13 @@ public final class GitProtocolConstants {
 	public static final String CAPABILITY_SERVER_OPTION = "server-option"; //$NON-NLS-1$
 
 	/**
+	 * The server supports the receiving of shallow options.
+	 *
+	 * @since 6.2
+	 */
+	public static final String CAPABILITY_SHALLOW = "shallow"; //$NON-NLS-1$
+
+	/**
 	 * Option for passing application-specific options to the server.
 	 *
 	 * @since 5.2
@@ -306,6 +313,13 @@ public final class GitProtocolConstants {
 	 * @since 5.11
 	 */
 	public static final String SECTION_PACKFILE = "packfile"; //$NON-NLS-1$
+
+	/**
+	 * Protocol V2 shallow-info section header.
+	 *
+	 * @since 6.2
+	 */
+	public static final String SECTION_SHALLOW_INFO = "shallow-info"; //$NON-NLS-1$
 
 	/**
 	 * Protocol announcement for protocol version 1. This is the same as V0,
