@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -90,6 +92,12 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private FETCH_TYPE fetchType;
 
 	private TagOpt tagOption;
+
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> deepenNotRefs = new ArrayList<>();
 
 	private enum FETCH_TYPE {
 		MULTIPLE_BRANCHES, ALL_BRANCHES, MIRROR
@@ -306,6 +314,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 					fetchAll ? TagOpt.FETCH_TAGS : TagOpt.AUTO_FOLLOW);
 		}
 		command.setInitialBranch(branch);
+		command.setDepth(depth);
+		command.setDeepenSince(deepenSince);
+		command.setDeepenNotRefs(deepenNotRefs);
 		configure(command);
 
 		return command.call();
@@ -734,6 +745,58 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 */
 	public CloneCommand setCallback(Callback callback) {
 		this.callback = callback;
+		return this;
+	}
+
+	/**
+	 * Create a shallow clone with a history truncated to the specified number of commits.
+	 *
+	 * @param depth the depth
+	 * @return {@code this}
+	 *
+	 * @since 6.2
+	 */
+	public CloneCommand setDepth(Integer depth) {
+		this.depth = depth;
+		return this;
+	}
+
+	/**
+	 * Create a shallow clone with a history after the specified time.
+	 *
+	 * @param deepenSince the timestammp
+	 * @return {@code this}
+	 *
+	 * @since 6.2
+	 */
+	public CloneCommand setDeepenSince(OffsetDateTime deepenSince) {
+		this.deepenSince = deepenSince.toInstant();
+		return this;
+	}
+
+	/**
+	 * Create a shallow clone with a history after the specified time.
+	 *
+	 * @param deepenSince the timestammp
+	 * @return {@code this}
+	 *
+	 * @since 6.2
+	 */
+	public CloneCommand setDeepenSince(Instant deepenSince) {
+		this.deepenSince = deepenSince;
+		return this;
+	}
+
+	/**
+	 * Create a shallow clone with a history, excluding commits reachable from a specified remote branch or tag.
+	 *
+	 * @param deepenNotRef the ref
+	 * @return {@code this}
+	 *
+	 * @since 6.2
+	 */
+	public CloneCommand addDeepenNotRef(String deepenNotRef) {
+		deepenNotRefs.add(deepenNotRef);
 		return this;
 	}
 

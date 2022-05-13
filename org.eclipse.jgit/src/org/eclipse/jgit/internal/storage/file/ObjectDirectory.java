@@ -16,6 +16,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -560,7 +561,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	Set<ObjectId> getShallowCommits() throws IOException {
+	public Set<ObjectId> getShallowCommits() throws IOException {
 		if (shallowFile == null || !shallowFile.isFile())
 			return Collections.emptySet();
 
@@ -585,6 +586,19 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 
 		return shallowCommitsIds;
+	}
+
+	@Override
+	public void setShallowCommits(Set<ObjectId> shallowCommits) throws IOException {
+		this.shallowCommitsIds = shallowCommits;
+		try (BufferedWriter writer = Files.newBufferedWriter(shallowFile.toPath(), UTF_8)){
+			for (ObjectId shallowCommit : shallowCommits) {
+				writer.write(shallowCommit.name());
+				writer.newLine();
+			}
+		}
+
+		shallowFileSnapshot = FileSnapshot.save(shallowFile);
 	}
 
 	void closeAllPackHandles(File packFile) {

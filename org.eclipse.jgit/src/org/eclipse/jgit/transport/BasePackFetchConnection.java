@@ -16,12 +16,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -32,6 +34,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -210,6 +213,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private int maxHaves;
 
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> deepenNotRefs;
+
 	/**
 	 * RPC state, if {@link BasePackConnection#statelessRPC} is true or protocol
 	 * V2 is used.
@@ -246,6 +255,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
 		thinPack = transport.isFetchThin();
 		filterSpec = transport.getFilterSpec();
+		depth = transport.getDepth();
+		deepenSince = transport.getDeepenSince();
+		deepenNotRefs = transport.getDeepenNotCommits();
 
 		if (local != null) {
 			walk = new RevWalk(local);
@@ -424,6 +436,25 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		for (String capability : getCapabilitiesV2(capabilities)) {
 			pckState.writeString(capability);
 		}
+
+		if (depth != null) {
+			pckState.writeString("deepen " + depth);
+		}
+
+		if (deepenSince != null) {
+			pckState.writeString("deepen-since " + deepenSince.getEpochSecond());
+		}
+
+		if (deepenNotRefs != null) {
+			for (String deepenNotRef : deepenNotRefs) {
+				pckState.writeString("deepen-not " + deepenNotRef);
+			}
+		}
+
+		for (ObjectId shallowCommit : local.getObjectDatabase().getShallowCommits()) {
+			pckState.writeString("shallow " + shallowCommit.name());
+		}
+
 		if (!sendWants(want, pckState)) {
 			// We already have everything we wanted.
 			return;
@@ -458,7 +489,21 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (sentDone && line.startsWith("ERR ")) { //$NON-NLS-1$
 			throw new RemoteRepositoryException(uri, line.substring(4));
 		}
-		// "shallow-info", "wanted-refs", and "packfile-uris" would have to be
+
+		if (GitProtocolConstants.SECTION_SHALLOW_INFO.equals(line)) {
+			ObjectDatabase objectDatabase = local.getObjectDatabase();
+			HashSet<ObjectId> shallowCommits = new HashSet<>(objectDatabase.getShallowCommits());
+			while (isShallowOrEmptyLine(line = pckIn.readString())) {
+				if (line.startsWith("shallow ")) {
+					shallowCommits.add(ObjectId.fromString(line.replace("shallow ", "")));
+				} else if (line.startsWith("unshallow ")) {
+					shallowCommits.remove(ObjectId.fromString(line.replace("unshallow ", "")));
+				}
+			}
+			objectDatabase.setShallowCommits(shallowCommits);
+		}
+
+		// "wanted-refs" and "packfile-uris" would have to be
 		// handled here in that order.
 		if (!GitProtocolConstants.SECTION_PACKFILE.equals(line)) {
 			throw new PackProtocolException(
@@ -1023,6 +1068,10 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				sidebandIn.drainMessages();
 			}
 		}
+	}
+
+	private boolean isShallowOrEmptyLine(String line) {
+		return line.isEmpty() || line.startsWith("shallow ") || line.startsWith("unshallow ");
 	}
 
 	/**
