@@ -11,6 +11,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -70,6 +71,26 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 * @return reader the caller can use to load objects from this database.
 	 */
 	public abstract ObjectReader newReader();
+
+	/**
+	 * @return the shallow commits of the current repository
+	 *
+	 * @throws IOException the database could not be read
+	 *
+	 * @since 6.3
+	 */
+	public abstract Set<ObjectId> getShallowCommits() throws IOException;
+
+	/**
+	 * Update the shallow commits of the current repository
+	 *
+	 * @param shallowCommits the new shallow commits
+	 *
+	 * @throws IOException the database could not be updated
+	 *
+	 * @since 6.3
+	 */
+	public abstract void setShallowCommits(Set<ObjectId> shallowCommits) throws IOException;
 
 	/**
 	 * Close any resources held by this database.

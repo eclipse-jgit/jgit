@@ -747,6 +747,13 @@ public final class Constants {
 	 */
 	public static final String LOCK_SUFFIX = ".lock"; //$NON-NLS-1$
 
+	/**
+	 * Depth used to unshallow a repository
+	 *
+	 * @since 6.3
+	 */
+	public static final int INFINITE_DEPTH = 0x7fffffff;
+
 	private Constants() {
 		// Hide the default constructor
 	}

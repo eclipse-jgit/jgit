@@ -14,10 +14,13 @@ import static java.util.stream.Collectors.toList;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidConfigurationException;
@@ -75,6 +78,14 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	private boolean isForceUpdate;
 
 	private String initialBranch;
+
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> shallowExcludes = new ArrayList<>();
+
+	private boolean unshallow;
 
 	/**
 	 * Callback for status of fetch operation.
@@ -209,6 +220,17 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			if (tagOption != null)
 				transport.setTagOpt(tagOption);
 			transport.setFetchThin(thin);
+			if (depth != null) {
+				transport.setDepth(depth);
+			}
+			if (unshallow) {
+				if (depth != null) {
+					throw new IllegalStateException(JGitText.get().depthWithUnshallow);
+				}
+				transport.setDepth(Constants.INFINITE_DEPTH);
+			}
+			transport.setDeepenSince(deepenSince);
+			transport.setDeepenNots(shallowExcludes);
 			configure(transport);
 			FetchResult result = transport.fetch(monitor,
 					applyOptions(refSpecs), initialBranch);
@@ -541,5 +563,94 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	public FetchCommand setForceUpdate(boolean force) {
 		this.isForceUpdate = force;
 		return this;
+	}
+
+	/**
+	 * Limit fetching to the specified number of commits from the tip of each remote branch history.
+	 *
+	 * @param depth the depth
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public FetchCommand setDepth(int depth) {
+		if (depth < 1) {
+			throw new IllegalArgumentException(JGitText.get().depthMustBeAt1);
+		}
+		this.depth = depth;
+		return this;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to include all reachable commits after a specified time.
+	 *
+	 * @param shallowSince the timestammp. Must not be {@code null}
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public FetchCommand setShallowSince(@NonNull OffsetDateTime shallowSince) {
+		this.deepenSince = shallowSince.toInstant();
+		return this;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to include all reachable commits after a specified time.
+	 *
+	 * @param shallowSince the timestammp. Must not be {@code null}
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public FetchCommand setShallowSince(@NonNull Instant shallowSince) {
+		this.deepenSince = shallowSince;
+		return this;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to exclude commits reachable from a specified remote branch or tag.
+	 *
+	 * @param shallowExclude the ref or commit. Must not be {@code null}
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public FetchCommand addShallowExclude(@NonNull String shallowExclude) {
+		shallowExcludes.add(shallowExclude);
+		return this;
+	}
+
+	/**
+	 * Create a shallow clone with a history, excluding commits reachable from a specified remote branch or tag.
+	 *
+	 * @param shallowExclude the commit. Must not be {@code null}
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public FetchCommand addShallowExclude(@NonNull ObjectId shallowExclude) {
+		shallowExcludes.add(shallowExclude.name());
+		return this;
+	}
+
+	/**
+	 * If the source repository is complete, convert a shallow repository to a complete one, removing all the
+	 * limitations imposed by shallow repositories.
+	 *
+	 * If the source repository is shallow, fetch as much as possible so that the current repository has the same
+	 * history as the source repository.
+	 *
+	 * @param unshallow whether to unshallow or not
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public FetchCommand setUnshallow(boolean unshallow) {
+		this.unshallow = unshallow;
+		return this;
+	}
+
+	void setShallowExcludes(List<String> shallowExcludes) {
+		this.shallowExcludes = shallowExcludes;
 	}
 }
