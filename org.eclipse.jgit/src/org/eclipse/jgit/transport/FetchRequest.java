@@ -35,7 +35,7 @@ abstract class FetchRequest {
 
 	final int deepenSince;
 
-	final List<String> deepenNotRefs;
+	final List<String> deepenNots;
 
 	@Nullable
 	final String agent;
@@ -53,7 +53,7 @@ abstract class FetchRequest {
 	 *            the filter spec
 	 * @param clientCapabilities
 	 *            capabilities sent in the request
-	 * @param deepenNotRefs
+	 * @param deepenNots
 	 *            Requests that the shallow clone/fetch should be cut at these
 	 *            specific revisions instead of a depth.
 	 * @param deepenSince
@@ -66,14 +66,14 @@ abstract class FetchRequest {
 			@NonNull Set<ObjectId> clientShallowCommits,
 			@NonNull FilterSpec filterSpec,
 			@NonNull Set<String> clientCapabilities, int deepenSince,
-			@NonNull List<String> deepenNotRefs, @Nullable String agent) {
+			@NonNull List<String> deepenNots, @Nullable String agent) {
 		this.wantIds = requireNonNull(wantIds);
 		this.depth = depth;
 		this.clientShallowCommits = requireNonNull(clientShallowCommits);
 		this.filterSpec = requireNonNull(filterSpec);
 		this.clientCapabilities = requireNonNull(clientCapabilities);
 		this.deepenSince = deepenSince;
-		this.deepenNotRefs = requireNonNull(deepenNotRefs);
+		this.deepenNots = requireNonNull(deepenNots);
 		this.agent = agent;
 	}
 
@@ -148,8 +148,8 @@ abstract class FetchRequest {
 	 * @return refs received in "deepen-not" lines.
 	 */
 	@NonNull
-	List<String> getDeepenNotRefs() {
-		return deepenNotRefs;
+	List<String> getDeepenNots() {
+		return deepenNots;
 	}
 
 	/**

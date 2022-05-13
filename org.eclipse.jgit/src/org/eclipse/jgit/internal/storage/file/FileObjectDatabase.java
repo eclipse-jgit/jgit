@@ -50,8 +50,6 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	abstract FS getFS();
 
-	abstract Set<ObjectId> getShallowCommits() throws IOException;
-
 	abstract void selectObjectRepresentation(PackWriter packer,
 			ObjectToPack otp, WindowCursor curs) throws IOException;
 

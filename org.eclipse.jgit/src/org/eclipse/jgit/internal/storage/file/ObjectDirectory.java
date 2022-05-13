@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -560,7 +561,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	Set<ObjectId> getShallowCommits() throws IOException {
+	public Set<ObjectId> getShallowCommits() throws IOException {
 		if (shallowFile == null || !shallowFile.isFile())
 			return Collections.emptySet();
 
@@ -585,6 +586,43 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 
 		return shallowCommitsIds;
+	}
+
+	@Override
+	public void setShallowCommits(Set<ObjectId> shallowCommits) throws IOException {
+		this.shallowCommitsIds = shallowCommits;
+		LockFile lock = new LockFile(shallowFile);
+		if (!lock.lock()) {
+			throw new IOException(MessageFormat.format(JGitText.get().lockError,
+					shallowFile.getAbsolutePath()));
+		}
+
+		try {
+			if (shallowCommits.isEmpty()) {
+				if (shallowFile.isFile()) {
+					shallowFile.delete();
+				}
+			} else {
+				try (OutputStream out = lock.getOutputStream()) {
+					for (ObjectId shallowCommit : shallowCommits) {
+						byte[] buf = new byte[Constants.OBJECT_ID_STRING_LENGTH + 1];
+						shallowCommit.copyTo(buf, 0);
+						buf[Constants.OBJECT_ID_STRING_LENGTH] = '\n';
+						out.write(buf);
+					}
+				} finally {
+					lock.commit();
+				}
+			}
+		} finally {
+			lock.unlock();
+		}
+
+		if (shallowCommits.isEmpty()) {
+			shallowFileSnapshot = FileSnapshot.DIRTY;
+		} else {
+			shallowFileSnapshot = FileSnapshot.save(shallowFile);
+		}
 	}
 
 	void closeAllPackHandles(File packFile) {
