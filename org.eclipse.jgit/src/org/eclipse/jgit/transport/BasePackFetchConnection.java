@@ -16,12 +16,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -32,6 +34,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -76,7 +79,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	/**
 	 * Maximum number of 'have' lines to send before giving up.
 	 * <p>
-	 * During {@link #negotiate(ProgressMonitor)} we send at most this many
+	 * During {@link #negotiate(ProgressMonitor, boolean, Set)} we send at most this many
 	 * commits to the remote peer as 'have' lines without an ACK response before
 	 * we give up.
 	 */
@@ -210,6 +213,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private int maxHaves;
 
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> deepenNots;
+
 	/**
 	 * RPC state, if {@link BasePackConnection#statelessRPC} is true or protocol
 	 * V2 is used.
@@ -246,6 +255,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
 		thinPack = transport.isFetchThin();
 		filterSpec = transport.getFilterSpec();
+		depth = transport.getDepth();
+		deepenSince = transport.getDeepenSince();
+		deepenNots = transport.getDeepenNots();
 
 		if (local != null) {
 			walk = new RevWalk(local);
@@ -385,9 +397,17 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 			PacketLineOut output = statelessRPC ? pckState : pckOut;
 			if (sendWants(want, output)) {
+				boolean mayHaveShallow = depth != null || deepenSince != null || !deepenNots.isEmpty();
+				Set<ObjectId> shallowCommits = local.getObjectDatabase().getShallowCommits();
+				if (isCapableOf(GitProtocolConstants.CAPABILITY_SHALLOW)) {
+					sendShallow(shallowCommits, output);
+				} else if (mayHaveShallow) {
+					throw new PackProtocolException(JGitText.get().shallowNotSupported);
+				}
 				output.end();
 				outNeedsEnd = false;
-				negotiate(monitor);
+
+				negotiate(monitor, mayHaveShallow, shallowCommits);
 
 				clearState();
 
@@ -424,9 +444,17 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		for (String capability : getCapabilitiesV2(capabilities)) {
 			pckState.writeString(capability);
 		}
+
 		if (!sendWants(want, pckState)) {
 			// We already have everything we wanted.
 			return;
+		}
+
+		Set<ObjectId> shallowCommits = local.getObjectDatabase().getShallowCommits();
+		if (capabilities.contains(GitProtocolConstants.CAPABILITY_SHALLOW)) {
+			sendShallow(shallowCommits, pckState);
+		} else if (depth != null || deepenSince != null || !deepenNots.isEmpty()) {
+			throw new PackProtocolException(JGitText.get().shallowNotSupported);
 		}
 		// If we send something, we always close it properly ourselves.
 		outNeedsEnd = false;
@@ -458,7 +486,16 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (sentDone && line.startsWith("ERR ")) { //$NON-NLS-1$
 			throw new RemoteRepositoryException(uri, line.substring(4));
 		}
-		// "shallow-info", "wanted-refs", and "packfile-uris" would have to be
+
+		if (GitProtocolConstants.SECTION_SHALLOW_INFO.equals(line)) {
+			line = handleShallowUnshallow(shallowCommits, pckIn);
+			if (!PacketLineIn.isDelimiter(line)) {
+				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "0001", line));
+			}
+			line = pckIn.readString();
+		}
+
+		// "wanted-refs" and "packfile-uris" would have to be
 		// handled here in that order.
 		if (!GitProtocolConstants.SECTION_PACKFILE.equals(line)) {
 			throw new PackProtocolException(
@@ -773,8 +810,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		return line.toString();
 	}
 
-	private void negotiate(ProgressMonitor monitor) throws IOException,
-			CancelledException {
+	private void negotiate(ProgressMonitor monitor, boolean mayHaveShallow, Set<ObjectId> shallowCommits)
+			throws IOException, CancelledException {
 		final MutableObjectId ackId = new MutableObjectId();
 		int resultsPending = 0;
 		int havesSent = 0;
@@ -911,6 +948,13 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			resultsPending++;
 		}
 
+		if (mayHaveShallow) {
+			String line = handleShallowUnshallow(shallowCommits, pckIn);
+			if (!PacketLineIn.isEnd(line)) {
+				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "0000", line));
+			}
+		}
+
 		READ_RESULT: while (resultsPending > 0 || multiAck != MultiAck.OFF) {
 			final AckNackResult anr = pckIn.readACK(ackId);
 			resultsPending--;
@@ -1023,6 +1067,48 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				sidebandIn.drainMessages();
 			}
 		}
+	}
+
+	private void sendShallow(Set<ObjectId> shallowCommits, PacketLineOut output) throws IOException {
+		for (ObjectId shallowCommit : shallowCommits) {
+			output.writeString("shallow " + shallowCommit.name());
+		}
+
+		if (depth != null) {
+			output.writeString("deepen " + depth);
+		}
+
+		if (deepenSince != null) {
+			output.writeString("deepen-since " + deepenSince.getEpochSecond());
+		}
+
+		if (deepenNots != null) {
+			for (String deepenNotRef : deepenNots) {
+				output.writeString("deepen-not " + deepenNotRef);
+			}
+		}
+	}
+
+	private String handleShallowUnshallow(Set<ObjectId> advertisedShallowCommits, PacketLineIn input)
+			throws IOException {
+		String line = input.readString();
+		ObjectDatabase objectDatabase = local.getObjectDatabase();
+		HashSet<ObjectId> newShallowCommits = new HashSet<>(advertisedShallowCommits);
+		while (!PacketLineIn.isDelimiter(line) && !PacketLineIn.isEnd(line)) {
+			if (line.startsWith("shallow ")) {
+				newShallowCommits.add(ObjectId.fromString(line.substring("shallow ".length())));
+			} else if (line.startsWith("unshallow ")) {
+				String unshallow = line.substring("unshallow ".length());
+				if (!advertisedShallowCommits.contains(unshallow)) {
+					throw new PackProtocolException(MessageFormat.format(JGitText.get()
+							.notShallowedUnshallow, unshallow));
+				}
+				newShallowCommits.remove(ObjectId.fromString(unshallow));
+			}
+			line = input.readString();
+		}
+		objectDatabase.setShallowCommits(newShallowCommits);
+		return line;
 	}
 
 	/**

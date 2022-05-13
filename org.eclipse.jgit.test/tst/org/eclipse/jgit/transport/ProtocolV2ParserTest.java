@@ -152,7 +152,7 @@ public class ProtocolV2ParserTest {
 		assertThat(request.getClientShallowCommits(),
 				hasOnlyObjectIds("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
-		assertTrue(request.getDeepenNotRefs().isEmpty());
+		assertTrue(request.getDeepenNots().isEmpty());
 		assertEquals(15, request.getDepth());
 		assertTrue(request.getClientCapabilities()
 				.contains(GitProtocolConstants.OPTION_DEEPEN_RELATIVE));
@@ -171,7 +171,7 @@ public class ProtocolV2ParserTest {
 		assertThat(request.getClientShallowCommits(),
 				hasOnlyObjectIds("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
-		assertThat(request.getDeepenNotRefs(),
+		assertThat(request.getDeepenNots(),
 				hasItems("a08595f76159b09d57553e37a5123f1091bb13e7"));
 	}
 
