@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, 2009 Google Inc.
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2025 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -431,8 +431,6 @@ public class WindowCache {
 
 	private final long maxBytes;
 
-	private final boolean mmap;
-
 	private final int windowSizeShift;
 
 	private final int windowSize;
@@ -496,7 +494,7 @@ public class WindowCache {
 
 		maxFiles = cfg.getPackedGitOpenFiles();
 		maxBytes = cfg.getPackedGitLimit();
-		mmap = cfg.isPackedGitMMAP();
+		FileWindowReaderFactory.setMmap(cfg.isPackedGitMMAP());
 		windowSizeShift = bits(cfg.getPackedGitWindowSize());
 		windowSize = 1 << windowSizeShift;
 		useStrongRefs = cfg.isPackedGitUseStrongRefs();
@@ -560,12 +558,11 @@ public class WindowCache {
 
 	private ByteWindow load(Pack pack, long offset) throws IOException {
 		long startTime = System.nanoTime();
-		if (pack.beginWindowCache())
+		if (pack.beginWindowCache()) {
 			statsRecorder.recordOpenFiles(1);
+		}
 		try {
-			if (mmap)
-				return pack.mmap(offset, windowSize);
-			ByteArrayWindow w = pack.read(offset, windowSize);
+			ByteWindow w = pack.read(offset, windowSize);
 			statsRecorder.recordLoadSuccess(System.nanoTime() - startTime);
 			return w;
 		} catch (IOException | RuntimeException | Error e) {

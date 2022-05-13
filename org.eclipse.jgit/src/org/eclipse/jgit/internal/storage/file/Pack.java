@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2006-2025, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -25,9 +25,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel.MapMode;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.NoSuchFileException;
 import java.text.MessageFormat;
@@ -95,12 +92,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	final int hash;
 
-	private RandomAccessFile fd;
+	private FileWindowReader reader;
 
-	/** For managing open/close accounting of {@link #fd}. */
+	/** For managing open/close accounting of {@link #reader}. */
 	private final Object activeLock = new Object();
 
-	/** Serializes reads performed against {@link #fd}. */
+	/** Serializes reads performed against {@link #reader}. */
 	private final Object readLock = new Object();
 
 	long length;
@@ -182,53 +179,53 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		if (optional.isPresent()) {
 			return optional.get();
 		}
-		if (invalid) {
+					if (invalid) {
 			throw new PackInvalidException(packFile, invalidatingCause);
-		}
-		try {
-			long start = System.currentTimeMillis();
-			PackFile idxFile = packFile.create(INDEX);
+					}
+					try {
+						long start = System.currentTimeMillis();
+						PackFile idxFile = packFile.create(INDEX);
 			PackIndex idx = PackIndex.open(idxFile);
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(String.format(
-						"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
-						idxFile.getAbsolutePath(),
-						Float.valueOf(idxFile.length()
-								/ (1024f * 1024)),
-						Long.valueOf(System.currentTimeMillis()
-								- start)));
-			}
-				if (packChecksum == null) {
+						if (LOG.isDebugEnabled()) {
+							LOG.debug(String.format(
+									"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
+									idxFile.getAbsolutePath(),
+									Float.valueOf(idxFile.length()
+											/ (1024f * 1024)),
+									Long.valueOf(System.currentTimeMillis()
+											- start)));
+						}
+						if (packChecksum == null) {
 				packChecksum = idx.getChecksum();
-				fileSnapshot.setChecksum(
-						ObjectId.fromRaw(packChecksum));
-			} else if (!Arrays.equals(packChecksum,
+							fileSnapshot.setChecksum(
+									ObjectId.fromRaw(packChecksum));
+						} else if (!Arrays.equals(packChecksum,
 					idx.getChecksum())) {
-				throw new PackMismatchException(MessageFormat
-						.format(JGitText.get().packChecksumMismatch,
-								packFile.getPath(),
+							throw new PackMismatchException(MessageFormat
+									.format(JGitText.get().packChecksumMismatch,
+											packFile.getPath(),
 								PackExt.PACK.getExtension(),
 								Hex.toHexString(packChecksum),
 								PackExt.INDEX.getExtension(),
 							Hex.toHexString(idx.getChecksum())));
-			}
+						}
 			loadedIdx = optionally(idx);
 			return idx;
-		} catch (InterruptedIOException e) {
-			// don't invalidate the pack, we are interrupted from
-			// another thread
-			throw e;
-		} catch (IOException e) {
-			invalid = true;
-			invalidatingCause = e;
-			throw e;
-		}
-	}
+					} catch (InterruptedIOException e) {
+						// don't invalidate the pack, we are interrupted from
+						// another thread
+						throw e;
+					} catch (IOException e) {
+						invalid = true;
+						invalidatingCause = e;
+						throw e;
+					}
+				}
 
 	private PackObjectSizeIndex objectSizeIndex() throws IOException {
 		if (loadedObjSizeIdx != null) {
 			return loadedObjSizeIdx;
-		}
+			}
 
 		if (attemptLoadObjSizeIdx) {
 			return null;
@@ -237,7 +234,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		synchronized (this) {
 			if (loadedObjSizeIdx != null) {
 				return loadedObjSizeIdx;
-			}
+	}
 
 			PackObjectSizeIndex sizeIdx;
 			try {
@@ -426,7 +423,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	public void close() {
 		WindowCache.purge(this);
 		closeIndices();
-	}
+		}
 
 	private synchronized void closeIndices() {
 		loadedIdx = Optionally.empty();
@@ -547,170 +544,170 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		// Rip apart the header so we can discover the size.
 		//
 		try {
-			readFully(src.offset, buf, 0, 20, curs);
+		readFully(src.offset, buf, 0, 20, curs);
 
-			int c = buf[0] & 0xff;
-			final int typeCode = (c >> 4) & 7;
-			long inflatedLength = c & 15;
-			int shift = 4;
-			int headerCnt = 1;
-			while ((c & 0x80) != 0) {
+		int c = buf[0] & 0xff;
+		final int typeCode = (c >> 4) & 7;
+		long inflatedLength = c & 15;
+		int shift = 4;
+		int headerCnt = 1;
+		while ((c & 0x80) != 0) {
+			c = buf[headerCnt++] & 0xff;
+			inflatedLength += ((long) (c & 0x7f)) << shift;
+			shift += 7;
+		}
+
+		if (typeCode == Constants.OBJ_OFS_DELTA) {
+			do {
 				c = buf[headerCnt++] & 0xff;
-				inflatedLength += ((long) (c & 0x7f)) << shift;
-				shift += 7;
+			} while ((c & 128) != 0);
+			if (validate) {
+				assert(crc1 != null && crc2 != null);
+				crc1.update(buf, 0, headerCnt);
+				crc2.update(buf, 0, headerCnt);
 			}
-
-			if (typeCode == Constants.OBJ_OFS_DELTA) {
-				do {
-					c = buf[headerCnt++] & 0xff;
-				} while ((c & 128) != 0);
-				if (validate) {
-					assert(crc1 != null && crc2 != null);
-					crc1.update(buf, 0, headerCnt);
-					crc2.update(buf, 0, headerCnt);
-				}
-			} else if (typeCode == Constants.OBJ_REF_DELTA) {
-				if (validate) {
-					assert(crc1 != null && crc2 != null);
-					crc1.update(buf, 0, headerCnt);
-					crc2.update(buf, 0, headerCnt);
-				}
-
-				readFully(src.offset + headerCnt, buf, 0, 20, curs);
-				if (validate) {
-					assert(crc1 != null && crc2 != null);
-					crc1.update(buf, 0, 20);
-					crc2.update(buf, 0, 20);
-				}
-				headerCnt += 20;
-			} else if (validate) {
+		} else if (typeCode == Constants.OBJ_REF_DELTA) {
+			if (validate) {
 				assert(crc1 != null && crc2 != null);
 				crc1.update(buf, 0, headerCnt);
 				crc2.update(buf, 0, headerCnt);
 			}
 
-			final long dataOffset = src.offset + headerCnt;
-			final long dataLength = src.length;
-			final long expectedCRC;
-			final ByteArrayWindow quickCopy;
-
-			// Verify the object isn't corrupt before sending. If it is,
-			// we report it missing instead.
-			//
-			try {
-				quickCopy = curs.quickCopy(this, dataOffset, dataLength);
-
-				if (validate && idx().hasCRC32Support()) {
-					assert(crc1 != null);
-					// Index has the CRC32 code cached, validate the object.
-					//
-					expectedCRC = idx().findCRC32(src);
-					if (quickCopy != null) {
-						quickCopy.crc32(crc1, dataOffset, (int) dataLength);
-					} else {
-						long pos = dataOffset;
-						long cnt = dataLength;
-						while (cnt > 0) {
-							final int n = (int) Math.min(cnt, buf.length);
-								readFully(pos, buf, 0, n, curs);
-							crc1.update(buf, 0, n);
-							pos += n;
-							cnt -= n;
-						}
-					}
-					if (crc1.getValue() != expectedCRC) {
-						setCorrupt(src.offset);
-						throw new CorruptObjectException(MessageFormat.format(
-								JGitText.get().objectAtHasBadZlibStream,
-								Long.valueOf(src.offset), getPackFile()));
-					}
-				} else if (validate) {
-					// We don't have a CRC32 code in the index, so compute it
-					// now while inflating the raw data to get zlib to tell us
-					// whether or not the data is safe.
-					//
-					Inflater inf = curs.inflater();
-					byte[] tmp = new byte[1024];
-					if (quickCopy != null) {
-						quickCopy.check(inf, tmp, dataOffset, (int) dataLength);
-					} else {
-						assert(crc1 != null);
-						long pos = dataOffset;
-						long cnt = dataLength;
-						while (cnt > 0) {
-							final int n = (int) Math.min(cnt, buf.length);
-							readFully(pos, buf, 0, n, curs);
-							crc1.update(buf, 0, n);
-							inf.setInput(buf, 0, n);
-							while (inf.inflate(tmp, 0, tmp.length) > 0)
-								continue;
-							pos += n;
-							cnt -= n;
-						}
-					}
-					if (!inf.finished() || inf.getBytesRead() != dataLength) {
-						setCorrupt(src.offset);
-						throw new EOFException(MessageFormat.format(
-								JGitText.get().shortCompressedStreamAt,
-								Long.valueOf(src.offset)));
-					}
-					assert(crc1 != null);
-					expectedCRC = crc1.getValue();
-				} else {
-					expectedCRC = -1;
-				}
-			} catch (DataFormatException dataFormat) {
-				setCorrupt(src.offset);
-
-				CorruptObjectException corruptObject = new CorruptObjectException(
-						MessageFormat.format(
-								JGitText.get().objectAtHasBadZlibStream,
-								Long.valueOf(src.offset), getPackFile()),
-						dataFormat);
-
-				throw new StoredObjectRepresentationNotAvailableException(
-						corruptObject);
+			readFully(src.offset + headerCnt, buf, 0, 20, curs);
+			if (validate) {
+				assert(crc1 != null && crc2 != null);
+				crc1.update(buf, 0, 20);
+				crc2.update(buf, 0, 20);
 			}
+			headerCnt += 20;
+		} else if (validate) {
+			assert(crc1 != null && crc2 != null);
+			crc1.update(buf, 0, headerCnt);
+			crc2.update(buf, 0, headerCnt);
+		}
 
-			if (quickCopy != null) {
-				// The entire object fits into a single byte array window slice,
-				// and we have it pinned.  Write this out without copying.
-				//
-				out.writeHeader(src, inflatedLength);
-				isHeaderWritten = true;
-				quickCopy.write(out, dataOffset, (int) dataLength);
+		final long dataOffset = src.offset + headerCnt;
+		final long dataLength = src.length;
+		final long expectedCRC;
+		final ByteArrayWindow quickCopy;
 
-			} else if (dataLength <= buf.length) {
-				// Tiny optimization: Lots of objects are very small deltas or
-				// deflated commits that are likely to fit in the copy buffer.
+		// Verify the object isn't corrupt before sending. If it is,
+		// we report it missing instead.
+		//
+		try {
+			quickCopy = curs.quickCopy(this, dataOffset, dataLength);
+
+			if (validate && idx().hasCRC32Support()) {
+				assert(crc1 != null);
+				// Index has the CRC32 code cached, validate the object.
 				//
-				if (!validate) {
+				expectedCRC = idx().findCRC32(src);
+				if (quickCopy != null) {
+					quickCopy.crc32(crc1, dataOffset, (int) dataLength);
+				} else {
 					long pos = dataOffset;
 					long cnt = dataLength;
 					while (cnt > 0) {
 						final int n = (int) Math.min(cnt, buf.length);
 						readFully(pos, buf, 0, n, curs);
+						crc1.update(buf, 0, n);
 						pos += n;
 						cnt -= n;
 					}
 				}
-				out.writeHeader(src, inflatedLength);
-				isHeaderWritten = true;
-				out.write(buf, 0, (int) dataLength);
-			} else {
-				// Now we are committed to sending the object. As we spool it out,
-				// check its CRC32 code to make sure there wasn't corruption between
-				// the verification we did above, and us actually outputting it.
+				if (crc1.getValue() != expectedCRC) {
+					setCorrupt(src.offset);
+					throw new CorruptObjectException(MessageFormat.format(
+							JGitText.get().objectAtHasBadZlibStream,
+							Long.valueOf(src.offset), getPackFile()));
+				}
+			} else if (validate) {
+				// We don't have a CRC32 code in the index, so compute it
+				// now while inflating the raw data to get zlib to tell us
+				// whether or not the data is safe.
 				//
+				Inflater inf = curs.inflater();
+				byte[] tmp = new byte[1024];
+				if (quickCopy != null) {
+					quickCopy.check(inf, tmp, dataOffset, (int) dataLength);
+				} else {
+					assert(crc1 != null);
+					long pos = dataOffset;
+					long cnt = dataLength;
+					while (cnt > 0) {
+						final int n = (int) Math.min(cnt, buf.length);
+						readFully(pos, buf, 0, n, curs);
+						crc1.update(buf, 0, n);
+						inf.setInput(buf, 0, n);
+						while (inf.inflate(tmp, 0, tmp.length) > 0)
+							continue;
+						pos += n;
+						cnt -= n;
+					}
+				}
+				if (!inf.finished() || inf.getBytesRead() != dataLength) {
+					setCorrupt(src.offset);
+					throw new EOFException(MessageFormat.format(
+							JGitText.get().shortCompressedStreamAt,
+							Long.valueOf(src.offset)));
+				}
+				assert(crc1 != null);
+				expectedCRC = crc1.getValue();
+			} else {
+				expectedCRC = -1;
+			}
+		} catch (DataFormatException dataFormat) {
+			setCorrupt(src.offset);
+
+			CorruptObjectException corruptObject = new CorruptObjectException(
+					MessageFormat.format(
+							JGitText.get().objectAtHasBadZlibStream,
+							Long.valueOf(src.offset), getPackFile()),
+					dataFormat);
+
+			throw new StoredObjectRepresentationNotAvailableException(
+					corruptObject);
+		}
+
+		if (quickCopy != null) {
+			// The entire object fits into a single byte array window slice,
+			// and we have it pinned.  Write this out without copying.
+			//
+			out.writeHeader(src, inflatedLength);
+				isHeaderWritten = true;
+			quickCopy.write(out, dataOffset, (int) dataLength);
+
+		} else if (dataLength <= buf.length) {
+			// Tiny optimization: Lots of objects are very small deltas or
+			// deflated commits that are likely to fit in the copy buffer.
+			//
+			if (!validate) {
 				long pos = dataOffset;
 				long cnt = dataLength;
 				while (cnt > 0) {
 					final int n = (int) Math.min(cnt, buf.length);
 					readFully(pos, buf, 0, n, curs);
-					if (validate) {
-						assert(crc2 != null);
-						crc2.update(buf, 0, n);
-					}
+					pos += n;
+					cnt -= n;
+				}
+			}
+			out.writeHeader(src, inflatedLength);
+				isHeaderWritten = true;
+			out.write(buf, 0, (int) dataLength);
+		} else {
+			// Now we are committed to sending the object. As we spool it out,
+			// check its CRC32 code to make sure there wasn't corruption between
+			// the verification we did above, and us actually outputting it.
+			//
+			long pos = dataOffset;
+			long cnt = dataLength;
+			while (cnt > 0) {
+				final int n = (int) Math.min(cnt, buf.length);
+				readFully(pos, buf, 0, n, curs);
+				if (validate) {
+					assert(crc2 != null);
+					crc2.update(buf, 0, n);
+				}
 					cnt -= n;
 					if (!isHeaderWritten) {
 						if (invalid && cnt > 0) {
@@ -722,24 +719,24 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 						out.writeHeader(src, inflatedLength);
 						isHeaderWritten = true;
 					}
-					out.write(buf, 0, n);
-					pos += n;
-				}
-				if (validate) {
-					assert(crc2 != null);
-					if (crc2.getValue() != expectedCRC) {
-						throw new CorruptObjectException(MessageFormat.format(
-								JGitText.get().objectAtHasBadZlibStream,
-								Long.valueOf(src.offset), getPackFile()));
-					}
+				out.write(buf, 0, n);
+				pos += n;
+			}
+			if (validate) {
+				assert(crc2 != null);
+				if (crc2.getValue() != expectedCRC) {
+					throw new CorruptObjectException(MessageFormat.format(
+							JGitText.get().objectAtHasBadZlibStream,
+							Long.valueOf(src.offset), getPackFile()));
 				}
 			}
+		}
 		} catch (IOException ioError) {
 			if (!isHeaderWritten) {
 				throw new StoredObjectRepresentationNotAvailableException(ioError);
 			}
 			throw ioError;
-		}
+	}
 	}
 
 	boolean invalid() {
@@ -768,45 +765,45 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private void beginCopyAsIs()
 			throws StoredObjectRepresentationNotAvailableException {
 		synchronized (activeLock) {
-			if (++activeCopyRawData == 1 && activeWindows == 0) {
-				try {
-					doOpen();
-				} catch (IOException thisPackNotValid) {
-					throw new StoredObjectRepresentationNotAvailableException(
-							thisPackNotValid);
-				}
+		if (++activeCopyRawData == 1 && activeWindows == 0) {
+			try {
+				doOpen();
+			} catch (IOException thisPackNotValid) {
+				throw new StoredObjectRepresentationNotAvailableException(
+						thisPackNotValid);
 			}
 		}
+	}
 	}
 
 	private void endCopyAsIs() {
 		synchronized (activeLock) {
 			if (--activeCopyRawData == 0 && activeWindows == 0) {
-				doClose();
-			}
+			doClose();
+	}
 		}
 	}
 
 	boolean beginWindowCache() throws IOException {
 		synchronized (activeLock) {
-			if (++activeWindows == 1) {
+		if (++activeWindows == 1) {
 				if (activeCopyRawData == 0) {
-					doOpen();
+				doOpen();
 				}
-				return true;
-			}
-			return false;
+			return true;
 		}
+		return false;
+	}
 	}
 
 	boolean endWindowCache() {
 		synchronized (activeLock) {
 			boolean r = --activeWindows == 0;
 			if (r && activeCopyRawData == 0) {
-				doClose();
+			doClose();
 			}
-			return r;
-		}
+		return r;
+	}
 	}
 
 	private void doOpen() throws IOException {
@@ -816,8 +813,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		}
 		try {
 			synchronized (readLock) {
-				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
-				length = fd.length();
+				reader = FileWindowReaderFactory.create(this).open();
+				length = reader.length();
 				onOpenPack();
 			}
 		} catch (InterruptedIOException e) {
@@ -863,22 +860,18 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private void doClose() {
 		synchronized (readLock) {
-			if (fd != null) {
 				try {
-					fd.close();
-				} catch (IOException err) {
-					// Ignore a close event. We had it open only for reading.
-					// There should not be errors related to network buffers
-					// not flushed, etc.
+				reader.close();
+			} catch (Exception e) {
+				LOG.error(e.getMessage(), e);
 				}
-				fd = null;
-			}
+			reader = null;
 		}
 	}
 
-	ByteArrayWindow read(long pos, int size) throws IOException {
+	ByteWindow read(long pos, int size) throws IOException {
 		synchronized (readLock) {
-			if (invalid || fd == null) {
+			if (invalid || reader == null) {
 				// Due to concurrency between a read and another packfile invalidation thread
 				// one thread could come up to this point and then fail with NPE.
 				// Detect the situation and throw a proper exception so that can be properly
@@ -886,36 +879,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				// any failures.
 				throw new PackInvalidException(packFile, invalidatingCause);
 			}
-			if (length < pos + size)
-				size = (int) (length - pos);
-			final byte[] buf = new byte[size];
-			fd.seek(pos);
-			fd.readFully(buf, 0, size);
-			return new ByteArrayWindow(this, pos, buf);
-		}
-	}
-
-	ByteWindow mmap(long pos, int size) throws IOException {
-		synchronized (readLock) {
-			if (length < pos + size)
-				size = (int) (length - pos);
-
-			MappedByteBuffer map;
-			try {
-				map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
-			} catch (IOException ioe1) {
-				// The most likely reason this failed is the JVM has run out
-				// of virtual memory. We need to discard quickly, and try to
-				// force the GC to finalize and release any existing mappings.
-				//
-				System.gc();
-				System.runFinalization();
-				map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
-			}
-
-			if (map.hasArray())
-				return new ByteArrayWindow(this, pos, map.array());
-			return new ByteBufferWindow(this, pos, map);
+			return reader.read(pos, size);
 		}
 	}
 
@@ -923,8 +887,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		final PackIndex idx = idx();
 		final byte[] buf = new byte[20];
 
-		fd.seek(0);
-		fd.readFully(buf, 0, 12);
+		reader.readRaw(buf, 0, 12);
 		if (RawParseUtils.match(buf, 0, Constants.PACK_SIGNATURE) != 4) {
 			throw new NoPackSignatureException(JGitText.get().notAPACKFile);
 		}
@@ -941,8 +904,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					getPackFile()));
 		}
 
-		fd.seek(length - 20);
-		fd.readFully(buf, 0, 20);
+		reader.readRaw(buf, length - 20, 20);
 		if (!Arrays.equals(buf, packChecksum)) {
 			throw new PackMismatchException(
 					MessageFormat.format(JGitText.get().packChecksumMismatch,
@@ -1315,15 +1277,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		if (optional.isPresent()) {
 			return optional.get();
 		}
-		try {
+			try {
 			PackBitmapIndex idx = PackBitmapIndex.open(bitmapIdxFile, idx(),
-					getReverseIdx());
+						getReverseIdx());
 			// At this point, idx() will have set packChecksum.
 			if (Arrays.equals(packChecksum, idx.getPackChecksum())) {
 				bitmapIdx = optionally(idx);
 				return idx;
 			}
-		} catch (FileNotFoundException e) {
+			} catch (FileNotFoundException e) {
 			// Once upon a time the bitmap or index files existed. Now one
 			// of them has been removed. Most likely an external gc has
 			// removed index, packfile or the bitmap
@@ -1334,13 +1296,13 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			// Ignore NFS stale handle exception the same way as
 			// FileNotFoundException above.
 		}
-		bitmapIdxFile = null;
-		return null;
-	}
+				bitmapIdxFile = null;
+				return null;
+			}
 
 	void setBitmapIndexFile(PackFile bitmapIndexFile) {
 		this.bitmapIdxFile = bitmapIndexFile;
-	}
+			}
 
 	private PackReverseIndex getReverseIdx() throws IOException {
 		Optional<PackReverseIndex> optional = reverseIdx.getOptional();
@@ -1357,7 +1319,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		Optional<PackReverseIndex> optional = reverseIdx.getOptional();
 		if (optional.isPresent()) {
 			return optional.get();
-		}
+	}
 		PackFile reverseIndexFile = packFile.create(REVERSE_INDEX);
 		PackReverseIndex revIdx = PackReverseIndexFactory.openOrCompute(reverseIndexFile,
 					getObjectCount(), () -> getIndex());
