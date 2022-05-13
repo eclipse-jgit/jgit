@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, 2020 Google Inc. and others
+ * Copyright (C) 2008, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -1016,6 +1017,7 @@ public class UploadPack implements Closeable {
 		// writing a response. Buffer the response until then.
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
+		List<ObjectId> deepenNots = emptyList();
 		FetchRequest req;
 		try {
 			if (biDirectionalPipe)
@@ -1054,13 +1056,14 @@ public class UploadPack implements Closeable {
 				verifyClientShallow(req.getClientShallowCommits());
 			}
 
-			if (req.getDepth() != 0 || req.getDeepenSince() != 0) {
+			deepenNots = parseDeepenNots(req.getDeepenNots());
+			if (req.getDepth() != 0 || req.getDeepenSince() != 0 || !req.getDeepenNots().isEmpty()) {
 				computeShallowsAndUnshallows(req, shallow -> {
 					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
 				}, unshallow -> {
 					pckOut.writeString("unshallow " + unshallow.name() + '\n'); //$NON-NLS-1$
 					unshallowCommits.add(unshallow);
-				}, Collections.emptyList());
+				}, deepenNots);
 				pckOut.end();
 			}
 
@@ -1092,7 +1095,7 @@ public class UploadPack implements Closeable {
 
 		if (sendPack) {
 			sendPack(accumulator, req, refs == null ? null : refs.values(),
-					unshallowCommits, Collections.emptyList(), pckOut);
+					unshallowCommits, deepenNots, pckOut);
 		}
 	}
 
@@ -1171,15 +1174,7 @@ public class UploadPack implements Closeable {
 
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
 		// copying data back to class fields
-		List<ObjectId> deepenNots = new ArrayList<>();
-		for (String s : req.getDeepenNotRefs()) {
-			Ref ref = findRef(s);
-			if (ref == null) {
-				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().invalidRefName, s));
-			}
-			deepenNots.add(ref.getObjectId());
-		}
+		List<ObjectId> deepenNots = parseDeepenNots(req.getDeepenNots());
 
 		Map<String, ObjectId> wantedRefs = wantedRefs(req);
 		// TODO(ifrade): Avoid mutating the parsed request.
@@ -1189,7 +1184,7 @@ public class UploadPack implements Closeable {
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
 				|| req.getDeepenSince() != 0
-				|| !req.getDeepenNotRefs().isEmpty();
+				|| !req.getDeepenNots().isEmpty();
 		List<ObjectId> shallowCommits = new ArrayList<>();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 
@@ -2451,6 +2446,24 @@ public class UploadPack implements Closeable {
 				pw.addObject(o);
 			}
 		}
+	}
+
+	private List<ObjectId> parseDeepenNots(List<String> deepenNots)
+			throws IOException {
+		List<ObjectId> result = new ArrayList<>();
+		for (String s : deepenNots) {
+			if (ObjectId.isId(s)) {
+				result.add(ObjectId.fromString(s));
+			} else {
+				Ref ref = findRef(s);
+				if (ref == null) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().invalidRefName, s));
+				}
+				result.add(ref.getObjectId());
+			}
+		}
+		return result;
 	}
 
 	private static class ResponseBufferedOutputStream extends OutputStream {

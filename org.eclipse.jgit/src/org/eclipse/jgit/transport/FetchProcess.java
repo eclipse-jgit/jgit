@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -393,7 +393,7 @@ class FetchProcess {
 					ow.checkConnectivity();
 				}
 			}
-			return true;
+			return transport.getDepth() == null; // if depth is set we need to request objects that are already available
 		} catch (MissingObjectException e) {
 			return false;
 		} catch (IOException e) {
@@ -495,8 +495,10 @@ class FetchProcess {
 		}
 		if (spec.getDestination() != null) {
 			final TrackingRefUpdate tru = createUpdate(spec, newId);
-			if (newId.equals(tru.getOldObjectId()))
+			// if depth is set we need to update the ref
+			if (newId.equals(tru.getOldObjectId()) && transport.getDepth() == null) {
 				return;
+			}
 			localUpdates.add(tru);
 		}
 
