@@ -1169,7 +1169,12 @@ public class UploadPack implements Closeable {
 		return result;
 	}
 
-	private void fetchV2(PacketLineOut pckOut) throws IOException {
+	private void fetchV2(org.eclipse.jgit.transport.PacketLineOut pckOut) throws IOException {
+		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
+		FetchV2Request req = parser.parseFetchRequest(pckIn);
+		currentRequest = req;
+		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+
 		// Depending on the requestValidator, #processHaveLines may
 		// require that advertised be set. Set it only in the required
 		// circumstances (to avoid a full ref lookup in the case that
@@ -1179,15 +1184,16 @@ public class UploadPack implements Closeable {
 				requestValidator instanceof AnyRequestValidator) {
 			advertised = Collections.emptySet();
 		} else {
-			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			if (!wantedRefs.isEmpty()) {
+				advertised = refIdSet(getFilteredRefs(wantedRefs.keySet()).values());
+			} else {
+				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			}
 		}
 
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		Instant negotiateStart = Instant.now();
 
-		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
-		FetchV2Request req = parser.parseFetchRequest(pckIn);
-		currentRequest = req;
 		rawOut.stopBuffering();
 
 		protocolV2Hook.onFetch(req);
@@ -1200,7 +1206,7 @@ public class UploadPack implements Closeable {
 		// copying data back to class fields
 		List<ObjectId> deepenNots = parseDeepenNots(req.getDeepenNots());
 
-		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+
 		// TODO(ifrade): Avoid mutating the parsed request.
 		req.getWantIds().addAll(wantedRefs.values());
 		wantIds = req.getWantIds();
@@ -1291,8 +1297,8 @@ public class UploadPack implements Closeable {
 			sendPack(accumulator,
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
-						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
-						: null,
+							? db.getRefDatabase().getRefsByPrefix(R_TAGS)
+							: null,
 					unshallowCommits, deepenNots, pckOut);
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
