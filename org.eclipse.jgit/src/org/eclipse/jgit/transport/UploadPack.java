@@ -1148,7 +1148,12 @@ public class UploadPack {
 		return result;
 	}
 
-	private void fetchV2(PacketLineOut pckOut) throws IOException {
+	private void fetchV2(org.eclipse.jgit.transport.PacketLineOut pckOut) throws IOException {
+		org.eclipse.jgit.transport.ProtocolV2Parser parser = new org.eclipse.jgit.transport.ProtocolV2Parser(transferConfig);
+		org.eclipse.jgit.transport.FetchV2Request req = parser.parseFetchRequest(pckIn);
+		currentRequest = req;
+		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+
 		// Depending on the requestValidator, #processHaveLines may
 		// require that advertised be set. Set it only in the required
 		// circumstances (to avoid a full ref lookup in the case that
@@ -1158,15 +1163,16 @@ public class UploadPack {
 				requestValidator instanceof AnyRequestValidator) {
 			advertised = Collections.emptySet();
 		} else {
-			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			if (!wantedRefs.isEmpty()) {
+				advertised = refIdSet(getFilteredRefs(wantedRefs.keySet()).values());
+			} else {
+				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			}
 		}
 
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		Instant negotiateStart = Instant.now();
 
-		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
-		FetchV2Request req = parser.parseFetchRequest(pckIn);
-		currentRequest = req;
 		rawOut.stopBuffering();
 
 		protocolV2Hook.onFetch(req);
@@ -1187,7 +1193,7 @@ public class UploadPack {
 			deepenNots.add(ref.getObjectId());
 		}
 
-		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+
 		// TODO(ifrade): Avoid mutating the parsed request.
 		req.getWantIds().addAll(wantedRefs.values());
 		wantIds = req.getWantIds();
@@ -1214,18 +1220,18 @@ public class UploadPack {
 		if (req.wasDoneReceived()) {
 			processHaveLines(
 					req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE, false),
+					new org.eclipse.jgit.transport.PacketLineOut(NullOutputStream.INSTANCE, false),
 					accumulator, req.wasWaitForDoneReceived() ? Option.WAIT_FOR_DONE : Option.NONE);
 		} else {
 			pckOut.writeString(
-					GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
+					org.eclipse.jgit.transport.GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
 			for (ObjectId id : req.getPeerHas()) {
 				if (walk.getObjectReader().has(id)) {
 					pckOut.writeString("ACK " + id.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE, false),
+					new org.eclipse.jgit.transport.PacketLineOut(NullOutputStream.INSTANCE, false),
 					accumulator, Option.NONE);
 			if (!req.wasWaitForDoneReceived() && okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
@@ -1268,7 +1274,7 @@ public class UploadPack {
 				// sendPack will write "packfile\n" for us if sideband-all is used.
 				// But sideband-all is not used, so we have to write it ourselves.
 				pckOut.writeString(
-						GitProtocolConstants.SECTION_PACKFILE + '\n');
+						org.eclipse.jgit.transport.GitProtocolConstants.SECTION_PACKFILE + '\n');
 			}
 
 			accumulator.timeNegotiating = Duration
@@ -1277,8 +1283,8 @@ public class UploadPack {
 			sendPack(accumulator,
 					req,
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
-						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
-						: null,
+							? db.getRefDatabase().getRefsByPrefix(R_TAGS)
+							: null,
 					unshallowCommits, deepenNots, pckOut);
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
