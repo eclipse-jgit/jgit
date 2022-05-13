@@ -546,6 +546,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String nothingToFetch;
 	/***/ public String nothingToPush;
 	/***/ public String notMergedExceptionMessage;
+	/***/ public String notShallowedUnshallow;
 	/***/ public String noXMLParserAvailable;
 	/***/ public String objectAtHasBadZlibStream;
 	/***/ public String objectIsCorrupt;
@@ -690,6 +691,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String serviceNotPermitted;
 	/***/ public String sha1CollisionDetected;
 	/***/ public String shallowCommitsAlreadyInitialized;
+	/***/ public String shallowNotSupported;
 	/***/ public String shallowPacksRequireDepthWalk;
 	/***/ public String shortCompressedStreamAt;
 	/***/ public String shortReadOfBlock;
