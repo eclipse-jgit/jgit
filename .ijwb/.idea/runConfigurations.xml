@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RunConfigurationProducerService">
+    <option name="ignoredProducers">
+      <set>
+        <option value="com.android.tools.idea.run.AndroidConfigurationProducer" />
+        <option value="com.android.tools.idea.testartifacts.instrumented.AndroidTestConfigurationProducer" />
+        <option value="com.intellij.execution.application.ApplicationConfigurationProducer" />
+        <option value="com.intellij.execution.junit.AbstractAllInDirectoryConfigurationProducer" />
+        <option value="com.intellij.execution.junit.AllInDirectoryConfigurationProducer" />
+        <option value="com.intellij.execution.junit.AllInPackageConfigurationProducer" />
+        <option value="com.intellij.execution.junit.PatternConfigurationProducer" />
+        <option value="com.intellij.execution.junit.TestClassConfigurationProducer" />
+        <option value="com.intellij.execution.junit.TestInClassConfigurationProducer" />
+        <option value="com.intellij.execution.junit.UniqueIdConfigurationProducer" />
+        <option value="com.intellij.execution.junit.testDiscovery.JUnitTestDiscoveryConfigurationProducer" />
+        <option value="org.jetbrains.kotlin.idea.run.KotlinRunConfigurationProducer" />
+        <option value="org.jetbrains.plugins.gradle.execution.GradleGroovyScriptRunConfigurationProducer" />
+        <option value="org.jetbrains.plugins.gradle.execution.test.runner.AllInDirectoryGradleConfigurationProducer" />
+        <option value="org.jetbrains.plugins.gradle.execution.test.runner.PatternGradleConfigurationProducer" />
+        <option value="org.jetbrains.plugins.gradle.service.execution.GradleRuntimeConfigurationProducer" />
+      </set>
+    </option>
+  </component>
+</project>
