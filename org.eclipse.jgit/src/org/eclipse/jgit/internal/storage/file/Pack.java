@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2006-2022, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -20,9 +20,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel.MapMode;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.NoSuchFileException;
 import java.text.MessageFormat;
@@ -82,9 +79,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	final int hash;
 
-	private RandomAccessFile fd;
+	private FileWindowReader reader;
 
-	/** Serializes reads performed against {@link #fd}. */
+	/** Serializes reads performed against {@link #reader}. */
 	private final Object readLock = new Object();
 
 	long length;
@@ -643,8 +640,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		}
 		try {
 			synchronized (readLock) {
-				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
-				length = fd.length();
+				reader = FileWindowReaderFactory.create(this).open();
+				length = reader.length();
 				onOpenPack();
 			}
 		} catch (InterruptedIOException e) {
@@ -683,22 +680,20 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private void doClose() {
 		synchronized (readLock) {
-			if (fd != null) {
-				try {
-					fd.close();
-				} catch (IOException err) {
-					// Ignore a close event. We had it open only for reading.
-					// There should not be errors related to network buffers
-					// not flushed, etc.
-				}
-				fd = null;
+			try {
+				reader.close();
+			} catch (Exception e) {
+				// Ignore a close event. We had it open only for reading.
+				// There should not be errors related to network buffers
+				// not flushed, etc.
 			}
+			reader = null;
 		}
 	}
 
-	ByteArrayWindow read(long pos, int size) throws IOException {
+	ByteWindow read(long pos, int size) throws IOException {
 		synchronized (readLock) {
-			if (invalid || fd == null) {
+			if (invalid || reader == null) {
 				// Due to concurrency between a read and another packfile invalidation thread
 				// one thread could come up to this point and then fail with NPE.
 				// Detect the situation and throw a proper exception so that can be properly
@@ -706,36 +701,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				// any failures.
 				throw new PackInvalidException(packFile, invalidatingCause);
 			}
-			if (length < pos + size)
-				size = (int) (length - pos);
-			final byte[] buf = new byte[size];
-			fd.seek(pos);
-			fd.readFully(buf, 0, size);
-			return new ByteArrayWindow(this, pos, buf);
-		}
-	}
-
-	ByteWindow mmap(long pos, int size) throws IOException {
-		synchronized (readLock) {
-			if (length < pos + size)
-				size = (int) (length - pos);
-
-			MappedByteBuffer map;
-			try {
-				map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
-			} catch (IOException ioe1) {
-				// The most likely reason this failed is the JVM has run out
-				// of virtual memory. We need to discard quickly, and try to
-				// force the GC to finalize and release any existing mappings.
-				//
-				System.gc();
-				System.runFinalization();
-				map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
-			}
-
-			if (map.hasArray())
-				return new ByteArrayWindow(this, pos, map.array());
-			return new ByteBufferWindow(this, pos, map);
+			return reader.read(pos, size);
 		}
 	}
 
@@ -743,8 +709,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		final PackIndex idx = idx();
 		final byte[] buf = new byte[20];
 
-		fd.seek(0);
-		fd.readFully(buf, 0, 12);
+		reader.readRaw(buf, 0, 12);
 		if (RawParseUtils.match(buf, 0, Constants.PACK_SIGNATURE) != 4) {
 			throw new NoPackSignatureException(JGitText.get().notAPACKFile);
 		}
@@ -761,8 +726,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					getPackFile()));
 		}
 
-		fd.seek(length - 20);
-		fd.readFully(buf, 0, 20);
+		reader.readRaw(buf, length - 20, 20);
 		if (!Arrays.equals(buf, packChecksum)) {
 			throw new PackMismatchException(MessageFormat.format(
 					JGitText.get().packChecksumMismatch,
