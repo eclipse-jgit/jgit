@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2006-2025, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -25,9 +25,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel.MapMode;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.NoSuchFileException;
 import java.text.MessageFormat;
@@ -95,12 +92,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	final int hash;
 
-	private RandomAccessFile fd;
+	private FileWindowReader reader;
 
-	/** For managing open/close accounting of {@link #fd}. */
+	/** For managing open/close accounting of {@link #reader}. */
 	private final Object activeLock = new Object();
 
-	/** Serializes reads performed against {@link #fd}. */
+	/** Serializes reads performed against {@link #reader}. */
 	private final Object readLock = new Object();
 
 	long length;
@@ -193,24 +190,19 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				LOG.debug(String.format(
 						"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
 						idxFile.getAbsolutePath(),
-						Float.valueOf(idxFile.length()
-								/ (1024f * 1024)),
-						Long.valueOf(System.currentTimeMillis()
-								- start)));
+						Float.valueOf(idxFile.length() / (1024f * 1024)),
+						Long.valueOf(System.currentTimeMillis() - start)));
 			}
-				if (packChecksum == null) {
+			if (packChecksum == null) {
 				packChecksum = idx.getChecksum();
-				fileSnapshot.setChecksum(
-						ObjectId.fromRaw(packChecksum));
-			} else if (!Arrays.equals(packChecksum,
-					idx.getChecksum())) {
-				throw new PackMismatchException(MessageFormat
-						.format(JGitText.get().packChecksumMismatch,
-								packFile.getPath(),
-								PackExt.PACK.getExtension(),
-								Hex.toHexString(packChecksum),
-								PackExt.INDEX.getExtension(),
-							Hex.toHexString(idx.getChecksum())));
+				fileSnapshot.setChecksum(ObjectId.fromRaw(packChecksum));
+			} else if (!Arrays.equals(packChecksum, idx.getChecksum())) {
+				throw new PackMismatchException(MessageFormat.format(
+						JGitText.get().packChecksumMismatch, packFile.getPath(),
+						PackExt.PACK.getExtension(),
+						Hex.toHexString(packChecksum),
+						PackExt.INDEX.getExtension(),
+						Hex.toHexString(idx.getChecksum())));
 			}
 			loadedIdx = optionally(idx);
 			return idx;
@@ -565,26 +557,26 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					c = buf[headerCnt++] & 0xff;
 				} while ((c & 128) != 0);
 				if (validate) {
-					assert(crc1 != null && crc2 != null);
+					assert (crc1 != null && crc2 != null);
 					crc1.update(buf, 0, headerCnt);
 					crc2.update(buf, 0, headerCnt);
 				}
 			} else if (typeCode == Constants.OBJ_REF_DELTA) {
 				if (validate) {
-					assert(crc1 != null && crc2 != null);
+					assert (crc1 != null && crc2 != null);
 					crc1.update(buf, 0, headerCnt);
 					crc2.update(buf, 0, headerCnt);
 				}
 
 				readFully(src.offset + headerCnt, buf, 0, 20, curs);
 				if (validate) {
-					assert(crc1 != null && crc2 != null);
+					assert (crc1 != null && crc2 != null);
 					crc1.update(buf, 0, 20);
 					crc2.update(buf, 0, 20);
 				}
 				headerCnt += 20;
 			} else if (validate) {
-				assert(crc1 != null && crc2 != null);
+				assert (crc1 != null && crc2 != null);
 				crc1.update(buf, 0, headerCnt);
 				crc2.update(buf, 0, headerCnt);
 			}
@@ -601,7 +593,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				quickCopy = curs.quickCopy(this, dataOffset, dataLength);
 
 				if (validate && idx().hasCRC32Support()) {
-					assert(crc1 != null);
+					assert (crc1 != null);
 					// Index has the CRC32 code cached, validate the object.
 					//
 					expectedCRC = idx().findCRC32(src);
@@ -612,7 +604,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 						long cnt = dataLength;
 						while (cnt > 0) {
 							final int n = (int) Math.min(cnt, buf.length);
-								readFully(pos, buf, 0, n, curs);
+							readFully(pos, buf, 0, n, curs);
 							crc1.update(buf, 0, n);
 							pos += n;
 							cnt -= n;
@@ -634,7 +626,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					if (quickCopy != null) {
 						quickCopy.check(inf, tmp, dataOffset, (int) dataLength);
 					} else {
-						assert(crc1 != null);
+						assert (crc1 != null);
 						long pos = dataOffset;
 						long cnt = dataLength;
 						while (cnt > 0) {
@@ -654,7 +646,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 								JGitText.get().shortCompressedStreamAt,
 								Long.valueOf(src.offset)));
 					}
-					assert(crc1 != null);
+					assert (crc1 != null);
 					expectedCRC = crc1.getValue();
 				} else {
 					expectedCRC = -1;
@@ -674,7 +666,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 			if (quickCopy != null) {
 				// The entire object fits into a single byte array window slice,
-				// and we have it pinned.  Write this out without copying.
+				// and we have it pinned. Write this out without copying.
 				//
 				out.writeHeader(src, inflatedLength);
 				isHeaderWritten = true;
@@ -698,8 +690,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				isHeaderWritten = true;
 				out.write(buf, 0, (int) dataLength);
 			} else {
-				// Now we are committed to sending the object. As we spool it out,
-				// check its CRC32 code to make sure there wasn't corruption between
+				// Now we are committed to sending the object. As we spool it
+				// out,
+				// check its CRC32 code to make sure there wasn't corruption
+				// between
 				// the verification we did above, and us actually outputting it.
 				//
 				long pos = dataOffset;
@@ -708,16 +702,19 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					final int n = (int) Math.min(cnt, buf.length);
 					readFully(pos, buf, 0, n, curs);
 					if (validate) {
-						assert(crc2 != null);
+						assert (crc2 != null);
 						crc2.update(buf, 0, n);
 					}
 					cnt -= n;
 					if (!isHeaderWritten) {
 						if (invalid && cnt > 0) {
-							// Since this is not the last iteration and the packfile is invalid,
-							// better to assume the iterations will not all complete here while
+							// Since this is not the last iteration and the
+							// packfile is invalid,
+							// better to assume the iterations will not all
+							// complete here while
 							// it is still likely recoverable.
-							throw new StoredObjectRepresentationNotAvailableException(invalidatingCause);
+							throw new StoredObjectRepresentationNotAvailableException(
+									invalidatingCause);
 						}
 						out.writeHeader(src, inflatedLength);
 						isHeaderWritten = true;
@@ -726,7 +723,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					pos += n;
 				}
 				if (validate) {
-					assert(crc2 != null);
+					assert (crc2 != null);
 					if (crc2.getValue() != expectedCRC) {
 						throw new CorruptObjectException(MessageFormat.format(
 								JGitText.get().objectAtHasBadZlibStream,
@@ -736,7 +733,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			}
 		} catch (IOException ioError) {
 			if (!isHeaderWritten) {
-				throw new StoredObjectRepresentationNotAvailableException(ioError);
+				throw new StoredObjectRepresentationNotAvailableException(
+						ioError);
 			}
 			throw ioError;
 		}
@@ -816,8 +814,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		}
 		try {
 			synchronized (readLock) {
-				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
-				length = fd.length();
+				reader = FileWindowReaderFactory.create(this).open();
+				length = reader.length();
 				onOpenPack();
 			}
 		} catch (InterruptedIOException e) {
@@ -863,22 +861,18 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private void doClose() {
 		synchronized (readLock) {
-			if (fd != null) {
-				try {
-					fd.close();
-				} catch (IOException err) {
-					// Ignore a close event. We had it open only for reading.
-					// There should not be errors related to network buffers
-					// not flushed, etc.
-				}
-				fd = null;
+			try {
+				reader.close();
+			} catch (Exception e) {
+				LOG.error(e.getMessage(), e);
 			}
+			reader = null;
 		}
 	}
 
-	ByteArrayWindow read(long pos, int size) throws IOException {
+	ByteWindow read(long pos, int size) throws IOException {
 		synchronized (readLock) {
-			if (invalid || fd == null) {
+			if (invalid || reader == null) {
 				// Due to concurrency between a read and another packfile invalidation thread
 				// one thread could come up to this point and then fail with NPE.
 				// Detect the situation and throw a proper exception so that can be properly
@@ -886,36 +880,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				// any failures.
 				throw new PackInvalidException(packFile, invalidatingCause);
 			}
-			if (length < pos + size)
-				size = (int) (length - pos);
-			final byte[] buf = new byte[size];
-			fd.seek(pos);
-			fd.readFully(buf, 0, size);
-			return new ByteArrayWindow(this, pos, buf);
-		}
-	}
-
-	ByteWindow mmap(long pos, int size) throws IOException {
-		synchronized (readLock) {
-			if (length < pos + size)
-				size = (int) (length - pos);
-
-			MappedByteBuffer map;
-			try {
-				map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
-			} catch (IOException ioe1) {
-				// The most likely reason this failed is the JVM has run out
-				// of virtual memory. We need to discard quickly, and try to
-				// force the GC to finalize and release any existing mappings.
-				//
-				System.gc();
-				System.runFinalization();
-				map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
-			}
-
-			if (map.hasArray())
-				return new ByteArrayWindow(this, pos, map.array());
-			return new ByteBufferWindow(this, pos, map);
+			return reader.read(pos, size);
 		}
 	}
 
@@ -923,8 +888,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		final PackIndex idx = idx();
 		final byte[] buf = new byte[20];
 
-		fd.seek(0);
-		fd.readFully(buf, 0, 12);
+		reader.readRaw(buf, 0, 12);
 		if (RawParseUtils.match(buf, 0, Constants.PACK_SIGNATURE) != 4) {
 			throw new NoPackSignatureException(JGitText.get().notAPACKFile);
 		}
@@ -941,8 +905,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					getPackFile()));
 		}
 
-		fd.seek(length - 20);
-		fd.readFully(buf, 0, 20);
+		reader.readRaw(buf, length - 20, 20);
 		if (!Arrays.equals(buf, packChecksum)) {
 			throw new PackMismatchException(
 					MessageFormat.format(JGitText.get().packChecksumMismatch,
@@ -1307,7 +1270,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return memoizeBitmapIndexIfNeeded();
 	}
 
-	private synchronized PackBitmapIndex memoizeBitmapIndexIfNeeded() throws IOException {
+	private synchronized PackBitmapIndex memoizeBitmapIndexIfNeeded()
+			throws IOException {
 		if (invalid || bitmapIdxFile == null) {
 			return null;
 		}
@@ -1350,7 +1314,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return memoizeReverseIdxIfNeeded();
 	}
 
-	private synchronized PackReverseIndex memoizeReverseIdxIfNeeded() throws IOException {
+	private synchronized PackReverseIndex memoizeReverseIdxIfNeeded()
+			throws IOException {
 		if (invalid) {
 			throw new PackInvalidException(packFile, invalidatingCause);
 		}
@@ -1359,8 +1324,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			return optional.get();
 		}
 		PackFile reverseIndexFile = packFile.create(REVERSE_INDEX);
-		PackReverseIndex revIdx = PackReverseIndexFactory.openOrCompute(reverseIndexFile,
-					getObjectCount(), () -> getIndex());
+		PackReverseIndex revIdx = PackReverseIndexFactory.openOrCompute(
+				reverseIndexFile, getObjectCount(), () -> getIndex());
 		revIdx.verifyPackChecksum(getPackFile().getPath());
 		reverseIdx = optionally(revIdx);
 		return revIdx;
