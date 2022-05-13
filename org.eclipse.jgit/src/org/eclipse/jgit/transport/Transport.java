@@ -27,6 +27,7 @@ import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -784,6 +785,12 @@ public abstract class Transport implements AutoCloseable {
 
 	private PrePushHook prePush;
 
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> deepenNots = new ArrayList<>();
+
 	@Nullable
 	TransferConfig.ProtocolVersion protocol;
 
@@ -1086,6 +1093,83 @@ public abstract class Transport implements AutoCloseable {
 		filterSpec = requireNonNull(filter);
 	}
 
+
+	/**
+	 * Retrieves the depth for a shallow clone.
+	 *
+	 * @return the depth, or {@code null} if none set
+	 * @since 6.3
+	 */
+	public final Integer getDepth() {
+		return depth;
+	}
+
+	/**
+	 * Limits fetching to the specified number of commits from the tip of each
+	 * remote branch history.
+	 *
+	 * @param depth
+	 *            the depth
+	 * @since 6.3
+	 */
+	public final void setDepth(int depth) {
+		if (depth < 1) {
+			throw new IllegalArgumentException(JGitText.get().depthMustBeAt1);
+		}
+		this.depth = Integer.valueOf(depth);
+	}
+
+	/**
+	 * Limits fetching to the specified number of commits from the tip of each
+	 * remote branch history.
+	 *
+	 * @param depth
+	 *            the depth, or {@code null} to unset the depth
+	 * @since 6.3
+	 */
+	public final void setDepth(Integer depth) {
+		if (depth != null && depth.intValue() < 1) {
+			throw new IllegalArgumentException(JGitText.get().depthMustBeAt1);
+		}
+		this.depth = depth;
+	}
+
+	/**
+	 * @return the deepen-since for a shallow clone
+	 * @since 6.3
+	 */
+	public final Instant getDeepenSince() {
+		return deepenSince;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to include all reachable commits after a specified time.
+	 *
+	 * @param deepenSince the deepen-since. Must not be {@code null}
+	 * @since 6.3
+	 */
+	public final void setDeepenSince(@NonNull Instant deepenSince) {
+		this.deepenSince = deepenSince;
+	}
+
+	/**
+	 * @return the deepen-not for a shallow clone
+	 * @since 6.3
+	 */
+	public final List<String> getDeepenNots() {
+		return deepenNots;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to exclude commits reachable from a specified remote branch or tag.
+	 *
+	 * @param deepenNots the deepen-not. Must not be {@code null}
+	 * @since 6.3
+	 */
+	public final void setDeepenNots(@NonNull List<String> deepenNots) {
+		this.deepenNots = deepenNots;
+	}
+
 	/**
 	 * Apply provided remote configuration on this transport.
 	 *
@@ -1230,7 +1314,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param toFetch
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
-	 *            RemoteConfig. May contains regular and negative 
+	 *            RemoteConfig. May contains regular and negative
 	 *            {@link RefSpec}s. Source for each regular RefSpec can't
 	 *            be null.
 	 * @return information describing the tracking refs updated.
@@ -1266,7 +1350,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param toFetch
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
-	 *            RemoteConfig. May contains regular and negative 
+	 *            RemoteConfig. May contain regular and negative
 	 *            {@link RefSpec}s. Source for each regular RefSpec can't
 	 *            be null.
 	 * @param branch
