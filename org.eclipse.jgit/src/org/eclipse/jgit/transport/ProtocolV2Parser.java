@@ -149,13 +149,13 @@ final class ProtocolV2Parser {
 					throw new PackProtocolException(
 							JGitText.get().deepenSinceWithDeepen);
 				}
-				if (reqBuilder.hasDeepenNotRefs()) {
+				if (reqBuilder.hasDeepenNots()) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);
 				}
 				reqBuilder.setDepth(parsedDepth);
 			} else if (line2.startsWith("deepen-not ")) { //$NON-NLS-1$
-				reqBuilder.addDeepenNotRef(line2.substring(11));
+				reqBuilder.addDeepenNot(line2.substring(11));
 				if (reqBuilder.getDepth() != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);

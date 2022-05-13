@@ -77,7 +77,37 @@ final class ProtocolV0Parser {
 							MessageFormat.format(JGitText.get().invalidDepth,
 									Integer.valueOf(depth)));
 				}
-				reqBuilder.setDepth(depth);
+				if (reqBuilder.getDeepenSince() != 0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenSinceWithDeepen);
+				}
+				if (reqBuilder.hasDeepenNots()) {
+					throw new PackProtocolException(
+							JGitText.get().deepenNotWithDeepen);
+				}				reqBuilder.setDepth(depth);
+				continue;
+			}
+
+			if (line.startsWith("deepen-not ")) { //$NON-NLS-1$
+				reqBuilder.addDeepenNot(line.substring(11));
+				if (reqBuilder.getDepth() != 0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenNotWithDeepen);
+				}
+				continue;
+			}
+
+			if (line.startsWith("deepen-since ")) { //$NON-NLS-1$
+				int ts = Integer.parseInt(line.substring(13));
+				if (ts <= 0) {
+					throw new PackProtocolException(MessageFormat
+															.format(JGitText.get().invalidTimestamp, line));
+				}
+				if (reqBuilder.getDepth() != 0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenSinceWithDeepen);
+				}
+				reqBuilder.setDeepenSince(ts);
 				continue;
 			}
 

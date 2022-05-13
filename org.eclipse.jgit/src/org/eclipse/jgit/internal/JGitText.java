@@ -681,6 +681,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String serviceNotPermitted;
 	/***/ public String sha1CollisionDetected;
 	/***/ public String shallowCommitsAlreadyInitialized;
+	/***/ public String shallowNotSupported;
 	/***/ public String shallowPacksRequireDepthWalk;
 	/***/ public String shortCompressedStreamAt;
 	/***/ public String shortReadOfBlock;
