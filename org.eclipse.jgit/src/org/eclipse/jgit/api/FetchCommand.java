@@ -14,6 +14,8 @@ import static java.util.stream.Collectors.toList;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,6 +77,12 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	private boolean isForceUpdate;
 
 	private String initialBranch;
+
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> deepenNotRefs = new ArrayList<>();
 
 	/**
 	 * Callback for status of fetch operation.
@@ -209,6 +217,9 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			if (tagOption != null)
 				transport.setTagOpt(tagOption);
 			transport.setFetchThin(thin);
+			transport.setDepth(depth);
+			transport.setDeepenSince(deepenSince);
+			transport.setDeepenNotRefs(deepenNotRefs);
 			configure(transport);
 			FetchResult result = transport.fetch(monitor,
 					applyOptions(refSpecs), initialBranch);
@@ -541,5 +552,61 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	public FetchCommand setForceUpdate(boolean force) {
 		this.isForceUpdate = force;
 		return this;
+	}
+
+	/**
+	 * Limit fetching to the specified number of commits from the tip of each remote branch history.
+	 *
+	 * @param depth the depth
+	 * @return {@code this}
+	 *
+	 * @since 6.2
+	 */
+	public FetchCommand setDepth(Integer depth) {
+		this.depth = depth;
+		return this;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to include all reachable commits after a specified time.
+	 *
+	 * @param deepenSince the timestamp
+	 * @return {@code this}
+	 *
+	 * @since 6.2
+	 */
+	public FetchCommand setDeepenSince(OffsetDateTime deepenSince) {
+		this.deepenSince = deepenSince.toInstant();
+		return this;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to include all reachable commits after a specified time.
+	 *
+	 * @param deepenSince the timestamp
+	 * @return {@code this}
+	 *
+	 * @since 6.2
+	 */
+	public FetchCommand setDeepenSince(Instant deepenSince) {
+		this.deepenSince = deepenSince;
+		return this;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to exclude commits reachable from a specified remote branch or tag.
+	 *
+	 * @param deepenNotRef the ref
+	 * @return {@code this}
+	 *
+	 * @since 6.2
+	 */
+	public FetchCommand addDeepenNotRef(String deepenNotRef) {
+		deepenNotRefs.add(deepenNotRef);
+		return this;
+	}
+
+	void setDeepenNotRefs(List<String> deepenNotRefs) {
+		this.deepenNotRefs = deepenNotRefs;
 	}
 }

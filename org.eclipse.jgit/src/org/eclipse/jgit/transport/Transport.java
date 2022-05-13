@@ -27,6 +27,7 @@ import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -784,6 +785,12 @@ public abstract class Transport implements AutoCloseable {
 
 	private PrePushHook prePush;
 
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> deepenNotCommits = new ArrayList<>();
+
 	@Nullable
 	TransferConfig.ProtocolVersion protocol;
 
@@ -1084,6 +1091,31 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public final void setFilterSpec(@NonNull FilterSpec filter) {
 		filterSpec = requireNonNull(filter);
+	}
+
+
+	public final Integer getDepth() {
+		return depth;
+	}
+
+	public final void setDepth(Integer depth) {
+		this.depth = depth;
+	}
+
+	public final Instant getDeepenSince() {
+		return deepenSince;
+	}
+
+	public final void setDeepenSince(Instant deepenSince) {
+		this.deepenSince = deepenSince;
+	}
+
+	public final List<String> getDeepenNotCommits() {
+		return deepenNotCommits;
+	}
+
+	public final void setDeepenNotRefs(List<String> deepenNotCommits) {
+		this.deepenNotCommits = deepenNotCommits;
 	}
 
 	/**

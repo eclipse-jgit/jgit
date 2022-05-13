@@ -20,17 +20,22 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
@@ -55,6 +60,7 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class HttpClientTests extends AllFactoriesHttpTestCase {
@@ -408,4 +414,57 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 		assertEquals(200, c.getResponseCode());
 	}
+
+    @Test
+    public void testCloneWithDepth() throws IOException, GitAPIException {
+        File directory = createTempDirectory("testCloneWithDepth");
+        Git git = Git.cloneRepository()
+                     .setDirectory(directory)
+                     .setDepth(1)
+                     .setURI(smartAuthNoneURI.toString())
+                     .call();
+
+        assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)), git.getRepository().getObjectDatabase().getShallowCommits());
+    }
+
+    @Test
+    public void testCloneWithDeepenSince() throws Exception {
+        RevCommit commit = remoteRepository.commit()
+                                           .parent(remoteRepository.git().log().call().iterator().next())
+                                           .message("Test")
+                                           .add("test.txt", "Hello world")
+                                           .create();
+        remoteRepository.update(master, commit);
+
+        File directory = createTempDirectory("testCloneWithDeepenSince");
+        Git git = Git.cloneRepository()
+                     .setDirectory(directory)
+                     .setDeepenSince(Instant.ofEpochSecond(commit.getCommitTime()))
+                     .setURI(smartAuthNoneURI.toString())
+                     .call();
+
+        assertFalse(git.getRepository().getObjectDatabase().getShallowCommits().isEmpty());
+    }
+
+    @Ignore // looks like the server implementation doesn't send the shallow lines properly
+    @Test
+    public void testCloneWithDeepenNot() throws Exception {
+        RevCommit commit = remoteRepository.git().log().call().iterator().next();
+        String deepenNotRef = "test";
+        remoteRepository.branch(deepenNotRef).update(commit);
+        remoteRepository.update(master, remoteRepository.commit()
+                                                        .parent(commit)
+                                                        .message("Test")
+                                                        .add("test.txt", "Hello world")
+                                                        .create());
+
+        File directory = createTempDirectory("testCloneWithDeepenSince");
+        Git git = Git.cloneRepository()
+                     .setDirectory(directory)
+                     .addDeepenNotRef("test")
+                     .setURI(smartAuthNoneURI.toString())
+                     .call();
+
+        assertFalse(git.getRepository().getObjectDatabase().getShallowCommits().isEmpty());
+    }
 }

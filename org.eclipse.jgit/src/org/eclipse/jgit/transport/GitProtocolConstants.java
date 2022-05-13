@@ -308,6 +308,13 @@ public final class GitProtocolConstants {
 	public static final String SECTION_PACKFILE = "packfile"; //$NON-NLS-1$
 
 	/**
+	 * Protocol V2 shallow-info section header.
+	 *
+	 * @since 6.2
+	 */
+	public static final String SECTION_SHALLOW_INFO = "shallow-info"; //$NON-NLS-1$
+
+	/**
 	 * Protocol announcement for protocol version 1. This is the same as V0,
 	 * except for this initial line.
 	 *
