@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008, 2013 Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -234,6 +234,13 @@ public final class GitProtocolConstants {
 	public static final String CAPABILITY_SERVER_OPTION = "server-option"; //$NON-NLS-1$
 
 	/**
+	 * The server supports the receiving of shallow options.
+	 *
+	 * @since 6.3
+	 */
+	public static final String CAPABILITY_SHALLOW = "shallow"; //$NON-NLS-1$
+
+	/**
 	 * Option for passing application-specific options to the server.
 	 *
 	 * @since 5.2
@@ -306,6 +313,13 @@ public final class GitProtocolConstants {
 	 * @since 5.11
 	 */
 	public static final String SECTION_PACKFILE = "packfile"; //$NON-NLS-1$
+
+	/**
+	 * Protocol V2 shallow-info section header.
+	 *
+	 * @since 6.3
+	 */
+	public static final String SECTION_SHALLOW_INFO = "shallow-info"; //$NON-NLS-1$
 
 	/**
 	 * Protocol announcement for protocol version 1. This is the same as V0,

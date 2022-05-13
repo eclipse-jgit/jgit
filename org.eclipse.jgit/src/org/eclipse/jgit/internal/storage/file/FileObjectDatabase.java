@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc. and others
+ * Copyright (C) 2010, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -49,8 +49,6 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract Config getConfig();
 
 	abstract FS getFS();
-
-	abstract Set<ObjectId> getShallowCommits() throws IOException;
 
 	abstract void selectObjectRepresentation(PackWriter packer,
 			ObjectToPack otp, WindowCursor curs) throws IOException;

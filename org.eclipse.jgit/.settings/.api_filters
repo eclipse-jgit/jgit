@@ -13,7 +13,13 @@
         <filter id="336695337">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.lib.ObjectDatabase"/>
-                <message_argument value="getApproximateObjectCount()"/>
+                <message_argument value="getShallowCommits()"/>
+            </message_arguments>
+        </filter>
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ObjectDatabase"/>
+                <message_argument value="setShallowCommits(Set&lt;ObjectId&gt;)"/>
             </message_arguments>
         </filter>
     </resource>
@@ -57,14 +63,6 @@
                 <message_argument value="5.13"/>
                 <message_argument value="6.3"/>
                 <message_argument value="org.eclipse.jgit.transport.AwsRequestSignerV4"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/BasePackPushConnection.java" type="org.eclipse.jgit.transport.BasePackPushConnection">
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.BasePackPushConnection"/>
-                <message_argument value="noRepository()"/>
             </message_arguments>
         </filter>
     </resource>
