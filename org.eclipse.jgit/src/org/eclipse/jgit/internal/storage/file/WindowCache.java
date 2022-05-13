@@ -423,8 +423,6 @@ public class WindowCache {
 
 	private final long maxBytes;
 
-	private final boolean mmap;
-
 	private final int windowSizeShift;
 
 	private final int windowSize;
@@ -463,7 +461,7 @@ public class WindowCache {
 
 		maxFiles = cfg.getPackedGitOpenFiles();
 		maxBytes = cfg.getPackedGitLimit();
-		mmap = cfg.isPackedGitMMAP();
+		FileWindowReaderFactory.setMmap(cfg.isPackedGitMMAP());
 		windowSizeShift = bits(cfg.getPackedGitWindowSize());
 		windowSize = 1 << windowSizeShift;
 		useStrongRefs = cfg.isPackedGitUseStrongRefs();
@@ -507,12 +505,11 @@ public class WindowCache {
 
 	private ByteWindow load(Pack pack, long offset) throws IOException {
 		long startTime = System.nanoTime();
-		if (pack.beginWindowCache())
+		if (pack.beginWindowCache()) {
 			statsRecorder.recordOpenFiles(1);
+		}
 		try {
-			if (mmap)
-				return pack.mmap(offset, windowSize);
-			ByteArrayWindow w = pack.read(offset, windowSize);
+			ByteWindow w = pack.read(offset, windowSize);
 			statsRecorder.recordLoadSuccess(System.nanoTime() - startTime);
 			return w;
 		} catch (IOException | RuntimeException | Error e) {
