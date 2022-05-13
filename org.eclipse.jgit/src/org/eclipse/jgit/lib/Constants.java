@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008, Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2017, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2006, 2022, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -737,6 +737,13 @@ public final class Constants {
 	 * @since 4.7
 	 */
 	public static final String LOCK_SUFFIX = ".lock"; //$NON-NLS-1$
+
+	/**
+	 * Depth used to unshallow a repository
+	 *
+	 * @since 6.3
+	 */
+	public static final int INFINITE_DEPTH = 0x7fffffff;
 
 	private Constants() {
 		// Hide the default constructor
