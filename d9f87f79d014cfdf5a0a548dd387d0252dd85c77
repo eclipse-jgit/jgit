@@ -53,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c066e6_179c48a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 307367
+      },
+      "writtenOn": "2022-05-14T15:36:59Z",
+      "side": 1,
+      "message": "use lambda in patchset 3.",
+      "parentUuid": "687ca280_93c7cba0",
+      "revId": "d9f87f79d014cfdf5a0a548dd387d0252dd85c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c144642_a63152de",
