@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8ef17f7_06cf841b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307367
+      },
+      "writtenOn": "2022-05-14T15:02:38Z",
+      "side": 1,
+      "message": "Yes, putting lock() between try .... finally is a correct way. It is strange that there are many \u0027lock()\u0027 operations within jgit codes before try keywords. I can fix this one in the current patch.\n\nP.S., should we make LockFile implementing Closable interface, then let the try-with-resource block to auto unlock it?",
+      "parentUuid": "ea64bc60_304eae14",
+      "revId": "d9f87f79d014cfdf5a0a548dd387d0252dd85c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "687ca280_93c7cba0",
