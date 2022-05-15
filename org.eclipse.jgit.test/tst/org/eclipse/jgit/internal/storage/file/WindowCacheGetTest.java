@@ -37,23 +37,30 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
 public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 	private List<TestObject> toLoad;
 	private WindowCacheConfig cfg;
-	private boolean useStrongRefs;
 
-	@Parameters(name = "useStrongRefs={0}")
+	@Parameter(0)
+	public boolean useStrongRefs;
+
+	@Parameter(1)
+	public boolean useMmap;
+
+	@Parameters(name = "useStrongRefs={0} useMmap={1}")
 	public static Collection<Object[]> data() {
-		return Arrays
-				.asList(new Object[][] { { Boolean.TRUE }, { Boolean.FALSE } });
-	}
-
-	public WindowCacheGetTest(Boolean useStrongRef) {
-		this.useStrongRefs = useStrongRef.booleanValue();
-	}
+		return Arrays.asList(new Object[][]
+			{
+				{ Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.FALSE },
+				{ Boolean.FALSE, Boolean.TRUE },
+				{ Boolean.TRUE, Boolean.TRUE },
+			});
+		}
 
 	@Override
 	@Before
@@ -80,6 +87,8 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		assertEquals(96, toLoad.size());
 		cfg = new WindowCacheConfig();
 		cfg.setPackedGitUseStrongRefs(useStrongRefs);
+		cfg.setPackedGitMMAP(useMmap);
+		cfg.install();
 	}
 
 	@Test
