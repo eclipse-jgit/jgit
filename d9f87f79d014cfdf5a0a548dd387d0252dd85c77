@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a0cbe4c_29f1ab1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-15T17:47:39Z",
+      "side": 1,
+      "message": "\u003e P.S., should we make LockFile implementing Closable interface, then let the try-with-resource block to auto unlock it?\n\nWould have to look closely at all current uses to see whether that might be useful. If we have cases where a lock file is locked in one method and unlocked somewhere else, making it (Auto-)Closeable would be detrimental and might produce extra spurious warnings.",
+      "parentUuid": "d8ef17f7_06cf841b",
+      "revId": "d9f87f79d014cfdf5a0a548dd387d0252dd85c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "687ca280_93c7cba0",
