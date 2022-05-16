@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3245e54d_5703ff60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MmapNioFileWindowReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-05-16T06:15:49Z",
+      "side": 1,
+      "message": "This class will be replaced with MemorySegment backend from Java 17?",
+      "revId": "8d284d09f7e7cea992acea3b953b317891d162c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32ed4c6d_11566002",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-05-16T06:15:49Z",
+      "side": 1,
+      "message": "I have found the variable name fd after this refactoring hard to follow. This is now instance of FileWindowReader and not RandomAccessFile. May be call it a reader?",
+      "range": {
+        "startLine": 643,
+        "startChar": 4,
+        "endLine": 644,
+        "endChar": 25
+      },
+      "revId": "8d284d09f7e7cea992acea3b953b317891d162c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0237735_3ab0c6d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-05-16T06:15:49Z",
+      "side": 1,
+      "message": "Is this comment still applies? Reader implementations already ignore this exception with the same comment.\n\n  if (fd !\u003d null) {\n\ttry {\n\t\tfd.close();\n\t} catch (IOException err) {\n\t\t// Ignore a close event. We had it open only for reading.\n\t\t// There should not be errors related to network buffers\n\t\t// not flushed, etc.\n\t}\n\tfd \u003d null;\n  }",
+      "range": {
+        "startLine": 683,
+        "startChar": 3,
+        "endLine": 689,
+        "endChar": 4
+      },
+      "revId": "8d284d09f7e7cea992acea3b953b317891d162c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
