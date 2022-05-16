@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc7695e3_79cedf1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "Hi Robin; thanks for tackling this. Some initial comments below; all based purely on code inspection -- I didn\u0027t try to run this yet.\n\nHave you planned to do protocol V0/1 later? (Some servers still don\u0027t support protocol V2...)\n\nThere needs to be a strategy of dealing with shallow requests if the server doesn\u0027t advertise the capability. Probably bail out with an exception.\n\nAPI in CloneCommand/FetchCommand is probably easier to understand if it is close to C git command line option names (\"--shallow-since\"), not internal protocol identifiers (\"deepen-since\"). Not sure about Transport, there using the protocol names might make more sense. Even if that gives different names on different API levels.",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "177765e7_ccc2aa94",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "What exactly does this mean?",
+      "range": {
+        "startLine": 449,
+        "startChar": 15,
+        "endLine": 449,
+        "endChar": 91
+      },
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "325c4acf_89e78662",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "Require to be \u003e\u003d 1.",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71450276_89336982",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "The command-line options appear to be named --shallow-since and --shallow-exclude.  The latter can take not only refs but also commit hashes?\n\nPerhaps rename setDeepenSince() to setShallowSince() and addDeepenNotRef() to addShallowExclude()?\n\nWhat about submodules?",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d73108ee_28bcba2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "Unrelated to this change: shouldn\u0027t the new snapshot be taken when opening the file, not after having read it? But \"shallowFileSnapshot\" be set only if no exception occurred? Something like\n\n   FileSnapshot newSnapshot \u003d FileSnapshot.save(shallowFile);\n   try (...) {\n     ...\n   }\n   shallowSnapshot \u003d newSnapshot;\n\nAlso, I think actual reading of the file should use FileUtils.readWithRetries().",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d80a4166_12dde7fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "This should use the usual locking mechanism, like C git does.",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc73d08a_d93ab304",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "This writes CR-LF on Windows. Probably we should write \\n (LF only) always.\n\nThough it looks as if C git doesn\u0027t care, it uses fgets to read a line and seems to ignore anything after the hash when extracting the hash from the line.",
+      "range": {
+        "startLine": 597,
+        "startChar": 11,
+        "endLine": 597,
+        "endChar": 20
+      },
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f48dbc1_cfa5b70f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "These must be sent only if the server advertised the \"shallow\" capability. See [1].\n\nProbably needs to bail out if the user did specify any shallow option but the server doesn\u0027t support it?\n\n[1] https://github.com/git/git/blob/277cf0bc36094f6dc4297d8c9cef79df045b735d/Documentation/technical/protocol-v2.txt#L281",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6101a890_f2adc143",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "I suppose line.substring(8) or line.substring(\"shallow \".length()) would be more efficient. Ditto for unshallow below.",
+      "range": {
+        "startLine": 498,
+        "startChar": 44,
+        "endLine": 498,
+        "endChar": 72
+      },
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c342f3d3_831eb6c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "Last line read would be the 0001 section delimiter. It needs to be skipped here.",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ac520a0_14ae3ec7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-16T10:55:11Z",
+      "side": 1,
+      "message": "Require to be \u003e\u003d 1.",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
