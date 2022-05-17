@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bcea491_f5680e3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileWindowReaderFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-05-17T06:22:39Z",
+      "side": 1,
+      "message": "Conceptually, this factory could be extended to support custom FileWindowReader implementations, now that the interface was extracted, right?\n\nSimilarly to Gerrit index lib modules, where lucene and fake modules are supported Gerrit sites can configure a custom index lib module with gerrit config file: ElasticIndexModule. Similarly, we could add new attribute (follow-up change):\n\n  String customReaderModule;\n\nAnd do something like this (not tested):\n\n```\n  if (customReaderModule !\u003d null) {\n      return (FileWindowReader) Class.forName(customReaderModule)\n          .getConstructor(Pack.class);\n          .newInstance(pack);\n  }\n```",
+      "revId": "a05d319f22315b8b2864dd93ef4b8a9d83e24faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8396712f_a83414a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/HeapFileWindowReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-05-17T06:22:39Z",
+      "side": 1,
+      "message": "Is this try catch block needed?",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 4
+      },
+      "revId": "a05d319f22315b8b2864dd93ef4b8a9d83e24faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff539a50_d56ef96a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MmapNioFileWindowReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-05-17T06:22:39Z",
+      "side": 1,
+      "message": "Is this try catch block needed?",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 4
+      },
+      "revId": "a05d319f22315b8b2864dd93ef4b8a9d83e24faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
