@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0f4f58d_73303fd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Hi Thomas,\n\nI wasn\u0027t aware, that shallow cloning works also for the older protocols. I\u0027ll have a look into it.\n\nI was unsure how to name the methods. I first started with shallowSince and shallowNot but then I found the code that handles the shallow cloning on server side which uses the internal protocol identifiers. So I thought maybe it\u0027s better to use these names. I\u0027m with you that it\u0027s easier to understand if the method names are close the the command line options so I\u0027ll rename them.",
+      "parentUuid": "fc7695e3_79cedf1d",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "177765e7_ccc2aa94",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-05-16T10:55:11Z",
       "side": 1,
       "message": "What exactly does this mean?",
+      "range": {
+        "startLine": 449,
+        "startChar": 15,
+        "endLine": 449,
+        "endChar": 91
+      },
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bd58aa4_ffe169df",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "The test was erroneous. It\u0027s now working.",
+      "parentUuid": "177765e7_ccc2aa94",
       "range": {
         "startLine": 449,
         "startChar": 15,
@@ -64,6 +106,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f78b948_8a9f456f",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6b85ff1_95bb5ea7",
+      "range": {
+        "startLine": 461,
+        "startChar": 46,
+        "endLine": 461,
+        "endChar": 70
+      },
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "325c4acf_89e78662",
@@ -77,6 +143,24 @@
       "writtenOn": "2022-05-16T10:55:11Z",
       "side": 1,
       "message": "Require to be \u003e\u003d 1.",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da236b4e_e9714f1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "325c4acf_89e78662",
       "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -100,6 +184,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "544980e6_2b0da53c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "What do you exactly mean by \"What about submodules?\"?\n\nTo be honest I don\u0027t really like git submodules therefore I don\u0027t know what can be done with submodules. But I\u0027ve had a short look into the documentation and haven\u0027t found anything regarding submodules in the context of shallow cloning.",
+      "parentUuid": "71450276_89336982",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d73108ee_28bcba2c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 2
@@ -111,6 +213,24 @@
       "writtenOn": "2022-05-16T10:55:11Z",
       "side": 1,
       "message": "Unrelated to this change: shouldn\u0027t the new snapshot be taken when opening the file, not after having read it? But \"shallowFileSnapshot\" be set only if no exception occurred? Something like\n\n   FileSnapshot newSnapshot \u003d FileSnapshot.save(shallowFile);\n   try (...) {\n     ...\n   }\n   shallowSnapshot \u003d newSnapshot;\n\nAlso, I think actual reading of the file should use FileUtils.readWithRetries().",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdcfeae_16d97f48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d73108ee_28bcba2c",
       "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -128,6 +248,24 @@
       "writtenOn": "2022-05-16T10:55:11Z",
       "side": 1,
       "message": "This should use the usual locking mechanism, like C git does.",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9435e4bc_6b8a4d0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d80a4166_12dde7fa",
       "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -155,6 +293,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fe456a9_7d81d677",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc73d08a_d93ab304",
+      "range": {
+        "startLine": 597,
+        "startChar": 11,
+        "endLine": 597,
+        "endChar": 20
+      },
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f48dbc1_cfa5b70f",
@@ -168,6 +330,24 @@
       "writtenOn": "2022-05-16T10:55:11Z",
       "side": 1,
       "message": "These must be sent only if the server advertised the \"shallow\" capability. See [1].\n\nProbably needs to bail out if the user did specify any shallow option but the server doesn\u0027t support it?\n\n[1] https://github.com/git/git/blob/277cf0bc36094f6dc4297d8c9cef79df045b735d/Documentation/technical/protocol-v2.txt#L281",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90bdcde2_ad6641bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f48dbc1_cfa5b70f",
       "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -195,6 +375,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d52dd304_4f3d6b64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6101a890_f2adc143",
+      "range": {
+        "startLine": 498,
+        "startChar": 44,
+        "endLine": 498,
+        "endChar": 72
+      },
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c342f3d3_831eb6c1",
@@ -212,6 +416,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ab6782d_a4b8969a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c342f3d3_831eb6c1",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ac520a0_14ae3ec7",
@@ -225,6 +447,24 @@
       "writtenOn": "2022-05-16T10:55:11Z",
       "side": 1,
       "message": "Require to be \u003e\u003d 1.",
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee442a2a_d55f8378",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-17T13:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ac520a0_14ae3ec7",
       "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
