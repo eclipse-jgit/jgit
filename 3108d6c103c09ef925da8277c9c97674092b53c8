@@ -16,6 +16,200 @@
       "message": "\u003e Patch Set 3: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1264/ : FAILURE\n\nThe failed test doesn\u0027t rely to any of my changes and is running successfully on my local machine.",
       "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e62e0225_81c35185",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Yes, FileSnapshotTest is unstable.",
+      "parentUuid": "a774b234_5da89f36",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "322a3e28_c7194371",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Please add explicit tests for protocol V0/1. By default, these tests use protocol V2. See line 350 for how to force protocol V0.",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a084dc8_d672c2e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Somehow your formatter doesn\u0027t use the normal JGit formatting. Normally continuation lines are simply indented by two tabs.",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df405df_11d87221",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Last line read must have been an end marker (0000). Bail out if not. Shouldn\u0027t this be inside negotiate(), after line 824? In stateless RPC, nothing has been sent over the wire yet!",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f95c423_6d454db9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Should be set right after line 408.",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0eda0b4_e570c94d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Check here that the last line read was a packet delimiter (0001) and bail out if not.",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f6fc6a8_7687ce4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "According to [1], the shallow lines must come before the deepen* lines in protocol V0/1.\n\n[1] https://github.com/git/git/blob/277cf0bc36094f6dc4297d8c9cef79df045b735d/Documentation/technical/pack-protocol.txt#L246",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8ea3f3c_38ae8c4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Oof. Not really any clearer than\n\n  String line \u003d input.readString();\n  while (!PacketLineIn.isDelimiter(line) \u0026\u0026 !PacketLineIn.isEnd(line)) {\n    ...\n    line \u003d input.readString();\n  }\n\nAlso return the last line read, it needs to be checked at the call sites: in protocol V2, the last line read must be isDelimiter(), in protocol V0/1 it must be isEnd().",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35142a5c_1b95d12d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "According to the git documentation, a server MUST NOT send an unshallow for a commit that the client didn\u0027t advertise as shallow.[1][2] I\u0027d prefer us to be strict about this. Check that the id from the line exists in the commits we advertised; throw an error if not.\n\n[1] https://github.com/git/git/blob/277cf0bc36094f6dc4297d8c9cef79df045b735d/Documentation/technical/pack-protocol.txt#L322\n[2] https://github.com/git/git/blob/277cf0bc36094f6dc4297d8c9cef79df045b735d/Documentation/technical/protocol-v2.txt#L452",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57513afb_771caa78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2455,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Unrelated to this change: C git bails out if \u0027s\u0027 is ambiguous. findRef() just returns the first matching ref it finds.",
+      "range": {
+        "startLine": 2455,
+        "startChar": 14,
+        "endLine": 2455,
+        "endChar": 21
+      },
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b953abf3_0746a2f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2458,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-17T21:13:50Z",
+      "side": 1,
+      "message": "Strange formatting.",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
