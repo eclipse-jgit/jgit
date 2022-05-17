@@ -566,22 +566,29 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 		if (shallowFileSnapshot == null
 				|| shallowFileSnapshot.isModified(shallowFile)) {
-			shallowCommitsIds = new HashSet<>();
+			try {
+				shallowCommitsIds = FileUtils.readWithRetries(shallowFile,
+					  f -> {
+							  FileSnapshot newSnapshot = FileSnapshot.save(shallowFile);
+							  HashSet<ObjectId> result = new HashSet<>();
+							  try (BufferedReader reader = open(shallowFile)) {
+								  String line;
+								  while ((line = reader.readLine()) != null) {
+									  if (!ObjectId.isId(line)) {
+										  throw new IOException(MessageFormat.format(JGitText.get().badShallowLine, line));
 
-			try (BufferedReader reader = open(shallowFile)) {
-				String line;
-				while ((line = reader.readLine()) != null) {
-					try {
-						shallowCommitsIds.add(ObjectId.fromString(line));
-					} catch (IllegalArgumentException ex) {
-						throw new IOException(MessageFormat
-								.format(JGitText.get().badShallowLine, line),
-								ex);
-					}
-				}
+									  }
+									  result.add(ObjectId.fromString(line));
+								  }
+							  }
+							  shallowFileSnapshot = newSnapshot;
+							  return result;
+						  });
+			} catch (IOException e) {
+				throw e;
+			} catch (Exception e) {
+				throw new IOException(JGitText.get().readShallowFailed, e);
 			}
-
-			shallowFileSnapshot = FileSnapshot.save(shallowFile);
 		}
 
 		return shallowCommitsIds;

@@ -606,6 +606,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushOptionsNotSupported;
 	/***/ public String rawLogMessageDoesNotParseAsLogEntry;
 	/***/ public String readConfigFailed;
+	/***/ public String readShallowFailed;
 	/***/ public String readFileStoreAttributesFailed;
 	/***/ public String readerIsRequired;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
