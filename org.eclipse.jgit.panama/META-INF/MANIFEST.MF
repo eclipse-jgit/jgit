@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name
+Automatic-Module-Name: org.eclipse.jgit.panama
+Bundle-SymbolicName: org.eclipse.jgit.panama;singleton:=true
+Fragment-Host: org.eclipse.jgit;bundle-version="[6.2.0,6.3.0)"
+Bundle-Vendor: %Bundle-Vendor
+Bundle-Localization: plugin
+Bundle-Version: 6.2.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-18
+Import-Package: org.eclipse.jgit.internal.storage.file;version="[6.2.0,6.3.0)",
+ org.slf4j;version="[1.7.0,2.0.0)"

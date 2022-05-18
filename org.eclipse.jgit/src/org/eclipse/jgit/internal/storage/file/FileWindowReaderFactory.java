@@ -9,10 +9,51 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Factory for creating a FileWindowReader.
  */
 class FileWindowReaderFactory {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(FileWindowReaderFactory.class);
+
+	private volatile static Constructor<?> panamaImplCtor = getPanamaImplCtor();
+
+	private static Constructor<?> getPanamaImplCtor() {
+		if (panamaImplCtor == null) {
+			if (Runtime.version().feature() >= 18) {
+				try {
+					Class<?> clazz = Class.forName(
+							"org.eclipse.jgit.panama.internal.PanamaFileWindowReader"); //$NON-NLS-1$
+					if (clazz != null) {
+						panamaImplCtor = clazz.getConstructor(Pack.class);
+					}
+				} catch (ClassNotFoundException | NoSuchMethodException
+						| SecurityException e) {
+					LOG.debug(e.getMessage(), e);
+				}
+			}
+		}
+		return panamaImplCtor;
+	}
+
+	private static FileWindowReader createPanamaFileWindowReader(Pack pack) {
+		if (panamaImplCtor != null) {
+			try {
+				return (FileWindowReader) panamaImplCtor.newInstance(pack);
+			} catch (InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException e) {
+				LOG.error(e.getMessage(), e);
+			}
+		}
+		return null;
+	}
+
 	private static boolean mmap = false;
 
 	/**
@@ -33,9 +74,15 @@ class FileWindowReaderFactory {
 	 * @return the new {@code FileWindowReader}
 	 */
 	static FileWindowReader create(Pack pack) {
+		FileWindowReader r = null;
 		if (mmap) {
-			return new MmapNioFileWindowReader(pack);
+			r = createPanamaFileWindowReader(pack);
+			if (r == null) {
+				r = new MmapNioFileWindowReader(pack);
+			}
+		} else {
+			r = new HeapFileWindowReader(pack);
 		}
-		return new HeapFileWindowReader(pack);
+		return r;
 	}
 }
