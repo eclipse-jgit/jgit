@@ -154,6 +154,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63992bec_1a3fcadd",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14d2be4c_b515bbb5",
+      "range": {
+        "startLine": 461,
+        "startChar": 46,
+        "endLine": 461,
+        "endChar": 70
+      },
+      "revId": "6291608d3bb1798d8a9c008a9e081174fb84e4c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "325c4acf_89e78662",
