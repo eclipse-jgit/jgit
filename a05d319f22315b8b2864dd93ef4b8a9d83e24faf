@@ -107,6 +107,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3ba324b_6ee698d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/HeapFileWindowReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-18T22:57:13Z",
+      "side": 1,
+      "message": "argh, what did I think here ?\n\ndone",
+      "parentUuid": "c222a4c8_ce9846fd",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 4
+      },
+      "revId": "a05d319f22315b8b2864dd93ef4b8a9d83e24faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff539a50_d56ef96a",
