@@ -26,11 +26,20 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
  * bytes from a window is very inexpensive.
  * </p>
  */
-abstract class ByteWindow {
+public abstract class ByteWindow {
+	/**
+	 * The pack this byte window is exposing a window of
+	 */
 	protected final Pack pack;
 
+	/**
+	 * Where the byte window starts in the pack file
+	 */
 	protected final long start;
 
+	/**
+	 * Size of the byte window
+	 */
 	protected final long end;
 
 	/**
