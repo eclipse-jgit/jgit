@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c222a4c8_ce9846fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/HeapFileWindowReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-18T19:37:06Z",
+      "side": 1,
+      "message": "\u003e I want to ensure fd is set to null to ensure gc can collect it\n\nI don\u0027t understand. How does catch-and-rethrow accomplish this?",
+      "parentUuid": "9fe1aaa5_bd1023d9",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 4
+      },
+      "revId": "a05d319f22315b8b2864dd93ef4b8a9d83e24faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff539a50_d56ef96a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MmapNioFileWindowReader.java",
         "patchSetId": 6
