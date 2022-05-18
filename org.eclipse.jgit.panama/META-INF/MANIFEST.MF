@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name
+Automatic-Module-Name: org.eclipse.jgit.panama
+Bundle-SymbolicName: org.eclipse.jgit.panama;singleton:=true
+Fragment-Host: org.eclipse.jgit;bundle-version="[7.4.0,7.5.0)"
+Bundle-Vendor: %Bundle-Vendor
+Bundle-Localization: plugin
+Bundle-Version: 7.4.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-24
+Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
+Import-Package: org.eclipse.jgit.internal.storage.file;version="[7.4.0,7.5.0)",
+ org.slf4j;version="[1.7.0,2.0.0)"
