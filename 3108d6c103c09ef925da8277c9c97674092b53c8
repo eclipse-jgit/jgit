@@ -70,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16e86244_04bc148a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a084dc8_d672c2e1",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7df405df_11d87221",
@@ -83,6 +101,24 @@
       "writtenOn": "2022-05-17T21:13:50Z",
       "side": 1,
       "message": "Last line read must have been an end marker (0000). Bail out if not. Shouldn\u0027t this be inside negotiate(), after line 824? In stateless RPC, nothing has been sent over the wire yet!",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "041f102d_1123f62a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7df405df_11d87221",
       "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -104,6 +140,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0154bfc9_d5ff2fa2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f95c423_6d454db9",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0eda0b4_e570c94d",
@@ -117,6 +171,24 @@
       "writtenOn": "2022-05-17T21:13:50Z",
       "side": 1,
       "message": "Check here that the last line read was a packet delimiter (0001) and bail out if not.",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16dac345_47461276",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0eda0b4_e570c94d",
       "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -138,6 +210,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd5917d1_3be67b5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f6fc6a8_7687ce4f",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8ea3f3c_38ae8c4e",
@@ -155,6 +245,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5259111_896f4b1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8ea3f3c_38ae8c4e",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35142a5c_1b95d12d",
@@ -168,6 +276,24 @@
       "writtenOn": "2022-05-17T21:13:50Z",
       "side": 1,
       "message": "According to the git documentation, a server MUST NOT send an unshallow for a commit that the client didn\u0027t advertise as shallow.[1][2] I\u0027d prefer us to be strict about this. Check that the id from the line exists in the commits we advertised; throw an error if not.\n\n[1] https://github.com/git/git/blob/277cf0bc36094f6dc4297d8c9cef79df045b735d/Documentation/technical/pack-protocol.txt#L322\n[2] https://github.com/git/git/blob/277cf0bc36094f6dc4297d8c9cef79df045b735d/Documentation/technical/protocol-v2.txt#L452",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7c524e2_c93c6ed3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35142a5c_1b95d12d",
       "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -208,6 +334,24 @@
       "writtenOn": "2022-05-17T21:13:50Z",
       "side": 1,
       "message": "Strange formatting.",
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f36aa7c_697640c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2458,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-18T09:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b953abf3_0746a2f2",
       "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
