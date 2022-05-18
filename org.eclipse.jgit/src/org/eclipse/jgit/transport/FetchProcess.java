@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.StringUtils;
 
@@ -373,8 +374,16 @@ class FetchProcess {
 	private boolean askForIsComplete() throws TransportException {
 		try {
 			try (ObjectWalk ow = new ObjectWalk(transport.local)) {
-				for (ObjectId want : askFor.keySet())
-					ow.markStart(ow.parseAny(want));
+
+				boolean hasCommitObject = false;
+				for (ObjectId want : askFor.keySet()) {
+					RevObject obj = ow.parseAny(want);
+					ow.markStart(obj);
+					hasCommitObject |= obj.getType() == Constants.OBJ_COMMIT;
+				}
+				if (!hasCommitObject) {
+					return true;
+				}
 				for (Ref ref : localRefs().values())
 					ow.markUninteresting(ow.parseAny(ref.getObjectId()));
 				ow.checkConnectivity();
