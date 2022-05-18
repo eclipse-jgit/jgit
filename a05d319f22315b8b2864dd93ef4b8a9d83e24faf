@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d1e4be4_463caa48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileWindowReaderFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-18T08:06:37Z",
+      "side": 1,
+      "message": "I thought about using the MemorySegment based implementation of useMmap \u003d\u003d true and the Java runtime version has the required classes available, which in Java 17 requires that the module jdk.incubator.foreign is available.",
+      "parentUuid": "2bcea491_f5680e3e",
+      "revId": "a05d319f22315b8b2864dd93ef4b8a9d83e24faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8396712f_a83414a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/HeapFileWindowReader.java",
         "patchSetId": 6
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fe1aaa5_bd1023d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/HeapFileWindowReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-18T08:06:37Z",
+      "side": 1,
+      "message": "I want to ensure fd is set to null to ensure gc can collect it",
+      "parentUuid": "8396712f_a83414a9",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 4
+      },
+      "revId": "a05d319f22315b8b2864dd93ef4b8a9d83e24faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff539a50_d56ef96a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MmapNioFileWindowReader.java",
         "patchSetId": 6
@@ -54,6 +96,30 @@
       "writtenOn": "2022-05-17T06:22:39Z",
       "side": 1,
       "message": "Is this try catch block needed?",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 4
+      },
+      "revId": "a05d319f22315b8b2864dd93ef4b8a9d83e24faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d22cf57_a924ec08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MmapNioFileWindowReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-18T08:06:37Z",
+      "side": 1,
+      "message": "I want to ensure fd is set to null to ensure gc can collect it",
+      "parentUuid": "ff539a50_d56ef96a",
       "range": {
         "startLine": 33,
         "startChar": 3,
