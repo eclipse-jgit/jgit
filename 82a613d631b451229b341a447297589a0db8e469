@@ -87,6 +87,24 @@
       "parentUuid": "bfe174a3_37fee130",
       "revId": "82a613d631b451229b341a447297589a0db8e469",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62c94c18_52f5e05e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-05-18T12:15:00Z",
+      "side": 1,
+      "message": "After looking at the source code again I concluded that you\u0027re right - sorry for the confusion. I just committed a new patch set. \n\nNot that it matters but here\u0027s the reason why I was confused: \nIn the rewrite method, the number of parents is checked in line 135. I assumed that the number of parents of p can still change by calling applyFilterToParents to p (and thus I immediately called applyFilterToParents to p). When TreeRefFilter has been applied to p, the number of parents does not change anymore (TreeRefFilter might have removed a parent during the application of the filter if the parent is !TREESAME to a merge commit). \n\nThanks for the fast and constructive reply!",
+      "parentUuid": "e40cf7f6_7caa8bfe",
+      "revId": "82a613d631b451229b341a447297589a0db8e469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
