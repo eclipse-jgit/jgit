@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e216a31d_a890062c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-05-19T21:46:09Z",
+      "side": 1,
+      "message": "I think this optimization is independent of what gerrit did before. It is not really about skipping duplicated work (or at least not jgits duplicated work!).\n\nMaybe just explain that if the want is the tip of a refs known to the caller, it is reachable and there is no need of a reachability check.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43c314e1_d34703ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-05-19T21:46:09Z",
+      "side": 1,
+      "message": "IIUC: when the connection is not bidirectional (e.g. HTTP), we don\u0027t know what was advertised before, so \"notAdvertisedWants\" is more accurate here.",
+      "range": {
+        "startLine": 1980,
+        "startChar": 18,
+        "endLine": 1980,
+        "endChar": 23
+      },
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e1283f8_c9daf5cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1984,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-05-19T21:46:09Z",
+      "side": 1,
+      "message": "Can we use here refIdSet as TipRequestValidator does around line 1941? More consistent and it would handle peeling refs.",
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f7da5cf_60cf03cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1986,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-05-19T21:46:09Z",
+      "side": 1,
+      "message": "what about \"nonTipWants\"? we still don\u0027t know if they are visible or not.",
+      "range": {
+        "startLine": 1986,
+        "startChar": 17,
+        "endLine": 1986,
+        "endChar": 40
+      },
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
