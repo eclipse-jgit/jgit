@@ -1977,16 +1977,21 @@ public class UploadPack {
 	}
 
 	private static void checkNotAdvertisedWants(UploadPack up,
-			List<ObjectId> notAdvertisedWants, Collection<Ref> visibleRefs)
+			List<ObjectId> wants, Collection<Ref> visibleRefs)
 			throws IOException {
 
 		ObjectReader reader = up.getRevWalk().getObjectReader();
+		Set<ObjectId> directlyVisibleObjects = visibleRefs.stream().map(Ref::getObjectId)
+				.collect(Collectors.toSet());
+		List<ObjectId> notDirectlyVisibleWants = wants.stream()
+				.filter(not(directlyVisibleObjects::contains))
+				.collect(Collectors.toList());
 
 		try (RevWalk walk = new RevWalk(reader)) {
 			walk.setRetainBody(false);
 			// Missing "wants" throw exception here
 			List<RevObject> wantsAsObjs = objectIdsToRevObjects(walk,
-					notAdvertisedWants);
+					notDirectlyVisibleWants);
 			List<RevCommit> wantsAsCommits = wantsAsObjs.stream()
 					.filter(obj -> obj instanceof RevCommit)
 					.map(obj -> (RevCommit) obj)
@@ -2044,6 +2049,10 @@ public class UploadPack {
 		} catch (MissingObjectException notFound) {
 			throw new WantNotValidException(notFound.getObjectId(), notFound);
 		}
+	}
+
+	private static <T> Predicate<T> not(Predicate<T> t) {
+	    return t.negate();
 	}
 
 	static Stream<Ref> importantRefsFirst(
