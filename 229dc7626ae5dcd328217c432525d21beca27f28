@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56d6c7bd_484a0c3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T19:10:21Z",
+      "side": 1,
+      "message": "I think we should not add new API until an implementation which demonstrates a real advantage is available",
+      "revId": "229dc7626ae5dcd328217c432525d21beca27f28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
