@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4355f7ce_d07fe324",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T19:55:25Z",
+      "side": 1,
+      "message": "reflogs for all branches including remote tracking branches.",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2353d2d7_21cee8a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T19:55:25Z",
+      "side": 1,
+      "message": "I don\u0027t think this is related to how packed refs are implemented",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebbf6e21_0c9cc373",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T19:55:25Z",
+      "side": 1,
+      "message": "is there any other disadvantage besides the slowdown which is already mentioned in the previous paragraph ?",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eda45599_6cc7bc96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T19:55:25Z",
+      "side": 1,
+      "message": "I think this is irrelevant, the documentation of core.logallrefupdates [1] says that if this option is true reflogs are created for all branches including remote branches, and the default of this option is true. On the first fetch after a clone which updates a remote tracking branch C git also creates the corresponding reflog.\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-corelogAllRefUpdates",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f2776f6_394abece",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T19:55:25Z",
+      "side": 1,
+      "message": "I think you misinterpret this comment in the source code of the C implementation, it just says that you cannot store reflogs inside packed-refs, this is a limitation of the storage format and not of its implementation. C git stores reflogs in extra files\n\n refs/logs/\u003chierarchical branch name\u003e\n\nin the same way like jgit does.\n\nC git deliberately does some shortcuts on clone (and only on clone), see [1]:\n\n\"git clone\" uses shortcuts when creating the initial set of\nreferences:\n* It writes them directly to packed-refs.\n* It doesn\u0027t lock the individual references (though it does lock \n  the packed-refs file).\n* It doesn\u0027t check for refname conflicts between two new references \n  or between one new reference and any hypothetical old ones.\n* It doesn\u0027t create reflog entries for the reference creations.\n\nBut it creates a reflog for refs/heads/master which is a local branch and it creates a reflog for refs/remotes/origin/HEAD:\n\n$ cat ./logs/refs/remotes/origin/HEAD\n0000000000000000000000000000000000000000 88d5f51e61f7f90b4f760261f07c95d8dd3d7299 Matthias Sohn \u003cmatthias.sohn@sap.com\u003e 1652988705 +0200\tclone: from https://git.eclipse.org/r/jgit/jgit\n\njgit does not create a reflog for refs/remotes/origin/HEAD (but it should)\n\n\n[1] https://github.com/git/git/commit/58f233ce1ed67bbc31a429fde5c65d5050fdbd7d",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5799fc5_e2c250cb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T19:55:25Z",
+      "side": 1,
+      "message": "We need another test demonstrating that a subsequent fetch updating any of the remote tracking branches creates the corresponding reflog which wasn\u0027t created during clone.\n\nAnd we need a test showing that\njgit init\njgit fetch \u003csourceRepoUrl\u003e refs/heads/*:refs/remotes/origin/*\ncreates reflogs for all remote tracking branches like C git does",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fff03f2_6299ac23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T19:55:25Z",
+      "side": 1,
+      "message": "I think this is wrong, the shortcut skipping creation of reflogs for remote tracking branches should only be taken if the ref creation is done during clone. If we happen to update multiple refs via PackedBatchRefUpdate during a fetch we must track the ref updates in their respective reflogs.",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
