@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02764a7d_5f1bb6de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-19T22:33:13Z",
+      "side": 1,
+      "message": "I think this comparison is by reference intentionally, there is exactly one static final instance of MISSING_CHECKSUM\n\nlooks like a duplicate of https://git.eclipse.org/r/c/jgit/jgit/+/192040",
+      "revId": "a16798a6fa68e224c1767db853092030b155e157",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
