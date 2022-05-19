@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fa3b5f2_7a266e3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/HeapFileWindowReader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-19T07:57:46Z",
+      "side": 1,
+      "message": "Still not sure this is good. close() is allowed to propagate exceptions, so it\u0027s a bit unnatural to catch, log, and not propagate. If you want to ensure fd is null afterwards, why not\n\n  if (fd !\u003d null) {\n    RandomAccessFile toClose \u003d fd;\n    fd \u003d null; // Let it be GC\u0027ed\n    toClose.close();\n  }",
+      "revId": "13bbb1f19b7a64ba8235f2b0b0cea55b640d3468",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
