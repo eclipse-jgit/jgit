@@ -52,6 +52,24 @@
       "parentUuid": "7ca9b9ae_35e9bb16",
       "revId": "0a60a6aae82dc1fecba6b13d35cda0ff963f30c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32009c0_c1df3b36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-05-20T18:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701a8ef7_814be0fe",
+      "revId": "0a60a6aae82dc1fecba6b13d35cda0ff963f30c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
