@@ -34,6 +34,24 @@
       "parentUuid": "2177874a_d539ef61",
       "revId": "0a60a6aae82dc1fecba6b13d35cda0ff963f30c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "701a8ef7_814be0fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-20T07:52:58Z",
+      "side": 1,
+      "message": "+1 for Dave\u0027s solution",
+      "parentUuid": "7ca9b9ae_35e9bb16",
+      "revId": "0a60a6aae82dc1fecba6b13d35cda0ff963f30c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
