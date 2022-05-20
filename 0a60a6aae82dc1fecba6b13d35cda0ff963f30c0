@@ -16,6 +16,24 @@
       "message": "I think this comparison is by reference intentionally, there is exactly one static final instance of MISSING_CHECKSUM",
       "revId": "0a60a6aae82dc1fecba6b13d35cda0ff963f30c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ca9b9ae_35e9bb16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-05-20T05:59:50Z",
+      "side": 1,
+      "message": "There are similar situations, also in Gerrit code base, see Dave Borowitz\u0027s comment in CL: [1], quoting:\n\n```\nAn unfortunate number of instances of this warning are actually\ndepending on this behavior, but in those cases it\u0027s probably better to\nhave an actual method making the intent explicit.\n```\n\n    @SuppressWarnings(\"ReferenceEquality\")\n    private static \u003cT\u003e boolean isSameInstance(T a, T b) {\n        return a \u003d\u003d b;\n    }\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/225713",
+      "parentUuid": "2177874a_d539ef61",
+      "revId": "0a60a6aae82dc1fecba6b13d35cda0ff963f30c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
