@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.http.server
 Bundle-SymbolicName: org.eclipse.jgit.http.server
-Bundle-Version: 6.2.0.qualifier
+Bundle-Version: 6.2.0.202205251150-m3
 Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.jgit.http.server;version="6.2.0",
