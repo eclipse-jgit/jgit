@@ -143,8 +143,19 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	static final int TOPO_QUEUED = 1 << 6;
 
+	/**
+	 * Set on a RevCommit when a {@link TreeRevFilter} has been applied.
+	 * <p>
+	 * This flag is processed by the {@link RewriteGenerator} to check if a
+	 * {@link TreeRevFilter} has been applied.
+	 *
+	 * @see TreeRevFilter
+	 * @see RewriteGenerator
+	 */
+	static final int TREE_REV_FILTER_APPLIED = 1 << 7;
+
 	/** Number of flag bits we keep internal for our own use. See above flags. */
-	static final int RESERVED_FLAGS = 7;
+	static final int RESERVED_FLAGS = 8;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 

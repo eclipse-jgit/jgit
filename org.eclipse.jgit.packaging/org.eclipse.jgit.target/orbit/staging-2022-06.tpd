@@ -1,7 +1,7 @@
 target "staging-2022-06" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/downloads/drops/I20220502200629/repository" {
+location "https://download.eclipse.org/tools/orbit/downloads/drops/S20220517184036/repository" {
 	com.google.gson [2.8.9.v20220111-1409,2.8.9.v20220111-1409]
 	com.google.gson.source [2.8.9.v20220111-1409,2.8.9.v20220111-1409]
 	com.jcraft.jsch [0.1.55.v20190404-1902,0.1.55.v20190404-1902]
@@ -18,8 +18,8 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/I202205022006
 	net.bytebuddy.byte-buddy-agent [1.9.0.v20181106-1534,1.9.0.v20181106-1534]
 	net.bytebuddy.byte-buddy-agent.source [1.9.0.v20181106-1534,1.9.0.v20181106-1534]
 	net.bytebuddy.byte-buddy.source [1.9.0.v20181107-1410,1.9.0.v20181107-1410]
-	net.i2p.crypto.eddsa [0.3.0.v20210923-1401,0.3.0.v20210923-1401]
-	net.i2p.crypto.eddsa.source [0.3.0.v20210923-1401,0.3.0.v20210923-1401]
+	net.i2p.crypto.eddsa [0.3.0.v20220506-1020,0.3.0.v20220506-1020]
+	net.i2p.crypto.eddsa.source [0.3.0.v20220506-1020,0.3.0.v20220506-1020]
 	org.apache.ant [1.10.12.v20211102-1452,1.10.12.v20211102-1452]
 	org.apache.ant.source [1.10.12.v20211102-1452,1.10.12.v20211102-1452]
 	org.apache.commons.codec [1.14.0.v20200818-1422,1.14.0.v20200818-1422]
@@ -38,12 +38,12 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/I202205022006
 	org.apache.sshd.sftp.source [2.8.0.v20211227-1750,2.8.0.v20211227-1750]
 	org.assertj [3.20.2.v20210706-1104,3.20.2.v20210706-1104]
 	org.assertj.source [3.20.2.v20210706-1104,3.20.2.v20210706-1104]
-	org.bouncycastle.bcpg [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
-	org.bouncycastle.bcpg.source [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcpg [1.70.0.v20220507-1208,1.70.0.v20220507-1208]
+	org.bouncycastle.bcpg.source [1.70.0.v20220507-1208,1.70.0.v20220507-1208]
 	org.bouncycastle.bcpkix [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
 	org.bouncycastle.bcpkix.source [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
-	org.bouncycastle.bcprov [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
-	org.bouncycastle.bcprov.source [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
+	org.bouncycastle.bcprov [1.70.0.v20220507-1208,1.70.0.v20220507-1208]
+	org.bouncycastle.bcprov.source [1.70.0.v20220507-1208,1.70.0.v20220507-1208]
 	org.bouncycastle.bcutil [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
 	org.bouncycastle.bcutil.source [1.70.0.v20220105-1522,1.70.0.v20220105-1522]
 	org.hamcrest [2.2.0.v20210711-0821,2.2.0.v20210711-0821]

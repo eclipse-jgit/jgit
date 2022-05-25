@@ -180,9 +180,10 @@ public class FileBasedConfig extends StoredConfig {
 		}
 
 		final LockFile lf = new LockFile(getFile());
-		if (!lf.lock())
-			throw new LockFailedException(getFile());
 		try {
+			if (!lf.lock()) {
+				throw new LockFailedException(getFile());
+			}
 			lf.setNeedSnapshotNoConfig(true);
 			lf.write(out);
 			if (!lf.commit())
