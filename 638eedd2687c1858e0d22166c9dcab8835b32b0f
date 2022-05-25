@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "44a7c5a4_21f2fcad",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
@@ -14,10 +15,28 @@
       "side": 1,
       "message": "Stderr in all likelihood will have been written by the executed command with the current locale. Use SystemReader.getDefaultCharset() here.",
       "revId": "638eedd2687c1858e0d22166c9dcab8835b32b0f",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39282ae8_a65cde8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-25T15:36:06Z",
+      "side": 1,
+      "message": "Default API methods (without charset) already use system default",
+      "parentUuid": "44a7c5a4_21f2fcad",
+      "revId": "638eedd2687c1858e0d22166c9dcab8835b32b0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "321f230d_e770bc6b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
@@ -31,8 +50,25 @@
       "side": 1,
       "message": "Files.writeString() would be the Java 11 one-liner for this. What Charset is to be used? UTF-8, or the current locale? (SystemReader.getDefaultCharset())",
       "revId": "638eedd2687c1858e0d22166c9dcab8835b32b0f",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca7645e_1280d767",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-25T15:36:06Z",
+      "side": 1,
+      "message": "Files.write wants write using UTF-8 by default, and using \"real\" system default here is safer as jgit computed \"default\" charset, so I would leave this as is, it is proven to work.",
+      "parentUuid": "321f230d_e770bc6b",
+      "revId": "638eedd2687c1858e0d22166c9dcab8835b32b0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
