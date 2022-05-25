@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2506b9d8_8c4bbccb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-25T13:16:59Z",
+      "side": 1,
+      "message": "I\u0027ve reviewed \u0026 checked code, looks good for me. If no one heads up, I plan to merge.",
+      "revId": "85734356351ec2df4067b2472a37f6d9bcbb7350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
