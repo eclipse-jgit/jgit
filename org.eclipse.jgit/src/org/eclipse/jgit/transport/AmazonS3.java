@@ -31,11 +31,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +47,6 @@ import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.time.Instant;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -56,7 +55,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.transport.aws.AWS4SignerForAuthorizationHeader;
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.StringUtils;
@@ -627,7 +625,7 @@ public class AmazonS3 {
 			authorizeV2(httpURLConnection);
 		}
 		else if (awsApiSignatureVersion.equals("4")) {
-			authorizeV4(httpURLConnection, queryParams, data);
+			AwsRequestSignerV4.sign(httpURLConnection, queryParams, data, "s3", region, publicKey, secretKey);
 		}
 		else {
 			throw new IllegalStateException(MessageFormat.format(
@@ -680,18 +678,6 @@ public class AmazonS3 {
 			throw new IOException(MessageFormat.format(JGitText.get().invalidKey, e.getMessage()));
 		}
 		c.setRequestProperty("Authorization", "AWS " + publicKey + ":" + sec); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
-
-	void authorizeV4(final HttpURLConnection httpURLConnection,
-    		final Map<String, String> queryParams, final byte[] data) {
-		final Map<String, String> headers = new HashMap<>();
-		httpURLConnection.getRequestProperties().forEach((headerName, headerValues) ->
-			headers.put(headerName, String.join(",", headerValues)));
-		final AWS4SignerForAuthorizationHeader signer = new AWS4SignerForAuthorizationHeader(
-			httpURLConnection.getURL(), httpURLConnection.getRequestMethod(), "s3", region);
-		final String authorization = signer.computeSignature(headers, queryParams, data, publicKey, secretKey);
-		headers.forEach(httpURLConnection::setRequestProperty); // Update headers based on changes from computeSignature
-		httpURLConnection.setRequestProperty("Authorization", authorization);
 	}
 
 	static Properties properties(File authFile)
