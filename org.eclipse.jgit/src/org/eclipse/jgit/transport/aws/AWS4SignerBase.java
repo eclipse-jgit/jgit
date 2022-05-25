@@ -26,6 +26,8 @@ import java.util.TreeMap;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.eclipse.jgit.util.HttpSupport;
+
 /**
  * Common methods and properties for all AWS4 signer variants.
  * Based on <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/samples/AWSS3SigV4JavaSamples.zip">AWSS3SigV4JavaSamples.zip</a>
@@ -201,7 +203,7 @@ public abstract class AWS4SignerBase {
             return "/";
         }
         
-        String encodedPath = HttpUtils.urlEncode(path, true);
+        String encodedPath = HttpSupport.urlEncode(path, true);
         if (encodedPath.startsWith("/")) {
             return encodedPath;
         } else {
@@ -234,7 +236,7 @@ public abstract class AWS4SignerBase {
             Map.Entry<String, String> pair = pairs.next();
             String key = pair.getKey();
             String value = pair.getValue();
-            sorted.put(HttpUtils.urlEncode(key, false), HttpUtils.urlEncode(value, false));
+            sorted.put(HttpSupport.urlEncode(key, false), HttpSupport.urlEncode(value, false));
         }
 
         StringBuilder builder = new StringBuilder();
