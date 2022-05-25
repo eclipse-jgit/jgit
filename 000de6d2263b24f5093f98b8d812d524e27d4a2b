@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d87d3ed_c4d4b5e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T07:07:25Z",
+      "side": 1,
+      "message": "Thank you, Eric. See inline comments. I do have some licensing concerns; I don\u0027t think we can just copy Amazon\u0027s sample code.",
+      "revId": "000de6d2263b24f5093f98b8d812d524e27d4a2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcb0c1ba_75d86754",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/aws/AWS4SignerBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T07:07:25Z",
+      "side": 1,
+      "message": "First; this code needs modernization. Second, it appears to be a direct copy of Amazon\u0027s sample code. I was unable to find any license statement for that code. We probably can\u0027t just copy that code and put our own license on it.\n\nWe\u0027d have to write our own implementation based on that sample.",
+      "revId": "000de6d2263b24f5093f98b8d812d524e27d4a2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57af2be9_b4ecfa24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/aws/AWS4SignerBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T07:07:25Z",
+      "side": 1,
+      "message": "Isn\u0027t this just String.join(\";\", sortedHeaders);",
+      "revId": "000de6d2263b24f5093f98b8d812d524e27d4a2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1fd4cb3_87dcde30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/aws/BinaryUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T07:07:25Z",
+      "side": 1,
+      "message": "Could be replaced by org.eclipse.jgit.util.Hex.toHexString().",
+      "revId": "000de6d2263b24f5093f98b8d812d524e27d4a2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a294481_fb21a977",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/aws/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T07:07:25Z",
+      "side": 1,
+      "message": "Add this to org.eclipse.jgit.utils.HttpSupport.",
+      "revId": "000de6d2263b24f5093f98b8d812d524e27d4a2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a066823_b4cc03a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/aws/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T07:07:25Z",
+      "side": 1,
+      "message": "Style: this is not the JGit formatting; we don\u0027t use spaces inside ().",
+      "range": {
+        "startLine": 39,
+        "startChar": 11,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "000de6d2263b24f5093f98b8d812d524e27d4a2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
