@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d66d0d98_5952a33f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/diffmergetool/ExternalMergeToolTest.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-25T11:55:19Z",
+      "side": 1,
+      "message": "That was renamed, I\u0027ve fixed it.",
+      "range": {
+        "startLine": 24,
+        "startChar": 43,
+        "endLine": 24,
+        "endChar": 59
+      },
+      "revId": "97e9d2254086c0613a229f98bd03e61f9f826587",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ed3c665_ad874386",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/MergeToolConfig.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-25T11:55:19Z",
+      "side": 1,
+      "message": "Not needed, I\u0027ve removed it",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "97e9d2254086c0613a229f98bd03e61f9f826587",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0e51a47_4b91ca77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/MergeToolConfig.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-25T11:55:19Z",
+      "side": 1,
+      "message": "Else was missing with \"UNSET\", I\u0027ve fixed it",
+      "range": {
+        "startLine": 72,
+        "startChar": 3,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "97e9d2254086c0613a229f98bd03e61f9f826587",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
