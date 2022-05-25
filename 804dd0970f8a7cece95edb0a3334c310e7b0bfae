@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e91e5f_f94f5cd8",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T12:36:43Z",
+      "side": 1,
+      "message": "Either write \"was not\", or escape the single quote by doubling it: \"wasn\u0027\u0027t\".",
+      "range": {
+        "startLine": 512,
+        "startChar": 72,
+        "endLine": 512,
+        "endChar": 73
+      },
+      "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46926193_0d14df68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T12:36:43Z",
+      "side": 1,
+      "message": "Strange formatting. Missing linebreak.",
+      "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04db84bd_a6ee14db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T12:36:43Z",
+      "side": 1,
+      "message": "C git uses strtoumax. JGit still uses int for timestamps. That\u0027s something that we may need to tackle before 2038. Perhaps add a comment here (something like \"TODO: timestamps should be long\").",
+      "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe798da4_a1a8d4c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-25T12:36:43Z",
+      "side": 1,
+      "message": "Strange formatting; too many tabs.",
+      "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
