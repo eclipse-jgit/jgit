@@ -14,6 +14,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Map;
 
+import org.eclipse.jgit.util.Hex;
+
 /**
  * AWS4 signer to sign requests to Amazon S3 using an 'Authorization' header.
  * Based on <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/samples/AWSS3SigV4JavaSamples.zip">AWSS3SigV4JavaSamples.zip</a>
@@ -71,7 +73,7 @@ public class AWS4SignerForAuthorizationHeader extends AWS4SignerBase {
         final String bodyHash;
         if (contentLength > 0) {
             final byte[] contentHash = AWS4SignerBase.hash(data);
-            bodyHash = BinaryUtils.toHex(contentHash);
+            bodyHash = Hex.toHexString(contentHash);
             headers.put("content-length", "" + contentLength);
         }
         else {
@@ -125,7 +127,7 @@ public class AWS4SignerForAuthorizationHeader extends AWS4SignerBase {
         String signedHeadersAuthorizationHeader =
                 "SignedHeaders=" + canonicalizedHeaderNames;
         String signatureAuthorizationHeader =
-                "Signature=" + BinaryUtils.toHex(signature);
+                "Signature=" + Hex.toHexString(signature);
 
         String authorizationHeader = SCHEME + "-" + ALGORITHM + " "
                 + credentialsAuthorizationHeader + ", "

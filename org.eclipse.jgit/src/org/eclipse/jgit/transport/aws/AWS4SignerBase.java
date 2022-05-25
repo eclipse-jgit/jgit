@@ -26,6 +26,7 @@ import java.util.TreeMap;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.eclipse.jgit.util.Hex;
 import org.eclipse.jgit.util.HttpSupport;
 
 /**
@@ -275,7 +276,7 @@ public abstract class AWS4SignerBase {
             scheme + "-" + algorithm + "\n" +
             dateTime + "\n" +
             scope + "\n" +
-            BinaryUtils.toHex(hash(canonicalRequest));
+            Hex.toHexString(hash(canonicalRequest));
         return stringToSign;
     }
 
