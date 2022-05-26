@@ -20,6 +20,80 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "847a1397_eef6df4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f506cb2_fb69f1dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "unnecessary //$NON-NLS-1$",
+      "range": {
+        "startLine": 228,
+        "startChar": 44,
+        "endLine": 228,
+        "endChar": 57
+      },
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ae7551_271989ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9244f03_794a9821",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "nit: missing braces around single line statement",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a661e85a_35dea4a4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
@@ -43,6 +117,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e75c19a1_8aa9635c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44eacce7_7cb0be76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4d6adef4_8d0ca050",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
@@ -54,6 +162,40 @@
       "writtenOn": "2022-05-26T12:32:08Z",
       "side": 1,
       "message": "Cannot happen. The constructor already throws if it\u0027s neither 2 nor 4.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86a217d6_83561c4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a013a4c1_8c685d4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
       "revId": "e602809ded0299aa8379e5342354ab3b95561049",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -111,6 +253,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05b77893_ecc30f15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$\n\nmore of these below",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e99e803_218e666b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
         "patchSetId": 1
@@ -122,6 +281,29 @@
       "writtenOn": "2022-05-26T12:32:08Z",
       "side": 1,
       "message": "I was briefly confused why there are two different names. ALGORITHM is the algorithm identifier used by AWS in the authorization header. MAC_ALGORITHM is the Java name for the same. Perhaps explain in the javadoc.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "909a6134_3c3d21a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-05-26T23:08:23Z",
+      "side": 1,
+      "message": "use DateTimeFormatter ?",
+      "range": {
+        "startLine": 55,
+        "startChar": 25,
+        "endLine": 55,
+        "endChar": 41
+      },
       "revId": "e602809ded0299aa8379e5342354ab3b95561049",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
