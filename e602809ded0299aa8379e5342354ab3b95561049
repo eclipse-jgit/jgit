@@ -1,0 +1,328 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06a95dcd_0cac8882",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Maybe call this key missingAwsRegion.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a661e85a_35dea4a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Can we avoid this extra copy of the encrypted data? Authorize needs it only to set content-length and to compute tha SHA-256 hash. I wonder if we could compute a SHA-256 along with the MD5 and avoid this copy. Is the MD5 even needed with signature version 4? If not, beginPut() should use a SHA-256 if signature version 4 is used, then we\u0027d have both items (length and hash) available here without the extra copy.",
+      "range": {
+        "startLine": 511,
+        "startChar": 40,
+        "endLine": 511,
+        "endChar": 57
+      },
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d6adef4_8d0ca050",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Cannot happen. The constructor already throws if it\u0027s neither 2 nor 4.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a87d6d56_a5bbf6c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Cannot happen. The constructor already throws if it\u0027s neither 2 nor 4.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f7e6bdb_63d8eaf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Missing @since 5.13",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7684aa_190f07a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "I\u0027d make this class final.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e99e803_218e666b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "I was briefly confused why there are two different names. ALGORITHM is the algorithm identifier used by AWS in the authorization header. MAC_ALGORITHM is the Java name for the same. Perhaps explain in the javadoc.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aa481f7_a8c2ef3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "No need to throw actually. In other places JGit just does\n\n  private AwsRequestSignerV4() {\n    // Don\u0027t instantiate utility class\n  }",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29e96805_41d6d997",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Warnings about non-externalized strings. Suppress using //$NON-NLS-1$ throughout.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1470934_90596105",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Lots of warnings about non-externalized strings here. Can all be avoided by using characters instead of strings: + \u0027\\n\u0027 instead of + \"\\n\". Also below.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f150b2a2_d7de8cf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "HttpSupport.HDR_AUTHORIZATION",
+      "range": {
+        "startLine": 164,
+        "startChar": 45,
+        "endLine": 164,
+        "endChar": 60
+      },
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c092b60a_e884ae18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "\"else\" branch not needed. Eclipse would show a warning here. Just\n\n  if (encodedPath.startsWith(\"/\")) {\n    return encodedPath;\n  }\n  return \"/\".concat(encodedPath);",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e148596b_d5a7e54c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Exception message needs to be externalized.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54a05f14_a9a1ba8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AwsRequestSignerV4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Exception message needs to be externalized.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34876c88_f638602b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Missing @since 5.13",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be822600_1afd6a5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Just use UTF_8.name().",
+      "range": {
+        "startLine": 201,
+        "startChar": 36,
+        "endLine": 201,
+        "endChar": 43
+      },
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00ae23b7_d068449c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Please follow the JGit coding style throughout. If you use Eclipse, formatting should be set up correctly automatically.\n\nWe keep the \"catch\" on the same line as the closing \"}\". (Also for if-else.)",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a013ddc5_8a9de42f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-26T12:32:08Z",
+      "side": 1,
+      "message": "Use the externalized message, as in line 184 above.",
+      "revId": "e602809ded0299aa8379e5342354ab3b95561049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
