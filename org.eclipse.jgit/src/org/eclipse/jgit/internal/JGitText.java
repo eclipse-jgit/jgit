@@ -391,6 +391,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String inTheFuture;
 	/***/ public String invalidAdvertisementOf;
 	/***/ public String invalidAncestryLength;
+	/***/ public String invalidAwsApiSignatureVersion;
 	/***/ public String invalidBooleanValue;
 	/***/ public String invalidChannel;
 	/***/ public String invalidCommitParentNumber;
@@ -497,6 +498,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String missingForwardImageInGITBinaryPatch;
 	/***/ public String missingObject;
 	/***/ public String missingPrerequisiteCommits;
+	/***/ public String missingRegion;
 	/***/ public String missingRequiredParameter;
 	/***/ public String missingSecretkey;
 	/***/ public String mixedStagesNotAllowed;
@@ -776,6 +778,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unableToSignCommitNoSecretKey;
 	/***/ public String unauthorized;
 	/***/ public String unencodeableFile;
+	/***/ public String unexpectedAwsApiSignatureVersion;
 	/***/ public String unexpectedCompareResult;
 	/***/ public String unexpectedEndOfConfigFile;
 	/***/ public String unexpectedEndOfInput;
