@@ -11,10 +11,14 @@ package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.eclipse.jgit.api.CherryPickResult;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
@@ -29,7 +33,7 @@ import org.kohsuke.args4j.Argument;
 /**
  * Base test case for the {@code difftool} and {@code mergetool} commands.
  */
-public abstract class ExternalToolTestCase extends CLIRepositoryTestCase {
+public abstract class ToolTestCase extends CLIRepositoryTestCase {
 
 	public static class GitCliJGitWrapperParser {
 		@Argument(index = 0, metaVar = "metaVar_command", required = true, handler = SubcommandHandler.class)
@@ -56,6 +60,12 @@ public abstract class ExternalToolTestCase extends CLIRepositoryTestCase {
 
 	protected String[] runAndCaptureUsingInitRaw(String... args)
 			throws Exception {
+		InputStream inputStream = null; // no input stream
+		return runAndCaptureUsingInitRaw(inputStream, args);
+	}
+
+	protected String[] runAndCaptureUsingInitRaw(InputStream inputStream,
+			String... args) throws Exception {
 		CLIGitCommand.Result result = new CLIGitCommand.Result();
 
 		GitCliJGitWrapperParser bean = new GitCliJGitWrapperParser();
@@ -63,7 +73,7 @@ public abstract class ExternalToolTestCase extends CLIRepositoryTestCase {
 		clp.parseArgument(args);
 
 		TextBuiltin cmd = bean.subcommand;
-		cmd.initRaw(db, null, null, result.out, result.err);
+		cmd.initRaw(db, null, inputStream, result.out, result.err);
 		cmd.execute(bean.arguments.toArray(new String[bean.arguments.size()]));
 		if (cmd.getOutputWriter() != null) {
 			cmd.getOutputWriter().flush();
@@ -71,28 +81,73 @@ public abstract class ExternalToolTestCase extends CLIRepositoryTestCase {
 		if (cmd.getErrorWriter() != null) {
 			cmd.getErrorWriter().flush();
 		}
+
+		List<String> errLines = result.errLines().stream()
+				.filter(l -> !l.isBlank()) // we care only about error messages
+				.collect(Collectors.toList());
+		assertEquals("Expected no standard error output from tool",
+				Collections.EMPTY_LIST.toString(), errLines.toString());
+
 		return result.outLines().toArray(new String[0]);
 	}
 
-	protected CherryPickResult createMergeConflict() throws Exception {
+	protected String[] createMergeConflict() throws Exception {
+		// create files on initial branch
+		git.checkout().setName(TEST_BRANCH_NAME).call();
 		writeTrashFile("a", "Hello world a");
 		writeTrashFile("b", "Hello world b");
 		git.add().addFilepattern(".").call();
 		git.commit().setMessage("files a & b added").call();
+		// create another branch and change files
+		git.branchCreate().setName("branch_1").call();
+		git.checkout().setName("branch_1").call();
 		writeTrashFile("a", "Hello world a 1");
 		writeTrashFile("b", "Hello world b 1");
 		git.add().addFilepattern(".").call();
-		RevCommit commit1 = git.commit().setMessage("files a & b commit 1")
-				.call();
-		git.branchCreate().setName("branch_1").call();
+		RevCommit commit1 = git.commit()
+				.setMessage("files a & b modified commit 1").call();
+		// checkout initial branch
 		git.checkout().setName(TEST_BRANCH_NAME).call();
+		// create another branch and change files
+		git.branchCreate().setName("branch_2").call();
+		git.checkout().setName("branch_2").call();
 		writeTrashFile("a", "Hello world a 2");
 		writeTrashFile("b", "Hello world b 2");
 		git.add().addFilepattern(".").call();
-		git.commit().setMessage("files a & b commit 2").call();
+		git.commit().setMessage("files a & b modified commit 2").call();
+		// cherry-pick conflicting changes
+		git.cherryPick().include(commit1).call();
+		String[] conflictingFilenames = { "a", "b" };
+		return conflictingFilenames;
+	}
+
+	protected String[] createDeletedConflict() throws Exception {
+		// create files on initial branch
+		git.checkout().setName(TEST_BRANCH_NAME).call();
+		writeTrashFile("a", "Hello world a");
+		writeTrashFile("b", "Hello world b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("files a & b added").call();
+		// create another branch and change files
+		git.branchCreate().setName("branch_1").call();
+		git.checkout().setName("branch_1").call();
+		writeTrashFile("a", "Hello world a 1");
+		writeTrashFile("b", "Hello world b 1");
+		git.add().addFilepattern(".").call();
+		RevCommit commit1 = git.commit()
+				.setMessage("files a & b modified commit 1").call();
+		// checkout initial branch
+		git.checkout().setName(TEST_BRANCH_NAME).call();
+		// create another branch and change files
 		git.branchCreate().setName("branch_2").call();
-		CherryPickResult result = git.cherryPick().include(commit1).call();
-		return result;
+		git.checkout().setName("branch_2").call();
+		git.rm().addFilepattern("a").call();
+		git.rm().addFilepattern("b").call();
+		git.commit().setMessage("files a & b deleted commit 2").call();
+		// cherry-pick conflicting changes
+		git.cherryPick().include(commit1).call();
+		String[] conflictingFilenames = { "a", "b" };
+		return conflictingFilenames;
 	}
 
 	protected RevCommit createUnstagedChanges() throws Exception {
@@ -119,6 +174,16 @@ public abstract class ExternalToolTestCase extends CLIRepositoryTestCase {
 		tw.addTree(modifiedTree);
 		List<DiffEntry> changes = DiffEntry.scan(tw);
 		return changes;
+	}
+
+	protected static InputStream createInputStream(String[] inputLines) {
+		return createInputStream(Arrays.asList(inputLines));
+	}
+
+	protected static InputStream createInputStream(List<String> inputLines) {
+		String input = String.join(System.lineSeparator(), inputLines);
+		InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+		return inputStream;
 	}
 
 	protected static void assertArrayOfLinesEquals(String failMessage,

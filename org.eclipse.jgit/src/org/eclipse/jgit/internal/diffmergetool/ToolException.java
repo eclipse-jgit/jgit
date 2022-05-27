@@ -26,6 +26,8 @@ public class ToolException extends Exception {
 
 	private final ExecutionResult result;
 
+	private final boolean commandExecutionError;
+
 	/**
 	 * the serial version UID
 	 */
@@ -35,8 +37,7 @@ public class ToolException extends Exception {
 	 *
 	 */
 	public ToolException() {
-		super();
-		result = null;
+		this(null, null, false);
 	}
 
 	/**
@@ -44,8 +45,7 @@ public class ToolException extends Exception {
 	 *            the exception message
 	 */
 	public ToolException(String message) {
-		super(message);
-		result = null;
+		this(message, null, false);
 	}
 
 	/**
@@ -53,10 +53,14 @@ public class ToolException extends Exception {
 	 *            the exception message
 	 * @param result
 	 *            the execution result
+	 * @param commandExecutionError
+	 *            is command execution error happened ?
 	 */
-	public ToolException(String message, ExecutionResult result) {
+	public ToolException(String message, ExecutionResult result,
+			boolean commandExecutionError) {
 		super(message);
 		this.result = result;
+		this.commandExecutionError = commandExecutionError;
 	}
 
 	/**
@@ -68,6 +72,7 @@ public class ToolException extends Exception {
 	public ToolException(String message, Throwable cause) {
 		super(message, cause);
 		result = null;
+		commandExecutionError = false;
 	}
 
 	/**
@@ -77,6 +82,7 @@ public class ToolException extends Exception {
 	public ToolException(Throwable cause) {
 		super(cause);
 		result = null;
+		commandExecutionError = false;
 	}
 
 	/**
@@ -91,6 +97,13 @@ public class ToolException extends Exception {
 	 */
 	public ExecutionResult getResult() {
 		return result;
+	}
+
+	/**
+	 * @return true if command execution error appears, false otherwise
+	 */
+	public boolean isCommandExecutionError() {
+		return commandExecutionError;
 	}
 
 	/**
