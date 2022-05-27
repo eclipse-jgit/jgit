@@ -9,7 +9,13 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFFTOOL_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFF_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CMD;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +25,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.internal.diffmergetool.CommandLineDiffTool;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -60,6 +67,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 		return result.outLines().toArray(new String[0]);
 	}
 
+	private static final String TOOL_NAME = "some_tool";
 	private Git git;
 
 	@Override
@@ -68,6 +76,15 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 		super.setUp();
 		git = new Git(db);
 		git.commit().setMessage("initial commit").call();
+		configureEchoTool(TOOL_NAME);
+	}
+
+	@Test(expected = Die.class)
+	public void testNotDefinedTool() throws Exception {
+		createUnstagedChanges();
+
+		runAndCaptureUsingInitRaw("difftool", "--tool", "undefined");
+		fail("Expected exception when trying to run undefined tool");
 	}
 
 	@Test
@@ -85,7 +102,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
 					expectedOutput,
 					runAndCaptureUsingInitRaw("difftool", option,
-							"some_tool"));
+							TOOL_NAME));
 		}
 	}
 
@@ -100,7 +117,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 		for (String option : options) {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
 					expectedOutput, runAndCaptureUsingInitRaw("difftool",
-							"--trust-exit-code", option, "some_tool"));
+							"--trust-exit-code", option, TOOL_NAME));
 		}
 	}
 
@@ -116,7 +133,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
 					expectedOutput, runAndCaptureUsingInitRaw("difftool",
 							"--no-gui", "--no-prompt", "--no-trust-exit-code",
-							option, "some_tool"));
+							option, TOOL_NAME));
 		}
 	}
 
@@ -131,7 +148,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 		for (String option : options) {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
 					expectedOutput, runAndCaptureUsingInitRaw("difftool",
-							option, "--tool", "some_tool"));
+							option, "--tool", TOOL_NAME));
 		}
 	}
 
@@ -144,8 +161,11 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 			String toolName = defaultTool.name();
 			expectedOutput.add(toolName);
 		}
+		String customToolHelpLine = TOOL_NAME + "." + CONFIG_KEY_CMD + " "
+				+ getEchoCommand();
+		expectedOutput.add("user-defined:");
+		expectedOutput.add(customToolHelpLine);
 		String[] userDefinedToolsHelp = {
-				"user-defined:",
 				"The following tools are valid, but not currently available:",
 				"Some of the tools listed above only work in a windowed",
 				"environment. If run in a terminal-only session, they will fail.",
@@ -155,6 +175,25 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 		String option = "--tool-help";
 		assertArrayOfLinesEquals("Incorrect output for option: " + option,
 				expectedOutput.toArray(new String[0]), runAndCaptureUsingInitRaw("difftool", option));
+	}
+
+	private void configureEchoTool(String toolName) {
+		StoredConfig config = db.getConfig();
+		// the default diff tool is configured without a subsection
+		String subsection = null;
+		config.setString(CONFIG_DIFF_SECTION, subsection, CONFIG_KEY_TOOL,
+				toolName);
+
+		String command = getEchoCommand();
+
+		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_CMD,
+				command);
+		/*
+		 * prevent prompts as we are running in tests and there is no user to
+		 * interact with on the command line
+		 */
+		config.setString(CONFIG_DIFFTOOL_SECTION, toolName, CONFIG_KEY_PROMPT,
+				String.valueOf(false));
 	}
 
 	private RevCommit createUnstagedChanges() throws Exception {
@@ -188,11 +227,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 		for (int i = 0; i < changes.size(); ++i) {
 			DiffEntry change = changes.get(i);
 			String newPath = change.getNewPath();
-			String oldPath = change.getOldPath();
-			String newIdName = change.getNewId().name();
-			String oldIdName = change.getOldId().name();
-			String expectedLine = "M\t" + newPath + " (" + newIdName + ")"
-					+ "\t" + oldPath + " (" + oldIdName + ")";
+			String expectedLine = newPath;
 			expectedToolOutput[i] = expectedLine;
 		}
 		return expectedToolOutput;
@@ -201,5 +236,13 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 	private static void assertArrayOfLinesEquals(String failMessage,
 			String[] expected, String[] actual) {
 		assertEquals(failMessage, toString(expected), toString(actual));
+	}
+
+	private static String getEchoCommand() {
+		/*
+		 * use 'MERGED' placeholder, as both 'LOCAL' and 'REMOTE' will be
+		 * replaced with full paths to a temporary file during some of the tests
+		 */
+		return "(echo \"$MERGED\")";
 	}
 }
