@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f92522ab_45d7d247",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307367
+      },
+      "writtenOn": "2022-05-27T14:15:07Z",
+      "side": 1,
+      "message": "@Matthias it seems the target branch and patch are already updated for stable 5.13, what need we do before merging?",
+      "revId": "d67ac798f10254d038c49244e7f1e2323afdfdfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
