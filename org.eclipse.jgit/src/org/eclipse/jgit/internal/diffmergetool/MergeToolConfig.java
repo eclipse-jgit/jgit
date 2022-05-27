@@ -10,13 +10,24 @@
 
 package org.eclipse.jgit.internal.diffmergetool;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CMD;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_GUITOOL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_KEEP_BACKUP;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_KEEP_TEMPORARIES;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PATH;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WRITE_TO_TEMP;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGETOOL_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 
 /**
@@ -42,31 +53,27 @@ public class MergeToolConfig {
 	private final Map<String, ExternalMergeTool> tools;
 
 	private MergeToolConfig(Config rc) {
-		toolName = rc.getString(ConfigConstants.CONFIG_MERGE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_TOOL);
-		guiToolName = rc.getString(ConfigConstants.CONFIG_MERGE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_GUITOOL);
-		prompt = rc.getBoolean(ConfigConstants.CONFIG_MERGETOOL_SECTION,
-				ConfigConstants.CONFIG_KEY_PROMPT, true);
-		keepBackup = rc.getBoolean(ConfigConstants.CONFIG_MERGETOOL_SECTION,
-				ConfigConstants.CONFIG_KEY_KEEP_BACKUP, true);
-		keepTemporaries = rc.getBoolean(
-				ConfigConstants.CONFIG_MERGETOOL_SECTION,
-				ConfigConstants.CONFIG_KEY_KEEP_TEMPORARIES, false);
-		writeToTemp = rc.getBoolean(ConfigConstants.CONFIG_MERGETOOL_SECTION,
-				ConfigConstants.CONFIG_KEY_WRITE_TO_TEMP, false);
+		toolName = rc.getString(CONFIG_MERGE_SECTION, null, CONFIG_KEY_TOOL);
+		guiToolName = rc.getString(CONFIG_MERGE_SECTION, null,
+				CONFIG_KEY_GUITOOL);
+		prompt = rc.getBoolean(CONFIG_MERGETOOL_SECTION, toolName,
+				CONFIG_KEY_PROMPT, true);
+		keepBackup = rc.getBoolean(CONFIG_MERGETOOL_SECTION,
+				CONFIG_KEY_KEEP_BACKUP, true);
+		keepTemporaries = rc.getBoolean(CONFIG_MERGETOOL_SECTION,
+				CONFIG_KEY_KEEP_TEMPORARIES, false);
+		writeToTemp = rc.getBoolean(CONFIG_MERGETOOL_SECTION,
+				CONFIG_KEY_WRITE_TO_TEMP, false);
 		tools = new HashMap<>();
-		Set<String> subsections = rc
-				.getSubsections(ConfigConstants.CONFIG_MERGETOOL_SECTION);
+		Set<String> subsections = rc.getSubsections(CONFIG_MERGETOOL_SECTION);
 		for (String name : subsections) {
-			String cmd = rc.getString(ConfigConstants.CONFIG_MERGETOOL_SECTION,
-					name, ConfigConstants.CONFIG_KEY_CMD);
-			String path = rc.getString(ConfigConstants.CONFIG_MERGETOOL_SECTION,
-					name, ConfigConstants.CONFIG_KEY_PATH);
+			String cmd = rc.getString(CONFIG_MERGETOOL_SECTION, name,
+					CONFIG_KEY_CMD);
+			String path = rc.getString(CONFIG_MERGETOOL_SECTION, name,
+					CONFIG_KEY_PATH);
 			BooleanTriState trustExitCode = BooleanTriState.FALSE;
-			String trustStr = rc.getString(
-					ConfigConstants.CONFIG_MERGETOOL_SECTION, name,
-					ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE);
+			String trustStr = rc.getString(CONFIG_MERGETOOL_SECTION, name,
+					CONFIG_KEY_TRUST_EXIT_CODE);
 			if (trustStr != null) {
 				trustExitCode = Boolean.valueOf(trustStr).booleanValue()
 						? BooleanTriState.TRUE
@@ -75,9 +82,8 @@ public class MergeToolConfig {
 				trustExitCode = BooleanTriState.UNSET;
 			}
 			if ((cmd != null) || (path != null)) {
-				tools.put(name,
-						new UserDefinedMergeTool(name, path, cmd,
-								trustExitCode));
+				tools.put(name, new UserDefinedMergeTool(name, path, cmd,
+						trustExitCode));
 			}
 		}
 	}

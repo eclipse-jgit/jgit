@@ -10,6 +10,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 package org.eclipse.jgit.lib;
 
 /**
@@ -66,7 +67,7 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_TRUST_EXIT_CODE = "trustExitCode";
 
 	/**
-	 * The "cmd" key within "difftool.*." section
+	 * The "cmd" key within "difftool.*." or "mergetool.*." section
 	 *
 	 * @since 6.1
 	 */

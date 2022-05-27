@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021, Simeon Andreev <simeon.danailov.andreev@gmail.com> and others.
+ * Copyright (C) 2021-2022, Simeon Andreev <simeon.danailov.andreev@gmail.com> and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -14,68 +14,30 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFF_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CMD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.internal.diffmergetool.CommandLineDiffTool;
-import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.pgm.opt.CmdLineParser;
-import org.eclipse.jgit.pgm.opt.SubcommandHandler;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.treewalk.FileTreeIterator;
-import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
-import org.kohsuke.args4j.Argument;
 
 /**
  * Testing the {@code difftool} command.
  */
-public class DiffToolTest extends CLIRepositoryTestCase {
-	public static class GitCliJGitWrapperParser {
-		@Argument(index = 0, metaVar = "metaVar_command", required = true, handler = SubcommandHandler.class)
-		TextBuiltin subcommand;
+public class DiffToolTest extends ExternalToolTestCase {
 
-		@Argument(index = 1, metaVar = "metaVar_arg")
-		List<String> arguments = new ArrayList<>();
-	}
-
-	private String[] runAndCaptureUsingInitRaw(String... args)
-			throws Exception {
-		CLIGitCommand.Result result = new CLIGitCommand.Result();
-
-		GitCliJGitWrapperParser bean = new GitCliJGitWrapperParser();
-		CmdLineParser clp = new CmdLineParser(bean);
-		clp.parseArgument(args);
-
-		TextBuiltin cmd = bean.subcommand;
-		cmd.initRaw(db, null, null, result.out, result.err);
-		cmd.execute(bean.arguments.toArray(new String[bean.arguments.size()]));
-		if (cmd.getOutputWriter() != null) {
-			cmd.getOutputWriter().flush();
-		}
-		if (cmd.getErrorWriter() != null) {
-			cmd.getErrorWriter().flush();
-		}
-		return result.outLines().toArray(new String[0]);
-	}
-
-	private static final String TOOL_NAME = "some_tool";
-	private Git git;
+	private static final String DIFF_TOOL = CONFIG_DIFFTOOL_SECTION;
 
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
-		git.commit().setMessage("initial commit").call();
 		configureEchoTool(TOOL_NAME);
 	}
 
@@ -83,7 +45,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 	public void testNotDefinedTool() throws Exception {
 		createUnstagedChanges();
 
-		runAndCaptureUsingInitRaw("difftool", "--tool", "undefined");
+		runAndCaptureUsingInitRaw(DIFF_TOOL, "--tool", "undefined");
 		fail("Expected exception when trying to run undefined tool");
 	}
 
@@ -91,7 +53,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 	public void testTool() throws Exception {
 		RevCommit commit = createUnstagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedDiffToolOutput(changes);
+		String[] expectedOutput = getExpectedToolOutput(changes);
 
 		String[] options = {
 				"--tool",
@@ -101,7 +63,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 		for (String option : options) {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
 					expectedOutput,
-					runAndCaptureUsingInitRaw("difftool", option,
+					runAndCaptureUsingInitRaw(DIFF_TOOL, option,
 							TOOL_NAME));
 		}
 	}
@@ -110,13 +72,13 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 	public void testToolTrustExitCode() throws Exception {
 		RevCommit commit = createUnstagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedDiffToolOutput(changes);
+		String[] expectedOutput = getExpectedToolOutput(changes);
 
 		String[] options = { "--tool", "-t", };
 
 		for (String option : options) {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
-					expectedOutput, runAndCaptureUsingInitRaw("difftool",
+					expectedOutput, runAndCaptureUsingInitRaw(DIFF_TOOL,
 							"--trust-exit-code", option, TOOL_NAME));
 		}
 	}
@@ -125,13 +87,13 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 	public void testToolNoGuiNoPromptNoTrustExitcode() throws Exception {
 		RevCommit commit = createUnstagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedDiffToolOutput(changes);
+		String[] expectedOutput = getExpectedToolOutput(changes);
 
 		String[] options = { "--tool", "-t", };
 
 		for (String option : options) {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
-					expectedOutput, runAndCaptureUsingInitRaw("difftool",
+					expectedOutput, runAndCaptureUsingInitRaw(DIFF_TOOL,
 							"--no-gui", "--no-prompt", "--no-trust-exit-code",
 							option, TOOL_NAME));
 		}
@@ -141,13 +103,13 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 	public void testToolCached() throws Exception {
 		RevCommit commit = createStagedChanges();
 		List<DiffEntry> changes = getRepositoryChanges(commit);
-		String[] expectedOutput = getExpectedDiffToolOutput(changes);
+		String[] expectedOutput = getExpectedToolOutput(changes);
 
 		String[] options = { "--cached", "--staged", };
 
 		for (String option : options) {
 			assertArrayOfLinesEquals("Incorrect output for option: " + option,
-					expectedOutput, runAndCaptureUsingInitRaw("difftool",
+					expectedOutput, runAndCaptureUsingInitRaw(DIFF_TOOL,
 							option, "--tool", TOOL_NAME));
 		}
 	}
@@ -174,7 +136,8 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 
 		String option = "--tool-help";
 		assertArrayOfLinesEquals("Incorrect output for option: " + option,
-				expectedOutput.toArray(new String[0]), runAndCaptureUsingInitRaw("difftool", option));
+				expectedOutput.toArray(new String[0]),
+				runAndCaptureUsingInitRaw(DIFF_TOOL, option));
 	}
 
 	private void configureEchoTool(String toolName) {
@@ -196,33 +159,7 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 				String.valueOf(false));
 	}
 
-	private RevCommit createUnstagedChanges() throws Exception {
-		writeTrashFile("a", "Hello world a");
-		writeTrashFile("b", "Hello world b");
-		git.add().addFilepattern(".").call();
-		RevCommit commit = git.commit().setMessage("files a & b").call();
-		writeTrashFile("a", "New Hello world a");
-		writeTrashFile("b", "New Hello world b");
-		return commit;
-	}
-
-	private RevCommit createStagedChanges() throws Exception {
-		RevCommit commit = createUnstagedChanges();
-		git.add().addFilepattern(".").call();
-		return commit;
-	}
-
-	private List<DiffEntry> getRepositoryChanges(RevCommit commit)
-			throws Exception {
-		TreeWalk tw = new TreeWalk(db);
-		tw.addTree(commit.getTree());
-		FileTreeIterator modifiedTree = new FileTreeIterator(db);
-		tw.addTree(modifiedTree);
-		List<DiffEntry> changes = DiffEntry.scan(tw);
-		return changes;
-	}
-
-	private String[] getExpectedDiffToolOutput(List<DiffEntry> changes) {
+	private String[] getExpectedToolOutput(List<DiffEntry> changes) {
 		String[] expectedToolOutput = new String[changes.size()];
 		for (int i = 0; i < changes.size(); ++i) {
 			DiffEntry change = changes.get(i);
@@ -231,18 +168,5 @@ public class DiffToolTest extends CLIRepositoryTestCase {
 			expectedToolOutput[i] = expectedLine;
 		}
 		return expectedToolOutput;
-	}
-
-	private static void assertArrayOfLinesEquals(String failMessage,
-			String[] expected, String[] actual) {
-		assertEquals(failMessage, toString(expected), toString(actual));
-	}
-
-	private static String getEchoCommand() {
-		/*
-		 * use 'MERGED' placeholder, as both 'LOCAL' and 'REMOTE' will be
-		 * replaced with full paths to a temporary file during some of the tests
-		 */
-		return "(echo \"$MERGED\")";
 	}
 }
