@@ -194,17 +194,18 @@ public class HttpSupport {
 	 *            Whether or not to keep "/" in the URL (i.e. don't translate them to "%2F").
 	 *
 	 * @return The translated URL.
+	 * @since 5.13
 	 */
 	public static String urlEncode(String url, boolean keepPathSlash) {
 		String encoded;
 		try {
-			encoded = URLEncoder.encode(url, "UTF-8");
+			encoded = URLEncoder.encode(url, UTF_8.name());
 		}
 		catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("UTF-8 encoding is not supported.", e);
+			throw new RuntimeException(JGitText.get().couldNotURLEncodeToUTF8, e);
 		}
 		if (keepPathSlash) {
-			encoded = encoded.replace("%2F", "/");
+			encoded = encoded.replace("%2F", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return encoded;
 	}

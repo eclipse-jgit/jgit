@@ -85,6 +85,12 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class AmazonS3 {
 	private static final Set<String> SIGNED_HEADERS;
 
+	private static final String AWS_API_V2 = "2"; //$NON-NLS-1$
+
+	private static final String AWS_API_V4 = "4"; //$NON-NLS-1$
+
+	private static final String AWS_S3_SERVICE_NAME = "s3"; //$NON-NLS-1$
+
 	private static final String HMAC = "HmacSHA1"; //$NON-NLS-1$
 
 	private static final String X_AMZ_ACL = "x-amz-acl"; //$NON-NLS-1$
@@ -223,14 +229,15 @@ public class AmazonS3 {
 	 *            connection properties.
 	 */
 	public AmazonS3(final Properties props) {
-		awsApiSignatureVersion = props.getProperty(Keys.AWS_API_SIGNATURE_VERSION, "2"); //$NON-NLS-1$
-		if (awsApiSignatureVersion.equals("4")) {
-			region = props.getProperty(Keys.REGION); //$NON-NLS-1$
+		awsApiSignatureVersion = props
+				.getProperty(Keys.AWS_API_SIGNATURE_VERSION, AWS_API_V2);
+		if (awsApiSignatureVersion.equals(AWS_API_V4)) {
+			region = props.getProperty(Keys.REGION);
 			if (region == null) {
-				throw new IllegalArgumentException(JGitText.get().missingRegion);
+				throw new IllegalArgumentException(JGitText.get().missingAwsRegion);
 			}
 		}
-		else if (awsApiSignatureVersion.equals("2")) {
+		else if (awsApiSignatureVersion.equals(AWS_API_V2)) {
 			region = null;
 		}
 		else {
@@ -245,8 +252,9 @@ public class AmazonS3 {
 			throw new IllegalArgumentException(JGitText.get().missingAccesskey);
 
 		final String secretKeyStr = props.getProperty(Keys.SECRET_KEY);
-		if (secretKeyStr == null)
+		if (secretKeyStr == null) {
 			throw new IllegalArgumentException(JGitText.get().missingSecretkey);
+		}
 		secretKeySpec = new SecretKeySpec(Constants.encodeASCII(secretKeyStr), HMAC);
 		secretKey = secretKeyStr.toCharArray();
 
@@ -293,7 +301,7 @@ public class AmazonS3 {
 			throws IOException {
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("GET", bucket, key); //$NON-NLS-1$
-			authorize(c, Collections.emptyMap(), null);
+			authorize(c, Collections.emptyMap(), 0, null);
 			switch (HttpSupport.response(c)) {
 			case HttpURLConnection.HTTP_OK:
 				encryption.validate(c, X_AMZ_META);
@@ -374,7 +382,7 @@ public class AmazonS3 {
 			throws IOException {
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("DELETE", bucket, key); //$NON-NLS-1$
-			authorize(c, Collections.emptyMap(), null);
+			authorize(c, Collections.emptyMap(), 0, null);
 			switch (HttpSupport.response(c)) {
 			case HttpURLConnection.HTTP_NO_CONTENT:
 				return;
@@ -420,13 +428,16 @@ public class AmazonS3 {
 		}
 
 		final String md5str = Base64.encodeBytes(newMD5().digest(data));
+		final String bodyHash = awsApiSignatureVersion.equals(AWS_API_V4)
+				? AwsRequestSignerV4.calculateBodyHash(data)
+				: null;
 		final String lenstr = String.valueOf(data.length);
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("PUT", bucket, key); //$NON-NLS-1$
 			c.setRequestProperty("Content-Length", lenstr); //$NON-NLS-1$
 			c.setRequestProperty("Content-MD5", md5str); //$NON-NLS-1$
 			c.setRequestProperty(X_AMZ_ACL, acl);
-			authorize(c, Collections.emptyMap(), data);
+			authorize(c, Collections.emptyMap(), data.length, bodyHash);
 			c.setDoOutput(true);
 			c.setFixedLengthStreamingMode(data.length);
 			try (OutputStream os = c.getOutputStream()) {
@@ -501,6 +512,9 @@ public class AmazonS3 {
 			monitorTask = MessageFormat.format(JGitText.get().progressMonUploading, key);
 
 		final String md5str = Base64.encodeBytes(csum);
+		final String bodyHash = awsApiSignatureVersion.equals(AWS_API_V4)
+				? AwsRequestSignerV4.calculateBodyHash(buf.toByteArray())
+				: null;
 		final long len = buf.length();
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("PUT", bucket, key); //$NON-NLS-1$
@@ -508,7 +522,7 @@ public class AmazonS3 {
 			c.setRequestProperty("Content-MD5", md5str); //$NON-NLS-1$
 			c.setRequestProperty(X_AMZ_ACL, acl);
 			encryption.request(c, X_AMZ_META);
-			authorize(c, Collections.emptyMap(), buf.toByteArray());
+			authorize(c, Collections.emptyMap(), len, bodyHash);
 			c.setDoOutput(true);
 			monitor.beginTask(monitorTask, (int) (len / 1024));
 			try (OutputStream os = c.getOutputStream()) {
@@ -581,15 +595,11 @@ public class AmazonS3 {
 		urlstr.append(domain);
 		urlstr.append('/');
 		if (key.length() > 0) {
-			if (awsApiSignatureVersion.equals("2")) {
+			if (awsApiSignatureVersion.equals(AWS_API_V2)) {
 				HttpSupport.encode(urlstr, key);
 			}
-			else if (awsApiSignatureVersion.equals("4")) {
+			else if (awsApiSignatureVersion.equals(AWS_API_V4)) {
 				urlstr.append(key);
-			}
-			else {
-				throw new IllegalStateException(MessageFormat.format(
-					JGitText.get().unexpectedAwsApiSignatureVersion, awsApiSignatureVersion));
 			}
 		}
 		if (!args.isEmpty()) {
@@ -618,18 +628,13 @@ public class AmazonS3 {
 		return c;
 	}
 
-	void authorize(final HttpURLConnection httpURLConnection,
-	    	final Map<String, String> queryParams,
-			final byte[] data) throws IOException {
-		if (awsApiSignatureVersion.equals("2")) {
+	void authorize(HttpURLConnection httpURLConnection, Map<String, String> queryParams, final long contentLength,
+			final String bodyHash) throws IOException {
+		if (awsApiSignatureVersion.equals(AWS_API_V2)) {
 			authorizeV2(httpURLConnection);
-		}
-		else if (awsApiSignatureVersion.equals("4")) {
-			AwsRequestSignerV4.sign(httpURLConnection, queryParams, data, "s3", region, publicKey, secretKey);
-		}
-		else {
-			throw new IllegalStateException(MessageFormat.format(
-				JGitText.get().unexpectedAwsApiSignatureVersion, awsApiSignatureVersion));
+		} else if (awsApiSignatureVersion.equals(AWS_API_V4)) {
+			AwsRequestSignerV4.sign(httpURLConnection, queryParams, contentLength, bodyHash, AWS_S3_SERVICE_NAME,
+					region, publicKey, secretKey);
 		}
 	}
 
@@ -734,7 +739,7 @@ public class AmazonS3 {
 
 			for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 				final HttpURLConnection c = open("GET", bucket, "", args); //$NON-NLS-1$ //$NON-NLS-2$
-				authorize(c, args, null);
+				authorize(c, args, 0, null);
 				switch (HttpSupport.response(c)) {
 				case HttpURLConnection.HTTP_OK:
 					truncated = false;
