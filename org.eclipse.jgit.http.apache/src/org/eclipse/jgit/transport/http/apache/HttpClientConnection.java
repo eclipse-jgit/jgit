@@ -48,6 +48,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
@@ -270,6 +271,11 @@ public class HttpClientConnection implements HttpConnection {
 		} finally {
 			entity.close();
 			entity = null;
+			if (resp instanceof CloseableHttpResponse) {
+			  CloseableHttpResponse closeable = (CloseableHttpResponse) resp;
+			  closeable.close();
+			}
+			resp = null;
 		}
 	}
 
