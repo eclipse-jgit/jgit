@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0ef81b4_44954eb9",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-05-30T10:52:46Z",
+      "side": 1,
+      "message": "This fails, since IMO parts of directory structure is missing in the output. I noticed this after adding subdirectories due to the MergeTool file walk problem in: https://git.eclipse.org/r/c/jgit/jgit/+/139262 \n\nI\u0027ll look into it.",
+      "revId": "9eb5def304496de6234f9688109c1021ee5b8671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
