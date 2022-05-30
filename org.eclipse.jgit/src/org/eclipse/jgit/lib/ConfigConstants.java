@@ -127,28 +127,28 @@ public final class ConfigConstants {
 	/**
 	 * The "mergetool" section
 	 *
-	 * @since 5.13
+	 * @since 6.2
 	 */
 	public static final String CONFIG_MERGETOOL_SECTION = "mergetool";
 
 	/**
 	 * The "keepBackup" key within "mergetool" section
 	 *
-	 * @since 5.13
+	 * @since 6.2
 	 */
 	public static final String CONFIG_KEY_KEEP_BACKUP = "keepBackup";
 
 	/**
 	 * The "keepTemporaries" key within "mergetool" section
 	 *
-	 * @since 5.13
+	 * @since 6.2
 	 */
 	public static final String CONFIG_KEY_KEEP_TEMPORARIES = "keepTemporaries";
 
 	/**
 	 * The "writeToTemp" key within "mergetool" section
 	 *
-	 * @since 5.13
+	 * @since 6.2
 	 */
 	public static final String CONFIG_KEY_WRITE_TO_TEMP = "writeToTemp";
 
