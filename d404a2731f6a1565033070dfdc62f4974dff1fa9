@@ -16,6 +16,24 @@
       "message": "This should fix the problem.\n\nAndrey, I\u0027ve checked with a copy of your test repository. But please also check (with the original), just in case.",
       "revId": "d404a2731f6a1565033070dfdc62f4974dff1fa9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb0027d3_ef264013",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-30T16:41:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51856d1c_12119a3a",
+      "revId": "d404a2731f6a1565033070dfdc62f4974dff1fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
