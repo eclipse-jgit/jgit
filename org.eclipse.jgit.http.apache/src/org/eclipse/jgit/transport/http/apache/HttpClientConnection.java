@@ -48,6 +48,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
@@ -104,6 +105,8 @@ public class HttpClientConnection implements HttpConnection {
 	private HostnameVerifier hostnameverifier;
 
 	SSLContext ctx;
+
+	private CloseableHttpResponse closeableResp;
 
 	private HttpClient getClient() {
 		if (client == null) {
@@ -270,6 +273,9 @@ public class HttpClientConnection implements HttpConnection {
 		} finally {
 			entity.close();
 			entity = null;
+			if (resp instanceof CloseableHttpResponse) {
+				closeableResp = (CloseableHttpResponse) resp;
+			}
 		}
 	}
 
@@ -447,5 +453,15 @@ public class HttpClientConnection implements HttpConnection {
 	public void configure(KeyManager[] km, TrustManager[] tm,
 			SecureRandom random) throws KeyManagementException {
 		getSSLContext().init(km, tm, random);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void close() throws Exception {
+		if (closeableResp != null) {
+			closeableResp.close();
+			closeableResp = null;
+			resp = null;
+		}
 	}
 }

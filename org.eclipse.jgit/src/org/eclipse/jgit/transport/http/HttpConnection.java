@@ -34,7 +34,7 @@ import org.eclipse.jgit.annotations.NonNull;
  *
  * @since 3.3
  */
-public interface HttpConnection {
+public interface HttpConnection extends AutoCloseable {
 	/**
 	 * @see HttpURLConnection#HTTP_OK
 	 */
@@ -355,4 +355,9 @@ public interface HttpConnection {
 	 */
 	void setHostnameVerifier(HostnameVerifier hostnameverifier)
 			throws NoSuchAlgorithmException, KeyManagementException;
+
+	@Override
+	default void close() throws Exception {
+		// empty
+	}
 }

@@ -269,6 +269,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 */
 	private final Set<HttpCookie> relevantCookies;
 
+	private HttpConnection httpConnection;
+
 	TransportHttp(Repository local, URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
@@ -358,9 +360,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			NotSupportedException {
 		final String service = SVC_UPLOAD_PACK;
 		try {
-			final HttpConnection c = connect(service);
-			try (InputStream in = openInputStream(c)) {
-				return getConnection(c, in, service);
+			httpConnection = connect(service);
+			try (InputStream in = openInputStream(httpConnection)) {
+				return getConnection(httpConnection, in, service);
 			}
 		} catch (NotSupportedException | TransportException err) {
 			throw err;
@@ -433,10 +435,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			TransportException {
 		final String service = SVC_RECEIVE_PACK;
 		try {
-			final HttpConnection c = connect(service);
-			try (InputStream in = openInputStream(c)) {
-				if (isSmartHttp(c, service)) {
-					return smartPush(service, c, in);
+			httpConnection = connect(service);
+			try (InputStream in = openInputStream(httpConnection)) {
+				if (isSmartHttp(httpConnection, service)) {
+					return smartPush(service, httpConnection, in);
 				} else if (!useSmartHttp) {
 					final String msg = JGitText.get().smartHTTPPushDisabled;
 					throw new NotSupportedException(msg);
@@ -464,7 +466,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	/** {@inheritDoc} */
 	@Override
 	public void close() {
-		// No explicit connections are maintained.
+		try {
+			httpConnection.close();
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+		}
 	}
 
 	/**
