@@ -16,6 +16,23 @@
       "message": "I\u0027ve reviewed \u0026 checked code, looks good for me. If no one heads up, I plan to merge.",
       "revId": "24171b05f0db8487d0a1dc40072cc313bb6e2087",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "814a7096_b2b83e76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-30T14:23:13Z",
+      "side": 1,
+      "message": "This and the ones below should be @since 6.2.",
+      "revId": "24171b05f0db8487d0a1dc40072cc313bb6e2087",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
