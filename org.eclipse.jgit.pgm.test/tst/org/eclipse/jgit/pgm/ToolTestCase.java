@@ -94,15 +94,15 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 	protected String[] createMergeConflict() throws Exception {
 		// create files on initial branch
 		git.checkout().setName(TEST_BRANCH_NAME).call();
-		writeTrashFile("a", "Hello world a");
-		writeTrashFile("b", "Hello world b");
+		writeTrashFile("dir1/a", "Hello world a");
+		writeTrashFile("dir2/b", "Hello world b");
 		git.add().addFilepattern(".").call();
 		git.commit().setMessage("files a & b added").call();
 		// create another branch and change files
 		git.branchCreate().setName("branch_1").call();
 		git.checkout().setName("branch_1").call();
-		writeTrashFile("a", "Hello world a 1");
-		writeTrashFile("b", "Hello world b 1");
+		writeTrashFile("dir1/a", "Hello world a 1");
+		writeTrashFile("dir2/b", "Hello world b 1");
 		git.add().addFilepattern(".").call();
 		RevCommit commit1 = git.commit()
 				.setMessage("files a & b modified commit 1").call();
@@ -111,28 +111,28 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 		// create another branch and change files
 		git.branchCreate().setName("branch_2").call();
 		git.checkout().setName("branch_2").call();
-		writeTrashFile("a", "Hello world a 2");
-		writeTrashFile("b", "Hello world b 2");
+		writeTrashFile("dir1/a", "Hello world a 2");
+		writeTrashFile("dir2/b", "Hello world b 2");
 		git.add().addFilepattern(".").call();
 		git.commit().setMessage("files a & b modified commit 2").call();
 		// cherry-pick conflicting changes
 		git.cherryPick().include(commit1).call();
-		String[] conflictingFilenames = { "a", "b" };
+		String[] conflictingFilenames = { "dir1/a", "dir2/b" };
 		return conflictingFilenames;
 	}
 
 	protected String[] createDeletedConflict() throws Exception {
 		// create files on initial branch
 		git.checkout().setName(TEST_BRANCH_NAME).call();
-		writeTrashFile("a", "Hello world a");
-		writeTrashFile("b", "Hello world b");
+		writeTrashFile("dir1/a", "Hello world a");
+		writeTrashFile("dir2/b", "Hello world b");
 		git.add().addFilepattern(".").call();
 		git.commit().setMessage("files a & b added").call();
 		// create another branch and change files
 		git.branchCreate().setName("branch_1").call();
 		git.checkout().setName("branch_1").call();
-		writeTrashFile("a", "Hello world a 1");
-		writeTrashFile("b", "Hello world b 1");
+		writeTrashFile("dir1/a", "Hello world a 1");
+		writeTrashFile("dir2/b", "Hello world b 1");
 		git.add().addFilepattern(".").call();
 		RevCommit commit1 = git.commit()
 				.setMessage("files a & b modified commit 1").call();
@@ -141,29 +141,30 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 		// create another branch and change files
 		git.branchCreate().setName("branch_2").call();
 		git.checkout().setName("branch_2").call();
-		git.rm().addFilepattern("a").call();
-		git.rm().addFilepattern("b").call();
+		git.rm().addFilepattern("dir1/a").call();
+		git.rm().addFilepattern("dir2/b").call();
 		git.commit().setMessage("files a & b deleted commit 2").call();
 		// cherry-pick conflicting changes
 		git.cherryPick().include(commit1).call();
-		String[] conflictingFilenames = { "a", "b" };
+		String[] conflictingFilenames = { "dir1/a", "dir2/b" };
 		return conflictingFilenames;
 	}
 
-	protected RevCommit createUnstagedChanges() throws Exception {
-		writeTrashFile("a", "Hello world a");
-		writeTrashFile("b", "Hello world b");
+	protected String[] createUnstagedChanges() throws Exception {
+		writeTrashFile("dir1/a", "Hello world a");
+		writeTrashFile("dir2/b", "Hello world b");
 		git.add().addFilepattern(".").call();
-		RevCommit commit = git.commit().setMessage("files a & b").call();
-		writeTrashFile("a", "New Hello world a");
-		writeTrashFile("b", "New Hello world b");
-		return commit;
+		git.commit().setMessage("files a & b").call();
+		writeTrashFile("dir1/a", "New Hello world a");
+		writeTrashFile("dir2/b", "New Hello world b");
+		String[] conflictingFilenames = { "dir1/a", "dir2/b" };
+		return conflictingFilenames;
 	}
 
-	protected RevCommit createStagedChanges() throws Exception {
-		RevCommit commit = createUnstagedChanges();
+	protected String[] createStagedChanges() throws Exception {
+		String[] conflictingFilenames = createUnstagedChanges();
 		git.add().addFilepattern(".").call();
-		return commit;
+		return conflictingFilenames;
 	}
 
 	protected List<DiffEntry> getRepositoryChanges(RevCommit commit)
