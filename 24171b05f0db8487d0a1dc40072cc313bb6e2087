@@ -33,6 +33,24 @@
       "message": "This and the ones below should be @since 6.2.",
       "revId": "24171b05f0db8487d0a1dc40072cc313bb6e2087",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5e1034b_74acc81a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-30T14:35:21Z",
+      "side": 1,
+      "message": "I will fix that in a moment, see https://git.eclipse.org/r/c/jgit/jgit/+/193813",
+      "parentUuid": "814a7096_b2b83e76",
+      "revId": "24171b05f0db8487d0a1dc40072cc313bb6e2087",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
