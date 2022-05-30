@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aba7fb1_7fb5467a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-05-30T09:59:30Z",
+      "side": 1,
+      "message": "And",
+      "revId": "947fdabe4d700725cfe214710fbd89c2d5b3a271",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9a881d4_828529ba",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-05-30T09:59:30Z",
+      "side": 1,
+      "message": "Andrey found a bug in this code, the \"entry\" here is null as soon as there are (different?) folders involved in the merge.\n\nI\u0027ve updated the mergetool tests to produce files in different folders, the tests fail now due to the NPE thrown here.\n\nI\u0027ll look into it.",
+      "revId": "947fdabe4d700725cfe214710fbd89c2d5b3a271",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
