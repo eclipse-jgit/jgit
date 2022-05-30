@@ -16,6 +16,24 @@
       "message": "Strange that mergetool supports more commands as difftool, and difftool says that some commands are not available (but they are), which are OK for mergetool.\n\nI assume some bug?\n\nHere is what I get for mergetool --tool-help:\n\n\u0027git mergetool --tool\u003d\u003ctool\u003e\u0027 may be set to one of the following:\n\t\taraxis\n\t\temerge\n\t\tgvimdiff\n\t\tgvimdiff2\n\t\tgvimdiff3\n\t\tkdiff3\n\t\tvimdiff\n\t\tvimdiff2\n\t\tvimdiff3\n\n\tuser-defined:\n\t\thallo.cmd echo\n\nThe following tools are valid, but not currently available:\n\t\tbc\n\t\tbc3\n\t\tcodecompare\n\t\tdeltawalker\n\t\tdiffmerge\n\t\tdiffuse\n\t\tecmerge\n\t\texamdiff\n\t\tguiffy\n\t\tmeld\n\t\topendiff\n\t\tp4merge\n\t\ttkdiff\n\t\ttortoisegitmerge\n\t\ttortoisemerge\n\t\twinmerge\n\t\txxdiff\n\t\t\n\t\t\nAnd for difftool --tool-help\n\n\u0027git difftool --tool\u003d\u003ctool\u003e\u0027 may be set to one of the following:\n\t\taraxis\n\t\temerge\n\t\tkdiff3\n\t\tkompare\n\n\tuser-defined:\n\nThe following tools are valid, but not currently available:\n\t\tbc\n\t\tbc3\n\t\tcodecompare\n\t\tdeltawalker\n\t\tdiffmerge\n\t\tdiffuse\n\t\tecmerge\n\t\texamdiff\n\t\tguiffy\n\t\tgvimdiff\n\t\tgvimdiff2\n\t\tgvimdiff3\n\t\tmeld\n\t\topendiff\n\t\tp4merge\n\t\ttkdiff\n\t\tvimdiff\n\t\tvimdiff2\n\t\tvimdiff3\n\t\twinmerge\n\t\txxdiff",
       "revId": "7607d895c30e58ad3f9c64ba61ea5175a5960c00",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41e58523_87618824",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-05-30T16:31:55Z",
+      "side": 1,
+      "message": "Looks like configured command names are different for diff / merge in CommandLineDiffTool / CommandLineMergeTool.\n\nFor following:\n\ngvimdiff\ngvimdiff2\ngvimdiff3\n\nCommandLineDiffTool seem to use \"gviewdiff\" instead of \"gvim\"\n\nFor following:\n\nvimdiff\nvimdiff2\nvimdiff3\n\nCommandLineDiffTool seem to use \"viewdiff\" instead of \"vim\"\n\nNeither \"gviewdiff\" nor \"viewdiff\" are \"known\" on my RHEL 7.9 box, while \"gvim\", \"vim\", \"gvimdiff\" are there, although http://vimdoc.sourceforge.net/htmldoc/diff.html says \n\n\"\nYou may also use \"gvimdiff\" or \"vim -d -g\".  The GUI is started then.\nYou may also use \"viewdiff\" or \"gviewdiff\".  Vim starts in readonly mode then.\n\"\n\nI think we should fix diff definition.",
+      "parentUuid": "c2745da7_30696540",
+      "revId": "7607d895c30e58ad3f9c64ba61ea5175a5960c00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
