@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a496430_6c6f8c9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-05-30T10:35:59Z",
+      "side": 1,
+      "message": "Fixed the difftool tests, still looking into the mergetool problem.\n\nThere is also another problem with a subsequent change, where the path to a file is not listed correctly in the difftool output. We\u0027ll get to it later on.",
+      "revId": "f6a076cea81189090b5c89c7944b936be217eb25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
