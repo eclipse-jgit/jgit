@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12af6c16_6a448121",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-31T07:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15e91e5f_f94f5cd8",
+      "range": {
+        "startLine": 512,
+        "startChar": 72,
+        "endLine": 512,
+        "endChar": 73
+      },
+      "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46926193_0d14df68",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-05-25T12:36:43Z",
       "side": 1,
       "message": "Strange formatting. Missing linebreak.",
+      "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d7edf54_5c1e6858",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-31T07:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46926193_0d14df68",
       "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -58,6 +100,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53add1e7_b74c0b63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-31T07:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04db84bd_a6ee14db",
+      "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe798da4_a1a8d4c9",
@@ -71,6 +131,24 @@
       "writtenOn": "2022-05-25T12:36:43Z",
       "side": 1,
       "message": "Strange formatting; too many tabs.",
+      "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89e86c80_3032deea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV0Parser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-31T07:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe798da4_a1a8d4c9",
       "revId": "804dd0970f8a7cece95edb0a3334c310e7b0bfae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

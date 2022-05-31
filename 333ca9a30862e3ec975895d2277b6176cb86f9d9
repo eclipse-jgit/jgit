@@ -16,6 +16,24 @@
       "message": "Thanks for following up, Robin.\n\nI\u0027m sorry to say but I have to take a time-out from this. I\u0027m sick; caught a nasty flu, and I\u0027m in no shape to program or review anything. If nobody else picks it up, I\u0027ll get back to it once I\u0027m in a better shape again. But as it looks, it might be little while.",
       "revId": "333ca9a30862e3ec975895d2277b6176cb86f9d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7120ea7f_439c8aba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-05-31T07:45:42Z",
+      "side": 1,
+      "message": "Hi Thomas,\n\nthis sounds bad. So get well soon!",
+      "parentUuid": "be637aae_468f8b25",
+      "revId": "333ca9a30862e3ec975895d2277b6176cb86f9d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
