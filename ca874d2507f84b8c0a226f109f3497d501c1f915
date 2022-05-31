@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed77783b_3f944544",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-05-31T10:25:03Z",
+      "side": 1,
+      "message": "gvimdiff seems to work now.\n\nvimdiff seems to not come up, a pstack shows:\n\n#0  0x00007ffff67f1983 in __select_nocancel () at ../sysdeps/unix/syscall-template.S:81\n#1  0x000000000050c637 in RealWaitForChar ()\n#2  0x000000000050c87b in WaitForChar ()\n#3  0x000000000050caab in mch_inchar ()\n#4  0x0000000000584e76 in ui_inchar ()\n#5  0x00000000004aa0bf in inchar ()\n#6  0x00000000004abf53 in vgetorpeek ()\n#7  0x00000000004ac6d6 in vgetc ()\n#8  0x00000000004acac9 in safe_vgetc ()\n#9  0x00000000004f2de2 in normal_cmd ()\n#10 0x00000000005ac6d7 in main_loop ()\n#11 0x000000000042761a in main ()\n\nNo idea what its doing.",
+      "revId": "ca874d2507f84b8c0a226f109f3497d501c1f915",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
