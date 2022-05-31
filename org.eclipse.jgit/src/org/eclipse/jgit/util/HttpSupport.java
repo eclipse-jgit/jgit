@@ -186,6 +186,31 @@ public class HttpSupport {
 	}
 
 	/**
+	 * Translates the provided URL into application/x-www-form-urlencoded format.
+	 *
+	 * @param url
+	 *            The URL to translate.
+	 * @param keepPathSlash
+	 *            Whether or not to keep "/" in the URL (i.e. don't translate them to "%2F").
+	 *
+	 * @return The translated URL.
+	 * @since 5.13
+	 */
+	public static String urlEncode(String url, boolean keepPathSlash) {
+		String encoded;
+		try {
+			encoded = URLEncoder.encode(url, UTF_8.name());
+		}
+		catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(JGitText.get().couldNotURLEncodeToUTF8, e);
+		}
+		if (keepPathSlash) {
+			encoded = encoded.replace("%2F", "/"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return encoded;
+	}
+
+	/**
 	 * Get the HTTP response code from the request.
 	 * <p>
 	 * Roughly the same as <code>c.getResponseCode()</code> but the
