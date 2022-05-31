@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7bba904_d2383083",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-05-31T07:26:07Z",
+      "side": 1,
+      "message": "Thanks for following up, Eric.\n\nI\u0027m sorry to say but I have to take a time-out from this. I\u0027m sick; caught a nasty flu, and I\u0027m in no shape to program or review anything. If nobody else picks it up, I\u0027ll get back to it once I\u0027m in a better shape again. But as it looks, it might be little while.",
+      "revId": "7c9db2bfb10a257035a73373539a8d0b8e15b428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
