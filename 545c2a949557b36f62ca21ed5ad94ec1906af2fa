@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b63000bc_344bd2db",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-01T07:39:24Z",
+      "side": 1,
+      "message": "this is too early since resp is still used after this\nlooks like we need to introduce a close method",
+      "revId": "545c2a949557b36f62ca21ed5ad94ec1906af2fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
