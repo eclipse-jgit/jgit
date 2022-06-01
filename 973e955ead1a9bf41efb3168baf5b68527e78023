@@ -20,6 +20,41 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e009cf4b_8f0b342e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-01T16:16:38Z",
+      "side": 1,
+      "message": "OK, third test attempt succeeded",
+      "revId": "973e955ead1a9bf41efb3168baf5b68527e78023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a006128a_b7ce1080",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-01T16:16:38Z",
+      "side": 1,
+      "message": "See https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d579676",
+      "parentUuid": "241c8dc9_cfb76a9b",
+      "revId": "973e955ead1a9bf41efb3168baf5b68527e78023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a67115a1_028a4837",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
         "patchSetId": 38
