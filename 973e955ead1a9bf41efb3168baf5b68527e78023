@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "241c8dc9_cfb76a9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-01T13:32:46Z",
+      "side": 1,
+      "message": "\u003e Patch Set 38: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1342/ : FAILURE\n\nUnrelated test fails:\n\n14:56:49  [ERROR] Tests run: 168, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 91.406 s \u003c\u003c\u003c FAILURE! - in org.eclipse.jgit.http.test.SmartClientSmartServerTest\n14:56:49  [ERROR] org.eclipse.jgit.http.test.SmartClientSmartServerTest.testInitialClone_Small[org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory protocol V0]  Time elapsed: 0.213 s  \u003c\u003c\u003c FAILURE!\n14:56:49  org.junit.ComparisonFailure: expected:\u003c[GE]T\u003e but was:\u003c[POS]T\u003e\n14:56:49  \tat org.eclipse.jgit.http.test.SmartClientSmartServerTest.testInitialClone_Small(SmartClientSmartServerTest.java:613)\n14:56:49  ",
+      "revId": "973e955ead1a9bf41efb3168baf5b68527e78023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a67115a1_028a4837",
