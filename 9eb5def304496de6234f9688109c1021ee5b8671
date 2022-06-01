@@ -16,6 +16,24 @@
       "message": "This fails, since IMO parts of directory structure is missing in the output. I noticed this after adding subdirectories due to the MergeTool file walk problem in: https://git.eclipse.org/r/c/jgit/jgit/+/139262 \n\nI\u0027ll look into it.",
       "revId": "9eb5def304496de6234f9688109c1021ee5b8671",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "604964d1_7fc55fb8",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DiffToolTest.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-01T18:10:12Z",
+      "side": 1,
+      "message": "There was a double slash in temp directory, I\u0027ve fixed this in last patch.",
+      "parentUuid": "c0ef81b4_44954eb9",
+      "revId": "9eb5def304496de6234f9688109c1021ee5b8671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
