@@ -31,6 +31,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -46,7 +47,6 @@ import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.time.Instant;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -84,6 +84,12 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class AmazonS3 {
 	private static final Set<String> SIGNED_HEADERS;
+
+	private static final String AWS_API_V2 = "2"; //$NON-NLS-1$
+
+	private static final String AWS_API_V4 = "4"; //$NON-NLS-1$
+
+	private static final String AWS_S3_SERVICE_NAME = "s3"; //$NON-NLS-1$
 
 	private static final String HMAC = "HmacSHA1"; //$NON-NLS-1$
 
@@ -134,11 +140,17 @@ public class AmazonS3 {
 		}
 	}
 
+	/** AWS API Signature Version. */
+	private final String awsApiSignatureVersion;
+
 	/** AWSAccessKeyId, public string that identifies the user's account. */
 	private final String publicKey;
 
 	/** Decoded form of the private AWSSecretAccessKey, to sign requests. */
-	private final SecretKeySpec privateKey;
+	private final SecretKeySpec secretKeySpec;
+
+	/** AWSSecretAccessKey, private string used to access a user's account. */
+	private final char[] secretKey; // store as char[] for security
 
 	/** Our HTTP proxy support, in case we are behind a firewall. */
 	private final ProxySelector proxySelector;
@@ -158,8 +170,12 @@ public class AmazonS3 {
 	/** S3 Bucket Domain. */
 	private final String domain;
 
+	/** S3 Region. */
+	private final String region;
+
 	/** Property names used in amazon connection configuration file. */
 	interface Keys {
+		String AWS_API_SIGNATURE_VERSION = "aws.api.signature.version"; //$NON-NLS-1$
 		String ACCESS_KEY = "accesskey"; //$NON-NLS-1$
 		String SECRET_KEY = "secretkey"; //$NON-NLS-1$
 		String PASSWORD = "password"; //$NON-NLS-1$
@@ -167,6 +183,7 @@ public class AmazonS3 {
 		String CRYPTO_VER = "crypto.version"; //$NON-NLS-1$
 		String ACL = "acl"; //$NON-NLS-1$
 		String DOMAIN = "domain"; //$NON-NLS-1$
+		String REGION = "region"; //$NON-NLS-1$
 		String HTTP_RETRY = "httpclient.retry-max"; //$NON-NLS-1$
 		String TMP_DIR = "tmpdir"; //$NON-NLS-1$
 	}
@@ -179,6 +196,12 @@ public class AmazonS3 {
 	 * For example:
 	 *
 	 * <pre>
+	 * # AWS API signature version, must be one of:
+	 * #   2 - deprecated (not supported in all AWS regions)
+	 * #   4 - latest (supported in all AWS regions)
+	 * # Defaults to 2.
+	 * aws.api.signature.version: 4
+	 *
 	 * # AWS Access and Secret Keys (required)
 	 * accesskey: &lt;YourAWSAccessKey&gt;
 	 * secretkey: &lt;YourAWSSecretKey&gt;
@@ -190,6 +213,9 @@ public class AmazonS3 {
 	 * # S3 Domain
 	 * # AWS S3 Region Domain (defaults to s3.amazonaws.com)
 	 * domain: s3.amazonaws.com
+	 *
+	 * # AWS S3 Region (required if aws.api.signature.version = 4)
+	 * region: us-west-2
 	 *
 	 * # Number of times to retry after internal error from S3.
 	 * httpclient.retry-max: 3
@@ -203,16 +229,34 @@ public class AmazonS3 {
 	 *            connection properties.
 	 */
 	public AmazonS3(final Properties props) {
+		awsApiSignatureVersion = props
+				.getProperty(Keys.AWS_API_SIGNATURE_VERSION, AWS_API_V2);
+		if (awsApiSignatureVersion.equals(AWS_API_V4)) {
+			region = props.getProperty(Keys.REGION);
+			if (region == null) {
+				throw new IllegalArgumentException(
+						JGitText.get().missingAwsRegion);
+			}
+		} else if (awsApiSignatureVersion.equals(AWS_API_V2)) {
+			region = null;
+		} else {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidAwsApiSignatureVersion,
+					awsApiSignatureVersion));
+		}
+
 		domain = props.getProperty(Keys.DOMAIN, "s3.amazonaws.com"); //$NON-NLS-1$
 
 		publicKey = props.getProperty(Keys.ACCESS_KEY);
 		if (publicKey == null)
 			throw new IllegalArgumentException(JGitText.get().missingAccesskey);
 
-		final String secret = props.getProperty(Keys.SECRET_KEY);
-		if (secret == null)
+		final String secretKeyStr = props.getProperty(Keys.SECRET_KEY);
+		if (secretKeyStr == null) {
 			throw new IllegalArgumentException(JGitText.get().missingSecretkey);
-		privateKey = new SecretKeySpec(Constants.encodeASCII(secret), HMAC);
+		}
+		secretKeySpec = new SecretKeySpec(Constants.encodeASCII(secretKeyStr), HMAC);
+		secretKey = secretKeyStr.toCharArray();
 
 		final String pacl = props.getProperty(Keys.ACL, "PRIVATE"); //$NON-NLS-1$
 		if (StringUtils.equalsIgnoreCase("PRIVATE", pacl)) //$NON-NLS-1$
@@ -257,7 +301,7 @@ public class AmazonS3 {
 			throws IOException {
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("GET", bucket, key); //$NON-NLS-1$
-			authorize(c);
+			authorize(c, Collections.emptyMap(), 0, null);
 			switch (HttpSupport.response(c)) {
 			case HttpURLConnection.HTTP_OK:
 				encryption.validate(c, X_AMZ_META);
@@ -338,7 +382,7 @@ public class AmazonS3 {
 			throws IOException {
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("DELETE", bucket, key); //$NON-NLS-1$
-			authorize(c);
+			authorize(c, Collections.emptyMap(), 0, null);
 			switch (HttpSupport.response(c)) {
 			case HttpURLConnection.HTTP_NO_CONTENT:
 				return;
@@ -384,13 +428,16 @@ public class AmazonS3 {
 		}
 
 		final String md5str = Base64.encodeBytes(newMD5().digest(data));
+		final String bodyHash = awsApiSignatureVersion.equals(AWS_API_V4)
+				? AwsRequestSignerV4.calculateBodyHash(data)
+				: null;
 		final String lenstr = String.valueOf(data.length);
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("PUT", bucket, key); //$NON-NLS-1$
 			c.setRequestProperty("Content-Length", lenstr); //$NON-NLS-1$
 			c.setRequestProperty("Content-MD5", md5str); //$NON-NLS-1$
 			c.setRequestProperty(X_AMZ_ACL, acl);
-			authorize(c);
+			authorize(c, Collections.emptyMap(), data.length, bodyHash);
 			c.setDoOutput(true);
 			c.setFixedLengthStreamingMode(data.length);
 			try (OutputStream os = c.getOutputStream()) {
@@ -465,6 +512,9 @@ public class AmazonS3 {
 			monitorTask = MessageFormat.format(JGitText.get().progressMonUploading, key);
 
 		final String md5str = Base64.encodeBytes(csum);
+		final String bodyHash = awsApiSignatureVersion.equals(AWS_API_V4)
+				? AwsRequestSignerV4.calculateBodyHash(buf.toByteArray())
+				: null;
 		final long len = buf.length();
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("PUT", bucket, key); //$NON-NLS-1$
@@ -472,7 +522,7 @@ public class AmazonS3 {
 			c.setRequestProperty("Content-MD5", md5str); //$NON-NLS-1$
 			c.setRequestProperty(X_AMZ_ACL, acl);
 			encryption.request(c, X_AMZ_META);
-			authorize(c);
+			authorize(c, Collections.emptyMap(), len, bodyHash);
 			c.setDoOutput(true);
 			monitor.beginTask(monitorTask, (int) (len / 1024));
 			try (OutputStream os = c.getOutputStream()) {
@@ -544,8 +594,13 @@ public class AmazonS3 {
 		urlstr.append('.');
 		urlstr.append(domain);
 		urlstr.append('/');
-		if (key.length() > 0)
-			HttpSupport.encode(urlstr, key);
+		if (key.length() > 0) {
+			if (awsApiSignatureVersion.equals(AWS_API_V2)) {
+				HttpSupport.encode(urlstr, key);
+			} else if (awsApiSignatureVersion.equals(AWS_API_V4)) {
+				urlstr.append(key);
+			}
+		}
 		if (!args.isEmpty()) {
 			final Iterator<Map.Entry<String, String>> i;
 
@@ -572,7 +627,17 @@ public class AmazonS3 {
 		return c;
 	}
 
-	void authorize(HttpURLConnection c) throws IOException {
+	void authorize(HttpURLConnection httpURLConnection, Map<String, String> queryParams, final long contentLength,
+			final String bodyHash) throws IOException {
+		if (awsApiSignatureVersion.equals(AWS_API_V2)) {
+			authorizeV2(httpURLConnection);
+		} else if (awsApiSignatureVersion.equals(AWS_API_V4)) {
+			AwsRequestSignerV4.sign(httpURLConnection, queryParams, contentLength, bodyHash, AWS_S3_SERVICE_NAME,
+					region, publicKey, secretKey);
+		}
+	}
+
+	void authorizeV2(HttpURLConnection c) throws IOException {
 		final Map<String, List<String>> reqHdr = c.getRequestProperties();
 		final SortedMap<String, String> sigHdr = new TreeMap<>();
 		for (Map.Entry<String, List<String>> entry : reqHdr.entrySet()) {
@@ -609,7 +674,7 @@ public class AmazonS3 {
 		final String sec;
 		try {
 			final Mac m = Mac.getInstance(HMAC);
-			m.init(privateKey);
+			m.init(secretKeySpec);
 			sec = Base64.encodeBytes(m.doFinal(s.toString().getBytes(UTF_8)));
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException(MessageFormat.format(JGitText.get().noHMACsupport, HMAC, e.getMessage()));
@@ -673,7 +738,7 @@ public class AmazonS3 {
 
 			for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 				final HttpURLConnection c = open("GET", bucket, "", args); //$NON-NLS-1$ //$NON-NLS-2$
-				authorize(c);
+				authorize(c, args, 0, null);
 				switch (HttpSupport.response(c)) {
 				case HttpURLConnection.HTTP_OK:
 					truncated = false;
