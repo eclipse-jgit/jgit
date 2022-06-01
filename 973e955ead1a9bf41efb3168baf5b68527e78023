@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a67115a1_028a4837",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-01T12:33:07Z",
+      "side": 1,
+      "message": "The text message format expects an exception argument here",
+      "range": {
+        "startLine": 231,
+        "startChar": 52,
+        "endLine": 231,
+        "endChar": 53
+      },
+      "revId": "973e955ead1a9bf41efb3168baf5b68527e78023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ccf2644_eb16449c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/ToolException.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-01T12:33:07Z",
+      "side": 1,
+      "message": "Fixed NPE if starting diff/merge with \"unknown\" tool that has no output at all, like\n\njgit difftool --tool\u003dhallo",
+      "revId": "973e955ead1a9bf41efb3168baf5b68527e78023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
