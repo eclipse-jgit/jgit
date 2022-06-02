@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec997ff2_7a2b3e42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-02T09:40:31Z",
+      "side": 1,
+      "message": "Matthias, would it be possible to merge master to 6.2 once again, to get last jgit changes visible to egit? Or is this too late?\n\nI mean this (and predecessors in master) https://git.eclipse.org/r/c/jgit/jgit/+/166943 are needed for this (with predecessors) in egit: https://git.eclipse.org/r/c/egit/egit/+/158679/",
+      "revId": "9fccad2e46d09052f4433e6764448c3518ae37f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
