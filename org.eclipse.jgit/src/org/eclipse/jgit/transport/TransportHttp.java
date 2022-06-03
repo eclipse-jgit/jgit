@@ -1328,8 +1328,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				final Map<String, RemoteRefUpdate> refUpdates,
 				OutputStream outputStream) throws TransportException {
 			final Service svc = new MultiRequestService(SVC_RECEIVE_PACK);
-			init(svc.getInputStream(), svc.getOutputStream());
-			super.doPush(monitor, refUpdates, outputStream);
+			try (InputStream in = svc.getInputStream()) {
+				init(in, svc.getOutputStream());
+				super.doPush(monitor, refUpdates, outputStream);
+			} catch (IOException e) {
+				throw new TransportException(e.getMessage(), e);
+			}
 		}
 	}
 
