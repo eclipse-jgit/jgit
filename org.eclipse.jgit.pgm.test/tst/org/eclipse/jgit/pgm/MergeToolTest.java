@@ -14,13 +14,17 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGETOOL_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
+import static org.junit.Assert.fail;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-import org.eclipse.jgit.internal.diffmergetool.CommandLineMergeTool;
+import org.eclipse.jgit.internal.diffmergetool.ExternalMergeTool;
+import org.eclipse.jgit.internal.diffmergetool.MergeTools;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,6 +41,58 @@ public class MergeToolTest extends ToolTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		configureEchoTool(TOOL_NAME);
+	}
+
+	@Test
+	public void testUndefinedTool() throws Exception {
+		String toolName = "undefined";
+		String[] conflictingFilenames = createMergeConflict();
+
+		List<String> expectedErrors = new ArrayList<>();
+		for (String conflictingFilename : conflictingFilenames) {
+			expectedErrors.add("External merge tool is not defined: " + toolName);
+			expectedErrors.add("merge of " + conflictingFilename + " failed");
+		}
+
+		runAndCaptureUsingInitRaw(expectedErrors, MERGE_TOOL,
+				"--no-prompt", "--tool", toolName);
+	}
+
+	@Test(expected = Die.class)
+	public void testUserToolWithCommandNotFoundError() throws Exception {
+		String toolName = "customTool";
+
+		int errorReturnCode = 127; // command not found
+		String command = "exit " + errorReturnCode;
+
+		StoredConfig config = db.getConfig();
+		config.setString(CONFIG_MERGETOOL_SECTION, toolName, CONFIG_KEY_CMD,
+				command);
+
+		createMergeConflict();
+		runAndCaptureUsingInitRaw(MERGE_TOOL, "--no-prompt", "--tool",
+				toolName);
+
+		fail("Expected exception to be thrown due to external tool exiting with error code: "
+				+ errorReturnCode);
+	}
+
+	@Test
+	public void testEmptyToolName() throws Exception {
+		String emptyToolName = "";
+
+		StoredConfig config = db.getConfig();
+		// the default merge tool is configured without a subsection
+		String subsection = null;
+		config.setString(CONFIG_MERGE_SECTION, subsection, CONFIG_KEY_TOOL,
+				emptyToolName);
+
+		createMergeConflict();
+
+		String araxisErrorLine = "compare: unrecognized option `-wait' @ error/compare.c/CompareImageCommand/1123.";
+		String[] expectedErrorOutput = { araxisErrorLine, araxisErrorLine, };
+		runAndCaptureUsingInitRaw(Arrays.asList(expectedErrorOutput),
+				MERGE_TOOL, "--no-prompt");
 	}
 
 	@Test
@@ -157,20 +213,38 @@ public class MergeToolTest extends ToolTestCase {
 
 	@Test
 	public void testToolHelp() throws Exception {
-		CommandLineMergeTool[] defaultTools = CommandLineMergeTool.values();
 		List<String> expectedOutput = new ArrayList<>();
+
+		MergeTools diffTools = new MergeTools(db);
+		Map<String, ExternalMergeTool> predefinedTools = diffTools
+				.getPredefinedTools(true);
+		List<ExternalMergeTool> availableTools = new ArrayList<>();
+		List<ExternalMergeTool> notAvailableTools = new ArrayList<>();
+		for (ExternalMergeTool tool : predefinedTools.values()) {
+			if (tool.isAvailable()) {
+				availableTools.add(tool);
+			} else {
+				notAvailableTools.add(tool);
+			}
+		}
+
 		expectedOutput.add(
 				"'git mergetool --tool=<tool>' may be set to one of the following:");
-		for (CommandLineMergeTool defaultTool : defaultTools) {
-			String toolName = defaultTool.name();
+		for (ExternalMergeTool tool : availableTools) {
+			String toolName = tool.getName();
 			expectedOutput.add(toolName);
 		}
 		String customToolHelpLine = TOOL_NAME + "." + CONFIG_KEY_CMD + " "
 				+ getEchoCommand();
 		expectedOutput.add("user-defined:");
 		expectedOutput.add(customToolHelpLine);
+		expectedOutput.add(
+				"The following tools are valid, but not currently available:");
+		for (ExternalMergeTool tool : notAvailableTools) {
+			String toolName = tool.getName();
+			expectedOutput.add(toolName);
+		}
 		String[] userDefinedToolsHelp = {
-				"The following tools are valid, but not currently available:",
 				"Some of the tools listed above only work in a windowed",
 				"environment. If run in a terminal-only session, they will fail.", };
 		expectedOutput.addAll(Arrays.asList(userDefinedToolsHelp));
@@ -200,7 +274,7 @@ public class MergeToolTest extends ToolTestCase {
 				String.valueOf(false));
 	}
 
-	private static String[] getExpectedMergeConflictOutputNoPrompt(
+	private String[] getExpectedMergeConflictOutputNoPrompt(
 			String[] conflictFilenames) {
 		List<String> expected = new ArrayList<>();
 		expected.add("Merging:");
@@ -212,7 +286,8 @@ public class MergeToolTest extends ToolTestCase {
 					+ "':");
 			expected.add("{local}: modified file");
 			expected.add("{remote}: modified file");
-			expected.add(conflictFilename);
+			Path filePath = getFullPath(conflictFilename);
+			expected.add(filePath.toString());
 			expected.add(conflictFilename + " seems unchanged.");
 		}
 		return expected.toArray(new String[0]);
@@ -237,7 +312,7 @@ public class MergeToolTest extends ToolTestCase {
 		return expected.toArray(new String[0]);
 	}
 
-	private static String[] getExpectedAbortMergeOutput(
+	private String[] getExpectedAbortMergeOutput(
 			String[] conflictFilenames, int abortIndex) {
 		List<String> expected = new ArrayList<>();
 		expected.add("Merging:");
@@ -254,8 +329,9 @@ public class MergeToolTest extends ToolTestCase {
 					"Normal merge conflict for '" + conflictFilename + "':");
 			expected.add("{local}: modified file");
 			expected.add("{remote}: modified file");
+			Path fullPath = getFullPath(conflictFilename);
 			expected.add("Hit return to start merge resolution tool ("
-					+ TOOL_NAME + "): " + conflictFilename);
+					+ TOOL_NAME + "): " + fullPath);
 			expected.add(conflictFilename + " seems unchanged.");
 			expected.add("Was the merge successful [y/n]?");
 			if (i < conflictFilenames.length - 1) {
@@ -266,7 +342,7 @@ public class MergeToolTest extends ToolTestCase {
 		return expected.toArray(new String[0]);
 	}
 
-	private static String[] getExpectedMergeConflictOutput(
+	private String[] getExpectedMergeConflictOutput(
 			String[] conflictFilenames) {
 		List<String> expected = new ArrayList<>();
 		expected.add("Merging:");
@@ -279,8 +355,9 @@ public class MergeToolTest extends ToolTestCase {
 					+ "':");
 			expected.add("{local}: modified file");
 			expected.add("{remote}: modified file");
+			Path filePath = getFullPath(conflictFilename);
 			expected.add("Hit return to start merge resolution tool ("
-					+ TOOL_NAME + "): " + conflictFilename);
+					+ TOOL_NAME + "): " + filePath);
 			expected.add(conflictFilename + " seems unchanged.");
 			expected.add("Was the merge successful [y/n]?");
 			if (i < conflictFilenames.length - 1) {
@@ -306,5 +383,13 @@ public class MergeToolTest extends ToolTestCase {
 			expected.add("Use (m)odified or (d)eleted file, or (a)bort?");
 		}
 		return expected.toArray(new String[0]);
+	}
+
+	private static String getEchoCommand() {
+		/*
+		 * use 'MERGED' placeholder, as both 'LOCAL' and 'REMOTE' will be
+		 * replaced with full paths to a temporary file during some of the tests
+		 */
+		return "(echo \"$MERGED\")";
 	}
 }

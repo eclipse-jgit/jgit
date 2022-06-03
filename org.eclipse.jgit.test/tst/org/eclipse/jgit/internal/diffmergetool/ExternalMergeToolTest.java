@@ -9,22 +9,30 @@
  */
 package org.eclipse.jgit.internal.diffmergetool;
 
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGETOOL_SECTION;
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CMD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_GUITOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PATH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TRUST_EXIT_CODE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGETOOL_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.internal.BooleanTriState;
@@ -50,12 +58,7 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		config.setString(CONFIG_MERGETOOL_SECTION, toolName,
 				CONFIG_KEY_TRUST_EXIT_CODE, String.valueOf(Boolean.TRUE));
 
-		MergeTools manager = new MergeTools(db);
-
-		BooleanTriState prompt = BooleanTriState.UNSET;
-		BooleanTriState gui = BooleanTriState.UNSET;
-
-		manager.merge(local, remote, merged, base, null, toolName, prompt, gui);
+		invokeMerge(toolName);
 
 		fail("Expected exception to be thrown due to external tool exiting with error code: "
 				+ errorReturnCode);
@@ -72,31 +75,112 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		config.setString(CONFIG_MERGETOOL_SECTION, toolName, CONFIG_KEY_CMD,
 				command);
 
-		MergeTools manager = new MergeTools(db);
-
-		BooleanTriState prompt = BooleanTriState.UNSET;
-		BooleanTriState gui = BooleanTriState.UNSET;
-
-		manager.merge(local, remote, merged, base, null, toolName, prompt, gui);
+		invokeMerge(toolName);
 
 		fail("Expected exception to be thrown due to external tool exiting with error code: "
 				+ errorReturnCode);
 	}
 
 	@Test
-	public void testToolNames() {
+	public void testKdiff3() throws Exception {
+		assumePosixPlatform();
+
+		CommandLineMergeTool autoMergingTool = CommandLineMergeTool.kdiff3;
+		assumeMergeToolIsAvailable(autoMergingTool);
+
+		CommandLineMergeTool tool = autoMergingTool;
+		PreDefinedMergeTool externalTool = new PreDefinedMergeTool(tool.name(),
+				tool.getPath(), tool.getParameters(true),
+				tool.getParameters(false),
+				tool.isExitCodeTrustable() ? BooleanTriState.TRUE
+						: BooleanTriState.FALSE);
+
 		MergeTools manager = new MergeTools(db);
-		Set<String> actualToolNames = manager.getToolNames();
-		Set<String> expectedToolNames = Collections.emptySet();
-		assertEquals("Incorrect set of external merge tool names",
-				expectedToolNames, actualToolNames);
+		ExecutionResult result = manager.merge(local, remote, merged, null,
+				null, externalTool);
+		assertEquals("Expected merge tool to succeed", 0, result.getRc());
+
+		List<String> actualLines = Files.readAllLines(mergedFile.toPath());
+		String actualMergeResult = String.join(System.lineSeparator(),
+				actualLines);
+		String expectedMergeResult = DEFAULT_CONTENT;
+		assertEquals(
+				"Failed to merge equal local and remote versions with pre-defined tool: "
+						+ tool.getPath(),
+				expectedMergeResult, actualMergeResult);
+	}
+
+	@Test
+	public void testUserDefinedTool() throws Exception {
+		String customToolName = "customTool";
+		String command = getEchoCommand();
+
+		FileBasedConfig config = db.getConfig();
+		config.setString(CONFIG_MERGETOOL_SECTION, customToolName,
+				CONFIG_KEY_CMD, command);
+
+		MergeTools manager = new MergeTools(db);
+		Map<String, ExternalMergeTool> tools = manager.getUserDefinedTools();
+		ExternalMergeTool externalTool = tools.get(customToolName);
+		manager.merge(local, remote, merged, base, null, externalTool);
+
+		assertEchoCommandHasCorrectOutput();
+	}
+
+	@Test
+	public void testUserDefinedToolWithPrompt() throws Exception {
+		String customToolName = "customTool";
+		String command = getEchoCommand();
+
+		FileBasedConfig config = db.getConfig();
+		config.setString(CONFIG_MERGETOOL_SECTION, customToolName,
+				CONFIG_KEY_CMD, command);
+
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = PromptHandler.acceptPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		manager.merge(local, remote, merged, base, null,
+				Optional.of(customToolName), BooleanTriState.TRUE, false,
+				promptHandler, noToolHandler);
+
+		assertEchoCommandHasCorrectOutput();
+
+		List<String> actualToolPrompts = promptHandler.toolPrompts;
+		List<String> expectedToolPrompts = Arrays.asList("customTool");
+		assertEquals("Expected a user prompt for custom tool call",
+				expectedToolPrompts, actualToolPrompts);
+
+		assertEquals("Expected to no informing about missing tools",
+				Collections.EMPTY_LIST, noToolHandler.missingTools);
+	}
+
+	@Test
+	public void testUserDefinedToolWithCancelledPrompt() throws Exception {
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = PromptHandler.cancelPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		Optional<ExecutionResult> result = manager.merge(local, remote, merged,
+				base, null, Optional.empty(), BooleanTriState.TRUE, false,
+				promptHandler, noToolHandler);
+		assertFalse("Expected no result if user cancels the operation",
+				result.isPresent());
 	}
 
 	@Test
 	public void testAllTools() {
+		FileBasedConfig config = db.getConfig();
+		String customToolName = "customTool";
+		config.setString(CONFIG_MERGETOOL_SECTION, customToolName,
+				CONFIG_KEY_CMD, "echo");
+
 		MergeTools manager = new MergeTools(db);
-		Set<String> actualToolNames = manager.getAvailableTools().keySet();
+		Set<String> actualToolNames = manager.getAllToolNames();
 		Set<String> expectedToolNames = new LinkedHashSet<>();
+		expectedToolNames.add(customToolName);
 		CommandLineMergeTool[] defaultTools = CommandLineMergeTool.values();
 		for (CommandLineMergeTool defaultTool : defaultTools) {
 			String toolName = defaultTool.name();
@@ -151,15 +235,6 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 	}
 
 	@Test
-	public void testNotAvailableTools() {
-		MergeTools manager = new MergeTools(db);
-		Set<String> actualToolNames = manager.getNotAvailableTools().keySet();
-		Set<String> expectedToolNames = Collections.emptySet();
-		assertEquals("Incorrect set of not available external merge tools",
-				expectedToolNames, actualToolNames);
-	}
-
-	@Test
 	public void testCompare() throws ToolException {
 		String toolName = "customTool";
 
@@ -174,16 +249,12 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		config.setString(CONFIG_MERGETOOL_SECTION, toolName, CONFIG_KEY_CMD,
 				command);
 
-		BooleanTriState prompt = BooleanTriState.UNSET;
-		BooleanTriState gui = BooleanTriState.UNSET;
-
-		MergeTools manager = new MergeTools(db);
-
+		Optional<ExecutionResult> result = invokeMerge(toolName);
+		assertTrue("Expected external merge tool result to be available",
+				result.isPresent());
 		int expectedCompareResult = 0;
-		ExecutionResult compareResult = manager.merge(local, remote, merged,
-				base, null, toolName, prompt, gui);
 		assertEquals("Incorrect compare result for external merge tool",
-				expectedCompareResult, compareResult.getRc());
+				expectedCompareResult, result.get().getRc());
 	}
 
 	@Test
@@ -198,17 +269,16 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 				toolName);
 
 		MergeTools manager = new MergeTools(db);
-		BooleanTriState gui = BooleanTriState.UNSET;
+		boolean gui = false;
 		String defaultToolName = manager.getDefaultToolName(gui);
 		assertEquals(
 				"Expected configured mergetool to be the default external merge tool",
 				toolName, defaultToolName);
 
-		gui = BooleanTriState.TRUE;
+		gui = true;
 		String defaultGuiToolName = manager.getDefaultToolName(gui);
-		assertEquals(
-				"Expected configured mergetool to be the default external merge tool",
-				"my_gui_tool", defaultGuiToolName);
+		assertNull("Expected default mergetool to not be set",
+				defaultGuiToolName);
 
 		config.setString(CONFIG_MERGE_SECTION, subsection, CONFIG_KEY_GUITOOL,
 				guiToolName);
@@ -216,7 +286,7 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 		defaultGuiToolName = manager.getDefaultToolName(gui);
 		assertEquals(
 				"Expected configured mergetool to be the default external merge guitool",
-				"my_gui_tool", defaultGuiToolName);
+				guiToolName, defaultGuiToolName);
 	}
 
 	@Test
@@ -236,7 +306,7 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 
 		MergeTools manager = new MergeTools(db);
 		Map<String, ExternalMergeTool> availableTools = manager
-				.getAvailableTools();
+				.getPredefinedTools(true);
 		ExternalMergeTool externalMergeTool = availableTools
 				.get(overridenToolName);
 		String actualMergeToolPath = externalMergeTool.getPath();
@@ -254,18 +324,110 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 
 	@Test(expected = ToolException.class)
 	public void testUndefinedTool() throws Exception {
-		MergeTools manager = new MergeTools(db);
-
 		String toolName = "undefined";
-		BooleanTriState prompt = BooleanTriState.UNSET;
-		BooleanTriState gui = BooleanTriState.UNSET;
-
-		manager.merge(local, remote, merged, base, null, toolName, prompt, gui);
+		invokeMerge(toolName);
 		fail("Expected exception to be thrown due to not defined external merge tool");
 	}
 
+	@Test
+	public void testDefaultToolExecutionWithPrompt() throws Exception {
+		FileBasedConfig config = db.getConfig();
+		// the default diff tool is configured without a subsection
+		String subsection = null;
+		config.setString("merge", subsection, "tool", "customTool");
+
+		String command = getEchoCommand();
+
+		config.setString("mergetool", "customTool", "cmd", command);
+
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = PromptHandler.acceptPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		manager.merge(local, remote, merged, base, null, Optional.empty(),
+				BooleanTriState.TRUE, false, promptHandler, noToolHandler);
+
+		assertEchoCommandHasCorrectOutput();
+	}
+
+	@Test
+	public void testNoDefaultToolName() {
+		MergeTools manager = new MergeTools(db);
+		boolean gui = false;
+		String defaultToolName = manager.getDefaultToolName(gui);
+		assertNull("Expected no default tool when none is configured",
+				defaultToolName);
+
+		gui = true;
+		defaultToolName = manager.getDefaultToolName(gui);
+		assertNull("Expected no default tool when none is configured",
+				defaultToolName);
+	}
+
+	@Test(expected = ToolException.class)
+	public void testNullTool() throws Exception {
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = null;
+		MissingToolHandler noToolHandler = null;
+
+		Optional<String> tool = null;
+
+		manager.merge(local, remote, merged, base, null, tool,
+				BooleanTriState.TRUE, false, promptHandler, noToolHandler);
+	}
+
+	@Test(expected = ToolException.class)
+	public void testNullToolWithPrompt() throws Exception {
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = PromptHandler.cancelPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		Optional<String> tool = null;
+
+		manager.merge(local, remote, merged, base, null, tool,
+				BooleanTriState.TRUE, false, promptHandler, noToolHandler);
+	}
+
+	private Optional<ExecutionResult> invokeMerge(String toolName)
+			throws ToolException {
+		BooleanTriState prompt = BooleanTriState.UNSET;
+		boolean gui = false;
+
+		MergeTools manager = new MergeTools(db);
+
+		PromptHandler promptHandler = PromptHandler.acceptPrompt();
+		MissingToolHandler noToolHandler = new MissingToolHandler();
+
+		Optional<ExecutionResult> result = manager.merge(local, remote, merged,
+				base, null, Optional.of(toolName), prompt, gui, promptHandler,
+				noToolHandler);
+		return result;
+	}
+
+	private void assumeMergeToolIsAvailable(
+			CommandLineMergeTool autoMergingTool) {
+		boolean isAvailable = ExternalToolUtils.isToolAvailable(db.getFS(),
+				db.getDirectory(), db.getWorkTree(), autoMergingTool.getPath());
+		assumeTrue("Assuming external tool is available: "
+				+ autoMergingTool.name(), isAvailable);
+	}
+
 	private String getEchoCommand() {
-		return "(echo \"$LOCAL\" \"$REMOTE\") > "
+		return "(echo $LOCAL $REMOTE $MERGED $BASE) > "
 				+ commandResult.getAbsolutePath();
+	}
+
+	private void assertEchoCommandHasCorrectOutput() throws IOException {
+		List<String> actualLines = Files.readAllLines(commandResult.toPath());
+		String actualContent = String.join(System.lineSeparator(), actualLines);
+		actualLines = Arrays.asList(actualContent.split(" "));
+		List<String> expectedLines = Arrays.asList(localFile.getAbsolutePath(),
+				remoteFile.getAbsolutePath(), mergedFile.getAbsolutePath(),
+				baseFile.getAbsolutePath());
+		assertEquals("Dummy test tool called with unexpected arguments",
+				expectedLines, actualLines);
 	}
 }

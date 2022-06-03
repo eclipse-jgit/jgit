@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2022, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2019, Tim Neumann <tim.neumann@advantest.com>
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -22,30 +23,33 @@ import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
 import org.eclipse.jgit.diff.ContentSource;
 import org.eclipse.jgit.diff.ContentSource.Pair;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.Side;
-import org.eclipse.jgit.internal.diffmergetool.ToolException;
-import org.eclipse.jgit.internal.diffmergetool.DiffTools;
-import org.eclipse.jgit.internal.diffmergetool.FileElement;
-import org.eclipse.jgit.internal.diffmergetool.ExternalDiffTool;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
-import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
+import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.internal.diffmergetool.DiffTools;
+import org.eclipse.jgit.internal.diffmergetool.ExternalDiffTool;
+import org.eclipse.jgit.internal.diffmergetool.FileElement;
+import org.eclipse.jgit.internal.diffmergetool.PromptContinueHandler;
+import org.eclipse.jgit.internal.diffmergetool.ToolException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
@@ -58,7 +62,6 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -75,9 +78,13 @@ class DiffTool extends TextBuiltin {
 	@Argument(index = 1, metaVar = "metaVar_treeish")
 	private AbstractTreeIterator newTree;
 
+	private Optional<String> toolName = Optional.empty();
+
 	@Option(name = "--tool", aliases = {
 			"-t" }, metaVar = "metaVar_tool", usage = "usage_ToolForDiff")
-	private String toolName;
+	void setToolName(String name) {
+		toolName = Optional.of(name);
+	}
 
 	@Option(name = "--cached", aliases = { "--staged" }, usage = "usage_cached")
 	private boolean cached;
@@ -97,16 +104,16 @@ class DiffTool extends TextBuiltin {
 	@Option(name = "--tool-help", usage = "usage_toolHelp")
 	private boolean toolHelp;
 
-	private BooleanTriState gui = BooleanTriState.UNSET;
+	private boolean gui = false;
 
 	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_DiffGuiTool")
 	void setGui(@SuppressWarnings("unused") boolean on) {
-		gui = BooleanTriState.TRUE;
+		gui = true;
 	}
 
 	@Option(name = "--no-gui", usage = "usage_noGui")
 	void noGui(@SuppressWarnings("unused") boolean on) {
-		gui = BooleanTriState.FALSE;
+		gui = false;
 	}
 
 	private BooleanTriState trustExitCode = BooleanTriState.UNSET;
@@ -140,23 +147,12 @@ class DiffTool extends TextBuiltin {
 			if (toolHelp) {
 				showToolHelp();
 			} else {
-				boolean showPrompt = diffTools.isInteractive();
-				if (prompt != BooleanTriState.UNSET) {
-					showPrompt = prompt == BooleanTriState.TRUE;
-				}
-				String toolNamePrompt = toolName;
-				if (showPrompt) {
-					if (StringUtils.isEmptyOrNull(toolNamePrompt)) {
-						toolNamePrompt = diffTools.getDefaultToolName(gui);
-					}
-				}
 				// get the changed files
 				List<DiffEntry> files = getFiles();
 				if (files.size() > 0) {
-					compare(files, showPrompt, toolNamePrompt);
+					compare(files);
 				}
 			}
-			outw.flush();
 		} catch (RevisionSyntaxException | IOException e) {
 			throw die(e.getMessage(), e);
 		} finally {
@@ -164,51 +160,103 @@ class DiffTool extends TextBuiltin {
 		}
 	}
 
-	private void compare(List<DiffEntry> files, boolean showPrompt,
-			String toolNamePrompt) throws IOException {
+	private void informUserNoTool(List<String> tools) {
+		try {
+			StringBuilder toolNames = new StringBuilder();
+			for (String name : tools) {
+				toolNames.append(name + " "); //$NON-NLS-1$
+			}
+			outw.println(MessageFormat.format(
+					CLIText.get().diffToolPromptToolName, toolNames));
+			outw.flush();
+		} catch (IOException e) {
+			throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
+		}
+	}
+
+	private class CountingPromptContinueHandler
+			implements PromptContinueHandler {
+		private final int fileIndex;
+
+		private final int fileCount;
+
+		private final String fileName;
+
+		public CountingPromptContinueHandler(int fileIndex, int fileCount,
+				String fileName) {
+			this.fileIndex = fileIndex;
+			this.fileCount = fileCount;
+			this.fileName = fileName;
+		}
+
+		@SuppressWarnings("boxing")
+		@Override
+		public boolean prompt(String toolToLaunchName) {
+			try {
+				boolean launchCompare = true;
+				outw.println(MessageFormat.format(CLIText.get().diffToolLaunch,
+						fileIndex, fileCount, fileName, toolToLaunchName)
+						+ " "); //$NON-NLS-1$
+				outw.flush();
+				BufferedReader br = inputReader;
+				String line = null;
+				if ((line = br.readLine()) != null) {
+					if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
+						launchCompare = false;
+					}
+				}
+				return launchCompare;
+			} catch (IOException e) {
+				throw new IllegalStateException("Cannot output text", e); //$NON-NLS-1$
+			}
+		}
+	}
+
+	private void compare(List<DiffEntry> files) throws IOException {
 		ContentSource.Pair sourcePair = new ContentSource.Pair(source(oldTree),
 				source(newTree));
 		try {
 			for (int fileIndex = 0; fileIndex < files.size(); fileIndex++) {
 				DiffEntry ent = files.get(fileIndex);
-				String mergedFilePath = ent.getNewPath();
-				if (mergedFilePath.equals(DiffEntry.DEV_NULL)) {
-					mergedFilePath = ent.getOldPath();
+
+				String filePath = ent.getNewPath();
+				if (filePath.equals(DiffEntry.DEV_NULL)) {
+					filePath = ent.getOldPath();
 				}
-				// check if user wants to launch compare
-				boolean launchCompare = true;
-				if (showPrompt) {
-					launchCompare = isLaunchCompare(fileIndex + 1, files.size(),
-							mergedFilePath, toolNamePrompt);
-				}
-				if (launchCompare) {
-					try {
-						FileElement local = createFileElement(
-								FileElement.Type.LOCAL, sourcePair, Side.OLD,
-								ent);
-						FileElement remote = createFileElement(
-								FileElement.Type.REMOTE, sourcePair, Side.NEW,
-								ent);
-						FileElement merged = new FileElement(mergedFilePath,
-								FileElement.Type.MERGED);
+
+				try {
+					FileElement local = createFileElement(
+							FileElement.Type.LOCAL, sourcePair, Side.OLD, ent);
+					FileElement remote = createFileElement(
+							FileElement.Type.REMOTE, sourcePair, Side.NEW, ent);
+
+					PromptContinueHandler promptContinueHandler = new CountingPromptContinueHandler(
+							fileIndex + 1, files.size(), filePath);
+
+					Optional<ExecutionResult> optionalResult = diffTools
+							.compare(local, remote, toolName, prompt, gui,
+									trustExitCode, promptContinueHandler,
+									this::informUserNoTool);
+
+					if (optionalResult.isPresent()) {
+						ExecutionResult result = optionalResult.get();
 						// TODO: check how to return the exit-code of the tool
 						// to jgit / java runtime ?
 						// int rc =...
-						ExecutionResult result = diffTools.compare(local,
-								remote, merged, toolName, prompt, gui,
-								trustExitCode);
-						outw.println(new String(result.getStdout().toByteArray()));
+						outw.println(
+								new String(result.getStdout().toByteArray()));
+						outw.flush();
 						errw.println(
 								new String(result.getStderr().toByteArray()));
-					} catch (ToolException e) {
-						outw.println(e.getResultStdout());
-						outw.flush();
-						errw.println(e.getMessage());
-						throw die(MessageFormat.format(
-								CLIText.get().diffToolDied, mergedFilePath), e);
+						errw.flush();
 					}
-				} else {
-					break;
+				} catch (ToolException e) {
+					outw.println(e.getResultStdout());
+					outw.flush();
+					errw.println(e.getMessage());
+					errw.flush();
+					throw die(MessageFormat.format(
+							CLIText.get().diffToolDied, filePath, e), e);
 				}
 			}
 		} finally {
@@ -216,32 +264,17 @@ class DiffTool extends TextBuiltin {
 		}
 	}
 
-	@SuppressWarnings("boxing")
-	private boolean isLaunchCompare(int fileIndex, int fileCount,
-			String fileName, String toolNamePrompt) throws IOException {
-		boolean launchCompare = true;
-		outw.println(MessageFormat.format(CLIText.get().diffToolLaunch,
-				fileIndex, fileCount, fileName, toolNamePrompt) + " "); //$NON-NLS-1$
-		outw.flush();
-		BufferedReader br = inputReader;
-		String line = null;
-		if ((line = br.readLine()) != null) {
-			if (!line.equalsIgnoreCase("Y")) { //$NON-NLS-1$
-				launchCompare = false;
-			}
-		}
-		return launchCompare;
-	}
-
 	private void showToolHelp() throws IOException {
+		Map<String, ExternalDiffTool> predefTools = diffTools
+				.getPredefinedTools(true);
 		StringBuilder availableToolNames = new StringBuilder();
-		for (String name : diffTools.getAvailableTools().keySet()) {
-			availableToolNames.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
-		}
 		StringBuilder notAvailableToolNames = new StringBuilder();
-		for (String name : diffTools.getNotAvailableTools().keySet()) {
-			notAvailableToolNames
-					.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
+		for (String name : predefTools.keySet()) {
+			if (predefTools.get(name).isAvailable()) {
+				availableToolNames.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
+			} else {
+				notAvailableToolNames.append(MessageFormat.format("\t\t{0}\n", name)); //$NON-NLS-1$
+			}
 		}
 		StringBuilder userToolNames = new StringBuilder();
 		Map<String, ExternalDiffTool> userTools = diffTools
@@ -289,12 +322,12 @@ class DiffTool extends TextBuiltin {
 	}
 
 	private FileElement createFileElement(FileElement.Type elementType,
-			Pair pair, Side side, DiffEntry entry)
-			throws NoWorkTreeException, CorruptObjectException, IOException,
-			ToolException {
+			Pair pair, Side side, DiffEntry entry) throws NoWorkTreeException,
+			CorruptObjectException, IOException, ToolException {
 		String entryPath = side == Side.NEW ? entry.getNewPath()
 				: entry.getOldPath();
-		FileElement fileElement = new FileElement(entryPath, elementType);
+		FileElement fileElement = new FileElement(entryPath, elementType,
+				db.getWorkTree());
 		if (!pair.isWorkingTreeSource(side) && !fileElement.isNullPath()) {
 			try (RevWalk revWalk = new RevWalk(db);
 					TreeWalk treeWalk = new TreeWalk(db,
@@ -323,7 +356,8 @@ class DiffTool extends TextBuiltin {
 									fileElement.createTempFile(null)));
 				} else {
 					throw new ToolException("Cannot find path '" + entryPath //$NON-NLS-1$
-							+ "' in staging area!", null); //$NON-NLS-1$
+							+ "' in staging area!", //$NON-NLS-1$
+							null);
 				}
 			}
 		}

@@ -110,6 +110,9 @@ public class ToolException extends Exception {
 	 * @return the result Stderr
 	 */
 	public String getResultStderr() {
+		if (result == null) {
+			return ""; //$NON-NLS-1$
+		}
 		try {
 			return new String(result.getStderr().toByteArray());
 		} catch (Exception e) {
@@ -122,6 +125,9 @@ public class ToolException extends Exception {
 	 * @return the result Stdout
 	 */
 	public String getResultStdout() {
+		if (result == null) {
+			return ""; //$NON-NLS-1$
+		}
 		try {
 			return new String(result.getStdout().toByteArray());
 		} catch (Exception e) {
