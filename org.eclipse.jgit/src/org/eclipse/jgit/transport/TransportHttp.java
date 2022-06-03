@@ -1294,13 +1294,18 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		@Override
-		protected void doFetch(final ProgressMonitor monitor,
-				final Collection<Ref> want, final Set<ObjectId> have,
-				final OutputStream outputStream) throws TransportException {
-			try {
-				svc = new MultiRequestService(SVC_UPLOAD_PACK);
-				init(svc.getInputStream(), svc.getOutputStream());
+		protected void doFetch(ProgressMonitor monitor, Collection<Ref> want,
+				Set<ObjectId> have, OutputStream outputStream)
+				throws TransportException {
+			svc = new MultiRequestService(SVC_UPLOAD_PACK);
+			try (InputStream svcIn = svc.getInputStream();
+					OutputStream svcOut = svc.getOutputStream()) {
+				init(svcIn, svcOut);
 				super.doFetch(monitor, want, have, outputStream);
+			} catch (TransportException e) {
+				throw e;
+			} catch (IOException e) {
+				throw new TransportException(e.getMessage(), e);
 			} finally {
 				svc = null;
 			}
@@ -1324,12 +1329,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		@Override
-		protected void doPush(final ProgressMonitor monitor,
-				final Map<String, RemoteRefUpdate> refUpdates,
+		protected void doPush(ProgressMonitor monitor,
+				Map<String, RemoteRefUpdate> refUpdates,
 				OutputStream outputStream) throws TransportException {
-			final Service svc = new MultiRequestService(SVC_RECEIVE_PACK);
-			init(svc.getInputStream(), svc.getOutputStream());
-			super.doPush(monitor, refUpdates, outputStream);
+			Service svc = new MultiRequestService(SVC_RECEIVE_PACK);
+			try (InputStream svcIn = svc.getInputStream();
+					OutputStream svcOut = svc.getOutputStream()) {
+				init(svcIn, svcOut);
+				super.doPush(monitor, refUpdates, outputStream);
+			} catch (TransportException e) {
+				throw e;
+			} catch (IOException e) {
+				throw new TransportException(e.getMessage(), e);
+			}
 		}
 	}
 
