@@ -67,6 +67,23 @@
       "message": "Thanks.",
       "revId": "2ef2a3562e9aa5c826ce063a2f1d3d8ffef1f0ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2477359c_947f7977",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-04T21:16:45Z",
+      "side": 1,
+      "message": "Thomas, I don\u0027t understand what is missing now.\n\nThe jgit is merged, but p2 repo still has old build.\n\nThe egit gerrit uses https://repo.eclipse.org/content/unzip/snapshots.unzip/org/eclipse/jgit/org.eclipse.jgit.repository/6.2.0-SNAPSHOT/ and there required commits still aren\u0027t there.\n\nDo one need to trigger some deployment job manually? Or is that scheduled once per day? \n\nI would like to see tests in egit gerrit green for https://git.eclipse.org/r/c/egit/egit/+/158679, so we could merge the missing bits for external diff on egit side.",
+      "revId": "2ef2a3562e9aa5c826ce063a2f1d3d8ffef1f0ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
