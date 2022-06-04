@@ -33,6 +33,23 @@
       "message": "Also was there some change that causes now egit gerrit to compile only against 6.2.0 branch snapshots, and not against jgit master?",
       "revId": "2ef2a3562e9aa5c826ce063a2f1d3d8ffef1f0ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb73cdcf_ead46fd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-04T19:50:29Z",
+      "side": 1,
+      "message": "Andrey, merging is fine. Shortly before a release we hava a \"limbo\" state in which both master and stable-6.2 produce 6.2 artifacts. They thus publish to the same location. During that time, EGit may pick up whatever was built last, which may be master or stable-6.2. If you add new API in that phase, you get the problems you saw. Either merging master to stable-6.2 or just retriggering the latest master build resolves the problem.\n\nSoon Matthias will switch master to produce 6.3 artifacts, and from then on you\u0027ll have to explicitly cherry-pick to stable-6.2 (or push to stable-6.2 and then merge to master) anything you still want in 6.2.",
+      "revId": "2ef2a3562e9aa5c826ce063a2f1d3d8ffef1f0ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
