@@ -119,6 +119,24 @@
       "parentUuid": "e13e1bf3_7a289035",
       "revId": "2ef2a3562e9aa5c826ce063a2f1d3d8ffef1f0ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "230c9cc7_0225e8ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-05T07:39:04Z",
+      "side": 1,
+      "message": "Right :-(. Because [1] failed. So that needs to succeed first.\n\n[1] https://ci.eclipse.org/jgit/job/stable/job/jgit.stable-pipeline.java11/60/consoleFull",
+      "parentUuid": "9eafd0ca_21ac9f55",
+      "revId": "2ef2a3562e9aa5c826ce063a2f1d3d8ffef1f0ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
