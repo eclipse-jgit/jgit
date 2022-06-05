@@ -101,6 +101,24 @@
       "message": "You triggered the EGit build right after having merged this. Next time wait until the JGit build is through and has published the resulta.\n\nIf you re-trigger the EGit chang now, it should pick up the correct JGit artifacts.",
       "revId": "2ef2a3562e9aa5c826ce063a2f1d3d8ffef1f0ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eafd0ca_21ac9f55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-05T07:35:23Z",
+      "side": 1,
+      "message": "the timestamps on this content are still from 2 june. \n\nhttps://repo.eclipse.org/content/unzip/snapshots.unzip/org/eclipse/jgit/org.eclipse.jgit.repository/6.2.0-SNAPSHOT/",
+      "parentUuid": "e13e1bf3_7a289035",
+      "revId": "2ef2a3562e9aa5c826ce063a2f1d3d8ffef1f0ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
