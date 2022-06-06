@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.jgit.ssh.apache.agent;singleton:=true
 Bundle-Version: 6.2.0.qualifier
+Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Fragment-Host: org.eclipse.jgit.ssh.apache;bundle-version="[6.2.0,6.3.0)"
 Bundle-ActivationPolicy: lazy
