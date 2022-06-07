@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fa1a70f_5377271e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-06-07T00:59:45Z",
+      "side": 1,
+      "message": "Can this change be made non-private? Or should it be abandoned?",
+      "revId": "8417ebef12d5ae918c55a186c7348ecf5f3458af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
