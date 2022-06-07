@@ -16,6 +16,24 @@
       "message": "Can this change be made non-private? Or should it be abandoned?",
       "revId": "8417ebef12d5ae918c55a186c7348ecf5f3458af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a54d9a36_0d8a3e2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-06-07T08:02:22Z",
+      "side": 1,
+      "message": "I think I am the one to blame it became private (when I uploaded changes on top of it, it became private).\n\nGal is no longer active, so I am not sure it is possible to disable.\nAlso, the tests revealed the other problem, not the test set up, see\nhttps://git.eclipse.org/r/c/jgit/jgit/+/182705/comments/140d578f_fc6c27bb",
+      "parentUuid": "2fa1a70f_5377271e",
+      "revId": "8417ebef12d5ae918c55a186c7348ecf5f3458af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
