@@ -51,6 +51,24 @@
       "parentUuid": "41df086a_c629224d",
       "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b4b5c47_9ec11c65",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-08T07:36:33Z",
+      "side": 1,
+      "message": "Yes, this is also what error prone suggesting:\n\n```\n  Did you mean \u0027outw.println(new String(result.getStdout().toByteArray(), UTF_8));\u0027 or \u0027outw.println(new String(result.getStdout().toByteArray(), Charset.defaultCharset()));\u0027?\norg.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java:290: error: [DefaultCharset] Implicit use of the platform default charset, which can result in differing behaviour between JVM executions or incorrect behavior if the encoding of the data source doesn\u0027t match expectations.\n\t\t\t\t\terrw.println(new String(result.getStderr().toByteArray()));\n\t\t\t\t\t             ^\n    (see https://errorprone.info/bugpattern/DefaultCharset)\n  Did you mean \u0027errw.println(new String(result.getStderr().toByteArray(), UTF_8));\u0027 or \u0027errw.println(new String(result.getStderr().toByteArray(), Charset.defaultCharset()));\u0027?\nTarget //:all failed to build\nUse --verbose_failures to see the command lines of failed build steps.\nINFO: Elapsed time: 1.875s, Critical Path: 1.77s\nINFO: 2 processes: 2 internal.\nFAILED: Build did NOT complete successfully\n```",
+      "parentUuid": "1b41b583_397d6924",
+      "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
