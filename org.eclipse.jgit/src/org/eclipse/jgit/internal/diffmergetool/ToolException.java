@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.diffmergetool;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import org.eclipse.jgit.util.FS.ExecutionResult;
 
 import org.slf4j.Logger;
@@ -114,7 +116,7 @@ public class ToolException extends Exception {
 			return ""; //$NON-NLS-1$
 		}
 		try {
-			return new String(result.getStderr().toByteArray());
+			return new String(result.getStderr().toByteArray(), UTF_8);
 		} catch (Exception e) {
 			LOG.warn("Failed to retrieve standard error output", e); //$NON-NLS-1$
 		}
@@ -129,7 +131,7 @@ public class ToolException extends Exception {
 			return ""; //$NON-NLS-1$
 		}
 		try {
-			return new String(result.getStdout().toByteArray());
+			return new String(result.getStdout().toByteArray(), UTF_8);
 		} catch (Exception e) {
 			LOG.warn("Failed to retrieve standard output", e); //$NON-NLS-1$
 		}

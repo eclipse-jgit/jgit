@@ -11,6 +11,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
 import java.io.BufferedReader;
@@ -108,7 +109,7 @@ class MergeTool extends TextBuiltin {
 	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		mergeTools = new MergeTools(repository);
-		inputReader = new BufferedReader(new InputStreamReader(ins));
+		inputReader = new BufferedReader(new InputStreamReader(ins, UTF_8));
 	}
 
 	enum MergeResult {
@@ -285,9 +286,9 @@ class MergeTool extends TextBuiltin {
 						gui, this::promptForLaunch, this::informUserNoTool);
 				if (optionalResult.isPresent()) {
 					ExecutionResult result = optionalResult.get();
-					outw.println(new String(result.getStdout().toByteArray()));
+					outw.println(new String(result.getStdout().toByteArray(), UTF_8));
 					outw.flush();
-					errw.println(new String(result.getStderr().toByteArray()));
+					errw.println(new String(result.getStderr().toByteArray(), UTF_8));
 					errw.flush();
 				} else {
 					return MergeResult.ABORTED;

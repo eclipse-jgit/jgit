@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.diffmergetool;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -87,7 +89,7 @@ public class CommandExecutor {
 									+ "execError: " + execError + "\n" //$NON-NLS-1$ //$NON-NLS-2$
 									+ "stderr: \n" //$NON-NLS-1$
 									+ new String(
-											result.getStderr().toByteArray()),
+											result.getStderr().toByteArray(), UTF_8),
 							result, execError);
 				}
 			}
@@ -202,7 +204,7 @@ public class CommandExecutor {
 		commandFile = File.createTempFile(".__", //$NON-NLS-1$
 				"__jgit_tool" + fileExtension); //$NON-NLS-1$
 		try (OutputStream outStream = new FileOutputStream(commandFile)) {
-			byte[] strToBytes = command.getBytes();
+			byte[] strToBytes = command.getBytes(UTF_8);
 			outStream.write(strToBytes);
 			outStream.close();
 		}

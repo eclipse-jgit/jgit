@@ -11,6 +11,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
@@ -244,10 +245,10 @@ class DiffTool extends TextBuiltin {
 						// to jgit / java runtime ?
 						// int rc =...
 						outw.println(
-								new String(result.getStdout().toByteArray()));
+								new String(result.getStdout().toByteArray(), UTF_8));
 						outw.flush();
 						errw.println(
-								new String(result.getStderr().toByteArray()));
+								new String(result.getStderr().toByteArray(), UTF_8));
 						errw.flush();
 					}
 				} catch (ToolException e) {
