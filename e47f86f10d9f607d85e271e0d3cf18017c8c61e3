@@ -50,6 +50,24 @@
       "message": "This is actually results in same string, just in a bit more verbose way. Wouldn\u0027t an annotation for error prone be better?",
       "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb11590c_6784c85f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/ToolException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-08T21:25:26Z",
+      "side": 1,
+      "message": "As of Java 17, not passing a charset would use UTF-8 here.",
+      "parentUuid": "941cc72a_08da37ee",
+      "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
