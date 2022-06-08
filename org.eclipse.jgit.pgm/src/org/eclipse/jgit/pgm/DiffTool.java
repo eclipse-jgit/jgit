@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.List;
@@ -63,6 +64,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -243,11 +245,15 @@ class DiffTool extends TextBuiltin {
 						// TODO: check how to return the exit-code of the tool
 						// to jgit / java runtime ?
 						// int rc =...
+						Charset defaultCharset = SystemReader.getInstance()
+								.getDefaultCharset();
 						outw.println(
-								new String(result.getStdout().toByteArray()));
+								new String(result.getStdout().toByteArray(),
+										defaultCharset));
 						outw.flush();
 						errw.println(
-								new String(result.getStderr().toByteArray()));
+								new String(result.getStderr().toByteArray(),
+										defaultCharset));
 						errw.flush();
 					}
 				} catch (ToolException e) {
