@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e93feff_c222d815",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-08T20:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff9694da_2b2a195c",
+      "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41df086a_c629224d",
@@ -85,6 +103,24 @@
       "side": 1,
       "message": "No, do _not_ use Charset.defaultCharset(). errorprone is wrong here. As of JEP 400 (Java 17), Charset.defaultCharset() is _always_ UTF_8.\n\nUse SystemReader.getInstance().getDefaultCharset() if dealing with input/output to external processes.\n\nAs of Java 17 there is also Console.charset(), but that uses system property \"sun.stdout.encoding\", which doesn\u0027t seem to be related to \"native.encoding\".",
       "parentUuid": "7b4b5c47_9ec11c65",
+      "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e359d02c_8355b54a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-08T20:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3453521d_6fb8991e",
       "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
