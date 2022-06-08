@@ -77,7 +77,7 @@ public class HookTest extends RepositoryTestCase {
 					"Rejected by \"commit-msg\" hook.\nstderr\n",
 					e.getMessage());
 			assertEquals("unexpected output from commit-msg hook", "test\n",
-					out.toString());
+					out.toString("UTF-8"));
 		}
 	}
 
@@ -310,7 +310,7 @@ public class HookTest extends RepositoryTestCase {
 					"Rejected by \"pre-commit\" hook.\nstderr\n",
 					e.getMessage());
 			assertEquals("unexpected output from pre-commit hook", "test\n",
-					out.toString());
+					out.toString("UTF-8"));
 		}
 	}
 
