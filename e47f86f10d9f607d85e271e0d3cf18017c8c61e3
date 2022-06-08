@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26b91f3_18c6a4e8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-08T20:57:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t that be also changed to system one?",
+      "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce53be29_e34ba551",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-08T20:57:06Z",
+      "side": 1,
+      "message": "Why do we use utf-8 here? If ai read it right, command is constructed from file paths that read from system in system encoding?",
+      "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "941cc72a_08da37ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/ToolException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-08T20:57:06Z",
+      "side": 1,
+      "message": "This is actually results in same string, just in a bit more verbose way. Wouldn\u0027t an annotation for error prone be better?",
+      "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
