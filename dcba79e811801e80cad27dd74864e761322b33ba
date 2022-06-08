@@ -33,6 +33,24 @@
       "message": "I might be wrong, but this change would break system encoded output converting it to utf8.",
       "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b41b583_397d6924",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-08T07:16:37Z",
+      "side": 1,
+      "message": "Alternatively use SystemReader.getInstance().getDefaultCharset().",
+      "parentUuid": "41df086a_c629224d",
+      "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
