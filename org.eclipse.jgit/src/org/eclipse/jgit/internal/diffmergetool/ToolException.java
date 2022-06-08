@@ -11,7 +11,7 @@
 package org.eclipse.jgit.internal.diffmergetool;
 
 import org.eclipse.jgit.util.FS.ExecutionResult;
-
+import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,7 +114,8 @@ public class ToolException extends Exception {
 			return ""; //$NON-NLS-1$
 		}
 		try {
-			return new String(result.getStderr().toByteArray());
+			return new String(result.getStderr().toByteArray(),
+					SystemReader.getInstance().getDefaultCharset());
 		} catch (Exception e) {
 			LOG.warn("Failed to retrieve standard error output", e); //$NON-NLS-1$
 		}
@@ -129,7 +130,8 @@ public class ToolException extends Exception {
 			return ""; //$NON-NLS-1$
 		}
 		try {
-			return new String(result.getStdout().toByteArray());
+			return new String(result.getStdout().toByteArray(),
+					SystemReader.getInstance().getDefaultCharset());
 		} catch (Exception e) {
 			LOG.warn("Failed to retrieve standard output", e); //$NON-NLS-1$
 		}

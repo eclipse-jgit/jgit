@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
@@ -108,7 +110,9 @@ class MergeTool extends TextBuiltin {
 	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		mergeTools = new MergeTools(repository);
-		inputReader = new BufferedReader(new InputStreamReader(ins));
+		inputReader = new BufferedReader(
+				new InputStreamReader(ins,
+						SystemReader.getInstance().getDefaultCharset()));
 	}
 
 	enum MergeResult {
@@ -285,9 +289,13 @@ class MergeTool extends TextBuiltin {
 						gui, this::promptForLaunch, this::informUserNoTool);
 				if (optionalResult.isPresent()) {
 					ExecutionResult result = optionalResult.get();
-					outw.println(new String(result.getStdout().toByteArray()));
+					Charset defaultCharset = SystemReader.getInstance()
+							.getDefaultCharset();
+					outw.println(new String(result.getStdout().toByteArray(),
+							defaultCharset));
 					outw.flush();
-					errw.println(new String(result.getStderr().toByteArray()));
+					errw.println(new String(result.getStderr().toByteArray(),
+							defaultCharset));
 					errw.flush();
 				} else {
 					return MergeResult.ABORTED;
