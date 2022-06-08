@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff9694da_2b2a195c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-08T05:28:15Z",
+      "side": 1,
+      "message": "The code in question reads *system specific* input from processes and writes it back to the system output. Conversion here would break that.\n\nI believe adding suppression annotations is the right solution here. ",
+      "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41df086a_c629224d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/DiffTool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-06-08T05:28:15Z",
+      "side": 1,
+      "message": "I might be wrong, but this change would break system encoded output converting it to utf8.",
+      "revId": "dcba79e811801e80cad27dd74864e761322b33ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
