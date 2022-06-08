@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
@@ -77,7 +78,7 @@ public class HookTest extends RepositoryTestCase {
 					"Rejected by \"commit-msg\" hook.\nstderr\n",
 					e.getMessage());
 			assertEquals("unexpected output from commit-msg hook", "test\n",
-					out.toString());
+					out.toString(UTF_8));
 		}
 	}
 
@@ -95,7 +96,7 @@ public class HookTest extends RepositoryTestCase {
 		git.commit().setMessage("commit")
 				.setHookOutputStream(new PrintStream(out)).call();
 		assertEquals(".git/COMMIT_EDITMSG\n",
-				out.toString("UTF-8"));
+				out.toString(UTF_8));
 	}
 
 	@Test
@@ -129,9 +130,9 @@ public class HookTest extends RepositoryTestCase {
 				new PrintStream(out), new PrintStream(err), "stdin");
 
 		assertEquals("unexpected hook output", "test arg1 arg2\nstdin\n",
-				out.toString("UTF-8"));
+				out.toString(UTF_8));
 		assertEquals("unexpected output on stderr stream", "stderr\n",
-				err.toString("UTF-8"));
+				err.toString(UTF_8));
 		assertEquals("unexpected exit code", 0, res.getExitCode());
 		assertEquals("unexpected process status", ProcessResult.Status.OK,
 				res.getStatus());
@@ -160,7 +161,7 @@ public class HookTest extends RepositoryTestCase {
 		}
 		assertEquals("unexpected hook output",
 				"test pre-commit\ntest commit-msg .git/COMMIT_EDITMSG\ntest post-commit\n",
-				out.toString("UTF-8"));
+				out.toString(UTF_8));
 	}
 
 	@Test
@@ -181,9 +182,9 @@ public class HookTest extends RepositoryTestCase {
 		assertEquals("unexpected hook output",
 				"test arg1 arg2\nstdin\n" + db.getDirectory().getAbsolutePath()
 						+ '\n' + db.getWorkTree().getAbsolutePath() + '\n',
-				out.toString("UTF-8"));
+				out.toString(UTF_8));
 		assertEquals("unexpected output on stderr stream", "stderr\n",
-				err.toString("UTF-8"));
+				err.toString(UTF_8));
 		assertEquals("unexpected exit code", 0, res.getExitCode());
 		assertEquals("unexpected process status", ProcessResult.Status.OK,
 				res.getStatus());
@@ -214,9 +215,9 @@ public class HookTest extends RepositoryTestCase {
 					"test arg1 arg2\nstdin\n"
 							+ db.getDirectory().getAbsolutePath() + '\n'
 							+ db.getWorkTree().getAbsolutePath() + '\n',
-					out.toString("UTF-8"));
+					out.toString(UTF_8));
 			assertEquals("unexpected output on stderr stream", "stderr\n",
-					err.toString("UTF-8"));
+					err.toString(UTF_8));
 			assertEquals("unexpected exit code", 0, res.getExitCode());
 			assertEquals("unexpected process status", ProcessResult.Status.OK,
 					res.getStatus());
@@ -249,9 +250,9 @@ public class HookTest extends RepositoryTestCase {
 					"test arg1 arg2\nstdin\n"
 							+ db.getDirectory().getAbsolutePath() + '\n'
 							+ db.getWorkTree().getAbsolutePath() + '\n',
-					out.toString("UTF-8"));
+					out.toString(UTF_8));
 			assertEquals("unexpected output on stderr stream", "stderr\n",
-					err.toString("UTF-8"));
+					err.toString(UTF_8));
 			assertEquals("unexpected exit code", 0, res.getExitCode());
 			assertEquals("unexpected process status", ProcessResult.Status.OK,
 					res.getStatus());
@@ -281,9 +282,9 @@ public class HookTest extends RepositoryTestCase {
 					"test arg1 arg2\nstdin\n"
 							+ db.getDirectory().getAbsolutePath() + '\n'
 							+ db.getWorkTree().getAbsolutePath() + '\n',
-					out.toString("UTF-8"));
+					out.toString(UTF_8));
 			assertEquals("unexpected output on stderr stream", "stderr\n",
-					err.toString("UTF-8"));
+					err.toString(UTF_8));
 			assertEquals("unexpected exit code", 0, res.getExitCode());
 			assertEquals("unexpected process status", ProcessResult.Status.OK,
 					res.getStatus());
@@ -310,7 +311,7 @@ public class HookTest extends RepositoryTestCase {
 					"Rejected by \"pre-commit\" hook.\nstderr\n",
 					e.getMessage());
 			assertEquals("unexpected output from pre-commit hook", "test\n",
-					out.toString());
+					out.toString(UTF_8));
 		}
 	}
 

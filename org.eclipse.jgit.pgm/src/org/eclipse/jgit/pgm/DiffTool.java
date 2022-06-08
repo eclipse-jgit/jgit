@@ -244,11 +244,15 @@ class DiffTool extends TextBuiltin {
 						// TODO: check how to return the exit-code of the tool
 						// to jgit / java runtime ?
 						// int rc =...
+						Charset defaultCharset = SystemReader.getInstance()
+								.getDefaultCharset();
 						outw.println(
-								new String(result.getStdout().toByteArray()));
+								new String(result.getStdout().toByteArray(),
+										defaultCharset));
 						outw.flush();
 						errw.println(
-								new String(result.getStderr().toByteArray()));
+								new String(result.getStderr().toByteArray(),
+										defaultCharset));
 						errw.flush();
 					}
 				} catch (ToolException e) {
