@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c5371f5_302c0ed5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-09T09:35:32Z",
+      "side": 1,
+      "message": "There are no unit-tests (or at least I haven\u0027t found them) of the FetchProcess. Because the external behaviour doesn\u0027t change, testing it E2E isn\u0027t different from what we are testing now.\n\nHow would you approach such a test?",
+      "parentUuid": "bb7fbedb_6fbbacc4",
+      "revId": "3293621516c74fe283f698eccf622e0f2f402edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "38d7ada3_477d977b",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-06-09T09:21:27Z",
       "side": 1,
       "message": "Add a comment why this earlier return justifies, because it doesn\u0027t make sense for reachability check for non commit object?",
+      "range": {
+        "startLine": 384,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 27
+      },
+      "revId": "3293621516c74fe283f698eccf622e0f2f402edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d65d396_4c138f6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-09T09:35:32Z",
+      "side": 1,
+      "message": "Done, also removed the early return which is making the reading of the code less fluent.",
+      "parentUuid": "8d16fdfe_bbaac9c6",
       "range": {
         "startLine": 384,
         "startChar": 4,
