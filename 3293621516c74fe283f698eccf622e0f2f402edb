@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb7fbedb_6fbbacc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-09T09:21:27Z",
+      "side": 1,
+      "message": "Would it be easily possible to add a test for it? Fetch non commit object and verify, that reachability check was skipped?",
+      "revId": "3293621516c74fe283f698eccf622e0f2f402edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "38d7ada3_477d977b",
@@ -14,6 +31,29 @@
       "writtenOn": "2022-06-09T07:58:30Z",
       "side": 1,
       "message": "@David @Marcin what do you think?",
+      "revId": "3293621516c74fe283f698eccf622e0f2f402edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d16fdfe_bbaac9c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-09T09:21:27Z",
+      "side": 1,
+      "message": "Add a comment why this earlier return justifies, because it doesn\u0027t make sense for reachability check for non commit object?",
+      "range": {
+        "startLine": 384,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 27
+      },
       "revId": "3293621516c74fe283f698eccf622e0f2f402edb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
