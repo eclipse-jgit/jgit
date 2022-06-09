@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "beaff4e5_684705fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-09T07:55:59Z",
+      "side": 1,
+      "message": "Done, could you re-read and tell me if it is clearer now?",
+      "parentUuid": "dec4c5f1_d25933af",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e216a31d_a890062c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-19T21:46:09Z",
       "side": 1,
       "message": "I think this optimization is independent of what gerrit did before. It is not really about skipping duplicated work (or at least not jgits duplicated work!).\n\nMaybe just explain that if the want is the tip of a refs known to the caller, it is reachable and there is no need of a reachability check.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd7662a_daebbb6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-09T07:55:59Z",
+      "side": 1,
+      "message": "Done, removed references to Gerrit.",
+      "parentUuid": "e216a31d_a890062c",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d046ac6e_edf1a2d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-09T07:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43c314e1_d34703ad",
+      "range": {
+        "startLine": 1980,
+        "startChar": 18,
+        "endLine": 1980,
+        "endChar": 23
+      },
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e1283f8_c9daf5cf",
@@ -87,6 +159,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e26228df_b2f3e190",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1984,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-09T07:55:59Z",
+      "side": 1,
+      "message": "Good catch, done.",
+      "parentUuid": "2e1283f8_c9daf5cf",
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f7da5cf_60cf03cb",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-05-19T21:46:09Z",
       "side": 1,
       "message": "what about \"nonTipWants\"? we still don\u0027t know if they are visible or not.",
+      "range": {
+        "startLine": 1986,
+        "startChar": 17,
+        "endLine": 1986,
+        "endChar": 40
+      },
+      "revId": "93a5c3a4fb544385f7c19e375381e91675c6464c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f57ef353_6962cf4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1986,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-09T07:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f7da5cf_60cf03cb",
       "range": {
         "startLine": 1986,
         "startChar": 17,
