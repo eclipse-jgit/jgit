@@ -205,6 +205,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aecb7ef_fb44fca4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-09T14:04:47Z",
+      "side": 1,
+      "message": "Sure, good idea, but not in the clone command test though, as it isn\u0027t technically a clone. Maybe adding it to FetchCommandTest could be a better place.",
+      "parentUuid": "d5799fc5_e2c250cb",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fff03f2_6299ac23",
