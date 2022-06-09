@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9bdbd15_c8eb05b0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-09T10:37:40Z",
+      "side": 1,
+      "message": "In DiffTool UTF-8 encoding was explicitly used. Should be addressed in change: [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/194019",
+      "range": {
+        "startLine": 92,
+        "startChar": 35,
+        "endLine": 92,
+        "endChar": 61
+      },
+      "revId": "eaf4d500b886a7e776f50bf53497fe463e714b25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
