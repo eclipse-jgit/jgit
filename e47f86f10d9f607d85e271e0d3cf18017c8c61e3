@@ -216,6 +216,24 @@
       "parentUuid": "cb11590c_6784c85f",
       "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd1b7403_837fa213",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/ToolException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-09T12:30:27Z",
+      "side": 1,
+      "message": "\u003e Well, we could remove it, once Java 18 is more widely used, and/or Error Prone adjusted the bug pattern.\n\nNot sure that would be the right way. Just because JEP 400 changes the default charset *in Java* to UTF-8, the Java program can still be run in a non-UTF8 locale, and the launched external program may not be Java (or run on an older Java version) and actually produce output in some charset depending on the locale set when it was started. Hence I believe I/O to/from external programs need to use a charset that depends on the locale. Closest approximation that we have for that is the \"native.encoding\" property specified in JEP 400, which is used by SystemReader.getInstance().getDefaultCharset().\n\n(Of course, if it is known that an external process always produces UTF-8, then using UTF-8 is fine. GPG is such an example; its stderr is always UTF-8. (But not necessarily its stdout.))\n\nI think having these implicit reliances on a default charset flagged is correct.\n\nCompare also bug 579383 in Eclipse Platform: looks like the Eclipse Console also gets tripped up somehow by JEP 400.",
+      "parentUuid": "81d89e75_90575c94",
+      "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
