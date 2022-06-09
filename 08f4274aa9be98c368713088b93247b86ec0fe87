@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8070e6da_e5ddbfb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-09T14:34:52Z",
+      "side": 1,
+      "message": "Remove this, an optionally reference this optimization commit: [1].\n\n[1] https://github.com/git/git/commit/58f233ce1ed67bbc31a429fde5c65d5050fdbd7d",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "08f4274aa9be98c368713088b93247b86ec0fe87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8c26e502_f8eac83d",
@@ -14,6 +37,52 @@
       "writtenOn": "2022-06-09T14:06:17Z",
       "side": 1,
       "message": "@Matthias thanks a lot for the comprehensive review, apologies for coming back to you so late. \n\n@DavidO could you also double-check and provide your view on this change?",
+      "revId": "08f4274aa9be98c368713088b93247b86ec0fe87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e00eacba_99f563b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-09T14:34:52Z",
+      "side": 1,
+      "message": "Would it make sense to reference here the C-Git commit: [1] and emphasize, that skipping reflog on clone is the same optimization that is done in C-Git impementation?\n\n[1] https://github.com/git/git/commit/58f233ce1ed67bbc31a429fde5c65d5050fdbd7d",
+      "range": {
+        "startLine": 210,
+        "startChar": 2,
+        "endLine": 210,
+        "endChar": 74
+      },
+      "revId": "08f4274aa9be98c368713088b93247b86ec0fe87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f910ed_eafc43ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-09T14:34:52Z",
+      "side": 1,
+      "message": "Nit: Missing blank.",
+      "range": {
+        "startLine": 211,
+        "startChar": 2,
+        "endLine": 211,
+        "endChar": 4
+      },
       "revId": "08f4274aa9be98c368713088b93247b86ec0fe87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
