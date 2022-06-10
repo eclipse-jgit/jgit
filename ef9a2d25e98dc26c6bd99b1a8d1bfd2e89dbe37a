@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7819a69_2a9d822e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-10T10:49:36Z",
+      "side": 1,
+      "message": "One note: the list of remote refs is still different between the C Git and JGit implementation, because of https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d580128.\n\nThe focus of this change *IS NOT* to fix Bug 580128, I\u0027ll file a separate change for that if @Matthias agrees.",
+      "revId": "ef9a2d25e98dc26c6bd99b1a8d1bfd2e89dbe37a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
