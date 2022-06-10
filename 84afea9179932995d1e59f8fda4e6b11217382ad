@@ -1,6 +1,47 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "86b0678e_ad184aed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-10T22:22:29Z",
+      "side": 1,
+      "message": "Possibly a 80k refs repository was considered *large* back in 2013.\nNowadays there are repositories with millions of refs (e.g. Chromium) and the static bucketing at 1000 commits isn\u0027t working anymore.\n\nWith a 2M refs repository, we\u0027ll end up building the index 2000 times !!!!",
+      "range": {
+        "startLine": 39,
+        "startChar": 44,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "84afea9179932995d1e59f8fda4e6b11217382ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb450e9_ebd71c5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-10T22:22:29Z",
+      "side": 1,
+      "message": "Post-merge Code-Review -1",
+      "revId": "84afea9179932995d1e59f8fda4e6b11217382ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "AABOPX//9EQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
@@ -14,10 +55,10 @@
       "side": 1,
       "message": "There appears to be a bug here, but I don\u0027t think it can arise in practice.\n\nWith low \u003e\u003d first and --low in the loop we could decrement low to be earlier than first and attempt to load index[-1] or set q to null. However this cannot happen because we already tested in the if block above that index[first] \u003e when. Thus we are never equal when low\u003d\u003dfirst and we won\u0027t hit this bug.",
       "revId": "84afea9179932995d1e59f8fda4e6b11217382ad",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": false
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "AABOPX//9D4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
@@ -32,8 +73,7 @@
       "message": "https://git.eclipse.org/r/#/c/10626/",
       "parentUuid": "AABOPX//9EQ\u003d",
       "revId": "84afea9179932995d1e59f8fda4e6b11217382ad",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": false
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
