@@ -103,7 +103,7 @@ public class DiffTools {
 	 * @param noToolHandler
 	 *            The handler to use when needing to inform the user, that no
 	 *            tool is configured.
-	 * @return the optioanl result of executing the tool if it was executed
+	 * @return the optional result of executing the tool if it was executed
 	 * @throws ToolException
 	 *             when the tool fails
 	 */
