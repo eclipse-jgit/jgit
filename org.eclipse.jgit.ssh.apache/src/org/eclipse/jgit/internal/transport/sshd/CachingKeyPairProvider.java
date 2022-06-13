@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,6 +11,7 @@ package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -19,18 +20,24 @@ import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CancellationException;
 
 import javax.security.auth.DestroyFailedException;
 
+import org.apache.sshd.common.AttributeRepository.AttributeKey;
+import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
+import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.util.io.resource.IoResource;
@@ -42,6 +49,14 @@ import org.eclipse.jgit.transport.sshd.KeyCache;
  */
 public class CachingKeyPairProvider extends FileKeyPairProvider
 		implements Iterable<KeyPair> {
+
+	/**
+	 * An attribute set on the {@link SessionContext} recording loaded keys by
+	 * fingerprint. This enables us to provide nicer output by showing key
+	 * paths, if possible. Users can identify key identities used easier by
+	 * filename than by fingerprint.
+	 */
+	public static final AttributeKey<Map<String, Path>> KEY_PATHS_BY_FINGERPRINT = new AttributeKey<>();
 
 	private final KeyCache cache;
 
@@ -76,6 +91,33 @@ public class CachingKeyPairProvider extends FileKeyPairProvider
 	@Override
 	public Iterable<KeyPair> loadKeys(SessionContext session) {
 		return () -> iterator(session);
+	}
+
+	static String getKeyId(ClientSession session, KeyPair identity) {
+		String fingerprint = KeyUtils.getFingerPrint(identity.getPublic());
+		Map<String, Path> registered = session
+				.getAttribute(KEY_PATHS_BY_FINGERPRINT);
+		if (registered != null) {
+			Path path = registered.get(fingerprint);
+			if (path != null) {
+				Path home = session
+						.resolveAttribute(JGitSshClient.HOME_DIRECTORY);
+				if (home != null && path.startsWith(home)) {
+					try {
+						path = home.relativize(path);
+						String pathString = path.toString();
+						if (!pathString.isEmpty()) {
+							return "~" + File.separator + pathString; //$NON-NLS-1$
+						}
+					} catch (IllegalArgumentException e) {
+						// Cannot be relativized. Ignore, and work with the
+						// original path
+					}
+				}
+				return path.toString();
+			}
+		}
+		return fingerprint;
 	}
 
 	private KeyPair loadKey(SessionContext session, Path path)
@@ -123,13 +165,23 @@ public class CachingKeyPairProvider extends FileKeyPairProvider
 						SshdText.get().identityFileUnsupportedFormat, path));
 			}
 			KeyPair result = keys.next();
+			PublicKey pk = result.getPublic();
+			if (pk != null) {
+				Map<String, Path> registered = session
+						.getAttribute(KEY_PATHS_BY_FINGERPRINT);
+				if (registered == null) {
+					registered = new HashMap<>();
+					session.setAttribute(KEY_PATHS_BY_FINGERPRINT, registered);
+				}
+				registered.put(KeyUtils.getFingerPrint(pk), path);
+			}
 			if (keys.hasNext()) {
 				log.warn(format(SshdText.get().identityFileMultipleKeys, path));
 				keys.forEachRemaining(k -> {
-					PrivateKey pk = k.getPrivate();
-					if (pk != null) {
+					PrivateKey priv = k.getPrivate();
+					if (priv != null) {
 						try {
-							pk.destroy();
+							priv.destroy();
 						} catch (DestroyFailedException e) {
 							// Ignore
 						}

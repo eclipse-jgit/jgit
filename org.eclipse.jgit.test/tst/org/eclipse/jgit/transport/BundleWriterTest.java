@@ -80,6 +80,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		// Then we clone a new repo from that bundle and do a simple test. This
 		// makes sure we could read the bundle we created.
 		Repository newRepo = createBareRepository();
+		addRepoToClose(newRepo);
 		FetchResult fetchResult = fetchFromBundle(newRepo, bundle);
 		Ref advertisedRef = fetchResult
 				.getAdvertisedRef("refs/heads/firstcommit");
@@ -116,6 +117,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		// makes sure
 		// we could read the bundle we created.
 		Repository newRepo = createBareRepository();
+		addRepoToClose(newRepo);
 		FetchResult fetchResult = fetchFromBundle(newRepo, bundle);
 		Ref advertisedRef = fetchResult.getAdvertisedRef("refs/heads/aa");
 

@@ -73,11 +73,14 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		super.setUp();
 
 		src = createBareRepository();
+		addRepoToClose(src);
 		dst = createBareRepository();
+		addRepoToClose(dst);
 
 		// Fill dst with a some common history.
 		//
 		try (TestRepository<Repository> d = new TestRepository<>(dst)) {
+			dst.incrementOpen();
 			a = d.blob("a");
 			A = d.commit(d.tree(d.file("a", a)));
 			B = d.commit().parent(A).create();
@@ -106,9 +109,6 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 				dst.getDirectory()) {
 			@Override
 			ReceivePack createReceivePack(Repository db) {
-				db.close();
-				dst.incrementOpen();
-
 				final ReceivePack rp = super.createReceivePack(dst);
 				rp.setAdvertiseRefsHook(new HidePrivateHook());
 				return rp;
@@ -136,8 +136,6 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 				dst.getDirectory()) {
 			@Override
 			ReceivePack createReceivePack(Repository db) {
-				dst.incrementOpen();
-
 				ReceivePack rp = super.createReceivePack(dst);
 				rp.setAdvertiseRefsHook(new AdvertiseRefsHook() {
 					@Override
@@ -173,9 +171,6 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		return new TransportLocal(src, uriOf(dst), dst.getDirectory()) {
 			@Override
 			ReceivePack createReceivePack(Repository db) {
-				db.close();
-				dst.incrementOpen();
-
 				final ReceivePack rp = super.createReceivePack(dst);
 				rp.setCheckReceivedObjects(true);
 				rp.setCheckReferencedObjectsAreReachable(true);
@@ -211,6 +206,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		// Now use b but in a different commit than what is hidden.
 		//
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
+			src.incrementOpen();
 			RevCommit N = s.commit().parent(B).add("q", b).create();
 			s.update(R_MASTER, N);
 
@@ -228,7 +224,6 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			try (TransportLocal t = newTransportLocalWithStrictValidation()) {
 				t.setPushThin(true);
 				r = t.push(PM, Collections.singleton(u));
-				dst.close();
 			}
 
 			assertNotNull("have result", r);
@@ -290,6 +285,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	public void testUsingHiddenDeltaBaseFails() throws Exception {
 		byte[] delta = { 0x1, 0x1, 0x1, 'c' };
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
+			src.incrementOpen();
 			RevCommit N = s.commit().parent(B)
 					.add("q",
 							s.blob(BinaryDelta.apply(
@@ -348,6 +344,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		// Try to use the 'b' blob that is hidden.
 		//
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
+			src.incrementOpen();
 			RevCommit N = s.commit().parent(B).add("q", s.blob("b")).create();
 
 			// But don't include it in the pack.
@@ -401,6 +398,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		// Try to use the 'n' blob that is not on the server.
 		//
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
+			src.incrementOpen();
 			RevBlob n = s.blob("n");
 			RevCommit N = s.commit().parent(B).add("q", n).create();
 
@@ -491,6 +489,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 				.toString();
 
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
+			src.incrementOpen();
 			RevBlob blob = s.blob(fakeGitmodules);
 			RevCommit N = s.commit().parent(B).add(".gitmodules", blob)
 					.create();
@@ -517,6 +516,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	@Test
 	public void testUsingUnknownTreeFails() throws Exception {
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
+			src.incrementOpen();
 			RevCommit N = s.commit().parent(B).add("q", s.blob("a")).create();
 			RevTree t = s.parseBody(N).getTree();
 

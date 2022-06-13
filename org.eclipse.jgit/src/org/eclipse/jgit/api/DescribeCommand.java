@@ -11,6 +11,7 @@ package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
+import static org.eclipse.jgit.lib.TypedConfigGetter.UNSET_INT;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -33,6 +34,7 @@ import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.AbbrevConfig;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -87,6 +89,11 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Whether to show a uniquely abbreviated commit hash as a fallback or not.
 	 */
 	private boolean always;
+
+	/**
+	 * The prefix length to use when abbreviating a commit hash.
+	 */
+	private int abbrev = UNSET_INT;
 
 	/**
 	 * Constructor for DescribeCommand.
@@ -205,12 +212,33 @@ public class DescribeCommand extends GitCommand<String> {
 		return this;
 	}
 
+	/**
+	 * Sets the prefix length to use when abbreviating an object SHA-1.
+	 *
+	 * @param abbrev
+	 *            minimum length of the abbreviated string. Must be in the range
+	 *            [{@value AbbrevConfig#MIN_ABBREV},
+	 *            {@value Constants#OBJECT_ID_STRING_LENGTH}].
+	 * @return {@code this}
+	 * @since 6.1
+	 */
+	public DescribeCommand setAbbrev(int abbrev) {
+		if (abbrev == 0) {
+			this.abbrev = 0;
+		} else {
+			this.abbrev = AbbrevConfig.capAbbrev(abbrev);
+		}
+		return this;
+	}
+
 	private String longDescription(Ref tag, int depth, ObjectId tip)
 			throws IOException {
-		return String.format(
-				"%s-%d-g%s", formatRefName(tag.getName()), //$NON-NLS-1$
-				Integer.valueOf(depth), w.getObjectReader().abbreviate(tip)
-						.name());
+		if (abbrev == 0) {
+			return formatRefName(tag.getName());
+		}
+		return String.format("%s-%d-g%s", formatRefName(tag.getName()), //$NON-NLS-1$
+				Integer.valueOf(depth),
+				w.getObjectReader().abbreviate(tip, abbrev).name());
 	}
 
 	/**
@@ -301,6 +329,9 @@ public class DescribeCommand extends GitCommand<String> {
 			checkCallable();
 			if (target == null) {
 				setTarget(Constants.HEAD);
+			}
+			if (abbrev == UNSET_INT) {
+				abbrev = AbbrevConfig.parseFromConfig(repo).get();
 			}
 
 			Collection<Ref> tagList = repo.getRefDatabase()
@@ -413,7 +444,12 @@ public class DescribeCommand extends GitCommand<String> {
 
 			// if all the nodes are dominated by all the tags, the walk stops
 			if (candidates.isEmpty()) {
-				return always ? w.getObjectReader().abbreviate(target).name() : null;
+				return always
+						? w.getObjectReader()
+								.abbreviate(target,
+										AbbrevConfig.capAbbrev(abbrev))
+								.name()
+						: null;
 			}
 
 			Candidate best = Collections.min(candidates,

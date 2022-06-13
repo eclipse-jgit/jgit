@@ -138,6 +138,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 *            the commit to test.
 	 * @return true if the given commit built on top of this commit.
 	 */
+	@SuppressWarnings("ReferenceEquality")
 	public final boolean isChild(PlotCommit c) {
 		for (PlotCommit a : children)
 			if (a == c)

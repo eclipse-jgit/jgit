@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -139,7 +139,7 @@ public class ObjectWalk extends RevWalk {
 	 *            the repository the walker will obtain data from.
 	 */
 	public ObjectWalk(Repository repo) {
-		this(repo.newObjectReader());
+		this(repo.newObjectReader(), true);
 	}
 
 	/**
@@ -151,7 +151,11 @@ public class ObjectWalk extends RevWalk {
 	 *            required.
 	 */
 	public ObjectWalk(ObjectReader or) {
-		super(or);
+		this(or, false);
+	}
+
+	private ObjectWalk(ObjectReader or, boolean closeReader) {
+		super(or, closeReader);
 		setRetainBody(false);
 		rootObjects = new ArrayList<>();
 		pendingObjects = new BlockObjQueue();

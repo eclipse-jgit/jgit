@@ -1177,7 +1177,7 @@ public class ConfigTest {
 		assertEquals(exp, c.getLong("s", null, "a", 0L));
 	}
 
-	private static Config parse(String content)
+	static Config parse(String content)
 			throws ConfigInvalidException {
 		return parse(content, null);
 	}
@@ -1488,7 +1488,8 @@ public class ConfigTest {
 		String expectedTemplatePath = tempFile.getPath();
 
 		Config config = parse(
-				"[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+				"[commit]\n\ttemplate = "
+						+ Config.escapeValue(expectedTemplatePath) + "\n");
 
 		String templatePath = config.get(CommitConfig.KEY)
 				.getCommitTemplatePath();
@@ -1537,38 +1538,14 @@ public class ConfigTest {
 		JGitTestUtil.write(tempFile, templateContent);
 		String expectedTemplatePath = tempFile.getPath();
 		config = parse("[i18n]\n\tcommitEncoding = utf-8\n"
-				+ "[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+				+ "[commit]\n\ttemplate = "
+				+ Config.escapeValue(expectedTemplatePath) + "\n");
 		assertEquals(templateContent,
 				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
 		String commitEncoding = config.get(CommitConfig.KEY)
 				.getCommitEncoding();
 		assertEquals("commitEncoding has been set to utf-8 it must be utf-8",
 				"utf-8", commitEncoding);
-	}
-
-	@Test
-	public void testCommitTemplatePathInHomeDirecory()
-			throws ConfigInvalidException, IOException {
-		Config config = new Config(null);
-		File tempFile = tmp.newFile("testCommitTemplate-");
-		File workTree = tmp.newFolder("dummy-worktree");
-		Repository repo = FileRepositoryBuilder.create(workTree);
-		String templateContent = "content of the template";
-		JGitTestUtil.write(tempFile, templateContent);
-		// proper evaluation of the ~/ directory
-		String homeDir = System.getProperty("user.home");
-		File tempFileInHomeDirectory = File.createTempFile("fileInHomeFolder",
-				".tmp", new File(homeDir));
-		tempFileInHomeDirectory.deleteOnExit();
-		JGitTestUtil.write(tempFileInHomeDirectory, templateContent);
-		String expectedTemplatePath = tempFileInHomeDirectory.getPath()
-				.replace(homeDir, "~");
-		config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
-		String templatePath = config.get(CommitConfig.KEY)
-				.getCommitTemplatePath();
-		assertEquals(expectedTemplatePath, templatePath);
-		assertEquals(templateContent,
-				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
 	}
 
 	@Test(expected = ConfigInvalidException.class)
@@ -1581,7 +1558,8 @@ public class ConfigTest {
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
-				+ "[commit]\n\ttemplate = " + tempFile.getPath() + "\n");
+				+ "[commit]\n\ttemplate = "
+				+ Config.escapeValue(tempFile.getPath()) + "\n");
 		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
 	}
 
@@ -1595,7 +1573,7 @@ public class ConfigTest {
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		// commit message encoding
-		String expectedTemplatePath = "/nonExistingTemplate";
+		String expectedTemplatePath = "~/nonExistingTemplate";
 		config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
 		String templatePath = config.get(CommitConfig.KEY)
 				.getCommitTemplatePath();

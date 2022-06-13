@@ -2,7 +2,7 @@
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
  * Copyright (C) 2012-2013, Robin Rosenberg
- * Copyright (C) 2018-2021, Andre Bossert <andre.bossert@siemens.com> and others
+ * Copyright (C) 2018-2022, Andre Bossert <andre.bossert@siemens.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,6 +10,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 package org.eclipse.jgit.lib;
 
 /**
@@ -31,14 +32,14 @@ public final class ConfigConstants {
 	public static final String CONFIG_DIFF_SECTION = "diff";
 
 	/**
-	 * The "tool" key within "diff" section
+	 * The "tool" key within "diff" or "merge" section
 	 *
 	 * @since 6.1
 	 */
 	public static final String CONFIG_KEY_TOOL = "tool";
 
 	/**
-	 * The "guitool" key within "diff" section
+	 * The "guitool" key within "diff" or "merge" section
 	 *
 	 * @since 6.1
 	 */
@@ -52,21 +53,21 @@ public final class ConfigConstants {
 	public static final String CONFIG_DIFFTOOL_SECTION = "difftool";
 
 	/**
-	 * The "prompt" key within "difftool" section
+	 * The "prompt" key within "difftool" or "mergetool" section
 	 *
 	 * @since 6.1
 	 */
 	public static final String CONFIG_KEY_PROMPT = "prompt";
 
 	/**
-	 * The "trustExitCode" key within "difftool" section
+	 * The "trustExitCode" key within "difftool" or "mergetool.<name>." section
 	 *
 	 * @since 6.1
 	 */
 	public static final String CONFIG_KEY_TRUST_EXIT_CODE = "trustExitCode";
 
 	/**
-	 * The "cmd" key within "difftool.*." section
+	 * The "cmd" key within "difftool.*." or "mergetool.*." section
 	 *
 	 * @since 6.1
 	 */
@@ -122,6 +123,34 @@ public final class ConfigConstants {
 	 * @since 4.9
 	 */
 	public static final String CONFIG_MERGE_SECTION = "merge";
+
+	/**
+	 * The "mergetool" section
+	 *
+	 * @since 6.2
+	 */
+	public static final String CONFIG_MERGETOOL_SECTION = "mergetool";
+
+	/**
+	 * The "keepBackup" key within "mergetool" section
+	 *
+	 * @since 6.2
+	 */
+	public static final String CONFIG_KEY_KEEP_BACKUP = "keepBackup";
+
+	/**
+	 * The "keepTemporaries" key within "mergetool" section
+	 *
+	 * @since 6.2
+	 */
+	public static final String CONFIG_KEY_KEEP_TEMPORARIES = "keepTemporaries";
+
+	/**
+	 * The "writeToTemp" key within "mergetool" section
+	 *
+	 * @since 6.2
+	 */
+	public static final String CONFIG_KEY_WRITE_TO_TEMP = "writeToTemp";
 
 	/**
 	 * The "filter" section
@@ -182,6 +211,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_TAG_SECTION = "tag";
 
 	/**
+	 * The "cleanup" key
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_CLEANUP = "cleanup";
+
+	/**
 	 * The "gpgSign" key
 	 *
 	 * @since 5.2
@@ -194,6 +230,13 @@ public final class ConfigConstants {
 	 * @since 5.11
 	 */
 	public static final String CONFIG_KEY_FORCE_SIGN_ANNOTATED = "forceSignAnnotated";
+
+	/**
+	 * The "commentChar" key.
+	 *
+	 * @since 6.2
+	 */
+	public static final String CONFIG_KEY_COMMENT_CHAR = "commentChar";
 
 	/**
 	 * The "hooksPath" key.
@@ -321,6 +364,20 @@ public final class ConfigConstants {
 
 	/** The "remote" key */
 	public static final String CONFIG_KEY_REMOTE = "remote";
+
+	/**
+	 * The "pushRemote" key.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_PUSH_REMOTE = "pushRemote";
+
+	/**
+	 * The "pushDefault" key.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_PUSH_DEFAULT = "pushDefault";
 
 	/** The "merge" key */
 	public static final String CONFIG_KEY_MERGE = "merge";
@@ -800,5 +857,26 @@ public final class ConfigConstants {
 	 * @since 5.13
 	 */
 	public static final String CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT = "searchforreusetimeout";
+
+	/**
+	 * The "push" section.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_PUSH_SECTION = "push";
+
+	/**
+	 * The "default" key.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_DEFAULT = "default";
+
+	/**
+	 * The "abbrev" key
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONFIG_KEY_ABBREV = "abbrev";
 
 }

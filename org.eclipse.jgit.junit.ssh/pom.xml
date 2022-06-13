@@ -55,6 +55,16 @@
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-sftp</artifactId>
       <version>${apache-sshd-version}</version>
+      <exclusions>
+          <exclusion>
+              <groupId>org.apache.sshd</groupId>
+              <artifactId>sshd-core</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.apache.sshd</groupId>
+              <artifactId>sshd-common</artifactId>
+          </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

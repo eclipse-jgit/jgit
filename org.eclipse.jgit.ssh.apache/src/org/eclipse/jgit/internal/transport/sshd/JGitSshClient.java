@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -85,6 +85,11 @@ public class JGitSshClient extends SshClient {
 	 * authentication mechanisms.
 	 */
 	public static final AttributeKey<String> PREFERRED_AUTHENTICATIONS = new AttributeKey<>();
+
+	/**
+	 * An attribute key for the home directory.
+	 */
+	public static final AttributeKey<Path> HOME_DIRECTORY = new AttributeKey<>();
 
 	/**
 	 * An attribute key for storing an alternate local address to connect to if

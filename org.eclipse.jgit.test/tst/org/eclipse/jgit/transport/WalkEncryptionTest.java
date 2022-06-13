@@ -99,7 +99,7 @@ import org.slf4j.LoggerFactory;
 public class WalkEncryptionTest {
 
 	/**
-	 * Logger setup: ${project_loc}/tst-rsrc/log4j.properties
+	 * Logger setup: ${project_loc}/tst-rsrc/simplelogger.properties
 	 */
 	static final Logger logger = LoggerFactory.getLogger(WalkEncryptionTest.class);
 

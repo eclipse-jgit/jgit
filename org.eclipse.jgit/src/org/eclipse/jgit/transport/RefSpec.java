@@ -12,11 +12,11 @@ package org.eclipse.jgit.transport;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.util.References;
 
 /**
  * Describes how refs in one repository copy into another repository.
@@ -50,6 +50,12 @@ public class RefSpec implements Serializable {
 	/** Is this specification actually a wildcard match? */
 	private boolean wildcard;
 
+	/** Is this the special ":" RefSpec? */
+	private boolean matching;
+
+	/** Is this a negative refspec. */
+	private boolean negative;
+
 	/**
 	 * How strict to be about wildcards.
 	 *
@@ -71,6 +77,7 @@ public class RefSpec implements Serializable {
 		 */
 		ALLOW_MISMATCH
 	}
+
 	/** Whether a wildcard is allowed on one side but not the other. */
 	private WildcardMode allowMismatchedWildcards;
 
@@ -87,15 +94,27 @@ public class RefSpec implements Serializable {
 	 * applications, as at least one field must be set to match a source name.
 	 */
 	public RefSpec() {
+		matching = false;
 		force = false;
 		wildcard = false;
 		srcName = Constants.HEAD;
 		dstName = null;
+		negative =false;
 		allowMismatchedWildcards = WildcardMode.REQUIRE_MATCH;
 	}
 
 	/**
 	 * Parse a ref specification for use during transport operations.
+	 * <p>
+	 * {@link RefSpec}s can be regular or negative, regular RefSpecs indicate
+	 * what to include in transport operations while negative RefSpecs indicate
+	 * what to exclude in fetch.
+	 * <p>
+	 * Negative {@link RefSpec}s can't be force, must have only source or
+	 * destination. Wildcard patterns are also supported in negative RefSpecs
+	 * but they can not go with {@code WildcardMode.REQUIRE_MATCH} because they
+	 * are natually one to many mappings.
+	 *
 	 * <p>
 	 * Specifications are typically one of the following forms:
 	 * <ul>
@@ -116,6 +135,12 @@ public class RefSpec implements Serializable {
 	 * <li><code>refs/heads/*:refs/heads/master</code></li>
 	 * </ul>
 	 *
+	 * Negative specifications are usually like:
+	 * <ul>
+	 * <li><code>^:refs/heads/master</code></li>
+	 * <li><code>^refs/heads/*</code></li>
+	 * </ul>
+	 *
 	 * @param spec
 	 *            string describing the specification.
 	 * @param mode
@@ -128,22 +153,41 @@ public class RefSpec implements Serializable {
 	public RefSpec(String spec, WildcardMode mode) {
 		this.allowMismatchedWildcards = mode;
 		String s = spec;
+
+		if (s.startsWith("^+") || s.startsWith("+^")) {
+			throw new IllegalArgumentException(
+					JGitText.get().invalidNegativeAndForce);
+		}
+
 		if (s.startsWith("+")) { //$NON-NLS-1$
 			force = true;
 			s = s.substring(1);
 		}
 
+		if(s.startsWith("^")) {
+			negative = true;
+			s = s.substring(1);
+		}
+
+		boolean matchPushSpec = false;
 		final int c = s.lastIndexOf(':');
 		if (c == 0) {
 			s = s.substring(1);
-			if (isWildcard(s)) {
+			if (s.isEmpty()) {
+				matchPushSpec = true;
 				wildcard = true;
-				if (mode == WildcardMode.REQUIRE_MATCH) {
-					throw new IllegalArgumentException(MessageFormat
-							.format(JGitText.get().invalidWildcards, spec));
+				srcName = Constants.R_HEADS + '*';
+				dstName = srcName;
+			} else {
+				if (isWildcard(s)) {
+					wildcard = true;
+					if (mode == WildcardMode.REQUIRE_MATCH) {
+						throw new IllegalArgumentException(MessageFormat
+								.format(JGitText.get().invalidWildcards, spec));
+					}
 				}
+				dstName = checkValid(s);
 			}
-			dstName = checkValid(s);
 		} else if (c > 0) {
 			String src = s.substring(0, c);
 			String dst = s.substring(c + 1);
@@ -168,6 +212,22 @@ public class RefSpec implements Serializable {
 			}
 			srcName = checkValid(s);
 		}
+
+		// Negative refspecs must only have dstName or srcName.
+		if (isNegative()) {
+			if (isNullOrEmpty(srcName) && isNullOrEmpty(dstName)) {
+				throw new IllegalArgumentException(MessageFormat
+						.format(JGitText.get().invalidRefSpec, spec));
+			}
+			if (!isNullOrEmpty(srcName) && !isNullOrEmpty(dstName)) {
+				throw new IllegalArgumentException(MessageFormat
+						.format(JGitText.get().invalidRefSpec, spec));
+			}
+			if(wildcard && mode == WildcardMode.REQUIRE_MATCH) {
+				throw new IllegalArgumentException(MessageFormat
+						.format(JGitText.get().invalidRefSpec, spec));}
+		}
+		matching = matchPushSpec;
 	}
 
 	/**
@@ -191,15 +251,29 @@ public class RefSpec implements Serializable {
 	 *             the specification is invalid.
 	 */
 	public RefSpec(String spec) {
-		this(spec, WildcardMode.REQUIRE_MATCH);
+		this(spec, spec.startsWith("^") ? WildcardMode.ALLOW_MISMATCH
+				: WildcardMode.REQUIRE_MATCH);
 	}
 
 	private RefSpec(RefSpec p) {
+		matching = false;
 		force = p.isForceUpdate();
 		wildcard = p.isWildcard();
+		negative = p.isNegative();
 		srcName = p.getSource();
 		dstName = p.getDestination();
 		allowMismatchedWildcards = p.allowMismatchedWildcards;
+	}
+
+	/**
+	 * Tells whether this {@link RefSpec} is the special "matching" RefSpec ":"
+	 * for pushing.
+	 *
+	 * @return whether this is a "matching" RefSpec
+	 * @since 6.1
+	 */
+	public boolean isMatching() {
+		return matching;
 	}
 
 	/**
@@ -220,6 +294,11 @@ public class RefSpec implements Serializable {
 	 */
 	public RefSpec setForceUpdate(boolean forceUpdate) {
 		final RefSpec r = new RefSpec(this);
+		if (forceUpdate && isNegative()) {
+			throw new IllegalArgumentException(
+					JGitText.get().invalidNegativeAndForce);
+		}
+		r.matching = matching;
 		r.force = forceUpdate;
 		return r;
 	}
@@ -235,6 +314,16 @@ public class RefSpec implements Serializable {
 	 */
 	public boolean isWildcard() {
 		return wildcard;
+	}
+
+	/**
+	 * Check if this specification is a negative one.
+	 *
+	 * @return true if this specification is negative.
+	 * @since 6.2
+	 */
+	public boolean isNegative() {
+		return negative;
 	}
 
 	/**
@@ -322,8 +411,7 @@ public class RefSpec implements Serializable {
 	 *             The wildcard status of the new source disagrees with the
 	 *             wildcard status of the new destination.
 	 */
-	public RefSpec setSourceDestination(final String source,
-			final String destination) {
+	public RefSpec setSourceDestination(String source, String destination) {
 		if (isWildcard(source) != isWildcard(destination))
 			throw new IllegalStateException(JGitText.get().sourceDestinationMustMatch);
 		final RefSpec r = new RefSpec(this);
@@ -407,6 +495,10 @@ public class RefSpec implements Serializable {
 		srcName = name;
 		dstName = expandWildcard(name, psrc, pdst);
 		return this;
+	}
+
+	private static boolean isNullOrEmpty(String refName) {
+		return refName == null || refName.isEmpty();
 	}
 
 	/**
@@ -541,37 +633,42 @@ public class RefSpec implements Serializable {
 		if (!(obj instanceof RefSpec))
 			return false;
 		final RefSpec b = (RefSpec) obj;
-		if (isForceUpdate() != b.isForceUpdate())
+		if (isForceUpdate() != b.isForceUpdate()) {
 			return false;
-		if (isWildcard() != b.isWildcard())
-			return false;
-		if (!eq(getSource(), b.getSource()))
-			return false;
-		if (!eq(getDestination(), b.getDestination()))
-			return false;
-		return true;
-	}
-
-	private static boolean eq(String a, String b) {
-		if (References.isSameObject(a, b)) {
-			return true;
 		}
-		if (a == null || b == null)
+		if(isNegative() != b.isNegative()) {
 			return false;
-		return a.equals(b);
+		}
+		if (isMatching()) {
+			return b.isMatching();
+		} else if (b.isMatching()) {
+			return false;
+		}
+		return isWildcard() == b.isWildcard()
+				&& Objects.equals(getSource(), b.getSource())
+				&& Objects.equals(getDestination(), b.getDestination());
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();
-		if (isForceUpdate())
+		if (isForceUpdate()) {
 			r.append('+');
-		if (getSource() != null)
-			r.append(getSource());
-		if (getDestination() != null) {
+		}
+		if(isNegative()) {
+			r.append('^');
+		}
+		if (isMatching()) {
 			r.append(':');
-			r.append(getDestination());
+		} else {
+			if (getSource() != null) {
+				r.append(getSource());
+			}
+			if (getDestination() != null) {
+				r.append(':');
+				r.append(getDestination());
+			}
 		}
 		return r.toString();
 	}

@@ -278,6 +278,54 @@ public class Config {
 	}
 
 	/**
+	 * Obtain an integer value from the configuration which must be inside given
+	 * range.
+	 *
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param name
+	 *            name of the key to get.
+	 * @param minValue
+	 *            minimum value
+	 * @param maxValue
+	 *            maximum value
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @return an integer value from the configuration, or defaultValue.
+	 * @since 6.1
+	 */
+	public int getIntInRange(String section, String name, int minValue,
+			int maxValue, int defaultValue) {
+		return typedGetter.getIntInRange(this, section, null, name, minValue,
+				maxValue, defaultValue);
+	}
+
+	/**
+	 * Obtain an integer value from the configuration which must be inside given
+	 * range.
+	 *
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection name, such a remote or branch name.
+	 * @param name
+	 *            name of the key to get.
+	 * @param minValue
+	 *            minimum value
+	 * @param maxValue
+	 *            maximum value
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @return an integer value from the configuration, or defaultValue.
+	 * @since 6.1
+	 */
+	public int getIntInRange(String section, String subsection, String name,
+			int minValue, int maxValue, int defaultValue) {
+		return typedGetter.getIntInRange(this, section, subsection, name,
+				minValue, maxValue, defaultValue);
+	}
+
+	/**
 	 * Obtain an integer value from the configuration.
 	 *
 	 * @param section

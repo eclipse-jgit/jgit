@@ -92,6 +92,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	}
 
 	/** {@inheritDoc} */
+	@SuppressWarnings("ReferenceEquality")
 	@Override
 	protected void enter(int index, PlotCommit<L> currCommit) {
 		setupChildren(currCommit);
@@ -188,6 +189,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	 *            may be null if <code>currCommit</code> is the first commit on
 	 *            the lane
 	 */
+	@SuppressWarnings("ReferenceEquality")
 	private void handleBlockedLanes(final int index, final PlotCommit currCommit,
 			final PlotCommit childOnLane) {
 		for (PlotCommit child : currCommit.children) {
@@ -214,6 +216,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	}
 
 	// Handles the case where currCommit is a non-first parent of the child
+	@SuppressWarnings("ReferenceEquality")
 	private PlotLane handleMerge(final int index, final PlotCommit currCommit,
 			final PlotCommit childOnLane, PlotCommit child, PlotLane laneToUse) {
 
@@ -287,6 +290,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	 * @param child
 	 * @param laneToContinue
 	 */
+	@SuppressWarnings("ReferenceEquality")
 	private void drawLaneToChild(final int commitIndex, PlotCommit child,
 			PlotLane laneToContinue) {
 		for (int r = commitIndex - 1; r >= 0; r--) {

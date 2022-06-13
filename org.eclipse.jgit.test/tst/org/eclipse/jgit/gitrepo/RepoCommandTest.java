@@ -15,6 +15,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -546,24 +547,29 @@ public class RepoCommandTest extends RepositoryTestCase {
 		// The original file should exist
 		File hello = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("The original file should exist", hello.exists());
-		assertFalse("The original file should not be executable",
-				hello.canExecute());
+		if (FS.DETECTED.supportsExecute()) {
+			assertFalse("The original file should not be executable",
+					FS.DETECTED.canExecute(hello));
+		}
 		assertContents(hello.toPath(), "master world");
 		// The dest file should also exist
 		hello = new File(localDb.getWorkTree(), "Hello");
 		assertTrue("The destination file should exist", hello.exists());
-		assertFalse("The destination file should not be executable",
-				hello.canExecute());
+		if (FS.DETECTED.supportsExecute()) {
+			assertFalse("The destination file should not be executable",
+					FS.DETECTED.canExecute(hello));
+		}
 		assertContents(hello.toPath(), "master world");
 	}
 
 	@Test
 	public void testRepoManifestCopyFile_executable() throws Exception {
+		assumeTrue(FS.DETECTED.supportsExecute());
 		try (Git git = new Git(defaultDb)) {
 			git.checkout().setName("master").call();
 			File f = JGitTestUtil.writeTrashFile(defaultDb, "hello.sh",
 					"content of the executable file");
-			f.setExecutable(true);
+			FS.DETECTED.setExecute(f, true);
 			git.add().addFilepattern("hello.sh").call();
 			git.commit().setMessage("Add binary file").call();
 		}
@@ -588,7 +594,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 		// The original file should exist and be an executable
 		File hello = new File(localDb.getWorkTree(), "foo/hello.sh");
 		assertTrue("The original file should exist", hello.exists());
-		assertTrue("The original file must be executable", hello.canExecute());
+		assertTrue("The original file must be executable",
+				FS.DETECTED.canExecute(hello));
 		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
 				UTF_8)) {
 			String content = reader.readLine();
@@ -600,7 +607,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		hello = new File(localDb.getWorkTree(), "copy-hello.sh");
 		assertTrue("The destination file should exist", hello.exists());
 		assertTrue("The destination file must be executable",
-				hello.canExecute());
+				FS.DETECTED.canExecute(hello));
 		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
 				UTF_8)) {
 			String content = reader.readLine();

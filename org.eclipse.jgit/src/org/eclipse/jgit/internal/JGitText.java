@@ -265,6 +265,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deletingNotSupported;
 	/***/ public String destinationIsNotAWildcard;
 	/***/ public String detachedHeadDetected;
+	/***/ public String diffToolNotGivenError;
+	/***/ public String diffToolNotSpecifiedInGitAttributesError;
+	/***/ public String diffToolNullError;
 	/***/ public String dirCacheDoesNotHaveABackingFile;
 	/***/ public String dirCacheFileIsNotLocked;
 	/***/ public String dirCacheIsNotLocked;
@@ -382,6 +385,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String inMemoryBufferLimitExceeded;
 	/***/ public String inputDidntMatchLength;
 	/***/ public String inputStreamMustSupportMark;
+	/***/ public String integerValueNotInRange;
+	/***/ public String integerValueNotInRangeSubSection;
 	/***/ public String integerValueOutOfRange;
 	/***/ public String internalRevisionError;
 	/***/ public String internalServerError;
@@ -392,6 +397,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidBooleanValue;
 	/***/ public String invalidChannel;
 	/***/ public String invalidCommitParentNumber;
+	/***/ public String invalidCoreAbbrev;
 	/***/ public String invalidDepth;
 	/***/ public String invalidEncoding;
 	/***/ public String invalidEncryption;
@@ -418,6 +424,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidModeFor;
 	/***/ public String invalidModeForPath;
 	/***/ public String invalidNameContainsDotDot;
+	/***/ public String invalidNegativeAndForce;
 	/***/ public String invalidObject;
 	/***/ public String invalidOldIdSent;
 	/***/ public String invalidPacketLineHeader;
@@ -481,6 +488,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeUsingStrategyResultedInDescription;
 	/***/ public String mergeRecursiveConflictsWhenMergingCommonAncestors;
 	/***/ public String mergeRecursiveTooManyMergeBasesFor;
+	/***/ public String mergeToolNotGivenError;
+	/***/ public String mergeToolNullError;
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
 	/***/ public String minutesAgo;
 	/***/ public String mismatchOffset;
@@ -592,6 +601,11 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushCertificateInvalidFieldValue;
 	/***/ public String pushCertificateInvalidHeader;
 	/***/ public String pushCertificateInvalidSignature;
+	/***/ public String pushDefaultNothing;
+	/***/ public String pushDefaultNoUpstream;
+	/***/ public String pushDefaultSimple;
+	/***/ public String pushDefaultTriangularUpstream;
+	/***/ public String pushDefaultUnknown;
 	/***/ public String pushIsNotSupportedForBundleTransport;
 	/***/ public String pushNotPermitted;
 	/***/ public String pushOptionsNotSupported;

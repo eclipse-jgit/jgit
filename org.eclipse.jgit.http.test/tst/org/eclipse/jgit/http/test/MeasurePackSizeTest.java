@@ -90,6 +90,7 @@ public class MeasurePackSizeTest extends AllFactoriesHttpTestCase {
 		server.setUp();
 
 		remoteRepository = src.getRepository();
+		addRepoToClose(remoteRepository);
 		remoteURI = toURIish(app, srcName);
 
 		StoredConfig cfg = remoteRepository.getConfig();

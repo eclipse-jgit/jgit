@@ -165,6 +165,15 @@ public class InMemoryRepository extends DfsRepository {
 				}
 			};
 		}
+
+		@Override
+		public long getApproximateObjectCount() {
+			long count = 0;
+			for (DfsPackDescription p : packs) {
+				count += p.getObjectCount();
+			}
+			return count;
+		}
 	}
 
 	private static class MemPack extends DfsPackDescription {

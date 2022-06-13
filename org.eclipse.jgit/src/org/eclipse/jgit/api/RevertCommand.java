@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
@@ -28,6 +30,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitConfig;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -128,8 +131,9 @@ public class RevertCommand extends GitCommand<RevCommit> {
 				revWalk.parseHeaders(srcParent);
 
 				String ourName = calculateOurName(headRef);
-				String revertName = srcCommit.getId().abbreviate(7).name()
-						+ " " + srcCommit.getShortMessage(); //$NON-NLS-1$
+				String revertName = srcCommit.getId()
+						.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name() + " " //$NON-NLS-1$
+						+ srcCommit.getShortMessage();
 
 				ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
 				merger.setWorkingTreeIterator(new FileTreeIterator(repo));
@@ -182,9 +186,12 @@ public class RevertCommand extends GitCommand<RevCommit> {
 								MergeStatus.CONFLICTING, strategy,
 								merger.getMergeResults(), failingPaths, null);
 					if (!merger.failed() && !unmergedPaths.isEmpty()) {
+						CommitConfig config = repo.getConfig()
+								.get(CommitConfig.KEY);
+						char commentChar = config.getCommentChar(newMessage);
 						String message = new MergeMessageFormatter()
-						.formatWithConflicts(newMessage,
-								merger.getUnmergedPaths());
+								.formatWithConflicts(newMessage,
+										merger.getUnmergedPaths(), commentChar);
 						repo.writeRevertHead(srcCommit.getId());
 						repo.writeMergeCommitMsg(message);
 					}

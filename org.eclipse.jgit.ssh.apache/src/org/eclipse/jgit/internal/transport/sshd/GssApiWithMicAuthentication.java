@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -18,6 +18,7 @@ import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.sshd.client.auth.AbstractUserAuth;
 import org.apache.sshd.client.session.ClientSession;
@@ -71,7 +72,10 @@ public class GssApiWithMicAuthentication extends AbstractUserAuth {
 		if (context != null) {
 			close(false);
 		}
+		GssApiWithMicAuthenticationReporter reporter = session.getAttribute(
+				GssApiWithMicAuthenticationReporter.GSS_AUTHENTICATION_REPORTER);
 		if (!nextMechanism.hasNext()) {
+			reporter.signalAuthenticationExhausted(session, service);
 			return false;
 		}
 		state = ProtocolState.STARTED;
@@ -79,6 +83,7 @@ public class GssApiWithMicAuthentication extends AbstractUserAuth {
 		// RFC 4462 states that SPNEGO must not be used with ssh
 		while (GssApiMechanisms.SPNEGO.equals(currentMechanism)) {
 			if (!nextMechanism.hasNext()) {
+				reporter.signalAuthenticationExhausted(session, service);
 				return false;
 			}
 			currentMechanism = nextMechanism.next();
@@ -101,6 +106,10 @@ public class GssApiWithMicAuthentication extends AbstractUserAuth {
 			currentMechanism = null;
 			state = ProtocolState.FAILED;
 			return false;
+		}
+		if (reporter != null) {
+			reporter.signalAuthenticationAttempt(session, service,
+					currentMechanism.toString());
 		}
 		Buffer buffer = session
 				.createBuffer(SshConstants.SSH_MSG_USERAUTH_REQUEST);
@@ -246,4 +255,26 @@ public class GssApiWithMicAuthentication extends AbstractUserAuth {
 		return false;
 	}
 
+	@Override
+	public void signalAuthMethodSuccess(ClientSession session, String service,
+			Buffer buffer) throws Exception {
+		GssApiWithMicAuthenticationReporter reporter = session.getAttribute(
+				GssApiWithMicAuthenticationReporter.GSS_AUTHENTICATION_REPORTER);
+		if (reporter != null) {
+			reporter.signalAuthenticationSuccess(session, service,
+					currentMechanism.toString());
+		}
+	}
+
+	@Override
+	public void signalAuthMethodFailure(ClientSession session, String service,
+			boolean partial, List<String> serverMethods, Buffer buffer)
+			throws Exception {
+		GssApiWithMicAuthenticationReporter reporter = session.getAttribute(
+				GssApiWithMicAuthenticationReporter.GSS_AUTHENTICATION_REPORTER);
+		if (reporter != null) {
+			reporter.signalAuthenticationFailure(session, service,
+					currentMechanism.toString(), partial, serverMethods);
+		}
+	}
 }

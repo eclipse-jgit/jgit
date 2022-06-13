@@ -2,7 +2,7 @@
  * Copyright (C) 2008, 2009 Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -40,7 +40,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.hooks.Hooks;
@@ -590,6 +589,11 @@ public abstract class Transport implements AutoCloseable {
 		final Collection<RefSpec> procRefs = expandPushWildcardsFor(db, specs);
 
 		for (RefSpec spec : procRefs) {
+			if (spec.isMatching()) {
+				result.add(new RemoteRefUpdate(db, spec.isForceUpdate(),
+						fetchSpecs));
+				continue;
+			}
 			String srcSpec = spec.getSource();
 			final Ref srcRef = db.findRef(srcSpec);
 			if (srcRef != null)
@@ -656,14 +660,18 @@ public abstract class Transport implements AutoCloseable {
 	private static Collection<RefSpec> expandPushWildcardsFor(
 			final Repository db, final Collection<RefSpec> specs)
 			throws IOException {
-		final List<Ref> localRefs = db.getRefDatabase().getRefs();
 		final Collection<RefSpec> procRefs = new LinkedHashSet<>();
 
+		List<Ref> localRefs = null;
 		for (RefSpec spec : specs) {
-			if (spec.isWildcard()) {
+			if (!spec.isMatching() && spec.isWildcard()) {
+				if (localRefs == null) {
+					localRefs = db.getRefDatabase().getRefs();
+				}
 				for (Ref localRef : localRefs) {
-					if (spec.matchSource(localRef))
+					if (spec.matchSource(localRef)) {
 						procRefs.add(spec.expandFromSource(localRef));
+					}
 				}
 			} else {
 				procRefs.add(spec);
@@ -672,7 +680,7 @@ public abstract class Transport implements AutoCloseable {
 		return procRefs;
 	}
 
-	private static String findTrackingRefName(final String remoteName,
+	static String findTrackingRefName(final String remoteName,
 			final Collection<RefSpec> fetchSpecs) {
 		// try to find matching tracking refs
 		for (RefSpec fetchSpec : fetchSpecs) {
@@ -1222,7 +1230,9 @@ public abstract class Transport implements AutoCloseable {
 	 * @param toFetch
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
-	 *            RemoteConfig. Source for each RefSpec can't be null.
+	 *            RemoteConfig. May contains regular and negative 
+	 *            {@link RefSpec}s. Source for each regular RefSpec can't
+	 *            be null.
 	 * @return information describing the tracking refs updated.
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
 	 *             this transport implementation does not support fetching
@@ -1256,7 +1266,9 @@ public abstract class Transport implements AutoCloseable {
 	 * @param toFetch
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
-	 *            RemoteConfig. Source for each RefSpec can't be null.
+	 *            RemoteConfig. May contains regular and negative 
+	 *            {@link RefSpec}s. Source for each regular RefSpec can't
+	 *            be null.
 	 * @param branch
 	 *            the initial branch to check out when cloning the repository.
 	 *            Can be specified as ref name (<code>refs/heads/master</code>),
@@ -1371,16 +1383,9 @@ public abstract class Transport implements AutoCloseable {
 			if (toPush.isEmpty())
 				throw new TransportException(JGitText.get().nothingToPush);
 		}
-		if (prePush != null) {
-			try {
-				prePush.setRefs(toPush);
-				prePush.call();
-			} catch (AbortedByHookException | IOException e) {
-				throw new TransportException(e.getMessage(), e);
-			}
-		}
 
-		final PushProcess pushProcess = new PushProcess(this, toPush, out);
+		final PushProcess pushProcess = new PushProcess(this, toPush, prePush,
+				out);
 		return pushProcess.execute(monitor);
 	}
 

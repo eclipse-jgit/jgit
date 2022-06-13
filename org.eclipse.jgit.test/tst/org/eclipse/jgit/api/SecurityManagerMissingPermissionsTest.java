@@ -13,17 +13,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.Policy;
 import java.util.Collections;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.WriterAppender;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
@@ -38,25 +36,21 @@ public class SecurityManagerMissingPermissionsTest extends RepositoryTestCase {
 	/**
 	 * Collects all logging sent to the logging system.
 	 */
-	private final StringWriter errorOutputWriter = new StringWriter();
-
-	/**
-	 * Appender to intercept all logging sent to the logging system.
-	 */
-	private WriterAppender appender;
+	private final ByteArrayOutputStream errorOutput = new ByteArrayOutputStream();
 
 	private SecurityManager originalSecurityManager;
+
+	private PrintStream defaultErrorOutput;
 
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		originalSecurityManager = System.getSecurityManager();
 
-		appender = new WriterAppender(
-				new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN),
-				errorOutputWriter);
-
-		Logger.getRootLogger().addAppender(appender);
+		// slf4j-simple logs to System.err, redirect it to enable asserting
+		// logged errors
+		defaultErrorOutput = System.err;
+		System.setErr(new PrintStream(errorOutput));
 
 		refreshPolicyAllPermission(Policy.getPolicy());
 		System.setSecurityManager(new SecurityManager());
@@ -85,14 +79,14 @@ public class SecurityManagerMissingPermissionsTest extends RepositoryTestCase {
 
 		addRepoToClose(git.getRepository());
 
-		assertEquals("", errorOutputWriter.toString());
+		assertEquals("", errorOutput.toString());
 	}
 
 	@Override
 	@After
 	public void tearDown() throws Exception {
 		System.setSecurityManager(originalSecurityManager);
-		Logger.getRootLogger().removeAppender(appender);
+		System.setErr(defaultErrorOutput);
 		super.tearDown();
 	}
 

@@ -42,6 +42,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RefsChangedListener;
@@ -127,6 +129,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 
 		diskRepo = fileRepo;
+		addRepoToClose(diskRepo);
 		setLogAllRefUpdates(true);
 
 		if (!useReftable) {
@@ -1190,7 +1193,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 
 		Map<String, Ref> refs = diskRepo.getRefDatabase()
-				.getRefs(RefDatabase.ALL);
+				.getRefsByPrefix(RefDatabase.ALL).stream()
+				.collect(Collectors.toMap(Ref::getName, Function.identity()));
 		Ref actualHead = refs.remove(Constants.HEAD);
 		if (actualHead != null) {
 			String actualLeafName = actualHead.getLeaf().getName();

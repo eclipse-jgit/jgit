@@ -111,7 +111,7 @@ public enum CommandLineDiffTool {
 	 * See: <a href=
 	 * "http://vimdoc.sourceforge.net/htmldoc/diff.html">http://vimdoc.sourceforge.net/htmldoc/diff.html</a>
 	 */
-	gvimdiff("gviewdiff", "\"$LOCAL\" \"$REMOTE\""),
+	gvimdiff("gvimdiff", "\"$LOCAL\" \"$REMOTE\""),
 	/**
 	 * See: <a href=
 	 * "http://vimdoc.sourceforge.net/htmldoc/diff.html">http://vimdoc.sourceforge.net/htmldoc/diff.html</a>
@@ -160,7 +160,7 @@ public enum CommandLineDiffTool {
 	 * See: <a href=
 	 * "http://vimdoc.sourceforge.net/htmldoc/diff.html">http://vimdoc.sourceforge.net/htmldoc/diff.html</a>
 	 */
-	vimdiff("viewdiff", gvimdiff),
+	vimdiff("vimdiff", gvimdiff),
 	/**
 	 * See: <a href=
 	 * "http://vimdoc.sourceforge.net/htmldoc/diff.html">http://vimdoc.sourceforge.net/htmldoc/diff.html</a>

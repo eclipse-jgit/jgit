@@ -369,20 +369,21 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 
 	@Test
 	public void testListValueSingle() throws Exception {
-		config("Host orcz\nUserKnownHostsFile /foo/bar\n");
+		config("Host orcz\nUserKnownHostsFile ~/foo/bar\n");
 		final HostConfig c = lookup("orcz");
 		assertNotNull(c);
-		assertEquals("/foo/bar", c.getValue("UserKnownHostsFile"));
+		assertEquals(new File(home, "foo/bar").getPath(),
+				c.getValue("UserKnownHostsFile"));
 	}
 
 	@Test
 	public void testListValueMultiple() throws Exception {
 		// Tilde expansion occurs within the parser
-		config("Host orcz\nUserKnownHostsFile \"~/foo/ba z\" /foo/bar \n");
+		config("Host orcz\nUserKnownHostsFile \"~/foo/ba z\" ~/foo/bar \n");
 		final HostConfig c = lookup("orcz");
 		assertNotNull(c);
 		assertArrayEquals(new Object[] { new File(home, "foo/ba z").getPath(),
-				"/foo/bar" },
+				new File(home, "foo/bar").getPath() },
 				c.getValues("UserKnownHostsFile").toArray());
 	}
 
@@ -403,22 +404,23 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 
 	@Test
 	public void testIdentityFile() throws Exception {
-		config("Host orcz\nIdentityFile \"~/foo/ba z\"\nIdentityFile /foo/bar");
+		config("Host orcz\nIdentityFile \"~/foo/ba z\"\nIdentityFile ~/foo/bar");
 		final HostConfig h = lookup("orcz");
 		assertNotNull(h);
 		// Does tilde replacement
 		assertArrayEquals(new Object[] { new File(home, "foo/ba z").getPath(),
-				"/foo/bar" },
+				new File(home, "foo/bar").getPath() },
 				h.getValues(SshConstants.IDENTITY_FILE).toArray());
 	}
 
 	@Test
 	public void testMultiIdentityFile() throws Exception {
-		config("IdentityFile \"~/foo/ba z\"\nHost orcz\nIdentityFile /foo/bar\nHOST *\nIdentityFile /foo/baz");
+		config("IdentityFile \"~/foo/ba z\"\nHost orcz\nIdentityFile ~/foo/bar\nHOST *\nIdentityFile ~/foo/baz");
 		final HostConfig h = lookup("orcz");
 		assertNotNull(h);
 		assertArrayEquals(new Object[] { new File(home, "foo/ba z").getPath(),
-				"/foo/bar", "/foo/baz" },
+				new File(home, "foo/bar").getPath(),
+				new File(home, "foo/baz").getPath() },
 				h.getValues(SshConstants.IDENTITY_FILE).toArray());
 	}
 
@@ -434,23 +436,23 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 
 	@Test
 	public void testPattern() throws Exception {
-		config("Host repo.or.cz\nIdentityFile ~/foo/bar\nHOST *.or.cz\nIdentityFile /foo/baz");
+		config("Host repo.or.cz\nIdentityFile ~/foo/bar\nHOST *.or.cz\nIdentityFile ~/foo/baz");
 		final HostConfig h = lookup("repo.or.cz");
 		assertNotNull(h);
 		assertIdentity(new File(home, "foo/bar"), h);
 		assertArrayEquals(new Object[] { new File(home, "foo/bar").getPath(),
-				"/foo/baz" },
+				new File(home, "foo/baz").getPath() },
 				h.getValues(SshConstants.IDENTITY_FILE).toArray());
 	}
 
 	@Test
 	public void testMultiHost() throws Exception {
-		config("Host orcz *.or.cz\nIdentityFile ~/foo/bar\nHOST *.or.cz\nIdentityFile /foo/baz");
+		config("Host orcz *.or.cz\nIdentityFile ~/foo/bar\nHOST *.or.cz\nIdentityFile ~/foo/baz");
 		final HostConfig h1 = lookup("repo.or.cz");
 		assertNotNull(h1);
 		assertIdentity(new File(home, "foo/bar"), h1);
 		assertArrayEquals(new Object[] { new File(home, "foo/bar").getPath(),
-				"/foo/baz" },
+				new File(home, "foo/baz").getPath() },
 				h1.getValues(SshConstants.IDENTITY_FILE).toArray());
 		final HostConfig h2 = lookup("orcz");
 		assertNotNull(h2);
@@ -547,18 +549,36 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 
 	@Test
 	public void testEnVarSubstitution() throws Exception {
-		config("Host orcz\nIdentityFile /tmp/${TST_VAR}\n"
-				+ "CertificateFile /tmp/${}/foo\nUser ${TST_VAR}\nIdentityAgent /tmp/${TST_VAR/bar");
+		config("Host orcz\nIdentityFile ~/tmp/${TST_VAR}\n"
+				+ "CertificateFile ~/tmp/${}/foo\nUser ${TST_VAR}\nIdentityAgent ~/tmp/${TST_VAR/bar");
 		HostConfig h = lookup("orcz");
 		assertNotNull(h);
-		assertEquals("/tmp/TEST",
+		File tmp = new File(home, "tmp");
+		assertEquals(new File(tmp, "TEST").getPath(),
 				h.getValue(SshConstants.IDENTITY_FILE));
 		// No variable name
-		assertEquals("/tmp/${}/foo", h.getValue(SshConstants.CERTIFICATE_FILE));
+		assertEquals(new File(new File(tmp, "${}"), "foo").getPath(),
+				h.getValue(SshConstants.CERTIFICATE_FILE));
 		// User doesn't get env var substitution:
 		assertUser("${TST_VAR}", h);
 		// Unterminated:
-		assertEquals("/tmp/${TST_VAR/bar",
+		assertEquals(new File(new File(tmp, "${TST_VAR"), "bar").getPath(),
+				h.getValue(SshConstants.IDENTITY_AGENT));
+	}
+
+	@Test
+	public void testIdentityAgentNone() throws Exception {
+		config("Host orcz\nIdentityAgent none\n");
+		HostConfig h = lookup("orcz");
+		assertEquals(SshConstants.NONE,
+				h.getValue(SshConstants.IDENTITY_AGENT));
+	}
+
+	@Test
+	public void testIdentityAgentSshAuthSock() throws Exception {
+		config("Host orcz\nIdentityAgent SSH_AUTH_SOCK\n");
+		HostConfig h = lookup("orcz");
+		assertEquals(SshConstants.ENV_SSH_AUTH_SOCKET,
 				h.getValue(SshConstants.IDENTITY_AGENT));
 	}
 
@@ -607,13 +627,16 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 
 	@Test
 	public void testMultipleMatch() throws Exception {
-		config("Host foo.bar\nPort 29418\nIdentityFile /foo\n\n"
-				+ "Host *.bar\nPort 22\nIdentityFile /bar\n"
-				+ "Host foo.bar\nPort 47\nIdentityFile /baz\n");
+		config("Host foo.bar\nPort 29418\nIdentityFile ~/foo\n\n"
+				+ "Host *.bar\nPort 22\nIdentityFile ~/bar\n"
+				+ "Host foo.bar\nPort 47\nIdentityFile ~/baz\n");
 		HostConfig h = lookup("foo.bar");
 		assertNotNull(h);
 		assertPort(29418, h);
-		assertArrayEquals(new Object[] { "/foo", "/bar", "/baz" },
+		assertArrayEquals(
+				new Object[] { new File(home, "foo").getPath(),
+						new File(home, "bar").getPath(),
+						new File(home, "baz").getPath() },
 				h.getValues(SshConstants.IDENTITY_FILE).toArray());
 	}
 
@@ -632,5 +655,62 @@ public class OpenSshConfigFileTest extends RepositoryTestCase {
 		h = lookup("\tbar");
 		assertNotNull(h);
 		assertPort(22, h);
+	}
+
+	@Test
+	public void testTimeSpec() throws Exception {
+		assertEquals(-1, OpenSshConfigFile.timeSpec(null));
+		assertEquals(-1, OpenSshConfigFile.timeSpec(""));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("  "));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("  s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec(" +s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec(" -s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("1ms"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("600"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("600s"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("  600s"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("  600s  "));
+		assertEquals(600, OpenSshConfigFile.timeSpec("\t600s"));
+		assertEquals(600, OpenSshConfigFile.timeSpec(" \t600  "));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("  600 s  "));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("600 s"));
+		assertEquals(600, OpenSshConfigFile.timeSpec("10m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h30m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h 30m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h \t30m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h+30m"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("1h +30m"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("1h + 30m"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("1h -30m"));
+		assertEquals(3630, OpenSshConfigFile.timeSpec("1h30s"));
+		assertEquals(5400, OpenSshConfigFile.timeSpec("30m 1h"));
+		assertEquals(3600, OpenSshConfigFile.timeSpec("30m 30m"));
+		assertEquals(60, OpenSshConfigFile.timeSpec("30 30"));
+		assertEquals(0, OpenSshConfigFile.timeSpec("0"));
+		assertEquals(1, OpenSshConfigFile.timeSpec("1"));
+		assertEquals(1, OpenSshConfigFile.timeSpec("1S"));
+		assertEquals(1, OpenSshConfigFile.timeSpec("1s"));
+		assertEquals(60, OpenSshConfigFile.timeSpec("1M"));
+		assertEquals(60, OpenSshConfigFile.timeSpec("1m"));
+		assertEquals(3600, OpenSshConfigFile.timeSpec("1H"));
+		assertEquals(3600, OpenSshConfigFile.timeSpec("1h"));
+		assertEquals(86400, OpenSshConfigFile.timeSpec("1D"));
+		assertEquals(86400, OpenSshConfigFile.timeSpec("1d"));
+		assertEquals(604800, OpenSshConfigFile.timeSpec("1W"));
+		assertEquals(604800, OpenSshConfigFile.timeSpec("1w"));
+		assertEquals(172800, OpenSshConfigFile.timeSpec("2d"));
+		assertEquals(604800, OpenSshConfigFile.timeSpec("1w"));
+		assertEquals(604800 + 172800 + 3 * 3600 + 30 * 60 + 10,
+				OpenSshConfigFile.timeSpec("1w2d3h30m10s"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("-7"));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("-9d"));
+		assertEquals(Integer.MAX_VALUE, OpenSshConfigFile
+				.timeSpec(Integer.toString(Integer.MAX_VALUE)));
+		assertEquals(-1, OpenSshConfigFile
+				.timeSpec(Long.toString(Integer.MAX_VALUE + 1L)));
+		assertEquals(-1, OpenSshConfigFile
+				.timeSpec(Integer.toString(Integer.MAX_VALUE / 60 + 1) + 'M'));
+		assertEquals(-1, OpenSshConfigFile.timeSpec("1000000000000000000000w"));
 	}
 }
