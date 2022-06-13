@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -220,12 +221,36 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdOwnerMap<>();
 		roots = new ArrayList<>();
-		queue = new DateRevQueue(false);
+		queue = newDateRevQueue(false);
 		pending = new StartGenerator(this);
 		sorting = EnumSet.of(RevSort.NONE);
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		this.closeReader = closeReader;
+	}
+
+	static AbstractRevQueue newDateRevQueue(boolean firstParent) {
+		if(usePriorityQueue()) {
+			return new DateRevPriorityQueue(firstParent);
+		}
+
+		return new DateRevQueue(firstParent);
+	}
+
+	static DateRevQueue newDateRevQueue(Generator g) throws IOException {
+		if(usePriorityQueue()) {
+			return new DateRevPriorityQueue(g);
+		}
+
+		return new DateRevQueue(g);
+	}
+
+	private static boolean usePriorityQueue() {
+		return Optional.ofNullable(System.getenv("REVWALK_USE_PRIORITY_QUEUE"))
+					.map(Boolean::parseBoolean)
+					.orElseGet(() ->  Optional.ofNullable(System.getProperty("REVWALK_USE_PRIORITY_QUEUE"))
+							.map(Boolean::parseBoolean)
+							.orElse(false));
 	}
 
 	/**
@@ -333,6 +358,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public void markStart(Collection<RevCommit> list)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
+		int currCapacity = queue.capacity();
+		queue.setCapacity(currCapacity + list.size());
 		for (RevCommit c : list)
 			markStart(c);
 	}
@@ -824,7 +851,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		assertNotStarted();
 		assertNoCommitsMarkedStart();
 		firstParent = enable;
-		queue = new DateRevQueue(firstParent);
+		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 	}
 
@@ -1497,7 +1524,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		}
 
 		roots.clear();
-		queue = new DateRevQueue(firstParent);
+		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 	}
 
@@ -1518,7 +1545,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		firstParent = false;
 		objects.clear();
 		roots.clear();
-		queue = new DateRevQueue(firstParent);
+		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
 	}
