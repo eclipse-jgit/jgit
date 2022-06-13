@@ -24,6 +24,47 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab5acf34_4a65d313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-13T10:26:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3dff9ed_acd52446",
+      "range": {
+        "startLine": 29,
+        "startChar": 47,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "ad0e68a0d93b846fc9f280b19b5ac325981a47d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "587e0762_ec1ad877",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-13T10:26:20Z",
+      "side": 1,
+      "message": "Thanks @David, all comments addressed. Could you give a final look before handing over back to @Matthias?",
+      "revId": "ad0e68a0d93b846fc9f280b19b5ac325981a47d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da216161_531e0477",
@@ -41,6 +82,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9002edbf_b3f6a4d8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/FetchCommandTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-13T10:26:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da216161_531e0477",
+      "revId": "ad0e68a0d93b846fc9f280b19b5ac325981a47d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea64fa70_5c741756",
@@ -54,6 +113,30 @@
       "writtenOn": "2022-06-13T04:52:50Z",
       "side": 1,
       "message": "From the comment it might not be clear why initialBranch is only set for clone command and omitted for fetch command? We differentiate between clone and fetch commands using --branch \u003cbranch\u003e option, that is only available in clone command, and is set as HEAD per default.",
+      "range": {
+        "startLine": 210,
+        "startChar": 2,
+        "endLine": 212,
+        "endChar": 84
+      },
+      "revId": "ad0e68a0d93b846fc9f280b19b5ac325981a47d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a1ce703_b4e20bd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-13T10:26:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea64fa70_5c741756",
       "range": {
         "startLine": 210,
         "startChar": 2,
