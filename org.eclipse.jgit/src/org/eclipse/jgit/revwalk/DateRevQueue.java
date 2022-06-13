@@ -41,7 +41,11 @@ public class DateRevQueue extends AbstractRevQueue {
 		super(false);
 	}
 
-	DateRevQueue(boolean firstParent) {
+	/**
+	 * Create an empty data queue.
+	 * @param firstParent treat first element as a parent
+	 */
+	public DateRevQueue(boolean firstParent) {
 		super(firstParent);
 	}
 
