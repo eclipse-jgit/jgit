@@ -18,7 +18,11 @@ import org.eclipse.jgit.errors.MissingObjectException;
 
 /**
  * A queue of commits sorted by commit time order.
+ *
+ * @since 6.6.2
+ * @deprecated use {@link DateRevPriorityQueue } instead
  */
+@Deprecated
 public class DateRevQueue extends AbstractRevQueue {
 	private static final int REBUILD_INDEX_COUNT = 1000;
 
@@ -41,7 +45,11 @@ public class DateRevQueue extends AbstractRevQueue {
 		super(false);
 	}
 
-	DateRevQueue(boolean firstParent) {
+	/**
+	 * Create an empty data queue.
+	 * @param firstParent treat first element as a parent
+	 */
+	public DateRevQueue(boolean firstParent) {
 		super(firstParent);
 	}
 
