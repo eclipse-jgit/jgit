@@ -21,6 +21,30 @@ abstract class AbstractRevQueue extends Generator {
 	}
 
 	/**
+	 * Increase the internal capacity of the rev queue.
+	 * <p>
+	 * Subclasses can implement this method for allowing a quick growth
+	 * of their internal capacity to hold at last 'capacity' commits.
+	 *
+	 * @param capacity the number of commits expected to hold.
+	 */
+	void setCapacity(int capacity) {
+	}
+
+	/**
+	 * Return the internal capacity of the rev queue.
+	 * <p>
+	 * Subclasses can implement this method for giving a hit on
+	 * how many commits this queue can contain before auto-resizing
+	 * its internal capacity.
+	 *
+	 * @return the current capacity or 0 if the queue does not implement this method.
+	 */
+	int capacity() {
+		return 0;
+	}
+
+	/**
 	 * Add a commit to the queue.
 	 * <p>
 	 * This method always adds the commit, even if it is already in the queue or

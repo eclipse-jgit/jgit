@@ -94,9 +94,11 @@ class StartGenerator extends Generator {
 		final DateRevQueue pending;
 		int pendingOutputType = 0;
 		if (q instanceof DateRevQueue)
-			pending = (DateRevQueue)q;
+			pending = (DateRevQueue) q;
+		else if(q instanceof DateRevPriorityQueue)
+			pending = (DateRevQueue) q;
 		else
-			pending = new DateRevQueue(q);
+			pending = RevWalk.newDateRevQueue(q);
 		if (tf != TreeFilter.ALL) {
 			int rewriteFlag;
 			if (w.getRewriteParents()) {
