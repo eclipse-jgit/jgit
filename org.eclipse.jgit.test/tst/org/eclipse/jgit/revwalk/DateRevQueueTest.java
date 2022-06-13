@@ -54,7 +54,6 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 		assertCommit(c2, q.next());
 		assertNull(q.next());
 	}
-
 	@Test
 	public void testInsertTie() throws Exception {
 		final RevCommit a = parseBody(commit());
@@ -84,7 +83,6 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 			assertNull(q.next());
 		}
 	}
-
 	@Test
 	public void testCloneFIFO() throws Exception {
 		final RevCommit a = parseBody(commit());
@@ -107,4 +105,5 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 		assertCommit(a, q.next());
 		assertNull(q.next());
 	}
+
 }

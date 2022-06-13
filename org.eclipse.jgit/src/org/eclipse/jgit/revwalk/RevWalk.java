@@ -350,6 +350,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public void markStart(Collection<RevCommit> list)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
+		queue.ensureCapacity(list.size());
 		for (RevCommit c : list)
 			markStart(c);
 	}
