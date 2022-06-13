@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3dff9ed_acd52446",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-13T04:52:50Z",
+      "side": 1,
+      "message": "[...] for clone command [...]",
+      "range": {
+        "startLine": 29,
+        "startChar": 47,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "ad0e68a0d93b846fc9f280b19b5ac325981a47d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da216161_531e0477",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/FetchCommandTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-13T04:52:50Z",
+      "side": 1,
+      "message": "Nit: too long line and should be wrapped.",
+      "revId": "ad0e68a0d93b846fc9f280b19b5ac325981a47d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea64fa70_5c741756",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-13T04:52:50Z",
+      "side": 1,
+      "message": "From the comment it might not be clear why initialBranch is only set for clone command and omitted for fetch command? We differentiate between clone and fetch commands using --branch \u003cbranch\u003e option, that is only available in clone command, and is set as HEAD per default.",
+      "range": {
+        "startLine": 210,
+        "startChar": 2,
+        "endLine": 212,
+        "endChar": 84
+      },
+      "revId": "ad0e68a0d93b846fc9f280b19b5ac325981a47d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
