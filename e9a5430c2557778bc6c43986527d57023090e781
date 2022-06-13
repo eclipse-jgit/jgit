@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1f9c34e_cd4f50a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-13T07:45:36Z",
+      "side": 1,
+      "message": "- rebased onto stable-5.13\n- fixed some minor nits",
+      "revId": "e9a5430c2557778bc6c43986527d57023090e781",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
