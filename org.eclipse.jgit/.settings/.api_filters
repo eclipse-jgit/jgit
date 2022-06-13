@@ -58,6 +58,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/revwalk/DateRevQueue.java" type="org.eclipse.jgit.revwalk.DateRevQueue">
+        <filter id="1159725059">
+            <message_arguments>
+                <message_argument value="6.6.2"/>
+                <message_argument value="DateRevQueue(boolean)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/revwalk/RevCommit.java" type="org.eclipse.jgit.revwalk.RevCommit">
         <filter id="1193279491">
             <message_arguments>
