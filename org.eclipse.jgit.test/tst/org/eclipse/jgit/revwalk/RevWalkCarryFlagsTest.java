@@ -39,7 +39,7 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 	/**
 	 * Similar to {@link #testRevWalkCarryUninteresting_fastClock()} but the
 	 * last merge commit is created so fast that he has the same creationdate as
-	 * the previous commit. This will cause the underlying {@link DateRevQueue}
+	 * the previous commit. This will cause the underlying {@link AbstractRevQueue}
 	 * is not able to sort the commits in a way matching the topology. A parent
 	 * (one of the commits which are merged) is handled before the child (the
 	 * merge commit). This makes carrying over flags more complicated
