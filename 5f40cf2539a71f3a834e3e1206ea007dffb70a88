@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2185e63_dad36279",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T15:10:05Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2:\n\u003e \n\u003e in addition we need a p2 repository of jetty 11.0.7 to update the target platform used in Eclipse and the packaging build\n\nHow can I do this? I updated Jetty now to 11.0.9.",
+      "revId": "5f40cf2539a71f3a834e3e1206ea007dffb70a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
