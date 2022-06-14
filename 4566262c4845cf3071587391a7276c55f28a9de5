@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd1673d2_c6ba5b6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "Can you add some statistics for old/new fetch command performance for big repository to better understand motivation and justification for this change? Also a comparison with C-Git fetch would be nice.",
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b7607f9_9b62a818",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "I think this is good and non invasive optimization.",
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c26bbb_5c3f34be",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevPriorityQueueTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "Nit: 2022?",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "699c1bd8_075cc35d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevPriorityQueueTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "Add a comment what is the purpose of this test (benchmark?) and why it\u0027s disabled. JGit has benchmark project. Could it be rather done there?",
+      "range": {
+        "startLine": 57,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 46
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df04fd70_7336a724",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "least",
+      "range": {
+        "startLine": 27,
+        "startChar": 42,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a83478bd_fb71397a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "Wrong formatting: indentation with 4 spaces instead of tabs. Why JGit doesn\u0027t use google-java-format? There is option for indentation level 4:\n\n  google-java-format-1.7 -help\n  Usage: google-java-format [options] file(s)\n  Options:\n  --aosp, -aosp, -a\n    Use AOSP style instead of Google Style (4-space indentation).\n\nThough, it does not support tabs, I think.",
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ccfc41d_34913aaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "I see why this method is static. May be extract this method to its own class: RevisionQueueFactory and then rename this method as getInstance(). Similarly, to what Matthias did here: [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/193372/9/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileWindowReaderFactory.java",
+      "range": {
+        "startLine": 232,
+        "startChar": 1,
+        "endLine": 232,
+        "endChar": 7
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1be0f17d_029b58be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "Another option (or in addition) would be to use Java System Property. That way we could set container. javaOptions in Gerrit\u0027s \u003cgerrit_site\u003e/etc/gerrit.config file:\n\n  [container]\n\tjavaOptions \u003d \"-Djgit.revision_queue_factory\u003dorg.eclipse.jgit.revwalk.RevisionQueueFactory\"\n\t\nSimilarly to how this works with flogger backend factory:\n\n    [container]\n  \tjavaOptions \u003d \"-Dflogger.backend_factory\u003dcom.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance\"\n\nYet another option would be to use JGit\u0027s config file and lazily resolve the right revision queue factory.",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 233,
+        "endChar": 93
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf3cea4_8e6f90f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "Can be used in place.",
+      "range": {
+        "startLine": 361,
+        "startChar": 2,
+        "endLine": 361,
+        "endChar": 38
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcdc1636_116d6607",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "This is a no-op in case the default instance: DateRevQueue is used. Would it make sense to be more explicit about it? For example we could add: `boolean isAdjustingCapacitySupported()` to those implementations, and guard it here:\n\n  if (queue.isAdjustingCapacitySupported()) {\n      queue.setCapacity(queue.capacity() + list.size());\n  }\n\nAlso the addition is forcing the caller sites to perform calculation. There could be two methods: setCapacity(size) and increaseCapacityBy(size) the former just set the value and the latter would add new capacity value to the current capacity internally.",
+      "range": {
+        "startLine": 361,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 48
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c686794_5123eb66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "Nit: blank between if and open paren, here and in all other places.",
+      "range": {
+        "startLine": 98,
+        "startChar": 7,
+        "endLine": 98,
+        "endChar": 10
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9dbaa5e_a960fc81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-14T06:13:12Z",
+      "side": 1,
+      "message": "DRY: The body of the both if branches is the same, combine the if condition:\n\n  if (q instanceof DateRevQueue || q instanceof DateRevPriorityQueue)",
+      "range": {
+        "startLine": 99,
+        "startChar": 3,
+        "endLine": 99,
+        "endChar": 29
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
