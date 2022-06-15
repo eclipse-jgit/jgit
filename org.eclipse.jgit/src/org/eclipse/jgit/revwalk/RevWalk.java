@@ -1496,9 +1496,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			final RevCommit c = q.next();
 			if (c == null)
 				break;
-			if (c.parents == null)
+			if (c.getParentCount() == 0)
 				continue;
-			for (RevCommit p : c.parents) {
+			for (RevCommit p : c.getParents()) {
 				if ((p.flags & clearFlags) == 0)
 					continue;
 				p.flags &= retainFlags;
@@ -1670,7 +1670,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public void assumeShallow(Collection<? extends ObjectId> ids) {
 		for (ObjectId id : ids)
-			lookupCommit(id).parents = RevCommit.NO_PARENTS;
+			lookupCommit(id).setParents(RevCommit.NO_PARENTS);
 	}
 
 	/**
@@ -1707,9 +1707,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 		for (ObjectId id : reader.getShallowCommits()) {
 			if (id.equals(rc.getId())) {
-				rc.parents = RevCommit.NO_PARENTS;
+				rc.setParents(RevCommit.NO_PARENTS);
 			} else {
-				lookupCommit(id).parents = RevCommit.NO_PARENTS;
+				lookupCommit(id).setParents(RevCommit.NO_PARENTS);
 			}
 		}
 	}

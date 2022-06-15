@@ -102,7 +102,7 @@ public class RevCommit extends RevObject {
 
 	private RevTree tree;
 
-	RevCommit[] parents;
+	private RevCommit[] parents;
 
 	int commitTime; // An int here for performance, overflows in 2038
 
@@ -146,7 +146,7 @@ public class RevCommit extends RevObject {
 		tree = walk.lookupTree(idBuffer);
 
 		int ptr = 46;
-		if (parents == null) {
+		if (getParentCount() == 0) {
 			RevCommit[] pList = new RevCommit[1];
 			int nParents = 0;
 			for (;;) {
@@ -211,7 +211,7 @@ public class RevCommit extends RevObject {
 
 	private static FIFORevQueue carryFlags1(RevCommit c, int carry, int depth) {
 		for(;;) {
-			RevCommit[] pList = c.parents;
+			RevCommit[] pList = c.getParents();
 			if (pList == null || pList.length == 0)
 				return null;
 			if (pList.length != 1) {
@@ -259,7 +259,7 @@ public class RevCommit extends RevObject {
 		// Commits in q have non-null parent arrays and have set all
 		// flags in carry. This loop finishes copying over the graph.
 		for (RevCommit c; (c = q.next()) != null;) {
-			for (RevCommit p : c.parents)
+			for (RevCommit p : c.getParents())
 				carryOneStep(q, carry, p);
 		}
 	}
@@ -267,7 +267,7 @@ public class RevCommit extends RevObject {
 	private static void carryOneStep(FIFORevQueue q, int carry, RevCommit c) {
 		if ((c.flags & carry) != carry) {
 			c.flags |= carry;
-			if (c.parents != null)
+			if (c.getParentCount() > 0)
 				q.add(c);
 		}
 	}
@@ -309,12 +309,22 @@ public class RevCommit extends RevObject {
 	}
 
 	/**
+	 * Update parents on the commit
+	 *
+	 * @param parents
+	 *               parents to be overwritten
+	 */
+	public void setParents(RevCommit[] parents) {
+		this.parents = parents;
+	}
+
+	/**
 	 * Get the number of parent commits listed in this commit.
 	 *
 	 * @return number of parents; always a positive value but can be 0.
 	 */
-	public final int getParentCount() {
-		return parents.length;
+	public int getParentCount() {
+		return parents == null ? 0 : parents.length;
 	}
 
 	/**
@@ -327,7 +337,7 @@ public class RevCommit extends RevObject {
 	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             an invalid parent index was specified.
 	 */
-	public final RevCommit getParent(int nth) {
+	public RevCommit getParent(int nth) {
 		return parents[nth];
 	}
 
@@ -341,7 +351,7 @@ public class RevCommit extends RevObject {
 	 *
 	 * @return the array of parents.
 	 */
-	public final RevCommit[] getParents() {
+	public RevCommit[] getParents() {
 		return parents;
 	}
 
