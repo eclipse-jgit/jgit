@@ -44,6 +44,7 @@ public class TreeRevFilter extends RevFilter {
 	private static final int FILTER_APPLIED = RevWalk.TREE_REV_FILTER_APPLIED;
 
 	private final int rewriteFlag;
+
 	private final TreeWalk pathFilter;
 
 	/**
@@ -62,10 +63,9 @@ public class TreeRevFilter extends RevFilter {
 		this(walker, t, 0);
 	}
 
-
 	/**
-	 * Create a filter for the first phase of a parent-rewriting limited revision
-	 * walk.
+	 * Create a filter for the first phase of a parent-rewriting limited
+	 * revision walk.
 	 * <p>
 	 * This filter is ANDed to evaluate before all other filters and ties the
 	 * configured {@link TreeFilter} into the revision walking process.
@@ -79,8 +79,8 @@ public class TreeRevFilter extends RevFilter {
 	 * @param walker
 	 *            walker used for reading trees.
 	 * @param t
-	 *            filter to compare against any changed paths in each commit. If a
-	 *            {@link FollowFilter}, will be replaced with a new filter
+	 *            filter to compare against any changed paths in each commit. If
+	 *            a {@link FollowFilter}, will be replaced with a new filter
 	 *            following new paths after a rename.
 	 * @param rewriteFlag
 	 *            flag to color commits to be removed from the simplified DAT.
@@ -106,12 +106,12 @@ public class TreeRevFilter extends RevFilter {
 		c.flags |= FILTER_APPLIED;
 		// Reset the tree filter to scan this commit and parents.
 		//
-		RevCommit[] pList = c.parents;
+		RevCommit[] pList = c.getParents();
 		int nParents = pList.length;
 		TreeWalk tw = pathFilter;
 		ObjectId[] trees = new ObjectId[nParents + 1];
 		for (int i = 0; i < nParents; i++) {
-			RevCommit p = c.parents[i];
+			RevCommit p = c.getParent(i);
 			if ((p.flags & PARSED) == 0) {
 				p.parseHeaders(walker);
 			}
