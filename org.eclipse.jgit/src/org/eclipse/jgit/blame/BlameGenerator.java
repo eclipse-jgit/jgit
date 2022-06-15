@@ -1110,6 +1110,7 @@ public class BlameGenerator implements AutoCloseable {
 		treeWalk.setFilter(TreeFilter.ANY_DIFF);
 		treeWalk.reset(parent.getTree(), commit.getTree());
 		renameDetector.reset();
+		renameDetector.setSourceFilter(path);
 		renameDetector.addAll(DiffEntry.scan(treeWalk));
 		for (DiffEntry ent : renameDetector.compute()) {
 			if (isRename(ent) && ent.getNewPath().equals(path.getPath()))
