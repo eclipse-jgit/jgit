@@ -33,6 +33,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 /**
  * Detect and resolve object renames.
@@ -114,6 +115,9 @@ public class RenameDetector {
 
 	/** Set if the number of adds or deletes was over the limit. */
 	private boolean overRenameLimit;
+
+	/** If set, look for renames only for this source path. */
+	private PathFilter sourcePathFilter;
 
 	/**
 	 * Create a new rename detector for the given repository
@@ -261,6 +265,17 @@ public class RenameDetector {
 	 */
 	public void setSkipContentRenamesForBinaryFiles(boolean value) {
 		this.skipContentRenamesForBinaryFiles = value;
+	}
+
+	/**
+	 * Specifies a single source path, for which renames should be detected.
+	 *
+	 * @param pathFilter
+	 *            the source path filter to use
+	 * @since 6.3
+	 */
+	public void setSourceFilter(PathFilter pathFilter) {
+		this.sourcePathFilter = pathFilter;
 	}
 
 	/**
@@ -421,6 +436,17 @@ public class RenameDetector {
 			if (0 < breakScore)
 				breakModifies(reader, pm);
 
+			if (sourcePathFilter != null) {
+				List<DiffEntry> newAdded = new ArrayList<>();
+				String sourcePath = sourcePathFilter.getPath();
+				for (DiffEntry add : added) {
+					if (add.getNewPath().equals(sourcePath)) {
+						newAdded.add(add);
+					}
+				}
+				added = newAdded;
+			}
+
 			if (!added.isEmpty() && !deleted.isEmpty())
 				findExactRenames(pm);
 
@@ -449,6 +475,7 @@ public class RenameDetector {
 		deleted = new ArrayList<>();
 		added = new ArrayList<>();
 		done = false;
+		sourcePathFilter = null;
 	}
 
 	private void advanceOrCancel(ProgressMonitor pm) throws CanceledException {
