@@ -50,6 +50,23 @@
       "message": "Also its possible this change produces different results, if e.g. there is a \"better match\" when looking at all the diffs. When compared to the match found by the added heuristic. So we maybe want a preference for enabling the new code, if we are adding it.\n\n(I assume JGit finds the best match in terms of similar file content and returns that)",
       "revId": "1217357a51e6794736bc99148d7c36f6a95090af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05eaa2c1_b3a2523d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-15T22:34:22Z",
+      "side": 1,
+      "message": "Maybe coordinate with the Google people on this? See https://git.eclipse.org/r/c/jgit/jgit/+/193911 . The problem doesn\u0027t seem to be limited to blame, and it looks as if Google (Marija?) is working or planning to work on it. (Blame is maybe a special case since it is interested in one file only; it shouldn\u0027t build a 16000x9000 matrix for your case, should it?) Some kind of directory rename detection might help (unless all your 25000 added/deleted files were in the same directory :-)).\n\nAlso, the new \"ort\" merge strategy[1] might have improvements. Elijah\u0027s blog posts are very well written and might give additional insights.\n\n[1] https://github.blog/2021-08-16-highlights-from-git-2-33/",
+      "revId": "1217357a51e6794736bc99148d7c36f6a95090af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
