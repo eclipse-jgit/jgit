@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbe37661_a954ae04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2044,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-06-15T20:54:00Z",
+      "side": 1,
+      "message": "Who is this instruction directed at? I would expect the user fetching not to have a way to control whether bitmaps are enabled.",
+      "revId": "7f4fa5655abfcf731fd4a3869620b4e6dc55998e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
