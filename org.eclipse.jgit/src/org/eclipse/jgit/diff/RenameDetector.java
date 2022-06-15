@@ -21,7 +21,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
@@ -33,6 +35,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 /**
  * Detect and resolve object renames.
@@ -114,6 +117,9 @@ public class RenameDetector {
 
 	/** Set if the number of adds or deletes was over the limit. */
 	private boolean overRenameLimit;
+
+	/** If set, look for renames only to and from this set of paths */
+	private Set<String> pathFilters;
 
 	/**
 	 * Create a new rename detector for the given repository
@@ -261,6 +267,25 @@ public class RenameDetector {
 	 */
 	public void setSkipContentRenamesForBinaryFiles(boolean value) {
 		this.skipContentRenamesForBinaryFiles = value;
+	}
+
+	/**
+	 * Specifies a set of paths for which the rename detection is done. Only
+	 * changes to and from the set of paths will be reported.
+	 *
+	 * @param pathFilters
+	 *            the paths for which renames should be computed
+	 * @since 6.3
+	 */
+	public void setPathFilters(PathFilter... pathFilters) {
+		if (pathFilters == null) {
+			this.pathFilters = null;
+		} else {
+			this.pathFilters = new HashSet<>(pathFilters.length);
+			for (PathFilter pathFilter : pathFilters) {
+				this.pathFilters.add(pathFilter.getPath());
+			}
+		}
 	}
 
 	/**
@@ -421,11 +446,29 @@ public class RenameDetector {
 			if (0 < breakScore)
 				breakModifies(reader, pm);
 
-			if (!added.isEmpty() && !deleted.isEmpty())
-				findExactRenames(pm);
+			if (pathFilters != null) {
+				List<DiffEntry> filteredAdded = new ArrayList<>();
+				List<DiffEntry> filteredDeleted = new ArrayList<>();
+				for (DiffEntry add : added) {
+					if (pathFilters.contains(add.getNewPath())) {
+						filteredAdded.add(add);
+					}
+				}
+				for (DiffEntry delete : deleted) {
+					if (pathFilters.contains(delete.getOldPath())) {
+						filteredDeleted.add(delete);
+					}
+				}
+				List<DiffEntry> originalAdded = new ArrayList<>(added);
+				List<DiffEntry> originalDeleted = new ArrayList<>(deleted);
+				findRenames(reader, pm, filteredAdded, originalDeleted);
+				added = filteredAdded;
 
-			if (!added.isEmpty() && !deleted.isEmpty())
-				findContentRenames(reader, pm);
+				findRenames(reader, pm, originalAdded, filteredDeleted);
+				deleted = filteredDeleted;
+			} else {
+				findRenames(reader, pm, added, deleted);
+			}
 
 			if (0 < breakScore && !added.isEmpty() && !deleted.isEmpty())
 				rejoinModifies(pm);
@@ -436,9 +479,30 @@ public class RenameDetector {
 			entries.addAll(deleted);
 			deleted = null;
 
+			if (pathFilters != null) {
+				List<DiffEntry> filteredEntries = new ArrayList<>();
+				for (DiffEntry entry : entries) {
+					if (pathFilters.contains(entry.getNewPath())
+							|| pathFilters.contains(entry.getOldPath())) {
+						filteredEntries.add(entry);
+					}
+				}
+				entries = filteredEntries;
+			}
+
 			Collections.sort(entries, DIFF_COMPARATOR);
 		}
 		return Collections.unmodifiableList(entries);
+	}
+
+	private void findRenames(ContentSource.Pair reader, ProgressMonitor pm,
+			List<DiffEntry> addDiffs, List<DiffEntry> deleteDiffs)
+			throws CanceledException, IOException {
+		if (!addDiffs.isEmpty() && !deleteDiffs.isEmpty())
+			findExactRenames(pm, addDiffs, deleteDiffs);
+
+		if (!addDiffs.isEmpty() && !deleteDiffs.isEmpty())
+			findContentRenames(reader, pm, addDiffs, deleteDiffs);
 	}
 
 	/**
@@ -449,6 +513,7 @@ public class RenameDetector {
 		deleted = new ArrayList<>();
 		added = new ArrayList<>();
 		done = false;
+		pathFilters = null;
 	}
 
 	private void advanceOrCancel(ProgressMonitor pm) throws CanceledException {
@@ -540,20 +605,23 @@ public class RenameDetector {
 	}
 
 	private void findContentRenames(ContentSource.Pair reader,
-			ProgressMonitor pm)
+			ProgressMonitor pm, List<DiffEntry> addDiffs,
+			List<DiffEntry> deleteDiffs)
 			throws IOException, CanceledException {
-		int cnt = Math.max(added.size(), deleted.size());
+		int cnt = Math.max(addDiffs.size(), deleteDiffs.size());
 		if (getRenameLimit() == 0 || cnt <= getRenameLimit()) {
 			SimilarityRenameDetector d;
 
-			d = new SimilarityRenameDetector(reader, deleted, added);
+			d = new SimilarityRenameDetector(reader, deleteDiffs, addDiffs);
 			d.setRenameScore(getRenameScore());
 			d.setBigFileThreshold(getBigFileThreshold());
 			d.setSkipBinaryFiles(getSkipContentRenamesForBinaryFiles());
 			d.compute(pm);
 			overRenameLimit |= d.isTableOverflow();
-			deleted = d.getLeftOverSources();
-			added = d.getLeftOverDestinations();
+			deleteDiffs.clear();
+			deleteDiffs.addAll(d.getLeftOverSources());
+			addDiffs.clear();
+			addDiffs.addAll(d.getLeftOverDestinations());
 			entries.addAll(d.getMatches());
 		} else {
 			overRenameLimit = true;
@@ -561,16 +629,19 @@ public class RenameDetector {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void findExactRenames(ProgressMonitor pm)
+	private void findExactRenames(ProgressMonitor pm, List<DiffEntry> addDiffs,
+			List<DiffEntry> deleteDiffs)
 			throws CanceledException {
 		pm.beginTask(JGitText.get().renamesFindingExact, //
-				added.size() + added.size() + deleted.size()
-						+ added.size() * deleted.size());
+				addDiffs.size() + addDiffs.size() + deleteDiffs.size()
+						+ addDiffs.size() * deleteDiffs.size());
 
-		HashMap<AbbreviatedObjectId, Object> deletedMap = populateMap(deleted, pm);
-		HashMap<AbbreviatedObjectId, Object> addedMap = populateMap(added, pm);
+		HashMap<AbbreviatedObjectId, Object> deletedMap = populateMap(
+				deleteDiffs, pm);
+		HashMap<AbbreviatedObjectId, Object> addedMap = populateMap(addDiffs,
+				pm);
 
-		ArrayList<DiffEntry> uniqueAdds = new ArrayList<>(added.size());
+		ArrayList<DiffEntry> uniqueAdds = new ArrayList<>(addDiffs.size());
 		ArrayList<List<DiffEntry>> nonUniqueAdds = new ArrayList<>();
 
 		for (Object o : addedMap.values()) {
@@ -580,7 +651,7 @@ public class RenameDetector {
 				nonUniqueAdds.add((List<DiffEntry>) o);
 		}
 
-		ArrayList<DiffEntry> left = new ArrayList<>(added.size());
+		ArrayList<DiffEntry> left = new ArrayList<>(addDiffs.size());
 
 		for (DiffEntry a : uniqueAdds) {
 			Object del = deletedMap.get(a.newId);
@@ -692,19 +763,20 @@ public class RenameDetector {
 			}
 			advanceOrCancel(pm);
 		}
-		added = left;
+		addDiffs.clear();
+		addDiffs.addAll(left);
 
-		deleted = new ArrayList<>(deletedMap.size());
+		deleteDiffs.clear();
 		for (Object o : deletedMap.values()) {
 			if (o instanceof DiffEntry) {
 				DiffEntry e = (DiffEntry) o;
 				if (e.changeType == ChangeType.DELETE)
-					deleted.add(e);
+					deleteDiffs.add(e);
 			} else {
 				List<DiffEntry> list = (List<DiffEntry>) o;
 				for (DiffEntry e : list) {
 					if (e.changeType == ChangeType.DELETE)
-						deleted.add(e);
+						deleteDiffs.add(e);
 				}
 			}
 		}

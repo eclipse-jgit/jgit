@@ -25,6 +25,7 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -208,6 +209,28 @@ public class RenameDetectorTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testExactRename_PathFilters() throws Exception {
+		ObjectId foo = blob("foo");
+		ObjectId bar = blob("bar");
+
+		DiffEntry a = DiffEntry.add(PATH_A, foo);
+		DiffEntry b = DiffEntry.delete(PATH_Q, foo);
+
+		DiffEntry c = DiffEntry.add(PATH_H, bar);
+		DiffEntry d = DiffEntry.delete(PATH_B, bar);
+
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+		rd.add(d);
+		rd.setPathFilters(PathFilter.create(PATH_A));
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals("Unexpected entries in: " + entries, 1, entries.size());
+		assertRename(b, a, 100, entries.get(0));
+	}
+
+	@Test
 	public void testInexactRename_OnePair() throws Exception {
 		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
 		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
@@ -310,6 +333,29 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		List<DiffEntry> entries = rd.compute();
 		assertEquals(1, entries.size());
 		assertRename(b, a, 57, entries.get(0));
+	}
+
+	@Test
+	public void testInexactRename_PathFilters() throws Exception {
+		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
+		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		ObjectId cId = blob("some\nsort\nof\ntext\n");
+		ObjectId dId = blob("completely\nunrelated\ntext\n");
+		DiffEntry c = DiffEntry.add(PATH_B, cId);
+		DiffEntry d = DiffEntry.delete(PATH_H, dId);
+
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+		rd.add(d);
+		rd.setPathFilters(PathFilter.create(PATH_A));
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals("Unexpected entries: " + entries, 1, entries.size());
+		assertRename(b, a, 66, entries.get(0));
 	}
 
 	@Test
@@ -425,6 +471,30 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertEquals(2, entries.size());
 		assertSame(a, entries.get(0));
 		assertSame(b, entries.get(1));
+	}
+
+	@Test
+	public void testNoRenames_PathFilters() throws Exception {
+		ObjectId aId = blob("");
+		ObjectId bId = blob("blah1");
+		ObjectId cId = blob("");
+		ObjectId dId = blob("blah2");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		DiffEntry c = DiffEntry.add(PATH_H, cId);
+		DiffEntry d = DiffEntry.delete(PATH_B, dId);
+
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+		rd.add(d);
+		rd.setPathFilters(PathFilter.create(PATH_A));
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals("Unexpected entries in: " + entries, 1, entries.size());
+		assertSame(a, entries.get(0));
 	}
 
 	@Test
