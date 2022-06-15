@@ -72,16 +72,16 @@ class RewriteGenerator extends Generator {
 		applyFilterToParents(c);
 
 		boolean rewrote = false;
-		final RevCommit[] pList = c.parents;
+		final RevCommit[] pList = c.getParents();
 		final int nParents = pList.length;
 		for (int i = 0; i < nParents; i++) {
 			final RevCommit oldp = pList[i];
 			final RevCommit newp = rewrite(oldp);
 			if (firstParent) {
 				if (newp == null) {
-					c.parents = RevCommit.NO_PARENTS;
+					c.setParents(RevCommit.NO_PARENTS);
 				} else {
-					c.parents = new RevCommit[] { newp };
+					c.setParents(new RevCommit[] { newp });
 				}
 				return c;
 			}
@@ -91,7 +91,7 @@ class RewriteGenerator extends Generator {
 			}
 		}
 		if (rewrote) {
-			c.parents = cleanup(pList);
+			c.setParents(cleanup(pList));
 		}
 		return c;
 	}
@@ -108,7 +108,7 @@ class RewriteGenerator extends Generator {
 	private void applyFilterToParents(RevCommit c)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		for (RevCommit parent : c.parents) {
+		for (RevCommit parent : c.getParents()) {
 			while ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
 
 				RevCommit n = source.next();
@@ -130,7 +130,7 @@ class RewriteGenerator extends Generator {
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
 
-			if (p.parents.length > 1) {
+			if (p.getParentCount() > 1) {
 				// This parent is a merge, so keep it.
 				//
 				return p;
@@ -150,15 +150,15 @@ class RewriteGenerator extends Generator {
 				return p;
 			}
 
-			if (p.parents.length == 0) {
+			if (p.getParentCount() == 0) {
 				// We can't go back any further, other than to
 				// just delete the parent entirely.
 				//
 				return null;
 			}
 
-			applyFilterToParents(p.parents[0]);
-			p = p.parents[0];
+			applyFilterToParents(p.getParent(0));
+			p = p.getParent(0);
 
 		}
 	}
