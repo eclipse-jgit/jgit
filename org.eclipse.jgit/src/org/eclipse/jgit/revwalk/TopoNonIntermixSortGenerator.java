@@ -48,7 +48,7 @@ class TopoNonIntermixSortGenerator extends Generator {
 				break;
 			}
 			if ((c.flags & TOPO_QUEUED) == 0) {
-				for (RevCommit p : c.parents) {
+				for (RevCommit p : c.getParents()) {
 					p.inDegree++;
 
 					if (firstParent) {
@@ -94,7 +94,7 @@ class TopoNonIntermixSortGenerator extends Generator {
 				continue;
 			}
 
-			for (RevCommit p : c.parents) {
+			for (RevCommit p : c.getParents()) {
 				if (--p.inDegree == 0 && (p.flags & TOPO_QUEUED) != 0) {
 					// The parent has no unproduced interesting children. unpop
 					// the parent so it goes right behind this child. This means

@@ -106,12 +106,12 @@ public class TreeRevFilter extends RevFilter {
 		c.flags |= FILTER_APPLIED;
 		// Reset the tree filter to scan this commit and parents.
 		//
-		RevCommit[] pList = c.parents;
+		RevCommit[] pList = c.getParents();
 		int nParents = pList.length;
 		TreeWalk tw = pathFilter;
 		ObjectId[] trees = new ObjectId[nParents + 1];
 		for (int i = 0; i < nParents; i++) {
-			RevCommit p = c.parents[i];
+			RevCommit p = c.getParent(i);
 			if ((p.flags & PARSED) == 0) {
 				p.parseHeaders(walker);
 			}

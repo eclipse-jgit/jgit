@@ -47,7 +47,7 @@ class TopoSortGenerator extends Generator {
 			if (c == null) {
 				break;
 			}
-			for (RevCommit p : c.parents) {
+			for (RevCommit p : c.getParents()) {
 				p.inDegree++;
 				if (firstParent) {
 					break;
@@ -86,7 +86,7 @@ class TopoSortGenerator extends Generator {
 			// All of our children have already produced,
 			// so it is OK for us to produce now as well.
 			//
-			for (RevCommit p : c.parents) {
+			for (RevCommit p : c.getParents()) {
 				if (--p.inDegree == 0 && (p.flags & TOPO_DELAY) != 0) {
 					// This parent tried to come before us, but we are
 					// his last child. unpop the parent so it goes right
