@@ -33,6 +33,23 @@
       "message": "Maybe its possible to go back in the git history and identify the commit that actually renamed the file, instead of using the merge commit. Though I guess that means traversing the ancestors of the merge commit until a commit is found that adds the file with the git blame path... That might be expensive too? \n\nI\u0027ll also try to clarify how the merge commit that takes forever (it has 16k added files and 9k removed files) came to be. I\u0027ll need help from Advantest git experts for this, so it might take a while. If you have suggestions how such merge commits can be created, please let me know.",
       "revId": "1217357a51e6794736bc99148d7c36f6a95090af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81770b0d_a3323e1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-15T20:40:00Z",
+      "side": 1,
+      "message": "Also its possible this change produces different results, if e.g. there is a \"better match\" when looking at all the diffs. When compared to the match found by the added heuristic. So we maybe want a preference for enabling the new code, if we are adding it.\n\n(I assume JGit finds the best match in terms of similar file content and returns that)",
+      "revId": "1217357a51e6794736bc99148d7c36f6a95090af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
