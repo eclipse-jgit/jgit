@@ -238,12 +238,14 @@ public class JGitText extends TranslationBundle {
 	/***/ public String couldNotFindSixTabsInLine;
 	/***/ public String couldNotGetAdvertisedRef;
 	/***/ public String couldNotGetRepoStatistics;
+	/***/ public String couldNotHashByteArrayWithSha256;
 	/***/ public String couldNotLockHEAD;
 	/***/ public String couldNotPersistCookies;
 	/***/ public String couldNotReadCookieFile;
 	/***/ public String couldNotReadIndexInOneGo;
 	/***/ public String couldNotReadObjectWhileParsingCommit;
 	/***/ public String couldNotRewindToUpstreamCommit;
+	/***/ public String couldNotSignStringWithKey;
 	/***/ public String couldNotURLEncodeToUTF8;
 	/***/ public String countingObjects;
 	/***/ public String createBranchFailedUnknownReason;
@@ -391,6 +393,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String inTheFuture;
 	/***/ public String invalidAdvertisementOf;
 	/***/ public String invalidAncestryLength;
+	/***/ public String invalidAwsApiSignatureVersion;
 	/***/ public String invalidBooleanValue;
 	/***/ public String invalidChannel;
 	/***/ public String invalidCommitParentNumber;
@@ -489,6 +492,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mismatchOffset;
 	/***/ public String mismatchCRC;
 	/***/ public String missingAccesskey;
+	/***/ public String missingAwsRegion;
 	/***/ public String missingConfigurationForKey;
 	/***/ public String missingCookieFile;
 	/***/ public String missingCRC;
@@ -775,6 +779,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unableToSignCommitNoSecretKey;
 	/***/ public String unauthorized;
 	/***/ public String unencodeableFile;
+	/***/ public String unexpectedAwsApiSignatureVersion;
 	/***/ public String unexpectedCompareResult;
 	/***/ public String unexpectedEndOfConfigFile;
 	/***/ public String unexpectedEndOfInput;
