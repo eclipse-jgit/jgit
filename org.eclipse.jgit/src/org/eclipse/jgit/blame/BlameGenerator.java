@@ -1109,8 +1109,31 @@ public class BlameGenerator implements AutoCloseable {
 
 		treeWalk.setFilter(TreeFilter.ANY_DIFF);
 		treeWalk.reset(parent.getTree(), commit.getTree());
+		List<DiffEntry> entries = DiffEntry.scan(treeWalk);
+
+		// TODO: how big does 'entries' have to be to apply this heuristic? 100+
+		// diffs? 1000+ diffs? the heuristic costs some time, it should not be
+		// used for small change sets
+		int heuristicThreshold = 100;
+		if (entries.size() > heuristicThreshold) {
+			List<DiffEntry> prunedEntries = FindDiffs
+					.sameFileNameOrFolderDiffs(path, entries);
+			if (!prunedEntries.isEmpty()) {
+				DiffEntry renameDiff = findRenameDiff(prunedEntries, path);
+				if (renameDiff != null) {
+					return renameDiff;
+				}
+			}
+		}
+
+		DiffEntry renameDiff = findRenameDiff(entries, path);
+		return renameDiff;
+	}
+
+	private DiffEntry findRenameDiff(List<DiffEntry> entries, PathFilter path)
+			throws IOException {
 		renameDetector.reset();
-		renameDetector.addAll(DiffEntry.scan(treeWalk));
+		renameDetector.addAll(entries);
 		for (DiffEntry ent : renameDetector.compute()) {
 			if (isRename(ent) && ent.getNewPath().equals(path.getPath()))
 				return ent;
