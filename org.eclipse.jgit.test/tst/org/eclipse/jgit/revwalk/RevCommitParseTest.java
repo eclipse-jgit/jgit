@@ -13,6 +13,7 @@ package org.eclipse.jgit.revwalk;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -78,7 +79,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		assertNull(c.getTree());
-		assertNull(c.parents);
+		assertNull(c.getParents());
 
 		try (RevWalk rw = new RevWalk(db)) {
 			c.parseCanonical(rw, body.toString().getBytes(UTF_8));
@@ -86,8 +87,8 @@ public class RevCommitParseTest extends RepositoryTestCase {
 			assertEquals(treeId, c.getTree().getId());
 			assertSame(rw.lookupTree(treeId), c.getTree());
 		}
-		assertNotNull(c.parents);
-		assertEquals(0, c.parents.length);
+		assertNotNull(c.getParents());
+		assertEquals(0, c.getParentCount());
 		assertEquals("", c.getFullMessage());
 
 		final PersonIdent cAuthor = c.getAuthorIdent();
@@ -505,4 +506,11 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create("a message");
 		assertNull(c.getRawGpgSignature());
 	}
+
+	@Test
+	public void testParse_NoOverriddenParents() throws Exception {
+		final RevCommit c = create("a message");
+		assertFalse(c.hasOverriddenParents());
+	}
+
 }
