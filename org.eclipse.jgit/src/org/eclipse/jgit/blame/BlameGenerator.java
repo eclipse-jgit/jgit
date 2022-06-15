@@ -41,6 +41,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.diff.FilteredRenameDetector;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -1109,9 +1110,10 @@ public class BlameGenerator implements AutoCloseable {
 
 		treeWalk.setFilter(TreeFilter.ANY_DIFF);
 		treeWalk.reset(parent.getTree(), commit.getTree());
-		renameDetector.reset();
-		renameDetector.addAll(DiffEntry.scan(treeWalk));
-		for (DiffEntry ent : renameDetector.compute()) {
+		List<DiffEntry> diffs = DiffEntry.scan(treeWalk);
+		FilteredRenameDetector filteredRenameDetector = new FilteredRenameDetector(
+				renameDetector);
+		for (DiffEntry ent : filteredRenameDetector.compute(diffs, path)) {
 			if (isRename(ent) && ent.getNewPath().equals(path.getPath()))
 				return ent;
 		}
