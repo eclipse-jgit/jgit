@@ -16,6 +16,23 @@
       "message": "I\u0027m still trying to understand how to reproduce the merge commits that rename files, which we see in the Advantest repositories.\n\nOther than trying some simple heuristics to find a rename quickly, I don\u0027t see what we can do here. There is a massive commit with a lot of adds and removes, that also touches the file for which JGit blame is called. So JGit tries to find a plausible rename match, by computing a (sparse) matrix between the thousands of adds and removes. That takes forever. ",
       "revId": "1217357a51e6794736bc99148d7c36f6a95090af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "752bfcb7_59bd4ee8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-15T20:32:17Z",
+      "side": 1,
+      "message": "Maybe its possible to go back in the git history and identify the commit that actually renamed the file, instead of using the merge commit. Though I guess that means traversing the ancestors of the merge commit until a commit is found that adds the file with the git blame path... That might be expensive too? \n\nI\u0027ll also try to clarify how the merge commit that takes forever (it has 16k added files and 9k removed files) came to be. I\u0027ll need help from Advantest git experts for this, so it might take a while. If you have suggestions how such merge commits can be created, please let me know.",
+      "revId": "1217357a51e6794736bc99148d7c36f6a95090af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
