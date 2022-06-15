@@ -903,6 +903,16 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Updates the commit in the inmemory's objectId owner map.
+	 *
+	 * @param commit
+	 *            new commit
+	 */
+	public void updateCommit(RevCommit commit) {
+		this.objects.add(commit);
+	}
+
+	/**
 	 * Locate a reference to a tag without loading it.
 	 * <p>
 	 * The tag may or may not exist in the repository. It is impossible to tell
@@ -1496,9 +1506,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			final RevCommit c = q.next();
 			if (c == null)
 				break;
-			if (c.parents == null)
+			if (c.getParents() == null)
 				continue;
-			for (RevCommit p : c.parents) {
+			for (RevCommit p : c.getParents()) {
 				if ((p.flags & clearFlags) == 0)
 					continue;
 				p.flags &= retainFlags;
@@ -1670,7 +1680,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public void assumeShallow(Collection<? extends ObjectId> ids) {
 		for (ObjectId id : ids)
-			lookupCommit(id).parents = RevCommit.NO_PARENTS;
+			lookupCommit(id).setParents(RevCommit.NO_PARENTS);
 	}
 
 	/**
@@ -1707,9 +1717,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 		for (ObjectId id : reader.getShallowCommits()) {
 			if (id.equals(rc.getId())) {
-				rc.parents = RevCommit.NO_PARENTS;
+				rc.setParents(RevCommit.NO_PARENTS);
 			} else {
-				lookupCommit(id).parents = RevCommit.NO_PARENTS;
+				lookupCommit(id).setParents(RevCommit.NO_PARENTS);
 			}
 		}
 	}
