@@ -57,6 +57,24 @@
       "parentUuid": "9f0a4319_91e3e893",
       "revId": "eaf4d500b886a7e776f50bf53497fe463e714b25",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "547dc4bf_e4d3231a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-16T06:08:31Z",
+      "side": 1,
+      "message": "Thanks for fixing this!",
+      "parentUuid": "83f89d58_e6d524b0",
+      "revId": "eaf4d500b886a7e776f50bf53497fe463e714b25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
