@@ -16,6 +16,23 @@
       "message": "Patch set 2 already fixes our problem, the JGit blame computation takes only a few seconds with it.\n\nDo we want to still add simple heuristics to RenameDetector, if the new source path filter is set? It might reduce computation time even further, but from my POV we already have acceptable running time.\n\nAlso I\u0027m not sure how the filter should be set API-wise, I went with my best guess when considering the rest of the APIs.",
       "revId": "7f1bf3e1f63c237c054e6177fcef1b3480513f2c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e492fc_c6e12d45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-16T12:04:17Z",
+      "side": 1,
+      "message": "If the new set is empty we probably want to exit the computation here with no rename matches? Since there cannot be a match we are interested in.",
+      "revId": "7f1bf3e1f63c237c054e6177fcef1b3480513f2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
