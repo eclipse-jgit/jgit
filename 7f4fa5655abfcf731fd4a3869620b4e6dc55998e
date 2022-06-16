@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "137c1d7a_92f2f3e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-06-16T02:45:11Z",
+      "side": 1,
+      "message": "Thanks! I hadn\u0027t realized the message doesn\u0027t get propagated back to the user.",
+      "revId": "7f4fa5655abfcf731fd4a3869620b4e6dc55998e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbe37661_a954ae04",
