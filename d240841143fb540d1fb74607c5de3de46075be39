@@ -34,6 +34,24 @@
       "parentUuid": "4098a00e_655165bf",
       "revId": "d240841143fb540d1fb74607c5de3de46075be39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12274ccb_c57c7b22",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RenameDetectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-16T19:18:06Z",
+      "side": 1,
+      "message": "The point of my question was: does that make sense? I would have expected setting a path filter for PATH_A to mean \"I\u0027m only interested in diffs involving PATH_A\". I.e., I\u0027d expect to get back only\n\n  MODIFY PATH_A\n  RENAME \u003cany\u003e PATH_A\n  RENAME PATH_A \u003cany\u003e\n  COPY   \u003cany\u003e PATH_A\n  COPY   PATH_A \u003cany\u003e\n  DELETE PATH_A\n  ADD    PATH_A\n  \nbut nothing else.",
+      "parentUuid": "1dc35fde_ed93b1c2",
+      "revId": "d240841143fb540d1fb74607c5de3de46075be39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
