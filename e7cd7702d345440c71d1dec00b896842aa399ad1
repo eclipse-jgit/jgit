@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82ecb173_35fe8979",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-06-16T18:02:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7293bcf5_a31312d5",
+      "revId": "e7cd7702d345440c71d1dec00b896842aa399ad1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d6052ff_98ee6d1b",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-16T11:26:46Z",
       "side": 1,
       "message": "Would it make sense to use varargs here? (RevCommit... parents)\n\nMight perhaps simplify code elsewhere a little, for instance RewriteGenerator doing now\n\n  setParents(new RevCommit[] { newp });\n  \ncould just become\n\n  setParents(newp);\n\nJust an idea...",
+      "revId": "e7cd7702d345440c71d1dec00b896842aa399ad1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66b6af05_9cc62bdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-06-16T18:02:12Z",
+      "side": 1,
+      "message": "Ack - It does make things looks simple.",
+      "parentUuid": "3d6052ff_98ee6d1b",
       "revId": "e7cd7702d345440c71d1dec00b896842aa399ad1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
