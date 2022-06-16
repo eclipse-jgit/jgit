@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7672e8aa_8bb66425",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-16T06:23:19Z",
+      "side": 1,
+      "message": "Hi,\n\ncould you take a look here?\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/194200 (the bugzilla ticket is: https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d578900)\n\nIn essence we have merge commits (combining commits of 100+ developers) that also contain renames. This makes e.g. blame computations extremely slow, due to the blame matrices that are being computed (I assume, for rename detection).\n\nMy proposal is simple and can probably be improved easily: try to find a rename match for files with the same file name or in the same folder as the added file.\n\nThomas Wolf suggested I coordinate the change with you, as you maybe have something better planned.\n\nBest regards,\nSimeon",
+      "revId": "ed8d18b6168b4015441c030c685a4616285f42e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
