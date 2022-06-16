@@ -105,6 +105,24 @@
       "message": "Wouldn\u0027t it be simpler to touch only this part? Filter the diffs so the only ADD diffs are the ones with \"path\" as new path?\n\nOr its expected that adding a filter path to RenameDetector can be reused in other callers?",
       "revId": "d240841143fb540d1fb74607c5de3de46075be39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ec82b21_c538afb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-16T21:10:54Z",
+      "side": 1,
+      "message": "It probably might also be useful in the EGit history view, if the input is filtered to a single file.\n\nAnd maybe it\u0027s a first step only, and someone can come up with a way to extend this to a PathFilterGroup (several paths), and doing rename detection for several files in one go.",
+      "parentUuid": "de43a845_62f99fd4",
+      "revId": "d240841143fb540d1fb74607c5de3de46075be39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
