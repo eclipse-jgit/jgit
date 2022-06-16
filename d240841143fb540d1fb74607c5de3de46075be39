@@ -16,6 +16,24 @@
       "message": "Why would we expect something for PATH_B in the result when there is a source filter for PATH_A, and PATH_B is neither source nor target of a rename or copy to/from PATH_A?",
       "revId": "d240841143fb540d1fb74607c5de3de46075be39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dc35fde_ed93b1c2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RenameDetectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-16T18:56:09Z",
+      "side": 1,
+      "message": "The delete (for which no rename is found with the filter) is added to the result.",
+      "parentUuid": "4098a00e_655165bf",
+      "revId": "d240841143fb540d1fb74607c5de3de46075be39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
