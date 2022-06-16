@@ -288,6 +288,24 @@
       "parentUuid": "81d89e75_90575c94",
       "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e99475d9_b534441a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/ToolException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-16T16:12:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dd1b7403_837fa213",
+      "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
