@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "916a6e8a_093dad2a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-16T10:52:42Z",
+      "side": 1,
+      "message": "I think both DiffTool and MergeTool should use SystemReader#getDefaultCharset to read console input, see I986f97a410d2fc70748b6f93228a2d45ff100b2c",
+      "parentUuid": "4b8c4ec5_9f75d925",
+      "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17eb36c3_0daf6d3c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
         "patchSetId": 2
