@@ -33,6 +33,24 @@
       "message": "this causes the following errorprone error (to reproduce run bazel build on master):\n\norg.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java:205: error: [DefaultCharset] Implicit use of the platform default charset, which can result in differing behaviour between JVM executions or incorrect behavior if the encoding of the data source doesn\u0027t match expectations.\n\t\t\tbyte[] strToBytes \u003d command.getBytes();\n\t\t\t                                    ^\n    (see https://errorprone.info/bugpattern/DefaultCharset)\n  Did you mean \u0027byte[] strToBytes \u003d command.getBytes(UTF_8);\u0027 or \u0027byte[] strToBytes \u003d command.getBytes(Charset.defaultCharset());\u0027?",
       "revId": "b63c2f39a16f1607cc65e82c0271c8c29a6038f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b89d99d_fe1a2f88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-16T06:11:49Z",
+      "side": 1,
+      "message": "This one has also been fixed by David, thanks!\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/194019/4/org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/CommandExecutor.java",
+      "parentUuid": "60ab46ed_f933034b",
+      "revId": "b63c2f39a16f1607cc65e82c0271c8c29a6038f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
