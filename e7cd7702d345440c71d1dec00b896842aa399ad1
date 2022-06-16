@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7293bcf5_a31312d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-16T11:26:46Z",
+      "side": 1,
+      "message": "Missing @since 6.3",
+      "revId": "e7cd7702d345440c71d1dec00b896842aa399ad1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d6052ff_98ee6d1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-16T11:26:46Z",
+      "side": 1,
+      "message": "Would it make sense to use varargs here? (RevCommit... parents)\n\nMight perhaps simplify code elsewhere a little, for instance RewriteGenerator doing now\n\n  setParents(new RevCommit[] { newp });\n  \ncould just become\n\n  setParents(newp);\n\nJust an idea...",
+      "revId": "e7cd7702d345440c71d1dec00b896842aa399ad1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
