@@ -67,6 +67,23 @@
       "message": "Maybe coordinate with the Google people on this? See https://git.eclipse.org/r/c/jgit/jgit/+/193911 . The problem doesn\u0027t seem to be limited to blame, and it looks as if Google (Marija?) is working or planning to work on it. (Blame is maybe a special case since it is interested in one file only; it shouldn\u0027t build a 16000x9000 matrix for your case, should it?) Some kind of directory rename detection might help (unless all your 25000 added/deleted files were in the same directory :-)).\n\nAlso, the new \"ort\" merge strategy[1] might have improvements. Elijah\u0027s blog posts are very well written and might give additional insights.\n\n[1] https://github.blog/2021-08-16-highlights-from-git-2-33/",
       "revId": "1217357a51e6794736bc99148d7c36f6a95090af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "490f216c_0668d404",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-16T09:17:48Z",
+      "side": 1,
+      "message": "\u003e [For blame,] it shouldn\u0027t build a 16000x9000 matrix for your case, should it?\n\nSeems to me the RenameDetector should get the path filter, and this heuristic should perhaps go inside the rename detector. In blame for a single file, I would expect that filter to have exactly one path. That should scale down the rename detection considerably:\n\n- if MODIFY is not broken apart: if the DiffEntry for that path is a MODIFY: no rename occurred, done. That\u0027s O(1).\n- if MODIFY is broken apart into an ADD and a DELETE: the rename detector needs to consider \"only\" 16001 + 9001 combinations (check the ADD against the 9001 DELETEs, and the DELETE against the 16001 ADDs), not all 16000*9000 ones.\n\nWhether MODIFY is broken apart is configurable. Also, there\u0027s a upper limit on the number of adds/deletes that can be set on the rename detection.\n\nPlus some heuristics taking the similarity of file/path names into account might perhaps reduce the work even more.\n\nAdditionally, consider moving a Java source file from A to B: at least the package and maybe some imports will change. It\u0027ll never be an exact rename. But there may be a reasonable upper threshold of the similarity score that signifies \"this is good enough, let\u0027s stop and don\u0027t keep looking for a perhaps even better match\". (E.g., if the score says the two candidates are 95% similar, it may not be worth looking further for a 96-99% match. (A 100% match would have been found by the exact rename detection earlier, which uses the blob SHA1.)) If such an upper threshold exists, it may make sense to consider candidates for the similarity check in order of decreasing path/file name similarity.\n",
+      "revId": "1217357a51e6794736bc99148d7c36f6a95090af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
