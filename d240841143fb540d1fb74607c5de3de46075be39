@@ -70,6 +70,24 @@
       "parentUuid": "12274ccb_c57c7b22",
       "revId": "d240841143fb540d1fb74607c5de3de46075be39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "916a2007_6923b1a1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RenameDetectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-16T19:41:39Z",
+      "side": 1,
+      "message": "I guess something more generic would be to set a path filter so that this is also covered:\n\n  RENAME \u003cany\u003e PATH_A\n  RENAME PATH_A \u003cany\u003e\n  \nWould mean more computations though, since we would have to check all added with the filter path, and the filter path with all deleted.\n  \nSo a bit generic for the blame, but I guess the blame would still be fast enough. I\u0027ll check tomorrow. From API perspective this would make more sense I guess.",
+      "parentUuid": "2911e02c_1a97f30b",
+      "revId": "d240841143fb540d1fb74607c5de3de46075be39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
