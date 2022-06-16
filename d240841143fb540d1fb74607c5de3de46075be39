@@ -52,6 +52,24 @@
       "parentUuid": "1dc35fde_ed93b1c2",
       "revId": "d240841143fb540d1fb74607c5de3de46075be39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2911e02c_1a97f30b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RenameDetectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-16T19:24:54Z",
+      "side": 1,
+      "message": "The documentation says:\n\n\t * @return an unmodifiable list of {@link org.eclipse.jgit.diff.DiffEntry}s\n\t *         representing all files that have been changed.\n\nSo I guess we can redefine this however it makes sense, for an applied filter.\n\nFrom your comment, I guess we let the rename finish and then filter all the delete results that don\u0027t match the filter path? I\u0027ll have to check whether we need more than that, to have only the filtered path in the results.",
+      "parentUuid": "12274ccb_c57c7b22",
+      "revId": "d240841143fb540d1fb74607c5de3de46075be39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
