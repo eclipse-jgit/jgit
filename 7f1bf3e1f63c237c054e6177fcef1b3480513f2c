@@ -35,6 +35,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4927df7_59045945",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-16T12:26:48Z",
+      "side": 1,
+      "message": "@Ronald: it seems you or your team at Google are also working on making rename detection and blame more performant. Your review here would be appreciated.",
+      "revId": "7f1bf3e1f63c237c054e6177fcef1b3480513f2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3e492fc_c6e12d45",
