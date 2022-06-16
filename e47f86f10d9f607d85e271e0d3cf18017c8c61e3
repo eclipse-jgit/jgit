@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f05aa9d_538b6204",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/MergeTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-16T11:05:05Z",
+      "side": 1,
+      "message": "Let me change this in its own change then, and rebase this one on top of it.",
+      "parentUuid": "916a6e8a_093dad2a",
+      "revId": "e47f86f10d9f607d85e271e0d3cf18017c8c61e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17eb36c3_0daf6d3c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
         "patchSetId": 2
