@@ -1,0 +1,271 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f5d96cd_39aa0271",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Great work. Some API problems, partly caused by the fact that JGit master has moved from 6.2 to 6.3.\n\nI\u0027m missing tests for fetches done after an initial shallow clone. Including tests where the repo fetched from has gotten new commits, perhaps even more than the depth.\n\nWhat happens if we did a shallow clone and then do a normal fetch without specifying any depth or whatever? C git has the --unshallow and --update-shallow options... Is this something that we could do in a follow-up commit?",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f33171c_49c73e5c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "I would test more here. We should have gotten only one commit, and it should have no parents, and it should be the one with commit message \"Second commit\".\n\nAlso, I\u0027d add more tests. The base repo that is cloned has a history\n\n  test   -\u003e Second commit\n                  |\n  master -\u003e Initial commit\n  \nI\u0027d also try cloning all branches. I think there should be no shallow commits, even though depth 1 is specified?\n\nThen another test with a third commit added:\n\n  test   -\u003e Third commit\n                  |\n            Second commit\n                  |\n  master -\u003e Initial commit\n\nAgain, clone all branches with depth 1 and check we got the right commits.\n\nWe also should have a clone test that fetches only the master branch with depth 1. That branch has only one commit. I suppose that commit should not end up being shallow?",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dc6cd54_0d766d05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "This should be @since 6.3 now. (Like all other @since 6.2 added in this change.)",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e88a469e_fdf0e339",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "OK, with Integer as parameter a user can also reset this to null after an earlier call with a non-null value. But it generates warnings about auto-boxing with the default JGit compiler settings when used as setDepth(1).\n\nIf we don\u0027t need the \"reset to null\" functionality, I\u0027d just change the parameter type to primitive int. Otherwise I\u0027d add an override setDepth(int depth), and here it should be documented in the javadoc what {@code null} means.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b664f0cf_4ddfbbda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "I get a warning about auto-unboxing here.",
+      "range": {
+        "startLine": 760,
+        "startChar": 23,
+        "endLine": 760,
+        "endChar": 32
+      },
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1da23e09_b512703a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Should be externalized. This is an API use error. We generally only use non-translatable messages for internal errors that indicate some inconsistency or bug in JGit itself.\n\nThe reason is simple: if a programmer using JGit works with a localized environment, it\u0027s more helpful for her or him to have such bugs in her or his code be reported in whatever localization chosen. But if it\u0027s really some internal error in JGit, it\u0027s most helpful to us maintainers if the message is not translated but English.",
+      "range": {
+        "startLine": 761,
+        "startChar": 38,
+        "endLine": 761,
+        "endChar": 58
+      },
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fabd6783_df6891e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Mention that this must not be {@code null}",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68f8596_73edd2d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Is null allowed here? Why? If null shall be allowed, document in the javadoc. If not, use @NonNull Instant shallowSince.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "389feee7_dee7ff43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Here I\u0027d use @NonNull String shallowExclude. I\u0027d also enforce the string to non-empty.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70834e5c_d3188d28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "@NonNull ObjectId shallowExclude",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cc9a693_8853181b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Same comments as on CloneCommand.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c55da36b_faa48f93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Missing empty line. Missing @since 6.3. This addition here will also need PDE API-Usage exceptions (.settings/.api-filters). Can be generated via a quick-fix on the warning shown in Eclipse.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698fd0c6_c3525789",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Should be @since 6.3 throughout.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01bb63e7_bff29bf8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "Sentence should be terminated with a full stop. (Also on the other methods below.)",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63de0d59_19eda902",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-17T19:37:53Z",
+      "side": 1,
+      "message": "This is public API; users can use Transport directly. All these setters need to have the same safeguards as in CloneCommand/FetchCommand, and the same null/not null handling and documentation.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
