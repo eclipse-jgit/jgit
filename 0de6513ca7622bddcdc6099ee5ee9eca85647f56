@@ -33,6 +33,24 @@
       "message": "this is still run on Mac OS which is compliant to posix\n\nYou can add another method isLinux() to SystemReader checking if os.name.toLowerCase starts with \"linux\" and use that for tests which should only run on linux.",
       "revId": "0de6513ca7622bddcdc6099ee5ee9eca85647f56",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a49a219_f21e4348",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ToolTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-17T12:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe45046c_18a03ac8",
+      "revId": "0de6513ca7622bddcdc6099ee5ee9eca85647f56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

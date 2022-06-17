@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23435bf6_0d961c1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-17T12:40:41Z",
+      "side": 1,
+      "message": "added missing @since tag for new API",
+      "revId": "0c32889ebcc61845765514fee56d6641bd91b542",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
