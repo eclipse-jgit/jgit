@@ -16,6 +16,24 @@
       "message": "I\u0027m terribly sorry if my musings derailed this.\n\nI thought we\u0027d do it for one path only now. That\u0027s useful for blame, and useful for getting a history filtered to one path.\n\nThe extension to multiple paths can be left for the future. (To become useful, a multi-path rename detection would need also updates in FollowFilter and probably EGit\u0027s RenameTracker, and possibly elsewhere. It\u0027s really a much larger endeavor.)",
       "revId": "c839a02be888bdb87a21fce2b491d1df1c5e2ab5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d195fb2_98192637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-17T11:25:12Z",
+      "side": 1,
+      "message": "Can you check patch set 5? I don\u0027t mind if we add code that can be helpful also in future (likely this is not the only area where JGit can be more performant for our huge repository).\n\nBut adding new API is probably an overkill.",
+      "parentUuid": "23303528_2cdab4e8",
+      "revId": "c839a02be888bdb87a21fce2b491d1df1c5e2ab5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
