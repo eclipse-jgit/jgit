@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "309e59e4_d98c771d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-17T08:45:30Z",
+      "side": 0,
+      "message": "I don\u0027t like this part of the change honestly.\n\nFrom my POV what we are trying to do to RenameDetector is not how the code was meant to be written/used.\n\nEssentially if we are applying a set of paths as a filter, we must do 2 rename detections and this class was built to be used like this:\n\nadd diffs\ndetect renames\nreset\n\nadd diffs\ndetect renames\nreset\n\nIMO we should write a wrapper for this class, something like RenameDetectorWithFilters (name TBD). This then does 2 rename detection passes, like this change currently is doing.\n\nThis would IMO lead to better looking code and no changes to RenameDetector.\n\nIf this were my code I wouldn\u0027t accept the changes in the current review, they are too invasive and I think too error prone. Its very easy to overlook where added/removed/entries are used directly in some of the methods. I did it twice in the scope of an hour...",
+      "revId": "87391ccee97dd2d51871838f7b065bf6cf9a07a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
