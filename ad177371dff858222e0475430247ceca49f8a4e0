@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db9ba8f_c09cb15e",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-17T11:32:06Z",
+      "side": 1,
+      "message": "Will fix with the next patch set, if we are sticking with the change.",
+      "revId": "ad177371dff858222e0475430247ceca49f8a4e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
