@@ -81,6 +81,8 @@ public class DiffToolTest extends ToolTestCase {
 
 	@Test(expected = Die.class)
 	public void testEmptyToolName() throws Exception {
+		assumePosixPlatform();
+
 		String emptyToolName = "";
 
 		StoredConfig config = db.getConfig();

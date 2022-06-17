@@ -32,6 +32,9 @@ import org.eclipse.jgit.pgm.opt.SubcommandHandler;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS_POSIX;
+import org.junit.Assume;
 import org.junit.Before;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -239,5 +242,10 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 					+ Arrays.asList(actual),
 					matches);
 		}
+	}
+
+	protected static void assumePosixPlatform() {
+		Assume.assumeTrue("This test can run only in Linux tests",
+				FS.DETECTED instanceof FS_POSIX);
 	}
 }
