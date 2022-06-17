@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e046907a_f22f32bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-17T10:23:08Z",
+      "side": 1,
+      "message": "@Matthias @Ivan would you have some time to have a final look? I\u0027ve already discussed with DavidO and he reviewed it.",
+      "revId": "9d39f664971d750e51e123e77913127d28423561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
