@@ -123,6 +123,24 @@
       "parentUuid": "de43a845_62f99fd4",
       "revId": "d240841143fb540d1fb74607c5de3de46075be39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69a39eb5_79ff2b75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-17T07:12:47Z",
+      "side": 1,
+      "message": "How do I use PathFilterGroup? The type has no methods to retrieve the PathFilter contents.",
+      "parentUuid": "9ec82b21_c538afb6",
+      "revId": "d240841143fb540d1fb74607c5de3de46075be39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
