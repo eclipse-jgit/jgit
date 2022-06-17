@@ -63,6 +63,8 @@ public abstract class SystemReader {
 
 	private static volatile Boolean isWindows;
 
+	private static volatile Boolean isLinux;
+
 	static {
 		SystemReader r = new Default();
 		r.init();
@@ -185,6 +187,7 @@ public abstract class SystemReader {
 	public static void setInstance(SystemReader newReader) {
 		isMacOS = null;
 		isWindows = null;
+		isLinux = null;
 		if (newReader == null)
 			INSTANCE = DEFAULT;
 		else {
@@ -541,6 +544,19 @@ public abstract class SystemReader {
 					"Mac OS X".equals(osDotName) || "Darwin".equals(osDotName)); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return isMacOS.booleanValue();
+	}
+
+	/**
+	 * Whether we are running on Linux.
+	 *
+	 * @return true if we are running on Linux.
+	 */
+	public boolean isLinux() {
+		if (isLinux == null) {
+			String osname = getOsName();
+			isLinux = Boolean.valueOf(osname.toLowerCase().startsWith("linux")); //$NON-NLS-1$
+		}
+		return isLinux.booleanValue();
 	}
 
 	private String getOsName() {
