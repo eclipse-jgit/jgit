@@ -79,6 +79,8 @@ public class MergeToolTest extends ToolTestCase {
 
 	@Test
 	public void testEmptyToolName() throws Exception {
+		assumeLinuxPlatform();
+
 		String emptyToolName = "";
 
 		StoredConfig config = db.getConfig();
