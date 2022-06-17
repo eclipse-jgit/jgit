@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29318aa0_cdf24c4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 119988
+      },
+      "writtenOn": "2022-06-17T11:52:19Z",
+      "side": 1,
+      "message": "Sorry I forget MacOS is also UNIX.",
+      "revId": "0de6513ca7622bddcdc6099ee5ee9eca85647f56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe45046c_18a03ac8",
