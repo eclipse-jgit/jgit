@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8176a75_6107dec6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "I added some further tests. I also implemented the --unshallow. But I really don\u0027t get what the --update-shallow option is for. The documentation tells the following:\n\nBy default when fetching from a shallow repository, git fetch refuses refs that require updating .git/shallow. This option updates .git/shallow and accept such refs.\n\nSo I\u0027d expect that performing a \"git fetch --depth 2\" on a repo that was cloned with --depth 1 should be refused since the content of .git/shallow will change. But the c git client updates the file although I haven\u0027t specified this option. I tested also several other cases with git fetch in a shallow cloned repository but I\u0027ve never reached a situation in which the client refused refs.",
+      "parentUuid": "9f5d96cd_39aa0271",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f33171c_49c73e5c",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-17T19:37:53Z",
       "side": 1,
       "message": "I would test more here. We should have gotten only one commit, and it should have no parents, and it should be the one with commit message \"Second commit\".\n\nAlso, I\u0027d add more tests. The base repo that is cloned has a history\n\n  test   -\u003e Second commit\n                  |\n  master -\u003e Initial commit\n  \nI\u0027d also try cloning all branches. I think there should be no shallow commits, even though depth 1 is specified?\n\nThen another test with a third commit added:\n\n  test   -\u003e Third commit\n                  |\n            Second commit\n                  |\n  master -\u003e Initial commit\n\nAgain, clone all branches with depth 1 and check we got the right commits.\n\nWe also should have a clone test that fetches only the master branch with depth 1. That branch has only one commit. I suppose that commit should not end up being shallow?",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ae17506_568d3a50",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "The shallow clone behaves differently than you would expect it. I verified it using the c git client. If you clone a repository that contains just a single commit using the option \"--depth 1\", this commit will be marked as shallow. If you do the same with \"--depth 2\", there will be no shallow commits.",
+      "parentUuid": "8f33171c_49c73e5c",
       "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -52,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0928c7a_85402b17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dc6cd54_0d766d05",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e88a469e_fdf0e339",
@@ -69,6 +123,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cde5a1ac_f216c1b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e88a469e_fdf0e339",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b664f0cf_4ddfbbda",
@@ -82,6 +154,30 @@
       "writtenOn": "2022-06-17T19:37:53Z",
       "side": 1,
       "message": "I get a warning about auto-unboxing here.",
+      "range": {
+        "startLine": 760,
+        "startChar": 23,
+        "endLine": 760,
+        "endChar": 32
+      },
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f70bec32_abfccac6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b664f0cf_4ddfbbda",
       "range": {
         "startLine": 760,
         "startChar": 23,
@@ -115,6 +211,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f3acdbd_fe805a54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1da23e09_b512703a",
+      "range": {
+        "startLine": 761,
+        "startChar": 38,
+        "endLine": 761,
+        "endChar": 58
+      },
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fabd6783_df6891e5",
@@ -128,6 +248,24 @@
       "writtenOn": "2022-06-17T19:37:53Z",
       "side": 1,
       "message": "Mention that this must not be {@code null}",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8440964b_36c85f22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fabd6783_df6891e5",
       "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -149,6 +287,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "435896c7_d5cca934",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b68f8596_73edd2d5",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "389feee7_dee7ff43",
@@ -162,6 +318,24 @@
       "writtenOn": "2022-06-17T19:37:53Z",
       "side": 1,
       "message": "Here I\u0027d use @NonNull String shallowExclude. I\u0027d also enforce the string to non-empty.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd281040_389e77fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "389feee7_dee7ff43",
       "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -183,6 +357,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a14eef4b_52085b6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70834e5c_d3188d28",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cc9a693_8853181b",
@@ -196,6 +388,24 @@
       "writtenOn": "2022-06-17T19:37:53Z",
       "side": 1,
       "message": "Same comments as on CloneCommand.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d010bcb_c4f4b8fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cc9a693_8853181b",
       "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -219,6 +429,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a43afe8_07e472b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "I don\u0027t get what you are meaning by this. Since I\u0027m working with IntelliJ IDEA for years I can\u0027t use the Eclipse quick-fix.",
+      "parentUuid": "c55da36b_faa48f93",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "698fd0c6_c3525789",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 8
@@ -230,6 +458,24 @@
       "writtenOn": "2022-06-17T19:37:53Z",
       "side": 1,
       "message": "Should be @since 6.3 throughout.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eade5eb_c38d04ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "698fd0c6_c3525789",
       "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -251,6 +497,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54fc86e7_0fffa9d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01bb63e7_bff29bf8",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63de0d59_19eda902",
@@ -264,6 +528,24 @@
       "writtenOn": "2022-06-17T19:37:53Z",
       "side": 1,
       "message": "This is public API; users can use Transport directly. All these setters need to have the same safeguards as in CloneCommand/FetchCommand, and the same null/not null handling and documentation.",
+      "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd03c36_cfa4d240",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 307395
+      },
+      "writtenOn": "2022-06-20T13:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63de0d59_19eda902",
       "revId": "02ce385f4bdd53860d64bbafdbc0a04c6ad7e5b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
