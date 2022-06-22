@@ -39,6 +39,30 @@
       },
       "revId": "ad177371dff858222e0475430247ceca49f8a4e0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d5aa377_4a48af0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diff/FilteredRenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-22T21:44:43Z",
+      "side": 1,
+      "message": "A normal rename detector would return all renames. This filters by paths (in the Blame case, there will be only one) to compute only renames to/from the given paths.\n\nThe basic idea is if you have N additions and M deletions but are interested only in finding the rename for a particular path, you don\u0027t need to have an NxM matrix. It should be doable in O(N+M).",
+      "parentUuid": "78d1b505_4efa0670",
+      "range": {
+        "startLine": 27,
+        "startChar": 74,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "ad177371dff858222e0475430247ceca49f8a4e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
