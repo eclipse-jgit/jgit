@@ -11,6 +11,7 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -79,9 +80,9 @@ class RewriteGenerator extends Generator {
 			final RevCommit newp = rewrite(oldp);
 			if (firstParent) {
 				if (newp == null) {
-					c.parents = RevCommit.NO_PARENTS;
+					c = new FilteredRevCommit(c.getId());
 				} else {
-					c.parents = new RevCommit[] { newp };
+					c = new FilteredRevCommit(c.getId(), Arrays.asList(newp));
 				}
 				return c;
 			}
@@ -91,7 +92,7 @@ class RewriteGenerator extends Generator {
 			}
 		}
 		if (rewrote) {
-			c.parents = cleanup(pList);
+			c = new FilteredRevCommit(c.getId(), Arrays.asList(cleanup(pList)));
 		}
 		return c;
 	}
