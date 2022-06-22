@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7c4b2c2_c0b908b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-06-22T22:19:47Z",
+      "side": 1,
+      "message": "Thanks. Please add another test for using an overwritten commit in the revwalk/pending generator",
+      "parentUuid": "91d053c5_42241284",
+      "revId": "dde19c63cecdfd8bc268fabaff0401a7244b2e54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0541b04_17622af1",
