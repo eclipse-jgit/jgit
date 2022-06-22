@@ -309,6 +309,18 @@ public class RevCommit extends RevObject {
 	}
 
 	/**
+	 * Tells if the commit has an overridden parent.
+	 *
+	 * @return {@code true} if the commit's parent is overridden; {@code false}
+	 *         otherwise.
+	 *
+	 * @since 6.3
+	 */
+	public boolean hasOverriddenParents() {
+		return false;
+	}
+
+	/**
 	 * Update parents on the commit
 	 *
 	 * @param parents
