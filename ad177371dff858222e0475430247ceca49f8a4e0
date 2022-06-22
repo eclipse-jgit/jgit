@@ -16,6 +16,29 @@
       "message": "Will fix with the next patch set, if we are sticking with the change.",
       "revId": "ad177371dff858222e0475430247ceca49f8a4e0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78d1b505_4efa0670",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diff/FilteredRenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-06-22T21:13:35Z",
+      "side": 1,
+      "message": "Could you give a concrete example of what would be filtered out? It is hard to understand difference based on just methods of this class.\n\ne.g. what would have been returned by a normal detector, but won\u0027t by filtered.",
+      "range": {
+        "startLine": 27,
+        "startChar": 74,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "ad177371dff858222e0475430247ceca49f8a4e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
