@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91d053c5_42241284",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-06-22T04:46:04Z",
+      "side": 1,
+      "message": "added RevCommitWithOverriddenParentTest",
+      "parentUuid": "9f8b48f7_522a7dae",
+      "revId": "dde19c63cecdfd8bc268fabaff0401a7244b2e54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0541b04_17622af1",
@@ -41,6 +59,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcf54858_b6a5ce7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-06-22T04:46:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a0541b04_17622af1",
+      "range": {
+        "startLine": 105,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 8
+      },
+      "revId": "dde19c63cecdfd8bc268fabaff0401a7244b2e54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3be460d1_bf64268c",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-06-16T18:48:48Z",
       "side": 1,
       "message": "1. Should we remember the fact they were overwritten? Might be useful later.\n\n2. It seems this code will work incorrectly if we overwrite and then parse the commit. (we will replace overwritten parents). Could you please fix it and add a test for that?",
+      "range": {
+        "startLine": 318,
+        "startChar": 46,
+        "endLine": 318,
+        "endChar": 47
+      },
+      "revId": "dde19c63cecdfd8bc268fabaff0401a7244b2e54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b1e5a4b_623dd845",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-06-22T04:46:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3be460d1_bf64268c",
       "range": {
         "startLine": 318,
         "startChar": 46,
