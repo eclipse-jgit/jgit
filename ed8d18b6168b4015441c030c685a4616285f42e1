@@ -16,6 +16,24 @@
       "message": "Hi,\n\ncould you take a look here?\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/194200 (the bugzilla ticket is: https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d578900)\n\nIn essence we have merge commits (combining commits of 100+ developers) that also contain renames. This makes e.g. blame computations extremely slow, due to the blame matrices that are being computed (I assume, for rename detection).\n\nMy proposal is simple and can probably be improved easily: try to find a rename match for files with the same file name or in the same folder as the added file.\n\nThomas Wolf suggested I coordinate the change with you, as you maybe have something better planned.\n\nBest regards,\nSimeon",
       "revId": "ed8d18b6168b4015441c030c685a4616285f42e1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fba63a44_e2821104",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-06-23T16:25:49Z",
+      "side": 1,
+      "message": "Hi!\n\nWe were trying to solve a different problem (merge conflicts because of renames - they are currently not detected by the merger). But this is slow for other reason: the suggested implementation has to re-parse trees for already matched rename pairs.\n\nDirectory rename detection should help with that, but speeding up RenameDetector or building in the corresponding functionality should also help.\n\nI will look more deeply in your change, but it seems like it would only help the blame, since it is scoped to a single path.",
+      "parentUuid": "7672e8aa_8bb66425",
+      "revId": "ed8d18b6168b4015441c030c685a4616285f42e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
