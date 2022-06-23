@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -99,13 +99,18 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 					log.debug(PUBKEY_ACCEPTED_ALGORITHMS + ' ' + signatures);
 				}
 				setSignatureFactoriesNames(signatures);
-			} else {
-				log.warn(format(SshdText.get().configNoKnownAlgorithms,
-						PUBKEY_ACCEPTED_ALGORITHMS, pubkeyAlgos));
+				super.init(session, service);
+				return;
 			}
+			log.warn(format(SshdText.get().configNoKnownAlgorithms,
+					PUBKEY_ACCEPTED_ALGORITHMS, pubkeyAlgos));
 		}
-		// If we don't set signature factories here, the default ones from the
-		// session will be used.
+		// TODO: remove this once we're on an sshd version that has SSHD-1272
+		// fixed
+		List<NamedFactory<Signature>> localFactories = getSignatureFactories();
+		if (localFactories == null || localFactories.isEmpty()) {
+			setSignatureFactoriesNames(session.getSignatureFactoriesNames());
+		}
 		super.init(session, service);
 	}
 
