@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c949a59_44c042ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-23T17:33:57Z",
+      "side": 1,
+      "message": "Verified manually (JGit command-line and EGit) that this fixes the problem reported in bug 580073.",
+      "revId": "db4f7dffb78113a6ba7bea35f7a27b6260e31646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
