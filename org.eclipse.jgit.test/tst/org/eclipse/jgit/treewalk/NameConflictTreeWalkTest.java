@@ -138,6 +138,54 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testDF_specialFileNames() throws Exception {
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
+		final DirCache tree2 = db.readDirCache();
+		{
+			final DirCacheBuilder b0 = tree0.builder();
+			final DirCacheBuilder b1 = tree1.builder();
+			final DirCacheBuilder b2 = tree2.builder();
+
+			b0.add(createEntry("gradle.properties", REGULAR_FILE));
+			b0.add(createEntry("gradle/nested_file.txt", REGULAR_FILE));
+
+			b1.add(createEntry("gradle.properties", REGULAR_FILE));
+
+			b2.add(createEntry("gradle", REGULAR_FILE));
+			b2.add(createEntry("gradle.properties", REGULAR_FILE));
+
+			b0.finish();
+			b1.finish();
+			b2.finish();
+			assertEquals(2, tree0.getEntryCount());
+			assertEquals(1, tree1.getEntryCount());
+			assertEquals(2, tree2.getEntryCount());
+		}
+
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
+			tw.addTree(new DirCacheIterator(tree2));
+
+			assertModes("gradle", TREE, MISSING, REGULAR_FILE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("gradle/nested_file.txt", REGULAR_FILE, MISSING,
+					MISSING, tw);
+			assertFalse(tw.isSubtree());
+			// isDirectoryFileConflict is true, because the conflict is detected
+			// on parent.
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("gradle.properties", REGULAR_FILE, REGULAR_FILE,
+					REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			assertFalse(tw.isDirectoryFileConflict());
+		}
+	}
+
+	@Test
 	public void testDF_SkipsSeenSubtree() throws Exception {
 		final DirCache tree0 = db.readDirCache();
 		final DirCache tree1 = db.readDirCache();
@@ -218,11 +266,29 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		}
 	}
 
-	private static void assertModes(final String path, final FileMode mode0,
-			final FileMode mode1, final TreeWalk tw) throws Exception {
+	private static void assertModes(String path, FileMode mode0, FileMode mode1,
+			TreeWalk tw) throws Exception {
 		assertTrue("has " + path, tw.next());
 		assertEquals(path, tw.getPathString());
 		assertEquals(mode0, tw.getFileMode(0));
 		assertEquals(mode1, tw.getFileMode(1));
+	}
+
+	private static void assertModes(String path, FileMode mode0, FileMode mode1,
+			FileMode mode2, TreeWalk tw) throws Exception {
+		assertTrue("has " + path, tw.next());
+		assertEquals(path, tw.getPathString());
+		if (tw.getFileMode(0) != FileMode.MISSING) {
+			assertEquals(path, TreeWalk.pathOf(tw.trees[0]));
+		}
+		if (tw.getFileMode(1) != FileMode.MISSING) {
+			assertEquals(path, TreeWalk.pathOf(tw.trees[1]));
+		}
+		if (tw.getFileMode(2) != FileMode.MISSING) {
+			assertEquals(path, TreeWalk.pathOf(tw.trees[2]));
+		}
+		assertEquals(mode0, tw.getFileMode(0));
+		assertEquals(mode1, tw.getFileMode(1));
+		assertEquals(mode2, tw.getFileMode(2));
 	}
 }
