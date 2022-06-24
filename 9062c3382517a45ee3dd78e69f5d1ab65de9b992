@@ -46,6 +46,30 @@
       },
       "revId": "9062c3382517a45ee3dd78e69f5d1ab65de9b992",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c592de_3c292d26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-06-24T19:13:03Z",
+      "side": 1,
+      "message": "Your comment at line 327 suggests otherwise. \n\n\u003eSo my approach here was all RevCommit\u0027s are non overridden and any subclass that extends RevCommit makes its parents overrideable.\n\nIn the current implementation you can in fact overwrite it for RevCommit, so you should either have setParents method in the child class or distinguish between parsed and overwritten parents there.",
+      "parentUuid": "3e288faf_2d8faee3",
+      "range": {
+        "startLine": 311,
+        "startChar": 1,
+        "endLine": 321,
+        "endChar": 2
+      },
+      "revId": "9062c3382517a45ee3dd78e69f5d1ab65de9b992",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
