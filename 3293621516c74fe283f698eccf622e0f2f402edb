@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a82c42f_66d0eb53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-24T22:54:23Z",
+      "side": 1,
+      "message": "maybe there is a way to use jfrunit to check if markUninteresting was called during the test\n\nhttps://github.com/moditect/jfrunit",
+      "parentUuid": "6c5371f5_302c0ed5",
+      "revId": "3293621516c74fe283f698eccf622e0f2f402edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "38d7ada3_477d977b",
