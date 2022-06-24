@@ -1,6 +1,98 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "95b17e5d_dbb2e0b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-24T22:41:20Z",
+      "side": 1,
+      "message": "No, it creates reflogs for the local default branch (usually master or main) and all remote tracking branches. It does not create reflogs for refs which are not under refs/heads.",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "fdb0c2f79e27d0adb0b6419159da4486c23e9d70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2048beb8_b5ca878f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-24T22:41:20Z",
+      "side": 1,
+      "message": "I think that\u0027s a weak argument. If the filesystem isn\u0027t able to provide enough inodes it will also fail with cgit on the next fetch after a clone.\n\nIf this is really the problem we need a different storage format for reflogs, e.g. reftable",
+      "range": {
+        "startLine": 18,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "fdb0c2f79e27d0adb0b6419159da4486c23e9d70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b750538_978bc2c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-24T22:41:20Z",
+      "side": 1,
+      "message": "again jgit didn\u0027t create reflogs for all refs but only for those under refs/heads",
+      "range": {
+        "startLine": 22,
+        "startChar": 50,
+        "endLine": 22,
+        "endChar": 55
+      },
+      "revId": "fdb0c2f79e27d0adb0b6419159da4486c23e9d70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "864c17bc_8e8912aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-24T22:41:20Z",
+      "side": 1,
+      "message": "again if this is a problem this fix will avoid it during clone but you still have to create the reflogs on the next fetch",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "fdb0c2f79e27d0adb0b6419159da4486c23e9d70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "dc0db838_43b69637",
@@ -14,6 +106,23 @@
       "writtenOn": "2022-06-17T10:22:05Z",
       "side": 1,
       "message": "@Matthias would you have some time to have a final look? I\u0027ve already discussed with DavidO and he reviewed it.",
+      "revId": "fdb0c2f79e27d0adb0b6419159da4486c23e9d70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c11af7_01b2a04f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-24T22:41:20Z",
+      "side": 1,
+      "message": "the implementation looks good",
       "revId": "fdb0c2f79e27d0adb0b6419159da4486c23e9d70",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

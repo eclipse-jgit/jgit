@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62cb61c2_c664d9d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-24T22:41:20Z",
+      "side": 1,
+      "message": "Clone by default uses a refspec +refs/heads/*:refs/remotes/origin/*. This is an explicit directive to fetch these refs and how to map them to remote tracking refs in the clone.\n\nIf you don\u0027t want all remote refs you can use a custom refspec to only fetch the ones you are interested in.\n\nDon\u0027t know how developers in a repo with millions of branches know which branches are relevant for them. \n\nI guess they don\u0027t clone and checkout the complete repository and not all of its history.",
+      "parentUuid": "5344d560_0c9cb7dc",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eda45599_6cc7bc96",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12

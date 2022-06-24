@@ -16,6 +16,23 @@
       "message": "One note: the list of remote refs is still different between the C Git and JGit implementation, because of https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d580128.\n\nThe focus of this change *IS NOT* to fix Bug 580128, I\u0027ll file a separate change for that if @Matthias agrees.",
       "revId": "ef9a2d25e98dc26c6bd99b1a8d1bfd2e89dbe37a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af9c98ed_66ddc730",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-24T22:41:20Z",
+      "side": 1,
+      "message": "I think this comment should be moved to the commit message",
+      "revId": "ef9a2d25e98dc26c6bd99b1a8d1bfd2e89dbe37a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
