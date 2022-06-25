@@ -54,6 +54,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c78d3b5_e579b6d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-25T11:17:52Z",
+      "side": 1,
+      "message": "Thanks for the hint, will try jfrunit, looks interesting.",
+      "parentUuid": "1a82c42f_66d0eb53",
+      "revId": "3293621516c74fe283f698eccf622e0f2f402edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "38d7ada3_477d977b",
