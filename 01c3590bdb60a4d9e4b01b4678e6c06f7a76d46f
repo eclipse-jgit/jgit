@@ -124,6 +124,24 @@
       "parentUuid": "5b3125ff_996faba5",
       "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203ef10b_8a61d5f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-25T14:57:14Z",
+      "side": 1,
+      "message": "On the users@mina.apache.org mailing list. See [1].\n\nI\u0027ll ping Guillaume with a direct e-mail if he doesn\u0027t react. Maybe e-mails to his apache.org forwarding address end up in some junk filter, but I have a second address of his.\n\n[1] https://www.mail-archive.com/users@mina.apache.org/msg06923.html",
+      "parentUuid": "581dc43a_057f8289",
+      "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
