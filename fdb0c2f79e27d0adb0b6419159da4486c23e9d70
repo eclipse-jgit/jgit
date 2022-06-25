@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99ea51aa_d49906cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-25T19:57:07Z",
+      "side": 1,
+      "message": "I think cgit creates the reflog lazily when a fetch changes a remote tracking branch the first time",
+      "parentUuid": "86d09d8c_02686b3f",
+      "range": {
+        "startLine": 18,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "fdb0c2f79e27d0adb0b6419159da4486c23e9d70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b750538_978bc2c2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23

@@ -191,6 +191,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fecb179_63ac5c49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-25T19:57:07Z",
+      "side": 1,
+      "message": "I think that\u0027s another bug",
+      "parentUuid": "fb51a784_820dc988",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f2776f6_394abece",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
