@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbd3b96f_397c25bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-25T11:19:25Z",
+      "side": 1,
+      "message": "I am bit confused on what it is needed here to make it submittable?\n@Matthias do you have submit permissions to push this change through?\n\nThanks for the reviews and help for getting this merged.",
+      "revId": "66ace4b9af137466a4dd6187a11e473351c306a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
