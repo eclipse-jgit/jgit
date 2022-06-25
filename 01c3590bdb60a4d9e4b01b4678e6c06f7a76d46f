@@ -88,6 +88,24 @@
       "parentUuid": "91bbb788_7e12198b",
       "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b3125ff_996faba5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-25T14:29:39Z",
+      "side": 1,
+      "message": "Done. I did ask the release manager for Apache MINA sshd two weeks ago for a new release, but no reply so far.",
+      "parentUuid": "d68b8871_9e3d835d",
+      "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
