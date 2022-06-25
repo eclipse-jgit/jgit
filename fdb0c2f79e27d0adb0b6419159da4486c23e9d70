@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86d09d8c_02686b3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-25T11:15:46Z",
+      "side": 1,
+      "message": "\u003e I think that\u0027s a weak argument. If the filesystem isn\u0027t able to provide enough inodes it will also fail with cgit on the next fetch after a clone.\n\nI tried with cgit and that isn\u0027t the case:\n- Clone of a repo with 1M refs \u003d\u003e 3 reflogs created\n- Fetch after the clone \u003d\u003e no additional reflogs created\n\n\u003e If this is really the problem we need a different storage format for reflogs, e.g. reftable\n\nTrue, but the focus of this change is just avoiding doing unneeded work. Also, this change would make the JGit behaviour aligned with the CGit one.",
+      "parentUuid": "2048beb8_b5ca878f",
+      "range": {
+        "startLine": 18,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "fdb0c2f79e27d0adb0b6419159da4486c23e9d70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b750538_978bc2c2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23
