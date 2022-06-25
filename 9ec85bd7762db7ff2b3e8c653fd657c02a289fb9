@@ -138,6 +138,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ca12513_4d534663",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-25T11:09:26Z",
+      "side": 1,
+      "message": "\u003e Clone by default uses a refspec +refs/heads/*:refs/remotes/origin/*. This is an explicit directive to fetch these refs and how to map them to remote tracking refs in the clone.\n\nCorrect, and the JGit behaviour is compliant with that spec.\n\n\u003e If you don\u0027t want all remote refs you can use a custom refspec to only fetch the ones you are interested in.\n\nI believe here the discussion is about reflogs: having 1M remote refs isn\u0027t an issue, as they are all lines in a single packed ref file. Having 1M local files in the reflog is an issue instead, and that\u0027s the problem I am trying to address.\n\n\u003e Don\u0027t know how developers in a repo with millions of branches know which branches are relevant for them. \n\u003e \n\u003e I guess they don\u0027t clone and checkout the complete repository and not all of its history.\n\nThey clone and get the history of a single branch typically, but by default they have the remote refs to all the others.",
+      "parentUuid": "62cb61c2_c664d9d8",
+      "revId": "9ec85bd7762db7ff2b3e8c653fd657c02a289fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eda45599_6cc7bc96",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
