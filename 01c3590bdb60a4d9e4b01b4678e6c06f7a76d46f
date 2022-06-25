@@ -106,6 +106,24 @@
       "parentUuid": "d68b8871_9e3d835d",
       "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "581dc43a_057f8289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-25T14:31:59Z",
+      "side": 1,
+      "message": "Thanks, Thomas.\n\n\u003e I did ask the release manager for Apache MINA sshd two weeks ago for a new release, but no reply so far.\n\n+1.\n\nWhere can I also ask about new MINA SSHD release 2.9.0 with your major fix: [1] included?\n\n[1] https://issues.apache.org/jira/browse/SSHD-966",
+      "parentUuid": "5b3125ff_996faba5",
+      "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
