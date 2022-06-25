@@ -70,6 +70,24 @@
       "parentUuid": "18765fdf_613dd892",
       "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d68b8871_9e3d835d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-06-25T11:53:31Z",
+      "side": 1,
+      "message": "Can you rebase this change, so that I can ale rebase my pending change in Gerrit? It seems I\u0027m not allowed to rebase other peoples\u0027s changes.",
+      "parentUuid": "91bbb788_7e12198b",
+      "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
