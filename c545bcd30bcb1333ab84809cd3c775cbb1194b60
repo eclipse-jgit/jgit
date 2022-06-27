@@ -94,6 +94,30 @@
       },
       "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9594b3de_1d0fa685",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-06-27T16:53:18Z",
+      "side": 1,
+      "message": "I will do a fix for the bug 535919 in a separate change, because it has a different root cause.",
+      "parentUuid": "e29154d9_7b207d65",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
