@@ -137,6 +137,177 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		}
 	}
 
+	/**
+	 * The test reproduces https://bugs.eclipse.org/bugs/show_bug.cgi?id=535919.
+	 */
+	@Test
+	public void tesdDF_LastItemsInTreeHasDFConflictAndSpecialNames()
+			throws Exception {
+
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
+
+		final DirCacheBuilder b0 = tree0.builder();
+		final DirCacheBuilder b1 = tree1.builder();
+		// The tree0 has the following order in git:
+		//     subtree, subtree-0
+		b0.add(createEntry("subtree", REGULAR_FILE));
+		b0.add(createEntry("subtree-0", REGULAR_FILE));
+		// The tree1 has the following order in git:
+		//     subtree-0, subtree/file
+		b1.add(createEntry("subtree/file", REGULAR_FILE));
+		b1.add(createEntry("subtree-0", REGULAR_FILE));
+
+		b0.finish();
+		b1.finish();
+
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
+
+			assertModes("subtree", REGULAR_FILE, TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("subtree/file", MISSING, REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			// isDirectoryFileConflict is true, because the conflict is detected
+			// on parent.
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("subtree-0", REGULAR_FILE, REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			assertFalse(tw.isDirectoryFileConflict());
+			assertFalse(tw.next());
+		}
+	}
+
+	/**
+	 * The test reproduces https://bugs.eclipse.org/bugs/show_bug.cgi?id=535919.
+	 */
+	@Test
+	public void tesdDF_LastItemsInTreeHasDFConflictAndSpecialNames2()
+			throws Exception {
+
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
+
+		final DirCacheBuilder b0 = tree0.builder();
+		final DirCacheBuilder b1 = tree1.builder();
+		// The tree0 has the following order in git:
+		//     subtree-0, subtree/file
+		b0.add(createEntry("subtree/file", REGULAR_FILE));
+		b0.add(createEntry("subtree-0", REGULAR_FILE));
+		// The tree1 has the following order in git:
+		//     subtree, subtree-0
+		b1.add(createEntry("subtree", REGULAR_FILE));
+		b1.add(createEntry("subtree-0", REGULAR_FILE));
+
+		b0.finish();
+		b1.finish();
+
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
+
+			assertModes("subtree", TREE, REGULAR_FILE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("subtree/file", REGULAR_FILE, MISSING, tw);
+			assertFalse(tw.isSubtree());
+			// isDirectoryFileConflict is true, because the conflict is detected
+			// on parent.
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("subtree-0", REGULAR_FILE, REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			assertFalse(tw.isDirectoryFileConflict());
+			assertFalse(tw.next());
+		}
+	}
+
+	@Test
+	public void tesdDF_NonLastItemsInTreeHasDFConflictAndSpecialNames()
+			throws Exception {
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
+
+		final DirCacheBuilder b0 = tree0.builder();
+		final DirCacheBuilder b1 = tree1.builder();
+		b0.add(createEntry("subtree", REGULAR_FILE));
+		b0.add(createEntry("subtree-0", REGULAR_FILE));
+		b0.add(createEntry("x", REGULAR_FILE));
+
+		b1.add(createEntry("subtree/file", REGULAR_FILE));
+		b1.add(createEntry("subtree-0", REGULAR_FILE));
+		b1.add(createEntry("x", REGULAR_FILE));
+
+		b0.finish();
+		b1.finish();
+
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
+
+			assertModes("subtree", REGULAR_FILE, TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("subtree/file", MISSING, REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			// isDirectoryFileConflict is true, because the conflict is detected
+			// on parent.
+			// see JavaDoc for isDirectoryFileConflict for details
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("subtree-0", REGULAR_FILE, REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			assertFalse(tw.isDirectoryFileConflict());
+			assertModes("x", REGULAR_FILE, REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			assertFalse(tw.isDirectoryFileConflict());
+			assertFalse(tw.next());
+		}
+	}
+
+	@Test
+	public void tesdDF_NoSpecialNames() throws Exception {
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
+
+		final DirCacheBuilder b0 = tree0.builder();
+		final DirCacheBuilder b1 = tree1.builder();
+		// In this test both trees (tree0 and tree1) have exactly the same order
+		// of entries:
+		//     subtree, xubtree-0
+		b0.add(createEntry("subtree", REGULAR_FILE));
+		b0.add(createEntry("xubtree-0", REGULAR_FILE));
+
+		b1.add(createEntry("subtree/file", REGULAR_FILE));
+		b1.add(createEntry("xubtree-0", REGULAR_FILE));
+
+		b0.finish();
+		b1.finish();
+
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(db)) {
+			tw.addTree(new DirCacheIterator(tree0));
+			tw.addTree(new DirCacheIterator(tree1));
+
+			assertModes("subtree", REGULAR_FILE, TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isDirectoryFileConflict());
+			tw.enterSubtree();
+			assertModes("subtree/file", MISSING, REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			// isDirectoryFileConflict is true, because the conflict is detected
+			// on parent.
+			// see JavaDoc for isDirectoryFileConflict for details
+			assertTrue(tw.isDirectoryFileConflict());
+			assertModes("xubtree-0", REGULAR_FILE, REGULAR_FILE, tw);
+			assertFalse(tw.isSubtree());
+			assertFalse(tw.isDirectoryFileConflict());
+			assertFalse(tw.next());
+		}
+	}
+
 	@Test
 	public void testDF_specialFileNames() throws Exception {
 		final DirCache tree0 = db.readDirCache();
@@ -172,11 +343,14 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			assertTrue(tw.isSubtree());
 			assertTrue(tw.isDirectoryFileConflict());
 			tw.enterSubtree();
-			assertModes("gradle/nested_file.txt", REGULAR_FILE, MISSING, MISSING, tw);
+			assertModes("gradle/nested_file.txt", REGULAR_FILE, MISSING,
+					MISSING, tw);
 			assertFalse(tw.isSubtree());
-			// isDirectoryFileConflict is true, because the conflict is detected on parent.
+			// isDirectoryFileConflict is true, because the conflict is detected
+			// on parent.
 			assertTrue(tw.isDirectoryFileConflict());
-			assertModes("gradle.properties", REGULAR_FILE, REGULAR_FILE, REGULAR_FILE, tw);
+			assertModes("gradle.properties", REGULAR_FILE, REGULAR_FILE,
+					REGULAR_FILE, tw);
 			assertFalse(tw.isSubtree());
 			assertFalse(tw.isDirectoryFileConflict());
 		}
@@ -263,8 +437,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		}
 	}
 
-	private static void assertModes(String path, FileMode mode0, FileMode mode1, TreeWalk tw)
-			throws Exception {
+	private static void assertModes(String path, FileMode mode0, FileMode mode1,
+			TreeWalk tw) throws Exception {
 		assertTrue("has " + path, tw.next());
 		assertEquals(path, tw.getPathString());
 		assertEquals(mode0, tw.getFileMode(0));
@@ -275,13 +449,13 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			FileMode mode2, TreeWalk tw) throws Exception {
 		assertTrue("has " + path, tw.next());
 		assertEquals(path, tw.getPathString());
-		if(tw.getFileMode(0) != FileMode.MISSING) {
+		if (tw.getFileMode(0) != FileMode.MISSING) {
 			assertEquals(path, TreeWalk.pathOf(tw.trees[0]));
 		}
-		if(tw.getFileMode(1) != FileMode.MISSING) {
+		if (tw.getFileMode(1) != FileMode.MISSING) {
 			assertEquals(path, TreeWalk.pathOf(tw.trees[1]));
 		}
-		if(tw.getFileMode(2) != FileMode.MISSING) {
+		if (tw.getFileMode(2) != FileMode.MISSING) {
 			assertEquals(path, TreeWalk.pathOf(tw.trees[2]));
 		}
 		assertEquals(mode0, tw.getFileMode(0));
