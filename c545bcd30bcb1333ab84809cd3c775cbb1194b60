@@ -70,6 +70,30 @@
       },
       "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e29154d9_7b207d65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-06-27T16:10:28Z",
+      "side": 1,
+      "message": "As I wrote above, this is a different bug and the bug 535919 is not fixed.\nI wrote a test to check it and test still fails after the fix.\nHowever, I found out that the bug 535919 should be fixed too. So, now I am trying to fix it. Not sure if it will be a separate fix or the fix will be included in this change.",
+      "parentUuid": "1f4690af_ca486e38",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

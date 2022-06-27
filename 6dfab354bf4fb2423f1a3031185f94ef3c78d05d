@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c77af441_2051a852",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-06-27T16:10:28Z",
+      "side": 1,
+      "message": "There are another bug in the same area, which should be fixed:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/194366/comments/6d783c51_ffcb6d9d\n\nI will try to fix it too and then submit both fixes together - so -1 for now.",
+      "revId": "6dfab354bf4fb2423f1a3031185f94ef3c78d05d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
