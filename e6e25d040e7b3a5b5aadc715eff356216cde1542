@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e808987_aab5b1a4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevPriorityQueueTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-27T11:48:43Z",
+      "side": 1,
+      "message": "you are not working for Google",
+      "range": {
+        "startLine": 2,
+        "startChar": 28,
+        "endLine": 2,
+        "endChar": 39
+      },
+      "revId": "e6e25d040e7b3a5b5aadc715eff356216cde1542",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7db57e2e_4683f537",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevPriorityQueueTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-27T11:48:43Z",
+      "side": 1,
+      "message": "don\u0027t use wildcard imports",
+      "range": {
+        "startLine": 16,
+        "startChar": 31,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "e6e25d040e7b3a5b5aadc715eff356216cde1542",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc3044af_7f47b681",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-27T11:48:43Z",
+      "side": 1,
+      "message": "instead of two methods #setCapacity and #capacity I\u0027d add add only one method #ensureCapacity which can calculate what needs to be done itself, see\nhttps://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ArrayList.html#ensureCapacity(int)",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 2
+      },
+      "revId": "e6e25d040e7b3a5b5aadc715eff356216cde1542",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0da3245_a24dda6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-06-27T11:48:43Z",
+      "side": 1,
+      "message": "nit: missing braces, see https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements",
+      "revId": "e6e25d040e7b3a5b5aadc715eff356216cde1542",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
