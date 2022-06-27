@@ -22,6 +22,30 @@
       },
       "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a697f2f8_8ec962f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-06-27T11:44:23Z",
+      "side": 1,
+      "message": "\u003e Which issue ID? Is this bug 535919? If so please link it in the footer:\nNo, this is a different bug, it was reported internally for gerrit. There is no public bug.\n\n\u003e Also, you write 2-way merge here; below text is about 3-way merge.\nThanks, fixed.",
+      "parentUuid": "6d783c51_ffcb6d9d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
