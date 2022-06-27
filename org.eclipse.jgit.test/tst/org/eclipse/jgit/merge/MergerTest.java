@@ -1036,6 +1036,32 @@ public class MergerTest extends RepositoryTestCase {
 	}
 
 	/**
+	 * This is a high-level test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=535919
+	 *
+	 * The actual fix was made in {@link org.eclipse.jgit.treewalk.NameConflictTreeWalk}
+	 * and tested in {@link org.eclipse.jgit.treewalk.NameConflictTreeWalkTest#tesdDF_LastItemsInTreeHasDFConflictAndSpecialNames}.
+	 */
+	@Theory
+	public void checkMergeDoesntCrashWithSpecialFileNames(
+			MergeStrategy strategy) throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("subtree", "");
+		writeTrashFile("subtree-0", "");
+		git.add().addFilepattern("subtree").call();
+		git.add().addFilepattern("subtree-0").call();
+		RevCommit toMerge = git.commit().setMessage("commit-1").call();
+
+		git.rm().addFilepattern("subtree").call();
+		writeTrashFile("subtree/file", "");
+		git.add().addFilepattern("subtree").call();
+		RevCommit mergeTip = git.commit().setMessage("commit2").call();
+
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db, false);
+		assertTrue(merger.merge(mergeTip, toMerge));
+	}
+
+	/**
 	 * Merging after criss-cross merges. In this case we merge together two
 	 * commits which have two equally good common ancestors
 	 *
