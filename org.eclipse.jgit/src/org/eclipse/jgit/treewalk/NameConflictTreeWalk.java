@@ -56,7 +56,14 @@ import org.eclipse.jgit.lib.Repository;
 public class NameConflictTreeWalk extends TreeWalk {
 	private static final int TREE_MODE = FileMode.TREE.getBits();
 
-	private boolean fastMinHasMatch;
+	/**
+	 * True if all {@link #trees} point to entries with equal names.
+	 *
+	 * If at least one tree iterator point to a different name or
+	 * reached end of the tree, the value is false.
+	 * Note: if all iterators
+	 */
+	private boolean allTreesNamesMatchFastMinRef;
 
 	private AbstractTreeIterator dfConflict;
 
@@ -97,7 +104,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	AbstractTreeIterator min() throws CorruptObjectException {
 		for (;;) {
 			final AbstractTreeIterator minRef = fastMin();
-			if (fastMinHasMatch)
+			if (allTreesNamesMatchFastMinRef)
 				return minRef;
 
 			if (isTree(minRef)) {
@@ -118,7 +125,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	}
 
 	private AbstractTreeIterator fastMin() {
-		fastMinHasMatch = true;
+		allTreesNamesMatchFastMinRef = true;
 
 		int i = 0;
 		AbstractTreeIterator minRef = trees[i];
@@ -126,6 +133,10 @@ public class NameConflictTreeWalk extends TreeWalk {
 			minRef = trees[i];
 		if (minRef.eof())
 			return minRef;
+
+		// allTreesNamesMatchFastMinRef must be false
+		// if some (but not all!) trees reached the end (eof() == true)
+		allTreesNamesMatchFastMinRef = i == 0;
 
 		boolean hasConflict = false;
 		minRef.matches = minRef;
@@ -136,7 +147,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 
 			final int cmp = t.pathCompare(minRef);
 			if (cmp < 0) {
-				if (fastMinHasMatch && isTree(minRef) && !isTree(t)
+				if (allTreesNamesMatchFastMinRef && isTree(minRef) && !isTree(t)
 						&& nameEqual(minRef, t)) {
 					// We used to be at a tree, but now we are at a file
 					// with the same name. Allow the file to match the
@@ -145,7 +156,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 					t.matches = minRef;
 					hasConflict = true;
 				} else {
-					fastMinHasMatch = false;
+					allTreesNamesMatchFastMinRef = false;
 					t.matches = t;
 					minRef = t;
 				}
@@ -153,7 +164,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 				// Exact name/mode match is best.
 				//
 				t.matches = minRef;
-			} else if (fastMinHasMatch && isTree(t) && !isTree(minRef)
+			} else if (allTreesNamesMatchFastMinRef && isTree(t) && !isTree(minRef)
 					&& !isGitlink(minRef) && nameEqual(t, minRef)) {
 				// The minimum is a file (non-tree) but the next entry
 				// of this iterator is a tree whose name matches our file.
@@ -172,10 +183,10 @@ public class NameConflictTreeWalk extends TreeWalk {
 				minRef = t;
 				hasConflict = true;
 			} else
-				fastMinHasMatch = false;
+				allTreesNamesMatchFastMinRef = false;
 		}
 
-		if (hasConflict && fastMinHasMatch && dfConflict == null)
+		if (hasConflict && allTreesNamesMatchFastMinRef && dfConflict == null)
 			dfConflict = minRef;
 		return minRef;
 	}
