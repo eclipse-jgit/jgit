@@ -46,6 +46,30 @@
       },
       "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f4690af_ca486e38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-27T11:50:49Z",
+      "side": 1,
+      "message": "\u003e \u003e Which issue ID? Is this bug 535919? If so please link it in the footer:\n\u003e No, this is a different bug, it was reported internally for gerrit. There is no public bug.\n\nLet me phrase this differently: is this the _same as_ bug 535919? Just from looking at the descriptions, it seems possible. If it is the same, and this fix fixes both, then please link to the public bug in the footer.",
+      "parentUuid": "a697f2f8_8ec962f6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
