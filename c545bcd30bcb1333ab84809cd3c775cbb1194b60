@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d783c51_ffcb6d9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-06-27T11:34:22Z",
+      "side": 1,
+      "message": "Which issue ID? Is this bug 535919? If so please link it in the footer:\n\n  Bug: 535919\n\nSee https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines .\n\nAlso, you write 2-way merge here; below text is about 3-way merge.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "c545bcd30bcb1333ab84809cd3c775cbb1194b60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
