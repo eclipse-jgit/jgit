@@ -56,6 +56,13 @@ import org.eclipse.jgit.lib.Repository;
 public class NameConflictTreeWalk extends TreeWalk {
 	private static final int TREE_MODE = FileMode.TREE.getBits();
 
+	/**
+	 * True if all {@link #trees} point to entries with equal names.
+	 *
+	 * If at least one tree iterator point to a different name or
+	 * reached end of the tree, the value is false.
+	 * Note: if all iterators reached end of trees, the value is true.
+	 */
 	private boolean allTreesNamesMatchFastMinRef;
 
 	private AbstractTreeIterator dfConflict;
@@ -125,13 +132,20 @@ public class NameConflictTreeWalk extends TreeWalk {
 			return trees[trees.length - 1];
 		}
 		AbstractTreeIterator minRef = trees[i];
-		allTreesNamesMatchFastMinRef = true;
+		// if i > 0 then we already know that only some trees reached the end
+		// (but not all), so it is impossible that ALL trees points to the
+		// minRef entry.
+		// Only if i == 0 it is still possible that all trees points to the same
+		// minRef entry.
+		allTreesNamesMatchFastMinRef = i == 0;
 		boolean hasConflict = false;
 		minRef.matches = minRef;
 		while (++i < trees.length) {
 			final AbstractTreeIterator t = trees[i];
-			if (t.eof())
+			if (t.eof()) {
+				allTreesNamesMatchFastMinRef = false;
 				continue;
+			}
 
 			final int cmp = t.pathCompare(minRef);
 			if (cmp < 0) {
@@ -152,8 +166,9 @@ public class NameConflictTreeWalk extends TreeWalk {
 				// Exact name/mode match is best.
 				//
 				t.matches = minRef;
-			} else if (allTreesNamesMatchFastMinRef && isTree(t) && !isTree(minRef)
-					&& !isGitlink(minRef) && nameEqual(t, minRef)) {
+			} else if (allTreesNamesMatchFastMinRef && isTree(t)
+					&& !isTree(minRef) && !isGitlink(minRef)
+					&& nameEqual(t, minRef)) {
 				// The minimum is a file (non-tree) but the next entry
 				// of this iterator is a tree whose name matches our file.
 				// This is a classic D/F conflict and commonly occurs like
