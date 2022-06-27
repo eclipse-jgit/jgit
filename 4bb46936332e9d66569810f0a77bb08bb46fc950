@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "785564bd_da338771",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-27T11:41:18Z",
+      "side": 1,
+      "message": "Thanks @Matthias and @Davido for you time reviewing and helping merging this change.",
+      "revId": "4bb46936332e9d66569810f0a77bb08bb46fc950",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
