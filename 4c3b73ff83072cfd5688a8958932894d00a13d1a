@@ -16,6 +16,23 @@
       "message": "Could both of these bug fixes move to an earlier stable branch ? (probably 5.12? to resolve issues during calculating auto merge commits in gerrit 3.5)",
       "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62c4a577_9632d00d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304375
+      },
+      "writtenOn": "2022-06-28T22:23:07Z",
+      "side": 1,
+      "message": "Hi Dmitrii, I don\u0027t have +2. You could try Terry or Jonathan if you want someone from my team to approve your change.",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
