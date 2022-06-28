@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d2fcceb_c9db872d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2022-06-28T21:05:13Z",
+      "side": 1,
+      "message": "Could both of these bug fixes move to an earlier stable branch ? (probably 5.12? to resolve issues during calculating auto merge commits in gerrit 3.5)",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
