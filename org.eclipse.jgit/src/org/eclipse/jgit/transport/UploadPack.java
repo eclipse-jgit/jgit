@@ -39,6 +39,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2_REQUEST;
 import static org.eclipse.jgit.util.RefMap.toRefMap;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -104,7 +105,7 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
 /**
  * Implements the server side of a fetch connection, transmitting objects.
  */
-public class UploadPack {
+public class UploadPack implements Closeable {
 	/** Policy the server uses to validate client requests */
 	public enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
@@ -730,6 +731,17 @@ public class UploadPack {
 				&& clientRequestedV2;
 	}
 
+	@Override
+	public void close() {
+		if (timer != null) {
+			try {
+				timer.terminate();
+			} finally {
+				timer = null;
+			}
+		}
+	}
+
 	/**
 	 * Execute the upload task on the socket.
 	 *
@@ -777,6 +789,8 @@ public class UploadPack {
 				throw new UploadPackInternalServerErrorException(err);
 			}
 			throw err;
+		} finally {
+			close();
 		}
 	}
 
@@ -786,6 +800,10 @@ public class UploadPack {
 	 * <p>
 	 * If the client passed extra parameters (e.g., "version=2") through a side
 	 * channel, the caller must call setExtraParameters first to supply them.
+	 * Callers of this method should call {@link #close()} to terminate the
+	 * internal interrupt timer thread. If the caller fails to terminate the
+	 * thread, it will (eventually) terminate itself when the InterruptTimer
+	 * instance is garbage collected.
 	 *
 	 * @param input
 	 *            raw input to read client commands from. Caller must ensure the
@@ -842,13 +860,6 @@ public class UploadPack {
 		} finally {
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
-			if (timer != null) {
-				try {
-					timer.terminate();
-				} finally {
-					timer = null;
-				}
-			}
 		}
 	}
 
