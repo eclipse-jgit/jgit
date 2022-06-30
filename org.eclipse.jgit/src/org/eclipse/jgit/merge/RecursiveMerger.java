@@ -192,12 +192,10 @@ public class RecursiveMerger extends ResolveMerger {
 									currentBase.getName(), nextBase.getName()));
 			}
 		} finally {
+			ioHandler.cleanUpChanges();
 			inCore = oldIncore;
 			dircache = oldDircache;
 			workingTreeIterator = oldWTreeIt;
-			toBeCheckedOut.clear();
-			toBeDeleted.clear();
-			modifiedFiles.clear();
 			unmergedPaths.clear();
 			mergeResults.clear();
 			failingPaths.clear();
