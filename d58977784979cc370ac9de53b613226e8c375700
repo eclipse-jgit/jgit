@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40178479_898d1b82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-30T12:29:39Z",
+      "side": 1,
+      "message": "Thanks @Matthias for fixing this! Do you see any way to add a test for it?",
+      "revId": "d58977784979cc370ac9de53b613226e8c375700",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3bdd60b_eb3da094",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-06-30T12:29:39Z",
+      "side": 1,
+      "message": "nit: empty space at EOL",
+      "range": {
+        "startLine": 803,
+        "startChar": 72,
+        "endLine": 803,
+        "endChar": 73
+      },
+      "revId": "d58977784979cc370ac9de53b613226e8c375700",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
