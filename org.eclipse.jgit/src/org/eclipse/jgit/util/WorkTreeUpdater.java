@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -416,6 +417,53 @@ public class WorkTreeUpdater implements Closeable {
 	}
 
 	/**
+	 * Renames the given file
+	 *
+	 * @param origin to be renamed
+	 * @param dest   file
+	 * @throws IOException if the file cannot be renamed
+	 */
+	public void renameFile(File origin, String originPath, File dest) throws IOException {
+		markAsModified(originPath);
+
+		if (inCore) {
+			// insertToIndex() is expected to be called for this file next. Index updating is done there.
+			return;
+		}
+		if (origin == null || dest == null) {
+			throw new IOException("Cannot rename file. Either origin or destination files are null");
+		}
+		try {
+			FileUtils.mkdirs(dest.getParentFile(), true);
+			FileUtils.rename(origin, dest, StandardCopyOption.ATOMIC_MOVE);
+		} catch (IOException e) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().renameFileFailed, origin, dest), e);
+		}
+	}
+
+	/**
+	 * Copies the given file
+	 *
+	 * @param origin to be copied
+	 * @param dest   file
+	 * @throws IOException if the file cannot be copied
+	 */
+	public void copyFile(File origin, File dest, String destPath) throws IOException {
+		markAsModified(destPath);
+
+		if (inCore) {
+			// insertToIndex() is expected to be called for this file next. Index updating is done there.
+			return;
+		}
+		if (origin == null || dest == null) {
+			throw new IOException("Cannot copy file. Either origin or destination files are null");
+		}
+		FileUtils.mkdirs(dest.getParentFile(), true);
+		Files.copy(origin.toPath(), dest.toPath());
+	}
+
+	/**
 	 * Remembers the {@link CheckoutMetadata} for the given path; it may be needed in {@link
 	 * #checkout()} or in {@link #revertModifiedFiles()}.
 	 *
@@ -431,7 +479,9 @@ public class WorkTreeUpdater implements Closeable {
 		if (inCore || map == null) {
 			return;
 		}
-		map.put(path, new CheckoutMetadata(streamType, smudgeCommand));
+		if (!map.containsKey(path)) {
+			map.put(path, new CheckoutMetadata(streamType, smudgeCommand));
+		}
 	}
 
 	/**
@@ -461,17 +511,19 @@ public class WorkTreeUpdater implements Closeable {
 					result.failedToDelete.add(path);
 				}
 			}
-			result.modifiedFiles.add(path);
+			markAsModified(path);
 		}
 	}
 
 	/**
 	 * Marks the given path as modified in the operation.
 	 *
-	 * @param path to mark as modified
+	 * @param path          to mark as modified
 	 */
 	public void markAsModified(String path) {
-		result.modifiedFiles.add(path);
+		if (!result.modifiedFiles.contains(path)) {
+			result.modifiedFiles.add(path);
+		}
 	}
 
 	/**
@@ -494,7 +546,7 @@ public class WorkTreeUpdater implements Closeable {
 			} else {
 				DirCacheCheckout.checkoutEntry(
 						repo, dirCacheEntry, reader, false, checkoutMetadata.get(entry.getKey()));
-				result.modifiedFiles.add(entry.getKey());
+				markAsModified(entry.getKey());
 			}
 		}
 	}
@@ -640,7 +692,7 @@ public class WorkTreeUpdater implements Closeable {
 			Instant lastModified,
 			int len) {
 		DirCacheEntry dce = new DirCacheEntry(path, entryStage);
-		dce.setFileMode(fileMode);
+		dce.setFileMode(fileMode == FileMode.MISSING ? FileMode.REGULAR_FILE : fileMode);
 		if (lastModified != null) {
 			dce.setLastModified(lastModified);
 		}
@@ -670,7 +722,7 @@ public class WorkTreeUpdater implements Closeable {
 	 * @return non-null repository instance
 	 * @throws java.lang.NullPointerException if the handler was constructed without a repository.
 	 */
-	private Repository nonNullRepo() throws NullPointerException {
+	public Repository nonNullRepo() throws NullPointerException {
 		if (repo == null) {
 			throw new NullPointerException(JGitText.get().repositoryIsRequired);
 		}
