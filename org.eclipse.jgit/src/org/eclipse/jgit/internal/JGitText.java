@@ -42,7 +42,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String anExceptionOccurredWhileTryingToAddTheIdOfHEAD;
 	/***/ public String anSSHSessionHasBeenAlreadyCreated;
 	/***/ public String applyBinaryBaseOidWrong;
+	/***/ public String applyBinaryForInCoreNotSupported;
 	/***/ public String applyBinaryOidTooShort;
+	/***/ public String applyBinaryPatchTypeNotSupported;
 	/***/ public String applyBinaryResultOidWrong;
 	/***/ public String applyingCommit;
 	/***/ public String archiveFormatAlreadyAbsent;
@@ -183,6 +185,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
 	/***/ public String cookieFilePathRelative;
+	/***/ public String copyFileFailedNullFiles;
 	/***/ public String corruptionDetectedReReadingAt;
 	/***/ public String corruptObjectBadDate;
 	/***/ public String corruptObjectBadEmail;
@@ -651,6 +654,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String renameBranchUnexpectedResult;
 	/***/ public String renameCancelled;
 	/***/ public String renameFileFailed;
+	/***/ public String renameFileFailedNullFiles;
 	/***/ public String renamesAlreadyFound;
 	/***/ public String renamesBreakingModifies;
 	/***/ public String renamesFindingByContent;
