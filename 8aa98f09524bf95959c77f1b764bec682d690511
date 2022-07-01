@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca8a4328_3fd5bd14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-07-01T10:41:45Z",
+      "side": 1,
+      "message": "Since it is an in-core handler, why does the non-incore logic also live here?",
+      "range": {
+        "startLine": 259,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 5
+      },
+      "revId": "8aa98f09524bf95959c77f1b764bec682d690511",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58059b34_9b97ca84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-07-01T10:41:45Z",
+      "side": 1,
+      "message": "This logic was not present in AppyCommanf before, it looks similar to ResolveMerger Checkout logic.\n\nThis should not be necessary for inCore handling at all.",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 312,
+        "endChar": 3
+      },
+      "revId": "8aa98f09524bf95959c77f1b764bec682d690511",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e39117d_1c3497ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-07-01T10:41:45Z",
+      "side": 1,
+      "message": "Test is failing because of Null baseObjectId.\nWhy do you need to create two DirCacheEntry here?\nI would expect a single DirCacheEntry for the newly created content, that comes from resultStreamLoader.\n\n(E.g. what you do in line #433)",
+      "range": {
+        "startLine": 430,
+        "startChar": 4,
+        "endLine": 430,
+        "endChar": 34
+      },
+      "revId": "8aa98f09524bf95959c77f1b764bec682d690511",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
