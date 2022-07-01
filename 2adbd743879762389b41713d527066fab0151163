@@ -16,6 +16,24 @@
       "message": "No idea why this got re-formatted, I guess Eclipse decided it had to.\n\nI\u0027ll adjust so it has only the change that is needed.",
       "revId": "2adbd743879762389b41713d527066fab0151163",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "110fbe9a_c2f1d62f",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-07-01T14:15:35Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "b2592bfa_043cbe90",
+      "revId": "2adbd743879762389b41713d527066fab0151163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

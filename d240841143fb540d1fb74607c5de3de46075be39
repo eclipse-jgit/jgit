@@ -90,6 +90,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0c895a7_2ee79bb1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RenameDetectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-07-01T14:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "916a2007_6923b1a1",
+      "revId": "d240841143fb540d1fb74607c5de3de46075be39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de43a845_62f99fd4",
@@ -175,6 +193,24 @@
       "side": 1,
       "message": "Since we are adding a filter that applies both to the \"source\" and \"target\" of a diff, it makes no difference whether we add 1 path filter or many. We have to do 2 rename detection passes.\n\nIf we were to have a filter for \"sources\" only (and maybe a filter for \"targets\"), I think the change would be much more simple. But then also in that case it would make no difference whether we have 1 path or many for the filter.",
       "parentUuid": "dcbacf23_cac583b7",
+      "revId": "d240841143fb540d1fb74607c5de3de46075be39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dc9b5e0_cbfdd412",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-07-01T14:15:35Z",
+      "side": 1,
+      "message": "Don\u0027t get me wrong, but I would prefer small steps that bring immediate benefit to larger changes with open end story behind.\n\nIt will not harm to iterate and provide another improvement on top of this patch, if there is interest \u0026 resources. It\u0027s not a public API that has to be designed upfromt to fit all possible uses, it\u0027s just a bugfix.\n\nWe have a small simple patch, a regression test and one bug less - that is OK from my POV to be integrated (once the review is complete).\n\nAll additional improvements deserve separated tickets \u0026 patches.",
+      "parentUuid": "9ec82b21_c538afb6",
       "revId": "d240841143fb540d1fb74607c5de3de46075be39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

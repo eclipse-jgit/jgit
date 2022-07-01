@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08444bb6_384dea10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-07-01T14:15:35Z",
+      "side": 1,
+      "message": "I\u0027ve added a bit more comments and slightly changed one constructor.\n\nThe rest looks good. I see that on the original repo where one blame took over 10 minutes (I killed Eclipse after 10 minutes), the patched one took ~5 seconds for same path.\n\nNote: the change is minimal and only filters adds/removes related to given path. \nI guess further optimization is possible, but ROI for more complex code is probably not justified, at least with the examples we have performance is good enough now.",
+      "revId": "1a364c49ec88e5b2e642dddc743df5ebd7445daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

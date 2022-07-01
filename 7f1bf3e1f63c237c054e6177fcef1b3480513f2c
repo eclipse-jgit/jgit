@@ -67,6 +67,24 @@
       "message": "If the new set is empty we probably want to exit the computation here with no rename matches? Since there cannot be a match we are interested in.",
       "revId": "7f1bf3e1f63c237c054e6177fcef1b3480513f2c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95468229_367e12bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-07-01T14:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3e492fc_c6e12d45",
+      "revId": "7f1bf3e1f63c237c054e6177fcef1b3480513f2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
