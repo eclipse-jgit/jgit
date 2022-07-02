@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -145,7 +147,7 @@ public final class AwsRequestSignerV4 {
 						canonicalRequest.getBytes(StandardCharsets.UTF_8)));
 
 		// compute the signing key
-		byte[] secretKey = (SCHEME + new String(awsSecretKey)).getBytes();
+		byte[] secretKey = (SCHEME + new String(awsSecretKey)).getBytes(UTF_8);
 		byte[] dateKey = signStringWithKey(scopeDate, secretKey);
 		byte[] regionKey = signStringWithKey(regionName, dateKey);
 		byte[] serviceKey = signStringWithKey(serviceName, regionKey);
