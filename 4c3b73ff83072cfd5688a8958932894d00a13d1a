@@ -33,6 +33,24 @@
       "message": "Hi Dmitrii, I don\u0027t have +2. You could try Terry or Jonathan if you want someone from my team to approve your change.",
       "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73478e83_d2d6c82e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-07-05T19:23:45Z",
+      "side": 1,
+      "message": "@Dmitrii, can you move this fix to stable-5.13 so that Gerrit 3.4 and 3.5 can pick it up easily?",
+      "parentUuid": "4d2fcceb_c9db872d",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
