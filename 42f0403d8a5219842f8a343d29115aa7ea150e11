@@ -33,6 +33,29 @@
       "message": "trigger build",
       "revId": "42f0403d8a5219842f8a343d29115aa7ea150e11",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f348212_c30ef787",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-06T23:44:51Z",
+      "side": 1,
+      "message": "This is a copy though",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 70
+      },
+      "revId": "42f0403d8a5219842f8a343d29115aa7ea150e11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
