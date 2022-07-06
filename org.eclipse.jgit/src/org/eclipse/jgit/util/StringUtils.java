@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc. and others
+ * Copyright (C) 2009-2022, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 
 /**
  * Miscellaneous string comparison utility methods.
@@ -35,6 +36,10 @@ public final class StringUtils {
 			LC[c] = c;
 		for (char c = 'A'; c <= 'Z'; c++)
 			LC[c] = (char) ('a' + (c - 'A'));
+	}
+
+	private StringUtils() {
+		// Do not create instances
 	}
 
 	/**
@@ -269,8 +274,20 @@ public final class StringUtils {
 		return sb.toString();
 	}
 
-	private StringUtils() {
-		// Do not create instances
+	/**
+	 * Appends {@link Constants#DOT_GIT_EXT} unless the given name already ends
+	 * with that suffix.
+	 *
+	 * @param name
+	 *            to complete
+	 * @return the name ending with {@link Constants#DOT_GIT_EXT}
+	 * @since 6.1
+	 */
+	public static String nameWithDotGit(String name) {
+		if (name.endsWith(Constants.DOT_GIT_EXT)) {
+			return name;
+		}
+		return name + Constants.DOT_GIT_EXT;
 	}
 
 	/**

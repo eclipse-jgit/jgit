@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2020 Christoph Brill <egore911@egore911.de> and others
+ * Copyright (C) 2011, 2022 Christoph Brill <egore911@egore911.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ import java.util.Map;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NotSupportedException;
-import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -30,6 +31,8 @@ import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UrlConfig;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * The ls-remote command
@@ -153,7 +156,7 @@ public class LsRemoteCommand extends
 
 		try (Transport transport = repo != null
 				? Transport.open(repo, remote)
-				: Transport.open(new URIish(remote))) {
+				: Transport.open(new URIish(translate(remote)))) {
 			transport.setOptionUploadPack(uploadPack);
 			configure(transport);
 			Collection<RefSpec> refSpecs = new ArrayList<>(1);
@@ -185,11 +188,16 @@ public class LsRemoteCommand extends
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfLsRemoteCommand,
 					e);
-		} catch (TransportException e) {
+		} catch (IOException | ConfigInvalidException e) {
 			throw new org.eclipse.jgit.api.errors.TransportException(
-					e.getMessage(),
-					e);
+					e.getMessage(), e);
 		}
 	}
 
+	private String translate(String uri)
+			throws IOException, ConfigInvalidException {
+		UrlConfig urls = new UrlConfig(
+				SystemReader.getInstance().getUserConfig());
+		return urls.replace(uri);
+	}
 }

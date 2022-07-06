@@ -73,7 +73,6 @@ final class LargePackedWholeObject extends ObjectLoader {
 	public ObjectStream openStream() throws MissingObjectException, IOException {
 		PackInputStream packIn;
 		// ctx is closed by PackInputStream, or explicitly in the finally block
-		@SuppressWarnings("resource")
 		DfsReader ctx = db.newReader();
 		try {
 			try {

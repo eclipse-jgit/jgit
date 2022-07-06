@@ -48,6 +48,15 @@ public final class Constants {
 	 */
 	public static final int OBJECT_ID_STRING_LENGTH = OBJECT_ID_LENGTH * 2;
 
+	/**
+	 * The historic length of an abbreviated Git object hash string. Git 2.11
+	 * changed this static number to a dynamically calculated one that scales
+	 * as the repository grows.
+	 *
+	 * @since 6.1
+	 */
+	public static final int OBJECT_ID_ABBREV_STRING_LENGTH = 7;
+
 	/** Special name for the "HEAD" symbolic-ref. */
 	public static final String HEAD = "HEAD";
 

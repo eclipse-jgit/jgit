@@ -17,6 +17,6 @@ java_library(
         "//lib:slf4j-api",
         "//lib:sshd-osgi",
         "//org.eclipse.jgit:jgit",
-        "//org.eclipse.jgit.ssh.apache:ssh-apache"
+        "//org.eclipse.jgit.ssh.apache:ssh-apache",
     ],
 )

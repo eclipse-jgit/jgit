@@ -77,6 +77,26 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testFetchHasRefLogForRemoteRef() throws Exception {
+		// create an initial commit SHA1 for the default branch
+		ObjectId defaultBranchSha1 = remoteGit.commit()
+				.setMessage("initial commit").call().getId();
+
+		git.fetch().setRemote("test")
+				.setRefSpecs("refs/heads/*:refs/remotes/origin/*").call();
+
+		List<Ref> allFetchedRefs = git.getRepository().getRefDatabase()
+				.getRefs();
+		assertEquals(allFetchedRefs.size(), 1);
+		Ref remoteRef = allFetchedRefs.get(0);
+
+		assertTrue(remoteRef.getName().startsWith(Constants.R_REMOTES));
+		assertEquals(defaultBranchSha1, remoteRef.getObjectId());
+		assertNotNull(git.getRepository().getReflogReader(remoteRef.getName())
+				.getLastEntry());
+	}
+
+	@Test
 	public void testForcedFetch() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		remoteGit.commit().setMessage("commit2").call();
@@ -93,6 +113,53 @@ public class FetchCommandTest extends RepositoryTestCase {
 				.setForceUpdate(true).call();
 		assertEquals(RefUpdate.Result.FORCED,
 				res.getTrackingRefUpdate("refs/heads/master").getResult());
+	}
+
+	@Test
+	public void testFetchSimpleNegativeRefSpec() throws Exception {
+		remoteGit.commit().setMessage("commit").call();
+
+		FetchResult res = git.fetch().setRemote("test")
+				.setRefSpecs("refs/heads/master:refs/heads/test",
+						"^:refs/heads/test")
+				.call();
+		assertNull(res.getTrackingRefUpdate("refs/heads/test"));
+
+		res = git.fetch().setRemote("test")
+				.setRefSpecs("refs/heads/master:refs/heads/test",
+						"^refs/heads/master")
+				.call();
+		assertNull(res.getTrackingRefUpdate("refs/heads/test"));
+	}
+
+	@Test
+	public void negativeRefSpecFilterBySource() throws Exception {
+		remoteGit.commit().setMessage("commit").call();
+		remoteGit.branchCreate().setName("test").call();
+		remoteGit.commit().setMessage("commit1").call();
+		remoteGit.branchCreate().setName("dev").call();
+
+		FetchResult res = git.fetch().setRemote("test")
+				.setRefSpecs("refs/*:refs/origins/*", "^refs/*/test")
+				.call();
+		assertNotNull(res.getTrackingRefUpdate("refs/origins/heads/master"));
+		assertNull(res.getTrackingRefUpdate("refs/origins/heads/test"));
+		assertNotNull(res.getTrackingRefUpdate("refs/origins/heads/dev"));
+	}
+
+	@Test
+	public void negativeRefSpecFilterByDestination() throws Exception {
+		remoteGit.commit().setMessage("commit").call();
+		remoteGit.branchCreate().setName("meta").call();
+		remoteGit.commit().setMessage("commit1").call();
+		remoteGit.branchCreate().setName("data").call();
+
+		FetchResult res = git.fetch().setRemote("test")
+				.setRefSpecs("refs/*:refs/secret/*", "^:refs/secret/*/meta")
+				.call();
+		assertNotNull(res.getTrackingRefUpdate("refs/secret/heads/master"));
+		assertNull(res.getTrackingRefUpdate("refs/secret/heads/meta"));
+		assertNotNull(res.getTrackingRefUpdate("refs/secret/heads/data"));
 	}
 
 	@Test

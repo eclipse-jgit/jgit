@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
@@ -52,6 +53,8 @@ import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitConfig;
+import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -205,6 +208,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private InteractiveHandler interactiveHandler;
 
+	private CommitConfig commitConfig;
+
 	private boolean stopAfterInitialization = false;
 
 	private RevCommit newHead;
@@ -246,6 +251,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		lastStepWasForward = false;
 		checkCallable();
 		checkParameters();
+		commitConfig = repo.getConfig().get(CommitConfig.KEY);
 		try {
 			switch (operation) {
 			case ABORT:
@@ -441,11 +447,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return null; // continue rebase process on pick command
 		case REWORD:
 			String oldMessage = commitToPick.getFullMessage();
-			String newMessage = interactiveHandler
-					.modifyCommitMessage(oldMessage);
+			CleanupMode mode = commitConfig.resolve(CleanupMode.DEFAULT, true);
+			boolean[] doChangeId = { false };
+			String newMessage = editCommitMessage(doChangeId, oldMessage, mode,
+					commitConfig.getCommentChar(oldMessage));
 			try (Git git = new Git(repo)) {
-				newHead = git.commit().setMessage(newMessage).setAmend(true)
-						.setNoVerify(true).call();
+				newHead = git.commit()
+						.setMessage(newMessage)
+						.setAmend(true)
+						.setNoVerify(true)
+						.setInsertChangeId(doChangeId[0])
+						.call();
 			}
 			return null;
 		case EDIT:
@@ -460,15 +472,47 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			resetSoftToParent();
 			List<RebaseTodoLine> steps = repo.readRebaseTodo(
 					rebaseState.getPath(GIT_REBASE_TODO), false);
-			RebaseTodoLine nextStep = steps.isEmpty() ? null : steps.get(0);
+			boolean isLast = steps.isEmpty();
+			if (!isLast) {
+				switch (steps.get(0).getAction()) {
+				case FIXUP:
+				case SQUASH:
+					break;
+				default:
+					isLast = true;
+					break;
+				}
+			}
 			File messageFixupFile = rebaseState.getFile(MESSAGE_FIXUP);
 			File messageSquashFile = rebaseState.getFile(MESSAGE_SQUASH);
-			if (isSquash && messageFixupFile.exists())
+			if (isSquash && messageFixupFile.exists()) {
 				messageFixupFile.delete();
-			newHead = doSquashFixup(isSquash, commitToPick, nextStep,
+			}
+			newHead = doSquashFixup(isSquash, commitToPick, isLast,
 					messageFixupFile, messageSquashFile);
 		}
 		return null;
+	}
+
+	private String editCommitMessage(boolean[] doChangeId, String message,
+			@NonNull CleanupMode mode, char commentChar) {
+		String newMessage;
+		CommitConfig.CleanupMode cleanup;
+		if (interactiveHandler instanceof InteractiveHandler2) {
+			InteractiveHandler2.ModifyResult modification = ((InteractiveHandler2) interactiveHandler)
+					.editCommitMessage(message, mode, commentChar);
+			newMessage = modification.getMessage();
+			cleanup = modification.getCleanupMode();
+			if (CleanupMode.DEFAULT.equals(cleanup)) {
+				cleanup = mode;
+			}
+			doChangeId[0] = modification.shouldAddChangeId();
+		} else {
+			newMessage = interactiveHandler.modifyCommitMessage(message);
+			cleanup = CommitConfig.CleanupMode.STRIP;
+			doChangeId[0] = false;
+		}
+		return CommitConfig.cleanText(newMessage, cleanup, commentChar);
 	}
 
 	private RebaseResult cherryPickCommit(RevCommit commitToPick)
@@ -707,7 +751,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RevCommit doSquashFixup(boolean isSquash, RevCommit commitToPick,
-			RebaseTodoLine nextStep, File messageFixup, File messageSquash)
+			boolean isLast, File messageFixup, File messageSquash)
 			throws IOException, GitAPIException {
 
 		if (!messageSquash.exists()) {
@@ -717,24 +761,20 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 			initializeSquashFixupFile(MESSAGE_SQUASH,
 					previousCommit.getFullMessage());
-			if (!isSquash)
-				initializeSquashFixupFile(MESSAGE_FIXUP,
-					previousCommit.getFullMessage());
+			if (!isSquash) {
+				rebaseState.createFile(MESSAGE_FIXUP,
+						previousCommit.getFullMessage());
+			}
 		}
-		String currSquashMessage = rebaseState
-				.readFile(MESSAGE_SQUASH);
+		String currSquashMessage = rebaseState.readFile(MESSAGE_SQUASH);
 
 		int count = parseSquashFixupSequenceCount(currSquashMessage) + 1;
 
 		String content = composeSquashMessage(isSquash,
 				commitToPick, currSquashMessage, count);
 		rebaseState.createFile(MESSAGE_SQUASH, content);
-		if (messageFixup.exists())
-			rebaseState.createFile(MESSAGE_FIXUP, content);
 
-		return squashIntoPrevious(
-				!messageFixup.exists(),
-				nextStep);
+		return squashIntoPrevious(!messageFixup.exists(), isLast);
 	}
 
 	private void resetSoftToParent() throws IOException,
@@ -756,26 +796,31 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RevCommit squashIntoPrevious(boolean sequenceContainsSquash,
-			RebaseTodoLine nextStep)
+			boolean isLast)
 			throws IOException, GitAPIException {
 		RevCommit retNewHead;
-		String commitMessage = rebaseState
-				.readFile(MESSAGE_SQUASH);
-
+		String commitMessage;
+		if (!isLast || sequenceContainsSquash) {
+			commitMessage = rebaseState.readFile(MESSAGE_SQUASH);
+		} else {
+			commitMessage = rebaseState.readFile(MESSAGE_FIXUP);
+		}
 		try (Git git = new Git(repo)) {
-			if (nextStep == null || ((nextStep.getAction() != Action.FIXUP)
-					&& (nextStep.getAction() != Action.SQUASH))) {
-				// this is the last step in this sequence
+			if (isLast) {
+				boolean[] doChangeId = { false };
 				if (sequenceContainsSquash) {
-					commitMessage = interactiveHandler
-							.modifyCommitMessage(commitMessage);
+					char commentChar = commitMessage.charAt(0);
+					commitMessage = editCommitMessage(doChangeId, commitMessage,
+							CleanupMode.STRIP, commentChar);
 				}
 				retNewHead = git.commit()
-						.setMessage(stripCommentLines(commitMessage))
-						.setAmend(true).setNoVerify(true).call();
+						.setMessage(commitMessage)
+						.setAmend(true)
+						.setNoVerify(true)
+						.setInsertChangeId(doChangeId[0])
+						.call();
 				rebaseState.getFile(MESSAGE_SQUASH).delete();
 				rebaseState.getFile(MESSAGE_FIXUP).delete();
-
 			} else {
 				// Next step is either Squash or Fixup
 				retNewHead = git.commit().setMessage(commitMessage)
@@ -785,44 +830,59 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return retNewHead;
 	}
 
-	private static String stripCommentLines(String commitMessage) {
-		StringBuilder result = new StringBuilder();
-		for (String line : commitMessage.split("\n")) { //$NON-NLS-1$
-			if (!line.trim().startsWith("#")) //$NON-NLS-1$
-				result.append(line).append("\n"); //$NON-NLS-1$
-		}
-		if (!commitMessage.endsWith("\n")) { //$NON-NLS-1$
-			int bufferSize = result.length();
-			if (bufferSize > 0 && result.charAt(bufferSize - 1) == '\n') {
-				result.deleteCharAt(bufferSize - 1);
-			}
-		}
-		return result.toString();
-	}
-
 	@SuppressWarnings("nls")
-	private static String composeSquashMessage(boolean isSquash,
+	private String composeSquashMessage(boolean isSquash,
 			RevCommit commitToPick, String currSquashMessage, int count) {
 		StringBuilder sb = new StringBuilder();
 		String ordinal = getOrdinal(count);
-		sb.setLength(0);
-		sb.append("# This is a combination of ").append(count)
-				.append(" commits.\n");
-		// Add the previous message without header (i.e first line)
-		sb.append(currSquashMessage
-				.substring(currSquashMessage.indexOf('\n') + 1));
-		sb.append("\n");
-		if (isSquash) {
-			sb.append("# This is the ").append(count).append(ordinal)
-					.append(" commit message:\n");
-			sb.append(commitToPick.getFullMessage());
+		// currSquashMessage is always non-empty here, and the first character
+		// is the comment character used so far.
+		char commentChar = currSquashMessage.charAt(0);
+		String newMessage = commitToPick.getFullMessage();
+		if (!isSquash) {
+			sb.append(commentChar).append(" This is a combination of ")
+					.append(count).append(" commits.\n");
+			// Add the previous message without header (i.e first line)
+			sb.append(currSquashMessage
+					.substring(currSquashMessage.indexOf('\n') + 1));
+			sb.append('\n');
+			sb.append(commentChar).append(" The ").append(count).append(ordinal)
+					.append(" commit message will be skipped:\n")
+					.append(commentChar).append(' ');
+			sb.append(newMessage.replaceAll("([\n\r])",
+					"$1" + commentChar + ' '));
 		} else {
-			sb.append("# The ").append(count).append(ordinal)
-					.append(" commit message will be skipped:\n# ");
-			sb.append(commitToPick.getFullMessage().replaceAll("([\n\r])",
-					"$1# "));
+			String currentMessage = currSquashMessage;
+			if (commitConfig.isAutoCommentChar()) {
+				// Figure out a new comment character taking into account the
+				// new message
+				String cleaned = CommitConfig.cleanText(currentMessage,
+						CommitConfig.CleanupMode.STRIP, commentChar) + '\n'
+						+ newMessage;
+				char newCommentChar = commitConfig.getCommentChar(cleaned);
+				if (newCommentChar != commentChar) {
+					currentMessage = replaceCommentChar(currentMessage,
+							commentChar, newCommentChar);
+					commentChar = newCommentChar;
+				}
+			}
+			sb.append(commentChar).append(" This is a combination of ")
+					.append(count).append(" commits.\n");
+			// Add the previous message without header (i.e first line)
+			sb.append(
+					currentMessage.substring(currentMessage.indexOf('\n') + 1));
+			sb.append('\n');
+			sb.append(commentChar).append(" This is the ").append(count)
+					.append(ordinal).append(" commit message:\n");
+			sb.append(newMessage);
 		}
 		return sb.toString();
+	}
+
+	private String replaceCommentChar(String message, char oldChar,
+			char newChar) {
+		// (?m) - Switch on multi-line matching; \h - horizontal whitespace
+		return message.replaceAll("(?m)^(\\h*)" + oldChar, "$1" + newChar); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private static String getOrdinal(int count) {
@@ -858,10 +918,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private void initializeSquashFixupFile(String messageFile,
 			String fullMessage) throws IOException {
-		rebaseState
-				.createFile(
-						messageFile,
-						"# This is a combination of 1 commits.\n# The first commit's message is:\n" + fullMessage); //$NON-NLS-1$);
+		char commentChar = commitConfig.getCommentChar(fullMessage);
+		rebaseState.createFile(messageFile,
+				commentChar + " This is a combination of 1 commits.\n" //$NON-NLS-1$
+						+ commentChar + " The first commit's message is:\n" //$NON-NLS-1$
+						+ fullMessage);
 	}
 
 	private String getOurCommitName() {
@@ -1625,26 +1686,106 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	/**
-	 * Allows configure rebase interactive process and modify commit message
+	 * Allows to configure the interactive rebase process steps and to modify
+	 * commit messages.
 	 */
 	public interface InteractiveHandler {
+
 		/**
-		 * Given list of {@code steps} should be modified according to user
-		 * rebase configuration
+		 * Callback API to modify the initial list of interactive rebase steps.
+		 *
 		 * @param steps
-		 *            initial configuration of rebase interactive
+		 *            initial configuration of interactive rebase
 		 */
 		void prepareSteps(List<RebaseTodoLine> steps);
 
 		/**
-		 * Used for editing commit message on REWORD
+		 * Used for editing commit message on REWORD or SQUASH.
 		 *
-		 * @param commit
+		 * @param message
+		 *            existing commit message
 		 * @return new commit message
 		 */
-		String modifyCommitMessage(String commit);
+		String modifyCommitMessage(String message);
 	}
 
+	/**
+	 * Extends {@link InteractiveHandler} with an enhanced callback for editing
+	 * commit messages.
+	 *
+	 * @since 6.1
+	 */
+	public interface InteractiveHandler2 extends InteractiveHandler {
+
+		/**
+		 * Callback API for editing a commit message on REWORD or SQUASH.
+		 * <p>
+		 * The callback gets the comment character currently set, and the
+		 * clean-up mode. It can use this information when presenting the
+		 * message to the user, and it also has the possibility to clean the
+		 * message itself (in which case the returned {@link ModifyResult}
+		 * should have {@link CleanupMode#VERBATIM} set lest JGit cleans the
+		 * message again). It can also override the initial clean-up mode by
+		 * returning clean-up mode other than {@link CleanupMode#DEFAULT}. If it
+		 * does return {@code DEFAULT}, the passed-in {@code mode} will be
+		 * applied.
+		 * </p>
+		 *
+		 * @param message
+		 *            existing commit message
+		 * @param mode
+		 *            {@link CleanupMode} currently set
+		 * @param commentChar
+		 *            comment character used
+		 * @return a {@link ModifyResult}
+		 */
+		@NonNull
+		ModifyResult editCommitMessage(@NonNull String message,
+				@NonNull CleanupMode mode, char commentChar);
+
+		@Override
+		default String modifyCommitMessage(String message) {
+			// Should actually not be called; but do something reasonable anyway
+			ModifyResult result = editCommitMessage(
+					message == null ? "" : message, CleanupMode.STRIP, //$NON-NLS-1$
+					'#');
+			return result.getMessage();
+		}
+
+		/**
+		 * Describes the result of editing a commit message: the new message,
+		 * and how it should be cleaned.
+		 */
+		interface ModifyResult {
+
+			/**
+			 * Retrieves the new commit message.
+			 *
+			 * @return the message
+			 */
+			@NonNull
+			String getMessage();
+
+			/**
+			 * Tells how the message returned by {@link #getMessage()} should be
+			 * cleaned.
+			 *
+			 * @return the {@link CleanupMode}
+			 */
+			@NonNull
+			CleanupMode getCleanupMode();
+
+			/**
+			 * Tells whether a Gerrit Change-Id should be computed and added to
+			 * the commit message, as with
+			 * {@link CommitCommand#setInsertChangeId(boolean)}.
+			 *
+			 * @return {@code true} if a Change-Id should be handled,
+			 *         {@code false} otherwise
+			 */
+			boolean shouldAddChangeId();
+		}
+	}
 
 	PersonIdent parseAuthor(byte[] raw) {
 		if (raw.length == 0)

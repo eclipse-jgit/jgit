@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -28,6 +28,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Unmultiplexes the data portion of a side-band channel.
@@ -46,6 +48,10 @@ import org.eclipse.jgit.util.RawParseUtils;
  * @since 4.11
  */
 public class SideBandInputStream extends InputStream {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SideBandInputStream.class);
+
 	static final int CH_DATA = 1;
 	static final int CH_PROGRESS = 2;
 	static final int CH_ERROR = 3;
@@ -208,6 +214,21 @@ public class SideBandInputStream extends InputStream {
 
 	private void beginTask(int totalWorkUnits) {
 		monitor.beginTask(remote(currentTask), totalWorkUnits);
+	}
+
+	/**
+	 * Forces any buffered progress messages to be written.
+	 */
+	void drainMessages() {
+		if (!progressBuffer.isEmpty()) {
+			try {
+				progress("\n"); //$NON-NLS-1$
+			} catch (IOException e) {
+				// Just log; otherwise this IOException might hide a real
+				// TransportException
+				LOG.error(e.getMessage(), e);
+			}
+		}
 	}
 
 	private static String remote(String msg) {

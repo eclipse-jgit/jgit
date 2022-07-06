@@ -10,8 +10,8 @@ load(
 junit_tests(
     name = "bc",
     srcs = glob(["tst/**/*.java"]),
-    resource_jars = [":tst_rsrc"],
     tags = ["bc"],
+    runtime_deps = [":tst_rsrc"],
     deps = [
         "//lib:bcpg",
         "//lib:bcprov",

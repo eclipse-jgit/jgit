@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -29,7 +29,25 @@ public final class SshdText extends TranslationBundle {
 	// @formatter:off
 	/***/ public String authenticationCanceled;
 	/***/ public String authenticationOnClosedSession;
+	/***/ public String authGssApiAttempt;
+	/***/ public String authGssApiExhausted;
+	/***/ public String authGssApiFailure;
+	/***/ public String authGssApiNotTried;
+	/***/ public String authGssApiPartialSuccess;
+	/***/ public String authPasswordAttempt;
+	/***/ public String authPasswordChangeAttempt;
+	/***/ public String authPasswordExhausted;
+	/***/ public String authPasswordFailure;
+	/***/ public String authPasswordNotTried;
+	/***/ public String authPasswordPartialSuccess;
+	/***/ public String authPubkeyAttempt;
+	/***/ public String authPubkeyAttemptAgent;
+	/***/ public String authPubkeyExhausted;
+	/***/ public String authPubkeyFailure;
+	/***/ public String authPubkeyNoKeys;
+	/***/ public String authPubkeyPartialSuccess;
 	/***/ public String closeListenerFailed;
+	/***/ public String cannotReadPublicKey;
 	/***/ public String configInvalidPath;
 	/***/ public String configInvalidPattern;
 	/***/ public String configInvalidPositive;
@@ -98,6 +116,8 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String proxySocksUnexpectedMessage;
 	/***/ public String proxySocksUnexpectedVersion;
 	/***/ public String proxySocksUsernameTooLong;
+	/***/ public String pubkeyAuthAddKeyToAgentError;
+	/***/ public String pubkeyAuthAddKeyToAgentQuestion;
 	/***/ public String pubkeyAuthWrongCommand;
 	/***/ public String pubkeyAuthWrongKey;
 	/***/ public String pubkeyAuthWrongSignatureAlgorithm;
@@ -106,9 +126,13 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String serverIdWithNul;
 	/***/ public String sessionCloseFailed;
 	/***/ public String sessionWithoutUsername;
+	/***/ public String sshAgentEdDSAFormatError;
+	/***/ public String sshAgentPayloadLengthError;
 	/***/ public String sshAgentReplyLengthError;
 	/***/ public String sshAgentReplyUnexpected;
 	/***/ public String sshAgentShortReadBuffer;
+	/***/ public String sshAgentUnknownKey;
+	/***/ public String sshAgentWrongKeyLength;
 	/***/ public String sshAgentWrongNumberOfKeys;
 	/***/ public String sshClosingDown;
 	/***/ public String sshCommandTimeout;

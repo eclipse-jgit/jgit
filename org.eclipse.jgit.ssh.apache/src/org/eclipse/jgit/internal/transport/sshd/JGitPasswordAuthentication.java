@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,13 +11,11 @@ package org.eclipse.jgit.internal.transport.sshd;
 
 import static org.apache.sshd.core.CoreModuleProperties.PASSWORD_PROMPTS;
 
-import org.apache.sshd.client.auth.keyboard.UserInteraction;
 import org.apache.sshd.client.auth.password.UserAuthPassword;
 import org.apache.sshd.client.session.ClientSession;
 
 /**
- * A password authentication handler that uses the {@link JGitUserInteraction}
- * to ask the user for the password. It also respects the
+ * A password authentication handler that respects the
  * {@code NumberOfPasswordPrompts} ssh config.
  */
 public class JGitPasswordAuthentication extends UserAuthPassword {
@@ -35,30 +33,11 @@ public class JGitPasswordAuthentication extends UserAuthPassword {
 	}
 
 	@Override
-	protected boolean sendAuthDataRequest(ClientSession session, String service)
-			throws Exception {
+	protected String resolveAttemptedPassword(ClientSession session,
+			String service) throws Exception {
 		if (++attempts > maxAttempts) {
-			return false;
+			return null;
 		}
-		UserInteraction interaction = session.getUserInteraction();
-		if (!interaction.isInteractionAllowed(session)) {
-			return false;
-		}
-		String password = getPassword(session, interaction);
-		if (password == null) {
-			throw new AuthenticationCanceledException();
-		}
-		// sendPassword takes a buffer as first argument, but actually doesn't
-		// use it and creates its own buffer...
-		sendPassword(null, session, password, password);
-		return true;
-	}
-
-	private String getPassword(ClientSession session,
-			UserInteraction interaction) {
-		String[] results = interaction.interactive(session, null, null, "", //$NON-NLS-1$
-				new String[] { SshdText.get().passwordPrompt },
-				new boolean[] { false });
-		return (results == null || results.length == 0) ? null : results[0];
+		return super.resolveAttemptedPassword(session, service);
 	}
 }

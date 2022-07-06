@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc. and others
+ * Copyright (C) 2009-2022, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -18,11 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Default resolver serving from the local filesystem.
@@ -67,7 +67,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 		if (isUnreasonableName(name))
 			throw new RepositoryNotFoundException(name);
 
-		Repository db = exports.get(nameWithDotGit(name));
+		Repository db = exports.get(StringUtils.nameWithDotGit(name));
 		if (db != null) {
 			db.incrementOpen();
 			return db;
@@ -154,7 +154,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 	 *            the repository instance.
 	 */
 	public void exportRepository(String name, Repository db) {
-		exports.put(nameWithDotGit(name), db);
+		exports.put(StringUtils.nameWithDotGit(name), db);
 	}
 
 	/**
@@ -195,12 +195,6 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 			return new File(db.getDirectory(), "git-daemon-export-ok").exists(); //$NON-NLS-1$
 		else
 			return false;
-	}
-
-	private static String nameWithDotGit(String name) {
-		if (name.endsWith(Constants.DOT_GIT_EXT))
-			return name;
-		return name + Constants.DOT_GIT_EXT;
 	}
 
 	private static boolean isUnreasonableName(String name) {

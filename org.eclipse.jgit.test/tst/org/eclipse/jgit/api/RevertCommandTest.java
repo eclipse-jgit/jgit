@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -166,7 +167,9 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 			checkFile(new File(db.getWorkTree(), "a"), "first\n"
 					+ "<<<<<<< master\n" + "second\n" + "third\n" + "=======\n"
-					+ ">>>>>>> " + secondCommit.getId().abbreviate(7).name()
+					+ ">>>>>>> "
+					+ secondCommit.getId()
+							.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name()
 					+ " add second\n");
 			Iterator<RevCommit> history = git.log().call().iterator();
 			RevCommit revertCommit = history.next();
@@ -232,7 +235,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
 			assertEquals("Revert \"" + sideCommit.getShortMessage()
 					+ "\"\n\nThis reverts commit " + sideCommit.getId().getName()
-					+ ".\n\nConflicts:\n\ta\n",
+					+ ".\n\n# Conflicts:\n#\ta\n",
 					db.readMergeCommitMsg());
 			assertTrue(new File(db.getDirectory(), Constants.REVERT_HEAD)
 					.exists());

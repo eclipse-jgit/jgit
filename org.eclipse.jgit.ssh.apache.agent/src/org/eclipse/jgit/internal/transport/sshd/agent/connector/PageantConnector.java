@@ -26,7 +26,10 @@ public class PageantConnector extends AbstractConnector {
 
 		@Override
 		public String getIdentityAgent() {
-			return "pageant"; //$NON-NLS-1$
+			// This must be an absolute Windows path name to avoid that
+			// OpenSshConfigFile treats it as a relative path name. Use an UNC
+			// name on localhost, like for pipes.
+			return "\\\\.\\pageant"; //$NON-NLS-1$
 		}
 
 		@Override

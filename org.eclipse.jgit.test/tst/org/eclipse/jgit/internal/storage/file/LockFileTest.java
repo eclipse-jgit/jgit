@@ -200,4 +200,16 @@ public class LockFileTest extends RepositoryTestCase {
 		assertFalse(lock.isLocked());
 		checkFile(f, "contentother");
 	}
+
+	@Test
+	public void testUnlockNoop() throws Exception {
+		File f = writeTrashFile("somefile", "content");
+		try {
+			LockFile lock = new LockFile(f);
+			lock.unlock();
+			lock.unlock();
+		} catch (Throwable e) {
+			fail("unlock should be noop if not locked at all.");
+		}
+	}
 }

@@ -17,10 +17,8 @@ import static org.eclipse.jgit.lib.Constants.PACK_SIGNATURE;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.MessageDigest;
 
-import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.internal.storage.io.CancellableDigestOutputStream;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.NB;
 
@@ -28,24 +26,13 @@ import org.eclipse.jgit.util.NB;
  * Custom output stream to support
  * {@link org.eclipse.jgit.internal.storage.pack.PackWriter}.
  */
-public final class PackOutputStream extends OutputStream {
-	private static final int BYTES_TO_WRITE_BEFORE_CANCEL_CHECK = 128 * 1024;
-
-	private final ProgressMonitor writeMonitor;
-
-	private final OutputStream out;
+public final class PackOutputStream extends CancellableDigestOutputStream {
 
 	private final PackWriter packWriter;
-
-	private final MessageDigest md = Constants.newMessageDigest();
-
-	private long count;
 
 	private final byte[] headerBuffer = new byte[32];
 
 	private final byte[] copyBuffer = new byte[64 << 10];
-
-	private long checkCancelAt;
 
 	private boolean ofsDelta;
 
@@ -66,48 +53,8 @@ public final class PackOutputStream extends OutputStream {
 	 */
 	public PackOutputStream(final ProgressMonitor writeMonitor,
 			final OutputStream out, final PackWriter pw) {
-		this.writeMonitor = writeMonitor;
-		this.out = out;
+		super(writeMonitor, out);
 		this.packWriter = pw;
-		this.checkCancelAt = BYTES_TO_WRITE_BEFORE_CANCEL_CHECK;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public final void write(int b) throws IOException {
-		count++;
-		out.write(b);
-		md.update((byte) b);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public final void write(byte[] b, int off, int len)
-			throws IOException {
-		while (0 < len) {
-			final int n = Math.min(len, BYTES_TO_WRITE_BEFORE_CANCEL_CHECK);
-			count += n;
-
-			if (checkCancelAt <= count) {
-				if (writeMonitor.isCancelled()) {
-					throw new IOException(
-							JGitText.get().packingCancelledDuringObjectsWriting);
-				}
-				checkCancelAt = count + BYTES_TO_WRITE_BEFORE_CANCEL_CHECK;
-			}
-
-			out.write(b, off, n);
-			md.update(b, off, n);
-
-			off += n;
-			len -= n;
-		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void flush() throws IOException {
-		out.flush();
 	}
 
 	final void writeFileHeader(int version, long objectCount)
@@ -160,7 +107,7 @@ public final class PackOutputStream extends OutputStream {
 		ObjectToPack b = otp.getDeltaBase();
 		if (b != null && (b.isWritten() & ofsDelta)) { // Non-short-circuit logic is intentional
 			int n = objectHeader(rawLength, OBJ_OFS_DELTA, headerBuffer);
-			n = ofsDelta(count - b.getOffset(), headerBuffer, n);
+			n = ofsDelta(length() - b.getOffset(), headerBuffer, n);
 			write(headerBuffer, 0, n);
 		} else if (otp.isDeltaRepresentation()) {
 			int n = objectHeader(rawLength, OBJ_REF_DELTA, headerBuffer);
@@ -209,20 +156,6 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	void endObject() {
-		writeMonitor.update(1);
-	}
-
-	/**
-	 * Get total number of bytes written since stream start.
-	 *
-	 * @return total number of bytes written since stream start.
-	 */
-	public final long length() {
-		return count;
-	}
-
-	/** @return obtain the current SHA-1 digest. */
-	final byte[] getDigest() {
-		return md.digest();
+		getWriteMonitor().update(1);
 	}
 }

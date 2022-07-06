@@ -11,6 +11,8 @@ package org.eclipse.jgit.internal.diffmergetool;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FS;
@@ -22,7 +24,7 @@ import org.junit.Before;
 /**
  * Base test case for external merge and diff tool tests.
  */
-public abstract class ExternalToolTest extends RepositoryTestCase {
+public abstract class ExternalToolTestCase extends RepositoryTestCase {
 
 	protected static final String DEFAULT_CONTENT = "line1";
 
@@ -35,6 +37,14 @@ public abstract class ExternalToolTest extends RepositoryTestCase {
 	protected File baseFile;
 
 	protected File commandResult;
+
+	protected FileElement local;
+
+	protected FileElement remote;
+
+	protected FileElement merged;
+
+	protected FileElement base;
 
 	@Before
 	@Override
@@ -51,6 +61,15 @@ public abstract class ExternalToolTest extends RepositoryTestCase {
 		baseFile.deleteOnExit();
 		commandResult = writeTrashFile("commandResult.txt", "");
 		commandResult.deleteOnExit();
+
+		local = new FileElement(localFile.getAbsolutePath(),
+				FileElement.Type.LOCAL);
+		remote = new FileElement(remoteFile.getAbsolutePath(),
+				FileElement.Type.REMOTE);
+		merged = new FileElement(mergedFile.getAbsolutePath(),
+				FileElement.Type.MERGED);
+		base = new FileElement(baseFile.getAbsolutePath(),
+				FileElement.Type.BASE);
 	}
 
 	@After
@@ -70,5 +89,40 @@ public abstract class ExternalToolTest extends RepositoryTestCase {
 		Assume.assumeTrue(
 				"This test can run only in Linux tests",
 				FS.DETECTED instanceof FS_POSIX);
+	}
+
+	protected static class PromptHandler implements PromptContinueHandler {
+
+		private final boolean promptResult;
+
+		final List<String> toolPrompts = new ArrayList<>();
+
+		private PromptHandler(boolean promptResult) {
+			this.promptResult = promptResult;
+		}
+
+		static PromptHandler acceptPrompt() {
+			return new PromptHandler(true);
+		}
+
+		static PromptHandler cancelPrompt() {
+			return new PromptHandler(false);
+		}
+
+		@Override
+		public boolean prompt(String toolName) {
+			toolPrompts.add(toolName);
+			return promptResult;
+		}
+	}
+
+	protected static class MissingToolHandler implements InformNoToolHandler {
+
+		final List<String> missingTools = new ArrayList<>();
+
+		@Override
+		public void inform(List<String> toolNames) {
+			missingTools.addAll(toolNames);
+		}
 	}
 }

@@ -722,6 +722,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 */
 	private FileRepository setUpRepoWithMultiplePackfiles() throws Exception {
 		FileRepository fileRepository = createWorkRepository();
+		addRepoToClose(fileRepository);
 		try (Git git = new Git(fileRepository)) {
 			// Creates 2 objects (C1 = commit, T1 = tree)
 			git.commit().setMessage("First commit").call();

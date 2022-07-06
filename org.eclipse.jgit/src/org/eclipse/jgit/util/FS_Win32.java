@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -96,6 +97,9 @@ public class FS_Win32 extends FS {
 	/** {@inheritDoc} */
 	@Override
 	public Entry[] list(File directory, FileModeStrategy fileModeStrategy) {
+		if (!Files.isDirectory(directory.toPath(), LinkOption.NOFOLLOW_LINKS)) {
+			return NO_ENTRIES;
+		}
 		List<Entry> result = new ArrayList<>();
 		FS fs = this;
 		boolean checkExecutable = fs.supportsExecute();

@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
@@ -28,6 +30,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitConfig;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -124,7 +127,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				final RevCommit srcParent = getParentCommit(srcCommit, revWalk);
 
 				String ourName = calculateOurName(headRef);
-				String cherryPickName = srcCommit.getId().abbreviate(7).name()
+				String cherryPickName = srcCommit.getId().abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name()
 						+ " " + srcCommit.getShortMessage(); //$NON-NLS-1$
 
 				Merger merger = strategy.newMerger(repo);
@@ -181,9 +184,13 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 
 					String message;
 					if (unmergedPaths != null) {
+						CommitConfig cfg = repo.getConfig()
+								.get(CommitConfig.KEY);
+						message = srcCommit.getFullMessage();
+						char commentChar = cfg.getCommentChar(message);
 						message = new MergeMessageFormatter()
-							.formatWithConflicts(srcCommit.getFullMessage(),
-										unmergedPaths);
+								.formatWithConflicts(message, unmergedPaths,
+										commentChar);
 					} else {
 						message = srcCommit.getFullMessage();
 					}

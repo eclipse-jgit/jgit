@@ -142,6 +142,7 @@ class BaseSearch {
 		return ptr;
 	}
 
+	@SuppressWarnings("ReferenceEquality")
 	private void add(AnyObjectId id, int objectType, int pathHash) {
 		ObjectToPack obj = new ObjectToPack(id, objectType);
 		obj.setEdge();
