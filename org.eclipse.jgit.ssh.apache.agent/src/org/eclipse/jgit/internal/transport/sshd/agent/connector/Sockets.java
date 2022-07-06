@@ -24,11 +24,6 @@ public final class Sockets {
 	}
 
 	/**
-	 * Default SSH agent socket environment variable name.
-	 */
-	public static final String ENV_SSH_AUTH_SOCK = "SSH_AUTH_SOCK"; //$NON-NLS-1$
-
-	/**
 	 * Domain for Unix domain sockets.
 	 */
 	public static final int AF_UNIX = 1;

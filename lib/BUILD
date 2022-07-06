@@ -97,7 +97,7 @@ java_library(
 java_library(
     name = "jna",
     visibility = [
-         "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
+        "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
     ],
     exports = ["@jna//jar"],
 )
@@ -105,7 +105,7 @@ java_library(
 java_library(
     name = "jna-platform",
     visibility = [
-         "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
+        "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
     ],
     exports = ["@jna-platform//jar"],
 )
@@ -277,7 +277,6 @@ java_library(
 
 java_library(
     name = "slf4j-simple",
-    testonly = 1,
     visibility = ["//visibility:public"],
     exports = ["@slf4j-simple//jar"],
 )

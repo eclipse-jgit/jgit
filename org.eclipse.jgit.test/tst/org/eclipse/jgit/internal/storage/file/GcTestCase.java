@@ -42,6 +42,7 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 	@Override
 	@After
 	public void tearDown() throws Exception {
+		tr.close();
 		super.tearDown();
 	}
 

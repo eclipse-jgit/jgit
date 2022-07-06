@@ -1,23 +1,6 @@
 workspace(name = "jgit")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
-http_archive(
-    name = "bazel_skylib",
-    sha256 = "2ea8a5ed2b448baf4a6855d3ce049c4c452a6470b1efd1504fdb7c1c134d220a",
-    strip_prefix = "bazel-skylib-0.8.0",
-    urls = ["https://github.com/bazelbuild/bazel-skylib/archive/0.8.0.tar.gz"],
-)
-
-# Check Bazel version when invoked by Bazel directly
-load("//tools:bazelisk_version.bzl", "bazelisk_version")
-
-bazelisk_version(name = "bazelisk_version")
-
-load("@bazelisk_version//:check.bzl", "check_bazel_version")
-
-check_bazel_version()
-
 load("//tools:bazlets.bzl", "load_bazlets")
 
 load_bazlets(commit = "f30a992da9fc855dce819875afb59f9dd6f860cd")
@@ -28,32 +11,18 @@ load(
 )
 
 http_archive(
-    name = "openjdk15_linux_archive",
-    build_file_content = """
-java_runtime(name = 'runtime', srcs =  glob(['**']), visibility = ['//visibility:public'])
-exports_files(["WORKSPACE"], visibility = ["//visibility:public"])
-""",
-    sha256 = "0a38f1138c15a4f243b75eb82f8ef40855afcc402e3c2a6de97ce8235011b1ad",
-    strip_prefix = "zulu15.27.17-ca-jdk15.0.0-linux_x64",
+    name = "rbe_jdk11",
+    sha256 = "766796de71916118e528b9f4334c29c9c9b4e926227bf3264dee555e6a4306c8",
+    strip_prefix = "rbe_autoconfig-2.0.0",
     urls = [
-        "https://mirror.bazel.build/cdn.azul.com/zulu/bin/zulu15.27.17-ca-jdk15.0.0-linux_x64.tar.gz",
-        "https://cdn.azul.com/zulu/bin/zulu15.27.17-ca-jdk15.0.0-linux_x64.tar.gz",
+        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v2.0.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/archive/v2.0.0.tar.gz",
     ],
 )
 
-http_archive(
-    name = "openjdk15_darwin_archive",
-    build_file_content = """
-java_runtime(name = 'runtime', srcs =  glob(['**']), visibility = ['//visibility:public'])
-exports_files(["WORKSPACE"], visibility = ["//visibility:public"])
-""",
-    sha256 = "f80b2e0512d9d8a92be24497334c974bfecc8c898fc215ce0e76594f00437482",
-    strip_prefix = "zulu15.27.17-ca-jdk15.0.0-macosx_x64",
-    urls = [
-        "https://mirror.bazel.build/cdn.azul.com/zulu/bin/zulu15.27.17-ca-jdk15.0.0-macosx_x64.tar.gz",
-        "https://cdn.azul.com/zulu/bin/zulu15.27.17-ca-jdk15.0.0-macosx_x64.tar.gz",
-    ],
-)
+register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
+
+register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
 JMH_VERS = "1.32"
 
@@ -99,8 +68,8 @@ maven_jar(
 
 maven_jar(
     name = "jzlib",
-    artifact = "com.jcraft:jzlib:1.1.1",
-    sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
+    artifact = "com.jcraft:jzlib:1.1.3",
+    sha1 = "c01428efa717624f7aabf4df319939dda9646b2d",
 )
 
 maven_jar(
@@ -123,14 +92,14 @@ maven_jar(
 
 maven_jar(
     name = "sshd-osgi",
-    artifact = "org.apache.sshd:sshd-osgi:2.7.0",
-    sha1 = "a101aad0f79ad424498098f7e91c39d3d92177c1",
+    artifact = "org.apache.sshd:sshd-osgi:2.8.0",
+    sha1 = "b2a59b73c045f40d5722b9160d4f909a646d86c9",
 )
 
 maven_jar(
     name = "sshd-sftp",
-    artifact = "org.apache.sshd:sshd-sftp:2.7.0",
-    sha1 = "0c9eff7145e20b338c1dd6aca36ba93ed7c0147c",
+    artifact = "org.apache.sshd:sshd-sftp:2.8.0",
+    sha1 = "d3cd9bc8d335b3ed1a86d2965deb4d202de27442",
 )
 
 maven_jar(
@@ -171,8 +140,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet-api",
-    artifact = "javax.servlet:javax.servlet-api:3.1.0",
-    sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
+    artifact = "javax.servlet:javax.servlet-api:4.0.0",
+    sha1 = "60200affc2fe0165136ed3690faf00b66aed581a",
 )
 
 maven_jar(
@@ -239,8 +208,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.8",
-    sha1 = "431fc3cbc0ff81abdbfde070062741089c3ba874",
+    artifact = "com.google.code.gson:gson:2.8.9",
+    sha1 = "8a432c1d6825781e21a02db2e2c33c5fde2833b9",
 )
 
 JETTY_VER = "10.0.6"
@@ -294,32 +263,32 @@ maven_jar(
     src_sha1 = "f35f5525a5d30dc1237b85457d758d578e3ce8d0",
 )
 
-BOUNCYCASTLE_VER = "1.69"
+BOUNCYCASTLE_VER = "1.70"
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "d99a08c3f651b26e8eb668e941b0bbd2c09ece08",
-    src_sha1 = "de1fc261b44a8eb60583413a31ffc98ce3dce38b",
+    sha1 = "062f72ec06f31a6c31a3f3355fce0384b21126d7",
+    src_sha1 = "9dee73ad926752ee3b421a7dc4531287166ccf36",
 )
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "91e1628251cf3ca90093ce9d0fe67e5b7dab3850",
-    src_sha1 = "67dc6476845f6b29cb520b5df61db65ae56718e4",
+    sha1 = "4636a0d01f74acaf28082fb62b317f1080118371",
+    src_sha1 = "6245e15dd47e5fc33cff275df61662e0a8e5958f",
 )
 
 maven_jar(
     name = "bcutil",
     artifact = "org.bouncycastle:bcutil-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "c3edf93d346e97f64f041e448e7455c39c7eff64",
-    src_sha1 = "deeb3fbbf373e05e2a20941f9a8ce90e9aeab3d2",
+    sha1 = "54280e7195a7430d7911ded93fc01e07300b9526",
+    src_sha1 = "4af4a6c92b8ea07885b27d8536b81b855497f4eb",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BOUNCYCASTLE_VER,
-    sha1 = "45c36fb72fafb0b688c6af795e6cc803f6f79ee5",
-    src_sha1 = "8bc5214401459bd91eea816b516079da38374e90",
+    sha1 = "f81e5af49571a9d5a109a88f239a73ce87055417",
+    src_sha1 = "42f9de53a91b20bc06e88482c57fd97e5a84250d",
 )

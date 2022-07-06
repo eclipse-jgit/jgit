@@ -82,6 +82,13 @@ public final class Constants {
 	public static final String ATTR_FILTER_DRIVER_PREFIX = "lfs/";
 
 	/**
+	 * Config file name for lfs specific configuration
+	 *
+	 * @since 6.1
+	 */
+	public static final String DOT_LFS_CONFIG = ".lfsconfig";
+
+	/**
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.

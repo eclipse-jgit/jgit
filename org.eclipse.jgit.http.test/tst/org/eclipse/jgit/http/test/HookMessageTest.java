@@ -97,6 +97,7 @@ public class HookMessageTest extends AllFactoriesHttpTestCase {
 		server.setUp();
 
 		remoteRepository = src.getRepository();
+		addRepoToClose(remoteRepository);
 		remoteURI = toURIish(app, srcName);
 
 		StoredConfig cfg = remoteRepository.getConfig();

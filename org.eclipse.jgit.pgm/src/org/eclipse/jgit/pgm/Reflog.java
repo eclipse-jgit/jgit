@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+
 import java.io.IOException;
 import java.util.Collection;
 
@@ -45,7 +47,8 @@ class Reflog extends TextBuiltin {
 
 	private String toString(ReflogEntry entry, int i) {
 		final StringBuilder s = new StringBuilder();
-		s.append(entry.getNewId().abbreviate(7).name());
+		s.append(entry.getNewId().abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH)
+				.name());
 		s.append(" "); //$NON-NLS-1$
 		s.append(ref == null ? Constants.HEAD : Repository.shortenRefName(ref));
 		s.append("@{" + i + "}:"); //$NON-NLS-1$ //$NON-NLS-2$

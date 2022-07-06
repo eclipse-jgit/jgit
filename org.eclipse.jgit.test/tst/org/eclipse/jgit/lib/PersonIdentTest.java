@@ -13,12 +13,14 @@ package org.eclipse.jgit.lib;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.TimeZone;
 
 import org.junit.Test;
 
-public class T0001_PersonIdentTest {
+public class PersonIdentTest {
 
 	@Test
 	public void test001_NewIdent() {
@@ -40,6 +42,34 @@ public class T0001_PersonIdentTest {
 		assertEquals(1142878501000L, p.getWhen().getTime());
 		assertEquals("A U Thor <author@example.com> 1142878501 +0230",
 				p.toExternalString());
+	}
+
+	@Test
+	public void testNewIdentInstant() {
+		PersonIdent p = new PersonIdent("A U Thor", "author@example.com",
+				Instant.ofEpochMilli(1142878501000L),
+				ZoneId.of("America/New_York"));
+		assertEquals("A U Thor", p.getName());
+		assertEquals("author@example.com", p.getEmailAddress());
+		assertEquals(Instant.ofEpochMilli(1142878501000L),
+				p.getWhenAsInstant());
+		assertEquals("A U Thor <author@example.com> 1142878501 -0500",
+				p.toExternalString());
+		assertEquals(ZoneId.of("GMT-05:00"), p.getZoneId());
+	}
+
+	@Test
+	public void testNewIdentInstant2() {
+		final PersonIdent p = new PersonIdent("A U Thor", "author@example.com",
+				Instant.ofEpochMilli(1142878501000L),
+				ZoneId.of("Asia/Kolkata"));
+		assertEquals("A U Thor", p.getName());
+		assertEquals("author@example.com", p.getEmailAddress());
+		assertEquals(Instant.ofEpochMilli(1142878501000L),
+				p.getWhenAsInstant());
+		assertEquals("A U Thor <author@example.com> 1142878501 +0530",
+				p.toExternalString());
+		assertEquals(ZoneId.of("GMT+05:30"), p.getZoneId());
 	}
 
 	@SuppressWarnings("unused")

@@ -238,12 +238,14 @@ public class JGitText extends TranslationBundle {
 	/***/ public String couldNotFindSixTabsInLine;
 	/***/ public String couldNotGetAdvertisedRef;
 	/***/ public String couldNotGetRepoStatistics;
+	/***/ public String couldNotHashByteArrayWithSha256;
 	/***/ public String couldNotLockHEAD;
 	/***/ public String couldNotPersistCookies;
 	/***/ public String couldNotReadCookieFile;
 	/***/ public String couldNotReadIndexInOneGo;
 	/***/ public String couldNotReadObjectWhileParsingCommit;
 	/***/ public String couldNotRewindToUpstreamCommit;
+	/***/ public String couldNotSignStringWithKey;
 	/***/ public String couldNotURLEncodeToUTF8;
 	/***/ public String countingObjects;
 	/***/ public String createBranchFailedUnknownReason;
@@ -265,6 +267,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deletingNotSupported;
 	/***/ public String destinationIsNotAWildcard;
 	/***/ public String detachedHeadDetected;
+	/***/ public String diffToolNotGivenError;
+	/***/ public String diffToolNotSpecifiedInGitAttributesError;
+	/***/ public String diffToolNullError;
 	/***/ public String dirCacheDoesNotHaveABackingFile;
 	/***/ public String dirCacheFileIsNotLocked;
 	/***/ public String dirCacheIsNotLocked;
@@ -382,6 +387,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String inMemoryBufferLimitExceeded;
 	/***/ public String inputDidntMatchLength;
 	/***/ public String inputStreamMustSupportMark;
+	/***/ public String integerValueNotInRange;
+	/***/ public String integerValueNotInRangeSubSection;
 	/***/ public String integerValueOutOfRange;
 	/***/ public String internalRevisionError;
 	/***/ public String internalServerError;
@@ -389,9 +396,11 @@ public class JGitText extends TranslationBundle {
 	/***/ public String inTheFuture;
 	/***/ public String invalidAdvertisementOf;
 	/***/ public String invalidAncestryLength;
+	/***/ public String invalidAwsApiSignatureVersion;
 	/***/ public String invalidBooleanValue;
 	/***/ public String invalidChannel;
 	/***/ public String invalidCommitParentNumber;
+	/***/ public String invalidCoreAbbrev;
 	/***/ public String invalidDepth;
 	/***/ public String invalidEncoding;
 	/***/ public String invalidEncryption;
@@ -418,6 +427,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidModeFor;
 	/***/ public String invalidModeForPath;
 	/***/ public String invalidNameContainsDotDot;
+	/***/ public String invalidNegativeAndForce;
 	/***/ public String invalidObject;
 	/***/ public String invalidOldIdSent;
 	/***/ public String invalidPacketLineHeader;
@@ -481,11 +491,14 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeUsingStrategyResultedInDescription;
 	/***/ public String mergeRecursiveConflictsWhenMergingCommonAncestors;
 	/***/ public String mergeRecursiveTooManyMergeBasesFor;
+	/***/ public String mergeToolNotGivenError;
+	/***/ public String mergeToolNullError;
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
 	/***/ public String minutesAgo;
 	/***/ public String mismatchOffset;
 	/***/ public String mismatchCRC;
 	/***/ public String missingAccesskey;
+	/***/ public String missingAwsRegion;
 	/***/ public String missingConfigurationForKey;
 	/***/ public String missingCookieFile;
 	/***/ public String missingCRC;
@@ -592,6 +605,11 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushCertificateInvalidFieldValue;
 	/***/ public String pushCertificateInvalidHeader;
 	/***/ public String pushCertificateInvalidSignature;
+	/***/ public String pushDefaultNothing;
+	/***/ public String pushDefaultNoUpstream;
+	/***/ public String pushDefaultSimple;
+	/***/ public String pushDefaultTriangularUpstream;
+	/***/ public String pushDefaultUnknown;
 	/***/ public String pushIsNotSupportedForBundleTransport;
 	/***/ public String pushNotPermitted;
 	/***/ public String pushOptionsNotSupported;
@@ -767,6 +785,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unableToSignCommitNoSecretKey;
 	/***/ public String unauthorized;
 	/***/ public String unencodeableFile;
+	/***/ public String unexpectedAwsApiSignatureVersion;
 	/***/ public String unexpectedCompareResult;
 	/***/ public String unexpectedEndOfConfigFile;
 	/***/ public String unexpectedEndOfInput;

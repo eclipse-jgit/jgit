@@ -3,7 +3,7 @@
  * Copyright (C) 2010-2012, Matthias Sohn <matthias.sohn@sap.com>
  * Copyright (C) 2012, Research In Motion Limited
  * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -276,10 +276,14 @@ public class ResolveMerger extends ThreeWayMerger {
 	private ContentMergeStrategy contentStrategy = ContentMergeStrategy.CONFLICT;
 
 	/**
-	 * Keeps {@link CheckoutMetadata} for {@link #checkout()} and
-	 * {@link #cleanUp()}.
+	 * Keeps {@link CheckoutMetadata} for {@link #checkout()}.
 	 */
 	private Map<String, CheckoutMetadata> checkoutMetadata;
+
+	/**
+	 * Keeps {@link CheckoutMetadata} for {@link #cleanUp()}.
+	 */
+	private Map<String, CheckoutMetadata> cleanupMetadata;
 
 	private static MergeAlgorithm getMergeAlgorithm(Config config) {
 		SupportedAlgorithm diffAlg = config.getEnum(
@@ -383,12 +387,14 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 		if (!inCore) {
 			checkoutMetadata = new HashMap<>();
+			cleanupMetadata = new HashMap<>();
 		}
 		try {
 			return mergeTrees(mergeBase(), sourceTrees[0], sourceTrees[1],
 					false);
 		} finally {
 			checkoutMetadata = null;
+			cleanupMetadata = null;
 			if (implicitDirCache) {
 				dircache.unlock();
 			}
@@ -447,7 +453,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			DirCacheEntry entry = dc.getEntry(mpath);
 			if (entry != null) {
 				DirCacheCheckout.checkoutEntry(db, entry, reader, false,
-						checkoutMetadata.get(mpath));
+						cleanupMetadata.get(mpath));
 			}
 			mpathsIt.remove();
 		}
@@ -501,22 +507,26 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * Remembers the {@link CheckoutMetadata} for the given path; it may be
 	 * needed in {@link #checkout()} or in {@link #cleanUp()}.
 	 *
+	 * @param map
+	 *            to add the metadata to
 	 * @param path
 	 *            of the current node
 	 * @param attributes
-	 *            for the current node
+	 *            to use for determining the metadata
 	 * @throws IOException
 	 *             if the smudge filter cannot be determined
-	 * @since 5.1
+	 * @since 6.1
 	 */
-	protected void addCheckoutMetadata(String path, Attributes attributes)
+	protected void addCheckoutMetadata(Map<String, CheckoutMetadata> map,
+			String path, Attributes attributes)
 			throws IOException {
-		if (checkoutMetadata != null) {
+		if (map != null) {
 			EolStreamType eol = EolStreamTypeUtil.detectStreamType(
-					OperationType.CHECKOUT_OP, workingTreeOptions, attributes);
+					OperationType.CHECKOUT_OP, workingTreeOptions,
+					attributes);
 			CheckoutMetadata data = new CheckoutMetadata(eol,
-					tw.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE));
-			checkoutMetadata.put(path, data);
+					tw.getSmudgeCommand(attributes));
+			map.put(path, data);
 		}
 	}
 
@@ -529,15 +539,17 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param entry
 	 *            to add
 	 * @param attributes
-	 *            for the current entry
+	 *            the {@link Attributes} of the trees
 	 * @throws IOException
 	 *             if the {@link CheckoutMetadata} cannot be determined
-	 * @since 5.1
+	 * @since 6.1
 	 */
 	protected void addToCheckout(String path, DirCacheEntry entry,
-			Attributes attributes) throws IOException {
+			Attributes[] attributes)
+			throws IOException {
 		toBeCheckedOut.put(path, entry);
-		addCheckoutMetadata(path, attributes);
+		addCheckoutMetadata(cleanupMetadata, path, attributes[T_OURS]);
+		addCheckoutMetadata(checkoutMetadata, path, attributes[T_THEIRS]);
 	}
 
 	/**
@@ -549,7 +561,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param isFile
 	 *            whether it is a file
 	 * @param attributes
-	 *            for the entry
+	 *            to use for determining the {@link CheckoutMetadata}
 	 * @throws IOException
 	 *             if the {@link CheckoutMetadata} cannot be determined
 	 * @since 5.1
@@ -558,7 +570,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			Attributes attributes) throws IOException {
 		toBeDeleted.add(path);
 		if (isFile) {
-			addCheckoutMetadata(path, attributes);
+			addCheckoutMetadata(cleanupMetadata, path, attributes);
 		}
 	}
 
@@ -599,7 +611,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            see
 	 *            {@link org.eclipse.jgit.merge.ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @param attributes
-	 *            the attributes defined for this entry
+	 *            the {@link Attributes} for the three trees
 	 * @return <code>false</code> if the merge will fail because the index entry
 	 *         didn't match ours or the working-dir file was dirty and a
 	 *         conflict occurred
@@ -607,12 +619,12 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 * @throws java.io.IOException
-	 * @since 4.9
+	 * @since 6.1
 	 */
 	protected boolean processEntry(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
 			DirCacheBuildIterator index, WorkingTreeIterator work,
-			boolean ignoreConflicts, Attributes attributes)
+			boolean ignoreConflicts, Attributes[] attributes)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 		enterSubtree = true;
@@ -729,7 +741,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// Base, ours, and theirs all contain a folder: don't delete
 				return true;
 			}
-			addDeletion(tw.getPathString(), nonTree(modeO), attributes);
+			addDeletion(tw.getPathString(), nonTree(modeO), attributes[T_OURS]);
 			return true;
 		}
 
@@ -772,7 +784,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (nonTree(modeO) && nonTree(modeT)) {
 			// Check worktree before modifying files
 			boolean worktreeDirty = isWorktreeDirty(work, ourDce);
-			if (!attributes.canBeContentMerged() && worktreeDirty) {
+			if (!attributes[T_OURS].canBeContentMerged() && worktreeDirty) {
 				return false;
 			}
 
@@ -791,7 +803,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				mergeResults.put(tw.getPathString(), result);
 				unmergedPaths.add(tw.getPathString());
 				return true;
-			} else if (!attributes.canBeContentMerged()) {
+			} else if (!attributes[T_OURS].canBeContentMerged()) {
 				// File marked as binary
 				switch (getContentMergeStrategy()) {
 				case OURS:
@@ -842,13 +854,16 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (ignoreConflicts) {
 				result.setContainsConflicts(false);
 			}
-			updateIndex(base, ours, theirs, result, attributes);
+			updateIndex(base, ours, theirs, result, attributes[T_OURS]);
 			String currentPath = tw.getPathString();
 			if (result.containsConflicts() && !ignoreConflicts) {
 				unmergedPaths.add(currentPath);
 			}
 			modifiedFiles.add(currentPath);
-			addCheckoutMetadata(currentPath, attributes);
+			addCheckoutMetadata(cleanupMetadata, currentPath,
+					attributes[T_OURS]);
+			addCheckoutMetadata(checkoutMetadata, currentPath,
+					attributes[T_THEIRS]);
 		} else if (modeO != modeT) {
 			// OURS or THEIRS has been deleted
 			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
@@ -881,7 +896,8 @@ public class ResolveMerger extends ThreeWayMerger {
 						// markers). But also stage 0 of the index is filled
 						// with that content.
 						result.setContainsConflicts(false);
-						updateIndex(base, ours, theirs, result, attributes);
+						updateIndex(base, ours, theirs, result,
+								attributes[T_OURS]);
 					} else {
 						add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH,
 								0);
@@ -896,11 +912,9 @@ public class ResolveMerger extends ThreeWayMerger {
 							if (isWorktreeDirty(work, ourDce)) {
 								return false;
 							}
-							if (nonTree(modeT)) {
-								if (e != null) {
-									addToCheckout(tw.getPathString(), e,
-											attributes);
-								}
+							if (nonTree(modeT) && e != null) {
+								addToCheckout(tw.getPathString(), e,
+										attributes);
 							}
 						}
 
@@ -945,14 +959,16 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	private MergeResult<RawText> contentMerge(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
-			Attributes attributes, ContentMergeStrategy strategy)
+			Attributes[] attributes, ContentMergeStrategy strategy)
 			throws BinaryBlobException, IOException {
+		// TW: The attributes here are used to determine the LFS smudge filter.
+		// Is doing a content merge on LFS items really a good idea??
 		RawText baseText = base == null ? RawText.EMPTY_TEXT
-				: getRawText(base.getEntryObjectId(), attributes);
+				: getRawText(base.getEntryObjectId(), attributes[T_BASE]);
 		RawText ourText = ours == null ? RawText.EMPTY_TEXT
-				: getRawText(ours.getEntryObjectId(), attributes);
+				: getRawText(ours.getEntryObjectId(), attributes[T_OURS]);
 		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
-				: getRawText(theirs.getEntryObjectId(), attributes);
+				: getRawText(theirs.getEntryObjectId(), attributes[T_THEIRS]);
 		mergeAlgorithm.setContentMergeStrategy(strategy);
 		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
 				ourText, theirsText);
@@ -1342,7 +1358,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 		tw = new NameConflictTreeWalk(db, reader);
 		tw.addTree(baseTree);
-		tw.addTree(headTree);
+		tw.setHead(tw.addTree(headTree));
 		tw.addTree(mergeTree);
 		int dciPos = tw.addTree(buildIt);
 		if (workingTreeIterator != null) {
@@ -1403,6 +1419,13 @@ public class ResolveMerger extends ThreeWayMerger {
 		boolean hasAttributeNodeProvider = treeWalk
 				.getAttributesNodeProvider() != null;
 		while (treeWalk.next()) {
+			Attributes[] attributes = { NO_ATTRIBUTES, NO_ATTRIBUTES,
+					NO_ATTRIBUTES };
+			if (hasAttributeNodeProvider) {
+				attributes[T_BASE] = treeWalk.getAttributes(T_BASE);
+				attributes[T_OURS] = treeWalk.getAttributes(T_OURS);
+				attributes[T_THEIRS] = treeWalk.getAttributes(T_THEIRS);
+			}
 			if (!processEntry(
 					treeWalk.getTree(T_BASE, CanonicalTreeParser.class),
 					treeWalk.getTree(T_OURS, CanonicalTreeParser.class),
@@ -1410,9 +1433,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					treeWalk.getTree(T_INDEX, DirCacheBuildIterator.class),
 					hasWorkingTreeIterator ? treeWalk.getTree(T_FILE,
 							WorkingTreeIterator.class) : null,
-					ignoreConflicts, hasAttributeNodeProvider
-							? treeWalk.getAttributes()
-							: NO_ATTRIBUTES)) {
+					ignoreConflicts, attributes)) {
 				cleanUp();
 				return false;
 			}

@@ -45,6 +45,8 @@ import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 
 /**
  * JUnit TestCase with specialized support for temporary local repository.
@@ -84,18 +86,33 @@ public abstract class LocalDiskRepositoryTestCase {
 	private File tmp;
 
 	/**
+	 * The current test name.
+	 */
+	@Rule
+	public TestName currentTest = new TestName();
+
+	private String getTestName() {
+		String name = currentTest.getMethodName();
+		name = name.replaceAll("[^a-zA-Z0-9]", "_");
+		name = name.replaceAll("__+", "_");
+		if (name.startsWith("_")) {
+			name = name.substring(1);
+		}
+		return name;
+	}
+
+	/**
 	 * Setup test
 	 *
 	 * @throws Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		tmp = File.createTempFile("jgit_test_", "_tmp");
+		tmp = File.createTempFile("jgit_" + getTestName() + '_', "_tmp");
 		CleanupThread.deleteOnShutdown(tmp);
 		if (!tmp.delete() || !tmp.mkdir()) {
 			throw new IOException("Cannot create " + tmp);
 		}
-
 		mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 

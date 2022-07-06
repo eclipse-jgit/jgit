@@ -15,6 +15,7 @@ import java.io.RandomAccessFile;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.Equality;
 
 class PackFileSnapshot extends FileSnapshot {
 
@@ -61,7 +62,8 @@ class PackFileSnapshot extends FileSnapshot {
 	}
 
 	boolean isChecksumChanged(File packFile) {
-		return wasChecksumChanged = checksum != MISSING_CHECKSUM
+		return wasChecksumChanged = !Equality.isSameInstance(checksum,
+				MISSING_CHECKSUM)
 				&& !checksum.equals(readChecksum(packFile));
 	}
 

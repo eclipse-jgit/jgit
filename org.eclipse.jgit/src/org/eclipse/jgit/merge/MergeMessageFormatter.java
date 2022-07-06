@@ -92,36 +92,62 @@ public class MergeMessageFormatter {
 	}
 
 	/**
-	 * Add section with conflicting paths to merge message.
+	 * Add section with conflicting paths to merge message. Lines are prefixed
+	 * with a hash.
 	 *
 	 * @param message
 	 *            the original merge message
 	 * @param conflictingPaths
 	 *            the paths with conflicts
 	 * @return merge message with conflicting paths added
+	 * @deprecated since 6.1; use
+	 *             {@link #formatWithConflicts(String, Iterable, char)} instead
 	 */
+	@Deprecated
 	public String formatWithConflicts(String message,
 			List<String> conflictingPaths) {
+		return formatWithConflicts(message, conflictingPaths, '#');
+	}
+
+	/**
+	 * Add section with conflicting paths to merge message.
+	 *
+	 * @param message
+	 *            the original merge message
+	 * @param conflictingPaths
+	 *            the paths with conflicts
+	 * @param commentChar
+	 *            comment character to use for prefixing the conflict lines
+	 * @return merge message with conflicting paths added
+	 * @since 6.1
+	 */
+	public String formatWithConflicts(String message,
+			Iterable<String> conflictingPaths, char commentChar) {
 		StringBuilder sb = new StringBuilder();
 		String[] lines = message.split("\n"); //$NON-NLS-1$
 		int firstFooterLine = ChangeIdUtil.indexOfFirstFooterLine(lines);
-		for (int i = 0; i < firstFooterLine; i++)
+		for (int i = 0; i < firstFooterLine; i++) {
 			sb.append(lines[i]).append('\n');
-		if (firstFooterLine == lines.length && message.length() != 0)
+		}
+		if (firstFooterLine == lines.length && message.length() != 0) {
 			sb.append('\n');
-		addConflictsMessage(conflictingPaths, sb);
-		if (firstFooterLine < lines.length)
+		}
+		addConflictsMessage(conflictingPaths, sb, commentChar);
+		if (firstFooterLine < lines.length) {
 			sb.append('\n');
-		for (int i = firstFooterLine; i < lines.length; i++)
+		}
+		for (int i = firstFooterLine; i < lines.length; i++) {
 			sb.append(lines[i]).append('\n');
+		}
 		return sb.toString();
 	}
 
-	private static void addConflictsMessage(List<String> conflictingPaths,
-			StringBuilder sb) {
-		sb.append("Conflicts:\n"); //$NON-NLS-1$
+	private static void addConflictsMessage(Iterable<String> conflictingPaths,
+			StringBuilder sb, char commentChar) {
+		sb.append(commentChar).append(" Conflicts:\n"); //$NON-NLS-1$
 		for (String conflictingPath : conflictingPaths) {
-			sb.append('\t').append(conflictingPath).append('\n');
+			sb.append(commentChar).append('\t').append(conflictingPath)
+					.append('\n');
 		}
 	}
 

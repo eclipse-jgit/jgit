@@ -81,6 +81,7 @@ public class ObjectDownloadListener implements WriteListener {
 	 *
 	 * Write file content
 	 */
+	@SuppressWarnings("Finally")
 	@Override
 	public void onWritePossible() throws IOException {
 		while (out.isReady()) {

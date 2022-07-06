@@ -11,11 +11,15 @@ package org.eclipse.jgit.internal.transport.sshd.agent.connector;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.jgit.transport.sshd.agent.Connector;
 import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -29,7 +33,20 @@ public class Factory implements ConnectorFactory {
 	public Connector create(String identityAgent, File homeDir)
 			throws IOException {
 		if (SystemReader.getInstance().isWindows()) {
-			return new PageantConnector();
+			if (StringUtils.isEmptyOrNull(identityAgent)) {
+				// Default.
+				return new PageantConnector();
+			}
+			String winPath = identityAgent.replace('/', '\\');
+			if (PageantConnector.DESCRIPTOR.getIdentityAgent()
+					.equalsIgnoreCase(winPath)) {
+				return new PageantConnector();
+			}
+			if (winPath.toLowerCase(Locale.ROOT).startsWith("\\\\.\\pipe\\")) { //$NON-NLS-1$
+				return new WinPipeConnector(winPath);
+			}
+			throw new IOException(MessageFormat.format(
+					Texts.get().errUnknownIdentityAgent, identityAgent));
 		}
 		return new UnixDomainSocketConnector(identityAgent);
 	}
@@ -55,7 +72,11 @@ public class Factory implements ConnectorFactory {
 	 */
 	@Override
 	public Collection<ConnectorDescriptor> getSupportedConnectors() {
-		return Collections.singleton(getDefaultConnector());
+		if (SystemReader.getInstance().isWindows()) {
+			return List.of(PageantConnector.DESCRIPTOR,
+					WinPipeConnector.DESCRIPTOR);
+		}
+		return Collections.singleton(UnixDomainSocketConnector.DESCRIPTOR);
 	}
 
 	@Override

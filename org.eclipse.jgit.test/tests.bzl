@@ -36,7 +36,7 @@ def tests(tests):
             ]
         if src.endswith("SecurityManagerMissingPermissionsTest.java"):
             additional_deps = [
-                "//lib:log4j",
+                "//lib:slf4j-simple",
             ]
         if src.endswith("JDKHttpConnectionTest.java"):
             additional_deps = [
@@ -68,6 +68,7 @@ def tests(tests):
                 "//lib:javaewah",
                 "//lib:junit",
                 "//lib:slf4j-api",
+                "//lib:slf4j-simple",
                 "//org.eclipse.jgit:jgit",
                 "//org.eclipse.jgit.junit:junit",
                 "//org.eclipse.jgit.lfs:jgit-lfs",

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -139,7 +139,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 	/** {@inheritDoc} */
 	@Override
-	protected TransportException noRepository() {
+	protected TransportException noRepository(Throwable cause) {
 		// Sadly we cannot tell the "invalid URI" case from "push not allowed".
 		// Opening a fetch connection can help us tell the difference, as any
 		// useful repository is going to support fetch if it also would allow
@@ -147,18 +147,18 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		// URI is wrong. Otherwise we can correctly state push isn't allowed
 		// as the fetch connection opened successfully.
 		//
+		TransportException te;
 		try {
 			transport.openFetch().close();
-		} catch (NotSupportedException e) {
-			// Fall through.
+			te = new TransportException(uri, JGitText.get().pushNotPermitted);
 		} catch (NoRemoteRepositoryException e) {
 			// Fetch concluded the repository doesn't exist.
-			//
-			return e;
-		} catch (TransportException e) {
-			// Fall through.
+			te = e;
+		} catch (NotSupportedException | TransportException e) {
+			te = new TransportException(uri, JGitText.get().pushNotPermitted, e);
 		}
-		return new TransportException(uri, JGitText.get().pushNotPermitted);
+		te.addSuppressed(cause);
+		return te;
 	}
 
 	/**
@@ -194,10 +194,11 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 					// the other data channels.
 					//
 					int b = in.read();
-					if (0 <= b)
+					if (0 <= b) {
 						throw new TransportException(uri, MessageFormat.format(
 								JGitText.get().expectedEOFReceived,
 								Character.valueOf((char) b)));
+					}
 				}
 			}
 		} catch (TransportException e) {
@@ -205,6 +206,9 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		} catch (Exception e) {
 			throw new TransportException(uri, e.getMessage(), e);
 		} finally {
+			if (in instanceof SideBandInputStream) {
+				((SideBandInputStream) in).drainMessages();
+			}
 			close();
 		}
 	}

@@ -205,7 +205,7 @@ public class SmudgeFilter extends FilterCommand {
 					long bytesCopied = Files.copy(contentIn, path);
 					if (bytesCopied != o.size) {
 						throw new IOException(MessageFormat.format(
-								LfsText.get().wrongAmoutOfDataReceived,
+								LfsText.get().wrongAmountOfDataReceived,
 								contentServerConn.getURL(),
 								Long.valueOf(bytesCopied),
 								Long.valueOf(o.size)));
