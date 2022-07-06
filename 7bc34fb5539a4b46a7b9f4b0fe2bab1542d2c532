@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e16a586_40b94795",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-06T20:57:14Z",
+      "side": 1,
+      "message": "Missing @since 6.3",
+      "revId": "7bc34fb5539a4b46a7b9f4b0fe2bab1542d2c532",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e99baab_bf353c36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-06T20:57:14Z",
+      "side": 1,
+      "message": "Missing curly braces.",
+      "revId": "7bc34fb5539a4b46a7b9f4b0fe2bab1542d2c532",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eb06362_5d8ec11c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-06T20:57:14Z",
+      "side": 1,
+      "message": "Call push(commit) instead.",
+      "range": {
+        "startLine": 459,
+        "startChar": 2,
+        "endLine": 467,
+        "endChar": 10
+      },
+      "revId": "7bc34fb5539a4b46a7b9f4b0fe2bab1542d2c532",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
