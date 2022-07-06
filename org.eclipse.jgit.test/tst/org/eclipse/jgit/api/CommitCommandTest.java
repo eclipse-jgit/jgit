@@ -46,6 +46,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
@@ -511,6 +512,62 @@ public class CommitCommandTest extends RepositoryTestCase {
 			PersonIdent amendedAuthor = amended.getAuthorIdent();
 			assertEquals("New Author", amendedAuthor.getName());
 			assertEquals("newauthor@example.org", amendedAuthor.getEmailAddress());
+		}
+	}
+
+	@Test
+	public void commitMessageVerbatim() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file1", "file1");
+			git.add().addFilepattern("file1").call();
+			RevCommit committed = git.commit().setMessage("#initial commit")
+					.call();
+
+			assertEquals("#initial commit", committed.getFullMessage());
+		}
+	}
+
+	@Test
+	public void commitMessageStrip() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file1", "file1");
+			git.add().addFilepattern("file1").call();
+			RevCommit committed = git.commit().setMessage(
+					"#Comment\ninitial commit\t\n\n commit body \n \t#another comment")
+					.setCleanupMode(CleanupMode.STRIP).call();
+
+			assertEquals("initial commit\n\n commit body",
+					committed.getFullMessage());
+		}
+	}
+
+	@Test
+	public void commitMessageDefault() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file1", "file1");
+			git.add().addFilepattern("file1").call();
+			RevCommit committed = git.commit().setMessage(
+					"#Comment\ninitial commit\t\n\n commit body \n\n\n \t#another comment  ")
+					.setCleanupMode(CleanupMode.DEFAULT).call();
+
+			assertEquals("initial commit\n\n commit body",
+					committed.getFullMessage());
+		}
+	}
+
+	@Test
+	public void commitMessageDefaultWhitespace() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file1", "file1");
+			git.add().addFilepattern("file1").call();
+			RevCommit committed = git.commit().setMessage(
+					"#Comment\ninitial commit\t\n\n commit body \n\n\n \t#another comment  ")
+					.setCleanupMode(CleanupMode.DEFAULT).setDefaultClean(false)
+					.call();
+
+			assertEquals(
+					"#Comment\ninitial commit\n\n commit body\n\n \t#another comment",
+					committed.getFullMessage());
 		}
 	}
 

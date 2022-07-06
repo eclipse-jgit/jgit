@@ -1,43 +1,11 @@
 /*
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>
+ * Copyright (C) 2015, 2022 Ivan Motsch <ivan.motsch@bsiag.com> and others
  *
- * This program and the accompanying materials are made available
- * under the terms of the Eclipse Distribution License v1.0 which
- * accompanies this distribution, is reproduced below, and is
- * available at http://www.eclipse.org/org/documents/edl-v10.php
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
  *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or
- * without modification, are permitted provided that the following
- * conditions are met:
- *
- * - Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- *
- * - Redistributions in binary form must reproduce the above
- *   copyright notice, this list of conditions and the following
- *   disclaimer in the documentation and/or other materials provided
- *   with the distribution.
- *
- * - Neither the name of the Eclipse Foundation, Inc. nor the
- *   names of its contributors may be used to endorse or promote
- *   products derived from this software without specific prior
- *   written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
- * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
- * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 package org.eclipse.jgit.attributes;
 
@@ -46,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.attributes.Attribute.State;
@@ -84,6 +53,8 @@ public class AttributesHandler {
 
 	private final TreeWalk treeWalk;
 
+	private final Supplier<CanonicalTreeParser> attributesTree;
+
 	private final AttributesNode globalNode;
 
 	private final AttributesNode infoNode;
@@ -98,22 +69,41 @@ public class AttributesHandler {
 	 * @param treeWalk
 	 *            a {@link org.eclipse.jgit.treewalk.TreeWalk}
 	 * @throws java.io.IOException
+	 * @deprecated since 6.1, use {@link #AttributesHandler(TreeWalk, Supplier)}
+	 *             instead
 	 */
+	@Deprecated
 	public AttributesHandler(TreeWalk treeWalk) throws IOException {
+		this(treeWalk, () -> treeWalk.getTree(CanonicalTreeParser.class));
+	}
+
+	/**
+	 * Create an {@link org.eclipse.jgit.attributes.AttributesHandler} with
+	 * default rules as well as merged rules from global, info and worktree root
+	 * attributes
+	 *
+	 * @param treeWalk
+	 *            a {@link org.eclipse.jgit.treewalk.TreeWalk}
+	 * @param attributesTree
+	 *            the tree to read .gitattributes from
+	 * @throws java.io.IOException
+	 * @since 6.1
+	 */
+	public AttributesHandler(TreeWalk treeWalk,
+			Supplier<CanonicalTreeParser> attributesTree) throws IOException {
 		this.treeWalk = treeWalk;
-		AttributesNodeProvider attributesNodeProvider =treeWalk.getAttributesNodeProvider();
+		this.attributesTree = attributesTree;
+		AttributesNodeProvider attributesNodeProvider = treeWalk
+				.getAttributesNodeProvider();
 		this.globalNode = attributesNodeProvider != null
 				? attributesNodeProvider.getGlobalAttributesNode() : null;
 		this.infoNode = attributesNodeProvider != null
 				? attributesNodeProvider.getInfoAttributesNode() : null;
 
 		AttributesNode rootNode = attributesNode(treeWalk,
-				rootOf(
-						treeWalk.getTree(WorkingTreeIterator.class)),
-				rootOf(
-						treeWalk.getTree(DirCacheIterator.class)),
-				rootOf(treeWalk
-						.getTree(CanonicalTreeParser.class)));
+				rootOf(treeWalk.getTree(WorkingTreeIterator.class)),
+				rootOf(treeWalk.getTree(DirCacheIterator.class)),
+				rootOf(attributesTree.get()));
 
 		expansions.put(BINARY_RULE_KEY, BINARY_RULE_ATTRIBUTES);
 		for (AttributesNode node : new AttributesNode[] { globalNode, rootNode,
@@ -152,7 +142,7 @@ public class AttributesHandler {
 				isDirectory,
 				treeWalk.getTree(WorkingTreeIterator.class),
 				treeWalk.getTree(DirCacheIterator.class),
-				treeWalk.getTree(CanonicalTreeParser.class),
+				attributesTree.get(),
 				attributes);
 
 		// Gets the attributes located in the global attribute file

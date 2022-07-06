@@ -14,6 +14,8 @@ package org.eclipse.jgit.lib;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -206,6 +208,20 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Copy a {@link org.eclipse.jgit.lib.PersonIdent}, but alter the clone's
+	 * time stamp
+	 *
+	 * @param pi
+	 *            original {@link org.eclipse.jgit.lib.PersonIdent}
+	 * @param aWhen
+	 *            local time as Instant
+	 * @since 6.1
+	 */
+	public PersonIdent(PersonIdent pi, Instant aWhen) {
+		this(pi.getName(), pi.getEmailAddress(), aWhen.toEpochMilli(), pi.tzOffset);
+	}
+
+	/**
 	 * Construct a PersonIdent from simple data
 	 *
 	 * @param aName a {@link java.lang.String} object.
@@ -219,6 +235,27 @@ public class PersonIdent implements Serializable {
 			final Date aWhen, final TimeZone aTZ) {
 		this(aName, aEmailAddress, aWhen.getTime(), aTZ.getOffset(aWhen
 				.getTime()) / (60 * 1000));
+	}
+
+	/**
+	 * Construct a PersonIdent from simple data
+	 *
+	 * @param aName
+	 *            a {@link java.lang.String} object.
+	 * @param aEmailAddress
+	 *            a {@link java.lang.String} object.
+	 * @param aWhen
+	 *            local time stamp
+	 * @param zoneId
+	 *            time zone id
+	 * @since 6.1
+	 */
+	public PersonIdent(final String aName, String aEmailAddress, Instant aWhen,
+			ZoneId zoneId) {
+		this(aName, aEmailAddress, aWhen.toEpochMilli(),
+				TimeZone.getTimeZone(zoneId)
+						.getOffset(aWhen
+				.toEpochMilli()) / (60 * 1000));
 	}
 
 	/**
@@ -304,12 +341,32 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Get when attribute as instant
+	 *
+	 * @return timestamp
+	 * @since 6.1
+	 */
+	public Instant getWhenAsInstant() {
+		return Instant.ofEpochMilli(when);
+	}
+
+	/**
 	 * Get this person's declared time zone
 	 *
 	 * @return this person's declared time zone; null if time zone is unknown.
 	 */
 	public TimeZone getTimeZone() {
 		return getTimeZone(tzOffset);
+	}
+
+	/**
+	 * Get the time zone id
+	 *
+	 * @return the time zone id
+	 * @since 6.1
+	 */
+	public ZoneId getZoneId() {
+		return getTimeZone().toZoneId();
 	}
 
 	/**

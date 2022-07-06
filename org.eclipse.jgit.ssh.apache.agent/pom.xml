@@ -132,7 +132,6 @@
         </configuration>
       </plugin>
 
-      <!-- New in 6.0; uncomment in 6.1
       <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
@@ -155,6 +154,9 @@
                   <includes>
                       <include>org.eclipse.jgit.*</include>
                   </includes>
+                  <excludes>
+                      <exclude>*.internal.*</exclude>
+                  </excludes>
                   <accessModifier>public</accessModifier>
                   <breakBuildOnModifications>false</breakBuildOnModifications>
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
@@ -174,11 +176,9 @@
           </execution>
         </executions>
       </plugin>
-      -->
     </plugins>
   </build>
 
-  <!-- New in 6.0, uncomment in 6.1
   <reporting>
     <plugins>
       <plugin>
@@ -210,6 +210,9 @@
                   <includes>
                       <include>org.eclipse.jgit.*</include>
                   </includes>
+                  <excludes>
+                      <exclude>*.internal.*</exclude>
+                  </excludes>
                   <accessModifier>public</accessModifier>
                   <breakBuildOnModifications>false</breakBuildOnModifications>
                   <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
@@ -223,5 +226,4 @@
       </plugin>
     </plugins>
   </reporting>
-  -->
 </project>

@@ -210,9 +210,7 @@ abstract class BasePackConnection extends BaseConnection {
 				try {
 					line = readLine();
 				} catch (EOFException e) {
-					TransportException noRepo = noRepository();
-					noRepo.initCause(e);
-					throw noRepo;
+					throw noRepository(e);
 				}
 				if (line != null && VERSION_1.equals(line)) {
 					// Same as V0, except for this extra line. We shouldn't get
@@ -567,11 +565,14 @@ abstract class BasePackConnection extends BaseConnection {
 	 *
 	 * Subclasses may override this method to provide better diagnostics.
 	 *
+	 * @param cause
+	 *            root cause exception
 	 * @return a TransportException saying a repository cannot be found and
 	 *         possibly why.
 	 */
-	protected TransportException noRepository() {
-		return new NoRemoteRepositoryException(uri, JGitText.get().notFound);
+	protected TransportException noRepository(Throwable cause) {
+		return new NoRemoteRepositoryException(uri, JGitText.get().notFound,
+				cause);
 	}
 
 	/**

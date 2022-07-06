@@ -50,7 +50,6 @@ import org.eclipse.jgit.errors.UnsupportedPackIndexVersionException;
 import org.eclipse.jgit.errors.UnsupportedPackVersionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
-import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -384,7 +383,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	final void copyAsIs(PackOutputStream out, LocalObjectToPack src,
 			boolean validate, WindowCursor curs) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
-		beginCopyAsIs(src);
+		beginCopyAsIs();
 		try {
 			copyAsIs2(out, src, validate, curs);
 		} finally {
@@ -604,7 +603,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			throw new EOFException();
 	}
 
-	private synchronized void beginCopyAsIs(ObjectToPack otp)
+	private synchronized void beginCopyAsIs()
 			throws StoredObjectRepresentationNotAvailableException {
 		if (++activeCopyRawData == 1 && activeWindows == 0) {
 			try {

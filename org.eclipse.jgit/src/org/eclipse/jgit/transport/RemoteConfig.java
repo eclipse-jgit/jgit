@@ -16,10 +16,7 @@ import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -53,10 +50,6 @@ public class RemoteConfig implements Serializable {
 	private static final String KEY_MIRROR = "mirror"; //$NON-NLS-1$
 
 	private static final String KEY_TIMEOUT = "timeout"; //$NON-NLS-1$
-
-	private static final String KEY_INSTEADOF = "insteadof"; //$NON-NLS-1$
-
-	private static final String KEY_PUSHINSTEADOF = "pushinsteadof"; //$NON-NLS-1$
 
 	private static final boolean DEFAULT_MIRROR = false;
 
@@ -135,10 +128,10 @@ public class RemoteConfig implements Serializable {
 		String val;
 
 		vlst = rc.getStringList(SECTION, name, KEY_URL);
-		Map<String, String> insteadOf = getReplacements(rc, KEY_INSTEADOF);
+		UrlConfig urls = new UrlConfig(rc);
 		uris = new ArrayList<>(vlst.length);
 		for (String s : vlst) {
-			uris.add(new URIish(replaceUri(s, insteadOf)));
+			uris.add(new URIish(urls.replace(s)));
 		}
 		String[] plst = rc.getStringList(SECTION, name, KEY_PUSHURL);
 		pushURIs = new ArrayList<>(plst.length);
@@ -148,11 +141,9 @@ public class RemoteConfig implements Serializable {
 		if (pushURIs.isEmpty()) {
 			// Would default to the uris. If we have pushinsteadof, we must
 			// supply rewritten push uris.
-			Map<String, String> pushInsteadOf = getReplacements(rc,
-					KEY_PUSHINSTEADOF);
-			if (!pushInsteadOf.isEmpty()) {
+			if (urls.hasPushReplacements()) {
 				for (String s : vlst) {
-					String replaced = replaceUri(s, pushInsteadOf);
+					String replaced = urls.replacePush(s);
 					if (!s.equals(replaced)) {
 						pushURIs.add(new URIish(replaced));
 					}
@@ -246,39 +237,6 @@ public class RemoteConfig implements Serializable {
 
 	private void unset(Config rc, String key) {
 		rc.unset(SECTION, getName(), key);
-	}
-
-	private Map<String, String> getReplacements(final Config config,
-			final String keyName) {
-		final Map<String, String> replacements = new HashMap<>();
-		for (String url : config.getSubsections(KEY_URL))
-			for (String insteadOf : config.getStringList(KEY_URL, url, keyName))
-				replacements.put(insteadOf, url);
-		return replacements;
-	}
-
-	private String replaceUri(final String uri,
-			final Map<String, String> replacements) {
-		if (replacements.isEmpty()) {
-			return uri;
-		}
-		Entry<String, String> match = null;
-		for (Entry<String, String> replacement : replacements.entrySet()) {
-			// Ignore current entry if not longer than previous match
-			if (match != null
-					&& match.getKey().length() > replacement.getKey()
-							.length()) {
-				continue;
-			}
-			if (!uri.startsWith(replacement.getKey())) {
-				continue;
-			}
-			match = replacement;
-		}
-		if (match != null) {
-			return match.getValue() + uri.substring(match.getKey().length());
-		}
-		return uri;
 	}
 
 	/**

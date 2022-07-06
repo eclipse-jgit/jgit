@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -36,15 +36,35 @@ import org.eclipse.jgit.util.SystemReader;
  */
 public abstract class SshSessionFactory {
 
-	private static volatile SshSessionFactory INSTANCE = loadSshSessionFactory();
+	private static class DefaultFactory {
 
-	private static SshSessionFactory loadSshSessionFactory() {
-		ServiceLoader<SshSessionFactory> loader = ServiceLoader.load(SshSessionFactory.class);
-		Iterator<SshSessionFactory> iter = loader.iterator();
-		if(iter.hasNext()) {
-			return iter.next();
+		private static volatile SshSessionFactory INSTANCE = loadSshSessionFactory();
+
+		private static SshSessionFactory loadSshSessionFactory() {
+			ServiceLoader<SshSessionFactory> loader = ServiceLoader
+					.load(SshSessionFactory.class);
+			Iterator<SshSessionFactory> iter = loader.iterator();
+			if (iter.hasNext()) {
+				return iter.next();
+			}
+			return null;
 		}
-		return null;
+
+		private DefaultFactory() {
+			// No instantiation
+		}
+
+		public static SshSessionFactory getInstance() {
+			return INSTANCE;
+		}
+
+		public static void setInstance(SshSessionFactory newFactory) {
+			if (newFactory != null) {
+				INSTANCE = newFactory;
+			} else {
+				INSTANCE = loadSshSessionFactory();
+			}
+		}
 	}
 
 	/**
@@ -57,7 +77,7 @@ public abstract class SshSessionFactory {
 	 * @return factory the current factory for this JVM.
 	 */
 	public static SshSessionFactory getInstance() {
-		return INSTANCE;
+		return DefaultFactory.getInstance();
 	}
 
 	/**
@@ -68,11 +88,7 @@ public abstract class SshSessionFactory {
 	 *            {@code null} the default factory will be restored.
 	 */
 	public static void setInstance(SshSessionFactory newFactory) {
-		if (newFactory != null) {
-			INSTANCE = newFactory;
-		} else {
-			INSTANCE = loadSshSessionFactory();
-		}
+		DefaultFactory.setInstance(newFactory);
 	}
 
 	/**

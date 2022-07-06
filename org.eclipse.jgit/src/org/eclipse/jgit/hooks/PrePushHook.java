@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Obeo. and others
+ * Copyright (C) 2015, 2022 Obeo and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -37,6 +37,8 @@ public class PrePushHook extends GitHook<String> {
 	private String remoteLocation;
 
 	private String refs;
+
+	private boolean dryRun;
 
 	/**
 	 * Constructor for PrePushHook
@@ -142,6 +144,27 @@ public class PrePushHook extends GitHook<String> {
 	 */
 	public void setRemoteLocation(String location) {
 		remoteLocation = location;
+	}
+
+	/**
+	 * Sets whether the push is a dry run.
+	 *
+	 * @param dryRun
+	 *            {@code true} if the push is a dry run, {@code false} otherwise
+	 * @since 6.2
+	 */
+	public void setDryRun(boolean dryRun) {
+		this.dryRun = dryRun;
+	}
+
+	/**
+	 * Tells whether the push is a dry run.
+	 *
+	 * @return {@code true} if the push is a dry run, {@code false} otherwise
+	 * @since 6.2
+	 */
+	protected boolean isDryRun() {
+		return dryRun;
 	}
 
 	/**

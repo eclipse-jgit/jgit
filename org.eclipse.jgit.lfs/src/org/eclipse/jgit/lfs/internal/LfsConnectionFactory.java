@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Markus Duft <markus.duft@ssi-schaefer.com> and others
+ * Copyright (C) 2017, 2022 Markus Duft <markus.duft@ssi-schaefer.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -39,12 +39,12 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SshSupport;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Provides means to get a valid LFS connection for a given repository.
  */
 public class LfsConnectionFactory {
-
 	private static final int SSH_AUTH_TIMEOUT_SECONDS = 30;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
@@ -64,7 +64,7 @@ public class LfsConnectionFactory {
 	 *            be used for
 	 * @param purpose
 	 *            the action, e.g. Protocol.OPERATION_DOWNLOAD
-	 * @return the url for the lfs server. e.g.
+	 * @return the connection for the lfs server. e.g.
 	 *         "https://github.com/github/git-lfs.git/info/lfs"
 	 * @throws IOException
 	 */
@@ -92,13 +92,30 @@ public class LfsConnectionFactory {
 		return connection;
 	}
 
+	/**
+	 * Get LFS Server URL.
+	 *
+	 * @param db
+	 *            the repository to work with
+	 * @param purpose
+	 *            the action, e.g. Protocol.OPERATION_DOWNLOAD
+	 * @param additionalHeaders
+	 *            additional headers that can be used to connect to LFS server
+	 * @return the URL for the LFS server. e.g.
+	 *         "https://github.com/github/git-lfs.git/info/lfs"
+	 * @throws IOException
+	 *             if the LFS config is invalid or cannot be accessed
+	 * @see <a href=
+	 *      "https://github.com/git-lfs/git-lfs/blob/main/docs/api/server-discovery.md">
+	 *      Server Discovery documentation</a>
+	 */
 	private static String getLfsUrl(Repository db, String purpose,
 			Map<String, String> additionalHeaders)
-			throws LfsConfigInvalidException {
-		StoredConfig config = db.getConfig();
+			throws IOException {
+		LfsConfig config = new LfsConfig(db);
 		String lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
-				null,
-				ConfigConstants.CONFIG_KEY_URL);
+				null, ConfigConstants.CONFIG_KEY_URL);
+
 		Exception ex = null;
 		if (lfsUrl == null) {
 			String remoteUrl = null;
@@ -106,6 +123,7 @@ public class LfsConnectionFactory {
 				lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
 						remote,
 						ConfigConstants.CONFIG_KEY_URL);
+
 				// This could be done better (more precise logic), but according
 				// to https://github.com/git-lfs/git-lfs/issues/1759 git-lfs
 				// generally only supports 'origin' in an integrated workflow.
@@ -125,8 +143,6 @@ public class LfsConnectionFactory {
 						| CommandFailedException e) {
 					ex = e;
 				}
-			} else {
-				lfsUrl = lfsUrl + Protocol.INFO_LFS_ENDPOINT;
 			}
 		}
 		if (lfsUrl == null) {
@@ -149,7 +165,8 @@ public class LfsConnectionFactory {
 			additionalHeaders.putAll(action.header);
 			return action.href;
 		}
-		return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
+		return StringUtils.nameWithDotGit(remoteUrl)
+				+ Protocol.INFO_LFS_ENDPOINT;
 	}
 
 	private static Protocol.ExpiringAction getSshAuthentication(

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2021, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -90,7 +90,7 @@ public class BinaryHunkInputStream extends InputStream {
 		byte[] encoded = new byte[Base85.encodedLength(length)];
 		for (int i = 0; i < encoded.length; i++) {
 			int b = in.read();
-			if (b < 0 || b == '\n') {
+			if (b < 0 || b == '\r' || b == '\n') {
 				throw new EOFException(MessageFormat.format(
 						JGitText.get().binaryHunkInvalidLength,
 						Integer.valueOf(lineNumber)));
@@ -99,6 +99,10 @@ public class BinaryHunkInputStream extends InputStream {
 		}
 		// Must be followed by a newline; tolerate EOF.
 		int b = in.read();
+		if (b == '\r') {
+			// Be lenient and accept CR-LF, too.
+			b = in.read();
+		}
 		if (b >= 0 && b != '\n') {
 			throw new StreamCorruptedException(MessageFormat.format(
 					JGitText.get().binaryHunkMissingNewline,

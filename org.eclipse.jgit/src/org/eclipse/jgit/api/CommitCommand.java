@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -46,6 +47,8 @@ import org.eclipse.jgit.hooks.PostCommitHook;
 import org.eclipse.jgit.hooks.PreCommitHook;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.CommitConfig;
+import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgConfig;
@@ -133,6 +136,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private CredentialsProvider credentialsProvider;
 
+	private @NonNull CleanupMode cleanupMode = CleanupMode.VERBATIM;
+
+	private boolean cleanDefaultIsStrip = true;
+
+	private Character commentChar;
+
 	/**
 	 * Constructor for CommitCommand
 	 *
@@ -200,7 +209,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				throw new WrongRepositoryStateException(
 						JGitText.get().commitAmendOnInitialNotPossible);
 
-			if (headId != null)
+			if (headId != null) {
 				if (amend) {
 					RevCommit previousCommit = rw.parseCommit(headId);
 					for (RevCommit p : previousCommit.getParents())
@@ -210,7 +219,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				} else {
 					parents.add(0, headId);
 				}
-
+			}
 			if (!noVerify) {
 				message = Hooks
 						.commitMsg(repo,
@@ -218,6 +227,33 @@ public class CommitCommand extends GitCommand<RevCommit> {
 								hookErrRedirect.get(CommitMsgHook.NAME))
 						.setCommitMessage(message).call();
 			}
+
+			CommitConfig config = null;
+			if (CleanupMode.DEFAULT.equals(cleanupMode)) {
+				config = repo.getConfig().get(CommitConfig.KEY);
+				cleanupMode = config.resolve(cleanupMode, cleanDefaultIsStrip);
+			}
+			char comments = (char) 0;
+			if (CleanupMode.STRIP.equals(cleanupMode)
+					|| CleanupMode.SCISSORS.equals(cleanupMode)) {
+				if (commentChar == null) {
+					if (config == null) {
+						config = repo.getConfig().get(CommitConfig.KEY);
+					}
+					if (config.isAutoCommentChar()) {
+						// We're supposed to pick a character that isn't used,
+						// but then cleaning up won't remove any lines. So don't
+						// bother.
+						comments = (char) 0;
+						cleanupMode = CleanupMode.WHITESPACE;
+					} else {
+						comments = config.getCommentChar();
+					}
+				} else {
+					comments = commentChar.charValue();
+				}
+			}
+			message = CommitConfig.cleanText(message, cleanupMode, comments);
 
 			RevCommit revCommit;
 			DirCache index = repo.lockDirCache();
@@ -287,8 +323,14 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private void sign(CommitBuilder commit) throws ServiceUnavailableException,
 			CanceledException, UnsupportedSigningFormatException {
 		if (gpgSigner == null) {
-			throw new ServiceUnavailableException(
-					JGitText.get().signingServiceUnavailable);
+			gpgSigner = GpgSigner.getDefault();
+			if (gpgSigner == null) {
+				throw new ServiceUnavailableException(
+						JGitText.get().signingServiceUnavailable);
+			}
+		}
+		if (signingKey == null) {
+			signingKey = gpgConfig.getSigningKey();
 		}
 		if (gpgSigner instanceof GpgObjectSigner) {
 			((GpgObjectSigner) gpgSigner).signObject(commit,
@@ -623,12 +665,6 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			signCommit = gpgConfig.isSignCommits() ? Boolean.TRUE
 					: Boolean.FALSE;
 		}
-		if (signingKey == null) {
-			signingKey = gpgConfig.getSigningKey();
-		}
-		if (gpgSigner == null) {
-			gpgSigner = GpgSigner.getDefault();
-		}
 	}
 
 	private boolean isMergeDuringRebase(RepositoryState state) {
@@ -654,6 +690,57 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public CommitCommand setMessage(String message) {
 		checkCallable();
 		this.message = message;
+		return this;
+	}
+
+	/**
+	 * Sets the {@link CleanupMode} to apply to the commit message. If not
+	 * called, {@link CommitCommand} applies {@link CleanupMode#VERBATIM}.
+	 *
+	 * @param mode
+	 *            {@link CleanupMode} to set
+	 * @return {@code this}
+	 * @since 6.1
+	 */
+	public CommitCommand setCleanupMode(@NonNull CleanupMode mode) {
+		checkCallable();
+		this.cleanupMode = mode;
+		return this;
+	}
+
+	/**
+	 * Sets the default clean mode if {@link #setCleanupMode(CleanupMode)
+	 * setCleanupMode(CleanupMode.DEFAULT)} is set and git config
+	 * {@code commit.cleanup = default} or is not set.
+	 *
+	 * @param strip
+	 *            if {@code true}, default to {@link CleanupMode#STRIP};
+	 *            otherwise default to {@link CleanupMode#WHITESPACE}
+	 * @return {@code this}
+	 * @since 6.1
+	 */
+	public CommitCommand setDefaultClean(boolean strip) {
+		checkCallable();
+		this.cleanDefaultIsStrip = strip;
+		return this;
+	}
+
+	/**
+	 * Sets the comment character to apply when cleaning a commit message. If
+	 * {@code null} (the default) and the {@link #setCleanupMode(CleanupMode)
+	 * clean-up mode} is {@link CleanupMode#STRIP} or
+	 * {@link CleanupMode#SCISSORS}, the value of git config
+	 * {@code core.commentChar} will be used.
+	 *
+	 * @param commentChar
+	 *            the comment character, or {@code null} to use the value from
+	 *            the git config
+	 * @return {@code this}
+	 * @since 6.1
+	 */
+	public CommitCommand setCommentCharacter(Character commentChar) {
+		checkCallable();
+		this.commentChar = commentChar;
 		return this;
 	}
 
@@ -806,7 +893,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * command line.
 	 *
 	 * @param amend
-	 *            whether to ammend the tip of the current branch
+	 *            whether to amend the tip of the current branch
 	 * @return {@code this}
 	 */
 	public CommitCommand setAmend(boolean amend) {

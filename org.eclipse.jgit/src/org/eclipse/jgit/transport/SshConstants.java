@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -44,6 +44,14 @@ public final class SshConstants {
 
 	// Config file keys
 
+	/**
+	 * Property to control whether private keys are added to an SSH agent, if
+	 * one is running, after having been loaded.
+	 *
+	 * @since 6.1
+	 */
+	public static final String ADD_KEYS_TO_AGENT = "AddKeysToAgent";
+
 	/** Key in an ssh config file. */
 	public static final String BATCH_MODE = "BatchMode";
 
@@ -61,6 +69,15 @@ public final class SshConstants {
 
 	/** Key in an ssh config file. */
 	public static final String CONNECTION_ATTEMPTS = "ConnectionAttempts";
+
+	/**
+	 * An OpenSSH time value for the connection timeout. In OpenSSH, this
+	 * includes everything until the end of the initial key exchange; in JGit it
+	 * covers only the underlying TCP connect.
+	 *
+	 * @since 6.1
+	 */
+	public static final String CONNECT_TIMEOUT = "ConnectTimeout";
 
 	/** Key in an ssh config file. */
 	public static final String CONTROL_PATH = "ControlPath";
@@ -159,6 +176,14 @@ public final class SshConstants {
 	/** Key in an ssh config file. */
 	public static final String REMOTE_FORWARD = "RemoteForward";
 
+	/**
+	 * (Absolute) path to a middleware library the SSH agent shall use to load
+	 * SK (U2F) keys.
+	 *
+	 * @since 6.1
+	 */
+	public static final String SECURITY_KEY_PROVIDER = "SecurityKeyProvider";
+
 	/** Key in an ssh config file. */
 	public static final String SEND_ENV = "SendEnv";
 
@@ -229,4 +254,12 @@ public final class SshConstants {
 	public static final String[] DEFAULT_IDENTITIES = { //
 			ID_RSA, ID_DSA, ID_ECDSA, ID_ED25519
 	};
+
+	/**
+	 * Name of the environment variable holding the Unix domain socket for
+	 * communication with an SSH agent.
+	 *
+	 * @since 6.1
+	 */
+	public static final String ENV_SSH_AUTH_SOCKET = "SSH_AUTH_SOCK";
 }
