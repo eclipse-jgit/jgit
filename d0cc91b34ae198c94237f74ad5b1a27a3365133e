@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddd33c67_c84d1647",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-06T23:04:16Z",
+      "side": 1,
+      "message": "If you\u0027re going to add RevCommitWithOverwrittenParents this check is useless (you can do instanceOf instead, because most places doesn\u0027t and shouldn\u0027t actually care about fact that parents were overwritten (and this functionality is alien to that class).",
+      "range": {
+        "startLine": 311,
+        "startChar": 1,
+        "endLine": 321,
+        "endChar": 2
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c98cbe06_d41fe544",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-06T23:04:16Z",
+      "side": 1,
+      "message": "If you plan to leave parents as is and overwrite this method it can make some out of this repo usages which access the field directly to work in a strange way. IMHO this is fine, but it should be mentioned in description just in case.",
+      "range": {
+        "startLine": 356,
+        "startChar": 20,
+        "endLine": 356,
+        "endChar": 30
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8323cc4_f51a38d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-06T23:04:16Z",
+      "side": 1,
+      "message": "is it safe? documentation said:\n\n\t * An existing mapping for \u003cb\u003emust not\u003c/b\u003e be in this map. Callers must\n\t * first call {@link #get(AnyObjectId)} to verify there is no current\n\t * mapping prior to adding a new mapping, or use {@link #addIfAbsent(Entry)}.",
+      "range": {
+        "startLine": 909,
+        "startChar": 7,
+        "endLine": 909,
+        "endChar": 14
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
