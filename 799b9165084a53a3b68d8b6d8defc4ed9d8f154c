@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdbaf76d_6bd88e8a",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 1,
+      "message": "this isn\u0027t required anymore",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "159e7587_cf1201e2",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 1,
+      "message": "lost version update",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cffeb632_f65dc897",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 1,
+      "message": "revert this",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c957b9fb_f32e4ac0",
+        "filename": "org.eclipse.jgit.ssh.apache.agent/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 1,
+      "message": "revert these changes",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06c74815_d884223c",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 1,
+      "message": "lost updates",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "128ab30a_caa742b5",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 1,
+      "message": "not used anymore",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

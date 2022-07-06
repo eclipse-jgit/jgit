@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c979ef53_62b10d74",
+        "filename": "org.eclipse.jgit.ant/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 0,
+      "message": "lost version",
+      "revId": "a1475bc069f53880283d164683934c62aeac1429",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf08bb6f_9b4d666d",
+        "filename": "org.eclipse.jgit.junit.ssh/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 0,
+      "message": "lost exclusion",
+      "revId": "a1475bc069f53880283d164683934c62aeac1429",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ed268e5_71e65a1b",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T16:53:31Z",
+      "side": 0,
+      "message": "lost update",
+      "revId": "a1475bc069f53880283d164683934c62aeac1429",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
