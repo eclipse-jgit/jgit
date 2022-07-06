@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcef028a_8cf2021e",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T17:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdbaf76d_6bd88e8a",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "159e7587_cf1201e2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-06T16:53:31Z",
       "side": 1,
       "message": "lost version update",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1350f755_aa76ce85",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T17:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "159e7587_cf1201e2",
       "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -52,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f46f4a_921d729b",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T17:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cffeb632_f65dc897",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c957b9fb_f32e4ac0",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-07-06T16:53:31Z",
       "side": 1,
       "message": "revert these changes",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3083e98_d4849b3b",
+        "filename": "org.eclipse.jgit.ssh.apache.agent/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T17:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c957b9fb_f32e4ac0",
       "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -86,6 +158,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2223f61_a2a83019",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T17:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06c74815_d884223c",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "128ab30a_caa742b5",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-07-06T16:53:31Z",
       "side": 1,
       "message": "not used anymore",
+      "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18ebde6d_586a9ffb",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-06T17:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "128ab30a_caa742b5",
       "revId": "799b9165084a53a3b68d8b6d8defc4ed9d8f154c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
