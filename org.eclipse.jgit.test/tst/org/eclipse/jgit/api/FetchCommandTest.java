@@ -77,6 +77,26 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testFetchHasRefLogForRemoteRef() throws Exception {
+		// create an initial commit SHA1 for the default branch
+		ObjectId defaultBranchSha1 = remoteGit.commit()
+				.setMessage("initial commit").call().getId();
+
+		git.fetch().setRemote("test")
+				.setRefSpecs("refs/heads/*:refs/remotes/origin/*").call();
+
+		List<Ref> allFetchedRefs = git.getRepository().getRefDatabase()
+				.getRefs();
+		assertEquals(allFetchedRefs.size(), 1);
+		Ref remoteRef = allFetchedRefs.get(0);
+
+		assertTrue(remoteRef.getName().startsWith(Constants.R_REMOTES));
+		assertEquals(defaultBranchSha1, remoteRef.getObjectId());
+		assertNotNull(git.getRepository().getReflogReader(remoteRef.getName())
+				.getLastEntry());
+	}
+
+	@Test
 	public void testForcedFetch() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		remoteGit.commit().setMessage("commit2").call();
