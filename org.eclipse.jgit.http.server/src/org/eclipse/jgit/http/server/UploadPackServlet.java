@@ -208,6 +208,8 @@ class UploadPackServlet extends HttpServlet {
 				log(up.getRepository(), e.getCause());
 				consumeRequestBody(req);
 				out.close();
+			} finally {
+				up.close();
 			}
 		};
 
