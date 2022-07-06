@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e2a3e1c_8c755382",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-07-06T16:13:06Z",
+      "side": 1,
+      "message": "Has compilation errors, including\n\n* 11:38:47  [ERROR] /home/jenkins/agent/workspace/stable/jgit.gerrit-pipeline.java11/repo/org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/agent/SshAgentClient.java:[27,8] The import org.apache.sshd.agent.SshAgentKeyConstraint cannot be resolved\n* 11:38:47  [ERROR] /home/jenkins/agent/workspace/stable/jgit.gerrit-pipeline.java11/repo/org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/agent/SshAgentClient.java:[52,14] The type org.eclipse.jgit.internal.transport.sshd.agent.SshAgentClient must implement the inherited abstract method org.apache.sshd.agent.SshAgent.addIdentity(java.security.KeyPair, java.lang.String)\n* 11:37:08  [ERROR] Medium: org.eclipse.jgit.transport.BundleWriter.setObjectCountCallback(ObjectCountCallback) may expose internal representation by storing an externally mutable object into BundleWriter.callback [org.eclipse.jgit.transport.BundleWriter] At BundleWriter.java:[line 285] EI_EXPOSE_REP2\n* etc",
+      "revId": "d33771383f9df2ac716214fc0c26e613454f14c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
