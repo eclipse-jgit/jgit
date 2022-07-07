@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec1edda8_4dc7accf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-07T23:36:36Z",
+      "side": 1,
+      "message": "Agreed",
+      "parentUuid": "ddd33c67_c84d1647",
+      "range": {
+        "startLine": 311,
+        "startChar": 1,
+        "endLine": 321,
+        "endChar": 2
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c98cbe06_d41fe544",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8678d056_00f5424d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-07T23:36:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c98cbe06_d41fe544",
+      "range": {
+        "startLine": 356,
+        "startChar": 20,
+        "endLine": 356,
+        "endChar": 30
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8323cc4_f51a38d3",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-07-06T23:04:16Z",
       "side": 1,
       "message": "is it safe? documentation said:\n\n\t * An existing mapping for \u003cb\u003emust not\u003c/b\u003e be in this map. Callers must\n\t * first call {@link #get(AnyObjectId)} to verify there is no current\n\t * mapping prior to adding a new mapping, or use {@link #addIfAbsent(Entry)}.",
+      "range": {
+        "startLine": 909,
+        "startChar": 7,
+        "endLine": 909,
+        "endChar": 14
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38cc585a_840260c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-07T23:36:36Z",
+      "side": 1,
+      "message": "updated the code to update the underlying revCommit with its new parents if it exists. Also updated the doc.",
+      "parentUuid": "b8323cc4_f51a38d3",
       "range": {
         "startLine": 909,
         "startChar": 7,
