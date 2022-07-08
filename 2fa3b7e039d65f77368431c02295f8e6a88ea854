@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf762eeb_1be1d455",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-08T19:07:17Z",
+      "side": 1,
+      "message": "names \"commit\" and \"object\" are too confusing. Could you name it newCommit \u0026 existingCommit or similar?",
+      "range": {
+        "startLine": 910,
+        "startChar": 36,
+        "endLine": 910,
+        "endChar": 42
+      },
+      "revId": "2fa3b7e039d65f77368431c02295f8e6a88ea854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e84a4aad_85a61955",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-08T19:07:17Z",
+      "side": 1,
+      "message": "You\u0027re comparing it by a link. Is there any reason you don\u0027t want to compare by content?",
+      "range": {
+        "startLine": 912,
+        "startChar": 24,
+        "endLine": 912,
+        "endChar": 66
+      },
+      "revId": "2fa3b7e039d65f77368431c02295f8e6a88ea854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2bb0cfd_69a91e12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-08T19:07:17Z",
+      "side": 1,
+      "message": "If left commit is a filteredRevCommit it won\u0027t take effect as you\u0027ve overwritten method getParents() and doesn\u0027t use \"parents\" field.",
+      "range": {
+        "startLine": 913,
+        "startChar": 0,
+        "endLine": 913,
+        "endChar": 40
+      },
+      "revId": "2fa3b7e039d65f77368431c02295f8e6a88ea854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

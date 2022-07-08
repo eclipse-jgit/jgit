@@ -140,6 +140,30 @@
       },
       "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a89a504e_adcdc686",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-08T19:07:17Z",
+      "side": 1,
+      "message": "Can you give any valid use case for using that? As of now this looks like a very risky thing to do. Let\u0027s say if we have 2 view objects for the commit: one is a plain RevCommit we plan to use to mark all commits and another is a FilteredRevCommit which has overwritten parents and used in blame-like part of the algorithm. If we call rewWalk.update(filteredRevCommit) it will update parents for the plain RevCommit and, despite being RevCommit class (not a filtered one) it will start acting as a filtered one. This will break some algorithms for sure.",
+      "parentUuid": "38cc585a_840260c6",
+      "range": {
+        "startLine": 909,
+        "startChar": 7,
+        "endLine": 909,
+        "endChar": 14
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
