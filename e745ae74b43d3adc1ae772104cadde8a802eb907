@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f3ffb19_8ea69c6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T18:16:26Z",
+      "side": 1,
+      "message": "Which one is this in the list above?\nwhere is the \"gradle - directory\" entry?",
+      "range": {
+        "startLine": 28,
+        "startChar": 43,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9516ec98_76184792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T18:16:26Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence. What iterator? you mean the internal treewalk is returning the right entries but somehow the NameConflictTW messes up keeping the results? Please rephrase (or maybe remove if an example shows clearly the problem)",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 67
+      },
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4cbe0aa_cd897d3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T18:16:26Z",
+      "side": 1,
+      "message": "do you mean that with the commits described above, the treewalk is returning:\n\n#next()\n\"gradle - directory\"| \"gradle.properties\"| \"gradle - file\"\n\nwhich is wrong. The expected result is:\n\n#next():\n\"gradle - directory\"| MISSED_FILE |\"gradle - file\"\n#next():\n\"gradle.properties\"|\"gradle.properties\"|\"gradle.properties\"\n\n??",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93f8c9cf_86b6d9a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T18:16:26Z",
+      "side": 1,
+      "message": "Thanks! Most of the comments in the commit message, so the problem is well defined (and I confirm I understand it correctly)\n\nI don\u0027t know well the code treewalk code, but I guess we can rely on the test cases that there is no regression.",
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5578cac9_131fe661",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T18:16:26Z",
+      "side": 1,
+      "message": "This line is not needed. No need to remind in java to read the javadoc",
+      "range": {
+        "startLine": 178,
+        "startChar": 5,
+        "endLine": 178,
+        "endChar": 17
+      },
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "375c9399_54800f3b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T18:16:26Z",
+      "side": 1,
+      "message": "nit: we don\u0027t use \"final\" in method parameters (http://wiki.eclipse.org/EGit/Contributor_Guide, \"Use of the final modifier\"). Probably this file has some because it is old code.",
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
