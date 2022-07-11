@@ -51,6 +51,91 @@
       "parentUuid": "4d2fcceb_c9db872d",
       "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a325944_d3349059",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T19:19:02Z",
+      "side": 1,
+      "message": "Please move this comment to the code, where the entries are created, so it won\u0027t so easily fall out of sync with the code if somebody edits the test.",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef98f483_448b708c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T19:19:02Z",
+      "side": 1,
+      "message": "I think this whole javadoc is not needed. It can fall easily out of sync with the code. Reading the test should be enough to see what it is doing.",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe16cc06_29e980ec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T19:19:02Z",
+      "side": 1,
+      "message": "The comment about the git order of the entries should go to the code, where the entries are created. Rest of the javadoc is not necessary.",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "742b12d2_402e81e8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T19:19:02Z",
+      "side": 1,
+      "message": "Same than above",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a928a50_9a3a5cf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-11T19:19:02Z",
+      "side": 1,
+      "message": "What happens here if the trees are: [NON-EOF, EOF, EOF]? minRef would point to the first element and i \u003d\u003d 0?\n\nMaybe we can refactor the loop above to express clearly what it does: count EOF trees and point minRef to the first NON-EOF tree (IIUC)?",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
