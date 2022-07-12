@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8eb1ce4_a5fb0272",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-12T22:43:41Z",
+      "side": 1,
+      "message": "Please update commit message to reflect what you\u0027re actually doing there. You\u0027re not adding ability to overwrite (yet), you\u0027re doing a ground work to be sure it is possible in the next changelist.\n\nparticularly you\u0027re not making field private (3rd part of the message)",
+      "revId": "2baa0506f57724932d96b32a205bf03700d52677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29baf928_7c7ddc2c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-12T22:43:41Z",
+      "side": 1,
+      "message": "I don\u0027t see any overwritten parents there. What do we test?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "2baa0506f57724932d96b32a205bf03700d52677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
