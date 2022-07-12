@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a4a7b5b_a11f2836",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-07-12T18:23:05Z",
+      "side": 1,
+      "message": "Actually it might not be necessary. I rediscovered the policy in [1] which means that unless there are breaking API changes in JGit since the versions used on 3.4/3.5/3.6 currently, we should be able to update Gerrit master to this commit (after it\u0027s submitted), and then a couple weeks later update 3.4/3.5/3.6 to the same commit.\n\nDo you know if there are breaking API changes? 3.4 and 3.5 [2][3] are at 5efd32e91d and 3.6 [4] is at 1bd087a7f.\n\n[1] https://www.gerritcodereview.com/2022-01-12-esc-minutes.html#definition-of-a-policy-for-updating-jgit-on-stable-gerrit-branches\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/modules/jgit\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/modules/jgit\n[4] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.6/modules/jgit",
+      "parentUuid": "8791f364_1d6bf577",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a325944_d3349059",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
         "patchSetId": 5
