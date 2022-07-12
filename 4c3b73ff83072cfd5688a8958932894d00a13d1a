@@ -70,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ea87882_0fa5f15f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T18:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a325944_d3349059",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef98f483_448b708c",
@@ -83,6 +101,24 @@
       "writtenOn": "2022-07-11T19:19:02Z",
       "side": 1,
       "message": "I think this whole javadoc is not needed. It can fall easily out of sync with the code. Reading the test should be enough to see what it is doing.",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da07d2f3_00b9bf68",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T18:13:22Z",
+      "side": 1,
+      "message": "I would prefer to keep this comment. Any comments can be out of sync :)",
+      "parentUuid": "ef98f483_448b708c",
       "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -104,6 +140,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75962099_96c09967",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T18:13:22Z",
+      "side": 1,
+      "message": "Moved. I would prefer to keep the comment.",
+      "parentUuid": "fe16cc06_29e980ec",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "742b12d2_402e81e8",
@@ -121,6 +175,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51192fad_04947d5f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T18:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "742b12d2_402e81e8",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a928a50_9a3a5cf6",
@@ -134,6 +206,24 @@
       "writtenOn": "2022-07-11T19:19:02Z",
       "side": 1,
       "message": "What happens here if the trees are: [NON-EOF, EOF, EOF]? minRef would point to the first element and i \u003d\u003d 0?\n\nMaybe we can refactor the loop above to express clearly what it does: count EOF trees and point minRef to the first NON-EOF tree (IIUC)?",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "882acc57_a1191cf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T18:13:22Z",
+      "side": 1,
+      "message": "\u003e What happens here if the trees are: [NON-EOF, EOF, EOF]? minRef would point to the first element and i \u003d\u003d 0?\n\nGood catch. I added the fix and the test.\n\n\u003e Maybe we can refactor the loop above to express clearly what it does: count EOF trees and point minRef to the first NON-EOF tree (IIUC)?\nI will try to do it in a separate change.",
+      "parentUuid": "6a928a50_9a3a5cf6",
       "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
