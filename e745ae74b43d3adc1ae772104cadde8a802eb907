@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c93f72e3_1509cc7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T15:21:23Z",
+      "side": 1,
+      "message": "This file is in Commit 1. I updated the message",
+      "parentUuid": "2f3ffb19_8ea69c6b",
+      "range": {
+        "startLine": 28,
+        "startChar": 43,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9516ec98_76184792",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2c5fe7_64459a63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T15:21:23Z",
+      "side": 1,
+      "message": "Rephrased.",
+      "parentUuid": "9516ec98_76184792",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 67
+      },
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4cbe0aa_cd897d3c",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-07-11T18:16:26Z",
       "side": 1,
       "message": "do you mean that with the commits described above, the treewalk is returning:\n\n#next()\n\"gradle - directory\"| \"gradle.properties\"| \"gradle - file\"\n\nwhich is wrong. The expected result is:\n\n#next():\n\"gradle - directory\"| MISSED_FILE |\"gradle - file\"\n#next():\n\"gradle.properties\"|\"gradle.properties\"|\"gradle.properties\"\n\n??",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56e223b_9a34e877",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T15:21:23Z",
+      "side": 1,
+      "message": "Exactly. I added this into the commit message.",
+      "parentUuid": "e4cbe0aa_cd897d3c",
       "range": {
         "startLine": 32,
         "startChar": 13,
@@ -110,6 +182,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ccdc3a7_c80c5c96",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T15:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5578cac9_131fe661",
+      "range": {
+        "startLine": 178,
+        "startChar": 5,
+        "endLine": 178,
+        "endChar": 17
+      },
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "375c9399_54800f3b",
@@ -123,6 +219,24 @@
       "writtenOn": "2022-07-11T18:16:26Z",
       "side": 1,
       "message": "nit: we don\u0027t use \"final\" in method parameters (http://wiki.eclipse.org/EGit/Contributor_Guide, \"Use of the final modifier\"). Probably this file has some because it is old code.",
+      "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57853a58_f9a4f328",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T15:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "375c9399_54800f3b",
       "revId": "e745ae74b43d3adc1ae772104cadde8a802eb907",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
