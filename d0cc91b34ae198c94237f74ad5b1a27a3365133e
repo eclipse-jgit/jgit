@@ -188,6 +188,30 @@
       },
       "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80926380_93006f0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-12T20:53:20Z",
+      "side": 1,
+      "message": "ahmm.. thats a valid point.. \nI am changing back to the earlier revision which added the RevCommit to the owners map with some restriction.\nReg: is it safe? from the doc. I think it is. It always uses the first element from the linkedlist.\nThere is a test case in https://git.eclipse.org/r/c/jgit/jgit/+/194354 that leverages this. See BlameGeneratorTest.",
+      "parentUuid": "a89a504e_adcdc686",
+      "range": {
+        "startLine": 909,
+        "startChar": 7,
+        "endLine": 909,
+        "endChar": 14
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
