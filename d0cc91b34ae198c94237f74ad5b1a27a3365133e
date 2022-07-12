@@ -164,6 +164,30 @@
       },
       "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21ec17a1_e80abc8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-12T18:20:05Z",
+      "side": 1,
+      "message": "(not resolved)",
+      "parentUuid": "a89a504e_adcdc686",
+      "range": {
+        "startLine": 909,
+        "startChar": 7,
+        "endLine": 909,
+        "endChar": 14
+      },
+      "revId": "d0cc91b34ae198c94237f74ad5b1a27a3365133e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
