@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9db92ac6_1add0868",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T18:33:19Z",
+      "side": 1,
+      "message": "Sorry, I am not very involved in jgit development, so I can\u0027t answer to your question about breaking changes.",
+      "parentUuid": "1a4a7b5b_a11f2836",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a325944_d3349059",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
         "patchSetId": 5
@@ -260,6 +278,24 @@
       "side": 1,
       "message": "\u003e What happens here if the trees are: [NON-EOF, EOF, EOF]? minRef would point to the first element and i \u003d\u003d 0?\n\nGood catch. I added the fix and the test.\n\n\u003e Maybe we can refactor the loop above to express clearly what it does: count EOF trees and point minRef to the first NON-EOF tree (IIUC)?\nI will try to do it in a separate change.",
       "parentUuid": "6a928a50_9a3a5cf6",
+      "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa93b87_084d1a1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-12T18:33:19Z",
+      "side": 1,
+      "message": "I tried to make a refactoring - I don\u0027t feel that it improves code in overall - i.e. the loop has only few lines of code, so refactoring makes other things harder to read.",
+      "parentUuid": "882acc57_a1191cf5",
       "revId": "4c3b73ff83072cfd5688a8958932894d00a13d1a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
