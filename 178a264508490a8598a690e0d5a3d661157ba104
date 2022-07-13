@@ -18,6 +18,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ebebbb0_121427a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-13T21:38:39Z",
+      "side": 1,
+      "message": "Hi Thomas, Do you mind approving this change.",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5afabc58_18221ed2",
@@ -31,6 +48,30 @@
       "writtenOn": "2022-07-13T20:29:30Z",
       "side": 1,
       "message": "would you replace it with FilteredRevCommit?",
+      "range": {
+        "startLine": 94,
+        "startChar": 5,
+        "endLine": 94,
+        "endChar": 12
+      },
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebf18b30_8113912e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-13T21:38:39Z",
+      "side": 1,
+      "message": "FilteredRevCommit isn\u0027t in this change. I could make this change in https://git.eclipse.org/r/c/jgit/jgit/+/194354",
+      "parentUuid": "5afabc58_18221ed2",
       "range": {
         "startLine": 94,
         "startChar": 5,
