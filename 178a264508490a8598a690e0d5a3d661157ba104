@@ -16,6 +16,29 @@
       "message": "lity",
       "revId": "178a264508490a8598a690e0d5a3d661157ba104",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5afabc58_18221ed2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-13T20:29:30Z",
+      "side": 1,
+      "message": "would you replace it with FilteredRevCommit?",
+      "range": {
+        "startLine": 94,
+        "startChar": 5,
+        "endLine": 94,
+        "endChar": 12
+      },
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
