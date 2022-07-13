@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff45c1f4_bb4bbf27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-13T20:01:04Z",
+      "side": 1,
+      "message": "Well its the ability to be overridden what is done here. Though the next change overwrites parents but this provides an ability to do so. There are test here which overrides the parents and tests different aspects like parse/flags/walk.\n\nRemoved the para that mentioned about making parents private.",
+      "parentUuid": "e8eb1ce4_a5fb0272",
+      "revId": "2baa0506f57724932d96b32a205bf03700d52677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29baf928_7c7ddc2c",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-07-12T22:43:41Z",
       "side": 1,
       "message": "I don\u0027t see any overwritten parents there. What do we test?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "2baa0506f57724932d96b32a205bf03700d52677",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1946d869_3d2e8f45",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-13T20:01:04Z",
+      "side": 1,
+      "message": "All of the tests have parents overridden. We are testing parseHeaders, parseBody, filter and flags on them.",
+      "parentUuid": "29baf928_7c7ddc2c",
       "range": {
         "startLine": 19,
         "startChar": 13,

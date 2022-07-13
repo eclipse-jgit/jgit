@@ -70,6 +70,30 @@
       },
       "revId": "9062c3382517a45ee3dd78e69f5d1ab65de9b992",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "428e499d_2ea95f04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-13T20:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9c592de_3c292d26",
+      "range": {
+        "startLine": 311,
+        "startChar": 1,
+        "endLine": 321,
+        "endChar": 2
+      },
+      "revId": "9062c3382517a45ee3dd78e69f5d1ab65de9b992",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
