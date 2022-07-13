@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "095a282a_85e7cd57",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-13T21:01:20Z",
+      "side": 1,
+      "message": "Can we have this test with both filtered and normal commits, to be sure we\u0027re doing it correctly. (same initialization \u0026 testing, but different input for generator). \n\nsame for other tests.",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "20ec3d170d59f0dfde28db054620663b1af55d42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb2a80d_8b50da38",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-13T21:01:20Z",
+      "side": 1,
+      "message": "I believe you should pick up file you\u0027ve written (aka match trash files and patterns to pick up). So these lines don\u0027t actually add other file as well as interesting one.",
+      "range": {
+        "startLine": 36,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "20ec3d170d59f0dfde28db054620663b1af55d42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a88b5852_72c5d8da",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-13T21:01:20Z",
+      "side": 1,
+      "message": "This initialization is hard to follow. Here are my couple thoughts how can we make it more readable:\n\n1. Having a diagram of resulted repo topology\n2. Moving file names to constants, so it will be easier to notice it. E.g. \"INTERESTING_FILE\", \"OTHER_FILE\"\n3. Please don\u0027t name it \"content1-6\" (as we have 2 files actually) and don\u0027t make complex configuration for other file. In other words I believe something like this would be more readable:\n\n\t\t\twriteTrashFile(INTERESTING_FILE, join(initialContent));\n\t\t\twriteTrashFile(OTHER_FILE, join(\"any content 1\"));",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 64
+      },
+      "revId": "20ec3d170d59f0dfde28db054620663b1af55d42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3268a727_9528e70a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-07-13T21:01:20Z",
+      "side": 1,
+      "message": "This is not a JavaDoc, so it should be just one star block comment.",
+      "range": {
+        "startLine": 104,
+        "startChar": 5,
+        "endLine": 104,
+        "endChar": 6
+      },
+      "revId": "20ec3d170d59f0dfde28db054620663b1af55d42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
