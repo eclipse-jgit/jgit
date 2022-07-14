@@ -65,6 +65,10 @@ class RefDirectoryRename extends RefRename {
 		if (source.getRef().isSymbolic())
 			return Result.IO_FAILURE; // not supported
 
+		if (refdb.isNameConflicting(destination.getName())) {
+			return Result.LOCK_FAILURE;
+		}
+
 		objId = source.getOldObjectId();
 		boolean updateHEAD = needToUpdateHEAD();
 		tmp = refdb.newTemporaryUpdate();

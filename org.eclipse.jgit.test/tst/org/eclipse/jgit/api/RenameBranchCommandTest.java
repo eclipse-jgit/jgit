@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
@@ -197,5 +198,13 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 				Constants.MASTER, ConfigConstants.CONFIG_KEY_MERGE, false));
 		assertTrue(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
 				branch, ConfigConstants.CONFIG_KEY_MERGE, false));
+	}
+
+	@Test
+	public void renameToConflictingTargetBranch() throws Exception {
+		assertNotNull(git.branchCreate().setName("a/b").call());
+		assertThrows("should throw InvalidRefNameException",
+				InvalidRefNameException.class,
+				() -> git.branchRename().setNewName("a/b/c").call());
 	}
 }

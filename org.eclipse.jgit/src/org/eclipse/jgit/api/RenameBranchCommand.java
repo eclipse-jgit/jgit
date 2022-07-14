@@ -122,6 +122,11 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 				throw new RefAlreadyExistsException(MessageFormat
 						.format(JGitText.get().refAlreadyExists1, fullNewName));
 			}
+			if (repo.getRefDatabase().isNameConflicting(fullNewName)) {
+				throw new InvalidRefNameException(MessageFormat
+						.format(JGitText.get().branchNameConflicting,
+								fullNewName));
+			}
 			RefRename rename = repo.renameRef(fullOldName, fullNewName);
 			Result renameResult = rename.rename();
 
