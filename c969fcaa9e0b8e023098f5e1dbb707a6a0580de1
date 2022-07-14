@@ -16,6 +16,23 @@
       "message": "The similar patch has been merged into cgit\u0027s master branch, see [1].\nI\u0027m looking forward to someone\u0027s review.\n:)\n\n[1] https://github.com/git/git/commit/82f67ee13fb25ebed1cd722c83de49a1ac588429",
       "revId": "c969fcaa9e0b8e023098f5e1dbb707a6a0580de1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22575cf3_b83cf3cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-07-14T07:27:05Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "c969fcaa9e0b8e023098f5e1dbb707a6a0580de1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
