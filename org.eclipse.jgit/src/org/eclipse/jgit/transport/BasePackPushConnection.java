@@ -90,6 +90,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 	private final boolean thinPack;
 	private final boolean atomic;
+	private final boolean useBitmaps;
 
 	/** A list of option strings associated with this push. */
 	private List<String> pushOptions;
@@ -118,6 +119,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		thinPack = transport.isPushThin();
 		atomic = transport.isPushAtomic();
 		pushOptions = transport.getPushOptions();
+		useBitmaps = transport.isPushUseBitmaps();
 	}
 
 	/** {@inheritDoc} */
@@ -320,7 +322,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 			writer.setIndexDisabled(true);
 			writer.setUseCachedPacks(true);
-			writer.setUseBitmaps(true);
+			writer.setUseBitmaps(useBitmaps);
 			writer.setThin(thinPack);
 			writer.setReuseValidatingObjects(false);
 			writer.setDeltaBaseAsOffset(capableOfsDelta);
@@ -419,6 +421,16 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 */
 	public List<String> getPushOptions() {
 		return pushOptions;
+	}
+
+	/**
+	 * Whether to use bitmaps for push.
+	 *
+	 * @return true if push use bitmaps.
+	 * @since 6.4
+	 */
+	public boolean isUseBitmaps() {
+		return useBitmaps;
 	}
 
 	private static class CheckingSideBandOutputStream extends OutputStream {

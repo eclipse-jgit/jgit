@@ -705,6 +705,13 @@ public abstract class Transport implements AutoCloseable {
 	public static final boolean DEFAULT_PUSH_THIN = false;
 
 	/**
+	 * Default setting for {@link #pushUseBitmaps} option.
+	 *
+	 * @since 6.4
+	 */
+	public static final boolean DEFAULT_PUSH_USE_BITMAPS = true;
+
+	/**
 	 * Specification for fetch or push operations, to fetch or push all tags.
 	 * Acts as --tags.
 	 */
@@ -755,6 +762,9 @@ public abstract class Transport implements AutoCloseable {
 
 	/** Should push be all-or-nothing atomic behavior? */
 	private boolean pushAtomic;
+
+	/** Should push use bitmaps? */
+	private boolean pushUseBitmaps = DEFAULT_PUSH_USE_BITMAPS;
 
 	/** Should push just check for operation result, not really push. */
 	private boolean dryRun;
@@ -1050,6 +1060,28 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public void setPushAtomic(boolean atomic) {
 		this.pushAtomic = atomic;
+	}
+
+	/**
+	 * Default setting is: {@value #DEFAULT_PUSH_USE_BITMAPS}
+	 *
+	 * @return true if push use bitmaps.
+	 * @since 6.4
+	 */
+	public boolean isPushUseBitmaps() {
+		return pushUseBitmaps;
+	}
+
+	/**
+	 * Set whether to use bitmaps for push. Default setting is:
+	 * {@value #DEFAULT_PUSH_USE_BITMAPS}
+	 *
+	 * @param useBitmaps
+	 *            false to disable use of bitmaps for push, true otherwise.
+	 * @since 6.4
+	 */
+	public void setPushUseBitmaps(boolean useBitmaps) {
+		this.pushUseBitmaps = useBitmaps;
 	}
 
 	/**
