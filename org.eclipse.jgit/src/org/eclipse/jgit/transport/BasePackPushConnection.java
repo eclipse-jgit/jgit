@@ -90,6 +90,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 	private final boolean thinPack;
 	private final boolean atomic;
+	private final boolean useBitmaps;
 
 	/** A list of option strings associated with this push. */
 	private List<String> pushOptions;
@@ -118,6 +119,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		thinPack = transport.isPushThin();
 		atomic = transport.isPushAtomic();
 		pushOptions = transport.getPushOptions();
+		useBitmaps = transport.isPushUseBitmaps();
 	}
 
 	/** {@inheritDoc} */
@@ -320,7 +322,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 			writer.setIndexDisabled(true);
 			writer.setUseCachedPacks(true);
-			writer.setUseBitmaps(true);
+			writer.setUseBitmaps(useBitmaps);
 			writer.setThin(thinPack);
 			writer.setReuseValidatingObjects(false);
 			writer.setDeltaBaseAsOffset(capableOfsDelta);
