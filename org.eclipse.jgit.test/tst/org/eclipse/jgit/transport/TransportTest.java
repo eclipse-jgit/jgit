@@ -242,6 +242,37 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void testOpenPushUseBitmaps() throws Exception {
+		URIish uri = new URIish("file://" + db.getWorkTree().getAbsolutePath());
+		// default
+		try (Transport transport = Transport.open(uri)) {
+			try (PushConnection pushConnection = transport.openPush()) {
+				assertTrue(pushConnection instanceof BasePackPushConnection);
+				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
+				assertEquals(true, basePackPushConnection.isUseBitmaps());
+			}
+		}
+		// true
+		try (Transport transport = Transport.open(uri)) {
+			transport.setPushUseBitmaps(true);
+			try (PushConnection pushConnection = transport.openPush()) {
+				assertTrue(pushConnection instanceof BasePackPushConnection);
+				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
+				assertEquals(true, basePackPushConnection.isUseBitmaps());
+			}
+		}
+		// false
+		try (Transport transport = Transport.open(uri)) {
+			transport.setPushUseBitmaps(false);
+			try (PushConnection pushConnection = transport.openPush()) {
+				assertTrue(pushConnection instanceof BasePackPushConnection);
+				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
+				assertEquals(false, basePackPushConnection.isUseBitmaps());
+			}
+		}
+	}
+
+	@Test
 	public void testSpi() {
 		List<TransportProtocol> protocols = Transport.getTransportProtocols();
 		assertNotNull(protocols);
