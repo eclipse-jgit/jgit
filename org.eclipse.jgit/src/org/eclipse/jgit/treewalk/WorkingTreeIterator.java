@@ -1274,11 +1274,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 
 		IgnoreNode load() throws IOException {
-			IgnoreNode r = new IgnoreNode();
+			return load(null);
+		}
+
+		IgnoreNode load(IgnoreNode parent) throws IOException {
+			IgnoreNodeWithParent r = new IgnoreNodeWithParent(parent);
 			try (InputStream in = entry.openInputStream()) {
 				r.parse(name, in);
 			}
-			return r.getRules().isEmpty() ? null : r;
+			return r.getRules().isEmpty() && parent == null ? null : r;
 		}
 	}
 
@@ -1292,29 +1296,41 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 
 		@Override
-		IgnoreNode load() throws IOException {
-			IgnoreNode r;
-			if (entry != null) {
-				r = super.load();
-				if (r == null)
-					r = new IgnoreNode();
-			} else {
-				r = new IgnoreNode();
-			}
-
+		IgnoreNode load(IgnoreNode parent) throws IOException {
+			IgnoreNode coreExclude = new IgnoreNodeWithParent(parent);
 			FS fs = repository.getFS();
 			Path path = repository.getConfig().getPath(
 					ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_EXCLUDESFILE, fs, null, null);
 			if (path != null) {
-				loadRulesFromFile(r, path.toFile());
+				loadRulesFromFile(coreExclude, path.toFile());
+			}
+			if (coreExclude.getRules().isEmpty()) {
+				coreExclude = parent;
 			}
 
+			IgnoreNode infoExclude = new IgnoreNodeWithParent(
+					coreExclude);
 			File exclude = fs.resolve(repository.getDirectory(),
 					Constants.INFO_EXCLUDE);
-			loadRulesFromFile(r, exclude);
+			loadRulesFromFile(infoExclude, exclude);
+			if (infoExclude.getRules().isEmpty()) {
+				infoExclude = null;
+			}
 
-			return r.getRules().isEmpty() ? null : r;
+			IgnoreNode parentNode = infoExclude != null ? infoExclude
+					: coreExclude;
+
+			IgnoreNode r;
+			if (entry != null) {
+				r = super.load(parentNode);
+				if (r == null) {
+					return null;
+				}
+			} else {
+				return parentNode;
+			}
+			return r.getRules().isEmpty() ? parentNode : r;
 		}
 
 		private static void loadRulesFromFile(IgnoreNode r, File exclude)
@@ -1324,6 +1340,24 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					r.parse(exclude.getAbsolutePath(), in);
 				}
 			}
+		}
+	}
+
+	private static class IgnoreNodeWithParent extends IgnoreNode {
+
+		private final IgnoreNode parent;
+
+		IgnoreNodeWithParent(IgnoreNode parent) {
+			this.parent = parent;
+		}
+
+		@Override
+		public Boolean checkIgnored(String path, boolean isDirectory) {
+			Boolean result = super.checkIgnored(path, isDirectory);
+			if (result == null && parent != null) {
+				return parent.checkIgnored(path, isDirectory);
+			}
+			return result;
 		}
 	}
 
