@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e915a60_aee56e64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-15T07:17:27Z",
+      "side": 1,
+      "message": "The failing tests are for\n\n  a/b -\u003e a/b/c\n  a/b/c -\u003e a/b\n  \nand expect to succeed. The second one can succeed only if there is no other existing child of a/b such as a/b/d.\n\nAnd yes, if a/b exists as loose ref, no other x -\u003e a/b/\u003cany\u003e can succeed. (Packed refs should obey the same rules, irrespective of whether the ref exists as loose ref on disk, otherwise one may get lock conflicts later on, right?)",
+      "revId": "87cb5efb341f3884e997196da267bb3c11901ed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
