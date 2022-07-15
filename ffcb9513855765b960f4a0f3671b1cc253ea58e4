@@ -16,6 +16,24 @@
       "message": "Does this mean the platform will erode our ability to use version ranges for dependencies ?\n\nWhat\u0027s the recommended way to avoid problems caused by breaking changes if e.g. the next major version 2.0 of xz is installed instead of the one we compiled against ?",
       "revId": "ffcb9513855765b960f4a0f3671b1cc253ea58e4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "534b5fe8_cfc388b2",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-07-15T09:19:26Z",
+      "side": 1,
+      "message": "See https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d580370#c0\n\nThe recommendations are updated in https://github.com/eclipse-platform/eclipse.platform.common/pull/50/files#diff-7d988913c6d646b612bc1596f3e51f27fa67c8a2a69a162b2d1732998f90c2da\n\nThere is currently lot of effort spent by Mickael to get rid of all Orbit dependencies in Platform and replace them by \"Maven\" versions.\n\nThis is supposed to simplify Platform updates \u0026 reduce maintenance effort.\n\nSo if someone wants \"more\" then simple Maven jar headers, it should be provided by the original 3rd party project.\n\nPlease feel free to open a discussion on Platform https://github.com/eclipse-platform/eclipse.platform.releng/issues or to continue on https://github.com/eclipse-platform/eclipse.platform.releng/issues/69\n\nPS\n\nI was told I\u0027m a \"toxic\" platform contributor because I had impertinence to publicly express my own opinion on some other Platform issues so I try to not comment anymore on any of controversial decisions of our Platform leads. They know for sure more than I why some things are better or not for Eclipse.",
+      "parentUuid": "09aafc8e_8d5a17c5",
+      "revId": "ffcb9513855765b960f4a0f3671b1cc253ea58e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
