@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09aafc8e_8d5a17c5",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-15T09:04:13Z",
+      "side": 1,
+      "message": "Does this mean the platform will erode our ability to use version ranges for dependencies ?\n\nWhat\u0027s the recommended way to avoid problems caused by breaking changes if e.g. the next major version 2.0 of xz is installed instead of the one we compiled against ?",
+      "revId": "ffcb9513855765b960f4a0f3671b1cc253ea58e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
