@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6daf749e_fd6a086f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-18T13:44:51Z",
+      "side": 1,
+      "message": "quick comment: where does the apply stuff that\u0027s going to use this live?\n\nif it\u0027s also in the merge/ directory, you could avoid exposing the classes in util (which we otherwise have to support indefinitely)",
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
