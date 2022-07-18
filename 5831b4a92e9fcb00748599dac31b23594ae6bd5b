@@ -16,6 +16,24 @@
       "message": "quick comment: where does the apply stuff that\u0027s going to use this live?\n\nif it\u0027s also in the merge/ directory, you could avoid exposing the classes in util (which we otherwise have to support indefinitely)",
       "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e37e46f_94dee376",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-18T14:05:53Z",
+      "side": 1,
+      "message": "The point of adding those classes is to allow other features to adopt them, so next time we need to extend support for remote repositories - it might not take that long. Unless the maintenance cost is too high, I don\u0027t think it\u0027s a bad commitment.\n\nAs for apply stuff - I\u0027m adding a new class that will be called from `ApplyCommand`. I\u0027ve originally added it to `org.eclipse.jgit/src/org/eclipse/jgit/patch/`.",
+      "parentUuid": "6daf749e_fd6a086f",
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
