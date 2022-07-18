@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2aa2fda_251e9ba2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-18T13:53:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8587ea21_17e2e7ee",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "ee7a52ed0e8f6b31411c9b59991fbd96a3e87f33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc0509a7_db9a50b9",
@@ -41,6 +65,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec482063_5d4b55ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-18T13:53:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc0509a7_db9a50b9",
+      "revId": "ee7a52ed0e8f6b31411c9b59991fbd96a3e87f33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b0757d0_7ab6919f",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-07-13T19:57:17Z",
       "side": 1,
       "message": "nit: The paragraph explaining the fix is usually formulated in an imperative way, like telling the code what to do:\n\nEnsure that the \"matches\" field of tree iterators (which contains the current path) is kept in sync in the case above.\n\n(it contains the path, right?)",
+      "range": {
+        "startLine": 42,
+        "startChar": 32,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "ee7a52ed0e8f6b31411c9b59991fbd96a3e87f33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bf18ad8_b7f57596",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-18T13:53:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b0757d0_7ab6919f",
       "range": {
         "startLine": 42,
         "startChar": 32,
