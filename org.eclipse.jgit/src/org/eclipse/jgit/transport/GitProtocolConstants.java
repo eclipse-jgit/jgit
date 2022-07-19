@@ -343,6 +343,106 @@ public final class GitProtocolConstants {
 	 */
 	public static final String VERSION_2_REQUEST = "version=2"; //$NON-NLS-1$
 
+	/**
+	 * The flush packet.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_FLUSH = "0000"; //$NON-NLS-1$
+
+	/**
+	 * An alias for {@link #PACKET_FLUSH}. "Flush" is the name used in the C git
+	 * documentation; the Java implementation calls this "end" in several
+	 * places.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_END = PACKET_FLUSH;
+
+	/**
+	 * The delimiter packet in protocol V2.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DELIM = "0001"; //$NON-NLS-1$
+
+	/**
+	 * A "deepen" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DEEPEN = "deepen "; //$NON-NLS-1$
+
+	/**
+	 * A "deepen-not" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DEEPEN_NOT = "deepen-not "; //$NON-NLS-1$
+
+	/**
+	 * A "deepen-since" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DEEPEN_SINCE = "deepen-since "; //$NON-NLS-1$
+
+	/**
+	 * An "ACK" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_ACK = "ACK "; //$NON-NLS-1$
+
+	/**
+	 * A "done" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DONE = "done"; //$NON-NLS-1$
+
+	/**
+	 * A "ERR" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_ERR = "ERR "; //$NON-NLS-1$
+
+	/**
+	 * A "have" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_HAVE = "have "; //$NON-NLS-1$
+
+	/**
+	 * A "shallow" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_SHALLOW = OPTION_SHALLOW + ' ';
+
+	/**
+	 * A "shallow" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_UNSHALLOW = "unshallow "; //$NON-NLS-1$
+
+	/**
+	 * A "want" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_WANT = "want "; //$NON-NLS-1$
+
+	/**
+	 * A "want-ref" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_WANT_REF = OPTION_WANT_REF + ' ';
+
 	enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}

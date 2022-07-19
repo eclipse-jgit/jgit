@@ -12,6 +12,18 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DELIM;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_NOT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_SINCE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DONE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_END;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_HAVE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_UNSHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_WANT;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -483,7 +495,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		clearState();
 		String line = pckIn.readString();
 		// If we sent a done, we may have an error reply here.
-		if (sentDone && line.startsWith("ERR ")) { //$NON-NLS-1$
+		if (sentDone && line.startsWith(PACKET_ERR)) {
 			throw new RemoteRepositoryException(uri, line.substring(4));
 		}
 
@@ -491,7 +503,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			line = handleShallowUnshallow(shallowCommits, pckIn);
 			if (!PacketLineIn.isDelimiter(line)) {
 				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().expectedGot, "0001", line)); //$NON-NLS-1$
+						.format(JGitText.get().expectedGot, PACKET_DELIM,
+								line));
 			}
 			line = pckIn.readString();
 		}
@@ -532,7 +545,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			if (c == null) {
 				break;
 			}
-			output.writeString("have " + c.getId().name() + '\n'); //$NON-NLS-1$
+			output.writeString(PACKET_HAVE + c.getId().name() + '\n');
 			n++;
 			if (n % 10 == 0 && monitor.isCancelled()) {
 				throw new CancelledException();
@@ -543,7 +556,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				|| (fetchState.hadAcks
 						&& fetchState.havesWithoutAck > MAX_HAVES)
 				|| fetchState.havesTotal > maxHaves) {
-			output.writeString("done\n"); //$NON-NLS-1$
+			output.writeString(PACKET_DONE + '\n');
 			output.end();
 			return true;
 		}
@@ -610,11 +623,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (gotReady) {
 			if (!PacketLineIn.isDelimiter(line)) {
 				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().expectedGot, "0001", line)); //$NON-NLS-1$
+						.format(JGitText.get().expectedGot, PACKET_DELIM,
+								line));
 			}
 		} else if (!PacketLineIn.isEnd(line)) {
 			throw new PackProtocolException(MessageFormat
-					.format(JGitText.get().expectedGot, "0000", line)); //$NON-NLS-1$
+					.format(JGitText.get().expectedGot, PACKET_END, line));
 		}
 		return gotReady;
 	}
@@ -726,8 +740,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			final StringBuilder line = new StringBuilder(46);
-			line.append("want "); //$NON-NLS-1$
-			line.append(objectId.name());
+			line.append(PACKET_WANT).append(objectId.name());
 			if (first && TransferConfig.ProtocolVersion.V0
 					.equals(getProtocolVersion())) {
 				line.append(enableCapabilities());
@@ -836,7 +849,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			ObjectId o = c.getId();
-			pckOut.writeString("have " + o.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			pckOut.writeString(PACKET_HAVE + o.name() + '\n');
 			havesSent++;
 			havesSinceLastContinue++;
 
@@ -939,7 +952,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			// loop above while in the middle of a request. This allows us
 			// to just write done immediately.
 			//
-			pckOut.writeString("done\n"); //$NON-NLS-1$
+			pckOut.writeString(PACKET_DONE + '\n');
 			pckOut.flush();
 		}
 
@@ -956,7 +969,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			String line = handleShallowUnshallow(shallowCommits, pckIn);
 			if (!PacketLineIn.isEnd(line)) {
 				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().expectedGot, "0000", line)); //$NON-NLS-1$
+						.format(JGitText.get().expectedGot, PACKET_END, line));
 			}
 		}
 
@@ -1041,7 +1054,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	private void markCommon(RevObject obj, AckNackResult anr, boolean useState)
 			throws IOException {
 		if (useState && anr == AckNackResult.ACK_COMMON && !obj.has(STATE)) {
-			pckState.writeString("have " + obj.name() + '\n'); //$NON-NLS-1$
+			pckState.writeString(PACKET_HAVE + obj.name() + '\n');
 			obj.add(STATE);
 		}
 		obj.add(COMMON);
@@ -1074,41 +1087,46 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
-	private void sendShallow(Set<ObjectId> shallowCommits, PacketLineOut output) throws IOException {
+	private void sendShallow(Set<ObjectId> shallowCommits, PacketLineOut output)
+			throws IOException {
 		for (ObjectId shallowCommit : shallowCommits) {
-			output.writeString("shallow " + shallowCommit.name()); //$NON-NLS-1$
+			output.writeString(PACKET_SHALLOW + shallowCommit.name());
 		}
 
 		if (depth != null) {
-			output.writeString("deepen " + depth); //$NON-NLS-1$
+			output.writeString(PACKET_DEEPEN + depth);
 		}
 
 		if (deepenSince != null) {
-			output.writeString("deepen-since " + deepenSince.getEpochSecond()); //$NON-NLS-1$
+			output.writeString(
+					PACKET_DEEPEN_SINCE + deepenSince.getEpochSecond());
 		}
 
 		if (deepenNots != null) {
 			for (String deepenNotRef : deepenNots) {
-				output.writeString("deepen-not " + deepenNotRef); //$NON-NLS-1$
+				output.writeString(PACKET_DEEPEN_NOT + deepenNotRef);
 			}
 		}
 	}
 
-	private String handleShallowUnshallow(Set<ObjectId> advertisedShallowCommits, PacketLineIn input)
+	private String handleShallowUnshallow(
+			Set<ObjectId> advertisedShallowCommits, PacketLineIn input)
 			throws IOException {
 		String line = input.readString();
 		ObjectDatabase objectDatabase = local.getObjectDatabase();
-		HashSet<ObjectId> newShallowCommits = new HashSet<>(advertisedShallowCommits);
+		HashSet<ObjectId> newShallowCommits = new HashSet<>(
+				advertisedShallowCommits);
 		while (!PacketLineIn.isDelimiter(line) && !PacketLineIn.isEnd(line)) {
-			if (line.startsWith("shallow ")) { //$NON-NLS-1$
+			if (line.startsWith(PACKET_SHALLOW)) {
 				newShallowCommits.add(ObjectId
-						.fromString(line.substring("shallow ".length()))); //$NON-NLS-1$
-			} else if (line.startsWith("unshallow ")) { //$NON-NLS-1$
+						.fromString(line.substring(PACKET_SHALLOW.length())));
+			} else if (line.startsWith(PACKET_UNSHALLOW)) {
 				ObjectId unshallow = ObjectId
-						.fromString(line.substring("unshallow ".length())); //$NON-NLS-1$
+						.fromString(line.substring(PACKET_UNSHALLOW.length()));
 				if (!advertisedShallowCommits.contains(unshallow)) {
-					throw new PackProtocolException(MessageFormat.format(JGitText.get()
-							.notShallowedUnshallow, unshallow.name()));
+					throw new PackProtocolException(MessageFormat.format(
+							JGitText.get().notShallowedUnshallow,
+							unshallow.name()));
 				}
 				newShallowCommits.remove(unshallow);
 			}
