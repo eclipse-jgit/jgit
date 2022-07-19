@@ -87,19 +87,23 @@ class TestRequestLog extends HandlerWrapper {
 				}
 			}
 
+			AccessEvent event = null;
+			if (DispatcherType.REQUEST
+					.equals(baseRequest.getDispatcherType())) {
+				event = new AccessEvent((Request) request);
+				synchronized (events) {
+					events.add(event);
+				}
+			}
+
 			super.handle(target, baseRequest, request, response);
 
-			if (DispatcherType.REQUEST.equals(baseRequest.getDispatcherType()))
-				log((Request) request, (Response) response);
+			if (event != null) {
+				event.setResponse((Response) response);
+			}
 
 		} finally {
 			active.release();
-		}
-	}
-
-	private void log(Request request, Response response) {
-		synchronized (events) {
-			events.add(new AccessEvent(request, response));
 		}
 	}
 }
