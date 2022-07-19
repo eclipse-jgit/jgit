@@ -34,6 +34,161 @@
       "parentUuid": "6daf749e_fd6a086f",
       "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "958584ca_e4154257",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-19T13:47:46Z",
+      "side": 1,
+      "message": "I\u0027ve been looking at this for a bit, but I don\u0027t see why you need a StreamSupplier here. What would go wrong if StreamLoader was initialized with an InputStream directly?",
+      "range": {
+        "startLine": 872,
+        "startChar": 3,
+        "endLine": 876,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e52553d9_d26636e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-19T13:47:46Z",
+      "side": 1,
+      "message": "no need to change this now , but it\u0027s nicer to put these cosmetic changes in separate commits to declutter the review.",
+      "range": {
+        "startLine": 945,
+        "startChar": 20,
+        "endLine": 945,
+        "endChar": 23
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f337bd5_1e38b8ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreSupport.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-19T13:47:46Z",
+      "side": 1,
+      "message": "this interface is empty; why do you need it? \n\nI\u0027d expect the static functions to live in RepoIOHandler.",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cea5833d_f8b6f5f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-19T13:47:46Z",
+      "side": 1,
+      "message": "needs (c) header, same for other new files.",
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54cc37eb_e740f14a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-19T13:47:46Z",
+      "side": 1,
+      "message": "what is the lifecycle model of this object? Should it be used once, or after something fails (\"cleanup\"), can you start using it to build a tree again? From the list of methods supported, it\u0027s not obvious how this should be used.\n\nThe name is very general (I/O Handler), but I think this is only to be used under very specific circumstances. In particular, this iss only for write operations on the index/checkout? There is probably a better name for this (WorktreeWriter?), but we should first agree on the code structure.  \n\nthere are 2 cleanup methods (cleanupChanges, cleanupCache) and there is also  writeChangesAndCleanUp.  Aside from failing with I/O exception, what do we use the ioHandler for after cleanup method is called? Could this be AutoClosable instead, and do cleanup in a close() implicitly?",
+      "range": {
+        "startLine": 50,
+        "startChar": 59,
+        "endLine": 53,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae9f6e34_eca7c42a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-19T13:47:46Z",
+      "side": 1,
+      "message": "make private ?",
+      "range": {
+        "startLine": 118,
+        "startChar": 5,
+        "endLine": 118,
+        "endChar": 34
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5623a31_29e4603d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-19T13:47:46Z",
+      "side": 1,
+      "message": "same.",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 35
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
