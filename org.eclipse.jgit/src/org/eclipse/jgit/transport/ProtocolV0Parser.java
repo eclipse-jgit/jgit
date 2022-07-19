@@ -10,6 +10,11 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_FILTER;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_NOT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_SINCE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_WANT;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -70,8 +75,9 @@ final class ProtocolV0Parser {
 				break;
 			}
 
-			if (line.startsWith("deepen ")) { //$NON-NLS-1$
-				int depth = Integer.parseInt(line.substring(7));
+			if (line.startsWith(PACKET_DEEPEN)) {
+				int depth = Integer
+						.parseInt(line.substring(PACKET_DEEPEN.length()));
 				if (depth <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(JGitText.get().invalidDepth,
@@ -89,8 +95,9 @@ final class ProtocolV0Parser {
 				continue;
 			}
 
-			if (line.startsWith("deepen-not ")) { //$NON-NLS-1$
-				reqBuilder.addDeepenNot(line.substring(11));
+			if (line.startsWith(PACKET_DEEPEN_NOT)) {
+				reqBuilder.addDeepenNot(
+						line.substring(PACKET_DEEPEN_NOT.length()));
 				if (reqBuilder.getDepth() != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);
@@ -98,9 +105,10 @@ final class ProtocolV0Parser {
 				continue;
 			}
 
-			if (line.startsWith("deepen-since ")) { //$NON-NLS-1$
+			if (line.startsWith(PACKET_DEEPEN_SINCE)) {
 				// TODO: timestamps should be long
-				int ts = Integer.parseInt(line.substring(13));
+				int ts = Integer
+						.parseInt(line.substring(PACKET_DEEPEN_SINCE.length()));
 				if (ts <= 0) {
 					throw new PackProtocolException(MessageFormat
 							.format(JGitText.get().invalidTimestamp, line));
@@ -113,9 +121,10 @@ final class ProtocolV0Parser {
 				continue;
 			}
 
-			if (line.startsWith("shallow ")) { //$NON-NLS-1$
+			if (line.startsWith(PACKET_SHALLOW)) {
 				reqBuilder.addClientShallowCommit(
-						ObjectId.fromString(line.substring(8)));
+						ObjectId.fromString(
+								line.substring(PACKET_SHALLOW.length())));
 				continue;
 			}
 
@@ -133,7 +142,7 @@ final class ProtocolV0Parser {
 				continue;
 			}
 
-			if (!line.startsWith("want ") || line.length() < 45) { //$NON-NLS-1$
+			if (!line.startsWith(PACKET_WANT) || line.length() < 45) {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().expectedGot, "want", line)); //$NON-NLS-1$
 			}
@@ -147,7 +156,8 @@ final class ProtocolV0Parser {
 				}
 			}
 
-			reqBuilder.addWantId(ObjectId.fromString(line.substring(5)));
+			reqBuilder.addWantId(
+					ObjectId.fromString(line.substring(PACKET_WANT.length())));
 			isFirst = false;
 		}
 
