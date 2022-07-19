@@ -36,6 +36,12 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DONE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_HAVE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_UNSHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2_REQUEST;
 import static org.eclipse.jgit.util.RefMap.toRefMap;
 
@@ -1076,9 +1082,10 @@ public class UploadPack implements Closeable {
 			deepenNots = parseDeepenNots(req.getDeepenNots());
 			if (req.getDepth() != 0 || req.getDeepenSince() != 0 || !req.getDeepenNots().isEmpty()) {
 				computeShallowsAndUnshallows(req, shallow -> {
-					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
+					pckOut.writeString(PACKET_SHALLOW + shallow.name() + '\n');
 				}, unshallow -> {
-					pckOut.writeString("unshallow " + unshallow.name() + '\n'); //$NON-NLS-1$
+					pckOut.writeString(
+							PACKET_UNSHALLOW + unshallow.name() + '\n');
 					unshallowCommits.add(unshallow);
 				}, deepenNots);
 				pckOut.end();
@@ -1227,7 +1234,7 @@ public class UploadPack implements Closeable {
 					GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
 			for (ObjectId id : req.getPeerHas()) {
 				if (walk.getObjectReader().has(id)) {
-					pckOut.writeString("ACK " + id.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					pckOut.writeString(PACKET_ACK + id.getName() + '\n');
 				}
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
@@ -1245,12 +1252,13 @@ public class UploadPack implements Closeable {
 			if (mayHaveShallow) {
 				if (sectionSent)
 					pckOut.writeDelim();
-				pckOut.writeString("shallow-info\n"); //$NON-NLS-1$
+				pckOut.writeString(
+						GitProtocolConstants.SECTION_SHALLOW_INFO + '\n');
 				for (ObjectId o : shallowCommits) {
-					pckOut.writeString("shallow " + o.getName() + '\n'); //$NON-NLS-1$
+					pckOut.writeString(PACKET_SHALLOW + o.getName() + '\n');
 				}
 				for (ObjectId o : unshallowCommits) {
-					pckOut.writeString("unshallow " + o.getName() + '\n'); //$NON-NLS-1$
+					pckOut.writeString(PACKET_UNSHALLOW + o.getName() + '\n');
 				}
 				sectionSent = true;
 			}
@@ -1314,7 +1322,7 @@ public class UploadPack implements Closeable {
 						.format(JGitText.get().missingObject, oid.name()), e);
 			}
 
-			pckOut.writeString(oid.getName() + " " + size); //$NON-NLS-1$
+			pckOut.writeString(oid.getName() + ' ' + size);
 		}
 
 		pckOut.end();
@@ -1386,7 +1394,7 @@ public class UploadPack implements Closeable {
 			protocolV2Hook
 					.onCapabilities(CapabilitiesV2Request.builder().build());
 			for (String s : getV2CapabilityAdvertisement()) {
-				pckOut.writeString(s + "\n"); //$NON-NLS-1$
+				pckOut.writeString(s + '\n');
 			}
 			pckOut.end();
 
@@ -1613,7 +1621,7 @@ public class UploadPack implements Closeable {
 	 */
 	public void sendMessage(String what) {
 		try {
-			msgOut.write(Constants.encode(what + "\n")); //$NON-NLS-1$
+			msgOut.write(Constants.encode(what + '\n'));
 		} catch (IOException e) {
 			// Ignore write failures.
 		}
@@ -1720,24 +1728,26 @@ public class UploadPack implements Closeable {
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
-					pckOut.writeString("ACK " + last.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					pckOut.writeString(PACKET_ACK + last.name() + '\n');
 					return true;
 				}
 				if (!biDirectionalPipe)
 					return false;
 				pckOut.flush();
 
-			} else if (line.startsWith("have ") && line.length() == 45) { //$NON-NLS-1$
-				peerHas.add(ObjectId.fromString(line.substring(5)));
+			} else if (line.startsWith(PACKET_HAVE)
+					&& line.length() == PACKET_HAVE.length() + 40) {
+				peerHas.add(ObjectId
+						.fromString(line.substring(PACKET_HAVE.length())));
 				accumulator.haves++;
-			} else if (line.equals("done")) { //$NON-NLS-1$
+			} else if (line.equals(PACKET_DONE)) {
 				last = processHaveLines(peerHas, last, pckOut, accumulator, Option.NONE);
 
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 
 				else if (multiAck != MultiAck.OFF)
-					pckOut.writeString("ACK " + last.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					pckOut.writeString(PACKET_ACK + last.name() + '\n');
 
 				return true;
 
@@ -1798,14 +1808,15 @@ public class UploadPack implements Closeable {
 				//
 				switch (multiAck) {
 				case OFF:
-					if (commonBase.size() == 1)
-						out.writeString("ACK " + obj.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					if (commonBase.size() == 1) {
+						out.writeString(PACKET_ACK + obj.name() + '\n');
+					}
 					break;
 				case CONTINUE:
-					out.writeString("ACK " + obj.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.writeString(PACKET_ACK + obj.name() + " continue\n"); //$NON-NLS-1$
 					break;
 				case DETAILED:
-					out.writeString("ACK " + obj.name() + " common\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.writeString(PACKET_ACK + obj.name() + " common\n"); //$NON-NLS-1$
 					break;
 				}
 			}
@@ -1844,11 +1855,11 @@ public class UploadPack implements Closeable {
 							break;
 						case CONTINUE:
 							out.writeString(
-									"ACK " + id.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+									PACKET_ACK + id.name() + " continue\n"); //$NON-NLS-1$
 							break;
 						case DETAILED:
 							out.writeString(
-									"ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+									PACKET_ACK + id.name() + " ready\n"); //$NON-NLS-1$
 							readySent = true;
 							break;
 						}
@@ -1861,7 +1872,7 @@ public class UploadPack implements Closeable {
 		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp
 				&& okToGiveUp()) {
 			ObjectId id = peerHas.get(peerHas.size() - 1);
-			out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			out.writeString(PACKET_ACK + id.name() + " ready\n"); //$NON-NLS-1$
 			readySent = true;
 		}
 
@@ -2552,7 +2563,7 @@ public class UploadPack implements Closeable {
 		@Override
 		public void writeError(String message) throws IOException {
 			new PacketLineOut(requireNonNull(rawOut))
-					.writeString("ERR " + message + '\n'); //$NON-NLS-1$
+					.writeString(PACKET_ERR + message + '\n');
 		}
 	}
 }

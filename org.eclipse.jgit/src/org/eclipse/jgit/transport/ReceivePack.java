@@ -20,6 +20,8 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_QUIET;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
@@ -1247,7 +1249,7 @@ public class ReceivePack {
 	public void sendAdvertisedRefs(RefAdvertiser adv)
 			throws IOException, ServiceMayNotContinueException {
 		if (advertiseError != null) {
-			adv.writeOne("ERR " + advertiseError); //$NON-NLS-1$
+			adv.writeOne(PACKET_ERR + advertiseError);
 			return;
 		}
 
@@ -1255,7 +1257,7 @@ public class ReceivePack {
 			advertiseRefsHook.advertiseRefs(this);
 		} catch (ServiceMayNotContinueException fail) {
 			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
+				adv.writeOne(PACKET_ERR + fail.getMessage());
 				fail.setOutput();
 			}
 			throw fail;
@@ -1339,8 +1341,9 @@ public class ReceivePack {
 					break;
 				}
 
-				if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
-					parseShallow(line.substring(8, 48));
+				int len = PACKET_SHALLOW.length() + 40;
+				if (line.length() >= len && line.startsWith(PACKET_SHALLOW)) {
+					parseShallow(line.substring(PACKET_SHALLOW.length(), len));
 					continue;
 				}
 
@@ -1795,9 +1798,9 @@ public class ReceivePack {
 			@Override
 			void sendString(String s) throws IOException {
 				if (reportStatus) {
-					pckOut.writeString(s + "\n"); //$NON-NLS-1$
+					pckOut.writeString(s + '\n');
 				} else if (msgOut != null) {
-					msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
+					msgOut.write(Constants.encode(s + '\n'));
 				}
 			}
 		};

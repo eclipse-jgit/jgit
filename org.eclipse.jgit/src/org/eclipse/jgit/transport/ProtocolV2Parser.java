@@ -20,7 +20,14 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_AL
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WANT_REF;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_NOT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_SINCE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DONE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_HAVE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_WANT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_WANT_REF;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -115,15 +122,17 @@ final class ProtocolV2Parser {
 
 		boolean filterReceived = false;
 		for (String line2 : pckIn.readStrings()) {
-			if (line2.startsWith("want ")) { //$NON-NLS-1$
-				reqBuilder.addWantId(ObjectId.fromString(line2.substring(5)));
+			if (line2.startsWith(PACKET_WANT)) {
+				reqBuilder.addWantId(ObjectId
+						.fromString(line2.substring(PACKET_WANT.length())));
 			} else if (transferConfig.isAllowRefInWant()
-					&& line2.startsWith(OPTION_WANT_REF + " ")) { //$NON-NLS-1$
+					&& line2.startsWith(PACKET_WANT_REF)) {
 				reqBuilder.addWantedRef(
-						line2.substring(OPTION_WANT_REF.length() + 1));
-			} else if (line2.startsWith("have ")) { //$NON-NLS-1$
-				reqBuilder.addPeerHas(ObjectId.fromString(line2.substring(5)));
-			} else if (line2.equals("done")) { //$NON-NLS-1$
+						line2.substring(PACKET_WANT_REF.length()));
+			} else if (line2.startsWith(PACKET_HAVE)) {
+				reqBuilder.addPeerHas(ObjectId
+						.fromString(line2.substring(PACKET_HAVE.length())));
+			} else if (line2.equals(PACKET_DONE)) {
 				reqBuilder.setDoneReceived();
 			} else if (line2.equals(OPTION_WAIT_FOR_DONE)) {
 				reqBuilder.setWaitForDone();
@@ -135,11 +144,13 @@ final class ProtocolV2Parser {
 				reqBuilder.addClientCapability(OPTION_INCLUDE_TAG);
 			} else if (line2.equals(OPTION_OFS_DELTA)) {
 				reqBuilder.addClientCapability(OPTION_OFS_DELTA);
-			} else if (line2.startsWith("shallow ")) { //$NON-NLS-1$
+			} else if (line2.startsWith(PACKET_SHALLOW)) {
 				reqBuilder.addClientShallowCommit(
-						ObjectId.fromString(line2.substring(8)));
-			} else if (line2.startsWith("deepen ")) { //$NON-NLS-1$
-				int parsedDepth = Integer.parseInt(line2.substring(7));
+						ObjectId.fromString(
+								line2.substring(PACKET_SHALLOW.length())));
+			} else if (line2.startsWith(PACKET_DEEPEN)) {
+				int parsedDepth = Integer
+						.parseInt(line2.substring(PACKET_DEEPEN.length()));
 				if (parsedDepth <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(JGitText.get().invalidDepth,
@@ -154,16 +165,18 @@ final class ProtocolV2Parser {
 							JGitText.get().deepenNotWithDeepen);
 				}
 				reqBuilder.setDepth(parsedDepth);
-			} else if (line2.startsWith("deepen-not ")) { //$NON-NLS-1$
-				reqBuilder.addDeepenNot(line2.substring(11));
+			} else if (line2.startsWith(PACKET_DEEPEN_NOT)) {
+				reqBuilder.addDeepenNot(
+						line2.substring(PACKET_DEEPEN_NOT.length()));
 				if (reqBuilder.getDepth() != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);
 				}
 			} else if (line2.equals(OPTION_DEEPEN_RELATIVE)) {
 				reqBuilder.addClientCapability(OPTION_DEEPEN_RELATIVE);
-			} else if (line2.startsWith("deepen-since ")) { //$NON-NLS-1$
-				int ts = Integer.parseInt(line2.substring(13));
+			} else if (line2.startsWith(PACKET_DEEPEN_SINCE)) {
+				int ts = Integer.parseInt(
+						line2.substring(PACKET_DEEPEN_SINCE.length()));
 				if (ts <= 0) {
 					throw new PackProtocolException(MessageFormat
 							.format(JGitText.get().invalidTimestamp, line2));
