@@ -339,6 +339,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8c329b7_058e202d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2455,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-19T08:58:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "57513afb_771caa78",
+      "range": {
+        "startLine": 2455,
+        "startChar": 14,
+        "endLine": 2455,
+        "endChar": 21
+      },
+      "revId": "3108d6c103c09ef925da8277c9c97674092b53c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b953abf3_0746a2f2",
