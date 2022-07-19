@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d57ee2cf_46e28378",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-19T12:57:33Z",
+      "side": 1,
+      "message": "can you base this change on top of https://git.eclipse.org/r/c/jgit/jgit/+/194654 ? ",
+      "revId": "6eee2dd58c542048ae258f49d60633498787d4c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
