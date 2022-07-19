@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "047ebb0a_06e6517a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-19T09:18:37Z",
+      "side": 1,
+      "message": "\u003e Patch Set 11: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1531/ : FAILURE\n\nThe build failure is unrelated. It\u0027s the unstable HTTP request log order again.",
+      "revId": "26df275c7e62f826c53a765e331015a02550c8d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
