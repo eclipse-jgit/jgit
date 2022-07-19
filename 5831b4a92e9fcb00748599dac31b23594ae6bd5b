@@ -61,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fcddb60_0f89b5f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-19T16:52:38Z",
+      "side": 1,
+      "message": "Sorry for that. Here - I don\u0027t.\nApplyCommand needs that for some binary patches [handling](https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java#484). I copied that as-is.\n\nAdded a wrapper that gets an InputStream instead of the Streamloader, but I\u0027d rather keep this implementation that revert to a more simple one then back.",
+      "parentUuid": "958584ca_e4154257",
+      "range": {
+        "startLine": 872,
+        "startChar": 3,
+        "endLine": 876,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e52553d9_d26636e0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 9
@@ -72,6 +96,30 @@
       "writtenOn": "2022-07-19T13:47:46Z",
       "side": 1,
       "message": "no need to change this now , but it\u0027s nicer to put these cosmetic changes in separate commits to declutter the review.",
+      "range": {
+        "startLine": 945,
+        "startChar": 20,
+        "endLine": 945,
+        "endChar": 23
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb30aae_864107cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-19T16:52:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e52553d9_d26636e0",
       "range": {
         "startLine": 945,
         "startChar": 20,
@@ -107,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0105286d_43fc987d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreSupport.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-19T16:52:38Z",
+      "side": 1,
+      "message": "The goal was to allow some structured documentation for which classes support remote repositories in a project that mostly don\u0027t.",
+      "parentUuid": "4f337bd5_1e38b8ab",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cea5833d_f8b6f5f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
         "patchSetId": 9
@@ -118,6 +190,24 @@
       "writtenOn": "2022-07-19T13:47:46Z",
       "side": 1,
       "message": "needs (c) header, same for other new files.",
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e78448b3_9033f965",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-19T16:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cea5833d_f8b6f5f0",
       "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -135,6 +225,30 @@
       "writtenOn": "2022-07-19T13:47:46Z",
       "side": 1,
       "message": "what is the lifecycle model of this object? Should it be used once, or after something fails (\"cleanup\"), can you start using it to build a tree again? From the list of methods supported, it\u0027s not obvious how this should be used.\n\nThe name is very general (I/O Handler), but I think this is only to be used under very specific circumstances. In particular, this iss only for write operations on the index/checkout? There is probably a better name for this (WorktreeWriter?), but we should first agree on the code structure.  \n\nthere are 2 cleanup methods (cleanupChanges, cleanupCache) and there is also  writeChangesAndCleanUp.  Aside from failing with I/O exception, what do we use the ioHandler for after cleanup method is called? Could this be AutoClosable instead, and do cleanup in a close() implicitly?",
+      "range": {
+        "startLine": 50,
+        "startChar": 59,
+        "endLine": 53,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58c168f0_82b50554",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-19T16:52:38Z",
+      "side": 1,
+      "message": "1. In theory - I think it could be reused after a cleanup, but both the merger and the applier do the required initiations in the scope of a single operation, with no retries, so I think it\u0027s easier to assume a single use. I updated the documentation.\n\n2. I was planning to move some reading logic from the applier to here as well, with the goal of allowing the callers to be indifferent towards the repo type. I\u0027m fine with both reducing the scope and renaming though if you think that\u0027s better.\n\n3. Thanks for the reference! I moved all cleaning to the close() method.",
+      "parentUuid": "54cc37eb_e740f14a",
       "range": {
         "startLine": 50,
         "startChar": 59,
