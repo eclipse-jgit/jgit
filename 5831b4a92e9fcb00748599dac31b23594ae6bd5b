@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af0e23eb_95609264",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "ah right.  Maybe you can work the change to ApplyCommand into this change too? that would make it easier to trace how code moves around the project (not super important though.)",
+      "parentUuid": "8fcddb60_0f89b5f5",
+      "range": {
+        "startLine": 872,
+        "startChar": 3,
+        "endLine": 876,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e52553d9_d26636e0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 9
@@ -179,6 +203,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea337c2d_47dac75c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreSupport.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "I expect developers will check the source code anyway to see how things work if they want to understand why some class supports in-core ops.\n\nIf you put the init functions in RepoIOHandler, you can avoid the awkward /* do not use */ comment on the public constructors.",
+      "parentUuid": "0105286d_43fc987d",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cea5833d_f8b6f5f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
         "patchSetId": 9
@@ -249,6 +297,30 @@
       "side": 1,
       "message": "1. In theory - I think it could be reused after a cleanup, but both the merger and the applier do the required initiations in the scope of a single operation, with no retries, so I think it\u0027s easier to assume a single use. I updated the documentation.\n\n2. I was planning to move some reading logic from the applier to here as well, with the goal of allowing the callers to be indifferent towards the repo type. I\u0027m fine with both reducing the scope and renaming though if you think that\u0027s better.\n\n3. Thanks for the reference! I moved all cleaning to the close() method.",
       "parentUuid": "54cc37eb_e740f14a",
+      "range": {
+        "startLine": 50,
+        "startChar": 59,
+        "endLine": 53,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "851e336e_7dcbccdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "\u003e 2. I was planning to move some reading logic from the applier to here as well, \n \nDo they have to be linked? Does one ever read the result of a write through RepoIOHandler?\n \nI\u0027d expect having two separate classes will be simpler, but that only works if they don\u0027t have to work together.",
+      "parentUuid": "58c168f0_82b50554",
       "range": {
         "startLine": 50,
         "startChar": 59,

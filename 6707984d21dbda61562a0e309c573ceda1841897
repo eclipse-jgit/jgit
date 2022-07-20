@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21bd86eb_1d8d5115",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "use AutoClosable. Then you can use this with \n\n```\ntry (RepoIOHandler io \u003d  .. ) {\n}\n```\n\nblock.",
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2343194b_efbb6fb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "can you do s/cache/dircache/ throughout? (or do I misunderstand?) Cache is a fairly generic term.",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 82,
+        "endChar": 31
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44fcccdf_b56b8578",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "s/Paths/Files/ ?\n\n(it doesn\u0027t have directories)",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aedcc00_93ce2937",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "SIze  -\u003e Size",
+      "range": {
+        "startLine": 245,
+        "startChar": 34,
+        "endLine": 245,
+        "endChar": 35
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ab7a405_ec7149ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "it would be nice if you could simply do `modifiedFiles.clear()`, to avoid the spurious boolean, but not sure if that works for the control flow.\n\nSpeaking of control-flow, could this class look like\n\n```\n class RepoIOHandler {\n    static class Result {\n       List\u003cString\u003e modified;\n       List\u003cString\u003e failedToDelete;\n       ObjectId treeId;\n       .. \n    }\n \n    deleteFile(String path);\n    checkoutFile(...);\n    insertIndex(...); \n \n    Result finish()\n }\n ```\n \nthat would make the class much less stateful, and easier to understand. It seems that the accessors are only needed to inspect the results of the merge, not to see state of the merge while it is being constructed?",
+      "range": {
+        "startLine": 326,
+        "startChar": 2,
+        "endLine": 326,
+        "endChar": 16
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3f55bbf_750cd21b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "unsuccessful or not is determined by the caller.",
+      "range": {
+        "startLine": 467,
+        "startChar": 34,
+        "endLine": 467,
+        "endChar": 46
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba32d840_aa5ba948",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "update comment? We don\u0027t do anything for inCore\u003dtrue.",
+      "range": {
+        "startLine": 468,
+        "startChar": 75,
+        "endLine": 469,
+        "endChar": 55
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "307186eb_57e73609",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "cleanUpChanges -\u003e revertModifiedFiles ?",
+      "range": {
+        "startLine": 473,
+        "startChar": 14,
+        "endLine": 473,
+        "endChar": 28
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "465dc5e1_24bf7a6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "stupid question: \n\nwhy can\u0027t this be \n\n```\n  for (String path : modifiedFiles)  \n```",
+      "range": {
+        "startLine": 476,
+        "startChar": 3,
+        "endLine": 478,
+        "endChar": 30
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0ebceb0_3521c703",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-20T17:50:54Z",
+      "side": 1,
+      "message": "these are a bit weird. The repo is supplied by the caller, so the caller doesn\u0027t need these methods to get access to the repository.",
+      "range": {
+        "startLine": 637,
+        "startChar": 1,
+        "endLine": 657,
+        "endChar": 12
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
