@@ -104,6 +104,30 @@
       },
       "revId": "178a264508490a8598a690e0d5a3d661157ba104",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1268e90_f8750d8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-20T17:26:05Z",
+      "side": 1,
+      "message": "Its in it.",
+      "parentUuid": "48e97546_3448a044",
+      "range": {
+        "startLine": 94,
+        "startChar": 5,
+        "endLine": 94,
+        "endChar": 12
+      },
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
