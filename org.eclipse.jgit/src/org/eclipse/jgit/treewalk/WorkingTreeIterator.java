@@ -1004,6 +1004,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return wtMode;
 		}
 		final FileMode iMode = indexIter.getEntryFileMode();
+		if (iMode == FileMode.SYMLINK
+				&& getOptions().getSymLinks() == SymLinks.FALSE
+				&& (wtMode == FileMode.REGULAR_FILE
+						|| wtMode == FileMode.EXECUTABLE_FILE)) {
+			return iMode;
+		}
 		if (getOptions().isFileMode() && iMode != FileMode.GITLINK && iMode != FileMode.TREE) {
 			return wtMode;
 		}
