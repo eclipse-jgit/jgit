@@ -15,13 +15,16 @@ import static org.eclipse.jgit.util.FileUtils.RECURSIVE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Set;
 
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -34,6 +37,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lfs.BuiltinLFS;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -95,6 +99,43 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			assertEquals(
 					"[a.txt, mode:100644, content:content]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testAddLink() throws IOException, GitAPIException {
+		assumeTrue(db.getFS().supportsSymlinks());
+		try (Git git = new Git(db)) {
+			writeTrashFile("a.txt", "a");
+			File link = new File(db.getWorkTree(), "link");
+			db.getFS().createSymLink(link, "a.txt");
+			git.add().addFilepattern(".").call();
+			assertEquals(
+					"[a.txt, mode:100644, content:a][link, mode:120000, content:a.txt]",
+					indexState(CONTENT));
+			git.commit().setMessage("link").call();
+			StoredConfig config = db.getConfig();
+			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SYMLINKS, SymLinks.FALSE);
+			config.save();
+			Files.delete(link.toPath());
+			git.reset().setMode(ResetType.HARD).call();
+			assertTrue(Files.isRegularFile(link.toPath()));
+			assertEquals(
+					"[a.txt, mode:100644, content:a][link, mode:120000, content:a.txt]",
+					indexState(CONTENT));
+			writeTrashFile("link", "b.txt");
+			git.add().addFilepattern("link").call();
+			assertEquals(
+					"[a.txt, mode:100644, content:a][link, mode:120000, content:b.txt]",
+					indexState(CONTENT));
+			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SYMLINKS, SymLinks.TRUE);
+			config.save();
+			git.add().addFilepattern("link").call();
+			assertEquals(
+					"[a.txt, mode:100644, content:a][link, mode:100644, content:b.txt]",
 					indexState(CONTENT));
 		}
 	}
