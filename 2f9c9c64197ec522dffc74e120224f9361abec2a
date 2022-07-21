@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f4dc289_bf4e72d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-21T13:58:30Z",
+      "side": 1,
+      "message": "nit: createRepoHandlerForLocal() or newRepoHandlerForLocal .. (init sugggests changing  an object you already have.)",
+      "range": {
+        "startLine": 169,
+        "startChar": 29,
+        "endLine": 169,
+        "endChar": 54
+      },
+      "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca6c11be_363c02b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-21T13:58:30Z",
+      "side": 1,
+      "message": "opt: could clear inProgressModifiedFiles as a paranoia measure.",
+      "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c255b083_fa7a5d0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-21T13:58:30Z",
+      "side": 1,
+      "message": "unused?",
+      "range": {
+        "startLine": 655,
+        "startChar": 1,
+        "endLine": 671,
+        "endChar": 0
+      },
+      "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5371e69_7f750875",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-21T13:58:30Z",
+      "side": 1,
+      "message": "what is the difference between writeChanges and finishBuilding ? Could they be combined in a single method? It looks like getUnmergedPaths() and failed() don\u0027t actually look at ioHandler.",
+      "range": {
+        "startLine": 1173,
+        "startChar": 1,
+        "endLine": 1175,
+        "endChar": 59
+      },
+      "revId": "9995328f9fe349c2df9fcd16ad7a3666301f0530",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
