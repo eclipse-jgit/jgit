@@ -16,6 +16,40 @@
       "message": "Thomas - Do you mind reviewing this change?",
       "revId": "afae763529b5c3fea3ff0fb5ceb2afe738f45338",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34a9ea2d_d61f0b7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-21T08:24:37Z",
+      "side": 1,
+      "message": "Why is this package-visible?",
+      "revId": "afae763529b5c3fea3ff0fb5ceb2afe738f45338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46878da0_7aef4039",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-21T08:24:37Z",
+      "side": 1,
+      "message": "getParents() is used frequently. Internally you store a List, so each call here will create a copy. Wouldn\u0027t it be more efficient to stick with an array for the internal storage, and not return a copy here? (And then also have a constructor with varargs.)",
+      "revId": "afae763529b5c3fea3ff0fb5ceb2afe738f45338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
