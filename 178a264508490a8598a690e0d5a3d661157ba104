@@ -35,6 +35,97 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33ecb309_b749a20f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-21T07:21:43Z",
+      "side": 1,
+      "message": "-1 because the new test needs a copyright header. Otherwise just some minor suggestions.",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c385c0_d763a313",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-21T07:21:43Z",
+      "side": 1,
+      "message": "Missing copyright notice.",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb8657af_78e56787",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BoundaryGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-21T07:21:43Z",
+      "side": 1,
+      "message": "1. Why not c.getParentCount()?\n2. Why re-evaluate on every iteration?",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1432dde_bcbfabfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-21T07:21:43Z",
+      "side": 1,
+      "message": "Same here: getParentCount(), and perhaps use\n\n  int n \u003d c.getParentCount();\n  for (int i \u003d 0; i \u003c n; i++) {\n\nor perhaps even\n\n  for (RevCommit p : c.getParents()) {\n    // Lines 172..211 here\n    if (firstParent) {\n      break;\n    }\n  }\n  \n(Not sure about the second one. Can c.getParents() return null? The MergeBaseGenerator uses such a loop...)",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b57d21a0_67b49c4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-21T07:21:43Z",
+      "side": 1,
+      "message": "Perhaps evaluate once before the loop.",
+      "range": {
+        "startLine": 111,
+        "startChar": 24,
+        "endLine": 111,
+        "endChar": 42
+      },
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5afabc58_18221ed2",
