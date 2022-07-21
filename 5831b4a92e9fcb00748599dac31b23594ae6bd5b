@@ -405,6 +405,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98c013f5_220d213b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-21T15:09:38Z",
+      "side": 1,
+      "message": "worktree is the concept of the checkout + the index file (you can have multiple per git repository, see git-new-worktree), so it\u0027s not such a bad name. There is a lot more I/O going on with repository (eg. for reading and writing objects, updating refs etc), which is why RepoIOHandler is a misleading name.",
+      "parentUuid": "f4952123_c7c2fcfc",
+      "range": {
+        "startLine": 50,
+        "startChar": 59,
+        "endLine": 53,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae9f6e34_eca7c42a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
         "patchSetId": 9

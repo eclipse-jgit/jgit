@@ -62,6 +62,30 @@
       },
       "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f96444c_7ec768b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-21T15:09:38Z",
+      "side": 1,
+      "message": "never mind. just nonNullRepo is unused - could inline that, though.",
+      "parentUuid": "c255b083_fa7a5d0b",
+      "range": {
+        "startLine": 655,
+        "startChar": 1,
+        "endLine": 671,
+        "endChar": 0
+      },
+      "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -226,6 +226,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26c35c6c_ccaa4449",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-21T15:09:38Z",
+      "side": 1,
+      "message": "\u003e I tried applying the Result approach, but allowing modified files access is now even dirtier. LMK what you think is the better option.\n\nYeah, but at least it\u0027s obvious that something weird is going on there. I think I prefer the \u0027Result\u0027 approach.\n\n\u003e Also, note that some flows require finishBuilding() to be called without writeChanges(), so we can\u0027t combine them.\n\nsigh.  \nmaybe rename the methods to clarify what is actually happening.\n\nfinishBuilding -\u003e writeIndex\nwriteChanges -\u003e writeTree \n\n(at least, that\u0027s how I understand it.)",
+      "parentUuid": "594d0a79_5adab92f",
+      "range": {
+        "startLine": 326,
+        "startChar": 2,
+        "endLine": 326,
+        "endChar": 16
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b3f55bbf_750cd21b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
         "patchSetId": 11
