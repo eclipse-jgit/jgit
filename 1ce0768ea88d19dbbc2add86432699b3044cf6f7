@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1afaf3fe_63654de3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-21T08:26:29Z",
+      "side": 1,
+      "message": "This should be a link to the bug, fixed",
+      "parentUuid": "dfecdfae_e95f26d7",
+      "revId": "1ce0768ea88d19dbbc2add86432699b3044cf6f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a1741c7_d07fd656",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5029ff6_86090f33",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-21T08:26:29Z",
+      "side": 1,
+      "message": "Without this line the whole comment doesn\u0027t make sense; the comment is removed.",
+      "parentUuid": "7a1741c7_d07fd656",
+      "revId": "1ce0768ea88d19dbbc2add86432699b3044cf6f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51e81f7f_15d62678",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-07-20T20:44:00Z",
       "side": 1,
       "message": "Once the fix is commited, this comment is irrelevant. Please remove.",
+      "range": {
+        "startLine": 225,
+        "startChar": 64,
+        "endLine": 226,
+        "endChar": 73
+      },
+      "revId": "1ce0768ea88d19dbbc2add86432699b3044cf6f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8c48a43_f1781653",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-21T08:26:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51e81f7f_15d62678",
       "range": {
         "startLine": 225,
         "startChar": 64,
@@ -81,6 +141,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c27aa1e7_27810e99",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/NameConflictTreeWalkTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-21T08:26:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6e240cf_fa0e566c",
+      "range": {
+        "startLine": 274,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 4
+      },
+      "revId": "1ce0768ea88d19dbbc2add86432699b3044cf6f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f0f164e_fde5eaf5",
@@ -94,6 +178,24 @@
       "writtenOn": "2022-07-20T20:44:00Z",
       "side": 1,
       "message": "Maybe I am wrong, as this is not my usual code neighborhood, but we could make this more readable iterating twice on the trees. \n\nAlso, allTreesNamesMatchFastMinRef should have a \"maybe\" in the name: even when true we are not sure if they point to the same entry, right?.\n\nI think we could write this more clearly like this:\n\n// Count finished trees\nint eofTrees;\nfor (int i \u003d 0; i \u003c trees.length; i++) {\n   if (trees[i].eof()) {\n      eofTrees++;\n   }\n}\n\n// If all trees are EOF, we can say they all point to the same entry.\n// Return the last tree\nif (eofTrees \u003d\u003d trees.length) {\n   return trees[trees.length-1];\n}\n\n// If no tree is EOF, *maybe* they still all point to the same entry \n// (if some are EOF, we know they cannot all be pointing to the same entry).\nmaybeAllTreesNamesMatchFastMinRef \u003d eofTrees \u003d\u003d 0;\n\n// Point minRef to the first non-finished tree\nAbstractTreeIterator minRef;\nfor (int i \u003d 0; i \u003c trees.length; i++) {\n   if (!trees[i].eof()) {\n       minRef \u003d trees[i];\n       break;\n   } \n}",
+      "revId": "1ce0768ea88d19dbbc2add86432699b3044cf6f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a23a590_3793e2a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-21T08:26:29Z",
+      "side": 1,
+      "message": "\u003e Maybe I am wrong, as this is not my usual code neighborhood, but we could make this more readable iterating twice on the trees. \n\nThanks for the suggestion. I adopted it a little bit and decided to extract a loop into a separate method, so we can avoid double iterations.\nI think this should make code more readable (however, I don\u0027t want spend too much on refactoring 4 lines of code - it is very debatable what is better to read)\n\n\u003e Also, allTreesNamesMatchFastMinRef should have a \"maybe\" in the name: even when true we are not sure if they point to the same entry, right?.\n\nNo. If the value is true after returning from the method, than all trees point to the same entry.",
+      "parentUuid": "0f0f164e_fde5eaf5",
       "revId": "1ce0768ea88d19dbbc2add86432699b3044cf6f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
