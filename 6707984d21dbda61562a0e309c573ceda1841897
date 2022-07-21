@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "119a55f3_b88ba209",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "This is actually messy, because-\nA. the ioHandler instance is currently a class member, and try() must create a new var. The instanse is used by a lot of methods, so I\u0027m not sure passing it around is better.\nB. As mentioned above - we should allow access to modifiedFiles even if no writeChanges() was never called. I think the finally() block is the best place for that (in the current design).",
+      "parentUuid": "21bd86eb_1d8d5115",
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2343194b_efbb6fb7",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-07-20T17:50:54Z",
       "side": 1,
       "message": "can you do s/cache/dircache/ throughout? (or do I misunderstand?) Cache is a fairly generic term.",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 82,
+        "endChar": 31
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "198e7e6f_17a90ce0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2343194b_efbb6fb7",
       "range": {
         "startLine": 82,
         "startChar": 26,
@@ -64,6 +106,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a504fd1_5b712c3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fcccdf_b56b8578",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aedcc00_93ce2937",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-07-20T17:50:54Z",
       "side": 1,
       "message": "SIze  -\u003e Size",
+      "range": {
+        "startLine": 245,
+        "startChar": 34,
+        "endLine": 245,
+        "endChar": 35
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "038af4c8_bb362bff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aedcc00_93ce2937",
       "range": {
         "startLine": 245,
         "startChar": 34,
@@ -112,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "594d0a79_5adab92f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "modfiedFiles are accessed both mid-way (for example, by CherryPickCommand), and after the operation is completed, *even if writeChanges() was never called*.\nI tried applying the Result approach, but allowing modified files access is now even dirtier. LMK what you think is the better option.\n\nAs for the boolean - I couldn\u0027t find a clearer way given modifiedFiles can\u0027t be cleaned here.\n\nAlso, note that some flows require finishBuilding() to be called without writeChanges(), so we can\u0027t combine them.",
+      "parentUuid": "0ab7a405_ec7149ee",
+      "range": {
+        "startLine": 326,
+        "startChar": 2,
+        "endLine": 326,
+        "endChar": 16
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b3f55bbf_750cd21b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
         "patchSetId": 11
@@ -123,6 +237,30 @@
       "writtenOn": "2022-07-20T17:50:54Z",
       "side": 1,
       "message": "unsuccessful or not is determined by the caller.",
+      "range": {
+        "startLine": 467,
+        "startChar": 34,
+        "endLine": 467,
+        "endChar": 46
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2c9632_3a48cd65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3f55bbf_750cd21b",
       "range": {
         "startLine": 467,
         "startChar": 34,
@@ -156,6 +294,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0d7cf34_bed916d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Apparently, we can\u0027t call this from close() since some flows expect the working tree to stay dirty. So I brought back the inCore cleanup.",
+      "parentUuid": "ba32d840_aa5ba948",
+      "range": {
+        "startLine": 468,
+        "startChar": 75,
+        "endLine": 469,
+        "endChar": 55
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "307186eb_57e73609",
@@ -169,6 +331,30 @@
       "writtenOn": "2022-07-20T17:50:54Z",
       "side": 1,
       "message": "cleanUpChanges -\u003e revertModifiedFiles ?",
+      "range": {
+        "startLine": 473,
+        "startChar": 14,
+        "endLine": 473,
+        "endChar": 28
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf954af4_25506864",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307186eb_57e73609",
       "range": {
         "startLine": 473,
         "startChar": 14,
@@ -202,6 +388,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f169c740_36d9b48d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "No reason that I can see (copied from the merger). Changed.",
+      "parentUuid": "465dc5e1_24bf7a6b",
+      "range": {
+        "startLine": 476,
+        "startChar": 3,
+        "endLine": 478,
+        "endChar": 30
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0ebceb0_3521c703",
@@ -215,6 +425,30 @@
       "writtenOn": "2022-07-20T17:50:54Z",
       "side": 1,
       "message": "these are a bit weird. The repo is supplied by the caller, so the caller doesn\u0027t need these methods to get access to the repository.",
+      "range": {
+        "startLine": 637,
+        "startChar": 1,
+        "endLine": 657,
+        "endChar": 12
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fcd9c4d_428d65b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Made private. These are needed to avoid \"repo can be null\" errors.",
+      "parentUuid": "b0ebceb0_3521c703",
       "range": {
         "startLine": 637,
         "startChar": 1,

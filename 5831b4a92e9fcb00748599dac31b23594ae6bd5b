@@ -107,6 +107,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee870ab_cff6e2ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Added the minimal change to ApplyCommand to show that StreamLoader and StreamSupplier where moved from there. Will keep the actual refactoring to the next change, since it\u0027s quite large.",
+      "parentUuid": "af0e23eb_95609264",
+      "range": {
+        "startLine": 872,
+        "startChar": 3,
+        "endLine": 876,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e52553d9_d26636e0",
@@ -225,6 +249,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8736c444_525984fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreSupport.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea337c2d_47dac75c",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cea5833d_f8b6f5f0",
@@ -333,6 +381,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f4952123_c7c2fcfc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "There\u0027s no shared work, though the write flow includes a checkout(called within finishBuilding()) which is a bit weird for a write-only class.\n\nAssuming the class stays write-only, I\u0027m still not sure about the naming.\nIIUC, WorkTree is referring to the local tree, and dircache(\u003dindex file) is not necessarily been updated for local changes; and this class might update both.",
+      "parentUuid": "851e336e_7dcbccdb",
+      "range": {
+        "startLine": 50,
+        "startChar": 59,
+        "endLine": 53,
+        "endChar": 0
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae9f6e34_eca7c42a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
         "patchSetId": 9
@@ -344,6 +416,30 @@
       "writtenOn": "2022-07-19T13:47:46Z",
       "side": 1,
       "message": "make private ?",
+      "range": {
+        "startLine": 118,
+        "startChar": 5,
+        "endLine": 118,
+        "endChar": 34
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ccfc18_2b9187c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae9f6e34_eca7c42a",
       "range": {
         "startLine": 118,
         "startChar": 5,
@@ -367,6 +463,30 @@
       "writtenOn": "2022-07-19T13:47:46Z",
       "side": 1,
       "message": "same.",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 35
+      },
+      "revId": "5831b4a92e9fcb00748599dac31b23594ae6bd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb7a740_c4a535f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-21T14:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5623a31_29e4603d",
       "range": {
         "startLine": 139,
         "startChar": 4,
