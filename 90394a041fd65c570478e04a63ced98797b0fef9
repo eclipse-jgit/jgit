@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bd1c6d7_4884f218",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-22T20:41:07Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 355,
+        "startChar": 60,
+        "endLine": 355,
+        "endChar": 62
+      },
+      "revId": "90394a041fd65c570478e04a63ced98797b0fef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31228caa_27c6ac00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-22T20:41:07Z",
+      "side": 1,
+      "message": "err",
+      "range": {
+        "startLine": 398,
+        "startChar": 7,
+        "endLine": 398,
+        "endChar": 11
+      },
+      "revId": "90394a041fd65c570478e04a63ced98797b0fef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cedc5e81_5114598d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-22T20:41:07Z",
+      "side": 1,
+      "message": "can we use a different name for this variable, l looks very similar to 1",
+      "range": {
+        "startLine": 1344,
+        "startChar": 8,
+        "endLine": 1344,
+        "endChar": 9
+      },
+      "revId": "90394a041fd65c570478e04a63ced98797b0fef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af2a071d_83d53001",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-07-22T20:41:07Z",
+      "side": 1,
+      "message": "add another constant for ACK ?",
+      "range": {
+        "startLine": 1730,
+        "startChar": 24,
+        "endLine": 1730,
+        "endChar": 30
+      },
+      "revId": "90394a041fd65c570478e04a63ced98797b0fef9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
