@@ -52,6 +52,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34320343_1ccf5b7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-22T23:45:52Z",
+      "side": 1,
+      "message": "Thank you for reviewing. I have addressed your comments.",
+      "parentUuid": "33ecb309_b749a20f",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95c385c0_d763a313",
@@ -65,6 +83,24 @@
       "writtenOn": "2022-07-21T07:21:43Z",
       "side": 1,
       "message": "Missing copyright notice.",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7efa9609_f77fd810",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-22T23:45:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95c385c0_d763a313",
       "revId": "178a264508490a8598a690e0d5a3d661157ba104",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -86,6 +122,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13d73105_cfb03f96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BoundaryGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-22T23:45:52Z",
+      "side": 1,
+      "message": "1. updated to getParentCount()\n2. updated",
+      "parentUuid": "cb8657af_78e56787",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1432dde_bcbfabfe",
@@ -103,6 +157,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fee1609b_412164c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-22T23:45:52Z",
+      "side": 1,
+      "message": "Using the #1 pattern.\nCannot use pattern #2 since there is special logic on the first parent.",
+      "parentUuid": "c1432dde_bcbfabfe",
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b57d21a0_67b49c4a",
@@ -116,6 +188,30 @@
       "writtenOn": "2022-07-21T07:21:43Z",
       "side": 1,
       "message": "Perhaps evaluate once before the loop.",
+      "range": {
+        "startLine": 111,
+        "startChar": 24,
+        "endLine": 111,
+        "endChar": 42
+      },
+      "revId": "178a264508490a8598a690e0d5a3d661157ba104",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f4406f_a4442422",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-22T23:45:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b57d21a0_67b49c4a",
       "range": {
         "startLine": 111,
         "startChar": 24,
