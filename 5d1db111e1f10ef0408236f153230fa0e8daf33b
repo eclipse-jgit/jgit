@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4a37fd5_e6bc1cb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-22T13:51:45Z",
+      "side": 1,
+      "message": "Please use a shorter subject line.\n\nAlso, I\u0027m rather confused by the mention of remote repositories. I don\u0027t see anything remote here. I see operations using the working tree, and operations using the index. But both are local.\n\nIf I look at the WIP change https://git.eclipse.org/r/c/jgit/jgit/+/194426 which appears to be related it seems to me that it tries to implement \"git apply --cached\". Nothing remote there either.\n\nAm I missing something?",
+      "revId": "5d1db111e1f10ef0408236f153230fa0e8daf33b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e2c4661_39cc088b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 14
