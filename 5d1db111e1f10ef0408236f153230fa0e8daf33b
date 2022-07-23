@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "122db555_9ff54f2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-23T09:12:37Z",
+      "side": 1,
+      "message": "Please wrap commit messages at 70 or 72 characters.",
+      "revId": "5d1db111e1f10ef0408236f153230fa0e8daf33b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e2c4661_39cc088b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 14
