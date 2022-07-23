@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c041e93_515d536c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-23T09:52:20Z",
+      "side": 1,
+      "message": "\u003e Build Failed \n\nSeems to be one of these days... All failures are completely unrelated.",
+      "revId": "4f3c7bd70be5f6d4ff4eae48e2c2488b1184059a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
