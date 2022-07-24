@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f771a012_e00a70d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-07-24T08:31:26Z",
+      "side": 1,
+      "message": "Thanks. I thought so. For Gerrit these bare repositories are local. They are only \"remote\" for a client trying to fetch/push from/to these repositories.",
+      "parentUuid": "ce3698f8_25936d1f",
+      "revId": "5d1db111e1f10ef0408236f153230fa0e8daf33b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "122db555_9ff54f2c",
