@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42523761_1b464ab6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-24T07:53:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f4dc289_bf4e72d4",
+      "range": {
+        "startLine": 169,
+        "startChar": 29,
+        "endLine": 169,
+        "endChar": 54
+      },
+      "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca6c11be_363c02b6",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-07-21T13:58:30Z",
       "side": 1,
       "message": "opt: could clear inProgressModifiedFiles as a paranoia measure.",
+      "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46923cd1_7f91c8cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-24T07:53:55Z",
+      "side": 1,
+      "message": "Removed this var in the latest version and got back to the [index]changesWritten boolean.",
+      "parentUuid": "ca6c11be_363c02b6",
       "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -78,6 +120,30 @@
       "side": 1,
       "message": "never mind. just nonNullRepo is unused - could inline that, though.",
       "parentUuid": "c255b083_fa7a5d0b",
+      "range": {
+        "startLine": 655,
+        "startChar": 1,
+        "endLine": 671,
+        "endChar": 0
+      },
+      "revId": "2f9c9c64197ec522dffc74e120224f9361abec2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a5a10f1_efff69a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-24T07:53:55Z",
+      "side": 1,
+      "message": "Unfortunately, even for-\nif(repo!\u003dnull) { if(repo.isBare()) }\nI\u0027m getting:\n\"Potential null pointer access: The field repo is specified as @Nullable\". So nonNullRepo() seem to be needed.",
+      "parentUuid": "4f96444c_7ec768b4",
       "range": {
         "startLine": 655,
         "startChar": 1,

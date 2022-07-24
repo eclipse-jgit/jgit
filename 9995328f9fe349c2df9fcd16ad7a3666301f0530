@@ -22,6 +22,30 @@
       },
       "revId": "9995328f9fe349c2df9fcd16ad7a3666301f0530",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c14cc73_cee6436a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-24T07:53:55Z",
+      "side": 1,
+      "message": "When having unmerged files, some subclasses expect the file content to be updated with the conflict markers, and the index to remain unchanged.",
+      "parentUuid": "c5371e69_7f750875",
+      "range": {
+        "startLine": 1173,
+        "startChar": 1,
+        "endLine": 1175,
+        "endChar": 59
+      },
+      "revId": "9995328f9fe349c2df9fcd16ad7a3666301f0530",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

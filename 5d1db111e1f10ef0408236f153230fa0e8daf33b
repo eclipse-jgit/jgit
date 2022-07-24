@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce3698f8_25936d1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-24T07:53:55Z",
+      "side": 1,
+      "message": "Sorry for that, updated the terminology.\n\nContext: In Gerrit, we use bare repositories for handling remote codebases, and the motivation of these changes is to allow ApplyCommand to work on those repositories.",
+      "parentUuid": "a4a37fd5_e6bc1cb9",
+      "revId": "5d1db111e1f10ef0408236f153230fa0e8daf33b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "122db555_9ff54f2c",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "728566d0_3db8a5ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-24T07:53:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "122db555_9ff54f2c",
+      "revId": "5d1db111e1f10ef0408236f153230fa0e8daf33b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e2c4661_39cc088b",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-07-21T15:09:38Z",
       "side": 1,
       "message": "this is unused?",
+      "range": {
+        "startLine": 1176,
+        "startChar": 3,
+        "endLine": 1176,
+        "endChar": 31
+      },
+      "revId": "5d1db111e1f10ef0408236f153230fa0e8daf33b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17738d61_06d58d27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-24T07:53:55Z",
+      "side": 1,
+      "message": "The tree ID is accessed by getResultTreeId() as well as directly by some of the subclasses.",
+      "parentUuid": "6e2c4661_39cc088b",
       "range": {
         "startLine": 1176,
         "startChar": 3,

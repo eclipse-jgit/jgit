@@ -250,6 +250,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0eeb1160_ed7a4f7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-24T07:53:55Z",
+      "side": 1,
+      "message": "I actually understand it the other way around:\n\nFrom DirCache#writeTree() documentations:\n\"Write all index trees to the object store, returning the root tree.\"\nIIUC, meaning writeChanges writes the index.\n\nDirCacheBuilder#finish() says:\n\"Finish this builder and update the destination DirCache.\"\nWhich is, AFAIU, the worktree update, called in finishBuilding.\n\nI\u0027ve updated the names according to that, LMK if I need to switch them.",
+      "parentUuid": "26c35c6c_ccaa4449",
+      "range": {
+        "startLine": 326,
+        "startChar": 2,
+        "endLine": 326,
+        "endChar": 16
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b3f55bbf_750cd21b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
         "patchSetId": 11
