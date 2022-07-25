@@ -272,6 +272,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b25af39e_34d76044",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-25T10:27:22Z",
+      "side": 1,
+      "message": "I didn\u0027t look very closely, so you\u0027re probably right.",
+      "parentUuid": "0eeb1160_ed7a4f7c",
+      "range": {
+        "startLine": 326,
+        "startChar": 2,
+        "endLine": 326,
+        "endChar": 16
+      },
+      "revId": "6707984d21dbda61562a0e309c573ceda1841897",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3f55bbf_750cd21b",
