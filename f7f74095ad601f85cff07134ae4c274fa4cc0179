@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "de80b6a5_9cc51933",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-25T11:35:24Z",
+      "side": 1,
+      "message": "Thanks!\nI also had to make another small change regarding EOL type detection, so the next change won\u0027t change the API introduced in this one.",
+      "parentUuid": "c9e80d31_b51a9cc0",
+      "revId": "f7f74095ad601f85cff07134ae4c274fa4cc0179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3f35fa29_9366dc37",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 17
@@ -31,6 +49,30 @@
       "writtenOn": "2022-07-25T10:27:22Z",
       "side": 1,
       "message": "ugh, this is really messy. This should probably create a new ResolveMerger instead.\n\nI got here trying to find out why WorktreeUpdater needs to expose getLockedDircache() , which I think is not necessary, but it would be scope-creep to address this in this change.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 55
+      },
+      "revId": "f7f74095ad601f85cff07134ae4c274fa4cc0179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "165b5838_d318024e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-25T11:35:24Z",
+      "side": 1,
+      "message": "I assume this reset mechanism is used by callers in other projects. Even if the core logic will work, there are likely callers that access these fields directly, since nothing here is private.",
+      "parentUuid": "3f35fa29_9366dc37",
       "range": {
         "startLine": 160,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "593ed881_033d561f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-25T11:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7361bfc1_7472cb30",
+      "range": {
+        "startLine": 59,
+        "startChar": 41,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "f7f74095ad601f85cff07134ae4c274fa4cc0179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ff773e7_513697b4",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-07-25T10:27:22Z",
       "side": 1,
       "message": "writing the index",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "f7f74095ad601f85cff07134ae4c274fa4cc0179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edac173e_12207eef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-25T11:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ff773e7_513697b4",
       "range": {
         "startLine": 67,
         "startChar": 18,
@@ -110,6 +200,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f0765be_65c1fd97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-25T11:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76989f59_7f81b6df",
+      "range": {
+        "startLine": 96,
+        "startChar": 57,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "f7f74095ad601f85cff07134ae4c274fa4cc0179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bd69355_2f90589f",
@@ -123,6 +237,30 @@
       "writtenOn": "2022-07-25T10:27:22Z",
       "side": 1,
       "message": "\u0027working tree (but not the index)\u0027\n\nthe work(ing)tree is still an overloaded term. it can either be just the files you want to edit, or {those files + index}.",
+      "range": {
+        "startLine": 324,
+        "startChar": 30,
+        "endLine": 324,
+        "endChar": 38
+      },
+      "revId": "f7f74095ad601f85cff07134ae4c274fa4cc0179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a907f24c_a3b69102",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-25T11:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd69355_2f90589f",
       "range": {
         "startLine": 324,
         "startChar": 30,
