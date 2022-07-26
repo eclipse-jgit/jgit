@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb1ddb75_51774a4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca8a4328_3fd5bd14",
+      "range": {
+        "startLine": 259,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 5
+      },
+      "revId": "8aa98f09524bf95959c77f1b764bec682d690511",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58059b34_9b97ca84",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3984f245_4a4ee297",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58059b34_9b97ca84",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 312,
+        "endChar": 3
+      },
+      "revId": "8aa98f09524bf95959c77f1b764bec682d690511",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e39117d_1c3497ab",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-07-01T10:41:45Z",
       "side": 1,
       "message": "Test is failing because of Null baseObjectId.\nWhy do you need to create two DirCacheEntry here?\nI would expect a single DirCacheEntry for the newly created content, that comes from resultStreamLoader.\n\n(E.g. what you do in line #433)",
+      "range": {
+        "startLine": 430,
+        "startChar": 4,
+        "endLine": 430,
+        "endChar": 34
+      },
+      "revId": "8aa98f09524bf95959c77f1b764bec682d690511",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "583a6ed5_b57eb9de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/InCoreHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e39117d_1c3497ab",
       "range": {
         "startLine": 430,
         "startChar": 4,

@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed4754c7_71fe2541",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8de6e1a1_3592f372",
+      "range": {
+        "startLine": 144,
+        "startChar": 17,
+        "endLine": 145,
+        "endChar": 25
+      },
+      "revId": "6eee2dd58c542048ae258f49d60633498787d4c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69e1d400_62ee6884",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-07-21T10:22:03Z",
       "side": 1,
       "message": "tracing the callchain, this looks like the code path that handles the GIT_BINARY patch type, I don\u0027t know what that is. See l.255 (on left side).\n\nhowever, if you don\u0027t support this in inCore mode, you can never hit this codepath?",
+      "range": {
+        "startLine": 366,
+        "startChar": 5,
+        "endLine": 366,
+        "endChar": 78
+      },
+      "revId": "6eee2dd58c542048ae258f49d60633498787d4c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "314ecb2b_97c7d1d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "69e1d400_62ee6884",
       "range": {
         "startLine": 366,
         "startChar": 5,
@@ -87,6 +135,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00fc16e1_9eef8113",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cfe0972_0b6d5970",
+      "range": {
+        "startLine": 371,
+        "startChar": 32,
+        "endLine": 371,
+        "endChar": 40
+      },
+      "revId": "6eee2dd58c542048ae258f49d60633498787d4c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11304fcb_5d3c2465",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-07-21T10:22:03Z",
       "side": 1,
       "message": "in JGit this has to say // $NON-NLS-1$ \nor it has to be a string that is managed elsewhere (see existing exception text messages)",
+      "range": {
+        "startLine": 384,
+        "startChar": 46,
+        "endLine": 385,
+        "endChar": 79
+      },
+      "revId": "6eee2dd58c542048ae258f49d60633498787d4c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7cca94f_700d08f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11304fcb_5d3c2465",
       "range": {
         "startLine": 384,
         "startChar": 46,

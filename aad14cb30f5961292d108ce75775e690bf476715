@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ae61e9_c7989740",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "b742afea_f8581e50",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "aad14cb30f5961292d108ce75775e690bf476715",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef5643df_b746cd83",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-30T12:30:39Z",
       "side": 1,
       "message": "The change does not compile because of this line. \nAlso, there is no catch block for this finally, what is the intention of it?\nShould we only finish Building if no errors were encountered?",
+      "range": {
+        "startLine": 160,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 56
+      },
+      "revId": "aad14cb30f5961292d108ce75775e690bf476715",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ce55e4_d83266b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/Applier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2022-07-26T12:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef5643df_b746cd83",
       "range": {
         "startLine": 160,
         "startChar": 8,
