@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d679eb60_7a5d5f4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-26T13:21:04Z",
+      "side": 1,
+      "message": "but maybe you want to use PatchApplier directly in gerrit?",
+      "parentUuid": "8ff15ef0_ae54283d",
+      "range": {
+        "startLine": 61,
+        "startChar": 39,
+        "endLine": 66,
+        "endChar": 27
+      },
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "446eda20_7c299bb4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 19
