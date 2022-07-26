@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aecb27c3_bb88977a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-26T13:09:38Z",
+      "side": 1,
+      "message": "I had a quick look. The main thing I am missing is a test: how do we know that the inCore\u003dtrue path actually works? Also, I think there are unreachable code paths (see below). Could you trim them? I\u0027m trying to get coverage to work so you can look at a targeted report.",
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3ac0a7e_e790d8df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-26T13:09:38Z",
+      "side": 1,
+      "message": "(C) header",
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ff15ef0_ae54283d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-26T13:09:38Z",
+      "side": 1,
+      "message": "If you move this to the package of ApplyCommand, you can make it package scoped, avoiding backward compat constraints on the code.",
+      "range": {
+        "startLine": 61,
+        "startChar": 39,
+        "endLine": 66,
+        "endChar": 27
+      },
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "446eda20_7c299bb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-26T13:09:38Z",
+      "side": 1,
+      "message": "unused?",
+      "range": {
+        "startLine": 222,
+        "startChar": 70,
+        "endLine": 222,
+        "endChar": 77
+      },
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7916370_dc0e3c48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-26T13:09:38Z",
+      "side": 1,
+      "message": "@Nullable ?",
+      "range": {
+        "startLine": 247,
+        "startChar": 51,
+        "endLine": 247,
+        "endChar": 58
+      },
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50fbc8e2_8b40d74b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-26T13:09:38Z",
+      "side": 1,
+      "message": "if we\u0027re here, then inCore \u003d\u003d true, but then reading \u0027f\u0027 is meaningless. Since this is called from applyBinary(), we can never get here?",
+      "range": {
+        "startLine": 511,
+        "startChar": 27,
+        "endLine": 511,
+        "endChar": 34
+      },
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78526d67_2cb1f36c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-26T13:09:38Z",
+      "side": 1,
+      "message": "that\u0027s odd: why doesn\u0027t renameFile() have this line?",
+      "range": {
+        "startLine": 455,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 27
+      },
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
