@@ -50,6 +50,137 @@
       "message": "trigger build",
       "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4058544_263bee18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-27T17:51:20Z",
+      "side": 1,
+      "message": "Nits in styling and formatting looks off in couple files. But code-wise this LGTM",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53cfc33b_8a658388",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitParseTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-27T17:51:20Z",
+      "side": 1,
+      "message": "nit: This looks like a weird formatting... shouldn\u0027t the new PersonIdent fit in the previous line?",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a8bd54a_f4c4b94c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitParseTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-27T17:51:20Z",
+      "side": 1,
+      "message": "Weird line... this should go into the parent line, no? \n\n(same in following tests)",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d023dfab_963b172f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-27T17:51:20Z",
+      "side": 1,
+      "message": "Extra whitespace",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 2,
+        "endChar": 4
+      },
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40868540_2c7c9da4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-27T17:51:20Z",
+      "side": 1,
+      "message": "this can be \"getParents()[0]\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 18,
+        "endLine": 66,
+        "endChar": 68
+      },
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb37836_1a3107bc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-27T17:51:20Z",
+      "side": 1,
+      "message": "Should this test also commitDate and authorDate?",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85e9f72a_f64a0cc5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-27T17:51:20Z",
+      "side": 1,
+      "message": "Should this field become \"protected\"?",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
