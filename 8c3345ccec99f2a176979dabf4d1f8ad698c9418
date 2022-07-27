@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5311491f_f897363f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-07-27T17:57:02Z",
+      "side": 1,
+      "message": "Althoug this is the final intention, this is not what this specific change is doing, no?\n\nA more accurate title would be:\nRevWalk: reduce visibility of parents list",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "99b3eaa5_fff246aa",
