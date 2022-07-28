@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ec32b7b_b3e38f69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-28T16:26:47Z",
+      "side": 1,
+      "message": "this comment is really clear, but I can\u0027t work out if you changed the meaning of fastMinHasMatch here.",
+      "range": {
+        "startLine": 59,
+        "startChar": 1,
+        "endLine": 65,
+        "endChar": 4
+      },
+      "revId": "77603e74fa39929c3abb18ca7e6861d42ec48c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f25c605_083e78f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-28T16:26:47Z",
+      "side": 1,
+      "message": "could also be that none have reached the end?",
+      "range": {
+        "startLine": 137,
+        "startChar": 36,
+        "endLine": 137,
+        "endChar": 86
+      },
+      "revId": "77603e74fa39929c3abb18ca7e6861d42ec48c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf80a866_672f4667",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-28T16:26:47Z",
+      "side": 1,
+      "message": "formattnig, here and elsewhere.",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 9
+      },
+      "revId": "77603e74fa39929c3abb18ca7e6861d42ec48c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
