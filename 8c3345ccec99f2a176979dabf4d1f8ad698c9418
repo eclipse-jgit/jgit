@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "99cf109c_bf7dffe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-28T22:09:38Z",
+      "side": 1,
+      "message": "It is adding an ability to override parents on the RevCommit class. \nHow to do so is also tested in RevCommitWithOverriddenParentTest. \n\nThe following change used this feature to extend RevCommit to define a concrete class. I feel this commit message is appropriate.",
+      "parentUuid": "5311491f_f897363f",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "99b3eaa5_fff246aa",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 23
@@ -103,6 +121,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7f113ad_dda05dfe",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitParseTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-28T22:09:38Z",
+      "side": 1,
+      "message": "The line is too long and this is formatted by the eclipse formatter from ools/eclipse-JGit-Format.xml\nThe updated version looks correct.",
+      "parentUuid": "53cfc33b_8a658388",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a8bd54a_f4c4b94c",
@@ -120,6 +156,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70ef27fe_9dcf5746",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitParseTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-28T22:09:38Z",
+      "side": 1,
+      "message": "The comments greater than the line length is center aligned.",
+      "parentUuid": "0a8bd54a_f4c4b94c",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d023dfab_963b172f",
@@ -133,6 +187,30 @@
       "writtenOn": "2022-07-27T17:51:20Z",
       "side": 1,
       "message": "Extra whitespace",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 2,
+        "endChar": 4
+      },
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d3c0dd2_c4c1410c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-28T22:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d023dfab_963b172f",
       "range": {
         "startLine": 2,
         "startChar": 2,
@@ -166,6 +244,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8765347f_7121d098",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-28T22:09:38Z",
+      "side": 1,
+      "message": "Since this change allows overriding parents this test makes sure that doing so doesn\u0027t break anything. Demetr suggested this test. \nIn the following change there is a test that works on the concrete extended class.",
+      "parentUuid": "e1e24416_8aa4cde6",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40868540_2c7c9da4",
@@ -179,6 +281,30 @@
       "writtenOn": "2022-07-27T17:51:20Z",
       "side": 1,
       "message": "this can be \"getParents()[0]\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 18,
+        "endLine": 66,
+        "endChar": 68
+      },
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c88c48_b39fa5ca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-28T22:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40868540_2c7c9da4",
       "range": {
         "startLine": 66,
         "startChar": 18,
@@ -206,6 +332,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ad8fe3b_212c69f1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitWithOverriddenParentTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-28T22:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cb37836_1a3107bc",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85e9f72a_f64a0cc5",
@@ -219,6 +363,24 @@
       "writtenOn": "2022-07-27T17:51:20Z",
       "side": 1,
       "message": "Should this field become \"protected\"?",
+      "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93fb5bbc_443837ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-07-28T22:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85e9f72a_f64a0cc5",
       "revId": "8c3345ccec99f2a176979dabf4d1f8ad698c9418",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
