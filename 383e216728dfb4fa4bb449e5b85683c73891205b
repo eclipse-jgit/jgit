@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6407587_7a79f463",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-28T16:20:27Z",
+      "side": 1,
+      "message": "formatting: \u0027 \u0027 before ( \n\nif you use IntelliJ, there is a Eclipse formatter plugin that will do this for you.",
+      "range": {
+        "startLine": 279,
+        "startChar": 5,
+        "endLine": 279,
+        "endChar": 7
+      },
+      "revId": "383e216728dfb4fa4bb449e5b85683c73891205b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81af41da_e7e9d1cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-28T16:20:27Z",
+      "side": 1,
+      "message": "is it meaningful to inspect t.matches if t.eof() ?",
+      "range": {
+        "startLine": 282,
+        "startChar": 51,
+        "endLine": 282,
+        "endChar": 59
+      },
+      "revId": "383e216728dfb4fa4bb449e5b85683c73891205b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "685d9ba7_a2bf31ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-07-28T16:20:27Z",
+      "side": 1,
+      "message": "formatting",
+      "range": {
+        "startLine": 289,
+        "startChar": 2,
+        "endLine": 289,
+        "endChar": 3
+      },
+      "revId": "383e216728dfb4fa4bb449e5b85683c73891205b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
