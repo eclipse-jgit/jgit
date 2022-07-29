@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41c63613_c335adfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2022-07-29T22:28:29Z",
+      "side": 1,
+      "message": "Thanks to everyone for the reviews.",
+      "revId": "2d5ede97d63ea1bf5843b722238ad5026499baba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa10a00f_268a2fc3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitParseTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2022-07-29T22:28:29Z",
+      "side": 1,
+      "message": "The formatter seems to have messed up a few of the lines in this file pretty badly. If this is what the correctly configured formatter is doing I\u0027d consider manually overriding this one and the ones on line 176, 203, 234 and 309",
+      "range": {
+        "startLine": 270,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 24
+      },
+      "revId": "2d5ede97d63ea1bf5843b722238ad5026499baba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
