@@ -83,4 +83,11 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/Paths.java" type="org.eclipse.jgit.util.Paths">
+        <filter id="337768515">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.Paths"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
