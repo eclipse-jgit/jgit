@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d21b5f9_b15bb188",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-29T18:01:31Z",
+      "side": 1,
+      "message": "No, the meaning should be the same. I used refactoring for renaming.\n\nThe previous name fastMinHasMatch means that fastMin has some (i.e. not all) matches (this is how I read the old name). However from the code it seems that it should be true only when all tree matches fastmin, so I decided to rename it.",
+      "parentUuid": "8ec32b7b_b3e38f69",
+      "range": {
+        "startLine": 59,
+        "startChar": 1,
+        "endLine": 65,
+        "endChar": 4
+      },
+      "revId": "77603e74fa39929c3abb18ca7e6861d42ec48c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f25c605_083e78f6",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85e0f0c5_993b92e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-29T18:01:31Z",
+      "side": 1,
+      "message": "Yes. In this case i \u003d\u003d 0 and allTreesNamesMatchFastMinRef initially set to true. Then in the while loop it can be reset to false if a mismatch found.",
+      "parentUuid": "0f25c605_083e78f6",
+      "range": {
+        "startLine": 137,
+        "startChar": 36,
+        "endLine": 137,
+        "endChar": 86
+      },
+      "revId": "77603e74fa39929c3abb18ca7e6861d42ec48c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf80a866_672f4667",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-07-28T16:26:47Z",
       "side": 1,
       "message": "formattnig, here and elsewhere.",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 9
+      },
+      "revId": "77603e74fa39929c3abb18ca7e6861d42ec48c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2c947b5_8cd052ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-07-29T18:01:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf80a866_672f4667",
       "range": {
         "startLine": 198,
         "startChar": 2,
