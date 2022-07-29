@@ -13,7 +13,9 @@ package org.eclipse.jgit.util;
 import static org.eclipse.jgit.util.Paths.compare;
 import static org.eclipse.jgit.util.Paths.compareSameName;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -29,6 +31,23 @@ public class PathsTest {
 		assertEquals("a/boo", Paths.stripTrailingSeparator("a/boo/"));
 		assertEquals("a/boo", Paths.stripTrailingSeparator("a/boo//"));
 		assertEquals("a/boo", Paths.stripTrailingSeparator("a/boo///"));
+	}
+
+	@Test
+	public void testPrefix() {
+		assertTrue(Paths.isEqualOrPrefix("a", "a"));
+		assertTrue(Paths.isEqualOrPrefix("a", "a/b"));
+		assertTrue(Paths.isEqualOrPrefix("a", "a/a.txt"));
+		assertFalse(Paths.isEqualOrPrefix("a", "ab"));
+		assertFalse(Paths.isEqualOrPrefix("a", "a.txt"));
+		assertFalse(Paths.isEqualOrPrefix("a", "b/a.txt"));
+		assertFalse(Paths.isEqualOrPrefix("a", "b/a"));
+		assertFalse(Paths.isEqualOrPrefix("a", "ab/a.txt"));
+		assertFalse(Paths.isEqualOrPrefix("", "a"));
+		assertTrue(Paths.isEqualOrPrefix("", ""));
+		assertTrue(Paths.isEqualOrPrefix("a/b", "a/b"));
+		assertTrue(Paths.isEqualOrPrefix("a/b", "a/b/c"));
+		assertFalse(Paths.isEqualOrPrefix("a/b", "a/bc"));
 	}
 
 	@Test

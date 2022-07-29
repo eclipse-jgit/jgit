@@ -18,7 +18,8 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
  *
  * @since 4.2
  */
-public class Paths {
+public final class Paths {
+
 	/**
 	 * Remove trailing {@code '/'} if present.
 	 *
@@ -43,6 +44,33 @@ public class Paths {
 	}
 
 	/**
+	 * Determines whether a git path {@code folder} is a prefix of another git
+	 * path {@code path}, or the same as {@code path}. An empty {@code folder}
+	 * is <em>not</em> not considered a prefix and matches only if {@code path}
+	 * is also empty.
+	 *
+	 * @param folder
+	 *            a git path for a directory, without trailing slash
+	 * @param path
+	 *            a git path
+	 * @return {@code true} if {@code folder} is a directory prefix of
+	 *         {@code path}, or is equal to {@code path}, {@code false}
+	 *         otherwise
+	 * @since 6.3
+	 */
+	public static boolean isEqualOrPrefix(String folder, String path) {
+		if (folder.isEmpty()) {
+			return path.isEmpty();
+		}
+		boolean isPrefix = path.startsWith(folder);
+		if (isPrefix) {
+			int length = folder.length();
+			return path.length() == length || path.charAt(length) == '/';
+		}
+		return false;
+	}
+
+	/**
 	 * Compare two paths according to Git path sort ordering rules.
 	 *
 	 * @param aPath
@@ -63,9 +91,8 @@ public class Paths {
 	 * @param bMode
 	 *            mode of the second file. Trees are sorted as though
 	 *            {@code bPath[bEnd] == '/'}, even if bEnd does not exist.
-	 * @return &lt;0 if {@code aPath} sorts before {@code bPath};
-	 *         0 if the paths are the same;
-	 *         &gt;0 if {@code aPath} sorts after {@code bPath}.
+	 * @return &lt;0 if {@code aPath} sorts before {@code bPath}; 0 if the paths
+	 *         are the same; &gt;0 if {@code aPath} sorts after {@code bPath}.
 	 */
 	public static int compare(byte[] aPath, int aPos, int aEnd, int aMode,
 			byte[] bPath, int bPos, int bEnd, int bMode) {
