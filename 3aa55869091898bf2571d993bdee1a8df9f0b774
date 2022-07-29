@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b9d4232_2f20d3ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2022-07-29T22:49:43Z",
+      "side": 1,
+      "message": "s/THIS IS A COPY/THIS IS NOT A COPY/",
+      "range": {
+        "startLine": 101,
+        "startChar": 46,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "3aa55869091898bf2571d993bdee1a8df9f0b774",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
