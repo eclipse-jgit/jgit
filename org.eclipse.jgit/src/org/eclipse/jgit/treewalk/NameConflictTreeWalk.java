@@ -118,15 +118,14 @@ public class NameConflictTreeWalk extends TreeWalk {
 	}
 
 	private AbstractTreeIterator fastMin() {
+		int i = getFirstNonEofTreeIndex();
+		if (i == -1) {
+			// All trees reached the end.
+			allTreesNamesMatchFastMinRef = true;
+			return trees[trees.length - 1];
+		}
 		allTreesNamesMatchFastMinRef = true;
-
-		int i = 0;
 		AbstractTreeIterator minRef = trees[i];
-		while (minRef.eof() && ++i < trees.length)
-			minRef = trees[i];
-		if (minRef.eof())
-			return minRef;
-
 		boolean hasConflict = false;
 		minRef.matches = minRef;
 		while (++i < trees.length) {
@@ -178,6 +177,15 @@ public class NameConflictTreeWalk extends TreeWalk {
 		if (hasConflict && allTreesNamesMatchFastMinRef && dfConflict == null)
 			dfConflict = minRef;
 		return minRef;
+	}
+
+	private int getFirstNonEofTreeIndex() {
+		for (int i = 0; i < trees.length; i++) {
+			if (!trees[i].eof()) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	private static boolean nameEqual(final AbstractTreeIterator a,
