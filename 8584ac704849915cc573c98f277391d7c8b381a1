@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57a2bb34_66ebd281",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T14:53:36Z",
+      "side": 1,
+      "message": "I\u0027ve tried doing t.matches\u003dnull here, but that creates other problems. I have a hard time understanding what t.matches is supposed to represent. Maybe you could clarify the comment for AbstractTreeIterator#matches?",
+      "revId": "8584ac704849915cc573c98f277391d7c8b381a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
