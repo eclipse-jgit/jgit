@@ -22,6 +22,30 @@
       },
       "revId": "8484dbd9e3bacc5932b4e489e85881a230f17b01",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf576567_4639a8a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-08-01T18:38:39Z",
+      "side": 1,
+      "message": "I\u0027ve already adde the comment in the change with the actual fix (https://git.eclipse.org/r/c/jgit/jgit/+/194411/). I can\u0027t copy it here, because the comment is valid only together with the fix.",
+      "parentUuid": "dee9be2c_02fd80fc",
+      "range": {
+        "startLine": 59,
+        "startChar": 17,
+        "endLine": 59,
+        "endChar": 45
+      },
+      "revId": "8484dbd9e3bacc5932b4e489e85881a230f17b01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
