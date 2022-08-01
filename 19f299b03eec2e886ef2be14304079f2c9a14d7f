@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "85be4023_e01f1e7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T15:16:13Z",
+      "side": 1,
+      "message": "drop this?",
+      "range": {
+        "startLine": 7,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "19f299b03eec2e886ef2be14304079f2c9a14d7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "35992797_fefcad8f",
@@ -31,6 +54,46 @@
       "writtenOn": "2022-07-29T18:10:42Z",
       "side": 1,
       "message": "ci rebuild",
+      "revId": "19f299b03eec2e886ef2be14304079f2c9a14d7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fbac24d_8d3a321b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T15:16:13Z",
+      "side": 1,
+      "message": "from the tests, I can see that your change fixes it, but after staring at this for an hour or so, I still can\u0027t see what the previous code did, and why the change makes things better.\n\nI keep tripping over `AbstractTreeIterator.matches`. I don\u0027t understand what that means, and why it\u0027s OK to assign to it.\n\nit would be nice to do the variable rename in a separate commit; it\u0027s hard enough to understand what\u0027s going on without the rename.",
+      "revId": "19f299b03eec2e886ef2be14304079f2c9a14d7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2308bd0e_23e1b5ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T15:16:13Z",
+      "side": 1,
+      "message": "the name suggests that this does the same as min(), but is faster? (I guess that\u0027s the shortcut from the commit message).\n\ncan you describe what this method does? (javadoc?)",
+      "range": {
+        "startLine": 127,
+        "startChar": 30,
+        "endLine": 127,
+        "endChar": 37
+      },
       "revId": "19f299b03eec2e886ef2be14304079f2c9a14d7f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
