@@ -268,6 +268,28 @@ public class NameConflictTreeWalk extends TreeWalk {
 			}
 		}
 
+		// When the combineDF is called, the t.matches field stores other
+		// entry (i.e. tree iterator) with an equal path. However, the
+		// previous loop moves each iterator independently. As a result,
+		// iterators which have had equals path at the start of the
+		// method can have different paths at this point.
+		// Reevaluate existing matches.
+		// The NameConflictTreeWalkTest.testDF_specialFileNames test
+		// cover this situation.
+		for (AbstractTreeIterator t : trees) {
+			// The previous loop doesn't touch tree iterator if it matches
+			// minRef. Skip it here
+			if (t.eof() || t.matches == null || t.matches == minRef)
+				continue;
+			// The t.pathCompare takes into account the entry type (file
+			// or directory) and returns non-zero value if names match
+			// but entry type don't match.
+			// We want to keep such matches (file/directory conflict),
+			// so reset matches only if names are not equal.
+			if (!nameEqual(t, t.matches))
+				t.matches = null;
+		}
+
 		if (treeMatch != null) {
 			// If we do have a conflict use one of the directory
 			// matching iterators instead of the file iterator.
