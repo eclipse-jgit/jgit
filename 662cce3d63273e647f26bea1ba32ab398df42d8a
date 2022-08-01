@@ -1,0 +1,388 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c068144a_339e2b7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "these are notes to self.",
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f568a3df_77065013",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "(C)",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d5cd44d_d5ee59db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "leaks on exception.",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 22
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87ecc564_8cecc3c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered.",
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e92c7af4_a9613a49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "note: BINARY !\u003d GIT_BINARY.",
+      "range": {
+        "startLine": 260,
+        "startChar": 16,
+        "endLine": 260,
+        "endChar": 22
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f7eed3f_7e012424",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "logic is changed here. Look better.",
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bd92968_75b25242",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "hashes should be equal -\u003e one of these is superfluous.",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 5
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33936aeb_28b8b22d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered copy.",
+      "range": {
+        "startLine": 387,
+        "startChar": 0,
+        "endLine": 387,
+        "endChar": 1
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bada5dd4_7493a779",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered copy.",
+      "range": {
+        "startLine": 426,
+        "startChar": 1,
+        "endLine": 426,
+        "endChar": 8
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e51a6ce_e73f0cf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered copy.",
+      "range": {
+        "startLine": 439,
+        "startChar": 9,
+        "endLine": 439,
+        "endChar": 15
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34f6c32c_0e016c7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered, but maybe should check !inCore as precondition.",
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25bcd773_26eeafbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "hash1 \u003d\u003d hash2 always? We should calculate the hash only once.",
+      "range": {
+        "startLine": 522,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 0
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d57ddda9_cebaef92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "here and below: we do the work twice; defensible b/c we would otherwise buffer all data in core, which is risky for binary data. Needs comment.",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 564,
+        "endChar": 16
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c539d7a_22c480a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered.",
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d47e0a_768d7cf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "should we avoid TemporaryBuffer if inCore \u003d\u003d true ?\n\nif we have the data as byte[] anyway, we can shortcircuit the reads. Find bytes.Buffer{} equivalent in java.",
+      "range": {
+        "startLine": 719,
+        "startChar": 0,
+        "endLine": 719,
+        "endChar": 57
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a0e03e1_df5e84d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered.",
+      "range": {
+        "startLine": 738,
+        "startChar": 1,
+        "endLine": 738,
+        "endChar": 8
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cca9f00d_520d23bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered.",
+      "range": {
+        "startLine": 767,
+        "startChar": 1,
+        "endLine": 782,
+        "endChar": 2
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beed6234_51f2616d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "unaltered.",
+      "range": {
+        "startLine": 788,
+        "startChar": 1,
+        "endLine": 788,
+        "endChar": 8
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

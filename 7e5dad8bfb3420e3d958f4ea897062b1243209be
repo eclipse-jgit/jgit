@@ -310,6 +310,30 @@
       },
       "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d521cd8_7b666351",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-01T17:36:16Z",
+      "side": 1,
+      "message": "it has `markAsModified(originPath);` but not `markAsModified(dest);`",
+      "parentUuid": "a5d630e9_9a4c96ba",
+      "range": {
+        "startLine": 455,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 27
+      },
+      "revId": "7e5dad8bfb3420e3d958f4ea897062b1243209be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
