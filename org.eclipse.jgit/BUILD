@@ -23,6 +23,12 @@ java_library(
         "//lib:javaewah",
         "//lib:slf4j-api",
     ],
+    javacopts = [
+        "-Xep:ReferenceEquality:OFF",
+        "-Xep:StringEquality:OFF",
+        "-Xep:TypeParameterUnusedInFormals:OFF",
+        "-Xep:DefaultCharset:OFF",
+    ]
 )
 
 genrule(
