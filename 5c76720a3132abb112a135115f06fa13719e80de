@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00f1f10e_b93d035e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1379,
+      "author": {
+        "id": 307454
+      },
+      "writtenOn": "2022-08-01T15:09:06Z",
+      "side": 1,
+      "message": "nit: The \"smallest iterator\" sounds unclear to me. Maybe something like \"Returns an iterator pointing to the element with the smallest name\" (example from\nhttps://cplusplus.com/reference/algorithm/min_element/)",
+      "range": {
+        "startLine": 1379,
+        "startChar": 16,
+        "endLine": 1379,
+        "endChar": 24
+      },
+      "revId": "5c76720a3132abb112a135115f06fa13719e80de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
