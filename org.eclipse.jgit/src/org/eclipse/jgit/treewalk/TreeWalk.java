@@ -1375,6 +1375,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		System.arraycopy(tmp, 0, trees, 0, trees.length);
 	}
 
+	/**
+	 * Returns the smallest AbstractTreeIterator from {@code trees}, and sets its {@code matches}
+	 * field. This may clobber {@code matches} in other {@code trees}. Other iterators at the same
+	 * name have {@code matches} pointing to the {@code min()} value.
+	 *
+	 * @return the smallest tree iterator available.
+	 * @throws CorruptObjectException
+	 */
 	@SuppressWarnings("unused")
 	AbstractTreeIterator min() throws CorruptObjectException {
 		int i = 0;
