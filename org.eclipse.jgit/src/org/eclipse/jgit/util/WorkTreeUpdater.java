@@ -18,13 +18,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.attributes.Attribute;
@@ -85,6 +89,9 @@ public class WorkTreeUpdater implements Closeable {
 	}
 
 	Result result = new Result();
+
+	/** A hash set version of Result#modifiedFiles for fast querying. */
+	private final Set<String> modifiedFilesSet = new HashSet<>();
 
 	/**
 	 * The repository this handler operates on.
@@ -193,6 +200,7 @@ public class WorkTreeUpdater implements Closeable {
 		this.reader = oi.newReader();
 		if (repo != null) {
 			this.inCoreFileSizeLimit = setInCoreFileSizeLimit(repo.getConfig());
+			this.workingTreeOptions = repo.getConfig().get(WorkingTreeOptions.KEY);
 		}
 	}
 
@@ -416,6 +424,56 @@ public class WorkTreeUpdater implements Closeable {
 	}
 
 	/**
+	 * Renames the given file
+	 *
+	 * @param origin     to be renamed
+	 * @param originPath to rename from
+	 * @param dest       file
+	 * @throws IOException if the file cannot be renamed
+	 */
+	public void renameFile(File origin, String originPath, File dest) throws IOException {
+		markAsModified(originPath);
+		markAsModified(dest.getPath()); // nosubmit
+
+		if (inCore) {
+			// insertToIndex() is expected to be called for this file next. Index updating is done there.
+			return;
+		}
+		if (origin == null || dest == null) {
+			throw new IOException(JGitText.get().renameFileFailedNullFiles);
+		}
+		try {
+			FileUtils.mkdirs(dest.getParentFile(), true);
+			FileUtils.rename(origin, dest, StandardCopyOption.ATOMIC_MOVE);
+		} catch (IOException e) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().renameFileFailed, origin, dest), e);
+		}
+	}
+
+	/**
+	 * Copies the given file
+	 *
+	 * @param origin   to be copied
+	 * @param dest     file
+	 * @param destPath to copy to
+	 * @throws IOException if the file cannot be copied
+	 */
+	public void copyFile(File origin, File dest, String destPath) throws IOException {
+		markAsModified(destPath);
+
+		if (inCore) {
+			// insertToIndex() is expected to be called for this file next. Index updating is done there.
+			return;
+		}
+		if (origin == null || dest == null) {
+			throw new IOException(JGitText.get().copyFileFailedNullFiles);
+		}
+		FileUtils.mkdirs(dest.getParentFile(), true);
+		Files.copy(origin.toPath(), dest.toPath());
+	}
+
+	/**
 	 * Remembers the {@link CheckoutMetadata} for the given path; it may be needed in {@link
 	 * #checkout()} or in {@link #revertModifiedFiles()}.
 	 *
@@ -431,7 +489,9 @@ public class WorkTreeUpdater implements Closeable {
 		if (inCore || map == null) {
 			return;
 		}
-		map.put(path, new CheckoutMetadata(streamType, smudgeCommand));
+		if (!map.containsKey(path)) {
+			map.put(path, new CheckoutMetadata(streamType, smudgeCommand));
+		}
 	}
 
 	/**
@@ -461,17 +521,20 @@ public class WorkTreeUpdater implements Closeable {
 					result.failedToDelete.add(path);
 				}
 			}
-			result.modifiedFiles.add(path);
+			markAsModified(path);
 		}
 	}
 
 	/**
 	 * Marks the given path as modified in the operation.
 	 *
-	 * @param path to mark as modified
+	 * @param path          to mark as modified
 	 */
 	public void markAsModified(String path) {
-		result.modifiedFiles.add(path);
+          if (!modifiedFilesSet.contains(path)) {
+			result.modifiedFiles.add(path);
+			modifiedFilesSet.add(path);
+          }
 	}
 
 	/**
@@ -494,7 +557,7 @@ public class WorkTreeUpdater implements Closeable {
 			} else {
 				DirCacheCheckout.checkoutEntry(
 						repo, dirCacheEntry, reader, false, checkoutMetadata.get(entry.getKey()));
-				result.modifiedFiles.add(entry.getKey());
+				markAsModified(entry.getKey());
 			}
 		}
 	}
@@ -592,8 +655,8 @@ public class WorkTreeUpdater implements Closeable {
 			int len,
 			Attribute lfsAttribute) throws IOException {
 		StreamLoader contentLoader = createStreamLoader(() -> inputStream, len);
-		return insertToIndex(contentLoader, path, fileMode, entryStage, lastModified, len,
-				lfsAttribute);
+		return insertToIndex(contentLoader, path, fileMode, entryStage,
+				lastModified, len, lfsAttribute);
 	}
 
 	/**
@@ -640,7 +703,7 @@ public class WorkTreeUpdater implements Closeable {
 			Instant lastModified,
 			int len) {
 		DirCacheEntry dce = new DirCacheEntry(path, entryStage);
-		dce.setFileMode(fileMode);
+		dce.setFileMode(fileMode  == FileMode.MISSING ? FileMode.REGULAR_FILE : fileMode); // NOSUBMIT -needed?
 		if (lastModified != null) {
 			dce.setLastModified(lastModified);
 		}
@@ -648,20 +711,25 @@ public class WorkTreeUpdater implements Closeable {
 
 		dce.setObjectId(objectId);
 		builder.add(dce);
+		String pathStr = new String(path, StandardCharsets.UTF_8);
+		DirCacheEntry oldEntry = builder.getDirCache().getEntry(pathStr);
+
+		if (oldEntry != null && !oldEntry.getObjectId().equals(objectId))
+       markAsModified(pathStr);
 		return dce;
 	}
 
 	private ObjectId insertResult(StreamLoader resultStreamLoader, Attribute lfsAttribute)
 			throws IOException {
-		try (LfsInputStream is =
-				org.eclipse.jgit.util.LfsFactory.getInstance()
-						.applyCleanFilter(
-								repo,
-								resultStreamLoader.data.load(),
-								resultStreamLoader.size,
-								lfsAttribute)) {
-			return inserter.insert(OBJ_BLOB, is.getLength(), is);
-		}
+                try (LfsInputStream is =
+                    org.eclipse.jgit.util.LfsFactory.getInstance()
+                    .applyCleanFilter(
+                        repo,
+                        resultStreamLoader.data.load(),
+                        resultStreamLoader.size,
+                        lfsAttribute)) {
+                  return inserter.insert(OBJ_BLOB, is.getLength(), is);
+                }
 	}
 
 	/**
@@ -670,7 +738,7 @@ public class WorkTreeUpdater implements Closeable {
 	 * @return non-null repository instance
 	 * @throws java.lang.NullPointerException if the handler was constructed without a repository.
 	 */
-	private Repository nonNullRepo() throws NullPointerException {
+	public Repository nonNullRepo() throws NullPointerException {
 		if (repo == null) {
 			throw new NullPointerException(JGitText.get().repositoryIsRequired);
 		}
