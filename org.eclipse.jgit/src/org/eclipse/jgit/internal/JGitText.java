@@ -183,7 +183,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
 	/***/ public String cookieFilePathRelative;
-	/***/ public String corruptionDetectedReReadingAt;
+  	/***/ public String copyFileFailedNullFiles;
+ 	/***/ public String corruptionDetectedReReadingAt;
 	/***/ public String corruptObjectBadDate;
 	/***/ public String corruptObjectBadEmail;
 	/***/ public String corruptObjectBadStream;
@@ -655,6 +656,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String renameBranchUnexpectedResult;
 	/***/ public String renameCancelled;
 	/***/ public String renameFileFailed;
+	/***/ public String renameFileFailedNullFiles;
 	/***/ public String renamesAlreadyFound;
 	/***/ public String renamesBreakingModifies;
 	/***/ public String renamesFindingByContent;
