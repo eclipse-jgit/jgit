@@ -878,8 +878,8 @@ public class ResolveMerger extends ThreeWayMerger {
 					tw.getRawMode(2));
 			FileMode mode = newMode == FileMode.MISSING.getBits()
 					? FileMode.REGULAR_FILE : FileMode.fromBits(newMode);
-			workTreeUpdater.insertToIndex(rawMerged.openInputStream(), tw.getPathString().getBytes(UTF_8), mode,
-					DirCacheEntry.STAGE_0, lastModified, (int) rawMerged.length(),
+			workTreeUpdater.insertToIndex(rawMerged.openInputStream(), tw.getPathString().getBytes(UTF_8),
+					mode, DirCacheEntry.STAGE_0, lastModified, (int) rawMerged.length(),
 					attributes.get(Constants.ATTR_MERGE));
 		} finally {
 			if (rawMerged != null) {

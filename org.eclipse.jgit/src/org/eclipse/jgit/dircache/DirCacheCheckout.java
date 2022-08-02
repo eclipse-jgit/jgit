@@ -1564,7 +1564,7 @@ public class DirCacheCheckout {
 		EolStreamType nonNullEolStreamType;
 		if (checkoutMetadata.eolStreamType != null) {
 			nonNullEolStreamType = checkoutMetadata.eolStreamType;
-		} else if (opt.getAutoCRLF() == AutoCRLF.TRUE) {
+		} else if (opt != null && opt.getAutoCRLF() == AutoCRLF.TRUE) { // NOSUBMIT - needed?
 			nonNullEolStreamType = EolStreamType.AUTO_CRLF;
 		} else {
 			nonNullEolStreamType = EolStreamType.DIRECT;
