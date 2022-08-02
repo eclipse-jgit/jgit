@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6828797_97bcbf34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T18:15:46Z",
+      "side": 1,
+      "message": "this will be quadratic.",
+      "range": {
+        "startLine": 529,
+        "startChar": 0,
+        "endLine": 529,
+        "endChar": 45
+      },
+      "revId": "71be5de0c311543a856662b65b5861b4dea02179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8ba991e_ea671cb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T18:15:46Z",
+      "side": 1,
+      "message": "the smudgeCommand is the transform from index to checkout, and the index should match the tree.  So this would insert the smudged data into the object store, which I think is wrong way around. Note how l.736 applies the cleanFilter (rather than the smudge filter).",
+      "range": {
+        "startLine": 729,
+        "startChar": 4,
+        "endLine": 729,
+        "endChar": 17
+      },
+      "revId": "71be5de0c311543a856662b65b5861b4dea02179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d08115b_d534da1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T18:15:46Z",
+      "side": 1,
+      "message": "this would use FS storage even if inCore \u003d\u003d true, which breaks in the google deployment (localfile would be RAM backed, it\u0027s either limited, or it causes OOM errors.)",
+      "range": {
+        "startLine": 731,
+        "startChar": 46,
+        "endLine": 731,
+        "endChar": 55
+      },
+      "revId": "71be5de0c311543a856662b65b5861b4dea02179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
