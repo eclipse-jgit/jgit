@@ -416,6 +416,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d0219dc_ac200878",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T17:49:15Z",
+      "side": 1,
+      "message": "is used: textApply doesn\u0027t specify sha1 computationn. Then again, insertToIndex returns a DirCacheEntry which can be used to check the SHA1, so ContentStreamLoaders doesn\u0027t need SHA1.",
+      "parentUuid": "1d72c0d4_549b6a05",
+      "range": {
+        "startLine": 526,
+        "startChar": 2,
+        "endLine": 526,
+        "endChar": 22
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d57ddda9_cebaef92",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 21
@@ -541,6 +565,29 @@
         "startChar": 1,
         "endLine": 788,
         "endChar": 8
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4dd7260_43fe297e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T17:49:15Z",
+      "side": 1,
+      "message": "this will be quadratic",
+      "range": {
+        "startLine": 529,
+        "startChar": 7,
+        "endLine": 529,
+        "endChar": 13
       },
       "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
