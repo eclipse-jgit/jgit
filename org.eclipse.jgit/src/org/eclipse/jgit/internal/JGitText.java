@@ -42,7 +42,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String anExceptionOccurredWhileTryingToAddTheIdOfHEAD;
 	/***/ public String anSSHSessionHasBeenAlreadyCreated;
 	/***/ public String applyBinaryBaseOidWrong;
+	/***/ public String applyBinaryForInCoreNotSupported;
 	/***/ public String applyBinaryOidTooShort;
+	/***/ public String applyBinaryPatchTypeNotSupported;
 	/***/ public String applyBinaryResultOidWrong;
 	/***/ public String applyingCommit;
 	/***/ public String archiveFormatAlreadyAbsent;

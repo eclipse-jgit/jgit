@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Path;
@@ -164,8 +165,20 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected static void checkFile(File f, String checkData)
 			throws IOException {
-		try (Reader r = new InputStreamReader(new FileInputStream(f),
-				UTF_8)) {
+		checkInputStream(new FileInputStream(f), checkData);
+	}
+
+	/**
+	 * Check content of an InputStream.
+	 *
+	 * @param is
+	 * @param checkData
+	 *            expected content
+	 * @throws IOException
+	 */
+	protected static void checkInputStream(InputStream is, String checkData)
+			throws IOException {
+		try (Reader r = new InputStreamReader(is, UTF_8)) {
 			if (checkData.length() > 0) {
 				char[] data = new char[checkData.length()];
 				assertEquals(data.length, r.read(data));
