@@ -106,6 +106,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b9e32d8_68fda790",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T14:32:26Z",
+      "side": 1,
+      "message": "needs doc.",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 228,
+        "endChar": 9
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a37fb188_786a0dbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T14:32:26Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 230,
+        "startChar": 2,
+        "endLine": 230,
+        "endChar": 10
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3313ff7d_a64c975c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T14:32:26Z",
+      "side": 1,
+      "message": "what if forPath returned null ?",
+      "range": {
+        "startLine": 242,
+        "startChar": 26,
+        "endLine": 242,
+        "endChar": 36
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e92c7af4_a9613a49",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 21
@@ -140,6 +209,52 @@
       "writtenOn": "2022-08-01T17:36:16Z",
       "side": 1,
       "message": "logic is changed here. Look better.",
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09642a25_bd76e695",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T14:32:26Z",
+      "side": 1,
+      "message": "leaks  - should call close. FileTreeWalk should be autocloseable?",
+      "range": {
+        "startLine": 264,
+        "startChar": 3,
+        "endLine": 264,
+        "endChar": 65
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e6babac_0342196d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T14:32:26Z",
+      "side": 1,
+      "message": "why is this not in the original?",
+      "range": {
+        "startLine": 325,
+        "startChar": 5,
+        "endLine": 326,
+        "endChar": 86
+      },
       "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -271,6 +386,29 @@
         "startChar": 0,
         "endLine": 525,
         "endChar": 0
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d72c0d4_549b6a05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T14:32:26Z",
+      "side": 1,
+      "message": "unused.",
+      "range": {
+        "startLine": 526,
+        "startChar": 2,
+        "endLine": 526,
+        "endChar": 22
       },
       "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
