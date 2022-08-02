@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8a16b12f_d98c6afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-02T18:23:00Z",
+      "side": 1,
+      "message": "why are these changes necessary? What tests can you add?\n\nthis currently causes failures in\n\n//org.eclipse.jgit.test:org_eclipse_jgit_api_CherryPickCommandTest       //org.eclipse.jgit.test:org_eclipse_jgit_api_StashApplyCommandTest       //org.eclipse.jgit.test:org_eclipse_jgit_lib_DirCacheCheckoutTest        //org.eclipse.jgit.test:org_eclipse_jgit_merge_MergerTest",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "71be5de0c311543a856662b65b5861b4dea02179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6828797_97bcbf34",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 1
