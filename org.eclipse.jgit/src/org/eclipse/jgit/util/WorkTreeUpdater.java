@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -430,9 +431,9 @@ public class WorkTreeUpdater implements Closeable {
 	 * @param dest       file
 	 * @throws IOException if the file cannot be renamed
 	 */
-	public void renameFile(File origin, String originPath, File dest) throws IOException {
+	public void renameFile(File origin, String originPath, File dest, String destPath) throws IOException {
 		markAsModified(originPath);
-		markAsModified(dest.getPath()); // nosubmit
+		markAsModified(destPath);
 
 		if (inCore) {
 			// insertToIndex() is expected to be called for this file next. Index updating is done there.
@@ -701,19 +702,19 @@ public class WorkTreeUpdater implements Closeable {
 			int entryStage,
 			Instant lastModified,
 			int len) {
+		String pathStr = new String(path, StandardCharsets.UTF_8);
+		DirCacheEntry oldEntry = builder.getDirCache().getEntry(pathStr);
+
 		DirCacheEntry dce = new DirCacheEntry(path, entryStage);
 		dce.setFileMode(fileMode  == FileMode.MISSING ? FileMode.REGULAR_FILE : fileMode); // NOSUBMIT -needed?
 		if (lastModified != null) {
 			dce.setLastModified(lastModified);
 		}
 		dce.setLength(inCore ? 0 : len);
-
 		dce.setObjectId(objectId);
 		builder.add(dce);
-		String pathStr = new String(path, StandardCharsets.UTF_8);
-		DirCacheEntry oldEntry = builder.getDirCache().getEntry(pathStr);
 
-		if (oldEntry != null && !oldEntry.getObjectId().equals(objectId))
+		if (oldEntry == null || !oldEntry.getObjectId().equals(objectId))
        markAsModified(pathStr);
 		return dce;
 	}
