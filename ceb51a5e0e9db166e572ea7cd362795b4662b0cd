@@ -18,6 +18,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "077cecac_6f4d7182",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-03T20:27:23Z",
+      "side": 1,
+      "message": "Also, JGit is lacking a test that does the same as EGit\u0027s GitCommitsModelCache.build().",
+      "revId": "ceb51a5e0e9db166e572ea7cd362795b4662b0cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03803806_76ab6130",
@@ -29,6 +46,41 @@
         "id": 44628
       },
       "writtenOn": "2022-08-03T20:24:29Z",
+      "side": 1,
+      "message": "Missing @since 6.3.",
+      "revId": "ceb51a5e0e9db166e572ea7cd362795b4662b0cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "601f47e5_8fc295a5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FilteredRevWalkTest.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-03T20:27:23Z",
+      "side": 1,
+      "message": "Sorry, wrong file. Of course the @since is not missing on the test but on FilteredRevCommit.",
+      "parentUuid": "03803806_76ab6130",
+      "revId": "ceb51a5e0e9db166e572ea7cd362795b4662b0cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11963a95_28c51f91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-03T20:27:23Z",
       "side": 1,
       "message": "Missing @since 6.3.",
       "revId": "ceb51a5e0e9db166e572ea7cd362795b4662b0cd",
