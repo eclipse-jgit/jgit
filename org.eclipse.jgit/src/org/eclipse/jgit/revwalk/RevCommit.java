@@ -125,6 +125,21 @@ public class RevCommit extends RevObject {
 		super(id);
 	}
 
+	/**
+	 * Create a new commit reference.
+	 *
+	 * @param orig
+	 *            commit to be copied from.
+	 */
+	protected RevCommit(RevCommit orig) {
+		super(orig.getId());
+		this.buffer = orig.buffer;
+		this.commitTime = orig.commitTime;
+		this.flags = orig.flags;
+		this.parents = orig.parents;
+		this.tree = orig.tree;
+	}
+
 	@Override
 	void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
