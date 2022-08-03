@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import org.eclipse.jgit.annotations.Nullable;
@@ -431,9 +432,9 @@ public class WorkTreeUpdater implements Closeable {
 	 * @param dest       file
 	 * @throws IOException if the file cannot be renamed
 	 */
-	public void renameFile(File origin, String originPath, File dest) throws IOException {
+	public void renameFile(File origin, String originPath, File dest, String destPath) throws IOException {
 		markAsModified(originPath);
-		markAsModified(dest.getPath()); // nosubmit
+		markAsModified(destPath);
 
 		if (inCore) {
 			// insertToIndex() is expected to be called for this file next. Index updating is done there.
@@ -531,10 +532,10 @@ public class WorkTreeUpdater implements Closeable {
 	 * @param path          to mark as modified
 	 */
 	public void markAsModified(String path) {
-          if (!modifiedFilesSet.contains(path)) {
+		if (!modifiedFilesSet.contains(path)) {
 			result.modifiedFiles.add(path);
 			modifiedFilesSet.add(path);
-          }
+		}
 	}
 
 	/**
@@ -708,28 +709,24 @@ public class WorkTreeUpdater implements Closeable {
 			dce.setLastModified(lastModified);
 		}
 		dce.setLength(inCore ? 0 : len);
-
 		dce.setObjectId(objectId);
-		builder.add(dce);
-		String pathStr = new String(path, StandardCharsets.UTF_8);
-		DirCacheEntry oldEntry = builder.getDirCache().getEntry(pathStr);
-
-		if (oldEntry != null && !oldEntry.getObjectId().equals(objectId))
-       markAsModified(pathStr);
+		addExistingToIndex(dce);
 		return dce;
 	}
+	public void addExistingToIndex(DirCacheEntry dce) {
+		DirCacheEntry oldEntry = builder.getDirCache().getEntry(dce.getPathString());
+		builder.add(dce);
+		if (oldEntry == null || !oldEntry.getObjectId().equals(dce.getObjectId()))
+			markAsModified(dce.getPathString());
+	}
 
-	private ObjectId insertResult(StreamLoader resultStreamLoader, Attribute lfsAttribute)
-			throws IOException {
-                try (LfsInputStream is =
-                    org.eclipse.jgit.util.LfsFactory.getInstance()
-                    .applyCleanFilter(
-                        repo,
-                        resultStreamLoader.data.load(),
-                        resultStreamLoader.size,
-                        lfsAttribute)) {
-                  return inserter.insert(OBJ_BLOB, is.getLength(), is);
-                }
+	private ObjectId insertResult(StreamLoader resultStreamLoader,
+			Attribute lfsAttribute) throws IOException {
+		try (LfsInputStream is = org.eclipse.jgit.util.LfsFactory.getInstance()
+				.applyCleanFilter(repo, resultStreamLoader.data.load(),
+						resultStreamLoader.size, lfsAttribute)) {
+			return inserter.insert(OBJ_BLOB, is.getLength(), is);
+		}
 	}
 
 	/**
