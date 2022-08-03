@@ -20,6 +20,7 @@ import java.util.Iterator;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
