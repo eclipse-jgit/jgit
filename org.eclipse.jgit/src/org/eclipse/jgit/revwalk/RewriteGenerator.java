@@ -34,12 +34,15 @@ class RewriteGenerator extends Generator {
 	/** For {@link #cleanup(RevCommit[])} to remove duplicate parents. */
 	private static final int DUPLICATE = RevWalk.TEMP_MARK;
 
+	private final RevWalk walk;
+
 	private final Generator source;
 
 	private final FIFORevQueue pending;
 
-	RewriteGenerator(Generator s) {
+	RewriteGenerator(RevWalk w, Generator s) {
 		super(s.firstParent);
+		walk = w;
 		source = s;
 		pending = new FIFORevQueue(s.firstParent);
 	}
@@ -79,9 +82,11 @@ class RewriteGenerator extends Generator {
 			final RevCommit newp = rewrite(oldp);
 			if (firstParent) {
 				if (newp == null) {
-					c.parents = RevCommit.NO_PARENTS;
+					c = new FilteredRevCommit(c);
+					c.parseHeaders(walk);
 				} else {
-					c.parents = new RevCommit[] { newp };
+					c = new FilteredRevCommit(c, newp);
+					c.parseHeaders(walk);
 				}
 				return c;
 			}
@@ -91,7 +96,8 @@ class RewriteGenerator extends Generator {
 			}
 		}
 		if (rewrote) {
-			c.parents = cleanup(pList);
+			c = new FilteredRevCommit(c, cleanup(pList));
+			c.parseHeaders(walk);
 		}
 		return c;
 	}
