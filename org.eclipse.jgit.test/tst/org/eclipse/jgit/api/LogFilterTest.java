@@ -20,7 +20,6 @@ import java.util.Iterator;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -32,13 +31,10 @@ import org.junit.Test;
 public class LogFilterTest extends RepositoryTestCase {
 	private Git git;
 
-	private RevWalk rw;
-
 	@Before
 	public void setup() throws Exception {
 		super.setUp();
 		git = new Git(db);
-		rw = new RevWalk(db);
 
 		// create first file
 		File file = new File(db.getWorkTree(), "a.txt");
@@ -102,7 +98,6 @@ public class LogFilterTest extends RepositoryTestCase {
 	public void testLogWithFilterCanDistinguishFilesByPath() throws Exception {
 		int count = 0;
 		for (RevCommit c : git.log().addPath("a.txt").call()) {
-			rw.parseHeaders(c);
 			assertEquals("commit1", c.getFullMessage());
 			count++;
 		}
@@ -110,7 +105,6 @@ public class LogFilterTest extends RepositoryTestCase {
 
 		count = 0;
 		for (RevCommit c : git.log().addPath("b.txt").call()) {
-			rw.parseHeaders(c);
 			assertEquals("commit2", c.getFullMessage());
 			count++;
 		}
@@ -121,7 +115,6 @@ public class LogFilterTest extends RepositoryTestCase {
 	public void testLogWithFilterCanIncludeFilesInDirectory() throws Exception {
 		int count = 0;
 		for (RevCommit c : git.log().addPath("subdir-include").call()) {
-			rw.parseHeaders(c);
 			assertEquals("commit3", c.getFullMessage());
 			count++;
 		}

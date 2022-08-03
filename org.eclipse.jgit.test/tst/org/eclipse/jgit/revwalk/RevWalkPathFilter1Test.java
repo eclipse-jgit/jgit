@@ -23,8 +23,8 @@ import org.junit.Test;
 
 public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	protected void filter(String path) {
-		rw.setTreeFilter(AndTreeFilter.create(
-				PathFilterGroup.createFromStrings(Collections.singleton(path)),
+		rw.setTreeFilter(AndTreeFilter.create(PathFilterGroup
+				.createFromStrings(Collections.singleton(path)),
 				TreeFilter.ANY_DIFF));
 	}
 
@@ -87,7 +87,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		filter("d/f");
 		markStart(c);
 
-		assertEquals(c, rw.next());
+		assertCommit(c, rw.next());
 		assertEquals(1, c.getParentCount());
 		assertCommit(a, c.getParent(0)); // b was skipped
 
@@ -125,7 +125,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		markStart(d);
 
 		// d was skipped
-		assertEquals(c, rw.next());
+		assertCommit(c, rw.next());
 		assertEquals(1, c.getParentCount());
 		assertCommit(a, c.getParent(0)); // b was skipped
 
@@ -136,7 +136,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 
 	@Test
 	public void testStringOfPearls_FilePath2_NoParentRewriting()
-			throws Exception {
+	throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -166,7 +166,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		markStart(d);
 
 		// d was skipped
-		assertEquals(c, rw.next());
+		assertCommit(c, rw.next());
 		assertEquals(1, c.getParentCount());
 		assertCommit(a, c.getParent(0)); // b was skipped
 
@@ -211,11 +211,11 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		filter("d/f");
 		markStart(i);
 
-		assertEquals(i, rw.next());
+		assertCommit(i, rw.next());
 		assertEquals(1, i.getParentCount());
 		assertCommit(c, i.getParent(0)); // h..d was skipped
 
-		assertEquals(c, rw.next());
+		assertCommit(c, rw.next());
 		assertEquals(1, c.getParentCount());
 		assertCommit(a, c.getParent(0)); // b was skipped
 
