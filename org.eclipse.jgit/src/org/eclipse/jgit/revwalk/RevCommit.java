@@ -107,7 +107,7 @@ public class RevCommit extends RevObject {
 	 * {@link RevCommit#getParents()} instead. RevCommit does not allow parents
 	 * to be overridden and altering parent(s) is not supported.
 	 */
-	protected RevCommit[] parents;
+	RevCommit[] parents;
 
 	int commitTime; // An int here for performance, overflows in 2038
 
@@ -123,6 +123,22 @@ public class RevCommit extends RevObject {
 	 */
 	protected RevCommit(AnyObjectId id) {
 		super(id);
+	}
+
+	/**
+	 * Create a new commit reference.
+	 *
+	 * @param orig
+	 *            commit to be copied from.
+	 */
+	RevCommit(RevCommit orig) {
+		super(orig.getId());
+		this.buffer = orig.buffer;
+		this.commitTime = orig.commitTime;
+		this.flags = orig.flags;
+		this.parents = orig.parents;
+		this.tree = orig.tree;
+		this.inDegree = orig.inDegree;
 	}
 
 	@Override
