@@ -423,9 +423,10 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		rw.sort(RevSort.TOPO, true);
 		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
 		markStart(d);
-		assertCommit(d, rw.next());
-		assertCommit(c, rw.next());
-		assertCommit(b, rw.next());
+
+		assertEquals(d, rw.next());
+		assertEquals(c, rw.next());
+		assertEquals(b, rw.next());
 		assertNull(rw.next());
 	}
 
@@ -441,8 +442,8 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		rw.sort(RevSort.TOPO, true);
 		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
 		markStart(d);
-		assertCommit(d, rw.next());
-		assertCommit(c, rw.next());
+		assertEquals(d, rw.next());
+		assertEquals(c, rw.next());
 		assertNull(rw.next());
 	}
 
@@ -458,9 +459,9 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER, true);
 		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
 		markStart(d);
-		assertCommit(d, rw.next());
-		assertCommit(c, rw.next());
-		assertCommit(b, rw.next());
+		assertEquals(d, rw.next());
+		assertEquals(c, rw.next());
+		assertEquals(b, rw.next());
 		assertNull(rw.next());
 	}
 
@@ -476,8 +477,8 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER, true);
 		rw.setTreeFilter(PathFilterGroup.createFromStrings("0"));
 		markStart(d);
-		assertCommit(d, rw.next());
-		assertCommit(c, rw.next());
+		assertEquals(d, rw.next());
+		assertEquals(c, rw.next());
 		assertNull(rw.next());
 	}
 }
