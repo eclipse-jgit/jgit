@@ -11,6 +11,8 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -38,10 +40,13 @@ class RewriteGenerator extends Generator {
 
 	private final FIFORevQueue pending;
 
+	private final Map<RevCommit, RevCommit> transformedCommits;
+
 	RewriteGenerator(Generator s) {
 		super(s.firstParent);
 		source = s;
 		pending = new FIFORevQueue(s.firstParent);
+		transformedCommits = new HashMap<>();
 	}
 
 	@Override
@@ -58,7 +63,7 @@ class RewriteGenerator extends Generator {
 	@Override
 	RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		RevCommit c = pending.next();
+		RevCommit c = transform(pending.next());
 
 		if (c == null) {
 			c = source.next();
@@ -79,9 +84,9 @@ class RewriteGenerator extends Generator {
 			final RevCommit newp = rewrite(oldp);
 			if (firstParent) {
 				if (newp == null) {
-					c.parents = RevCommit.NO_PARENTS;
+					c = updateParent(c, RevCommit.NO_PARENTS);
 				} else {
-					c.parents = new RevCommit[] { newp };
+					c = updateParent(c, newp);
 				}
 				return c;
 			}
@@ -91,7 +96,7 @@ class RewriteGenerator extends Generator {
 			}
 		}
 		if (rewrote) {
-			c.parents = cleanup(pList);
+			c = new FilteredRevCommit(c, cleanup(pList));
 		}
 		return c;
 	}
@@ -114,7 +119,7 @@ class RewriteGenerator extends Generator {
 				RevCommit n = source.next();
 
 				if (n != null) {
-					pending.add(n);
+					pending.add(transform(n));
 				} else {
 					// Source generator is exhausted; filter has been applied to
 					// all commits
@@ -129,6 +134,8 @@ class RewriteGenerator extends Generator {
 	private RevCommit rewrite(RevCommit p) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
+
+			p = transform(p);
 
 			if (p.getParentCount() > 1) {
 				// This parent is a merge, so keep it.
@@ -161,6 +168,32 @@ class RewriteGenerator extends Generator {
 			p = p.getParent(0);
 
 		}
+	}
+
+	private RevCommit transform(RevCommit c) {
+		if (c == null) {
+			return null;
+		}
+
+		if (c instanceof FilteredRevCommit) {
+			return c;
+		}
+
+		if (!transformedCommits.containsKey(c)) {
+			transformedCommits.put(c, new FilteredRevCommit(c, c.getParents()));
+		}
+
+		return transformedCommits.get(c);
+	}
+
+	private RevCommit updateParent(RevCommit c, RevCommit... parents) {
+		if (!(c instanceof FilteredRevCommit)) {
+			c = transform(c);
+		}
+
+		((FilteredRevCommit) c).setParents(parents);
+
+		return c;
 	}
 
 	private RevCommit[] cleanup(RevCommit[] oldList) {
