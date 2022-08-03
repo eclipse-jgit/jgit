@@ -79,9 +79,9 @@ class RewriteGenerator extends Generator {
 			final RevCommit newp = rewrite(oldp);
 			if (firstParent) {
 				if (newp == null) {
-					c.parents = RevCommit.NO_PARENTS;
+					c = new FilteredRevCommit(c);
 				} else {
-					c.parents = new RevCommit[] { newp };
+					c = new FilteredRevCommit(c, newp);
 				}
 				return c;
 			}
@@ -91,7 +91,8 @@ class RewriteGenerator extends Generator {
 			}
 		}
 		if (rewrote) {
-			c.parents = cleanup(pList);
+			c = new FilteredRevCommit(c, cleanup(pList));
+
 		}
 		return c;
 	}

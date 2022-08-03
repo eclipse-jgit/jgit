@@ -606,7 +606,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		return pending.next();
+		RevCommit commit = pending.next();
+		if (commit != null) {
+			parseHeaders(commit);
+		}
+		return commit;
 	}
 
 	/**
