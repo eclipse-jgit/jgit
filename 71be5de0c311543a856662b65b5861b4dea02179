@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "626031af_f649e5e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-04T11:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a16b12f_d98c6afb",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "71be5de0c311543a856662b65b5861b4dea02179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6828797_97bcbf34",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-02T18:15:46Z",
       "side": 1,
       "message": "this will be quadratic.",
+      "range": {
+        "startLine": 529,
+        "startChar": 0,
+        "endLine": 529,
+        "endChar": 45
+      },
+      "revId": "71be5de0c311543a856662b65b5861b4dea02179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2006f8fc_80f5ddb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-04T11:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6828797_97bcbf34",
       "range": {
         "startLine": 529,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f27a1aa_b911d28e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-04T11:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8ba991e_ea671cb8",
+      "range": {
+        "startLine": 729,
+        "startChar": 4,
+        "endLine": 729,
+        "endChar": 17
+      },
+      "revId": "71be5de0c311543a856662b65b5861b4dea02179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d08115b_d534da1f",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-08-02T18:15:46Z",
       "side": 1,
       "message": "this would use FS storage even if inCore \u003d\u003d true, which breaks in the google deployment (localfile would be RAM backed, it\u0027s either limited, or it causes OOM errors.)",
+      "range": {
+        "startLine": 731,
+        "startChar": 46,
+        "endLine": 731,
+        "endChar": 55
+      },
+      "revId": "71be5de0c311543a856662b65b5861b4dea02179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e288849d_49b33447",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-04T11:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d08115b_d534da1f",
       "range": {
         "startLine": 731,
         "startChar": 46,
