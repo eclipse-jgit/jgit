@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "841a04c6_45ae55d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-05T20:36:57Z",
+      "side": 1,
+      "message": "So we parse the headers twice for every commit that we show. I am worried about the performance impact this has on git log -- path, or on the EGit history view, where showing a path filtered history (and thus doing parent rewriting) is a _very_ common operation.\n\nMoreover, this populates RevCommit.parents again with the original parents, even though that isn\u0027t used anymore. So the memory consumption also increases. In the original version, where the RevCommit.parents array was rewritten directly, pruned parents could be garbage collected.",
+      "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
