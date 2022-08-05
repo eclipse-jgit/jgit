@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f54c8bed_9e9272a8",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-05T23:53:02Z",
+      "side": 1,
+      "message": "We could make save implementers some work in adapting to this change by providing a default implementation (e.g., by moving the implementation that rejects shallows in https://git.eclipse.org/r/c/jgit/jgit/+/195084 from DfsObjDatabase to the base ObjectDatabase class).",
+      "revId": "207dd4c938830e84c9101d30edb7fe626e04bbe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
