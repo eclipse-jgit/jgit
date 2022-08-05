@@ -36,6 +36,11 @@ import org.eclipse.jgit.util.StringUtils;
 
 /**
  * A commit reference to a commit in the DAG.
+ *
+ * The state of the RevCommit isn't populated until the commit is parsed. The
+ * newly created RevCommit is unparsed and only has an objectId reference. Other
+ * states like parents, trees, commit ident, commit message, etc. are
+ * populated/available when the commit is parsed.
  */
 public class RevCommit extends RevObject {
 	private static final int STACK_DEPTH = 500;
