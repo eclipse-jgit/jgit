@@ -18,6 +18,75 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de2452ab_70116705",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkPathFilter1Test.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2022-08-05T22:05:16Z",
+      "side": 1,
+      "message": "Thanks for adding these commit headers and flags tests to increase coverage.",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 68
+      },
+      "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abe8f099_104bbbcc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2022-08-05T22:05:16Z",
+      "side": 1,
+      "message": "The @since annotation needs to be moved from the file JavaDoc to the class JavaDoc.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "199037e3_93543fb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2022-08-05T22:05:16Z",
+      "side": 1,
+      "message": "This is propagating the flags and commit time but otherwise resetting the parsed state from the RevCommit being passed in. That\u0027s kind of unintuitive.\n\nIt seems that subclassing RevCommit is kind of awkward, because RevCommit itself is awkward, having both \"minimally initialized\" and \"fully parsed\" states and forcing callers to be aware of them.\n\nI see that Thomas commented about performance implications of parsing multiple times. Perhaps copying all of RevCommits fields into FilteredRevCommit is the right way to go. It isn\u0027t future proof (if RevCommit adds a new field the author may not know to update this ctor). If RevCommit had a package private copy constructor that this method delegated to that would solve that. (RevCommits would be assumed to be unique/immutable so I don\u0027t think a public copy ctor makes sense.)",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 46
+      },
+      "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "841a04c6_45ae55d3",
