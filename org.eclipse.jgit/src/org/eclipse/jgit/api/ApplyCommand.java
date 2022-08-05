@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.zip.InflaterInputStream;
+
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.PatchApplyException;
@@ -36,11 +38,15 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.BinaryHunk;
 import org.eclipse.jgit.patch.FileHeader;
@@ -58,7 +64,6 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.WorkTreeUpdater;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
@@ -350,6 +355,60 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		return result.getStdout().openInputStreamWithAutoDestroy();
 	}
 
+	/**
+	 * Something that can supply an {@link InputStream}.
+	 */
+	private interface StreamSupplier {
+		InputStream load() throws IOException;
+	}
+
+	/**
+	 * We write the patch result to a {@link TemporaryBuffer} and then use
+	 * {@link DirCacheCheckout}.getContent() to run the result through the CR-LF
+	 * and smudge filters. DirCacheCheckout needs an ObjectLoader, not a
+	 * TemporaryBuffer, so this class bridges between the two, making any Stream
+	 * provided by a {@link StreamSupplier} look like an ordinary git blob to
+	 * DirCacheCheckout.
+	 */
+	private static class StreamLoader extends ObjectLoader {
+
+		private StreamSupplier data;
+
+		private long size;
+
+		StreamLoader(StreamSupplier data, long length) {
+			this.data = data;
+			this.size = length;
+		}
+
+		@Override
+		public int getType() {
+			return Constants.OBJ_BLOB;
+		}
+
+		@Override
+		public long getSize() {
+			return size;
+		}
+
+		@Override
+		public boolean isLarge() {
+			return true;
+		}
+
+		@Override
+		public byte[] getCachedBytes() throws LargeObjectException {
+			throw new LargeObjectException();
+		}
+
+		@Override
+		public ObjectStream openStream()
+				throws MissingObjectException, IOException {
+			return new ObjectStream.Filter(getType(), getSize(),
+					new BufferedInputStream(data.load()));
+		}
+	}
+
 	private void initHash(SHA1 hash, long size) {
 		hash.update(Constants.encodedTypeString(Constants.OBJ_BLOB));
 		hash.update((byte) ' ');
@@ -397,7 +456,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	}
 
 	private void applyBinary(Repository repository, String path, File f,
-			FileHeader fh, WorkTreeUpdater.StreamSupplier loader, ObjectId id,
+			FileHeader fh, StreamSupplier loader, ObjectId id,
 			CheckoutMetadata checkOut)
 			throws PatchApplyException, IOException {
 		if (!fh.getOldId().isComplete() || !fh.getNewId().isComplete()) {
@@ -429,8 +488,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 														hunk.getBuffer(), start,
 														length))))) {
 					DirCacheCheckout.getContent(repository, path, checkOut,
-							WorkTreeUpdater.createStreamLoader(() -> inflated,
-									hunk.getSize()),
+							new StreamLoader(() -> inflated, hunk.getSize()),
 							null, out);
 					if (!fh.getNewId().toObjectId().equals(hash.toObjectId())) {
 						throw new PatchApplyException(MessageFormat.format(
@@ -462,8 +520,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 							SHA1InputStream hashed = new SHA1InputStream(hash,
 									input)) {
 						DirCacheCheckout.getContent(repository, path, checkOut,
-								WorkTreeUpdater.createStreamLoader(() -> hashed, finalSize),
-								null, out);
+								new StreamLoader(() -> hashed, finalSize), null,
+								out);
 						if (!fh.getNewId().toObjectId()
 								.equals(hash.toObjectId())) {
 							throw new PatchApplyException(MessageFormat.format(
@@ -631,7 +689,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			}
 			try (OutputStream output = new FileOutputStream(f)) {
 				DirCacheCheckout.getContent(repository, path, checkOut,
-						WorkTreeUpdater.createStreamLoader(buffer::openInputStream,
+						new StreamLoader(buffer::openInputStream,
 								buffer.length()),
 						null, output);
 			}
