@@ -58,8 +58,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		}
 	};
 
-	private static final Set<ObjectId> shallowCommits = Collections.emptySet();
-
 	/**
 	 * Sources for a pack file.
 	 * <p>
@@ -506,19 +504,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	protected abstract DfsOutputStream writeFile(
 			DfsPackDescription desc, PackExt ext) throws IOException;
-
-	@Override
-	public Set<ObjectId> getShallowCommits() throws IOException {
-		return shallowCommits;
-	}
-
-	@Override
-	public void setShallowCommits(Set<ObjectId> shallowCommits) {
-		if (!shallowCommits.isEmpty()) {
-			throw new UnsupportedOperationException(
-					"Shallow commits expected to be empty.");
-		}
-	}
 
 	void addPack(DfsPackFile newPack) throws IOException {
 		PackList o, n;
