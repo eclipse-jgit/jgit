@@ -9,20 +9,6 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/lib/ObjectDatabase.java" type="org.eclipse.jgit.lib.ObjectDatabase">
-        <filter id="336695337">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ObjectDatabase"/>
-                <message_argument value="getShallowCommits()"/>
-            </message_arguments>
-        </filter>
-        <filter id="336695337">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ObjectDatabase"/>
-                <message_argument value="setShallowCommits(Set&lt;ObjectId&gt;)"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/lib/TypedConfigGetter.java" type="org.eclipse.jgit.lib.TypedConfigGetter">
         <filter id="403767336">
             <message_arguments>
