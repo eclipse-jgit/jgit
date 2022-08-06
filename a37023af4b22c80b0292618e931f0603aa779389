@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e20caf4d_75bb9e65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-06T00:46:28Z",
+      "side": 1,
+      "message": "Is this one about Gerrit tests? I figured it\u0027s more about failing _build_ for anything that implements their own custom subclass of ObjectDatabase.",
+      "range": {
+        "startLine": 9,
+        "startChar": 141,
+        "endLine": 9,
+        "endChar": 166
+      },
+      "revId": "a37023af4b22c80b0292618e931f0603aa779389",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ac594a8_7b4773c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-06T00:46:28Z",
+      "side": 1,
+      "message": "We tend to prefer to use the Change-Id instead of the change number, since\n* that would continue to work after any future infrastructure migrations\n* it even allows local lookups using \"git log --grep\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "a37023af4b22c80b0292618e931f0603aa779389",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8854ce5f_e50f92e7",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-06T00:46:28Z",
+      "side": 1,
+      "message": "Please also remove this API checker suppression, since it should no longer be needed.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "a37023af4b22c80b0292618e931f0603aa779389",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
