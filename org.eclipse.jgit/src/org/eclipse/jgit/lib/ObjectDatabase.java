@@ -11,6 +11,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -23,6 +24,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * {@link org.eclipse.jgit.lib.ObjectId}.
  */
 public abstract class ObjectDatabase implements AutoCloseable {
+
+	private static final Set<ObjectId> shallowCommits = Collections.emptySet();
+
 	/**
 	 * Initialize a new database instance for access.
 	 */
@@ -79,7 +83,10 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 *
 	 * @since 6.3
 	 */
-	public abstract Set<ObjectId> getShallowCommits() throws IOException;
+	public Set<ObjectId> getShallowCommits() throws IOException {
+		return shallowCommits;
+	}
+
 
 	/**
 	 * Update the shallow commits of the current repository
@@ -90,7 +97,13 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 *
 	 * @since 6.3
 	 */
-	public abstract void setShallowCommits(Set<ObjectId> shallowCommits) throws IOException;
+	public void setShallowCommits(Set<ObjectId> shallowCommits)
+			throws IOException {
+		if (!shallowCommits.isEmpty()) {
+			throw new UnsupportedOperationException(
+					"Shallow commits expected to be empty."); //$NON-NLS-1$
+		}
+	}
 
 	/**
 	 * Close any resources held by this database.
