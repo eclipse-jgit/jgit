@@ -47,6 +47,54 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b842852_46a8a77b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-08-08T21:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ac594a8_7b4773c8",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "a37023af4b22c80b0292618e931f0603aa779389",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05523212_9adad19c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-08-08T21:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e20caf4d_75bb9e65",
+      "range": {
+        "startLine": 9,
+        "startChar": 141,
+        "endLine": 9,
+        "endChar": 166
+      },
+      "revId": "a37023af4b22c80b0292618e931f0603aa779389",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8854ce5f_e50f92e7",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-08-06T00:46:28Z",
       "side": 1,
       "message": "Please also remove this API checker suppression, since it should no longer be needed.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "a37023af4b22c80b0292618e931f0603aa779389",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d30d7ca3_1c06ced8",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-08-08T21:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8854ce5f_e50f92e7",
       "range": {
         "startLine": 12,
         "startChar": 0,
