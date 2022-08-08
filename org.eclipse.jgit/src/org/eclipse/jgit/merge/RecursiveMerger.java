@@ -195,9 +195,6 @@ public class RecursiveMerger extends ResolveMerger {
 			inCore = oldIncore;
 			dircache = oldDircache;
 			workingTreeIterator = oldWTreeIt;
-			toBeCheckedOut.clear();
-			toBeDeleted.clear();
-			modifiedFiles.clear();
 			unmergedPaths.clear();
 			mergeResults.clear();
 			failingPaths.clear();
