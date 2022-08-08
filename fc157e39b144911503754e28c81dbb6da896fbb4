@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4adef784_26e86fb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-08T22:21:34Z",
+      "side": 1,
+      "message": "This should be one line",
+      "revId": "fc157e39b144911503754e28c81dbb6da896fbb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b6026a_21559932",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-08T22:21:34Z",
+      "side": 1,
+      "message": "From a JGit project perspective, the important thing is \"anyone making an ObjectDatabase subclass was broken\". But this will do. :)",
+      "range": {
+        "startLine": 11,
+        "startChar": 62,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "fc157e39b144911503754e28c81dbb6da896fbb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
