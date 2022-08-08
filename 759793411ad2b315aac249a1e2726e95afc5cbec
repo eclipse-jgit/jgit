@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d16b119c_db13c57b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-08T15:14:46Z",
+      "side": 1,
+      "message": "If not adding more tests, could you run a test import and run acceptance tests on it, so that we are sure we won\u0027t have to roll back again?",
+      "revId": "759793411ad2b315aac249a1e2726e95afc5cbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39fadb1b_dd417ab4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-08T15:14:46Z",
+      "side": 1,
+      "message": "nit: can you, please, leave a comment why this test is operating on ResolveMerger directly, instead of using the git.merge() command?\nMaybe rename it to incore_checkContentMergeConflict_fileBecomesDir?",
+      "range": {
+        "startLine": 1006,
+        "startChar": 13,
+        "endLine": 1006,
+        "endChar": 53
+      },
+      "revId": "759793411ad2b315aac249a1e2726e95afc5cbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd4c8d69_4e0c1506",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-08T15:14:46Z",
+      "side": 1,
+      "message": "Should there be tests for other operations with ResolveMerger initialized from ObjectInserter instead of the repo?",
+      "range": {
+        "startLine": 1028,
+        "startChar": 2,
+        "endLine": 1028,
+        "endChar": 52
+      },
+      "revId": "759793411ad2b315aac249a1e2726e95afc5cbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
