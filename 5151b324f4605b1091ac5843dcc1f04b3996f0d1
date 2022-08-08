@@ -46,6 +46,30 @@
       },
       "revId": "5151b324f4605b1091ac5843dcc1f04b3996f0d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e391fab_a52d243e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-08T14:58:48Z",
+      "side": 1,
+      "message": "\u003e Could we just move this logic to WorkTreeUpdater#deleteFile without any modification, or do we need to supply different smudgeCommand/streamType in applycomand?\n\nNo, WTU#deleteFile only concerns the checkout, so if we\u0027re inCore and/or in a bare repo, then it shouldn\u0027t be called at all.",
+      "parentUuid": "0f06c98b_7393750b",
+      "range": {
+        "startLine": 380,
+        "startChar": 15,
+        "endLine": 380,
+        "endChar": 28
+      },
+      "revId": "5151b324f4605b1091ac5843dcc1f04b3996f0d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
