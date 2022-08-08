@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f49f4377_4c1a161c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-08T21:23:20Z",
+      "side": 1,
+      "message": "Are you sure? Searching https://cs.opensource.google/search?q\u003dextends.*Database\u0026ss\u003dgerrit doesn\u0027t find any ObjectDatabase subclasses here.\n\nI think here the build that broke was Google\u0027s internal glue that powers `*.googlesource.com`.",
+      "range": {
+        "startLine": 9,
+        "startChar": 131,
+        "endLine": 9,
+        "endChar": 152
+      },
+      "revId": "312b007136dcabdc286783ac761a0356ed3c250d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a6165b1_8ca066cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-08T21:23:20Z",
+      "side": 1,
+      "message": "Please wrap this line.",
+      "revId": "312b007136dcabdc286783ac761a0356ed3c250d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bfa23804_2ed348dd",
@@ -14,6 +54,23 @@
       "writtenOn": "2022-08-08T21:04:40Z",
       "side": 1,
       "message": "trigger build",
+      "revId": "312b007136dcabdc286783ac761a0356ed3c250d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe509f44_7046a939",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-08-08T21:23:20Z",
+      "side": 1,
+      "message": "Some commit message nits, otherwise looks good.",
       "revId": "312b007136dcabdc286783ac761a0356ed3c250d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
