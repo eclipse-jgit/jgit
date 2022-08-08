@@ -1002,6 +1002,39 @@ public class MergerTest extends RepositoryTestCase {
 		}
 	}
 
+	@Theory
+	public void fileBecomesDir_noTree(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("file", "1\n2\n3");
+		writeTrashFile("side", "1\n2\n3");
+		git.add().addFilepattern("file").addFilepattern("side").call();
+		RevCommit first = git.commit().setMessage("base").call();
+
+		writeTrashFile("side", "our changed");
+		RevCommit ours = git.commit().setAll(true)
+				.setMessage("ours").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("theirs").call();
+		deleteTrashFile("file");
+		writeTrashFile("file/file", "in subdir");
+		git.add().addFilepattern("file/file").call();
+
+		RevCommit theirs = git.commit().setAll(true)
+				.setMessage("theirs").call();
+
+		// Exercise inCore flavor of the merge.
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ResolveMerger merger =
+					(ResolveMerger) strategy.newMerger(ins, db.getConfig());
+			boolean success = merger.merge(ours, theirs);
+			assertTrue(success);
+			assertTrue(merger.getModifiedFiles().isEmpty());
+		}
+	}
+
 	/**
 	 * Merging after criss-cross merges. In this case we merge together two
 	 * commits which have two equally good common ancestors
