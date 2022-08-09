@@ -16,6 +16,23 @@
       "message": "Thanks! Ideally the commit message would also say something about the motivation (i.e., how the missing test coverage was noticed), but that\u0027s a tiny nit / not worth a reroll in itself.",
       "revId": "3b4a636183609e2c4090cc6bdbbd8fecb2789a4e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d7eb99_5482e9bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-09T09:07:21Z",
+      "side": 1,
+      "message": "Thank you for the test!\nComments from the next change still apply \n(I .e. do we need test coverage for other operations?",
+      "revId": "3b4a636183609e2c4090cc6bdbbd8fecb2789a4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
