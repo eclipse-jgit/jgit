@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -213,7 +214,7 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 
 	protected static InputStream createInputStream(List<String> inputLines) {
 		String input = String.join(System.lineSeparator(), inputLines);
-		InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+		InputStream inputStream = new ByteArrayInputStream(input.getBytes(UTF_8));
 		return inputStream;
 	}
 
