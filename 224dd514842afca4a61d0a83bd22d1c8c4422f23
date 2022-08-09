@@ -64,6 +64,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09e789cb_58332577",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-08-09T23:38:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "abe8f099_104bbbcc",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "199037e3_93543fb7",
@@ -87,6 +111,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b73f0e4_6fee0eaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-08-09T23:38:55Z",
+      "side": 1,
+      "message": "Thanks. I dropped the need for parsing it by adding a copy constructor.",
+      "parentUuid": "199037e3_93543fb7",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 46
+      },
+      "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "841a04c6_45ae55d3",
@@ -100,6 +148,24 @@
       "writtenOn": "2022-08-05T20:36:57Z",
       "side": 1,
       "message": "So we parse the headers twice for every commit that we show. I am worried about the performance impact this has on git log -- path, or on the EGit history view, where showing a path filtered history (and thus doing parent rewriting) is a _very_ common operation.\n\nMoreover, this populates RevCommit.parents again with the original parents, even though that isn\u0027t used anymore. So the memory consumption also increases. In the original version, where the RevCommit.parents array was rewritten directly, pruned parents could be garbage collected.",
+      "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "148dc517_1e8ad365",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-08-09T23:38:55Z",
+      "side": 1,
+      "message": "I removed the need to parse the FilteredRevCommit as I am copying the state from an already parsed source commit.\nThanks for the pointing this out.",
+      "parentUuid": "841a04c6_45ae55d3",
       "revId": "224dd514842afca4a61d0a83bd22d1c8c4422f23",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
