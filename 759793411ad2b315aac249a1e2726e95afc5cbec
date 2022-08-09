@@ -53,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "295c6623_59661804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-09T09:10:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe76038b_0695de85",
+      "revId": "759793411ad2b315aac249a1e2726e95afc5cbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39fadb1b_dd417ab4",
@@ -100,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebff263b_6af89073",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-09T09:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0539e87a_a2090025",
+      "range": {
+        "startLine": 1006,
+        "startChar": 13,
+        "endLine": 1006,
+        "endChar": 53
+      },
+      "revId": "759793411ad2b315aac249a1e2726e95afc5cbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd4c8d69_4e0c1506",
@@ -137,6 +179,30 @@
       "side": 1,
       "message": "I copy\u0026 pasted this from the test in l.963, so they do exist.\n\nI wish this would use parameters to run all the test cases through the inCore flavor, but that would be rather invasive. (I do want to cleanup the WorktreeUpdater further, but that\u0027ll have to be a separate change)",
       "parentUuid": "cd4c8d69_4e0c1506",
+      "range": {
+        "startLine": 1028,
+        "startChar": 2,
+        "endLine": 1028,
+        "endChar": 52
+      },
+      "revId": "759793411ad2b315aac249a1e2726e95afc5cbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2939b0d_ddcb07e3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-09T09:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8091937e_cf631850",
       "range": {
         "startLine": 1028,
         "startChar": 2,
