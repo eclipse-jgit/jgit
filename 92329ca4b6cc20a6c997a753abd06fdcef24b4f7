@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edcafc51_2f85cc05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2022-08-10T00:14:12Z",
+      "side": 1,
+      "message": "nit: s/etc/etc./",
+      "range": {
+        "startLine": 42,
+        "startChar": 61,
+        "endLine": 42,
+        "endChar": 64
+      },
+      "revId": "92329ca4b6cc20a6c997a753abd06fdcef24b4f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
