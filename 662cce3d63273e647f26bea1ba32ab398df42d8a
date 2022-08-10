@@ -137,6 +137,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ee106f10_176c3a87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d5cd44d_d5ee59db",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 22
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "87ecc564_8cecc3c3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 21
@@ -175,6 +199,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f62ed0bb_6347f34c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b9e32d8_68fda790",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 228,
+        "endChar": 9
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a37fb188_786a0dbc",
@@ -198,6 +246,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad27d5fd_a2cd1a95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a37fb188_786a0dbc",
+      "range": {
+        "startLine": 230,
+        "startChar": 2,
+        "endLine": 230,
+        "endChar": 10
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3313ff7d_a64c975c",
@@ -211,6 +283,30 @@
       "writtenOn": "2022-08-02T14:32:26Z",
       "side": 1,
       "message": "what if forPath returned null ?",
+      "range": {
+        "startLine": 242,
+        "startChar": 26,
+        "endLine": 242,
+        "endChar": 36
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9c957ed_2d2982b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3313ff7d_a64c975c",
       "range": {
         "startLine": 242,
         "startChar": 26,
@@ -285,6 +381,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a53e04c3_162537ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f7eed3f_7e012424",
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09642a25_bd76e695",
@@ -308,6 +422,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c117469_ad398009",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09642a25_bd76e695",
+      "range": {
+        "startLine": 264,
+        "startChar": 3,
+        "endLine": 264,
+        "endChar": 65
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e6babac_0342196d",
@@ -321,6 +459,30 @@
       "writtenOn": "2022-08-02T14:32:26Z",
       "side": 1,
       "message": "why is this not in the original?",
+      "range": {
+        "startLine": 325,
+        "startChar": 5,
+        "endLine": 326,
+        "endChar": 86
+      },
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1af10e0_f4c09049",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "originally did not have worktreeUpdater.",
+      "parentUuid": "6e6babac_0342196d",
       "range": {
         "startLine": 325,
         "startChar": 5,
@@ -460,6 +622,24 @@
       "writtenOn": "2022-08-01T17:36:16Z",
       "side": 1,
       "message": "unaltered, but maybe should check !inCore as precondition.",
+      "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a82f8d_5de25367",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "34f6c32c_0e016c7c",
       "revId": "662cce3d63273e647f26bea1ba32ab398df42d8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28da50b0_82c28563",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-10T18:11:56Z",
+      "side": 1,
+      "message": "Maria, this is ready for a first look.",
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
