@@ -525,9 +525,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	@Test
 	public void testRenameNoHunks() throws Exception {
 		ApplyResult result = init("RenameNoHunks", true, true);
-		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "RenameNoHunks"), result.getUpdatedFiles()
-				.get(0));
+		assertEquals(2, result.getUpdatedFiles().size());
+		assertTrue(result.getUpdatedFiles().contains(new File(db.getWorkTree(), "RenameNoHunks")));
+		assertTrue(result.getUpdatedFiles().contains(new File(db.getWorkTree(), "nested/subdir/Renamed")));
 		checkFile(new File(db.getWorkTree(), "nested/subdir/Renamed"),
 				b.getString(0, b.size(), false));
 	}
@@ -535,9 +535,9 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	@Test
 	public void testRenameWithHunks() throws Exception {
 		ApplyResult result = init("RenameWithHunks", true, true);
-		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "RenameWithHunks"), result.getUpdatedFiles()
-				.get(0));
+		assertEquals(2, result.getUpdatedFiles().size());
+		assertTrue(result.getUpdatedFiles().contains(new File(db.getWorkTree(), "RenameWithHunks")));
+		assertTrue(result.getUpdatedFiles().contains(new File(db.getWorkTree(), "nested/subdir/Renamed")));
 		checkFile(new File(db.getWorkTree(), "nested/subdir/Renamed"),
 				b.getString(0, b.size(), false));
 	}
@@ -546,7 +546,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	public void testCopyWithHunks() throws Exception {
 		ApplyResult result = init("CopyWithHunks", true, true);
 		assertEquals(1, result.getUpdatedFiles().size());
-		assertEquals(new File(db.getWorkTree(), "CopyWithHunks"), result.getUpdatedFiles()
+		assertEquals(new File(db.getWorkTree(), "CopyResult"), result.getUpdatedFiles()
 				.get(0));
 		checkFile(new File(db.getWorkTree(), "CopyResult"),
 				b.getString(0, b.size(), false));
