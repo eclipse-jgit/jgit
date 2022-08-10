@@ -16,6 +16,29 @@
       "message": "Thanks. Let\u0027s give Thomas a chance to comment as well.",
       "revId": "fa670b4d57189841e61e19eb920afeed9388eae0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e27337f5_dac279f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-08-10T21:14:09Z",
+      "side": 1,
+      "message": "Can we add a test which will show that we return connected commits?\n\n(e.g. if we produced only 2 owerwritten commits, one is the parent for the second.)",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 34
+      },
+      "revId": "fa670b4d57189841e61e19eb920afeed9388eae0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
