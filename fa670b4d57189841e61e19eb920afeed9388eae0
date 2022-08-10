@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5642ac7b_46caa847",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2022-08-10T00:13:05Z",
+      "side": 1,
+      "message": "Thanks. Let\u0027s give Thomas a chance to comment as well.",
+      "revId": "fa670b4d57189841e61e19eb920afeed9388eae0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
