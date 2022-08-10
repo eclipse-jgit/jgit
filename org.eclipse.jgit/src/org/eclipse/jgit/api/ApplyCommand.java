@@ -157,13 +157,14 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 								JGitText.get().renameFileFailed, f, dest), e);
 					}
 					apply(repository, fh.getOldPath(), cache, dest, fh);
+					r.addUpdatedFile(dest);
 					break;
 				case COPY:
-					f = getFile(fh.getOldPath(), false);
-					File target = getFile(fh.getNewPath(), false);
-					FileUtils.mkdirs(target.getParentFile(), true);
-					Files.copy(f.toPath(), target.toPath());
-					apply(repository, fh.getOldPath(), cache, target, fh);
+					File src = getFile(fh.getOldPath(), false);
+					f = getFile(fh.getNewPath(), false);
+					FileUtils.mkdirs(f.getParentFile(), true);
+					Files.copy(src.toPath(), f.toPath());
+					apply(repository, fh.getOldPath(), cache, f, fh);
 				}
 				r.addUpdatedFile(f);
 			}
