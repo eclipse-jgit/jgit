@@ -181,6 +181,29 @@
       "parentUuid": "46878da0_7aef4039",
       "revId": "afae763529b5c3fea3ff0fb5ceb2afe738f45338",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "823baf68_40fc79fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-08-11T22:59:03Z",
+      "side": 1,
+      "message": "if we return it several times we should return the very same instance of FilteredCommit instead of recreating it",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 42
+      },
+      "revId": "afae763529b5c3fea3ff0fb5ceb2afe738f45338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
