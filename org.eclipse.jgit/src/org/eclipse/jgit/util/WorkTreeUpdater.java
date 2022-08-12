@@ -58,8 +58,11 @@ import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 /**
  * Handles work tree updates on both the checkout and the index.
  * <p>
- * You should use a single instance for all of your file changes. In case of an error, make sure
- * your instance is released, and initiate a new one if necessary.
+ * You should use a single instance for all of your file changes. In case of an
+ * error, make sure your instance is released, and initiate a new one if
+ * necessary.
+ *
+ * @since 6.3
  */
 public class WorkTreeUpdater implements Closeable {
 
