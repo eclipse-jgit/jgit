@@ -24,22 +24,52 @@
         </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
-        <filter id="338792546">
+        <filter id="336658481">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="addCheckoutMetadata(String, Attributes)"/>
+                <message_argument value="workTreeUpdater"/>
+            </message_arguments>
+        </filter>
+        <filter id="338755678">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="builder"/>
+            </message_arguments>
+        </filter>
+        <filter id="338755678">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="implicitDirCache"/>
+            </message_arguments>
+        </filter>
+        <filter id="338755678">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="toBeCheckedOut"/>
+            </message_arguments>
+        </filter>
+        <filter id="338755678">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="toBeDeleted"/>
+            </message_arguments>
+        </filter>
+        <filter id="338755678">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="workingTreeOptions"/>
             </message_arguments>
         </filter>
         <filter id="338792546">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="addToCheckout(String, DirCacheEntry, Attributes)"/>
+                <message_argument value="addCheckoutMetadata(Map&lt;String,DirCacheCheckout.CheckoutMetadata&gt;, String, Attributes)"/>
             </message_arguments>
         </filter>
         <filter id="338792546">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator, boolean, Attributes)"/>
+                <message_argument value="cleanUp()"/>
             </message_arguments>
         </filter>
     </resource>

@@ -133,6 +133,8 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	/**
 	 * Handler for repository I/O actions.
+	 *
+	 * @since 6.3
 	 */
 	protected WorkTreeUpdater workTreeUpdater;
 
