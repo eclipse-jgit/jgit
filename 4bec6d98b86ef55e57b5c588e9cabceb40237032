@@ -16,6 +16,23 @@
       "message": "Sorry we missed this.",
       "revId": "4bec6d98b86ef55e57b5c588e9cabceb40237032",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa107c40_98d50805",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-13T11:07:29Z",
+      "side": 1,
+      "message": "It was package-visible only before. Why is it protected now? seems to me package visibility would be sufficient?",
+      "revId": "4bec6d98b86ef55e57b5c588e9cabceb40237032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
