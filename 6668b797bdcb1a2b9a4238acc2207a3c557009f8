@@ -94,6 +94,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67868bad_96ed7c1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-14T16:30:36Z",
+      "side": 1,
+      "message": "Note that DirCacheCheckout.doCheckout() also updates the entry\u0027s timestamp in this case. Why is this not needed here?",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29558f48_3510bd8d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 1
