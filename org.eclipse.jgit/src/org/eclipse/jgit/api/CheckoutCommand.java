@@ -55,6 +55,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 /**
@@ -411,6 +412,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	protected CheckoutCommand checkoutPaths() throws IOException,
 			RefNotFoundException {
 		actuallyModifiedPaths = new HashSet<>();
+		WorkingTreeOptions options = repo.getConfig()
+				.get(WorkingTreeOptions.KEY);
 		DirCache dc = repo.lockDirCache();
 		try (RevWalk revWalk = new RevWalk(repo);
 				TreeWalk treeWalk = new TreeWalk(repo,
@@ -419,10 +422,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			if (!checkoutAllPaths)
 				treeWalk.setFilter(PathFilterGroup.createFromStrings(paths));
 			if (isCheckoutIndex())
-				checkoutPathsFromIndex(treeWalk, dc);
+				checkoutPathsFromIndex(treeWalk, dc, options);
 			else {
 				RevCommit commit = revWalk.parseCommit(getStartPointObjectId());
-				checkoutPathsFromCommit(treeWalk, dc, commit);
+				checkoutPathsFromCommit(treeWalk, dc, commit, options);
 			}
 		} finally {
 			try {
@@ -439,7 +442,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		return this;
 	}
 
-	private void checkoutPathsFromIndex(TreeWalk treeWalk, DirCache dc)
+	private void checkoutPathsFromIndex(TreeWalk treeWalk, DirCache dc,
+			WorkingTreeOptions options)
 			throws IOException {
 		DirCacheIterator dci = new DirCacheIterator(dc);
 		treeWalk.addTree(dci);
@@ -465,8 +469,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					if (stage > DirCacheEntry.STAGE_0) {
 						if (checkoutStage != null) {
 							if (stage == checkoutStage.number) {
-								checkoutPath(ent, r, new CheckoutMetadata(
-										eolStreamType, filterCommand));
+								checkoutPath(ent, r, options,
+										new CheckoutMetadata(eolStreamType,
+												filterCommand));
 								actuallyModifiedPaths.add(path);
 							}
 						} else {
@@ -475,8 +480,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 							throw new JGitInternalException(e.getMessage(), e);
 						}
 					} else {
-						checkoutPath(ent, r, new CheckoutMetadata(eolStreamType,
-								filterCommand));
+						checkoutPath(ent, r, options,
+								new CheckoutMetadata(eolStreamType,
+										filterCommand));
 						actuallyModifiedPaths.add(path);
 					}
 				}
@@ -488,7 +494,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	private void checkoutPathsFromCommit(TreeWalk treeWalk, DirCache dc,
-			RevCommit commit) throws IOException {
+			RevCommit commit, WorkingTreeOptions options) throws IOException {
 		treeWalk.addTree(commit.getTree());
 		final ObjectReader r = treeWalk.getObjectReader();
 		DirCacheEditor editor = dc.editor();
@@ -510,7 +516,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					}
 					ent.setObjectId(blobId);
 					ent.setFileMode(mode);
-					checkoutPath(ent, r,
+					checkoutPath(ent, r, options,
 							new CheckoutMetadata(eolStreamType, filterCommand));
 					actuallyModifiedPaths.add(path);
 				}
@@ -520,10 +526,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	private void checkoutPath(DirCacheEntry entry, ObjectReader reader,
-			CheckoutMetadata checkoutMetadata) {
+			WorkingTreeOptions options, CheckoutMetadata checkoutMetadata) {
 		try {
 			DirCacheCheckout.checkoutEntry(repo, entry, reader, true,
-					checkoutMetadata);
+					checkoutMetadata, options);
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().checkoutConflictWithFile,

@@ -48,6 +48,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 
 /**
  * Command class to apply a stashed commit.
@@ -382,6 +383,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	private void resetUntracked(RevTree tree) throws CheckoutConflictException,
 			IOException {
 		Set<String> actuallyModifiedPaths = new HashSet<>();
+		WorkingTreeOptions options = repo.getConfig()
+				.get(WorkingTreeOptions.KEY);
 		// TODO maybe NameConflictTreeWalk ?
 		try (TreeWalk walk = new TreeWalk(repo)) {
 			walk.addTree(tree);
@@ -413,7 +416,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					}
 				}
 
-				checkoutPath(entry, reader,
+				checkoutPath(entry, reader, options,
 						new CheckoutMetadata(eolStreamType, null));
 				actuallyModifiedPaths.add(entry.getPathString());
 			}
@@ -426,10 +429,10 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	}
 
 	private void checkoutPath(DirCacheEntry entry, ObjectReader reader,
-			CheckoutMetadata checkoutMetadata) {
+			WorkingTreeOptions options, CheckoutMetadata checkoutMetadata) {
 		try {
 			DirCacheCheckout.checkoutEntry(repo, entry, reader, true,
-					checkoutMetadata);
+					checkoutMetadata, options);
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().checkoutConflictWithFile,

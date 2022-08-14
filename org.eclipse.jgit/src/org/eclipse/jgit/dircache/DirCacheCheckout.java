@@ -143,6 +143,8 @@ public class DirCacheCheckout {
 
 	private boolean performingCheckout;
 
+	private WorkingTreeOptions options;
+
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
@@ -362,9 +364,12 @@ public class DirCacheCheckout {
 	 * Processing an entry in the context of {@link #prescanOneTree()} when only
 	 * one tree is given
 	 *
-	 * @param m the tree to merge
-	 * @param i the index
-	 * @param f the working tree
+	 * @param m
+	 *            the tree to merge
+	 * @param i
+	 *            the index
+	 * @param f
+	 *            the working tree
 	 * @throws IOException
 	 */
 	void processEntry(CanonicalTreeParser m, DirCacheBuildIterator i,
@@ -489,6 +494,8 @@ public class DirCacheCheckout {
 			MissingObjectException, IncorrectObjectTypeException,
 			CheckoutConflictException, IndexWriteException, CanceledException {
 		toBeDeleted.clear();
+		options = repo.getConfig()
+				.get(WorkingTreeOptions.KEY);
 		try (ObjectReader objectReader = repo.getObjectDatabase().newReader()) {
 			if (headCommitTree != null)
 				preScanTwoTrees();
@@ -558,7 +565,8 @@ public class DirCacheCheckout {
 					if (FileMode.GITLINK.equals(entry.getRawMode())) {
 						checkoutGitlink(path, entry);
 					} else {
-						checkoutEntry(repo, entry, objectReader, false, meta);
+						checkoutEntry(repo, entry, objectReader, false, meta,
+								options);
 					}
 					e = null;
 
@@ -594,7 +602,7 @@ public class DirCacheCheckout {
 						}
 						if (entry.getStage() == DirCacheEntry.STAGE_3) {
 							checkoutEntry(repo, entry, objectReader, false,
-									null);
+									null, options);
 							break;
 						}
 						++entryIdx;
@@ -1226,7 +1234,7 @@ public class DirCacheCheckout {
 				checkoutEntry(repo, e, walk.getObjectReader(), false,
 						new CheckoutMetadata(walk.getEolStreamType(CHECKOUT_OP),
 								walk.getFilterCommand(
-										Constants.ATTR_FILTER_TYPE_SMUDGE)));
+										Constants.ATTR_FILTER_TYPE_SMUDGE)), options);
 			}
 		}
 	}
@@ -1392,12 +1400,6 @@ public class DirCacheCheckout {
 	 * cannot be renamed to file or link without deleting it recursively.
 	 * </p>
 	 *
-	 * <p>
-	 * TODO: this method works directly on File IO, we may need another
-	 * abstraction (like WorkingTreeIterator). This way we could tell e.g.
-	 * Eclipse that Files in the workspace got changed
-	 * </p>
-	 *
 	 * @param repo
 	 *            repository managing the destination work tree.
 	 * @param entry
@@ -1407,14 +1409,15 @@ public class DirCacheCheckout {
 	 * @throws java.io.IOException
 	 * @since 3.6
 	 * @deprecated since 5.1, use
-	 *             {@link #checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean, CheckoutMetadata)}
+	 *             {@link #checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean, CheckoutMetadata, WorkingTreeOptions)}
 	 *             instead
 	 */
 	@Deprecated
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
 			ObjectReader or) throws IOException {
-		checkoutEntry(repo, entry, or, false, null);
+		checkoutEntry(repo, entry, or, false, null, null);
 	}
+
 
 	/**
 	 * Updates the file in the working tree with content and mode from an entry
@@ -1426,12 +1429,6 @@ public class DirCacheCheckout {
 	 * <b>Note:</b> if the entry path on local file system exists as a file, it
 	 * will be deleted and if it exists as a directory, it will be deleted
 	 * recursively, independently if has any content.
-	 * </p>
-	 *
-	 * <p>
-	 * TODO: this method works directly on File IO, we may need another
-	 * abstraction (like WorkingTreeIterator). This way we could tell e.g.
-	 * Eclipse that Files in the workspace got changed
 	 * </p>
 	 *
 	 * @param repo
@@ -1452,12 +1449,58 @@ public class DirCacheCheckout {
 	 *            </ul>
 	 * @throws java.io.IOException
 	 * @since 4.2
+	 * @deprecated since 6.3, use
+	 *             {@link #checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean, CheckoutMetadata, WorkingTreeOptions)}
+	 *             instead
 	 */
+	@Deprecated
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
 			ObjectReader or, boolean deleteRecursive,
 			CheckoutMetadata checkoutMetadata) throws IOException {
-		if (checkoutMetadata == null)
+		checkoutEntry(repo, entry, or, deleteRecursive, checkoutMetadata, null);
+	}
+
+	/**
+	 * Updates the file in the working tree with content and mode from an entry
+	 * in the index. The new content is first written to a new temporary file in
+	 * the same directory as the real file. Then that new file is renamed to the
+	 * final filename.
+	 *
+	 * <p>
+	 * <b>Note:</b> if the entry path on local file system exists as a file, it
+	 * will be deleted and if it exists as a directory, it will be deleted
+	 * recursively, independently if has any content.
+	 * </p>
+	 *
+	 * @param repo
+	 *            repository managing the destination work tree.
+	 * @param entry
+	 *            the entry containing new mode and content
+	 * @param or
+	 *            object reader to use for checkout
+	 * @param deleteRecursive
+	 *            true to recursively delete final path if it exists on the file
+	 *            system
+	 * @param checkoutMetadata
+	 *            containing
+	 *            <ul>
+	 *            <li>smudgeFilterCommand to be run for smudging the entry to be
+	 *            checked out</li>
+	 *            <li>eolStreamType used for stream conversion</li>
+	 *            </ul>
+	 * @param options
+	 *            {@link WorkingTreeOptions} that are effective; if {@code null}
+	 *            they are loaded from the repository config
+	 * @throws java.io.IOException
+	 * @since 6.3
+	 */
+	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
+			ObjectReader or, boolean deleteRecursive,
+			CheckoutMetadata checkoutMetadata, WorkingTreeOptions options)
+			throws IOException {
+		if (checkoutMetadata == null) {
 			checkoutMetadata = CheckoutMetadata.EMPTY;
+		}
 		ObjectLoader ol = or.open(entry.getObjectId());
 		File f = new File(repo.getWorkTree(), entry.getPathString());
 		File parentDir = f.getParentFile();
@@ -1466,7 +1509,8 @@ public class DirCacheCheckout {
 		}
 		FileUtils.mkdirs(parentDir, true);
 		FS fs = repo.getFS();
-		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
+		WorkingTreeOptions opt = options != null ? options
+				: repo.getConfig().get(WorkingTreeOptions.KEY);
 		if (entry.getFileMode() == FileMode.SYMLINK
 				&& opt.getSymLinks() == SymLinks.TRUE) {
 			byte[] bytes = ol.getBytes();
