@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9c078ea_3669d13e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-14T16:13:28Z",
+      "side": 1,
+      "message": "1. What\u0027s the correct term? \"working tree\" or \"work tree\"? At least other classes in JGit are named WorkingTreeIterator, WorkingTreeOptions, ...\n\n2. Kind of strange to have a \"WorkTreeUpdater\" that can be instantiated to not update a working tree.",
+      "range": {
+        "startLine": 70,
+        "startChar": 13,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e284e0c_dff5961b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-14T16:13:28Z",
+      "side": 1,
+      "message": "Loads the repo config only once.",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2dfe5c_9d380d94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-14T16:13:28Z",
+      "side": 1,
+      "message": "This comment made sense like that while this was in ApplyCommand. Now that it has been factored out, it reads a bit strange, since it describes a particular use case in ApplyCommand.",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbb4e45c_bb2b70f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-14T16:13:28Z",
+      "side": 1,
+      "message": "lockDirCache() throws NoWorkTreeException anyway if the repo is bare.",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81256de8_0b5e1651",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-14T16:13:28Z",
+      "side": 1,
+      "message": "Doesn\u0027t throw IOE.",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29558f48_3510bd8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-14T16:13:28Z",
+      "side": 1,
+      "message": "getWorkTree() throws NoWorkTreeException anyway if the repo is bare.",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
