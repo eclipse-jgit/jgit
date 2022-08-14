@@ -554,22 +554,30 @@ public class WorkTreeUpdater implements Closeable {
 		if (inCore) {
 			return;
 		}
-		CheckoutMetadata checkoutMetadata = new CheckoutMetadata(streamType, smudgeCommand);
+		CheckoutMetadata metadata = new CheckoutMetadata(streamType,
+				smudgeCommand);
 		if (safeWrite) {
-			try (org.eclipse.jgit.util.TemporaryBuffer buffer =
-					new org.eclipse.jgit.util.TemporaryBuffer.LocalFile(null)) {
-				// Write to a buffer and copy to the file only if everything was fine.
-				DirCacheCheckout.getContent(
-						repo, path, checkoutMetadata, resultStreamLoader, null, buffer);
-				InputStream bufIn = buffer.openInputStream();
-				Files.copy(bufIn, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			// Write to a buffer and copy to the file only if everything was
+			// fine.
+			TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);
+			try {
+				try (TemporaryBuffer buf = buffer) {
+					DirCacheCheckout.getContent(repo, path, metadata,
+							resultStreamLoader, null, buf);
+				}
+				try (InputStream bufIn = buffer.openInputStream()) {
+					Files.copy(bufIn, file.toPath(),
+							StandardCopyOption.REPLACE_EXISTING);
+				}
+			} finally {
+				buffer.destroy();
 			}
 			return;
 		}
-		OutputStream outputStream = new FileOutputStream(file);
-		DirCacheCheckout.getContent(
-				repo, path, checkoutMetadata, resultStreamLoader, null, outputStream);
-
+		try (OutputStream outputStream = new FileOutputStream(file)) {
+			DirCacheCheckout.getContent(repo, path, metadata,
+					resultStreamLoader, null, outputStream);
+		}
 	}
 
 	/**
