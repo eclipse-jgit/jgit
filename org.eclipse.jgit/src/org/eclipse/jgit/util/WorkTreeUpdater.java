@@ -495,7 +495,9 @@ public class WorkTreeUpdater implements Closeable {
 				new File(nonNullNonBareRepo().getWorkTree(), entry.getKey()).mkdirs();
 			} else {
 				DirCacheCheckout.checkoutEntry(
-						repo, dirCacheEntry, reader, false, checkoutMetadata.get(entry.getKey()));
+						repo, dirCacheEntry, reader, false,
+						checkoutMetadata.get(entry.getKey()),
+						workingTreeOptions);
 				result.modifiedFiles.add(entry.getKey());
 			}
 		}
@@ -520,7 +522,8 @@ public class WorkTreeUpdater implements Closeable {
 			DirCacheEntry entry = dirCache.getEntry(path);
 			if (entry != null) {
 				DirCacheCheckout.checkoutEntry(
-						repo, entry, reader, false, cleanupMetadata.get(path));
+						repo, entry, reader, false, cleanupMetadata.get(path),
+						workingTreeOptions);
 			}
 		}
 	}
@@ -563,7 +566,7 @@ public class WorkTreeUpdater implements Closeable {
 			try {
 				try (TemporaryBuffer buf = buffer) {
 					DirCacheCheckout.getContent(repo, path, metadata,
-							resultStreamLoader, null, buf);
+							resultStreamLoader, workingTreeOptions, buf);
 				}
 				try (InputStream bufIn = buffer.openInputStream()) {
 					Files.copy(bufIn, file.toPath(),
@@ -576,7 +579,7 @@ public class WorkTreeUpdater implements Closeable {
 		}
 		try (OutputStream outputStream = new FileOutputStream(file)) {
 			DirCacheCheckout.getContent(repo, path, metadata,
-					resultStreamLoader, null, outputStream);
+					resultStreamLoader, workingTreeOptions, outputStream);
 		}
 	}
 
