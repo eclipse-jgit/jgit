@@ -728,7 +728,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 			public Id(File object) {
 				try {
-					this.alternateId = object.getCanonicalPath();
+					this.alternateId = object.toPath().toAbsolutePath()
+							.normalize().toString();
 				} catch (Exception e) {
 					alternateId = null;
 				}
