@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2e3aa9b_9d7a1dfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2022-08-15T09:40:50Z",
+      "side": 1,
+      "message": "This code *wants* canonical path, see commit e4714a2a5faa2d5cc8c9b129f96296dc2d6d26f8  / change https://git.eclipse.org/r/c/jgit/jgit/+/55148",
+      "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
