@@ -724,14 +724,17 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	static class AlternateHandle {
 		static class Id {
-			String alternateId;
+			private final String alternateId;
 
 			public Id(File object) {
+				String id = null;
 				try {
-					this.alternateId = object.getCanonicalPath();
-				} catch (Exception e) {
-					alternateId = null;
+					// resolve symbolic links to their final target:
+					id = object.toPath().toRealPath().normalize().toString();
+				} catch (Exception ignored) {
+					// id == null
 				}
+				this.alternateId = id;
 			}
 
 			@Override
@@ -757,6 +760,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 		final ObjectDirectory db;
 
+		private AlternateHandle.Id id;
+
 		AlternateHandle(ObjectDirectory db) {
 			this.db = db;
 		}
@@ -765,8 +770,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 			db.close();
 		}
 
-		public Id getId(){
-			return db.getAlternateId();
+		public synchronized Id getId() {
+			if (id == null) {
+				id = new AlternateHandle.Id(db.objects);
+			}
+			return id;
 		}
 	}
 
@@ -795,6 +803,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	AlternateHandle.Id getAlternateId() {
-		return new AlternateHandle.Id(objects);
+		return handle.getId();
 	}
 }
