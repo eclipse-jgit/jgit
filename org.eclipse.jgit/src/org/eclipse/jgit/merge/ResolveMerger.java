@@ -3,7 +3,7 @@
  * Copyright (C) 2010-2012, Matthias Sohn <matthias.sohn@sap.com>
  * Copyright (C) 2012, Research In Motion Limited
  * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
- * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2022 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -323,6 +323,25 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Adds the conflict stages for the current path of {@link #tw} to the index
+	 * builder and returns the "theirs" stage; if present.
+	 *
+	 * @param base
+	 *            of the conflict
+	 * @param ours
+	 *            of the conflict
+	 * @param theirs
+	 *            of the conflict
+	 * @return the {@link DirCacheEntry} for the "theirs" stage, or {@code null}
+	 */
+	private DirCacheEntry addConflict(CanonicalTreeParser base,
+			CanonicalTreeParser ours, CanonicalTreeParser theirs) {
+		add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
+		add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
+		return add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+	}
+
+	/**
 	 * adds a entry to the index builder which is a copy of the specified
 	 * DirCacheEntry
 	 *
@@ -503,9 +522,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// length.
 				// This path can be skipped on ignoreConflicts, so the caller
 				// could use virtual commit.
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				addConflict(base, ours, theirs);
 				unmergedPaths.add(tw.getPathString());
 				mergeResults.put(tw.getPathString(),
 						new MergeResult<>(Collections.emptyList()));
@@ -610,9 +627,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0, EPOCH, 0);
 				return true;
 			} else if (gitLinkMerging) {
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				addConflict(base, ours, theirs);
 				MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
 						base, ours, theirs);
 				result.setContainsConflicts(true);
@@ -633,9 +648,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					default:
 						break;
 				}
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				addConflict(base, ours, theirs);
 
 				// attribute merge issues are conflicts but not failures
 				unmergedPaths.add(tw.getPathString());
@@ -648,30 +661,61 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 
 			MergeResult<RawText> result = null;
-			try {
-				result = contentMerge(base, ours, theirs, attributes,
-						getContentMergeStrategy());
-			} catch (BinaryBlobException e) {
+			boolean hasSymlink = FileMode.SYMLINK.equals(modeO)
+					|| FileMode.SYMLINK.equals(modeT);
+			if (!hasSymlink) {
+				try {
+					result = contentMerge(base, ours, theirs, attributes,
+							getContentMergeStrategy());
+				} catch (BinaryBlobException e) {
+					// result == null
+				}
+			}
+			if (result == null) {
 				switch (getContentMergeStrategy()) {
-					case OURS:
-						keep(ourDce);
-						return true;
-					case THEIRS:
-						DirCacheEntry theirEntry = add(tw.getRawPath(), theirs,
-								DirCacheEntry.STAGE_0, EPOCH, 0);
-						addToCheckout(tw.getPathString(), theirEntry, attributes);
-						return true;
-					default:
-						result = new MergeResult<>(Collections.emptyList());
-						result.setContainsConflicts(true);
-						break;
+				case OURS:
+					keep(ourDce);
+					return true;
+				case THEIRS:
+					DirCacheEntry e = add(tw.getRawPath(), theirs,
+							DirCacheEntry.STAGE_0, EPOCH, 0);
+					if (e != null) {
+						addToCheckout(tw.getPathString(), e, attributes);
+					}
+					return true;
+				default:
+					result = new MergeResult<>(Collections.emptyList());
+					result.setContainsConflicts(true);
+					break;
 				}
 			}
 			if (ignoreConflicts) {
 				result.setContainsConflicts(false);
 			}
-			updateIndex(base, ours, theirs, result, attributes[T_OURS]);
 			String currentPath = tw.getPathString();
+			if (hasSymlink) {
+				if (ignoreConflicts) {
+					if (((modeT & FileMode.TYPE_MASK) == FileMode.TYPE_FILE)) {
+						DirCacheEntry e = add(tw.getRawPath(), theirs,
+								DirCacheEntry.STAGE_0, EPOCH, 0);
+						addToCheckout(currentPath, e, attributes);
+					} else {
+						keep(ourDce);
+					}
+				} else {
+					// Record the conflict
+					DirCacheEntry e = addConflict(base, ours, theirs);
+					mergeResults.put(currentPath, result);
+					// If theirs is a file, check it out. In link/file
+					// conflicts, C git prefers the file.
+					if (((modeT & FileMode.TYPE_MASK) == FileMode.TYPE_FILE)
+							&& e != null) {
+						addToCheckout(currentPath, e, attributes);
+					}
+				}
+			} else {
+				updateIndex(base, ours, theirs, result, attributes[T_OURS]);
+			}
 			if (result.containsConflicts() && !ignoreConflicts) {
 				unmergedPaths.add(currentPath);
 			}
@@ -685,40 +729,58 @@ public class ResolveMerger extends ThreeWayMerger {
 				if (gitLinkMerging && ignoreConflicts) {
 					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0, EPOCH, 0);
 				} else if (gitLinkMerging) {
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+					addConflict(base, ours, theirs);
 					MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
 							base, ours, theirs);
 					result.setContainsConflicts(true);
 					mergeResults.put(tw.getPathString(), result);
 					unmergedPaths.add(tw.getPathString());
 				} else {
+					boolean isSymLink = ((modeO | modeT)
+							& FileMode.TYPE_MASK) == FileMode.TYPE_SYMLINK;
 					// Content merge strategy does not apply to delete-modify
 					// conflicts!
 					MergeResult<RawText> result;
-					try {
-						result = contentMerge(base, ours, theirs, attributes,
-								ContentMergeStrategy.CONFLICT);
-					} catch (BinaryBlobException e) {
+					if (isSymLink) {
+						// No need to do a content merge
 						result = new MergeResult<>(Collections.emptyList());
 						result.setContainsConflicts(true);
+					} else {
+						try {
+							result = contentMerge(base, ours, theirs,
+									attributes, ContentMergeStrategy.CONFLICT);
+						} catch (BinaryBlobException e) {
+							result = new MergeResult<>(Collections.emptyList());
+							result.setContainsConflicts(true);
+						}
 					}
 					if (ignoreConflicts) {
-						// In case a conflict is detected the working tree file
-						// is again filled with new content (containing conflict
-						// markers). But also stage 0 of the index is filled
-						// with that content.
 						result.setContainsConflicts(false);
-						updateIndex(base, ours, theirs, result,
-								attributes[T_OURS]);
+						if (isSymLink) {
+							if (modeO != 0) {
+								keep(ourDce);
+							} else {
+								// Check out theirs
+								if (isWorktreeDirty(work, ourDce)) {
+									return false;
+								}
+								DirCacheEntry e = add(tw.getRawPath(), theirs,
+										DirCacheEntry.STAGE_0, EPOCH, 0);
+								if (e != null) {
+									addToCheckout(tw.getPathString(), e,
+											attributes);
+								}
+							}
+						} else {
+							// In case a conflict is detected the working tree
+							// file is again filled with new content (containing
+							// conflict markers). But also stage 0 of the index
+							// is filled with that content.
+							updateIndex(base, ours, theirs, result,
+									attributes[T_OURS]);
+						}
 					} else {
-						add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH,
-								0);
-						add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH,
-								0);
-						DirCacheEntry e = add(tw.getRawPath(), theirs,
-								DirCacheEntry.STAGE_3, EPOCH, 0);
+						DirCacheEntry e = addConflict(base, ours, theirs);
 
 						// OURS was deleted checkout THEIRS
 						if (modeO == 0) {
@@ -864,25 +926,25 @@ public class ResolveMerger extends ThreeWayMerger {
 				// A conflict occurred, the file will contain conflict markers
 				// the index will be populated with the three stages and the
 				// workdir (if used) contains the halfway merged content.
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, EPOCH, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+				addConflict(base, ours, theirs);
 				mergeResults.put(tw.getPathString(), result);
 				return;
 			}
 
 			// No conflict occurred, the file will contain fully merged content.
 			// The index will be populated with the new merged version.
-			Instant lastModified =
-					mergedFile == null ? null : nonNullRepo().getFS().lastModifiedInstant(mergedFile);
+			Instant lastModified = mergedFile == null ? null
+					: nonNullRepo().getFS().lastModifiedInstant(mergedFile);
 			// Set the mode for the new content. Fall back to REGULAR_FILE if
 			// we can't merge modes of OURS and THEIRS.
 			int newMode = mergeFileModes(tw.getRawMode(0), tw.getRawMode(1),
 					tw.getRawMode(2));
 			FileMode mode = newMode == FileMode.MISSING.getBits()
 					? FileMode.REGULAR_FILE : FileMode.fromBits(newMode);
-			workTreeUpdater.insertToIndex(rawMerged.openInputStream(), tw.getPathString().getBytes(UTF_8), mode,
-					DirCacheEntry.STAGE_0, lastModified, (int) rawMerged.length(),
+			workTreeUpdater.insertToIndex(rawMerged.openInputStream(),
+					tw.getPathString().getBytes(UTF_8), mode,
+					DirCacheEntry.STAGE_0, lastModified,
+					(int) rawMerged.length(),
 					attributes.get(Constants.ATTR_MERGE));
 		} finally {
 			if (rawMerged != null) {
