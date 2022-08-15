@@ -16,6 +16,24 @@
       "message": "This code *wants* canonical path, see commit e4714a2a5faa2d5cc8c9b129f96296dc2d6d26f8  / change https://git.eclipse.org/r/c/jgit/jgit/+/55148",
       "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b781dd6_3631cced",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 304382
+      },
+      "writtenOn": "2022-08-15T10:04:28Z",
+      "side": 1,
+      "message": "That commit added the getCanonicalPath() but they did not put an argument why they would need exactly that system call. They only wanted \"prevent visiting the same object\" . Why did they want that? (performance? -\u003e bad job)\n\nHow could those file names inside a git could contain a symlink? \nCounterproof: if it would be needed to follow symlinks here they would have a problem, because only unix does but windows does not.\n\nHow could those file names inside a git could contain both an uppercase and a lowercase version of the same file?\nCounterproof: if a git would contain both upper and lowercase version of a filename it would would result on the same file in windows but on distinct files on linux -\u003e does not work.",
+      "parentUuid": "e2e3aa9b_9d7a1dfd",
+      "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
