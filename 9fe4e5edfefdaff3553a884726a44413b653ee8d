@@ -34,6 +34,41 @@
       "parentUuid": "e2e3aa9b_9d7a1dfd",
       "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b367ef2_aead88dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-15T17:24:08Z",
+      "side": 1,
+      "message": "Leave this as getCanonicalPath()...",
+      "parentUuid": "2b781dd6_3631cced",
+      "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc747a05_e3713e78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-15T17:24:08Z",
+      "side": 1,
+      "message": "... but cache the Id and return the cached instance once computed.",
+      "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
