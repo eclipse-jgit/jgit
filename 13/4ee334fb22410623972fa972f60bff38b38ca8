@@ -1,0 +1,7 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Thomas Wolf <twolf@apache.org>
+Submitted-at: Mon, 15 Aug 2022 02:44:37 -0400
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/195180
+Project: jgit/jgit
+Branch: refs/heads/master
