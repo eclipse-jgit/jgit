@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5afa914c_75a37e11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-08-15T19:58:17Z",
+      "side": 1,
+      "message": "I agree with overall idea, but having to transform it in several places seems to be errorprone. For example you\u0027re transforming both at the moment you put a commit to pending and when you produce next commits from it.\n\nCould you please refactor this code to transform it in the most appropriate places?",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 27
+      },
+      "revId": "c63840d7ceb3380f712928a675994fd8590b1da7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
