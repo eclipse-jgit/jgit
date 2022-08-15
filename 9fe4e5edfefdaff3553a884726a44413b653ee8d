@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce123850_b58a664c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-15T21:12:46Z",
+      "side": 1,
+      "message": "Because changing it to use the absolute path would be wrong. The path may contain symlinks higher up, and this code wants such paths to be considered equal. That\u0027s why the code uses the canonical path.\n\nIf you have\n\n  /Users\n    /someone\n       repos -\u003e git\n       /git\n         /somerepo\n           /.git\n             /objects\n             \nwe want\n\n  /Users/someone/repos/somerepo/.git/objects\n  /Users/someone/git/somerepo/.git/objects\n  \nto compare equal. Using the canonical path both are resolved to the second; with the absolute path they\u0027re not.\n\nJust cache the Id as I\u0027ve suggested below.",
+      "parentUuid": "16ea3cb3_f457ce8c",
+      "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cc747a05_e3713e78",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
