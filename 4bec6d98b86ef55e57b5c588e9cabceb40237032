@@ -33,6 +33,24 @@
       "message": "It was package-visible only before. Why is it protected now? seems to me package visibility would be sufficient?",
       "revId": "4bec6d98b86ef55e57b5c588e9cabceb40237032",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f672a7cf_eab4e884",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-08-16T21:00:27Z",
+      "side": 1,
+      "message": "looks like the changes which used this were reverted",
+      "parentUuid": "aa107c40_98d50805",
+      "revId": "4bec6d98b86ef55e57b5c588e9cabceb40237032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
