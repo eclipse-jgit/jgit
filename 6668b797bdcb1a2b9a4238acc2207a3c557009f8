@@ -59,6 +59,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f9d3ddb_0a8e1999",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-16T16:38:20Z",
+      "side": 1,
+      "message": "Yes, I was just pointing out why I did this change.",
+      "parentUuid": "be21d173_7d77d641",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a2dfe5c_9d380d94",
@@ -177,6 +195,24 @@
       "side": 1,
       "message": "oversight?\n\n(what would be the effect of forgetting this? Extra reads the next time someone tries to build the index from the worktree?)",
       "parentUuid": "67868bad_96ed7c1d",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "975a59d8_ea7da29c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-16T16:38:20Z",
+      "side": 1,
+      "message": "I don\u0027t know. See DirCacheCheckout.checkoutGitlink(), which comes from [1]. That commit gives no explanation for this, neither in review comments, nor in the commit message, nor in the bugzilla entry.\n\nNote that DirCacheCheckout also throws an IOE if the directory could not be created; it uses FileUtils.mkdirs(directory, true).\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/110172/8/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+      "parentUuid": "37d9de81_9f1614ec",
       "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
