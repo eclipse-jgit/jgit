@@ -106,6 +106,8 @@ public class RevCommit extends RevObject {
 	 * Avoid accessing this field directly. Use method
 	 * {@link RevCommit#getParents()} instead. RevCommit does not allow parents
 	 * to be overridden and altering parent(s) is not supported.
+	 *
+	 * @since 6.3
 	 */
 	protected RevCommit[] parents;
 
