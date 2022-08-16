@@ -107,6 +107,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a02a07e_8e673472",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 304382
+      },
+      "writtenOn": "2022-08-16T10:46:32Z",
+      "side": 1,
+      "message": "getCanonicalPath does NOT follow links on Windows.\n\nmklink /D linkToTest test\n\nSystem.out.println(new File(\"C:\\\\Users\\\\jkubitz\\\\linktotest\").getCanonicalPath());\n\n-\u003e C:\\Users\\jkubitz\\linkToTest\n\ni replaced it with toRealPath:\n\nSystem.out.println(new File(\"C:\\\\Users\\\\jkubitz\\\\linktotest\").toPath().toRealPath().toString());\n\t\t\t\t\n-\u003e C:\\Users\\jkubitz\\test",
+      "parentUuid": "ce123850_b58a664c",
+      "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc747a05_e3713e78",
@@ -120,6 +138,24 @@
       "writtenOn": "2022-08-15T17:24:08Z",
       "side": 1,
       "message": "... but cache the Id and return the cached instance once computed.",
+      "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27645bc7_fefffabc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 304382
+      },
+      "writtenOn": "2022-08-16T10:46:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc747a05_e3713e78",
       "revId": "9fe4e5edfefdaff3553a884726a44413b653ee8d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
