@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "da45788c_0e94b4f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-16T15:34:26Z",
+      "side": 1,
+      "message": "Please follow the EGit/JGit guidelines at [1] and move the bug reference to a footer.\n\nAlso, since this does not (and should not; doing so would be a separate commit) change any of the other uses of getCanonicalPath() and getCanonicalFile(), it might be better to state in the title already which instance is being changed:\n\n  ObjectDirectory: avoid using File.getCanonicalPath()\n  \n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "9cd9ea605e2cf8964d9bc1c3f43ab32c08d9fdc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cb1672f2_e901ff7e",
