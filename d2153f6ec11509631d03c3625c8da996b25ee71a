@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f59cd757_7cf6e19a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-16T09:42:54Z",
+      "side": 1,
+      "message": "we\u0027re using IntelliJ with the Eclipse code formatter. I guess we should configure it to use project settings somewhere?",
+      "revId": "d2153f6ec11509631d03c3625c8da996b25ee71a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

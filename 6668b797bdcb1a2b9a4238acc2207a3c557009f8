@@ -41,6 +41,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be21d173_7d77d641",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-16T09:42:54Z",
+      "side": 1,
+      "message": "that\u0027s good, right?",
+      "parentUuid": "8e284e0c_dff5961b",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a2dfe5c_9d380d94",
@@ -54,6 +72,24 @@
       "writtenOn": "2022-08-14T16:13:28Z",
       "side": 1,
       "message": "This comment made sense like that while this was in ApplyCommand. Now that it has been factored out, it reads a bit strange, since it describes a particular use case in ApplyCommand.",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3a8d660_e3f34eb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-16T09:42:54Z",
+      "side": 1,
+      "message": "if you add a TODO I can address this in a follow-up change.",
+      "parentUuid": "4a2dfe5c_9d380d94",
       "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -92,6 +128,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4852c5a6_113e3211",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-16T09:42:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "81256de8_0b5e1651",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67868bad_96ed7c1d",
@@ -111,6 +165,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37d9de81_9f1614ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-16T09:42:54Z",
+      "side": 1,
+      "message": "oversight?\n\n(what would be the effect of forgetting this? Extra reads the next time someone tries to build the index from the worktree?)",
+      "parentUuid": "67868bad_96ed7c1d",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29558f48_3510bd8d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 1
@@ -122,6 +194,24 @@
       "writtenOn": "2022-08-14T16:13:28Z",
       "side": 1,
       "message": "getWorkTree() throws NoWorkTreeException anyway if the repo is bare.",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "140af1b0_faefa779",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-16T09:42:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "29558f48_3510bd8d",
       "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
