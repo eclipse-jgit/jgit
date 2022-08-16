@@ -219,6 +219,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cac04020_a5bf57dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-08-16T20:56:35Z",
+      "side": 1,
+      "message": "I guess Christian Halstrick might know",
+      "parentUuid": "975a59d8_ea7da29c",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29558f48_3510bd8d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 1
