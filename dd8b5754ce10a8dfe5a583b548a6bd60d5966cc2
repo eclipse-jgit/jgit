@@ -16,6 +16,24 @@
       "message": "Removed wrongly copied comment.",
       "revId": "dd8b5754ce10a8dfe5a583b548a6bd60d5966cc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca55f69e_5994e46d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-17T16:42:34Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "425346db_3ec765c8",
+      "revId": "dd8b5754ce10a8dfe5a583b548a6bd60d5966cc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

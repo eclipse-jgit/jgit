@@ -96,6 +96,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a59af93_28b0bba1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-17T16:42:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6a3204f2_df605565",
+      "range": {
+        "startLine": 70,
+        "startChar": 13,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e284e0c_dff5961b",
@@ -184,6 +208,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ffdbc1c_a51e0732",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-17T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3a8d660_e3f34eb1",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbb4e45c_bb2b70f1",
@@ -197,6 +239,24 @@
       "writtenOn": "2022-08-14T16:13:28Z",
       "side": 1,
       "message": "lockDirCache() throws NoWorkTreeException anyway if the repo is bare.",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "618e1117_3d54bf4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-17T16:42:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cbb4e45c_bb2b70f1",
       "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
