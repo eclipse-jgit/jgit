@@ -16,6 +16,98 @@
       "message": "trigger build",
       "revId": "6297491e8adb85e43d60ffe75fb71f335e733449",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "222e9790_00e5f59f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-08-17T23:40:04Z",
+      "side": 1,
+      "message": "This map keeps all commits and prevent them from GCing. Can we clean it up once we produces all commits?\n\n(Actually I believe we should produce parents before children, so once we produce a commit we can remove it from the map)",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 68
+      },
+      "revId": "6297491e8adb85e43d60ffe75fb71f335e733449",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b0d78d_00bca2ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-08-17T23:40:04Z",
+      "side": 1,
+      "message": "This seems to be broken as if oldp is a normal revCommit you will transform it and return transformed one which is not equal to oldp",
+      "range": {
+        "startLine": 93,
+        "startChar": 7,
+        "endLine": 93,
+        "endChar": 19
+      },
+      "revId": "6297491e8adb85e43d60ffe75fb71f335e733449",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03dd9d29_da4b0fa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-08-17T23:40:04Z",
+      "side": 1,
+      "message": "Could you please add a test which is specific to this class (so it won\u0027t be removed with other functionality) and which will test existence of each transform call?",
+      "range": {
+        "startLine": 138,
+        "startChar": 7,
+        "endLine": 138,
+        "endChar": 16
+      },
+      "revId": "6297491e8adb85e43d60ffe75fb71f335e733449",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ba02c70_ee79526e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-08-17T23:40:04Z",
+      "side": 1,
+      "message": "transforms in this method applied to all parents in the chain including one which we wouldn\u0027t keep. So we will in fact copy all skipped commits and then discard them (but they will be in transformedCommits collection!). Is it possible to move transformation to lines 143, 150, 157, so only commits which we actually produce would be transformed?",
+      "range": {
+        "startLine": 168,
+        "startChar": 7,
+        "endLine": 168,
+        "endChar": 16
+      },
+      "revId": "6297491e8adb85e43d60ffe75fb71f335e733449",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
