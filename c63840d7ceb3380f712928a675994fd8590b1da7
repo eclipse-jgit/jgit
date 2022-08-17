@@ -22,6 +22,30 @@
       },
       "revId": "c63840d7ceb3380f712928a675994fd8590b1da7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a408fc_cb582a46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-08-17T06:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5afa914c_75a37e11",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 27
+      },
+      "revId": "c63840d7ceb3380f712928a675994fd8590b1da7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
