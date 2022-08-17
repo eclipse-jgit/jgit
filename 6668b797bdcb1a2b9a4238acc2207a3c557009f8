@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a3204f2_df605565",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-17T12:33:35Z",
+      "side": 1,
+      "message": "we discussed this during the review. the problem is, we want to use this from ApplyCommand (or its implementation PatchApplier, see https://git.eclipse.org/r/c/jgit/jgit/+/194426/), which isn\u0027t in the merge package, so I don\u0027t see how to do that with Java protected/private annotations.\n\nI was hoping the time-window between submitting this and getting 194426 working is short enough to allow for an API incompatibility.",
+      "parentUuid": "c63806aa_0b94c2f6",
+      "range": {
+        "startLine": 70,
+        "startChar": 13,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e284e0c_dff5961b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 1
