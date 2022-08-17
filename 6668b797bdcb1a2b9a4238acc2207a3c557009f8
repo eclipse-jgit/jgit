@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f64dcf8d_85c77bba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-17T08:57:33Z",
+      "side": 1,
+      "message": "suggestions for better names are appreciated :-)\n\nI have a hunch that this class can still be split in two pieces (one for the index, one for the working tree), but need to look carefully at callers here and ApplyCommand post-refactoring.",
+      "parentUuid": "b9c078ea_3669d13e",
+      "range": {
+        "startLine": 70,
+        "startChar": 13,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e284e0c_dff5961b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 1
@@ -230,6 +254,24 @@
       "writtenOn": "2022-08-16T20:56:35Z",
       "side": 1,
       "message": "I guess Christian Halstrick might know",
+      "parentUuid": "975a59d8_ea7da29c",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7366d71f_f8eeeb2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-17T08:57:33Z",
+      "side": 1,
+      "message": "note that this code was moved over from \n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/194654/19/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java#b420\n\nie. this has been wrong in ResolveMerger for a long time.\n\nI suggest addressing this in a separate change, which should also add a test for the newly asserted functionality.",
       "parentUuid": "975a59d8_ea7da29c",
       "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
