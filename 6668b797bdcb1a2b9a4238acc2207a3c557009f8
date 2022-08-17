@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c63806aa_0b94c2f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-17T12:28:55Z",
+      "side": 1,
+      "message": "Fair \u0027nuff. But if you foresee such things, then please make this class internal. Currently it\u0027s public API. It could be made public later, once the API has stabilized.",
+      "parentUuid": "f64dcf8d_85c77bba",
+      "range": {
+        "startLine": 70,
+        "startChar": 13,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e284e0c_dff5961b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 1
@@ -273,6 +297,24 @@
       "side": 1,
       "message": "note that this code was moved over from \n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/194654/19/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java#b420\n\nie. this has been wrong in ResolveMerger for a long time.\n\nI suggest addressing this in a separate change, which should also add a test for the newly asserted functionality.",
       "parentUuid": "975a59d8_ea7da29c",
+      "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "416c5ba5_766e0d38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-08-17T12:28:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7366d71f_f8eeeb2f",
       "revId": "6668b797bdcb1a2b9a4238acc2207a3c557009f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
