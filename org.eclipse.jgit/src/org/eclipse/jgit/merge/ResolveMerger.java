@@ -146,7 +146,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	protected ObjectId resultTree;
 
 	/**
-	 * Files modified during this operation. Note this list is only updated after a successful write.
+	 * Files modified during this operation. Note this list is only updated
+	 * after a successful write.
 	 */
 	protected List<String> modifiedFiles = new ArrayList<>();
 
@@ -187,12 +188,14 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * created as temporary files and a new empty, in-memory dircache will be
 	 * used instead the repo's one. Often used for bare repos where the repo
 	 * doesn't even have a workingtree and dircache.
+	 *
 	 * @since 3.0
 	 */
 	protected boolean inCore;
 
 	/**
 	 * Directory cache
+	 *
 	 * @since 3.0
 	 */
 	protected DirCache dircache;
@@ -200,12 +203,14 @@ public class ResolveMerger extends ThreeWayMerger {
 	/**
 	 * The iterator to access the working tree. If set to <code>null</code> this
 	 * merger will not touch the working tree.
+	 *
 	 * @since 3.0
 	 */
 	protected WorkingTreeIterator workingTreeIterator;
 
 	/**
 	 * our merge algorithm
+	 *
 	 * @since 3.0
 	 */
 	protected MergeAlgorithm mergeAlgorithm;
@@ -218,14 +223,13 @@ public class ResolveMerger extends ThreeWayMerger {
 	private ContentMergeStrategy contentStrategy = ContentMergeStrategy.CONFLICT;
 
 	private static MergeAlgorithm getMergeAlgorithm(Config config) {
-		SupportedAlgorithm diffAlg = config.getEnum(
-				CONFIG_DIFF_SECTION, null, CONFIG_KEY_ALGORITHM,
-				HISTOGRAM);
+		SupportedAlgorithm diffAlg = config.getEnum(CONFIG_DIFF_SECTION, null,
+				CONFIG_KEY_ALGORITHM, HISTOGRAM);
 		return new MergeAlgorithm(DiffAlgorithm.getAlgorithm(diffAlg));
 	}
 
 	private static String[] defaultCommitNames() {
-		return new String[]{"BASE", "OURS", "THEIRS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return new String[] { "BASE", "OURS", "THEIRS" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	private static final Attributes NO_ATTRIBUTES = new Attributes();
@@ -298,8 +302,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	/** {@inheritDoc} */
 	@Override
 	protected boolean mergeImpl() throws IOException {
-		return mergeTrees(mergeBase(), sourceTrees[0], sourceTrees[1],
-				false);
+		return mergeTrees(mergeBase(), sourceTrees[0], sourceTrees[1], false);
 	}
 
 	/**
@@ -315,9 +318,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	private DirCacheEntry add(byte[] path, CanonicalTreeParser p, int stage,
 			Instant lastMod, long len) {
 		if (p != null && !p.getEntryFileMode().equals(FileMode.TREE)) {
-			return workTreeUpdater.addExistingToIndex(p.getEntryObjectId(), path,
-					p.getEntryFileMode(), stage,
-					lastMod, (int) len);
+			return workTreeUpdater.addExistingToIndex(p.getEntryObjectId(),
+					path, p.getEntryFileMode(), stage, lastMod, (int) len);
 		}
 		return null;
 	}
@@ -351,8 +353,9 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @return the entry which was added to the index
 	 */
 	private DirCacheEntry keep(DirCacheEntry e) {
-		return workTreeUpdater.addExistingToIndex(e.getObjectId(), e.getRawPath(), e.getFileMode(),
-				e.getStage(), e.getLastModifiedInstant(), e.getLength());
+		return workTreeUpdater.addExistingToIndex(e.getObjectId(),
+				e.getRawPath(), e.getFileMode(), e.getStage(),
+				e.getLastModifiedInstant(), e.getLength());
 	}
 
 	/**
@@ -370,14 +373,17 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @since 6.1
 	 */
 	protected void addToCheckout(String path, DirCacheEntry entry,
-			Attributes[] attributes)
-			throws IOException {
-		EolStreamType cleanupStreamType = workTreeUpdater.detectCheckoutStreamType(attributes[T_OURS]);
+			Attributes[] attributes) throws IOException {
+		EolStreamType cleanupStreamType = workTreeUpdater
+				.detectCheckoutStreamType(attributes[T_OURS]);
 		String cleanupSmudgeCommand = tw.getSmudgeCommand(attributes[T_OURS]);
-		EolStreamType checkoutStreamType = workTreeUpdater.detectCheckoutStreamType(attributes[T_THEIRS]);
-		String checkoutSmudgeCommand = tw.getSmudgeCommand(attributes[T_THEIRS]);
-		workTreeUpdater.addToCheckout(path, entry, cleanupStreamType, cleanupSmudgeCommand,
-				checkoutStreamType, checkoutSmudgeCommand);
+		EolStreamType checkoutStreamType = workTreeUpdater
+				.detectCheckoutStreamType(attributes[T_THEIRS]);
+		String checkoutSmudgeCommand = tw
+				.getSmudgeCommand(attributes[T_THEIRS]);
+		workTreeUpdater.addToCheckout(path, entry, cleanupStreamType,
+				cleanupSmudgeCommand, checkoutStreamType,
+				checkoutSmudgeCommand);
 	}
 
 	/**
@@ -400,7 +406,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			return;
 
 		File file = new File(nonNullRepo().getWorkTree(), path);
-		EolStreamType streamType = workTreeUpdater.detectCheckoutStreamType(attributes);
+		EolStreamType streamType = workTreeUpdater
+				.detectCheckoutStreamType(attributes);
 		String smudgeCommand = tw.getSmudgeCommand(attributes);
 		workTreeUpdater.deleteFile(path, file, streamType, smudgeCommand);
 	}
@@ -488,7 +495,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (modeO == modeT) {
 				// content and mode of OURS and THEIRS are equal: it doesn't
 				// matter which one we choose. OURS is chosen. Since the index
-				// is clean (the index matches already OURS) we can keep the existing one
+				// is clean (the index matches already OURS) we can keep the
+				// existing one
 				keep(ourDce);
 				// no checkout needed!
 				return true;
@@ -581,10 +589,11 @@ public class ResolveMerger extends ThreeWayMerger {
 			// detected later
 			if (nonTree(modeO) != nonTree(modeT)) {
 				if (ignoreConflicts) {
-					// In case of merge failures, ignore this path instead of reporting unmerged, so
-					// a caller can use virtual commit. This will not result in files with conflict
-					// markers in the index/working tree. The actual diff on the path will be
-					// computed directly on children.
+					// In case of merge failures, ignore this path instead of
+					// reporting unmerged, so a caller can use virtual commit.
+					// This will not result in files with conflict markers in
+					// the index/working tree. The actual diff on the path will
+					// be computed directly on children.
 					enterSubtree = false;
 					return true;
 				}
@@ -595,7 +604,8 @@ public class ResolveMerger extends ThreeWayMerger {
 					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, EPOCH, 0);
 				}
 				if (nonTree(modeT)) {
-					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
+					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH,
+							0);
 				}
 				unmergedPaths.add(tw.getPathString());
 				enterSubtree = false;
@@ -637,16 +647,16 @@ public class ResolveMerger extends ThreeWayMerger {
 			} else if (!attributes[T_OURS].canBeContentMerged()) {
 				// File marked as binary
 				switch (getContentMergeStrategy()) {
-					case OURS:
-						keep(ourDce);
-						return true;
-					case THEIRS:
-						DirCacheEntry theirEntry = add(tw.getRawPath(), theirs,
-								DirCacheEntry.STAGE_0, EPOCH, 0);
-						addToCheckout(tw.getPathString(), theirEntry, attributes);
-						return true;
-					default:
-						break;
+				case OURS:
+					keep(ourDce);
+					return true;
+				case THEIRS:
+					DirCacheEntry theirEntry = add(tw.getRawPath(), theirs,
+							DirCacheEntry.STAGE_0, EPOCH, 0);
+					addToCheckout(tw.getPathString(), theirEntry, attributes);
+					return true;
+				default:
+					break;
 				}
 				addConflict(base, ours, theirs);
 
@@ -724,8 +734,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			addToCheckout(currentPath, null, attributes);
 		} else if (modeO != modeT) {
 			// OURS or THEIRS has been deleted
-			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
-					.idEqual(T_BASE, T_THEIRS)))) {
+			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS))
+					|| (modeT != 0 && !tw.idEqual(T_BASE, T_THEIRS)))) {
 				if (gitLinkMerging && ignoreConflicts) {
 					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0, EPOCH, 0);
 				} else if (gitLinkMerging) {
@@ -862,8 +872,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		final boolean isDirty = nonTree(modeI)
 				&& !(modeO == modeI && tw.idEqual(T_INDEX, T_OURS));
 		if (isDirty) {
-			failingPaths
-					.put(tw.getPathString(), MergeFailureReason.DIRTY_INDEX);
+			failingPaths.put(tw.getPathString(),
+					MergeFailureReason.DIRTY_INDEX);
 		}
 		return isDirty;
 	}
@@ -964,27 +974,28 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws IOException
 	 */
 	private File writeMergedFile(TemporaryBuffer rawMerged,
-			Attributes attributes)
-			throws IOException {
+			Attributes attributes) throws IOException {
 		File workTree = nonNullRepo().getWorkTree();
 		FS fs = nonNullRepo().getFS();
 		File of = new File(workTree, tw.getPathString());
 		File parentFolder = of.getParentFile();
-		EolStreamType eol = workTreeUpdater.detectCheckoutStreamType(attributes);
+		EolStreamType eol = workTreeUpdater
+				.detectCheckoutStreamType(attributes);
 		if (!fs.exists(parentFolder)) {
 			parentFolder.mkdirs();
 		}
-		StreamLoader contentLoader = WorkTreeUpdater.createStreamLoader(rawMerged::openInputStream,
-				rawMerged.length());
-		workTreeUpdater.updateFileWithContent(contentLoader,
-				eol, tw.getSmudgeCommand(attributes), of.getPath(), of, false);
+		StreamLoader contentLoader = WorkTreeUpdater.createStreamLoader(
+				rawMerged::openInputStream, rawMerged.length());
+		workTreeUpdater.updateFileWithContent(contentLoader, eol,
+				tw.getSmudgeCommand(attributes), of.getPath(), of, false);
 		return of;
 	}
 
 	private TemporaryBuffer doMerge(MergeResult<RawText> result)
 			throws IOException {
 		TemporaryBuffer.LocalFile buf = new TemporaryBuffer.LocalFile(
-				db != null ? nonNullRepo().getDirectory() : null, workTreeUpdater.getInCoreFileSizeLimit());
+				db != null ? nonNullRepo().getDirectory() : null,
+				workTreeUpdater.getInCoreFileSizeLimit());
 		boolean success = false;
 		try {
 			new MergeFormatter().formatMerge(buf, result,
@@ -1030,11 +1041,10 @@ public class ResolveMerger extends ThreeWayMerger {
 		return FileMode.MISSING.getBits();
 	}
 
-	private RawText getRawText(ObjectId id,
-			Attributes attributes)
+	private RawText getRawText(ObjectId id, Attributes attributes)
 			throws IOException, BinaryBlobException {
 		if (id.equals(ObjectId.zeroId())) {
-			return new RawText(new byte[]{});
+			return new RawText(new byte[] {});
 		}
 
 		ObjectLoader loader = LfsFactory.getInstance().applySmudgeFilter(
@@ -1099,7 +1109,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *         superset of the files listed by {@link #getUnmergedPaths()}.
 	 */
 	public List<String> getModifiedFiles() {
-		return workTreeUpdater != null ? workTreeUpdater.getModifiedFiles() : modifiedFiles;
+		return workTreeUpdater != null ? workTreeUpdater.getModifiedFiles()
+				: modifiedFiles;
 	}
 
 	/**
@@ -1176,10 +1187,10 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param workingTreeIterator
 	 *            the workingTreeIt to set
 	 */
-	public void setWorkingTreeIterator(WorkingTreeIterator workingTreeIterator) {
+	public void setWorkingTreeIterator(
+			WorkingTreeIterator workingTreeIterator) {
 		this.workingTreeIterator = workingTreeIterator;
 	}
-
 
 	/**
 	 * The resolve conflict way of three way merging
@@ -1218,16 +1229,18 @@ public class ResolveMerger extends ThreeWayMerger {
 			RevTree headTree, RevTree mergeTree, boolean ignoreConflicts)
 			throws IOException {
 		try {
-			workTreeUpdater = inCore ?
-					WorkTreeUpdater.createInCoreWorkTreeUpdater(db, dircache, getObjectInserter()) :
-					WorkTreeUpdater.createWorkTreeUpdater(db, dircache);
+			workTreeUpdater = inCore
+					? WorkTreeUpdater.createInCoreWorkTreeUpdater(db, dircache,
+							getObjectInserter())
+					: WorkTreeUpdater.createWorkTreeUpdater(db, dircache);
 			dircache = workTreeUpdater.getLockedDirCache();
 			tw = new NameConflictTreeWalk(db, reader);
 
 			tw.addTree(baseTree);
 			tw.setHead(tw.addTree(headTree));
 			tw.addTree(mergeTree);
-			DirCacheBuildIterator buildIt = workTreeUpdater.createDirCacheBuildIterator();
+			DirCacheBuildIterator buildIt = workTreeUpdater
+					.createDirCacheBuildIterator();
 			int dciPos = tw.addTree(buildIt);
 			if (workingTreeIterator != null) {
 				tw.addTree(workingTreeIterator);
@@ -1242,7 +1255,8 @@ public class ResolveMerger extends ThreeWayMerger {
 
 			workTreeUpdater.writeWorkTreeChanges(true);
 			if (getUnmergedPaths().isEmpty() && !failed()) {
-				WorkTreeUpdater.Result result = workTreeUpdater.writeIndexChanges();
+				WorkTreeUpdater.Result result = workTreeUpdater
+						.writeIndexChanges();
 				resultTree = result.treeId;
 				modifiedFiles = result.modifiedFiles;
 				for (String f : result.failedToDelete) {
@@ -1253,7 +1267,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			resultTree = null;
 			return false;
 		} finally {
-			if(modifiedFiles.isEmpty()) {
+			if (modifiedFiles.isEmpty()) {
 				modifiedFiles = workTreeUpdater.getModifiedFiles();
 			}
 			workTreeUpdater.close();
@@ -1279,8 +1293,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		boolean hasAttributeNodeProvider = treeWalk
 				.getAttributesNodeProvider() != null;
 		while (treeWalk.next()) {
-			Attributes[] attributes = {NO_ATTRIBUTES, NO_ATTRIBUTES,
-					NO_ATTRIBUTES};
+			Attributes[] attributes = { NO_ATTRIBUTES, NO_ATTRIBUTES,
+					NO_ATTRIBUTES };
 			if (hasAttributeNodeProvider) {
 				attributes[T_BASE] = treeWalk.getAttributes(T_BASE);
 				attributes[T_OURS] = treeWalk.getAttributes(T_OURS);
@@ -1291,8 +1305,10 @@ public class ResolveMerger extends ThreeWayMerger {
 					treeWalk.getTree(T_OURS, CanonicalTreeParser.class),
 					treeWalk.getTree(T_THEIRS, CanonicalTreeParser.class),
 					treeWalk.getTree(T_INDEX, DirCacheBuildIterator.class),
-					hasWorkingTreeIterator ? treeWalk.getTree(T_FILE,
-							WorkingTreeIterator.class) : null,
+					hasWorkingTreeIterator
+							? treeWalk.getTree(T_FILE,
+									WorkingTreeIterator.class)
+							: null,
 					ignoreConflicts, attributes)) {
 				workTreeUpdater.revertModifiedFiles();
 				return false;
