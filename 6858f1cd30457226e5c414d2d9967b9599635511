@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7855a6be_b0a56d6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304382
+      },
+      "writtenOn": "2022-08-17T05:41:50Z",
+      "side": 1,
+      "message": "ok, thanks for the hint, i was not aware of the egit rules.",
+      "revId": "6858f1cd30457226e5c414d2d9967b9599635511",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
