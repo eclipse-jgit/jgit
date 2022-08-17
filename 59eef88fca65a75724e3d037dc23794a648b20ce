@@ -16,6 +16,322 @@
       "message": "Maria, this is ready for a first look.",
       "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e9a8e9e_7f20a3f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "First round of comments.\n\nSome of them might can be addressed by Nitzan, when she is back, since as you mentioned, Nitzan should be the primary author of this change.",
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6356c52e_0c70ed79",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "Are this test meant to replace org/eclipse/jgit/api/ApplyCommandTest.java?\nIf yes, should they be removed?",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a79bbf66_d408a4c5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "Nit: javadoc with the link to PatchApplier?",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 30
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20c171ff_2fdf3338",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "Nit: javadoc?",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2672182_02378f8b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "Could you, please, add a comment that the dataset comes from google3/third_party/java_src/jgit/org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/\n?",
+      "range": {
+        "startLine": 218,
+        "startChar": 3,
+        "endLine": 218,
+        "endChar": 13
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "720305dd_be3830e0",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 36
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "nit: mention filenames?",
+      "range": {
+        "startLine": 160,
+        "startChar": 40,
+        "endLine": 160,
+        "endChar": 41
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81d50df9_80fc4770",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "IllegalStateException?",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d27b7dde_bc577a7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "nit: move closer to the usage, why isn\u0027t it returned from the patchApplier.applyPatch?",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 38
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a66862b_795406ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "This constructor seems to never be used. Should it be used in inCore tests?",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 20
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8729e640_daec972f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "This class fields should not be public?",
+      "range": {
+        "startLine": 120,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 27
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caca992f_837b5aac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "Empty else body?",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 5
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0889568c_e1c7480f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "I am concerned all the fields are public and the \u0027result\u0027 variable are public.\n\nCould we keep the internal UpdateState and return the non-modifiable result in #writeIndexChanges()?\n\nIn that case, we could also move #modifiedFilesSet to UpdateState and make sure both veriables are in sync, by making the fields private.",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cce15cbc_cadf4588",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "nit: {@link Result#modifiedFiles}",
+      "range": {
+        "startLine": 92,
+        "startChar": 27,
+        "endLine": 92,
+        "endChar": 47
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "919ef1e1_6b2e74a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-17T18:09:08Z",
+      "side": 1,
+      "message": "Why is this unused? Should the method throw if the entry is null?\n\nAlso, I think comment in addExistingToIndex(ObjectId objectId,..int len) is more clear, maybe just link it here?",
+      "range": {
+        "startLine": 720,
+        "startChar": 2,
+        "endLine": 720,
+        "endChar": 27
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
