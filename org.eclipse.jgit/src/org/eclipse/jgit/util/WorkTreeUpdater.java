@@ -160,12 +160,12 @@ public class WorkTreeUpdater implements Closeable {
 	/**
 	 * Keeps {@link CheckoutMetadata} for {@link #checkout()}.
 	 */
-	private Map<String, CheckoutMetadata> checkoutMetadata;
+	private Map<String, CheckoutMetadata> checkoutMetadataByPath;
 
 	/**
 	 * Keeps {@link CheckoutMetadata} for {@link #revertModifiedFiles()}.
 	 */
-	private Map<String, CheckoutMetadata> cleanupMetadata;
+	private Map<String, CheckoutMetadata> cleanupMetadataByPath;
 
 	/**
 	 * Whether the changes were successfully written.
@@ -189,8 +189,8 @@ public class WorkTreeUpdater implements Closeable {
 		Config config = repo.getConfig();
 		this.workingTreeOptions = config.get(WorkingTreeOptions.KEY);
 		this.inCoreFileSizeLimit = getInCoreFileSizeLimit(config);
-		this.checkoutMetadata = new HashMap<>();
-		this.cleanupMetadata = new HashMap<>();
+		this.checkoutMetadataByPath = new HashMap<>();
+		this.cleanupMetadataByPath = new HashMap<>();
 	}
 
 	/**
@@ -434,9 +434,9 @@ public class WorkTreeUpdater implements Closeable {
 			// In some cases, we just want to add the metadata.
 			toBeCheckedOut.put(path, entry);
 		}
-		addCheckoutMetadata(cleanupMetadata, path, cleanupStreamType,
+		addCheckoutMetadata(cleanupMetadataByPath, path, cleanupStreamType,
 				cleanupSmudgeCommand);
-		addCheckoutMetadata(checkoutMetadata, path, checkoutStreamType,
+		addCheckoutMetadata(checkoutMetadataByPath, path, checkoutStreamType,
 				checkoutSmudgeCommand);
 	}
 
@@ -472,7 +472,7 @@ public class WorkTreeUpdater implements Closeable {
 			String smudgeCommand) {
 		toBeDeleted.put(path, file);
 		if (file != null && file.isFile()) {
-			addCheckoutMetadata(cleanupMetadata, path, streamType,
+			addCheckoutMetadata(cleanupMetadataByPath, path, streamType,
 					smudgeCommand);
 		}
 	}
@@ -558,7 +558,7 @@ public class WorkTreeUpdater implements Closeable {
 						.mkdirs();
 			} else {
 				DirCacheCheckout.checkoutEntry(repo, dirCacheEntry, reader,
-						false, checkoutMetadata.get(entry.getKey()),
+						false, checkoutMetadataByPath.get(entry.getKey()),
 						workingTreeOptions);
 				result.modifiedFiles.add(entry.getKey());
 			}
@@ -586,7 +586,7 @@ public class WorkTreeUpdater implements Closeable {
 			DirCacheEntry entry = dirCache.getEntry(path);
 			if (entry != null) {
 				DirCacheCheckout.checkoutEntry(repo, entry, reader, false,
-						cleanupMetadata.get(path), workingTreeOptions);
+						cleanupMetadataByPath.get(path), workingTreeOptions);
 			}
 		}
 	}
