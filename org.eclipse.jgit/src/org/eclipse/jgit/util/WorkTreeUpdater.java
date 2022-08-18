@@ -74,20 +74,33 @@ public class WorkTreeUpdater implements Closeable {
 	 */
 	public static class Result {
 
-		/**
-		 * Files modified during this operation.
-		 */
-		public List<String> modifiedFiles = new LinkedList<>();
+		private final List<String> modifiedFiles = new LinkedList<>();
+
+
+		private final List<String> failedToDelete = new LinkedList<>();
+
+		private ObjectId treeId = null;
 
 		/**
-		 * Files in this list were failed to be deleted.
+		 * @return Modified tree ID if any, or null otherwise.
 		 */
-		public List<String> failedToDelete = new LinkedList<>();
+		public ObjectId getTreeId() {
+			return treeId;
+		}
 
 		/**
-		 * Modified tree ID if any, or null otherwise.
+		 * @return Files that couldn't be deleted.
 		 */
-		public ObjectId treeId = null;
+		public List<String> getFailedToDelete() {
+			return failedToDelete;
+		}
+
+		/**
+		 * @return Files modified during this operation.
+		 */
+		public List<String> getModifiedFiles() {
+			return modifiedFiles;
+		}
 	}
 
 	Result result = new Result();

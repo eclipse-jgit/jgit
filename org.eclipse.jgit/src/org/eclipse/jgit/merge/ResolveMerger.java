@@ -1181,12 +1181,12 @@ public class ResolveMerger extends ThreeWayMerger {
 			workTreeUpdater.writeWorkTreeChanges(true);
 			if (getUnmergedPaths().isEmpty() && !failed()) {
 				WorkTreeUpdater.Result result = workTreeUpdater.writeIndexChanges();
-				resultTree = result.treeId;
-				modifiedFiles = result.modifiedFiles;
-				for (String f : result.failedToDelete) {
+				resultTree = result.getTreeId();
+				modifiedFiles = result.getModifiedFiles();
+				for (String f : result.getFailedToDelete()) {
 					failingPaths.put(f, MergeFailureReason.COULD_NOT_DELETE);
 				}
-				return result.failedToDelete.isEmpty();
+				return result.getFailedToDelete().isEmpty();
 			}
 			resultTree = null;
 			return false;
