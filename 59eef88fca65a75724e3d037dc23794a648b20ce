@@ -81,6 +81,54 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a69329c_24a57efc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "Seem redundant and none of the other tests do that.",
+      "parentUuid": "a79bbf66_d408a4c5",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 30
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9548e18_e112e48d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6356c52e_0c70ed79",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20c171ff_2fdf3338",
@@ -94,6 +142,30 @@
       "writtenOn": "2022-08-17T18:09:08Z",
       "side": 1,
       "message": "Nit: javadoc?",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f4c4baa_d1e8d07f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20c171ff_2fdf3338",
       "range": {
         "startLine": 61,
         "startChar": 2,
@@ -127,6 +199,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07537aa4_08e8e7e8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2672182_02378f8b",
+      "range": {
+        "startLine": 218,
+        "startChar": 3,
+        "endLine": 218,
+        "endChar": 13
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "720305dd_be3830e0",
@@ -140,6 +236,30 @@
       "writtenOn": "2022-08-17T18:09:08Z",
       "side": 1,
       "message": "nit: mention filenames?",
+      "range": {
+        "startLine": 160,
+        "startChar": 40,
+        "endLine": 160,
+        "endChar": 41
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b594e2_45a78a14",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 36
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "if the filename is null, there is nothing to mention.",
+      "parentUuid": "720305dd_be3830e0",
       "range": {
         "startLine": 160,
         "startChar": 40,
@@ -173,6 +293,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b45bafc_29ffbe78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "other users of repositoryIsRequired use NPE",
+      "parentUuid": "81d50df9_80fc4770",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d27b7dde_bc577a7f",
@@ -186,6 +330,30 @@
       "writtenOn": "2022-08-17T18:09:08Z",
       "side": 1,
       "message": "nit: move closer to the usage, why isn\u0027t it returned from the patchApplier.applyPatch?",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 38
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d177b826_f014fac1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "ApplyResult is the existing type. It uses File, so it can\u0027t be returned for in-core operation. I can move this down, but then applyResult goes further away from usage.",
+      "parentUuid": "d27b7dde_bc577a7f",
       "range": {
         "startLine": 67,
         "startChar": 5,
@@ -219,6 +387,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fdc3adb_c683e64a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "it\u0027s used in the inCore tests.",
+      "parentUuid": "1a66862b_795406ad",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 20
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8729e640_daec972f",
@@ -242,6 +434,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05758a0c_97fcc35b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8729e640_daec972f",
+      "range": {
+        "startLine": 120,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 27
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caca992f_837b5aac",
@@ -255,6 +471,30 @@
       "writtenOn": "2022-08-17T18:09:08Z",
       "side": 1,
       "message": "Empty else body?",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 5
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ea91d2f_230b2460",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "it\u0027s not empty :-) the comment in the body only applies to the \u0027else\u0027 case.",
+      "parentUuid": "caca992f_837b5aac",
       "range": {
         "startLine": 316,
         "startChar": 4,
@@ -290,6 +530,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00f6689a_88683cf9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "yeah, my bad. The JGit style is to not have public data members. I\u0027ll fix in separate change.\n\n\u003e  #modifiedFilesSet \n\nthat\u0027s internal to WorktreeUpdater, so I think it shouldn\u0027t go into Result.\n\nI\u0027ll see what I can do to clean this up. I had some discussion with Nitzan on the change, see https://git.eclipse.org/r/c/jgit/jgit/+/194654/11/org.eclipse.jgit/src/org/eclipse/jgit/util/RepoIOHandler.java#326, but it wasn\u0027t obvious how to best structure it.",
+      "parentUuid": "0889568c_e1c7480f",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cce15cbc_cadf4588",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 36
@@ -301,6 +565,30 @@
       "writtenOn": "2022-08-17T18:09:08Z",
       "side": 1,
       "message": "nit: {@link Result#modifiedFiles}",
+      "range": {
+        "startLine": 92,
+        "startChar": 27,
+        "endLine": 92,
+        "endChar": 47
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ce67ea9_25e68128",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cce15cbc_cadf4588",
       "range": {
         "startLine": 92,
         "startChar": 27,
@@ -324,6 +612,30 @@
       "writtenOn": "2022-08-17T18:09:08Z",
       "side": 1,
       "message": "Why is this unused? Should the method throw if the entry is null?\n\nAlso, I think comment in addExistingToIndex(ObjectId objectId,..int len) is more clear, maybe just link it here?",
+      "range": {
+        "startLine": 720,
+        "startChar": 2,
+        "endLine": 720,
+        "endChar": 27
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b99c1a3_a4bb7184",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-18T16:26:10Z",
+      "side": 1,
+      "message": "sorry, old code.\n\nI want to get rid of `addExistingToIndex(ObjectId objectId,.. int len)`. DirCacheEntry has a copy() method that should be used instead.",
+      "parentUuid": "919ef1e1_6b2e74a4",
       "range": {
         "startLine": 720,
         "startChar": 2,
