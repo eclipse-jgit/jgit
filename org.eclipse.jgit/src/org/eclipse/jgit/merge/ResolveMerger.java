@@ -315,9 +315,15 @@ public class ResolveMerger extends ThreeWayMerger {
 	private DirCacheEntry add(byte[] path, CanonicalTreeParser p, int stage,
 			Instant lastMod, long len) {
 		if (p != null && !p.getEntryFileMode().equals(FileMode.TREE)) {
-			return workTreeUpdater.addExistingToIndex(p.getEntryObjectId(), path,
-					p.getEntryFileMode(), stage,
-					lastMod, (int) len);
+			DirCacheEntry dce = new DirCacheEntry(path, stage);
+			dce.setFileMode(p.getEntryFileMode());
+			if (lastMod != null) {
+				dce.setLastModified(lastMod);
+			}
+			dce.setLength((int) len);
+			dce.setObjectId(p.getEntryObjectId());
+			workTreeUpdater.insertToIndex(dce);
+			return dce;
 		}
 		return null;
 	}
@@ -332,8 +338,9 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @return the entry which was added to the index
 	 */
 	private DirCacheEntry keep(DirCacheEntry e) {
-		return workTreeUpdater.addExistingToIndex(e.getObjectId(), e.getRawPath(), e.getFileMode(),
-				e.getStage(), e.getLastModifiedInstant(), e.getLength());
+		DirCacheEntry copy = new DirCacheEntry(e);
+		workTreeUpdater.insertToIndex(copy);
+		return copy;
 	}
 
 	/**
