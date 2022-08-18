@@ -20,12 +20,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -104,6 +107,9 @@ public class WorkTreeUpdater implements Closeable {
 	}
 
 	Result result = new Result();
+
+	/** A hash set version of Result#modifiedFiles for fast querying. */
+	private final Set<String> modifiedFilesSet = new HashSet<>();
 
 	/**
 	 * The repository this handler operates on.
@@ -226,7 +232,9 @@ public class WorkTreeUpdater implements Closeable {
 		this.inCore = true;
 		this.reader = oi.newReader();
 		if (repo != null) {
-			this.inCoreFileSizeLimit = getInCoreFileSizeLimit(repo.getConfig());
+                	Config config = repo.getConfig();
+			this.inCoreFileSizeLimit = getInCoreFileSizeLimit(config);
+			this.workingTreeOptions = config.get(WorkingTreeOptions.KEY);
 		}
 	}
 
@@ -478,8 +486,59 @@ public class WorkTreeUpdater implements Closeable {
 	}
 
 	/**
-	 * Remembers the {@link CheckoutMetadata} for the given path; it may be
-	 * needed in {@link #checkout()} or in {@link #revertModifiedFiles()}.
+	 * Renames the given file
+	 *
+	 * @param origin     to be renamed
+	 * @param originPath to rename from
+	 * @param dest       file
+	 * @param destPath   path of the destination.
+	 * @throws IOException if the file cannot be renamed
+	 */
+	public void renameFile(File origin, String originPath, File dest, String destPath) throws IOException {
+		markAsModified(originPath);
+		markAsModified(destPath);
+
+		if (inCore) {
+			// insertToIndex() is expected to be called for this file next. Index updating is done there.
+			return;
+		}
+		if (origin == null || dest == null) {
+			throw new IOException(JGitText.get().renameFileFailedNullFiles);
+		}
+		try {
+			FileUtils.mkdirs(dest.getParentFile(), true);
+			FileUtils.rename(origin, dest, StandardCopyOption.ATOMIC_MOVE);
+		} catch (IOException e) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().renameFileFailed, origin, dest), e);
+		}
+	}
+
+	/**
+	 * Copies the given file
+	 *
+	 * @param origin   to be copied
+	 * @param dest     file
+	 * @param destPath to copy to
+	 * @throws IOException if the file cannot be copied
+	 */
+	public void copyFile(File origin, File dest, String destPath) throws IOException {
+		markAsModified(destPath);
+
+		if (inCore) {
+			// insertToIndex() is expected to be called for this file next. Index updating is done there.
+			return;
+		}
+		if (origin == null || dest == null) {
+			throw new IOException(JGitText.get().copyFileFailedNullFiles);
+		}
+		FileUtils.mkdirs(dest.getParentFile(), true);
+		Files.copy(origin.toPath(), dest.toPath());
+	}
+
+	/**
+	 * Remembers the {@link CheckoutMetadata} for the given path; it may be needed in {@link
+	 * #checkout()} or in {@link #revertModifiedFiles()}.
 	 *
 	 * @param map
 	 *            to add the metadata to
@@ -495,7 +554,9 @@ public class WorkTreeUpdater implements Closeable {
 		if (inCore || map == null) {
 			return;
 		}
-		map.put(path, new CheckoutMetadata(streamType, smudgeCommand));
+		if (!map.containsKey(path)) {
+			map.put(path, new CheckoutMetadata(streamType, smudgeCommand));
+		}
 	}
 
 	/**
@@ -537,7 +598,10 @@ public class WorkTreeUpdater implements Closeable {
 	 *            to mark as modified
 	 */
 	public void markAsModified(String path) {
-		result.modifiedFiles.add(path);
+		if (!modifiedFilesSet.contains(path)) {
+			result.modifiedFiles.add(path);
+			modifiedFilesSet.add(path);
+		}
 	}
 
 	/**
@@ -557,10 +621,9 @@ public class WorkTreeUpdater implements Closeable {
 				new File(nonNullRepo().getWorkTree(), entry.getKey())
 						.mkdirs();
 			} else {
-				DirCacheCheckout.checkoutEntry(repo, dirCacheEntry, reader,
-						false, checkoutMetadataByPath.get(entry.getKey()),
-						workingTreeOptions);
-				result.modifiedFiles.add(entry.getKey());
+				DirCacheCheckout.checkoutEntry(
+						repo, dirCacheEntry, reader, false, checkoutMetadataByPath.get(entry.getKey()));
+				markAsModified(entry.getKey());
 			}
 		}
 	}
@@ -720,16 +783,15 @@ public class WorkTreeUpdater implements Closeable {
 	 *
 	 * @param dce The entry.
 	 */
-	public DirCacheEntry addExistingToIndex(DirCacheEntry dce) {
+	public void addExistingToIndex(DirCacheEntry dce) {
 		builder.add(dce);
-		return dce;
 	}
 
 	private ObjectId insertResult(StreamLoader resultStreamLoader,
 			Attribute lfsAttribute) throws IOException {
-		try (LfsInputStream is = LfsFactory.getInstance().applyCleanFilter(repo,
-				resultStreamLoader.data.load(), resultStreamLoader.size,
-				lfsAttribute)) {
+		try (LfsInputStream is = org.eclipse.jgit.util.LfsFactory.getInstance()
+				.applyCleanFilter(repo, resultStreamLoader.data.load(),
+						resultStreamLoader.size, lfsAttribute)) {
 			return inserter.insert(OBJ_BLOB, is.getLength(), is);
 		}
 	}
