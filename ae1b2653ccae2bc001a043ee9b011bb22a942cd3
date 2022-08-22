@@ -16,6 +16,24 @@
       "message": "\u003e Patch Set 2: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1760/ : FAILURE\n\n\n[2022-08-18T18:09:14.573Z] [INFO] ------------------------------------------------------------------------\n[2022-08-18T18:09:14.573Z] [ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile (default-compile) on project org.eclipse.jgit: Compilation failure\n[2022-08-18T18:09:14.573Z] [ERROR] /home/jenkins/agent/workspace/stable/jgit.gerrit-pipeline.java11/repo/org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java:[723,9] Javadoc: Missing tag for return type\n[2022-08-18T18:09:14.573Z] [ERROR] -\u003e [Help 1]\n[2022-08-18T18:09:14.573Z] org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile (default-compile) on project org.eclipse.jgit: Compilation failure",
       "revId": "ae1b2653ccae2bc001a043ee9b011bb22a942cd3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "593e6602_1bae8222",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-22T13:42:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f827ca9b_ae493be7",
+      "revId": "ae1b2653ccae2bc001a043ee9b011bb22a942cd3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
