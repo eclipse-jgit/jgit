@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8185f84_1beaa6ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-22T13:34:59Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1757/ : FAILURE\n\nthis is a flaky test.\n\n[2022-08-18T18:18:02.148Z] [ERROR] Failures: \n[2022-08-18T18:18:02.148Z] [ERROR]   FileSnapshotTest.detectFileModified:249 FileSnapshot: failures to detect file modifications 21 out of 10000\n[2022-08-18T18:18:02.148Z] timestamp resolution 10 µs min racy threshold 1849 µs\n[2022-08-18T18:18:02.148Z] [INFO] \n[2022-08-18T18:18:02.148Z] [ERROR] Tests run: 5176, Failures: 1, Errors: 0, Skipped: 138\n\n",
+      "revId": "7192eaf27a5742176a1504a524704c4818cb091c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
