@@ -226,7 +226,9 @@ public class WorkTreeUpdater implements Closeable {
 		this.inCore = true;
 		this.reader = oi.newReader();
 		if (repo != null) {
-			this.inCoreFileSizeLimit = getInCoreFileSizeLimit(repo.getConfig());
+                	Config config = repo.getConfig();
+			this.inCoreFileSizeLimit = getInCoreFileSizeLimit(config);
+			this.workingTreeOptions = config.get(WorkingTreeOptions.KEY);
 		}
 	}
 
@@ -478,8 +480,8 @@ public class WorkTreeUpdater implements Closeable {
 	}
 
 	/**
-	 * Remembers the {@link CheckoutMetadata} for the given path; it may be
-	 * needed in {@link #checkout()} or in {@link #revertModifiedFiles()}.
+	 * Remembers the {@link CheckoutMetadata} for the given path; it may be needed in {@link
+	 * #checkout()} or in {@link #revertModifiedFiles()}.
 	 *
 	 * @param map
 	 *            to add the metadata to
@@ -495,7 +497,7 @@ public class WorkTreeUpdater implements Closeable {
 		if (inCore || map == null) {
 			return;
 		}
-		map.put(path, new CheckoutMetadata(streamType, smudgeCommand));
+                map.put(path, new CheckoutMetadata(streamType, smudgeCommand));
 	}
 
 	/**
@@ -539,7 +541,7 @@ public class WorkTreeUpdater implements Closeable {
 	public void markAsModified(String path) {
 		result.modifiedFiles.add(path);
 	}
-
+	
 	/**
 	 * Gets the list of files which were modified in this operation.
 	 *
@@ -557,10 +559,9 @@ public class WorkTreeUpdater implements Closeable {
 				new File(nonNullRepo().getWorkTree(), entry.getKey())
 						.mkdirs();
 			} else {
-				DirCacheCheckout.checkoutEntry(repo, dirCacheEntry, reader,
-						false, checkoutMetadataByPath.get(entry.getKey()),
-						workingTreeOptions);
-				result.modifiedFiles.add(entry.getKey());
+				DirCacheCheckout.checkoutEntry(
+						repo, dirCacheEntry, reader, false, checkoutMetadataByPath.get(entry.getKey()));
+				markAsModified(entry.getKey());
 			}
 		}
 	}
@@ -742,9 +743,9 @@ public class WorkTreeUpdater implements Closeable {
 
 	private ObjectId insertResult(StreamLoader resultStreamLoader,
 			Attribute lfsAttribute) throws IOException {
-		try (LfsInputStream is = LfsFactory.getInstance().applyCleanFilter(repo,
-				resultStreamLoader.data.load(), resultStreamLoader.size,
-				lfsAttribute)) {
+		try (LfsInputStream is = org.eclipse.jgit.util.LfsFactory.getInstance()
+				.applyCleanFilter(repo, resultStreamLoader.data.load(),
+						resultStreamLoader.size, lfsAttribute)) {
 			return inserter.insert(OBJ_BLOB, is.getLength(), is);
 		}
 	}
