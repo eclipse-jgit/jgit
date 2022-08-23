@@ -16,6 +16,23 @@
       "message": "\u003e Patch Set 4: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1759/ : FAILURE\n\nflaky test\n\n[2022-08-18T18:18:00.141Z] [INFO] \n[2022-08-18T18:18:00.141Z] [ERROR] Failures: \n[2022-08-18T18:18:00.141Z] [ERROR]   FileSnapshotTest.detectFileModified:249 FileSnapshot: failures to detect file modifications 81 out of 10000\n[2022-08-18T18:18:00.141Z] timestamp resolution 15 µs min racy threshold 1852 µs\n[2022-08-18T18:18:00.141Z] [INFO] \n[2022-08-18T18:18:00.141Z] [ERROR] Tests run: 5176, Failures: 1, Errors: 0, Skipped: 138",
       "revId": "61397f828f0e9260870541385065a384fd5271b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "854c16b9_685d7a84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T13:23:05Z",
+      "side": 1,
+      "message": "trigger build\n",
+      "revId": "61397f828f0e9260870541385065a384fd5271b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
