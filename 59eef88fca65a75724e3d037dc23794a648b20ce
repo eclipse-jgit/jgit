@@ -507,6 +507,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9a0b0dd_24026194",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-23T13:41:25Z",
+      "side": 1,
+      "message": "I think this also happens on add, since the newPath does not exit in the dirCache yet.\n\nCould we add a docstring, explaining what \u0027path\u0027 is? E.g. is is quite unclear why we apply patch to the \u0027old\u0027 rename path.\n\nI guess \u0027path\u0027 is actually a path that is used to determine correct filters/attributes, while \u0027file\u0027 is actually what needs to be updated?",
+      "parentUuid": "8ea91d2f_230b2460",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 5
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0889568c_e1c7480f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
         "patchSetId": 36
