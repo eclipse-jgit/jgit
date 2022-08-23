@@ -129,6 +129,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e51748da_c93a5970",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "urgh. I forgot to upload the code that did this, and now I have to dig it out again :-(",
+      "parentUuid": "f9548e18_e112e48d",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20c171ff_2fdf3338",
@@ -519,6 +543,30 @@
       "side": 1,
       "message": "I think this also happens on add, since the newPath does not exit in the dirCache yet.\n\nCould we add a docstring, explaining what \u0027path\u0027 is? E.g. is is quite unclear why we apply patch to the \u0027old\u0027 rename path.\n\nI guess \u0027path\u0027 is actually a path that is used to determine correct filters/attributes, while \u0027file\u0027 is actually what needs to be updated?",
       "parentUuid": "8ea91d2f_230b2460",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 5
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38672b7e_70729112",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "\u003eI think this also happens on add, since the newPath does not exit in the dirCache yet.\n\nmaking it crash here only triggers tests for rename, though.\n\n\u003eCould we add a docstring, explaining what \u0027path\u0027 is? E.g. is is quite unclear why we apply patch to the \u0027old\u0027 rename path.\n\nrenamed. To get the baseline, you have to get the \u0027before\u0027 state, which is in the old entry.\n \n\u003e I guess \u0027path\u0027 is actually a path that is used to determine correct filters/attributes, while \u0027file\u0027 is actually what needs to be updated?\n\nI looked through the code, but other than loading the before state, it\u0027s used for error reporting.",
+      "parentUuid": "b9a0b0dd_24026194",
       "range": {
         "startLine": 316,
         "startChar": 4,

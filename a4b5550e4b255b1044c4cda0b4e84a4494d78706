@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0833e767_5b834dcc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f8e5393_28155e94",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 26
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08046d19_cd7c1625",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad886287_730c6b1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08046d19_cd7c1625",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 23
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d987fea8_4ed3531f",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-08-23T13:41:25Z",
       "side": 1,
       "message": "nit: this only applies in-core. Not clear from the comment.\nMaybe the if condition should be \nif(inCore() \u0026\u0026 walk!\u003dnull) {\n}",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 21
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de9c306b_a3a67654",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d987fea8_4ed3531f",
       "range": {
         "startLine": 303,
         "startChar": 4,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e595129_c8353410",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "?",
+      "parentUuid": "ce698e6e_b7a4b229",
+      "range": {
+        "startLine": 361,
+        "startChar": 38,
+        "endLine": 361,
+        "endChar": 53
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c68f0bf_9cfa7506",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 40
@@ -106,6 +202,30 @@
       "writtenOn": "2022-08-23T13:41:25Z",
       "side": 1,
       "message": "shouldn\u0027t this apply to GIT_BINARY patch only?",
+      "range": {
+        "startLine": 376,
+        "startChar": 4,
+        "endLine": 377,
+        "endChar": 54
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f4f69d9_02d71def",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "Done\n\n(hmmm. that should really have test)",
+      "parentUuid": "6c68f0bf_9cfa7506",
       "range": {
         "startLine": 376,
         "startChar": 4,
@@ -141,6 +261,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0aebf5df_7faeaed0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "\u003eMaybe they should be called: forWorkingTree, forIndex\ndone.\n\n\u003eIs it possible to just reset the stream instead of those two copies?\n\nhow does one reset the stream? Remember that one of the options is that this is binary data patched on the fly (see DELTA_DEFLATED). In that case, there is no backing store (like a file on disk) for which you can just reset the pointer.",
+      "parentUuid": "60ebfdbf_5eb9e03a",
+      "range": {
+        "startLine": 560,
+        "startChar": 15,
+        "endLine": 560,
+        "endChar": 20
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24727da7_1281a1c8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 40
@@ -152,6 +296,30 @@
       "writtenOn": "2022-08-23T13:41:25Z",
       "side": 1,
       "message": "looks like streams open here are not closed anywhre?",
+      "range": {
+        "startLine": 607,
+        "startChar": 0,
+        "endLine": 607,
+        "endChar": 15
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "268cbfc5_988d90ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24727da7_1281a1c8",
       "range": {
         "startLine": 607,
         "startChar": 0,
@@ -175,6 +343,30 @@
       "writtenOn": "2022-08-23T13:41:25Z",
       "side": 1,
       "message": "This used to be SHA1InputStream hashed, should it be hashed?",
+      "range": {
+        "startLine": 626,
+        "startChar": 3,
+        "endLine": 626,
+        "endChar": 33
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b07a867_eeacf899",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:11:10Z",
+      "side": 1,
+      "message": "we get an SHA1 when we insert the data into the index. \n\n(we\u0027re losing the ability to patch files without touching the index. I guess that\u0027s OK.)",
+      "parentUuid": "ab9b50b5_0306102a",
       "range": {
         "startLine": 626,
         "startChar": 3,
