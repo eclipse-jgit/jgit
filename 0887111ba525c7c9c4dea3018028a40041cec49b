@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9973679e_963274d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T12:21:40Z",
+      "side": 1,
+      "message": "\u003e Patch Set 3: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1765/ : FAILURE\n\nFileSnapshotTest.detectFileModified:249 FileSnapshot: failures to detect file modifications 18 out of 10000\n[2022-08-23T09:24:29.212Z] timestamp resolution 14 µs min racy threshold 1778 µs\n\n\nunrelated flaky test.",
+      "revId": "0887111ba525c7c9c4dea3018028a40041cec49b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
