@@ -191,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae94a219_d33aa03a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-23T18:04:00Z",
+      "side": 1,
+      "message": "On DirCacheCheckout.getContent[1], \u0027path\u0027 was used (either old or new, depending on the operation). I think this is because we need to pick up filters from the existing file. Now it is always fh.getNewPath(), passed to #updateFileWithContent, then to DirCacheCheckout.getContent, I am not sure if this is correct.\nChanging to path, does anything fail?\n\n[1]https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/changes/26/194426/44/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java#1582\n[2]http://google3/third_party/java_src/jgit/org.eclipse.jgit/java/org/eclipse/jgit/util/WorkTreeUpdater.java?l\u003d568",
+      "parentUuid": "8e595129_c8353410",
+      "range": {
+        "startLine": 361,
+        "startChar": 38,
+        "endLine": 361,
+        "endChar": 53
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c68f0bf_9cfa7506",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 40

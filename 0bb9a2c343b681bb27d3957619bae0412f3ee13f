@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c6c459d_54ca75be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-08-23T18:04:00Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 112,
+        "startChar": 11,
+        "endLine": 113,
+        "endChar": 48
+      },
+      "revId": "0bb9a2c343b681bb27d3957619bae0412f3ee13f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
