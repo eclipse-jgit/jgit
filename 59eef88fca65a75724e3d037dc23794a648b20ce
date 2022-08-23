@@ -153,6 +153,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf8a923a_fd83b93c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:33:50Z",
+      "side": 1,
+      "message": "found it.",
+      "parentUuid": "e51748da_c93a5970",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20c171ff_2fdf3338",
@@ -624,6 +648,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a676289_dccc4073",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00f6689a_88683cf9",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 29
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cce15cbc_cadf4588",
@@ -708,6 +756,30 @@
       "side": 1,
       "message": "sorry, old code.\n\nI want to get rid of `addExistingToIndex(ObjectId objectId,.. int len)`. DirCacheEntry has a copy() method that should be used instead.",
       "parentUuid": "919ef1e1_6b2e74a4",
+      "range": {
+        "startLine": 720,
+        "startChar": 2,
+        "endLine": 720,
+        "endChar": 27
+      },
+      "revId": "59eef88fca65a75724e3d037dc23794a648b20ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b014a972_00a7be60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-23T16:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b99c1a3_a4bb7184",
       "range": {
         "startLine": 720,
         "startChar": 2,
