@@ -70,6 +70,29 @@
       },
       "revId": "5151b324f4605b1091ac5843dcc1f04b3996f0d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4478b7af_27e4fdf2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-25T17:24:13Z",
+      "side": 1,
+      "message": "isn\u0027t this a functional difference? this runs the file through filters, where the left side didn\u0027t.",
+      "range": {
+        "startLine": 914,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 67
+      },
+      "revId": "5151b324f4605b1091ac5843dcc1f04b3996f0d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
