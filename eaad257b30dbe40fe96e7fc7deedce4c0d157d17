@@ -34,6 +34,24 @@
       "parentUuid": "2fae0983_53ab0f56",
       "revId": "eaad257b30dbe40fe96e7fc7deedce4c0d157d17",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db49254a_8b190c31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-25T17:41:22Z",
+      "side": 1,
+      "message": "there is pending work to untangle some of WorktreeUpdater, but this is enough for this week.",
+      "parentUuid": "3ca6ef96_4ce87298",
+      "revId": "eaad257b30dbe40fe96e7fc7deedce4c0d157d17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
