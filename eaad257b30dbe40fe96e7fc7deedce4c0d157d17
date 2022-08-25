@@ -16,6 +16,24 @@
       "message": "I think we can refactor this back so PatchApplier doesn\u0027t use WorkTreeUpdater. We don\u0027t actually have to keep track of modified files, because ApplyCommand doesn\u0027t try to revert its changes if it fails.\n\nthat would let us move WTU into the merge package so we can avoid exposing it.",
       "revId": "eaad257b30dbe40fe96e7fc7deedce4c0d157d17",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ca6ef96_4ce87298",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-25T17:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fae0983_53ab0f56",
+      "revId": "eaad257b30dbe40fe96e7fc7deedce4c0d157d17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
