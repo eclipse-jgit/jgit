@@ -18,8 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -611,37 +609,18 @@ public class WorkTreeUpdater implements Closeable {
 	 *            of the file to be updated
 	 * @param file
 	 *            to be updated
-	 * @param safeWrite
-	 *            whether the content should be written to a buffer first
 	 * @throws IOException
 	 *             if the file cannot be updated
 	 */
 	public void updateFileWithContent(StreamLoader resultStreamLoader,
 			EolStreamType streamType, String smudgeCommand, String path,
-			File file, boolean safeWrite) throws IOException {
+			File file) throws IOException {
 		if (inCore) {
 			return;
 		}
 		CheckoutMetadata metadata = new CheckoutMetadata(streamType,
 				smudgeCommand);
-		if (safeWrite) {
-			// Write to a buffer and copy to the file only if everything was
-			// fine.
-			TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);
-			try {
-				try (TemporaryBuffer buf = buffer) {
-					DirCacheCheckout.getContent(repo, path, metadata,
-							resultStreamLoader, workingTreeOptions, buf);
-				}
-				try (InputStream bufIn = buffer.openInputStream()) {
-					Files.copy(bufIn, file.toPath(),
-							StandardCopyOption.REPLACE_EXISTING);
-				}
-			} finally {
-				buffer.destroy();
-			}
-			return;
-		}
+
 		try (OutputStream outputStream = new FileOutputStream(file)) {
 			DirCacheCheckout.getContent(repo, path, metadata,
 					resultStreamLoader, workingTreeOptions, outputStream);

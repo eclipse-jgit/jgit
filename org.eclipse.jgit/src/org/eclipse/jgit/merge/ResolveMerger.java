@@ -915,7 +915,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		StreamLoader contentLoader = WorkTreeUpdater.createStreamLoader(rawMerged::openInputStream,
 				rawMerged.length());
 		workTreeUpdater.updateFileWithContent(contentLoader,
-				eol, tw.getSmudgeCommand(attributes), of.getPath(), of, false);
+				eol, tw.getSmudgeCommand(attributes), of.getPath(), of);
 		return of;
 	}
 
