@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa14746b_1edea45d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-08-29T20:43:30Z",
+      "side": 1,
+      "message": "IIUC this is:\n1. reading all commits from the tips to the bottom of the history and putting them in a list and a map\n2. for each commit in the list, use a stack to calculate the generation number stacking parents until finding one with a generation number and then unwinding the stack.\n\n(1) duplicates the references to RevCommits already in the RevWalk, and (2)\nin the worst case could have a stack as deep as the repository history.\n\nRevWalk already have a TOPO_SORT and a REVERSE. Would combining both of those give you the commits in ~the order you need? \n\nMaybe we could go even one step further and implement this directly in the rev walk? I don\u0027t know generators code well, but if the revwalk knows how to put the commits in order... sounds reasonable that could keep a depth counter at the same time.",
+      "revId": "41c43847252d98985b70d66b5297b127d3f4562f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
