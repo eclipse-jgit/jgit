@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "2c080b84_dc4eec07",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
@@ -14,8 +15,25 @@
       "side": 1,
       "message": "Tests are failing, probably because this should be !reader.isSmallerThan(...).\n\nThis effectively changes the \u003e from the old version to to \u003e\u003d. Does that matter?\n\nAlso the indentation looks broken.",
       "revId": "f59f9feca7f24a2bd8cfe853fa8326f18bb04285",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a88efc_8398d938",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2256,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-08-29T20:40:32Z",
+      "side": 1,
+      "message": "Thanks! indeed the condition was reversed. Lets keep the \u003e\u003d of before (in the javadoc I got it right but not in the code). After this, tests pass.\n\nI also refactored the conditions to make it more readable and get better indentation.",
+      "parentUuid": "2c080b84_dc4eec07",
+      "revId": "f59f9feca7f24a2bd8cfe853fa8326f18bb04285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
