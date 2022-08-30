@@ -21,6 +21,7 @@ import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
@@ -1605,6 +1606,59 @@ public class DirCacheCheckout {
 			CheckoutMetadata checkoutMetadata, ObjectLoader ol,
 			WorkingTreeOptions opt, OutputStream os)
 			throws IOException {
+		getContent(repo, path, checkoutMetadata, ol::openStream, opt, os);
+	}
+
+
+	/**
+	 * Something that can supply an {@link InputStream}.
+	 */
+	public interface StreamSupplier {
+
+		/**
+		 * Loads the input stream.
+		 *
+		 * @return the loaded stream
+		 * @throws IOException
+		 *             if any reading error occurs
+		 */
+		InputStream load() throws IOException;
+	}
+
+	/**
+	 * Return filtered content for blob contents. EOL handling and
+	 * smudge-filter handling are applied in the same way as it would be done
+	 * during a checkout.
+	 *
+	 * @param repo
+	 *            the repository
+	 * @param path
+	 *            the path used to determine the correct filters for the object
+	 * @param checkoutMetadata
+	 *            containing
+	 *            <ul>
+	 *            <li>smudgeFilterCommand to be run for smudging the object</li>
+	 *            <li>eolStreamType used for stream conversion (can be
+	 *            null)</li>
+	 *            </ul>
+	 * @param inputStream
+	 *            A supplier for the raw content of the object. Each call should yield
+	 *            a fresh stream of the same object.
+	 * @param opt
+	 *            the working tree options where only 'core.autocrlf' is used
+	 *            for EOL handling if 'checkoutMetadata.eolStreamType' is not
+	 *            valid
+	 * @param os
+	 *            the output stream the filtered content is written to. The
+	 *            caller is responsible to close the stream.
+	 * @throws IOException
+	 *
+	 * @since 6.3
+	 */
+	public static void getContent(Repository repo, String path,
+			CheckoutMetadata checkoutMetadata, StreamSupplier inputStream,
+			WorkingTreeOptions opt, OutputStream os)
+			throws IOException {
 		EolStreamType nonNullEolStreamType;
 		if (checkoutMetadata.eolStreamType != null) {
 			nonNullEolStreamType = checkoutMetadata.eolStreamType;
@@ -1618,21 +1672,21 @@ public class DirCacheCheckout {
 			if (checkoutMetadata.smudgeFilterCommand != null) {
 				if (FilterCommandRegistry
 						.isRegistered(checkoutMetadata.smudgeFilterCommand)) {
-					runBuiltinFilterCommand(repo, checkoutMetadata, ol,
+					runBuiltinFilterCommand(repo, checkoutMetadata, inputStream,
 							channel);
 				} else {
-					runExternalFilterCommand(repo, path, checkoutMetadata, ol,
+					runExternalFilterCommand(repo, path, checkoutMetadata, inputStream,
 							channel);
 				}
 			} else {
-				ol.copyTo(channel);
+				inputStream.load().transferTo(channel);
 			}
 		}
 	}
 
 	// Run an external filter command
 	private static void runExternalFilterCommand(Repository repo, String path,
-			CheckoutMetadata checkoutMetadata, ObjectLoader ol,
+			CheckoutMetadata checkoutMetadata, StreamSupplier inputStream,
 			OutputStream channel) throws IOException {
 		FS fs = repo.getFS();
 		ProcessBuilder filterProcessBuilder = fs.runInShell(
@@ -1644,7 +1698,7 @@ public class DirCacheCheckout {
 		int rc;
 		try {
 			// TODO: wire correctly with AUTOCRLF
-			result = fs.execute(filterProcessBuilder, ol.openStream());
+			result = fs.execute(filterProcessBuilder, inputStream.load());
 			rc = result.getRc();
 			if (rc == 0) {
 				result.getStdout().writeTo(channel,
@@ -1665,7 +1719,7 @@ public class DirCacheCheckout {
 
 	// Run a builtin filter command
 	private static void runBuiltinFilterCommand(Repository repo,
-			CheckoutMetadata checkoutMetadata, ObjectLoader ol,
+			CheckoutMetadata checkoutMetadata, StreamSupplier inputStream,
 			OutputStream channel) throws MissingObjectException, IOException {
 		boolean isMandatory = repo.getConfig().getBoolean(
 				ConfigConstants.CONFIG_FILTER_SECTION,
@@ -1674,7 +1728,7 @@ public class DirCacheCheckout {
 		FilterCommand command = null;
 		try {
 			command = FilterCommandRegistry.createFilterCommand(
-					checkoutMetadata.smudgeFilterCommand, repo, ol.openStream(),
+					checkoutMetadata.smudgeFilterCommand, repo, inputStream.load(),
 					channel);
 		} catch (IOException e) {
 			LOG.error(JGitText.get().failedToDetermineFilterDefinition, e);
@@ -1682,7 +1736,7 @@ public class DirCacheCheckout {
 				// In case an IOException occurred during creating of the
 				// command then proceed as if there would not have been a
 				// builtin filter (only if the filter is not mandatory).
-				ol.copyTo(channel);
+				inputStream.load().transferTo(channel);
 			} else {
 				throw e;
 			}
