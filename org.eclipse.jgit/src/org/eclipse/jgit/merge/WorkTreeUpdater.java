@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.util;
+package org.eclipse.jgit.merge;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -49,6 +49,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.LfsFactory.LfsInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
@@ -58,10 +59,8 @@ import org.eclipse.jgit.util.io.EolStreamTypeUtil;
  * You should use a single instance for all of your file changes. In case of an
  * error, make sure your instance is released, and initiate a new one if
  * necessary.
- *
- * @since 6.3
  */
-public class WorkTreeUpdater implements Closeable {
+class WorkTreeUpdater implements Closeable {
 
 	/**
 	 * The result of writing the index changes.
