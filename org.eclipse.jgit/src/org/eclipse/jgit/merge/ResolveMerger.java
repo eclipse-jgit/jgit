@@ -60,7 +60,6 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory;
-import org.eclipse.jgit.util.WorkTreeUpdater;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
