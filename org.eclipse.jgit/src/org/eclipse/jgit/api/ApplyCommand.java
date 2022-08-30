@@ -461,8 +461,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 							SHA1InputStream hashed = new SHA1InputStream(hash,
 									input)) {
 						DirCacheCheckout.getContent(repository, path, checkOut,
-								WorkTreeUpdater.createStreamLoader(() -> hashed, finalSize),
-								null, out);
+								() -> hashed, null, out);
 						if (!fh.getNewId().toObjectId()
 								.equals(hash.toObjectId())) {
 							throw new PatchApplyException(MessageFormat.format(
@@ -630,9 +629,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			}
 			try (OutputStream output = new FileOutputStream(f)) {
 				DirCacheCheckout.getContent(repository, path, checkOut,
-						WorkTreeUpdater.createStreamLoader(buffer::openInputStream,
-								buffer.length()),
-						null, output);
+						buffer::openInputStream, null, output);
 			}
 		} finally {
 			buffer.destroy();
