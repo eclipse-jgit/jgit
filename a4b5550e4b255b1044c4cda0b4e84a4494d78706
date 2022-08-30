@@ -331,6 +331,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "810d1971_7faf4652",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-08-30T13:02:11Z",
+      "side": 1,
+      "message": "PTAL.",
+      "parentUuid": "0aebf5df_7faeaed0",
+      "range": {
+        "startLine": 560,
+        "startChar": 15,
+        "endLine": 560,
+        "endChar": 20
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24727da7_1281a1c8",
