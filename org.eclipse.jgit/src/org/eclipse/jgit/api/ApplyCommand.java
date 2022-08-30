@@ -398,7 +398,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	}
 
 	private void applyBinary(Repository repository, String path, File f,
-			FileHeader fh, WorkTreeUpdater.StreamSupplier loader, ObjectId id,
+			FileHeader fh, DirCacheCheckout.StreamSupplier loader, ObjectId id,
 			CheckoutMetadata checkOut)
 			throws PatchApplyException, IOException {
 		if (!fh.getOldId().isComplete() || !fh.getNewId().isComplete()) {
@@ -430,9 +430,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 														hunk.getBuffer(), start,
 														length))))) {
 					DirCacheCheckout.getContent(repository, path, checkOut,
-							WorkTreeUpdater.createStreamLoader(() -> inflated,
-									hunk.getSize()),
-							null, out);
+							() -> inflated, null, out);
 					if (!fh.getNewId().toObjectId().equals(hash.toObjectId())) {
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().applyBinaryResultOidWrong,
