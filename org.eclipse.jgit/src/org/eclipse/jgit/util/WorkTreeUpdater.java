@@ -11,7 +11,6 @@ package org.eclipse.jgit.util;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,22 +33,19 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheCheckout.StreamSupplier;
 import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.IndexWriteException;
-import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
@@ -243,77 +239,6 @@ public class WorkTreeUpdater implements Closeable {
 	public static WorkTreeUpdater createInCoreWorkTreeUpdater(Repository repo,
 			DirCache dirCache, ObjectInserter oi) {
 		return new WorkTreeUpdater(repo, dirCache, oi);
-	}
-
-	/**
-	 * Something that can supply an {@link InputStream}.
-	 */
-	public interface StreamSupplier {
-
-		/**
-		 * Loads the input stream.
-		 *
-		 * @return the loaded stream
-		 * @throws IOException
-		 *             if any reading error occurs
-		 */
-		InputStream load() throws IOException;
-	}
-
-	/**
-	 * We want to use DirCacheCheckout for its CR-LF and smudge filters, but DirCacheCheckout needs an
-	 * ObjectLoader rather than InputStream. This class provides a bridge between the two.
-	 */
-	public static class StreamLoader extends ObjectLoader {
-
-		private final StreamSupplier data;
-
-		private final long size;
-
-		private StreamLoader(StreamSupplier data, long length) {
-			this.data = data;
-			this.size = length;
-		}
-
-		@Override
-		public int getType() {
-			return Constants.OBJ_BLOB;
-		}
-
-		@Override
-		public long getSize() {
-			return size;
-		}
-
-		@Override
-		public boolean isLarge() {
-			return true;
-		}
-
-		@Override
-		public byte[] getCachedBytes() throws LargeObjectException {
-			throw new LargeObjectException();
-		}
-
-		@Override
-		public ObjectStream openStream() throws IOException {
-			return new ObjectStream.Filter(getType(), getSize(),
-					new BufferedInputStream(data.load()));
-		}
-	}
-
-	/**
-	 * Creates stream loader for the given supplier.
-	 *
-	 * @param supplier
-	 *            to wrap
-	 * @param length
-	 *            of the supplied content
-	 * @return the result stream loader
-	 */
-	public static StreamLoader createStreamLoader(StreamSupplier supplier,
-			long length) {
-		return new StreamLoader(supplier, length);
 	}
 
 	private static int getInCoreFileSizeLimit(Config config) {
@@ -599,8 +524,8 @@ public class WorkTreeUpdater implements Closeable {
 	/**
 	 * Updates the file in the checkout with the given content.
 	 *
-	 * @param resultStreamLoader
-	 *            with the content to be updated
+	 * @param inputStream
+	 *            the content to be updated
 	 * @param streamType
 	 *            for parsing the content
 	 * @param smudgeCommand
@@ -612,7 +537,7 @@ public class WorkTreeUpdater implements Closeable {
 	 * @throws IOException
 	 *             if the file cannot be updated
 	 */
-	public void updateFileWithContent(StreamLoader resultStreamLoader,
+	public void updateFileWithContent(StreamSupplier inputStream,
 			EolStreamType streamType, String smudgeCommand, String path,
 			File file) throws IOException {
 		if (inCore) {
@@ -623,7 +548,7 @@ public class WorkTreeUpdater implements Closeable {
 
 		try (OutputStream outputStream = new FileOutputStream(file)) {
 			DirCacheCheckout.getContent(repo, path, metadata,
-					resultStreamLoader, workingTreeOptions, outputStream);
+					inputStream, workingTreeOptions, outputStream);
 		}
 	}
 
@@ -631,8 +556,8 @@ public class WorkTreeUpdater implements Closeable {
 	 * Creates a path with the given content, and adds it to the specified stage
 	 * to the index builder.
 	 *
-	 * @param inputStream
-	 *            with the content to be updated
+	 * @param input
+	 *            the content to be updated
 	 * @param path
 	 *            of the file to be updated
 	 * @param fileMode
@@ -649,43 +574,12 @@ public class WorkTreeUpdater implements Closeable {
 	 * @throws IOException
 	 *             if inserting the content fails
 	 */
-	public DirCacheEntry insertToIndex(InputStream inputStream, byte[] path,
-			FileMode fileMode, int entryStage, Instant lastModified, int len,
-			Attribute lfsAttribute) throws IOException {
-		StreamLoader contentLoader = createStreamLoader(() -> inputStream, len);
-		return insertToIndex(contentLoader, path, fileMode, entryStage,
-				lastModified, len, lfsAttribute);
-	}
-
-	/**
-	 * Creates a path with the given content, and adds it to the specified stage
-	 * to the index builder.
-	 *
-	 * @param resultStreamLoader
-	 *            with the content to be updated
-	 * @param path
-	 *            of the file to be updated
-	 * @param fileMode
-	 *            of the modified file
-	 * @param entryStage
-	 *            of the new entry
-	 * @param lastModified
-	 *            instant of the modified file
-	 * @param len
-	 *            of the content
-	 * @param lfsAttribute
-	 *            for checking for LFS enablement
-	 * @return the entry which was added to the index
-	 * @throws IOException
-	 *             if inserting the content fails
-	 */
-	public DirCacheEntry insertToIndex(StreamLoader resultStreamLoader,
+	public DirCacheEntry insertToIndex(InputStream input,
 			byte[] path, FileMode fileMode, int entryStage,
 			Instant lastModified, int len, Attribute lfsAttribute)
 			throws IOException {
-		return addExistingToIndex(
-				insertResult(resultStreamLoader, lfsAttribute), path, fileMode,
-				entryStage, lastModified, len);
+		return addExistingToIndex(insertResult(input, lfsAttribute, len), path,
+				fileMode, entryStage, lastModified, len);
 	}
 
 	/**
@@ -713,16 +607,15 @@ public class WorkTreeUpdater implements Closeable {
 			dce.setLastModified(lastModified);
 		}
 		dce.setLength(inCore ? 0 : len);
-
 		dce.setObjectId(objectId);
 		builder.add(dce);
 		return dce;
 	}
 
-	private ObjectId insertResult(StreamLoader resultStreamLoader,
-			Attribute lfsAttribute) throws IOException {
+	private ObjectId insertResult(InputStream input,
+			Attribute lfsAttribute, long length) throws IOException {
 		try (LfsInputStream is = LfsFactory.getInstance().applyCleanFilter(repo,
-				resultStreamLoader.data.load(), resultStreamLoader.size,
+				input, length,
 				lfsAttribute)) {
 			return inserter.insert(OBJ_BLOB, is.getLength(), is);
 		}
