@@ -16,6 +16,24 @@
       "message": "IIUC this is:\n1. reading all commits from the tips to the bottom of the history and putting them in a list and a map\n2. for each commit in the list, use a stack to calculate the generation number stacking parents until finding one with a generation number and then unwinding the stack.\n\n(1) duplicates the references to RevCommits already in the RevWalk, and (2)\nin the worst case could have a stack as deep as the repository history.\n\nRevWalk already have a TOPO_SORT and a REVERSE. Would combining both of those give you the commits in ~the order you need? \n\nMaybe we could go even one step further and implement this directly in the rev walk? I don\u0027t know generators code well, but if the revwalk knows how to put the commits in order... sounds reasonable that could keep a depth counter at the same time.",
       "revId": "41c43847252d98985b70d66b5297b127d3f4562f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f34a308_38b8278b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-08-30T02:53:20Z",
+      "side": 1,
+      "message": "\u003e IIUC this is:\n\u003e 1. reading all commits from the tips to the bottom of the history and putting them in a list and a map\n\u003e 2. for each commit in the list, use a stack to calculate the generation number stacking parents until finding one with a generation number and then unwinding the stack.\n\u003e (1) duplicates the references to RevCommits already in the RevWalk, and (2)\nin the worst case could have a stack as deep as the repository history.\n\nYour understanding is fine.\n\nActually I\u0027m not the author of generation number, the part of my code is actually translated from c[1] language to java.\n\n\u003e RevWalk already have a TOPO_SORT and a REVERSE. Would combining both of those give you the commits in ~the order you need? \n\nSounds like it\u0027s possible to get a sorted list of commits, but requires another computation to get the generation number(In fact, different commits may have the same generation number).\n\n\u003e Maybe we could go even one step further and implement this directly in the rev walk? I don\u0027t know generators code well, but if the revwalk knows how to put the commits in order... sounds reasonable that could keep a depth counter at the same time.\n\nThe code was first implemented by Derrick Stolee, he also wrote a blog about it, you can read this[2] to learn about it.\n\nIIUC, \nOne reason for this design is that the generation number of a commit will never change, which means that we can use it in the next computation (I haven\u0027t done it in current version). \n\nAfter the code is stable, I may make CommitGraphWriter#getCommitGeneration(RevCommit) get the generation number from the existing commit-graph, which means that we only need to compute the generation number for new commits.\n\nAnother reason is that TOPO_SORT and REVERSE RevWalk seem to have difficulty implementing the feature multiple-commit-graph-files[3]. Because it will traverse the entire commit history.\n\n[1] https://github.com/git/git/commit/3258c66332abaf6e3e8fd81cab07ae804760cd08\n[2] https://devblogs.microsoft.com/devops/supercharging-the-git-commit-graph-iii-generations/\n[3] https://devblogs.microsoft.com/devops/updates-to-the-git-commit-graph-feature/#multiple-commit-graph-files",
+      "parentUuid": "fa14746b_1edea45d",
+      "revId": "41c43847252d98985b70d66b5297b127d3f4562f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
