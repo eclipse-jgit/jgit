@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.util.io;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -58,7 +59,9 @@ public class AutoCRLFOutputStream extends OutputStream {
 	 * @since 4.3
 	 */
 	public AutoCRLFOutputStream(OutputStream out, boolean detectBinary) {
-		this.out = out;
+		// avoid to write single lines directly to FileOutputStream:
+		this.out = out instanceof BufferedOutputStream ? out
+				: new BufferedOutputStream(out);
 		this.detectBinary = detectBinary;
 	}
 
