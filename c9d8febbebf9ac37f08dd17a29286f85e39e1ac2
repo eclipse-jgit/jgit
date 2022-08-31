@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b369bf9_58877158",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301729
+      },
+      "writtenOn": "2022-08-31T16:30:03Z",
+      "side": 1,
+      "message": "Hi, Since there is no activity on this since couple of weeks, Are you guys still planning to work on this change ? This would fix issues we are seeing during generating Auto-Merge commits in gerrit.\n\nFYI, JGit policies doesn\u0027t allow someone else to upload a patchset to this change.",
+      "revId": "c9d8febbebf9ac37f08dd17a29286f85e39e1ac2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
