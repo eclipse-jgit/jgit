@@ -33,6 +33,24 @@
       "message": "Should any of the changes in this series reach 6.3 ?\nI have to release it latest on Wednesday Sep 7",
       "revId": "62f135bda59f36a7ab18041a7d67cdb164d629d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bada0873_fbbb9c88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 54
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-05T15:05:34Z",
+      "side": 1,
+      "message": "we should definitely have\"Move WorkTreeUpdater to merge package\" in the release, or else we\u0027ll be forced to maintain WorkTreeUpdater as an API.\n\nWe want to have this change in Gerrit soon-ish as well, but maybe Gerrit can move ahead of JGit stable release.",
+      "parentUuid": "4c4bc99e_9ed420cd",
+      "revId": "62f135bda59f36a7ab18041a7d67cdb164d629d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
