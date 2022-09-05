@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ae09e78_7966769f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-05T20:57:08Z",
+      "side": 0,
+      "message": "Usually we write the new content to a temporary file and as the last step atomically rename it to the target file to achieve transactional updates.\nWhy was this done differently here using a buffer ?",
+      "revId": "25aceffdc58fdc5707c908fb4c3584116703046e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
