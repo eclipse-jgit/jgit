@@ -13,6 +13,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
@@ -32,6 +33,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.gitrepo.RepoCommand.ManifestErrorException;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -1335,6 +1337,28 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertEquals("A module should exist for path2", "path2",
 					c.getString("submodule", defaultUri + "/path2", "path"));
 		}
+	}
+
+	@Test
+	public void testInvalidPath() throws Exception {
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\".\" ").append("name=\"")
+				.append(defaultUri).append("\" />").append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(
+				tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri).setRecommendShallow(true);
+		assertThrows(ManifestErrorException.class, () -> command.call());
 	}
 
 	private void resolveRelativeUris() {

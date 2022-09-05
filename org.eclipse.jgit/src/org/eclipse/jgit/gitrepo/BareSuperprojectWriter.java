@@ -23,6 +23,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.gitrepo.RepoCommand.ManifestErrorException;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteReader;
@@ -138,7 +139,7 @@ class BareSuperprojectWriter {
 			}
 			// In the last try, just propagate the exceptions
 			return commitTreeOnCurrentTip(inserter, rw, treeId);
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException | InterruptedException | InvalidPathException e) {
 			throw new ManifestErrorException(e);
 		}
 	}

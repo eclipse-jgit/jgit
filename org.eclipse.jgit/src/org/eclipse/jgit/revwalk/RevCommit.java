@@ -36,6 +36,11 @@ import org.eclipse.jgit.util.StringUtils;
 
 /**
  * A commit reference to a commit in the DAG.
+ *
+ * The state of the RevCommit isn't populated until the commit is parsed. The
+ * newly created RevCommit is unparsed and only has an objectId reference. Other
+ * states like parents, trees, commit ident, commit message, etc. are
+ * populated/available when the commit is parsed.
  */
 public class RevCommit extends RevObject {
 	private static final int STACK_DEPTH = 500;
@@ -109,7 +114,7 @@ public class RevCommit extends RevObject {
 	 *
 	 * @since 6.3
 	 */
-	protected RevCommit[] parents;
+	RevCommit[] parents;
 
 	int commitTime; // An int here for performance, overflows in 2038
 
@@ -125,6 +130,22 @@ public class RevCommit extends RevObject {
 	 */
 	protected RevCommit(AnyObjectId id) {
 		super(id);
+	}
+
+	/**
+	 * Create a new commit reference.
+	 *
+	 * @param orig
+	 *            commit to be copied from.
+	 */
+	RevCommit(RevCommit orig) {
+		super(orig.getId());
+		this.buffer = orig.buffer;
+		this.commitTime = orig.commitTime;
+		this.flags = orig.flags;
+		this.parents = orig.parents;
+		this.tree = orig.tree;
+		this.inDegree = orig.inDegree;
 	}
 
 	@Override
