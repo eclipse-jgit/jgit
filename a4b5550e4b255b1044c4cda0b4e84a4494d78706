@@ -119,6 +119,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8592009a_eb2c7b08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-05T11:11:02Z",
+      "side": 1,
+      "message": "see above.",
+      "parentUuid": "a073e7c0_3b3def19",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 23
+      },
+      "revId": "a4b5550e4b255b1044c4cda0b4e84a4494d78706",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d987fea8_4ed3531f",
