@@ -16,6 +16,23 @@
       "message": "BTW, the parent changes also need review, but they are straightforward.",
       "revId": "62f135bda59f36a7ab18041a7d67cdb164d629d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c4bc99e_9ed420cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 54
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-05T15:00:07Z",
+      "side": 1,
+      "message": "Should any of the changes in this series reach 6.3 ?\nI have to release it latest on Wednesday Sep 7",
+      "revId": "62f135bda59f36a7ab18041a7d67cdb164d629d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
