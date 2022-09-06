@@ -22,6 +22,30 @@
       },
       "revId": "f2a91a59e03fcad21215b8b0f837c51004e045d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c3375b4_f3424c9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1644,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T09:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bde7f45_3cb6d882",
+      "range": {
+        "startLine": 1644,
+        "startChar": 11,
+        "endLine": 1644,
+        "endChar": 22
+      },
+      "revId": "f2a91a59e03fcad21215b8b0f837c51004e045d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
