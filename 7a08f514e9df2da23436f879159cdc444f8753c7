@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cb40c47_95e1f22b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1616,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-06T10:12:22Z",
+      "side": 1,
+      "message": "missing @since 6.3",
+      "revId": "7a08f514e9df2da23436f879159cdc444f8753c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c560702_bac02029",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-06T10:12:22Z",
+      "side": 1,
+      "message": "this can be removed when the new interface itself is tagged with @since 6.3",
+      "revId": "7a08f514e9df2da23436f879159cdc444f8753c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
