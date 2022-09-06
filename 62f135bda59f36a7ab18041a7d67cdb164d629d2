@@ -89,6 +89,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "227874e2_87bee487",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 54
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T14:52:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b61b327b_6bb2172e",
+      "revId": "62f135bda59f36a7ab18041a7d67cdb164d629d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1dddfa89_fcf9dcd2",
@@ -102,6 +120,24 @@
       "writtenOn": "2022-09-06T13:43:53Z",
       "side": 1,
       "message": "we use tabs and not spaces for indentation",
+      "revId": "62f135bda59f36a7ab18041a7d67cdb164d629d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "472456c8_e7d04339",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T14:52:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dddfa89_fcf9dcd2",
       "revId": "62f135bda59f36a7ab18041a7d67cdb164d629d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

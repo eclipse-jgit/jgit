@@ -16,6 +16,24 @@
       "message": "the build fails due to unused imports in ApplyCommandTest",
       "revId": "33d3342377d3bced95bb370fba8dd8ac054cc2b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04782184_92b1679e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 59
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T14:52:26Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "7ae26b71_b9edd1bc",
+      "revId": "33d3342377d3bced95bb370fba8dd8ac054cc2b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
