@@ -33,6 +33,24 @@
       "message": "\u003e Patch Set 6: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1836/ : FAILURE\n\nthe log says \n[2022-09-06T10:30:35.731Z] [ERROR] Failures: \n[2022-09-06T10:30:35.731Z] [ERROR]   CheckoutCommandTest.testSmudgeFilter_modifyExisting:654 expected:\u003c[src/a.txt]\u003e but was:\u003c[]\u003e\n[2022-09-06T10:30:35.731Z] [INFO] \n\nwhich seems related, but the follow on change passes CI cleanly.",
       "revId": "e8b6920175e551ff952e10935157de57b9dec75a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37d71844_ff43d7f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T12:29:26Z",
+      "side": 1,
+      "message": "the test passes if I run it in bazel.",
+      "parentUuid": "675c05cb_8bcb9bd7",
+      "revId": "e8b6920175e551ff952e10935157de57b9dec75a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
