@@ -264,6 +264,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a0d4b76_e5ddf0a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T08:17:03Z",
+      "side": 1,
+      "message": "that\u0027s what `fh.getNewId().toObjectId().equals(dce.getObjectId())` does, right? \n\nThe DCE has other things (eg. modification time) that aren\u0027t relevant to check, and aren\u0027t contained in the input patch, so we can\u0027t and shouldn\u0027t check the entire DCE.",
+      "parentUuid": "cd7e7d88_a4ee64d3",
+      "revId": "bb6bd5d30b629a1f1b96a04ce4f63e078fb56070",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68b8c791_2e6e3853",
