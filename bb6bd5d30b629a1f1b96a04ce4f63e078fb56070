@@ -248,6 +248,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd7e7d88_a4ee64d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-09-06T08:03:48Z",
+      "side": 1,
+      "message": "Nit: Maybe add a line this is to check that the resulting Dce entry has same content (so same sha1) as the input of the patch?",
+      "parentUuid": "6399456b_e22eaef0",
+      "revId": "bb6bd5d30b629a1f1b96a04ce4f63e078fb56070",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68b8c791_2e6e3853",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 53
