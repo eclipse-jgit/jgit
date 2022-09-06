@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "652f1f63_6fdf963b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-06T07:34:12Z",
+      "side": 1,
+      "message": "this is the list of all egit tests failing due to this:\n\norg.eclipse.egit.core.storage.GitBlobStorageTest.testGitFileHistorySingleProjectOk\norg.eclipse.egit.core.test.HistoryTest.queryFile2Targets\norg.eclipse.egit.core.test.HistoryTest.queryFile2Contributors\norg.eclipse.egit.core.test.HistoryTest.queryFile1Contributors\norg.eclipse.egit.core.test.HistoryTest.queryHistoryThroughTeam\norg.eclipse.egit.core.test.HistoryTest.queryFile1FullHistory\norg.eclipse.egit.core.test.HistoryTest.queryFile2FullHistory\norg.eclipse.egit.core.test.HistoryTest.queryFile1Targets\norg.eclipse.egit.core.test.internal.mapping.HistoryTest.testIndexRevision\norg.eclipse.egit.core.test.internal.mapping.HistoryTest.testIndexRevisionSecondCommit\norg.eclipse.egit.core.test.internal.mapping.HistoryTest.testShallowHistory\norg.eclipse.egit.core.test.internal.mapping.HistoryTest.testSingleRevision_1\norg.eclipse.egit.core.test.internal.mapping.HistoryTest.testSingleRevision_2\norg.eclipse.egit.core.test.internal.mapping.HistoryTest.testSingleRevision_3\norg.eclipse.egit.core.test.internal.mapping.HistoryTest.testDeepHistory_A\norg.eclipse.egit.core.test.internal.mapping.HistoryTest.testDeepHistory_B",
+      "parentUuid": "28792c2c_4ca4ca6c",
+      "revId": "6297491e8adb85e43d60ffe75fb71f335e733449",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "222e9790_00e5f59f",
