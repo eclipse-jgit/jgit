@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae26b71_b9edd1bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 59
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-06T13:43:53Z",
+      "side": 1,
+      "message": "the build fails due to unused imports in ApplyCommandTest",
+      "revId": "33d3342377d3bced95bb370fba8dd8ac054cc2b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
