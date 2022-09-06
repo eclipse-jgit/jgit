@@ -69,6 +69,24 @@
       "parentUuid": "7c560702_bac02029",
       "revId": "7a08f514e9df2da23436f879159cdc444f8753c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69981d8e_5d20c506",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-06T12:49:20Z",
+      "side": 1,
+      "message": "I was wrong here, didn\u0027t look carefully enough.\nWill upload fix in a minute.",
+      "parentUuid": "6284108e_f3ff697c",
+      "revId": "7a08f514e9df2da23436f879159cdc444f8753c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

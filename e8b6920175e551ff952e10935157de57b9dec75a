@@ -69,6 +69,24 @@
       "parentUuid": "37d71844_ff43d7f6",
       "revId": "e8b6920175e551ff952e10935157de57b9dec75a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5187b54f_4e4b346c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-06T12:49:20Z",
+      "side": 1,
+      "message": "looks like this test is flaky, I tried locally and could reproduce once when running all tests from maven. Next run was successful. Running CheckoutCommandTest from Eclipse or from Maven succeeds locally.",
+      "parentUuid": "0a115dca_67798074",
+      "revId": "e8b6920175e551ff952e10935157de57b9dec75a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
