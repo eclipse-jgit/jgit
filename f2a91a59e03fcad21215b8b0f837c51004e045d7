@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bde7f45_3cb6d882",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1644,
+      "author": {
+        "id": 304273
+      },
+      "writtenOn": "2022-09-06T08:24:55Z",
+      "side": 1,
+      "message": "nit: maybe add a note the streams should be safe t dispose without closing?",
+      "range": {
+        "startLine": 1644,
+        "startChar": 11,
+        "endLine": 1644,
+        "endChar": 22
+      },
+      "revId": "f2a91a59e03fcad21215b8b0f837c51004e045d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
