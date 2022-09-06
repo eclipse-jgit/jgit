@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f879115_916ba1f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1616,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T10:17:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cb40c47_95e1f22b",
+      "revId": "7a08f514e9df2da23436f879159cdc444f8753c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c560702_bac02029",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-06T10:12:22Z",
       "side": 1,
       "message": "this can be removed when the new interface itself is tagged with @since 6.3",
+      "revId": "7a08f514e9df2da23436f879159cdc444f8753c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6284108e_f3ff697c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T10:17:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c560702_bac02029",
       "revId": "7a08f514e9df2da23436f879159cdc444f8753c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
