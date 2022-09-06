@@ -16,6 +16,24 @@
       "message": "Usually we write the new content to a temporary file and as the last step atomically rename it to the target file to achieve transactional updates.\nWhy was this done differently here using a buffer ?",
       "revId": "25aceffdc58fdc5707c908fb4c3584116703046e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52460d19_c1395e06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/WorkTreeUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-06T09:43:10Z",
+      "side": 0,
+      "message": "See https://git.eclipse.org/r/c/jgit/jgit/+/194654/19/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java#b1091\n\nResolveMerger didn\u0027t do this. This code was introduced to cater needs of the ApplyCommand, but turns out patching doesn\u0027t need this functionality. (It\u0027s unclear why the patch command wants to this atomically either, but that\u0027s a different issue.)",
+      "parentUuid": "9ae09e78_7966769f",
+      "revId": "25aceffdc58fdc5707c908fb4c3584116703046e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
