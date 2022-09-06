@@ -60,8 +60,6 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory;
-import org.eclipse.jgit.util.WorkTreeUpdater;
-import org.eclipse.jgit.util.WorkTreeUpdater.StreamLoader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
@@ -912,10 +910,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (!fs.exists(parentFolder)) {
 			parentFolder.mkdirs();
 		}
-		StreamLoader contentLoader = WorkTreeUpdater.createStreamLoader(rawMerged::openInputStream,
-				rawMerged.length());
-		workTreeUpdater.updateFileWithContent(contentLoader,
-				eol, tw.getSmudgeCommand(attributes), of.getPath(), of, false);
+		workTreeUpdater.updateFileWithContent(rawMerged::openInputStream,
+				eol, tw.getSmudgeCommand(attributes), of.getPath(), of);
 		return of;
 	}
 

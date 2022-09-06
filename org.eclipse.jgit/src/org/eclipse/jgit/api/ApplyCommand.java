@@ -58,7 +58,6 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.WorkTreeUpdater;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
@@ -398,7 +397,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	}
 
 	private void applyBinary(Repository repository, String path, File f,
-			FileHeader fh, WorkTreeUpdater.StreamSupplier loader, ObjectId id,
+			FileHeader fh, DirCacheCheckout.StreamSupplier loader, ObjectId id,
 			CheckoutMetadata checkOut)
 			throws PatchApplyException, IOException {
 		if (!fh.getOldId().isComplete() || !fh.getNewId().isComplete()) {
@@ -430,9 +429,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 														hunk.getBuffer(), start,
 														length))))) {
 					DirCacheCheckout.getContent(repository, path, checkOut,
-							WorkTreeUpdater.createStreamLoader(() -> inflated,
-									hunk.getSize()),
-							null, out);
+							() -> inflated, null, out);
 					if (!fh.getNewId().toObjectId().equals(hash.toObjectId())) {
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().applyBinaryResultOidWrong,
@@ -463,8 +460,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 							SHA1InputStream hashed = new SHA1InputStream(hash,
 									input)) {
 						DirCacheCheckout.getContent(repository, path, checkOut,
-								WorkTreeUpdater.createStreamLoader(() -> hashed, finalSize),
-								null, out);
+								() -> hashed, null, out);
 						if (!fh.getNewId().toObjectId()
 								.equals(hash.toObjectId())) {
 							throw new PatchApplyException(MessageFormat.format(
@@ -632,9 +628,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			}
 			try (OutputStream output = new FileOutputStream(f)) {
 				DirCacheCheckout.getContent(repository, path, checkOut,
-						WorkTreeUpdater.createStreamLoader(buffer::openInputStream,
-								buffer.length()),
-						null, output);
+						buffer::openInputStream, null, output);
 			}
 		} finally {
 			buffer.destroy();
