@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "829473dc_45e588cb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBundleWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-09-07T17:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9d5c35a_0ea5d8fa",
+      "range": {
+        "startLine": 49,
+        "startChar": 13,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "80d99fa344b87d614f6d9d0bb52f924932085333",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a0972b3_0506727a",
@@ -54,6 +78,24 @@
       "writtenOn": "2022-09-07T16:48:20Z",
       "side": 1,
       "message": "Can you add a comment here like:\n// This moves unreachable commit2 to GC_REST\n\nSo it makes more visible the difference with the test above",
+      "revId": "80d99fa344b87d614f6d9d0bb52f924932085333",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06f18644_4ddf616f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBundleWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 254988
+      },
+      "writtenOn": "2022-09-07T17:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a0972b3_0506727a",
       "revId": "80d99fa344b87d614f6d9d0bb52f924932085333",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
