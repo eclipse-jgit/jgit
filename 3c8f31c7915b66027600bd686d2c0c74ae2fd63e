@@ -22,6 +22,30 @@
       },
       "revId": "3c8f31c7915b66027600bd686d2c0c74ae2fd63e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "812de17e_2b476859",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-07T13:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c6a8838_5b07a19b",
+      "range": {
+        "startLine": 290,
+        "startChar": 2,
+        "endLine": 290,
+        "endChar": 7
+      },
+      "revId": "3c8f31c7915b66027600bd686d2c0c74ae2fd63e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
