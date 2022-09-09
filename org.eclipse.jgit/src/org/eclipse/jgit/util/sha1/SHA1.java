@@ -15,10 +15,12 @@ import static java.lang.Integer.numberOfTrailingZeros;
 import static java.lang.Integer.rotateLeft;
 import static java.lang.Integer.rotateRight;
 
+import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.NB;
@@ -80,6 +82,7 @@ public class SHA1 {
 	private final State state65 = new State();
 	private final State hIn = new State();
 	private final State hTmp = new State();
+	private final MessageDigest md = Constants.newMessageDigest();
 
 	private SHA1() {
 		h.init();
@@ -108,6 +111,11 @@ public class SHA1 {
 	 * @param b a byte.
 	 */
 	public void update(byte b) {
+		if (!detectCollision) {
+			md.update(b);
+			return;
+		}
+
 		int bufferLen = (int) (length & 63);
 		length++;
 		buffer[bufferLen] = b;
@@ -137,6 +145,11 @@ public class SHA1 {
 	 *            number of bytes to hash.
 	 */
 	public void update(byte[] in, int p, int len) {
+		if (!detectCollision) {
+			md.update(in, p, len);
+			return;
+		}
+
 		// SHA-1 compress can only process whole 64 byte blocks.
 		// Hold partial updates in buffer, whose length is the low bits.
 		int bufferLen = (int) (length & 63);
@@ -485,6 +498,10 @@ public class SHA1 {
 	 *             if a collision was detected and safeHash is false.
 	 */
 	public byte[] digest() throws Sha1CollisionException {
+		if (!detectCollision) {
+			return md.digest();
+		}
+
 		finish();
 
 		byte[] b = new byte[20];
@@ -506,6 +523,10 @@ public class SHA1 {
 	 *             if a collision was detected and safeHash is false.
 	 */
 	public ObjectId toObjectId() throws Sha1CollisionException {
+		if (!detectCollision) {
+			return ObjectId.fromRaw(md.digest());
+		}
+
 		finish();
 		return h.toObjectId();
 	}
@@ -546,6 +567,11 @@ public class SHA1 {
 	 * @return {@code this}.
 	 */
 	public SHA1 reset() {
+		if (!detectCollision) {
+			md.reset();
+			return this;
+		}
+
 		h.init();
 		length = 0;
 		foundCollision = false;
