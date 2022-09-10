@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aebd73a6_249acbfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-09-10T18:53:53Z",
+      "side": 1,
+      "message": "Use two separate footers, or leave the bug linking to the bug tracking system and just reference\n\n  Bug: 546366",
+      "revId": "b10c02f1ac6b9e70c1cfdd10a2f617df163bc62b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f45232af_69b4006a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-09-10T18:53:53Z",
+      "side": 1,
+      "message": "This assumes UTF-8 encoding, but (a) the Charset should be specified in the getBytes() call (also above), and (b) who said the file system used UTF-8 as encoding for file names? Also, this first converts the internal (Unicode 16 or ISO-LATIN-1) representation to UTF-8. (Again; it already happened in line 1529.)\n\nThe whole point of the truncation above is that we\u0027d like to have the temporary names be similar to the file names, while avoiding names with more than 255 bytes since apparently some file systems have a problem with that. Instead of trying to figure out exact byte counts, I\u0027d simply redefine what \"similar\" means and reduce the limit from 200 to 50. (Would need a check that the character at index 49 is not a high surrogate, if so, truncate to 49 characters to avoid splitting the surrogate pair.)\n\n50 is definitely small enough that we won\u0027t exceed 200 bytes (independently of the encoding used in the file system, whether UTF-8 or Unicode), and it\u0027s IMO large enough to give a file name \"similar\" to the original.",
+      "revId": "b10c02f1ac6b9e70c1cfdd10a2f617df163bc62b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
