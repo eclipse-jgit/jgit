@@ -1982,16 +1982,34 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testLongFilename() throws Exception {
-		char[] bytes = new char[253];
-		Arrays.fill(bytes, 'f');
-		String longFileName = new String(bytes);
-		// 1
-		doit(mkmap(longFileName, "a"), mkmap(longFileName, "b"),
-				mkmap(longFileName, "a"));
-		writeTrashFile(longFileName, "a");
+
+		String longFileName1 = "f".repeat(255); // character f - 1 bytes length, total bytes - 255
+		doit(mkmap(longFileName1, "a"), mkmap(longFileName1, "b"), mkmap(longFileName1, "a"));
+		writeTrashFile(longFileName1, "a");
 		checkout();
 		assertNoConflicts();
-		assertUpdated(longFileName);
+		assertUpdated(longFileName1);
+
+		String longFileName2 = "Ƭ".repeat(127); // character Ƭ - 2 bytes length, total bytes - 254
+		doit(mkmap(longFileName2, "a"), mkmap(longFileName2, "b"), mkmap(longFileName2, "a"));
+		writeTrashFile(longFileName2, "a");
+		checkout();
+		assertNoConflicts();
+		assertUpdated(longFileName2);
+
+		String longFileName3 = "字".repeat(85); // character 字 - 3 bytes length, total bytes - 255
+		doit(mkmap(longFileName3, "a"), mkmap(longFileName3, "b"), mkmap(longFileName3, "a"));
+		writeTrashFile(longFileName3, "a");
+		checkout();
+		assertNoConflicts();
+		assertUpdated(longFileName3);
+
+		String longFileName4 = "\uDB80\uDC01".repeat(63); // character 󰀁 - 4 bytes length, total bytes - 252
+		doit(mkmap(longFileName4, "a"), mkmap(longFileName4, "b"), mkmap(longFileName4, "a"));
+		writeTrashFile(longFileName4, "a");
+		checkout();
+		assertNoConflicts();
+		assertUpdated(longFileName4);
 	}
 
 	@Test
