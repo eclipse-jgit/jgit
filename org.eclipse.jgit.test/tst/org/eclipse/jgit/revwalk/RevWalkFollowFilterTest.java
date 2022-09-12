@@ -9,7 +9,6 @@
  */
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 		final RevCommit a = commit(tree(file("0", blob("0"))));
 		follow("0");
 		markStart(a);
-		assertEquals(a, rw.next());
+		assertCommit(a, rw.next());
 		assertNull(rw.next());
 
 		assertNoRenames();
@@ -73,8 +72,8 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 
 		follow("b");
 		markStart(renameCommit);
-		assertEquals(renameCommit, rw.next());
-		assertEquals(a, rw.next());
+		assertCommit(renameCommit, rw.next());
+		assertCommit(a, rw.next());
 		assertNull(rw.next());
 
 		assertRenames("a->b");
@@ -102,10 +101,10 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 
 		follow("a");
 		markStart(renameCommit3);
-		assertEquals(renameCommit3, rw.next());
-		assertEquals(renameCommit2, rw.next());
-		assertEquals(renameCommit1, rw.next());
-		assertEquals(a, rw.next());
+		assertCommit(renameCommit3, rw.next());
+		assertCommit(renameCommit2, rw.next());
+		assertCommit(renameCommit1, rw.next());
+		assertCommit(a, rw.next());
 		assertNull(rw.next());
 
 		assertRenames("c->a", "b->c", "a->b");

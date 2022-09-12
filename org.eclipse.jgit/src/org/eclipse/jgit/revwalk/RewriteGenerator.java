@@ -11,8 +11,6 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -40,13 +38,10 @@ class RewriteGenerator extends Generator {
 
 	private final FIFORevQueue pending;
 
-	private final Map<RevCommit, FilteredRevCommit> transformedCommits;
-
 	RewriteGenerator(Generator s) {
 		super(s.firstParent);
 		source = s;
 		pending = new FIFORevQueue(s.firstParent);
-		transformedCommits = new HashMap<>();
 	}
 
 	@Override
@@ -63,10 +58,10 @@ class RewriteGenerator extends Generator {
 	@Override
 	RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		FilteredRevCommit c = (FilteredRevCommit) pending.next();
+		RevCommit c = pending.next();
 
 		if (c == null) {
-			c = transform(source.next());
+			c = source.next();
 			if (c == null) {
 				// We are done: Both the source generator and our internal list
 				// are completely exhausted.
@@ -84,9 +79,9 @@ class RewriteGenerator extends Generator {
 			final RevCommit newp = rewrite(oldp);
 			if (firstParent) {
 				if (newp == null) {
-					c.setParents(RevCommit.NO_PARENTS);
+					c.parents = RevCommit.NO_PARENTS;
 				} else {
-					c.setParents(newp);
+					c.parents = new RevCommit[] { newp };
 				}
 				return c;
 			}
@@ -96,7 +91,7 @@ class RewriteGenerator extends Generator {
 			}
 		}
 		if (rewrote) {
-			c.setParents(cleanup(pList));
+			c.parents = cleanup(pList);
 		}
 		return c;
 	}
@@ -116,7 +111,7 @@ class RewriteGenerator extends Generator {
 		for (RevCommit parent : c.getParents()) {
 			while ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
 
-				FilteredRevCommit n = transform(source.next());
+				RevCommit n = source.next();
 
 				if (n != null) {
 					pending.add(n);
@@ -134,8 +129,6 @@ class RewriteGenerator extends Generator {
 	private RevCommit rewrite(RevCommit p) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
-
-			p = transform(p);
 
 			if (p.getParentCount() > 1) {
 				// This parent is a merge, so keep it.
@@ -165,25 +158,9 @@ class RewriteGenerator extends Generator {
 			}
 
 			applyFilterToParents(p.getParent(0));
-			p = transform(p.getParent(0));
+			p = p.getParent(0);
 
 		}
-	}
-
-	private FilteredRevCommit transform(RevCommit c) {
-		if (c == null) {
-			return null;
-		}
-
-		if (c instanceof FilteredRevCommit) {
-			return (FilteredRevCommit) c;
-		}
-
-		if (!transformedCommits.containsKey(c)) {
-			transformedCommits.put(c, new FilteredRevCommit(c, c.getParents()));
-		}
-
-		return transformedCommits.get(c);
 	}
 
 	private RevCommit[] cleanup(RevCommit[] oldList) {

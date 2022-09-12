@@ -24,10 +24,10 @@ maven/mavencentral/org.apache.sshd/sshd-core/2.8.0, Apache-2.0, approved, #2331
 maven/mavencentral/org.apache.sshd/sshd-osgi/2.8.0, Apache-2.0, approved, CQ23892
 maven/mavencentral/org.apache.sshd/sshd-sftp/2.8.0, Apache-2.0, approved, CQ23893
 maven/mavencentral/org.assertj/assertj-core/3.20.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.bouncycastle/bcpg-jdk15on/1.70, Apache-2.0, approved, #1713
-maven/mavencentral/org.bouncycastle/bcpkix-jdk15on/1.70, MIT, approved, clearlydefined
-maven/mavencentral/org.bouncycastle/bcprov-jdk15on/1.70, MIT, approved, #1712
-maven/mavencentral/org.bouncycastle/bcutil-jdk15on/1.70, MIT, approved, clearlydefined
+maven/mavencentral/org.bouncycastle/bcpg-jdk18on/1.71, Apache-2.0, approved, #2665
+maven/mavencentral/org.bouncycastle/bcpkix-jdk18on/1.71, MIT, approved, #2662
+maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.71, MIT AND LicenseRef-scancode-ocb-open-source-2013, approved, #2666
+maven/mavencentral/org.bouncycastle/bcutil-jdk18on/1.71, MIT, approved, #2663
 maven/mavencentral/org.eclipse.jetty.toolchain/jetty-servlet-api/4.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-http/10.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-io/10.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
@@ -35,29 +35,29 @@ maven/mavencentral/org.eclipse.jetty/jetty-security/10.0.6, EPL-2.0 OR Apache-2.
 maven/mavencentral/org.eclipse.jetty/jetty-server/10.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-servlet/10.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-util/10.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant.test/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.archive/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.gpg.bc/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.apache/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.server/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.test/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit.http/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit.ssh/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.server.test/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.server/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.test/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.pgm.test/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.pgm/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache.agent/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache.test/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.jsch/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.test/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ui/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
-maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit/6.2.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant.test/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ant/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.archive/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.gpg.bc/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.apache/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.server/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.http.test/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit.http/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit.ssh/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.junit/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.server.test/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.server/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs.test/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.lfs/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.pgm.test/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.pgm/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache.agent/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache.test/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.apache/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ssh.jsch/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.test/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit.ui/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
+maven/mavencentral/org.eclipse.jgit/org.eclipse.jgit/6.3.0-SNAPSHOT, BSD-3-Clause, approved, technology.jgit
 maven/mavencentral/org.hamcrest/hamcrest-core/1.3, BSD-2-Clause, approved, CQ11429
 maven/mavencentral/org.mockito/mockito-core/2.23.0, Apache-2.0 AND MIT, approved, #958
 maven/mavencentral/org.objenesis/objenesis/2.6, Apache-2.0, approved, CQ15478
