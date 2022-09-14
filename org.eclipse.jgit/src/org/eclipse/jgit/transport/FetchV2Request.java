@@ -101,7 +101,7 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
-	 * Options received in server-option lines. The caller can choose to	 act on
+	 * Options received in server-option lines. The caller can choose to act on
 	 * these in an application-specific way
 	 *
 	 * @return Immutable list of server options received in the request
