@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71234dc8_06561b98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-09-14T15:35:33Z",
+      "side": 1,
+      "message": "probably needs a constant per JGit style.",
+      "range": {
+        "startLine": 399,
+        "startChar": 6,
+        "endLine": 399,
+        "endChar": 7
+      },
+      "revId": "ebae56d42dc91171c052b0f9a32d6e86058a7620",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
