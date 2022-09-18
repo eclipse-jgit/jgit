@@ -87,7 +87,7 @@ import org.eclipse.jgit.util.sha1.SHA1;
  * After instantiating, applyPatch() should be called once.
  * </p>
  *
- * @since 6.3
+ * @since 6.4
  */
 public class PatchApplier {
 
