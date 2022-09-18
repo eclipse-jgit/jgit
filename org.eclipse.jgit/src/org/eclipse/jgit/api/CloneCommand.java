@@ -318,7 +318,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		if (depth != null) {
 			command.setDepth(depth.intValue());
 		}
-		command.setShallowSince(shallowSince);
+		if (shallowSince != null) {
+			command.setShallowSince(shallowSince);
+		}
 		command.setShallowExcludes(shallowExcludes);
 		configure(command);
 

@@ -227,7 +227,9 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 				}
 				transport.setDepth(Constants.INFINITE_DEPTH);
 			}
-			transport.setDeepenSince(deepenSince);
+			if (deepenSince != null) {
+				transport.setDeepenSince(deepenSince);
+			}
 			transport.setDeepenNots(shallowExcludes);
 			configure(transport);
 			FetchResult result = transport.fetch(monitor,
