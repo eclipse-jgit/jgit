@@ -9,8 +9,10 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -121,9 +123,32 @@ public class CloneCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneRepository_refLogForLocalRefs()
+	public void testCloneRepositoryNoCheckout()
 			throws IOException, JGitInternalException, GitAPIException {
-		File directory = createTempDirectory("testCloneRepository");
+		File directory = createTempDirectory("testCloneRepositoryNoCheckout");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setNoCheckout(true);
+		try (Git git2 = command.call()) {
+			Repository clonedRepo = git2.getRepository();
+			Ref main = clonedRepo.exactRef(Constants.R_HEADS + "test");
+			assertNotNull(main);
+			ObjectId id = main.getObjectId();
+			assertNotNull(id);
+			assertNotEquals(id, ObjectId.zeroId());
+			ObjectId headId = clonedRepo.resolve(Constants.HEAD);
+			assertEquals(id, headId);
+			assertArrayEquals(new String[] { Constants.DOT_GIT },
+					directory.list());
+		}
+	}
+
+	@Test
+	public void testCloneRepositoryRefLogForLocalRefs()
+			throws IOException, JGitInternalException, GitAPIException {
+		File directory = createTempDirectory(
+				"testCloneRepositoryRefLogForLocalRefs");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
 		command.setURI(fileUri());
@@ -331,7 +356,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 				allRefNames(git2.branchList().setListMode(ListMode.ALL).call()));
 
 		// Same thing, but now without checkout
-		directory = createTempDirectory("testCloneRepositoryWithBranch_bare");
+		directory = createTempDirectory(
+				"testCloneRepositoryWithBranch_noCheckout");
 		command = Git.cloneRepository();
 		command.setBranch("refs/heads/master");
 		command.setDirectory(directory);
@@ -341,7 +367,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 		addRepoToClose(git2.getRepository());
 
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
-		assertEquals("refs/remotes/origin/master, refs/remotes/origin/test",
+		assertEquals(
+				"refs/heads/master, refs/remotes/origin/master, refs/remotes/origin/test",
 				allRefNames(git2.branchList().setListMode(ListMode.ALL).call()));
 
 		// Same thing, but now test with bare repo

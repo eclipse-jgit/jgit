@@ -216,16 +216,14 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 				// ignore - the VM is already shutting down
 			}
 		}
-		if (!noCheckout) {
-			try {
-				checkout(repository, fetchResult);
-			} catch (IOException ioe) {
-				repository.close();
-				throw new JGitInternalException(ioe.getMessage(), ioe);
-			} catch (GitAPIException | RuntimeException e) {
-				repository.close();
-				throw e;
-			}
+		try {
+			checkout(repository, fetchResult);
+		} catch (IOException ioe) {
+			repository.close();
+			throw new JGitInternalException(ioe.getMessage(), ioe);
+		} catch (GitAPIException | RuntimeException e) {
+			repository.close();
+			throw e;
 		}
 		return new Git(repository, true);
 	}
@@ -393,7 +391,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		u.setNewObjectId(commit.getId());
 		u.forceUpdate();
 
-		if (!bare) {
+		if (!bare && !noCheckout) {
 			DirCache dc = clonedRepo.lockDirCache();
 			DirCacheCheckout co = new DirCacheCheckout(clonedRepo, dc,
 					commit.getTree());
