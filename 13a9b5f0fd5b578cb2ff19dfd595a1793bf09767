@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07772139_b34359f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 304382
+      },
+      "writtenOn": "2022-09-20T08:55:47Z",
+      "side": 1,
+      "message": "Its not a local variable but a field.\nIf it\u0027s mandatory for you i will remove final. But i wonder why - this class an be used in multiple threads. \n\"final fields also allow programmers to implement thread-safe immutable objects without synchronization\"\nhttps://docs.oracle.com/javase/specs/jls/se19/html/jls-17.html#jls-17.5\n\nWhen i remove final it will be only \"effective final\" which is no guarantee to work  within the java memory model.",
+      "parentUuid": "7a11288c_559a4bd1",
+      "range": {
+        "startLine": 727,
+        "startChar": 11,
+        "endLine": 727,
+        "endChar": 16
+      },
+      "revId": "13a9b5f0fd5b578cb2ff19dfd595a1793bf09767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "902d6389_efd03899",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 6
@@ -54,6 +78,24 @@
       "writtenOn": "2022-09-20T08:16:59Z",
       "side": 1,
       "message": "also call normalize() to eliminate redundant name elements ?\n object.toPath().toRealPath().normalize().toString()\n https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Path.html#normalize()",
+      "revId": "13a9b5f0fd5b578cb2ff19dfd595a1793bf09767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61ad20c6_e553959c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 304382
+      },
+      "writtenOn": "2022-09-20T08:55:47Z",
+      "side": 1,
+      "message": "\"When deriving the real path, and a\"..\" (or equivalent) is preceded by a non-\"..\" name then an implementation will typically cause both names to be removed.\" \nhttps://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Path.html#toRealPath(java.nio.file.LinkOption...)\n\nsince there is no guarantee... OK.",
+      "parentUuid": "902d6389_efd03899",
       "revId": "13a9b5f0fd5b578cb2ff19dfd595a1793bf09767",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -71,6 +113,30 @@
       "writtenOn": "2022-09-20T08:16:59Z",
       "side": 1,
       "message": "remove this comment",
+      "range": {
+        "startLine": 774,
+        "startChar": 21,
+        "endLine": 774,
+        "endChar": 42
+      },
+      "revId": "13a9b5f0fd5b578cb2ff19dfd595a1793bf09767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d3ce975_04aa00eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 304382
+      },
+      "writtenOn": "2022-09-20T08:55:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c52b159d_eb6dfc4b",
       "range": {
         "startLine": 774,
         "startChar": 21,
