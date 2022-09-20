@@ -16,6 +16,69 @@
       "message": "mind to submit?",
       "revId": "13a9b5f0fd5b578cb2ff19dfd595a1793bf09767",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a11288c_559a4bd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-20T08:16:59Z",
+      "side": 1,
+      "message": "we don\u0027t use final for local variables, see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 727,
+        "startChar": 11,
+        "endLine": 727,
+        "endChar": 16
+      },
+      "revId": "13a9b5f0fd5b578cb2ff19dfd595a1793bf09767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "902d6389_efd03899",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-20T08:16:59Z",
+      "side": 1,
+      "message": "also call normalize() to eliminate redundant name elements ?\n object.toPath().toRealPath().normalize().toString()\n https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Path.html#normalize()",
+      "revId": "13a9b5f0fd5b578cb2ff19dfd595a1793bf09767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c52b159d_eb6dfc4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-20T08:16:59Z",
+      "side": 1,
+      "message": "remove this comment",
+      "range": {
+        "startLine": 774,
+        "startChar": 21,
+        "endLine": 774,
+        "endChar": 42
+      },
+      "revId": "13a9b5f0fd5b578cb2ff19dfd595a1793bf09767",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
