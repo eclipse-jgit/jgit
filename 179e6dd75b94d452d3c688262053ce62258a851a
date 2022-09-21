@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "125b6754_8a2f757e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-09-21T19:19:43Z",
+      "side": 1,
+      "message": "make this an AtomicReference\u003cAlternateHandle.Id\u003e to avoid the need of synchronized getId method ?",
+      "revId": "179e6dd75b94d452d3c688262053ce62258a851a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
