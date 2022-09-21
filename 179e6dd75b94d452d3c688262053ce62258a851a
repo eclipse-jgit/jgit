@@ -16,6 +16,24 @@
       "message": "make this an AtomicReference\u003cAlternateHandle.Id\u003e to avoid the need of synchronized getId method ?",
       "revId": "179e6dd75b94d452d3c688262053ce62258a851a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb496afc_845b746a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 304382
+      },
+      "writtenOn": "2022-09-21T19:31:23Z",
+      "side": 1,
+      "message": "premature optimization. this change reduced each call plenty useconds while a synchronize is some ns only.",
+      "parentUuid": "125b6754_8a2f757e",
+      "revId": "179e6dd75b94d452d3c688262053ce62258a851a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
