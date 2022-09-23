@@ -125,7 +125,7 @@ class StartGenerator extends Generator {
 		}
 
 		if ((g.outputType() & NEEDS_REWRITE) != 0) {
-			g = new RewriteGenerator(g);
+			g = new RewriteGenerator(g, w);
 		}
 
 		if (walker.hasRevSort(RevSort.TOPO)
