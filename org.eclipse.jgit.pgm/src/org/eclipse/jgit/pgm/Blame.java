@@ -38,6 +38,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.revwalk.FilteredRevCommit;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.kohsuke.args4j.Argument;
@@ -155,7 +156,9 @@ class Blame extends TextBuiltin {
 					throw die(MessageFormat.format(CLIText.get().noSuchRef,
 							revision));
 				}
-				generator.push(null, rev);
+				RevCommit f = db.parseCommit(rev);
+				generator.push(null,
+						/* rev */ new FilteredRevCommit(f, f.getParents()));
 			} else {
 				generator.prepareHead();
 			}
