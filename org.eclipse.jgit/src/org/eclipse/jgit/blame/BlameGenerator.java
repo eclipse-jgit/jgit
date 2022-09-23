@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.blame.Candidate.BlobCandidate;
@@ -129,6 +128,7 @@ public class BlameGenerator implements AutoCloseable {
 
 	/** Blame is currently assigned to this source. */
 	private Candidate outCandidate;
+
 	private Region outRegion;
 
 	/**
@@ -403,6 +403,36 @@ public class BlameGenerator implements AutoCloseable {
 	 * revision (if the index is interesting), and finally the working tree copy
 	 * (if the working tree is interesting).
 	 *
+	 * @param blameCommit
+	 *            ordered commits to use instead of RevWalk.
+	 * @return {@code this}
+	 * @throws java.io.IOException
+	 *             the repository cannot be read.
+	 * @since 6.3
+	 */
+	public BlameGenerator push(RevCommit blameCommit) throws IOException {
+		if (!find(blameCommit, resultPath)) {
+			return this;
+		}
+
+		Candidate c = new Candidate(getRepository(), blameCommit, resultPath);
+		c.sourceBlob = idBuf.toObjectId();
+		c.loadText(reader);
+		c.regionList = new Region(0, 0, c.sourceText.size());
+		remaining = c.sourceText.size();
+
+		push(c);
+		return this;
+	}
+
+	/**
+	 * Push a candidate object onto the generator's traversal stack.
+	 * <p>
+	 * Candidates should be pushed in history order from oldest-to-newest.
+	 * Applications should push the starting commit first, then the index
+	 * revision (if the index is interesting), and finally the working tree copy
+	 * (if the working tree is interesting).
+	 *
 	 * @param description
 	 *            description of the blob revision, such as "Working Tree".
 	 * @param id
@@ -424,20 +454,12 @@ public class BlameGenerator implements AutoCloseable {
 			c.regionList = new Region(0, 0, c.sourceText.size());
 			remaining = c.sourceText.size();
 			push(c);
+
 			return this;
 		}
 
 		RevCommit commit = revPool.parseCommit(id);
-		if (!find(commit, resultPath))
-			return this;
-
-		Candidate c = new Candidate(getRepository(), commit, resultPath);
-		c.sourceBlob = idBuf.toObjectId();
-		c.loadText(reader);
-		c.regionList = new Region(0, 0, c.sourceText.size());
-		remaining = c.sourceText.size();
-		push(c);
-		return this;
+		return push(commit);
 	}
 
 	/**
@@ -584,28 +606,32 @@ public class BlameGenerator implements AutoCloseable {
 
 		// If there are no lines remaining, the entire result is done,
 		// even if there are revisions still available for the path.
-		if (remaining == 0)
+		if (remaining == 0) {
 			return done();
+		}
 
 		for (;;) {
 			Candidate n = pop();
-			if (n == null)
+			if (n == null) {
 				return done();
+			}
 
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
-				if (processOne(n))
+				if (processOne(n)) {
 					return true;
+				}
 
 			} else if (1 < pCnt) {
-				if (processMerge(n))
+				if (processMerge(n)) {
 					return true;
+				}
 
 			} else if (n instanceof ReverseCandidate) {
 				// Do not generate a tip of a reverse. The region
 				// survives and should not appear to be deleted.
 
-			} else /* if (pCnt == 0) */{
+			} else /* if (pCnt == 0) */ {
 				// Root commit, with at least one surviving region.
 				// Assign the remaining blame here.
 				return result(n);
@@ -846,8 +872,8 @@ public class BlameGenerator implements AutoCloseable {
 				editList = new EditList(0);
 			} else {
 				p.loadText(reader);
-				editList = diffAlgorithm.diff(textComparator,
-						p.sourceText, n.sourceText);
+				editList = diffAlgorithm.diff(textComparator, p.sourceText,
+						n.sourceText);
 			}
 
 			if (editList.isEmpty()) {
