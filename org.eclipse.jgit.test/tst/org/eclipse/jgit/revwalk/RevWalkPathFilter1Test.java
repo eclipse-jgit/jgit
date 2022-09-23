@@ -11,6 +11,7 @@
 package org.eclipse.jgit.revwalk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Collections;
@@ -23,8 +24,8 @@ import org.junit.Test;
 
 public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	protected void filter(String path) {
-		rw.setTreeFilter(AndTreeFilter.create(PathFilterGroup
-				.createFromStrings(Collections.singleton(path)),
+		rw.setTreeFilter(AndTreeFilter.create(
+				PathFilterGroup.createFromStrings(Collections.singleton(path)),
 				TreeFilter.ANY_DIFF));
 	}
 
@@ -49,7 +50,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		final RevCommit a = commit(tree(file("0", blob("0"))));
 		filter("0");
 		markStart(a);
-		assertCommit(a, rw.next());
+		assertEquals(a, rw.next());
 		assertNull(rw.next());
 	}
 
@@ -72,10 +73,10 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		final RevCommit d = commit(tree(file("0", blob("d"))), c);
 		filter("0");
 		markStart(d);
-		assertCommit(d, rw.next());
-		assertCommit(c, rw.next());
-		assertCommit(b, rw.next());
-		assertCommit(a, rw.next());
+		assertEquals(d, rw.next());
+		assertEquals(c, rw.next());
+		assertEquals(b, rw.next());
+		assertEquals(a, rw.next());
 		assertNull(rw.next());
 	}
 
@@ -87,11 +88,11 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		filter("d/f");
 		markStart(c);
 
-		assertCommit(c, rw.next());
+		assertEquals(c, rw.next());
 		assertEquals(1, c.getParentCount());
-		assertCommit(a, c.getParent(0)); // b was skipped
+		assertEquals(a, c.getParent(0)); // b was skipped
 
-		assertCommit(a, rw.next());
+		assertEquals(a, rw.next());
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
 	}
@@ -106,11 +107,11 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		markStart(c);
 		rw.setRewriteParents(false);
 
-		assertCommit(c, rw.next());
+		assertEquals(c, rw.next());
 		assertEquals(1, c.getParentCount());
-		assertCommit(b, c.getParent(0));
+		assertEquals(b, c.getParent(0));
 
-		assertCommit(a, rw.next()); // b was skipped
+		assertEquals(a, rw.next()); // b was skipped
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
 	}
@@ -125,18 +126,18 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		markStart(d);
 
 		// d was skipped
-		assertCommit(c, rw.next());
+		assertEquals(c, rw.next());
 		assertEquals(1, c.getParentCount());
-		assertCommit(a, c.getParent(0)); // b was skipped
+		assertEquals(a, c.getParent(0)); // b was skipped
 
-		assertCommit(a, rw.next());
+		assertEquals(a, rw.next());
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
 	}
 
 	@Test
 	public void testStringOfPearls_FilePath2_NoParentRewriting()
-	throws Exception {
+			throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -146,12 +147,12 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		rw.setRewriteParents(false);
 
 		// d was skipped
-		assertCommit(c, rw.next());
+		assertEquals(c, rw.next());
 		assertEquals(1, c.getParentCount());
-		assertCommit(b, c.getParent(0));
+		assertEquals(b, c.getParent(0));
 
 		// b was skipped
-		assertCommit(a, rw.next());
+		assertEquals(a, rw.next());
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
 	}
@@ -166,11 +167,11 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		markStart(d);
 
 		// d was skipped
-		assertCommit(c, rw.next());
+		assertEquals(c, rw.next());
 		assertEquals(1, c.getParentCount());
-		assertCommit(a, c.getParent(0)); // b was skipped
+		assertEquals(a, c.getParent(0)); // b was skipped
 
-		assertCommit(a, rw.next());
+		assertEquals(a, rw.next());
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
 	}
@@ -211,15 +212,15 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		filter("d/f");
 		markStart(i);
 
-		assertCommit(i, rw.next());
+		assertEquals(i, rw.next());
 		assertEquals(1, i.getParentCount());
-		assertCommit(c, i.getParent(0)); // h..d was skipped
+		assertEquals(c, i.getParent(0)); // h..d was skipped
 
-		assertCommit(c, rw.next());
+		assertEquals(c, rw.next());
 		assertEquals(1, c.getParentCount());
-		assertCommit(a, c.getParent(0)); // b was skipped
+		assertEquals(a, c.getParent(0)); // b was skipped
 
-		assertCommit(a, rw.next());
+		assertEquals(a, rw.next());
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
 	}
@@ -272,5 +273,50 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		assertCommit(c, rw.next());
 		assertCommit(b, rw.next());
 		assertCommit(a, rw.next());
+	}
+
+	@Test
+	public void testCommitHeaders_rewrittenParents() throws Exception {
+		final RevCommit a = commit(tree(file("d/f", blob("a"))));
+		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+		filter("d/f");
+		markStart(c);
+
+		RevCommit cBar = rw.next();
+		assertNotNull(cBar.getShortMessage());
+		assertEquals(cBar.getCommitTime(), c.getCommitTime());
+
+		RevCommit aBar = rw.next();
+		assertNotNull(aBar.getShortMessage());
+		assertEquals(aBar.getCommitTime(), a.getCommitTime());
+
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testFlags_rewrittenParents() throws Exception {
+		final RevCommit a = commit(tree(file("d/f", blob("a"))));
+		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+
+		final RevFlag flag1 = rw.newFlag("flag1");
+		final RevFlag flag2 = rw.newFlag("flag2");
+
+		a.add(flag1);
+		c.add(flag2);
+
+		filter("d/f");
+		markStart(c);
+
+		RevCommit cBar = rw.next();
+		assertEquals(cBar.flags & RevObject.PARSED, 1);
+		assertEquals(cBar.flags & flag2.mask, flag2.mask);
+
+		RevCommit aBar = rw.next();
+		assertEquals(aBar.flags & RevObject.PARSED, 1);
+		assertEquals(aBar.flags & flag1.mask, flag1.mask);
+
+		assertNull(rw.next());
 	}
 }
