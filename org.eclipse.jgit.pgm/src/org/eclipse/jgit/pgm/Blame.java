@@ -155,7 +155,8 @@ class Blame extends TextBuiltin {
 					throw die(MessageFormat.format(CLIText.get().noSuchRef,
 							revision));
 				}
-				generator.push(null, rev);
+				RevCommit f = db.parseCommit(rev);
+				generator.push(null, /* rev */ f);
 			} else {
 				generator.prepareHead();
 			}
