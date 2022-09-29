@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39d4ffbe_6cad8afd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-09-29T19:14:55Z",
+      "side": 1,
+      "message": "trigger build\n\n\"(https://repo.eclipse.org/content/repositories/maven_central/): transfer failed for https://repo.eclipse.org/content/repositories/maven_central/org/apache/maven/shared/maven-common-artifact-filters/3.1.1/maven-common-artifact-filters-3.1.1.jar, status: 502 Bad Gateway -\u003e [Help 1]`",
+      "revId": "e20e5346e41db295ad243e38eb3e04c368d50512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
