@@ -33,6 +33,23 @@
       "message": "trigger build",
       "revId": "c969fcaa9e0b8e023098f5e1dbb707a6a0580de1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70373f53_c668f18b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307598
+      },
+      "writtenOn": "2022-09-30T09:49:29Z",
+      "side": 1,
+      "message": "It\u0027s useful. The \u0027git push\u0027 can be used for multiple replicas sync directly.",
+      "revId": "c969fcaa9e0b8e023098f5e1dbb707a6a0580de1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
