@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0df8d147_e1e8c8cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-09-30T05:35:40Z",
+      "side": 1,
+      "message": "Nit: missing point at the end of the statement.",
+      "revId": "e20e5346e41db295ad243e38eb3e04c368d50512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "39d4ffbe_6cad8afd",
@@ -14,6 +31,29 @@
       "writtenOn": "2022-09-29T19:14:55Z",
       "side": 1,
       "message": "trigger build\n\n\"(https://repo.eclipse.org/content/repositories/maven_central/): transfer failed for https://repo.eclipse.org/content/repositories/maven_central/org/apache/maven/shared/maven-common-artifact-filters/3.1.1/maven-common-artifact-filters-3.1.1.jar, status: 502 Bad Gateway -\u003e [Help 1]`",
+      "revId": "e20e5346e41db295ad243e38eb3e04c368d50512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a3a3490_de2b950f",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-09-30T05:35:40Z",
+      "side": 1,
+      "message": "Is this a runtime dependency and could be moved to the runtime_deps on line 9?",
+      "range": {
+        "startLine": 18,
+        "startChar": 8,
+        "endLine": 18,
+        "endChar": 25
+      },
       "revId": "e20e5346e41db295ad243e38eb3e04c368d50512",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
