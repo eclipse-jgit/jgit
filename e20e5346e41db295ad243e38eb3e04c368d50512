@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8cb7d4d7_5a2eaa56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-09-30T18:10:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0df8d147_e1e8c8cf",
+      "revId": "e20e5346e41db295ad243e38eb3e04c368d50512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "39d4ffbe_6cad8afd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2022-09-30T05:35:40Z",
       "side": 1,
       "message": "Is this a runtime dependency and could be moved to the runtime_deps on line 9?",
+      "range": {
+        "startLine": 18,
+        "startChar": 8,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "e20e5346e41db295ad243e38eb3e04c368d50512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e0924df_4d1a3270",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-09-30T18:10:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a3a3490_de2b950f",
       "range": {
         "startLine": 18,
         "startChar": 8,
