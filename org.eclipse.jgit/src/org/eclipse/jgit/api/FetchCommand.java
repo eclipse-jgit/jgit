@@ -140,6 +140,9 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			if (fetchHead == null) {
 				return;
 			}
+			if (revWalk.parseAny(fetchHead).getType() == Constants.OBJ_BLOB) {
+				return;
+			}
 			walk.setTree(revWalk.parseTree(fetchHead));
 			while (walk.next()) {
 				try (Repository submoduleRepo = walk.getRepository()) {
