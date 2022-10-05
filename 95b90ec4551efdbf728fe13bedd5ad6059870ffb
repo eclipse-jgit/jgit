@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "971c14c5_b5c9c9c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-05T21:27:07Z",
+      "side": 1,
+      "message": "Ping. If it looks OK I can submit.",
+      "revId": "95b90ec4551efdbf728fe13bedd5ad6059870ffb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
