@@ -72,6 +72,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f32ab665_d7bacfd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-05T23:09:24Z",
+      "side": 1,
+      "message": "jfrunit requires junit 5 and at least Java 16 and it looks like we would need to inject a custom JFR event using jmc-agent. I think this would require too much change for a stable branch. See https://www.javaadvent.com/2021/12/keep-your-sql-in-check-with-flight-recorder-jmc-agent-and-jfrunit.html\n\nMaybe instead a JMH based benchmark could be implemented demonstrating the performance improvement. I tried implementing one in I48e6607f416addcb2a416a652a7d6b0a67511ff9.\nThough it doesn\u0027t show a significant improvement. Please review, maybe the test is wrong ?",
+      "parentUuid": "9c78d3b5_e579b6d6",
+      "revId": "3293621516c74fe283f698eccf622e0f2f402edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "38d7ada3_477d977b",
