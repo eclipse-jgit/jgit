@@ -159,6 +159,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 						JGitText.get().unknownObjectType2);
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
+
 		return sz;
 	}
 
