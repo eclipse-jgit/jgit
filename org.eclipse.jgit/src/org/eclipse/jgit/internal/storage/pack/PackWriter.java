@@ -1402,6 +1402,7 @@ public class PackWriter implements AutoCloseable {
 		}
 		endPhase(monitor);
 		stats.timeSearchingForReuse = System.currentTimeMillis() - start;
+		System.out.println("Search for reuse time: " + stats.timeSearchingForReuse);
 
 		if (config.isReuseDeltas() && config.getCutDeltaChains()) {
 			cutDeltaChains(objectsLists[OBJ_TREE]);
@@ -1453,10 +1454,14 @@ public class PackWriter implements AutoCloseable {
 				+ edgeObjects.size()];
 		int cnt = 0;
 		cnt = findObjectsNeedingDelta(list, cnt, OBJ_TREE);
+		int tcnt = cnt;
+		System.out.println("Trees needing Delta = " + tcnt);
 		cnt = findObjectsNeedingDelta(list, cnt, OBJ_BLOB);
+		System.out.println("Blobs needing Delta = " + (cnt - tcnt));
 		if (cnt == 0)
 			return;
 		int nonEdgeCnt = cnt;
+		System.out.println("Edge objects = " + edgeObjects.size());
 
 		// Queue up any edge objects that we might delta against.  We won't
 		// be sending these as we assume the other side has them, but we need
@@ -1466,7 +1471,7 @@ public class PackWriter implements AutoCloseable {
 			eo.setWeight(0);
 			list[cnt++] = eo;
 		}
-
+		System.out.println("Candidate to deltify = " + cnt);
 		// Compute the sizes of the objects so we can do a proper sort.
 		// We let the reader skip missing objects if it chooses. For
 		// some readers this can be a huge win. We detect missing objects
@@ -1475,6 +1480,10 @@ public class PackWriter implements AutoCloseable {
 		// abort with an exception if we actually had to have it.
 		//
 		final long sizingStart = System.currentTimeMillis();
+		System.out.println("Search for deltas");
+		System.out.println("Resetting fast/slow counters");
+		reader.obj_fast_size = 0;
+		reader.obj_slow_size = 0;
 		beginPhase(PackingPhase.GETTING_SIZES, monitor, cnt);
 		AsyncObjectSizeQueue<ObjectToPack> sizeQueue = reader.getObjectSize(
 				Arrays.<ObjectToPack> asList(list).subList(0, cnt), false);
@@ -1520,6 +1529,10 @@ public class PackWriter implements AutoCloseable {
 		}
 		endPhase(monitor);
 		stats.timeSearchingForSizes = System.currentTimeMillis() - sizingStart;
+		System.out.println("getObjectSize path: fast = " + reader.obj_fast_size + " slow = "
+				+ reader.obj_slow_size);
+		System.out.println("Sizing time: " + stats.timeSearchingForSizes);
+
 
 		// Sort the objects by path hash so like files are near each other,
 		// and then by size descending so that bigger files are first. This
@@ -1947,6 +1960,9 @@ public class PackWriter implements AutoCloseable {
 				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
 				endPhase(countingMonitor);
 				stats.timeCounting = System.currentTimeMillis() - countingStart;
+				System.out.println("getObjectSize path: fast = " + reader.obj_fast_size + " slow = " +
+						reader.obj_slow_size);
+				System.out.println("Counting time:" + stats.timeCounting);
 				stats.bitmapIndexMisses = bitmapWalker.getCountOfBitmapIndexMisses();
 				return;
 			}
@@ -2164,15 +2180,29 @@ public class PackWriter implements AutoCloseable {
 			cachedPacks.addAll(
 					reuseSupport.getCachedPacksAndUpdate(needBitmap));
 
+		int totalObjs = 0;
+		int blobs = 0;
+		int trees = 0;
 		for (BitmapObject obj : needBitmap) {
 			ObjectId objectId = obj.getObjectId();
 			if (exclude(objectId)) {
 				needBitmap.remove(objectId);
 				continue;
 			}
+			totalObjs += 1;
+			if (obj.getType() == Constants.OBJ_BLOB) {
+				blobs += 1;
+			} else if (obj.getType() == Constants.OBJ_TREE) {
+			  trees += 1;
+			}
 			filterAndAddObject(objectId, obj.getType(), 0, want);
 		}
-
+		System.out.println("-------------------------");
+		System.out.println("Find Objects");
+		System.out.println(
+				"Before filter: Total needed = " + totalObjs + " objs, blobs = " + blobs + ", trees = " + trees);
+		System.out.println("After filter : Total needed = " + reallyAdded + " objs, blobs = "
+				+ reallyAddedBlobs + ", trees = " + reallyAddedTrees);
 		if (thin)
 			haveObjects = haveBitmap;
 	}
@@ -2267,6 +2297,14 @@ public class PackWriter implements AutoCloseable {
 		return true;
 	}
 
+	private int reallyAdded = 0;
+
+	private int reallyAddedBlobs = 0;
+
+	private int reallyAddedOfs = 0;
+
+	private int reallyAddedTrees = 0;
+
 	// Adds the given object as an object to be packed, first performing
 	// filtering on blobs at or exceeding a given size.
 	private void filterAndAddObject(@NonNull AnyObjectId src, int type,
@@ -2282,6 +2320,14 @@ public class PackWriter implements AutoCloseable {
 		if (blobLimit >= 0 && type == OBJ_BLOB && !want.contains(src)
 				&& !reader.isNotLargerThan(src, OBJ_BLOB, blobLimit)) {
 			return;
+		}
+		reallyAdded += 1;
+		if (type == OBJ_BLOB) {
+			reallyAddedBlobs += 1;
+		} else if (type == Constants.OBJ_OFS_DELTA || type == Constants.OBJ_REF_DELTA) {
+			reallyAddedOfs += 1;
+		} else if (type == OBJ_TREE) {
+			reallyAddedTrees += 1;
 		}
 		addObject(src, type, pathHashCode);
 	}

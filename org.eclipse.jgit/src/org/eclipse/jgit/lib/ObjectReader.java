@@ -27,6 +27,7 @@ import org.eclipse.jgit.internal.revwalk.BitmappedObjectReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.BitmappedReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.PedestrianObjectReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.PedestrianReachabilityChecker;
+import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
@@ -40,6 +41,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * {@link org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs}.
  */
 public abstract class ObjectReader implements AutoCloseable {
+	/** Count slow loads of obj size */
+	public int obj_slow_size = 0;
+
+	/** Count fast load of obj size */
+	public int obj_fast_size = 0;
+
 	/** Type hint indicating the caller doesn't know the type. */
 	public static final int OBJ_ANY = -1;
 
@@ -391,7 +398,11 @@ public abstract class ObjectReader implements AutoCloseable {
 			public boolean next() throws MissingObjectException, IOException {
 				if (idItr.hasNext()) {
 					cur = idItr.next();
-					sz = getObjectSize(cur, OBJ_ANY);
+					int typeHint = OBJ_ANY;
+					if (cur instanceof ObjectToPack) {
+						typeHint = ((ObjectToPack)cur).getType();
+					}
+					sz = getObjectSize(cur, typeHint);
 					return true;
 				}
 				return false;

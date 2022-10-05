@@ -320,7 +320,7 @@ public class PackInserter extends ObjectInserter {
 			try {
 				FileUtils.rename(tmpObjSizeIdx, realObjSizeIdx, ATOMIC_MOVE);
 			} catch (IOException e) {
-				throw new IOException("Cannot write object size index");//$NON-NLS-1$
+				throw new IOException("Cannot write object size index", e);//$NON-NLS-1$
 			}
 		}
 
