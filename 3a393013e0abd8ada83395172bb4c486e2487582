@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f732d212_a6da5b76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-06T22:44:46Z",
+      "side": 1,
+      "message": "what\u0027s the solution to fix https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d580690 which was caused by these changes ?",
+      "revId": "3a393013e0abd8ada83395172bb4c486e2487582",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
