@@ -1,0 +1,9 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: David Ostrovsky <d.ostrovsky@gmx.de>
+Code-Review+2: Ivan Frade <ifrade@google.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Ivan Frade <ifrade@google.com>
+Submitted-at: Thu, 06 Oct 2022 12:38:32 -0400
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/196122
+Project: jgit/jgit
+Branch: refs/heads/master
