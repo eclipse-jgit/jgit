@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c031760d_ea3ec4f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-07T08:02:09Z",
+      "side": 1,
+      "message": "looks identical to https://git.eclipse.org/r/c/jgit/jgit/+/195082/17",
+      "revId": "a6258e02d6f851b4f7e58b9799b5f0e82b6dea50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
