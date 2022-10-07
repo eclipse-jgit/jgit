@@ -34,6 +34,46 @@
       "parentUuid": "f732d212_a6da5b76",
       "revId": "3a393013e0abd8ada83395172bb4c486e2487582",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7c05eac_a5bebb99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-07T07:59:34Z",
+      "side": 1,
+      "message": "6.4",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "3a393013e0abd8ada83395172bb4c486e2487582",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73905aab_1e58f85b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-07T07:59:34Z",
+      "side": 1,
+      "message": "please comment on Demetr\u0027s comments in https://git.eclipse.org/r/c/jgit/jgit/+/195026/21/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+      "revId": "3a393013e0abd8ada83395172bb4c486e2487582",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
