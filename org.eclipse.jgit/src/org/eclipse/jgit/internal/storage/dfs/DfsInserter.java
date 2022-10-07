@@ -129,7 +129,7 @@ public class DfsInserter extends ObjectInserter {
 		long offset = beginObject(type, len);
 		packOut.compress.write(data, off, len);
 		packOut.compress.finish();
-		return endObject(id, offset);
+		return endObject(id, offset, len, type);
 	}
 
 	@Override
@@ -148,16 +148,17 @@ public class DfsInserter extends ObjectInserter {
 		md.update(Constants.encodeASCII(len));
 		md.update((byte) 0);
 
-		while (0 < len) {
-			int n = in.read(buf, 0, (int) Math.min(buf.length, len));
+		long inLength = len;
+		while (0 < inLength) {
+			int n = in.read(buf, 0, (int) Math.min(buf.length, inLength));
 			if (n <= 0)
 				throw new EOFException();
 			md.update(buf, 0, n);
 			packOut.compress.write(buf, 0, n);
-			len -= n;
+			inLength -= n;
 		}
 		packOut.compress.finish();
-		return endObject(md.toObjectId(), offset);
+		return endObject(md.toObjectId(), offset, len, type);
 	}
 
 	private byte[] insertBuffer(long len) {
@@ -238,10 +239,12 @@ public class DfsInserter extends ObjectInserter {
 		return offset;
 	}
 
-	private ObjectId endObject(ObjectId id, long offset) {
+	private ObjectId endObject(ObjectId id, long offset, long inflatedSize, int type) {
 		PackedObjectInfo obj = new PackedObjectInfo(id);
+		obj.setType(type);
 		obj.setOffset(offset);
 		obj.setCRC((int) packOut.crc32.getValue());
+		obj.setFullSize(inflatedSize);
 		objectList.add(obj);
 		objectMap.addIfAbsent(obj);
 		return id;
