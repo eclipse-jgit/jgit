@@ -29,11 +29,16 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.TagBuilder;
+import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
@@ -237,6 +242,50 @@ public class DfsInserterTest {
 			assertEquals(PackSource.INSERT,
 					p2.getPackDescription().getPackSource());
 			assertTrue(p2.hasObject(reader, fooId));
+		}
+	}
+
+	@Test
+	public void testObjectSizePopulated() throws IOException {
+		// Blob
+		byte[] contents = Constants.encode("foo");
+
+		// Commit
+		PersonIdent person = new PersonIdent("Committer a", "jgit@eclipse.org");
+		CommitBuilder c = new CommitBuilder();
+		c.setAuthor(person);
+		c.setCommitter(person);
+		c.setTreeId(ObjectId
+				.fromString("45c4c6767a3945815371a7016532751dd558be40"));
+		c.setMessage("commit message");
+
+		// Tree
+		TreeFormatter treeBuilder = new TreeFormatter(2);
+		treeBuilder.append("filea", FileMode.REGULAR_FILE, ObjectId
+				.fromString("45c4c6767a3945815371a7016532751dd558be40"));
+		treeBuilder.append("fileb", FileMode.GITLINK, ObjectId
+				.fromString("1c458e25ca624bb8d4735bec1379a4a29ba786d0"));
+
+		// Tag
+		TagBuilder tagBuilder = new TagBuilder();
+		tagBuilder.setObjectId(
+				ObjectId.fromString("c97fe131649e80de55bd153e9a8d8629f7ca6932"),
+				Constants.OBJ_COMMIT);
+		tagBuilder.setTag("short name");
+
+		try (DfsInserter ins = (DfsInserter) db.newObjectInserter()) {
+			ObjectId aBlob = ins.insert(Constants.OBJ_BLOB, contents);
+			assertEquals(contents.length,
+					ins.objectMap.get(aBlob).getFullSize());
+
+			ObjectId aCommit = ins.insert(c);
+			assertEquals(174, ins.objectMap.get(aCommit).getFullSize());
+
+			ObjectId tree = ins.insert(treeBuilder);
+			assertEquals(66, ins.objectMap.get(tree).getFullSize());
+
+			ObjectId tag = ins.insert(tagBuilder);
+			assertEquals(76, ins.objectMap.get(tag).getFullSize());
 		}
 	}
 
