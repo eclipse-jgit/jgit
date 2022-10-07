@@ -16,6 +16,24 @@
       "message": "what\u0027s the solution to fix https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d580690 which was caused by these changes ?",
       "revId": "3a393013e0abd8ada83395172bb4c486e2487582",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffabe223_73537e7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-10-07T00:03:58Z",
+      "side": 1,
+      "message": "refactoring RewriteGenerator. \nSee RewriteGenerator#updateParents l#135 now does not assume that all commits here are FilteredRevCommits. And if ti is not updates parents the old fashion way.\n\nAlso we only transform RevCommits not anyone that is a special subclass of RevCommit.\n\nPrevious failure was due to EGit\u0027s KidCommit that extendeds from RevCommit and was being passed in to the RewriteGenerator. This change now makes sure that we only update parents for RevCommits.",
+      "parentUuid": "f732d212_a6da5b76",
+      "revId": "3a393013e0abd8ada83395172bb4c486e2487582",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
