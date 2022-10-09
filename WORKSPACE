@@ -24,20 +24,20 @@ register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
-JMH_VERS = "1.32"
+JMH_VERS = "1.35"
 
 maven_jar(
     name = "jmh-core",
     artifact = "org.openjdk.jmh:jmh-core:" + JMH_VERS,
     attach_source = False,
-    sha1 = "9a8b69ea08118fd4e5d30a152d37b7087ee4a720",
+    sha1 = "c14d712be8e423969fcd344bc801cf5d3ea3b62a",
 )
 
 maven_jar(
     name = "jmh-annotations",
     artifact = "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERS,
     attach_source = False,
-    sha1 = "0a28eccc75e0d65984ce25e1ec4dd021a0ca6c57",
+    sha1 = "50fba446d32d22f95f51a391f3450e03af006754",
 )
 
 maven_jar(
