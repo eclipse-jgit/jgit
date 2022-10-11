@@ -22,6 +22,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BA
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
@@ -217,6 +218,14 @@ public class ReceivePack {
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapabilities;
 
+	/**
+	 * Capabilities requested by the client separated into key value pairs where
+	 * applicable.
+	 */
+	private Map<String, String> enabledCapabilitiesWithValues;
+
+	private String clientSID;
+
 	String userAgent;
 
 	private Set<ObjectId> clientShallowCommits;
@@ -260,6 +269,7 @@ public class ReceivePack {
 
 	/**
 	 * Connectivity checker to use.
+	 *
 	 * @since 5.7
 	 */
 	protected ConnectivityChecker connectivityChecker = new FullConnectivityChecker();
@@ -276,11 +286,14 @@ public class ReceivePack {
 	/** Hook to report on the commands after execution. */
 	private PostReceiveHook postReceive;
 
-	/** If {@link BasePackPushConnection#CAPABILITY_REPORT_STATUS} is enabled. */
+	/**
+	 * If {@link BasePackPushConnection#CAPABILITY_REPORT_STATUS} is enabled.
+	 */
 	private boolean reportStatus;
 
 	/** Whether the client intends to use push options. */
 	private boolean usePushOptions;
+
 	private List<String> pushOptions;
 
 	/**
@@ -1267,6 +1280,7 @@ public class ReceivePack {
 		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
+		adv.advertiseCapability(OPTION_SESSION_ID);
 		if (allowQuiet)
 			adv.advertiseCapability(CAPABILITY_QUIET);
 		String nonce = getPushCertificateParser().getAdvertiseNonce();
@@ -1308,9 +1322,8 @@ public class ReceivePack {
 	 */
 	private Map<String, Ref> getAllRefs() {
 		try {
-			return db.getRefDatabase().getRefs().stream()
-					.collect(Collectors.toMap(Ref::getName,
-							Function.identity()));
+			return db.getRefDatabase().getRefs().stream().collect(
+					Collectors.toMap(Ref::getName, Function.identity()));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -1351,6 +1364,8 @@ public class ReceivePack {
 					firstPkt = false;
 					FirstCommand firstLine = FirstCommand.fromLine(line);
 					enabledCapabilities = firstLine.getCapabilities();
+					enabledCapabilitiesWithValues = firstLine
+							.getCapabilitiesWithValues();
 					line = firstLine.getLine();
 					enableCapabilities();
 
@@ -1437,6 +1452,10 @@ public class ReceivePack {
 		usePushOptions = isCapabilityEnabled(CAPABILITY_PUSH_OPTIONS);
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
 		quiet = allowQuiet && isCapabilityEnabled(CAPABILITY_QUIET);
+
+		clientSID = enabledCapabilitiesWithValues
+				.getOrDefault(OPTION_SESSION_ID, null);
+
 		if (sideBand) {
 			OutputStream out = rawOut;
 
@@ -1506,8 +1525,8 @@ public class ReceivePack {
 			parser.setAllowThin(true);
 			parser.setNeedNewObjectIds(checkReferencedAreReachable);
 			parser.setNeedBaseObjectIds(checkReferencedAreReachable);
-			parser.setCheckEofAfterPackFooter(!biDirectionalPipe
-					&& !isExpectDataAfterPackFooter());
+			parser.setCheckEofAfterPackFooter(
+					!biDirectionalPipe && !isExpectDataAfterPackFooter());
 			parser.setExpectDataAfterPackFooter(isExpectDataAfterPackFooter());
 			parser.setObjectChecker(objectChecker);
 			parser.setLockMessage(lockMsg);
@@ -1693,7 +1712,8 @@ public class ReceivePack {
 								(RevCommit) newObj)) {
 							cmd.setTypeFastForwardUpdate();
 						} else {
-							cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
+							cmd.setType(
+									ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
 						}
 					} catch (IOException e) {
 						receiveCommandErrorHandler
@@ -1755,6 +1775,7 @@ public class ReceivePack {
 
 	/**
 	 * Execute commands to update references.
+	 *
 	 * @since 5.7
 	 */
 	protected void executeCommands() {
@@ -2118,6 +2139,14 @@ public class ReceivePack {
 	}
 
 	/**
+	 * @return The client session-id.
+	 * @since 6.4
+	 */
+	public String getClientSID() {
+		return clientSID;
+	}
+
+	/**
 	 * Execute the receive task on the socket.
 	 *
 	 * @param input
@@ -2225,8 +2254,8 @@ public class ReceivePack {
 						failPendingCommands();
 					}
 
-					preReceive.onPreReceive(
-							this, filterCommands(Result.NOT_ATTEMPTED));
+					preReceive.onPreReceive(this,
+							filterCommands(Result.NOT_ATTEMPTED));
 					if (atomic && anyRejects()) {
 						failPendingCommands();
 					}
