@@ -22,6 +22,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BA
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
@@ -35,6 +36,7 @@ import java.io.UncheckedIOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +115,7 @@ public class ReceivePack {
 
 		/** @return capabilities parsed from the line. */
 		public Set<String> getCapabilities() {
-			return command.getCapabilities();
+			return command.getCapabilities().keySet();
 		}
 	}
 
@@ -166,6 +168,9 @@ public class ReceivePack {
 
 	private boolean allowQuiet = true;
 
+	/** Should the server advertise and accept the session-id capability. */
+	private boolean allowReceiveClientSID;
+
 	/** Identity to record action as within the reflog. */
 	private PersonIdent refLogIdent;
 
@@ -215,7 +220,10 @@ public class ReceivePack {
 	private Set<ObjectId> advertisedHaves;
 
 	/** Capabilities requested by the client. */
-	private Set<String> enabledCapabilities;
+	private Map<String, String> enabledCapabilities;
+
+	/** Session ID sent from the client. Null if none was received. */
+	private String clientSID;
 
 	String userAgent;
 
@@ -304,6 +312,7 @@ public class ReceivePack {
 		allowNonFastForwards = rc.allowNonFastForwards;
 		allowOfsDelta = rc.allowOfsDelta;
 		allowPushOptions = rc.allowPushOptions;
+		allowReceiveClientSID = rc.allowReceiveClientSID;
 		maxCommandBytes = rc.maxCommandBytes;
 		maxDiscardBytes = rc.maxDiscardBytes;
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
@@ -327,6 +336,8 @@ public class ReceivePack {
 
 		final boolean allowPushOptions;
 
+		final boolean allowReceiveClientSID;
+
 		final long maxCommandBytes;
 
 		final long maxDiscardBytes;
@@ -342,6 +353,10 @@ public class ReceivePack {
 					true);
 			allowPushOptions = config.getBoolean("receive", "pushoptions", //$NON-NLS-1$ //$NON-NLS-2$
 					false);
+			// TODO: This should not be enabled until to corresponding change to
+			// upload pack has been implemented.
+			allowReceiveClientSID = config.getBoolean("transfer", //$NON-NLS-1$
+					"advertisesid", false); //$NON-NLS-1$
 			maxCommandBytes = config.getLong("receive", //$NON-NLS-1$
 					"maxCommandBytes", //$NON-NLS-1$
 					3 << 20);
@@ -886,7 +901,7 @@ public class ReceivePack {
 	 */
 	public boolean isSideBand() throws RequestNotYetReadException {
 		checkRequestWasRead();
-		return enabledCapabilities.contains(CAPABILITY_SIDE_BAND_64K);
+		return enabledCapabilities.containsKey(CAPABILITY_SIDE_BAND_64K);
 	}
 
 	/**
@@ -1182,7 +1197,7 @@ public class ReceivePack {
 		pckOut = new PacketLineOut(rawOut);
 		pckOut.setFlushOnEnd(false);
 
-		enabledCapabilities = new HashSet<>();
+		enabledCapabilities = new HashMap<>();
 		commands = new ArrayList<>();
 	}
 
@@ -1267,6 +1282,8 @@ public class ReceivePack {
 		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
+		if (allowReceiveClientSID)
+		adv.advertiseCapability(OPTION_SESSION_ID);
 		if (allowQuiet)
 			adv.advertiseCapability(CAPABILITY_QUIET);
 		String nonce = getPushCertificateParser().getAdvertiseNonce();
@@ -1437,6 +1454,10 @@ public class ReceivePack {
 		usePushOptions = isCapabilityEnabled(CAPABILITY_PUSH_OPTIONS);
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
 		quiet = allowQuiet && isCapabilityEnabled(CAPABILITY_QUIET);
+
+		clientSID = enabledCapabilities
+				.getOrDefault(OPTION_SESSION_ID, null);
+
 		if (sideBand) {
 			OutputStream out = rawOut;
 
@@ -1457,7 +1478,7 @@ public class ReceivePack {
 	 * @return true if the peer requested the capability to be enabled.
 	 */
 	private boolean isCapabilityEnabled(String name) {
-		return enabledCapabilities.contains(name);
+		return enabledCapabilities.containsKey(name);
 	}
 
 	private void checkRequestWasRead() {
@@ -2115,6 +2136,14 @@ public class ReceivePack {
 	@Deprecated
 	public void setEchoCommandFailures(boolean echo) {
 		// No-op.
+	}
+
+	/**
+	 * @return The client session-id.
+	 * @since 6.4
+	 */
+	public String getClientSID() {
+		return clientSID;
 	}
 
 	/**
