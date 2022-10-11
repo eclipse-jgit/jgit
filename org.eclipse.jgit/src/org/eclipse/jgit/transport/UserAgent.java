@@ -12,7 +12,7 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 
-import java.util.Set;
+import java.util.Map;
 
 import org.eclipse.jgit.util.StringUtils;
 
@@ -91,11 +91,11 @@ public class UserAgent {
 		userAgent = StringUtils.isEmptyOrNull(agent) ? null : clean(agent);
 	}
 
-	static String getAgent(Set<String> options, String transportAgent) {
+	static String getAgent(Map<String, String> options, String transportAgent) {
 		if (options == null || options.isEmpty()) {
 			return transportAgent;
 		}
-		for (String o : options) {
+		for (String o : options.keySet()) {
 			if (o.startsWith(OPTION_AGENT)
 					&& o.length() > OPTION_AGENT.length()
 					&& o.charAt(OPTION_AGENT.length()) == '=') {
@@ -105,7 +105,7 @@ public class UserAgent {
 		return transportAgent;
 	}
 
-	static boolean hasAgent(Set<String> options) {
+	static boolean hasAgent(Map<String, String> options) {
 		return getAgent(options, null) != null;
 	}
 
