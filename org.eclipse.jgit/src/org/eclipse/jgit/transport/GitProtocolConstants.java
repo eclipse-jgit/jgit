@@ -443,6 +443,20 @@ public final class GitProtocolConstants {
 	 */
 	public static final String PACKET_WANT_REF = OPTION_WANT_REF + ' ';
 
+	/**
+	 * Capability to receive client session ID.
+	 *
+	 * @since 6.4
+	 */
+	public static final String CAPABILITY_SESSION_ID = "session-id"; //$NON-NLS-1$
+
+	/**
+	 * Option for passing client session ID to the server.
+	 *
+	 * @since 6.4
+	 */
+	public static final String OPTION_SESSION_ID = CAPABILITY_SESSION_ID + "="; //$NON-NLS-1$
+
 	enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}
