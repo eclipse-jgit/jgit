@@ -248,6 +248,13 @@ public final class GitProtocolConstants {
 	public static final String OPTION_SERVER_OPTION = "server-option"; //$NON-NLS-1$
 
 	/**
+	 * Option for passing client session ID to the server.
+	 *
+	 * @since 6.4
+	 */
+	public static final String OPTION_SESSION_ID = "session-id"; //$NON-NLS-1$
+
+	/**
 	 * The server supports listing refs using protocol v2.
 	 *
 	 * @since 5.0
