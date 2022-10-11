@@ -9,12 +9,10 @@
  */
 package org.eclipse.jgit.internal.transport.parser;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.unmodifiableSet;
-import static java.util.stream.Collectors.toSet;
 
-import java.util.Set;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jgit.annotations.NonNull;
 
@@ -34,7 +32,7 @@ import org.eclipse.jgit.annotations.NonNull;
  */
 public final class FirstCommand {
 	private final String line;
-	private final Set<String> capabilities;
+	private final Map<String, String> capabilities;
 
 	/**
 	 * Parse the first line of a receive-pack request.
@@ -47,16 +45,26 @@ public final class FirstCommand {
 	public static FirstCommand fromLine(String line) {
 		int nul = line.indexOf('\0');
 		if (nul < 0) {
-			return new FirstCommand(line, emptySet());
+			return new FirstCommand(line,
+					Collections.<String, String> emptyMap());
 		}
-		Set<String> opts =
-				asList(line.substring(nul + 1).split(" ")) //$NON-NLS-1$
-					.stream()
-					.collect(toSet());
-		return new FirstCommand(line.substring(0, nul), unmodifiableSet(opts));
+		String[] splitCapablities = line.substring(nul + 1).split(" "); //$NON-NLS-1$
+		Map<String, String> options = new HashMap<>();
+
+		for (String c : splitCapablities) {
+			int i = c.indexOf("="); //$NON-NLS-1$
+			if (i != -1) {
+				options.put(c.substring(0, i), c.substring(i + 1));
+			} else {
+				options.put(c, null);
+			}
+		}
+
+		return new FirstCommand(line.substring(0, nul),
+				Collections.<String, String> unmodifiableMap(options));
 	}
 
-	private FirstCommand(String line, Set<String> capabilities) {
+	private FirstCommand(String line, Map<String, String> capabilities) {
 		this.line = line;
 		this.capabilities = capabilities;
 	}
@@ -67,9 +75,9 @@ public final class FirstCommand {
 		return line;
 	}
 
-	/** @return capabilities parsed from the line, as an immutable set. */
+	/** @return capabilities parsed from the line, as an immutable map. */
 	@NonNull
-	public Set<String> getCapabilities() {
+	public Map<String, String> getCapabilities() {
 		return capabilities;
 	}
 }
