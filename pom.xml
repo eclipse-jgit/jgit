@@ -185,6 +185,10 @@
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+
+    <!-- license check -->
+    <dash.fail>true</dash.fail>
+    <dash.projectId>technology.jgit</dash.projectId>
   </properties>
 
   <repositories>
@@ -556,6 +560,14 @@
       <plugin>
         <groupId>org.eclipse.dash</groupId>
         <artifactId>license-tool-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>license-check</id>
+            <goals>
+              <goal>license-check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
