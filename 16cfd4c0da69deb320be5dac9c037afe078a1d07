@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbce056e_3e814128",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-12T16:34:01Z",
+      "side": 1,
+      "message": "trigger build\n\nTest failure appears unrelated and also appeared in a previous build.\n\n16:57:06  [ERROR]   FileSnapshotTest.detectFileModified:249 FileSnapshot: failures to detect file modifications 11 out of 10000\n16:57:06  timestamp resolution 15 µs min racy threshold 1650 µs\n\nPrevious build with failure:\nhttps://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1883/\n\n",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
