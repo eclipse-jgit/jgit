@@ -16,6 +16,176 @@
       "message": "trigger build\n\nTest failure appears unrelated and also appeared in a previous build.\n\n16:57:06  [ERROR]   FileSnapshotTest.detectFileModified:249 FileSnapshot: failures to detect file modifications 11 out of 10000\n16:57:06  timestamp resolution 15 µs min racy threshold 1650 µs\n\nPrevious build with failure:\nhttps://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1883/\n\n",
       "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f1b0da1_999a3998",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "nit: Use full name (old, new, refName) for these variables.",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "345e9081_a285f298",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "Remove the duplicated \"capabilities\": how we handle duplicate options is irrelevant for this test",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d07fe3_4815d04b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "If we keep the #getCapabilities() method, assert also that it has 5 elements (session-id will also there).",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abf42b02_650a89d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "Should we just accept key(\u003dvalue)? options in general? instead of hardcoding the OPTION_SESSION_ID case.",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad33a068_551a341b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "We don\u0027t need both methods to retrieve the capabilities. Callers can handle a Map\u003cString, String\u003e directly.\n\nThis is a final class in a .internal. package. so IIUC we can change its signature without breaking API. \n\nMaybe we want to do that in a different commit before this one? Something like \"FirstLine: support options with value\", updating signature of the method and callers, maybe doing the chopping of key(\u003dvalue).\n\nThen this change will be just \"enable support of sessionId\"\n\nAlternative: if we cannot remove this method, mark as @deprecated and move callers to the new one.",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8645c3_741579e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "@NonNull (like the old method)",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14777bd4_6a31eec0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "nit: It seems we have first the CAPABILITIES/OPTIONS, then COMMANDS, then PACKET stuff... Could you move this next to other capabilities/options? e.g. after server-option",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac6c086_2a7957f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "Javadoc for clientSID? This will always be sent by the client or we generate one if there is none?",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b33cadc_fce888a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "This and other format-only edits shouldn\u0027t go into the change.",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4011db51_af183fa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-13T18:05:48Z",
+      "side": 1,
+      "message": "TL;DR we need to put this behind a conf flag (like e.g. allowOfsDelta)\n\nhttps://git-scm.com/docs/gitprotocol-capabilities\n\n\"Server MUST diagnose and abort if capabilities it does not understand was sent. Server MUST NOT ignore capabilities that client requested and server advertised. As a consequence of these rules, server MUST NOT advertise capabilities it does not understand.\"\n\nA push involves 2 requests and they can go to different servers. During rollout, some servers will understand session-id and other don\u0027t. All together, the client can receive the capability but then hit a backend that doesn\u0027t understand it.",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
