@@ -105,6 +105,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed6e57e8_ace7721a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-13T18:09:59Z",
+      "side": 1,
+      "message": "yes, you can change the signature of this method since it\u0027s in an internal package and not considered public API",
+      "parentUuid": "ad33a068_551a341b",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f8645c3_741579e3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
         "patchSetId": 2
