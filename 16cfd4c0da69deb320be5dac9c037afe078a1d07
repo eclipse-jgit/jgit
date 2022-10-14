@@ -384,6 +384,24 @@
       "parentUuid": "4011db51_af183fa8",
       "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c362fd85_2d398e48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-14T16:55:38Z",
+      "side": 1,
+      "message": "I don\u0027t think we have a strict requirement to follow the conf naming. These are server flags for operators, not for the end-user. At the same time it doesn\u0027t hurt to keep them similar if possible. Check if we have a \"transfer\" section in Jgit.\n\nOne option should be fine. It will be false by default until everything is  implemented. You can also put a TODO \"do not turn on until xxxx is ready\" in the mean time between commits.",
+      "parentUuid": "25df5e83_ba843afb",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
