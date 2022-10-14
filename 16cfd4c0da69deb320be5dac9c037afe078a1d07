@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d9ed925_788c224f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f1b0da1_999a3998",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "345e9081_a285f298",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-10-13T18:05:48Z",
       "side": 1,
       "message": "Remove the duplicated \"capabilities\": how we handle duplicate options is irrelevant for this test",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c8ebf76_3c566487",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345e9081_a285f298",
       "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -69,6 +105,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aae6e28_94be9a8c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39d07fe3_4815d04b",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abf42b02_650a89d8",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-10-13T18:05:48Z",
       "side": 1,
       "message": "Should we just accept key(\u003dvalue)? options in general? instead of hardcoding the OPTION_SESSION_ID case.",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d798434c_05b258fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "I think this is the safer route. But, I\u0027m not that familiar with the git protocol yet. Could we reliably assume that any capability with an `\u003d` in the string can be split into key value pairs?",
+      "parentUuid": "abf42b02_650a89d8",
       "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -121,6 +193,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "406e22f7_38aa2b85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed6e57e8_ace7721a",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f8645c3_741579e3",
@@ -134,6 +224,24 @@
       "writtenOn": "2022-10-13T18:05:48Z",
       "side": 1,
       "message": "@NonNull (like the old method)",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2873537_953db7ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f8645c3_741579e3",
       "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -155,6 +263,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8849d58_97e8bdf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14777bd4_6a31eec0",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dac6c086_2a7957f5",
@@ -172,6 +298,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "453ca741_3eb0390b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dac6c086_2a7957f5",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b33cadc_fce888a9",
@@ -185,6 +329,24 @@
       "writtenOn": "2022-10-13T18:05:48Z",
       "side": 1,
       "message": "This and other format-only edits shouldn\u0027t go into the change.",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48c9dd71_7478af5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b33cadc_fce888a9",
       "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
