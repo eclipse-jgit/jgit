@@ -160,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb330da2_55926a61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-14T17:26:39Z",
+      "side": 1,
+      "message": "I think session-id is the first server capability with a \"\u003d\". These capabilities are a well-defined set, so we can always restrict the splitting later if needed.",
+      "parentUuid": "d798434c_05b258fc",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad33a068_551a341b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
         "patchSetId": 2
