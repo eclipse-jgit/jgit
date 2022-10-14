@@ -353,6 +353,8 @@ public class ReceivePack {
 					true);
 			allowPushOptions = config.getBoolean("receive", "pushoptions", //$NON-NLS-1$ //$NON-NLS-2$
 					false);
+			// TODO: This should not be enabled until to corresponding change to
+			// upload pack has been implemented.
 			allowReceiveClientSID = config.getBoolean("transfer", //$NON-NLS-1$
 					"advertisesid", false); //$NON-NLS-1$
 			maxCommandBytes = config.getLong("receive", //$NON-NLS-1$
