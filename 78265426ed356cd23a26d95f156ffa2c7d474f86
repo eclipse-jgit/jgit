@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78e42023_536ee76a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-14T21:50:05Z",
+      "side": 1,
+      "message": "The stack of commits is starting to grow too much. This one is ready to review/submit.",
+      "revId": "78265426ed356cd23a26d95f156ffa2c7d474f86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
