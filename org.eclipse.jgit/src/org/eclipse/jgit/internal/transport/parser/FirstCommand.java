@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.annotations.NonNull;
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 
 /**
  * In a push, the client sends a list of commands. The first command
@@ -53,9 +52,9 @@ public final class FirstCommand {
 		Map<String, String> options = new HashMap<>();
 
 		for (String c : splitCapablities) {
-			if (c.startsWith(OPTION_SESSION_ID)) {
-				options.put(OPTION_SESSION_ID,
-						c.substring(OPTION_SESSION_ID.length() + 1));
+			int i = c.indexOf("="); //$NON-NLS-1$
+			if (i != -1) {
+				options.put(c.substring(0, i), c.substring(i + 1));
 			} else {
 				options.put(c, null);
 			}
