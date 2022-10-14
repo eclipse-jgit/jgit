@@ -204,6 +204,24 @@
       "message": "TL;DR we need to put this behind a conf flag (like e.g. allowOfsDelta)\n\nhttps://git-scm.com/docs/gitprotocol-capabilities\n\n\"Server MUST diagnose and abort if capabilities it does not understand was sent. Server MUST NOT ignore capabilities that client requested and server advertised. As a consequence of these rules, server MUST NOT advertise capabilities it does not understand.\"\n\nA push involves 2 requests and they can go to different servers. During rollout, some servers will understand session-id and other don\u0027t. All together, the client can receive the capability but then hit a backend that doesn\u0027t understand it.",
       "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25df5e83_ba843afb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-14T16:07:13Z",
+      "side": 1,
+      "message": "This is behind the transfer.advertisesid setting in native git. I\u0027m curious how we should handle this here. If we use the same setting, then I think it would make sense to add the corresponding change to upload in this changeset. If we go forward with separate changesets for receive and upload then we\u0027ll end up with something like receive.advertisesid and upload.advertisesid. I see there are some settings already that differ from native git. But is the goal to minimize that divergence?",
+      "parentUuid": "4011db51_af183fa8",
+      "revId": "16cfd4c0da69deb320be5dac9c037afe078a1d07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
