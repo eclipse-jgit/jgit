@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.21" sequenceNumber="1666209233">
+<target name="jgit-4.21" sequenceNumber="1666209331">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="jakarta.servlet-api" version="4.0.0"/>
@@ -71,12 +71,28 @@
       <unit id="org.hamcrest.source" version="2.2.0.v20210711-0821"/>
       <unit id="org.junit" version="4.13.2.v20211018-1956"/>
       <unit id="org.junit.source" version="4.13.2.v20211018-1956"/>
+      <unit id="org.junit.jupiter.api" version="5.8.2.v20220624-2009"/>
+      <unit id="org.junit.jupiter.api.source" version="5.8.2.v20220624-2009"/>
+      <unit id="org.junit.jupiter.engine" version="5.8.2.v20220624-2009"/>
+      <unit id="org.junit.jupiter.engine.source" version="5.8.2.v20220624-2009"/>
+      <unit id="org.junit.jupiter.params" version="5.8.2.v20220624-2009"/>
+      <unit id="org.junit.jupiter.params.source" version="5.8.2.v20220624-2009"/>
+      <unit id="org.junit.platform.commons" version="1.8.2.v20220624-2009"/>
+      <unit id="org.junit.platform.engine" version="1.8.2.v20220624-2009"/>
+      <unit id="org.junit.platform.launcher" version="1.8.2.v20220624-2009"/>
+      <unit id="org.junit.platform.runner" version="1.8.2.v20220624-2009"/>
+      <unit id="org.junit.platform.suite.api" version="1.8.2.v20220624-2009"/>
+      <unit id="org.junit.platform.suite.commons" version="1.8.2.v20220624-2009"/>
+      <unit id="org.junit.platform.suite.engine" version="1.8.2.v20220624-2009"/>
+      <unit id="org.junit.vintage.engine" version="5.8.2.v20220624-2009"/>
+      <unit id="org.junit.vintage.engine.source" version="5.8.2.v20220624-2009"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
       <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
       <unit id="org.mockito" version="2.23.0.v20200310-1642"/>
       <unit id="org.mockito.source" version="2.23.0.v20200310-1642"/>
       <unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
       <unit id="org.objenesis.source" version="2.6.0.v20180420-1519"/>
+      <unit id="org.opentest4j" version="1.2.0.v20211018-1956"/>
       <unit id="org.slf4j.api" version="1.7.30.v20200204-2150"/>
       <unit id="org.slf4j.api.source" version="1.7.30.v20200204-2150"/>
       <unit id="org.slf4j.binding.simple" version="1.7.30.v20200204-2150"/>
