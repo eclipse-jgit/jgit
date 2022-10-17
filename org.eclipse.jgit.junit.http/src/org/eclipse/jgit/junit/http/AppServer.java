@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.junit.http;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -450,10 +450,10 @@ public class AppServer {
 	}
 
 	private void assertNotYetSetUp() {
-		assertFalse("server is not running", server.isRunning());
+		assertFalse(server.isRunning(), "server is not running");
 	}
 
 	private void assertAlreadySetUp() {
-		assertTrue("server is running", server.isRunning());
+		assertTrue(server.isRunning(), "server is running");
 	}
 }
