@@ -9,7 +9,8 @@
  */
 package org.eclipse.jgit.ant.tasks;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +22,8 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GitCloneTaskTest extends LocalDiskRepositoryTestCase {
 
@@ -30,7 +31,7 @@ public class GitCloneTaskTest extends LocalDiskRepositoryTestCase {
 	private Project project;
 	private File dest;
 
-	@Before
+	@BeforeEach
 	public void before() throws IOException {
 		dest = createTempFile();
 		FS.getFileStoreAttributes(dest.toPath().getParent());
@@ -42,41 +43,50 @@ public class GitCloneTaskTest extends LocalDiskRepositoryTestCase {
 		task.setDest(dest);
 	}
 
-	@Test(expected = BuildException.class)
-	public void shouldRaiseErrorOnNoUrl() throws Exception {
-		task.execute();
-	}
-
-	@Test(expected = BuildException.class)
-	public void shouldRaiseErrorOnEmptyUrl() throws Exception {
-		task.setUri("");
-		task.execute();
-	}
-
-	@Test(expected = BuildException.class)
-	public void shouldRaiseErrorOnBadUrl() throws Exception {
-		task.setUri("foo://bar");
-		task.execute();
-	}
-
-	@Test(expected = BuildException.class)
-	public void shouldRaiseErrorOnBadSourceURL() throws Exception {
-		task.setUri("http://localhost:9090/does-not-exist.git");
-		task.execute();
+	@Test
+	void shouldRaiseErrorOnNoUrl() throws Exception {
+		assertThrows(BuildException.class, () -> {
+			task.execute();
+		});
 	}
 
 	@Test
-	public void shouldCloneAValidGitRepository() throws Exception {
+	void shouldRaiseErrorOnEmptyUrl() throws Exception {
+		assertThrows(BuildException.class, () -> {
+			task.setUri("");
+			task.execute();
+		});
+	}
+
+	@Test
+	void shouldRaiseErrorOnBadUrl() throws Exception {
+		assertThrows(BuildException.class, () -> {
+			task.setUri("foo://bar");
+			task.execute();
+		});
+	}
+
+	@Test
+	void shouldRaiseErrorOnBadSourceURL() throws Exception {
+		assertThrows(BuildException.class, () -> {
+			task.setUri("http://localhost:9090/does-not-exist.git");
+			task.execute();
+		});
+	}
+
+	@Test
+	void shouldCloneAValidGitRepository() throws Exception {
 		Repository repo = createBareRepository();
 		File directory = repo.getDirectory();
 		task.setUri("file://" + directory.getAbsolutePath());
 		task.execute();
 
-		assertTrue(RepositoryCache.FileKey.isGitRepository(new File(dest, ".git"), FS.DETECTED));
+		assertTrue(RepositoryCache.FileKey
+				.isGitRepository(new File(dest, ".git"), FS.DETECTED));
 	}
 
 	@Test
-	public void shouldCreateABareCloneOfAValidGitRepository() throws Exception {
+	void shouldCreateABareCloneOfAValidGitRepository() throws Exception {
 		Repository repo = createBareRepository();
 		File directory = repo.getDirectory();
 		task.setUri("file://" + directory.getAbsolutePath());
