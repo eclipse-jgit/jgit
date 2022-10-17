@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40d39107_374c43d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-17T23:26:06Z",
+      "side": 1,
+      "message": "Maybe you can put here the checks that the UserAgent parsing was doing? (c is longer than  option+\"\u003d\", ...).\n\nThat would merit an extra test (parsing \"bla bla bla\\0broken-option\u003d xxx\")",
+      "revId": "4228544657a41ff37040418d7fe089a5993c93b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc610403_df4c9963",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-17T23:26:06Z",
+      "side": 1,
+      "message": "indentation of the if content",
+      "revId": "4228544657a41ff37040418d7fe089a5993c93b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a5ac82c_fda65104",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UserAgent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-17T23:26:06Z",
+      "side": 1,
+      "message": "This is a public class (not in the .internal package), we cannot change its API.\n\nAlso, I was wrong! there was another capability with a \"\u003d\" field (agent) and it was parsed here. \n\nNow we do the splitting already in FirstCommand, the caller (ReceivePack) can read the userAgent directly from the map. \n\nIt seems that is the only call of this method, maybe we can mark it as deprecated?",
+      "revId": "4228544657a41ff37040418d7fe089a5993c93b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
