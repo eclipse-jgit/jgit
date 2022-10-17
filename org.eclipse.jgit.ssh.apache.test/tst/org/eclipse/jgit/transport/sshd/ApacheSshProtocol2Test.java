@@ -21,6 +21,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.util.FS;
+import org.junit.jupiter.api.BeforeEach;
 
 public class ApacheSshProtocol2Test extends SshBasicTestBase {
 
@@ -33,8 +34,7 @@ public class ApacheSshProtocol2Test extends SshBasicTestBase {
 				.setConnectorFactory(null)
 				// The home directory is mocked at this point!
 				.setHomeDirectory(FS.DETECTED.userHome())
-				.setSshDirectory(sshDir)
-				.build(new JGitKeyCache());
+				.setSshDirectory(sshDir).build(new JGitKeyCache());
 	}
 
 	@Override
@@ -50,6 +50,7 @@ public class ApacheSshProtocol2Test extends SshBasicTestBase {
 	}
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		StoredConfig config = ((Repository) db).getConfig();

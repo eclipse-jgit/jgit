@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,13 +29,14 @@ import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
+import org.eclipse.jgit.junit.ssh.SshTestHarness;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.junit.ssh.SshTestHarness;
 import org.eclipse.jgit.util.FS;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for using the SshdSessionFactory without files in ~/.ssh but with an
@@ -112,7 +113,13 @@ public class NoFilesSshBuilderTest extends SshTestHarness {
 		}
 	}
 
-	@After
+	@Override
+	@BeforeEach
+	public void setUp() throws Exception {
+		super.setUp();
+	}
+
+	@AfterEach
 	public void cleanUp() {
 		testServerKey = null;
 		testUserKey = null;
@@ -131,7 +138,7 @@ public class NoFilesSshBuilderTest extends SshTestHarness {
 	}
 
 	@Test
-	public void testCloneWithBuiltInKeys() throws Exception {
+	void testCloneWithBuiltInKeys() throws Exception {
 		// This test should fail unless our in-memory setup is taken: no
 		// known_hosts file, a config that specifies a non-existing key,
 		// and the test is using a newly generated KeyPairs anyway.

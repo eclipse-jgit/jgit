@@ -10,17 +10,19 @@
 package org.eclipse.jgit.junit.ssh;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -31,9 +33,10 @@ import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SshSupport;
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theory;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * The ssh tests. Concrete subclasses can re-use these tests by implementing the
@@ -42,7 +45,6 @@ import org.junit.experimental.theories.Theory;
  */
 public abstract class SshTestBase extends SshBasicTestBase {
 
-	@DataPoints
 	public static String[] KEY_RESOURCES = { //
 			"id_dsa", //
 			"id_rsa_1024", //
@@ -66,14 +68,14 @@ public abstract class SshTestBase extends SshBasicTestBase {
 			"id_ed25519_expensive_testpass" };
 
 	@Test
-	public void testSshWithoutConfig() throws Exception {
+	void testSshWithoutConfig() throws Exception {
 		assertThrows(TransportException.class,
 				() -> cloneWith("ssh://" + TEST_USER + "@localhost:" + testPort
 						+ "/doesntmatter", defaultCloneDir, null));
 	}
 
 	@Test
-	public void testSingleCommand() throws Exception {
+	void testSingleCommand() throws Exception {
 		installConfig("IdentityFile " + privateKey1.getAbsolutePath());
 		String command = SshTestGitServer.ECHO_COMMAND + " 1 without timeout";
 		long start = System.nanoTime();
@@ -94,7 +96,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSingleCommandWithTimeoutExpired() throws Exception {
+	void testSingleCommandWithTimeoutExpired() throws Exception {
 		installConfig("IdentityFile " + privateKey1.getAbsolutePath());
 		String command = SshTestGitServer.ECHO_COMMAND + " 2 EXPECTING TIMEOUT";
 
@@ -107,7 +109,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithGlobalIdentity() throws Exception {
+	void testSshWithGlobalIdentity() throws Exception {
 		cloneWith(
 				"ssh://" + TEST_USER + "@localhost:" + testPort
 						+ "/doesntmatter",
@@ -116,7 +118,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithDefaultIdentity() throws Exception {
+	void testSshWithDefaultIdentity() throws Exception {
 		File idRsa = new File(privateKey1.getParentFile(), "id_rsa");
 		Files.copy(privateKey1.toPath(), idRsa.toPath());
 		// We expect the session factory to pick up these keys...
@@ -125,7 +127,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithConfigEncryptedUnusedKey() throws Exception {
+	void testSshWithConfigEncryptedUnusedKey() throws Exception {
 		// Copy the encrypted test key from the bundle.
 		File encryptedKey = new File(sshDir, "id_dsa");
 		copyTestResource("id_dsa_testpass", encryptedKey);
@@ -137,13 +139,12 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"Port " + testPort, //
 				"User " + TEST_USER, //
 				"IdentityFile " + privateKey1.getAbsolutePath());
-		assertEquals("CredentialsProvider should not have been called", 0,
-				provider.getLog().size());
+		assertEquals(0, provider.getLog().size(),
+				"CredentialsProvider should not have been called");
 	}
 
 	@Test
-	public void testSshWithConfigEncryptedUnusedKeyInConfigLast()
-			throws Exception {
+	void testSshWithConfigEncryptedUnusedKeyInConfigLast() throws Exception {
 		// Copy the encrypted test key from the bundle.
 		File encryptedKey = new File(sshDir, "id_dsa_test_key");
 		copyTestResource("id_dsa_testpass", encryptedKey);
@@ -158,8 +159,8 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"IdentityFile " + encryptedKey.getAbsolutePath());
 		// This test passes with JSch per chance because JSch completely ignores
 		// the second IdentityFile
-		assertEquals("CredentialsProvider should not have been called", 0,
-				provider.getLog().size());
+		assertEquals(0, provider.getLog().size(),
+				"CredentialsProvider should not have been called");
 	}
 
 	private boolean isJsch() {
@@ -167,8 +168,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithConfigEncryptedUnusedKeyInConfigFirst()
-			throws Exception {
+	void testSshWithConfigEncryptedUnusedKeyInConfigFirst() throws Exception {
 		// Test cannot pass with JSch; it handles only one IdentityFile.
 		// assumeTrue(!(getSessionFactory() instanceof
 		// JschConfigSessionFactory)); gives in bazel a failure with "Never
@@ -189,12 +189,12 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"User " + TEST_USER, //
 				"IdentityFile " + encryptedKey.getAbsolutePath(),
 				"IdentityFile " + privateKey1.getAbsolutePath());
-		assertEquals("CredentialsProvider should have been called once", 1,
-				provider.getLog().size());
+		assertEquals(1, provider.getLog().size(),
+				"CredentialsProvider should have been called once");
 	}
 
 	@Test
-	public void testSshEncryptedUsedKeyCached() throws Exception {
+	void testSshEncryptedUsedKeyCached() throws Exception {
 		// Make sure we are asked for the password only once if we do several
 		// operations with an encrypted key.
 		File encryptedKey = new File(sshDir, "id_dsa_test_key");
@@ -204,39 +204,40 @@ public abstract class SshTestBase extends SshBasicTestBase {
 		server.setTestUserPublicKey(encryptedPublicKey.toPath());
 		TestCredentialsProvider provider = new TestCredentialsProvider(
 				"testpass");
-		pushTo(provider,
-				cloneWith("ssh://localhost/doesntmatter", //
-						defaultCloneDir, provider, //
-						"Host localhost", //
-						"HostName localhost", //
-						"Port " + testPort, //
-						"User " + TEST_USER, //
-						"IdentityFile " + encryptedKey.getAbsolutePath()));
-		assertEquals("CredentialsProvider should have been called once", 1,
-				provider.getLog().size());
-	}
-
-	@Test(expected = TransportException.class)
-	public void testSshEncryptedUsedKeyWrongPassword() throws Exception {
-		File encryptedKey = new File(sshDir, "id_dsa_test_key");
-		copyTestResource("id_dsa_testpass", encryptedKey);
-		File encryptedPublicKey = new File(sshDir, "id_dsa_test_key.pub");
-		copyTestResource("id_dsa_testpass.pub", encryptedPublicKey);
-		server.setTestUserPublicKey(encryptedPublicKey.toPath());
-		TestCredentialsProvider provider = new TestCredentialsProvider(
-				"wrongpass");
-		cloneWith("ssh://localhost/doesntmatter", //
+		pushTo(provider, cloneWith("ssh://localhost/doesntmatter", //
 				defaultCloneDir, provider, //
 				"Host localhost", //
 				"HostName localhost", //
 				"Port " + testPort, //
 				"User " + TEST_USER, //
-				"NumberOfPasswordPrompts 1", //
-				"IdentityFile " + encryptedKey.getAbsolutePath());
+				"IdentityFile " + encryptedKey.getAbsolutePath()));
+		assertEquals(1, provider.getLog().size(),
+				"CredentialsProvider should have been called once");
 	}
 
 	@Test
-	public void testSshEncryptedUsedKeySeveralPassword() throws Exception {
+	void testSshEncryptedUsedKeyWrongPassword() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			File encryptedKey = new File(sshDir, "id_dsa_test_key");
+			copyTestResource("id_dsa_testpass", encryptedKey);
+			File encryptedPublicKey = new File(sshDir, "id_dsa_test_key.pub");
+			copyTestResource("id_dsa_testpass.pub", encryptedPublicKey);
+			server.setTestUserPublicKey(encryptedPublicKey.toPath());
+			TestCredentialsProvider provider = new TestCredentialsProvider(
+					"wrongpass");
+			cloneWith("ssh://localhost/doesntmatter", //
+					defaultCloneDir, provider, //
+					"Host localhost", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"NumberOfPasswordPrompts 1", //
+					"IdentityFile " + encryptedKey.getAbsolutePath());
+		});
+	}
+
+	@Test
+	void testSshEncryptedUsedKeySeveralPassword() throws Exception {
 		File encryptedKey = new File(sshDir, "id_dsa_test_key");
 		copyTestResource("id_dsa_testpass", encryptedKey);
 		File encryptedPublicKey = new File(sshDir, "id_dsa_test_key.pub");
@@ -251,28 +252,29 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"Port " + testPort, //
 				"User " + TEST_USER, //
 				"IdentityFile " + encryptedKey.getAbsolutePath());
-		assertEquals("CredentialsProvider should have been called 3 times", 3,
-				provider.getLog().size());
-	}
-
-	@Test(expected = TransportException.class)
-	public void testSshWithoutKnownHosts() throws Exception {
-		assertTrue("Could not delete known_hosts", knownHosts.delete());
-		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
-				"Host localhost", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"IdentityFile " + privateKey1.getAbsolutePath());
+		assertEquals(3, provider.getLog().size(),
+				"CredentialsProvider should have been called 3 times");
 	}
 
 	@Test
-	public void testSshWithoutKnownHostsWithProviderAsk()
-			throws Exception {
+	void testSshWithoutKnownHosts() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			assertTrue(knownHosts.delete(), "Could not delete known_hosts");
+			cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
+					"Host localhost", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"IdentityFile " + privateKey1.getAbsolutePath());
+		});
+	}
+
+	@Test
+	void testSshWithoutKnownHostsWithProviderAsk() throws Exception {
 		File copiedHosts = new File(knownHosts.getParentFile(),
 				"copiedKnownHosts");
-		assertTrue("Failed to rename known_hosts",
-				knownHosts.renameTo(copiedHosts));
+		assertTrue(knownHosts.renameTo(copiedHosts),
+				"Failed to rename known_hosts");
 		// The provider will answer "yes" to all questions, so we should be able
 		// to connect and end up with a new known_hosts file with the host key.
 		TestCredentialsProvider provider = new TestCredentialsProvider();
@@ -283,17 +285,16 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"User " + TEST_USER, //
 				"IdentityFile " + privateKey1.getAbsolutePath());
 		List<LogEntry> messages = provider.getLog();
-		assertFalse("Expected user interaction", messages.isEmpty());
+		assertFalse(messages.isEmpty(), "Expected user interaction");
 		if (isJsch()) {
 			// JSch doesn't create a non-existing file.
-			assertEquals("Expected to be asked about the key", 1,
-					messages.size());
+			assertEquals(1, messages.size(),
+					"Expected to be asked about the key");
 			return;
 		}
-		assertEquals(
-				"Expected to be asked about the key, and the file creation",
-				2, messages.size());
-		assertTrue("~/.ssh/known_hosts should exist now", knownHosts.exists());
+		assertEquals(2, messages.size(),
+				"Expected to be asked about the key, and the file creation");
+		assertTrue(knownHosts.exists(), "~/.ssh/known_hosts should exist now");
 		// Instead of checking the file contents, let's just clone again
 		// without provider. If it works, the server host key was written
 		// correctly.
@@ -307,12 +308,11 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithoutKnownHostsWithProviderAcceptNew()
-			throws Exception {
+	void testSshWithoutKnownHostsWithProviderAcceptNew() throws Exception {
 		File copiedHosts = new File(knownHosts.getParentFile(),
 				"copiedKnownHosts");
-		assertTrue("Failed to rename known_hosts",
-				knownHosts.renameTo(copiedHosts));
+		assertTrue(knownHosts.renameTo(copiedHosts),
+				"Failed to rename known_hosts");
 		TestCredentialsProvider provider = new TestCredentialsProvider();
 		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, provider, //
 				"Host localhost", //
@@ -323,13 +323,13 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"IdentityFile " + privateKey1.getAbsolutePath());
 		if (isJsch()) {
 			// JSch doesn't create new files.
-			assertTrue("CredentialsProvider not called",
-					provider.getLog().isEmpty());
+			assertTrue(provider.getLog().isEmpty(),
+					"CredentialsProvider not called");
 			return;
 		}
-		assertEquals("Expected to be asked about the file creation", 1,
-				provider.getLog().size());
-		assertTrue("~/.ssh/known_hosts should exist now", knownHosts.exists());
+		assertEquals(1, provider.getLog().size(),
+				"Expected to be asked about the file creation");
+		assertTrue(knownHosts.exists(), "~/.ssh/known_hosts should exist now");
 		// Instead of checking the file contents, let's just clone again
 		// without provider. If it works, the server host key was written
 		// correctly.
@@ -342,64 +342,71 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"IdentityFile " + privateKey1.getAbsolutePath());
 	}
 
-	@Test(expected = TransportException.class)
-	public void testSshWithoutKnownHostsDeny() throws Exception {
-		File copiedHosts = new File(knownHosts.getParentFile(),
-				"copiedKnownHosts");
-		assertTrue("Failed to rename known_hosts",
-				knownHosts.renameTo(copiedHosts));
-		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
-				"Host localhost", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"StrictHostKeyChecking yes", //
-				"IdentityFile " + privateKey1.getAbsolutePath());
-	}
-
-	@Test(expected = TransportException.class)
-	public void testSshModifiedHostKeyDeny()
-			throws Exception {
-		File copiedHosts = new File(knownHosts.getParentFile(),
-				"copiedKnownHosts");
-		assertTrue("Failed to rename known_hosts",
-				knownHosts.renameTo(copiedHosts));
-		// Now produce a new known_hosts file containing some other key.
-		createKnownHostsFile(knownHosts, "localhost", testPort, publicKey1);
-		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
-				"Host localhost", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"StrictHostKeyChecking yes", //
-				"IdentityFile " + privateKey1.getAbsolutePath());
-	}
-
-	@Test(expected = TransportException.class)
-	public void testSshModifiedHostKeyWithProviderDeny() throws Exception {
-		File copiedHosts = new File(knownHosts.getParentFile(),
-				"copiedKnownHosts");
-		assertTrue("Failed to rename known_hosts",
-				knownHosts.renameTo(copiedHosts));
-		// Now produce a new known_hosts file containing some other key.
-		createKnownHostsFile(knownHosts, "localhost", testPort, publicKey1);
-		TestCredentialsProvider provider = new TestCredentialsProvider();
-		try {
-			cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, provider, //
+	@Test
+	void testSshWithoutKnownHostsDeny() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			File copiedHosts = new File(knownHosts.getParentFile(),
+					"copiedKnownHosts");
+			assertTrue(knownHosts.renameTo(copiedHosts),
+					"Failed to rename known_hosts");
+			cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
 					"Host localhost", //
 					"HostName localhost", //
 					"Port " + testPort, //
 					"User " + TEST_USER, //
 					"StrictHostKeyChecking yes", //
 					"IdentityFile " + privateKey1.getAbsolutePath());
-		} catch (Exception e) {
-			assertEquals("Expected to be told about the modified key", 1,
-					provider.getLog().size());
-			assertTrue("Only messages expected", provider.getLog().stream()
-					.flatMap(l -> l.getItems().stream()).allMatch(
-							c -> c instanceof CredentialItem.InformationalMessage));
-			throw e;
-		}
+		});
+	}
+
+	@Test
+	void testSshModifiedHostKeyDeny() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			File copiedHosts = new File(knownHosts.getParentFile(),
+					"copiedKnownHosts");
+			assertTrue(knownHosts.renameTo(copiedHosts),
+					"Failed to rename known_hosts");
+			// Now produce a new known_hosts file containing some other key.
+			createKnownHostsFile(knownHosts, "localhost", testPort, publicKey1);
+			cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
+					"Host localhost", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"StrictHostKeyChecking yes", //
+					"IdentityFile " + privateKey1.getAbsolutePath());
+		});
+	}
+
+	@Test
+	void testSshModifiedHostKeyWithProviderDeny() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			File copiedHosts = new File(knownHosts.getParentFile(),
+					"copiedKnownHosts");
+			assertTrue(knownHosts.renameTo(copiedHosts),
+					"Failed to rename known_hosts");
+			// Now produce a new known_hosts file containing some other key.
+			createKnownHostsFile(knownHosts, "localhost", testPort, publicKey1);
+			TestCredentialsProvider provider = new TestCredentialsProvider();
+			try {
+				cloneWith("ssh://localhost/doesntmatter", defaultCloneDir,
+						provider, //
+						"Host localhost", //
+						"HostName localhost", //
+						"Port " + testPort, //
+						"User " + TEST_USER, //
+						"StrictHostKeyChecking yes", //
+						"IdentityFile " + privateKey1.getAbsolutePath());
+			} catch (Exception e) {
+				assertEquals(1, provider.getLog().size(),
+						"Expected to be told about the modified key");
+				assertTrue(provider.getLog().stream()
+						.flatMap(l -> l.getItems().stream()).allMatch(
+								c -> c instanceof CredentialItem.InformationalMessage),
+						"Only messages expected");
+				throw e;
+			}
+		});
 	}
 
 	private void checkKnownHostsModifiedHostKey(File backup, File newFile,
@@ -417,18 +424,18 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				}
 			}
 		}
-		assertNotNull("Old key not found", oldKeyPart);
+		assertNotNull(oldKeyPart, "Old key not found");
 		List<String> newLines = Files.readAllLines(newFile.toPath(), UTF_8);
-		assertFalse("Old host key still found in known_hosts file" + newFile,
-				hasHostKey("localhost", testPort, wrongKey, newLines));
-		assertTrue("New host key not found in known_hosts file" + newFile,
-				hasHostKey("localhost", testPort, oldKeyPart, newLines));
+		assertFalse(hasHostKey("localhost", testPort, wrongKey, newLines),
+				"Old host key still found in known_hosts file" + newFile);
+		assertTrue(hasHostKey("localhost", testPort, oldKeyPart, newLines),
+				"New host key not found in known_hosts file" + newFile);
 
 	}
 
 	@Test
-	public void testSshModifiedHostKeyAllow() throws Exception {
-		assertTrue("Failed to delete known_hosts", knownHosts.delete());
+	void testSshModifiedHostKeyAllow() throws Exception {
+		assertTrue(knownHosts.delete(), "Failed to delete known_hosts");
 		createKnownHostsFile(knownHosts, "localhost", testPort, publicKey1);
 		File backup = new File(getTemporaryDirectory(), "backupKnownHosts");
 		Files.copy(knownHosts.toPath(), backup.toPath());
@@ -440,22 +447,20 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"StrictHostKeyChecking no", //
 				"IdentityFile " + privateKey1.getAbsolutePath());
 		// File should not have been updated!
-		String[] oldLines = Files
-				.readAllLines(backup.toPath(), UTF_8)
+		String[] oldLines = Files.readAllLines(backup.toPath(), UTF_8)
 				.toArray(new String[0]);
-		String[] newLines = Files
-				.readAllLines(knownHosts.toPath(), UTF_8)
+		String[] newLines = Files.readAllLines(knownHosts.toPath(), UTF_8)
 				.toArray(new String[0]);
-		assertArrayEquals("Known hosts file should not be modified", oldLines,
-				newLines);
+		assertArrayEquals(oldLines, newLines,
+				"Known hosts file should not be modified");
 	}
 
 	@Test
-	public void testSshModifiedHostKeyAsk() throws Exception {
+	void testSshModifiedHostKeyAsk() throws Exception {
 		File copiedHosts = new File(knownHosts.getParentFile(),
 				"copiedKnownHosts");
-		assertTrue("Failed to rename known_hosts",
-				knownHosts.renameTo(copiedHosts));
+		assertTrue(knownHosts.renameTo(copiedHosts),
+				"Failed to rename known_hosts");
 		String wrongKeyPart = createKnownHostsFile(knownHosts, "localhost",
 				testPort, publicKey1);
 		TestCredentialsProvider provider = new TestCredentialsProvider();
@@ -466,12 +471,12 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"User " + TEST_USER, //
 				"IdentityFile " + privateKey1.getAbsolutePath());
 		checkKnownHostsModifiedHostKey(copiedHosts, knownHosts, wrongKeyPart);
-		assertEquals("Expected to be asked about the modified key", 1,
-				provider.getLog().size());
+		assertEquals(1, provider.getLog().size(),
+				"Expected to be asked about the modified key");
 	}
 
 	@Test
-	public void testSshCloneWithConfigAndPush() throws Exception {
+	void testSshCloneWithConfigAndPush() throws Exception {
 		pushTo(cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
 				"Host localhost", //
 				"HostName localhost", //
@@ -481,7 +486,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSftpWithConfig() throws Exception {
+	void testSftpWithConfig() throws Exception {
 		cloneWith("sftp://localhost/.git", defaultCloneDir, null, //
 				"Host localhost", //
 				"HostName localhost", //
@@ -491,7 +496,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSftpCloneWithConfigAndPush() throws Exception {
+	void testSftpCloneWithConfigAndPush() throws Exception {
 		pushTo(cloneWith("sftp://localhost/.git", defaultCloneDir, null, //
 				"Host localhost", //
 				"HostName localhost", //
@@ -500,18 +505,20 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"IdentityFile " + privateKey1.getAbsolutePath()));
 	}
 
-	@Test(expected = TransportException.class)
-	public void testSshWithConfigWrongKey() throws Exception {
-		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
-				"Host localhost", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"IdentityFile " + privateKey2.getAbsolutePath());
+	@Test
+	void testSshWithConfigWrongKey() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
+					"Host localhost", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"IdentityFile " + privateKey2.getAbsolutePath());
+		});
 	}
 
 	@Test
-	public void testSshWithWrongUserNameInConfig() throws Exception {
+	void testSshWithWrongUserNameInConfig() throws Exception {
 		// Bug 526778
 		cloneWith(
 				"ssh://" + TEST_USER + "@localhost:" + testPort
@@ -524,7 +531,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithWrongPortInConfig() throws Exception {
+	void testSshWithWrongPortInConfig() throws Exception {
 		// Bug 526778
 		cloneWith(
 				"ssh://" + TEST_USER + "@localhost:" + testPort
@@ -538,7 +545,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithAliasInConfig() throws Exception {
+	void testSshWithAliasInConfig() throws Exception {
 		// Bug 531118
 		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
 				"Host git", //
@@ -554,7 +561,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithUnknownCiphersInConfig() throws Exception {
+	void testSshWithUnknownCiphersInConfig() throws Exception {
 		// Bug 535672
 		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
 				"Host git", //
@@ -566,8 +573,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithUnknownHostKeyAlgorithmsInConfig()
-			throws Exception {
+	void testSshWithUnknownHostKeyAlgorithmsInConfig() throws Exception {
 		// Bug 535672
 		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
 				"Host git", //
@@ -579,8 +585,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithUnknownKexAlgorithmsInConfig()
-			throws Exception {
+	void testSshWithUnknownKexAlgorithmsInConfig() throws Exception {
 		// Bug 535672
 		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
 				"Host git", //
@@ -592,8 +597,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithMinimalHostKeyAlgorithmsInConfig()
-			throws Exception {
+	void testSshWithMinimalHostKeyAlgorithmsInConfig() throws Exception {
 		// Bug 537790
 		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
 				"Host git", //
@@ -605,7 +609,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testSshWithUnknownAuthInConfig() throws Exception {
+	void testSshWithUnknownAuthInConfig() throws Exception {
 		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
 				"Host git", //
 				"HostName localhost", //
@@ -615,20 +619,22 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"PreferredAuthentications gssapi-with-mic,hostbased,publickey,keyboard-interactive,password");
 	}
 
-	@Test(expected = TransportException.class)
-	public void testSshWithNoMatchingAuthInConfig() throws Exception {
-		// Server doesn't do password, and anyway we set no password.
-		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
-				"Host git", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"IdentityFile " + privateKey1.getAbsolutePath(), //
-				"PreferredAuthentications password");
+	@Test
+	void testSshWithNoMatchingAuthInConfig() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			// Server doesn't do password, and anyway we set no password.
+			cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+					"Host git", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"IdentityFile " + privateKey1.getAbsolutePath(), //
+					"PreferredAuthentications password");
+		});
 	}
 
 	@Test
-	public void testRsaHostKeySecond() throws Exception {
+	void testRsaHostKeySecond() throws Exception {
 		// See https://git.eclipse.org/r/#/c/130402/ : server has EcDSA
 		// (preferred), RSA, we have RSA in known_hosts: client and server
 		// should agree on RSA.
@@ -644,7 +650,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testEcDsaHostKey() throws Exception {
+	void testEcDsaHostKey() throws Exception {
 		// See https://git.eclipse.org/r/#/c/130402/ : server has RSA
 		// (preferred), EcDSA, we have EcDSA in known_hosts: client and server
 		// should agree on EcDSA.
@@ -664,7 +670,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testPasswordAuth() throws Exception {
+	void testPasswordAuth() throws Exception {
 		server.enablePasswordAuthentication();
 		TestCredentialsProvider provider = new TestCredentialsProvider(
 				TEST_USER.toUpperCase(Locale.ROOT));
@@ -677,7 +683,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testPasswordAuthSeveralTimes() throws Exception {
+	void testPasswordAuthSeveralTimes() throws Exception {
 		server.enablePasswordAuthentication();
 		TestCredentialsProvider provider = new TestCredentialsProvider(
 				"wrongpass", "wrongpass", TEST_USER.toUpperCase(Locale.ROOT));
@@ -689,47 +695,53 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"PreferredAuthentications password");
 	}
 
-	@Test(expected = TransportException.class)
-	public void testPasswordAuthWrongPassword() throws Exception {
-		server.enablePasswordAuthentication();
-		TestCredentialsProvider provider = new TestCredentialsProvider(
-				"wrongpass");
-		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
-				"Host git", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"PreferredAuthentications password");
-	}
-
-	@Test(expected = TransportException.class)
-	public void testPasswordAuthNoPassword() throws Exception {
-		server.enablePasswordAuthentication();
-		TestCredentialsProvider provider = new TestCredentialsProvider();
-		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
-				"Host git", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"PreferredAuthentications password");
-	}
-
-	@Test(expected = TransportException.class)
-	public void testPasswordAuthCorrectPasswordTooLate() throws Exception {
-		server.enablePasswordAuthentication();
-		TestCredentialsProvider provider = new TestCredentialsProvider(
-				"wrongpass", "wrongpass", "wrongpass",
-				TEST_USER.toUpperCase(Locale.ROOT));
-		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
-				"Host git", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"PreferredAuthentications password");
+	@Test
+	void testPasswordAuthWrongPassword() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			server.enablePasswordAuthentication();
+			TestCredentialsProvider provider = new TestCredentialsProvider(
+					"wrongpass");
+			cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+					"Host git", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"PreferredAuthentications password");
+		});
 	}
 
 	@Test
-	public void testKeyboardInteractiveAuth() throws Exception {
+	void testPasswordAuthNoPassword() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			server.enablePasswordAuthentication();
+			TestCredentialsProvider provider = new TestCredentialsProvider();
+			cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+					"Host git", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"PreferredAuthentications password");
+		});
+	}
+
+	@Test
+	void testPasswordAuthCorrectPasswordTooLate() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			server.enablePasswordAuthentication();
+			TestCredentialsProvider provider = new TestCredentialsProvider(
+					"wrongpass", "wrongpass", "wrongpass",
+					TEST_USER.toUpperCase(Locale.ROOT));
+			cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+					"Host git", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"PreferredAuthentications password");
+		});
+	}
+
+	@Test
+	void testKeyboardInteractiveAuth() throws Exception {
 		server.enableKeyboardInteractiveAuthentication();
 		TestCredentialsProvider provider = new TestCredentialsProvider(
 				TEST_USER.toUpperCase(Locale.ROOT));
@@ -742,7 +754,7 @@ public abstract class SshTestBase extends SshBasicTestBase {
 	}
 
 	@Test
-	public void testKeyboardInteractiveAuthSeveralTimes() throws Exception {
+	void testKeyboardInteractiveAuthSeveralTimes() throws Exception {
 		server.enableKeyboardInteractiveAuthentication();
 		TestCredentialsProvider provider = new TestCredentialsProvider(
 				"wrongpass", "wrongpass", TEST_USER.toUpperCase(Locale.ROOT));
@@ -754,47 +766,61 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"PreferredAuthentications keyboard-interactive");
 	}
 
-	@Test(expected = TransportException.class)
-	public void testKeyboardInteractiveAuthWrongPassword() throws Exception {
-		server.enableKeyboardInteractiveAuthentication();
-		TestCredentialsProvider provider = new TestCredentialsProvider(
-				"wrongpass");
-		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
-				"Host git", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"PreferredAuthentications keyboard-interactive");
+	@Test
+	void testKeyboardInteractiveAuthWrongPassword() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			server.enableKeyboardInteractiveAuthentication();
+			TestCredentialsProvider provider = new TestCredentialsProvider(
+					"wrongpass");
+			cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+					"Host git", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"PreferredAuthentications keyboard-interactive");
+		});
 	}
 
-	@Test(expected = TransportException.class)
-	public void testKeyboardInteractiveAuthNoPassword() throws Exception {
-		server.enableKeyboardInteractiveAuthentication();
-		TestCredentialsProvider provider = new TestCredentialsProvider();
-		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
-				"Host git", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"PreferredAuthentications keyboard-interactive");
+	@Test
+	void testKeyboardInteractiveAuthNoPassword() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			server.enableKeyboardInteractiveAuthentication();
+			TestCredentialsProvider provider = new TestCredentialsProvider();
+			cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+					"Host git", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"PreferredAuthentications keyboard-interactive");
+		});
 	}
 
-	@Test(expected = TransportException.class)
-	public void testKeyboardInteractiveAuthCorrectPasswordTooLate()
-			throws Exception {
-		server.enableKeyboardInteractiveAuthentication();
-		TestCredentialsProvider provider = new TestCredentialsProvider(
-				"wrongpass", "wrongpass", "wrongpass",
-				TEST_USER.toUpperCase(Locale.ROOT));
-		cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
-				"Host git", //
-				"HostName localhost", //
-				"Port " + testPort, //
-				"User " + TEST_USER, //
-				"PreferredAuthentications keyboard-interactive");
+	@Test
+	void testKeyboardInteractiveAuthCorrectPasswordTooLate() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			server.enableKeyboardInteractiveAuthentication();
+			TestCredentialsProvider provider = new TestCredentialsProvider(
+					"wrongpass", "wrongpass", "wrongpass",
+					TEST_USER.toUpperCase(Locale.ROOT));
+			cloneWith("ssh://git/doesntmatter", defaultCloneDir, provider, //
+					"Host git", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"PreferredAuthentications keyboard-interactive");
+		});
 	}
 
-	@Theory
+	static Collection<Arguments> sshKeys() {
+		List<Arguments> result = new ArrayList<>();
+		for (String k : KEY_RESOURCES) {
+			result.add(Arguments.of(k));
+		}
+		return result;
+	}
+
+	@ParameterizedTest
+	@MethodSource("sshKeys")
 	public void testSshKeys(String keyName) throws Exception {
 		// JSch fails on ECDSA 384/521 keys. Compare
 		// https://sourceforge.net/p/jsch/patches/10/
@@ -810,27 +836,25 @@ public abstract class SshTestBase extends SshBasicTestBase {
 		server.setTestUserPublicKey(publicKey.toPath());
 		TestCredentialsProvider provider = new TestCredentialsProvider(
 				"testpass");
-		pushTo(provider,
-				cloneWith("ssh://localhost/doesntmatter", //
-						cloned, provider, //
-						"Host localhost", //
-						"HostName localhost", //
-						"Port " + testPort, //
-						"User " + TEST_USER, //
-						"IdentityFile " + privateKey.getAbsolutePath()));
+		pushTo(provider, cloneWith("ssh://localhost/doesntmatter", //
+				cloned, provider, //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey.getAbsolutePath()));
 		int expectedCalls = keyName.endsWith("testpass") ? 1 : 0;
-		assertEquals("Unexpected calls to CredentialsProvider", expectedCalls,
-				provider.getLog().size());
+		assertEquals(expectedCalls, provider.getLog().size(),
+				"Unexpected calls to CredentialsProvider");
 		// Should now also work without credentials provider, even if the key
 		// was encrypted.
 		cloned = new File(getTemporaryDirectory(), "cloned2");
-		pushTo(null,
-				cloneWith("ssh://localhost/doesntmatter", //
-						cloned, null, //
-						"Host localhost", //
-						"HostName localhost", //
-						"Port " + testPort, //
-						"User " + TEST_USER, //
-						"IdentityFile " + privateKey.getAbsolutePath()));
+		pushTo(null, cloneWith("ssh://localhost/doesntmatter", //
+				cloned, null, //
+				"Host localhost", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey.getAbsolutePath()));
 	}
 }

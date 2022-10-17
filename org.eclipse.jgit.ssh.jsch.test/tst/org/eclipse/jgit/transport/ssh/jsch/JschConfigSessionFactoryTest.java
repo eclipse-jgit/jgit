@@ -11,7 +11,7 @@
 //TODO(ms): move to org.eclipse.jgit.ssh.jsch in 6.0
 package org.eclipse.jgit.transport.ssh.jsch;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -22,9 +22,9 @@ import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.jcraft.jsch.Session;
 
@@ -40,12 +40,12 @@ public class JschConfigSessionFactoryTest {
 
 	JschConfigSessionFactory factory = new JschConfigSessionFactory();
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		SystemReader.setInstance(new MockSystemReader());
 	}
 
-	@After
+	@AfterEach
 	public void removeTmpConfig() {
 		SystemReader.setInstance(null);
 		if (tmpConfigFile == null) {
@@ -58,179 +58,179 @@ public class JschConfigSessionFactoryTest {
 	}
 
 	@Test
-	public void testNoConfigEntry() throws Exception {
-		tmpConfigFile = File.createTempFile("jsch", "test");
+	void testNoConfigEntry() throws Exception {
+		tmpConfigFile = File.createTempFile("jsch","test");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://egit/egit/egit");
-		assertEquals("egit", session.getHost());
+		assertEquals("egit",session.getHost());
 		// No user in URI, none in ssh config: default is OS user name
 		assertEquals(SystemReader.getInstance().getProperty("user.name"),
 				session.getUserName());
-		assertEquals(22, session.getPort());
+		assertEquals(22,session.getPort());
 	}
 
 	@Test
-	public void testAlias() throws Exception {
-		tmpConfigFile = createConfig("Host egit", "Hostname git.eclipse.org",
-				"User foo", "Port 29418");
+	void testAlias() throws Exception {
+		tmpConfigFile = createConfig("Host egit","Hostname git.eclipse.org",
+				"User foo","Port 29418");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://egit/egit/egit");
-		assertEquals("git.eclipse.org", session.getHost());
-		assertEquals("foo", session.getUserName());
-		assertEquals(29418, session.getPort());
+		assertEquals("git.eclipse.org",session.getHost());
+		assertEquals("foo",session.getUserName());
+		assertEquals(29418,session.getPort());
 	}
 
 	@Test
-	public void testAliasWithUser() throws Exception {
-		tmpConfigFile = createConfig("Host egit", "Hostname git.eclipse.org",
-				"User foo", "Port 29418");
+	void testAliasWithUser() throws Exception {
+		tmpConfigFile = createConfig("Host egit","Hostname git.eclipse.org",
+				"User foo","Port 29418");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://bar@egit/egit/egit");
-		assertEquals("git.eclipse.org", session.getHost());
-		assertEquals("bar", session.getUserName());
-		assertEquals(29418, session.getPort());
+		assertEquals("git.eclipse.org",session.getHost());
+		assertEquals("bar",session.getUserName());
+		assertEquals(29418,session.getPort());
 	}
 
 	@Test
-	public void testAliasWithPort() throws Exception {
-		tmpConfigFile = createConfig("Host egit", "Hostname git.eclipse.org",
-				"User foo", "Port 29418");
+	void testAliasWithPort() throws Exception {
+		tmpConfigFile = createConfig("Host egit","Hostname git.eclipse.org",
+				"User foo","Port 29418");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://bar@egit:22/egit/egit");
-		assertEquals("git.eclipse.org", session.getHost());
-		assertEquals("bar", session.getUserName());
-		assertEquals(22, session.getPort());
+		assertEquals("git.eclipse.org",session.getHost());
+		assertEquals("bar",session.getUserName());
+		assertEquals(22,session.getPort());
 	}
 
 	@Test
-	public void testAliasIdentical() throws Exception {
+	void testAliasIdentical() throws Exception {
 		tmpConfigFile = createConfig("Host git.eclipse.org",
-				"Hostname git.eclipse.org", "User foo", "Port 29418");
+				"Hostname git.eclipse.org","User foo","Port 29418");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://git.eclipse.org/egit/egit");
-		assertEquals("git.eclipse.org", session.getHost());
-		assertEquals("foo", session.getUserName());
-		assertEquals(29418, session.getPort());
+		assertEquals("git.eclipse.org",session.getHost());
+		assertEquals("foo",session.getUserName());
+		assertEquals(29418,session.getPort());
 	}
 
 	@Test
-	public void testAliasIdenticalWithUser() throws Exception {
+	void testAliasIdenticalWithUser() throws Exception {
 		tmpConfigFile = createConfig("Host git.eclipse.org",
-				"Hostname git.eclipse.org", "User foo", "Port 29418");
+				"Hostname git.eclipse.org","User foo","Port 29418");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://bar@git.eclipse.org/egit/egit");
-		assertEquals("git.eclipse.org", session.getHost());
-		assertEquals("bar", session.getUserName());
-		assertEquals(29418, session.getPort());
+		assertEquals("git.eclipse.org",session.getHost());
+		assertEquals("bar",session.getUserName());
+		assertEquals(29418,session.getPort());
 	}
 
 	@Test
-	public void testAliasIdenticalWithPort() throws Exception {
+	void testAliasIdenticalWithPort() throws Exception {
 		tmpConfigFile = createConfig("Host git.eclipse.org",
-				"Hostname git.eclipse.org", "User foo", "Port 29418");
+				"Hostname git.eclipse.org","User foo","Port 29418");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession(
 				"ssh://bar@git.eclipse.org:300/egit/egit");
-		assertEquals("git.eclipse.org", session.getHost());
-		assertEquals("bar", session.getUserName());
-		assertEquals(300, session.getPort());
+		assertEquals("git.eclipse.org",session.getHost());
+		assertEquals("bar",session.getUserName());
+		assertEquals(300,session.getPort());
 	}
 
 	@Test
-	public void testConnectTimout() throws Exception {
+	void testConnectTimout() throws Exception {
 		tmpConfigFile = createConfig("Host git.eclipse.org",
-				"Hostname git.eclipse.org", "User foo", "Port 29418",
+				"Hostname git.eclipse.org","User foo","Port 29418",
 				"ConnectTimeout 10");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://git.eclipse.org/something");
-		assertEquals("git.eclipse.org", session.getHost());
-		assertEquals("foo", session.getUserName());
-		assertEquals(29418, session.getPort());
-		assertEquals(TimeUnit.SECONDS.toMillis(10), session.getTimeout());
+		assertEquals("git.eclipse.org",session.getHost());
+		assertEquals("foo",session.getUserName());
+		assertEquals(29418,session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(10),session.getTimeout());
 	}
 
 	@Test
-	public void testAliasCaseDifferenceUpcase() throws Exception {
+	void testAliasCaseDifferenceUpcase() throws Exception {
 		tmpConfigFile = createConfig("Host Bitbucket.org",
-				"Hostname bitbucket.org", "User foo", "Port 29418",
+				"Hostname bitbucket.org","User foo","Port 29418",
 				"ConnectTimeout 10", //
-				"Host bitbucket.org", "Hostname bitbucket.org", "User bar",
-				"Port 22", "ConnectTimeout 5");
+				"Host bitbucket.org","Hostname bitbucket.org","User bar",
+				"Port 22","ConnectTimeout 5");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://Bitbucket.org/something");
-		assertEquals("bitbucket.org", session.getHost());
-		assertEquals("foo", session.getUserName());
-		assertEquals(29418, session.getPort());
-		assertEquals(TimeUnit.SECONDS.toMillis(10), session.getTimeout());
+		assertEquals("bitbucket.org",session.getHost());
+		assertEquals("foo",session.getUserName());
+		assertEquals(29418,session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(10),session.getTimeout());
 	}
 
 	@Test
-	public void testAliasCaseDifferenceLowcase() throws Exception {
+	void testAliasCaseDifferenceLowcase() throws Exception {
 		tmpConfigFile = createConfig("Host Bitbucket.org",
-				"Hostname bitbucket.org", "User foo", "Port 29418",
+				"Hostname bitbucket.org","User foo","Port 29418",
 				"ConnectTimeout 10", //
-				"Host bitbucket.org", "Hostname bitbucket.org", "User bar",
-				"Port 22", "ConnectTimeout 5");
+				"Host bitbucket.org","Hostname bitbucket.org","User bar",
+				"Port 22","ConnectTimeout 5");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://bitbucket.org/something");
-		assertEquals("bitbucket.org", session.getHost());
-		assertEquals("bar", session.getUserName());
-		assertEquals(22, session.getPort());
-		assertEquals(TimeUnit.SECONDS.toMillis(5), session.getTimeout());
+		assertEquals("bitbucket.org",session.getHost());
+		assertEquals("bar",session.getUserName());
+		assertEquals(22,session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(5),session.getTimeout());
 	}
 
 	@Test
-	public void testAliasCaseDifferenceUpcaseInverted() throws Exception {
+	void testAliasCaseDifferenceUpcaseInverted() throws Exception {
 		tmpConfigFile = createConfig("Host bitbucket.org",
-				"Hostname bitbucket.org", "User bar", "Port 22",
+				"Hostname bitbucket.org","User bar","Port 22",
 				"ConnectTimeout 5", //
-				"Host Bitbucket.org", "Hostname bitbucket.org", "User foo",
-				"Port 29418", "ConnectTimeout 10");
+				"Host Bitbucket.org","Hostname bitbucket.org","User foo",
+				"Port 29418","ConnectTimeout 10");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://Bitbucket.org/something");
-		assertEquals("bitbucket.org", session.getHost());
-		assertEquals("foo", session.getUserName());
-		assertEquals(29418, session.getPort());
-		assertEquals(TimeUnit.SECONDS.toMillis(10), session.getTimeout());
+		assertEquals("bitbucket.org",session.getHost());
+		assertEquals("foo",session.getUserName());
+		assertEquals(29418,session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(10),session.getTimeout());
 	}
 
 	@Test
-	public void testAliasCaseDifferenceLowcaseInverted() throws Exception {
+	void testAliasCaseDifferenceLowcaseInverted() throws Exception {
 		tmpConfigFile = createConfig("Host bitbucket.org",
-				"Hostname bitbucket.org", "User bar", "Port 22",
+				"Hostname bitbucket.org","User bar","Port 22",
 				"ConnectTimeout 5", //
-				"Host Bitbucket.org", "Hostname bitbucket.org", "User foo",
-				"Port 29418", "ConnectTimeout 10");
+				"Host Bitbucket.org","Hostname bitbucket.org","User foo",
+				"Port 29418","ConnectTimeout 10");
 		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
 				tmpConfigFile);
 		factory.setConfig(tmpConfig);
 		Session session = createSession("ssh://bitbucket.org/something");
-		assertEquals("bitbucket.org", session.getHost());
-		assertEquals("bar", session.getUserName());
-		assertEquals(22, session.getPort());
-		assertEquals(TimeUnit.SECONDS.toMillis(5), session.getTimeout());
+		assertEquals("bitbucket.org",session.getHost());
+		assertEquals("bar",session.getUserName());
+		assertEquals(22,session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(5),session.getTimeout());
 	}
 
 	private File createConfig(String... lines) throws Exception {

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.junit.ssh" version="2">
+    <resource path="src/org/eclipse/jgit/junit/ssh/SshBasicTestBase.java" type="org.eclipse.jgit.junit.ssh.SshBasicTestBase">
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshBasicTestBase"/>
+                <message_argument value="testSshCloneWithConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshBasicTestBase"/>
+                <message_argument value="testSshFetchWithConfig()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/junit/ssh/SshTestBase.java" type="org.eclipse.jgit.junit.ssh.SshTestBase">
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testEcDsaHostKey()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testKeyboardInteractiveAuth()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testKeyboardInteractiveAuthCorrectPasswordTooLate()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testKeyboardInteractiveAuthNoPassword()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testKeyboardInteractiveAuthSeveralTimes()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testKeyboardInteractiveAuthWrongPassword()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testPasswordAuth()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testPasswordAuthCorrectPasswordTooLate()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testPasswordAuthNoPassword()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testPasswordAuthSeveralTimes()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testPasswordAuthWrongPassword()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testRsaHostKeySecond()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSftpCloneWithConfigAndPush()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSftpWithConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSingleCommand()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSingleCommandWithTimeoutExpired()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshCloneWithConfigAndPush()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshEncryptedUsedKeyCached()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshEncryptedUsedKeySeveralPassword()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshEncryptedUsedKeyWrongPassword()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshModifiedHostKeyAllow()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshModifiedHostKeyAsk()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshModifiedHostKeyDeny()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshModifiedHostKeyWithProviderDeny()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithAliasInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithConfigEncryptedUnusedKey()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithConfigEncryptedUnusedKeyInConfigFirst()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithConfigEncryptedUnusedKeyInConfigLast()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithConfigWrongKey()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithDefaultIdentity()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithGlobalIdentity()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithMinimalHostKeyAlgorithmsInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithNoMatchingAuthInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithUnknownAuthInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithUnknownCiphersInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithUnknownHostKeyAlgorithmsInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithUnknownKexAlgorithmsInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithWrongPortInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithWrongUserNameInConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithoutConfig()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithoutKnownHosts()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithoutKnownHostsDeny()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithoutKnownHostsWithProviderAcceptNew()"/>
+            </message_arguments>
+        </filter>
+        <filter id="421572723">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.ssh.SshTestBase"/>
+                <message_argument value="testSshWithoutKnownHostsWithProviderAsk()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

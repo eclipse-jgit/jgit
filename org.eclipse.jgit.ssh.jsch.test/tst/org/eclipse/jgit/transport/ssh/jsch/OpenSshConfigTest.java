@@ -11,13 +11,13 @@
 package org.eclipse.jgit.transport.ssh.jsch;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,9 +33,8 @@ import org.eclipse.jgit.transport.ssh.jsch.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import com.jcraft.jsch.ConfigRepository;
 import com.jcraft.jsch.ConfigRepository.Config;
 
@@ -47,7 +46,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	private OpenSshConfig osc;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -79,7 +78,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoConfig() {
+	void testNoConfig() {
 		final Host h = osc.lookup("repo.or.cz");
 		assertNotNull(h);
 		assertEquals("repo.or.cz", h.getHostName());
@@ -90,18 +89,12 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSeparatorParsing() throws Exception {
-		config("Host\tfirst\n" +
-		       "\tHostName\tfirst.tld\n" +
-		       "\n" +
-		       "Host second\n" +
-		       " HostName\tsecond.tld\n" +
-		       "Host=third\n" +
-		       "HostName=third.tld\n\n\n" +
-		       "\t Host = fourth\n\n\n" +
-		       " \t HostName\t=fourth.tld\n" +
-		       "Host\t =     last\n" +
-		       "HostName  \t    last.tld");
+	void testSeparatorParsing() throws Exception {
+		config("Host\tfirst\n" + "\tHostName\tfirst.tld\n" + "\n"
+				+ "Host second\n" + " HostName\tsecond.tld\n" + "Host=third\n"
+				+ "HostName=third.tld\n\n\n" + "\t Host = fourth\n\n\n"
+				+ " \t HostName\t=fourth.tld\n" + "Host\t =     last\n"
+				+ "HostName  \t    last.tld");
 		assertNotNull(osc.lookup("first"));
 		assertEquals("first.tld", osc.lookup("first").getHostName());
 		assertNotNull(osc.lookup("second"));
@@ -115,20 +108,15 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testQuoteParsing() throws Exception {
-		config("Host \"good\"\n" +
-			" HostName=\"good.tld\"\n" +
-			" Port=\"6007\"\n" +
-			" User=\"gooduser\"\n" +
-			"Host multiple unquoted and \"quoted\" \"hosts\"\n" +
-			" Port=\"2222\"\n" +
-			"Host \"spaced\"\n" +
-			"# Bad host name, but testing preservation of spaces\n" +
-			" HostName=\" spaced\ttld \"\n" +
-			"# Misbalanced quotes\n" +
-			"Host \"bad\"\n" +
-			"# OpenSSH doesn't allow this but ...\n" +
-			" HostName=bad.tld\"\n");
+	void testQuoteParsing() throws Exception {
+		config("Host \"good\"\n" + " HostName=\"good.tld\"\n"
+				+ " Port=\"6007\"\n" + " User=\"gooduser\"\n"
+				+ "Host multiple unquoted and \"quoted\" \"hosts\"\n"
+				+ " Port=\"2222\"\n" + "Host \"spaced\"\n"
+				+ "# Bad host name, but testing preservation of spaces\n"
+				+ " HostName=\" spaced\ttld \"\n" + "# Misbalanced quotes\n"
+				+ "Host \"bad\"\n" + "# OpenSSH doesn't allow this but ...\n"
+				+ " HostName=bad.tld\"\n");
 		assertEquals("good.tld", osc.lookup("good").getHostName());
 		assertEquals("gooduser", osc.lookup("good").getUser());
 		assertEquals(6007, osc.lookup("good").getPort());
@@ -142,7 +130,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCaseInsensitiveKeyLookup() throws Exception {
+	void testCaseInsensitiveKeyLookup() throws Exception {
 		config("Host orcz\n" + "Port 29418\n"
 				+ "\tHostName repo.or.cz\nStrictHostKeyChecking yes\n");
 		final Host h = osc.lookup("orcz");
@@ -156,7 +144,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_DoesNotMatch() throws Exception {
+	void testAlias_DoesNotMatch() throws Exception {
 		config("Host orcz\n" + "Port 29418\n" + "\tHostName repo.or.cz\n");
 		final Host h = osc.lookup("repo.or.cz");
 		assertNotNull(h);
@@ -172,7 +160,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_OptionsSet() throws Exception {
+	void testAlias_OptionsSet() throws Exception {
 		config("Host orcz\n" + "\tHostName repo.or.cz\n" + "\tPort 2222\n"
 				+ "\tUser jex\n" + "\tIdentityFile .ssh/id_jex\n"
 				+ "\tForwardX11 no\n");
@@ -185,7 +173,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_OptionsKeywordCaseInsensitive() throws Exception {
+	void testAlias_OptionsKeywordCaseInsensitive() throws Exception {
 		config("hOsT orcz\n" + "\thOsTnAmE repo.or.cz\n" + "\tPORT 2222\n"
 				+ "\tuser jex\n" + "\tidentityfile .ssh/id_jex\n"
 				+ "\tForwardX11 no\n");
@@ -198,7 +186,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_OptionsInherit() throws Exception {
+	void testAlias_OptionsInherit() throws Exception {
 		config("Host orcz\n" + "\tHostName repo.or.cz\n" + "\n" + "Host *\n"
 				+ "\tHostName not.a.host.example.com\n" + "\tPort 2222\n"
 				+ "\tUser jex\n" + "\tIdentityFile .ssh/id_jex\n"
@@ -212,14 +200,14 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_PreferredAuthenticationsDefault() throws Exception {
+	void testAlias_PreferredAuthenticationsDefault() throws Exception {
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
 		assertNull(h.getPreferredAuthentications());
 	}
 
 	@Test
-	public void testAlias_PreferredAuthentications() throws Exception {
+	void testAlias_PreferredAuthentications() throws Exception {
 		config("Host orcz\n" + "\tPreferredAuthentications publickey\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -227,7 +215,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_InheritPreferredAuthentications() throws Exception {
+	void testAlias_InheritPreferredAuthentications() throws Exception {
 		config("Host orcz\n" + "\tHostName repo.or.cz\n" + "\n" + "Host *\n"
 				+ "\tPreferredAuthentications 'publickey, hostbased'\n");
 		final Host h = osc.lookup("orcz");
@@ -236,14 +224,14 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_BatchModeDefault() throws Exception {
+	void testAlias_BatchModeDefault() throws Exception {
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
 		assertFalse(h.isBatchMode());
 	}
 
 	@Test
-	public void testAlias_BatchModeYes() throws Exception {
+	void testAlias_BatchModeYes() throws Exception {
 		config("Host orcz\n" + "\tBatchMode yes\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -251,7 +239,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_InheritBatchMode() throws Exception {
+	void testAlias_InheritBatchMode() throws Exception {
 		config("Host orcz\n" + "\tHostName repo.or.cz\n" + "\n" + "Host *\n"
 				+ "\tBatchMode yes\n");
 		final Host h = osc.lookup("orcz");
@@ -260,14 +248,14 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_ConnectionAttemptsDefault() throws Exception {
+	void testAlias_ConnectionAttemptsDefault() throws Exception {
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
 		assertEquals(1, h.getConnectionAttempts());
 	}
 
 	@Test
-	public void testAlias_ConnectionAttempts() throws Exception {
+	void testAlias_ConnectionAttempts() throws Exception {
 		config("Host orcz\n" + "\tConnectionAttempts 5\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -275,7 +263,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_invalidConnectionAttempts() throws Exception {
+	void testAlias_invalidConnectionAttempts() throws Exception {
 		config("Host orcz\n" + "\tConnectionAttempts -1\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -283,7 +271,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlias_badConnectionAttempts() throws Exception {
+	void testAlias_badConnectionAttempts() throws Exception {
 		config("Host orcz\n" + "\tConnectionAttempts xxx\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -291,7 +279,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDefaultBlock() throws Exception {
+	void testDefaultBlock() throws Exception {
 		config("ConnectionAttempts 5\n\nHost orcz\nConnectionAttempts 3\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -299,7 +287,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHostCaseInsensitive() throws Exception {
+	void testHostCaseInsensitive() throws Exception {
 		config("hOsT orcz\nConnectionAttempts 3\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -307,7 +295,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testListValueSingle() throws Exception {
+	void testListValueSingle() throws Exception {
 		config("Host orcz\nUserKnownHostsFile /foo/bar\n");
 		final ConfigRepository.Config c = osc.getConfig("orcz");
 		assertNotNull(c);
@@ -315,18 +303,17 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testListValueMultiple() throws Exception {
+	void testListValueMultiple() throws Exception {
 		// Tilde expansion occurs within the parser
 		config("Host orcz\nUserKnownHostsFile \"~/foo/ba z\" /foo/bar \n");
 		final ConfigRepository.Config c = osc.getConfig("orcz");
 		assertNotNull(c);
 		assertArrayEquals(new Object[] { new File(home, "foo/ba z").getPath(),
-				"/foo/bar" },
-				c.getValues("UserKnownHostsFile"));
+				"/foo/bar" }, c.getValues("UserKnownHostsFile"));
 	}
 
 	@Test
-	public void testRepeatedLookupsWithModification() throws Exception {
+	void testRepeatedLookupsWithModification() throws Exception {
 		config("Host orcz\n" + "\tConnectionAttempts -1\n");
 		final Host h1 = osc.lookup("orcz");
 		assertNotNull(h1);
@@ -341,7 +328,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIdentityFile() throws Exception {
+	void testIdentityFile() throws Exception {
 		config("Host orcz\nIdentityFile \"~/foo/ba z\"\nIdentityFile /foo/bar");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -352,12 +339,11 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		final ConfigRepository.Config c = h.getConfig();
 		// Config does tilde replacement, too
 		assertArrayEquals(new Object[] { new File(home, "foo/ba z").getPath(),
-				"/foo/bar" },
-				c.getValues("IdentityFile"));
+				"/foo/bar" }, c.getValues("IdentityFile"));
 	}
 
 	@Test
-	public void testMultiIdentityFile() throws Exception {
+	void testMultiIdentityFile() throws Exception {
 		config("IdentityFile \"~/foo/ba z\"\nHost orcz\nIdentityFile /foo/bar\nHOST *\nIdentityFile /foo/baz");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -368,12 +354,11 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		final ConfigRepository.Config c = h.getConfig();
 		// Config does tilde replacement, too
 		assertArrayEquals(new Object[] { new File(home, "foo/ba z").getPath(),
-				"/foo/bar", "/foo/baz" },
-				c.getValues("IdentityFile"));
+				"/foo/bar", "/foo/baz" }, c.getValues("IdentityFile"));
 	}
 
 	@Test
-	public void testNegatedPattern() throws Exception {
+	void testNegatedPattern() throws Exception {
 		config("Host repo.or.cz\nIdentityFile ~/foo/bar\nHOST !*.or.cz\nIdentityFile /foo/baz");
 		final Host h = osc.lookup("repo.or.cz");
 		assertNotNull(h);
@@ -383,25 +368,23 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPattern() throws Exception {
+	void testPattern() throws Exception {
 		config("Host repo.or.cz\nIdentityFile ~/foo/bar\nHOST *.or.cz\nIdentityFile /foo/baz");
 		final Host h = osc.lookup("repo.or.cz");
 		assertNotNull(h);
 		assertEquals(new File(home, "foo/bar"), h.getIdentityFile());
 		assertArrayEquals(new Object[] { new File(home, "foo/bar").getPath(),
-				"/foo/baz" },
-				h.getConfig().getValues("IdentityFile"));
+				"/foo/baz" }, h.getConfig().getValues("IdentityFile"));
 	}
 
 	@Test
-	public void testMultiHost() throws Exception {
+	void testMultiHost() throws Exception {
 		config("Host orcz *.or.cz\nIdentityFile ~/foo/bar\nHOST *.or.cz\nIdentityFile /foo/baz");
 		final Host h1 = osc.lookup("repo.or.cz");
 		assertNotNull(h1);
 		assertEquals(new File(home, "foo/bar"), h1.getIdentityFile());
 		assertArrayEquals(new Object[] { new File(home, "foo/bar").getPath(),
-				"/foo/baz" },
-				h1.getConfig().getValues("IdentityFile"));
+				"/foo/baz" }, h1.getConfig().getValues("IdentityFile"));
 		final Host h2 = osc.lookup("orcz");
 		assertNotNull(h2);
 		assertEquals(new File(home, "foo/bar"), h2.getIdentityFile());
@@ -410,7 +393,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEqualsSign() throws Exception {
+	void testEqualsSign() throws Exception {
 		config("Host=orcz\n\tConnectionAttempts = 5\n\tUser=\t  foobar\t\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -419,7 +402,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMissingArgument() throws Exception {
+	void testMissingArgument() throws Exception {
 		config("Host=orcz\n\tSendEnv\nIdentityFile\t\nForwardX11\n\tUser=\t  foobar\t\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -430,7 +413,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHomeDirUserReplacement() throws Exception {
+	void testHomeDirUserReplacement() throws Exception {
 		config("Host=orcz\n\tIdentityFile %d/.ssh/%u_id_dsa");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -439,7 +422,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHostnameReplacement() throws Exception {
+	void testHostnameReplacement() throws Exception {
 		config("Host=orcz\nHost *.*\n\tHostname %h\nHost *\n\tHostname %h.example.org");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -447,30 +430,27 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRemoteUserReplacement() throws Exception {
+	void testRemoteUserReplacement() throws Exception {
 		config("Host=orcz\n\tUser foo\n" + "Host *.*\n\tHostname %h\n"
 				+ "Host *\n\tHostname %h.ex%%20ample.org\n\tIdentityFile ~/.ssh/%h_%r_id_dsa");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
-		assertEquals(
-				new File(new File(home, ".ssh"),
-						"orcz.ex%20ample.org_foo_id_dsa"),
-				h.getIdentityFile());
+		assertEquals(new File(new File(home, ".ssh"),
+				"orcz.ex%20ample.org_foo_id_dsa"), h.getIdentityFile());
 	}
 
 	@Test
-	public void testLocalhostFQDNReplacement() throws Exception {
+	void testLocalhostFQDNReplacement() throws Exception {
 		String localhost = SystemReader.getInstance().getHostname();
 		config("Host=orcz\n\tIdentityFile ~/.ssh/%l_id_dsa");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
-		assertEquals(
-				new File(new File(home, ".ssh"), localhost + "_id_dsa"),
+		assertEquals(new File(new File(home, ".ssh"), localhost + "_id_dsa"),
 				h.getIdentityFile());
 	}
 
 	@Test
-	public void testPubKeyAcceptedAlgorithms() throws Exception {
+	void testPubKeyAcceptedAlgorithms() throws Exception {
 		config("Host=orcz\n\tPubkeyAcceptedAlgorithms ^ssh-rsa");
 		Host h = osc.lookup("orcz");
 		Config c = h.getConfig();
@@ -480,7 +460,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPubKeyAcceptedKeyTypes() throws Exception {
+	void testPubKeyAcceptedKeyTypes() throws Exception {
 		config("Host=orcz\n\tPubkeyAcceptedKeyTypes ^ssh-rsa");
 		Host h = osc.lookup("orcz");
 		Config c = h.getConfig();
@@ -490,7 +470,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEolComments() throws Exception {
+	void testEolComments() throws Exception {
 		config("#Comment\nHost=orcz #Comment\n\tPubkeyAcceptedAlgorithms ^ssh-rsa # Comment\n#Comment");
 		Host h = osc.lookup("orcz");
 		assertNotNull(h);
@@ -500,14 +480,13 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEnVarSubstitution() throws Exception {
+	void testEnVarSubstitution() throws Exception {
 		config("Host orcz\nIdentityFile /tmp/${TST_VAR}\n"
 				+ "CertificateFile /tmp/${}/foo\nUser ${TST_VAR}\nIdentityAgent /tmp/${TST_VAR/bar");
 		Host h = osc.lookup("orcz");
 		assertNotNull(h);
 		Config c = h.getConfig();
-		assertEquals("/tmp/TEST",
-				c.getValue(SshConstants.IDENTITY_FILE));
+		assertEquals("/tmp/TEST", c.getValue(SshConstants.IDENTITY_FILE));
 		// No variable name
 		assertEquals("/tmp/${}/foo", c.getValue(SshConstants.CERTIFICATE_FILE));
 		// User doesn't get env var substitution:
@@ -519,7 +498,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNegativeMatch() throws Exception {
+	void testNegativeMatch() throws Exception {
 		config("Host foo.bar !foobar.baz *.baz\n" + "Port 29418\n");
 		Host h = osc.lookup("foo.bar");
 		assertNotNull(h);
@@ -533,7 +512,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNegativeMatch2() throws Exception {
+	void testNegativeMatch2() throws Exception {
 		// Negative match after the positive match.
 		config("Host foo.bar *.baz !foobar.baz\n" + "Port 29418\n");
 		Host h = osc.lookup("foo.bar");
@@ -548,7 +527,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoMatch() throws Exception {
+	void testNoMatch() throws Exception {
 		config("Host !host1 !host2\n" + "Port 29418\n");
 		Host h = osc.lookup("host1");
 		assertNotNull(h);
@@ -562,7 +541,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMultipleMatch() throws Exception {
+	void testMultipleMatch() throws Exception {
 		config("Host foo.bar\nPort 29418\nIdentityFile /foo\n\n"
 				+ "Host *.bar\nPort 22\nIdentityFile /bar\n"
 				+ "Host foo.bar\nPort 47\nIdentityFile /baz\n");
@@ -574,7 +553,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWhitespace() throws Exception {
+	void testWhitespace() throws Exception {
 		config("Host foo \tbar   baz\nPort 29418\n");
 		Host h = osc.lookup("foo");
 		assertNotNull(h);

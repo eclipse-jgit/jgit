@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.transport.sshd;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,8 +35,9 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
 import org.eclipse.jgit.util.FS;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for using the SshdSessionFactory without files in ~/.ssh but with an
@@ -91,7 +92,8 @@ public class NoFilesSshTest extends SshTestHarness {
 			protected Iterable<KeyPair> getDefaultKeys(File dir) {
 				// This would work for this simple test case:
 				// return Collections.singletonList(testUserKey);
-				// But let's see if we can check the host and username that's used.
+				// But let's see if we can check the host and username that's
+				// used.
 				// For that, we need access to the sshd SessionContext:
 				return new KeyAuthenticator();
 			}
@@ -108,7 +110,8 @@ public class NoFilesSshTest extends SshTestHarness {
 		return result;
 	}
 
-	private class KeyAuthenticator implements KeyIdentityProvider, Iterable<KeyPair> {
+	private class KeyAuthenticator
+			implements KeyIdentityProvider, Iterable<KeyPair> {
 
 		@Override
 		public Iterator<KeyPair> iterator() {
@@ -139,7 +142,13 @@ public class NoFilesSshTest extends SshTestHarness {
 		}
 	}
 
-	@After
+	@Override
+	@BeforeEach
+	public void setUp() throws Exception {
+		super.setUp();
+	}
+
+	@AfterEach
 	public void cleanUp() {
 		testServerKey = null;
 		testUserKey = null;
@@ -158,7 +167,7 @@ public class NoFilesSshTest extends SshTestHarness {
 	}
 
 	@Test
-	public void testCloneWithBuiltInKeys() throws Exception {
+	void testCloneWithBuiltInKeys() throws Exception {
 		// This test should fail unless our in-memory setup is taken: no
 		// known_hosts file, a config that specifies a non-existing key,
 		// and the test is using a newly generated KeyPairs anyway.

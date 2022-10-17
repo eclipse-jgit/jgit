@@ -9,15 +9,15 @@
  */
 package org.eclipse.jgit.transport.ssh.jsch;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.eclipse.jgit.transport.SshSessionFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ServiceLoaderTest {
 
 	@Test
-	public void testDefaultFactoryFound() {
+	void testDefaultFactoryFound() {
 		SshSessionFactory defaultFactory = SshSessionFactory.getInstance();
 		assertNotNull(defaultFactory);
 	}

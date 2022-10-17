@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.transport.ssh.jsch;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +28,7 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.ssh.jsch.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FS;
 import org.junit.experimental.theories.Theories;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 
 import com.jcraft.jsch.JSch;
@@ -36,6 +37,12 @@ import com.jcraft.jsch.Session;
 
 @RunWith(Theories.class)
 public class JSchSshTest extends SshTestBase {
+
+	@Override
+	@BeforeEach
+	public void setUp() throws Exception {
+		super.setUp();
+	}
 
 	private class TestSshSessionFactory extends JschConfigSessionFactory {
 

@@ -10,11 +10,11 @@
 package org.eclipse.jgit.transport.sshd;
 
 import static org.apache.sshd.core.CoreModuleProperties.MAX_CONCURRENT_SESSIONS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -56,12 +56,19 @@ import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
-import org.junit.Test;
 import org.junit.experimental.theories.Theories;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
 public class ApacheSshTest extends SshTestBase {
+
+	@Override
+	@BeforeEach
+	public void setUp() throws Exception {
+		super.setUp();
+	}
 
 	@Override
 	protected SshSessionFactory createSessionFactory() {
@@ -72,8 +79,7 @@ public class ApacheSshTest extends SshTestBase {
 				.setConnectorFactory(null)
 				// The home directory is mocked at this point!
 				.setHomeDirectory(FS.DETECTED.userHome())
-				.setSshDirectory(sshDir)
-				.build(new JGitKeyCache());
+				.setSshDirectory(sshDir).build(new JGitKeyCache());
 	}
 
 	@Override
@@ -89,7 +95,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testEd25519HostKey() throws Exception {
+	void testEd25519HostKey() throws Exception {
 		// Using ed25519 user identities is tested in the super class in
 		// testSshKeys().
 		File newHostKey = new File(getTemporaryDirectory(), "newhostkey");
@@ -118,7 +124,7 @@ public class ApacheSshTest extends SshTestBase {
 	 *      "https://issues.apache.org/jira/browse/SSHD-1231">SSHD-1231</a>
 	 */
 	@Test
-	public void testWrongKeyFirst() throws Exception {
+	void testWrongKeyFirst() throws Exception {
 		File userKey = new File(getTemporaryDirectory(), "userkey");
 		copyTestResource("id_ed25519", userKey);
 		File publicKey = new File(getTemporaryDirectory(), "userkey.pub");
@@ -134,8 +140,8 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testHashedKnownHosts() throws Exception {
-		assertTrue("Failed to delete known_hosts", knownHosts.delete());
+	void testHashedKnownHosts() throws Exception {
+		assertTrue(knownHosts.delete(), "Failed to delete known_hosts");
 		// The provider will answer "yes" to all questions, so we should be able
 		// to connect and end up with a new known_hosts file with the host key.
 		TestCredentialsProvider provider = new TestCredentialsProvider();
@@ -147,11 +153,10 @@ public class ApacheSshTest extends SshTestBase {
 				"User " + TEST_USER, //
 				"IdentityFile " + privateKey1.getAbsolutePath());
 		List<LogEntry> messages = provider.getLog();
-		assertFalse("Expected user interaction", messages.isEmpty());
-		assertEquals(
-				"Expected to be asked about the key, and the file creation", 2,
-				messages.size());
-		assertTrue("~/.ssh/known_hosts should exist now", knownHosts.exists());
+		assertFalse(messages.isEmpty(), "Expected user interaction");
+		assertEquals(2, messages.size(),
+				"Expected to be asked about the key, and the file creation");
+		assertTrue(knownHosts.exists(), "~/.ssh/known_hosts should exist now");
 		// Let's clone again without provider. If it works, the server host key
 		// was written correctly.
 		File clonedAgain = new File(getTemporaryDirectory(), "cloned2");
@@ -167,19 +172,20 @@ public class ApacheSshTest extends SshTestBase {
 				.filter(s -> s != null && s.length() >= 1 && s.charAt(0) != '#'
 						&& !s.trim().isEmpty())
 				.collect(Collectors.toList());
-		assertEquals("Unexpected number of known_hosts lines", 1, lines.size());
+		assertEquals(1, lines.size(), "Unexpected number of known_hosts lines");
 		String line = lines.get(0);
-		assertFalse("Found host in line", line.contains("localhost"));
-		assertFalse("Found IP in line", line.contains("127.0.0.1"));
-		assertTrue("Hash not found", line.contains("|"));
+		assertFalse(line.contains("localhost"), "Found host in line");
+		assertFalse(line.contains("127.0.0.1"), "Found IP in line");
+		assertTrue(line.contains("|"), "Hash not found");
 		KnownHostEntry entry = KnownHostEntry.parseKnownHostEntry(line);
-		assertTrue("Hash doesn't match localhost",
+		assertTrue(
 				entry.isHostMatch("localhost", testPort)
-						|| entry.isHostMatch("127.0.0.1", testPort));
+						|| entry.isHostMatch("127.0.0.1", testPort),
+				"Hash doesn't match localhost");
 	}
 
 	@Test
-	public void testPreamble() throws Exception {
+	void testPreamble() throws Exception {
 		// Test that the client can deal with strange lines being sent before
 		// the server identification string.
 		StringBuilder b = new StringBuilder();
@@ -196,7 +202,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testLongPreamble() throws Exception {
+	void testLongPreamble() throws Exception {
 		// Test that the client can deal with a long (about 60k) preamble.
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < 1024; i++) {
@@ -216,7 +222,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testHugePreamble() throws Exception {
+	void testHugePreamble() throws Exception {
 		// Test that the connection fails when the preamble is longer than 64k.
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < 1024; i++) {
@@ -250,9 +256,9 @@ public class ApacheSshTest extends SshTestBase {
 	 *      "https://issues.apache.org/jira/projects/SSHD/issues/SSHD-1028">SSHD-1028</a>
 	 */
 	@Test
-	public void testCloneAndFetchWithSessionLimit() throws Exception {
-		MAX_CONCURRENT_SESSIONS
-				.set(server.getPropertyResolver(), Integer.valueOf(2));
+	void testCloneAndFetchWithSessionLimit() throws Exception {
+		MAX_CONCURRENT_SESSIONS.set(server.getPropertyResolver(),
+				Integer.valueOf(2));
 		File localClone = cloneWith("ssh://localhost/doesntmatter",
 				defaultCloneDir, null, //
 				"Host localhost", //
@@ -301,7 +307,8 @@ public class ApacheSshTest extends SshTestBase {
 	/**
 	 * Writes the server's host key to our knownhosts file.
 	 *
-	 * @param srv to register
+	 * @param srv
+	 *            to register
 	 * @throws Exception
 	 */
 	private void registerServer(SshServer srv) throws Exception {
@@ -316,8 +323,8 @@ public class ApacheSshTest extends SshTestBase {
 			KnownHostHashValue.appendHostPattern(writer, "127.0.0.1",
 					srv.getPort());
 			writer.append(' ');
-			PublicKeyEntry.appendPublicKeyEntry(writer,
-					srv.getKeyPairProvider().loadKeys(null).iterator().next().getPublic());
+			PublicKeyEntry.appendPublicKeyEntry(writer, srv.getKeyPairProvider()
+					.loadKeys(null).iterator().next().getPublic());
 			writer.append('\n');
 		}
 	}
@@ -355,7 +362,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHost() throws Exception {
+	void testJumpHost() throws Exception {
 		SshdSocketAddress[] forwarded = { null };
 		try (SshServer proxy = createProxy(TEST_USER + 'X', publicKey2,
 				forwarded)) {
@@ -381,7 +388,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostNone() throws Exception {
+	void testJumpHostNone() throws Exception {
 		// Should not try to go through the non-existing proxy
 		cloneWith("ssh://server/doesntmatter", defaultCloneDir, null, //
 				"Host server", //
@@ -396,7 +403,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostWrongKeyAtProxy() throws Exception {
+	void testJumpHostWrongKeyAtProxy() throws Exception {
 		// Test that we find the proxy server's URI in the exception message
 		SshdSocketAddress[] forwarded = { null };
 		try (SshServer proxy = createProxy(TEST_USER + 'X', publicKey2,
@@ -428,7 +435,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostWrongKeyAtServer() throws Exception {
+	void testJumpHostWrongKeyAtServer() throws Exception {
 		// Test that we find the target server's URI in the exception message
 		SshdSocketAddress[] forwarded = { null };
 		try (SshServer proxy = createProxy(TEST_USER + 'X', publicKey2,
@@ -460,7 +467,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostNonSsh() throws Exception {
+	void testJumpHostNonSsh() throws Exception {
 		SshdSocketAddress[] forwarded = { null };
 		try (SshServer proxy = createProxy(TEST_USER + 'X', publicKey2,
 				forwarded)) {
@@ -497,7 +504,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostWithPath() throws Exception {
+	void testJumpHostWithPath() throws Exception {
 		SshdSocketAddress[] forwarded = { null };
 		try (SshServer proxy = createProxy(TEST_USER + 'X', publicKey2,
 				forwarded)) {
@@ -534,7 +541,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostWithPathShort() throws Exception {
+	void testJumpHostWithPathShort() throws Exception {
 		SshdSocketAddress[] forwarded = { null };
 		try (SshServer proxy = createProxy(TEST_USER + 'X', publicKey2,
 				forwarded)) {
@@ -571,7 +578,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostChain() throws Exception {
+	void testJumpHostChain() throws Exception {
 		SshdSocketAddress[] forwarded1 = { null };
 		SshdSocketAddress[] forwarded2 = { null };
 		try (SshServer proxy1 = createProxy(TEST_USER + 'X', publicKey2,
@@ -609,7 +616,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostCascade() throws Exception {
+	void testJumpHostCascade() throws Exception {
 		SshdSocketAddress[] forwarded1 = { null };
 		SshdSocketAddress[] forwarded2 = { null };
 		try (SshServer proxy1 = createProxy(TEST_USER + 'X', publicKey2,
@@ -647,7 +654,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testJumpHostRecursion() throws Exception {
+	void testJumpHostRecursion() throws Exception {
 		SshdSocketAddress[] forwarded1 = { null };
 		SshdSocketAddress[] forwarded2 = { null };
 		try (SshServer proxy1 = createProxy(TEST_USER + 'X', publicKey2,
@@ -655,26 +662,27 @@ public class ApacheSshTest extends SshTestBase {
 				SshServer proxy2 = createProxy("foo", publicKey1, forwarded2)) {
 			try {
 				TransportException e = assertThrows(TransportException.class,
-						() -> cloneWith(
-						"ssh://server/doesntmatter", defaultCloneDir, null, //
-						"Host server", //
-						"HostName localhost", //
-						"Port " + testPort, //
-						"User " + TEST_USER, //
-						"IdentityFile " + privateKey1.getAbsolutePath(), //
-						"ProxyJump " + TEST_USER + "X@proxy", //
-						"", //
-						"Host proxy", //
-						"Hostname localhost", //
-						"Port " + proxy1.getPort(), //
-						"ProxyJump ssh://proxy2:" + proxy2.getPort(), //
-						"IdentityFile " + privateKey2.getAbsolutePath(), //
-						"", //
-						"Host proxy2", //
-						"Hostname localhost", //
-						"User foo", //
-						"ProxyJump " + TEST_USER + "X@proxy", //
-						"IdentityFile " + privateKey1.getAbsolutePath()));
+						() -> cloneWith("ssh://server/doesntmatter",
+								defaultCloneDir, null, //
+								"Host server", //
+								"HostName localhost", //
+								"Port " + testPort, //
+								"User " + TEST_USER, //
+								"IdentityFile " + privateKey1.getAbsolutePath(), //
+								"ProxyJump " + TEST_USER + "X@proxy", //
+								"", //
+								"Host proxy", //
+								"Hostname localhost", //
+								"Port " + proxy1.getPort(), //
+								"ProxyJump ssh://proxy2:" + proxy2.getPort(), //
+								"IdentityFile " + privateKey2.getAbsolutePath(), //
+								"", //
+								"Host proxy2", //
+								"Hostname localhost", //
+								"User foo", //
+								"ProxyJump " + TEST_USER + "X@proxy", //
+								"IdentityFile "
+										+ privateKey1.getAbsolutePath()));
 				assertTrue(e.getMessage().contains("proxy"));
 			} finally {
 				proxy1.stop();
@@ -694,8 +702,7 @@ public class ApacheSshTest extends SshTestBase {
 	 *             on failure
 	 */
 	@Test
-	public void testConnectAuthSshRsaPubkeyAcceptedAlgorithms()
-			throws Exception {
+	void testConnectAuthSshRsaPubkeyAcceptedAlgorithms() throws Exception {
 		try (SshServer oldServer = createServer(TEST_USER, publicKey1)) {
 			oldServer.setSignatureFactoriesNames("ssh-rsa");
 			oldServer.start();
@@ -734,7 +741,7 @@ public class ApacheSshTest extends SshTestBase {
 	 *             on failure
 	 */
 	@Test
-	public void testConnectAuthSshRsa() throws Exception {
+	void testConnectAuthSshRsa() throws Exception {
 		try (SshServer oldServer = createServer(TEST_USER, publicKey1)) {
 			oldServer.setSignatureFactoriesNames("ssh-rsa");
 			oldServer.start();
@@ -762,7 +769,7 @@ public class ApacheSshTest extends SshTestBase {
 	 *             on failure
 	 */
 	@Test
-	public void testConnectOnlyRsaSha1() throws Exception {
+	void testConnectOnlyRsaSha1() throws Exception {
 		try (SshServer oldServer = createServer(TEST_USER, publicKey1)) {
 			oldServer.setSignatureFactoriesNames("ssh-rsa");
 			List<DHFactory> sha1Factories = BuiltinDHFactories
@@ -817,7 +824,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testAuthFailureMessageCancel() throws Exception {
+	void testAuthFailureMessageCancel() throws Exception {
 		File userKey = new File(getTemporaryDirectory(), "userkey");
 		copyTestResource("id_ed25519", userKey);
 		File publicKey = new File(getTemporaryDirectory(), "userkey.pub");
@@ -839,7 +846,7 @@ public class ApacheSshTest extends SshTestBase {
 	}
 
 	@Test
-	public void testAuthFailureMessage() throws Exception {
+	void testAuthFailureMessage() throws Exception {
 		File userKey = new File(getTemporaryDirectory(), "userkey");
 		copyTestResource("id_ed25519", userKey);
 		File publicKey = new File(getTemporaryDirectory(), "userkey.pub");

@@ -9,11 +9,11 @@
  */
 package org.eclipse.jgit.junit.ssh;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -50,7 +50,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 
 /**
  * Root class for ssh tests. Sets up the ssh test server. A set of pre-computed
@@ -193,12 +193,12 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 			int port, File publicKey) throws IOException {
 		List<String> lines = Files.readAllLines(publicKey.toPath(),
 				StandardCharsets.UTF_8);
-		assertEquals("Public key has too many lines", 1, lines.size());
+		assertEquals(1, lines.size(), "Public key has too many lines");
 		String pubKey = lines.get(0);
 		// Strip off the comment.
 		String[] parts = pubKey.split("\\s+");
-		assertTrue("Unexpected key content",
-				parts.length == 2 || parts.length == 3);
+		assertTrue(parts.length == 2 || parts.length == 3,
+				"Unexpected key content");
 		String keyPart = parts[0] + ' ' + parts[1];
 		String line = '[' + host + "]:" + port + ' ' + keyPart;
 		Files.write(file.toPath(), Collections.singletonList(line));
@@ -226,7 +226,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 				.anyMatch(l -> l.contains(h) && l.contains(keyPart));
 	}
 
-	@After
+	@AfterEach
 	public void shutdownServer() throws Exception {
 		if (server != null) {
 			server.stop();
@@ -318,8 +318,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 			File existingFile = new File(local.getWorkTree(), "file.txt");
 			write(existingFile, "something else");
 			git.add().addFilepattern("file.txt")
-					.addFilepattern(newFile.getName())
-					.call();
+					.addFilepattern(newFile.getName()).call();
 			commit = git.commit().setMessage("Local commit").call();
 			// Push
 			PushCommand push = git.push().setPushAll();
@@ -329,23 +328,22 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 			Iterable<PushResult> results = push.call();
 			for (PushResult result : results) {
 				for (RemoteRefUpdate u : result.getRemoteUpdates()) {
-					assertEquals(
+					assertEquals(RemoteRefUpdate.Status.OK, u.getStatus(),
 							"Could not update " + u.getRemoteName() + ' '
-									+ u.getMessage(),
-							RemoteRefUpdate.Status.OK, u.getStatus());
+									+ u.getMessage());
 				}
 			}
 		}
 		// Now check "master" in the remote repo directly:
-		assertEquals("Unexpected remote commit", commit, db.resolve("master"));
-		assertEquals("Unexpected remote commit", commit,
-				db.resolve(Constants.HEAD));
+		assertEquals(commit, db.resolve("master"), "Unexpected remote commit");
+		assertEquals(commit, db.resolve(Constants.HEAD),
+				"Unexpected remote commit");
 		File remoteFile = new File(db.getWorkTree(), newFile.getName());
-		assertFalse("File should not exist on remote", remoteFile.exists());
+		assertFalse(remoteFile.exists(), "File should not exist on remote");
 		try (Git git = new Git(db)) {
 			git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD).call();
 		}
-		assertTrue("File does not exist on remote", remoteFile.exists());
+		assertTrue(remoteFile.exists(), "File does not exist on remote");
 		checkFile(remoteFile, "something new");
 	}
 

@@ -9,14 +9,14 @@
  */
 package org.eclipse.jgit.junit.ssh;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
 import org.eclipse.jgit.api.Git;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Some minimal cloning and fetching tests. Concrete subclasses can implement
@@ -34,7 +34,7 @@ public abstract class SshBasicTestBase extends SshTestHarness {
 	}
 
 	@Test
-	public void testSshCloneWithConfig() throws Exception {
+	void testSshCloneWithConfig() throws Exception {
 		cloneWith("ssh://localhost/doesntmatter", defaultCloneDir, null, //
 				"Host localhost", //
 				"HostName localhost", //
@@ -44,7 +44,7 @@ public abstract class SshBasicTestBase extends SshTestHarness {
 	}
 
 	@Test
-	public void testSshFetchWithConfig() throws Exception {
+	void testSshFetchWithConfig() throws Exception {
 		File localClone = cloneWith("ssh://localhost/doesntmatter",
 				defaultCloneDir, null, //
 				"Host localhost", //
