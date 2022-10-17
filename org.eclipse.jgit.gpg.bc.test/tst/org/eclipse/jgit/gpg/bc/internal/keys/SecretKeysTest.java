@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.gpg.bc.internal.keys;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -32,17 +32,13 @@ import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.operator.PGPDigestCalculatorProvider;
 import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBuilder;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class SecretKeysTest {
 
-	@BeforeClass
+	@BeforeAll
 	public static void ensureBC() {
 		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
 			Security.addProvider(new BouncyCastleProvider());
@@ -90,13 +86,16 @@ public class SecretKeysTest {
 		}
 	}
 
-	@Parameters(name = "{0}")
 	public static TestData[] initTestData() {
 		return new TestData[] {
-				new TestData("AFDA8EA10E185ACF8C0D0F8885A0EF61A72ECB11", false, false),
-				new TestData("2FB05DBB70FC07CB84C13431F640CA6CEA1DBF8A", false, true),
-				new TestData("66CCECEC2AB46A9735B10FEC54EDF9FD0F77BAF9", true, true),
-				new TestData("F727FAB884DA3BD402B6E0F5472E108D21033124", true, true),
+				new TestData("AFDA8EA10E185ACF8C0D0F8885A0EF61A72ECB11", false,
+						false),
+				new TestData("2FB05DBB70FC07CB84C13431F640CA6CEA1DBF8A", false,
+						true),
+				new TestData("66CCECEC2AB46A9735B10FEC54EDF9FD0F77BAF9", true,
+						true),
+				new TestData("F727FAB884DA3BD402B6E0F5472E108D21033124", true,
+						true),
 				new TestData("faked", false, true) };
 	}
 
@@ -110,7 +109,8 @@ public class SecretKeysTest {
 	private static PGPPublicKey readAsc(InputStream in)
 			throws IOException, PGPException {
 		PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(
-			PGPUtil.getDecoderStream(in), new JcaKeyFingerprintCalculator());
+				PGPUtil.getDecoderStream(in),
+				new JcaKeyFingerprintCalculator());
 
 		Iterator<PGPPublicKeyRing> keyRings = pgpPub.getKeyRings();
 		while (keyRings.hasNext()) {
@@ -124,12 +124,9 @@ public class SecretKeysTest {
 		return null;
 	}
 
-	// Injected by JUnit
-	@Parameter
-	public TestData data;
-
-	@Test
-	public void testKeyRead() throws Exception {
+	@MethodSource("initTestData")
+	@ParameterizedTest(name = "{0}")
+	void testKeyRead(TestData data) throws Exception {
 		if (data.keyValue) {
 			byte[] bytes = readTestKey(data.name + ".key");
 			assertEquals('(', bytes[0]);

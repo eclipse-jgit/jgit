@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.gpg.bc.internal.keys;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,17 +27,13 @@ import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.bouncycastle.util.encoders.Hex;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class KeyGripTest {
 
-	@BeforeClass
+	@BeforeAll
 	public static void ensureBC() {
 		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
 			Security.addProvider(new BouncyCastleProvider());
@@ -61,7 +57,6 @@ public class KeyGripTest {
 		}
 	}
 
-	@Parameters(name = "{0}")
 	public static TestData[] initTestData() {
 		return new TestData[] {
 				new TestData("rsa.asc",
@@ -95,18 +90,14 @@ public class KeyGripTest {
 						"940D97D75C306D737A59A98EAFF1272832CEDC0B"),
 				new TestData("x25519.asc",
 						"A77DC8173DA6BEE126F5BD6F5A14E01200B52FCE",
-						"636C983EDB558527BA82780B52CB5DAE011BE46B")
-		};
+						"636C983EDB558527BA82780B52CB5DAE011BE46B") };
 	}
-
-	// Injected by JUnit
-	@Parameter
-	public TestData data;
 
 	private void readAsc(InputStream in, Consumer<PGPPublicKey> process)
 			throws IOException, PGPException {
 		PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(
-			PGPUtil.getDecoderStream(in), new JcaKeyFingerprintCalculator());
+				PGPUtil.getDecoderStream(in),
+				new JcaKeyFingerprintCalculator());
 
 		Iterator<PGPPublicKeyRing> keyRings = pgpPub.getKeyRings();
 		while (keyRings.hasNext()) {
@@ -119,8 +110,9 @@ public class KeyGripTest {
 		}
 	}
 
-	@Test
-	public void testGrip() throws Exception {
+	@MethodSource("initTestData")
+	@ParameterizedTest(name = "{0}")
+	void testGrip(TestData data) throws Exception {
 		try (InputStream in = this.getClass()
 				.getResourceAsStream(data.filename)) {
 			int index[] = { 0 };
@@ -131,13 +123,15 @@ public class KeyGripTest {
 				} catch (PGPException e) {
 					throw new RuntimeException(e);
 				}
-				assertTrue("More keys than expected",
-						index[0] < data.expectedKeyGrips.length);
-				assertEquals("Wrong keygrip", data.expectedKeyGrips[index[0]++],
-						Hex.toHexString(keyGrip).toUpperCase(Locale.ROOT));
+				assertTrue(index[0] < data.expectedKeyGrips.length,
+						"More keys than expected");
+				assertEquals(data.expectedKeyGrips[index[0]++],
+						Hex.toHexString(keyGrip).toUpperCase(Locale.ROOT),
+						"Wrong keygrip");
 			});
-			assertEquals("Missing keys", data.expectedKeyGrips.length,
-					index[0]);
+			assertEquals(data.expectedKeyGrips.length, index[0],
+					"Missing keys");
 		}
 	}
+
 }

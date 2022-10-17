@@ -9,12 +9,12 @@
  */
 package org.eclipse.jgit.gpg.bc.internal;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BouncyCastleGpgKeyLocatorTest {
 
@@ -25,7 +25,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 	}
 
 	@Test
-	public void testFullMatch() throws Exception {
+	void testFullMatch() throws Exception {
 		assertTrue(match(USER_ID,
 				"=Heinrich Heine <heinrichh@uni-duesseldorf.de>"));
 		assertFalse(match(USER_ID, "=Heinrich Heine"));
@@ -34,7 +34,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 	}
 
 	@Test
-	public void testEmpty() throws Exception {
+	void testEmpty() throws Exception {
 		assertFalse(match(USER_ID, ""));
 		assertFalse(match(USER_ID, null));
 		assertFalse(match("", ""));
@@ -45,7 +45,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 	}
 
 	@Test
-	public void testFullEmail() throws Exception {
+	void testFullEmail() throws Exception {
 		assertTrue(match(USER_ID, "<heinrichh@uni-duesseldorf.de>"));
 		assertTrue(match(USER_ID + " ", "<heinrichh@uni-duesseldorf.de>"));
 		assertFalse(match(USER_ID, "<>"));
@@ -61,7 +61,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 	}
 
 	@Test
-	public void testPartialEmail() throws Exception {
+	void testPartialEmail() throws Exception {
 		assertTrue(match(USER_ID, "@heinrichh@uni-duesseldorf.de"));
 		assertTrue(match(USER_ID, "@heinrichh"));
 		assertTrue(match(USER_ID, "@duesseldorf"));
@@ -97,17 +97,17 @@ public class BouncyCastleGpgKeyLocatorTest {
 	}
 
 	@Test
-	public void testSubstringPlain() throws Exception {
+	void testSubstringPlain() throws Exception {
 		substringTests("");
 	}
 
 	@Test
-	public void testSubstringAsterisk() throws Exception {
+	void testSubstringAsterisk() throws Exception {
 		substringTests("*");
 	}
 
 	@Test
-	public void testExplicitFingerprint() throws Exception {
+	void testExplicitFingerprint() throws Exception {
 		assertFalse(match("John Fade <j.fade@example.com>", "0xfade"));
 		assertFalse(match("John Fade <0xfade@example.com>", "0xfade"));
 		assertFalse(match("John Fade <0xfade@example.com>", "0xFADE"));
@@ -115,7 +115,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 	}
 
 	@Test
-	public void testImplicitFingerprint() throws Exception {
+	void testImplicitFingerprint() throws Exception {
 		assertTrue(match("John Fade <j.fade@example.com>", "fade"));
 		assertTrue(match("John Fade <0xfade@example.com>", "fade"));
 		assertTrue(match("John Fade <j.fade@example.com>", "FADE"));
@@ -123,7 +123,7 @@ public class BouncyCastleGpgKeyLocatorTest {
 	}
 
 	@Test
-	public void testZeroX() throws Exception {
+	void testZeroX() throws Exception {
 		assertTrue(match("John Fade <0xfade@example.com>", "0x"));
 		assertTrue(match("John Fade <0xfade@example.com>", "*0x"));
 		assertTrue(match("John Fade <0xfade@example.com>", "*0xfade"));
