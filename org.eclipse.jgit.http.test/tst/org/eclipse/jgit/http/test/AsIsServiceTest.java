@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 
@@ -23,8 +23,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AsIsServiceTest extends LocalDiskRepositoryTestCase {
 	private Repository db;
@@ -32,16 +32,15 @@ public class AsIsServiceTest extends LocalDiskRepositoryTestCase {
 	private AsIsFileService service;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
-
 		db = createBareRepository();
 		service = new AsIsFileService();
 	}
 
 	@Test
-	public void testDisabledSingleton() throws ServiceNotAuthorizedException {
+	void testDisabledSingleton() throws ServiceNotAuthorizedException {
 		service = AsIsFileService.DISABLED;
 		try {
 			service.access(new R(null, "1.2.3.4"), db);
@@ -59,16 +58,16 @@ public class AsIsServiceTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_Default() throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException {
+	void testCreate_Default()
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		service.access(new R(null, "1.2.3.4"), db);
 		service.access(new R("bob", "1.2.3.4"), db);
 	}
 
 	@Test
-	public void testCreate_Disabled() throws ServiceNotAuthorizedException,
-			IOException {
-		final StoredConfig cfg = db.getConfig();
+	void testCreate_Disabled()
+			throws ServiceNotAuthorizedException, IOException {
+		StoredConfig cfg = db.getConfig();
 		cfg.setBoolean("http", null, "getanyfile", false);
 		cfg.save();
 
@@ -88,8 +87,8 @@ public class AsIsServiceTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_Enabled() throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException {
+	void testCreate_Enabled()
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		db.getConfig().setBoolean("http", null, "getanyfile", true);
 		service.access(new R(null, "1.2.3.4"), db);
 		service.access(new R("bob", "1.2.3.4"), db);

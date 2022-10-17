@@ -14,12 +14,12 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +29,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.http.server.GitServlet;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.lib.Constants;
@@ -43,9 +44,10 @@ import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(CustomParameterResolver.class)
 public class DumbClientSmartServerTest extends AllProtocolsHttpTestCase {
 	private Repository remoteRepository;
 
@@ -55,14 +57,10 @@ public class DumbClientSmartServerTest extends AllProtocolsHttpTestCase {
 
 	private RevCommit A, B;
 
-	public DumbClientSmartServerTest(TestParameters params) {
-		super(params);
-	}
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(TestParameters params) throws Exception {
 		super.setUp();
+		configure(params);
 
 		final TestRepository<Repository> src = createTestRepository();
 		final String srcName = src.getRepository().getDirectory().getName();
@@ -86,34 +84,35 @@ public class DumbClientSmartServerTest extends AllProtocolsHttpTestCase {
 		src.update(master, B);
 	}
 
-	@Test
-	public void testListRemote() throws IOException {
+	@TestAllProtocols
+	void testListRemote(@SuppressWarnings("unused") TestParameters params)
+			throws IOException {
 		Repository dst = createBareRepository();
 
 		assertEquals("http", remoteURI.getScheme());
 
 		Map<String, Ref> map;
 		try (Transport t = Transport.open(dst, remoteURI)) {
-		((TransportHttp) t).setUseSmartHttp(false);
+			((TransportHttp) t).setUseSmartHttp(false);
 			// I didn't make up these public interface names, I just
 			// approved them for inclusion into the code base. Sorry.
 			// --spearce
 			//
-			assertTrue("isa TransportHttp", t instanceof TransportHttp);
-			assertTrue("isa HttpTransport", t instanceof HttpTransport);
+			assertTrue(t instanceof TransportHttp, "isa TransportHttp");
+			assertTrue(t instanceof HttpTransport, "isa HttpTransport");
 
 			try (FetchConnection c = t.openFetch()) {
 				map = c.getRefsMap();
 			}
 		}
 
-		assertNotNull("have map of refs", map);
+		assertNotNull(map, "have map of refs");
 		assertEquals(2, map.size());
 
-		assertNotNull("has " + master, map.get(master));
+		assertNotNull(map.get(master), "has " + master);
 		assertEquals(B, map.get(master).getObjectId());
 
-		assertNotNull("has " + Constants.HEAD, map.get(Constants.HEAD));
+		assertNotNull(map.get(Constants.HEAD), "has " + Constants.HEAD);
 		assertEquals(B, map.get(Constants.HEAD).getObjectId());
 
 		List<AccessEvent> requests = getRequests();
@@ -124,16 +123,15 @@ public class DumbClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals("GET", info.getMethod());
 		assertEquals(join(remoteURI, "info/refs"), info.getPath());
 		assertEquals(0, info.getParameters().size());
-		assertNull("no service parameter", info.getParameter("service"));
+		assertNull(info.getParameter("service"), "no service parameter");
 		assertEquals("no-cache", info.getRequestHeader(HDR_PRAGMA));
-		assertNotNull("has user-agent", info.getRequestHeader(HDR_USER_AGENT));
-		assertTrue("is jgit agent", info.getRequestHeader(HDR_USER_AGENT)
-				.startsWith("JGit/"));
+		assertNotNull(info.getRequestHeader(HDR_USER_AGENT), "has user-agent");
+		assertTrue(info.getRequestHeader(HDR_USER_AGENT).startsWith("JGit/"),
+				"is jgit agent");
 		assertEquals("*/*", info.getRequestHeader(HDR_ACCEPT));
 		assertEquals(200, info.getStatus());
 		assertEquals("text/plain;charset=utf-8",
-				info
-				.getResponseHeader(HDR_CONTENT_TYPE));
+				info.getResponseHeader(HDR_CONTENT_TYPE));
 
 		AccessEvent head = requests.get(1);
 		assertEquals("GET", head.getMethod());
@@ -143,13 +141,15 @@ public class DumbClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals("text/plain", head.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
-	@Test
-	public void testInitialClone_Small() throws Exception {
+	@TestAllProtocols
+	void testInitialClone_Small(
+			@SuppressWarnings("unused") TestParameters params)
+			throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.getObjectDatabase().has(A_txt));
 
 		try (Transport t = Transport.open(dst, remoteURI)) {
-		((TransportHttp) t).setUseSmartHttp(false);
+			((TransportHttp) t).setUseSmartHttp(false);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 
@@ -162,12 +162,14 @@ public class DumbClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals("GET", loose.get(0).getMethod());
 		assertEquals(0, loose.get(0).getParameters().size());
 		assertEquals(200, loose.get(0).getStatus());
-		assertEquals("application/x-git-loose-object", loose.get(0)
-				.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("application/x-git-loose-object",
+				loose.get(0).getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
-	@Test
-	public void testInitialClone_Packed() throws Exception {
+	@TestAllProtocols
+	void testInitialClone_Packed(
+			@SuppressWarnings("unused") TestParameters params)
+			throws Exception {
 		try (TestRepository<Repository> tr = new TestRepository<>(
 				remoteRepository)) {
 			tr.packAndPrune();
@@ -199,15 +201,15 @@ public class DumbClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(0, req.get(0).getParameters().size());
 		assertEquals(200, req.get(0).getStatus());
 		assertEquals("text/plain;charset=utf-8",
-				req.get(0).getResponseHeader(
-				HDR_CONTENT_TYPE));
+				req.get(0).getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
-	@Test
-	public void testPushNotSupported() throws Exception {
-		final TestRepository src = createTestRepository();
-		final RevCommit Q = src.commit().create();
-		final Repository db = src.getRepository();
+	@TestAllProtocols
+	void testPushNotSupported(@SuppressWarnings("unused") TestParameters params)
+			throws Exception {
+		TestRepository src = createTestRepository();
+		RevCommit Q = src.commit().create();
+		Repository db = src.getRepository();
 
 		try (Transport t = Transport.open(db, remoteURI)) {
 			((TransportHttp) t).setUseSmartHttp(false);

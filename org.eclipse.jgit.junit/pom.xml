@@ -117,6 +117,19 @@
           </archive>
         </configuration>
       </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArgs>
+            <arg>--add-exports</arg>
+            <arg>org.junit.platform.commons/org.junit.platform.commons.util=org.eclipse.jgit.junit</arg>
+            <arg>--add-exports</arg>
+            <arg>org.junit.jupiter.engine/org.junit.jupiter.engine.extension=org.eclipse.jgit.junit</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +21,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -29,6 +30,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -38,9 +40,10 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(CustomParameterResolver.class)
 public class MeasurePackSizeTest extends AllFactoriesHttpTestCase {
 
 	private Repository remoteRepository;
@@ -49,14 +52,10 @@ public class MeasurePackSizeTest extends AllFactoriesHttpTestCase {
 
 	long packSize = -1;
 
-	public MeasurePackSizeTest(HttpConnectionFactory cf) {
-		super(cf);
-	}
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(HttpConnectionFactory cf) throws Exception {
 		super.setUp();
+		HttpTransport.setConnectionFactory(cf);
 
 		final TestRepository<Repository> src = createTestRepository();
 		final String srcName = src.getRepository().getDirectory().getName();
@@ -98,8 +97,9 @@ public class MeasurePackSizeTest extends AllFactoriesHttpTestCase {
 		cfg.save();
 	}
 
-	@Test
-	public void testPush_packSize() throws Exception {
+	@TestAllImplementations
+	void testPush_packSize(@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		final TestRepository src = createTestRepository();
 		final RevBlob Q_txt = src
 				.blob("some blob content to measure pack size");
@@ -119,9 +119,9 @@ public class MeasurePackSizeTest extends AllFactoriesHttpTestCase {
 			result = t.push(NullProgressMonitor.INSTANCE,
 					Collections.singleton(update));
 		}
-		assertEquals("expected 1 RemoteUpdate", 1, result.getRemoteUpdates()
-				.size());
-		assertEquals("unexpected pack size", 1398, packSize);
+		assertEquals(1, result.getRemoteUpdates().size(),
+				"expected 1 RemoteUpdate");
+		assertEquals(1398, packSize, "unexpected pack size");
 	}
 
 }

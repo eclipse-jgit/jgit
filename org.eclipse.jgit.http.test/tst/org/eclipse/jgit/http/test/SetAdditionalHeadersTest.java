@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +22,7 @@ import java.util.List;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.lib.Repository;
@@ -32,9 +33,10 @@ import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(CustomParameterResolver.class)
 public class SetAdditionalHeadersTest extends AllFactoriesHttpTestCase {
 
 	private URIish remoteURI;
@@ -43,14 +45,10 @@ public class SetAdditionalHeadersTest extends AllFactoriesHttpTestCase {
 
 	private RevCommit A, B;
 
-	public SetAdditionalHeadersTest(HttpConnectionFactory cf) {
-		super(cf);
-	}
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(HttpConnectionFactory cf) throws Exception {
 		super.setUp();
+		HttpTransport.setConnectionFactory(cf);
 
 		final TestRepository<Repository> src = createTestRepository();
 		final File srcGit = src.getRepository().getDirectory();
@@ -71,15 +69,16 @@ public class SetAdditionalHeadersTest extends AllFactoriesHttpTestCase {
 		src.update(master, B);
 	}
 
-	@Test
-	public void testSetHeaders() throws IOException {
+	@TestAllImplementations
+	void testSetHeaders(@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws IOException {
 		Repository dst = createBareRepository();
 
 		assertEquals("http", remoteURI.getScheme());
 
 		try (Transport t = Transport.open(dst, remoteURI)) {
-			assertTrue("isa TransportHttp", t instanceof TransportHttp);
-			assertTrue("isa HttpTransport", t instanceof HttpTransport);
+			assertTrue(t instanceof TransportHttp, "isa TransportHttp");
+			assertTrue(t instanceof HttpTransport, "isa HttpTransport");
 
 			HashMap<String, String> headers = new HashMap<>();
 			headers.put("Cookie", "someTokenValue=23gBog34");
@@ -93,13 +92,15 @@ public class SetAdditionalHeadersTest extends AllFactoriesHttpTestCase {
 
 		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
-		assertEquals(info.getRequestHeader("Cookie"), "someTokenValue=23gBog34");
+		assertEquals(info.getRequestHeader("Cookie"),
+				"someTokenValue=23gBog34");
 		assertEquals(info.getRequestHeader("AnotherKey"), "someValue");
 		assertEquals(200, info.getStatus());
 
 		info = requests.get(1);
 		assertEquals("GET", info.getMethod());
-		assertEquals(info.getRequestHeader("Cookie"), "someTokenValue=23gBog34");
+		assertEquals(info.getRequestHeader("Cookie"),
+				"someTokenValue=23gBog34");
 		assertEquals(info.getRequestHeader("AnotherKey"), "someValue");
 		assertEquals(200, info.getStatus());
 	}

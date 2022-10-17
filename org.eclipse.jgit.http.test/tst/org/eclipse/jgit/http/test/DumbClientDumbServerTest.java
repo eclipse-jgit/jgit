@@ -13,11 +13,11 @@ package org.eclipse.jgit.http.test;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +29,7 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.NotSupportedException;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.lib.Constants;
@@ -44,9 +45,10 @@ import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(CustomParameterResolver.class)
 public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 	private Repository remoteRepository;
 
@@ -56,14 +58,10 @@ public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 
 	private RevCommit A, B;
 
-	public DumbClientDumbServerTest(HttpConnectionFactory cf) {
-		super(cf);
-	}
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(HttpConnectionFactory cf) throws Exception {
 		super.setUp();
+		HttpTransport.setConnectionFactory(cf);
 
 		final TestRepository<Repository> src = createTestRepository();
 		final File srcGit = src.getRepository().getDirectory();
@@ -88,8 +86,9 @@ public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 		src.update(master, B);
 	}
 
-	@Test
-	public void testListRemote() throws IOException {
+	@TestAllImplementations
+	void testListRemote(@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws IOException {
 		Repository dst = createBareRepository();
 
 		assertEquals("http", remoteURI.getScheme());
@@ -100,21 +99,21 @@ public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 			// approved them for inclusion into the code base. Sorry.
 			// --spearce
 			//
-			assertTrue("isa TransportHttp", t instanceof TransportHttp);
-			assertTrue("isa HttpTransport", t instanceof HttpTransport);
+			assertTrue(t instanceof TransportHttp, "isa TransportHttp");
+			assertTrue(t instanceof HttpTransport, "isa HttpTransport");
 
 			try (FetchConnection c = t.openFetch()) {
 				map = c.getRefsMap();
 			}
 		}
 
-		assertNotNull("have map of refs", map);
+		assertNotNull(map, "have map of refs");
 		assertEquals(2, map.size());
 
-		assertNotNull("has " + master, map.get(master));
+		assertNotNull(map.get(master), "has " + master);
 		assertEquals(B, map.get(master).getObjectId());
 
-		assertNotNull("has " + Constants.HEAD, map.get(Constants.HEAD));
+		assertNotNull(map.get(Constants.HEAD), "has " + Constants.HEAD);
 		assertEquals(B, map.get(Constants.HEAD).getObjectId());
 
 		List<AccessEvent> requests = getRequests();
@@ -127,11 +126,11 @@ public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-upload-pack", info.getParameter("service"));
 		assertEquals("no-cache", info.getRequestHeader(HDR_PRAGMA));
-		assertNotNull("has user-agent", info.getRequestHeader(HDR_USER_AGENT));
-		assertTrue("is jgit agent", info.getRequestHeader(HDR_USER_AGENT)
-				.startsWith("JGit/"));
-		assertEquals("application/x-git-upload-pack-advertisement, */*", info
-				.getRequestHeader(HDR_ACCEPT));
+		assertNotNull(info.getRequestHeader(HDR_USER_AGENT), "has user-agent");
+		assertTrue(info.getRequestHeader(HDR_USER_AGENT).startsWith("JGit/"),
+				"is jgit agent");
+		assertEquals("application/x-git-upload-pack-advertisement, */*",
+				info.getRequestHeader(HDR_ACCEPT));
 		assertEquals(200, info.getStatus());
 
 		AccessEvent head = requests.get(1);
@@ -139,14 +138,16 @@ public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 		assertEquals(join(remoteURI, "HEAD"), head.getPath());
 		assertEquals(0, head.getParameters().size());
 		assertEquals("no-cache", head.getRequestHeader(HDR_PRAGMA));
-		assertNotNull("has user-agent", head.getRequestHeader(HDR_USER_AGENT));
-		assertTrue("is jgit agent", head.getRequestHeader(HDR_USER_AGENT)
-				.startsWith("JGit/"));
+		assertNotNull(head.getRequestHeader(HDR_USER_AGENT), "has user-agent");
+		assertTrue(head.getRequestHeader(HDR_USER_AGENT).startsWith("JGit/"),
+				"is jgit agent");
 		assertEquals(200, head.getStatus());
 	}
 
-	@Test
-	public void testInitialClone_Loose() throws Exception {
+	@TestAllImplementations
+	void testInitialClone_Loose(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.getObjectDatabase().has(A_txt));
 
@@ -165,8 +166,10 @@ public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 		assertEquals(200, loose.get(0).getStatus());
 	}
 
-	@Test
-	public void testInitialClone_Packed() throws Exception {
+	@TestAllImplementations
+	void testInitialClone_Packed(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		try (TestRepository<Repository> tr = new TestRepository<>(
 				remoteRepository)) {
 			tr.packAndPrune();
@@ -199,14 +202,16 @@ public class DumbClientDumbServerTest extends AllFactoriesHttpTestCase {
 		assertEquals("GET", event.getMethod());
 		assertEquals(0, event.getParameters().size());
 		assertEquals("no-cache", event.getRequestHeader(HDR_PRAGMA));
-		assertNotNull("has user-agent", event.getRequestHeader(HDR_USER_AGENT));
-		assertTrue("is jgit agent", event.getRequestHeader(HDR_USER_AGENT)
-				.startsWith("JGit/"));
+		assertNotNull(event.getRequestHeader(HDR_USER_AGENT), "has user-agent");
+		assertTrue(event.getRequestHeader(HDR_USER_AGENT).startsWith("JGit/"),
+				"is jgit agent");
 		assertEquals(200, event.getStatus());
 	}
 
-	@Test
-	public void testPushNotSupported() throws Exception {
+	@TestAllImplementations
+	void testPushNotSupported(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		final TestRepository src = createTestRepository();
 		final RevCommit Q = src.commit().create();
 		final Repository db = src.getRepository();

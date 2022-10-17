@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
@@ -24,13 +24,13 @@ import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.junit.http.MockServletConfig;
 import org.eclipse.jgit.junit.http.RecordingLogger;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public class GitServletInitTest {
 	private AppServer server;
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (server != null) {
 			server.tearDown();
@@ -39,7 +39,7 @@ public class GitServletInitTest {
 	}
 
 	@Test
-	public void testDefaultConstructor_NoBasePath() throws Exception {
+	void testDefaultConstructor_NoBasePath() throws Exception {
 		GitServlet s = new GitServlet();
 		try {
 			s.init(new MockServletConfig());
@@ -50,10 +50,10 @@ public class GitServletInitTest {
 	}
 
 	@Test
-	public void testDefaultConstructor_WithBasePath() throws Exception {
+	void testDefaultConstructor_WithBasePath() throws Exception {
 		MockServletConfig c = new MockServletConfig();
-		c.setInitParameter("base-path", ".");
-		c.setInitParameter("export-all", "false");
+		c.setInitParameter("base-path",".");
+		c.setInitParameter("export-all","false");
 
 		GitServlet s = new GitServlet();
 		s.init(c);
@@ -61,15 +61,15 @@ public class GitServletInitTest {
 	}
 
 	@Test
-	public void testInitUnderContainer_NoBasePath() throws Exception {
+	void testInitUnderContainer_NoBasePath() throws Exception {
 		server = new AppServer();
 
 		ServletContextHandler app = server.addContext("/");
-		ServletHolder s = app.addServlet(GitServlet.class, "/git");
+		ServletHolder s = app.addServlet(GitServlet.class,"/git");
 		s.setInitOrder(1);
 		s.getServletHandler().setStartWithUnavailable(false);
 		// The tmp directory is symlinked on OS X
-		s.setInitParameter("aliases", "true");
+		s.setInitParameter("aliases","true");
 
 		try {
 			server.setUp();
@@ -79,14 +79,14 @@ public class GitServletInitTest {
 				MultiException multi = (MultiException) e;
 				List<Throwable> reasons = multi.getThrowables();
 				why = reasons.get(0);
-				assertTrue("Expected ServletException",
-						why instanceof ServletException);
+				assertTrue(why instanceof ServletException,
+						"Expected ServletException");
 			} else if (e instanceof ServletException)
 				why = e;
 
 			if (why != null) {
-				assertTrue("Wanted base-path",
-						why.getMessage().contains("base-path"));
+				assertTrue(why.getMessage().contains("base-path"),
+						"Wanted base-path");
 				return;
 			}
 		}
@@ -94,18 +94,18 @@ public class GitServletInitTest {
 	}
 
 	@Test
-	public void testInitUnderContainer_WithBasePath() throws Exception {
+	void testInitUnderContainer_WithBasePath() throws Exception {
 		server = new AppServer();
 
 		ServletContextHandler app = server.addContext("/");
-		ServletHolder s = app.addServlet(GitServlet.class, "/git");
+		ServletHolder s = app.addServlet(GitServlet.class,"/git");
 		s.setInitOrder(1);
-		s.setInitParameter("base-path", ".");
-		s.setInitParameter("export-all", "true");
+		s.setInitParameter("base-path",".");
+		s.setInitParameter("export-all","true");
 		// The tmp directory is symlinked on OS X
-		s.setInitParameter("aliases", "true");
+		s.setInitParameter("aliases","true");
 
 		server.setUp();
-		assertTrue("no warnings", RecordingLogger.getWarnings().isEmpty());
+		assertTrue(RecordingLogger.getWarnings().isEmpty(),"no warnings");
 	}
 }

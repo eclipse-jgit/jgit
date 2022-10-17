@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.http.test;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,19 +20,18 @@ import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Abstract test base class for running HTTP-related tests with all connection
  * factories provided in JGit and with both protocol V0 and V2.
  */
-@Ignore
-@RunWith(Parameterized.class)
+@Disabled
 public abstract class AllProtocolsHttpTestCase extends HttpTestCase {
 
 	protected static class TestParameters {
@@ -52,8 +53,14 @@ public abstract class AllProtocolsHttpTestCase extends HttpTestCase {
 		}
 	}
 
-	@Parameters(name = "{0}")
-	public static Collection<TestParameters> data() {
+	@ParameterizedTest(name = "{0}")
+	@MethodSource("allProtocols")
+	@Retention(RetentionPolicy.RUNTIME)
+	protected @interface TestAllProtocols {
+		// empty
+	}
+
+	public static Collection<Arguments> allProtocols() {
 		// run all tests with both connection factories we have
 		HttpConnectionFactory[] factories = new HttpConnectionFactory[] {
 				new JDKHttpConnectionFactory() {
@@ -69,29 +76,29 @@ public abstract class AllProtocolsHttpTestCase extends HttpTestCase {
 						return this.getClass().getSuperclass().getName();
 					}
 				} };
-		List<TestParameters> result = new ArrayList<>();
+		List<Arguments> result = new ArrayList<>();
 		for (HttpConnectionFactory factory : factories) {
-			result.add(new TestParameters(factory, false));
-			result.add(new TestParameters(factory, true));
+			result.add(Arguments.of(new TestParameters(factory, false)));
+			result.add(Arguments.of(new TestParameters(factory, true)));
 		}
 		return result;
 	}
 
-	protected final boolean enableProtocolV2;
+	protected boolean enableProtocolV2;
 
-	protected AllProtocolsHttpTestCase(TestParameters params) {
+	protected void configure(TestParameters params) {
 		HttpTransport.setConnectionFactory(params.factory);
 		enableProtocolV2 = params.enableProtocolV2;
 	}
 
 	private static HttpConnectionFactory originalFactory;
 
-	@BeforeClass
+	@BeforeAll
 	public static void saveConnectionFactory() {
 		originalFactory = HttpTransport.getConnectionFactory();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void restoreConnectionFactory() {
 		HttpTransport.setConnectionFactory(originalFactory);
 	}

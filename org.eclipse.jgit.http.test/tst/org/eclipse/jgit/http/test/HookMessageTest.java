@@ -10,9 +10,9 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -27,6 +27,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.lib.Constants;
@@ -36,6 +37,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -45,26 +47,23 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(CustomParameterResolver.class)
 public class HookMessageTest extends AllFactoriesHttpTestCase {
 
 	private Repository remoteRepository;
 
 	private URIish remoteURI;
 
-	public HookMessageTest(HttpConnectionFactory cf) {
-		super(cf);
-	}
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(HttpConnectionFactory cf) throws Exception {
 		super.setUp();
+		HttpTransport.setConnectionFactory(cf);
 
-		final TestRepository<Repository> src = createTestRepository();
-		final String srcName = src.getRepository().getDirectory().getName();
+		TestRepository<Repository> src = createTestRepository();
+		String srcName = src.getRepository().getDirectory().getName();
 
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
@@ -72,7 +71,7 @@ public class HookMessageTest extends AllFactoriesHttpTestCase {
 			if (!name.equals(srcName)) {
 				throw new RepositoryNotFoundException(name);
 			}
-			final Repository db = src.getRepository();
+			Repository db = src.getRepository();
 			db.incrementOpen();
 			return db;
 		});
@@ -105,29 +104,31 @@ public class HookMessageTest extends AllFactoriesHttpTestCase {
 		cfg.save();
 	}
 
-	@Test
-	public void testPush_CreateBranch() throws Exception {
-		final TestRepository src = createTestRepository();
-		final RevBlob Q_txt = src.blob("new text");
-		final RevCommit Q = src.commit().add("Q", Q_txt).create();
-		final Repository db = src.getRepository();
-		final String dstName = Constants.R_HEADS + "new.branch";
+	@TestAllImplementations
+	void testPush_CreateBranch(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		TestRepository src = createTestRepository();
+		RevBlob Q_txt = src.blob("new text");
+		RevCommit Q = src.commit().add("Q", Q_txt).create();
+		Repository db = src.getRepository();
+		String dstName = Constants.R_HEADS + "new.branch";
 		PushResult result;
 
 		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
-			final boolean forceUpdate = false;
-			final String localName = null;
-			final ObjectId oldId = null;
+			String srcExpr = Q.name();
+			boolean forceUpdate = false;
+			String localName = null;
+			ObjectId oldId = null;
 
 			RemoteRefUpdate update = new RemoteRefUpdate(src.getRepository(),
 					srcExpr, dstName, forceUpdate, localName, oldId);
-			result = t.push(NullProgressMonitor.INSTANCE, Collections
-					.singleton(update));
+			result = t.push(NullProgressMonitor.INSTANCE,
+					Collections.singleton(update));
 		}
 
 		assertTrue(remoteRepository.getObjectDatabase().has(Q_txt));
-		assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
+		assertNotNull(remoteRepository.exactRef(dstName), "has " + dstName);
 		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
 		fsck(remoteRepository, Q);
 
@@ -145,21 +146,23 @@ public class HookMessageTest extends AllFactoriesHttpTestCase {
 				result.getMessages());
 	}
 
-	@Test
-	public void testPush_HookMessagesToOutputStream() throws Exception {
-		final TestRepository src = createTestRepository();
-		final RevBlob Q_txt = src.blob("new text");
-		final RevCommit Q = src.commit().add("Q", Q_txt).create();
-		final Repository db = src.getRepository();
-		final String dstName = Constants.R_HEADS + "new.branch";
+	@TestAllImplementations
+	void testPush_HookMessagesToOutputStream(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		TestRepository src = createTestRepository();
+		RevBlob Q_txt = src.blob("new text");
+		RevCommit Q = src.commit().add("Q", Q_txt).create();
+		Repository db = src.getRepository();
+		String dstName = Constants.R_HEADS + "new.branch";
 		PushResult result;
 
 		OutputStream out = new ByteArrayOutputStream();
 		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
-			final boolean forceUpdate = false;
-			final String localName = null;
-			final ObjectId oldId = null;
+			String srcExpr = Q.name();
+			boolean forceUpdate = false;
+			String localName = null;
+			ObjectId oldId = null;
 
 			RemoteRefUpdate update = new RemoteRefUpdate(src.getRepository(),
 					srcExpr, dstName, forceUpdate, localName, oldId);

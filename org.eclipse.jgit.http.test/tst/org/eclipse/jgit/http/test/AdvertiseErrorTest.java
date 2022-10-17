@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Collections;
 
@@ -23,6 +23,7 @@ import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -31,6 +32,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
@@ -38,26 +40,23 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(CustomParameterResolver.class)
 public class AdvertiseErrorTest extends AllFactoriesHttpTestCase {
 
 	private Repository remoteRepository;
 
 	private URIish remoteURI;
 
-	public AdvertiseErrorTest(HttpConnectionFactory cf) {
-		super(cf);
-	}
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(HttpConnectionFactory cf) throws Exception {
 		super.setUp();
+		HttpTransport.setConnectionFactory(cf);
 
-		final TestRepository<Repository> src = createTestRepository();
-		final String srcName = src.getRepository().getDirectory().getName();
+		TestRepository<Repository> src = createTestRepository();
+		String srcName = src.getRepository().getDirectory().getName();
 
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
@@ -65,7 +64,7 @@ public class AdvertiseErrorTest extends AllFactoriesHttpTestCase {
 			if (!name.equals(srcName)) {
 				throw new RepositoryNotFoundException(name);
 			}
-			final Repository db = src.getRepository();
+			Repository db = src.getRepository();
 			db.incrementOpen();
 			return db;
 		});
@@ -94,24 +93,26 @@ public class AdvertiseErrorTest extends AllFactoriesHttpTestCase {
 		cfg.save();
 	}
 
-	@Test
-	public void testPush_CreateBranch() throws Exception {
-		final TestRepository src = createTestRepository();
-		final RevBlob Q_txt = src.blob("new text");
-		final RevCommit Q = src.commit().add("Q", Q_txt).create();
-		final Repository db = src.getRepository();
-		final String dstName = Constants.R_HEADS + "new.branch";
+	@TestAllImplementations
+	void testPush_CreateBranch(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		TestRepository src = createTestRepository();
+		RevBlob Q_txt = src.blob("new text");
+		RevCommit Q = src.commit().add("Q", Q_txt).create();
+		Repository db = src.getRepository();
+		String dstName = Constants.R_HEADS + "new.branch";
 		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
-			final boolean forceUpdate = false;
-			final String localName = null;
-			final ObjectId oldId = null;
+			String srcExpr = Q.name();
+			boolean forceUpdate = false;
+			String localName = null;
+			ObjectId oldId = null;
 
 			RemoteRefUpdate update = new RemoteRefUpdate(src.getRepository(),
 					srcExpr, dstName, forceUpdate, localName, oldId);
 			try {
-				t.push(NullProgressMonitor.INSTANCE, Collections
-						.singleton(update));
+				t.push(NullProgressMonitor.INSTANCE,
+						Collections.singleton(update));
 				fail("push completed without throwing exception");
 			} catch (RemoteRepositoryException error) {
 				assertEquals(remoteURI + ": message line 1\n" //

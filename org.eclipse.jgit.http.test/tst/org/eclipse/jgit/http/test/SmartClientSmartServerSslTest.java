@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -35,6 +35,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.http.server.GitServlet;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.AppServer;
@@ -50,12 +51,10 @@ import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.HttpSupport;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(Parameterized.class)
+@ExtendWith(CustomParameterResolver.class)
 public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 
 	// We run these tests with a server on localhost with a self-signed
@@ -112,19 +111,15 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 
 	private RevCommit A, B;
 
-	public SmartClientSmartServerSslTest(TestParameters params) {
-		super(params);
-	}
-
 	@Override
 	protected AppServer createServer() {
 		return new AppServer(0, 0);
 	}
 
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(TestParameters params) throws Exception {
 		super.setUp();
+		configure(params);
 
 		final TestRepository<Repository> src = createTestRepository();
 		final String srcName = src.getRepository().getDirectory().getName();
@@ -152,7 +147,8 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 		src.update("refs/garbage/a/very/long/ref/name/to/compress", B);
 	}
 
-	private ServletContextHandler addNormalContext(GitServlet gs, TestRepository<Repository> src, String srcName) {
+	private ServletContextHandler addNormalContext(GitServlet gs,
+			TestRepository<Repository> src, String srcName) {
 		ServletContextHandler app = server.addContext("/git");
 		app.addFilter(new FilterHolder(new Filter() {
 
@@ -225,8 +221,10 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 		return app;
 	}
 
-	@Test
-	public void testInitialClone_ViaHttps() throws Exception {
+	@TestAllProtocols
+	void testInitialClone_ViaHttps(
+			@SuppressWarnings("unused") TestParameters params)
+			throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.getObjectDatabase().has(A_txt));
 
@@ -242,8 +240,10 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 		assertEquals(enableProtocolV2 ? 3 : 2, requests.size());
 	}
 
-	@Test
-	public void testInitialClone_RedirectToHttps() throws Exception {
+	@TestAllProtocols
+	void testInitialClone_RedirectToHttps(
+			@SuppressWarnings("unused") TestParameters params)
+			throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.getObjectDatabase().has(A_txt));
 
@@ -260,8 +260,10 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 		assertEquals(enableProtocolV2 ? 4 : 3, requests.size());
 	}
 
-	@Test
-	public void testInitialClone_RedirectBackToHttp() throws Exception {
+	@TestAllProtocols
+	void testInitialClone_RedirectBackToHttp(
+			@SuppressWarnings("unused") TestParameters params)
+			throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.getObjectDatabase().has(A_txt));
 
@@ -275,8 +277,10 @@ public class SmartClientSmartServerSslTest extends AllProtocolsHttpTestCase {
 		}
 	}
 
-	@Test
-	public void testInitialClone_SslFailure() throws Exception {
+	@TestAllProtocols
+	void testInitialClone_SslFailure(
+			@SuppressWarnings("unused") TestParameters params)
+			throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.getObjectDatabase().has(A_txt));
 

@@ -10,9 +10,9 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 
@@ -28,8 +28,8 @@ import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 	private Repository db;
@@ -37,7 +37,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 	private UploadPackFactory<HttpServletRequest> factory;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -47,7 +47,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDisabledSingleton() throws ServiceNotAuthorizedException {
+	void testDisabledSingleton() throws ServiceNotAuthorizedException {
 		factory = (UploadPackFactory<HttpServletRequest>) UploadPackFactory.DISABLED;
 
 		try {
@@ -73,22 +73,22 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_Default() throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException {
+	void testCreate_Default()
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		UploadPack up;
 
 		up = factory.create(new R(null, "1.2.3.4"), db);
-		assertNotNull("have UploadPack", up);
+		assertNotNull(up, "have UploadPack");
 		assertSame(db, up.getRepository());
 
 		up = factory.create(new R("bob", "1.2.3.4"), db);
-		assertNotNull("have UploadPack", up);
+		assertNotNull(up, "have UploadPack");
 		assertSame(db, up.getRepository());
 	}
 
 	@Test
-	public void testCreate_Disabled() throws ServiceNotAuthorizedException,
-			IOException {
+	void testCreate_Disabled()
+			throws ServiceNotAuthorizedException, IOException {
 		final StoredConfig cfg = db.getConfig();
 		cfg.setBoolean("http", null, "uploadpack", false);
 		cfg.save();
@@ -109,17 +109,17 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_Enabled() throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException {
+	void testCreate_Enabled()
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		db.getConfig().setBoolean("http", null, "uploadpack", true);
 		UploadPack up;
 
 		up = factory.create(new R(null, "1.2.3.4"), db);
-		assertNotNull("have UploadPack", up);
+		assertNotNull(up, "have UploadPack");
 		assertSame(db, up.getRepository());
 
 		up = factory.create(new R("bob", "1.2.3.4"), db);
-		assertNotNull("have UploadPack", up);
+		assertNotNull(up, "have UploadPack");
 		assertSame(db, up.getRepository());
 	}
 

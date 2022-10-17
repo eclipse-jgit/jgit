@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -19,14 +19,14 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.http.server.glue.ErrorServlet;
 import org.eclipse.jgit.junit.http.AppServer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ErrorServletTest {
 	private AppServer server;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 
 		server = new AppServer();
@@ -38,7 +38,7 @@ public class ErrorServletTest {
 		server.setUp();
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (server != null) {
 			server.tearDown();
@@ -46,11 +46,11 @@ public class ErrorServletTest {
 	}
 
 	@Test
-	public void testHandler() throws Exception {
+	void testHandler() throws Exception {
 		final URI uri = server.getURI();
-		assertEquals(404, ((HttpURLConnection) uri.resolve("/404").toURL()
+		assertEquals(404,((HttpURLConnection) uri.resolve("/404").toURL()
 				.openConnection()).getResponseCode());
-		assertEquals(500, ((HttpURLConnection) uri.resolve("/500").toURL()
+		assertEquals(500,((HttpURLConnection) uri.resolve("/500").toURL()
 				.openConnection()).getResponseCode());
 	}
 }

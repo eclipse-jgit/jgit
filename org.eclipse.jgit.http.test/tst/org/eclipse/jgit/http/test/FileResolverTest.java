@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,11 +26,11 @@ import org.eclipse.jgit.transport.resolver.FileResolver;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FileResolverTest extends LocalDiskRepositoryTestCase {
 	@Test
-	public void testUnreasonableNames() throws ServiceNotEnabledException {
+	void testUnreasonableNames() throws ServiceNotEnabledException {
 		assertUnreasonable("");
 		assertUnreasonable("a\\b");
 		assertUnreasonable("../b");
@@ -57,71 +57,71 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 			fail("Opened unreasonable name \"" + name + "\"");
 		} catch (RepositoryNotFoundException e) {
 			assertEquals("repository not found: " + name, e.getMessage());
-			assertNull("has no cause", e.getCause());
+			assertNull(e.getCause(), "has no cause");
 		}
 	}
 
 	@Test
-	public void testExportOk() throws IOException {
+	void testExportOk() throws IOException {
 		final Repository a = createBareRepository();
 		final String name = a.getDirectory().getName();
 		final File base = a.getDirectory().getParentFile();
-		final File export = new File(a.getDirectory(), "git-daemon-export-ok");
+		final File export = new File(a.getDirectory(),"git-daemon-export-ok");
 		FileResolver<RepositoryResolver> resolver;
 
-		assertFalse("no git-daemon-export-ok", export.exists());
-		resolver = new FileResolver<>(base, false /*
+		assertFalse(export.exists(),"no git-daemon-export-ok");
+		resolver = new FileResolver<>(base,false /*
 																	 * require
 																	 * flag
 																	 */);
 		try {
-			resolver.open(null, name);
+			resolver.open(null,name);
 			fail("opened non-exported repository");
 		} catch (ServiceNotEnabledException e) {
-			assertEquals("Service not enabled", e.getMessage());
+			assertEquals("Service not enabled",e.getMessage());
 		}
 
-		resolver = new FileResolver<>(base, true /*
+		resolver = new FileResolver<>(base,true /*
 																	 * export
 																	 * all
 																	 */);
 		try {
-			resolver.open(null, name).close();
+			resolver.open(null,name).close();
 		} catch (ServiceNotEnabledException e) {
 			fail("did not honor export-all flag");
 		}
 
 		FileUtils.createNewFile(export);
-		resolver = new FileResolver<>(base, false /*
+		resolver = new FileResolver<>(base,false /*
 																	 * require
 																	 * flag
 																	 */);
 		try {
-			resolver.open(null, name).close();
+			resolver.open(null,name).close();
 		} catch (ServiceNotEnabledException e) {
 			fail("did not honor git-daemon-export-ok");
 		}
 	}
 
 	@Test
-	public void testNotAGitRepository() throws IOException,
+	void testNotAGitRepository() throws IOException,
 			ServiceNotEnabledException {
 		final Repository a = createBareRepository();
 		final String name = a.getDirectory().getName() + "-not-a-git";
 		final File base = a.getDirectory().getParentFile();
 		FileResolver<RepositoryResolver> resolver = new FileResolver<>(
-				base, false);
+				base,false);
 
 		try {
-			resolver.open(null, name);
+			resolver.open(null,name);
 			fail("opened non-git repository");
 		} catch (RepositoryNotFoundException e) {
-			assertEquals("repository not found: " + name, e.getMessage());
+			assertEquals("repository not found: " + name,e.getMessage());
 
 			Throwable why = e.getCause();
-			assertNotNull("has cause", why);
+			assertNotNull(why,"has cause");
 			assertEquals("repository not found: "
-					+ new File(base, name).getPath(), why.getMessage());
+					+ new File(base,name).getPath(),why.getMessage());
 		}
 	}
 }

@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -44,8 +44,8 @@ import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for correct responses of {@link GitServlet}. Especially error
@@ -74,7 +74,7 @@ public class GitServletResponseTests extends HttpTestCase {
 	 * just before they talk to the server.
 	 */
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -130,7 +130,7 @@ public class GitServletResponseTests extends HttpTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testRuntimeExceptionInPreReceiveHook() throws Exception {
+	void testRuntimeExceptionInPreReceiveHook() throws Exception {
 		final TestRepository client = createTestRepository();
 		final RevBlob Q_txt = client
 				.blob("some blob content to measure pack size");
@@ -164,7 +164,7 @@ public class GitServletResponseTests extends HttpTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testObjectCheckerException() throws Exception {
+	void testObjectCheckerException() throws Exception {
 		final TestRepository client = createTestRepository();
 		final RevBlob Q_txt = client
 				.blob("some blob content to measure pack size");
@@ -207,7 +207,7 @@ public class GitServletResponseTests extends HttpTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testUnpackErrorWithSubsequentExceptionInPostReceiveHook()
+	void testUnpackErrorWithSubsequentExceptionInPostReceiveHook()
 			throws Exception {
 		final TestRepository client = createTestRepository();
 		final RevBlob Q_txt = client

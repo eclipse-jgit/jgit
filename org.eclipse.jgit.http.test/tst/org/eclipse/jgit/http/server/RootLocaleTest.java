@@ -11,17 +11,17 @@
 package org.eclipse.jgit.http.server;
 
 import org.eclipse.jgit.nls.NLS;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RootLocaleTest {
-	@Before
+	@BeforeEach
 	public void setUp() {
 		NLS.setLocale(NLS.ROOT_LOCALE);
 	}
 
 	@Test
-	public void testHttpServerText() {
+	void testHttpServerText() {
 		NLS.getBundleFor(HttpServerText.class);
 	}
 }

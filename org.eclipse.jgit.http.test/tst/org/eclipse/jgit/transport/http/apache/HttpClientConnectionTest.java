@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.transport.http.apache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -21,23 +21,23 @@ import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.message.AbstractHttpMessage;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HttpClientConnectionTest {
 	@Test
-	public void testGetHeaderFieldsAllowMultipleValues()
+	void testGetHeaderFieldsAllowMultipleValues()
 			throws MalformedURLException {
 		HttpResponse responseMock = new HttpResponseMock();
 		String headerField = "WWW-Authenticate";
-		responseMock.addHeader(headerField, "Basic");
-		responseMock.addHeader(headerField, "Digest");
-		responseMock.addHeader(headerField, "NTLM");
+		responseMock.addHeader(headerField,"Basic");
+		responseMock.addHeader(headerField,"Digest");
+		responseMock.addHeader(headerField,"NTLM");
 		HttpClientConnection connection = new HttpClientConnection(
 				"http://0.0.0.0/");
 		connection.resp = responseMock;
 		List<String> headerValues = connection.getHeaderFields()
 				.get(headerField);
-		assertEquals(3, headerValues.size());
+		assertEquals(3,headerValues.size());
 		assertTrue(headerValues.contains("Basic"));
 		assertTrue(headerValues.contains("Digest"));
 		assertTrue(headerValues.contains("NTLM"));

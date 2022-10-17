@@ -13,12 +13,12 @@ package org.eclipse.jgit.http.server;
 import static org.eclipse.jgit.http.server.ClientVersionUtil.invalidVersion;
 import static org.eclipse.jgit.http.server.ClientVersionUtil.parseVersion;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ClientVersionUtilTest {
 	@Test
-	public void testParse() {
+	void testParse() {
 		assertEquals("1.6.5", parseVersion("git/1.6.6-rc0"));
 		assertEquals("1.6.6", parseVersion("git/1.6.6"));
 		assertEquals("1.7.5", parseVersion("git/1.7.5.GIT"));
@@ -32,6 +32,6 @@ public class ClientVersionUtilTest {
 	}
 
 	private static void assertEquals(String exp, int[] act) {
-		Assert.assertEquals(exp, ClientVersionUtil.toString(act));
+		Assertions.assertEquals(exp, ClientVersionUtil.toString(act));
 	}
 }

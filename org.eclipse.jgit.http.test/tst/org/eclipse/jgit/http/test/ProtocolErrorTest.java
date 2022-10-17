@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,8 +39,8 @@ import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.NB;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ProtocolErrorTest extends HttpTestCase {
 	private Repository remoteRepository;
@@ -50,7 +50,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 	private RevBlob a_blob;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -82,7 +82,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 	}
 
 	@Test
-	public void testPush_UnpackError_TruncatedPack() throws Exception {
+	void testPush_UnpackError_TruncatedPack() throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(ObjectId.zeroId().name());
 		sb.append(' ');
@@ -119,8 +119,9 @@ public class ProtocolErrorTest extends HttpTestCase {
 
 			try (InputStream rawin = c.getInputStream()) {
 				PacketLineIn pckin = new PacketLineIn(rawin);
-				assertEquals("unpack error "
-						+ JGitText.get().packfileIsTruncatedNoParam,
+				assertEquals(
+						"unpack error "
+								+ JGitText.get().packfileIsTruncatedNoParam,
 						pckin.readString());
 				assertEquals("ng refs/objects/A n/a (unpacker error)",
 						pckin.readString());

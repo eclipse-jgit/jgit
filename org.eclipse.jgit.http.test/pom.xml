@@ -31,11 +31,6 @@
       <maven.javadoc.skip>true</maven.javadoc.skip>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
@@ -55,6 +50,11 @@
       <artifactId>hamcrest</artifactId>
       <scope>test</scope>
       <version>${hamcrest-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>

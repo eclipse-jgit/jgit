@@ -10,14 +10,12 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -39,6 +37,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.AppServer;
@@ -57,9 +56,10 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(CustomParameterResolver.class)
 public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 	private TestRepository<Repository> remoteRepository;
@@ -72,14 +72,10 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 	private URIish smartAuthBasicURI;
 
-	public HttpClientTests(HttpConnectionFactory cf) {
-		super(cf);
-	}
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(HttpConnectionFactory cf) throws Exception {
 		super.setUp();
+		HttpTransport.setConnectionFactory(cf);
 
 		remoteRepository = createTestRepository();
 		remoteRepository.update(master, remoteRepository.commit().create());
@@ -132,8 +128,10 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		return db.getDirectory().getName();
 	}
 
-	@Test
-	public void testRepositoryNotFound_Dumb() throws Exception {
+	@TestAllImplementations
+	void testRepositoryNotFound_Dumb(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		URIish uri = toURIish("/dumb.none/not-found");
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, uri)) {
@@ -144,14 +142,16 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 				String exp = uri + ": " + uri
 						+ "/info/refs?service=git-upload-pack not found";
 				assertNotNull(err.getMessage());
-				assertTrue("Unexpected error message",
-						err.getMessage().startsWith(exp));
+				assertTrue(err.getMessage().startsWith(exp),
+						"Unexpected error message");
 			}
 		}
 	}
 
-	@Test
-	public void testRepositoryNotFound_Smart() throws Exception {
+	@TestAllImplementations
+	void testRepositoryNotFound_Smart(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		URIish uri = toURIish("/smart.none/not-found");
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, uri)) {
@@ -162,14 +162,16 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 				String exp = uri + ": " + uri
 						+ "/info/refs?service=git-upload-pack not found";
 				assertNotNull(err.getMessage());
-				assertTrue("Unexpected error message",
-						err.getMessage().startsWith(exp));
+				assertTrue(err.getMessage().startsWith(exp),
+						"Unexpected error message");
 			}
 		}
 	}
 
-	@Test
-	public void testListRemote_Dumb_DetachedHEAD() throws Exception {
+	@TestAllImplementations
+	void testListRemote_Dumb_DetachedHEAD(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		Repository src = remoteRepository.getRepository();
 		RefUpdate u = src.updateRef(Constants.HEAD, true);
 		RevCommit Q = remoteRepository.commit().message("Q").create();
@@ -182,16 +184,18 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 				FetchConnection c = t.openFetch()) {
 			head = c.getRef(Constants.HEAD);
 		}
-		assertNotNull("has " + Constants.HEAD, head);
+		assertNotNull(head, "has " + Constants.HEAD);
 		assertEquals(Q, head.getObjectId());
 	}
 
-	@Test
-	public void testListRemote_Dumb_NoHEAD() throws Exception {
+	@TestAllImplementations
+	void testListRemote_Dumb_NoHEAD(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		Repository src = remoteRepository.getRepository();
 		File headref = new File(src.getDirectory(), Constants.HEAD);
-		assertTrue("HEAD used to be present", headref.delete());
-		assertFalse("HEAD is gone", headref.exists());
+		assertTrue(headref.delete(), "HEAD used to be present");
+		assertFalse(headref.exists(), "HEAD is gone");
 
 		Repository dst = createBareRepository();
 		Ref head;
@@ -199,11 +203,13 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 				FetchConnection c = t.openFetch()) {
 			head = c.getRef(Constants.HEAD);
 		}
-		assertNull("has no " + Constants.HEAD, head);
+		assertNull(head, "has no " + Constants.HEAD);
 	}
 
-	@Test
-	public void testListRemote_Smart_DetachedHEAD() throws Exception {
+	@TestAllImplementations
+	void testListRemote_Smart_DetachedHEAD(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		Repository src = remoteRepository.getRepository();
 		RefUpdate u = src.updateRef(Constants.HEAD, true);
 		RevCommit Q = remoteRepository.commit().message("Q").create();
@@ -216,12 +222,14 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 				FetchConnection c = t.openFetch()) {
 			head = c.getRef(Constants.HEAD);
 		}
-		assertNotNull("has " + Constants.HEAD, head);
+		assertNotNull(head, "has " + Constants.HEAD);
 		assertEquals(Q, head.getObjectId());
 	}
 
-	@Test
-	public void testListRemote_Smart_WithQueryParameters() throws Exception {
+	@TestAllImplementations
+	void testListRemote_Smart_WithQueryParameters(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		URIish myURI = toURIish("/snone/do?r=1&p=test.git");
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, myURI)) {
@@ -246,8 +254,10 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		assertEquals(404, info.getStatus());
 	}
 
-	@Test
-	public void testListRemote_Dumb_NeedsAuth() throws Exception {
+	@TestAllImplementations
+	void testListRemote_Dumb_NeedsAuth(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, dumbAuthBasicURI)) {
 			try {
@@ -261,8 +271,10 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		}
 	}
 
-	@Test
-	public void testListRemote_Dumb_Auth() throws Exception {
+	@TestAllImplementations
+	void testListRemote_Dumb_Auth(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, dumbAuthBasicURI)) {
 			t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
@@ -283,8 +295,10 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		}
 	}
 
-	@Test
-	public void testListRemote_Smart_UploadPackNeedsAuth() throws Exception {
+	@TestAllImplementations
+	void testListRemote_Smart_UploadPackNeedsAuth(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, smartAuthBasicURI)) {
 			try {
@@ -298,8 +312,10 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		}
 	}
 
-	@Test
-	public void testListRemote_Smart_UploadPackDisabled() throws Exception {
+	@TestAllImplementations
+	void testListRemote_Smart_UploadPackDisabled(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		Repository src = remoteRepository.getRepository();
 		final StoredConfig cfg = src.getConfig();
 		cfg.setBoolean("http", null, "uploadpack", false);
@@ -311,18 +327,18 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 				t.openFetch();
 				fail("connection opened even though service disabled");
 			} catch (TransportException err) {
-				String exp = smartAuthNoneURI + ": "
-						+ MessageFormat.format(
-								JGitText.get().serviceNotPermitted,
-								smartAuthNoneURI.toString() + "/",
-								"git-upload-pack");
+				String exp = smartAuthNoneURI + ": " + MessageFormat.format(
+						JGitText.get().serviceNotPermitted,
+						smartAuthNoneURI.toString() + "/", "git-upload-pack");
 				assertEquals(exp, err.getMessage());
 			}
 		}
 	}
 
-	@Test
-	public void testListRemoteWithoutLocalRepository() throws Exception {
+	@TestAllImplementations
+	void testListRemoteWithoutLocalRepository(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		try (Transport t = Transport.open(smartAuthNoneURI);
 				FetchConnection c = t.openFetch()) {
 			Ref head = c.getRef(Constants.HEAD);
@@ -330,9 +346,12 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		}
 	}
 
-	@Test
-	public void testHttpClientWantsV2AndServerNotConfigured() throws Exception {
-		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+	@TestAllImplementations
+	void testHttpClientWantsV2AndServerNotConfigured(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		String url = smartAuthNoneURI.toString()
+				+ "/info/refs?service=git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
 				.create(new URL(url));
 		c.setRequestMethod("GET");
@@ -340,14 +359,17 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		assertEquals(200, c.getResponseCode());
 
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
-		assertThat(pckIn.readString(), is("version 2"));
+		assertEquals(pckIn.readString(), "version 2");
 	}
 
-	@Test
-	public void testHttpServerConfiguredToV0() throws Exception {
-		remoteRepository.getRepository().getConfig().setInt(
-			"protocol", null, "version", 0);
-		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+	@TestAllImplementations
+	void testHttpServerConfiguredToV0(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		remoteRepository.getRepository().getConfig().setInt("protocol", null,
+				"version", 0);
+		String url = smartAuthNoneURI.toString()
+				+ "/info/refs?service=git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
 				.create(new URL(url));
 		c.setRequestMethod("GET");
@@ -357,14 +379,17 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
 
 		// Check that we get a v0 response.
-		assertThat(pckIn.readString(), is("# service=git-upload-pack"));
+		assertEquals(pckIn.readString(), "# service=git-upload-pack");
 		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 		assertTrue(pckIn.readString().matches("[0-9a-f]{40} HEAD.*"));
 	}
 
-	@Test
-	public void testV2HttpFirstResponse() throws Exception {
-		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+	@TestAllImplementations
+	void testV2HttpFirstResponse(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		String url = smartAuthNoneURI.toString()
+				+ "/info/refs?service=git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
 				.create(new URL(url));
 		c.setRequestMethod("GET");
@@ -372,22 +397,25 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		assertEquals(200, c.getResponseCode());
 
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
-		assertThat(pckIn.readString(), is("version 2"));
+		assertEquals(pckIn.readString(), "version 2");
 
 		// What remains are capabilities - ensure that all of them are
 		// non-empty strings, and that we see END at the end.
 		for (String s : pckIn.readStrings()) {
-			assertTrue(!s.isEmpty());
+			assertFalse(s.isEmpty());
 		}
 	}
 
-	@Test
-	public void testV2HttpSubsequentResponse() throws Exception {
+	@TestAllImplementations
+	void testV2HttpSubsequentResponse(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
 		String url = smartAuthNoneURI.toString() + "/git-upload-pack";
 		HttpConnection c = HttpTransport.getConnectionFactory()
 				.create(new URL(url));
 		c.setRequestMethod("POST");
-		c.setRequestProperty("Content-Type", "application/x-git-upload-pack-request");
+		c.setRequestProperty("Content-Type",
+				"application/x-git-upload-pack-request");
 		c.setRequestProperty("Git-Protocol", "version=2");
 		c.setDoOutput(true);
 
@@ -412,109 +440,105 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		assertEquals(200, c.getResponseCode());
 	}
 
-	@Test
-	public void testCloneWithDepth() throws Exception {
-		remoteRepository.getRepository().getConfig().setInt(
-				"protocol", null, "version", 0);
+	@TestAllImplementations
+	void testCloneWithDepth(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		remoteRepository.getRepository().getConfig().setInt("protocol", null,
+				"version", 0);
 		File directory = createTempDirectory("testCloneWithDepth");
-		Git git = Git.cloneRepository()
-					 .setDirectory(directory)
-					 .setDepth(1)
-					 .setURI(smartAuthNoneURI.toString())
-					 .call();
+		Git git = Git.cloneRepository().setDirectory(directory).setDepth(1)
+				.setURI(smartAuthNoneURI.toString()).call();
 
-		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)), git.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)),
+				git.getRepository().getObjectDatabase().getShallowCommits());
 	}
 
-	@Test
-	public void testCloneWithDeepenSince() throws Exception {
-		remoteRepository.getRepository().getConfig().setInt(
-				"protocol", null, "version", 0);
+	@TestAllImplementations
+	void testCloneWithDeepenSince(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		remoteRepository.getRepository().getConfig().setInt("protocol", null,
+				"version", 0);
 		RevCommit commit = remoteRepository.commit()
-										   .parent(remoteRepository.git().log().call().iterator().next())
-										   .message("Test")
-										   .add("test.txt", "Hello world")
-										   .create();
+				.parent(remoteRepository.git().log().call().iterator().next())
+				.message("Test").add("test.txt", "Hello world").create();
 		remoteRepository.update(master, commit);
 
 		File directory = createTempDirectory("testCloneWithDeepenSince");
-		Git git = Git.cloneRepository()
-					 .setDirectory(directory)
-					 .setShallowSince(Instant.ofEpochSecond(commit.getCommitTime()))
-					 .setURI(smartAuthNoneURI.toString())
-					 .call();
+		Git git = Git.cloneRepository().setDirectory(directory)
+				.setShallowSince(Instant.ofEpochSecond(commit.getCommitTime()))
+				.setURI(smartAuthNoneURI.toString()).call();
 
-		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)), git.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)),
+				git.getRepository().getObjectDatabase().getShallowCommits());
 	}
 
-	@Test
-	public void testCloneWithDeepenNot() throws Exception {
-		remoteRepository.getRepository().getConfig().setInt(
-				"protocol", null, "version", 0);
-		RevCommit commit = remoteRepository.git().log().call().iterator().next();
-		remoteRepository.update(master, remoteRepository.commit()
-														.parent(commit)
-														.message("Test")
-														.add("test.txt", "Hello world")
-														.create());
+	@TestAllImplementations
+	void testCloneWithDeepenNot(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		remoteRepository.getRepository().getConfig().setInt("protocol", null,
+				"version", 0);
+		RevCommit commit = remoteRepository.git().log().call().iterator()
+				.next();
+		remoteRepository.update(master, remoteRepository.commit().parent(commit)
+				.message("Test").add("test.txt", "Hello world").create());
 
 		File directory = createTempDirectory("testCloneWithDeepenNot");
-		Git git = Git.cloneRepository()
-					 .setDirectory(directory)
-					 .addShallowExclude(commit.getId())
-					 .setURI(smartAuthNoneURI.toString())
-					 .call();
+		Git git = Git.cloneRepository().setDirectory(directory)
+				.addShallowExclude(commit.getId())
+				.setURI(smartAuthNoneURI.toString()).call();
 
-		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)), git.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)),
+				git.getRepository().getObjectDatabase().getShallowCommits());
 	}
 
-    @Test
-	public void testV2CloneWithDepth() throws Exception {
-        File directory = createTempDirectory("testV2CloneWithDepth");
-        Git git = Git.cloneRepository()
-                     .setDirectory(directory)
-                     .setDepth(1)
-                     .setURI(smartAuthNoneURI.toString())
-                     .call();
+	@TestAllImplementations
+	void testV2CloneWithDepth(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		File directory = createTempDirectory("testV2CloneWithDepth");
+		Git git = Git.cloneRepository().setDirectory(directory).setDepth(1)
+				.setURI(smartAuthNoneURI.toString()).call();
 
-        assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)), git.getRepository().getObjectDatabase().getShallowCommits());
-    }
+		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)),
+				git.getRepository().getObjectDatabase().getShallowCommits());
+	}
 
-    @Test
-    public void testV2CloneWithDeepenSince() throws Exception {
-        RevCommit commit = remoteRepository.commit()
-                                           .parent(remoteRepository.git().log().call().iterator().next())
-                                           .message("Test")
-                                           .add("test.txt", "Hello world")
-                                           .create();
-        remoteRepository.update(master, commit);
+	@TestAllImplementations
+	void testV2CloneWithDeepenSince(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		RevCommit commit = remoteRepository.commit()
+				.parent(remoteRepository.git().log().call().iterator().next())
+				.message("Test").add("test.txt", "Hello world").create();
+		remoteRepository.update(master, commit);
 
-        File directory = createTempDirectory("testV2CloneWithDeepenSince");
-        Git git = Git.cloneRepository()
-                     .setDirectory(directory)
-                     .setShallowSince(Instant.ofEpochSecond(commit.getCommitTime()))
-                     .setURI(smartAuthNoneURI.toString())
-                     .call();
+		File directory = createTempDirectory("testV2CloneWithDeepenSince");
+		Git git = Git.cloneRepository().setDirectory(directory)
+				.setShallowSince(Instant.ofEpochSecond(commit.getCommitTime()))
+				.setURI(smartAuthNoneURI.toString()).call();
 
-		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)), git.getRepository().getObjectDatabase().getShallowCommits());
-    }
+		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)),
+				git.getRepository().getObjectDatabase().getShallowCommits());
+	}
 
-    @Test
-    public void testV2CloneWithDeepenNot() throws Exception {
-        RevCommit commit = remoteRepository.git().log().call().iterator().next();
-        remoteRepository.update(master, remoteRepository.commit()
-                                                        .parent(commit)
-                                                        .message("Test")
-                                                        .add("test.txt", "Hello world")
-                                                        .create());
+	@TestAllImplementations
+	void testV2CloneWithDeepenNot(
+			@SuppressWarnings("unused") HttpConnectionFactory cf)
+			throws Exception {
+		RevCommit commit = remoteRepository.git().log().call().iterator()
+				.next();
+		remoteRepository.update(master, remoteRepository.commit().parent(commit)
+				.message("Test").add("test.txt", "Hello world").create());
 
-        File directory = createTempDirectory("testV2CloneWithDeepenNot");
-        Git git = Git.cloneRepository()
-                     .setDirectory(directory)
-                     .addShallowExclude(commit.getId())
-                     .setURI(smartAuthNoneURI.toString())
-                     .call();
+		File directory = createTempDirectory("testV2CloneWithDeepenNot");
+		Git git = Git.cloneRepository().setDirectory(directory)
+				.addShallowExclude(commit.getId())
+				.setURI(smartAuthNoneURI.toString()).call();
 
-		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)), git.getRepository().getObjectDatabase().getShallowCommits());
-    }
+		assertEquals(Set.of(git.getRepository().resolve(Constants.HEAD)),
+				git.getRepository().getObjectDatabase().getShallowCommits());
+	}
 }

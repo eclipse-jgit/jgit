@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 
@@ -30,8 +30,8 @@ import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	private Repository db;
@@ -39,17 +39,16 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	private ReceivePackFactory<HttpServletRequest> factory;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
-
 		db = createBareRepository();
 		factory = new DefaultReceivePackFactory();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDisabledSingleton() throws ServiceNotAuthorizedException {
+	void testDisabledSingleton() throws ServiceNotAuthorizedException {
 		factory = (ReceivePackFactory<HttpServletRequest>) ReceivePackFactory.DISABLED;
 
 		try {
@@ -75,7 +74,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_NullUser() throws ServiceNotEnabledException {
+	void testCreate_NullUser() throws ServiceNotEnabledException {
 		try {
 			factory.create(new R(null, "localhost"), db);
 			fail("Created session for anonymous user: null");
@@ -85,7 +84,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_EmptyStringUser() throws ServiceNotEnabledException {
+	void testCreate_EmptyStringUser() throws ServiceNotEnabledException {
 		try {
 			factory.create(new R("", "localhost"), db);
 			fail("Created session for anonymous user: \"\"");
@@ -95,11 +94,11 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_AuthUser() throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException {
+	void testCreate_AuthUser()
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		ReceivePack rp;
 		rp = factory.create(new R("bob", "1.2.3.4"), db);
-		assertNotNull("have ReceivePack", rp);
+		assertNotNull(rp, "have ReceivePack");
 		assertSame(db, rp.getRepository());
 
 		PersonIdent id = rp.getRefLogIdent();
@@ -113,8 +112,8 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_Disabled() throws ServiceNotAuthorizedException,
-			IOException {
+	void testCreate_Disabled()
+			throws ServiceNotAuthorizedException, IOException {
 		final StoredConfig cfg = db.getConfig();
 		cfg.setBoolean("http", null, "receivepack", false);
 		cfg.save();
@@ -142,7 +141,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_Enabled() throws ServiceNotEnabledException,
+	void testCreate_Enabled() throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException, IOException {
 		final StoredConfig cfg = db.getConfig();
 		cfg.setBoolean("http", null, "receivepack", true);
@@ -151,7 +150,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		ReceivePack rp;
 
 		rp = factory.create(new R(null, "1.2.3.4"), db);
-		assertNotNull("have ReceivePack", rp);
+		assertNotNull(rp, "have ReceivePack");
 		assertSame(db, rp.getRepository());
 
 		PersonIdent id = rp.getRefLogIdent();
@@ -164,7 +163,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(author.getWhen(), id.getWhen());
 
 		rp = factory.create(new R("bob", "1.2.3.4"), db);
-		assertNotNull("have ReceivePack", rp);
+		assertNotNull(rp, "have ReceivePack");
 	}
 
 	private static final class R extends HttpServletRequestWrapper {
