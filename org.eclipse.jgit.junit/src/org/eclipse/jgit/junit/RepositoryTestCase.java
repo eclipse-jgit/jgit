@@ -14,7 +14,7 @@
 package org.eclipse.jgit.junit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,8 +48,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for most JGit unit tests.
@@ -183,7 +183,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 
 	/** {@inheritDoc} */
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		db = createWorkRepository();
@@ -191,7 +191,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		db.close();
 		super.tearDown();

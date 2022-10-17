@@ -13,8 +13,8 @@
 package org.eclipse.jgit.junit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,10 +43,8 @@ import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TestName;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * JUnit TestCase with specialized support for temporary local repository.
@@ -66,7 +64,7 @@ import org.junit.rules.TestName;
  * a test, or tests may fail altogether if there is insufficient file
  * descriptors or address space for the test process.
  */
-public abstract class LocalDiskRepositoryTestCase {
+public abstract class LocalDiskRepositoryTestCase extends TestInfoRetriever {
 	private static final boolean useMMAP = "true".equals(System
 			.getProperty("jgit.junit.usemmap"));
 
@@ -85,14 +83,8 @@ public abstract class LocalDiskRepositoryTestCase {
 	private final Set<Repository> toClose = new HashSet<>();
 	private File tmp;
 
-	/**
-	 * The current test name.
-	 */
-	@Rule
-	public TestName currentTest = new TestName();
-
 	private String getTestName() {
-		String name = currentTest.getMethodName();
+		String name = getTestMethodName();
 		name = name.replaceAll("[^a-zA-Z0-9]", "_");
 		name = name.replaceAll("__+", "_");
 		if (name.startsWith("_")) {
@@ -106,7 +98,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tmp = File.createTempFile("jgit_" + getTestName() + '_', "_tmp");
 		CleanupThread.deleteOnShutdown(tmp);
@@ -188,7 +180,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		RepositoryCache.clear();
 		for (Repository r : toClose)

@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -30,8 +29,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Abstract test util class
@@ -45,49 +43,6 @@ public abstract class JGitTestUtil {
 	}
 
 	/**
-	 * Get name of current test by inspecting stack trace
-	 *
-	 * @return the name
-	 */
-	public static String getName() {
-		GatherStackTrace stack;
-		try {
-			throw new GatherStackTrace();
-		} catch (GatherStackTrace wanted) {
-			stack = wanted;
-		}
-
-		try {
-			for (StackTraceElement stackTrace : stack.getStackTrace()) {
-				String className = stackTrace.getClassName();
-				String methodName = stackTrace.getMethodName();
-				Method method;
-				try {
-					method = Class.forName(className) //
-							.getMethod(methodName, (Class[]) null);
-				} catch (NoSuchMethodException e) {
-					// could be private, i.e. not a test method
-					// could have arguments, not handled
-					continue;
-				}
-
-				Test annotation = method.getAnnotation(Test.class);
-				if (annotation != null)
-					return methodName;
-			}
-		} catch (ClassNotFoundException shouldNeverOccur) {
-			// Fall through and crash.
-		}
-
-		throw new AssertionError("Cannot determine name of current test");
-	}
-
-	@SuppressWarnings("serial")
-	private static class GatherStackTrace extends Exception {
-		// Thrown above to collect the stack frame.
-	}
-
-	/**
 	 * Assert byte arrays are equal
 	 *
 	 * @param exp
@@ -96,7 +51,7 @@ public abstract class JGitTestUtil {
 	 *            actual value
 	 */
 	public static void assertEquals(byte[] exp, byte[] act) {
-		Assert.assertEquals(s(exp), s(act));
+		Assertions.assertEquals(s(exp), s(act));
 	}
 
 	private static String s(byte[] raw) {

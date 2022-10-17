@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.junit" version="2">
+    <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.junit.Repeat">
+        <filter id="305324134">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.Repeat"/>
+                <message_argument value="org.eclipse.jgit.junit_6.4.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="META-INF/MANIFEST.MF" type="org.eclipse.jgit.junit.RepeatRule">
+        <filter id="305324134">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.RepeatRule"/>
+                <message_argument value="org.eclipse.jgit.junit_6.4.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/junit/JGitTestUtil.java" type="org.eclipse.jgit.junit.JGitTestUtil">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.JGitTestUtil"/>
+                <message_argument value="getName()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java" type="org.eclipse.jgit.junit.LocalDiskRepositoryTestCase">
+        <filter id="338755678">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.LocalDiskRepositoryTestCase"/>
+                <message_argument value="currentTest"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
