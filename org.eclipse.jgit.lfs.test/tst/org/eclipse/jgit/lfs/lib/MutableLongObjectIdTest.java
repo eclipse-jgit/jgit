@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.lfs.lib;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /*
  * Ported to SHA-256 from org.eclipse.jgit.lib.MutableObjectIdTest
@@ -19,14 +19,14 @@ import org.junit.Test;
 public class MutableLongObjectIdTest {
 
 	@Test
-	public void testFromRawLong() {
+	void testFromRawLong() {
 		MutableLongObjectId m = new MutableLongObjectId();
 		m.fromRaw(new long[] { 1L, 2L, 3L, 4L });
 		assertEquals(new LongObjectId(1L, 2L, 3L, 4L), m);
 	}
 
 	@Test
-	public void testFromString() {
+	void testFromString() {
 		AnyLongObjectId id = new LongObjectId(1L, 2L, 3L, 4L);
 		MutableLongObjectId m = new MutableLongObjectId();
 		m.fromString(id.name());
@@ -34,7 +34,7 @@ public class MutableLongObjectIdTest {
 	}
 
 	@Test
-	public void testFromStringByte() {
+	void testFromStringByte() {
 		AnyLongObjectId id = new LongObjectId(1L, 2L, 3L, 4L);
 		MutableLongObjectId m = new MutableLongObjectId();
 		byte[] buf = new byte[64];
@@ -44,14 +44,14 @@ public class MutableLongObjectIdTest {
 	}
 
 	@Test
-	public void testCopy() {
+	void testCopy() {
 		MutableLongObjectId m = new MutableLongObjectId();
 		m.fromRaw(new long[] { 1L, 2L, 3L, 4L });
 		assertEquals(m, new MutableLongObjectId(m));
 	}
 
 	@Test
-	public void testToObjectId() {
+	void testToObjectId() {
 		MutableLongObjectId m = new MutableLongObjectId();
 		m.fromRaw(new long[] { 1L, 2L, 3L, 4L });
 		assertEquals(m, m.toObjectId());

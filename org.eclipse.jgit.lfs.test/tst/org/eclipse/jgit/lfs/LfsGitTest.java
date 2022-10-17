@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.lfs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -22,10 +22,10 @@ import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class LfsGitTest extends RepositoryTestCase {
 
@@ -37,13 +37,13 @@ public class LfsGitTest extends RepositoryTestCase {
 			+ Constants.ATTR_FILTER_DRIVER_PREFIX
 			+ org.eclipse.jgit.lib.Constants.ATTR_FILTER_TYPE_CLEAN;
 
-	@BeforeClass
+	@BeforeAll
 	public static void installLfs() {
 		FilterCommandRegistry.register(SMUDGE_NAME, SmudgeFilter.FACTORY);
 		FilterCommandRegistry.register(CLEAN_NAME, CleanFilter.FACTORY);
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void removeLfs() {
 		FilterCommandRegistry.unregister(SMUDGE_NAME);
 		FilterCommandRegistry.unregister(CLEAN_NAME);
@@ -52,7 +52,7 @@ public class LfsGitTest extends RepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -68,7 +68,7 @@ public class LfsGitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBranchSwitch() throws Exception {
+	void testBranchSwitch() throws Exception {
 		git.branchCreate().setName("abranch").call();
 		git.checkout().setName("abranch").call();
 		File aFile = writeTrashFile("a.bin", "aaa");
@@ -89,7 +89,7 @@ public class LfsGitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkoutNonLfsPointer() throws Exception {
+	void checkoutNonLfsPointer() throws Exception {
 		String content = "size_t\nsome_function(void* ptr);\n";
 		File smallFile = writeTrashFile("Test.txt", content);
 		StringBuilder largeContent = new StringBuilder(
@@ -121,8 +121,9 @@ public class LfsGitTest extends RepositoryTestCase {
 		String lfsPtr = "version https://git-lfs.github.com/spec/v1\n"
 				+ "oid sha256:d041ab19bd7edd899b3c0450d0f61819f96672f0b22d26c9753abc62e1261614\n"
 				+ "size 858\n";
-		assertEquals("[.gitattributes, mode:100644, content:*.txt filter=lfs]"
-				+ "[Test.txt, mode:100644, content:" + content + ']'
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=lfs]"
+						+ "[Test.txt, mode:100644, content:" + content + ']'
 						+ "[large.txt, mode:100644, content:" + lfsPtr + ']',
 				indexState(CONTENT));
 		// Verify the file has been saved
@@ -143,8 +144,9 @@ public class LfsGitTest extends RepositoryTestCase {
 		assertTrue(largeFile.exists());
 		checkFile(smallFile, content);
 		checkFile(largeFile, largeContent.toString());
-		assertEquals("[.gitattributes, mode:100644, content:*.txt filter=lfs]"
-				+ "[Test.txt, mode:100644, content:" + content + ']'
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=lfs]"
+						+ "[Test.txt, mode:100644, content:" + content + ']'
 						+ "[large.txt, mode:100644, content:" + lfsPtr + ']',
 				indexState(CONTENT));
 		git.add().addFilepattern("Test.txt").call();
@@ -152,8 +154,9 @@ public class LfsGitTest extends RepositoryTestCase {
 		String lfsPtrSmall = "version https://git-lfs.github.com/spec/v1\n"
 				+ "oid sha256:9110463275fb0e2f0e9fdeaf84e598e62915666161145cf08927079119cc7814\n"
 				+ "size 33\n";
-		assertEquals("[.gitattributes, mode:100644, content:*.txt filter=lfs]"
-				+ "[Test.txt, mode:100644, content:" + lfsPtrSmall + ']'
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=lfs]"
+						+ "[Test.txt, mode:100644, content:" + lfsPtrSmall + ']'
 						+ "[large.txt, mode:100644, content:" + lfsPtr + ']',
 				indexState(CONTENT));
 

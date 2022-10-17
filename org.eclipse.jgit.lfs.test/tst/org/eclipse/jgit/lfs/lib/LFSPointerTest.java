@@ -11,19 +11,16 @@
 package org.eclipse.jgit.lfs.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.lfs.LfsPointer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /*
  * Test LfsPointer file abstraction
@@ -33,7 +30,7 @@ public class LFSPointerTest {
 	private static final String TEST_SHA256 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
 
 	@Test
-	public void testEncoding() throws IOException {
+	void testEncoding() throws IOException {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer ptr = new LfsPointer(id, 4);
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -46,10 +43,9 @@ public class LFSPointerTest {
 	}
 
 	@Test
-	public void testReadValidLfsPointer() throws Exception {
+	void testReadValidLfsPointer() throws Exception {
 		String ptr = "version https://git-lfs.github.com/spec/v1\n"
-				+ "oid sha256:" + TEST_SHA256 + '\n'
-				+ "size 4\n";
+				+ "oid sha256:" + TEST_SHA256 + '\n' + "size 4\n";
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		try (ByteArrayInputStream in = new ByteArrayInputStream(
@@ -59,11 +55,10 @@ public class LFSPointerTest {
 	}
 
 	@Test
-	public void testReadValidLfsPointerUnordered() throws Exception {
+	void testReadValidLfsPointerUnordered() throws Exception {
 		// This is actually not allowed per the spec, but JGit accepts it
 		// anyway.
-		String ptr = "version https://git-lfs.github.com/spec/v1\n"
-				+ "size 4\n"
+		String ptr = "version https://git-lfs.github.com/spec/v1\n" + "size 4\n"
 				+ "oid sha256:" + TEST_SHA256 + '\n';
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
@@ -74,11 +69,10 @@ public class LFSPointerTest {
 	}
 
 	@Test
-	public void testReadValidLfsPointerVersionNotFirst() throws Exception {
+	void testReadValidLfsPointerVersionNotFirst() throws Exception {
 		// This is actually not allowed per the spec, but JGit accepts it
 		// anyway.
-		String ptr = "oid sha256:" + TEST_SHA256 + '\n'
-				+ "size 4\n"
+		String ptr = "oid sha256:" + TEST_SHA256 + '\n' + "size 4\n"
 				+ "version https://git-lfs.github.com/spec/v1\n";
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
@@ -89,84 +83,78 @@ public class LFSPointerTest {
 	}
 
 	@Test
-	public void testReadInvalidLfsPointer() throws Exception {
+	void testReadInvalidLfsPointer() throws Exception {
 		String cSource = "size_t someFunction(void *ptr); // Fake C source\n";
 		try (ByteArrayInputStream in = new ByteArrayInputStream(
 				cSource.getBytes(UTF_8))) {
-			assertNull("Is not a LFS pointer", LfsPointer.parseLfsPointer(in));
+			assertNull(LfsPointer.parseLfsPointer(in), "Is not a LFS pointer");
 		}
 	}
 
 	@Test
-	public void testReadInvalidLfsPointer2() throws Exception {
+	void testReadInvalidLfsPointer2() throws Exception {
 		String cSource = "size_t\nsomeFunction(void *ptr);\n// Fake C source\n";
 		try (ByteArrayInputStream in = new ByteArrayInputStream(
 				cSource.getBytes(UTF_8))) {
-			assertNull("Is not a LFS pointer", LfsPointer.parseLfsPointer(in));
+			assertNull(LfsPointer.parseLfsPointer(in), "Is not a LFS pointer");
 		}
 	}
 
 	@Test
-	public void testReadInValidLfsPointerVersionWrong() throws Exception {
+	void testReadInValidLfsPointerVersionWrong() throws Exception {
 		String ptr = "version https://git-lfs.example.org/spec/v1\n"
-				+ "oid sha256:" + TEST_SHA256 + '\n'
-				+ "size 4\n";
+				+ "oid sha256:" + TEST_SHA256 + '\n' + "size 4\n";
 		try (ByteArrayInputStream in = new ByteArrayInputStream(
 				ptr.getBytes(UTF_8))) {
-			assertNull("Is not a LFS pointer", LfsPointer.parseLfsPointer(in));
+			assertNull(LfsPointer.parseLfsPointer(in), "Is not a LFS pointer");
 		}
 	}
 
 	@Test
-	public void testReadInValidLfsPointerVersionTwice() throws Exception {
+	void testReadInValidLfsPointerVersionTwice() throws Exception {
 		String ptr = "version https://git-lfs.github.com/spec/v1\n"
-				+ "version https://git-lfs.github.com/spec/v1\n"
-				+ "oid sha256:" + TEST_SHA256 + '\n'
-				+ "size 4\n";
+				+ "version https://git-lfs.github.com/spec/v1\n" + "oid sha256:"
+				+ TEST_SHA256 + '\n' + "size 4\n";
 		try (ByteArrayInputStream in = new ByteArrayInputStream(
 				ptr.getBytes(UTF_8))) {
-			assertNull("Is not a LFS pointer", LfsPointer.parseLfsPointer(in));
+			assertNull(LfsPointer.parseLfsPointer(in), "Is not a LFS pointer");
 		}
 	}
 
 	@Test
-	public void testReadInValidLfsPointerVersionTwice2() throws Exception {
+	void testReadInValidLfsPointerVersionTwice2() throws Exception {
 		String ptr = "version https://git-lfs.github.com/spec/v1\n"
 				+ "oid sha256:" + TEST_SHA256 + '\n'
-				+ "version https://git-lfs.github.com/spec/v1\n"
-				+ "size 4\n";
+				+ "version https://git-lfs.github.com/spec/v1\n" + "size 4\n";
 		try (ByteArrayInputStream in = new ByteArrayInputStream(
 				ptr.getBytes(UTF_8))) {
-			assertNull("Is not a LFS pointer", LfsPointer.parseLfsPointer(in));
+			assertNull(LfsPointer.parseLfsPointer(in), "Is not a LFS pointer");
 		}
 	}
 
 	@Test
-	public void testReadInValidLfsPointerOidTwice() throws Exception {
+	void testReadInValidLfsPointerOidTwice() throws Exception {
 		String ptr = "version https://git-lfs.github.com/spec/v1\n"
-				+ "oid sha256:" + TEST_SHA256 + '\n'
-				+ "oid sha256:" + TEST_SHA256 + '\n'
-				+ "size 4\n";
+				+ "oid sha256:" + TEST_SHA256 + '\n' + "oid sha256:"
+				+ TEST_SHA256 + '\n' + "size 4\n";
 		try (ByteArrayInputStream in = new ByteArrayInputStream(
 				ptr.getBytes(UTF_8))) {
-			assertNull("Is not a LFS pointer", LfsPointer.parseLfsPointer(in));
+			assertNull(LfsPointer.parseLfsPointer(in), "Is not a LFS pointer");
 		}
 	}
 
 	@Test
-	public void testReadInValidLfsPointerSizeTwice() throws Exception {
-		String ptr = "version https://git-lfs.github.com/spec/v1\n"
-				+ "size 4\n"
-				+ "size 4\n"
-				+ "oid sha256:" + TEST_SHA256 + '\n';
+	void testReadInValidLfsPointerSizeTwice() throws Exception {
+		String ptr = "version https://git-lfs.github.com/spec/v1\n" + "size 4\n"
+				+ "size 4\n" + "oid sha256:" + TEST_SHA256 + '\n';
 		try (ByteArrayInputStream in = new ByteArrayInputStream(
 				ptr.getBytes(UTF_8))) {
-			assertNull("Is not a LFS pointer", LfsPointer.parseLfsPointer(in));
+			assertNull(LfsPointer.parseLfsPointer(in), "Is not a LFS pointer");
 		}
 	}
 
 	@Test
-	public void testRoundtrip() throws Exception {
+	void testRoundtrip() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer ptr = new LfsPointer(id, 4);
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -179,59 +167,59 @@ public class LFSPointerTest {
 	}
 
 	@Test
-	public void testEquals() throws Exception {
+	void testEquals() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		AnyLongObjectId id2 = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs2 = new LfsPointer(id2, 4);
-		assertTrue(lfs.equals(lfs2));
-		assertTrue(lfs2.equals(lfs));
+		assertEquals(lfs, lfs2);
+		assertEquals(lfs2, lfs);
 	}
 
 	@Test
-	public void testEqualsNull() throws Exception {
+	void testEqualsNull() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
-		assertFalse(lfs.equals(null));
+		assertNotEquals(lfs, null);
 	}
 
 	@Test
-	public void testEqualsSame() throws Exception {
+	void testEqualsSame() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
-		assertTrue(lfs.equals(lfs));
+		assertEquals(lfs, lfs);
 	}
 
 	@Test
-	public void testEqualsOther() throws Exception {
+	void testEqualsOther() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
-		assertFalse(lfs.equals(new Object()));
+		assertNotEquals(lfs, new Object());
 	}
 
 	@Test
-	public void testNotEqualsOid() throws Exception {
+	void testNotEqualsOid() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		AnyLongObjectId id2 = LongObjectId
 				.fromString(TEST_SHA256.replace('7', '5'));
 		LfsPointer lfs2 = new LfsPointer(id2, 4);
-		assertFalse(lfs.equals(lfs2));
-		assertFalse(lfs2.equals(lfs));
+		assertNotEquals(lfs, lfs2);
+		assertNotEquals(lfs2, lfs);
 	}
 
 	@Test
-	public void testNotEqualsSize() throws Exception {
+	void testNotEqualsSize() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		AnyLongObjectId id2 = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs2 = new LfsPointer(id2, 5);
-		assertFalse(lfs.equals(lfs2));
-		assertFalse(lfs2.equals(lfs));
+		assertNotEquals(lfs, lfs2);
+		assertNotEquals(lfs2, lfs);
 	}
 
 	@Test
-	public void testCompareToEquals() throws Exception {
+	void testCompareToEquals() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		AnyLongObjectId id2 = LongObjectId.fromString(TEST_SHA256);
@@ -242,14 +230,14 @@ public class LFSPointerTest {
 
 	@Test
 	@SuppressWarnings("SelfComparison")
-	public void testCompareToSame() throws Exception {
+	void testCompareToSame() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		assertEquals(0, lfs.compareTo(lfs));
 	}
 
 	@Test
-	public void testCompareToNotEqualsOid() throws Exception {
+	void testCompareToNotEqualsOid() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		AnyLongObjectId id2 = LongObjectId
@@ -260,7 +248,7 @@ public class LFSPointerTest {
 	}
 
 	@Test
-	public void testCompareToNotEqualsSize() throws Exception {
+	void testCompareToNotEqualsSize() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		AnyLongObjectId id2 = LongObjectId.fromString(TEST_SHA256);
@@ -270,14 +258,14 @@ public class LFSPointerTest {
 	}
 
 	@Test
-	public void testCompareToNull() throws Exception {
+	void testCompareToNull() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		assertThrows(NullPointerException.class, () -> lfs.compareTo(null));
 	}
 
 	@Test
-	public void testHashcodeEquals() throws Exception {
+	void testHashcodeEquals() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		AnyLongObjectId id2 = LongObjectId.fromString(TEST_SHA256);
@@ -286,14 +274,14 @@ public class LFSPointerTest {
 	}
 
 	@Test
-	public void testHashcodeSame() throws Exception {
+	void testHashcodeSame() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		assertEquals(lfs.hashCode(), lfs.hashCode());
 	}
 
 	@Test
-	public void testHashcodeNotEquals() throws Exception {
+	void testHashcodeNotEquals() throws Exception {
 		AnyLongObjectId id = LongObjectId.fromString(TEST_SHA256);
 		LfsPointer lfs = new LfsPointer(id, 4);
 		AnyLongObjectId id2 = LongObjectId.fromString(TEST_SHA256);

@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.lfs.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -23,7 +23,7 @@ import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LfsPointerFilterTest {
 
@@ -45,58 +45,50 @@ public class LfsPointerFilterTest {
 			"version https://hawser.github.com/spec/v1\n" + "size 12345\n"
 					+ "oid sha256:4d7a214614ab2935c943f9e0ff69d22eadbb8f32b1258daaa5e2ca24d17e2393\n" };
 
-	private static final String[] LFS_VERSION_DOMAINS = {
-			"hawser", "git-lfs"
-	};
+	private static final String[] LFS_VERSION_DOMAINS = { "hawser", "git-lfs" };
 
 	private static final String[] VALID_LFS_FILES = {
 			// valid LFS pointer
-			"version https://%s.github.com/spec/v1\n"
-					+ "oid sha256:" + OID + "\n"
-					+ "size " + SIZE + "\n",
+			"version https://%s.github.com/spec/v1\n" + "oid sha256:" + OID
+					+ "\n" + "size " + SIZE + "\n",
 			// valid LFS pointer with "custom" key
 			"version https://%s.github.com/spec/v1\n"
-					+ "custom key with value\n"
-					+ "oid sha256:" + OID + "\n"
+					+ "custom key with value\n" + "oid sha256:" + OID + "\n"
 					+ "size " + SIZE + "\n",
 			// valid LFS pointer with key with "."
-			"version https://%s.github.com/spec/v1\n"
-					+ "oid sha256:" + OID + "\n"
-					+ "r.key key with .\n"
-					+ "size " + SIZE + "\n",
+			"version https://%s.github.com/spec/v1\n" + "oid sha256:" + OID
+					+ "\n" + "r.key key with .\n" + "size " + SIZE + "\n",
 			// valid LFS pointer with key with "-"
-			"version https://%s.github.com/spec/v1\n"
-					+ "oid sha256:" + OID + "\n"
-					+ "size " + SIZE + "\n"
+			"version https://%s.github.com/spec/v1\n" + "oid sha256:" + OID
+					+ "\n" + "size " + SIZE + "\n"
 					+ "valid-name another valid key\n" };
 
 	@Test
-	public void testRegularFilesInRepositoryRoot() throws Exception {
+	void testRegularFilesInRepositoryRoot() throws Exception {
 		for (String file : NOT_VALID_LFS_FILES) {
 			assertLfs("file.bin", file).withRecursive(false).shouldBe(false);
 		}
 	}
 
 	@Test
-	public void testNestedRegularFiles() throws Exception {
+	void testNestedRegularFiles() throws Exception {
 		for (String file : NOT_VALID_LFS_FILES) {
 			assertLfs("a/file.bin", file).withRecursive(true).shouldBe(false);
 		}
 	}
 
 	@Test
-	public void testValidPointersInRepositoryRoot() throws Exception {
+	void testValidPointersInRepositoryRoot() throws Exception {
 		for (String domain : LFS_VERSION_DOMAINS) {
 			for (String file : VALID_LFS_FILES) {
 				assertLfs("file.bin", String.format(file, domain))
-						.withRecursive(true).shouldBe(true)
-					.check();
+						.withRecursive(true).shouldBe(true).check();
 			}
 		}
 	}
 
 	@Test
-	public void testValidNestedPointers() throws Exception {
+	void testValidNestedPointers() throws Exception {
 		for (String domain : LFS_VERSION_DOMAINS) {
 			for (String file : VALID_LFS_FILES) {
 				assertLfs("a/file.bin", String.format(file, domain))
@@ -106,7 +98,7 @@ public class LfsPointerFilterTest {
 	}
 
 	@Test
-	public void testValidNestedPointersWithoutRecurrence() throws Exception {
+	void testValidNestedPointersWithoutRecurrence() throws Exception {
 		for (String domain : LFS_VERSION_DOMAINS) {
 			for (String file : VALID_LFS_FILES) {
 				assertLfs("file.bin", String.format(file, domain))

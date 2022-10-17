@@ -10,9 +10,9 @@
 package org.eclipse.jgit.lfs.internal;
 
 import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,10 +34,10 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class LfsConnectionFactoryTest extends RepositoryTestCase {
 
@@ -57,20 +57,20 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 
 	private Git git;
 
-	@BeforeClass
+	@BeforeAll
 	public static void installLfs() {
 		FilterCommandRegistry.register(SMUDGE_NAME, SmudgeFilter.FACTORY);
 		FilterCommandRegistry.register(CLEAN_NAME, CleanFilter.FACTORY);
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void removeLfs() {
 		FilterCommandRegistry.unregister(SMUDGE_NAME);
 		FilterCommandRegistry.unregister(CLEAN_NAME);
 	}
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -82,62 +82,58 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void lfsUrlFromRemoteUrlWithDotGit() throws Exception {
+	void lfsUrlFromRemoteUrlWithDotGit() throws Exception {
 		addRemoteUrl("https://localhost/repo.git");
 		checkLfsUrl("https://localhost/repo.git/info/lfs");
 	}
 
 	@Test
-	public void lfsUrlFromRemoteUrlWithoutDotGit() throws Exception {
+	void lfsUrlFromRemoteUrlWithoutDotGit() throws Exception {
 		addRemoteUrl("https://localhost/repo");
 		checkLfsUrl("https://localhost/repo.git/info/lfs");
 	}
 
 	@Test
-	public void lfsUrlFromLocalConfig() throws Exception {
+	void lfsUrlFromLocalConfig() throws Exception {
 		addRemoteUrl("https://localhost/repo");
 
 		StoredConfig cfg = ((Repository) db).getConfig();
-		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS,
-				null,
-				ConfigConstants.CONFIG_KEY_URL,
-				"https://localhost/repo/lfs");
+		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS, null,
+				ConfigConstants.CONFIG_KEY_URL, "https://localhost/repo/lfs");
 		cfg.save();
 
 		checkLfsUrl("https://localhost/repo/lfs");
 	}
 
 	@Test
-	public void lfsUrlFromOriginConfig() throws Exception {
+	void lfsUrlFromOriginConfig() throws Exception {
 		addRemoteUrl("https://localhost/repo");
 
 		StoredConfig cfg = ((Repository) db).getConfig();
 		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS,
 				org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME,
-				ConfigConstants.CONFIG_KEY_URL,
-				"https://localhost/repo/lfs");
+				ConfigConstants.CONFIG_KEY_URL, "https://localhost/repo/lfs");
 		cfg.save();
 
 		checkLfsUrl("https://localhost/repo/lfs");
 	}
 
 	@Test
-	public void lfsUrlNotConfigured() throws Exception {
+	void lfsUrlNotConfigured() throws Exception {
 		assertThrows(LfsConfigInvalidException.class,
 				() -> LfsConnectionFactory.getLfsConnection(db,
-				HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD));
+						HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD));
 	}
 
 	@Test
-	public void checkGetLfsConnection_lfsurl_lfsconfigFromWorkingDir()
+	void checkGetLfsConnection_lfsurl_lfsconfigFromWorkingDir()
 			throws Exception {
 		writeLfsConfig();
 		checkLfsUrl(LFS_SERVER_URL1);
 	}
 
 	@Test
-	public void checkGetLfsConnection_lfsurl_lfsconfigFromIndex()
-			throws Exception {
+	void checkGetLfsConnection_lfsurl_lfsconfigFromIndex() throws Exception {
 		writeLfsConfig();
 		git.add().addFilepattern(Constants.DOT_LFS_CONFIG).call();
 		deleteTrashFile(Constants.DOT_LFS_CONFIG);
@@ -145,8 +141,7 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkGetLfsConnection_lfsurl_lfsconfigFromHEAD()
-			throws Exception {
+	void checkGetLfsConnection_lfsurl_lfsconfigFromHEAD() throws Exception {
 		writeLfsConfig();
 		git.add().addFilepattern(Constants.DOT_LFS_CONFIG).call();
 		git.commit().setMessage("Commit LFS Config").call();
@@ -166,7 +161,7 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkGetLfsConnection_remote_lfsconfigFromWorkingDir()
+	void checkGetLfsConnection_remote_lfsconfigFromWorkingDir()
 			throws Exception {
 		addRemoteUrl(ORIGIN_URL);
 		writeLfsConfig(LFS_SERVER_URL1, "lfs", DEFAULT_REMOTE_NAME, "url");
@@ -182,7 +177,7 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void checkGetLfsConnection_ConfigFilePrecedence_lfsconfigFromWorkingDir()
+	void checkGetLfsConnection_ConfigFilePrecedence_lfsconfigFromWorkingDir()
 			throws Exception {
 		writeLfsConfig();
 		checkLfsUrl(LFS_SERVER_URL1);
@@ -196,35 +191,35 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkGetLfsConnection_InvalidLfsConfig_WorkingDir()
-			throws Exception {
+	void checkGetLfsConnection_InvalidLfsConfig_WorkingDir() throws Exception {
 		writeInvalidLfsConfig();
 		LfsConfigInvalidException actualException = assertThrows(
 				LfsConfigInvalidException.class, () -> {
-			LfsConnectionFactory.getLfsConnection(db, HttpSupport.METHOD_POST,
-					Protocol.OPERATION_DOWNLOAD);
-		});
+					LfsConnectionFactory.getLfsConnection(db,
+							HttpSupport.METHOD_POST,
+							Protocol.OPERATION_DOWNLOAD);
+				});
 		assertTrue(getStackTrace(actualException)
 				.contains("Invalid line in config file"));
 	}
 
 	@Test
-	public void checkGetLfsConnection_InvalidLfsConfig_Index()
-			throws Exception {
+	void checkGetLfsConnection_InvalidLfsConfig_Index() throws Exception {
 		writeInvalidLfsConfig();
 		git.add().addFilepattern(Constants.DOT_LFS_CONFIG).call();
 		deleteTrashFile(Constants.DOT_LFS_CONFIG);
 		LfsConfigInvalidException actualException = assertThrows(
 				LfsConfigInvalidException.class, () -> {
-			LfsConnectionFactory.getLfsConnection(db, HttpSupport.METHOD_POST,
-					Protocol.OPERATION_DOWNLOAD);
-		});
+					LfsConnectionFactory.getLfsConnection(db,
+							HttpSupport.METHOD_POST,
+							Protocol.OPERATION_DOWNLOAD);
+				});
 		assertTrue(getStackTrace(actualException)
 				.contains("Invalid line in config file"));
 	}
 
 	@Test
-	public void checkGetLfsConnection_InvalidLfsConfig_HEAD() throws Exception {
+	void checkGetLfsConnection_InvalidLfsConfig_HEAD() throws Exception {
 		writeInvalidLfsConfig();
 		git.add().addFilepattern(Constants.DOT_LFS_CONFIG).call();
 		git.commit().setMessage("Commit LFS Config").call();
@@ -239,8 +234,7 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 				.setURI(db.getDirectory().toURI().toString()).setBare(true)
 				.call().getRepository()) {
 			LfsConfigInvalidException actualException = assertThrows(
-					LfsConfigInvalidException.class,
-					() -> {
+					LfsConfigInvalidException.class, () -> {
 						LfsConnectionFactory.getLfsConnection(db,
 								HttpSupport.METHOD_POST,
 								Protocol.OPERATION_DOWNLOAD);

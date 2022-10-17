@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.lfs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,10 +31,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test if the lfs config is used in the correct way during checkout.
@@ -83,11 +83,12 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 	private static List<String> checkoutURLs = new ArrayList<>();
 
 	static class SmudgeFilterMock extends FilterCommand {
-		public SmudgeFilterMock(Repository db, InputStream in,
-				OutputStream out) throws IOException {
+		public SmudgeFilterMock(Repository db, InputStream in, OutputStream out)
+				throws IOException {
 			super(in, out);
-			HttpConnection lfsServerConn = LfsConnectionFactory.getLfsConnection(db,
-					HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD);
+			HttpConnection lfsServerConn = LfsConnectionFactory
+					.getLfsConnection(db, HttpSupport.METHOD_POST,
+							Protocol.OPERATION_DOWNLOAD);
 			checkoutURLs.add(lfsServerConn.getURL().toString());
 		}
 
@@ -99,12 +100,12 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 		}
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void installLfs() {
 		FilterCommandRegistry.register(SMUDGE_NAME, SmudgeFilterMock::new);
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void removeLfs() {
 		FilterCommandRegistry.unregister(SMUDGE_NAME);
 	}
@@ -112,7 +113,7 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -142,7 +143,7 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 	File gitAttributesFile;
 
 	private void createLfsFiles(String lfsPointer) throws Exception {
-		//File to be checked out before lfs config
+		// File to be checked out before lfs config
 		String fileNameBefore = ".aaa.txt";
 		fileBefore = writeTrashFile(fileNameBefore, lfsPointer);
 		git.add().addFilepattern(fileNameBefore).call();
@@ -155,7 +156,6 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 		git.commit().setMessage("Commit LFS Pointer files").call();
 	}
 
-
 	private String addLfsConfigFiles(String lfsServerUrl) throws Exception {
 		// Add config files to the repo
 		String lfsConfig1 = createLfsConfig(lfsServerUrl);
@@ -163,7 +163,7 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 		// Modify gitattributes on second call, to force checkout too.
 		if (gitAttributesFile == null) {
 			gitAttributesFile = writeTrashFile(".gitattributes",
-				"*.txt filter=lfs");
+					"*.txt filter=lfs");
 		} else {
 			gitAttributesFile = writeTrashFile(".gitattributes",
 					"*.txt filter=lfs\n");
@@ -181,7 +181,7 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkoutLfsObjects_reset() throws Exception {
+	void checkoutLfsObjects_reset() throws Exception {
 		createLfsFiles(FAKE_LFS_POINTER1);
 		String lfsConfig1 = addLfsConfigFiles(LFS_SERVER_URI1);
 
@@ -209,7 +209,7 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkoutLfsObjects_BranchSwitch() throws Exception {
+	void checkoutLfsObjects_BranchSwitch() throws Exception {
 		// Create a new branch "URL1" and add config files
 		git.checkout().setCreateBranch(true).setName("URL1").call();
 
@@ -252,8 +252,7 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkoutLfsObjects_BranchSwitch_ModifiedLocal()
-			throws Exception {
+	void checkoutLfsObjects_BranchSwitch_ModifiedLocal() throws Exception {
 
 		// Create a new branch "URL1" and add config files
 		git.checkout().setCreateBranch(true).setName("URL1").call();

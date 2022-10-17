@@ -10,24 +10,25 @@
 
 package org.eclipse.jgit.lfs.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /*
  * Ported to SHA-256 from org.eclipse.jgit.lib.AbbreviatedObjectIdTest
  */
 public class AbbreviatedLongObjectIdTest {
 	@Test
-	public void testEmpty_FromByteArray() {
-		final AbbreviatedLongObjectId i;
+	void testEmpty_FromByteArray() {
+		AbbreviatedLongObjectId i;
 		i = AbbreviatedLongObjectId.fromString(new byte[] {}, 0, 0);
 		assertNotNull(i);
 		assertEquals(0, i.length());
@@ -36,8 +37,8 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void testEmpty_FromString() {
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId
+	void testEmpty_FromString() {
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId
 				.fromString("");
 		assertNotNull(i);
 		assertEquals(0, i.length());
@@ -46,41 +47,41 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void testFull_FromByteArray() {
-		final String s = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final byte[] b = org.eclipse.jgit.lib.Constants.encodeASCII(s);
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(b,
+	void testFull_FromByteArray() {
+		String s = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		byte[] b = org.eclipse.jgit.lib.Constants.encodeASCII(s);
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(b,
 				0, b.length);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertTrue(i.isComplete());
 		assertEquals(s, i.name());
 
-		final LongObjectId f = i.toLongObjectId();
+		LongObjectId f = i.toLongObjectId();
 		assertNotNull(f);
 		assertEquals(LongObjectId.fromString(s), f);
 		assertEquals(f.hashCode(), i.hashCode());
 	}
 
 	@Test
-	public void testFull_FromString() {
-		final String s = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void testFull_FromString() {
+		String s = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertTrue(i.isComplete());
 		assertEquals(s, i.name());
 
-		final LongObjectId f = i.toLongObjectId();
+		LongObjectId f = i.toLongObjectId();
 		assertNotNull(f);
 		assertEquals(LongObjectId.fromString(s), f);
 		assertEquals(f.hashCode(), i.hashCode());
 	}
 
 	@Test
-	public void test1_FromString() {
-		final String s = "2";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test1_FromString() {
+		String s = "2";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -89,9 +90,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test2_FromString() {
-		final String s = "27";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test2_FromString() {
+		String s = "27";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -100,9 +101,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test3_FromString() {
-		final String s = "27e";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test3_FromString() {
+		String s = "27e";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -111,9 +112,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test4_FromString() {
-		final String s = "27e1";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test4_FromString() {
+		String s = "27e1";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -122,9 +123,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test5_FromString() {
-		final String s = "27e15";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test5_FromString() {
+		String s = "27e15";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -133,9 +134,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test6_FromString() {
-		final String s = "27e15b";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test6_FromString() {
+		String s = "27e15b";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -144,9 +145,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test7_FromString() {
-		final String s = "27e15b7";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test7_FromString() {
+		String s = "27e15b7";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -155,9 +156,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test8_FromString() {
-		final String s = "27e15b72";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test8_FromString() {
+		String s = "27e15b72";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -166,9 +167,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test9_FromString() {
-		final String s = "27e15b729";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test9_FromString() {
+		String s = "27e15b729";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -177,9 +178,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test15_FromString() {
-		final String s = "27e15b72937fc8f";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test15_FromString() {
+		String s = "27e15b72937fc8f";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -188,9 +189,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test16_FromString() {
-		final String s = "27e15b72937fc8f5";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test16_FromString() {
+		String s = "27e15b72937fc8f5";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -199,9 +200,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test17_FromString() {
-		final String s = "27e15b72937fc8f55";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test17_FromString() {
+		String s = "27e15b72937fc8f55";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -210,9 +211,9 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void test33_FromString() {
-		final String s = "27e15b72937fc8f558da24ac3d50ec203";
-		final AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
+	void test33_FromString() {
+		String s = "27e15b72937fc8f558da24ac3d50ec203";
+		AbbreviatedLongObjectId i = AbbreviatedLongObjectId.fromString(s);
 		assertNotNull(i);
 		assertEquals(s.length(), i.length());
 		assertFalse(i.isComplete());
@@ -221,195 +222,193 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void testEquals_Short() {
-		final String s = "27e15b72";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId.fromString(s);
-		final AbbreviatedLongObjectId b = AbbreviatedLongObjectId.fromString(s);
+	void testEquals_Short() {
+		String s = "27e15b72";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId.fromString(s);
+		AbbreviatedLongObjectId b = AbbreviatedLongObjectId.fromString(s);
 		assertNotSame(a, b);
-		assertTrue(a.hashCode() == b.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(b, a);
 		assertEquals(a, b);
 	}
 
 	@Test
-	public void testEquals_Full() {
-		final String s = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId.fromString(s);
-		final AbbreviatedLongObjectId b = AbbreviatedLongObjectId.fromString(s);
+	void testEquals_Full() {
+		String s = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId.fromString(s);
+		AbbreviatedLongObjectId b = AbbreviatedLongObjectId.fromString(s);
 		assertNotSame(a, b);
-		assertTrue(a.hashCode() == b.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(b, a);
 		assertEquals(a, b);
 	}
 
 	@Test
-	public void testNotEquals_SameLength() {
-		final String sa = "27e15b72";
-		final String sb = "27e15b7f";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId
+	void testNotEquals_SameLength() {
+		String sa = "27e15b72";
+		String sb = "27e15b7f";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId
 				.fromString(sa);
-		final AbbreviatedLongObjectId b = AbbreviatedLongObjectId
+		AbbreviatedLongObjectId b = AbbreviatedLongObjectId
 				.fromString(sb);
-		assertFalse(a.equals(b));
-		assertFalse(b.equals(a));
+		assertNotEquals(a, b);
+		assertNotEquals(b, a);
 	}
 
 	@Test
-	public void testNotEquals_DiffLength() {
-		final String sa = "27e15b72abcd";
-		final String sb = "27e15b72";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId
+	void testNotEquals_DiffLength() {
+		String sa = "27e15b72abcd";
+		String sb = "27e15b72";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId
 				.fromString(sa);
-		final AbbreviatedLongObjectId b = AbbreviatedLongObjectId
+		AbbreviatedLongObjectId b = AbbreviatedLongObjectId
 				.fromString(sb);
-		assertFalse(a.equals(b));
-		assertFalse(b.equals(a));
+		assertNotEquals(a, b);
+		assertNotEquals(b, a);
 	}
 
 	@Test
-	public void testPrefixCompare_Full() {
-		final String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId
+	void testPrefixCompare_Full() {
+		String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId
 				.fromString(s1);
-		final LongObjectId i1 = LongObjectId.fromString(s1);
+		LongObjectId i1 = LongObjectId.fromString(s1);
 		assertEquals(0, a.prefixCompare(i1));
 		assertTrue(i1.startsWith(a));
 
-		final String s2 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b11";
-		final LongObjectId i2 = LongObjectId.fromString(s2);
+		String s2 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b11";
+		LongObjectId i2 = LongObjectId.fromString(s2);
 		assertTrue(a.prefixCompare(i2) < 0);
 		assertFalse(i2.startsWith(a));
 
-		final String s3 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b0f";
-		final LongObjectId i3 = LongObjectId.fromString(s3);
+		String s3 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b0f";
+		LongObjectId i3 = LongObjectId.fromString(s3);
 		assertTrue(a.prefixCompare(i3) > 0);
 		assertFalse(i3.startsWith(a));
 	}
 
 	@Test
-	public void testPrefixCompare_1() {
-		final String sa = "2";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId
+	void testPrefixCompare_1() {
+		String sa = "2";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId
 				.fromString(sa);
 
-		final String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i1 = LongObjectId.fromString(s1);
+		String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i1 = LongObjectId.fromString(s1);
 		assertEquals(0, a.prefixCompare(i1));
 		assertTrue(i1.startsWith(a));
 
-		final String s2 = "37e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i2 = LongObjectId.fromString(s2);
+		String s2 = "37e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i2 = LongObjectId.fromString(s2);
 		assertTrue(a.prefixCompare(i2) < 0);
 		assertFalse(i2.startsWith(a));
 
-		final String s3 = "17e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i3 = LongObjectId.fromString(s3);
+		String s3 = "17e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i3 = LongObjectId.fromString(s3);
 		assertTrue(a.prefixCompare(i3) > 0);
 		assertFalse(i3.startsWith(a));
 	}
 
 	@Test
-	public void testPrefixCompare_15() {
-		final String sa = "27e15b72937fc8f";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId
+	void testPrefixCompare_15() {
+		String sa = "27e15b72937fc8f";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId
 				.fromString(sa);
 
-		final String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i1 = LongObjectId.fromString(s1);
+		String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i1 = LongObjectId.fromString(s1);
 		assertEquals(0, a.prefixCompare(i1));
 		assertTrue(i1.startsWith(a));
 
-		final String s2 = "27e15b72937fc90558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i2 = LongObjectId.fromString(s2);
+		String s2 = "27e15b72937fc90558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i2 = LongObjectId.fromString(s2);
 		assertTrue(a.prefixCompare(i2) < 0);
 		assertFalse(i2.startsWith(a));
 
-		final String s3 = "27e15b72937fc8e558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i3 = LongObjectId.fromString(s3);
+		String s3 = "27e15b72937fc8e558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i3 = LongObjectId.fromString(s3);
 		assertTrue(a.prefixCompare(i3) > 0);
 		assertFalse(i3.startsWith(a));
 	}
 
 	@Test
-	public void testPrefixCompare_16() {
-		final String sa = "27e15b72937fc8f5";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId
+	void testPrefixCompare_16() {
+		String sa = "27e15b72937fc8f5";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId
 				.fromString(sa);
 
-		final String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i1 = LongObjectId.fromString(s1);
+		String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i1 = LongObjectId.fromString(s1);
 		assertEquals(0, a.prefixCompare(i1));
 		assertTrue(i1.startsWith(a));
 
-		final String s2 = "27e15b72937fc8f658da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i2 = LongObjectId.fromString(s2);
+		String s2 = "27e15b72937fc8f658da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i2 = LongObjectId.fromString(s2);
 		assertTrue(a.prefixCompare(i2) < 0);
 		assertFalse(i2.startsWith(a));
 
-		final String s3 = "27e15b72937fc8f458da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i3 = LongObjectId.fromString(s3);
+		String s3 = "27e15b72937fc8f458da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i3 = LongObjectId.fromString(s3);
 		assertTrue(a.prefixCompare(i3) > 0);
 		assertFalse(i3.startsWith(a));
 	}
 
 	@Test
-	public void testPrefixCompare_17() {
-		final String sa = "27e15b72937fc8f55";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId
+	void testPrefixCompare_17() {
+		String sa = "27e15b72937fc8f55";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId
 				.fromString(sa);
 
-		final String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i1 = LongObjectId.fromString(s1);
+		String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i1 = LongObjectId.fromString(s1);
 		assertEquals(0, a.prefixCompare(i1));
 		assertTrue(i1.startsWith(a));
 
-		final String s2 = "27e15b72937fc8f568da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i2 = LongObjectId.fromString(s2);
+		String s2 = "27e15b72937fc8f568da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i2 = LongObjectId.fromString(s2);
 		assertTrue(a.prefixCompare(i2) < 0);
 		assertFalse(i2.startsWith(a));
 
-		final String s3 = "27e15b72937fc8f548da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i3 = LongObjectId.fromString(s3);
+		String s3 = "27e15b72937fc8f548da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i3 = LongObjectId.fromString(s3);
 		assertTrue(a.prefixCompare(i3) > 0);
 		assertFalse(i3.startsWith(a));
 	}
 
 	@Test
-	public void testPrefixCompare_33() {
-		final String sa = "27e15b72937fc8f558da24ac3d50ec203";
-		final AbbreviatedLongObjectId a = AbbreviatedLongObjectId
+	void testPrefixCompare_33() {
+		String sa = "27e15b72937fc8f558da24ac3d50ec203";
+		AbbreviatedLongObjectId a = AbbreviatedLongObjectId
 				.fromString(sa);
 
-		final String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i1 = LongObjectId.fromString(s1);
+		String s1 = "27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i1 = LongObjectId.fromString(s1);
 		assertEquals(0, a.prefixCompare(i1));
 		assertTrue(i1.startsWith(a));
 
-		final String s2 = "27e15b72937fc8f558da24ac3d50ec20402a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i2 = LongObjectId.fromString(s2);
+		String s2 = "27e15b72937fc8f558da24ac3d50ec20402a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i2 = LongObjectId.fromString(s2);
 		assertTrue(a.prefixCompare(i2) < 0);
 		assertFalse(i2.startsWith(a));
 
-		final String s3 = "27e15b72937fc8f558da24ac3d50ec20202a4cf21e33b87ae8e4ce90e89c4b10";
-		final LongObjectId i3 = LongObjectId.fromString(s3);
+		String s3 = "27e15b72937fc8f558da24ac3d50ec20202a4cf21e33b87ae8e4ce90e89c4b10";
+		LongObjectId i3 = LongObjectId.fromString(s3);
 		assertTrue(a.prefixCompare(i3) > 0);
 		assertFalse(i3.startsWith(a));
 	}
 
 	@Test
-	public void testIsId() {
+	void testIsId() {
 		// These are all too short.
 		assertFalse(AbbreviatedLongObjectId.isId(""));
 		assertFalse(AbbreviatedLongObjectId.isId("a"));
 
 		// These are too long.
-		assertFalse(AbbreviatedLongObjectId.isId(LongObjectId
-				.fromString(
-						"27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10")
+		assertFalse(AbbreviatedLongObjectId.isId(LongObjectId.fromString(
+				"27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10")
 				.name() + "0"));
-		assertFalse(AbbreviatedLongObjectId.isId(LongObjectId
-				.fromString(
-						"27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10")
+		assertFalse(AbbreviatedLongObjectId.isId(LongObjectId.fromString(
+				"27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10")
 				.name() + "c0ffee"));
 
 		// These contain non-hex characters.
@@ -421,22 +420,20 @@ public class AbbreviatedLongObjectIdTest {
 		assertTrue(AbbreviatedLongObjectId.isId("abcd"));
 		assertTrue(AbbreviatedLongObjectId.isId("abcd0"));
 		assertTrue(AbbreviatedLongObjectId.isId("abcd09"));
-		assertTrue(AbbreviatedLongObjectId.isId(LongObjectId
-				.fromString(
-						"27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10")
+		assertTrue(AbbreviatedLongObjectId.isId(LongObjectId.fromString(
+				"27e15b72937fc8f558da24ac3d50ec20302a4cf21e33b87ae8e4ce90e89c4b10")
 				.name()));
 	}
 
 	@Test
-	public void testAbbreviate() {
+	void testAbbreviate() {
 		AnyLongObjectId id = LongObjectIdTestUtils.hash("test");
-		assertEquals(
-				"abbreviated id should match the id it was abbreviated from", 0,
-				id.abbreviate(10).prefixCompare(id));
+		assertEquals(0, id.abbreviate(10).prefixCompare(id),
+				"abbreviated id should match the id it was abbreviated from");
 	}
 
 	@Test
-	public void testFromStringByteWrongLength() {
+	void testFromStringByteWrongLength() {
 		byte[] buf = new byte[65];
 		try {
 			AbbreviatedLongObjectId.fromString(buf, 0, 65);
@@ -447,7 +444,7 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void testFromStringWrongLength() {
+	void testFromStringWrongLength() {
 		AnyLongObjectId id = LongObjectIdTestUtils.hash("test");
 		try {
 			AbbreviatedLongObjectId.fromString(id.name() + "c0ffee");
@@ -458,14 +455,14 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void testFromLongObjectId() {
+	void testFromLongObjectId() {
 		AnyLongObjectId id = LongObjectIdTestUtils.hash("test");
 		assertEquals(0,
 				AbbreviatedLongObjectId.fromLongObjectId(id).prefixCompare(id));
 	}
 
 	@Test
-	public void testPrefixCompareByte() {
+	void testPrefixCompareByte() {
 		AnyLongObjectId id = LongObjectId.fromString(
 				"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
 		byte[] buf = new byte[32];
@@ -474,51 +471,43 @@ public class AbbreviatedLongObjectIdTest {
 		AbbreviatedLongObjectId a = id.abbreviate(62);
 		assertEquals(0, a.prefixCompare(buf, 0));
 
-		a = LongObjectId
-				.fromString(
-						"0023456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
+		a = LongObjectId.fromString(
+				"0023456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
 				.abbreviate(16);
 		assertEquals(-1, a.prefixCompare(buf, 0));
-		a = LongObjectId
-				.fromString(
-						"0123456789abcdef0023456789abcdef0123456789abcdef0123456789abcdef")
+		a = LongObjectId.fromString(
+				"0123456789abcdef0023456789abcdef0123456789abcdef0123456789abcdef")
 				.abbreviate(32);
 		assertEquals(-1, a.prefixCompare(buf, 0));
-		a = LongObjectId
-				.fromString(
-						"0123456789abcdef0123456789abcdef0023456789abcdef0123456789abcdef")
+		a = LongObjectId.fromString(
+				"0123456789abcdef0123456789abcdef0023456789abcdef0123456789abcdef")
 				.abbreviate(48);
 		assertEquals(-1, a.prefixCompare(buf, 0));
-		a = LongObjectId
-				.fromString(
-						"0123456789abcdef0123456789abcdef0123456789abcdef0023456789abcdef")
+		a = LongObjectId.fromString(
+				"0123456789abcdef0123456789abcdef0123456789abcdef0023456789abcdef")
 				.abbreviate(64);
 		assertEquals(-1, a.prefixCompare(buf, 0));
 
-		a = LongObjectId
-				.fromString(
-						"1123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
+		a = LongObjectId.fromString(
+				"1123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
 				.abbreviate(16);
 		assertEquals(1, a.prefixCompare(buf, 0));
-		a = LongObjectId
-				.fromString(
-						"0123456789abcdef1123456789abcdef0123456789abcdef0123456789abcdef")
+		a = LongObjectId.fromString(
+				"0123456789abcdef1123456789abcdef0123456789abcdef0123456789abcdef")
 				.abbreviate(32);
 		assertEquals(1, a.prefixCompare(buf, 0));
-		a = LongObjectId
-				.fromString(
-						"0123456789abcdef0123456789abcdef1123456789abcdef0123456789abcdef")
+		a = LongObjectId.fromString(
+				"0123456789abcdef0123456789abcdef1123456789abcdef0123456789abcdef")
 				.abbreviate(48);
 		assertEquals(1, a.prefixCompare(buf, 0));
-		a = LongObjectId
-				.fromString(
-						"0123456789abcdef0123456789abcdef0123456789abcdef1123456789abcdef")
+		a = LongObjectId.fromString(
+				"0123456789abcdef0123456789abcdef0123456789abcdef1123456789abcdef")
 				.abbreviate(64);
 		assertEquals(1, a.prefixCompare(buf, 0));
 	}
 
 	@Test
-	public void testPrefixCompareLong() {
+	void testPrefixCompareLong() {
 		AnyLongObjectId id = new LongObjectId(1L, 2L, 3L, 4L);
 		long[] buf = new long[4];
 		id.copyRawTo(buf, 0);
@@ -546,7 +535,7 @@ public class AbbreviatedLongObjectIdTest {
 	}
 
 	@Test
-	public void testGetFirstByte() {
+	void testGetFirstByte() {
 		AnyLongObjectId id = LongObjectId.fromString(
 				"f423456789abcdef0123456789abcdef0123456789abcdef1123456789abcdef");
 		AbbreviatedLongObjectId a = id.abbreviate(10);
@@ -554,11 +543,10 @@ public class AbbreviatedLongObjectIdTest {
 		assertEquals(id.getFirstByte(), a.getFirstByte());
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Test
-	public void testNotEquals() {
+	void testNotEquals() {
 		AbbreviatedLongObjectId a = new LongObjectId(1L, 2L, 3L, 4L)
 				.abbreviate(10);
-		assertFalse(a.equals("different"));
+		assertNotEquals(a, "different");
 	}
 }
