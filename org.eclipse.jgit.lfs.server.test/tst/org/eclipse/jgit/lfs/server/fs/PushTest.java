@@ -10,8 +10,8 @@
 package org.eclipse.jgit.lfs.server.fs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -36,9 +36,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PushTest extends LfsServerTest {
 
@@ -49,7 +49,7 @@ public class PushTest extends LfsServerTest {
 	private Repository remoteDb;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() throws Exception {
 		super.setup();
 
@@ -73,8 +73,7 @@ public class PushTest extends LfsServerTest {
 				"*.bin filter=lfs diff=lfs merge=lfs -text ").create();
 		git = Git.wrap(db);
 
-		URIish uri = new URIish(
-				"file://" + remoteDb.getDirectory());
+		URIish uri = new URIish("file://" + remoteDb.getDirectory());
 		RemoteAddCommand radd = git.remoteAdd();
 		radd.setUri(uri);
 		radd.setName(Constants.DEFAULT_REMOTE_NAME);
@@ -84,7 +83,7 @@ public class PushTest extends LfsServerTest {
 		git.push().call();
 	}
 
-	@After
+	@AfterEach
 	public void cleanup() throws Exception {
 		remoteDb.close();
 		localDb.getRepository().close();
@@ -94,7 +93,7 @@ public class PushTest extends LfsServerTest {
 	}
 
 	@Test
-	public void testPushSimple() throws Exception {
+	void testPushSimple() throws Exception {
 		JGitTestUtil.writeTrashFile(localDb.getRepository(), "a.bin",
 				"1234567");
 		git.add().addFilepattern("a.bin").call();
@@ -113,13 +112,13 @@ public class PushTest extends LfsServerTest {
 				assertEquals(tw.getPathString(), "a.bin");
 				ObjectLoader ldr = walk.getObjectReader()
 						.open(tw.getObjectId(0), Constants.OBJ_BLOB);
-				try(InputStream is = ldr.openStream()) {
+				try (InputStream is = ldr.openStream()) {
 					assertEquals(
 							"version https://git-lfs.github.com/spec/v1\noid sha256:8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414\nsize 7\n",
-							new String(IO
-									.readWholeStream(is,
-											(int) ldr.getSize())
-									.array(), UTF_8));
+							new String(
+									IO.readWholeStream(is, (int) ldr.getSize())
+											.array(),
+									UTF_8));
 				}
 			}
 
@@ -131,16 +130,22 @@ public class PushTest extends LfsServerTest {
 	}
 
 	@Test
-	public void testDeleteBranch() throws Exception {
+	void testDeleteBranch() throws Exception {
 		String branch = "new-branch";
 		git.branchCreate().setName(branch).call();
 
 		String destRef = Constants.R_HEADS + branch;
-		git.push().setRefSpecs(new RefSpec().setSource(branch).setDestination(destRef)).call();
+		git.push()
+				.setRefSpecs(
+						new RefSpec().setSource(branch).setDestination(destRef))
+				.call();
 
 		// Should not fail on push.
 		git.branchDelete().setBranchNames(branch).setForce(true).call();
-		git.push().setRefSpecs(new RefSpec().setSource(null).setDestination(destRef)).call();
+		git.push()
+				.setRefSpecs(
+						new RefSpec().setSource(null).setDestination(destRef))
+				.call();
 
 		assertTrue(server.getRequests().isEmpty());
 	}

@@ -9,11 +9,11 @@
  */
 package org.eclipse.jgit.lfs.server.fs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,22 +30,22 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class UploadTest extends LfsServerTest {
 
 	@Test
-	public void testUpload() throws Exception {
+	void testUpload() throws Exception {
 		String TEXT = "test";
 		AnyLongObjectId id = putContent(TEXT);
-		assertTrue("expect object " + id.name() + " to exist",
-				repository.getSize(id) >= 0);
-		assertEquals("expected object length " + TEXT.length(), TEXT.length(),
-				repository.getSize(id));
+		assertTrue(repository.getSize(id) >= 0,
+				"expect object " + id.name() + " to exist");
+		assertEquals(TEXT.length(), repository.getSize(id),
+				"expected object length " + TEXT.length());
 	}
 
 	@Test
-	public void testCorruptUpload() throws Exception {
+	void testCorruptUpload() throws Exception {
 		String TEXT = "test";
 		AnyLongObjectId id = LongObjectIdTestUtils.hash("wrongHash");
 		try {
@@ -54,13 +54,13 @@ public class UploadTest extends LfsServerTest {
 		} catch (RuntimeException e) {
 			assertEquals("Status: 400. Bad Request", e.getMessage());
 		}
-		assertFalse("expect object " + id.name() + " not to exist",
-				repository.getSize(id) >= 0);
+		assertFalse(repository.getSize(id) >= 0,
+				"expect object " + id.name() + " not to exist");
 	}
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void testLargeFileUpload() throws Exception {
+	void testLargeFileUpload() throws Exception {
 		Path f = Paths.get(getTempDirectory().toString(), "largeRandomFile");
 		createPseudoRandomContentFile(f, 5 * MiB);
 		long start = System.nanoTime();
@@ -68,14 +68,14 @@ public class UploadTest extends LfsServerTest {
 		System.out.println(
 				MessageFormat.format("uploaded 10 MiB random data in {0}ms",
 						(System.nanoTime() - start) / 1e6));
-		assertTrue("expect object " + id.name() + " to exist",
-				repository.getSize(id) >= 0);
-		assertEquals("expected object length " + Files.size(f), Files.size(f),
-				repository.getSize(id));
+		assertTrue(repository.getSize(id) >= 0,
+				"expect object " + id.name() + " to exist");
+		assertEquals(Files.size(f), repository.getSize(id),
+				"expected object length " + Files.size(f));
 	}
 
 	@Test
-	public void testParallelUploads() throws Exception {
+	void testParallelUploads() throws Exception {
 		int count = 10;
 		List<Path> paths = new ArrayList<>(count);
 

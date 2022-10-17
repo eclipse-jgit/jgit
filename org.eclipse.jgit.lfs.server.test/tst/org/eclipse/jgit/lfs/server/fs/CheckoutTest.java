@@ -9,8 +9,9 @@
  */
 package org.eclipse.jgit.lfs.server.fs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,17 +27,18 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CheckoutTest extends LfsServerTest {
 
 	Git git;
+
 	private TestRepository tdb;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() throws Exception {
 		super.setup();
 
@@ -69,7 +71,7 @@ public class CheckoutTest extends LfsServerTest {
 				"*.bin filter=lfs diff=lfs merge=lfs -text ").create();
 	}
 
-	@After
+	@AfterEach
 	public void cleanup() throws Exception {
 		tdb.getRepository().close();
 		FileUtils.delete(tdb.getRepository().getWorkTree(),
@@ -77,7 +79,7 @@ public class CheckoutTest extends LfsServerTest {
 	}
 
 	@Test
-	public void testUnknownContent() throws Exception {
+	void testUnknownContent() throws Exception {
 		git.checkout().setName("test").call();
 		// unknown content. We will see the pointer file
 		assertEquals(
@@ -87,28 +89,28 @@ public class CheckoutTest extends LfsServerTest {
 				server.getRequests().toString());
 	}
 
-	@Test(expected = JGitInternalException.class)
-	public void testUnknownContentRequired() throws Exception {
-		StoredConfig cfg = tdb.getRepository().getConfig();
-		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
-				ConfigConstants.CONFIG_SECTION_LFS,
-				ConfigConstants.CONFIG_KEY_REQUIRED, true);
-		cfg.save();
+	@Test
+	void testUnknownContentRequired() throws Exception {
+		assertThrows(JGitInternalException.class, () -> {
+			StoredConfig cfg = tdb.getRepository().getConfig();
+			cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
+					ConfigConstants.CONFIG_SECTION_LFS,
+					ConfigConstants.CONFIG_KEY_REQUIRED, true);
+			cfg.save();
 
-		// must throw
-		git.checkout().setName("test").call();
+			// must throw
+			git.checkout().setName("test").call();
+		});
 	}
 
 	@Test
-	public void testKnownContent() throws Exception {
-		putContent(
-				LongObjectId.fromString(
-						"8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414"),
+	void testKnownContent() throws Exception {
+		putContent(LongObjectId.fromString(
+				"8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414"),
 				"1234567");
 		git.checkout().setName("test").call();
 		// known content. we will see the actual content of the LFS blob.
-		assertEquals(
-				"1234567",
+		assertEquals("1234567",
 				JGitTestUtil.read(git.getRepository(), "a.bin"));
 		assertEquals(
 				"[PUT /lfs/objects/8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414 200"

@@ -11,8 +11,8 @@ package org.eclipse.jgit.lfs.server.fs;
 
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_UNPROCESSABLE_ENTITY;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -23,12 +23,12 @@ import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DownloadTest extends LfsServerTest {
 
 	@Test
-	public void testDownload() throws Exception {
+	void testDownload() throws Exception {
 		String TEXT = "test";
 		AnyLongObjectId id = putContent(TEXT);
 		Path f = Paths.get(getTempDirectory().toString(), "download");
@@ -38,41 +38,40 @@ public class DownloadTest extends LfsServerTest {
 	}
 
 	@Test
-	public void testDownloadInvalidPathInfo()
+	void testDownloadInvalidPathInfo()
 			throws ClientProtocolException, IOException {
 		String TEXT = "test";
 		String id = putContent(TEXT).name().substring(0, 60);
 		Path f = Paths.get(getTempDirectory().toString(), "download");
 		String error = String.format(
 				"Invalid pathInfo: '/%s' does not match '/{SHA-256}'", id);
-		assertThrows(formatErrorMessage(SC_UNPROCESSABLE_ENTITY, error),
-				RuntimeException.class, () -> getContent(id, f));
+		assertThrows(RuntimeException.class, () -> getContent(id, f),
+				formatErrorMessage(SC_UNPROCESSABLE_ENTITY, error));
 	}
 
 	@Test
-	public void testDownloadInvalidId()
-			throws ClientProtocolException, IOException {
+	void testDownloadInvalidId() throws ClientProtocolException, IOException {
 		String TEXT = "test";
 		String id = putContent(TEXT).name().replace('f', 'z');
 		Path f = Paths.get(getTempDirectory().toString(), "download");
 		String error = String.format("Invalid id: %s", id);
-		assertThrows(formatErrorMessage(SC_UNPROCESSABLE_ENTITY, error),
-				RuntimeException.class, () -> getContent(id, f));
+		assertThrows(RuntimeException.class, () -> getContent(id, f),
+				formatErrorMessage(SC_UNPROCESSABLE_ENTITY, error));
 	}
 
 	@Test
-	public void testDownloadNotFound() {
+	void testDownloadNotFound() {
 		String TEXT = "test";
 		AnyLongObjectId id = LongObjectIdTestUtils.hash(TEXT);
 		Path f = Paths.get(getTempDirectory().toString(), "download");
 		String error = String.format("Object '%s' not found", id.getName());
-		assertThrows(formatErrorMessage(SC_NOT_FOUND, error),
-				RuntimeException.class, () -> getContent(id, f));
+		assertThrows(RuntimeException.class, () -> getContent(id, f),
+				formatErrorMessage(SC_NOT_FOUND, error));
 	}
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void testLargeFileDownload() throws Exception {
+	void testLargeFileDownload() throws Exception {
 		Path f = Paths.get(getTempDirectory().toString(), "largeRandomFile");
 		long expectedLen = createPseudoRandomContentFile(f, 5 * MiB);
 		AnyLongObjectId id = putContent(f);

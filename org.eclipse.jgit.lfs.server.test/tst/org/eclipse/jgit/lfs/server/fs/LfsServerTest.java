@@ -10,7 +10,7 @@
 package org.eclipse.jgit.lfs.server.fs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -54,8 +54,8 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class LfsServerTest {
 
@@ -86,7 +86,7 @@ public abstract class LfsServerTest {
 		return dir;
 	}
 
-	@Before
+	@BeforeEach
 	public void setup() throws Exception {
 		SystemReader.setInstance(new MockSystemReader());
 		tmp = Files.createTempDirectory("jgit_test_");
@@ -118,7 +118,7 @@ public abstract class LfsServerTest {
 		this.repository.setUrl(server.getURI() + "/lfs/objects/");
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		server.tearDown();
 		FileUtils.delete(tmp.toFile(), FileUtils.RECURSIVE | FileUtils.RETRY);
