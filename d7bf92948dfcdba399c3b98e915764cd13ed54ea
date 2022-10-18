@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23058493_a6e995cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2022-10-18T19:36:15Z",
+      "side": 1,
+      "message": "When I saw the other patches, I thought that the sizes would be stored less granularly, e.g. say that \"this pack contains only objects smaller than 10 MiB\" or \"in this pack, such-and-such offset to such-and-such offset contains only objects smaller than 10 MiB\". This interface seems to indicate that all object sizes will be stored somewhere, which seems to be contrary to the previous patches\u0027 work of allowing the database to perform its own comparisons (thus, being able to do it without necessarily needing precise size information) instead of always supplying the size.\n\nIs the goal to still have a size for every object? Or to only have some objects have sizes?\n\n(If the goal is to have a size for every object, do you have some benchmarks? I don\u0027t know if it would save much time. In some of the patches you comment that having this size index means that we don\u0027t have to inflate the object, if I remember correctly, but I don\u0027t think that\u0027s true - looking at the code in DfsPackFile#getObjectSize, it\u0027s reading it straight from the packfile as I would expect.)",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "d7bf92948dfcdba399c3b98e915764cd13ed54ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
