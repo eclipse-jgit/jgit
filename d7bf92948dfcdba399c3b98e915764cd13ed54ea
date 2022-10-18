@@ -22,6 +22,30 @@
       },
       "revId": "d7bf92948dfcdba399c3b98e915764cd13ed54ea",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a493cc07_2490e0c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-18T21:57:01Z",
+      "side": 1,
+      "message": "This index is an attempt to speed up `git clone --filter\u003dblob:xM`. For that I am implementing an index for blobs only (no commits nor trees) over certain configurable threshold. The index contains the exact size for those objects. \n\nWhat is the optimization here? Too read the size from memory instead of IO (you are right, except in deltas, we don\u0027t need to inflate objects to get their size). Locally in a big repo this made some difference, I expect it to be bigger in a DFS setup.\n\nWhy not more objects? to limit the size of the index in memory (our memory consumption for indices is already high).\n\nWhy not an approximated size? for the filtered clone it would be enough, but we foresee other usages for a full-size index, e.g. the object-size capability, or offload of big blobs.\n\nAbout this interface: I kept it vague on purpose and therefore caller needs to know the precision and content of the underlying implementation. Hopefully we could also implement a low-res version of the index under this same interface. That is OK for #isNotLargerThan(). With exact sizes, we can also use the index for #getObjectSize()... so maybe the interface must expose that.",
+      "parentUuid": "23058493_a6e995cd",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "d7bf92948dfcdba399c3b98e915764cd13ed54ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
