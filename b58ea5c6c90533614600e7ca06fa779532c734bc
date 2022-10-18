@@ -16,6 +16,23 @@
       "message": "\u003e Patch Set 5: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1938/ : FAILURE\nI think failure is in this test, unrelated to this change:\n\n1:44:25  2022-10-18 18:44:23 [main] ERROR org.eclipse.jgit.internal.storage.file.FileSnapshotTest - 10,000, 14, 2,487,500, 3,567,000, 8,141,000, 5,876,571, 1,460,799\n11:44:25  [ERROR] Tests run: 7, Failures: 1, Errors: 0, Skipped: 2, Time elapsed: 20.708 s \u003c\u003c\u003c FAILURE! - in org.eclipse.jgit.internal.storage.file.FileSnapshotTest",
       "revId": "b58ea5c6c90533614600e7ca06fa779532c734bc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10e5d679_e9bba556",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-18T19:00:20Z",
+      "side": 1,
+      "message": "Test failure looks unrelated and also changes on top of this one pass them fine, so I\u0027ll submit.",
+      "revId": "b58ea5c6c90533614600e7ca06fa779532c734bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
