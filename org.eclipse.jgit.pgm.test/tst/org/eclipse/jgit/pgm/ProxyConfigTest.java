@@ -38,7 +38,7 @@
 package org.eclipse.jgit.pgm;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -48,8 +48,8 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test how the content of the environment variables http[s]_proxy (upper- and
@@ -61,7 +61,7 @@ public class ProxyConfigTest {
 
 	private Map<String, String> environment;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		String separator = System.getProperty("file.separator");
 		String classpath = System.getProperty("java.class.path");
@@ -77,7 +77,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testNoSetting() throws Exception {
+	void testNoSetting() throws Exception {
 		Process start = processBuilder.start();
 		start.waitFor();
 		assertEquals(
@@ -86,7 +86,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testHttpProxy_lowerCase() throws Exception {
+	void testHttpProxy_lowerCase() throws Exception {
 		environment.put("http_proxy", "http://xx:1234");
 		Process start = processBuilder.start();
 		start.waitFor();
@@ -96,7 +96,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testHttpProxy_upperCase() throws Exception {
+	void testHttpProxy_upperCase() throws Exception {
 		environment.put("HTTP_PROXY", "http://XX:1234");
 		Process start = processBuilder.start();
 		start.waitFor();
@@ -106,7 +106,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testHttpProxy_bothCases() throws Exception {
+	void testHttpProxy_bothCases() throws Exception {
 		environment.put("http_proxy", "http://xx:1234");
 		environment.put("HTTP_PROXY", "http://XX:1234");
 		Process start = processBuilder.start();
@@ -117,7 +117,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testHttpsProxy_lowerCase() throws Exception {
+	void testHttpsProxy_lowerCase() throws Exception {
 		environment.put("https_proxy", "http://xx:1234");
 		Process start = processBuilder.start();
 		start.waitFor();
@@ -127,7 +127,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testHttpsProxy_upperCase() throws Exception {
+	void testHttpsProxy_upperCase() throws Exception {
 		environment.put("HTTPS_PROXY", "http://XX:1234");
 		Process start = processBuilder.start();
 		start.waitFor();
@@ -137,7 +137,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testHttpsProxy_bothCases() throws Exception {
+	void testHttpsProxy_bothCases() throws Exception {
 		environment.put("https_proxy", "http://xx:1234");
 		environment.put("HTTPS_PROXY", "http://XX:1234");
 		Process start = processBuilder.start();
@@ -148,7 +148,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testAll() throws Exception {
+	void testAll() throws Exception {
 		environment.put("http_proxy", "http://xx:1234");
 		environment.put("HTTP_PROXY", "http://XX:1234");
 		environment.put("https_proxy", "http://yy:1234");
@@ -161,8 +161,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testDontOverwriteHttp()
-			throws IOException, InterruptedException {
+	void testDontOverwriteHttp() throws IOException, InterruptedException {
 		environment.put("http_proxy", "http://xx:1234");
 		environment.put("HTTP_PROXY", "http://XX:1234");
 		environment.put("https_proxy", "http://yy:1234");
@@ -179,8 +178,7 @@ public class ProxyConfigTest {
 	}
 
 	@Test
-	public void testOverwriteHttpPort()
-			throws IOException, InterruptedException {
+	void testOverwriteHttpPort() throws IOException, InterruptedException {
 		environment.put("http_proxy", "http://xx:1234");
 		environment.put("HTTP_PROXY", "http://XX:1234");
 		environment.put("https_proxy", "http://yy:1234");

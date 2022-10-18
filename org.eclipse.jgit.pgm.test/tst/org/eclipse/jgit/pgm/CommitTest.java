@@ -9,15 +9,15 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CommitTest extends CLIRepositoryTestCase {
 
 	@Test
-	public void testCommitPath() throws Exception {
+	void testCommitPath() throws Exception {
 		writeTrashFile("a", "a");
 		writeTrashFile("b", "a");
 		String result = toString(execute("git add a"));
@@ -45,7 +45,7 @@ public class CommitTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testCommitAll() throws Exception {
+	void testCommitAll() throws Exception {
 		writeTrashFile("a", "a");
 		writeTrashFile("b", "a");
 		String result = toString(execute("git add a b"));

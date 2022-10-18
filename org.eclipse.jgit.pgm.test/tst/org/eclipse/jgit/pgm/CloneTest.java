@@ -9,12 +9,12 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.List;
@@ -34,22 +34,22 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CloneTest extends CLIRepositoryTestCase {
 
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 	}
 
 	@Test
-	public void testClone() throws Exception {
+	void testClone() throws Exception {
 		createInitialCommit();
 
 		File gitDir = db.getDirectory();
@@ -59,16 +59,15 @@ public class CloneTest extends CLIRepositoryTestCase {
 				+ shellQuote(target.getPath());
 		String[] result = execute(cmd);
 		assertArrayEquals(new String[] {
-				"Cloning into '" + target.getPath() + "'...",
-						"", "" }, result);
+				"Cloning into '" + target.getPath() + "'...", "", "" }, result);
 
 		Git git2 = Git.open(target);
 		List<Ref> branches = git2.branchList().call();
-		assertEquals("expected 1 branch", 1, branches.size());
+		assertEquals(1, branches.size(), "expected 1 branch");
 	}
 
 	@Test
-	public void testCloneInitialBranch() throws Exception {
+	void testCloneInitialBranch() throws Exception {
 		createInitialCommit();
 
 		File gitDir = db.getDirectory();
@@ -82,7 +81,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 
 		Git git2 = Git.open(target);
 		List<Ref> branches = git2.branchList().call();
-		assertEquals("expected 1 branch", 1, branches.size());
+		assertEquals(1, branches.size(), "expected 1 branch");
 
 		Repository db2 = git2.getRepository();
 		ObjectId head = db2.resolve("HEAD");
@@ -93,7 +92,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneInitialBranchMissing() throws Exception {
+	void testCloneInitialBranchMissing() throws Exception {
 		createInitialCommit();
 
 		File gitDir = db.getDirectory();
@@ -113,7 +112,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneEmpty() throws Exception {
+	void testCloneEmpty() throws Exception {
 		File gitDir = db.getDirectory();
 		String sourceURI = gitDir.toURI().toString();
 		File target = createTempDirectory("target");
@@ -127,11 +126,11 @@ public class CloneTest extends CLIRepositoryTestCase {
 
 		Git git2 = Git.open(target);
 		List<Ref> branches = git2.branchList().call();
-		assertEquals("expected 0 branch", 0, branches.size());
+		assertEquals(0, branches.size(), "expected 0 branch");
 	}
 
 	@Test
-	public void testCloneIntoCurrentDir() throws Exception {
+	void testCloneIntoCurrentDir() throws Exception {
 		createInitialCommit();
 		File target = createTempDirectory("target");
 
@@ -143,36 +142,38 @@ public class CloneTest extends CLIRepositoryTestCase {
 		String name = new URIish(sourceURI).getHumanishName();
 		String cmd = "git clone " + sourceURI;
 		String[] result = execute(cmd);
-		assertArrayEquals(new String[] {
-				"Cloning into '" + new File(target, name).getName() + "'...",
-				"", "" }, result);
+		assertArrayEquals(
+				new String[] { "Cloning into '"
+						+ new File(target, name).getName() + "'...", "", "" },
+				result);
 		Git git2 = Git.open(new File(target, name));
 		List<Ref> branches = git2.branchList().call();
-		assertEquals("expected 1 branch", 1, branches.size());
+		assertEquals(1, branches.size(), "expected 1 branch");
 	}
 
 	@Test
-	public void testCloneBare() throws Exception {
+	void testCloneBare() throws Exception {
 		createInitialCommit();
 
 		File gitDir = db.getDirectory();
 		String sourcePath = gitDir.getAbsolutePath();
 		String targetPath = (new File(sourcePath)).getParentFile()
-				.getParentFile().getAbsolutePath()
-				+ File.separator + "target.git";
+				.getParentFile().getAbsolutePath() + File.separator
+				+ "target.git";
 		String cmd = "git clone --bare " + shellQuote(sourcePath) + " "
 				+ shellQuote(targetPath);
 		String[] result = execute(cmd);
-		assertArrayEquals(new String[] {
-				"Cloning into '" + targetPath + "'...", "", "" }, result);
+		assertArrayEquals(
+				new String[] { "Cloning into '" + targetPath + "'...", "", "" },
+				result);
 		Git git2 = Git.open(new File(targetPath));
 		List<Ref> branches = git2.branchList().call();
-		assertEquals("expected 1 branch", 1, branches.size());
-		assertTrue("expected bare repository", git2.getRepository().isBare());
+		assertEquals(1, branches.size(), "expected 1 branch");
+		assertTrue(git2.getRepository().isBare(), "expected bare repository");
 	}
 
 	@Test
-	public void testCloneMirror() throws Exception {
+	void testCloneMirror() throws Exception {
 		ObjectId head = createInitialCommit();
 		// create a non-standard ref
 		RefUpdate ru = db.updateRef("refs/meta/foo/bar");
@@ -192,13 +193,13 @@ public class CloneTest extends CLIRepositoryTestCase {
 				result);
 		Git git2 = Git.open(new File(targetPath));
 		List<Ref> branches = git2.branchList().call();
-		assertEquals("expected 1 branch", 1, branches.size());
-		assertTrue("expected bare repository", git2.getRepository().isBare());
+		assertEquals(1, branches.size(), "expected 1 branch");
+		assertTrue(git2.getRepository().isBare(), "expected bare repository");
 		StoredConfig config = git2.getRepository().getConfig();
 		RemoteConfig rc = new RemoteConfig(config, "origin");
-		assertTrue("expected mirror configuration", rc.isMirror());
+		assertTrue(rc.isMirror(), "expected mirror configuration");
 		RefSpec fetchRefSpec = rc.getFetchRefSpecs().get(0);
-		assertTrue("exected force udpate", fetchRefSpec.isForceUpdate());
+		assertTrue(fetchRefSpec.isForceUpdate(), "exected force udpate");
 		assertEquals("refs/*", fetchRefSpec.getSource());
 		assertEquals("refs/*", fetchRefSpec.getDestination());
 		assertNotNull(git2.getRepository().exactRef("refs/meta/foo/bar"));

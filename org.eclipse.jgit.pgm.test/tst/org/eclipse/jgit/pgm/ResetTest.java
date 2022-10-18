@@ -9,45 +9,45 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class ResetTest extends CLIRepositoryTestCase {
 
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 	}
 
 	@Test
-	public void testPathOptionHelp() throws Exception {
+	void testPathOptionHelp() throws Exception {
 		String[] result = execute("git reset -h");
-		assertTrue("Unexpected argument: " + result[1],
-				result[1].endsWith("[-- path ...]"));
+		assertTrue(result[1].endsWith("[-- path ...]"),
+				"Unexpected argument: " + result[1]);
 	}
 
 	@Test
-	public void testZombieArgument_Bug484951() throws Exception {
+	void testZombieArgument_Bug484951() throws Exception {
 		String[] result = execute("git reset -h");
-		assertFalse("Unexpected argument: " + result[0],
-				result[0].contains("[VAL ...]"));
+		assertFalse(result[0].contains("[VAL ...]"),
+				"Unexpected argument: " + result[0]);
 	}
 
 	@Test
-	public void testResetSelf() throws Exception {
+	void testResetSelf() throws Exception {
 		RevCommit commit = git.commit().setMessage("initial commit").call();
 		assertStringArrayEquals("",
 				execute("git reset --hard " + commit.getId().name()));
@@ -56,7 +56,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testResetPrevious() throws Exception {
+	void testResetPrevious() throws Exception {
 		RevCommit commit = git.commit().setMessage("initial commit").call();
 		git.commit().setMessage("second commit").call();
 		assertStringArrayEquals("",
@@ -66,7 +66,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testResetEmptyPath() throws Exception {
+	void testResetEmptyPath() throws Exception {
 		RevCommit commit = git.commit().setMessage("initial commit").call();
 		assertStringArrayEquals("",
 				execute("git reset --hard " + commit.getId().name() + " --"));
@@ -75,24 +75,24 @@ public class ResetTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testResetPathDoubleDash() throws Exception {
+	void testResetPathDoubleDash() throws Exception {
 		resetPath(true, true);
 	}
 
 	@Test
-	public void testResetPathNoDoubleDash() throws Exception {
+	void testResetPathNoDoubleDash() throws Exception {
 		resetPath(false, true);
 	}
 
 	@Test
-	public void testResetPathDoubleDashNoRef() throws Exception {
+	void testResetPathDoubleDashNoRef() throws Exception {
 		resetPath(true, false);
 	}
 
-	@Ignore("Currently we cannote recognize if a name is a commit-ish or a path, "
+	@Disabled("Currently we cannote recognize if a name is a commit-ish or a path, "
 			+ "so 'git reset a' will not work if 'a' is not a branch name but a file path")
 	@Test
-	public void testResetPathNoDoubleDashNoRef() throws Exception {
+	void testResetPathNoDoubleDashNoRef() throws Exception {
 		resetPath(false, false);
 	}
 
@@ -122,11 +122,9 @@ public class ResetTest extends CLIRepositoryTestCase {
 
 		org.eclipse.jgit.api.Status status = git.status().call();
 		// assert that file a is unstaged
-		assertArrayEquals(new String[] { "a" },
-				status.getModified().toArray());
+		assertArrayEquals(new String[] { "a" }, status.getModified().toArray());
 		// assert that file b is still staged
-		assertArrayEquals(new String[] { "b" },
-				status.getChanged().toArray());
+		assertArrayEquals(new String[] { "b" }, status.getChanged().toArray());
 	}
 
 }

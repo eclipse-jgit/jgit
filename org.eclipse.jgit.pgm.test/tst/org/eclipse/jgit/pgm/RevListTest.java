@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +18,22 @@ import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RevListTest extends CLIRepositoryTestCase {
 
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 	}
 
 	@Test
-	public void testWithParentsFlag() throws Exception {
+	void testWithParentsFlag() throws Exception {
 		List<RevCommit> commits = createCommitsForParentsFlag(git);
 		String result = toString(
 				execute("git rev-list HEAD --parents -- Test.txt"));
@@ -46,7 +46,7 @@ public class RevListTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testWithoutParentsFlag() throws Exception {
+	void testWithoutParentsFlag() throws Exception {
 		List<RevCommit> commits = createCommitsForParentsFlag(git);
 		String result = toString(execute("git rev-list HEAD -- Test.txt"));
 

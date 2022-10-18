@@ -32,11 +32,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>compile</scope>
-    </dependency>
 
     <dependency>
       <groupId>args4j</groupId>
@@ -65,6 +60,11 @@
       <groupId>org.tukaani</groupId>
       <artifactId>xz</artifactId>
       <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

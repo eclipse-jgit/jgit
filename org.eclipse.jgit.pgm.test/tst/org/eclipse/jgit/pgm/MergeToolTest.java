@@ -14,7 +14,8 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMPT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_TOOL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGETOOL_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -26,8 +27,8 @@ import java.util.Map;
 import org.eclipse.jgit.internal.diffmergetool.ExternalMergeTool;
 import org.eclipse.jgit.internal.diffmergetool.MergeTools;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testing the {@code mergetool} command.
@@ -37,48 +38,51 @@ public class MergeToolTest extends ToolTestCase {
 	private static final String MERGE_TOOL = CONFIG_MERGETOOL_SECTION;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		configureEchoTool(TOOL_NAME);
 	}
 
 	@Test
-	public void testUndefinedTool() throws Exception {
+	void testUndefinedTool() throws Exception {
 		String toolName = "undefined";
 		String[] conflictingFilenames = createMergeConflict();
 
 		List<String> expectedErrors = new ArrayList<>();
 		for (String conflictingFilename : conflictingFilenames) {
-			expectedErrors.add("External merge tool is not defined: " + toolName);
+			expectedErrors
+					.add("External merge tool is not defined: " + toolName);
 			expectedErrors.add("merge of " + conflictingFilename + " failed");
 		}
 
-		runAndCaptureUsingInitRaw(expectedErrors, MERGE_TOOL,
-				"--no-prompt", "--tool", toolName);
-	}
-
-	@Test(expected = Die.class)
-	public void testUserToolWithCommandNotFoundError() throws Exception {
-		String toolName = "customTool";
-
-		int errorReturnCode = 127; // command not found
-		String command = "exit " + errorReturnCode;
-
-		StoredConfig config = db.getConfig();
-		config.setString(CONFIG_MERGETOOL_SECTION, toolName, CONFIG_KEY_CMD,
-				command);
-
-		createMergeConflict();
-		runAndCaptureUsingInitRaw(MERGE_TOOL, "--no-prompt", "--tool",
-				toolName);
-
-		fail("Expected exception to be thrown due to external tool exiting with error code: "
-				+ errorReturnCode);
+		runAndCaptureUsingInitRaw(expectedErrors, MERGE_TOOL, "--no-prompt",
+				"--tool", toolName);
 	}
 
 	@Test
-	public void testEmptyToolName() throws Exception {
+	void testUserToolWithCommandNotFoundError() throws Exception {
+		assertThrows(Die.class, () -> {
+			String toolName = "customTool";
+
+			int errorReturnCode = 127; // command not found
+			String command = "exit " + errorReturnCode;
+
+			StoredConfig config = db.getConfig();
+			config.setString(CONFIG_MERGETOOL_SECTION, toolName, CONFIG_KEY_CMD,
+					command);
+
+			createMergeConflict();
+			runAndCaptureUsingInitRaw(MERGE_TOOL, "--no-prompt", "--tool",
+					toolName);
+
+			fail("Expected exception to be thrown due to external tool exiting with error code: "
+					+ errorReturnCode);
+		});
+	}
+
+	@Test
+	void testEmptyToolName() throws Exception {
 		assumeLinuxPlatform();
 
 		String emptyToolName = "";
@@ -98,17 +102,15 @@ public class MergeToolTest extends ToolTestCase {
 	}
 
 	@Test
-	public void testAbortMerge() throws Exception {
-		String[] inputLines = {
-				"y", // start tool for merge resolution
+	void testAbortMerge() throws Exception {
+		String[] inputLines = { "y", // start tool for merge resolution
 				"n", // don't accept merge tool result
 				"n", // don't continue resolution
 		};
 		String[] conflictingFilenames = createMergeConflict();
 		int abortIndex = 1;
 		String[] expectedOutput = getExpectedAbortMergeOutput(
-				conflictingFilenames,
-				abortIndex);
+				conflictingFilenames, abortIndex);
 
 		String option = "--tool";
 
@@ -119,9 +121,8 @@ public class MergeToolTest extends ToolTestCase {
 	}
 
 	@Test
-	public void testAbortLaunch() throws Exception {
-		String[] inputLines = {
-				"n", // abort merge tool launch
+	void testAbortLaunch() throws Exception {
+		String[] inputLines = { "n", // abort merge tool launch
 		};
 		String[] conflictingFilenames = createMergeConflict();
 		String[] expectedOutput = getExpectedAbortLaunchOutput(
@@ -136,9 +137,8 @@ public class MergeToolTest extends ToolTestCase {
 	}
 
 	@Test
-	public void testMergeConflict() throws Exception {
-		String[] inputLines = {
-				"y", // start tool for merge resolution
+	void testMergeConflict() throws Exception {
+		String[] inputLines = { "y", // start tool for merge resolution
 				"y", // accept merge result as successful
 				"y", // start tool for merge resolution
 				"y", // accept merge result as successful
@@ -156,9 +156,8 @@ public class MergeToolTest extends ToolTestCase {
 	}
 
 	@Test
-	public void testDeletedConflict() throws Exception {
-		String[] inputLines = {
-				"d", // choose delete option to resolve conflict
+	void testDeletedConflict() throws Exception {
+		String[] inputLines = { "d", // choose delete option to resolve conflict
 				"m", // choose merge option to resolve conflict
 		};
 		String[] conflictingFilenames = createDeletedConflict();
@@ -174,7 +173,7 @@ public class MergeToolTest extends ToolTestCase {
 	}
 
 	@Test
-	public void testNoConflict() throws Exception {
+	void testNoConflict() throws Exception {
 		createStagedChanges();
 		String[] expectedOutput = { "No files need merging" };
 
@@ -188,7 +187,7 @@ public class MergeToolTest extends ToolTestCase {
 	}
 
 	@Test
-	public void testMergeConflictNoPrompt() throws Exception {
+	void testMergeConflictNoPrompt() throws Exception {
 		String[] conflictingFilenames = createMergeConflict();
 		String[] expectedOutput = getExpectedMergeConflictOutputNoPrompt(
 				conflictingFilenames);
@@ -201,7 +200,7 @@ public class MergeToolTest extends ToolTestCase {
 	}
 
 	@Test
-	public void testMergeConflictNoGuiNoPrompt() throws Exception {
+	void testMergeConflictNoGuiNoPrompt() throws Exception {
 		String[] conflictingFilenames = createMergeConflict();
 		String[] expectedOutput = getExpectedMergeConflictOutputNoPrompt(
 				conflictingFilenames);
@@ -214,7 +213,7 @@ public class MergeToolTest extends ToolTestCase {
 	}
 
 	@Test
-	public void testToolHelp() throws Exception {
+	void testToolHelp() throws Exception {
 		List<String> expectedOutput = new ArrayList<>();
 
 		MergeTools diffTools = new MergeTools(db);
@@ -284,8 +283,8 @@ public class MergeToolTest extends ToolTestCase {
 			expected.add(conflictFilename);
 		}
 		for (String conflictFilename : conflictFilenames) {
-			expected.add("Normal merge conflict for '" + conflictFilename
-					+ "':");
+			expected.add(
+					"Normal merge conflict for '" + conflictFilename + "':");
 			expected.add("{local}: modified file");
 			expected.add("{remote}: modified file");
 			Path filePath = getFullPath(conflictFilename);
@@ -314,8 +313,8 @@ public class MergeToolTest extends ToolTestCase {
 		return expected.toArray(new String[0]);
 	}
 
-	private String[] getExpectedAbortMergeOutput(
-			String[] conflictFilenames, int abortIndex) {
+	private String[] getExpectedAbortMergeOutput(String[] conflictFilenames,
+			int abortIndex) {
 		List<String> expected = new ArrayList<>();
 		expected.add("Merging:");
 		for (String conflictFilename : conflictFilenames) {
@@ -353,8 +352,8 @@ public class MergeToolTest extends ToolTestCase {
 		}
 		for (int i = 0; i < conflictFilenames.length; ++i) {
 			String conflictFilename = conflictFilenames[i];
-			expected.add("Normal merge conflict for '" + conflictFilename
-					+ "':");
+			expected.add(
+					"Normal merge conflict for '" + conflictFilename + "':");
 			expected.add("{local}: modified file");
 			expected.add("{remote}: modified file");
 			Path filePath = getFullPath(conflictFilename);

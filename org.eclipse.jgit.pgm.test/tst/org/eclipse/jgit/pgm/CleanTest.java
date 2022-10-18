@@ -10,17 +10,17 @@
 package org.eclipse.jgit.pgm;
 
 import static org.eclipse.jgit.junit.JGitTestUtil.check;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CleanTest extends CLIRepositoryTestCase {
 	@Test
-	public void testCleanRequiresForce() throws Exception {
+	void testCleanRequiresForce() throws Exception {
 		try (Git git = new Git(db)) {
 			assertArrayOfLinesEquals(
 					new String[] { "Removing a", "Removing b" },
@@ -36,18 +36,16 @@ public class CleanTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testCleanRequiresForceConfig() throws Exception {
+	void testCleanRequiresForceConfig() throws Exception {
 		try (Git git = new Git(db)) {
 			git.getRepository().getConfig().setBoolean("clean", null,
 					"requireForce", false);
-			assertArrayOfLinesEquals(
-					new String[] { "" },
-					execute("git clean"));
+			assertArrayOfLinesEquals(new String[] { "" }, execute("git clean"));
 		}
 	}
 
 	@Test
-	public void testCleanLeaveDirs() throws Exception {
+	void testCleanLeaveDirs() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 
@@ -79,7 +77,7 @@ public class CleanTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testCleanDeleteDirs() throws Exception {
+	void testCleanDeleteDirs() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 
@@ -92,10 +90,8 @@ public class CleanTest extends CLIRepositoryTestCase {
 			assertTrue(check(db, "b"));
 			assertTrue(check(db, "dir/file"));
 
-			assertArrayOfLinesEquals(
-					new String[] { "Removing a", "Removing b",
-							"Removing dir/" },
-					execute("git clean -d -f"));
+			assertArrayOfLinesEquals(new String[] { "Removing a", "Removing b",
+					"Removing dir/" }, execute("git clean -d -f"));
 			assertFalse(check(db, "a"));
 			assertFalse(check(db, "b"));
 			assertFalse(check(db, "dir/file"));

@@ -10,14 +10,14 @@
 package org.eclipse.jgit.pgm;
 
 import static org.eclipse.jgit.pgm.CLIGitCommand.split;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CLIGitCommandTest {
 
 	@Test
-	public void testSplit() throws Exception {
+	void testSplit() throws Exception {
 		assertArrayEquals(new String[0], split(""));
 		assertArrayEquals(new String[] { "a" }, split("a"));
 		assertArrayEquals(new String[] { "a", "b" }, split("a b"));

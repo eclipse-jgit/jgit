@@ -10,8 +10,8 @@
 package org.eclipse.jgit.pgm;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,8 +34,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Assume;
-import org.junit.Before;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 
@@ -59,7 +59,7 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -109,8 +109,8 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 		List<String> errLines = result.errLines().stream()
 				.filter(l -> !l.isBlank()) // we care only about error messages
 				.collect(Collectors.toList());
-		assertEquals("Expected no standard error output from tool",
-				expectedErrorOutput.toString(), errLines.toString());
+		assertEquals(expectedErrorOutput.toString(), errLines.toString(),
+				"Expected no standard error output from tool");
 
 		return result.outLines().toArray(new String[0]);
 	}
@@ -214,38 +214,40 @@ public abstract class ToolTestCase extends CLIRepositoryTestCase {
 
 	protected static InputStream createInputStream(List<String> inputLines) {
 		String input = String.join(System.lineSeparator(), inputLines);
-		InputStream inputStream = new ByteArrayInputStream(input.getBytes(UTF_8));
+		InputStream inputStream = new ByteArrayInputStream(
+				input.getBytes(UTF_8));
 		return inputStream;
 	}
 
 	protected static void assertArrayOfLinesEquals(String failMessage,
 			String[] expected, String[] actual) {
-		assertEquals(failMessage, toString(expected), toString(actual));
+		assertEquals(toString(expected), toString(actual), failMessage);
 	}
 
 	protected static void assertArrayOfMatchingLines(String failMessage,
 			Pattern[] expected, String[] actual) {
-		assertEquals(failMessage + System.lineSeparator()
+		assertEquals(expected.length, actual.length, failMessage
+				+ System.lineSeparator()
 				+ "Expected and actual lines count don't match. Expected: "
 				+ Arrays.asList(expected) + ", actual: "
-				+ Arrays.asList(actual), expected.length, actual.length);
+				+ Arrays.asList(actual));
 		int n = expected.length;
 		for (int i = 0; i < n; ++i) {
 			Pattern expectedPattern = expected[i];
 			String actualLine = actual[i];
 			Matcher matcher = expectedPattern.matcher(actualLine);
 			boolean matches = matcher.matches();
-			assertTrue(failMessage + System.lineSeparator() + "Line " + i + " '"
-					+ actualLine + "' doesn't match expected pattern: "
-					+ expectedPattern + System.lineSeparator() + "Expected: "
-					+ Arrays.asList(expected) + ", actual: "
-					+ Arrays.asList(actual),
-					matches);
+			assertTrue(matches,
+					failMessage + System.lineSeparator() + "Line " + i + " '"
+							+ actualLine + "' doesn't match expected pattern: "
+							+ expectedPattern + System.lineSeparator()
+							+ "Expected: " + Arrays.asList(expected)
+							+ ", actual: " + Arrays.asList(actual));
 		}
 	}
 
 	protected static void assumeLinuxPlatform() {
-		Assume.assumeTrue("This test can run only in Linux tests",
-				SystemReader.getInstance().isLinux());
+		Assumptions.assumeTrue(SystemReader.getInstance().isLinux(),
+				"This test can run only in Linux tests");
 	}
 }

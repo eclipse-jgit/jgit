@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,14 +23,14 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.pgm.CLIGitCommand;
 import org.eclipse.jgit.pgm.CLIGitCommand.Result;
 import org.eclipse.jgit.pgm.TextBuiltin.TerminatedByHelpException;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	/** Test repository, initialized for this test case. */
 	protected Repository db;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		db = createWorkRepository();
@@ -89,8 +89,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		return JGitTestUtil.writeLink(db, link, target);
 	}
 
-	protected File writeTrashFile(String name, String data)
-			throws IOException {
+	protected File writeTrashFile(String name, String data) throws IOException {
 		return JGitTestUtil.writeTrashFile(db, name, data);
 	}
 
@@ -136,17 +135,18 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @return the result of the command, see {@link #execute(String...)}
 	 * @throws Exception
 	 */
-	protected String[] executeAndPrintTestCode(String... cmds) throws Exception {
+	protected String[] executeAndPrintTestCode(String... cmds)
+			throws Exception {
 		String[] lines = execute(cmds);
 		String cmdString = cmdString(cmds);
 		if (lines.length == 0)
-			System.out.println("\t\tassertTrue(execute(" + cmdString
-					+ ").length == 0);");
+			System.out.println(
+					"\t\tassertTrue(execute(" + cmdString + ").length == 0);");
 		else {
 			System.out
 					.println("\t\tassertArrayOfLinesEquals(new String[] { //");
 			System.out.print("\t\t\t\t\t\t\"" + escapeJava(lines[0]));
-			for (int i=1; i<lines.length; i++) {
+			for (int i = 1; i < lines.length; i++) {
 				System.out.println("\", //");
 				System.out.print("\t\t\t\t\t\t\"" + escapeJava(lines[i]));
 			}
@@ -164,7 +164,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 			return "\"" + escapeJava(cmds[0]) + "\"";
 		default:
 			StringBuilder sb = new StringBuilder(cmdString(cmds[0]));
-			for (int i=1; i<cmds.length; i++) {
+			for (int i = 1; i < cmds.length; i++) {
 				sb.append(", ");
 				sb.append(cmdString(cmds[i]));
 			}
@@ -175,8 +175,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected String escapeJava(String line) {
 		// very crude implementation but ok for generating test code
 		return line.replaceAll("\"", "\\\\\"") //
-				.replaceAll("\\\\", "\\\\\\")
-				.replaceAll("\t", "\\\\t");
+				.replaceAll("\\\\", "\\\\\\").replaceAll("\t", "\\\\t");
 	}
 
 	protected String shellQuote(String s) {
@@ -191,11 +190,13 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		// if there is more than one line, ignore last one if empty
 		assertEquals(1,
 				actual.length > 1 && actual[actual.length - 1].isEmpty()
-						? actual.length - 1 : actual.length);
+						? actual.length - 1
+						: actual.length);
 		assertEquals(expected, actual[0]);
 	}
 
-	protected void assertArrayOfLinesEquals(String[] expected, String[] actual) {
+	protected void assertArrayOfLinesEquals(String[] expected,
+			String[] actual) {
 		assertEquals(toString(expected), toString(actual));
 	}
 

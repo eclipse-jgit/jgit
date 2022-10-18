@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
@@ -18,22 +18,22 @@ import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BlameTest extends CLIRepositoryTestCase {
 
 	@Test
-	public void testBlameNoHead() throws Exception {
+	void testBlameNoHead() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("inIndex.txt", "index");
 			git.add().addFilepattern("inIndex.txt").call();
 		}
-		assertThrows("no such ref: HEAD", Die.class,
-				() -> execute("git blame inIndex.txt"));
+		assertThrows(Die.class, () -> execute("git blame inIndex.txt"),
+				"no such ref: HEAD");
 	}
 
 	@Test
-	public void testBlameCommitted() throws Exception {
+	void testBlameCommitted() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			writeTrashFile("committed.txt", "committed");
@@ -46,7 +46,7 @@ public class BlameTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testBlameStaged() throws Exception {
+	void testBlameStaged() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			writeTrashFile("inIndex.txt", "index");
@@ -58,43 +58,43 @@ public class BlameTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testBlameUnstaged() throws Exception {
+	void testBlameUnstaged() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 		}
 		writeTrashFile("onlyInWorkingTree.txt", "not in repo");
-		assertThrows("no such path 'onlyInWorkingTree.txt' in HEAD", Die.class,
-				() -> execute("git blame onlyInWorkingTree.txt"));
+		assertThrows(Die.class,
+				() -> execute("git blame onlyInWorkingTree.txt"),
+				"no such path 'onlyInWorkingTree.txt' in HEAD");
 	}
 
 	@Test
-	public void testBlameNonExisting() throws Exception {
+	void testBlameNonExisting() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 		}
-		assertThrows("no such path 'does_not_exist.txt' in HEAD", Die.class,
-				() -> execute("git blame does_not_exist.txt"));
+		assertThrows(Die.class, () -> execute("git blame does_not_exist.txt"),
+				"no such path 'does_not_exist.txt' in HEAD");
 	}
 
 	@Test
-	public void testBlameNonExistingInSubdir() throws Exception {
+	void testBlameNonExistingInSubdir() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 		}
-		assertThrows("no such path 'sub/does_not_exist.txt' in HEAD", Die.class,
-				() -> execute("git blame sub/does_not_exist.txt"));
+		assertThrows(Die.class,
+				() -> execute("git blame sub/does_not_exist.txt"),
+				"no such path 'sub/does_not_exist.txt' in HEAD");
 	}
 
 	@Test
-	public void testBlameMergeConflict() throws Exception {
+	void testBlameMergeConflict() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file", "Origin\n");
 			git.add().addFilepattern("file").call();
 			git.commit().setMessage("initial commit").call();
-			git.checkout().setCreateBranch(true)
-					.setName("side").call();
-			writeTrashFile("file",
-					"Conflicting change from side branch\n");
+			git.checkout().setCreateBranch(true).setName("side").call();
+			writeTrashFile("file", "Conflicting change from side branch\n");
 			git.add().addFilepattern("file").call();
 			RevCommit side = git.commit().setMessage("side commit")
 					.setCommitter(new PersonIdent("gitter", "")).call();
@@ -103,10 +103,9 @@ public class BlameTest extends CLIRepositoryTestCase {
 			git.add().addFilepattern("file").call();
 			git.commit().setMessage("Commit conflict on master")
 					.setCommitter(new PersonIdent("gitter", "")).call();
-			MergeResult result = git.merge()
-					.include("side", side).call();
-			assertTrue("Expected conflict on 'file'",
-					result.getConflicts().containsKey("file"));
+			MergeResult result = git.merge().include("side", side).call();
+			assertTrue(result.getConflicts().containsKey("file"),
+					"Expected conflict on 'file'");
 		}
 		String[] expected = {
 				"00000000 (Not Committed Yet 2009-08-15 20:12:58 -0330 1) <<<<<<< HEAD",

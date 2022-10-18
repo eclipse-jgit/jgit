@@ -9,21 +9,21 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ReflogTest extends CLIRepositoryTestCase {
 	@Test
-	public void testClean() throws Exception {
+	void testClean() throws Exception {
 		assertArrayEquals(new String[] { "" }, execute("git reflog"));
 	}
 
 	@Test
-	public void testSingleCommit() throws Exception {
+	void testSingleCommit() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 
@@ -33,7 +33,7 @@ public class ReflogTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testBranch() throws Exception {
+	void testBranch() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("first commit").call();
 			git.checkout().setCreateBranch(true).setName("side").call();

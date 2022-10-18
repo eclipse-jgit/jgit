@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,12 +19,12 @@ import java.util.Map;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ConfigTest extends CLIRepositoryTestCase {
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		try (Git git = new Git(db)) {
@@ -34,7 +34,7 @@ public class ConfigTest extends CLIRepositoryTestCase {
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void testListConfig() throws Exception {
+	void testListConfig() throws Exception {
 		boolean isWindows = SystemReader.getInstance().getProperty("os.name")
 				.startsWith("Windows");
 		boolean isMac = SystemReader.getInstance().getProperty("os.name")

@@ -9,29 +9,29 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AddTest extends CLIRepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 	}
 
 	@Test
-	public void testAddNothing() throws Exception {
+	void testAddNothing() throws Exception {
 		try {
 			execute("git add");
 			fail("Must die");
@@ -41,12 +41,12 @@ public class AddTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testAddUsage() throws Exception {
+	void testAddUsage() throws Exception {
 		execute("git add --help");
 	}
 
 	@Test
-	public void testAddAFile() throws Exception {
+	void testAddAFile() throws Exception {
 		writeTrashFile("greeting", "Hello, world!");
 		assertArrayEquals(new String[] { "" }, //
 				execute("git add greeting"));
@@ -57,7 +57,7 @@ public class AddTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testAddFileTwice() throws Exception {
+	void testAddFileTwice() throws Exception {
 		writeTrashFile("greeting", "Hello, world!");
 		assertArrayEquals(new String[] { "" }, //
 				execute("git add greeting greeting"));
@@ -68,7 +68,7 @@ public class AddTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testAddAlreadyAdded() throws Exception {
+	void testAddAlreadyAdded() throws Exception {
 		writeTrashFile("greeting", "Hello, world!");
 		git.add().addFilepattern("greeting").call();
 		assertArrayEquals(new String[] { "" }, //

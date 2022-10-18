@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
@@ -17,8 +17,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FetchTest extends CLIRepositoryTestCase {
 	private Git git;
@@ -26,7 +26,7 @@ public class FetchTest extends CLIRepositoryTestCase {
 	private Git remoteGit;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -39,7 +39,8 @@ public class FetchTest extends CLIRepositoryTestCase {
 		// setup the first repository to fetch from the second repository
 		final StoredConfig config = db.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
-		URIish uri = new URIish(remoteRepository.getDirectory().toURI().toURL());
+		URIish uri = new URIish(
+				remoteRepository.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);
 		remoteConfig.update(config);
 		config.save();
@@ -52,15 +53,16 @@ public class FetchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testFetchDefault() throws Exception {
-		String[] result = execute("git fetch test refs/heads/master:refs/remotes/origin/master");
+	void testFetchDefault() throws Exception {
+		String[] result = execute(
+				"git fetch test refs/heads/master:refs/remotes/origin/master");
 		assertEquals(" * [new branch]      master     -> origin/master",
 				result[1]);
 		assertEquals(" * [new tag]         tag        -> tag", result[2]);
 	}
 
 	@Test
-	public void testFetchForceUpdate() throws Exception {
+	void testFetchForceUpdate() throws Exception {
 		String[] result = execute(
 				"git fetch test refs/heads/master:refs/remotes/origin/master");
 		assertEquals(" * [new branch]      master     -> origin/master",
@@ -73,16 +75,18 @@ public class FetchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testFetchNoTags() throws Exception {
-		String[] result = execute("git fetch --no-tags test refs/heads/master:refs/remotes/origin/master");
+	void testFetchNoTags() throws Exception {
+		String[] result = execute(
+				"git fetch --no-tags test refs/heads/master:refs/remotes/origin/master");
 		assertEquals(" * [new branch]      master     -> origin/master",
 				result[1]);
 		assertEquals("", result[2]);
 	}
 
 	@Test
-	public void testFetchAllTags() throws Exception {
-		String[] result = execute("git fetch --tags test refs/heads/master:refs/remotes/origin/master");
+	void testFetchAllTags() throws Exception {
+		String[] result = execute(
+				"git fetch --tags test refs/heads/master:refs/remotes/origin/master");
 		assertEquals(" * [new branch]      master     -> origin/master",
 				result[1]);
 		assertEquals(" * [new tag]         foo        -> foo", result[2]);

@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Iterator;
 
@@ -19,15 +19,15 @@ import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MergeTest extends CLIRepositoryTestCase {
 
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -35,18 +35,18 @@ public class MergeTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeSelf() throws Exception {
+	void testMergeSelf() throws Exception {
 		assertEquals("Already up-to-date.", execute("git merge master")[0]);
 	}
 
 	@Test
-	public void testSquashSelf() throws Exception {
+	void testSquashSelf() throws Exception {
 		assertEquals(" (nothing to squash)Already up-to-date.",
 				execute("git merge master --squash")[0]);
 	}
 
 	@Test
-	public void testFastForward() throws Exception {
+	void testFastForward() throws Exception {
 		git.branchCreate().setName("side").call();
 		writeTrashFile("file", "master");
 		git.add().addFilepattern("file").call();
@@ -58,7 +58,7 @@ public class MergeTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testMerge() throws Exception {
+	void testMerge() throws Exception {
 		git.branchCreate().setName("side").call();
 		writeTrashFile("master", "content");
 		git.add().addFilepattern("master").call();
@@ -73,7 +73,7 @@ public class MergeTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeNoCommit() throws Exception {
+	void testMergeNoCommit() throws Exception {
 		git.branchCreate().setName("side").call();
 		writeTrashFile("master", "content");
 		git.add().addFilepattern("master").call();
@@ -89,7 +89,7 @@ public class MergeTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeNoCommitSquash() throws Exception {
+	void testMergeNoCommitSquash() throws Exception {
 		git.branchCreate().setName("side").call();
 		writeTrashFile("master", "content");
 		git.add().addFilepattern("master").call();
@@ -99,15 +99,13 @@ public class MergeTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("side").call();
 		git.commit().setMessage("side commit").call();
 
-		assertArrayEquals(
-				new String[] {
-						"Squash commit -- not updating HEAD",
-						"Automatic merge went well; stopped before committing as requested",
-						"" }, execute("git merge --no-commit --squash master"));
+		assertArrayEquals(new String[] { "Squash commit -- not updating HEAD",
+				"Automatic merge went well; stopped before committing as requested",
+				"" }, execute("git merge --no-commit --squash master"));
 	}
 
 	@Test
-	public void testSquash() throws Exception {
+	void testSquash() throws Exception {
 		git.branchCreate().setName("side").call();
 		writeTrashFile("file1", "content1");
 		git.add().addFilepattern("file1").call();
@@ -120,15 +118,13 @@ public class MergeTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("side").call();
 		git.commit().setMessage("side commit").call();
 
-		assertArrayEquals(
-				new String[] { "Squash commit -- not updating HEAD",
-						"Automatic merge went well; stopped before committing as requested",
-						"" },
-				execute("git merge master --squash"));
+		assertArrayEquals(new String[] { "Squash commit -- not updating HEAD",
+				"Automatic merge went well; stopped before committing as requested",
+				"" }, execute("git merge master --squash"));
 	}
 
 	@Test
-	public void testNoFastForward() throws Exception {
+	void testNoFastForward() throws Exception {
 		git.branchCreate().setName("side").call();
 		writeTrashFile("file", "master");
 		git.add().addFilepattern("file").call();
@@ -156,19 +152,18 @@ public class MergeTest extends CLIRepositoryTestCase {
 				"", //
 				"    commit", //
 				"", //
-				""
-		}, execute("git log"));
+				"" }, execute("git log"));
 	}
 
 	@Test
-	public void testNoFastForwardAndSquash() throws Exception {
+	void testNoFastForwardAndSquash() throws Exception {
 		assertEquals(
 				CLIText.fatalError(CLIText.get().cannotCombineSquashWithNoff),
 				executeUnchecked("git merge master --no-ff --squash")[0]);
 	}
 
 	@Test
-	public void testFastForwardOnly() throws Exception {
+	void testFastForwardOnly() throws Exception {
 		git.branchCreate().setName("side").call();
 		writeTrashFile("file", "master");
 		git.add().addFilepattern("file").call();
@@ -183,7 +178,7 @@ public class MergeTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeWithUserMessage() throws Exception {
+	void testMergeWithUserMessage() throws Exception {
 		git.branchCreate().setName("side").call();
 		writeTrashFile("master", "content");
 		git.add().addFilepattern("master").call();
@@ -193,8 +188,9 @@ public class MergeTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("side").call();
 		git.commit().setMessage("side commit").call();
 
-		assertEquals("Merge made by the '" + MergeStrategy.RECURSIVE.getName()
-				+ "' strategy.",
+		assertEquals(
+				"Merge made by the '" + MergeStrategy.RECURSIVE.getName()
+						+ "' strategy.",
 				execute("git merge master -m \"user message\"")[0]);
 
 		Iterator<RevCommit> it = git.log().call().iterator();

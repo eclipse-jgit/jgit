@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 
@@ -19,18 +19,17 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class InitTest extends CLIRepositoryTestCase {
 
-	@Rule
-	public final TemporaryFolder tempFolder = new TemporaryFolder();
+	@TempDir
+	public File tempFolder;
 
 	@Test
-	public void testInitBare() throws Exception {
-		File directory = tempFolder.getRoot();
+	void testInitBare() throws Exception {
+		File directory = tempFolder;
 
 		String[] result = execute(
 				"git init '" + directory.getCanonicalPath() + "' --bare");
@@ -43,8 +42,8 @@ public class InitTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testInitDirectory() throws Exception {
-		File workDirectory = tempFolder.getRoot();
+	void testInitDirectory() throws Exception {
+		File workDirectory = tempFolder;
 		File gitDirectory = new File(workDirectory, Constants.DOT_GIT);
 
 		String[] result = execute(
@@ -58,8 +57,8 @@ public class InitTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testInitDirectoryInitialBranch() throws Exception {
-		File workDirectory = tempFolder.getRoot();
+	void testInitDirectoryInitialBranch() throws Exception {
+		File workDirectory = tempFolder;
 		File gitDirectory = new File(workDirectory, Constants.DOT_GIT);
 
 		String[] result = execute(

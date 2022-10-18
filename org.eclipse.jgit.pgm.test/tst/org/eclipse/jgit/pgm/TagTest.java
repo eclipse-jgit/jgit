@@ -9,20 +9,20 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TagTest extends CLIRepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -30,7 +30,7 @@ public class TagTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testTagTwice() throws Exception {
+	void testTagTwice() throws Exception {
 		git.tag().setName("test").call();
 		writeTrashFile("file", "content");
 		git.add().addFilepattern("file").call();
@@ -41,7 +41,7 @@ public class TagTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testTagDelete() throws Exception {
+	void testTagDelete() throws Exception {
 		git.tag().setName("test").call();
 		assertNotNull(git.getRepository().exactRef("refs/tags/test"));
 		assertEquals("", executeUnchecked("git tag -d test")[0]);
@@ -49,7 +49,7 @@ public class TagTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testTagDeleteFail() throws Exception {
+	void testTagDeleteFail() throws Exception {
 		try {
 			assertEquals("fatal: error: tag 'test' not found.",
 					executeUnchecked("git tag -d test")[0]);

@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.util.Arrays;
@@ -20,23 +20,30 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RepoTest extends CLIRepositoryTestCase {
 	private Repository defaultDb;
+
 	private Repository notDefaultDb;
+
 	private Repository groupADb;
+
 	private Repository groupBDb;
 
 	private String rootUri;
+
 	private String defaultUri;
+
 	private String notDefaultUri;
+
 	private String groupAUri;
+
 	private String groupBUri;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -72,7 +79,7 @@ public class RepoTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testMissingPath() throws Exception {
+	void testMissingPath() throws Exception {
 		try {
 			execute("git repo");
 			fail("Must die");
@@ -87,51 +94,44 @@ public class RepoTest extends CLIRepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testZombieHelpArgument() throws Exception {
+	void testZombieHelpArgument() throws Exception {
 		String[] output = execute("git repo -h");
 		String all = Arrays.toString(output);
-		assertTrue("Unexpected help output: " + all,
-				all.contains("jgit repo"));
-		assertFalse("Unexpected help output: " + all,
-				all.contains("jgit repo VAL"));
+		assertTrue(all.contains("jgit repo"), "Unexpected help output: " + all);
+		assertFalse(all.contains("jgit repo VAL"),
+				"Unexpected help output: " + all);
 	}
 
 	@Test
-	public void testAddRepoManifest() throws Exception {
+	void testAddRepoManifest() throws Exception {
 		StringBuilder xmlContent = new StringBuilder();
 		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-			.append("<manifest>")
-			.append("<remote name=\"remote1\" fetch=\".\" />")
-			.append("<default revision=\"master\" remote=\"remote1\" />")
-			.append("<project path=\"foo\" name=\"")
-			.append(defaultUri)
-			.append("\" groups=\"a,test\" />")
-			.append("<project path=\"bar\" name=\"")
-			.append(notDefaultUri)
-			.append("\" groups=\"notdefault\" />")
-			.append("<project path=\"a\" name=\"")
-			.append(groupAUri)
-			.append("\" groups=\"a\" />")
-			.append("<project path=\"b\" name=\"")
-			.append(groupBUri)
-			.append("\" groups=\"b\" />")
-			.append("</manifest>");
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"foo\" name=\"").append(defaultUri)
+				.append("\" groups=\"a,test\" />")
+				.append("<project path=\"bar\" name=\"").append(notDefaultUri)
+				.append("\" groups=\"notdefault\" />")
+				.append("<project path=\"a\" name=\"").append(groupAUri)
+				.append("\" groups=\"a\" />")
+				.append("<project path=\"b\" name=\"").append(groupBUri)
+				.append("\" groups=\"b\" />").append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
 		StringBuilder cmd = new StringBuilder("git repo --base-uri=\"")
-			.append(rootUri)
-			.append("\" --groups=\"all,-a\" \"")
-			.append(db.getWorkTree().getAbsolutePath())
-			.append("/manifest.xml\"");
+				.append(rootUri).append("\" --groups=\"all,-a\" \"")
+				.append(db.getWorkTree().getAbsolutePath())
+				.append("/manifest.xml\"");
 		execute(cmd.toString());
 
 		File file = new File(db.getWorkTree(), "foo/hello.txt");
-		assertFalse("\"all,-a\" doesn't have foo", file.exists());
+		assertFalse(file.exists(), "\"all,-a\" doesn't have foo");
 		file = new File(db.getWorkTree(), "bar/world.txt");
-		assertTrue("\"all,-a\" has bar", file.exists());
+		assertTrue(file.exists(), "\"all,-a\" has bar");
 		file = new File(db.getWorkTree(), "a/a.txt");
-		assertFalse("\"all,-a\" doesn't have a", file.exists());
+		assertFalse(file.exists(), "\"all,-a\" doesn't have a");
 		file = new File(db.getWorkTree(), "b/b.txt");
-		assertTrue("\"all,-a\" has have b", file.exists());
+		assertTrue(file.exists(), "\"all,-a\" has have b");
 	}
 
 	private void resolveRelativeUris() {
@@ -144,9 +144,9 @@ public class RepoTest extends CLIRepositoryTestCase {
 		while (start <= defaultUri.length()) {
 			int newStart = defaultUri.indexOf('/', start + 1);
 			String prefix = defaultUri.substring(0, newStart);
-			if (!notDefaultUri.startsWith(prefix) ||
-					!groupAUri.startsWith(prefix) ||
-					!groupBUri.startsWith(prefix)) {
+			if (!notDefaultUri.startsWith(prefix)
+					|| !groupAUri.startsWith(prefix)
+					|| !groupBUri.startsWith(prefix)) {
 				start++;
 				rootUri = defaultUri.substring(0, start) + "manifest";
 				defaultUri = defaultUri.substring(start);

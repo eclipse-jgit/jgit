@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -18,12 +18,12 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class LsFilesTest extends CLIRepositoryTestCase {
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -50,13 +50,13 @@ public class LsFilesTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testHelp() throws Exception {
+	void testHelp() throws Exception {
 		String[] result = execute("git ls-files -h");
 		assertTrue(result[1].startsWith("jgit ls-files"));
 	}
 
 	@Test
-	public void testLsFiles() throws Exception {
+	void testLsFiles() throws Exception {
 		assertArrayEquals(new String[] { "dir/world", "hello2", "link",
 				"staged", "target/file", "" }, execute("git ls-files"));
 	}

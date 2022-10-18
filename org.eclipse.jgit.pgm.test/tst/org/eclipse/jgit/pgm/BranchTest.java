@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 
@@ -22,12 +22,12 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class BranchTest extends CLIRepositoryTestCase {
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		try (Git git = new Git(db)) {
@@ -36,7 +36,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testHelpAfterDelete() throws Exception {
+	void testHelpAfterDelete() throws Exception {
 		String err = toString(executeUnchecked("git branch -d"));
 		String help = toString(executeUnchecked("git branch -h"));
 		String errAndHelp = toString(executeUnchecked("git branch -d -h"));
@@ -45,14 +45,14 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testList() throws Exception {
+	void testList() throws Exception {
 		assertEquals("* master", toString(execute("git branch")));
 		assertEquals("* master 6fd41be initial commit",
 				toString(execute("git branch -v")));
 	}
 
 	@Test
-	public void testListDetached() throws Exception {
+	void testListDetached() throws Exception {
 		RefUpdate updateRef = db.updateRef(Constants.HEAD, true);
 		updateRef.setNewObjectId(db.resolve("6fd41be"));
 		updateRef.update();
@@ -63,26 +63,25 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testListContains() throws Exception {
+	void testListContains() throws Exception {
 		try (Git git = new Git(db)) {
 			git.branchCreate().setName("initial").call();
-			RevCommit second = git.commit().setMessage("second commit")
-					.call();
+			RevCommit second = git.commit().setMessage("second commit").call();
 			assertEquals(toString("  initial", "* master"),
 					toString(execute("git branch --contains 6fd41be")));
-			assertEquals("* master",
-					toString(execute("git branch --contains " + second.name())));
+			assertEquals("* master", toString(
+					execute("git branch --contains " + second.name())));
 		}
 	}
 
 	@Test
-	public void testExistingBranch() throws Exception {
+	void testExistingBranch() throws Exception {
 		assertEquals("fatal: A branch named 'master' already exists.",
 				toString(executeUnchecked("git branch master")));
 	}
 
 	@Test
-	public void testRenameSingleArg() throws Exception {
+	void testRenameSingleArg() throws Exception {
 		try {
 			toString(execute("git branch -m"));
 			fail("Must die");
@@ -96,7 +95,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testRenameTwoArgs() throws Exception {
+	void testRenameTwoArgs() throws Exception {
 		String result = toString(execute("git branch -m master slave"));
 		assertEquals("", result);
 		result = toString(execute("git branch -a"));
@@ -104,7 +103,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate() throws Exception {
+	void testCreate() throws Exception {
 		try {
 			toString(execute("git branch a b"));
 			fail("Must die");
@@ -121,7 +120,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testDelete() throws Exception {
+	void testDelete() throws Exception {
 		try {
 			toString(execute("git branch -d"));
 			fail("Must die");
@@ -137,7 +136,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteMultiple() throws Exception {
+	void testDeleteMultiple() throws Exception {
 		String result = toString(execute("git branch second",
 				"git branch third", "git branch fourth"));
 		assertEquals("", result);
@@ -148,7 +147,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteForce() throws Exception {
+	void testDeleteForce() throws Exception {
 		try {
 			toString(execute("git branch -D"));
 			fail("Must die");
@@ -184,7 +183,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteForceMultiple() throws Exception {
+	void testDeleteForceMultiple() throws Exception {
 		String result = toString(execute("git branch second",
 				"git branch third", "git branch fourth"));
 
@@ -219,7 +218,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFromOldCommit() throws Exception {
+	void testCreateFromOldCommit() throws Exception {
 		File a = writeTrashFile("a", "a");
 		assertTrue(a.exists());
 		execute("git add a", "git commit -m 'added a'");

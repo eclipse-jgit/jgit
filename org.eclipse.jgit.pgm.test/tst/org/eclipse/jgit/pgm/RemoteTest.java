@@ -9,10 +9,9 @@
  */
 package org.eclipse.jgit.pgm;
 
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -23,8 +22,8 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RemoteTest extends CLIRepositoryTestCase {
 
@@ -32,7 +31,7 @@ public class RemoteTest extends CLIRepositoryTestCase {
 
 	private RemoteConfig remote;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -55,13 +54,13 @@ public class RemoteTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testList() throws Exception {
+	void testList() throws Exception {
 		assertArrayEquals(new String[] { remote.getName(), "" },
 				execute("git remote"));
 	}
 
 	@Test
-	public void testVerboseList() throws Exception {
+	void testVerboseList() throws Exception {
 		assertArrayEquals(
 				new String[] {
 						String.format("%s\t%s (fetch)", remote.getName(),
@@ -73,7 +72,7 @@ public class RemoteTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testAdd() throws Exception {
+	void testAdd() throws Exception {
 		assertArrayEquals(new String[] { "" },
 				execute("git remote add second git://test.com/second"));
 
@@ -84,7 +83,7 @@ public class RemoteTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testRemove() throws Exception {
+	void testRemove() throws Exception {
 		assertArrayEquals(new String[] { "" },
 				execute("git remote remove test"));
 
@@ -92,7 +91,7 @@ public class RemoteTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testSetUrl() throws Exception {
+	void testSetUrl() throws Exception {
 		assertArrayEquals(new String[] { "" },
 				execute("git remote set-url test git://test.com/test"));
 
@@ -104,7 +103,7 @@ public class RemoteTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testSetUrlPush() throws Exception {
+	void testSetUrlPush() throws Exception {
 		assertArrayEquals(new String[] { "" },
 				execute("git remote set-url --push test git://test.com/test"));
 
@@ -116,7 +115,7 @@ public class RemoteTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdate() throws Exception {
+	void testUpdate() throws Exception {
 		assertArrayEquals(new String[] {
 				"From " + remote.getURIs().get(0).toString(),
 				" * [new branch]      master     -> test/master", "", "" },

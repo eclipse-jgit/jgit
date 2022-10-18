@@ -11,7 +11,7 @@ package org.eclipse.jgit.pgm;
 
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
@@ -19,84 +19,84 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StatusTest extends CLIRepositoryTestCase {
 
 	@Test
-	public void testPathOptionHelp() throws Exception {
+	void testPathOptionHelp() throws Exception {
 		String[] result = execute("git status -h");
-		assertTrue("Unexpected argument: " + result[1],
-				result[1].endsWith("[-- path ...]"));
+		assertTrue(result[1].endsWith("[-- path ...]"),
+				"Unexpected argument: " + result[1]);
 	}
 
 	@Test
-	public void testStatusDefault() throws Exception {
+	void testStatusDefault() throws Exception {
 		executeTest("git status", false, true);
 	}
 
 	@Test
-	public void testStatusU() throws Exception {
+	void testStatusU() throws Exception {
 		executeTest("git status -u", false, true);
 	}
 
 	@Test
-	public void testStatusUno() throws Exception {
+	void testStatusUno() throws Exception {
 		executeTest("git status -uno", false, false);
 	}
 
 	@Test
-	public void testStatusUall() throws Exception {
+	void testStatusUall() throws Exception {
 		executeTest("git status -uall", false, true);
 	}
 
 	@Test
-	public void testStatusUntrackedFiles() throws Exception {
+	void testStatusUntrackedFiles() throws Exception {
 		executeTest("git status --untracked-files", false, true);
 	}
 
 	@Test
-	public void testStatusUntrackedFilesNo() throws Exception {
+	void testStatusUntrackedFilesNo() throws Exception {
 		executeTest("git status --untracked-files=no", false, false);
 	}
 
 	@Test
-	public void testStatusUntrackedFilesAll() throws Exception {
+	void testStatusUntrackedFilesAll() throws Exception {
 		executeTest("git status --untracked-files=all", false, true);
 	}
 
 	@Test
-	public void testStatusPorcelain() throws Exception {
+	void testStatusPorcelain() throws Exception {
 		executeTest("git status --porcelain", true, true);
 	}
 
 	@Test
-	public void testStatusPorcelainU() throws Exception {
+	void testStatusPorcelainU() throws Exception {
 		executeTest("git status --porcelain -u", true, true);
 	}
 
 	@Test
-	public void testStatusPorcelainUno() throws Exception {
+	void testStatusPorcelainUno() throws Exception {
 		executeTest("git status --porcelain -uno", true, false);
 	}
 
 	@Test
-	public void testStatusPorcelainUall() throws Exception {
+	void testStatusPorcelainUall() throws Exception {
 		executeTest("git status --porcelain -uall", true, true);
 	}
 
 	@Test
-	public void testStatusPorcelainUntrackedFiles() throws Exception {
+	void testStatusPorcelainUntrackedFiles() throws Exception {
 		executeTest("git status --porcelain --untracked-files", true, true);
 	}
 
 	@Test
-	public void testStatusPorcelainUntrackedFilesNo() throws Exception {
+	void testStatusPorcelainUntrackedFilesNo() throws Exception {
 		executeTest("git status --porcelain --untracked-files=no", true, false);
 	}
 
 	@Test
-	public void testStatusPorcelainUntrackedFilesAll() throws Exception {
+	void testStatusPorcelainUntrackedFilesAll() throws Exception {
 		executeTest("git status --porcelain --untracked-files=all", true, true);
 	}
 
@@ -150,7 +150,8 @@ public class StatusTest extends CLIRepositoryTestCase {
 		// Merge test branch into master
 		mergeTestBranchInMaster(git, testBranch);
 		// Test unmerged status
-		assertUntrackedAndUnmerged(command, porcelain, untrackedFiles, "master");
+		assertUntrackedAndUnmerged(command, porcelain, untrackedFiles,
+				"master");
 		// Test detached head
 		detachHead(git);
 		assertUntrackedAndUnmerged(command, porcelain, untrackedFiles, null);
@@ -178,8 +179,8 @@ public class StatusTest extends CLIRepositoryTestCase {
 		git.commit().setMessage("initial commit").call();
 	}
 
-	private void makeSomeChangesAndStageThem(Git git) throws IOException,
-			GitAPIException {
+	private void makeSomeChangesAndStageThem(Git git)
+			throws IOException, GitAPIException {
 		writeTrashFile("stagedModified", "stagedModified modified");
 		deleteTrashFile("stagedDeleted");
 		writeTrashFile("trackedModified", "trackedModified modified");
@@ -189,8 +190,8 @@ public class StatusTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("stagedNew").call();
 	}
 
-	private void createUnmergedFile(Git git) throws IOException,
-			GitAPIException {
+	private void createUnmergedFile(Git git)
+			throws IOException, GitAPIException {
 		writeTrashFile("unmerged", "unmerged");
 		git.add().addFilepattern("unmerged").call();
 	}
@@ -205,20 +206,20 @@ public class StatusTest extends CLIRepositoryTestCase {
 		git.checkout().setCreateBranch(true).setName("test").call();
 	}
 
-	private RevCommit commitChangesInTestBranch(Git git) throws IOException,
-			GitAPIException {
+	private RevCommit commitChangesInTestBranch(Git git)
+			throws IOException, GitAPIException {
 		writeTrashFile("unmerged", "changed in test branch");
 		git.add().addFilepattern("unmerged").call();
-		return git.commit()
-				.setMessage("changed unmerged in test branch").call();
+		return git.commit().setMessage("changed unmerged in test branch")
+				.call();
 	}
 
 	private void checkoutMasterBranch(Git git) throws GitAPIException {
 		git.checkout().setName("master").call();
 	}
 
-	private void changeUnmergedFileAndCommit(Git git) throws IOException,
-			GitAPIException {
+	private void changeUnmergedFileAndCommit(Git git)
+			throws IOException, GitAPIException {
 		writeTrashFile("unmerged", "changed in master branch");
 		git.add().addFilepattern("unmerged").call();
 		git.commit().setMessage("changed unmerged in master branch").call();
@@ -260,7 +261,7 @@ public class StatusTest extends CLIRepositoryTestCase {
 				output = new String[] { //
 						"On branch master", //
 						"Untracked files:", //
-						"",//
+						"", //
 						"\tstagedDeleted", //
 						"\tstagedModified", //
 						"\tstagedNew", //
@@ -446,8 +447,7 @@ public class StatusTest extends CLIRepositoryTestCase {
 		assertArrayOfLinesEquals(output, execute(command));
 	}
 
-	private void assertUntracked(String command,
-			boolean porcelain,
+	private void assertUntracked(String command, boolean porcelain,
 			boolean untrackedFiles, String branch) throws Exception {
 		String[] output = new String[0];
 		String branchHeader = "On branch " + branch;
