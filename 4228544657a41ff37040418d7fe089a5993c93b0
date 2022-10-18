@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d31aa60d_9989b6e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-18T18:39:44Z",
+      "side": 1,
+      "message": "There wasn\u0027t really a way to check the length without having a known set of capabilities here. So, I\u0027ve added that set, but am not checking the length. If we receive \"cap\u003d\" we\u0027ll set an empty string as the value as it was sent.\n\nThis does raise the question of what to do when we receive `unknownCapability\u003dsome-value`. For now, I\u0027ve left this behaving like it did before. That is that we will add the entire capability to the map as a key with null for the value. I think this could changed to reject a request with an known capability. But, we might as well extend that to all capabilities at the same time, not just those with an associated value.\n\nI added to the unit test to show this behavior explicitly.",
+      "parentUuid": "40d39107_374c43d1",
+      "revId": "4228544657a41ff37040418d7fe089a5993c93b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc610403_df4c9963",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b24952a_177bb38e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-18T18:39:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc610403_df4c9963",
+      "revId": "4228544657a41ff37040418d7fe089a5993c93b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a5ac82c_fda65104",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-10-17T23:26:06Z",
       "side": 1,
       "message": "This is a public class (not in the .internal package), we cannot change its API.\n\nAlso, I was wrong! there was another capability with a \"\u003d\" field (agent) and it was parsed here. \n\nNow we do the splitting already in FirstCommand, the caller (ReceivePack) can read the userAgent directly from the map. \n\nIt seems that is the only call of this method, maybe we can mark it as deprecated?",
+      "revId": "4228544657a41ff37040418d7fe089a5993c93b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc4318fc_fa107334",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UserAgent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-18T18:39:44Z",
+      "side": 1,
+      "message": "I\u0027ve gone ahead and marked these as deprecated. This class is more focused on getting the server agent string anyway.",
+      "parentUuid": "0a5ac82c_fda65104",
       "revId": "4228544657a41ff37040418d7fe089a5993c93b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
