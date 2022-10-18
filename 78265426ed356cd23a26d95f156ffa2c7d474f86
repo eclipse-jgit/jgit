@@ -39,6 +39,30 @@
       },
       "revId": "78265426ed356cd23a26d95f156ffa2c7d474f86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3751552_c3eb5139",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-18T18:35:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9256cdc3_a65b66d2",
+      "range": {
+        "startLine": 362,
+        "startChar": 16,
+        "endLine": 362,
+        "endChar": 29
+      },
+      "revId": "78265426ed356cd23a26d95f156ffa2c7d474f86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
