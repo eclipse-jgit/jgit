@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.submodule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.Map;
@@ -33,7 +33,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link SubmoduleSyncCommand}
@@ -41,7 +41,7 @@ import org.junit.Test;
 public class SubmoduleSyncTest extends RepositoryTestCase {
 
 	@Test
-	public void repositoryWithNoSubmodules() throws GitAPIException {
+	void repositoryWithNoSubmodules() throws GitAPIException {
 		SubmoduleSyncCommand command = new SubmoduleSyncCommand(db);
 		Map<String, String> modules = command.call();
 		assertNotNull(modules);
@@ -49,7 +49,7 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithSubmodule() throws Exception {
+	void repositoryWithSubmodule() throws Exception {
 		writeTrashFile("file.txt", "content");
 		Git git = Git.wrap(db);
 		git.add().addFilepattern("file.txt").call();
@@ -114,7 +114,7 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithRelativeUriSubmodule() throws Exception {
+	void repositoryWithRelativeUriSubmodule() throws Exception {
 		writeTrashFile("file.txt", "content");
 		Git git = Git.wrap(db);
 		git.add().addFilepattern("file.txt").call();

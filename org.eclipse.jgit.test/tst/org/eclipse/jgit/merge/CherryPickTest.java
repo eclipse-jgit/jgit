@@ -11,9 +11,9 @@
 
 package org.eclipse.jgit.merge;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -24,11 +24,11 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CherryPickTest extends RepositoryTestCase {
 	@Test
-	public void testPick() throws Exception {
+	void testPick() throws Exception {
 		// B---O
 		// \----P---T
 		//
@@ -63,14 +63,14 @@ public class CherryPickTest extends RepositoryTestCase {
 		}
 
 		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId B = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId O = commit(ow, treeO, new ObjectId[] { B });
-		final ObjectId P = commit(ow, treeP, new ObjectId[] { B });
-		final ObjectId T = commit(ow, treeT, new ObjectId[] { P });
+		final ObjectId B = commit(ow, treeB, new ObjectId[]{});
+		final ObjectId O = commit(ow, treeO, new ObjectId[]{B});
+		final ObjectId P = commit(ow, treeP, new ObjectId[]{B});
+		final ObjectId T = commit(ow, treeT, new ObjectId[]{P});
 
 		ThreeWayMerger twm = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		twm.setBase(P);
-		boolean merge = twm.merge(new ObjectId[] { O, T });
+		boolean merge = twm.merge(new ObjectId[]{O, T});
 		assertTrue(merge);
 
 		try (TreeWalk tw = new TreeWalk(db)) {
@@ -94,7 +94,7 @@ public class CherryPickTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevert() throws Exception {
+	void testRevert() throws Exception {
 		// B---P---T
 		//
 		// Revert P, this should result in a tree with a
@@ -127,13 +127,13 @@ public class CherryPickTest extends RepositoryTestCase {
 		}
 
 		final ObjectInserter ow = db.newObjectInserter();
-		final ObjectId B = commit(ow, treeB, new ObjectId[] {});
-		final ObjectId P = commit(ow, treeP, new ObjectId[] { B });
-		final ObjectId T = commit(ow, treeT, new ObjectId[] { P });
+		final ObjectId B = commit(ow, treeB, new ObjectId[]{});
+		final ObjectId P = commit(ow, treeP, new ObjectId[]{B});
+		final ObjectId T = commit(ow, treeT, new ObjectId[]{P});
 
 		ThreeWayMerger twm = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		twm.setBase(P);
-		boolean merge = twm.merge(new ObjectId[] { B, T });
+		boolean merge = twm.merge(new ObjectId[]{B, T});
 		assertTrue(merge);
 
 		try (TreeWalk tw = new TreeWalk(db)) {

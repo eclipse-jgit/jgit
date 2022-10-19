@@ -38,8 +38,8 @@
 package org.eclipse.jgit.lib;
 
 import static java.time.Instant.EPOCH;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.Instant;
 
@@ -47,12 +47,12 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IndexModificationTimesTest extends RepositoryTestCase {
 
 	@Test
-	public void testLastModifiedTimes() throws Exception {
+	void testLastModifiedTimes() throws Exception {
 		try (Git git = new Git(db)) {
 			String path = "file";
 			writeTrashFile(path, "content");
@@ -67,11 +67,9 @@ public class IndexModificationTimesTest extends RepositoryTestCase {
 			DirCacheEntry entry = dc.getEntry(path);
 			DirCacheEntry entry2 = dc.getEntry(path);
 
-			assertFalse("last modified shall not be the epoch!",
-					entry.getLastModifiedInstant().equals(EPOCH));
+			assertNotEquals(entry.getLastModifiedInstant(), EPOCH, "last modified shall not be the epoch!");
 
-			assertFalse("last modified shall not be the epoch!",
-					entry2.getLastModifiedInstant().equals(EPOCH));
+			assertNotEquals(entry2.getLastModifiedInstant(), EPOCH, "last modified shall not be the epoch!");
 
 			writeTrashFile(path, "new content");
 			git.add().addFilepattern(path).call();
@@ -81,16 +79,14 @@ public class IndexModificationTimesTest extends RepositoryTestCase {
 			entry = dc.getEntry(path);
 			entry2 = dc.getEntry(path);
 
-			assertFalse("last modified shall not be the epoch!",
-					entry.getLastModifiedInstant().equals(EPOCH));
+			assertNotEquals(entry.getLastModifiedInstant(), EPOCH, "last modified shall not be the epoch!");
 
-			assertFalse("last modified shall not be the epoch!",
-					entry2.getLastModifiedInstant().equals(EPOCH));
+			assertNotEquals(entry2.getLastModifiedInstant(), EPOCH, "last modified shall not be the epoch!");
 		}
 	}
 
 	@Test
-	public void testModify() throws Exception {
+	void testModify() throws Exception {
 		try (Git git = new Git(db)) {
 			String path = "file";
 			writeTrashFile(path, "content");
@@ -124,10 +120,8 @@ public class IndexModificationTimesTest extends RepositoryTestCase {
 			dc = db.readDirCache();
 			entry = dc.getEntry(path);
 
-			assertTrue("shall have equal mod time!",
-					masterLastMod.equals(sideLastMod));
-			assertTrue("shall have equal master timestamp!",
-					entry.getLastModifiedInstant().equals(masterLastMod));
+			assertEquals(masterLastMod, sideLastMod, "shall have equal mod time!");
+			assertEquals(entry.getLastModifiedInstant(), masterLastMod, "shall have equal master timestamp!");
 		}
 	}
 

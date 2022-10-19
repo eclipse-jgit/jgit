@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.Collections;
@@ -22,11 +22,11 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GcReflogTest extends GcTestCase {
 	@Test
-	public void testPruneNone() throws Exception {
+	void testPruneNone() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().add("A", "A").add("B", "B").create();
 		bb.commit().add("A", "A2").add("B", "B2").create();
@@ -36,20 +36,20 @@ public class GcReflogTest extends GcTestCase {
 		assertEquals(8, stats.numberOfLooseObjects);
 		gc.setExpireAgeMillis(0);
 		fsTick();
-		gc.prune(Collections.<ObjectId> emptySet());
+		gc.prune(Collections.<ObjectId>emptySet());
 		stats = gc.getStatistics();
 		assertEquals(8, stats.numberOfLooseObjects);
 		tr.blob("x");
 		stats = gc.getStatistics();
 		assertEquals(9, stats.numberOfLooseObjects);
 		fsTick();
-		gc.prune(Collections.<ObjectId> emptySet());
+		gc.prune(Collections.<ObjectId>emptySet());
 		stats = gc.getStatistics();
 		assertEquals(8, stats.numberOfLooseObjects);
 	}
 
 	@Test
-	public void testPackRepoWithCorruptReflog() throws Exception {
+	void testPackRepoWithCorruptReflog() throws Exception {
 		// create a reflog entry "0000... 0000... foobar" by doing an initial
 		// refupdate for HEAD which points to a non-existing ref. The
 		// All-Projects repo of gerrit instances had such entries
@@ -63,7 +63,7 @@ public class GcReflogTest extends GcTestCase {
 	}
 
 	@Test
-	public void testPackCommitsAndLooseOneNoReflog() throws Exception {
+	void testPackCommitsAndLooseOneNoReflog() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		RevCommit first = bb.commit().add("A", "A").add("B", "B").create();
 		bb.commit().add("A", "A2").add("B", "B2").create();
@@ -87,7 +87,7 @@ public class GcReflogTest extends GcTestCase {
 	}
 
 	@Test
-	public void testPackCommitsAndLooseOneWithPruneNowNoReflog()
+	void testPackCommitsAndLooseOneWithPruneNowNoReflog()
 			throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		RevCommit first = bb.commit().add("A", "A").add("B", "B").create();

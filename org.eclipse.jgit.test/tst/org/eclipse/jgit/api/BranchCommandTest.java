@@ -9,10 +9,12 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
@@ -38,8 +40,8 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class BranchCommandTest extends RepositoryTestCase {
 	private Git git;
@@ -49,7 +51,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	RevCommit secondCommit;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -108,7 +110,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateAndList() throws Exception {
+	void testCreateAndList() throws Exception {
 		int localBefore;
 		int remoteBefore;
 		int allBefore;
@@ -160,25 +162,29 @@ public class BranchCommandTest extends RepositoryTestCase {
 				- allBefore);
 	}
 
-	@Test(expected = InvalidRefNameException.class)
-	public void testInvalidBranchHEAD() throws Exception {
-		git.branchCreate().setName("HEAD").call();
-		fail("Create branch with invalid ref name should fail");
-	}
-
-	@Test(expected = InvalidRefNameException.class)
-	public void testInvalidBranchDash() throws Exception {
-		git.branchCreate().setName("-x").call();
-		fail("Create branch with invalid ref name should fail");
+	@Test
+	void testInvalidBranchHEAD() throws Exception {
+		assertThrows(InvalidRefNameException.class, () -> {
+			git.branchCreate().setName("HEAD").call();
+			fail("Create branch with invalid ref name should fail");
+		});
 	}
 
 	@Test
-	public void testListAllBranchesShouldNotDie() throws Exception {
+	void testInvalidBranchDash() throws Exception {
+		assertThrows(InvalidRefNameException.class, () -> {
+			git.branchCreate().setName("-x").call();
+			fail("Create branch with invalid ref name should fail");
+		});
+	}
+
+	@Test
+	void testListAllBranchesShouldNotDie() throws Exception {
 		setUpRepoWithRemote().branchList().setListMode(ListMode.ALL).call();
 	}
 
 	@Test
-	public void testListBranchesWithContains() throws Exception {
+	void testListBranchesWithContains() throws Exception {
 		git.branchCreate().setName("foo").setStartPoint(secondCommit).call();
 
 		List<Ref> refs = git.branchList().call();
@@ -192,7 +198,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFromCommit() throws Exception {
+	void testCreateFromCommit() throws Exception {
 		Ref branch = git.branchCreate().setName("FromInitial").setStartPoint(
 				initialCommit).call();
 		assertEquals(initialCommit.getId(), branch.getObjectId());
@@ -211,7 +217,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateForce() throws Exception {
+	void testCreateForce() throws Exception {
 		// using commits
 		Ref newBranch = createBranch(git, "NewForce", false, secondCommit
 				.getId().name(), null);
@@ -244,7 +250,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFromLightweightTag() throws Exception {
+	void testCreateFromLightweightTag() throws Exception {
 		RefUpdate rup = db.updateRef("refs/tags/V10");
 		rup.setNewObjectId(initialCommit);
 		rup.setExpectedOldObjectId(ObjectId.zeroId());
@@ -257,16 +263,16 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFromAnnotatetdTag() throws Exception {
+	void testCreateFromAnnotatetdTag() throws Exception {
 		Ref tagRef = git.tag().setName("V10").setObjectId(secondCommit).call();
 		Ref branch = git.branchCreate().setName("FromAnnotatedTag")
 				.setStartPoint("refs/tags/V10").call();
-		assertFalse(tagRef.getObjectId().equals(branch.getObjectId()));
+		assertNotEquals(tagRef.getObjectId(), branch.getObjectId());
 		assertEquals(secondCommit.getId(), branch.getObjectId());
 	}
 
 	@Test
-	public void testDelete() throws Exception {
+	void testDelete() throws Exception {
 		createBranch(git, "ForDelete", false, "master", null);
 		git.branchDelete().setBranchNames("ForDelete").call();
 		// now point the branch to a non-merged commit
@@ -311,7 +317,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullConfigRemoteBranch() throws Exception {
+	void testPullConfigRemoteBranch() throws Exception {
 		Git localGit = setUpRepoWithRemote();
 		Ref remote = localGit.branchList().setListMode(ListMode.REMOTE).call()
 				.get(0);
@@ -343,7 +349,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullConfigLocalBranch() throws Exception {
+	void testPullConfigLocalBranch() throws Exception {
 		Git localGit = setUpRepoWithRemote();
 		// by default, we should not create pull configuration
 		createBranch(localGit, "newFromMaster", false, "master", null);
@@ -363,7 +369,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullConfigRenameLocalBranch() throws Exception {
+	void testPullConfigRenameLocalBranch() throws Exception {
 		Git localGit = setUpRepoWithRemote();
 		// by default, we should not create pull configuration
 		createBranch(localGit, "newFromMaster", false, "master", null);
@@ -377,8 +383,8 @@ public class BranchCommandTest extends RepositoryTestCase {
 				"branch", "newFromMaster", "remote"));
 		localGit.branchRename().setOldName("newFromMaster").setNewName(
 				"renamed").call();
-		assertNull(".", localGit.getRepository().getConfig().getString(
-				"branch", "newFromMaster", "remote"));
+		assertNull(localGit.getRepository().getConfig().getString(
+				"branch", "newFromMaster", "remote"), ".");
 		assertEquals(".", localGit.getRepository().getConfig().getString(
 				"branch", "renamed", "remote"));
 		localGit.branchDelete().setBranchNames("renamed").call();
@@ -388,7 +394,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRenameLocalBranch() throws Exception {
+	void testRenameLocalBranch() throws Exception {
 		// null newName not allowed
 		try {
 			git.branchRename().call();
@@ -443,7 +449,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRenameRemoteTrackingBranch() throws Exception {
+	void testRenameRemoteTrackingBranch() throws Exception {
 		Git localGit = setUpRepoWithRemote();
 		Ref remoteBranch = localGit.branchList().setListMode(ListMode.REMOTE)
 				.call().get(0);
@@ -454,13 +460,13 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreationImplicitStart() throws Exception {
+	void testCreationImplicitStart() throws Exception {
 		git.branchCreate().setName("topic").call();
 		assertEquals(db.resolve("HEAD"), db.resolve("topic"));
 	}
 
 	@Test
-	public void testCreationNullStartPoint() throws Exception {
+	void testCreationNullStartPoint() throws Exception {
 		String startPoint = null;
 		git.branchCreate().setName("topic").setStartPoint(startPoint).call();
 		assertEquals(db.resolve("HEAD"), db.resolve("topic"));

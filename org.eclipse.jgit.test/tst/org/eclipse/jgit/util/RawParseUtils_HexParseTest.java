@@ -10,15 +10,15 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RawParseUtils_HexParseTest {
 	@Test
-	public void testInt4_1() {
+	void testInt4_1() {
 		assertEquals(0, RawParseUtils.parseHexInt4((byte) '0'));
 		assertEquals(1, RawParseUtils.parseHexInt4((byte) '1'));
 		assertEquals(2, RawParseUtils.parseHexInt4((byte) '2'));
@@ -58,7 +58,7 @@ public class RawParseUtils_HexParseTest {
 	}
 
 	@Test
-	public void testInt16() {
+	void testInt16() {
 		assertEquals(0x0000, parse16("0000"));
 		assertEquals(0x0001, parse16("0001"));
 		assertEquals(0x1234, parse16("1234"));
@@ -94,7 +94,7 @@ public class RawParseUtils_HexParseTest {
 	}
 
 	@Test
-	public void testInt32() {
+	void testInt32() {
 		assertEquals(0x00000000, parse32("00000000"));
 		assertEquals(0x00000001, parse32("00000001"));
 		assertEquals(0xc0ffEE42, parse32("c0ffEE42"));

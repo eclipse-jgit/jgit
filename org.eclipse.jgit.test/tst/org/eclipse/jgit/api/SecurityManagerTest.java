@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FilePermission;
@@ -30,15 +30,13 @@ import javax.security.auth.AuthPermission;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.MockSystemReader;
-import org.eclipse.jgit.junit.SeparateClassloaderTestRunner;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * <p>
@@ -70,18 +68,23 @@ import org.junit.runner.RunWith;
  * initialization between different tests run.
  * </p>
  */
-@RunWith(SeparateClassloaderTestRunner.class)
 public class SecurityManagerTest {
 	private File root;
 
 	private SecurityManager originalSecurityManager;
 
+	private String originalPermissionsUseCanonicalPath;
+
 	private List<Permission> permissions = new ArrayList<>();
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		// Create working directory
 		SystemReader.setInstance(new MockSystemReader());
+		originalPermissionsUseCanonicalPath = System
+				.getProperty("jdk.io.permissionsUseCanonicalPath");
+		System.setProperty("jdk.io.permissionsUseCanonicalPath", "true");
+
 		root = Files.createTempDirectory("jgit-security").toFile();
 
 		// Add system permissions
@@ -134,8 +137,10 @@ public class SecurityManagerTest {
 		});
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
+		System.setProperty("jdk.io.permissionsUseCanonicalPath",
+				originalPermissionsUseCanonicalPath);
 		System.setSecurityManager(originalSecurityManager);
 
 		// Note: don't use this method before security manager is replaced in
@@ -145,7 +150,7 @@ public class SecurityManagerTest {
 	}
 
 	@Test
-	public void testInitAndClone() throws IOException, GitAPIException {
+	void testInitAndClone() throws IOException, GitAPIException {
 		File remote = new File(root, "remote");
 		File local = new File(root, "local");
 

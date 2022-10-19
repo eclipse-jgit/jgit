@@ -10,15 +10,15 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.Instant;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GcTemporaryFilesTest extends GcTestCase {
 	private static final String TEMP_IDX = "gc_1234567890.idx_tmp";
@@ -28,7 +28,7 @@ public class GcTemporaryFilesTest extends GcTestCase {
 	private File packDir;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		packDir = Paths.get(repo.getObjectsDirectory().getAbsolutePath(),
@@ -36,7 +36,7 @@ public class GcTemporaryFilesTest extends GcTestCase {
 	}
 
 	@Test
-	public void oldTempPacksAndIdxAreDeleted() throws Exception {
+	void oldTempPacksAndIdxAreDeleted() throws Exception {
 		File tempIndex = new File(packDir, TEMP_IDX);
 		File tempPack = new File(packDir, TEMP_PACK);
 		if (!packDir.exists() || !packDir.isDirectory()) {
@@ -56,7 +56,7 @@ public class GcTemporaryFilesTest extends GcTestCase {
 	}
 
 	@Test
-	public void recentTempPacksAndIdxAreNotDeleted() throws Exception {
+	void recentTempPacksAndIdxAreNotDeleted() throws Exception {
 		File tempIndex = new File(packDir, TEMP_IDX);
 		File tempPack = new File(packDir, TEMP_PACK);
 		if (!packDir.exists() || !packDir.isDirectory()) {

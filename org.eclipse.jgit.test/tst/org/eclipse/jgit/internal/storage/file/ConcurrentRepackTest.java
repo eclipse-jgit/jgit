@@ -11,12 +11,12 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -42,13 +42,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ConcurrentRepackTest extends RepositoryTestCase {
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		WindowCacheConfig windowCacheConfig = new WindowCacheConfig();
 		windowCacheConfig.setPackedGitOpenFiles(1);
@@ -57,14 +57,14 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		super.tearDown();
 		new WindowCacheConfig().install();
 	}
 
 	@Test
-	public void testObjectInNewPack() throws IncorrectObjectTypeException,
+	void testObjectInNewPack() throws IncorrectObjectTypeException,
 			IOException {
 		// Create a new object in a new pack, and test that it is present.
 		//
@@ -75,7 +75,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testObjectMovedToNewPack1()
+	void testObjectMovedToNewPack1()
 			throws IncorrectObjectTypeException, IOException {
 		// Create an object and pack it. Then remove that pack and put the
 		// object into a different pack file, with some other object. We
@@ -102,7 +102,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testObjectMovedWithinPack()
+	void testObjectMovedWithinPack()
 			throws IncorrectObjectTypeException, IOException {
 		// Create an object and pack it.
 		//
@@ -135,7 +135,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testObjectMovedToNewPack2()
+	void testObjectMovedToNewPack2()
 			throws IncorrectObjectTypeException, IOException {
 		// Create an object and pack it. Then remove that pack and put the
 		// object into a different pack file, with some other object. We
@@ -228,7 +228,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 				.lastModifiedInstant(list[0].getParentFile());
 		for (File f : list) {
 			FileUtils.delete(f);
-			assertFalse(f + " was removed", f.exists());
+			assertFalse(f.exists(), f + " was removed");
 		}
 		touch(begin, list[0].getParentFile());
 	}

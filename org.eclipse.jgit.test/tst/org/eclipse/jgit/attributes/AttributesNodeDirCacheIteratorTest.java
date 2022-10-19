@@ -12,10 +12,10 @@ package org.eclipse.jgit.attributes;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -27,8 +27,8 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests attributes node behavior on the index.
@@ -46,7 +46,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -54,7 +54,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRules() throws Exception {
+	void testRules() throws Exception {
 		writeAttributesFile(".git/info/attributes", "windows* eol=crlf");
 
 		writeAttributesFile(".gitattributes", "*.txt eol=lf");
@@ -87,7 +87,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 			assertIteration(walk, F, "windows.file", null);
 			assertIteration(walk, F, "windows.txt", asList(EOL_LF));
 
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
@@ -98,7 +98,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testNoAttributes() throws Exception {
+	void testNoAttributes() throws Exception {
 		writeTrashFile("l0.txt", "");
 		writeTrashFile("level1/l1.txt", "");
 		writeTrashFile("level1/level2/l2.txt", "");
@@ -115,7 +115,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 			assertIteration(walk, D, "level1/level2");
 			assertIteration(walk, F, "level1/level2/l2.txt");
 
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
@@ -125,7 +125,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testEmptyGitAttributeFile() throws Exception {
+	void testEmptyGitAttributeFile() throws Exception {
 		writeAttributesFile(".git/info/attributes", "");
 		writeTrashFile("l0.txt", "");
 		writeAttributesFile(".gitattributes", "");
@@ -145,12 +145,12 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 			assertIteration(walk, D, "level1/level2");
 			assertIteration(walk, F, "level1/level2/l2.txt");
 
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testNoMatchingAttributes() throws Exception {
+	void testNoMatchingAttributes() throws Exception {
 		writeAttributesFile(".git/info/attributes", "*.java delta");
 		writeAttributesFile(".gitattributes", "*.java -delta");
 		writeAttributesFile("levelA/.gitattributes", "*.java eol=lf");
@@ -171,12 +171,12 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 			assertIteration(walk, D, "levelB");
 			assertIteration(walk, F, "levelB/.gitattributes");
 
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testIncorrectAttributeFileName() throws Exception {
+	void testIncorrectAttributeFileName() throws Exception {
 		writeAttributesFile("levelA/file.gitattributes", "*.txt -delta");
 		writeAttributesFile("gitattributes", "*.txt eol=lf");
 
@@ -195,7 +195,7 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 			assertIteration(walk, F, "levelA/file.gitattributes");
 			assertIteration(walk, F, "levelA/lA.txt");
 
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
@@ -207,11 +207,11 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 
 	private void assertIteration(TreeWalk walk, FileMode type, String pathName,
 			List<Attribute> nodeAttrs) throws IOException {
-		assertTrue("walk has entry", walk.next());
+		assertTrue(walk.next(), "walk has entry");
 		assertEquals(pathName, walk.getPathString());
 		assertEquals(type, walk.getFileMode(0));
 		DirCacheIterator itr = walk.getTree(0, DirCacheIterator.class);
-		assertNotNull("has tree", itr);
+		assertNotNull(itr, "has tree");
 
 		AttributesNode attributesNode = itr.getEntryAttributesNode(db
 				.newObjectReader());
@@ -242,11 +242,11 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 				}
 			} else {
 				assertTrue(
+						entryAttributes.isEmpty(),
 						"The entry "
 								+ pathName
 								+ " should not have any attributes. Instead, the following attributes are applied to this file "
-								+ entryAttributes.toString(),
-						entryAttributes.isEmpty());
+								+ entryAttributes.toString());
 			}
 		}
 	}

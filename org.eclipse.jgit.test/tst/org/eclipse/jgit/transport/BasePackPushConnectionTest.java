@@ -14,7 +14,7 @@ package org.eclipse.jgit.transport;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
@@ -25,14 +25,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BasePackPushConnectionTest {
 	@Test
-	public void testNoRemoteRepository() {
+	void testNoRemoteRepository() {
 		NoRemoteRepositoryException openFetchException =
-                new NoRemoteRepositoryException( new URIish(), "not found");
+				new NoRemoteRepositoryException( new URIish(), "not found");
 		IOException ioException = new IOException("not read");
 
 		try (FailingBasePackPushConnection fbppc =
@@ -46,7 +46,7 @@ public class BasePackPushConnectionTest {
 	}
 
 	@Test
-	public void testPushNotPermitted() {
+	void testPushNotPermitted() {
 		URIish uri = new URIish();
 		TransportException openFetchException = new TransportException(uri,
 				"a transport exception");
@@ -66,7 +66,7 @@ public class BasePackPushConnectionTest {
 	}
 
 	@Test
-	public void testReadAdvertisedRefPropagatesCauseAndSuppressedExceptions() {
+	void testReadAdvertisedRefPropagatesCauseAndSuppressedExceptions() {
 		IOException ioException = new IOException("not read");
 		try (FailingBasePackPushConnection basePackConnection =
 				new FailingBasePackPushConnection(

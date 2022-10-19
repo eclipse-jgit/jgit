@@ -16,8 +16,8 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.transport.ObjectIdMatcher.hasOnlyObjectIds;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.lib.Config;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ProtocolV0ParserTest {
 	/*
@@ -55,7 +55,7 @@ public class ProtocolV0ParserTest {
 	}
 
 	@Test
-	public void testRecvWantsWithCapabilities()
+	void testRecvWantsWithCapabilities()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				String.join(" ", "want",
@@ -79,7 +79,7 @@ public class ProtocolV0ParserTest {
 	}
 
 	@Test
-	public void testRecvWantsWithAgent()
+	void testRecvWantsWithAgent()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				String.join(" ", "want",
@@ -122,7 +122,7 @@ public class ProtocolV0ParserTest {
 	 * capabilities.
 	 */
 	@Test
-	public void testRecvWantsWithoutCapabilities()
+	void testRecvWantsWithoutCapabilities()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				"want 4624442d68ee402a94364191085b77137618633e\n",
@@ -137,7 +137,7 @@ public class ProtocolV0ParserTest {
 	}
 
 	@Test
-	public void testRecvWantsDeepen()
+	void testRecvWantsDeepen()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				"want 4624442d68ee402a94364191085b77137618633e\n",
@@ -153,7 +153,7 @@ public class ProtocolV0ParserTest {
 	}
 
 	@Test
-	public void testRecvWantsDeepenSince()
+	void testRecvWantsDeepenSince()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				"want 4624442d68ee402a94364191085b77137618633e\n",
@@ -165,12 +165,12 @@ public class ProtocolV0ParserTest {
 		assertTrue(request.getClientCapabilities().isEmpty());
 		assertEquals(1652773020, request.getDeepenSince());
 		assertThat(request.getWantIds(),
-				   hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
-									"f900c8326a43303685c46b279b9f70411bff1a4b"));
+				hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
+						"f900c8326a43303685c46b279b9f70411bff1a4b"));
 	}
 
 	@Test
-	public void testRecvWantsDeepenNots()
+	void testRecvWantsDeepenNots()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				"want 4624442d68ee402a94364191085b77137618633e\n",
@@ -182,14 +182,14 @@ public class ProtocolV0ParserTest {
 		FetchV0Request request = parser.recvWants(pckIn);
 		assertTrue(request.getClientCapabilities().isEmpty());
 		assertThat(request.getDeepenNots(), contains("856d5138d7269a483efe276d4a6b5c25b4fbb1a4",
-													 "heads/refs/test"));
+				"heads/refs/test"));
 		assertThat(request.getWantIds(),
-				   hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
-									"f900c8326a43303685c46b279b9f70411bff1a4b"));
+				hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
+						"f900c8326a43303685c46b279b9f70411bff1a4b"));
 	}
 
 	@Test
-	public void testRecvWantsShallow()
+	void testRecvWantsShallow()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				"want 4624442d68ee402a94364191085b77137618633e\n",
@@ -207,7 +207,7 @@ public class ProtocolV0ParserTest {
 	}
 
 	@Test
-	public void testRecvWantsFilter()
+	void testRecvWantsFilter()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				"want 4624442d68ee402a94364191085b77137618633e\n",

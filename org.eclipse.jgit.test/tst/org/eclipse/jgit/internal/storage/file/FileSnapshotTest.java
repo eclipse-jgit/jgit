@@ -11,10 +11,10 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.junit.JGitTestUtil.read;
 import static org.eclipse.jgit.junit.JGitTestUtil.write;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,10 +35,10 @@ import org.eclipse.jgit.util.FS.FileStoreAttributes;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.Stats;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +50,7 @@ public class FileSnapshotTest {
 
 	private FileStoreAttributes fsAttrCache;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		SystemReader.setInstance(new MockSystemReader());
 		trash = Files.createTempDirectory("tmp_");
@@ -60,8 +60,7 @@ public class FileSnapshotTest {
 				.getFileStoreAttributes(trash.getParent());
 	}
 
-	@Before
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		FileUtils.delete(trash.toFile(),
 				FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
@@ -81,7 +80,7 @@ public class FileSnapshotTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testActuallyIsModifiedTrivial() throws Exception {
+	void testActuallyIsModifiedTrivial() throws Exception {
 		Path f1 = createFile("simple");
 		waitNextTick(f1);
 		FileSnapshot save = FileSnapshot.save(f1.toFile());
@@ -99,10 +98,10 @@ public class FileSnapshotTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testNewFileWithWait() throws Exception {
+	void testNewFileWithWait() throws Exception {
 		// if filesystem timestamp resolution is high the snapshot won't be
 		// racily clean
-		Assume.assumeTrue(
+		Assumptions.assumeTrue(
 				fsAttrCache.getFsTimestampResolution()
 						.compareTo(Duration.ofMillis(10)) > 0);
 		Path f1 = createFile("newfile");
@@ -119,10 +118,10 @@ public class FileSnapshotTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testNewFileNoWait() throws Exception {
+	void testNewFileNoWait() throws Exception {
 		// if filesystem timestamp resolution is smaller than time needed to
 		// create a file and FileSnapshot the snapshot won't be racily clean
-		Assume.assumeTrue(fsAttrCache.getFsTimestampResolution()
+		Assumptions.assumeTrue(fsAttrCache.getFsTimestampResolution()
 				.compareTo(Duration.ofMillis(10)) > 0);
 		for (int i = 0; i < 50; i++) {
 			Instant start = Instant.now();
@@ -158,8 +157,8 @@ public class FileSnapshotTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testSimulatePackfileReplacement() throws Exception {
-		Assume.assumeFalse(SystemReader.getInstance().isWindows());
+	void testSimulatePackfileReplacement() throws Exception {
+		Assumptions.assumeFalse(SystemReader.getInstance().isWindows());
 		Path f1 = createFile("file"); // inode y
 		Path f2 = createFile("fool"); // Guarantees new inode x
 		// wait on f2 since this method resets lastModified of the file
@@ -173,12 +172,12 @@ public class FileSnapshotTest {
 				StandardCopyOption.ATOMIC_MOVE);
 		Files.setLastModifiedTime(f1, timestamp);
 		assertTrue(save.isModified(f1.toFile()));
-		assertTrue("unexpected change of fileKey", save.wasFileKeyChanged());
-		assertFalse("unexpected size change", save.wasSizeChanged());
-		assertFalse("unexpected lastModified change",
-				save.wasLastModifiedChanged());
-		assertFalse("lastModified was unexpectedly racily clean",
-				save.wasLastModifiedRacilyClean());
+		assertTrue(save.wasFileKeyChanged(), "unexpected change of fileKey");
+		assertFalse(save.wasSizeChanged(), "unexpected size change");
+		assertFalse(save.wasLastModifiedChanged(),
+				"unexpected lastModified change");
+		assertFalse(save.wasLastModifiedRacilyClean(),
+				"lastModified was unexpectedly racily clean");
 	}
 
 	/**
@@ -188,7 +187,7 @@ public class FileSnapshotTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testFileSizeChanged() throws Exception {
+	void testFileSizeChanged() throws Exception {
 		Path f = createFile("file");
 		FileTime timestamp = Files.getLastModifiedTime(f);
 		FileSnapshot save = FileSnapshot.save(f.toFile());
@@ -199,19 +198,19 @@ public class FileSnapshotTest {
 	}
 
 	@Test
-	public void fileSnapshotEquals() throws Exception {
+	void fileSnapshotEquals() throws Exception {
 		// 0 sized FileSnapshot.
 		FileSnapshot fs1 = FileSnapshot.MISSING_FILE;
 		// UNKNOWN_SIZE FileSnapshot.
 		FileSnapshot fs2 = FileSnapshot.save(fs1.lastModifiedInstant());
 
-		assertTrue(fs1.equals(fs2));
-		assertTrue(fs2.equals(fs1));
+		assertEquals(fs1, fs2);
+		assertEquals(fs2, fs1);
 	}
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void detectFileModified() throws IOException {
+	void detectFileModified() throws IOException {
 		int failures = 0;
 		long racyNanos = 0;
 		final int COUNT = 10000;
@@ -220,14 +219,14 @@ public class FileSnapshotTest {
 		for (int i = 0; i < COUNT; i++) {
 			write(f, "a");
 			FileSnapshot snapshot = FileSnapshot.save(f);
-			assertEquals("file should contain 'a'", "a", read(f));
+			assertEquals("a", read(f), "file should contain 'a'");
 			write(f, "b");
 			if (!snapshot.isModified(f)) {
 				deltas.add(snapshot.lastDelta());
 				racyNanos = snapshot.lastRacyThreshold();
 				failures++;
 			}
-			assertEquals("file should contain 'b'", "b", read(f));
+			assertEquals("b", read(f), "file should contain 'b'");
 		}
 		if (failures > 0) {
 			Stats stats = new Stats();
@@ -246,16 +245,14 @@ public class FileSnapshotTest {
 					failures, racyNanos, stats.min(), stats.max(),
 					stats.avg(), stats.stddev()));
 		}
-		assertTrue(
-				String.format(
-						"FileSnapshot: failures to detect file modifications"
-								+ " %d out of %d\n"
-								+ "timestamp resolution %d µs"
-								+ " min racy threshold %d µs"
-						, failures, COUNT,
-						fsAttrCache.getFsTimestampResolution().toNanos() / 1000,
-						fsAttrCache.getMinimalRacyInterval().toNanos() / 1000),
-				failures == 0);
+		assertEquals(failures, 0, String.format(
+				"FileSnapshot: failures to detect file modifications"
+						+ " %d out of %d\n"
+						+ "timestamp resolution %d µs"
+						+ " min racy threshold %d µs"
+		, failures, COUNT,
+				fsAttrCache.getFsTimestampResolution().toNanos() / 1000,
+				fsAttrCache.getMinimalRacyInterval().toNanos() / 1000));
 	}
 
 	private Path createFile(String string) throws IOException {

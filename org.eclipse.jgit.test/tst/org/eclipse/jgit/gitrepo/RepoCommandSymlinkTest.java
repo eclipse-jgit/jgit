@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.gitrepo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import java.io.File;
 
 import org.eclipse.jgit.api.Git;
@@ -20,24 +20,21 @@ import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RepoCommandSymlinkTest extends RepositoryTestCase {
-	@Before
-	public void beforeMethod() {
-		// If this assumption fails the tests are skipped. When running on a
-		// filesystem not supporting symlinks I don't want this tests
-		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
-	}
-
 	private Repository defaultDb;
 
 	private String rootUri;
 	private String defaultUri;
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
+		// If this assumption fails the tests are skipped. When running on a
+		// filesystem not supporting symlinks I don't want this tests
+		assumeTrue(FS.DETECTED.supportsSymlinks());
 		super.setUp();
 
 		defaultDb = createWorkRepository();
@@ -58,7 +55,7 @@ public class RepoCommandSymlinkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLinkFileBare() throws Exception {
+	void testLinkFileBare() throws Exception {
 		try (
 				Repository remoteDb = createBareRepository();
 				Repository tempDb = createWorkRepository()) {
@@ -94,36 +91,36 @@ public class RepoCommandSymlinkTest extends RepositoryTestCase {
 				// The LinkedHello symlink should exist.
 				File linkedhello = new File(localDb.getWorkTree(),
 						"LinkedHello");
-				assertTrue("The LinkedHello file should exist",
-						localDb.getFS().exists(linkedhello));
-				assertTrue("The LinkedHello file should be a symlink",
-						localDb.getFS().isSymLink(linkedhello));
+				assertTrue(localDb.getFS().exists(linkedhello),
+						"The LinkedHello file should exist");
+				assertTrue(localDb.getFS().isSymLink(linkedhello),
+						"The LinkedHello file should be a symlink");
 				assertEquals("foo/hello.txt",
 						localDb.getFS().readSymLink(linkedhello));
 
 				// The foo/LinkedHello file should be skipped.
 				File linkedfoohello = new File(localDb.getWorkTree(),
 						"foo/LinkedHello");
-				assertFalse("The foo/LinkedHello file should be skipped",
-						localDb.getFS().exists(linkedfoohello));
+				assertFalse(localDb.getFS().exists(linkedfoohello),
+						"The foo/LinkedHello file should be skipped");
 
 				// The subdir/LinkedHello file should use a relative ../
 				File linkedsubdirhello = new File(localDb.getWorkTree(),
 						"subdir/LinkedHello");
-				assertTrue("The subdir/LinkedHello file should exist",
-						localDb.getFS().exists(linkedsubdirhello));
-				assertTrue("The subdir/LinkedHello file should be a symlink",
-						localDb.getFS().isSymLink(linkedsubdirhello));
+				assertTrue(localDb.getFS().exists(linkedsubdirhello),
+						"The subdir/LinkedHello file should exist");
+				assertTrue(localDb.getFS().isSymLink(linkedsubdirhello),
+						"The subdir/LinkedHello file should be a symlink");
 				assertEquals("../foo/hello.txt",
 						localDb.getFS().readSymLink(linkedsubdirhello));
 
 				// The bar/foo/LinkedHello file should use a single relative ../
 				File linkedbarfoohello = new File(localDb.getWorkTree(),
 						"bar/foo/LinkedHello");
-				assertTrue("The bar/foo/LinkedHello file should exist",
-						localDb.getFS().exists(linkedbarfoohello));
-				assertTrue("The bar/foo/LinkedHello file should be a symlink",
-						localDb.getFS().isSymLink(linkedbarfoohello));
+				assertTrue(localDb.getFS().exists(linkedbarfoohello),
+						"The bar/foo/LinkedHello file should exist");
+				assertTrue(localDb.getFS().isSymLink(linkedbarfoohello),
+						"The bar/foo/LinkedHello file should be a symlink");
 				assertEquals("../baz/hello.txt",
 						localDb.getFS().readSymLink(linkedbarfoohello));
 			}

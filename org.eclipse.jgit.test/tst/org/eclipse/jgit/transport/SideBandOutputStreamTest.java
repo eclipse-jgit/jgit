@@ -18,8 +18,8 @@ import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
 import static org.eclipse.jgit.transport.SideBandOutputStream.HDR_SIZE;
 import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
 import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,8 +27,8 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 // Note, test vectors created with:
 //
@@ -37,43 +37,43 @@ import org.junit.Test;
 public class SideBandOutputStreamTest {
 	private ByteArrayOutputStream rawOut;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		rawOut = new ByteArrayOutputStream();
 	}
 
 	@Test
-	public void testWrite_CH_DATA() throws IOException {
+	void testWrite_CH_DATA() throws IOException {
 		try (SideBandOutputStream out = new SideBandOutputStream(CH_DATA,
 				SMALL_BUF, rawOut)) {
-			out.write(new byte[] { 'a', 'b', 'c' });
+			out.write(new byte[]{'a', 'b', 'c'});
 			out.flush();
 		}
 		assertBuffer("0008\001abc");
 	}
 
 	@Test
-	public void testWrite_CH_PROGRESS() throws IOException {
+	void testWrite_CH_PROGRESS() throws IOException {
 		try (SideBandOutputStream out = new SideBandOutputStream(CH_PROGRESS,
 				SMALL_BUF, rawOut)) {
-			out.write(new byte[] { 'a', 'b', 'c' });
+			out.write(new byte[]{'a', 'b', 'c'});
 			out.flush();
 		}
 		assertBuffer("0008\002abc");
 	}
 
 	@Test
-	public void testWrite_CH_ERROR() throws IOException {
+	void testWrite_CH_ERROR() throws IOException {
 		try (SideBandOutputStream out = new SideBandOutputStream(CH_ERROR,
 				SMALL_BUF, rawOut)) {
-			out.write(new byte[] { 'a', 'b', 'c' });
+			out.write(new byte[]{'a', 'b', 'c'});
 			out.flush();
 		}
 		assertBuffer("0008\003abc");
 	}
 
 	@Test
-	public void testWrite_Small() throws IOException {
+	void testWrite_Small() throws IOException {
 		try (SideBandOutputStream out = new SideBandOutputStream(CH_DATA,
 				SMALL_BUF, rawOut)) {
 			out.write('a');
@@ -85,7 +85,7 @@ public class SideBandOutputStreamTest {
 	}
 
 	@Test
-	public void testWrite_SmallBlocks1() throws IOException {
+	void testWrite_SmallBlocks1() throws IOException {
 		try (SideBandOutputStream out = new SideBandOutputStream(CH_DATA, 6,
 				rawOut)) {
 			out.write('a');
@@ -97,28 +97,28 @@ public class SideBandOutputStreamTest {
 	}
 
 	@Test
-	public void testWrite_SmallBlocks2() throws IOException {
+	void testWrite_SmallBlocks2() throws IOException {
 		try (SideBandOutputStream out = new SideBandOutputStream(CH_DATA, 6,
 				rawOut)) {
-			out.write(new byte[] { 'a', 'b', 'c' });
+			out.write(new byte[]{'a', 'b', 'c'});
 			out.flush();
 		}
 		assertBuffer("0006\001a0006\001b0006\001c");
 	}
 
 	@Test
-	public void testWrite_SmallBlocks3() throws IOException {
+	void testWrite_SmallBlocks3() throws IOException {
 		try (SideBandOutputStream out = new SideBandOutputStream(CH_DATA, 7,
 				rawOut)) {
 			out.write('a');
-			out.write(new byte[] { 'b', 'c' });
+			out.write(new byte[]{'b', 'c'});
 			out.flush();
 		}
 		assertBuffer("0007\001ab0006\001c");
 	}
 
 	@Test
-	public void testWrite_Large() throws IOException {
+	void testWrite_Large() throws IOException {
 		final int buflen = MAX_BUF - HDR_SIZE;
 		final byte[] buf = new byte[buflen];
 		for (int i = 0; i < buf.length; i++) {
@@ -142,7 +142,7 @@ public class SideBandOutputStreamTest {
 	}
 
 	@Test
-	public void testFlush() throws IOException {
+	void testFlush() throws IOException {
 		final int[] flushCnt = new int[1];
 		final OutputStream mockout = new OutputStream() {
 			@Override
@@ -171,7 +171,7 @@ public class SideBandOutputStreamTest {
 	}
 
 	@Test
-	public void testConstructor_RejectsBadChannel() throws Exception {
+	void testConstructor_RejectsBadChannel() throws Exception {
 		try {
 			createSideBandOutputStream(-1, MAX_BUF, rawOut);
 			fail("Accepted -1 channel number");
@@ -196,7 +196,7 @@ public class SideBandOutputStreamTest {
 	}
 
 	@Test
-	public void testConstructor_RejectsBadBufferSize() throws Exception {
+	void testConstructor_RejectsBadBufferSize() throws Exception {
 		try {
 			createSideBandOutputStream(CH_DATA, -1, rawOut);
 			fail("Accepted -1 for buffer size");

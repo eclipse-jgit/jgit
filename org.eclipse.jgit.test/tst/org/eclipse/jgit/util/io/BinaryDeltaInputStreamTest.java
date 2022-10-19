@@ -9,15 +9,15 @@
  */
 package org.eclipse.jgit.util.io;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.zip.InflaterInputStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Crude tests for the {@link BinaryDeltaInputStream} using delta diffs
@@ -30,17 +30,17 @@ public class BinaryDeltaInputStreamTest {
 	}
 
 	@Test
-	public void testBinaryDelta() throws Exception {
+	void testBinaryDelta() throws Exception {
 		// Prepare our test data
 		byte[] data = new byte[8192];
-		for (int i = 0; i < data.length; i++) {
+		for (int i = 0;i < data.length;i++) {
 			data[i] = (byte) (255 - (i % 256));
 		}
 		// Same, but with five 'x' inserted in the middle.
 		int middle = data.length / 2;
 		byte[] newData = new byte[data.length + 5];
 		System.arraycopy(data, 0, newData, 0, middle);
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0;i < 5;i++) {
 			newData[middle + i] = 'x';
 		}
 		System.arraycopy(data, middle, newData, middle + 5, middle);

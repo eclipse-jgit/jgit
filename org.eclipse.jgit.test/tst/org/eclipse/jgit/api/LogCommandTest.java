@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,12 +23,12 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LogCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void logAllCommits() throws Exception {
+	void logAllCommits() throws Exception {
 		List<RevCommit> commits = new ArrayList<>();
 		Git git = Git.wrap(db);
 
@@ -59,8 +59,8 @@ public class LogCommandTest extends RepositoryTestCase {
 		assertFalse(log.hasNext());
 	}
 
-    @Test
-    public void logAllCommitsWithTag() throws Exception {
+	@Test
+	void logAllCommitsWithTag() throws Exception {
 		List<RevCommit> commits = new ArrayList<>();
 		Git git = Git.wrap(db);
 
@@ -104,7 +104,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void logAllCommitsWithMaxCount() throws Exception {
+	void logAllCommitsWithMaxCount() throws Exception {
 		Git git = Git.wrap(db);
 		List<RevCommit> commits = createCommits(git);
 
@@ -122,7 +122,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void logPathWithMaxCount() throws Exception {
+	void logPathWithMaxCount() throws Exception {
 		Git git = Git.wrap(db);
 		List<RevCommit> commits = createCommits(git);
 
@@ -136,7 +136,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void logPathWithSkip() throws Exception {
+	void logPathWithSkip() throws Exception {
 		Git git = Git.wrap(db);
 		List<RevCommit> commits = createCommits(git);
 
@@ -150,7 +150,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void logAllCommitsWithSkip() throws Exception {
+	void logAllCommitsWithSkip() throws Exception {
 		Git git = Git.wrap(db);
 		List<RevCommit> commits = createCommits(git);
 
@@ -167,7 +167,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void logAllCommitsWithSkipAndMaxCount() throws Exception {
+	void logAllCommitsWithSkipAndMaxCount() throws Exception {
 		Git git = Git.wrap(db);
 		List<RevCommit> commits = createCommits(git);
 
@@ -181,7 +181,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void logOnlyMergeCommits() throws Exception {
+	void logOnlyMergeCommits() throws Exception {
 		setCommitsAndMerge();
 		Git git = Git.wrap(db);
 
@@ -205,7 +205,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void logNoMergeCommits() throws Exception {
+	void logNoMergeCommits() throws Exception {
 		setCommitsAndMerge();
 		Git git = Git.wrap(db);
 
@@ -240,7 +240,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	 * </pre>
 	 */
 	@Test
-	public void addRangeWithMerge() throws Exception{
+	void addRangeWithMerge() throws Exception {
 		String fileA = "fileA";
 		String fileB = "fileB";
 		Git git = Git.wrap(db);

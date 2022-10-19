@@ -12,37 +12,37 @@ package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.lib.RepositoryCacheConfig.AUTO_CLEANUP_DELAY;
 import static org.eclipse.jgit.lib.RepositoryCacheConfig.NO_CLEANUP;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RepositoryCacheConfigTest {
 
 	private RepositoryCacheConfig config;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		config = new RepositoryCacheConfig();
 	}
 
 	@Test
-	public void testDefaultValues() {
+	void testDefaultValues() {
 		assertEquals(TimeUnit.HOURS.toMillis(1), config.getExpireAfter());
 		assertEquals(config.getExpireAfter() / 10, config.getCleanupDelay());
 	}
 
 	@Test
-	public void testCleanupDelay() {
+	void testCleanupDelay() {
 		config.setCleanupDelay(TimeUnit.HOURS.toMillis(1));
 		assertEquals(TimeUnit.HOURS.toMillis(1), config.getCleanupDelay());
 	}
 
 	@Test
-	public void testAutoCleanupDelay() {
+	void testAutoCleanupDelay() {
 		config.setExpireAfter(TimeUnit.MINUTES.toMillis(20));
 		config.setCleanupDelay(AUTO_CLEANUP_DELAY);
 		assertEquals(TimeUnit.MINUTES.toMillis(20), config.getExpireAfter());
@@ -50,20 +50,20 @@ public class RepositoryCacheConfigTest {
 	}
 
 	@Test
-	public void testAutoCleanupDelayShouldBeMax10minutes() {
+	void testAutoCleanupDelayShouldBeMax10minutes() {
 		config.setExpireAfter(TimeUnit.HOURS.toMillis(10));
 		assertEquals(TimeUnit.HOURS.toMillis(10), config.getExpireAfter());
 		assertEquals(TimeUnit.MINUTES.toMillis(10), config.getCleanupDelay());
 	}
 
 	@Test
-	public void testDisabledCleanupDelay() {
+	void testDisabledCleanupDelay() {
 		config.setCleanupDelay(NO_CLEANUP);
 		assertEquals(NO_CLEANUP, config.getCleanupDelay());
 	}
 
 	@Test
-	public void testFromConfig() throws ConfigInvalidException {
+	void testFromConfig() throws ConfigInvalidException {
 		Config otherConfig = new Config();
 		otherConfig.fromText("[core]\nrepositoryCacheExpireAfter=1000\n"
 				+ "repositoryCacheCleanupDelay=500");

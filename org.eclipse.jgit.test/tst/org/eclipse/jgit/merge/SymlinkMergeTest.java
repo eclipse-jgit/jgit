@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.merge;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,54 +29,45 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for merges involving symlinks.
  */
-@RunWith(Parameterized.class)
 public class SymlinkMergeTest extends RepositoryTestCase {
 
-	@Parameters(name = "target={0}, core.symlinks={1}")
 	public static Object[][] parameters() {
-		return new Object[][] {
-			{ Target.NONE, Boolean.TRUE },
-			{ Target.FILE, Boolean.TRUE },
-			{ Target.DIRECTORY, Boolean.TRUE },
-			{ Target.NONE, Boolean.FALSE },
-			{ Target.FILE, Boolean.FALSE },
-			{ Target.DIRECTORY, Boolean.FALSE },
+		return new Object[][]{
+				{Target.NONE, Boolean.TRUE},
+				{Target.FILE, Boolean.TRUE},
+				{Target.DIRECTORY, Boolean.TRUE},
+				{Target.NONE, Boolean.FALSE},
+				{Target.FILE, Boolean.FALSE},
+				{Target.DIRECTORY, Boolean.FALSE},
 		};
 	}
 
 	public enum Target {
 		NONE, FILE, DIRECTORY
 	}
-
-	@Parameter(0)
 	public Target target;
-
-	@Parameter(1)
 	public boolean useSymLinks;
 
 	private void setTargets() throws IOException {
 		switch (target) {
-		case DIRECTORY:
-			assertTrue(new File(trash, "target").mkdir());
-			assertTrue(new File(trash, "target1").mkdir());
-			assertTrue(new File(trash, "target2").mkdir());
-			break;
-		case FILE:
-			writeTrashFile("target", "t");
-			writeTrashFile("target1", "t1");
-			writeTrashFile("target2", "t2");
-			break;
-		default:
-			break;
+			case DIRECTORY:
+				assertTrue(new File(trash, "target").mkdir());
+				assertTrue(new File(trash, "target1").mkdir());
+				assertTrue(new File(trash, "target2").mkdir());
+				break;
+			case FILE:
+				writeTrashFile("target", "t");
+				writeTrashFile("target1", "t1");
+				writeTrashFile("target2", "t2");
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -85,21 +76,21 @@ public class SymlinkMergeTest extends RepositoryTestCase {
 		File t1 = new File(trash, "target1");
 		File t2 = new File(trash, "target2");
 		switch (target) {
-		case DIRECTORY:
-			assertTrue(t.isDirectory());
-			assertTrue(t1.isDirectory());
-			assertTrue(t2.isDirectory());
-			break;
-		case FILE:
-			checkFile(t, "t");
-			checkFile(t1, "t1");
-			checkFile(t2, "t2");
-			break;
-		default:
-			assertFalse(Files.exists(t.toPath(), LinkOption.NOFOLLOW_LINKS));
-			assertFalse(Files.exists(t1.toPath(), LinkOption.NOFOLLOW_LINKS));
-			assertFalse(Files.exists(t2.toPath(), LinkOption.NOFOLLOW_LINKS));
-			break;
+			case DIRECTORY:
+				assertTrue(t.isDirectory());
+				assertTrue(t1.isDirectory());
+				assertTrue(t2.isDirectory());
+				break;
+			case FILE:
+				checkFile(t, "t");
+				checkFile(t1, "t1");
+				checkFile(t2, "t2");
+				break;
+			default:
+				assertFalse(Files.exists(t.toPath(), LinkOption.NOFOLLOW_LINKS));
+				assertFalse(Files.exists(t1.toPath(), LinkOption.NOFOLLOW_LINKS));
+				assertFalse(Files.exists(t2.toPath(), LinkOption.NOFOLLOW_LINKS));
+				break;
 		}
 	}
 
@@ -117,8 +108,10 @@ public class SymlinkMergeTest extends RepositoryTestCase {
 	// Link/link conflict: C git records the conflict but leaves the link in the
 	// working tree unchanged.
 
-	@Test
-	public void mergeWithSymlinkConflict() throws Exception {
+	@MethodSource("parameters")
+	@ParameterizedTest(name = "target={0}, core.symlinks={1}")
+	void mergeWithSymlinkConflict(Target target, boolean useSymLinks) throws Exception {
+		initSymlinkMergeTest(target, useSymLinks);
 		assumeTrue(db.getFS().supportsSymlinks() || !useSymLinks);
 		StoredConfig config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -157,8 +150,10 @@ public class SymlinkMergeTest extends RepositoryTestCase {
 	// In file/link conflicts, C git never does a content merge. It records the
 	// stages in the index, and always puts the file into the workspace.
 
-	@Test
-	public void mergeWithFileSymlinkConflict() throws Exception {
+	@MethodSource("parameters")
+	@ParameterizedTest(name = "target={0}, core.symlinks={1}")
+	void mergeWithFileSymlinkConflict(Target target, boolean useSymLinks) throws Exception {
+		initSymlinkMergeTest(target, useSymLinks);
 		assumeTrue(db.getFS().supportsSymlinks() || !useSymLinks);
 		StoredConfig config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -192,8 +187,10 @@ public class SymlinkMergeTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void mergeWithSymlinkFileConflict() throws Exception {
+	@MethodSource("parameters")
+	@ParameterizedTest(name = "target={0}, core.symlinks={1}")
+	void mergeWithSymlinkFileConflict(Target target, boolean useSymLinks) throws Exception {
+		initSymlinkMergeTest(target, useSymLinks);
 		assumeTrue(db.getFS().supportsSymlinks() || !useSymLinks);
 		StoredConfig config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -229,8 +226,10 @@ public class SymlinkMergeTest extends RepositoryTestCase {
 	// In Delete/modify conflicts with the non-deleted side a link, C git puts
 	// the link into the working tree.
 
-	@Test
-	public void mergeWithSymlinkDeleteModify() throws Exception {
+	@MethodSource("parameters")
+	@ParameterizedTest(name = "target={0}, core.symlinks={1}")
+	void mergeWithSymlinkDeleteModify(Target target, boolean useSymLinks) throws Exception {
+		initSymlinkMergeTest(target, useSymLinks);
 		assumeTrue(db.getFS().supportsSymlinks() || !useSymLinks);
 		StoredConfig config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -262,8 +261,10 @@ public class SymlinkMergeTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void mergeWithSymlinkModifyDelete() throws Exception {
+	@MethodSource("parameters")
+	@ParameterizedTest(name = "target={0}, core.symlinks={1}")
+	void mergeWithSymlinkModifyDelete(Target target, boolean useSymLinks) throws Exception {
+		initSymlinkMergeTest(target, useSymLinks);
 		assumeTrue(db.getFS().supportsSymlinks() || !useSymLinks);
 		StoredConfig config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -292,5 +293,10 @@ public class SymlinkMergeTest extends RepositoryTestCase {
 						indexState(CONTENT));
 			}
 		}
+	}
+
+	public void initSymlinkMergeTest(Target target, boolean useSymLinks) {
+		this.target = target;
+		this.useSymLinks = useSymLinks;
 	}
 }

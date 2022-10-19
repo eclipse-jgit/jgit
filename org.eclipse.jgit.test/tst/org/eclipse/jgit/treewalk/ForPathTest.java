@@ -11,7 +11,9 @@
 
 package org.eclipse.jgit.treewalk;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -21,7 +23,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ForPathTest extends RepositoryTestCase {
 
@@ -32,7 +34,7 @@ public class ForPathTest extends RepositoryTestCase {
 	private static final FileMode EXECUTABLE_FILE = FileMode.EXECUTABLE_FILE;
 
 	@Test
-	public void testFindObjects() throws Exception {
+	void testFindObjects() throws Exception {
 		final DirCache tree0 = DirCache.newInCore();
 		final DirCacheBuilder b0 = tree0.builder();
 		try (ObjectReader or = db.newObjectReader();
@@ -72,13 +74,13 @@ public class ForPathTest extends RepositoryTestCase {
 
 			assertEquals(a, TreeWalk.forPath(or, "a", tree).getObjectId(0));
 			assertEquals(a, TreeWalk.forPath(or, "a/", tree).getObjectId(0));
-			assertEquals(null, TreeWalk.forPath(or, "/a", tree));
-			assertEquals(null, TreeWalk.forPath(or, "/a/", tree));
+			assertNull(TreeWalk.forPath(or, "/a", tree));
+			assertNull(TreeWalk.forPath(or, "/a/", tree));
 
 			assertEquals(aDotB.getObjectId(),
 					TreeWalk.forPath(or, "a.b", tree).getObjectId(0));
-			assertEquals(null, TreeWalk.forPath(or, "/a.b", tree));
-			assertEquals(null, TreeWalk.forPath(or, "/a.b/", tree));
+			assertNull(TreeWalk.forPath(or, "/a.b", tree));
+			assertNull(TreeWalk.forPath(or, "/a.b/", tree));
 			assertEquals(aDotB.getObjectId(),
 					TreeWalk.forPath(or, "a.b/", tree).getObjectId(0));
 

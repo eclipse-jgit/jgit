@@ -42,12 +42,12 @@
 package org.eclipse.jgit.indexdiff;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -77,8 +77,8 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * MacOS-only test for dealing with symlinks in IndexDiff. Recreates using cgit
@@ -98,25 +98,27 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 	private static final String TESTLINK = "aeu.txt";
 
 	private static final byte[] NFC = // "äéü.txt" in NFC
-	{ -61, -92, -61, -87, -61, -68, 46, 116, 120, 116 };
+			{ -61, -92, -61, -87, -61, -68, 46, 116, 120, 116 };
 
 	private static final byte[] NFD = // "äéü.txt" in NFD
-	{ 97, -52, -120, 101, -52, -127, 117, -52, -120, 46, 116, 120, 116 };
+			{ 97, -52, -120, 101, -52, -127, 117, -52, -120, 46, 116, 120,
+					116 };
 
 	private File testRepoDir;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
+		super.setUp();
 		assumeTrue(SystemReader.getInstance().isMacOS()
 				&& FS.DETECTED.supportsSymlinks());
 		super.setUp();
 		File testDir = createTempDirectory(this.getClass().getSimpleName());
 		try (InputStream in = this.getClass().getClassLoader()
 				.getResourceAsStream(
-				this.getClass().getPackage().getName().replace('.', '/') + '/'
-								+ FILEREPO + ".txt")) {
-			assertNotNull("Test repo file not found", in);
+						this.getClass().getPackage().getName().replace('.', '/')
+								+ '/' + FILEREPO + ".txt")) {
+			assertNotNull(in, "Test repo file not found");
 			testRepoDir = restoreGitRepo(in, testDir, FILEREPO);
 		}
 	}
@@ -189,22 +191,22 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 					TESTLINK);
 			// Read the symlink as it was created by cgit
 			Path linkTarget = Files.readSymbolicLink(symLink.toPath());
-			assertEquals("Unexpected link target", TESTTARGET,
-					linkTarget.toString());
+			assertEquals(TESTTARGET, linkTarget.toString(),
+					"Unexpected link target");
 			byte[] raw = rawPath(linkTarget);
 			if (raw != null) {
-				assertArrayEquals("Expected an NFC link target", NFC, raw);
+				assertArrayEquals(NFC, raw, "Expected an NFC link target");
 			}
 			// Now re-create that symlink through Java
-			assertTrue("Could not delete symlink", symLink.delete());
+			assertTrue(symLink.delete(), "Could not delete symlink");
 			Files.createSymbolicLink(symLink.toPath(), Paths.get(TESTTARGET));
 			// Read it again
 			linkTarget = Files.readSymbolicLink(symLink.toPath());
-			assertEquals("Unexpected link target", TESTTARGET,
-					linkTarget.toString());
+			assertEquals(TESTTARGET, linkTarget.toString(),
+					"Unexpected link target");
 			raw = rawPath(linkTarget);
 			if (raw != null) {
-				assertArrayEquals("Expected an NFD link target", NFD, raw);
+				assertArrayEquals(NFD, raw, "Expected an NFD link target");
 			}
 			// Do the indexdiff
 			WorkingTreeIterator iterator = new FileTreeIterator(testRepo);

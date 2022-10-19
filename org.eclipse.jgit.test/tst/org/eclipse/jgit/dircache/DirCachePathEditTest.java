@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.dircache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.errors.DirCacheNameConflictException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DirCachePathEditTest {
 
@@ -52,7 +52,7 @@ public class DirCachePathEditTest {
 	}
 
 	@Test
-	public void testAddDeletePathAndTreeNormalNames() {
+	void testAddDeletePathAndTreeNormalNames() {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor editor = dc.editor();
 		editor.add(new AddEdit("a"));
@@ -78,7 +78,7 @@ public class DirCachePathEditTest {
 	}
 
 	@Test
-	public void testAddDeleteTrickyNames() {
+	void testAddDeleteTrickyNames() {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor editor = dc.editor();
 		editor.add(new AddEdit("a/b"));
@@ -103,7 +103,7 @@ public class DirCachePathEditTest {
 	}
 
 	@Test
-	public void testPathEditShouldBeCalledForEachStage() throws Exception {
+	void testPathEditShouldBeCalledForEachStage() throws Exception {
 		DirCache dc = DirCache.newInCore();
 		DirCacheBuilder builder = new DirCacheBuilder(dc, 3);
 		builder.add(createEntry("a", DirCacheEntry.STAGE_1));
@@ -124,7 +124,7 @@ public class DirCachePathEditTest {
 	}
 
 	@Test
-	public void testPathEditWithStagesAndReset() throws Exception {
+	void testPathEditWithStagesAndReset() throws Exception {
 		DirCache dc = DirCache.newInCore();
 		DirCacheBuilder builder = new DirCacheBuilder(dc, 3);
 		builder.add(createEntry("a", DirCacheEntry.STAGE_1));
@@ -150,7 +150,7 @@ public class DirCachePathEditTest {
 	}
 
 	@Test
-	public void testFileReplacesTree() throws Exception {
+	void testFileReplacesTree() throws Exception {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor editor = dc.editor();
 		editor.add(new AddEdit("a"));
@@ -185,7 +185,7 @@ public class DirCachePathEditTest {
 	}
 
 	@Test
-	public void testTreeReplacesFile() throws Exception {
+	void testTreeReplacesFile() throws Exception {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor editor = dc.editor();
 		editor.add(new AddEdit("a"));
@@ -208,7 +208,7 @@ public class DirCachePathEditTest {
 	}
 
 	@Test
-	public void testDuplicateFiles() throws Exception {
+	void testDuplicateFiles() throws Exception {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor editor = dc.editor();
 		editor.add(new AddEdit("a"));
@@ -225,7 +225,7 @@ public class DirCachePathEditTest {
 	}
 
 	@Test
-	public void testFileOverlapsTree() throws Exception {
+	void testFileOverlapsTree() throws Exception {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor editor = dc.editor();
 		editor.add(new AddEdit("a"));

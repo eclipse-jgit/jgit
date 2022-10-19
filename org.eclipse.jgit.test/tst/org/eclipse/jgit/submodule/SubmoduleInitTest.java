@@ -9,11 +9,11 @@
  */
 package org.eclipse.jgit.submodule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +33,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link SubmoduleInitCommand}
@@ -41,7 +41,7 @@ import org.junit.Test;
 public class SubmoduleInitTest extends RepositoryTestCase {
 
 	@Test
-	public void repositoryWithNoSubmodules() throws GitAPIException {
+	void repositoryWithNoSubmodules() throws GitAPIException {
 		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
@@ -49,7 +49,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithUninitializedModule() throws IOException,
+	void repositoryWithUninitializedModule() throws IOException,
 			ConfigInvalidException, GitAPIException {
 		final String path = addSubmoduleToIndex();
 
@@ -84,7 +84,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveSameLevelRelativeUrl() throws Exception {
+	void resolveSameLevelRelativeUrl() throws Exception {
 		final String path = addSubmoduleToIndex();
 
 		String base = "git://server/repo.git";
@@ -126,7 +126,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveOneLevelHigherRelativeUrl() throws IOException,
+	void resolveOneLevelHigherRelativeUrl() throws IOException,
 			ConfigInvalidException, GitAPIException {
 		final String path = addSubmoduleToIndex();
 
@@ -168,7 +168,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveTwoLevelHigherRelativeUrl() throws IOException,
+	void resolveTwoLevelHigherRelativeUrl() throws IOException,
 			ConfigInvalidException, GitAPIException {
 		final String path = addSubmoduleToIndex();
 
@@ -210,7 +210,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveWorkingDirectoryRelativeUrl() throws IOException,
+	void resolveWorkingDirectoryRelativeUrl() throws IOException,
 			GitAPIException, ConfigInvalidException {
 		final String path = addSubmoduleToIndex();
 
@@ -253,7 +253,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveInvalidParentUrl() throws IOException,
+	void resolveInvalidParentUrl() throws IOException,
 			ConfigInvalidException, GitAPIException {
 		final String path = addSubmoduleToIndex();
 

@@ -13,22 +13,22 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DfsPackCompacterTest {
 	private TestRepository<InMemoryRepository> git;
 	private InMemoryRepository repo;
 	private DfsObjDatabase odb;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws IOException {
 		DfsRepositoryDescription desc = new DfsRepositoryDescription("test");
 		git = new TestRepository<>(new InMemoryRepository(desc));
@@ -37,7 +37,7 @@ public class DfsPackCompacterTest {
 	}
 
 	@Test
-	public void testEstimateCompactPackSizeInNewRepo() throws Exception {
+	void testEstimateCompactPackSizeInNewRepo() throws Exception {
 		RevCommit commit0 = commit().message("0").create();
 		RevCommit commit1 = commit().message("1").parent(commit0).create();
 		git.update("master", commit1);
@@ -61,7 +61,7 @@ public class DfsPackCompacterTest {
 	}
 
 	@Test
-	public void testEstimateGcPackSizeWithAnExistingGcPack() throws Exception {
+	void testEstimateGcPackSizeWithAnExistingGcPack() throws Exception {
 		RevCommit commit0 = commit().message("0").create();
 		RevCommit commit1 = commit().message("1").parent(commit0).create();
 		git.update("master", commit1);

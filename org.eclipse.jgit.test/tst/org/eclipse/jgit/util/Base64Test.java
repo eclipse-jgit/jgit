@@ -12,22 +12,22 @@ package org.eclipse.jgit.util;
 
 import static org.eclipse.jgit.util.Base64.decode;
 import static org.eclipse.jgit.util.Base64.encodeBytes;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Base64Test {
 	@Test
-	public void testEncode() {
+	void testEncode() {
 		assertEquals("aGkK", encodeBytes(b("hi\n")));
 		assertEquals("AAECDQoJcQ==", encodeBytes(b("\0\1\2\r\n\tq")));
 	}
 
 	@Test
-	public void testDecode() {
+	void testDecode() {
 		JGitTestUtil.assertEquals(b("hi\n"), decode("aGkK"));
 		JGitTestUtil.assertEquals(b("\0\1\2\r\n\tq"), decode("AAECDQoJcQ=="));
 		JGitTestUtil.assertEquals(b("\0\1\2\r\n\tq"),
@@ -36,7 +36,7 @@ public class Base64Test {
 	}
 
 	@Test
-	public void testDecodeFail_NonBase64Character() {
+	void testDecodeFail_NonBase64Character() {
 		try {
 			decode("! a bad base64 string !");
 			fail("Accepted bad string in decode");
@@ -46,8 +46,8 @@ public class Base64Test {
 	}
 
 	@Test
-	public void testEncodeMatchesDecode() {
-		String[] testStrings = { "", //
+	void testEncodeMatchesDecode() {
+		String[] testStrings = {"", //
 				"cow", //
 				"a", //
 				"a secret string", //

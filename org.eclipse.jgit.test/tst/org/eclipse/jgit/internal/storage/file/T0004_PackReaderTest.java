@@ -13,8 +13,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 
@@ -22,13 +22,13 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 	private static final String PACK_NAME = "34be9032ac282b11fa9babdc2b2a93ca996c9c2f";
 
 	@Test
-	public void test003_lookupCompressedObject() throws IOException {
+	void test003_lookupCompressedObject() throws IOException {
 		final ObjectId id;
 		final ObjectLoader or;
 
@@ -39,7 +39,7 @@ public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 				break;
 			}
 		}
-		assertNotNull("have pack-" + PACK_NAME, pr);
+		assertNotNull(pr, "have pack-" + PACK_NAME);
 
 		id = ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327");
 		or = pr.get(new WindowCursor(null), id);
@@ -50,7 +50,7 @@ public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void test004_lookupDeltifiedObject() throws IOException {
+	void test004_lookupDeltifiedObject() throws IOException {
 		final ObjectId id;
 		final ObjectLoader or;
 

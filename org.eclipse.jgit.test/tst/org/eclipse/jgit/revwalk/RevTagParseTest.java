@@ -13,10 +13,10 @@ package org.eclipse.jgit.revwalk;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -28,26 +28,26 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.TagBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevTagParseTest extends RepositoryTestCase {
 	@Test
-	public void testTagBlob() throws Exception {
+	void testTagBlob() throws Exception {
 		testOneType(Constants.OBJ_BLOB);
 	}
 
 	@Test
-	public void testTagTree() throws Exception {
+	void testTagTree() throws Exception {
 		testOneType(Constants.OBJ_TREE);
 	}
 
 	@Test
-	public void testTagCommit() throws Exception {
+	void testTagCommit() throws Exception {
 		testOneType(Constants.OBJ_COMMIT);
 	}
 
 	@Test
-	public void testTagTag() throws Exception {
+	void testTagTag() throws Exception {
 		testOneType(Constants.OBJ_TAG);
 	}
 
@@ -75,7 +75,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParseAllFields() throws Exception {
+	void testParseAllFields() throws Exception {
 		final ObjectId treeId = id("9788669ad918b6fcce64af8882fc9a81cb6aba67");
 		final String name = "v1.2.3.4.5";
 		final String taggerName = "A U. Thor";
@@ -128,7 +128,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParseOldStyleNoTagger() throws Exception {
+	void testParseOldStyleNoTagger() throws Exception {
 		final ObjectId treeId = id("9788669ad918b6fcce64af8882fc9a81cb6aba67");
 		final String name = "v1.2.3.4.5";
 		final String fakeSignature = "-----BEGIN PGP SIGNATURE-----\n" //
@@ -193,7 +193,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_implicit_UTF8_encoded() throws Exception {
+	void testParse_implicit_UTF8_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
 				.getBytes(UTF_8));
@@ -220,7 +220,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_implicit_mixed_encoded() throws Exception {
+	void testParse_implicit_mixed_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
 				.getBytes(UTF_8));
@@ -250,7 +250,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testParse_explicit_encoded() throws Exception {
+	void testParse_explicit_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
 				.getBytes("EUC-JP"));
@@ -285,7 +285,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testParse_explicit_bad_encoded() throws Exception {
+	void testParse_explicit_bad_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
 				.getBytes(UTF_8));
@@ -322,7 +322,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testParse_explicit_bad_encoded2() throws Exception {
+	void testParse_explicit_bad_encoded2() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
 				.getBytes(UTF_8));
@@ -348,7 +348,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_illegalEncoding() throws Exception {
+	void testParse_illegalEncoding() throws Exception {
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes(UTF_8));
 		b.write("type tree\n".getBytes(UTF_8));
@@ -369,7 +369,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_unsupportedEncoding() throws Exception {
+	void testParse_unsupportedEncoding() throws Exception {
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes(UTF_8));
 		b.write("type tree\n".getBytes(UTF_8));
@@ -390,7 +390,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_gpgSignature() throws Exception {
+	void testParse_gpgSignature() throws Exception {
 		final String signature = "-----BEGIN PGP SIGNATURE-----\n\n"
 				+ "wsBcBAABCAAQBQJbGB4pCRBK7hj4Ov3rIwAAdHIIAENrvz23867ZgqrmyPemBEZP\n"
 				+ "U24B1Tlq/DWvce2buaxmbNQngKZ0pv2s8VMc11916WfTIC9EKvioatmpjduWvhqj\n"
@@ -423,7 +423,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_gpgSignature2() throws Exception {
+	void testParse_gpgSignature2() throws Exception {
 		final String signature = "-----BEGIN PGP SIGNATURE-----\n\n"
 				+ "wsBcBAABCAAQBQJbGB4pCRBK7hj4Ov3rIwAAdHIIAENrvz23867ZgqrmyPemBEZP\n"
 				+ "U24B1Tlq/DWvce2buaxmbNQngKZ0pv2s8VMc11916WfTIC9EKvioatmpjduWvhqj\n"
@@ -458,7 +458,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_gpgSignature3() throws Exception {
+	void testParse_gpgSignature3() throws Exception {
 		final String signature = "-----BEGIN PGP SIGNATURE-----\n\n"
 				+ "wsBcBAABCAAQBQJbGB4pCRBK7hj4Ov3rIwAAdHIIAENrvz23867ZgqrmyPemBEZP\n"
 				+ "U24B1Tlq/DWvce2buaxmbNQngKZ0pv2s8VMc11916WfTIC9EKvioatmpjduWvhqj\n"
@@ -492,7 +492,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_NoMessage() throws Exception {
+	void testParse_NoMessage() throws Exception {
 		final String msg = "";
 		final RevTag c = create(msg);
 		assertEquals(msg, c.getFullMessage());
@@ -500,14 +500,14 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_OnlyLFMessage() throws Exception {
+	void testParse_OnlyLFMessage() throws Exception {
 		final RevTag c = create("\n");
 		assertEquals("\n", c.getFullMessage());
 		assertEquals("", c.getShortMessage());
 	}
 
 	@Test
-	public void testParse_ShortLineOnlyNoLF() throws Exception {
+	void testParse_ShortLineOnlyNoLF() throws Exception {
 		final String shortMsg = "This is a short message.";
 		final RevTag c = create(shortMsg);
 		assertEquals(shortMsg, c.getFullMessage());
@@ -515,7 +515,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_ShortLineOnlyEndLF() throws Exception {
+	void testParse_ShortLineOnlyEndLF() throws Exception {
 		final String shortMsg = "This is a short message.";
 		final String fullMsg = shortMsg + "\n";
 		final RevTag c = create(fullMsg);
@@ -524,7 +524,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_ShortLineOnlyEmbeddedLF() throws Exception {
+	void testParse_ShortLineOnlyEmbeddedLF() throws Exception {
 		final String fullMsg = "This is a\nshort message.";
 		final String shortMsg = fullMsg.replace('\n', ' ');
 		final RevTag c = create(fullMsg);
@@ -533,7 +533,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_ShortLineOnlyEmbeddedAndEndingLF() throws Exception {
+	void testParse_ShortLineOnlyEmbeddedAndEndingLF() throws Exception {
 		final String fullMsg = "This is a\nshort message.\n";
 		final String shortMsg = "This is a short message.";
 		final RevTag c = create(fullMsg);
@@ -542,7 +542,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_GitStyleMessage() throws Exception {
+	void testParse_GitStyleMessage() throws Exception {
 		final String shortMsg = "This fixes a bug.";
 		final String body = "We do it with magic and pixie dust and stuff.\n"
 				+ "\n" + "Signed-off-by: A U. Thor <author@example.com>\n";
@@ -553,11 +553,11 @@ public class RevTagParseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParse_PublicParseMethod()
+	void testParse_PublicParseMethod()
 			throws CorruptObjectException, UnsupportedEncodingException {
 		TagBuilder src = new TagBuilder();
 		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
-			src.setObjectId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}),
+			src.setObjectId(fmt.idFor(Constants.OBJ_TREE, new byte[]{}),
 					Constants.OBJ_TREE);
 		}
 		src.setTagger(committer);

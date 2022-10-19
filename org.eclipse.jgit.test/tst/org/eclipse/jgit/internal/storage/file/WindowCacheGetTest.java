@@ -11,9 +11,9 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -33,30 +33,26 @@ import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.storage.file.WindowCacheStats;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.MutableInteger;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 	private List<TestObject> toLoad;
 	private WindowCacheConfig cfg;
 	private boolean useStrongRefs;
 
-	@Parameters(name = "useStrongRefs={0}")
 	public static Collection<Object[]> data() {
 		return Arrays
-				.asList(new Object[][] { { Boolean.TRUE }, { Boolean.FALSE } });
+				.asList(new Object[][]{{Boolean.TRUE}, {Boolean.FALSE}});
 	}
 
-	public WindowCacheGetTest(Boolean useStrongRef) {
+	public void initWindowCacheGetTest(Boolean useStrongRef) {
 		this.useStrongRefs = useStrongRef.booleanValue();
 	}
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -82,8 +78,10 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		cfg.setPackedGitUseStrongRefs(useStrongRefs);
 	}
 
-	@Test
-	public void testCache_Defaults() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "useStrongRefs={0}")
+	void testCache_Defaults(Boolean useStrongRef) throws IOException {
+		initWindowCacheGetTest(useStrongRef);
 		cfg.install();
 		doCacheTests();
 		checkLimits(cfg);
@@ -106,16 +104,20 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		assertTrue(s.getTotalLoadTime() > 0.0);
 	}
 
-	@Test
-	public void testCache_TooFewFiles() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "useStrongRefs={0}")
+	void testCache_TooFewFiles(Boolean useStrongRef) throws IOException {
+		initWindowCacheGetTest(useStrongRef);
 		cfg.setPackedGitOpenFiles(2);
 		cfg.install();
 		doCacheTests();
 		checkLimits(cfg);
 	}
 
-	@Test
-	public void testCache_TooSmallLimit() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "useStrongRefs={0}")
+	void testCache_TooSmallLimit(Boolean useStrongRef) throws IOException {
+		initWindowCacheGetTest(useStrongRef);
 		cfg.setPackedGitWindowSize(4096);
 		cfg.setPackedGitLimit(4096);
 		cfg.install();
@@ -126,31 +128,31 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 	private static void checkLimits(WindowCacheConfig cfg) {
 		final WindowCache cache = WindowCache.getInstance();
 		WindowCacheStats s = cache.getStats();
-		assertTrue("average load time should be > 0",
-				0 < s.getAverageLoadTime());
-		assertTrue("open byte count should be > 0", 0 < s.getOpenByteCount());
-		assertTrue("eviction count should be >= 0", 0 <= s.getEvictionCount());
-		assertTrue("hit count should be > 0", 0 < s.getHitCount());
-		assertTrue("hit ratio should be > 0", 0 < s.getHitRatio());
-		assertTrue("hit ratio should be < 1", 1 > s.getHitRatio());
-		assertTrue("load count should be > 0", 0 < s.getLoadCount());
-		assertTrue("load failure count should be >= 0",
-				0 <= s.getLoadFailureCount());
-		assertTrue("load failure ratio should be >= 0",
-				0.0 <= s.getLoadFailureRatio());
-		assertTrue("load failure ratio should be < 1",
-				1 > s.getLoadFailureRatio());
-		assertTrue("load success count should be > 0",
-				0 < s.getLoadSuccessCount());
-		assertTrue("open byte count should be <= core.packedGitLimit",
-				s.getOpenByteCount() <= cfg.getPackedGitLimit());
-		assertTrue("open file count should be <= core.packedGitOpenFiles",
-				s.getOpenFileCount() <= cfg.getPackedGitOpenFiles());
-		assertTrue("miss success count should be >= 0", 0 <= s.getMissCount());
-		assertTrue("miss ratio should be > 0", 0 <= s.getMissRatio());
-		assertTrue("miss ratio should be < 1", 1 > s.getMissRatio());
-		assertTrue("request count should be > 0", 0 < s.getRequestCount());
-		assertTrue("total load time should be > 0", 0 < s.getTotalLoadTime());
+		assertTrue(0 < s.getAverageLoadTime(),
+				"average load time should be > 0");
+		assertTrue(0 < s.getOpenByteCount(), "open byte count should be > 0");
+		assertTrue(0 <= s.getEvictionCount(), "eviction count should be >= 0");
+		assertTrue(0 < s.getHitCount(), "hit count should be > 0");
+		assertTrue(0 < s.getHitRatio(), "hit ratio should be > 0");
+		assertTrue(1 > s.getHitRatio(), "hit ratio should be < 1");
+		assertTrue(0 < s.getLoadCount(), "load count should be > 0");
+		assertTrue(0 <= s.getLoadFailureCount(),
+				"load failure count should be >= 0");
+		assertTrue(0.0 <= s.getLoadFailureRatio(),
+				"load failure ratio should be >= 0");
+		assertTrue(1 > s.getLoadFailureRatio(),
+				"load failure ratio should be < 1");
+		assertTrue(0 < s.getLoadSuccessCount(),
+				"load success count should be > 0");
+		assertTrue(s.getOpenByteCount() <= cfg.getPackedGitLimit(),
+				"open byte count should be <= core.packedGitLimit");
+		assertTrue(s.getOpenFileCount() <= cfg.getPackedGitOpenFiles(),
+				"open file count should be <= core.packedGitOpenFiles");
+		assertTrue(0 <= s.getMissCount(), "miss success count should be >= 0");
+		assertTrue(0 <= s.getMissRatio(), "miss ratio should be > 0");
+		assertTrue(1 > s.getMissRatio(), "miss ratio should be < 1");
+		assertTrue(0 < s.getRequestCount(), "request count should be > 0");
+		assertTrue(0 < s.getTotalLoadTime(), "total load time should be > 0");
 	}
 
 	private void doCacheTests() throws IOException {

@@ -12,15 +12,17 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.LongStream;
 import java.util.concurrent.Callable;
@@ -35,28 +37,35 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestName;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 public class DfsBlockCacheTest {
-	@Rule
-	public TestName testName = new TestName();
+
+	public String testName;
 	private TestRng rng;
 	private DfsBlockCache cache;
 	private ExecutorService pool;
 
-	@Before
+	@BeforeEach
+	private void testInfo(TestInfo testInfo) {
+		Optional<Method> testMethod = testInfo.getTestMethod();
+		if (testMethod.isPresent()) {
+			this.testName = testMethod.get().getName();
+		}
+	}
+
+	@BeforeEach
 	public void setUp() {
-		rng = new TestRng(testName.getMethodName());
+		rng = new TestRng( testName);
 		pool = Executors.newFixedThreadPool(10);
 		resetCache();
 	}
 
 	@SuppressWarnings("resource")
 	@Test
-	public void streamKeyReusesBlocks() throws Exception {
+	void streamKeyReusesBlocks() throws Exception {
 		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
 		InMemoryRepository r1 = new InMemoryRepository(repo);
 		byte[] content = rng.nextBytes(424242);
@@ -83,7 +92,7 @@ public class DfsBlockCacheTest {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void weirdBlockSize() throws Exception {
+	void weirdBlockSize() throws Exception {
 		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
 		InMemoryRepository r1 = new InMemoryRepository(repo);
 
@@ -119,7 +128,7 @@ public class DfsBlockCacheTest {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void hasCacheHotMap() throws Exception {
+	void hasCacheHotMap() throws Exception {
 		Map<PackExt, Integer> cacheHotMap = new HashMap<>();
 		// Pack index will be kept in cache longer.
 		cacheHotMap.put(PackExt.INDEX, Integer.valueOf(3));
@@ -157,7 +166,7 @@ public class DfsBlockCacheTest {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void hasIndexEventConsumerOnlyLoaded() throws Exception {
+	void hasIndexEventConsumerOnlyLoaded() throws Exception {
 		AtomicInteger loaded = new AtomicInteger();
 		IndexEventConsumer indexEventConsumer = new IndexEventConsumer() {
 			@Override
@@ -206,7 +215,7 @@ public class DfsBlockCacheTest {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void hasIndexEventConsumerLoadedAndEvicted() throws Exception {
+	void hasIndexEventConsumerLoadedAndEvicted() throws Exception {
 		AtomicInteger loaded = new AtomicInteger();
 		AtomicInteger evicted = new AtomicInteger();
 		IndexEventConsumer indexEventConsumer = new IndexEventConsumer() {
@@ -270,7 +279,7 @@ public class DfsBlockCacheTest {
 	}
 
 	@Test
-	public void noConcurrencySerializedReads_oneRepo() throws Exception {
+	void noConcurrencySerializedReads_oneRepo() throws Exception {
 		InMemoryRepository r1 = createRepoWithBitmap("test");
 		// Reset cache with concurrency Level at 1 i.e. no concurrency.
 		resetCache(1);
@@ -295,7 +304,7 @@ public class DfsBlockCacheTest {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void noConcurrencySerializedReads_twoRepos() throws Exception {
+	void noConcurrencySerializedReads_twoRepos() throws Exception {
 		InMemoryRepository r1 = createRepoWithBitmap("test1");
 		InMemoryRepository r2 = createRepoWithBitmap("test2");
 		resetCache(1);
@@ -324,7 +333,7 @@ public class DfsBlockCacheTest {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void lowConcurrencyParallelReads_twoRepos() throws Exception {
+	void lowConcurrencyParallelReads_twoRepos() throws Exception {
 		InMemoryRepository r1 = createRepoWithBitmap("test1");
 		InMemoryRepository r2 = createRepoWithBitmap("test2");
 		resetCache(2);
@@ -353,7 +362,7 @@ public class DfsBlockCacheTest {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void lowConcurrencyParallelReads_twoReposAndIndex()
+	void lowConcurrencyParallelReads_twoReposAndIndex()
 			throws Exception {
 		InMemoryRepository r1 = createRepoWithBitmap("test1");
 		InMemoryRepository r2 = createRepoWithBitmap("test2");
@@ -384,7 +393,7 @@ public class DfsBlockCacheTest {
 	}
 
 	@Test
-	public void highConcurrencyParallelReads_oneRepo() throws Exception {
+	void highConcurrencyParallelReads_oneRepo() throws Exception {
 		InMemoryRepository r1 = createRepoWithBitmap("test");
 		resetCache();
 
@@ -406,7 +415,7 @@ public class DfsBlockCacheTest {
 	}
 
 	@Test
-	public void highConcurrencyParallelReads_oneRepoParallelReverseIndex()
+	void highConcurrencyParallelReads_oneRepoParallelReverseIndex()
 			throws Exception {
 		InMemoryRepository r1 = createRepoWithBitmap("test");
 		resetCache();
@@ -468,7 +477,7 @@ public class DfsBlockCacheTest {
 	private void waitForExecutorPoolTermination() throws Exception {
 		pool.shutdown();
 		pool.awaitTermination(500, MILLISECONDS);
-		assertTrue("Threads did not complete, likely due to a deadlock.",
-				pool.isTerminated());
+		assertTrue(pool.isTerminated(),
+				"Threads did not complete, likely due to a deadlock.");
 	}
 }

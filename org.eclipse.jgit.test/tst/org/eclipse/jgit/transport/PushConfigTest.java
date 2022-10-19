@@ -10,19 +10,19 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PushConfig.PushDefault;
 import org.eclipse.jgit.transport.PushConfig.PushRecurseSubmodulesMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PushConfigTest {
 
 	@Test
-	public void pushRecurseSubmoduleMatch() throws Exception {
+	void pushRecurseSubmoduleMatch() throws Exception {
 		assertTrue(PushRecurseSubmodulesMode.CHECK.matchConfigValue("check"));
 		assertTrue(PushRecurseSubmodulesMode.CHECK.matchConfigValue("CHECK"));
 
@@ -42,14 +42,14 @@ public class PushConfigTest {
 	}
 
 	@Test
-	public void pushRecurseSubmoduleNoMatch() throws Exception {
+	void pushRecurseSubmoduleNoMatch() throws Exception {
 		assertFalse(PushRecurseSubmodulesMode.NO.matchConfigValue("N"));
 		assertFalse(PushRecurseSubmodulesMode.ON_DEMAND
 				.matchConfigValue("ONDEMAND"));
 	}
 
 	@Test
-	public void pushRecurseSubmoduleToConfigValue() {
+	void pushRecurseSubmoduleToConfigValue() {
 		assertEquals("on-demand",
 				PushRecurseSubmodulesMode.ON_DEMAND.toConfigValue());
 		assertEquals("check", PushRecurseSubmodulesMode.CHECK.toConfigValue());
@@ -57,7 +57,7 @@ public class PushConfigTest {
 	}
 
 	@Test
-	public void pushDefaultMatch() throws Exception {
+	void pushDefaultMatch() throws Exception {
 		assertTrue(PushDefault.NOTHING.matchConfigValue("nothing"));
 		assertTrue(PushDefault.NOTHING.matchConfigValue("NOTHING"));
 		assertTrue(PushDefault.CURRENT.matchConfigValue("current"));
@@ -73,14 +73,14 @@ public class PushConfigTest {
 	}
 
 	@Test
-	public void pushDefaultNoMatch() throws Exception {
+	void pushDefaultNoMatch() throws Exception {
 		assertFalse(PushDefault.NOTHING.matchConfigValue("n"));
 		assertFalse(PushDefault.CURRENT.matchConfigValue(""));
 		assertFalse(PushDefault.UPSTREAM.matchConfigValue("track"));
 	}
 
 	@Test
-	public void pushDefaultToConfigValue() throws Exception {
+	void pushDefaultToConfigValue() throws Exception {
 		assertEquals("nothing", PushDefault.NOTHING.toConfigValue());
 		assertEquals("current", PushDefault.CURRENT.toConfigValue());
 		assertEquals("upstream", PushDefault.UPSTREAM.toConfigValue());
@@ -89,14 +89,14 @@ public class PushConfigTest {
 	}
 
 	@Test
-	public void testEmptyConfig() throws Exception {
+	void testEmptyConfig() throws Exception {
 		PushConfig cfg = parse("");
 		assertEquals(PushRecurseSubmodulesMode.NO, cfg.getRecurseSubmodules());
 		assertEquals(PushDefault.SIMPLE, cfg.getPushDefault());
 	}
 
 	@Test
-	public void testConfig() throws Exception {
+	void testConfig() throws Exception {
 		PushConfig cfg = parse(
 				"[push]\n\tdefault = tracking\n\trecurseSubmodules = on-demand\n");
 		assertEquals(PushRecurseSubmodulesMode.ON_DEMAND,

@@ -10,36 +10,37 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevObjectTest extends RevWalkTestCase {
 	@Test
-	public void testId() throws Exception {
+	void testId() throws Exception {
 		final RevCommit a = commit();
 		assertSame(a, a.getId());
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Test
-	public void testEquals() throws Exception {
+	void testEquals() throws Exception {
 		final RevCommit a1 = commit();
 		final RevCommit b1 = commit();
 
-		assertTrue(a1.equals(a1));
-		assertTrue(a1.equals((Object) a1));
-		assertFalse(a1.equals(b1));
+		assertEquals(a1, a1);
+		Object o = a1;
+		assertEquals(a1, o);
+		assertNotEquals(a1, b1);
 
-		assertTrue(a1.equals(a1));
-		assertTrue(a1.equals((Object) a1));
-		assertFalse(a1.equals(""));
+		assertEquals(a1, a1);
+		assertEquals(a1, o);
+		assertNotEquals(a1, "");
 
 		final RevCommit a2;
 		final RevCommit b2;
@@ -50,8 +51,8 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertNotSame(a1, a2);
 		assertNotSame(b1, b2);
 
-		assertTrue(a1.equals(a2));
-		assertTrue(b1.equals(b2));
+		assertEquals(a1, a2);
+		assertEquals(b1, b2);
 
 		assertEquals(a1.hashCode(), a2.hashCode());
 		assertEquals(b1.hashCode(), b2.hashCode());
@@ -61,7 +62,7 @@ public class RevObjectTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testRevObjectTypes() throws Exception {
+	void testRevObjectTypes() throws Exception {
 		assertEquals(Constants.OBJ_TREE, tree().getType());
 		assertEquals(Constants.OBJ_COMMIT, commit().getType());
 		assertEquals(Constants.OBJ_BLOB, blob("").getType());
@@ -69,7 +70,7 @@ public class RevObjectTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testHasRevFlag() throws Exception {
+	void testHasRevFlag() throws Exception {
 		final RevCommit a = commit();
 		assertFalse(a.has(RevFlag.UNINTERESTING));
 		a.flags |= RevWalk.UNINTERESTING;
@@ -77,7 +78,7 @@ public class RevObjectTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testHasAnyFlag() throws Exception {
+	void testHasAnyFlag() throws Exception {
 		final RevCommit a = commit();
 		final RevFlag flag1 = rw.newFlag("flag1");
 		final RevFlag flag2 = rw.newFlag("flag2");
@@ -91,7 +92,7 @@ public class RevObjectTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testHasAllFlag() throws Exception {
+	void testHasAllFlag() throws Exception {
 		final RevCommit a = commit();
 		final RevFlag flag1 = rw.newFlag("flag1");
 		final RevFlag flag2 = rw.newFlag("flag2");
@@ -107,7 +108,7 @@ public class RevObjectTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testAddRevFlag() throws Exception {
+	void testAddRevFlag() throws Exception {
 		final RevCommit a = commit();
 		final RevFlag flag1 = rw.newFlag("flag1");
 		final RevFlag flag2 = rw.newFlag("flag2");
@@ -121,7 +122,7 @@ public class RevObjectTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testAddRevFlagSet() throws Exception {
+	void testAddRevFlagSet() throws Exception {
 		final RevCommit a = commit();
 		final RevFlag flag1 = rw.newFlag("flag1");
 		final RevFlag flag2 = rw.newFlag("flag2");
@@ -136,7 +137,7 @@ public class RevObjectTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testRemoveRevFlag() throws Exception {
+	void testRemoveRevFlag() throws Exception {
 		final RevCommit a = commit();
 		final RevFlag flag1 = rw.newFlag("flag1");
 		final RevFlag flag2 = rw.newFlag("flag2");
@@ -148,7 +149,7 @@ public class RevObjectTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testRemoveRevFlagSet() throws Exception {
+	void testRemoveRevFlagSet() throws Exception {
 		final RevCommit a = commit();
 		final RevFlag flag1 = rw.newFlag("flag1");
 		final RevFlag flag2 = rw.newFlag("flag2");

@@ -10,9 +10,10 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 
 public class HistogramDiffTest extends AbstractDiffTestCase {
@@ -24,7 +25,7 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 	}
 
 	@Test
-	public void testEdit_NoUniqueMiddleSide_FlipBlocks() {
+	void testEdit_NoUniqueMiddleSide_FlipBlocks() {
 		EditList r = diff(t("aRRSSz"), t("aSSRRz"));
 		assertEquals(2, r.size());
 		assertEquals(new Edit(1, 3, 1, 1), r.get(0)); // DELETE "RR"
@@ -32,14 +33,14 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 	}
 
 	@Test
-	public void testEdit_NoUniqueMiddleSide_Insert2() {
+	void testEdit_NoUniqueMiddleSide_Insert2() {
 		EditList r = diff(t("aRSz"), t("aRRSSz"));
 		assertEquals(1, r.size());
 		assertEquals(new Edit(2, 2, 2, 4), r.get(0));
 	}
 
 	@Test
-	public void testEdit_NoUniqueMiddleSide_FlipAndExpand() {
+	void testEdit_NoUniqueMiddleSide_FlipAndExpand() {
 		EditList r = diff(t("aRSz"), t("aSSRRz"));
 		assertEquals(2, r.size());
 		assertEquals(new Edit(1, 2, 1, 1), r.get(0)); // DELETE "R"
@@ -47,7 +48,7 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 	}
 
 	@Test
-	public void testEdit_LcsContainsUnique() {
+	void testEdit_LcsContainsUnique() {
 		EditList r = diff(t("nqnjrnjsnm"), t("AnqnjrnjsnjTnmZ"));
 		assertEquals(new Edit(0, 0, 0, 1), r.get(0)); // INSERT "A";
 		assertEquals(new Edit(9, 9, 10, 13), r.get(1)); // INSERT "jTn";
@@ -56,7 +57,7 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 	}
 
 	@Test
-	public void testExceedsChainLength_DuringScanOfA() {
+	void testExceedsChainLength_DuringScanOfA() {
 		HistogramDiff hd = new HistogramDiff();
 		hd.setFallbackAlgorithm(null);
 		hd.setMaxChainLength(3);
@@ -80,7 +81,7 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 	}
 
 	@Test
-	public void testExceedsChainLength_DuringScanOfB() {
+	void testExceedsChainLength_DuringScanOfB() {
 		HistogramDiff hd = new HistogramDiff();
 		hd.setFallbackAlgorithm(null);
 		hd.setMaxChainLength(1);
@@ -91,7 +92,7 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 	}
 
 	@Test
-	public void testFallbackToMyersDiff() {
+	void testFallbackToMyersDiff() {
 		HistogramDiff hd = new HistogramDiff();
 		hd.setMaxChainLength(4);
 

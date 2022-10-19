@@ -28,8 +28,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UploadPack.RequestValidator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class RequestValidatorTestCase {
 
@@ -49,7 +49,7 @@ public abstract class RequestValidatorTestCase {
 
 	protected abstract RequestValidator createValidator();
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		repo = new InMemoryRepository(new DfsRepositoryDescription());
 		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
@@ -108,7 +108,7 @@ public abstract class RequestValidatorTestCase {
 	protected abstract boolean isUnreachableBlobValid();
 
 	@Test
-	public void validateReachableCommitWithBitmaps() throws Throwable {
+	void validateReachableCommitWithBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(reachableCommit));
@@ -121,7 +121,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateReachableCommitWithoutBitmaps() throws Throwable {
+	void validateReachableCommitWithoutBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(reachableCommit));
@@ -134,7 +134,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateAdvertisedTipWithBitmaps() throws Throwable {
+	void validateAdvertisedTipWithBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(tipAdvertisedCommit));
@@ -147,7 +147,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateAdvertisedTipWithoutBitmaps() throws Throwable {
+	void validateAdvertisedTipWithoutBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(tipAdvertisedCommit));
@@ -160,7 +160,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateUnadvertisedTipWithBitmaps() throws Throwable {
+	void validateUnadvertisedTipWithBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(tipUnadvertisedCommit));
@@ -173,7 +173,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateUnadvertisedTipWithoutBitmaps() throws Throwable {
+	void validateUnadvertisedTipWithoutBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(tipUnadvertisedCommit));
@@ -186,7 +186,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateUnreachableCommitWithBitmaps() throws Throwable {
+	void validateUnreachableCommitWithBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(unreachableCommit));
@@ -199,7 +199,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateUnreachableCommitWithoutBitmaps() throws Throwable {
+	void validateUnreachableCommitWithoutBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(unreachableCommit));
@@ -212,7 +212,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateReachableBlobWithBitmaps() throws Throwable {
+	void validateReachableBlobWithBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(reachableBlob));
@@ -225,7 +225,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateReachableBlobWithoutBitmaps() throws Throwable {
+	void validateReachableBlobWithoutBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(reachableBlob));
@@ -238,7 +238,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateUnreachableBlobWithBitmaps() throws Throwable {
+	void validateUnreachableBlobWithBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithBitmaps()),
 				Arrays.asList(unreachableBlob));
@@ -251,7 +251,7 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	@Test
-	public void validateUnreachableBlobWithoutBitmaps() throws Throwable {
+	void validateUnreachableBlobWithoutBitmaps() throws Throwable {
 		ThrowingCallable c = () -> createValidator().checkWants(
 				getUploadPack(getRepoWithoutBitmaps()),
 				Arrays.asList(unreachableBlob));

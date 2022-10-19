@@ -10,19 +10,19 @@
 
 package org.eclipse.jgit.patch;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class EditListTest {
 	@Test
-	public void testHunkHeader() throws IOException {
+	void testHunkHeader() throws IOException {
 		final Patch p = parseTestPatchFile("testGetText_BothISO88591.patch");
 		final FileHeader fh = p.getFiles().get(0);
 
@@ -36,7 +36,7 @@ public class EditListTest {
 	}
 
 	@Test
-	public void testFileHeader() throws IOException {
+	void testFileHeader() throws IOException {
 		final Patch p = parseTestPatchFile("testGetText_BothISO88591.patch");
 		final FileHeader fh = p.getFiles().get(0);
 		final EditList e = fh.toEditList();
@@ -46,7 +46,7 @@ public class EditListTest {
 	}
 
 	@Test
-	public void testTypes() throws IOException {
+	void testTypes() throws IOException {
 		final Patch p = parseTestPatchFile("testEditList_Types.patch");
 		final FileHeader fh = p.getFiles().get(0);
 		final EditList e = fh.toEditList();

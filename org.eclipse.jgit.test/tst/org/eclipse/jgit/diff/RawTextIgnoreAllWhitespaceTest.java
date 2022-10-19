@@ -11,18 +11,18 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RawTextIgnoreAllWhitespaceTest {
 	private final RawTextComparator cmp = RawTextComparator.WS_IGNORE_ALL;
 
 	@Test
-	public void testEqualsWithoutWhitespace() {
+	void testEqualsWithoutWhitespace() {
 		final RawText a = new RawText(Constants
 				.encodeASCII("foo-a\nfoo-b\nfoo\n"));
 		final RawText b = new RawText(Constants
@@ -32,28 +32,28 @@ public class RawTextIgnoreAllWhitespaceTest {
 		assertEquals(3, b.size());
 
 		// foo-a != foo-b
-		assertFalse(cmp.equals(a, 0, b, 0));
-		assertFalse(cmp.equals(b, 0, a, 0));
+		assertNotEquals(cmp, a);
+		assertNotEquals(cmp, b);
 
 		// foo-b == foo-b
 		assertTrue(cmp.equals(a, 1, b, 0));
 		assertTrue(cmp.equals(b, 0, a, 1));
 
 		// foo != f
-		assertFalse(cmp.equals(a, 2, b, 2));
-		assertFalse(cmp.equals(b, 2, a, 2));
+		assertNotEquals(cmp, a);
+		assertNotEquals(cmp, b);
 	}
 
 	@Test
-	public void testEqualsWithWhitespace() {
+	void testEqualsWithWhitespace() {
 		final RawText a = new RawText(Constants
 				.encodeASCII("foo-a\n         \n a b c\na      \n"));
 		final RawText b = new RawText(Constants
 				.encodeASCII("foo-a        b\n\nab  c\na\n"));
 
 		// "foo-a" != "foo-a        b"
-		assertFalse(cmp.equals(a, 0, b, 0));
-		assertFalse(cmp.equals(b, 0, a, 0));
+		assertNotEquals(cmp, a);
+		assertNotEquals(cmp, b);
 
 		// "         " == ""
 		assertTrue(cmp.equals(a, 1, b, 1));

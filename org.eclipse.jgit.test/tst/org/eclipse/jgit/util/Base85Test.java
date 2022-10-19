@@ -9,15 +9,15 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Base85}.
@@ -29,9 +29,9 @@ public class Base85Test {
 			+ "!#$%&()*+-;<=>?@^_`{|}~";
 
 	@Test
-	public void testChars() {
+	void testChars() {
 		for (int i = 0; i < 256; i++) {
-			byte[] testData = { '1', '2', '3', '4', (byte) i };
+			byte[] testData = {'1', '2', '3', '4', (byte) i};
 			if (VALID_CHARS.indexOf(i) >= 0) {
 				byte[] decoded = Base85.decode(testData, 4);
 				assertNotNull(decoded);
@@ -53,7 +53,7 @@ public class Base85Test {
 	}
 
 	@Test
-	public void testPadding() {
+	void testPadding() {
 		roundtrip("", 0);
 		roundtrip("a", 5);
 		roundtrip("ab", 5);
@@ -67,21 +67,21 @@ public class Base85Test {
 	}
 
 	@Test
-	public void testBinary() {
-		roundtrip(new byte[] { 1 }, 5);
-		roundtrip(new byte[] { 1, 2 }, 5);
-		roundtrip(new byte[] { 1, 2, 3 }, 5);
-		roundtrip(new byte[] { 1, 2, 3, 4 }, 5);
-		roundtrip(new byte[] { 1, 2, 3, 4, 5 }, 10);
-		roundtrip(new byte[] { 1, 2, 3, 4, 5, 0, 0, 0 }, 10);
-		roundtrip(new byte[] { 1, 2, 3, 4, 0, 0, 0, 5 }, 10);
+	void testBinary() {
+		roundtrip(new byte[]{1}, 5);
+		roundtrip(new byte[]{1, 2}, 5);
+		roundtrip(new byte[]{1, 2, 3}, 5);
+		roundtrip(new byte[]{1, 2, 3, 4}, 5);
+		roundtrip(new byte[]{1, 2, 3, 4, 5}, 10);
+		roundtrip(new byte[]{1, 2, 3, 4, 5, 0, 0, 0}, 10);
+		roundtrip(new byte[]{1, 2, 3, 4, 0, 0, 0, 5}, 10);
 	}
 
 	@Test
-	public void testOverflow() {
+	void testOverflow() {
 		IllegalArgumentException e = assertThrows(
 				IllegalArgumentException.class,
-				() -> Base85.decode(new byte[] { '~', '~', '~', '~', '~' }, 4));
+				() -> Base85.decode(new byte[]{'~', '~', '~', '~', '~'}, 4));
 		assertTrue(e.getMessage().contains("overflow"));
 	}
 }

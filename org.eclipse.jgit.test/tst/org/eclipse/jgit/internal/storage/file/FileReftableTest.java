@@ -14,15 +14,15 @@ import static org.eclipse.jgit.lib.RefUpdate.Result.FAST_FORWARD;
 import static org.eclipse.jgit.lib.RefUpdate.Result.FORCED;
 import static org.eclipse.jgit.lib.RefUpdate.Result.IO_FAILURE;
 import static org.eclipse.jgit.lib.RefUpdate.Result.LOCK_FAILURE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,12 +51,14 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FileReftableTest extends SampleDataRepositoryTestCase {
 	String bCommit;
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		Ref b = db.exactRef("refs/heads/b");
@@ -66,12 +68,12 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void testRacyReload() throws Exception {
+	void testRacyReload() throws Exception {
 		ObjectId id = db.resolve("master");
 		int retry = 0;
 		try (FileRepository repo1 = new FileRepository(db.getDirectory());
 				FileRepository repo2 = new FileRepository(db.getDirectory())) {
-			FileRepository repos[] = { repo1, repo2 };
+			FileRepository repos[] = {repo1, repo2};
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 2; j++) {
 					FileRepository repo = repos[j];
@@ -98,31 +100,31 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testCompactFully() throws Exception {
+	void testCompactFully() throws Exception {
 		ObjectId c1 = db.resolve("master^^");
 		ObjectId c2 = db.resolve("master^");
 		for (int i = 0; i < 5; i++) {
 			RefUpdate u = db.updateRef("refs/heads/master");
 			u.setForceUpdate(true);
-			u.setNewObjectId((i%2) == 0 ? c1 : c2);
+			u.setNewObjectId((i % 2) == 0 ? c1 : c2);
 			assertEquals(u.update(), FORCED);
 		}
 
 		File tableDir = new File(db.getDirectory(), Constants.REFTABLE);
 		assertTrue(tableDir.listFiles().length > 2);
-		((FileReftableDatabase)db.getRefDatabase()).compactFully();
-		assertEquals(tableDir.listFiles().length,2);
+		((FileReftableDatabase) db.getRefDatabase()).compactFully();
+		assertEquals(tableDir.listFiles().length, 2);
 	}
 
 	@Test
-	public void testOpenConvert() throws Exception {
+	void testOpenConvert() throws Exception {
 		try (FileRepository repo = new FileRepository(db.getDirectory())) {
 			assertTrue(repo.getRefDatabase() instanceof FileReftableDatabase);
 		}
 	}
 
 	@Test
-	public void testConvert() throws Exception {
+	void testConvert() throws Exception {
 		Ref h = db.exactRef("HEAD");
 		assertTrue(h.isSymbolic());
 		assertEquals("refs/heads/master", h.getTarget().getName());
@@ -137,7 +139,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 
 	@Test
-	public void testConvertBrokenObjectId() throws Exception {
+	void testConvertBrokenObjectId() throws Exception {
 		db.convertToPackedRefs(false, false);
 		new File(db.getDirectory(), "refs/heads").mkdirs();
 
@@ -153,7 +155,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testConvertToRefdirReflog() throws Exception {
+	void testConvertToRefdirReflog() throws Exception {
 		Ref a = db.exactRef("refs/heads/a");
 		String aCommit = a.getObjectId().getName();
 		RefUpdate u = db.updateRef("refs/heads/master");
@@ -177,7 +179,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testBatchrefUpdate() throws Exception {
+	void testBatchrefUpdate() throws Exception {
 		ObjectId cur = db.resolve("master");
 		ObjectId prev = db.resolve("master^");
 
@@ -212,7 +214,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testFastforwardStatus() throws Exception {
+	void testFastforwardStatus() throws Exception {
 		ObjectId cur = db.resolve("master");
 		ObjectId prev = db.resolve("master^");
 		RefUpdate u = db.updateRef("refs/heads/master");
@@ -228,7 +230,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateChecksOldValue() throws Exception {
+	void testUpdateChecksOldValue() throws Exception {
 		ObjectId cur = db.resolve("master");
 		ObjectId prev = db.resolve("master^");
 		RefUpdate u1 = db.updateRef("refs/heads/master");
@@ -247,13 +249,13 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testWritesymref() throws Exception {
+	void testWritesymref() throws Exception {
 		writeSymref(Constants.HEAD, "refs/heads/a");
 		assertNotNull(db.exactRef("refs/heads/b"));
 	}
 
 	@Test
-	public void testFastforwardStatus2() throws Exception {
+	void testFastforwardStatus2() throws Exception {
 		writeSymref(Constants.HEAD, "refs/heads/a");
 		ObjectId bId = db.exactRef("refs/heads/b").getObjectId();
 		RefUpdate u = db.updateRef("refs/heads/a");
@@ -263,7 +265,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testDelete() throws Exception {
+	void testDelete() throws Exception {
 		RefUpdate up = db.getRefDatabase().newUpdate("refs/heads/a", false);
 		up.setForceUpdate(true);
 		RefUpdate.Result res = up.delete();
@@ -272,7 +274,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteWithoutHead() throws IOException {
+	void testDeleteWithoutHead() throws IOException {
 		// Prepare repository without HEAD
 		RefUpdate refUpdate = db.updateRef(Constants.HEAD, true);
 		refUpdate.setForceUpdate(true);
@@ -294,7 +296,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateRefDetached() throws Exception {
+	void testUpdateRefDetached() throws Exception {
 		ObjectId pid = db.resolve("refs/heads/master");
 		ObjectId ppid = db.resolve("refs/heads/master^");
 		RefUpdate updateRef = db.updateRef("HEAD", true);
@@ -305,7 +307,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertEquals(ppid, db.resolve("HEAD"));
 		Ref ref = db.exactRef("HEAD");
 		assertEquals("HEAD", ref.getName());
-		assertTrue("is detached", !ref.isSymbolic());
+		assertFalse(ref.isSymbolic(), "is detached");
 
 		// the branch HEAD referred to is left untouched
 		assertEquals(pid, db.resolve("refs/heads/master"));
@@ -319,7 +321,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testWriteReflog() throws Exception {
+	void testWriteReflog() throws Exception {
 		ObjectId pid = db.resolve("refs/heads/master^");
 		RefUpdate updateRef = db.updateRef("refs/heads/master");
 		updateRef.setNewObjectId(pid);
@@ -339,7 +341,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testLooseDelete() throws IOException {
+	void testLooseDelete() throws IOException {
 		final String newRef = "refs/heads/abc";
 		assertNull(db.exactRef(newRef));
 
@@ -369,7 +371,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testNoCacheObjectIdSubclass() throws IOException {
+	void testNoCacheObjectIdSubclass() throws IOException {
 		final String newRef = "refs/heads/abc";
 		final RefUpdate ru = updateRef(newRef);
 		final SubclassedId newid = new SubclassedId(ru.getNewObjectId());
@@ -398,7 +400,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteSymref() throws IOException {
+	void testDeleteSymref() throws IOException {
 		RefUpdate dst = updateRef("refs/heads/abc");
 		assertEquals(RefUpdate.Result.NEW, dst.update());
 		ObjectId id = dst.getNewObjectId();
@@ -425,7 +427,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void writeUnbornHead() throws Exception {
+	void writeUnbornHead() throws Exception {
 		RefUpdate.Result r = db.updateRef("HEAD").link("refs/heads/unborn");
 		assertEquals(FORCED, r);
 
@@ -440,7 +442,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testUpdateRefDetachedUnbornHead() throws Exception {
+	void testUpdateRefDetachedUnbornHead() throws Exception {
 		ObjectId ppid = db.resolve("refs/heads/master^");
 		writeSymref("HEAD", "refs/heads/unborn");
 		RefUpdate updateRef = db.updateRef("HEAD", true);
@@ -451,7 +453,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertEquals(ppid, db.resolve("HEAD"));
 		Ref ref = db.exactRef("HEAD");
 		assertEquals("HEAD", ref.getName());
-		assertTrue("is detached", !ref.isSymbolic());
+		assertFalse(ref.isSymbolic(), "is detached");
 
 		// the branch HEAD referred to is left untouched
 		assertNull(db.resolve("refs/heads/unborn"));
@@ -465,7 +467,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteNotFound() throws IOException {
+	void testDeleteNotFound() throws IOException {
 		RefUpdate ref = updateRef("refs/heads/doesnotexist");
 		assertNull(db.exactRef(ref.getName()));
 		assertEquals(RefUpdate.Result.NEW, ref.delete());
@@ -473,18 +475,18 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testRenameSymref() throws IOException {
+	void testRenameSymref() throws IOException {
 		db.resolve("HEAD");
 		RefRename r = db.renameRef("HEAD", "KOPF");
 		assertEquals(IO_FAILURE, r.rename());
 	}
 
 	@Test
-	public void testRenameCurrentBranch() throws IOException {
+	void testRenameCurrentBranch() throws IOException {
 		ObjectId rb = db.resolve("refs/heads/b");
 		writeSymref(Constants.HEAD, "refs/heads/b");
 		ObjectId oldHead = db.resolve(Constants.HEAD);
-		assertEquals("internal test condition, b == HEAD", oldHead, rb);
+		assertEquals(oldHead, rb, "internal test condition, b == HEAD");
 		RefRename renameRef = db.renameRef("refs/heads/b",
 				"refs/heads/new/name");
 		RefUpdate.Result result = renameRef.rename();
@@ -514,23 +516,23 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void isGitRepository() {
+	void isGitRepository() {
 		assertTrue(RepositoryCache.FileKey.isGitRepository(db.getDirectory(), db.getFS()));
 	}
 
 	@Test
-	public void testRenameDestExists() throws IOException {
+	void testRenameDestExists() throws IOException {
 		ObjectId rb = db.resolve("refs/heads/b");
 		writeSymref(Constants.HEAD, "refs/heads/b");
 		ObjectId oldHead = db.resolve(Constants.HEAD);
-		assertEquals("internal test condition, b == HEAD", oldHead, rb);
+		assertEquals(oldHead, rb, "internal test condition, b == HEAD");
 		RefRename renameRef = db.renameRef("refs/heads/b", "refs/heads/a");
 		RefUpdate.Result result = renameRef.rename();
 		assertEquals(RefUpdate.Result.LOCK_FAILURE, result);
 	}
 
 	@Test
-	public void testRenameAtomic() throws IOException {
+	void testRenameAtomic() throws IOException {
 		ObjectId prevId = db.resolve("refs/heads/master^");
 
 		RefRename rename = db.renameRef("refs/heads/master",
@@ -544,7 +546,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void compactFully() throws Exception {
+	void compactFully() throws Exception {
 		FileReftableDatabase refDb = (FileReftableDatabase) db.getRefDatabase();
 		PersonIdent person = new PersonIdent("jane", "jane@invalid");
 
@@ -581,13 +583,13 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void reftableRefsStorageClass() throws IOException {
+	void reftableRefsStorageClass() throws IOException {
 		Ref b = db.exactRef("refs/heads/b");
 		assertEquals(Ref.Storage.PACKED, b.getStorage());
 	}
 
 	@Test
-	public void testGetRefsExcludingPrefix() throws IOException {
+	void testGetRefsExcludingPrefix() throws IOException {
 		Set<String> prefixes = new HashSet<>();
 		prefixes.add("refs/tags");
 		// HEAD + 12 refs/heads are present here.
@@ -602,7 +604,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsExcludingPrefixes() throws IOException {
+	void testGetRefsExcludingPrefixes() throws IOException {
 		Set<String> exclude = new HashSet<>();
 		exclude.add("refs/tags/");
 		exclude.add("refs/heads/");
@@ -612,7 +614,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsExcludingNonExistingPrefixes() throws IOException {
+	void testGetRefsExcludingNonExistingPrefixes() throws IOException {
 		Set<String> exclude = new HashSet<>();
 		exclude.add("refs/tags/");
 		exclude.add("refs/heads/");
@@ -623,7 +625,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsWithPrefixExcludingPrefixes() throws IOException {
+	void testGetRefsWithPrefixExcludingPrefixes() throws IOException {
 		Set<String> exclude = new HashSet<>();
 		exclude.add("refs/heads/pa");
 		String include = "refs/heads/p";
@@ -633,7 +635,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsWithPrefixExcludingOverlappingPrefixes() throws IOException {
+	void testGetRefsWithPrefixExcludingOverlappingPrefixes() throws IOException {
 		Set<String> exclude = new HashSet<>();
 		exclude.add("refs/heads/pa");
 		exclude.add("refs/heads/");

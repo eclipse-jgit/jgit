@@ -11,59 +11,59 @@
 package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.jgit.errors.BinaryBlobException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RawParseUtils_LineMapTest {
 
 	@Test
-	public void testEmpty() throws Exception {
-		final IntList map = RawParseUtils.lineMap(new byte[] {}, 0, 0);
+	void testEmpty() throws Exception {
+		final IntList map = RawParseUtils.lineMap(new byte[]{}, 0, 0);
 		assertNotNull(map);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0}, asInts(map));
 	}
 
 	@Test
-	public void testOneBlankLine() throws Exception  {
-		final IntList map = RawParseUtils.lineMap(new byte[] { '\n' }, 0, 1);
+	void testOneBlankLine() throws Exception  {
+		final IntList map = RawParseUtils.lineMap(new byte[]{'\n'}, 0, 1);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 1}, asInts(map));
 	}
 
 	@Test
-	public void testTwoLineFooBar() {
+	void testTwoLineFooBar() {
 		final byte[] buf = "foo\nbar\n".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 4, buf.length}, asInts(map));
 	}
 
 	@Test
-	public void testTwoLineNoLF() {
+	void testTwoLineNoLF() {
 		final byte[] buf = "foo\nbar".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 4, buf.length}, asInts(map));
 	}
 
 	@Test
-	public void testNulByte() {
+	void testNulByte() {
 		final byte[] buf = "xxxfoo\nb\0ar".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 3, buf.length);
-		assertArrayEquals(new int[] { Integer.MIN_VALUE, 3, 7, buf.length },
+		assertArrayEquals(new int[]{Integer.MIN_VALUE, 3, 7, buf.length},
 				asInts(map));
 	}
 
 	@Test
-	public void testLineMapOrBinary() throws Exception {
+	void testLineMapOrBinary() throws Exception {
 		final byte[] buf = "xxxfoo\nb\0ar".getBytes(ISO_8859_1);
 		assertThrows(BinaryBlobException.class,
 				() -> RawParseUtils.lineMapOrBinary(buf, 3, buf.length));
 	}
 
 	@Test
-	public void testFourLineBlanks() {
+	void testFourLineBlanks() {
 		final byte[] buf = "foo\n\n\nbar\n".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 

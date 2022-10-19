@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +34,9 @@ import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestProtocolTest {
 	private static final RefSpec HEADS = new RefSpec("+refs/heads/*:refs/heads/*");
@@ -79,7 +79,7 @@ public class TestProtocolTest {
 	private TestRepository<InMemoryRepository> local;
 	private TestRepository<InMemoryRepository> remote;
 
-  @Before
+  @BeforeEach
 	public void setUp() throws Exception {
 		protos = new ArrayList<>();
 		local = new TestRepository<>(
@@ -88,7 +88,7 @@ public class TestProtocolTest {
 				new InMemoryRepository(new DfsRepositoryDescription("remote")));
   }
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		for (TransportProtocol proto : protos) {
 			Transport.unregister(proto);
@@ -96,7 +96,7 @@ public class TestProtocolTest {
 	}
 
 	@Test
-	public void testFetch() throws Exception {
+	void testFetch() throws Exception {
 		ObjectId master = remote.branch("master").commit().create();
 
 		TestProtocol<User> proto = registerDefault();
@@ -113,7 +113,7 @@ public class TestProtocolTest {
 	}
 
 	@Test
-	public void testPush() throws Exception {
+	void testPush() throws Exception {
 		ObjectId master = local.branch("master").commit().create();
 
 		TestProtocol<User> proto = registerDefault();
@@ -130,7 +130,7 @@ public class TestProtocolTest {
 	}
 
 	@Test
-	public void testFullNegotiation() throws Exception {
+	void testFullNegotiation() throws Exception {
 		TestProtocol<User> proto = registerDefault();
 		URIish uri = proto.register(new User("user"), remote.getRepository());
 
@@ -153,7 +153,7 @@ public class TestProtocolTest {
 	}
 
 	@Test
-	public void testMaxHaves() throws Exception {
+	void testMaxHaves() throws Exception {
 		TestProtocol<User> proto = registerDefault();
 		URIish uri = proto.register(new User("user"), remote.getRepository());
 
@@ -177,7 +177,7 @@ public class TestProtocolTest {
 	}
 
 	@Test
-	public void testUploadPackFactory() throws Exception {
+	void testUploadPackFactory() throws Exception {
 		ObjectId master = remote.branch("master").commit().create();
 
 		final AtomicInteger rejected = new AtomicInteger();
@@ -217,7 +217,7 @@ public class TestProtocolTest {
 	}
 
 	@Test
-	public void testReceivePackFactory() throws Exception {
+	void testReceivePackFactory() throws Exception {
 		ObjectId master = local.branch("master").commit().create();
 
 		final AtomicInteger rejected = new AtomicInteger();

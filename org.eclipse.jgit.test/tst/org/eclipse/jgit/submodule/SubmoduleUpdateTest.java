@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.submodule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +33,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link SubmoduleUpdateCommand}
@@ -41,7 +41,7 @@ import org.junit.Test;
 public class SubmoduleUpdateTest extends RepositoryTestCase {
 
 	@Test
-	public void repositoryWithNoSubmodules() throws GitAPIException {
+	void repositoryWithNoSubmodules() throws GitAPIException {
 		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(db);
 		Collection<String> modules = command.call();
 		assertNotNull(modules);
@@ -49,7 +49,7 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithSubmodule() throws Exception {
+	void repositoryWithSubmodule() throws Exception {
 		writeTrashFile("file.txt", "content");
 		Git git = Git.wrap(db);
 		git.add().addFilepattern("file.txt").call();
@@ -96,7 +96,7 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithUnconfiguredSubmodule() throws IOException,
+	void repositoryWithUnconfiguredSubmodule() throws IOException,
 			GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -132,7 +132,7 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithInitializedSubmodule() throws IOException,
+	void repositoryWithInitializedSubmodule() throws IOException,
 			GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");

@@ -12,13 +12,13 @@ package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.util.Iterator;
@@ -45,30 +45,30 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Theories.class)
 public class MergeCommandTest extends RepositoryTestCase {
 
-	public static @DataPoints
-	MergeStrategy[] mergeStrategies = MergeStrategy.get();
+	private static final String DISPLAY_NAME = "mergeStrategy=''{0}''";
+
+	private static MergeStrategy[] getMergeStrategies() {
+		return MergeStrategy.get();
+	}
 
 	private GitDateFormatter dateFormatter;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		dateFormatter = new GitDateFormatter(Format.DEFAULT);
 	}
 
 	@Test
-	public void testMergeInItself() throws Exception {
+	void testMergeInItself() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 
@@ -78,14 +78,14 @@ public class MergeCommandTest extends RepositoryTestCase {
 		// no reflog entry written by merge
 		assertEquals("commit (initial): initial commit",
 				db
-				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
+						.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("commit (initial): initial commit",
 				db
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+						.getReflogReader(db.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
-	public void testAlreadyUpToDate() throws Exception {
+	void testAlreadyUpToDate() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit first = git.commit().setMessage("initial commit").call();
 			createBranch(first, "refs/heads/branch1");
@@ -103,7 +103,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForward() throws Exception {
+	void testFastForward() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit first = git.commit().setMessage("initial commit").call();
 			createBranch(first, "refs/heads/branch1");
@@ -124,7 +124,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardNoCommit() throws Exception {
+	void testFastForwardNoCommit() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit first = git.commit().setMessage("initial commit").call();
 			createBranch(first, "refs/heads/branch1");
@@ -147,7 +147,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardWithFiles() throws Exception {
+	void testFastForwardWithFiles() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -178,7 +178,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMultipleHeads() throws Exception {
+	void testMultipleHeads() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -209,7 +209,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@MethodSource("getMergeStrategies")
 	public void testMergeSuccessAllStrategies(MergeStrategy mergeStrategy)
 			throws Exception {
 		try (Git git = new Git(db)) {
@@ -239,7 +240,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 				db.getReflogReader(db.getBranch()).getLastEntry().getComment());
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@MethodSource("getMergeStrategies")
 	public void testMergeSuccessAllStrategiesNoCommit(
 			MergeStrategy mergeStrategy) throws Exception {
 		try (Git git = new Git(db)) {
@@ -265,7 +267,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testContentMerge() throws Exception {
+	void testContentMerge() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -310,7 +312,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testContentMergeXtheirs() throws Exception {
+	void testContentMergeXtheirs() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -357,7 +359,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testContentMergeXours() throws Exception {
+	void testContentMergeXours() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -403,7 +405,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBinaryContentMerge() throws Exception {
+	void testBinaryContentMerge() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile(".gitattributes", "a binary");
 			writeTrashFile("a", "initial");
@@ -437,7 +439,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBinaryContentMergeXtheirs() throws Exception {
+	void testBinaryContentMergeXtheirs() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile(".gitattributes", "a binary");
 			writeTrashFile("a", "initial");
@@ -471,7 +473,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBinaryContentMergeXours() throws Exception {
+	void testBinaryContentMergeXours() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile(".gitattributes", "a binary");
 			writeTrashFile("a", "initial");
@@ -504,7 +506,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeTag() throws Exception {
+	void testMergeTag() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "a");
 			git.add().addFilepattern("a").call();
@@ -531,7 +533,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeMessage() throws Exception {
+	void testMergeMessage() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
@@ -562,7 +564,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeNonVersionedPaths() throws Exception {
+	void testMergeNonVersionedPaths() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -613,7 +615,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMultipleCreations() throws Exception {
+	void testMultipleCreations() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
@@ -639,7 +641,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMultipleCreationsSameContent() throws Exception {
+	void testMultipleCreationsSameContent() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
@@ -674,7 +676,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSuccessfulContentMerge() throws Exception {
+	void testSuccessfulContentMerge() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -710,7 +712,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(),
 					"c/c/c")));
 
-			assertEquals(null, result.getConflicts());
+			assertNull(result.getConflicts());
 
 			assertEquals(2, result.getMergedCommits().length);
 			assertEquals(thirdCommit, result.getMergedCommits()[0]);
@@ -732,7 +734,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSuccessfulContentMergeNoCommit() throws Exception {
+	void testSuccessfulContentMergeNoCommit() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -771,7 +773,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals("1\nc(main)\n3\n",
 					read(new File(db.getWorkTree(), "c/c/c")));
 
-			assertEquals(null, result.getConflicts());
+			assertNull(result.getConflicts());
 
 			assertEquals(2, result.getMergedCommits().length);
 			assertEquals(thirdCommit, result.getMergedCommits()[0]);
@@ -782,7 +784,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSuccessfulContentMergeAndDirtyworkingTree()
+	void testSuccessfulContentMergeAndDirtyworkingTree()
 			throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
@@ -822,7 +824,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 					"c/c/c")));
 			assertEquals("--- dirty ---", read(new File(db.getWorkTree(), "d")));
 
-			assertEquals(null, result.getConflicts());
+			assertNull(result.getConflicts());
 
 			assertEquals(2, result.getMergedCommits().length);
 			assertEquals(thirdCommit, result.getMergedCommits()[0]);
@@ -843,7 +845,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSingleDeletion() throws Exception {
+	void testSingleDeletion() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -898,7 +900,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMultipleDeletions() throws Exception {
+	void testMultipleDeletions() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
@@ -927,7 +929,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeletionAndConflict() throws Exception {
+	void testDeletionAndConflict() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -971,7 +973,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeletionOnMasterConflict() throws Exception {
+	void testDeletionOnMasterConflict() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -997,18 +999,18 @@ public class MergeCommandTest extends RepositoryTestCase {
 						.setStrategy(MergeStrategy.RESOLVE)
 						.setContentMergeStrategy(contentStrategy)
 						.call();
-				assertEquals("merge -X " + contentStrategy.name(),
-						MergeStatus.CONFLICTING, result.getMergeStatus());
+				assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus(), "merge -X " + contentStrategy.name());
 
 				// result should be 'a' conflicting with workspace content from
 				// side
-				assertTrue("merge -X " + contentStrategy.name(),
-						new File(db.getWorkTree(), "a").exists());
-				assertEquals("merge -X " + contentStrategy.name(),
-						"1\na(side)\n3\n",
-						read(new File(db.getWorkTree(), "a")));
-				assertEquals("merge -X " + contentStrategy.name(), "1\nb\n3\n",
-						read(new File(db.getWorkTree(), "b")));
+				assertTrue(new File(db.getWorkTree(), "a").exists(),
+						"merge -X " + contentStrategy.name());
+				assertEquals("1\na(side)\n3\n",
+						read(new File(db.getWorkTree(), "a")),
+						"merge -X " + contentStrategy.name());
+				assertEquals("1\nb\n3\n",
+						read(new File(db.getWorkTree(), "b")),
+						"merge -X " + contentStrategy.name());
 				git.reset().setMode(ResetType.HARD).setRef(thirdCommit.name())
 						.call();
 			}
@@ -1016,7 +1018,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeletionOnMasterTheirs() throws Exception {
+	void testDeletionOnMasterTheirs() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -1051,7 +1053,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeletionOnMasterOurs() throws Exception {
+	void testDeletionOnMasterOurs() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -1082,7 +1084,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeletionOnSideConflict() throws Exception {
+	void testDeletionOnSideConflict() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -1108,23 +1110,25 @@ public class MergeCommandTest extends RepositoryTestCase {
 						.setStrategy(MergeStrategy.RESOLVE)
 						.setContentMergeStrategy(contentStrategy)
 						.call();
-				assertEquals("merge -X " + contentStrategy.name(),
-						MergeStatus.CONFLICTING, result.getMergeStatus());
+				assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus(), "merge -X " + contentStrategy.name());
 
-				assertTrue("merge -X " + contentStrategy.name(),
-						new File(db.getWorkTree(), "a").exists());
-				assertEquals("merge -X " + contentStrategy.name(),
-						"1\na(main)\n3\n",
-						read(new File(db.getWorkTree(), "a")));
-				assertEquals("merge -X " + contentStrategy.name(), "1\nb\n3\n",
-						read(new File(db.getWorkTree(), "b")));
+				assertTrue(new File(db.getWorkTree(), "a").exists(),
+						"merge -X " + contentStrategy.name());
+				assertEquals("1\na(main)\n3\n",
+						read(new File(db.getWorkTree(), "a")),
+						"merge -X " + contentStrategy.name());
+				assertEquals("1\nb\n3\n",
+						read(new File(db.getWorkTree(), "b")),
+						"merge -X " + contentStrategy.name());
 
-				assertNotNull("merge -X " + contentStrategy.name(),
-						result.getConflicts());
-				assertEquals("merge -X " + contentStrategy.name(), 1,
-						result.getConflicts().size());
-				assertEquals("merge -X " + contentStrategy.name(), 3,
-						result.getConflicts().get("a")[0].length);
+				assertNotNull(result.getConflicts(),
+						"merge -X " + contentStrategy.name());
+				assertEquals(1,
+						result.getConflicts().size(),
+						"merge -X " + contentStrategy.name());
+				assertEquals(3,
+						result.getConflicts().get("a")[0].length,
+						"merge -X " + contentStrategy.name());
 				git.reset().setMode(ResetType.HARD).setRef(thirdCommit.name())
 						.call();
 			}
@@ -1132,7 +1136,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeletionOnSideTheirs() throws Exception {
+	void testDeletionOnSideTheirs() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -1163,7 +1167,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeletionOnSideOurs() throws Exception {
+	void testDeletionOnSideOurs() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -1196,7 +1200,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testModifiedAndRenamed() throws Exception {
+	void testModifiedAndRenamed() throws Exception {
 		// this test is essentially the same as testDeletionOnSideConflict,
 		// however if once rename support is added this test should result in a
 		// successful merge instead of a conflict
@@ -1235,7 +1239,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeFailingWithDirtyWorkingTree() throws Exception {
+	void testMergeFailingWithDirtyWorkingTree() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -1267,14 +1271,14 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals("--- dirty ---", read(new File(db.getWorkTree(), "a")));
 			assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
 
-			assertEquals(null, result.getConflicts());
+			assertNull(result.getConflicts());
 
 			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 		}
 	}
 
 	@Test
-	public void testMergeConflictFileFolder() throws Exception {
+	void testMergeConflictFileFolder() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -1306,14 +1310,14 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(), "c")));
 			assertEquals("1\nd(main)\n3\n", read(new File(db.getWorkTree(), "d/d/d")));
 
-			assertEquals(null, result.getConflicts());
+			assertNull(result.getConflicts());
 
 			assertEquals(RepositoryState.MERGING, db.getRepositoryState());
 		}
 	}
 
 	@Test
-	public void testSuccessfulMergeFailsDueToDirtyIndex() throws Exception {
+	void testSuccessfulMergeFailsDueToDirtyIndex() throws Exception {
 		try (Git git = new Git(db)) {
 			File fileA = writeTrashFile("a", "a");
 			RevCommit initialCommit = addAllAndCommit(git);
@@ -1349,7 +1353,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testConflictingMergeFailsDueToDirtyIndex() throws Exception {
+	void testConflictingMergeFailsDueToDirtyIndex() throws Exception {
 		try (Git git = new Git(db)) {
 			File fileA = writeTrashFile("a", "a");
 			RevCommit initialCommit = addAllAndCommit(git);
@@ -1387,7 +1391,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSuccessfulMergeFailsDueToDirtyWorktree() throws Exception {
+	void testSuccessfulMergeFailsDueToDirtyWorktree() throws Exception {
 		try (Git git = new Git(db)) {
 			File fileA = writeTrashFile("a", "a");
 			RevCommit initialCommit = addAllAndCommit(git);
@@ -1422,7 +1426,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testConflictingMergeFailsDueToDirtyWorktree() throws Exception {
+	void testConflictingMergeFailsDueToDirtyWorktree() throws Exception {
 		try (Git git = new Git(db)) {
 			File fileA = writeTrashFile("a", "a");
 			RevCommit initialCommit = addAllAndCommit(git);
@@ -1459,7 +1463,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeRemovingFolders() throws Exception {
+	void testMergeRemovingFolders() throws Exception {
 		File folder1 = new File(db.getWorkTree(), "folder1");
 		File folder2 = new File(db.getWorkTree(), "folder2");
 		FileUtils.mkdir(folder1);
@@ -1500,7 +1504,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeRemovingFoldersWithoutFastForward() throws Exception {
+	void testMergeRemovingFoldersWithoutFastForward() throws Exception {
 		File folder1 = new File(db.getWorkTree(), "folder1");
 		File folder2 = new File(db.getWorkTree(), "folder2");
 		FileUtils.mkdir(folder1);
@@ -1546,7 +1550,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileModeMerge() throws Exception {
+	void testFileModeMerge() throws Exception {
 		// Only Java6
 		assumeTrue(FS.DETECTED.supportsExecute());
 		try (Git git = new Git(db)) {
@@ -1584,7 +1588,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileModeMergeWithDirtyWorkTree() throws Exception {
+	void testFileModeMergeWithDirtyWorkTree() throws Exception {
 		// Only Java6 (or set x bit in index)
 		assumeTrue(FS.DETECTED.supportsExecute());
 
@@ -1616,7 +1620,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSquashFastForward() throws Exception {
+	void testSquashFastForward() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -1663,7 +1667,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 							+ third.getAuthorIdent().getEmailAddress()
 							+ ">\nDate:   "
 							+ dateFormatter.formatDate(third
-									.getAuthorIdent())
+							.getAuthorIdent())
 							+ "\n\n\tthird commit\n\ncommit "
 							+ second.getName()
 							+ "\nAuthor: "
@@ -1672,7 +1676,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 							+ second.getAuthorIdent().getEmailAddress()
 							+ ">\nDate:   "
 							+ dateFormatter.formatDate(second
-									.getAuthorIdent()) + "\n\n\tsecond commit\n",
+							.getAuthorIdent()) + "\n\n\tsecond commit\n",
 					db.readSquashCommitMsg());
 			assertNull(db.readMergeCommitMsg());
 
@@ -1682,7 +1686,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSquashMerge() throws Exception {
+	void testSquashMerge() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -1730,7 +1734,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 							+ third.getAuthorIdent().getEmailAddress()
 							+ ">\nDate:   "
 							+ dateFormatter.formatDate(third
-									.getAuthorIdent()) + "\n\n\tthird commit\n",
+							.getAuthorIdent()) + "\n\n\tthird commit\n",
 					db.readSquashCommitMsg());
 			assertNull(db.readMergeCommitMsg());
 
@@ -1740,7 +1744,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSquashMergeConflict() throws Exception {
+	void testSquashMergeConflict() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -1786,7 +1790,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 							+ third.getAuthorIdent().getEmailAddress()
 							+ ">\nDate:   "
 							+ dateFormatter.formatDate(third
-									.getAuthorIdent()) + "\n\n\tthird commit\n",
+							.getAuthorIdent()) + "\n\n\tthird commit\n",
 					db.readSquashCommitMsg());
 			assertEquals("\n# Conflicts:\n#\tfile2\n", db.readMergeCommitMsg());
 
@@ -1796,7 +1800,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardOnly() throws Exception {
+	void testFastForwardOnly() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
 					.call();
@@ -1814,7 +1818,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoFastForward() throws Exception {
+	void testNoFastForward() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
 					.call();
@@ -1832,7 +1836,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoFastForwardNoCommit() throws Exception {
+	void testNoFastForwardNoCommit() throws Exception {
 		// given
 		try (Git git = new Git(db)) {
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
@@ -1860,7 +1864,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardOnlyNotPossible() throws Exception {
+	void testFastForwardOnlyNotPossible() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit initialCommit = git.commit().setMessage("initial commit")
 					.call();
@@ -1880,7 +1884,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRecursiveMergeWithConflict() throws Exception {
+	void testRecursiveMergeWithConflict() throws Exception {
 		try (TestRepository<Repository> db_t = new TestRepository<>(db)) {
 			db.incrementOpen();
 			BranchBuilder master = db_t.branch("master");
@@ -1937,7 +1941,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeWithMessageOption() throws Exception {
+	void testMergeWithMessageOption() throws Exception {
 		try (Git git = new Git(db)) {
 			Ref sideBranch = prepareSuccessfulMerge(git);
 
@@ -1953,7 +1957,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeWithChangeId() throws Exception {
+	void testMergeWithChangeId() throws Exception {
 		try (Git git = new Git(db)) {
 			Ref sideBranch = prepareSuccessfulMerge(git);
 
@@ -1971,7 +1975,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeWithMessageAndChangeId() throws Exception {
+	void testMergeWithMessageAndChangeId() throws Exception {
 		try (Git git = new Git(db)) {
 			Ref sideBranch = prepareSuccessfulMerge(git);
 
@@ -1990,7 +1994,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeConflictWithMessageOption() throws Exception {
+	void testMergeConflictWithMessageOption() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
@@ -2020,7 +2024,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeConflictWithMessageAndCommentChar() throws Exception {
+	void testMergeConflictWithMessageAndCommentChar() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
@@ -2053,7 +2057,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeConflictWithMessageAndCommentCharAuto()
+	void testMergeConflictWithMessageAndCommentCharAuto()
 			throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
@@ -2110,7 +2114,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "b").exists());
 		assertEquals("c", read(new File(db.getWorkTree(), "c")));
 		assertEquals(indexState, indexState(CONTENT));
-		assertEquals(null, result.getConflicts());
+		assertNull(result.getConflicts());
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 	}
 }

@@ -10,21 +10,21 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkShallowTest extends RevWalkTestCase {
 
 	// Accessing ==============================================================
 
 	@Test
-	public void testDepth1() throws Exception {
+	void testDepth1() throws Exception {
 		RevCommit[] commits = setupLinearChain();
 
 		createShallowFile(commits[3]);
@@ -36,7 +36,7 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testDepth2() throws Exception {
+	void testDepth2() throws Exception {
 		RevCommit[] commits = setupLinearChain();
 
 		createShallowFile(commits[2]);
@@ -49,7 +49,7 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testDepth3() throws Exception {
+	void testDepth3() throws Exception {
 		RevCommit[] commits = setupLinearChain();
 
 		createShallowFile(commits[1]);
@@ -63,7 +63,7 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testObjectDirectorySnapshot() throws Exception {
+	void testObjectDirectorySnapshot() throws Exception {
 		RevCommit[] commits = setupLinearChain();
 
 		createShallowFile(commits[3]);
@@ -93,7 +93,7 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testMergeCommitOneParentShallow() throws Exception {
+	void testMergeCommitOneParentShallow() throws Exception {
 		RevCommit[] commits = setupMergeChain();
 
 		createShallowFile(commits[4]);
@@ -109,7 +109,7 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testMergeCommitEntirelyShallow() throws Exception {
+	void testMergeCommitEntirelyShallow() throws Exception {
 		RevCommit[] commits = setupMergeChain();
 
 		createShallowFile(commits[2], commits[4]);
@@ -162,7 +162,7 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testShallowCommitParse() throws Exception {
+	void testShallowCommitParse() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 

@@ -10,10 +10,11 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -26,7 +27,7 @@ import java.util.zip.Deflater;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
-import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.TestInfoRetriever;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -36,19 +37,19 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DfsInserterTest {
+public class DfsInserterTest extends TestInfoRetriever {
 	InMemoryRepository db;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		db = new InMemoryRepository(new DfsRepositoryDescription("test"));
 	}
 
 	@Test
-	public void testInserterDiscardsPack() throws IOException {
+	void testInserterDiscardsPack() throws IOException {
 		try (ObjectInserter ins = db.newObjectInserter()) {
 			ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
 			ins.insert(Constants.OBJ_BLOB, Constants.encode("bar"));
@@ -58,7 +59,7 @@ public class DfsInserterTest {
 	}
 
 	@Test
-	public void testReadFromInserterSmallObjects() throws IOException {
+	void testReadFromInserterSmallObjects() throws IOException {
 		try (ObjectInserter ins = db.newObjectInserter()) {
 			ObjectId id1 = ins.insert(Constants.OBJ_BLOB,
 					Constants.encode("foo"));
@@ -78,13 +79,14 @@ public class DfsInserterTest {
 	}
 
 	@Test
-	public void testReadFromInserterLargerObjects() throws IOException {
+	void testReadFromInserterLargerObjects() throws IOException {
 		db.getObjectDatabase().getReaderOptions().setStreamFileThreshold(512);
 		DfsBlockCache.reconfigure(new DfsBlockCacheConfig()
-			.setBlockSize(512)
-			.setBlockLimit(2048));
+				.setBlockSize(512)
+				.setBlockLimit(2048));
 
-		byte[] data = new TestRng(JGitTestUtil.getName()).nextBytes(8192);
+		byte[] data = new TestRng(getTestMethodName())
+				.nextBytes(8192);
 		try (DfsInserter ins = (DfsInserter) db.newObjectInserter()) {
 			ins.setCompressionLevel(Deflater.NO_COMPRESSION);
 			ObjectId id1 = ins.insert(Constants.OBJ_BLOB, data);
@@ -104,7 +106,7 @@ public class DfsInserterTest {
 	}
 
 	@Test
-	public void testReadFromFallback() throws IOException {
+	void testReadFromFallback() throws IOException {
 		try (ObjectInserter ins = db.newObjectInserter()) {
 			ObjectId id1 = ins.insert(Constants.OBJ_BLOB,
 					Constants.encode("foo"));
@@ -125,7 +127,7 @@ public class DfsInserterTest {
 	}
 
 	@Test
-	public void testReaderResolve() throws IOException {
+	void testReaderResolve() throws IOException {
 		try (ObjectInserter ins = db.newObjectInserter()) {
 			ObjectId id1 = ins.insert(Constants.OBJ_BLOB,
 					Constants.encode("foo"));
@@ -134,7 +136,7 @@ public class DfsInserterTest {
 					Constants.encode("bar"));
 			String abbr1 = ObjectId.toString(id1).substring(0, 4);
 			String abbr2 = ObjectId.toString(id2).substring(0, 4);
-			assertFalse(abbr1.equals(abbr2));
+			assertNotEquals(abbr1, abbr2);
 
 			try (ObjectReader reader = ins.newReader()) {
 				assertSame(ins, reader.getCreatedFromInserter());
@@ -151,7 +153,7 @@ public class DfsInserterTest {
 	}
 
 	@Test
-	public void testGarbageSelectivelyVisible() throws IOException {
+	void testGarbageSelectivelyVisible() throws IOException {
 		ObjectId fooId;
 		try (ObjectInserter ins = db.newObjectInserter()) {
 			fooId = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
@@ -169,7 +171,7 @@ public class DfsInserterTest {
 	}
 
 	@Test
-	public void testInserterIgnoresUnreachable() throws IOException {
+	void testInserterIgnoresUnreachable() throws IOException {
 		ObjectId fooId;
 		try (ObjectInserter ins = db.newObjectInserter()) {
 			fooId = ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
@@ -207,7 +209,7 @@ public class DfsInserterTest {
 	}
 
 	@Test
-	public void testNoCheckExisting() throws IOException {
+	void testNoCheckExisting() throws IOException {
 		byte[] contents = Constants.encode("foo");
 		ObjectId fooId;
 		try (ObjectInserter ins = db.newObjectInserter()) {

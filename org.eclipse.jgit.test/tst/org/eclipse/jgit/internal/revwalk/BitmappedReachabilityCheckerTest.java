@@ -9,7 +9,8 @@
  */
 package org.eclipse.jgit.internal.revwalk;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
@@ -28,8 +29,8 @@ public class BitmappedReachabilityCheckerTest
 		gc.gc().get();
 
 		// This is null when the test didn't create any branch
-		assertNotNull("Probably the test didn't define any ref",
-				repo.getRevWalk().getObjectReader().getBitmapIndex());
+		assertNotNull(repo.getRevWalk().getObjectReader().getBitmapIndex(),
+				"Probably the test didn't define any ref");
 
 		return new BitmappedReachabilityChecker(repository.getRevWalk());
 	}

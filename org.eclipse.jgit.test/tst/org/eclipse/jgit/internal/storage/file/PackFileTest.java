@@ -11,14 +11,14 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PackFileTest {
 	private static final ObjectId TEST_OID = ObjectId
@@ -43,7 +43,7 @@ public class PackFileTest {
 			new File(TEST_PACK_DIR, PREFIX + TEST_ID));
 
 	@Test
-	public void objectsAreSameFromAnyConstructor() throws Exception {
+	void objectsAreSameFromAnyConstructor() throws Exception {
 		String name = PREFIX + TEST_ID + "." + PackExt.PACK.getExtension();
 		File pack = new File(TEST_PACK_DIR, name);
 		PackFile pf = new PackFile(pack);
@@ -60,21 +60,21 @@ public class PackFileTest {
 	}
 
 	@Test
-	public void idIsSameFromFileWithOrWithoutExt() throws Exception {
+	void idIsSameFromFileWithOrWithoutExt() throws Exception {
 		PackFile packWithExt = new PackFile(new File(TEST_PACK_DIR,
 				PREFIX + TEST_ID + "." + PackExt.PACK.getExtension()));
 		assertEquals(packWithExt.getId(), TEST_PACKFILE_NO_EXT.getId());
 	}
 
 	@Test
-	public void idIsSameFromFileWithOrWithoutPrefix() throws Exception {
+	void idIsSameFromFileWithOrWithoutPrefix() throws Exception {
 		PackFile packWithoutPrefix = new PackFile(
 				new File(TEST_PACK_DIR, TEST_ID));
 		assertEquals(packWithoutPrefix.getId(), TEST_PACKFILE_NO_EXT.getId());
 	}
 
 	@Test
-	public void canCreatePreservedFromFile() throws Exception {
+	void canCreatePreservedFromFile() throws Exception {
 		PackFile preserved = new PackFile(
 				new File(TEST_PRESERVED_DIR, OLD_PACK));
 		assertTrue(preserved.getName().contains(OLD_PACK));
@@ -83,7 +83,7 @@ public class PackFileTest {
 	}
 
 	@Test
-	public void canCreatePreservedFromDirAndName() throws Exception {
+	void canCreatePreservedFromDirAndName() throws Exception {
 		PackFile preserved = new PackFile(TEST_PRESERVED_DIR, OLD_PACK);
 		assertTrue(preserved.getName().contains(OLD_PACK));
 		assertEquals(preserved.getId(), TEST_ID);
@@ -91,14 +91,14 @@ public class PackFileTest {
 	}
 
 	@Test
-	public void cannotCreatePreservedNoExtFromNonPreservedNoExt()
+	void cannotCreatePreservedNoExtFromNonPreservedNoExt()
 			throws Exception {
 		assertThrows(IllegalArgumentException.class, () -> TEST_PACKFILE_NO_EXT
 				.createPreservedForDirectory(TEST_PRESERVED_DIR));
 	}
 
 	@Test
-	public void canCreateAnyExtFromAnyExt() throws Exception {
+	void canCreateAnyExtFromAnyExt() throws Exception {
 		for (PackExt from : PackExt.values()) {
 			PackFile dotFrom = TEST_PACKFILE_NO_EXT.create(from);
 			for (PackExt to : PackExt.values()) {
@@ -113,7 +113,7 @@ public class PackFileTest {
 	}
 
 	@Test
-	public void canCreatePreservedFromAnyExt() throws Exception {
+	void canCreatePreservedFromAnyExt() throws Exception {
 		for (PackExt ext : PackExt.values()) {
 			PackFile nonPreserved = TEST_PACKFILE_NO_EXT.create(ext);
 			PackFile preserved = nonPreserved
@@ -127,7 +127,7 @@ public class PackFileTest {
 	}
 
 	@Test
-	public void canCreateAnyPreservedExtFromAnyPreservedExt() throws Exception {
+	void canCreateAnyPreservedExtFromAnyPreservedExt() throws Exception {
 		// Preserved PackFiles must have an extension
 		PackFile preserved = new PackFile(TEST_PRESERVED_DIR, OLD_PACK);
 		for (PackExt from : PackExt.values()) {
@@ -144,7 +144,7 @@ public class PackFileTest {
 	}
 
 	@Test
-	public void canCreateNonPreservedFromAnyPreservedExt() throws Exception {
+	void canCreateNonPreservedFromAnyPreservedExt() throws Exception {
 		// Preserved PackFiles must have an extension
 		PackFile preserved = new PackFile(TEST_PRESERVED_DIR, OLD_PACK);
 		for (PackExt ext : PackExt.values()) {

@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.merge;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,8 +22,8 @@ import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test construction of merge message by {@link MergeMessageFormatter}.
@@ -33,7 +33,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	private MergeMessageFormatter formatter;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -51,7 +51,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testOneBranch() throws IOException {
+	void testOneBranch() throws IOException {
 		Ref a = db.exactRef("refs/heads/a");
 		Ref master = db.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(a), master);
@@ -59,7 +59,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testTwoBranches() throws IOException {
+	void testTwoBranches() throws IOException {
 		Ref a = db.exactRef("refs/heads/a");
 		Ref b = db.exactRef("refs/heads/b");
 		Ref master = db.exactRef("refs/heads/master");
@@ -68,7 +68,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testThreeBranches() throws IOException {
+	void testThreeBranches() throws IOException {
 		Ref c = db.exactRef("refs/heads/c");
 		Ref b = db.exactRef("refs/heads/b");
 		Ref a = db.exactRef("refs/heads/a");
@@ -78,7 +78,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testRemoteBranch() throws Exception {
+	void testRemoteBranch() throws Exception {
 		Ref remoteA = db.exactRef("refs/remotes/origin/remote-a");
 		Ref master = db.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(remoteA), master);
@@ -86,7 +86,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testMixed() throws IOException {
+	void testMixed() throws IOException {
 		Ref c = db.exactRef("refs/heads/c");
 		Ref remoteA = db.exactRef("refs/remotes/origin/remote-a");
 		Ref master = db.exactRef("refs/heads/master");
@@ -96,7 +96,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testTag() throws IOException {
+	void testTag() throws IOException {
 		Ref tagA = db.exactRef("refs/tags/A");
 		Ref master = db.exactRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(tagA), master);
@@ -104,7 +104,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testCommit() throws IOException {
+	void testCommit() throws IOException {
 		ObjectId objectId = ObjectId
 				.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4");
 		Ref commit = new ObjectIdRef.Unpeeled(Storage.LOOSE,
@@ -116,7 +116,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testPullWithUri() throws IOException {
+	void testPullWithUri() throws IOException {
 		String name = "branch 'test' of http://egit.eclipse.org/jgit.git";
 		ObjectId objectId = ObjectId
 				.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4");
@@ -129,7 +129,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testIntoOtherThanMaster() throws IOException {
+	void testIntoOtherThanMaster() throws IOException {
 		Ref a = db.exactRef("refs/heads/a");
 		Ref b = db.exactRef("refs/heads/b");
 		String message = formatter.format(Arrays.asList(a), b);
@@ -137,7 +137,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testIntoHeadOtherThanMaster() throws IOException {
+	void testIntoHeadOtherThanMaster() throws IOException {
 		Ref a = db.exactRef("refs/heads/a");
 		Ref b = db.exactRef("refs/heads/b");
 		SymbolicRef head = new SymbolicRef("HEAD", b);
@@ -146,7 +146,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testIntoSymbolicRefHeadPointingToMaster() throws IOException {
+	void testIntoSymbolicRefHeadPointingToMaster() throws IOException {
 		Ref a = db.exactRef("refs/heads/a");
 		Ref master = db.exactRef("refs/heads/master");
 		SymbolicRef head = new SymbolicRef("HEAD", master);
@@ -155,7 +155,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testFormatWithConflictsNoFooter() {
+	void testFormatWithConflictsNoFooter() {
 		String originalMessage = "Header Line\n\nCommit body\n";
 		String message = formatter.formatWithConflicts(originalMessage,
 				List.of("path1"), '#');
@@ -164,7 +164,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testFormatWithConflictsNoFooterNoLineBreak() {
+	void testFormatWithConflictsNoFooterNoLineBreak() {
 		String originalMessage = "Header Line\n\nCommit body";
 		String message = formatter.formatWithConflicts(originalMessage,
 				List.of("path1"), '#');
@@ -173,7 +173,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testFormatWithConflictsCustomCharacter() {
+	void testFormatWithConflictsCustomCharacter() {
 		String originalMessage = "Header Line\n\nCommit body";
 		String message = formatter.formatWithConflicts(originalMessage,
 				List.of("path1"), ';');
@@ -182,7 +182,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testFormatWithConflictsWithFooters() {
+	void testFormatWithConflictsWithFooters() {
 		String originalMessage = "Header Line\n\nCommit body\n\nChangeId:"
 				+ " I123456789123456789123456789123456789\nBug:1234567\n";
 		String message = formatter.formatWithConflicts(originalMessage,
@@ -194,7 +194,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testFormatWithConflictsWithFooterlikeLineInBody() {
+	void testFormatWithConflictsWithFooterlikeLineInBody() {
 		String originalMessage = "Header Line\n\nCommit body\nBug:1234567\nMore Body\n\nChangeId:"
 				+ " I123456789123456789123456789123456789\nBug:1234567\n";
 		String message = formatter.formatWithConflicts(originalMessage,

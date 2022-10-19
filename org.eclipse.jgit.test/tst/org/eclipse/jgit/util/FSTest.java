@@ -11,11 +11,11 @@
 package org.eclipse.jgit.util;
 
 import static java.time.Instant.EPOCH;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,23 +36,23 @@ import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.RepositoryCache;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FSTest {
 	private File trash;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		SystemReader.setInstance(new MockSystemReader());
 		trash = File.createTempFile("tmp_", "");
 		trash.delete();
-		assertTrue("mkdir " + trash, trash.mkdir());
+		assertTrue(trash.mkdir(), "mkdir " + trash);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.RETRY);
 	}
@@ -68,8 +68,8 @@ public class FSTest {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void testSymlinkAttributes() throws IOException, InterruptedException {
-		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+	void testSymlinkAttributes() throws IOException, InterruptedException {
+		Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 		FS fs = FS.DETECTED;
 		File link = new File(trash, "a");
 		File target = new File(trash, "b");
@@ -102,8 +102,8 @@ public class FSTest {
 	}
 
 	@Test
-	public void testUnicodeFilePath() throws IOException {
-		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+	void testUnicodeFilePath() throws IOException {
+		Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 		FS fs = FS.DETECTED;
 		File link = new File(trash, "ä");
 		File target = new File(trash, "å");
@@ -119,7 +119,7 @@ public class FSTest {
 			// unsets LANG
 			// (https://docs.bazel.build/versions/master/test-encyclopedia.html#initial-conditions).
 			// Skip the test if the runtime cannot handle Unicode characters.
-			assumeNoException(e);
+			assumeTrue(false);
 		}
 
 		fs.createSymLink(link, "å");
@@ -128,7 +128,7 @@ public class FSTest {
 	}
 
 	@Test
-	public void testExecutableAttributes() throws Exception {
+	void testExecutableAttributes() throws Exception {
 		FS fs = FS.DETECTED.newInstance();
 		// If this assumption fails the test is halted and ignored.
 		assumeTrue(fs instanceof FS_POSIX);
@@ -139,19 +139,19 @@ public class FSTest {
 		assertFalse(fs.canExecute(f));
 
 		Set<PosixFilePermission> permissions = readPermissions(f);
-		assertTrue(!permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
-		assertTrue(!permissions.contains(PosixFilePermission.GROUP_EXECUTE));
-		assertTrue(!permissions.contains(PosixFilePermission.OWNER_EXECUTE));
+		assertFalse(permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
+		assertFalse(permissions.contains(PosixFilePermission.GROUP_EXECUTE));
+		assertFalse(permissions.contains(PosixFilePermission.OWNER_EXECUTE));
 
 		fs.setExecute(f, true);
 
 		permissions = readPermissions(f);
-		assertTrue("'owner' execute permission not set",
-				permissions.contains(PosixFilePermission.OWNER_EXECUTE));
-		assertTrue("'group' execute permission not set",
-				permissions.contains(PosixFilePermission.GROUP_EXECUTE));
-		assertTrue("'others' execute permission not set",
-				permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
+		assertTrue(permissions.contains(PosixFilePermission.OWNER_EXECUTE),
+				"'owner' execute permission not set");
+		assertTrue(permissions.contains(PosixFilePermission.GROUP_EXECUTE),
+				"'group' execute permission not set");
+		assertTrue(permissions.contains(PosixFilePermission.OTHERS_EXECUTE),
+				"'others' execute permission not set");
 
 		((FS_POSIX) fs).setUmask(0033);
 		fs.setExecute(f, false);
@@ -159,12 +159,12 @@ public class FSTest {
 		fs.setExecute(f, true);
 
 		permissions = readPermissions(f);
-		assertTrue("'owner' execute permission not set",
-				permissions.contains(PosixFilePermission.OWNER_EXECUTE));
-		assertFalse("'group' execute permission set",
-				permissions.contains(PosixFilePermission.GROUP_EXECUTE));
-		assertFalse("'others' execute permission set",
-				permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
+		assertTrue(permissions.contains(PosixFilePermission.OWNER_EXECUTE),
+				"'owner' execute permission not set");
+		assertFalse(permissions.contains(PosixFilePermission.GROUP_EXECUTE),
+				"'group' execute permission set");
+		assertFalse(permissions.contains(PosixFilePermission.OTHERS_EXECUTE),
+				"'others' execute permission set");
 	}
 
 	private Set<PosixFilePermission> readPermissions(File f) throws IOException {
@@ -173,29 +173,31 @@ public class FSTest {
 				.readAttributes().permissions();
 	}
 
-	@Test(expected = CommandFailedException.class)
-	public void testReadPipePosixCommandFailure()
-			throws CommandFailedException {
-		FS fs = FS.DETECTED.newInstance();
-		assumeTrue(fs instanceof FS_POSIX);
+	@Test
+	void testReadPipePosixCommandFailure() {
+		assertThrows(CommandFailedException.class, () -> {
+			FS fs = FS.DETECTED.newInstance();
+			assumeTrue(fs instanceof FS_POSIX);
 
-		FS.readPipe(fs.userHome(),
-				new String[] { "/bin/sh", "-c", "exit 1" },
-				SystemReader.getInstance().getDefaultCharset().name());
-	}
-
-	@Test(expected = CommandFailedException.class)
-	public void testReadPipeCommandStartFailure()
-			throws CommandFailedException {
-		FS fs = FS.DETECTED.newInstance();
-
-		FS.readPipe(fs.userHome(),
-				  new String[] { "this-command-does-not-exist" },
-				  SystemReader.getInstance().getDefaultCharset().name());
+			FS.readPipe(fs.userHome(),
+					new String[]{"/bin/sh", "-c", "exit 1"},
+					SystemReader.getInstance().getDefaultCharset().name());
+		});
 	}
 
 	@Test
-	public void testFsTimestampResolution() throws Exception {
+	void testReadPipeCommandStartFailure() {
+		assertThrows(CommandFailedException.class, () -> {
+			FS fs = FS.DETECTED.newInstance();
+
+			FS.readPipe(fs.userHome(),
+					new String[]{"this-command-does-not-exist"},
+					SystemReader.getInstance().getDefaultCharset().name());
+		});
+	}
+
+	@Test
+	void testFsTimestampResolution() throws Exception {
 		DateTimeFormatter formatter = DateTimeFormatter
 				.ofPattern("uuuu-MMM-dd HH:mm:ss.nnnnnnnnn", Locale.ENGLISH)
 				.withZone(ZoneId.systemDefault());
@@ -214,11 +216,11 @@ public class FSTest {
 				TimeUnit.NANOSECONDS.sleep(resolutionNs);
 				FileUtils.touch(f);
 				FileTime t2 = Files.getLastModifiedTime(f);
-				assertTrue(String.format(
+				assertTrue(t2.compareTo(t1) > 0, String.format(
 						"expected t2=%s to be larger than t1=%s\nsince file timestamp resolution was measured to be %,d ns",
 						formatter.format(t2.toInstant()),
 						formatter.format(t1.toInstant()),
-						Long.valueOf(resolutionNs)), t2.compareTo(t1) > 0);
+						Long.valueOf(resolutionNs)));
 			} finally {
 				if (f != null) {
 					Files.delete(f);
@@ -229,7 +231,7 @@ public class FSTest {
 
 	// bug 548682
 	@Test
-	public void testRepoCacheRelativePathUnbornRepo() {
+	void testRepoCacheRelativePathUnbornRepo() {
 		assertFalse(RepositoryCache.FileKey
 				.isGitRepository(new File("repo.git"), FS.DETECTED));
 	}

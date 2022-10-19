@@ -10,15 +10,15 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RawParseUtils_FormatTest {
 	@Test
-	public void testFormatBase10() throws UnsupportedEncodingException {
+	void testFormatBase10() throws UnsupportedEncodingException {
 		byte[] b = new byte[64];
 		int p;
 

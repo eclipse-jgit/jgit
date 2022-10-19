@@ -10,9 +10,9 @@
 
 package org.eclipse.jgit.dircache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.EnumSet;
@@ -26,7 +26,8 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for initial DirCache version after a clone or after a mixed or hard
@@ -35,6 +36,7 @@ import org.junit.Test;
 public class DirCacheAfterCloneTest extends RepositoryTestCase {
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		try (Git git = new Git(db)) {
@@ -60,13 +62,13 @@ public class DirCacheAfterCloneTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneV3OrV2() throws Exception {
+	void testCloneV3OrV2() throws Exception {
 		cloneAndCheck(EnumSet.of(DirCacheVersion.DIRC_VERSION_MINIMUM,
 				DirCacheVersion.DIRC_VERSION_EXTENDED));
 	}
 
 	@Test
-	public void testCloneV4() throws Exception {
+	void testCloneV4() throws Exception {
 		StoredConfig cfg = SystemReader.getInstance().getUserConfig();
 		cfg.load();
 		cfg.setInt("index", null, "version", 4);
@@ -75,7 +77,7 @@ public class DirCacheAfterCloneTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneV4manyFiles() throws Exception {
+	void testCloneV4manyFiles() throws Exception {
 		StoredConfig cfg = SystemReader.getInstance().getUserConfig();
 		cfg.load();
 		cfg.setBoolean("feature", null, "manyFiles", true);
@@ -84,7 +86,7 @@ public class DirCacheAfterCloneTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneV3CommitNoVersionChange() throws Exception {
+	void testCloneV3CommitNoVersionChange() throws Exception {
 		DirCacheVersion initial = cloneAndCheck(
 				EnumSet.of(DirCacheVersion.DIRC_VERSION_MINIMUM,
 						DirCacheVersion.DIRC_VERSION_EXTENDED));
@@ -96,14 +98,15 @@ public class DirCacheAfterCloneTest extends RepositoryTestCase {
 			git.add().addFilepattern("Test.txt2").call();
 			git.commit().setMessage("Second commit").call();
 		}
-		assertEquals("DirCache version should be unchanged", initial,
-				DirCache.read(db).getVersion());
+		assertEquals(initial,
+				DirCache.read(db).getVersion(),
+				"DirCache version should be unchanged");
 	}
 
 	@Test
-	public void testCloneV3ResetHardVersionChange() throws Exception {
+	void testCloneV3ResetHardVersionChange() throws Exception {
 		cloneAndCheck(EnumSet.of(DirCacheVersion.DIRC_VERSION_MINIMUM,
-						DirCacheVersion.DIRC_VERSION_EXTENDED));
+				DirCacheVersion.DIRC_VERSION_EXTENDED));
 		StoredConfig cfg = db.getConfig();
 		cfg.setInt("index", null, "version", 4);
 		cfg.save();
@@ -111,13 +114,13 @@ public class DirCacheAfterCloneTest extends RepositoryTestCase {
 		try (Git git = new Git(db)) {
 			git.reset().setMode(ResetType.HARD).call();
 		}
-		assertEquals("DirCache version should have changed",
-				DirCacheVersion.DIRC_VERSION_PATHCOMPRESS,
-				DirCache.read(db).getVersion());
+		assertEquals(DirCacheVersion.DIRC_VERSION_PATHCOMPRESS,
+				DirCache.read(db).getVersion(),
+				"DirCache version should have changed");
 	}
 
 	@Test
-	public void testCloneV3ResetMixedVersionChange() throws Exception {
+	void testCloneV3ResetMixedVersionChange() throws Exception {
 		cloneAndCheck(EnumSet.of(DirCacheVersion.DIRC_VERSION_MINIMUM,
 				DirCacheVersion.DIRC_VERSION_EXTENDED));
 		StoredConfig cfg = db.getConfig();
@@ -127,8 +130,8 @@ public class DirCacheAfterCloneTest extends RepositoryTestCase {
 		try (Git git = new Git(db)) {
 			git.reset().setMode(ResetType.MIXED).call();
 		}
-		assertEquals("DirCache version should have changed",
-				DirCacheVersion.DIRC_VERSION_PATHCOMPRESS,
-				DirCache.read(db).getVersion());
+		assertEquals(DirCacheVersion.DIRC_VERSION_PATHCOMPRESS,
+				DirCache.read(db).getVersion(),
+				"DirCache version should have changed");
 	}
 }

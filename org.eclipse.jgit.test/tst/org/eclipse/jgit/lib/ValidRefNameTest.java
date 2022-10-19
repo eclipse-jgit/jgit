@@ -11,11 +11,11 @@
 package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.junit.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ValidRefNameTest {
 	private static void assertValid(boolean exp, String name) {
@@ -68,12 +68,12 @@ public class ValidRefNameTest {
 		try {
 			setUnixSystemReader();
 			String normalized = Repository.normalizeBranchName(name);
-			assertEquals("Normalization of " + name, expected, normalized);
+			assertEquals(expected, normalized, "Normalization of " + name);
 			assertEquals("\"" + normalized + "\"", true,
 					Repository.isValidRefName(Constants.R_HEADS + normalized));
 			setWindowsSystemReader();
 			normalized = Repository.normalizeBranchName(name);
-			assertEquals("Normalization of " + name, expected, normalized);
+			assertEquals(expected, normalized, "Normalization of " + name);
 			assertEquals("\"" + normalized + "\"", true,
 					Repository.isValidRefName(Constants.R_HEADS + normalized));
 		} finally {
@@ -82,19 +82,19 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testEmptyString() {
+	void testEmptyString() {
 		assertValid(false, "");
 		assertValid(false, "/");
 	}
 
 	@Test
-	public void testMustHaveTwoComponents() {
+	void testMustHaveTwoComponents() {
 		assertValid(false, "master");
 		assertValid(true, "heads/master");
 	}
 
 	@Test
-	public void testValidHead() {
+	void testValidHead() {
 		assertValid(true, "refs/heads/master");
 		assertValid(true, "refs/heads/pu");
 		assertValid(true, "refs/heads/z");
@@ -102,33 +102,33 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testValidTag() {
+	void testValidTag() {
 		assertValid(true, "refs/tags/v1.0");
 	}
 
 	@Test
-	public void testNoLockSuffix() {
+	void testNoLockSuffix() {
 		assertValid(false, "refs/heads/master.lock");
 	}
 
 	@Test
-	public void testNoDirectorySuffix() {
+	void testNoDirectorySuffix() {
 		assertValid(false, "refs/heads/master/");
 	}
 
 	@Test
-	public void testNoSpace() {
+	void testNoSpace() {
 		assertValid(false, "refs/heads/i haz space");
 	}
 
 	@Test
-	public void testNoAsciiControlCharacters() {
-		for (char c = '\0'; c < ' '; c++)
+	void testNoAsciiControlCharacters() {
+		for (char c = '\0';c < ' ';c++)
 			assertValid(false, "refs/heads/mast" + c + "er");
 	}
 
 	@Test
-	public void testNoBareDot() {
+	void testNoBareDot() {
 		assertValid(false, "refs/heads/.");
 		assertValid(false, "refs/heads/..");
 		assertValid(false, "refs/heads/./master");
@@ -136,7 +136,7 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testNoLeadingOrTrailingDot() {
+	void testNoLeadingOrTrailingDot() {
 		assertValid(false, ".");
 		assertValid(false, "refs/heads/.bar");
 		assertValid(false, "refs/heads/..bar");
@@ -144,13 +144,13 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testContainsDot() {
+	void testContainsDot() {
 		assertValid(true, "refs/heads/m.a.s.t.e.r");
 		assertValid(false, "refs/heads/master..pu");
 	}
 
 	@Test
-	public void testNoMagicRefCharacters() {
+	void testNoMagicRefCharacters() {
 		assertValid(false, "refs/heads/master^");
 		assertValid(false, "refs/heads/^master");
 		assertValid(false, "^refs/heads/master");
@@ -165,7 +165,7 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testShellGlob() {
+	void testShellGlob() {
 		assertValid(false, "refs/heads/master?");
 		assertValid(false, "refs/heads/?master");
 		assertValid(false, "?refs/heads/master");
@@ -180,7 +180,7 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testValidSpecialCharacterUnixs() {
+	void testValidSpecialCharacterUnixs() {
 		assertValid(true, "refs/heads/!");
 		assertValid(true, "refs/heads/#");
 		assertValid(true, "refs/heads/$");
@@ -214,18 +214,18 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testUnicodeNames() {
+	void testUnicodeNames() {
 		assertValid(true, "refs/heads/\u00e5ngstr\u00f6m");
 	}
 
 	@Test
-	public void testRefLogQueryIsValidRef() {
+	void testRefLogQueryIsValidRef() {
 		assertValid(false, "refs/heads/master@{1}");
 		assertValid(false, "refs/heads/master@{1.hour.ago}");
 	}
 
 	@Test
-	public void testWindowsReservedNames() {
+	void testWindowsReservedNames() {
 		// re-using code from DirCacheCheckoutTest, hence
 		// only testing for one of the special names.
 		assertInvalidOnWindows("refs/heads/con");
@@ -236,7 +236,7 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testNormalizeBranchName() {
+	void testNormalizeBranchName() {
 		assertEquals("", Repository.normalizeBranchName(null));
 		assertEquals("", Repository.normalizeBranchName(""));
 		assertNormalized("Bug 12345::::Hello World", "Bug_12345-Hello_World");
@@ -262,7 +262,7 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testNormalizeWithSlashes() {
+	void testNormalizeWithSlashes() {
 		assertNormalized("foo/bar/baz", "foo/bar/baz");
 		assertNormalized("foo/bar.lock/baz.lock", "foo/bar_lock/baz_lock");
 		assertNormalized("foo/.git/.git~1/bar", "foo/git/git-1/bar");
@@ -272,7 +272,7 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testNormalizeWithUnicode() {
+	void testNormalizeWithUnicode() {
 		assertNormalized("f\u00f6\u00f6/.b\u00e0r/*[<>|^~/b\u00e9\\z",
 				"f\u00f6\u00f6/b\u00e0r/b\u00e9-z");
 		assertNormalized("\u5165\u53e3 entrance;/.\u51fa\u53e3_*ex*it*/",
@@ -280,13 +280,13 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testNormalizeAlreadyValidRefName() {
+	void testNormalizeAlreadyValidRefName() {
 		assertNormalized("refs/heads/m.a.s.t.e.r", "refs/heads/m.a.s.t.e.r");
 		assertNormalized("refs/tags/v1.0-20170223", "refs/tags/v1.0-20170223");
 	}
 
 	@Test
-	public void testNormalizeTrimmedUnicodeAlreadyValidRefName() {
+	void testNormalizeTrimmedUnicodeAlreadyValidRefName() {
 		assertNormalized(" \u00e5ngstr\u00f6m\t", "\u00e5ngstr\u00f6m");
 	}
 }

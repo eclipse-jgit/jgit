@@ -10,17 +10,17 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkSortTest extends RevWalkTestCase {
 	@Test
-	public void testSort_Default() throws Exception {
+	void testSort_Default() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(1, a);
 		final RevCommit c = commit(1, b);
@@ -35,7 +35,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_COMMIT_TIME_DESC() throws Exception {
+	void testSort_COMMIT_TIME_DESC() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(b);
@@ -51,7 +51,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_REVERSE() throws Exception {
+	void testSort_REVERSE() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(b);
@@ -67,7 +67,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_COMMIT_TIME_DESC_OutOfOrder1() throws Exception {
+	void testSort_COMMIT_TIME_DESC_OutOfOrder1() throws Exception {
 		// Despite being out of order time-wise, a strand-of-pearls must
 		// still maintain topological order.
 		//
@@ -88,7 +88,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_COMMIT_TIME_DESC_OutOfOrder2() throws Exception {
+	void testSort_COMMIT_TIME_DESC_OutOfOrder2() throws Exception {
 		// c1 is back dated before its parent.
 		//
 		final RevCommit a = commit();
@@ -108,7 +108,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO() throws Exception {
+	void testSort_TOPO() throws Exception {
 		// c1 is back dated before its parent.
 		//
 		final RevCommit a = commit();
@@ -128,7 +128,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_REVERSE() throws Exception {
+	void testSort_TOPO_REVERSE() throws Exception {
 		// c1 is back dated before its parent.
 		//
 		final RevCommit a = commit();
@@ -149,7 +149,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_NON_INTERMIX() throws Exception {
+	void testSort_TOPO_NON_INTERMIX() throws Exception {
 		// c1 is back dated before its parent.
 		//
 		final RevCommit a = commit();
@@ -169,7 +169,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_NON_INTERMIX_OutOfOrderCommitTimes()
+	void testSort_TOPO_NON_INTERMIX_OutOfOrderCommitTimes()
 			throws Exception {
 		// b is committed before c2 in a different line of history.
 		//
@@ -190,7 +190,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_NON_INTERMIX_MultipleLinesOfHistory()
+	void testSort_TOPO_NON_INTERMIX_MultipleLinesOfHistory()
 			throws Exception {
 		final RevCommit a1 = commit();
 		final RevCommit b1 = commit(a1);
@@ -213,7 +213,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_NON_INTERMIX_REVERSE() throws Exception {
+	void testSort_TOPO_NON_INTERMIX_REVERSE() throws Exception {
 		// c1 is back dated before its parent.
 		//
 		final RevCommit a = commit();
@@ -234,7 +234,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_NON_INTERMIX_REVERSE_MultipleLinesOfHistory()
+	void testSort_TOPO_NON_INTERMIX_REVERSE_MultipleLinesOfHistory()
 			throws Exception {
 		final RevCommit a1 = commit();
 		final RevCommit b1 = commit(a1);
@@ -258,7 +258,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_NON_INTERMIX_ParentOfMultipleStartChildren()
+	void testSort_TOPO_NON_INTERMIX_ParentOfMultipleStartChildren()
 			throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -282,7 +282,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_NON_INTERMIX_Uninteresting() throws Exception {
+	void testSort_TOPO_NON_INTERMIX_Uninteresting() throws Exception {
 		final RevCommit a1 = commit();
 		final RevCommit a2 = commit(a1);
 		final RevCommit a3 = commit(a2);
@@ -299,7 +299,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSort_TOPO_NON_INTERMIX_and_TOPO_throws() throws Exception {
+	void testSort_TOPO_NON_INTERMIX_and_TOPO_throws() throws Exception {
 		final RevCommit a = commit();
 
 		rw.sort(RevSort.TOPO_KEEP_BRANCH_TOGETHER);

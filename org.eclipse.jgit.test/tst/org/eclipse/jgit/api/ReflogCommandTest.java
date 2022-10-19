@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collection;
 
@@ -19,8 +19,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ReflogCommandTest extends RepositoryTestCase {
 
@@ -31,7 +31,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 	private static final String FILE = "test.txt";
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -52,7 +52,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testHeadReflog() throws Exception {
+	void testHeadReflog() throws Exception {
 		Collection<ReflogEntry> reflog = git.reflog().call();
 		assertNotNull(reflog);
 		assertEquals(3, reflog.size());
@@ -76,7 +76,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testBranchReflog() throws Exception {
+	void testBranchReflog() throws Exception {
 		Collection<ReflogEntry> reflog = git.reflog()
 				.setRef(Constants.R_HEADS + "b1").call();
 		assertNotNull(reflog);
@@ -97,7 +97,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testAmendReflog() throws Exception {
+	void testAmendReflog() throws Exception {
 		RevCommit commit2a = git.commit().setAmend(true)
 				.setMessage("Deleted file").call();
 		Collection<ReflogEntry> reflog = git.reflog().call();

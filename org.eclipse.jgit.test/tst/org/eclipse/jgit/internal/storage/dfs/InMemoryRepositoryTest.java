@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 
@@ -20,12 +20,12 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class InMemoryRepositoryTest {
 
 	@Test
-	public void keepUpdateIndexPeelingTag() throws Exception {
+	void keepUpdateIndexPeelingTag() throws Exception {
 		InMemoryRepository repo = new InMemoryRepository(
 				new DfsRepositoryDescription());
 		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
@@ -45,7 +45,7 @@ public class InMemoryRepositoryTest {
 	}
 
 	@Test
-	public void keepUpdateIndexPeelingNonTag() throws Exception {
+	void keepUpdateIndexPeelingNonTag() throws Exception {
 		InMemoryRepository repo = new InMemoryRepository(
 				new DfsRepositoryDescription());
 		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
@@ -62,7 +62,7 @@ public class InMemoryRepositoryTest {
 	}
 
 	@Test
-	public void sha1ToTip_ref() throws Exception {
+	void sha1ToTip_ref() throws Exception {
 		InMemoryRepository repo = new InMemoryRepository(
 				new DfsRepositoryDescription());
 		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
@@ -80,7 +80,7 @@ public class InMemoryRepositoryTest {
 	}
 
 	@Test
-	public void sha1ToTip_annotatedTag() throws Exception {
+	void sha1ToTip_annotatedTag() throws Exception {
 		InMemoryRepository repo = new InMemoryRepository(
 				new DfsRepositoryDescription());
 		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
@@ -99,7 +99,7 @@ public class InMemoryRepositoryTest {
 	}
 
 	@Test
-	public void sha1ToTip_tag() throws Exception {
+	void sha1ToTip_tag() throws Exception {
 		InMemoryRepository repo = new InMemoryRepository(
 				new DfsRepositoryDescription());
 		try (TestRepository<InMemoryRepository> git = new TestRepository<>(

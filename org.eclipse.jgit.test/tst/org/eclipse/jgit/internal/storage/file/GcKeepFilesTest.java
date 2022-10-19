@@ -10,20 +10,20 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GcKeepFilesTest extends GcTestCase {
 	@Test
-	public void testKeepFiles() throws Exception {
+	void testKeepFiles() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().add("A", "A").add("B", "B").create();
 		stats = gc.getStatistics();
@@ -61,11 +61,11 @@ public class GcKeepFilesTest extends GcTestCase {
 		assertEquals(4, ind1.getObjectCount());
 		PackIndex ind2 = packs.next().getIndex();
 		assertEquals(4, ind2.getObjectCount());
-		for (MutableEntry e: ind1)
+		for (MutableEntry e : ind1)
 			if (ind2.hasObject(e.toObjectId()))
 				assertFalse(
+						ind2.hasObject(e.toObjectId()),
 						"the following object is in both packfiles: "
-								+ e.toObjectId(),
-						ind2.hasObject(e.toObjectId()));
+								+ e.toObjectId());
 	}
 }

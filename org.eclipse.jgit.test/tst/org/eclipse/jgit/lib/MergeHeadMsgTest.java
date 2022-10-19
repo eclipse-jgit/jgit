@@ -10,8 +10,9 @@
 package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MergeHeadMsgTest extends RepositoryTestCase {
 	private static final String mergeMsg = "merge a and b";
@@ -28,8 +29,8 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 	private static final String sampleId = "1c6db447abdbb291b25f07be38ea0b1bf94947c5";
 
 	@Test
-	public void testReadWriteMergeHeads() throws IOException {
-		assertEquals(db.readMergeHeads(), null);
+	void testReadWriteMergeHeads() throws IOException {
+		assertNull(db.readMergeHeads());
 		db.writeMergeHeads(Arrays.asList(ObjectId.zeroId(),
 				ObjectId.fromString(sampleId)));
 		assertEquals(read(new File(db.getDirectory(), "MERGE_HEAD")), "0000000000000000000000000000000000000000\n1c6db447abdbb291b25f07be38ea0b1bf94947c5\n");
@@ -47,9 +48,9 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 		assertEquals(db.readMergeHeads().size(), 2);
 		assertEquals(db.readMergeHeads().get(0), ObjectId.zeroId());
 		assertEquals(db.readMergeHeads().get(1), ObjectId.fromString(sampleId));
-		db.writeMergeHeads(Collections.<ObjectId> emptyList());
+		db.writeMergeHeads(Collections.<ObjectId>emptyList());
 		assertEquals(read(new File(db.getDirectory(), "MERGE_HEAD")), "");
-		assertEquals(db.readMergeHeads(), null);
+		assertNull(db.readMergeHeads());
 		try (FileOutputStream fos = new FileOutputStream(
 				new File(db.getDirectory(), "MERGE_HEAD"))) {
 			fos.write(sampleId.getBytes(UTF_8));
@@ -59,14 +60,14 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReadWriteMergeMsg() throws IOException {
-		assertEquals(db.readMergeCommitMsg(), null);
+	void testReadWriteMergeMsg() throws IOException {
+		assertNull(db.readMergeCommitMsg());
 		assertFalse(new File(db.getDirectory(), "MERGE_MSG").exists());
 		db.writeMergeCommitMsg(mergeMsg);
 		assertEquals(db.readMergeCommitMsg(), mergeMsg);
 		assertEquals(read(new File(db.getDirectory(), "MERGE_MSG")), mergeMsg);
 		db.writeMergeCommitMsg(null);
-		assertEquals(db.readMergeCommitMsg(), null);
+		assertNull(db.readMergeCommitMsg());
 		assertFalse(new File(db.getDirectory(), "MERGE_MSG").exists());
 		try (FileOutputStream fos = new FileOutputStream(
 				new File(db.getDirectory(), Constants.MERGE_MSG))) {

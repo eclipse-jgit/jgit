@@ -9,13 +9,13 @@
  */
 package org.eclipse.jgit.ignore;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.eclipse.jgit.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests ignore pattern matches
@@ -23,7 +23,7 @@ import org.junit.Test;
 public class IgnoreMatcherParametrizedTest {
 
 	@Test
-	public void testBasic() {
+	void testBasic() {
 		String pattern = "/test.stp";
 		assertMatched(pattern, "/test.stp");
 
@@ -32,7 +32,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testFileNameWildcards() {
+	void testFileNameWildcards() {
 		// Test basic * and ? for any pattern + any character
 		String pattern = "*.st?";
 		assertMatched(pattern, "/test.stp");
@@ -93,7 +93,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testTargetWithoutLeadingSlash() {
+	void testTargetWithoutLeadingSlash() {
 		// Test basic * and ? for any pattern + any character
 		String pattern = "/*.st?";
 		assertMatched(pattern, "test.stp");
@@ -154,7 +154,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testParentDirectoryGitIgnores() {
+	void testParentDirectoryGitIgnores() {
 		// Contains git ignore patterns such as might be seen in a parent
 		// directory
 
@@ -189,7 +189,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testDirModeAndNoRegex() {
+	void testDirModeAndNoRegex() {
 		String pattern = "/src/";
 		assertMatched(pattern, "/src/");
 		assertMatched(pattern, "/src/new");
@@ -201,7 +201,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testDirModeAndRegex1() {
+	void testDirModeAndRegex1() {
 		String pattern = "a/*/src/";
 		assertMatched(pattern, "a/b/src/");
 		assertMatched(pattern, "a/b/src/new");
@@ -213,7 +213,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testDirModeAndRegex2() {
+	void testDirModeAndRegex2() {
 		String pattern = "a/[a-b]/src/";
 		assertMatched(pattern, "a/b/src/");
 		assertMatched(pattern, "a/b/src/new");
@@ -225,7 +225,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testDirModeAndRegex3() {
+	void testDirModeAndRegex3() {
 		String pattern = "**/src/";
 		assertMatched(pattern, "a/b/src/");
 		assertMatched(pattern, "a/b/src/new");
@@ -237,7 +237,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testNameOnlyMatches() {
+	void testNameOnlyMatches() {
 		/*
 		 * Name-only matches do not contain any path separators
 		 */
@@ -298,7 +298,7 @@ public class IgnoreMatcherParametrizedTest {
 	}
 
 	@Test
-	public void testNegation() {
+	void testNegation() {
 		String pattern = "!/test.stp";
 		assertMatched(pattern, "/test.stp");
 	}
@@ -316,11 +316,11 @@ public class IgnoreMatcherParametrizedTest {
 	private void assertMatched(String pattern, String target, Boolean... assume) {
 		boolean value = match(pattern, target);
 		if (assume.length == 0 || !assume[0].booleanValue())
-			assertTrue("Expected a match for: " + pattern + " with: " + target,
-					value);
+			assertTrue(value,
+					"Expected a match for: " + pattern + " with: " + target);
 		else
-			assumeTrue("Expected a match for: " + pattern + " with: " + target,
-					value);
+			assumeTrue(value,
+					"Expected a match for: " + pattern + " with: " + target);
 	}
 
 	/**
@@ -337,11 +337,11 @@ public class IgnoreMatcherParametrizedTest {
 			Boolean... assume) {
 		boolean value = match(pattern, target);
 		if (assume.length == 0 || !assume[0].booleanValue())
-			assertFalse("Expected no match for: " + pattern + " with: "
-					+ target, value);
+			assertFalse(value, "Expected no match for: " + pattern + " with: "
+					+ target);
 		else
-			assumeFalse("Expected no match for: " + pattern + " with: "
-					+ target, value);
+			assumeFalse(value, "Expected no match for: " + pattern + " with: "
+					+ target);
 	}
 
 	/**

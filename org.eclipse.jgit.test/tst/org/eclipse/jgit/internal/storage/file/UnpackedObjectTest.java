@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,7 +30,6 @@ import java.util.zip.DeflaterOutputStream;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.Constants;
@@ -41,9 +40,9 @@ import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	private int streamThreshold = 16 * 1024;
@@ -55,13 +54,14 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	private WindowCursor wc;
 
 	private TestRng getRng() {
-		if (rng == null)
-			rng = new TestRng(JGitTestUtil.getName());
+		if (rng == null) {
+			rng = new TestRng(getTestMethodName());
+		}
 		return rng;
 	}
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -74,7 +74,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (wc != null)
 			wc.close();
@@ -83,7 +83,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testStandardFormat_SmallObject() throws Exception {
+	void testStandardFormat_SmallObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(300);
 		byte[] gz = compressStandardFormat(type, data);
@@ -91,25 +91,25 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 		ObjectLoader ol = UnpackedObject.open(new ByteArrayInputStream(gz),
 				path(id), id, wc);
-		assertNotNull("created loader", ol);
+		assertNotNull(ol, "created loader");
 		assertEquals(type, ol.getType());
 		assertEquals(data.length, ol.getSize());
-		assertFalse("is not large", ol.isLarge());
-		assertTrue("same content", Arrays.equals(data, ol.getCachedBytes()));
+		assertFalse(ol.isLarge(), "is not large");
+		assertTrue(Arrays.equals(data, ol.getCachedBytes()), "same content");
 
 		try (ObjectStream in = ol.openStream()) {
-			assertNotNull("have stream", in);
+			assertNotNull(in, "have stream");
 			assertEquals(type, in.getType());
 			assertEquals(data.length, in.getSize());
 			byte[] data2 = new byte[data.length];
 			IO.readFully(in, data2, 0, data.length);
-			assertTrue("same content", Arrays.equals(data2, data));
-			assertEquals("stream at EOF", -1, in.read());
+			assertTrue(Arrays.equals(data2, data), "same content");
+			assertEquals(-1, in.read(), "stream at EOF");
 		}
 	}
 
 	@Test
-	public void testStandardFormat_LargeObject() throws Exception {
+	void testStandardFormat_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(streamThreshold + 5);
 		ObjectId id = getId(type, data);
@@ -122,32 +122,32 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			}
 		}
 
-		assertNotNull("created loader", ol);
+		assertNotNull(ol, "created loader");
 		assertEquals(type, ol.getType());
 		assertEquals(data.length, ol.getSize());
-		assertTrue("is large", ol.isLarge());
+		assertTrue(ol.isLarge(), "is large");
 		try {
 			ol.getCachedBytes();
 			fail("Should have thrown LargeObjectException");
 		} catch (LargeObjectException tooBig) {
-			assertEquals(MessageFormat.format(
-					JGitText.get().largeObjectException, id.name()), tooBig
-					.getMessage());
+			assertEquals(MessageFormat
+					.format(JGitText.get().largeObjectException, id.name()),
+					tooBig.getMessage());
 		}
 
 		try (ObjectStream in = ol.openStream()) {
-			assertNotNull("have stream", in);
+			assertNotNull(in, "have stream");
 			assertEquals(type, in.getType());
 			assertEquals(data.length, in.getSize());
 			byte[] data2 = new byte[data.length];
 			IO.readFully(in, data2, 0, data.length);
-			assertTrue("same content", Arrays.equals(data2, data));
-			assertEquals("stream at EOF", -1, in.read());
+			assertTrue(Arrays.equals(data2, data), "same content");
+			assertEquals(-1, in.read(), "stream at EOF");
 		}
 	}
 
 	@Test
-	public void testStandardFormat_NegativeSize() throws Exception {
+	void testStandardFormat_NegativeSize() throws Exception {
 		ObjectId id = ObjectId.zeroId();
 		byte[] data = getRng().nextBytes(300);
 
@@ -157,13 +157,13 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectNegativeSize), coe
-					.getMessage());
+					id.name(), JGitText.get().corruptObjectNegativeSize),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testStandardFormat_InvalidType() throws Exception {
+	void testStandardFormat_InvalidType() throws Exception {
 		ObjectId id = ObjectId.zeroId();
 		byte[] data = getRng().nextBytes(300);
 
@@ -172,14 +172,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(gz), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectInvalidType),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testStandardFormat_NoHeader() throws Exception {
+	void testStandardFormat_NoHeader() throws Exception {
 		ObjectId id = ObjectId.zeroId();
 		byte[] data = {};
 
@@ -188,14 +189,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(gz), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectNoHeader), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectNoHeader),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testStandardFormat_GarbageAfterSize() throws Exception {
+	void testStandardFormat_GarbageAfterSize() throws Exception {
 		ObjectId id = ObjectId.zeroId();
 		byte[] data = getRng().nextBytes(300);
 
@@ -211,8 +213,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testStandardFormat_SmallObject_CorruptZLibStream()
-			throws Exception {
+	void testStandardFormat_SmallObject_CorruptZLibStream() throws Exception {
 		ObjectId id = ObjectId.zeroId();
 		byte[] data = getRng().nextBytes(300);
 
@@ -223,15 +224,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(gz), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectBadStream),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testStandardFormat_SmallObject_TruncatedZLibStream()
-			throws Exception {
+	void testStandardFormat_SmallObject_TruncatedZLibStream() throws Exception {
 		ObjectId id = ObjectId.zeroId();
 		byte[] data = getRng().nextBytes(300);
 
@@ -242,15 +243,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(tr), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectBadStream),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testStandardFormat_SmallObject_TrailingGarbage()
-			throws Exception {
+	void testStandardFormat_SmallObject_TrailingGarbage() throws Exception {
 		ObjectId id = ObjectId.zeroId();
 		byte[] data = getRng().nextBytes(300);
 
@@ -261,15 +262,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(tr), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectBadStream),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testStandardFormat_LargeObject_CorruptZLibStream()
-			throws Exception {
+	void testStandardFormat_LargeObject_CorruptZLibStream() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(streamThreshold + 5);
 		ObjectId id = getId(type, data);
@@ -289,15 +290,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			IO.readFully(in, tmp, 0, tmp.length);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectBadStream),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testStandardFormat_LargeObject_TruncatedZLibStream()
-			throws Exception {
+	void testStandardFormat_LargeObject_TruncatedZLibStream() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(streamThreshold + 5);
 		ObjectId id = getId(type, data);
@@ -313,22 +314,23 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		}
 
 		byte[] tmp = new byte[data.length];
-		@SuppressWarnings("resource") // We are testing that the close() method throws
+		@SuppressWarnings("resource") // We are testing that the close() method
+										// throws
 		InputStream in = ol.openStream();
 		IO.readFully(in, tmp, 0, tmp.length);
 		try {
 			in.close();
 			fail("close did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectBadStream),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testStandardFormat_LargeObject_TrailingGarbage()
-			throws Exception {
+	void testStandardFormat_LargeObject_TrailingGarbage() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(streamThreshold + 5);
 		ObjectId id = getId(type, data);
@@ -344,21 +346,23 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		}
 
 		byte[] tmp = new byte[data.length];
-		@SuppressWarnings("resource") // We are testing that the close() method throws
+		@SuppressWarnings("resource") // We are testing that the close() method
+										// throws
 		InputStream in = ol.openStream();
 		IO.readFully(in, tmp, 0, tmp.length);
 		try {
 			in.close();
 			fail("close did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectBadStream),
+					coe.getMessage());
 		}
 	}
 
 	@Test
-	public void testPackFormat_SmallObject() throws Exception {
+	void testPackFormat_SmallObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(300);
 		byte[] gz = compressPackFormat(type, data);
@@ -366,25 +370,25 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 		ObjectLoader ol = UnpackedObject.open(new ByteArrayInputStream(gz),
 				path(id), id, wc);
-		assertNotNull("created loader", ol);
+		assertNotNull(ol, "created loader");
 		assertEquals(type, ol.getType());
 		assertEquals(data.length, ol.getSize());
-		assertFalse("is not large", ol.isLarge());
-		assertTrue("same content", Arrays.equals(data, ol.getCachedBytes()));
+		assertFalse(ol.isLarge(), "is not large");
+		assertTrue(Arrays.equals(data, ol.getCachedBytes()), "same content");
 
 		try (ObjectStream in = ol.openStream()) {
-			assertNotNull("have stream", in);
+			assertNotNull(in, "have stream");
 			assertEquals(type, in.getType());
 			assertEquals(data.length, in.getSize());
 			byte[] data2 = new byte[data.length];
 			IO.readFully(in, data2, 0, data.length);
-			assertTrue("same content",
-					Arrays.equals(data, ol.getCachedBytes()));
+			assertTrue(Arrays.equals(data, ol.getCachedBytes()),
+					"same content");
 		}
 	}
 
 	@Test
-	public void testPackFormat_LargeObject() throws Exception {
+	void testPackFormat_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(streamThreshold + 5);
 		ObjectId id = getId(type, data);
@@ -395,32 +399,32 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			ol = UnpackedObject.open(fs, path(id), id, wc);
 		}
 
-		assertNotNull("created loader", ol);
+		assertNotNull(ol, "created loader");
 		assertEquals(type, ol.getType());
 		assertEquals(data.length, ol.getSize());
-		assertTrue("is large", ol.isLarge());
+		assertTrue(ol.isLarge(), "is large");
 		try {
 			ol.getCachedBytes();
 			fail("Should have thrown LargeObjectException");
 		} catch (LargeObjectException tooBig) {
-			assertEquals(MessageFormat.format(
-					JGitText.get().largeObjectException, id.name()), tooBig
-					.getMessage());
+			assertEquals(MessageFormat
+					.format(JGitText.get().largeObjectException, id.name()),
+					tooBig.getMessage());
 		}
 
 		try (ObjectStream in = ol.openStream()) {
-			assertNotNull("have stream", in);
+			assertNotNull(in, "have stream");
 			assertEquals(type, in.getType());
 			assertEquals(data.length, in.getSize());
 			byte[] data2 = new byte[data.length];
 			IO.readFully(in, data2, 0, data.length);
-			assertTrue("same content", Arrays.equals(data2, data));
-			assertEquals("stream at EOF", -1, in.read());
+			assertTrue(Arrays.equals(data2, data), "same content");
+			assertEquals(-1, in.read(), "stream at EOF");
 		}
 	}
 
 	@Test
-	public void testPackFormat_DeltaNotAllowed() throws Exception {
+	void testPackFormat_DeltaNotAllowed() throws Exception {
 		ObjectId id = ObjectId.zeroId();
 		byte[] data = getRng().nextBytes(300);
 
@@ -429,9 +433,10 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(gz), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectInvalidType),
+					coe.getMessage());
 		}
 
 		try {
@@ -439,9 +444,10 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(gz), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectInvalidType),
+					coe.getMessage());
 		}
 
 		try {
@@ -449,9 +455,10 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(gz), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectInvalidType),
+					coe.getMessage());
 		}
 
 		try {
@@ -459,9 +466,10 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			UnpackedObject.open(new ByteArrayInputStream(gz), path(id), id, wc);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
-			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
-					.getMessage());
+			assertEquals(
+					MessageFormat.format(JGitText.get().objectIsCorrupt,
+							id.name(), JGitText.get().corruptObjectInvalidType),
+					coe.getMessage());
 		}
 	}
 
@@ -490,12 +498,14 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		byte[] hdr = new byte[64];
 		int rawLength = data.length;
 		int nextLength = rawLength >>> 4;
-		hdr[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4) | (rawLength & 0x0F));
+		hdr[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4)
+				| (rawLength & 0x0F));
 		rawLength = nextLength;
 		int n = 1;
 		while (rawLength > 0) {
 			nextLength >>>= 7;
-			hdr[n++] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (rawLength & 0x7F));
+			hdr[n++] = (byte) ((nextLength > 0 ? 0x80 : 0x00)
+					| (rawLength & 0x7F));
 			rawLength = nextLength;
 		}
 

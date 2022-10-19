@@ -10,7 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
@@ -21,17 +22,17 @@ import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GcBranchPrunedTest extends GcTestCase {
 
 	@Test
-	public void branch_historyNotPruned() throws Exception {
+	void branch_historyNotPruned() throws Exception {
 		RevCommit tip = commitChain(10);
 		tr.branch("b").update(tip);
 		gc.setExpireAgeMillis(0);
 		fsTick();
-		gc.prune(Collections.<ObjectId> emptySet());
+		gc.prune(Collections.<ObjectId>emptySet());
 		do {
 			assertTrue(repo.getObjectDatabase().has(tip));
 			tr.parseBody(tip);
@@ -43,7 +44,7 @@ public class GcBranchPrunedTest extends GcTestCase {
 	}
 
 	@Test
-	public void deleteBranch_historyPruned() throws Exception {
+	void deleteBranch_historyPruned() throws Exception {
 		RevCommit tip = commitChain(10);
 		tr.branch("b").update(tip);
 		RefUpdate update = repo.updateRef("refs/heads/b");
@@ -51,12 +52,12 @@ public class GcBranchPrunedTest extends GcTestCase {
 		update.delete();
 		gc.setExpireAgeMillis(0);
 		fsTick();
-		gc.prune(Collections.<ObjectId> emptySet());
-		assertTrue(gc.getStatistics().numberOfLooseObjects == 0);
+		gc.prune(Collections.<ObjectId>emptySet());
+		assertEquals(gc.getStatistics().numberOfLooseObjects, 0);
 	}
 
 	@Test
-	public void deleteMergedBranch_historyNotPruned() throws Exception {
+	void deleteMergedBranch_historyNotPruned() throws Exception {
 		RevCommit parent = tr.commit().create();
 		RevCommit b1Tip = tr.branch("b1").commit().parent(parent).add("x", "x")
 				.create();
@@ -80,7 +81,7 @@ public class GcBranchPrunedTest extends GcTestCase {
 
 		gc.setExpireAgeMillis(0);
 		fsTick();
-		gc.prune(Collections.<ObjectId> emptySet());
+		gc.prune(Collections.<ObjectId>emptySet());
 		assertTrue(repo.getObjectDatabase().has(b2Tip));
 	}
 }

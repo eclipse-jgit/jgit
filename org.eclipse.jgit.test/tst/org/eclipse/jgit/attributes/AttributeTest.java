@@ -10,11 +10,11 @@
  */
 package org.eclipse.jgit.attributes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.eclipse.jgit.attributes.Attribute.State;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link Attribute}
@@ -22,7 +22,7 @@ import org.junit.Test;
 public class AttributeTest {
 
 	@Test
-	public void testBasic() {
+	void testBasic() {
 		Attribute a = new Attribute("delta", State.SET);
 		assertEquals(a.getKey(), "delta");
 		assertEquals(a.getState(), State.SET);

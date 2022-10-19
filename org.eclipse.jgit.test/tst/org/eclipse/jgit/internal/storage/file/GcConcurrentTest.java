@@ -11,11 +11,11 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.lang.Integer.valueOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -43,11 +43,11 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GcConcurrentTest extends GcTestCase {
 	@Test
-	public void concurrentRepack() throws Exception {
+	void concurrentRepack() throws Exception {
 		final CyclicBarrier syncPoint = new CyclicBarrier(2);
 
 		class DoRepack extends EmptyProgressMonitor implements
@@ -105,7 +105,7 @@ public class GcConcurrentTest extends GcTestCase {
 	}
 
 	@Test
-	public void repackAndGetStats() throws Exception {
+	void repackAndGetStats() throws Exception {
 		TestRepository<FileRepository>.BranchBuilder test = tr.branch("test");
 		test.commit().add("a", "a").create();
 		GC gc1 = new GC(tr.getRepository());
@@ -126,7 +126,7 @@ public class GcConcurrentTest extends GcTestCase {
 	}
 
 	@Test
-	public void repackAndUploadPack() throws Exception {
+	void repackAndUploadPack() throws Exception {
 		TestRepository<FileRepository>.BranchBuilder test = tr.branch("test");
 		// RevCommit a = test.commit().add("a", "a").create();
 		test.commit().add("a", "a").create();
@@ -151,7 +151,7 @@ public class GcConcurrentTest extends GcTestCase {
 		try (PackWriter pw = new PackWriter(tr.getRepository())) {
 			pw.setUseBitmaps(true);
 			pw.preparePack(NullProgressMonitor.INSTANCE, Sets.of(b),
-					Collections.<ObjectId> emptySet());
+					Collections.<ObjectId>emptySet());
 			new GC(tr.getRepository()).getStatistics();
 		}
 	}
@@ -163,7 +163,7 @@ public class GcConcurrentTest extends GcTestCase {
 	}
 
 	@Test
-	public void repackAndCheckBitmapUsage() throws Exception {
+	void repackAndCheckBitmapUsage() throws Exception {
 		// create a test repository with one commit and pack all objects. After
 		// packing create loose objects to trigger creation of a new packfile on
 		// the next gc
@@ -198,7 +198,7 @@ public class GcConcurrentTest extends GcTestCase {
 	}
 
 	@Test
-	public void testInterruptGc() throws Exception {
+	void testInterruptGc() throws Exception {
 		FileBasedConfig c = repo.getConfig();
 		c.setInt(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOPACKLIMIT, 1);

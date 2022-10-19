@@ -10,14 +10,14 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LIFORevQueueTest extends RevQueueTestCase<LIFORevQueue> {
 	@Override
@@ -33,13 +33,13 @@ public class LIFORevQueueTest extends RevQueueTestCase<LIFORevQueue> {
 	}
 
 	@Test
-	public void testCloneEmpty() throws Exception {
+	void testCloneEmpty() throws Exception {
 		q = new LIFORevQueue(AbstractRevQueue.EMPTY_QUEUE);
 		assertNull(q.next());
 	}
 
 	@Test
-	public void testAddLargeBlocks() throws Exception {
+	void testAddLargeBlocks() throws Exception {
 		final ArrayList<RevCommit> lst = new ArrayList<>();
 		for (int i = 0; i < 3 * BlockRevQueue.Block.BLOCK_SIZE; i++) {
 			final RevCommit c = commit();

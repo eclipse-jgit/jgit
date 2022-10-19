@@ -9,11 +9,11 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -24,7 +24,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link LockFile}
@@ -32,7 +32,7 @@ import org.junit.Test;
 public class LockFileTest extends RepositoryTestCase {
 
 	@Test
-	public void lockFailedExceptionRecovery() throws Exception {
+	void lockFailedExceptionRecovery() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -57,7 +57,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockTwice() throws Exception {
+	void testLockTwice() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -76,7 +76,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockTwiceUnlock() throws Exception {
+	void testLockTwiceUnlock() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -96,7 +96,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockWriteTwiceThrows1() throws Exception {
+	void testLockWriteTwiceThrows1() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -108,7 +108,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockWriteTwiceThrows2() throws Exception {
+	void testLockWriteTwiceThrows2() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -122,7 +122,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockWriteTwiceThrows3() throws Exception {
+	void testLockWriteTwiceThrows3() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -137,7 +137,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockWriteTwiceThrows4() throws Exception {
+	void testLockWriteTwiceThrows4() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -154,7 +154,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockUnclosedCommitThrows() throws Exception {
+	void testLockUnclosedCommitThrows() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -166,7 +166,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockNested() throws Exception {
+	void testLockNested() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -177,7 +177,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockHeld() throws Exception {
+	void testLockHeld() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lock());
@@ -190,7 +190,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockForAppend() throws Exception {
+	void testLockForAppend() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		LockFile lock = new LockFile(f);
 		assertTrue(lock.lockForAppend());
@@ -202,7 +202,7 @@ public class LockFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUnlockNoop() throws Exception {
+	void testUnlockNoop() throws Exception {
 		File f = writeTrashFile("somefile", "content");
 		try {
 			LockFile lock = new LockFile(f);

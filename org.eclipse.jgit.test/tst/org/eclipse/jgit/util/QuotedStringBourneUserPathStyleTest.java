@@ -11,18 +11,18 @@
 package org.eclipse.jgit.util;
 
 import static org.eclipse.jgit.util.QuotedString.BOURNE_USER_PATH;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class QuotedStringBourneUserPathStyleTest {
 	private static void assertQuote(String in, String exp) {
 		final String r = BOURNE_USER_PATH.quote(in);
 		assertNotSame(in, r);
-		assertFalse(in.equals(r));
+		assertNotEquals(in, r);
 		assertEquals('\'' + exp + '\'', r);
 	}
 
@@ -33,40 +33,40 @@ public class QuotedStringBourneUserPathStyleTest {
 	}
 
 	@Test
-	public void testQuote_Empty() {
+	void testQuote_Empty() {
 		assertEquals("''", BOURNE_USER_PATH.quote(""));
 	}
 
 	@Test
-	public void testDequote_Empty1() {
+	void testDequote_Empty1() {
 		assertEquals("", BOURNE_USER_PATH.dequote(new byte[0], 0, 0));
 	}
 
 	@Test
-	public void testDequote_Empty2() {
-		assertEquals("", BOURNE_USER_PATH.dequote(new byte[] { '\'', '\'' }, 0,
+	void testDequote_Empty2() {
+		assertEquals("", BOURNE_USER_PATH.dequote(new byte[]{'\'', '\''}, 0,
 				2));
 	}
 
 	@Test
-	public void testDequote_SoleSq() {
-		assertEquals("", BOURNE_USER_PATH.dequote(new byte[] { '\'' }, 0, 1));
+	void testDequote_SoleSq() {
+		assertEquals("", BOURNE_USER_PATH.dequote(new byte[]{'\''}, 0, 1));
 	}
 
 	@Test
-	public void testQuote_BareA() {
+	void testQuote_BareA() {
 		assertQuote("a", "a");
 	}
 
 	@Test
-	public void testDequote_BareA() {
+	void testDequote_BareA() {
 		final String in = "a";
 		final byte[] b = Constants.encode(in);
 		assertEquals(in, BOURNE_USER_PATH.dequote(b, 0, b.length));
 	}
 
 	@Test
-	public void testDequote_BareABCZ_OnlyBC() {
+	void testDequote_BareABCZ_OnlyBC() {
 		final String in = "abcz";
 		final byte[] b = Constants.encode(in);
 		final int p = in.indexOf('b');
@@ -74,12 +74,12 @@ public class QuotedStringBourneUserPathStyleTest {
 	}
 
 	@Test
-	public void testDequote_LoneBackslash() {
+	void testDequote_LoneBackslash() {
 		assertDequote("\\", "\\");
 	}
 
 	@Test
-	public void testQuote_NamedEscapes() {
+	void testQuote_NamedEscapes() {
 		assertQuote("'", "'\\''");
 		assertQuote("!", "'\\!'");
 
@@ -88,7 +88,7 @@ public class QuotedStringBourneUserPathStyleTest {
 	}
 
 	@Test
-	public void testDequote_NamedEscapes() {
+	void testDequote_NamedEscapes() {
 		assertDequote("'", "'\\''");
 		assertDequote("!", "'\\!'");
 
@@ -97,7 +97,7 @@ public class QuotedStringBourneUserPathStyleTest {
 	}
 
 	@Test
-	public void testQuote_User() {
+	void testQuote_User() {
 		assertEquals("~foo/", BOURNE_USER_PATH.quote("~foo"));
 		assertEquals("~foo/", BOURNE_USER_PATH.quote("~foo/"));
 		assertEquals("~/", BOURNE_USER_PATH.quote("~/"));
@@ -107,7 +107,7 @@ public class QuotedStringBourneUserPathStyleTest {
 	}
 
 	@Test
-	public void testDequote_User() {
+	void testDequote_User() {
 		assertEquals("~foo", BOURNE_USER_PATH.dequote("~foo"));
 		assertEquals("~foo/", BOURNE_USER_PATH.dequote("~foo/"));
 		assertEquals("~/", BOURNE_USER_PATH.dequote("~/"));

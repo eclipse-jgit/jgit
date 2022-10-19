@@ -10,16 +10,16 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SubmoduleConfigTest {
 	@Test
-	public void fetchRecurseMatch() throws Exception {
+	void fetchRecurseMatch() throws Exception {
 		assertTrue(FetchRecurseSubmodulesMode.YES.matchConfigValue("yes"));
 		assertTrue(FetchRecurseSubmodulesMode.YES.matchConfigValue("YES"));
 		assertTrue(FetchRecurseSubmodulesMode.YES.matchConfigValue("true"));
@@ -41,7 +41,7 @@ public class SubmoduleConfigTest {
 	}
 
 	@Test
-	public void fetchRecurseNoMatch() throws Exception {
+	void fetchRecurseNoMatch() throws Exception {
 		assertFalse(FetchRecurseSubmodulesMode.YES.matchConfigValue("Y"));
 		assertFalse(FetchRecurseSubmodulesMode.NO.matchConfigValue("N"));
 		assertFalse(FetchRecurseSubmodulesMode.ON_DEMAND
@@ -51,7 +51,7 @@ public class SubmoduleConfigTest {
 	}
 
 	@Test
-	public void fetchRecurseToConfigValue() {
+	void fetchRecurseToConfigValue() {
 		assertEquals("on-demand",
 				FetchRecurseSubmodulesMode.ON_DEMAND.toConfigValue());
 		assertEquals("true", FetchRecurseSubmodulesMode.YES.toConfigValue());

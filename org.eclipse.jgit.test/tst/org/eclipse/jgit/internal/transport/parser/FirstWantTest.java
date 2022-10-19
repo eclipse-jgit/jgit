@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.internal.transport.parser;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FirstWantTest {
 
 	@Test
-	public void testFirstWantWithOptions() throws PackProtocolException {
+	void testFirstWantWithOptions() throws PackProtocolException {
 		String line = "want b9d4d1eb2f93058814480eae9e1b67550f46ee38 "
 				+ "no-progress include-tag ofs-delta agent=JGit/unknown "
 				+ "session-id=the.client.sid";
@@ -42,7 +42,7 @@ public class FirstWantTest {
 	}
 
 	@Test
-	public void testFirstWantWithoutOptions() throws PackProtocolException {
+	void testFirstWantWithoutOptions() throws PackProtocolException {
 		String line = "want b9d4d1eb2f93058814480eae9e1b67550f46ee38";
 
 		FirstWant r = FirstWant.fromLine(line);
@@ -57,7 +57,7 @@ public class FirstWantTest {
 	}
 
 	@Test
-	public void testFirstWantNoWhitespace() {
+	void testFirstWantNoWhitespace() {
 		try {
 			FirstWant.fromLine(
 					"want b9d4d1eb2f93058814480eae9e1b67550f400000capability");
@@ -68,7 +68,7 @@ public class FirstWantTest {
 	}
 
 	@Test
-	public void testFirstWantOnlyWhitespace() throws PackProtocolException {
+	void testFirstWantOnlyWhitespace() throws PackProtocolException {
 		FirstWant r = FirstWant
 				.fromLine("want b9d4d1eb2f93058814480eae9e1b67550f46ee38 ");
 		assertEquals("want b9d4d1eb2f93058814480eae9e1b67550f46ee38",
@@ -76,14 +76,14 @@ public class FirstWantTest {
 	}
 
 	@Test
-	public void testFirstWantValidCapabilityNames()
+	void testFirstWantValidCapabilityNames()
 			throws PackProtocolException {
 		List<String> validNames = Arrays.asList(
 				"c", "cap", "C", "CAP", "1", "1cap", "cap-64k_test",
 				"-", "-cap",
 				"_", "_cap");
 
-		for (String capability: validNames) {
+		for (String capability : validNames) {
 			FirstWant r = FirstWant.fromLine(makeFirstWantLine(capability));
 			assertEquals(r.getCapabilities().size(), 1);
 			assertTrue(r.getCapabilities().contains(capability));
@@ -91,7 +91,7 @@ public class FirstWantTest {
 	}
 
 	@Test
-	public void testFirstWantValidAgentName() throws PackProtocolException {
+	void testFirstWantValidAgentName() throws PackProtocolException {
 		FirstWant r = FirstWant.fromLine(makeFirstWantLine("agent=pack.age/Version"));
 		assertEquals(r.getCapabilities().size(), 0);
 		assertEquals("pack.age/Version", r.getAgent());

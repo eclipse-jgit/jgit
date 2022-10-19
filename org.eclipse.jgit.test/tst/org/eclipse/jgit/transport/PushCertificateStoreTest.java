@@ -16,9 +16,9 @@ import static org.eclipse.jgit.lib.RefUpdate.Result.FAST_FORWARD;
 import static org.eclipse.jgit.lib.RefUpdate.Result.LOCK_FAILURE;
 import static org.eclipse.jgit.lib.RefUpdate.Result.NEW;
 import static org.eclipse.jgit.lib.RefUpdate.Result.NO_CHANGE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -38,8 +38,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PushCertificateStoreTest {
 	private static final ObjectId ID1 =
@@ -80,24 +80,24 @@ public class PushCertificateStoreTest {
 	private InMemoryRepository repo;
 	private PushCertificateStore store;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		repo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
 		store = newStore();
 	}
 
 	@Test
-	public void missingRef() throws Exception {
+	void missingRef() throws Exception {
 		assertCerts("refs/heads/master");
 	}
 
 	@Test
-	public void saveNoChange() throws Exception {
+	void saveNoChange() throws Exception {
 		assertEquals(NO_CHANGE, store.save());
 	}
 
 	@Test
-	public void saveOneCertOnOneRef() throws Exception {
+	void saveOneCertOnOneRef() throws Exception {
 		PersonIdent ident = newIdent();
 		PushCertificate addMaster = newCert(
 				command(zeroId(), ID1, "refs/heads/master"));
@@ -117,7 +117,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void saveTwoCertsOnSameRefInTwoUpdates() throws Exception {
+	void saveTwoCertsOnSameRefInTwoUpdates() throws Exception {
 		PushCertificate addMaster = newCert(
 				command(zeroId(), ID1, "refs/heads/master"));
 		store.put(addMaster, newIdent());
@@ -130,7 +130,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void saveTwoCertsOnSameRefInOneUpdate() throws Exception {
+	void saveTwoCertsOnSameRefInOneUpdate() throws Exception {
 		PersonIdent ident1 = newIdent();
 		PersonIdent ident2 = newIdent();
 		PushCertificate updateMaster = newCert(
@@ -144,7 +144,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void saveTwoCertsOnDifferentRefsInOneUpdate() throws Exception {
+	void saveTwoCertsOnDifferentRefsInOneUpdate() throws Exception {
 		PersonIdent ident1 = newIdent();
 		PersonIdent ident3 = newIdent();
 		PushCertificate addBranch = newCert(
@@ -159,7 +159,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void saveTwoCertsOnDifferentRefsInTwoUpdates() throws Exception {
+	void saveTwoCertsOnDifferentRefsInTwoUpdates() throws Exception {
 		PushCertificate addMaster = newCert(
 				command(zeroId(), ID1, "refs/heads/master"));
 		store.put(addMaster, newIdent());
@@ -173,7 +173,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void saveOneCertOnMultipleRefs() throws Exception {
+	void saveOneCertOnMultipleRefs() throws Exception {
 		PersonIdent ident = newIdent();
 		PushCertificate addMasterAndBranch = newCert(
 				command(zeroId(), ID1, "refs/heads/branch"),
@@ -193,7 +193,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void changeRefFileToDirectory() throws Exception {
+	void changeRefFileToDirectory() throws Exception {
 		PushCertificate deleteRefsHeads = newCert(
 				command(ID1, zeroId(), "refs/heads"));
 		store.put(deleteRefsHeads, newIdent());
@@ -206,7 +206,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void getBeforeSaveDoesNotIncludePending() throws Exception {
+	void getBeforeSaveDoesNotIncludePending() throws Exception {
 		PushCertificate addMaster = newCert(
 				command(zeroId(), ID1, "refs/heads/master"));
 		store.put(addMaster, newIdent());
@@ -222,7 +222,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void lockFailure() throws Exception {
+	void lockFailure() throws Exception {
 		PushCertificateStore store1 = store;
 		PushCertificateStore store2 = newStore();
 		store2.get("refs/heads/master");
@@ -247,7 +247,7 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void saveInBatch() throws Exception {
+	void saveInBatch() throws Exception {
 		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
 		assertFalse(store.save(batch));
 		assertEquals(0, batch.getCommands().size());
@@ -269,28 +269,28 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
-	public void putMatchingWithNoMatchingRefs() throws Exception {
+	void putMatchingWithNoMatchingRefs() throws Exception {
 		PushCertificate addMaster = newCert(
 				command(zeroId(), ID1, "refs/heads/master"),
 				command(zeroId(), ID2, "refs/heads/branch"));
-		store.put(addMaster, newIdent(), Collections.<ReceiveCommand> emptyList());
+		store.put(addMaster, newIdent(), Collections.<ReceiveCommand>emptyList());
 		assertEquals(NO_CHANGE, store.save());
 	}
 
 	@Test
-	public void putMatchingWithNoMatchingRefsInBatchOnEmptyRef()
+	void putMatchingWithNoMatchingRefsInBatchOnEmptyRef()
 			throws Exception {
 		PushCertificate addMaster = newCert(
 				command(zeroId(), ID1, "refs/heads/master"),
 				command(zeroId(), ID2, "refs/heads/branch"));
-		store.put(addMaster, newIdent(), Collections.<ReceiveCommand> emptyList());
+		store.put(addMaster, newIdent(), Collections.<ReceiveCommand>emptyList());
 		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
 		assertFalse(store.save(batch));
 		assertEquals(0, batch.getCommands().size());
 	}
 
 	@Test
-	public void putMatchingWithNoMatchingRefsInBatchOnNonEmptyRef()
+	void putMatchingWithNoMatchingRefsInBatchOnNonEmptyRef()
 			throws Exception {
 		PushCertificate addMaster = newCert(
 				command(zeroId(), ID1, "refs/heads/master"));
@@ -299,14 +299,14 @@ public class PushCertificateStoreTest {
 
 		PushCertificate addBranch = newCert(
 				command(zeroId(), ID2, "refs/heads/branch"));
-		store.put(addBranch, newIdent(), Collections.<ReceiveCommand> emptyList());
+		store.put(addBranch, newIdent(), Collections.<ReceiveCommand>emptyList());
 		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
 		assertFalse(store.save(batch));
 		assertEquals(0, batch.getCommands().size());
 	}
 
 	@Test
-	public void putMatchingWithSomeMatchingRefs() throws Exception {
+	void putMatchingWithSomeMatchingRefs() throws Exception {
 		PushCertificate addMasterAndBranch = newCert(
 				command(zeroId(), ID1, "refs/heads/master"),
 				command(zeroId(), ID2, "refs/heads/branch"));

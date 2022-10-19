@@ -9,13 +9,13 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.lib.Config;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link TransferConfig} parsing.
@@ -23,7 +23,7 @@ import org.junit.Test;
 public class TransferConfigTest {
 
 	@Test
-	public void testParseProtocolV0() {
+	void testParseProtocolV0() {
 		Config rc = new Config();
 		rc.setInt("protocol", null, "version", 0);
 		TransferConfig tc = new TransferConfig(rc);
@@ -31,7 +31,7 @@ public class TransferConfigTest {
 	}
 
 	@Test
-	public void testParseProtocolV1() {
+	void testParseProtocolV1() {
 		Config rc = new Config();
 		rc.setInt("protocol", null, "version", 1);
 		TransferConfig tc = new TransferConfig(rc);
@@ -39,7 +39,7 @@ public class TransferConfigTest {
 	}
 
 	@Test
-	public void testParseProtocolV2() {
+	void testParseProtocolV2() {
 		Config rc = new Config();
 		rc.setInt("protocol", null, "version", 2);
 		TransferConfig tc = new TransferConfig(rc);
@@ -47,14 +47,14 @@ public class TransferConfigTest {
 	}
 
 	@Test
-	public void testParseProtocolNotSet() {
+	void testParseProtocolNotSet() {
 		Config rc = new Config();
 		TransferConfig tc = new TransferConfig(rc);
 		assertNull(tc.protocolVersion);
 	}
 
 	@Test
-	public void testParseProtocolUnknown() {
+	void testParseProtocolUnknown() {
 		Config rc = new Config();
 		rc.setInt("protocol", null, "version", 3);
 		TransferConfig tc = new TransferConfig(rc);
@@ -62,7 +62,7 @@ public class TransferConfigTest {
 	}
 
 	@Test
-	public void testParseProtocolInvalid() {
+	void testParseProtocolInvalid() {
 		Config rc = new Config();
 		rc.setString("protocol", null, "version", "foo");
 		TransferConfig tc = new TransferConfig(rc);

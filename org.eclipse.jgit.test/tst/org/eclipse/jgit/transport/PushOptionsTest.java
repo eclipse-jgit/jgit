@@ -10,10 +10,11 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -35,9 +36,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PushOptionsTest extends RepositoryTestCase {
 	private URIish uri;
@@ -50,7 +51,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	private ReceivePack receivePack;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -76,7 +77,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() {
 		Transport.unregister(testProtocol);
 	}
@@ -117,7 +118,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNonAtomicPushWithOptions() throws Exception {
+	void testNonAtomicPushWithOptions() throws Exception {
 		PushResult r;
 		server.setPerformsAtomicTransactions(false);
 		List<String> pushOptions = Arrays.asList("Hello", "World!");
@@ -139,7 +140,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAtomicPushWithOptions() throws Exception {
+	void testAtomicPushWithOptions() throws Exception {
 		PushResult r;
 		server.setPerformsAtomicTransactions(true);
 		List<String> pushOptions = Arrays.asList("Hello", "World!");
@@ -160,7 +161,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFailedAtomicPushWithOptions() throws Exception {
+	void testFailedAtomicPushWithOptions() throws Exception {
 		PushResult r;
 		server.setPerformsAtomicTransactions(true);
 		List<String> pushOptions = Arrays.asList("Hello", "World!");
@@ -183,7 +184,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testThinPushWithOptions() throws Exception {
+	void testThinPushWithOptions() throws Exception {
 		PushResult r;
 		List<String> pushOptions = Arrays.asList("Hello", "World!");
 
@@ -204,7 +205,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPushWithoutOptions() throws Exception {
+	void testPushWithoutOptions() throws Exception {
 		try (Git local = new Git(db);
 				Git remote = new Git(createBareRepository())) {
 			connectLocalToRemote(local, remote);
@@ -233,7 +234,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPushWithEmptyOptions() throws Exception {
+	void testPushWithEmptyOptions() throws Exception {
 		try (Git local = new Git(db);
 				Git remote = new Git(createBareRepository())) {
 			connectLocalToRemote(local, remote);
@@ -263,7 +264,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAdvertisedButUnusedPushOptions() throws Exception {
+	void testAdvertisedButUnusedPushOptions() throws Exception {
 		try (Git local = new Git(db);
 				Git remote = new Git(createBareRepository())) {
 			connectLocalToRemote(local, remote);
@@ -292,31 +293,33 @@ public class PushOptionsTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test(expected = TransportException.class)
-	public void testPushOptionsNotSupported() throws Exception {
-		try (Git local = new Git(db);
+	@Test
+	void testPushOptionsNotSupported() throws Exception {
+		assertThrows(TransportException.class, () -> {
+			try (Git local = new Git(db);
 				Git remote = new Git(createBareRepository())) {
-			connectLocalToRemote(local, remote);
+				connectLocalToRemote(local, remote);
 
-			final StoredConfig config2 = remote.getRepository().getConfig();
-			config2.setBoolean("receive", null, "pushoptions", false);
-			config2.save();
+				final StoredConfig config2 = remote.getRepository().getConfig();
+				config2.setBoolean("receive", null, "pushoptions", false);
+				config2.save();
 
-			addCommit(local);
+				addCommit(local);
 
-			local.checkout().setName("not-pushed").setCreateBranch(true).call();
-			local.checkout().setName("branchtopush").setCreateBranch(true).call();
+				local.checkout().setName("not-pushed").setCreateBranch(true).call();
+				local.checkout().setName("branchtopush").setCreateBranch(true).call();
 
-			assertNull(remote.getRepository().resolve("refs/heads/branchtopush"));
-			assertNull(remote.getRepository().resolve("refs/heads/not-pushed"));
-			assertNull(remote.getRepository().resolve("refs/heads/master"));
+				assertNull(remote.getRepository().resolve("refs/heads/branchtopush"));
+				assertNull(remote.getRepository().resolve("refs/heads/not-pushed"));
+				assertNull(remote.getRepository().resolve("refs/heads/master"));
 
-			List<String> pushOptions = new ArrayList<>();
-			PushCommand pushCommand = local.push().setRemote("test")
-					.setPushOptions(pushOptions);
-			pushCommand.call();
+				List<String> pushOptions = new ArrayList<>();
+				PushCommand pushCommand = local.push().setRemote("test")
+						.setPushOptions(pushOptions);
+				pushCommand.call();
 
-			fail("should already have thrown TransportException");
-		}
+				fail("should already have thrown TransportException");
+			}
+		});
 	}
 }

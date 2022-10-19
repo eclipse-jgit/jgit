@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Collections;
 
@@ -19,7 +19,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	protected void filter(String path) {
@@ -29,7 +29,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testEmpty_EmptyTree() throws Exception {
+	void testEmpty_EmptyTree() throws Exception {
 		final RevCommit a = commit();
 		filter("a");
 		markStart(a);
@@ -37,7 +37,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testEmpty_NoMatch() throws Exception {
+	void testEmpty_NoMatch() throws Exception {
 		final RevCommit a = commit(tree(file("0", blob("0"))));
 		filter("a");
 		markStart(a);
@@ -45,7 +45,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSimple1() throws Exception {
+	void testSimple1() throws Exception {
 		final RevCommit a = commit(tree(file("0", blob("0"))));
 		filter("0");
 		markStart(a);
@@ -54,7 +54,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testEdits_MatchNone() throws Exception {
+	void testEdits_MatchNone() throws Exception {
 		final RevCommit a = commit(tree(file("0", blob("a"))));
 		final RevCommit b = commit(tree(file("0", blob("b"))), a);
 		final RevCommit c = commit(tree(file("0", blob("c"))), b);
@@ -65,7 +65,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testEdits_MatchAll() throws Exception {
+	void testEdits_MatchAll() throws Exception {
 		final RevCommit a = commit(tree(file("0", blob("a"))));
 		final RevCommit b = commit(tree(file("0", blob("b"))), a);
 		final RevCommit c = commit(tree(file("0", blob("c"))), b);
@@ -80,7 +80,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath1() throws Exception {
+	void testStringOfPearls_FilePath1() throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -97,7 +97,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath1_NoParentRewriting()
+	void testStringOfPearls_FilePath1_NoParentRewriting()
 			throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
@@ -116,7 +116,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath2() throws Exception {
+	void testStringOfPearls_FilePath2() throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -135,8 +135,8 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath2_NoParentRewriting()
-	throws Exception {
+	void testStringOfPearls_FilePath2_NoParentRewriting()
+			throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -157,7 +157,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_DirPath2() throws Exception {
+	void testStringOfPearls_DirPath2() throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -176,7 +176,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_DirPath2_NoParentRewriting()
+	void testStringOfPearls_DirPath2_NoParentRewriting()
 			throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
@@ -198,7 +198,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath3() throws Exception {
+	void testStringOfPearls_FilePath3() throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -225,7 +225,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath3_NoParentRewriting()
+	void testStringOfPearls_FilePath3_NoParentRewriting()
 			throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
@@ -256,7 +256,7 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStopWhenPathDisappears() throws Exception {
+	void testStopWhenPathDisappears() throws Exception {
 		DirCacheEntry file1 = file("src/d1/file1", blob("a"));
 		DirCacheEntry file2 = file("src/d1/file2", blob("a"));
 		DirCacheEntry file3 = file("src/d1/file3", blob("a"));

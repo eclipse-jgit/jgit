@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +18,8 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /*
  * This test was moved from ConfigTest to allow skipping it when running the
@@ -29,15 +28,15 @@ import org.junit.rules.TemporaryFolder;
  */
 public class CommitTemplateConfigTest {
 
-	@Rule
-	public TemporaryFolder tmp = new TemporaryFolder();
+	@TempDir
+	public File tmp;
 
 	@Test
-	public void testCommitTemplatePathInHomeDirecory()
+	void testCommitTemplatePathInHomeDirecory()
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
-		File tempFile = tmp.newFile("testCommitTemplate-");
-		File workTree = tmp.newFolder("dummy-worktree");
+		File tempFile = File.createTempFile("testCommitTemplate-", null, tmp);
+		File workTree = newFolder(tmp, "dummy-worktree");
 		Repository repo = FileRepositoryBuilder.create(workTree);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
@@ -55,5 +54,14 @@ public class CommitTemplateConfigTest {
 		assertEquals(expectedTemplatePath, templatePath);
 		assertEquals(templateContent,
 				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
+	}
+
+	private static File newFolder(File root, String... subDirs) throws IOException {
+		String subFolder = String.join("/", subDirs);
+		File result = new File(root, subFolder);
+		if (!result.mkdirs()) {
+			throw new IOException("Couldn't create folders " + root);
+		}
+		return result;
 	}
 }

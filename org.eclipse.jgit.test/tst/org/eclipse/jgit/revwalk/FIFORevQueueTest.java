@@ -10,13 +10,13 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FIFORevQueueTest extends RevQueueTestCase<FIFORevQueue> {
 	@Override
@@ -32,13 +32,13 @@ public class FIFORevQueueTest extends RevQueueTestCase<FIFORevQueue> {
 	}
 
 	@Test
-	public void testCloneEmpty() throws Exception {
+	void testCloneEmpty() throws Exception {
 		q = new FIFORevQueue(AbstractRevQueue.EMPTY_QUEUE);
 		assertNull(q.next());
 	}
 
 	@Test
-	public void testAddLargeBlocks() throws Exception {
+	void testAddLargeBlocks() throws Exception {
 		final ArrayList<RevCommit> lst = new ArrayList<>();
 		for (int i = 0; i < 3 * BlockRevQueue.Block.BLOCK_SIZE; i++) {
 			final RevCommit c = commit();
@@ -50,7 +50,7 @@ public class FIFORevQueueTest extends RevQueueTestCase<FIFORevQueue> {
 	}
 
 	@Test
-	public void testUnpopAtFront() throws Exception {
+	void testUnpopAtFront() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit();
 		final RevCommit c = commit();

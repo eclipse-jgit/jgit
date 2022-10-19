@@ -10,7 +10,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 
@@ -28,7 +28,7 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 			+ " John Doe <john@doe.com> 1243028200 +0200\tstash: Add message with line feeds\n";
 
 	@Test
-	public void shouldFilterLineFeedFromMessage() throws Exception {
+	void shouldFilterLineFeedFromMessage() throws Exception {
 		ReflogWriter writer =
 				new ReflogWriter((RefDirectory) db.getRefDatabase());
 		PersonIdent ident = new PersonIdent("John Doe", "john@doe.com",

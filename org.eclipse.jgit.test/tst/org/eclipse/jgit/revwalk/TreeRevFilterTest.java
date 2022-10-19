@@ -10,14 +10,14 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.eclipse.jgit.revwalk.filter.OrRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.revwalk.filter.SkipRevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TreeRevFilterTest extends RevWalkTestCase {
 	private RevFilter treeRevFilter() {
@@ -25,7 +25,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath1()
+	void testStringOfPearls_FilePath1()
 			throws Exception {
 		RevCommit a = commit(tree(file("d/f", blob("a"))));
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
@@ -43,7 +43,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath2() throws Exception {
+	void testStringOfPearls_FilePath2() throws Exception {
 		RevCommit a = commit(tree(file("d/f", blob("a"))));
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -63,7 +63,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_DirPath2() throws Exception {
+	void testStringOfPearls_DirPath2() throws Exception {
 		RevCommit a = commit(tree(file("d/f", blob("a"))));
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -83,7 +83,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStringOfPearls_FilePath3() throws Exception {
+	void testStringOfPearls_FilePath3() throws Exception {
 		RevCommit a = commit(tree(file("d/f", blob("a"))));
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
@@ -112,7 +112,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testPathFilterOrOtherFilter() throws Exception {
+	void testPathFilterOrOtherFilter() throws Exception {
 		RevFilter pathFilter = treeRevFilter();
 		RevFilter skipFilter = SkipRevFilter.create(1);
 		RevFilter orFilter = OrRevFilter.create(skipFilter, pathFilter);

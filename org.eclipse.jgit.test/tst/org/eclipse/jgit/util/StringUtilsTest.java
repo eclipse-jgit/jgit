@@ -10,16 +10,16 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StringUtilsTest {
 	@Test
-	public void testToLowerCaseChar() {
+	void testToLowerCaseChar() {
 		assertEquals('a', StringUtils.toLowerCase('A'));
 		assertEquals('z', StringUtils.toLowerCase('Z'));
 
@@ -31,37 +31,37 @@ public class StringUtilsTest {
 	}
 
 	@Test
-	public void testToLowerCaseString() {
+	void testToLowerCaseString() {
 		assertEquals("\n abcdefghijklmnopqrstuvwxyz\n", StringUtils
 				.toLowerCase("\n ABCDEFGHIJKLMNOPQRSTUVWXYZ\n"));
 	}
 
 	@Test
-	public void testEqualsIgnoreCase1() {
+	void testEqualsIgnoreCase1() {
 		final String a = "FOO";
 		assertTrue(StringUtils.equalsIgnoreCase(a, a));
 	}
 
 	@Test
-	public void testEqualsIgnoreCase2() {
+	void testEqualsIgnoreCase2() {
 		assertFalse(StringUtils.equalsIgnoreCase("a", ""));
 	}
 
 	@Test
-	public void testEqualsIgnoreCase3() {
+	void testEqualsIgnoreCase3() {
 		assertFalse(StringUtils.equalsIgnoreCase("a", "b"));
 		assertFalse(StringUtils.equalsIgnoreCase("ac", "ab"));
 	}
 
 	@Test
-	public void testEqualsIgnoreCase4() {
+	void testEqualsIgnoreCase4() {
 		assertTrue(StringUtils.equalsIgnoreCase("a", "a"));
 		assertTrue(StringUtils.equalsIgnoreCase("A", "a"));
 		assertTrue(StringUtils.equalsIgnoreCase("a", "A"));
 	}
 
 	@Test
-	public void testReplaceLineBreaks() {
+	void testReplaceLineBreaks() {
 		assertEquals("a b c ",
 				StringUtils.replaceLineBreaksWithSpace("a b\nc\r"));
 		assertEquals("a b c ",
@@ -73,7 +73,7 @@ public class StringUtilsTest {
 	}
 
 	@Test
-	public void testFormatWithSuffix() {
+	void testFormatWithSuffix() {
 		assertEquals("1023", StringUtils.formatWithSuffix(1023));
 		assertEquals("1k", StringUtils.formatWithSuffix(1024));
 		assertEquals("1025", StringUtils.formatWithSuffix(1025));
@@ -100,7 +100,7 @@ public class StringUtilsTest {
 	}
 
 	@Test
-	public void testParseWithSuffix() {
+	void testParseWithSuffix() {
 		assertEquals(1024, StringUtils.parseIntWithSuffix("1k", true));
 		assertEquals(1024, StringUtils.parseIntWithSuffix("1 k", true));
 		assertEquals(1024, StringUtils.parseIntWithSuffix("1  k", true));

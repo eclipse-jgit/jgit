@@ -10,13 +10,13 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SymbolicRefTest {
 	private static final ObjectId ID_A = ObjectId
@@ -30,7 +30,7 @@ public class SymbolicRefTest {
 	private static final String name = "refs/remotes/origin/HEAD";
 
 	@Test
-	public void testConstructor() {
+	void testConstructor() {
 		Ref t;
 		SymbolicRef r;
 
@@ -38,29 +38,29 @@ public class SymbolicRefTest {
 		r = new SymbolicRef(name, t, 1);
 		assertSame(Ref.Storage.LOOSE, r.getStorage());
 		assertSame(name, r.getName());
-		assertNull("no id on new ref", r.getObjectId());
-		assertFalse("not peeled", r.isPeeled());
-		assertNull("no peel id", r.getPeeledObjectId());
-		assertSame("leaf is t", t, r.getLeaf());
-		assertSame("target is t", t, r.getTarget());
-		assertTrue("is symbolic", r.isSymbolic());
-		assertTrue("holds update index", r.getUpdateIndex() == 1);
+		assertNull(r.getObjectId(), "no id on new ref");
+		assertFalse(r.isPeeled(), "not peeled");
+		assertNull(r.getPeeledObjectId(), "no peel id");
+		assertSame(t, r.getLeaf(), "leaf is t");
+		assertSame(t, r.getTarget(), "target is t");
+		assertTrue(r.isSymbolic(), "is symbolic");
+		assertEquals(r.getUpdateIndex(), 1, "holds update index");
 
 		t = new ObjectIdRef.Unpeeled(Ref.Storage.PACKED, targetName, ID_A);
 		r = new SymbolicRef(name, t, 2);
 		assertSame(Ref.Storage.LOOSE, r.getStorage());
 		assertSame(name, r.getName());
 		assertSame(ID_A, r.getObjectId());
-		assertFalse("not peeled", r.isPeeled());
-		assertNull("no peel id", r.getPeeledObjectId());
-		assertSame("leaf is t", t, r.getLeaf());
-		assertSame("target is t", t, r.getTarget());
-		assertTrue("is symbolic", r.isSymbolic());
-		assertTrue("holds update index", r.getUpdateIndex() == 2);
+		assertFalse(r.isPeeled(), "not peeled");
+		assertNull(r.getPeeledObjectId(), "no peel id");
+		assertSame(t, r.getLeaf(), "leaf is t");
+		assertSame(t, r.getTarget(), "target is t");
+		assertTrue(r.isSymbolic(), "is symbolic");
+		assertEquals(r.getUpdateIndex(), 2, "holds update index");
 	}
 
 	@Test
-	public void testLeaf() {
+	void testLeaf() {
 		Ref a;
 		SymbolicRef b, c, d;
 
@@ -92,7 +92,7 @@ public class SymbolicRefTest {
 	}
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		Ref a;
 		SymbolicRef b, c, d;
 

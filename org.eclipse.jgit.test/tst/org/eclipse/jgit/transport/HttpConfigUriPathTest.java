@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Basic URI path prefix match tests for {@link HttpConfig}.
@@ -21,13 +21,13 @@ import org.junit.Test;
 public class HttpConfigUriPathTest {
 
 	@Test
-	public void testNormalizationEmptyPaths() {
+	void testNormalizationEmptyPaths() {
 		assertEquals("/", HttpConfig.normalize(""));
 		assertEquals("/", HttpConfig.normalize("/"));
 	}
 
 	@Test
-	public void testNormalization() {
+	void testNormalization() {
 		assertEquals("/f", HttpConfig.normalize("f"));
 		assertEquals("/f", HttpConfig.normalize("/f"));
 		assertEquals("/f/", HttpConfig.normalize("/f/"));
@@ -40,7 +40,7 @@ public class HttpConfigUriPathTest {
 	}
 
 	@Test
-	public void testNormalizationWithDot() {
+	void testNormalizationWithDot() {
 		assertEquals("/", HttpConfig.normalize("."));
 		assertEquals("/", HttpConfig.normalize("/."));
 		assertEquals("/", HttpConfig.normalize("/./"));
@@ -59,7 +59,7 @@ public class HttpConfigUriPathTest {
 	}
 
 	@Test
-	public void testNormalizationWithDotDot() {
+	void testNormalizationWithDotDot() {
 		assertEquals("/", HttpConfig.normalize("foo/.."));
 		assertEquals("/", HttpConfig.normalize("/foo/.."));
 		assertEquals("/", HttpConfig.normalize("/foo/../bar/.."));
@@ -96,7 +96,7 @@ public class HttpConfigUriPathTest {
 	}
 
 	@Test
-	public void testNormalizationWithDoubleSlash() {
+	void testNormalizationWithDoubleSlash() {
 		assertEquals("/", HttpConfig.normalize("//"));
 		assertEquals("/foo/", HttpConfig.normalize("///foo//"));
 		assertEquals("/foo", HttpConfig.normalize("///foo//."));
@@ -107,7 +107,7 @@ public class HttpConfigUriPathTest {
 	}
 
 	@Test
-	public void testNormalizationWithDotDotFailing() {
+	void testNormalizationWithDotDotFailing() {
 		assertNull(HttpConfig.normalize(".."));
 		assertNull(HttpConfig.normalize("/.."));
 		assertNull(HttpConfig.normalize("/../"));
@@ -120,7 +120,7 @@ public class HttpConfigUriPathTest {
 	}
 
 	@Test
-	public void testSegmentCompare() {
+	void testSegmentCompare() {
 		// 2nd parameter is the match, will be normalized
 		assertSuccess("/foo", "");
 		assertSuccess("/foo", "/");
@@ -151,7 +151,7 @@ public class HttpConfigUriPathTest {
 	}
 
 	@Test
-	public void testSegmentCompareFailing() {
+	void testSegmentCompareFailing() {
 		// 2nd parameter is the match, will be normalized
 		assertEquals(-1, HttpConfig.segmentCompare("/foo", "foo/"));
 		assertEquals(-1, HttpConfig.segmentCompare("/foo", "/foo/"));

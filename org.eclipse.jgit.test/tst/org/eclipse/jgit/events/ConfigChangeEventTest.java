@@ -9,17 +9,17 @@
  */
 package org.eclipse.jgit.events;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ConfigChangeEventTest extends RepositoryTestCase {
 	@Test
-	public void testFileRepository_ChangeEventsOnlyOnSave() throws Exception {
+	void testFileRepository_ChangeEventsOnlyOnSave() throws Exception {
 		final ConfigChangedEvent[] events = new ConfigChangedEvent[1];
 		db.getListenerList()
 				.addConfigChangedListener((ConfigChangedEvent event) -> {

@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.dircache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
@@ -22,15 +22,15 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 	@Test
-	public void testPathFilterGroup_DoesNotSkipTail() throws Exception {
+	void testPathFilterGroup_DoesNotSkipTail() throws Exception {
 		final DirCache dc = db.readDirCache();
 
 		final FileMode mode = FileMode.REGULAR_FILE;
-		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
+		final String[] paths = {"a-", "a/b", "a/c", "a/d", "a0b"};
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -52,7 +52,7 @@ public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 			tw.setFilter(PathFilterGroup.createFromStrings(Collections
 					.singleton(paths[expIdx])));
 
-			assertTrue("found " + paths[expIdx], tw.next());
+			assertTrue(tw.next(), "found " + paths[expIdx]);
 			final DirCacheIterator c = tw.getTree(0, DirCacheIterator.class);
 			assertNotNull(c);
 			assertEquals(expIdx, c.ptr);
@@ -62,7 +62,7 @@ public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 			assertSame(mode, tw.getFileMode(0));
 			b.add(c.getDirCacheEntry());
 
-			assertFalse("no more entries", tw.next());
+			assertFalse(tw.next(), "no more entries");
 		}
 
 		b.finish();

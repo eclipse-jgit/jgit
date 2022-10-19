@@ -10,14 +10,14 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -68,8 +68,8 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RebaseCommandTest extends RepositoryTestCase {
 	private static final String GIT_REBASE_TODO = "rebase-merge/git-rebase-todo";
@@ -79,7 +79,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	protected Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		this.git = new Git(db);
@@ -104,7 +104,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardWithNewFile() throws Exception {
+	void testFastForwardWithNewFile() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -145,7 +145,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardWithMultipleCommits() throws Exception {
+	void testFastForwardWithMultipleCommits() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -215,7 +215,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testRebaseShouldIgnoreMergeCommits()
+	void testRebaseShouldIgnoreMergeCommits()
 			throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
@@ -295,17 +295,17 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	static void assertDerivedFrom(RevCommit derived, RevCommit original) {
-		assertThat(derived, not(equalTo(original)));
+		assertNotEquals(original, derived);
 		assertEquals(original.getFullMessage(), derived.getFullMessage());
 	}
 
 	@Test
-	public void testRebasePreservingMerges1() throws Exception {
+	void testRebasePreservingMerges1() throws Exception {
 		doTestRebasePreservingMerges(true);
 	}
 
 	@Test
-	public void testRebasePreservingMerges2() throws Exception {
+	void testRebasePreservingMerges2() throws Exception {
 		doTestRebasePreservingMerges(false);
 	}
 
@@ -458,12 +458,12 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebasePreservingMergesWithUnrelatedSide1() throws Exception {
+	void testRebasePreservingMergesWithUnrelatedSide1() throws Exception {
 		doTestRebasePreservingMergesWithUnrelatedSide(true);
 	}
 
 	@Test
-	public void testRebasePreservingMergesWithUnrelatedSide2() throws Exception {
+	void testRebasePreservingMergesWithUnrelatedSide2() throws Exception {
 		doTestRebasePreservingMergesWithUnrelatedSide(false);
 	}
 
@@ -579,7 +579,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseParentOntoHeadShouldBeUptoDate() throws Exception {
+	void testRebaseParentOntoHeadShouldBeUptoDate() throws Exception {
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
 		RevCommit parent = git.commit().setMessage("parent comment").call();
@@ -598,7 +598,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpToDate() throws Exception {
+	void testUpToDate() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -616,7 +616,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUnknownUpstream() throws Exception {
+	void testUnknownUpstream() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -633,7 +633,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testConflictFreeWithSingleFile() throws Exception {
+	void testConflictFreeWithSingleFile() throws Exception {
 		// create file1 on master
 		File theFile = writeTrashFile(FILE1, "1\n2\n3\n");
 		git.add().addFilepattern(FILE1).call();
@@ -684,7 +684,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDetachedHead() throws Exception {
+	void testDetachedHead() throws Exception {
 		// create file1 on master
 		File theFile = writeTrashFile(FILE1, "1\n2\n3\n");
 		git.add().addFilepattern(FILE1).call();
@@ -731,7 +731,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFilesAddedFromTwoBranches() throws Exception {
+	void testFilesAddedFromTwoBranches() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -778,7 +778,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflict() throws Exception {
+	void testStopOnConflict() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3");
@@ -840,7 +840,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflictAndAbortWithDetachedHEAD() throws Exception {
+	void testStopOnConflictAndAbortWithDetachedHEAD() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3");
@@ -904,7 +904,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflictAndContinue() throws Exception {
+	void testStopOnConflictAndContinue() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3");
@@ -960,7 +960,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflictAndContinueWithNoDeltaToMaster()
+	void testStopOnConflictAndContinueWithNoDeltaToMaster()
 			throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
@@ -1010,7 +1010,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflictAndFailContinueIfFileIsDirty()
+	void testStopOnConflictAndFailContinueIfFileIsDirty()
 			throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
@@ -1051,7 +1051,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnLastConflictAndContinue() throws Exception {
+	void testStopOnLastConflictAndContinue() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3");
@@ -1087,7 +1087,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnLastConflictAndSkip() throws Exception {
+	void testStopOnLastConflictAndSkip() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3");
@@ -1123,7 +1123,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeFirstStopOnLastConflictAndSkip() throws Exception {
+	void testMergeFirstStopOnLastConflictAndSkip() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3");
@@ -1162,7 +1162,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflictAndSkipNoConflict() throws Exception {
+	void testStopOnConflictAndSkipNoConflict() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3");
@@ -1199,7 +1199,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflictAndSkipWithConflict() throws Exception {
+	void testStopOnConflictAndSkipWithConflict() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3", "4");
@@ -1240,7 +1240,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflictCommitAndContinue() throws Exception {
+	void testStopOnConflictCommitAndContinue() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
 				"2", "3");
@@ -1336,7 +1336,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStopOnConflictFileCreationAndDeletion() throws Exception {
+	void testStopOnConflictFileCreationAndDeletion() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, "Hello World");
 		git.add().addFilepattern(FILE1).call();
@@ -1425,7 +1425,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAuthorScriptConverter() throws Exception {
+	void testAuthorScriptConverter() throws Exception {
 		// -1 h timezone offset
 		PersonIdent ident = new PersonIdent("Author name", "a.mail@some.com",
 				123456789123L, -60);
@@ -1461,7 +1461,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepositoryStateChecks() throws Exception {
+	void testRepositoryStateChecks() throws Exception {
 		try {
 			git.rebase().setOperation(Operation.ABORT).call();
 			fail("Expected Exception not thrown");
@@ -1483,7 +1483,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithUntrackedFile() throws Exception {
+	void testRebaseWithUntrackedFile() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
 		git.add().addFilepattern(FILE1).call();
@@ -1512,7 +1512,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithUnstagedTopicChange() throws Exception {
+	void testRebaseWithUnstagedTopicChange() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
 		git.add().addFilepattern(FILE1).call();
@@ -1544,7 +1544,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithUncommittedTopicChange() throws Exception {
+	void testRebaseWithUncommittedTopicChange() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
 		git.add().addFilepattern(FILE1).call();
@@ -1580,7 +1580,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithUnstagedMasterChange() throws Exception {
+	void testRebaseWithUnstagedMasterChange() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
 		git.add().addFilepattern(FILE1).call();
@@ -1612,7 +1612,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithUncommittedMasterChange() throws Exception {
+	void testRebaseWithUncommittedMasterChange() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
 		git.add().addFilepattern(FILE1).call();
@@ -1646,7 +1646,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithUnstagedMasterChangeBaseCommit() throws Exception {
+	void testRebaseWithUnstagedMasterChangeBaseCommit() throws Exception {
 		// create file0 + file1, add and commit
 		writeTrashFile("file0", "file0");
 		writeTrashFile(FILE1, "file1");
@@ -1673,11 +1673,11 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// rebase
 		assertEquals(Status.UNCOMMITTED_CHANGES,
 				git.rebase().setUpstream("refs/heads/master")
-				.call().getStatus());
+						.call().getStatus());
 	}
 
 	@Test
-	public void testRebaseWithUncommittedMasterChangeBaseCommit()
+	void testRebaseWithUncommittedMasterChangeBaseCommit()
 			throws Exception {
 		// create file0 + file1, add and commit
 		File file0 = writeTrashFile("file0", "file0");
@@ -1718,7 +1718,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithUnstagedMasterChangeOtherCommit()
+	void testRebaseWithUnstagedMasterChangeOtherCommit()
 			throws Exception {
 		// create file0, add and commit
 		writeTrashFile("file0", "file0");
@@ -1749,11 +1749,11 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// rebase
 		assertEquals(Status.UNCOMMITTED_CHANGES,
 				git.rebase().setUpstream("refs/heads/master")
-				.call().getStatus());
+						.call().getStatus());
 	}
 
 	@Test
-	public void testRebaseWithUncommittedMasterChangeOtherCommit()
+	void testRebaseWithUncommittedMasterChangeOtherCommit()
 			throws Exception {
 		// create file0, add and commit
 		File file0 = writeTrashFile("file0", "file0");
@@ -1799,7 +1799,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardRebaseWithModification() throws Exception {
+	void testFastForwardRebaseWithModification() throws Exception {
 		// create file0 + file1, add and commit
 		writeTrashFile("file0", "file0");
 		writeTrashFile(FILE1, "file1");
@@ -1834,7 +1834,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithModificationShouldNotDeleteData()
+	void testRebaseWithModificationShouldNotDeleteData()
 			throws Exception {
 		// create file0 + file1, add and commit
 		writeTrashFile("file0", "file0");
@@ -1875,7 +1875,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithUncommittedDelete() throws Exception {
+	void testRebaseWithUncommittedDelete() throws Exception {
 		// create file0 + file1, add and commit
 		File file0 = writeTrashFile("file0", "file0");
 		writeTrashFile(FILE1, "file1");
@@ -1899,7 +1899,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
 				.call();
 		assertEquals(Status.FAST_FORWARD, result.getStatus());
-		assertFalse("File should still be deleted", file0.exists());
+		assertFalse(file0.exists(), "File should still be deleted");
 		// index should only have updated file1
 		assertEquals("[file1, mode:100644, content:modified file1]",
 				indexState(CONTENT));
@@ -1907,7 +1907,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithAutoStash()
+	void testRebaseWithAutoStash()
 			throws Exception {
 		// create file0, add and commit
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_REBASE_SECTION, null,
@@ -1953,7 +1953,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseWithAutoStashAndSubdirs() throws Exception {
+	void testRebaseWithAutoStashAndSubdirs() throws Exception {
 		// create file0, add and commit
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_REBASE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOSTASH, true);
@@ -2002,12 +2002,12 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						+ "[sub/file0, mode:100644, content:file0]",
 				indexState(CONTENT));
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
-		recorder.assertEvent(new String[] { "file1", "file2", "sub/file0" },
+		recorder.assertEvent(new String[]{"file1", "file2", "sub/file0"},
 				new String[0]);
 	}
 
 	@Test
-	public void testRebaseWithAutoStashConflictOnApply() throws Exception {
+	void testRebaseWithAutoStashConflictOnApply() throws Exception {
 		// create file0, add and commit
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_REBASE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOSTASH, true);
@@ -2061,7 +2061,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardRebaseWithAutoStash() throws Exception {
+	void testFastForwardRebaseWithAutoStash() throws Exception {
 		// create file0, add and commit
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_REBASE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOSTASH, true);
@@ -2089,7 +2089,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// rebase
 		assertEquals(Status.FAST_FORWARD,
 				git.rebase().setUpstream("refs/heads/master")
-				.call().getStatus());
+						.call().getStatus());
 		checkFile(new File(db.getWorkTree(), "file0"),
 				"unstaged modified file0");
 		checkFile(new File(db.getWorkTree(), FILE1), "modified file1");
@@ -2154,7 +2154,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFastForwardWithMultipleCommitsOnDifferentBranches()
+	void testFastForwardWithMultipleCommitsOnDifferentBranches()
 			throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
@@ -2202,7 +2202,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseShouldLeaveWorkspaceUntouchedWithUnstagedChangesConflict()
+	void testRebaseShouldLeaveWorkspaceUntouchedWithUnstagedChangesConflict()
 			throws Exception {
 		writeTrashFile(FILE1, "initial file");
 		git.add().addFilepattern(FILE1).call();
@@ -2223,7 +2223,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		// and attempt to rebase
 		RebaseResult rebaseResult = git.rebase()
-					.setUpstream("refs/heads/master").call();
+				.setUpstream("refs/heads/master").call();
 		assertEquals(Status.UNCOMMITTED_CHANGES, rebaseResult.getStatus());
 		assertEquals(1, rebaseResult.getUncommittedChanges().size());
 		assertEquals(FILE1, rebaseResult.getUncommittedChanges().get(0));
@@ -2235,7 +2235,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAbortShouldAlsoAbortNonInteractiveRebaseWithRebaseApplyDir()
+	void testAbortShouldAlsoAbortNonInteractiveRebaseWithRebaseApplyDir()
 			throws Exception {
 		writeTrashFile(FILE1, "initial file");
 		git.add().addFilepattern(FILE1).call();
@@ -2249,14 +2249,14 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		git.rebase().setOperation(Operation.ABORT).call();
 
-		assertFalse("Abort should clean up .git/rebase-apply",
-				applyDir.exists());
+		assertFalse(applyDir.exists(),
+				"Abort should clean up .git/rebase-apply");
 		assertEquals(RepositoryState.SAFE, git.getRepository()
 				.getRepositoryState());
 	}
 
 	@Test
-	public void testRebaseShouldBeAbleToHandleEmptyLinesInRebaseTodoFile()
+	void testRebaseShouldBeAbleToHandleEmptyLinesInRebaseTodoFile()
 			throws IOException {
 		String emptyLine = "\n";
 		String todo = "pick 1111111 Commit 1\n" + emptyLine
@@ -2271,7 +2271,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseShouldBeAbleToHandleLinesWithoutCommitMessageInRebaseTodoFile()
+	void testRebaseShouldBeAbleToHandleLinesWithoutCommitMessageInRebaseTodoFile()
 			throws IOException {
 		String todo = "pick 1111111 \n" + "pick 2222222 Commit 2\n"
 				+ "# Comment line at end\n";
@@ -2284,7 +2284,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseShouldNotFailIfUserAddCommentLinesInPrepareSteps()
+	void testRebaseShouldNotFailIfUserAddCommentLinesInPrepareSteps()
 			throws Exception {
 		commitFile(FILE1, FILE1, "master");
 		RevCommit c2 = commitFile("file2", "file2", "master");
@@ -2344,7 +2344,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParseRewordCommand() throws Exception {
+	void testParseRewordCommand() throws Exception {
 		String todo = "pick 1111111 Commit 1\n"
 				+ "reword 2222222 Commit 2\n";
 		write(getTodoFile(), todo);
@@ -2358,14 +2358,14 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyRebaseTodo() throws Exception {
+	void testEmptyRebaseTodo() throws Exception {
 		write(getTodoFile(), "");
 		assertEquals(0, db.readRebaseTodo(GIT_REBASE_TODO, true).size());
 		assertEquals(0, db.readRebaseTodo(GIT_REBASE_TODO, false).size());
 	}
 
 	@Test
-	public void testOnlyCommentRebaseTodo() throws Exception {
+	void testOnlyCommentRebaseTodo() throws Exception {
 		write(getTodoFile(), "# a b c d e\n# e f");
 		assertEquals(0, db.readRebaseTodo(GIT_REBASE_TODO, false).size());
 		List<RebaseTodoLine> lines = db.readRebaseTodo(GIT_REBASE_TODO, true);
@@ -2387,10 +2387,10 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLeadingSpacesRebaseTodo() throws Exception {
+	void testLeadingSpacesRebaseTodo() throws Exception {
 		String todo =	"  \t\t pick 1111111 Commit 1\n"
-					+ "\t\n"
-					+ "\treword 2222222 Commit 2\n";
+				+ "\t\n"
+				+ "\treword 2222222 Commit 2\n";
 		write(getTodoFile(), todo);
 
 		List<RebaseTodoLine> steps = db.readRebaseTodo(GIT_REBASE_TODO, false);
@@ -2402,7 +2402,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseShouldTryToParseValidLineMarkedAsComment()
+	void testRebaseShouldTryToParseValidLineMarkedAsComment()
 			throws IOException {
 		String todo = "# pick 1111111 Valid line commented out with space\n"
 				+ "#edit 2222222 Valid line commented out without space\n"
@@ -2430,8 +2430,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals("2222222", steps.get(1).getCommit().name());
 		assertEquals("comment", steps.get(1).getAction().toToken());
 
-		assertEquals(null, steps.get(2).getCommit());
-		assertEquals(null, steps.get(2).getShortMessage());
+		assertNull(steps.get(2).getCommit());
+		assertNull(steps.get(2).getShortMessage());
 		assertEquals("comment", steps.get(2).getAction().toToken());
 		assertEquals("# pick invalidLine Comment line at end", steps.get(2)
 				.getComment());
@@ -2446,7 +2446,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testRebaseTodoLineSetComment() throws Exception {
+	void testRebaseTodoLineSetComment() throws Exception {
 		try {
 			new RebaseTodoLine("This is a invalid comment");
 			fail("Constructing a comment line with invalid comment string should fail, but doesn't");
@@ -2460,13 +2460,13 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseTodoLine actionLineToBeChanged = new RebaseTodoLine(Action.EDIT,
 				AbbreviatedObjectId.fromString("1111111"), "short Message");
-		assertEquals(null, actionLineToBeChanged.getComment());
+		assertNull(actionLineToBeChanged.getComment());
 
 		try {
 			actionLineToBeChanged.setComment("invalid comment");
 			fail("Setting a invalid comment string should fail but doesn't");
 		} catch (IllegalArgumentException e) {
-			assertEquals(null, actionLineToBeChanged.getComment());
+			assertNull(actionLineToBeChanged.getComment());
 		}
 
 		actionLineToBeChanged.setComment("# valid comment");
@@ -2515,11 +2515,11 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals("\t\t", actionLineToBeChanged.getComment());
 
 		actionLineToBeChanged.setComment(null);
-		assertEquals(null, actionLineToBeChanged.getComment());
+		assertNull(actionLineToBeChanged.getComment());
 	}
 
 	@Test
-	public void testRebaseInteractiveReword() throws Exception {
+	void testRebaseInteractiveReword() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -2568,7 +2568,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseInteractiveEdit() throws Exception {
+	void testRebaseInteractiveEdit() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -2626,14 +2626,14 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParseSquashFixupSequenceCount() {
+	void testParseSquashFixupSequenceCount() {
 		int count = RebaseCommand
 				.parseSquashFixupSequenceCount("# This is a combination of 3 commits.\n# newline");
 		assertEquals(3, count);
 	}
 
 	@Test
-	public void testRebaseInteractiveSingleSquashAndModifyMessage() throws Exception {
+	void testRebaseInteractiveSingleSquashAndModifyMessage() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -2709,7 +2709,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseInteractiveMultipleSquash() throws Exception {
+	void testRebaseInteractiveMultipleSquash() throws Exception {
 		// create file0 on master
 		writeTrashFile("file0", "file0");
 		git.add().addFilepattern("file0").call();
@@ -2793,7 +2793,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseInteractiveMixedSquashAndFixup() throws Exception {
+	void testRebaseInteractiveMixedSquashAndFixup() throws Exception {
 		// create file0 on master
 		writeTrashFile("file0", "file0");
 		git.add().addFilepattern("file0").call();
@@ -2876,7 +2876,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseInteractiveSingleFixup() throws Exception {
+	void testRebaseInteractiveSingleFixup() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -2977,97 +2977,101 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseInteractiveFixupWithBlankLines() throws Exception {
+	void testRebaseInteractiveFixupWithBlankLines() throws Exception {
 		simpleFixup("Add file2", "updated file1 on master\n\nsome text");
 	}
 
 	@Test
-	public void testRebaseInteractiveFixupWithBlankLines2() throws Exception {
+	void testRebaseInteractiveFixupWithBlankLines2() throws Exception {
 		simpleFixup("Add file2\n\nBody\n",
 				"updated file1 on master\n\nsome text");
 	}
 
 	@Test
-	public void testRebaseInteractiveFixupWithHash() throws Exception {
+	void testRebaseInteractiveFixupWithHash() throws Exception {
 		simpleFixup("#Add file2", "updated file1 on master");
 	}
 
 	@Test
-	public void testRebaseInteractiveFixupWithHash2() throws Exception {
+	void testRebaseInteractiveFixupWithHash2() throws Exception {
 		simpleFixup("#Add file2\n\nHeader has hash\n",
 				"#updated file1 on master");
 	}
 
-	@Test(expected = InvalidRebaseStepException.class)
-	public void testRebaseInteractiveFixupFirstCommitShouldFail()
+	@Test
+	void testRebaseInteractiveFixupFirstCommitShouldFail()
 			throws Exception {
-		// create file1 on master
-		writeTrashFile(FILE1, FILE1);
-		git.add().addFilepattern(FILE1).call();
-		git.commit().setMessage("Add file1\nnew line").call();
-		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+		assertThrows(InvalidRebaseStepException.class, () -> {
+			// create file1 on master
+			writeTrashFile(FILE1, FILE1);
+			git.add().addFilepattern(FILE1).call();
+			git.commit().setMessage("Add file1\nnew line").call();
+			assertTrue(new File(db.getWorkTree(), FILE1).exists());
 
-		// create file2 on master
-		writeTrashFile("file2", "file2");
-		git.add().addFilepattern("file2").call();
-		git.commit().setMessage("Add file2\nnew line").call();
-		assertTrue(new File(db.getWorkTree(), "file2").exists());
+			// create file2 on master
+			writeTrashFile("file2", "file2");
+			git.add().addFilepattern("file2").call();
+			git.commit().setMessage("Add file2\nnew line").call();
+			assertTrue(new File(db.getWorkTree(), "file2").exists());
 
-		git.rebase().setUpstream("HEAD~1")
-				.runInteractively(new InteractiveHandler() {
+			git.rebase().setUpstream("HEAD~1")
+					.runInteractively(new InteractiveHandler() {
 
-					@Override
-					public void prepareSteps(List<RebaseTodoLine> steps) {
-						try {
-							steps.get(0).setAction(Action.FIXUP);
-						} catch (IllegalTodoFileModification e) {
-							fail("unexpected exception: " + e);
+						@Override
+						public void prepareSteps(List<RebaseTodoLine> steps) {
+							try {
+								steps.get(0).setAction(Action.FIXUP);
+							} catch (IllegalTodoFileModification e) {
+								fail("unexpected exception: " + e);
+							}
 						}
-					}
 
-					@Override
-					public String modifyCommitMessage(String commit) {
-						return commit;
-					}
-				}).call();
-	}
-
-	@Test(expected = InvalidRebaseStepException.class)
-	public void testRebaseInteractiveSquashFirstCommitShouldFail()
-			throws Exception {
-		// create file1 on master
-		writeTrashFile(FILE1, FILE1);
-		git.add().addFilepattern(FILE1).call();
-		git.commit().setMessage("Add file1\nnew line").call();
-		assertTrue(new File(db.getWorkTree(), FILE1).exists());
-
-		// create file2 on master
-		writeTrashFile("file2", "file2");
-		git.add().addFilepattern("file2").call();
-		git.commit().setMessage("Add file2\nnew line").call();
-		assertTrue(new File(db.getWorkTree(), "file2").exists());
-
-		git.rebase().setUpstream("HEAD~1")
-				.runInteractively(new InteractiveHandler() {
-
-					@Override
-					public void prepareSteps(List<RebaseTodoLine> steps) {
-						try {
-							steps.get(0).setAction(Action.SQUASH);
-						} catch (IllegalTodoFileModification e) {
-							fail("unexpected exception: " + e);
+						@Override
+						public String modifyCommitMessage(String commit) {
+							return commit;
 						}
-					}
-
-					@Override
-					public String modifyCommitMessage(String commit) {
-						return commit;
-					}
-				}).call();
+					}).call();
+		});
 	}
 
 	@Test
-	public void testRebaseEndsIfLastStepIsEdit() throws Exception {
+	void testRebaseInteractiveSquashFirstCommitShouldFail()
+			throws Exception {
+		assertThrows(InvalidRebaseStepException.class, () -> {
+			// create file1 on master
+			writeTrashFile(FILE1, FILE1);
+			git.add().addFilepattern(FILE1).call();
+			git.commit().setMessage("Add file1\nnew line").call();
+			assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+			// create file2 on master
+			writeTrashFile("file2", "file2");
+			git.add().addFilepattern("file2").call();
+			git.commit().setMessage("Add file2\nnew line").call();
+			assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+			git.rebase().setUpstream("HEAD~1")
+					.runInteractively(new InteractiveHandler() {
+
+						@Override
+						public void prepareSteps(List<RebaseTodoLine> steps) {
+							try {
+								steps.get(0).setAction(Action.SQUASH);
+							} catch (IllegalTodoFileModification e) {
+								fail("unexpected exception: " + e);
+							}
+						}
+
+						@Override
+						public String modifyCommitMessage(String commit) {
+							return commit;
+						}
+					}).call();
+		});
+	}
+
+	@Test
+	void testRebaseEndsIfLastStepIsEdit() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -3106,7 +3110,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseShouldStopForEditInCaseOfConflict()
+	void testRebaseShouldStopForEditInCaseOfConflict()
 			throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
@@ -3150,7 +3154,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseShouldStopForRewordInCaseOfConflict()
+	void testRebaseShouldStopForRewordInCaseOfConflict()
 			throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
@@ -3213,7 +3217,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseShouldSquashInCaseOfConflict() throws Exception {
+	void testRebaseShouldSquashInCaseOfConflict() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -3281,7 +3285,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseShouldFixupInCaseOfConflict() throws Exception {
+	void testRebaseShouldFixupInCaseOfConflict() throws Exception {
 		// create file1 on master
 		writeTrashFile(FILE1, FILE1);
 		git.add().addFilepattern(FILE1).call();
@@ -3355,7 +3359,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInteractiveRebaseWithModificationShouldNotDeleteDataOnAbort()
+	void testInteractiveRebaseWithModificationShouldNotDeleteDataOnAbort()
 			throws Exception {
 		// create file0 + file1, add and commit
 		writeTrashFile("file0", "file0");
@@ -3414,7 +3418,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInteractiveRebaseSquashFixupSequence() throws Exception {
+	void testInteractiveRebaseSquashFixupSequence() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
 		git.add().addFilepattern(FILE1).call();

@@ -11,58 +11,58 @@
 package org.eclipse.jgit.util.io;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AutoLFOutputStreamTest {
 
 	@Test
-	public void testLF() throws IOException {
+	void testLF() throws IOException {
 		final byte[] bytes = asBytes("1\n2\n3");
 		test(bytes, bytes, false);
 	}
 
 	@Test
-	public void testCR() throws IOException {
+	void testCR() throws IOException {
 		final byte[] bytes = asBytes("1\r2\r3");
 		test(bytes, bytes, false);
 	}
 
 	@Test
-	public void testCRLFNoDetect() throws IOException {
+	void testCRLFNoDetect() throws IOException {
 		test(asBytes("1\r\n2\r\n3"), asBytes("1\n2\n3"), false);
 	}
 
 	@Test
-	public void testLFCR() throws IOException {
+	void testLFCR() throws IOException {
 		final byte[] bytes = asBytes("1\n\r2\n\r3");
 		test(bytes, bytes, false);
 	}
 
 	@Test
-	public void testEmpty() throws IOException {
+	void testEmpty() throws IOException {
 		final byte[] bytes = asBytes("");
 		test(bytes, bytes, false);
 	}
 
 	@Test
-	public void testBinaryDetect() throws IOException {
+	void testBinaryDetect() throws IOException {
 		final byte[] bytes = asBytes("1\r\n2\r\n3\0");
 		test(bytes, bytes, true);
 	}
 
 	@Test
-	public void testBinaryDontDetect() throws IOException {
+	void testBinaryDontDetect() throws IOException {
 		test(asBytes("1\r\n2\r\n3\0"), asBytes("1\n2\n3\0"), false);
 	}
 
 	@Test
-	public void testCrLfDetect() throws IOException {
+	void testCrLfDetect() throws IOException {
 		byte[] bytes = asBytes("1\r\n2\n3\r\n\r");
 		test(bytes, bytes, true);
 	}

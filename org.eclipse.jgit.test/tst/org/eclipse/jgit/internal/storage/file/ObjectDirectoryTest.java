@@ -43,10 +43,10 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -71,17 +71,17 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ObjectDirectoryTest extends RepositoryTestCase {
 
 	@Test
-	public void testConcurrentInsertionOfBlobsToTheSameNewFanOutDirectory()
+	void testConcurrentInsertionOfBlobsToTheSameNewFanOutDirectory()
 			throws Exception {
 		ExecutorService e = Executors.newCachedThreadPool();
-		for (int i=0; i < 100; ++i) {
+		for (int i = 0; i < 100; ++i) {
 			ObjectDirectory dir = createBareRepository().getObjectDatabase();
 			for (Future f : e.invokeAll(blobInsertersForTheSameFanOutDir(dir))) {
 				f.get();
@@ -105,7 +105,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testScanningForPackfiles() throws Exception {
+	void testScanningForPackfiles() throws Exception {
 		ObjectId unknownID = ObjectId
 				.fromString("c0ffee09d0b63d694bf49bc1e6847473f42d4a8c");
 		GC gc = new GC(db);
@@ -173,7 +173,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 					(File dir, String name) -> name.endsWith(".pack"));
 			assertTrue(ret != null && ret.length == 1);
 			FS fs = db.getFS();
-			Assume.assumeTrue(fs.lastModifiedInstant(tmpFile)
+			Assumptions.assumeTrue(fs.lastModifiedInstant(tmpFile)
 					.equals(fs.lastModifiedInstant(ret[0])));
 
 			// all objects are in a new packfile but we will not detect it
@@ -183,7 +183,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShallowFile()
+	void testShallowFile()
 			throws Exception {
 		FileRepository repository = createBareRepository();
 		ObjectDirectory dir = repository.getObjectDatabase();
@@ -200,7 +200,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOpenLooseObjectSuppressStaleFileHandleException()
+	void testOpenLooseObjectSuppressStaleFileHandleException()
 			throws Exception {
 		ObjectId id = ObjectId
 				.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b");
@@ -221,7 +221,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOpenLooseObjectPropagatesIOExceptions() throws Exception {
+	void testOpenLooseObjectPropagatesIOExceptions() throws Exception {
 		ObjectId id = ObjectId
 				.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b");
 		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
@@ -236,7 +236,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShallowFileCorrupt() throws Exception {
+	void testShallowFileCorrupt() throws Exception {
 		FileRepository repository = createBareRepository();
 		ObjectDirectory dir = repository.getObjectDatabase();
 
@@ -247,8 +247,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			writer.println(commit);
 		}
 		assertThrows(
-				MessageFormat.format(JGitText.get().badShallowLine, commit),
-				IOException.class, () -> dir.getShallowCommits());
+				IOException.class, () -> dir.getShallowCommits(), MessageFormat.format(JGitText.get().badShallowLine, commit));
 	}
 
 	private Collection<Callable<ObjectId>> blobInsertersForTheSameFanOutDir(

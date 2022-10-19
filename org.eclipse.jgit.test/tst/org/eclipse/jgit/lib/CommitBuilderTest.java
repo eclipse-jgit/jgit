@@ -10,17 +10,17 @@
 package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.US_ASCII;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CommitBuilderTest {
 
@@ -59,29 +59,29 @@ public class CommitBuilderTest {
 	}
 
 	@Test
-	public void writeGpgSignatureString() throws Exception {
+	void writeGpgSignatureString() throws Exception {
 		assertGpgSignatureStringOutcome(SIGNATURE, EXPECTED);
 	}
 
 	@Test
-	public void writeGpgSignatureStringTrailingLF() throws Exception {
+	void writeGpgSignatureStringTrailingLF() throws Exception {
 		assertGpgSignatureStringOutcome(SIGNATURE + '\n', EXPECTED);
 	}
 
 	@Test
-	public void writeGpgSignatureStringCRLF() throws Exception {
+	void writeGpgSignatureStringCRLF() throws Exception {
 		assertGpgSignatureStringOutcome(SIGNATURE.replaceAll("\n", "\r\n"),
 				EXPECTED);
 	}
 
 	@Test
-	public void writeGpgSignatureStringTrailingCRLF() throws Exception {
+	void writeGpgSignatureStringTrailingCRLF() throws Exception {
 		assertGpgSignatureStringOutcome(
 				SIGNATURE.replaceAll("\n", "\r\n") + "\r\n", EXPECTED);
 	}
 
 	@Test
-	public void writeGpgSignatureString_failsForNonAscii() throws Exception {
+	void writeGpgSignatureString_failsForNonAscii() throws Exception {
 		String signature = "Ü Ä";
 		IllegalArgumentException e = assertThrows(
 				IllegalArgumentException.class,
@@ -93,14 +93,14 @@ public class CommitBuilderTest {
 	}
 
 	@Test
-	public void writeGpgSignatureString_oneLineNotModified() throws Exception {
+	void writeGpgSignatureString_oneLineNotModified() throws Exception {
 		String signature = "    A string   ";
 		String expectedOutcome = signature;
 		assertGpgSignatureStringOutcome(signature, expectedOutcome);
 	}
 
 	@Test
-	public void writeGpgSignatureString_preservesRandomWhitespace()
+	void writeGpgSignatureString_preservesRandomWhitespace()
 			throws Exception {
 		// @formatter:off
 		String signature = "    String with    \n"
@@ -118,7 +118,7 @@ public class CommitBuilderTest {
 	}
 
 	@Test
-	public void writeGpgSignatureString_replaceCR() throws Exception {
+	void writeGpgSignatureString_replaceCR() throws Exception {
 		// @formatter:off
 		String signature = "String with \r"
 				+ "Line 2\r"
@@ -135,7 +135,7 @@ public class CommitBuilderTest {
 	}
 
 	@Test
-	public void writeGpgSignatureString_replaceCRLF() throws Exception {
+	void writeGpgSignatureString_replaceCRLF() throws Exception {
 		// @formatter:off
 		String signature = "String with \r\n"
 				+ "Line 2\r\n"
@@ -152,7 +152,7 @@ public class CommitBuilderTest {
 	}
 
 	@Test
-	public void writeGpgSignatureString_replaceCRLFMixed() throws Exception {
+	void writeGpgSignatureString_replaceCRLFMixed() throws Exception {
 		// @formatter:off
 		String signature = "String with \r"
 				+ "Line 2\r\n"
@@ -169,7 +169,7 @@ public class CommitBuilderTest {
 	}
 
 	@Test
-	public void setGpgSignature() throws Exception {
+	void setGpgSignature() throws Exception {
 		GpgSignature dummy = new GpgSignature(new byte[0]);
 
 		CommitBuilder builder = new CommitBuilder();

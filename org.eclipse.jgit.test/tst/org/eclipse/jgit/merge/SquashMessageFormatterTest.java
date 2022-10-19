@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.merge;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 
@@ -19,8 +19,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test construction of squash message by {@link SquashMessageFormatterTest}.
@@ -31,7 +31,7 @@ public class SquashMessageFormatterTest extends SampleDataRepositoryTestCase {
 	private RevCommit revCommit;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		dateFormatter = new GitDateFormatter(Format.DEFAULT);
@@ -39,7 +39,7 @@ public class SquashMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testCommit() throws Exception {
+	void testCommit() throws Exception {
 		try (Git git = new Git(db)) {
 			revCommit = git.commit().setMessage("squash_me").call();
 

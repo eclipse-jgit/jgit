@@ -18,25 +18,25 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RE
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public final class DfsPackDescriptionTest {
 	private AtomicInteger counter;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		counter = new AtomicInteger();
 	}
 
 	@Test
-	public void objectLookupComparatorEqual() throws Exception {
+	void objectLookupComparatorEqual() throws Exception {
 		DfsPackDescription a = create(RECEIVE);
 		a.setFileSize(PACK, 1);
 		a.setFileSize(INDEX, 1);
@@ -55,7 +55,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void objectLookupComparatorPackSource() throws Exception {
+	void objectLookupComparatorPackSource() throws Exception {
 		DfsPackDescription a = create(COMPACT);
 		a.setFileSize(PACK, 2);
 		a.setLastModified(1);
@@ -70,7 +70,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void objectLookupComparatorCustomPackSourceComparator()
+	void objectLookupComparatorCustomPackSourceComparator()
 			throws Exception {
 		DfsPackDescription a = create(GC);
 
@@ -79,16 +79,16 @@ public final class DfsPackDescriptionTest {
 		assertComparesLessThan(DfsPackDescription.objectLookupComparator(), b, a);
 		assertComparesLessThan(
 				DfsPackDescription.objectLookupComparator(
-					new PackSource.ComparatorBuilder()
-						.add(GC)
-						.add(INSERT, RECEIVE, GC_REST, UNREACHABLE_GARBAGE)
-						.add(COMPACT)
-						.build()),
+						new PackSource.ComparatorBuilder()
+								.add(GC)
+								.add(INSERT, RECEIVE, GC_REST, UNREACHABLE_GARBAGE)
+								.add(COMPACT)
+								.build()),
 				a, b);
 	}
 
 	@Test
-	public void objectLookupComparatorGcFileSize() throws Exception {
+	void objectLookupComparatorGcFileSize() throws Exception {
 		// a is older and smaller.
 		DfsPackDescription a = create(GC_REST);
 		a.setFileSize(PACK, 100);
@@ -106,7 +106,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void objectLookupComparatorNonGcLastModified()
+	void objectLookupComparatorNonGcLastModified()
 			throws Exception {
 		// a is older and smaller.
 		DfsPackDescription a = create(INSERT);
@@ -126,7 +126,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void objectLookupComparatorObjectCount() throws Exception {
+	void objectLookupComparatorObjectCount() throws Exception {
 		DfsPackDescription a = create(INSERT);
 		a.setObjectCount(1);
 
@@ -137,7 +137,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void reftableComparatorEqual() throws Exception {
+	void reftableComparatorEqual() throws Exception {
 		DfsPackDescription a = create(INSERT);
 		a.setFileSize(PACK, 100);
 		a.setObjectCount(1);
@@ -150,7 +150,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void reftableComparatorPackSource() throws Exception {
+	void reftableComparatorPackSource() throws Exception {
 		DfsPackDescription a = create(INSERT);
 		a.setMaxUpdateIndex(1);
 		a.setLastModified(1);
@@ -163,7 +163,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void reftableComparatorMaxUpdateIndex() throws Exception {
+	void reftableComparatorMaxUpdateIndex() throws Exception {
 		DfsPackDescription a = create(INSERT);
 		a.setMaxUpdateIndex(1);
 		a.setLastModified(2);
@@ -176,7 +176,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void reftableComparatorLastModified() throws Exception {
+	void reftableComparatorLastModified() throws Exception {
 		DfsPackDescription a = create(INSERT);
 		a.setLastModified(1);
 
@@ -187,7 +187,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void reuseComparatorEqual() throws Exception {
+	void reuseComparatorEqual() throws Exception {
 		DfsPackDescription a = create(RECEIVE);
 		a.setFileSize(PACK, 1);
 		a.setFileSize(INDEX, 1);
@@ -206,7 +206,7 @@ public final class DfsPackDescriptionTest {
 	}
 
 	@Test
-	public void reuseComparatorGcPackSize() throws Exception {
+	void reuseComparatorGcPackSize() throws Exception {
 		DfsPackDescription a = create(GC_REST);
 		a.setFileSize(PACK, 1);
 		a.setFileSize(INDEX, 1);
@@ -234,26 +234,20 @@ public final class DfsPackDescriptionTest {
 	private static <T> void assertComparesEqual(
 			Comparator<T> comparator, T o1, T o2) {
 		assertEquals(
-				"first object must compare equal to itself",
-				0, comparator.compare(o1, o1));
+				0, comparator.compare(o1, o1), "first object must compare equal to itself");
 		assertEquals(
-				"second object must compare equal to itself",
-				0, comparator.compare(o2, o2));
+				0, comparator.compare(o2, o2), "second object must compare equal to itself");
 		assertEquals(
-				"first object must compare equal to second object",
-				0, comparator.compare(o1, o2));
+				0, comparator.compare(o1, o2), "first object must compare equal to second object");
 	}
 
 	private static <T> void assertComparesLessThan(
 			Comparator<T> comparator, T o1, T o2) {
 		assertEquals(
-				"first object must compare equal to itself",
-				0, comparator.compare(o1, o1));
+				0, comparator.compare(o1, o1), "first object must compare equal to itself");
 		assertEquals(
-				"second object must compare equal to itself",
-				0, comparator.compare(o2, o2));
+				0, comparator.compare(o2, o2), "second object must compare equal to itself");
 		assertEquals(
-				"first object must compare less than second object",
-				-1, comparator.compare(o1, o2));
+				-1, comparator.compare(o1, o2), "first object must compare less than second object");
 	}
 }

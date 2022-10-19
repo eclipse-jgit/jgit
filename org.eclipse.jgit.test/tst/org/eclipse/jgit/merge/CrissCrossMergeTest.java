@@ -11,9 +11,9 @@ package org.eclipse.jgit.merge;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,10 +45,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
@@ -76,7 +76,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 	private TestRepository<FileRepository> db_t;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		db_t = new TestRepository<>(db);
@@ -433,11 +433,11 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 			else if (worktreeState == WorktreeState.DifferentFromHeadAndOther
 					|| worktreeState == WorktreeState.SameAsOther)
 				expectSuccess = false;
-			assertEquals("Merge didn't return as expected: strategy:"
+			assertEquals(Boolean.valueOf(expectSuccess),
+					Boolean.valueOf(merger.merge(new RevCommit[] { m2, s2 })),
+					"Merge didn't return as expected: strategy:"
 					+ strategy.getName() + ", indexState:" + indexState
-					+ ", worktreeState:" + worktreeState + " . ",
-					Boolean.valueOf(expectSuccess),
-					Boolean.valueOf(merger.merge(new RevCommit[] { m2, s2 })));
+					+ ", worktreeState:" + worktreeState + " . ");
 			assertEquals(MergeStrategy.RECURSIVE, strategy);
 			if (!expectSuccess)
 				// if the merge was not successful skip testing the state of

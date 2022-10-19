@@ -10,25 +10,25 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Test managing the gitweb description file. */
 public class DescriptionTest extends LocalDiskRepositoryTestCase {
 	private static final String UNCONFIGURED = "Unnamed repository; edit this file to name it for gitweb.";
 
 	@Test
-	public void description() throws IOException {
+	void description() throws IOException {
 		Repository git = createBareRepository();
 		File path = new File(git.getDirectory(), "description");
-		assertNull("description", git.getGitwebDescription());
+		assertNull(git.getGitwebDescription(), "description");
 
 		String desc = "a test repo\nfor jgit";
 		git.setGitwebDescription(desc);
@@ -48,6 +48,6 @@ public class DescriptionTest extends LocalDiskRepositoryTestCase {
 
 		git.setGitwebDescription(UNCONFIGURED);
 		assertEquals(UNCONFIGURED + '\n', read(path));
-		assertNull("description", git.getGitwebDescription());
+		assertNull(git.getGitwebDescription(), "description");
 	}
 }

@@ -10,13 +10,14 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 public class RevWalkCullTest extends RevWalkTestCase {
 	@Test
-	public void testProperlyCullAllAncestors1() throws Exception {
+	void testProperlyCullAllAncestors1() throws Exception {
 		// Credit goes to Junio C Hamano <gitster@pobox.com> for this
 		// test case in git-core (t/t6009-rev-list-parent.sh)
 		//
@@ -33,7 +34,7 @@ public class RevWalkCullTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testProperlyCullAllAncestors2() throws Exception {
+	void testProperlyCullAllAncestors2() throws Exception {
 		// Despite clock skew on c1 being very old it should not
 		// produce, neither should a or b, or any part of that chain.
 		//
@@ -51,7 +52,7 @@ public class RevWalkCullTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testProperlyCullAllAncestors_LongHistory() throws Exception {
+	void testProperlyCullAllAncestors_LongHistory() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 		for (int i = 0; i < 24; i++) {

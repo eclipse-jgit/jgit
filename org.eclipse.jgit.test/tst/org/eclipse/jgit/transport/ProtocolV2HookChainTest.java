@@ -9,20 +9,17 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
-@RunWith(JUnit4.class)
 public class ProtocolV2HookChainTest {
 
 	@Test
-	public void testDefaultIfEmpty() {
+	void testDefaultIfEmpty() {
 		ProtocolV2Hook[] noHooks = {};
 		ProtocolV2Hook newChain = ProtocolV2HookChain
 				.newChain(Arrays.asList(noHooks));
@@ -30,7 +27,7 @@ public class ProtocolV2HookChainTest {
 	}
 
 	@Test
-	public void testFlattenChainIfOnlyOne() {
+	void testFlattenChainIfOnlyOne() {
 		FakeProtocolV2Hook hook1 = new FakeProtocolV2Hook();
 		ProtocolV2Hook newChain = ProtocolV2HookChain
 				.newChain(Arrays.asList(ProtocolV2Hook.DEFAULT, hook1));
@@ -38,7 +35,7 @@ public class ProtocolV2HookChainTest {
 	}
 
 	@Test
-	public void testMultipleHooks() throws ServiceMayNotContinueException {
+	void testMultipleHooks() throws ServiceMayNotContinueException {
 		FakeProtocolV2Hook hook1 = new FakeProtocolV2Hook();
 		FakeProtocolV2Hook hook2 = new FakeProtocolV2Hook();
 

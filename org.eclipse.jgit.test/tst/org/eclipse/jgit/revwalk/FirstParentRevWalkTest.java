@@ -10,18 +10,19 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FirstParentRevWalkTest extends RevWalkTestCase {
 	@Test
-	public void testStringOfPearls() throws Exception {
+	void testStringOfPearls() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 		RevCommit c = commit(b);
@@ -36,7 +37,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSideBranch() throws Exception {
+	void testSideBranch() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -55,7 +56,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSecondParentAncestorOfFirstParent() throws Exception {
+	void testSecondParentAncestorOfFirstParent() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 		RevCommit c = commit(b, a);
@@ -70,7 +71,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testFirstParentMultipleOccurrences() throws Exception {
+	void testFirstParentMultipleOccurrences() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 		RevCommit c = commit(b);
@@ -88,7 +89,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testReachableAlongFirstAndLaterParents() throws Exception {
+	void testReachableAlongFirstAndLaterParents() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -111,7 +112,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testStartCommitReachableOnlyFromLaterParents()
+	void testStartCommitReachableOnlyFromLaterParents()
 			throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
@@ -132,7 +133,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testRevFilter() throws Exception {
+	void testRevFilter() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commitBuilder().parent(a).message("commit b1").create();
 		RevCommit b2 = commitBuilder().parent(a).message("commit b2").create();
@@ -147,7 +148,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testTopoSort() throws Exception {
+	void testTopoSort() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -164,7 +165,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testTopoNonIntermixSort() throws Exception {
+	void testTopoNonIntermixSort() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -181,7 +182,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testCommitTimeSort() throws Exception {
+	void testCommitTimeSort() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -198,7 +199,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testReverseSort() throws Exception {
+	void testReverseSort() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -215,7 +216,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testBoundarySort() throws Exception {
+	void testBoundarySort() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 		RevCommit c1 = commit(b);
@@ -235,7 +236,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testFirstParentOfFirstParentMarkedUninteresting()
+	void testFirstParentOfFirstParentMarkedUninteresting()
 			throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
@@ -254,7 +255,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testUnparsedFirstParentOfFirstParentMarkedUninteresting()
+	void testUnparsedFirstParentOfFirstParentMarkedUninteresting()
 			throws Exception {
 		ObjectId a = unparsedCommit();
 		ObjectId b1 = unparsedCommit(a);
@@ -274,7 +275,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testFirstParentMarkedUninteresting() throws Exception {
+	void testFirstParentMarkedUninteresting() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -289,7 +290,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testUnparsedFirstParentMarkedUninteresting() throws Exception {
+	void testUnparsedFirstParentMarkedUninteresting() throws Exception {
 		ObjectId a = unparsedCommit();
 		ObjectId b1 = unparsedCommit(a);
 		ObjectId b2 = unparsedCommit(a);
@@ -305,7 +306,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testUninterestingCommitWithTwoParents() throws Exception {
+	void testUninterestingCommitWithTwoParents() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 		RevCommit c1 = commit(b);
@@ -333,7 +334,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testUnparsedUninterestingCommitWithTwoParents()
+	void testUnparsedUninterestingCommitWithTwoParents()
 			throws Exception {
 		ObjectId a = unparsedCommit();
 		ObjectId b = unparsedCommit(a);
@@ -358,7 +359,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testDepthWalk() throws Exception {
+	void testDepthWalk() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -375,7 +376,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testDoNotRewriteParents() throws Exception {
+	void testDoNotRewriteParents() throws Exception {
 		RevCommit a = commit();
 		RevCommit b1 = commit(a);
 		RevCommit b2 = commit(a);
@@ -391,28 +392,32 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
-	@Test(expected = IllegalStateException.class)
-	public void testMarkStartBeforeSetFirstParent() throws Exception {
-		RevCommit a = commit();
+	@Test
+	void testMarkStartBeforeSetFirstParent() throws Exception {
+		assertThrows(IllegalStateException.class, () -> {
+			RevCommit a = commit();
 
-		rw.reset();
-		markStart(a);
-		rw.setFirstParent(true);
-	}
-
-	@Test(expected = IllegalStateException.class)
-	public void testMergeBaseWithFirstParentNotAllowed() throws Exception {
-		RevCommit a = commit();
-
-		rw.reset();
-		rw.setFirstParent(true);
-		rw.setRevFilter(RevFilter.MERGE_BASE);
-		markStart(a);
-		assertNull(rw.next());
+			rw.reset();
+			markStart(a);
+			rw.setFirstParent(true);
+		});
 	}
 
 	@Test
-	public void testWithTopoSortAndTreeFilter() throws Exception {
+	void testMergeBaseWithFirstParentNotAllowed() throws Exception {
+		assertThrows(IllegalStateException.class, () -> {
+			RevCommit a = commit();
+
+			rw.reset();
+			rw.setFirstParent(true);
+			rw.setRevFilter(RevFilter.MERGE_BASE);
+			markStart(a);
+			assertNull(rw.next());
+		});
+	}
+
+	@Test
+	void testWithTopoSortAndTreeFilter() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(tree(file("0", blob("b"))), a);
 		RevCommit c = commit(tree(file("0", blob("c"))), b, a);
@@ -430,7 +435,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testWithTopoSortAndTreeFilter2() throws Exception {
+	void testWithTopoSortAndTreeFilter2() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(tree(file("0", blob("b"))), a);
 		RevCommit c = commit(tree(file("0", blob("c"))), a, b);
@@ -447,7 +452,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testWithTopoNonIntermixSortAndTreeFilter() throws Exception {
+	void testWithTopoNonIntermixSortAndTreeFilter() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(tree(file("0", blob("b"))), a);
 		RevCommit c = commit(tree(file("0", blob("c"))), b, a);
@@ -465,7 +470,7 @@ public class FirstParentRevWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testWithTopoNonIntermixSortAndTreeFilter2() throws Exception {
+	void testWithTopoNonIntermixSortAndTreeFilter2() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(tree(file("0", blob("b"))), a);
 		RevCommit c = commit(tree(file("0", blob("c"))), a, b);

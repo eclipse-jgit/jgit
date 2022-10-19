@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.util.io;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -25,9 +25,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.util.IO;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TimeoutOutputStreamTest {
 	private static final int timeout = 250;
@@ -42,7 +42,7 @@ public class TimeoutOutputStreamTest {
 
 	private long start;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		out = new PipedOutputStream();
 		in = new FullPipeInputStream(out);
@@ -51,7 +51,7 @@ public class TimeoutOutputStreamTest {
 		os.setTimeout(timeout);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		timer.terminate();
 		for (Thread t : active())
@@ -59,7 +59,7 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_writeByte_Success1() throws IOException {
+	void testTimeout_writeByte_Success1() throws IOException {
 		in.free(1);
 		os.write('a');
 		in.want(1);
@@ -67,8 +67,8 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_writeByte_Success2() throws IOException {
-		final byte[] exp = new byte[] { 'a', 'b', 'c' };
+	void testTimeout_writeByte_Success2() throws IOException {
+		final byte[] exp = new byte[]{'a', 'b', 'c'};
 		final byte[] act = new byte[exp.length];
 		in.free(exp.length);
 		os.write(exp[0]);
@@ -80,7 +80,7 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_writeByte_Timeout() throws IOException {
+	void testTimeout_writeByte_Timeout() throws IOException {
 		beginWrite();
 		try {
 			os.write('\n');
@@ -92,8 +92,8 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_writeBuffer_Success1() throws IOException {
-		final byte[] exp = new byte[] { 'a', 'b', 'c' };
+	void testTimeout_writeBuffer_Success1() throws IOException {
+		final byte[] exp = new byte[]{'a', 'b', 'c'};
 		final byte[] act = new byte[exp.length];
 		in.free(exp.length);
 		os.write(exp);
@@ -103,7 +103,7 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_writeBuffer_Timeout() throws IOException {
+	void testTimeout_writeBuffer_Timeout() throws IOException {
 		beginWrite();
 		try {
 			os.write(new byte[512]);
@@ -115,7 +115,7 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_flush_Success() throws IOException {
+	void testTimeout_flush_Success() throws IOException {
 		final boolean[] called = new boolean[1];
 		os = new TimeoutOutputStream(new OutputStream() {
 			@Override
@@ -134,7 +134,7 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_flush_Timeout() throws IOException {
+	void testTimeout_flush_Timeout() throws IOException {
 		final boolean[] called = new boolean[1];
 		os = new TimeoutOutputStream(new OutputStream() {
 			@Override
@@ -170,7 +170,7 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_close_Success() throws IOException {
+	void testTimeout_close_Success() throws IOException {
 		final boolean[] called = new boolean[1];
 		os = new TimeoutOutputStream(new OutputStream() {
 			@Override
@@ -189,7 +189,7 @@ public class TimeoutOutputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_close_Timeout() throws IOException {
+	void testTimeout_close_Timeout() throws IOException {
 		final boolean[] called = new boolean[1];
 		os = new TimeoutOutputStream(new OutputStream() {
 			@Override
@@ -236,7 +236,7 @@ public class TimeoutOutputStreamTest {
 		// 50 ms of the expected timeout.
 		//
 		final long wait = now() - start;
-		assertTrue("waited only " + wait + " ms", timeout - wait < 50);
+		assertTrue(timeout - wait < 50, "waited only " + wait + " ms");
 	}
 
 	private static List<Thread> active() {

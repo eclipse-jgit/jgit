@@ -11,18 +11,18 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BranchConfigTest {
 
 	@Test
-	public void getRemoteTrackingBranchShouldHandleNormalCase() {
+	void getRemoteTrackingBranchShouldHandleNormalCase() {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/*:refs/remotes/origin/*\n"
@@ -36,7 +36,7 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getRemoteTrackingBranchShouldHandleOtherMapping() {
+	void getRemoteTrackingBranchShouldHandleOtherMapping() {
 		Config c = parse("" //
 				+ "[remote \"test\"]\n"
 				+ "  fetch = +refs/foo/*:refs/remotes/origin/foo/*\n"
@@ -52,7 +52,7 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getRemoteTrackingBranchShouldReturnNullWithoutFetchSpec() {
+	void getRemoteTrackingBranchShouldReturnNullWithoutFetchSpec() {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/onlyone:refs/remotes/origin/onlyone\n"
@@ -64,7 +64,7 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getRemoteTrackingBranchShouldReturnNullWithoutMergeBranch() {
+	void getRemoteTrackingBranchShouldReturnNullWithoutMergeBranch() {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/onlyone:refs/remotes/origin/onlyone\n"
@@ -75,7 +75,7 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getTrackingBranchShouldReturnMergeBranchForLocalBranch() {
+	void getTrackingBranchShouldReturnMergeBranchForLocalBranch() {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/*:refs/remotes/origin/*\n"
@@ -89,7 +89,7 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getTrackingBranchShouldReturnNullWithoutMergeBranchForLocalBranch() {
+	void getTrackingBranchShouldReturnNullWithoutMergeBranchForLocalBranch() {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/onlyone:refs/remotes/origin/onlyone\n"
@@ -100,7 +100,7 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getTrackingBranchShouldHandleNormalCaseForRemoteTrackingBranch() {
+	void getTrackingBranchShouldHandleNormalCaseForRemoteTrackingBranch() {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/*:refs/remotes/origin/*\n"
@@ -114,7 +114,7 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void isRebase() {
+	void isRebase() {
 		Config c = parse("" //
 				+ "[branch \"undefined\"]\n"
 				+ "[branch \"false\"]\n"

@@ -10,62 +10,66 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CommitConfigTest {
 
 	@Test
-	public void testDefaults() throws Exception {
+	void testDefaults() throws Exception {
 		CommitConfig cfg = parse("");
-		assertEquals("Unexpected clean-up mode", CleanupMode.DEFAULT,
-				cfg.getCleanupMode());
+		assertEquals(CleanupMode.DEFAULT,
+				cfg.getCleanupMode(),
+				"Unexpected clean-up mode");
 	}
 
 	@Test
-	public void testCommitCleanup() throws Exception {
-		String[] values = { "strip", "whitespace", "verbatim", "scissors",
-				"default" };
-		CleanupMode[] expected = { CleanupMode.STRIP, CleanupMode.WHITESPACE,
+	void testCommitCleanup() throws Exception {
+		String[] values = {"strip", "whitespace", "verbatim", "scissors",
+				"default"};
+		CleanupMode[] expected = {CleanupMode.STRIP, CleanupMode.WHITESPACE,
 				CleanupMode.VERBATIM, CleanupMode.SCISSORS,
-				CleanupMode.DEFAULT };
-		for (int i = 0; i < values.length; i++) {
+				CleanupMode.DEFAULT};
+		for (int i = 0;i < values.length;i++) {
 			CommitConfig cfg = parse("[commit]\n\tcleanup = " + values[i]);
-			assertEquals("Unexpected clean-up mode", expected[i],
-					cfg.getCleanupMode());
+			assertEquals(expected[i],
+					cfg.getCleanupMode(),
+					"Unexpected clean-up mode");
 		}
 	}
 
 	@Test
-	public void testResolve() throws Exception {
-		String[] values = { "strip", "whitespace", "verbatim", "scissors",
-				"default" };
-		CleanupMode[] expected = { CleanupMode.STRIP, CleanupMode.WHITESPACE,
+	void testResolve() throws Exception {
+		String[] values = {"strip", "whitespace", "verbatim", "scissors",
+				"default"};
+		CleanupMode[] expected = {CleanupMode.STRIP, CleanupMode.WHITESPACE,
 				CleanupMode.VERBATIM, CleanupMode.SCISSORS,
-				CleanupMode.DEFAULT };
-		for (int i = 0; i < values.length; i++) {
+				CleanupMode.DEFAULT};
+		for (int i = 0;i < values.length;i++) {
 			CommitConfig cfg = parse("[commit]\n\tcleanup = " + values[i]);
 			for (CleanupMode mode : CleanupMode.values()) {
-				for (int j = 0; j < 2; j++) {
+				for (int j = 0;j < 2;j++) {
 					CleanupMode resolved = cfg.resolve(mode, j == 0);
 					if (mode != CleanupMode.DEFAULT) {
-						assertEquals("Clean-up mode should be unchanged", mode,
-								resolved);
+						assertEquals(mode,
+								resolved,
+								"Clean-up mode should be unchanged");
 					} else if (i + 1 < values.length) {
-						assertEquals("Unexpected clean-up mode", expected[i],
-								resolved);
+						assertEquals(expected[i],
+								resolved,
+								"Unexpected clean-up mode");
 					} else {
-						assertEquals("Unexpected clean-up mode",
-								j == 0 ? CleanupMode.STRIP
+						assertEquals(j == 0 ? CleanupMode.STRIP
 										: CleanupMode.WHITESPACE,
-								resolved);
+								resolved,
+								"Unexpected clean-up mode");
 					}
 				}
 			}
@@ -73,151 +77,157 @@ public class CommitConfigTest {
 	}
 
 	@Test
-	public void testCleanDefaultThrows() throws Exception {
+	void testCleanDefaultThrows() throws Exception {
 		assertThrows(IllegalArgumentException.class, () -> CommitConfig
 				.cleanText("Whatever", CleanupMode.DEFAULT, '#'));
 	}
 
 	@Test
-	public void testCleanVerbatim() throws Exception {
+	void testCleanVerbatim() throws Exception {
 		String message = "\n  \nWhatever  \n\n\n# A comment\n\nMore\t \n\n\n";
-		assertEquals("Unexpected message change", message,
-				CommitConfig.cleanText(message, CleanupMode.VERBATIM, '#'));
+		assertEquals(message,
+				CommitConfig.cleanText(message, CleanupMode.VERBATIM, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanWhitespace() throws Exception {
+	void testCleanWhitespace() throws Exception {
 		String message = "\n  \nWhatever  \n\n\n# A comment\n\nMore\t \n\n\n";
-		assertEquals("Unexpected message change",
-				"Whatever\n\n# A comment\n\nMore\n",
-				CommitConfig.cleanText(message, CleanupMode.WHITESPACE, '#'));
+		assertEquals("Whatever\n\n# A comment\n\nMore\n",
+				CommitConfig.cleanText(message, CleanupMode.WHITESPACE, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanStrip() throws Exception {
+	void testCleanStrip() throws Exception {
 		String message = "\n  \nWhatever  \n\n\n# A comment\n\nMore\t \n\n\n";
-		assertEquals("Unexpected message change", "Whatever\n\nMore\n",
-				CommitConfig.cleanText(message, CleanupMode.STRIP, '#'));
+		assertEquals("Whatever\n\nMore\n",
+				CommitConfig.cleanText(message, CleanupMode.STRIP, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanStripCustomChar() throws Exception {
+	void testCleanStripCustomChar() throws Exception {
 		String message = "\n  \nWhatever  \n\n\n# Not a comment\n\n   <A comment\nMore\t \n\n\n";
-		assertEquals("Unexpected message change",
-				"Whatever\n\n# Not a comment\n\nMore\n",
-				CommitConfig.cleanText(message, CleanupMode.STRIP, '<'));
+		assertEquals("Whatever\n\n# Not a comment\n\nMore\n",
+				CommitConfig.cleanText(message, CleanupMode.STRIP, '<'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanScissors() throws Exception {
+	void testCleanScissors() throws Exception {
 		String message = "\n  \nWhatever  \n\n\n# Not a comment\n\n   <A comment\nMore\t \n\n\n"
 				+ "# ------------------------ >8 ------------------------\n"
 				+ "More\nMore\n";
-		assertEquals("Unexpected message change",
-				"Whatever\n\n# Not a comment\n\n   <A comment\nMore\n",
-				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'));
+		assertEquals("Whatever\n\n# Not a comment\n\n   <A comment\nMore\n",
+				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanScissorsCustomChar() throws Exception {
+	void testCleanScissorsCustomChar() throws Exception {
 		String message = "\n  \nWhatever  \n\n\n# Not a comment\n\n   <A comment\nMore\t \n\n\n"
 				+ "< ------------------------ >8 ------------------------\n"
 				+ "More\nMore\n";
-		assertEquals("Unexpected message change",
-				"Whatever\n\n# Not a comment\n\n   <A comment\nMore\n",
-				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '<'));
+		assertEquals("Whatever\n\n# Not a comment\n\n   <A comment\nMore\n",
+				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '<'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanScissorsAtTop() throws Exception {
+	void testCleanScissorsAtTop() throws Exception {
 		String message = "# ------------------------ >8 ------------------------\n"
 				+ "\n  \nWhatever  \n\n\n# Not a comment\n\n   <A comment\nMore\t \n\n\n"
 				+ "More\nMore\n";
-		assertEquals("Unexpected message change", "",
-				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'));
+		assertEquals("",
+				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanScissorsNoScissor() throws Exception {
+	void testCleanScissorsNoScissor() throws Exception {
 		String message = "\n  \nWhatever  \n\n\n# A comment\n\nMore\t \n\n\n";
-		assertEquals("Unexpected message change",
-				"Whatever\n\n# A comment\n\nMore\n",
-				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'));
+		assertEquals("Whatever\n\n# A comment\n\nMore\n",
+				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanScissorsNoScissor2() throws Exception {
+	void testCleanScissorsNoScissor2() throws Exception {
 		String message = "Text\n"
 				+ "## ------------------------ >8 ------------------------\n"
 				+ "More\nMore\n";
-		assertEquals("Unexpected message change", message,
-				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'));
+		assertEquals(message,
+				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanScissorsNoScissor3() throws Exception {
+	void testCleanScissorsNoScissor3() throws Exception {
 		String message = "Text\n"
 				// Wrong number of dashes
 				+ "# ----------------------- >8 ------------------------\n"
 				+ "More\nMore\n";
-		assertEquals("Unexpected message change", message,
-				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'));
+		assertEquals(message,
+				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCleanScissorsAtEnd() throws Exception {
+	void testCleanScissorsAtEnd() throws Exception {
 		String message = "Text\n"
 				+ "# ------------------------ >8 ------------------------\n";
-		assertEquals("Unexpected message change", "Text\n",
-				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'));
+		assertEquals("Text\n",
+				CommitConfig.cleanText(message, CleanupMode.SCISSORS, '#'),
+				"Unexpected message change");
 	}
 
 	@Test
-	public void testCommentCharDefault() throws Exception {
+	void testCommentCharDefault() throws Exception {
 		CommitConfig cfg = parse("");
 		assertEquals('#', cfg.getCommentChar());
 		assertFalse(cfg.isAutoCommentChar());
 	}
 
 	@Test
-	public void testCommentCharAuto() throws Exception {
+	void testCommentCharAuto() throws Exception {
 		CommitConfig cfg = parse("[core]\n\tcommentChar = auto\n");
 		assertEquals('#', cfg.getCommentChar());
 		assertTrue(cfg.isAutoCommentChar());
 	}
 
 	@Test
-	public void testCommentCharEmpty() throws Exception {
+	void testCommentCharEmpty() throws Exception {
 		CommitConfig cfg = parse("[core]\n\tcommentChar =\n");
 		assertEquals('#', cfg.getCommentChar());
 	}
 
 	@Test
-	public void testCommentCharInvalid() throws Exception {
+	void testCommentCharInvalid() throws Exception {
 		CommitConfig cfg = parse("[core]\n\tcommentChar = \" \"\n");
 		assertEquals('#', cfg.getCommentChar());
 	}
 
 	@Test
-	public void testCommentCharNonAscii() throws Exception {
+	void testCommentCharNonAscii() throws Exception {
 		CommitConfig cfg = parse("[core]\n\tcommentChar = ö\n");
 		assertEquals('#', cfg.getCommentChar());
 	}
 
 	@Test
-	public void testCommentChar() throws Exception {
+	void testCommentChar() throws Exception {
 		CommitConfig cfg = parse("[core]\n\tcommentChar = _\n");
 		assertEquals('_', cfg.getCommentChar());
 	}
 
 	@Test
-	public void testDetermineCommentChar() throws Exception {
+	void testDetermineCommentChar() throws Exception {
 		String text = "A commit message\n\nBody\n";
 		assertEquals('#', CommitConfig.determineCommentChar(text));
 	}
 
 	@Test
-	public void testDetermineCommentChar2() throws Exception {
+	void testDetermineCommentChar2() throws Exception {
 		String text = "A commit message\n\nBody\n\n# Conflicts:\n#\tfoo.txt\n";
 		char ch = CommitConfig.determineCommentChar(text);
 		assertNotEquals('#', ch);
@@ -225,7 +235,7 @@ public class CommitConfigTest {
 	}
 
 	@Test
-	public void testDetermineCommentChar3() throws Exception {
+	void testDetermineCommentChar3() throws Exception {
 		String text = "A commit message\n\n;Body\n\n# Conflicts:\n#\tfoo.txt\n";
 		char ch = CommitConfig.determineCommentChar(text);
 		assertNotEquals('#', ch);
@@ -234,7 +244,7 @@ public class CommitConfigTest {
 	}
 
 	@Test
-	public void testDetermineCommentChar4() throws Exception {
+	void testDetermineCommentChar4() throws Exception {
 		String text = "A commit message\n\nBody\n\n  # Conflicts:\n\t #\tfoo.txt\n";
 		char ch = CommitConfig.determineCommentChar(text);
 		assertNotEquals('#', ch);
@@ -242,7 +252,7 @@ public class CommitConfigTest {
 	}
 
 	@Test
-	public void testDetermineCommentChar5() throws Exception {
+	void testDetermineCommentChar5() throws Exception {
 		String text = "A commit message\n\nBody\n\n#a\n;b\n@c\n!d\n$\n%\n^\n&\n|\n:";
 		char ch = CommitConfig.determineCommentChar(text);
 		assertEquals(0, ch);

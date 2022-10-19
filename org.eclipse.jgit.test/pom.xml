@@ -34,17 +34,13 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
 
     <!-- Optional security provider for encryption tests. -->
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk18on</artifactId>
       <scope>test</scope>
-     </dependency>
+    </dependency>
 
     <dependency>
       <groupId>org.bouncycastle</groupId>
@@ -63,6 +59,17 @@
       <artifactId>hamcrest</artifactId>
       <scope>test</scope>
       <version>${hamcrest-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>

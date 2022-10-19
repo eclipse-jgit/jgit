@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,8 +34,8 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PathFilterGroupTest {
 
@@ -43,7 +43,7 @@ public class PathFilterGroupTest {
 
 	private Map<String, TreeFilter> singles;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		// @formatter:off
 		String[] paths = new String[] {
@@ -65,7 +65,7 @@ public class PathFilterGroupTest {
 	}
 
 	@Test
-	public void testExact() throws MissingObjectException,
+	void testExact() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		assertMatches(Sets.of("a"), fakeWalk("a"));
 		assertMatches(Sets.of("b/c"), fakeWalk("b/c"));
@@ -76,7 +76,7 @@ public class PathFilterGroupTest {
 	}
 
 	@Test
-	public void testNoMatchButClose() throws MissingObjectException,
+	void testNoMatchButClose() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		assertNoMatches(fakeWalk("a+"));
 		assertNoMatches(fakeWalk("b+/c"));
@@ -87,7 +87,7 @@ public class PathFilterGroupTest {
 	}
 
 	@Test
-	public void testJustCommonPrefixIsNotMatch() throws MissingObjectException,
+	void testJustCommonPrefixIsNotMatch() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		assertNoMatches(fakeWalk("b/a"));
 		assertNoMatches(fakeWalk("b/d"));
@@ -97,7 +97,7 @@ public class PathFilterGroupTest {
 	}
 
 	@Test
-	public void testKeyIsPrefixOfFilter() throws MissingObjectException,
+	void testKeyIsPrefixOfFilter() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		assertMatches(Sets.of("b/c"), fakeWalkAtSubtree("b"));
 		assertMatches(Sets.of("c/d/e", "c/d/f"), fakeWalkAtSubtree("c/d"));
@@ -118,7 +118,7 @@ public class PathFilterGroupTest {
 	}
 
 	@Test
-	public void testFilterIsPrefixOfKey() throws MissingObjectException,
+	void testFilterIsPrefixOfKey() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		assertMatches(Sets.of("a"), fakeWalk("a/b"));
 		assertMatches(Sets.of("b/c"), fakeWalk("b/c/d"));
@@ -130,7 +130,7 @@ public class PathFilterGroupTest {
 	}
 
 	@Test
-	public void testLongPaths() throws MissingObjectException,
+	void testLongPaths() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		TreeFilter longPathFilter = PathFilterGroup
 				.createFromStrings(
@@ -143,7 +143,7 @@ public class PathFilterGroupTest {
 	}
 
 	@Test
-	public void testStopWalk() throws MissingObjectException,
+	void testStopWalk() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		// Obvious
 		filter.include(fakeWalk("d/e/f/f"));

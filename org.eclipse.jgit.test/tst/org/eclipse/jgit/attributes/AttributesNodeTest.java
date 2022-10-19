@@ -12,7 +12,7 @@ package org.eclipse.jgit.attributes;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.attributes.Attribute.State.SET;
 import static org.eclipse.jgit.attributes.Attribute.State.UNSET;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,8 +21,8 @@ import java.io.InputStream;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test {@link AttributesNode}
@@ -45,14 +45,14 @@ public class AttributesNodeTest {
 
 	private InputStream is;
 
-	@After
+	@AfterEach
 	public void after() throws IOException {
 		if (is != null)
 			is.close();
 	}
 
 	@Test
-	public void testBasic() throws IOException {
+	void testBasic() throws IOException {
 		String attributeFileContent = "*.type1 A -B C=value\n"
 				+ "*.type2 -A B C=value2";
 
@@ -66,7 +66,7 @@ public class AttributesNodeTest {
 	}
 
 	@Test
-	public void testNegativePattern() throws IOException {
+	void testNegativePattern() throws IOException {
 		String attributeFileContent = "!*.type1 A -B C=value\n"
 				+ "!*.type2 -A B C=value2";
 
@@ -78,7 +78,7 @@ public class AttributesNodeTest {
 	}
 
 	@Test
-	public void testEmptyNegativeAttributeKey() throws IOException {
+	void testEmptyNegativeAttributeKey() throws IOException {
 		String attributeFileContent = "*.type1 - \n" //
 				+ "*.type2 -   -A";
 		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
@@ -89,9 +89,9 @@ public class AttributesNodeTest {
 	}
 
 	@Test
-	public void testEmptyValueKey() throws IOException {
+	void testEmptyValueKey() throws IOException {
 		String attributeFileContent = "*.type1 = \n" //
-				+ "*.type2 =value\n"//
+				+ "*.type2 =value\n" //
 				+ "*.type3 attr=\n";
 		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
 		AttributesNode node = new AttributesNode();
@@ -102,7 +102,7 @@ public class AttributesNodeTest {
 	}
 
 	@Test
-	public void testEmptyLine() throws IOException {
+	void testEmptyLine() throws IOException {
 		String attributeFileContent = "*.type1 A -B C=value\n" //
 				+ "\n" //
 				+ "    \n" //
@@ -118,7 +118,7 @@ public class AttributesNodeTest {
 	}
 
 	@Test
-	public void testTabSeparator() throws IOException {
+	void testTabSeparator() throws IOException {
 		String attributeFileContent = "*.type1 \tA -B\tC=value\n"
 				+ "*.type2\t -A\tB C=value2\n" //
 				+ "*.type3  \t\t   B\n" //
@@ -135,7 +135,7 @@ public class AttributesNodeTest {
 	}
 
 	@Test
-	public void testDoubleAsteriskAtEnd() throws IOException {
+	void testDoubleAsteriskAtEnd() throws IOException {
 		String attributeFileContent = "dir/** \tA -B\tC=value";
 
 		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));

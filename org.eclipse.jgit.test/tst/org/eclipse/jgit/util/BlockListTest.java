@@ -10,19 +10,19 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BlockListTest {
 	@Test
-	public void testEmptyList() {
+	void testEmptyList() {
 		BlockList<String> empty;
 
 		empty = new BlockList<>();
@@ -47,7 +47,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testGet() {
+	void testGet() {
 		BlockList<String> list = new BlockList<>(4);
 
 		try {
@@ -92,7 +92,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testSet() {
+	void testSet() {
 		BlockList<String> list = new BlockList<>(4);
 
 		try {
@@ -143,7 +143,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testAddToEnd() {
+	void testAddToEnd() {
 		BlockList<Integer> list = new BlockList<>(4);
 		int cnt = BlockList.BLOCK_SIZE * 3;
 
@@ -167,7 +167,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testAddSlowPath() {
+	void testAddSlowPath() {
 		BlockList<String> list = new BlockList<>(4);
 
 		String fooStr = "foo";
@@ -198,7 +198,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testRemoveFromEnd() {
+	void testRemoveFromEnd() {
 		BlockList<String> list = new BlockList<>(4);
 
 		String fooStr = "foo";
@@ -220,7 +220,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testRemoveSlowPath() {
+	void testRemoveSlowPath() {
 		BlockList<String> list = new BlockList<>(4);
 
 		String fooStr = "foo";
@@ -245,7 +245,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testAddRemoveAdd() {
+	void testAddRemoveAdd() {
 		BlockList<Integer> list = new BlockList<>();
 		for (int i = 0; i < BlockList.BLOCK_SIZE + 1; i++)
 			list.add(Integer.valueOf(i));
@@ -258,7 +258,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testAddAllFromOtherList() {
+	void testAddAllFromOtherList() {
 		BlockList<Integer> src = new BlockList<>(4);
 		int cnt = BlockList.BLOCK_SIZE * 2;
 
@@ -276,7 +276,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testFastIterator() {
+	void testFastIterator() {
 		BlockList<Integer> list = new BlockList<>(4);
 		int cnt = BlockList.BLOCK_SIZE * 3;
 
@@ -293,7 +293,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testAddRejectsBadIndexes() {
+	void testAddRejectsBadIndexes() {
 		BlockList<Integer> list = new BlockList<>(4);
 		list.add(Integer.valueOf(41));
 
@@ -313,7 +313,7 @@ public class BlockListTest {
 	}
 
 	@Test
-	public void testRemoveRejectsBadIndexes() {
+	void testRemoveRejectsBadIndexes() {
 		BlockList<Integer> list = new BlockList<>(4);
 		list.add(Integer.valueOf(41));
 

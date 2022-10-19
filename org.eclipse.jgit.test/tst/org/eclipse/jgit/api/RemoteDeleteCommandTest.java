@@ -9,15 +9,16 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import org.eclipse.jgit.transport.RemoteConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RemoteDeleteCommandTest extends AbstractRemoteCommandTest {
 
 	@Test
-	public void testDelete() throws Exception {
+	void testDelete() throws Exception {
 		// setup an initial remote
 		RemoteConfig remoteConfig = setupRemote();
 

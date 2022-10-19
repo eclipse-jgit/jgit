@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Date;
 
@@ -20,6 +20,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.jupiter.api.BeforeEach;
 
 /** Support for tests of the {@link RevWalk} class. */
 public abstract class RevWalkTestCase extends RepositoryTestCase {
@@ -28,6 +29,7 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 	protected RevWalk rw;
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		util = new TestRepository<>(db, createRevWalk());

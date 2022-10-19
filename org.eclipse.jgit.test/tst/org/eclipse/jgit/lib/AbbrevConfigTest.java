@@ -9,104 +9,104 @@
  */
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 
 import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AbbrevConfigTest extends RepositoryTestCase {
 
 	@Test
-	public void testDefault() throws Exception {
+	void testDefault() throws Exception {
 		assertEquals(7, testCoreAbbrev(null));
 	}
 
 	@Test
-	public void testAuto() throws Exception {
+	void testAuto() throws Exception {
 		assertEquals(7, testCoreAbbrev("auto"));
 	}
 
 	@Test
-	public void testNo() throws Exception {
+	void testNo() throws Exception {
 		assertEquals(40, testCoreAbbrev("no"));
 	}
 
 	@Test
-	public void testValidMin() throws Exception {
+	void testValidMin() throws Exception {
 		assertEquals(4, testCoreAbbrev("4"));
 	}
 
 	@Test
-	public void testValid() throws Exception {
+	void testValid() throws Exception {
 		assertEquals(22, testCoreAbbrev("22"));
 	}
 
 	@Test
-	public void testValidMax() throws Exception {
+	void testValidMax() throws Exception {
 		assertEquals(40, testCoreAbbrev("40"));
 	}
 
 	@Test
-	public void testInvalid() {
+	void testInvalid() {
 		assertThrows(InvalidConfigurationException.class,
 				() -> testCoreAbbrev("foo"));
 	}
 
 	@Test
-	public void testInvalid2() {
+	void testInvalid2() {
 		assertThrows(InvalidConfigurationException.class,
 				() -> testCoreAbbrev("2k"));
 	}
 
 	@Test
-	public void testInvalidNegative() {
+	void testInvalidNegative() {
 		assertThrows(InvalidConfigurationException.class,
 				() -> testCoreAbbrev("-1000"));
 	}
 
 	@Test
-	public void testInvalidBelowRange() {
+	void testInvalidBelowRange() {
 		assertThrows(InvalidConfigurationException.class,
 				() -> testCoreAbbrev("3"));
 	}
 
 	@Test
-	public void testInvalidBelowRange2() {
+	void testInvalidBelowRange2() {
 		assertThrows(InvalidConfigurationException.class,
 				() -> testCoreAbbrev("-1"));
 	}
 
 	@Test
-	public void testInvalidAboveRange() {
+	void testInvalidAboveRange() {
 		assertThrows(InvalidConfigurationException.class,
 				() -> testCoreAbbrev("41"));
 	}
 
 	@Test
-	public void testInvalidAboveRange2() {
+	void testInvalidAboveRange2() {
 		assertThrows(InvalidConfigurationException.class,
 				() -> testCoreAbbrev("100000"));
 	}
 
 	@Test
-	public void testToStringNo()
+	void testToStringNo()
 			throws InvalidConfigurationException, IOException {
 		assertEquals("40", setCoreAbbrev("no").toString());
 	}
 
 	@Test
-	public void testToString()
+	void testToString()
 			throws InvalidConfigurationException, IOException {
 		assertEquals("7", setCoreAbbrev("auto").toString());
 	}
 
 	@Test
-	public void testToString12()
+	void testToString12()
 			throws InvalidConfigurationException, IOException {
 		assertEquals("12", setCoreAbbrev("12").toString());
 	}

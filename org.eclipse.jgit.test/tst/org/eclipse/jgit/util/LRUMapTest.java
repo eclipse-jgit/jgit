@@ -15,13 +15,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.hamcrest.collection.IsIterableContainingInOrder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LRUMapTest {
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void testLRUEntriesAreEvicted() {
+	void testLRUEntriesAreEvicted() {
 		Map<Integer, Integer> map = new LRUMap<>(3, 3);
 		for (int i = 0; i < 3; i++) {
 			map.put(i, i);

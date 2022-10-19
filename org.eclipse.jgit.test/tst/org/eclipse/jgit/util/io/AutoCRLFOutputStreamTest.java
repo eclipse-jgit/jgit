@@ -12,6 +12,7 @@
 package org.eclipse.jgit.util.io;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,13 +21,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.eclipse.jgit.diff.RawText;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AutoCRLFOutputStreamTest {
 
 	@Test
-	public void test() throws IOException {
+	void test() throws IOException {
 		assertNoCrLf("", "");
 		assertNoCrLf("\r", "\r");
 		assertNoCrLf("\r\n", "\n");
@@ -40,9 +40,9 @@ public class AutoCRLFOutputStreamTest {
 	}
 
 	@Test
-	public void testBoundary() throws IOException {
+	void testBoundary() throws IOException {
 		int bufferSize = RawText.getBufferSize();
-		for (int i = bufferSize - 10; i < bufferSize + 10; i++) {
+		for (int i = bufferSize - 10;i < bufferSize + 10;i++) {
 			String s1 = Strings.repeat("a", i);
 			assertNoCrLf(s1, s1);
 			String s2 = Strings.repeat("\0", i);
@@ -89,8 +89,9 @@ public class AutoCRLFOutputStreamTest {
 				}
 				out.flush();
 				byte[] actualBytes = bos.toByteArray();
-				Assert.assertEquals("bufsize=" + size, encode(expectBytes),
-						encode(actualBytes));
+				assertEquals(encode(expectBytes),
+						encode(actualBytes),
+						"bufsize=" + size);
 			}
 		}
 	}

@@ -9,18 +9,18 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jgit.api.RemoteSetUrlCommand.UriType;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 
 	@Test
-	public void testSetUrl() throws Exception {
+	void testSetUrl() throws Exception {
 		// setup an initial remote
 		setupRemote();
 
@@ -33,7 +33,7 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 
 		// assert that the changed remote has the new fetch url
 		assertEquals(REMOTE_NAME, remote.getName());
-		assertArrayEquals(new URIish[] { newUri }, remote.getURIs().toArray());
+		assertArrayEquals(new URIish[]{newUri}, remote.getURIs().toArray());
 
 		// assert that the changed remote is available in the git configuration
 		assertRemoteConfigEquals(remote,
@@ -41,7 +41,7 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 	}
 
 	@Test
-	public void testSetPushUrl() throws Exception {
+	void testSetPushUrl() throws Exception {
 		// setup an initial remote
 		RemoteConfig remoteConfig = setupRemote();
 
@@ -57,7 +57,7 @@ public class RemoteSetUrlCommandTest extends AbstractRemoteCommandTest {
 		// url
 		assertEquals(REMOTE_NAME, remote.getName());
 		assertEquals(remoteConfig.getURIs(), remote.getURIs());
-		assertArrayEquals(new URIish[] { newUri },
+		assertArrayEquals(new URIish[]{newUri},
 				remote.getPushURIs().toArray());
 
 		// assert that the changed remote is available in the git configuration

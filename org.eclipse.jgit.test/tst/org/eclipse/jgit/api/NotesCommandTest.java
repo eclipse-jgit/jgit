@@ -10,15 +10,15 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class NotesCommandTest extends RepositoryTestCase {
 
@@ -29,7 +29,7 @@ public class NotesCommandTest extends RepositoryTestCase {
 	private static final String FILE = "test.txt";
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -45,13 +45,13 @@ public class NotesCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testListNotes() throws Exception {
+	void testListNotes() throws Exception {
 		List<Note> notes = git.notesList().call();
 		assertEquals(1, notes.size());
 	}
 
 	@Test
-	public void testAddAndRemoveNote() throws Exception {
+	void testAddAndRemoveNote() throws Exception {
 		git.notesAdd().setObjectId(commit2).setMessage("data").call();
 		Note note = git.notesShow().setObjectId(commit2).call();
 		String content = new String(db.open(note.getData()).getCachedBytes(),

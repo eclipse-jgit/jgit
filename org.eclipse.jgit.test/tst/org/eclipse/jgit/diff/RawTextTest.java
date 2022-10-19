@@ -12,28 +12,29 @@
 package org.eclipse.jgit.diff;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RawTextTest {
 	@Test
-	public void testEmpty() {
+	void testEmpty() {
 		final RawText r = new RawText(new byte[0]);
 		assertEquals(0, r.size());
 	}
 
 	@Test
-	public void testNul() {
+	void testNul() {
 		String input = "foo-a\nf\0o-b\n";
 		byte[] data = Constants.encodeASCII(input);
 		final RawText a = new RawText(data);
@@ -46,37 +47,37 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testCrLfTextYes() {
+	void testCrLfTextYes() {
 		assertTrue(RawText
 				.isCrLfText(Constants.encodeASCII("line 1\r\nline 2\r\n")));
 	}
 
 	@Test
-	public void testCrLfTextNo() {
+	void testCrLfTextNo() {
 		assertFalse(
 				RawText.isCrLfText(Constants.encodeASCII("line 1\nline 2\n")));
 	}
 
 	@Test
-	public void testCrLfTextBinary() {
+	void testCrLfTextBinary() {
 		assertFalse(RawText
 				.isCrLfText(Constants.encodeASCII("line 1\r\nline\0 2\r\n")));
 	}
 
 	@Test
-	public void testCrLfTextMixed() {
+	void testCrLfTextMixed() {
 		assertTrue(RawText
 				.isCrLfText(Constants.encodeASCII("line 1\nline 2\r\n")));
 	}
 
 	@Test
-	public void testCrLfTextCutShort() {
+	void testCrLfTextCutShort() {
 		assertFalse(
 				RawText.isCrLfText(Constants.encodeASCII("line 1\nline 2\r")));
 	}
 
 	@Test
-	public void testEquals() {
+	void testEquals() {
 		final RawText a = new RawText(Constants.encodeASCII("foo-a\nfoo-b\n"));
 		final RawText b = new RawText(Constants.encodeASCII("foo-b\nfoo-c\n"));
 		RawTextComparator cmp = RawTextComparator.DEFAULT;
@@ -85,8 +86,8 @@ public class RawTextTest {
 		assertEquals(2, b.size());
 
 		// foo-a != foo-b
-		assertFalse(cmp.equals(a, 0, b, 0));
-		assertFalse(cmp.equals(b, 0, a, 0));
+		assertNotEquals(cmp, a);
+		assertNotEquals(cmp, b);
 
 		// foo-b == foo-b
 		assertTrue(cmp.equals(a, 1, b, 0));
@@ -94,7 +95,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testWriteLine1() throws IOException {
+	void testWriteLine1() throws IOException {
 		final RawText a = new RawText(Constants.encodeASCII("foo-a\nfoo-b\n"));
 		final ByteArrayOutputStream o = new ByteArrayOutputStream();
 		a.writeLine(o, 0);
@@ -103,7 +104,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testWriteLine2() throws IOException {
+	void testWriteLine2() throws IOException {
 		final RawText a = new RawText(Constants.encodeASCII("foo-a\nfoo-b"));
 		final ByteArrayOutputStream o = new ByteArrayOutputStream();
 		a.writeLine(o, 1);
@@ -112,7 +113,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testWriteLine3() throws IOException {
+	void testWriteLine3() throws IOException {
 		final RawText a = new RawText(Constants.encodeASCII("a\n\nb\n"));
 		final ByteArrayOutputStream o = new ByteArrayOutputStream();
 		a.writeLine(o, 1);
@@ -121,7 +122,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testComparatorReduceCommonStartEnd() {
+	void testComparatorReduceCommonStartEnd() {
 		final RawTextComparator c = RawTextComparator.DEFAULT;
 		Edit e;
 
@@ -155,7 +156,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testComparatorReduceCommonStartEnd_EmptyLine() {
+	void testComparatorReduceCommonStartEnd_EmptyLine() {
 		RawText a;
 		RawText b;
 		Edit e;
@@ -174,7 +175,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testComparatorReduceCommonStartButLastLineNoEol() {
+	void testComparatorReduceCommonStartButLastLineNoEol() {
 		RawText a;
 		RawText b;
 		Edit e;
@@ -186,7 +187,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testComparatorReduceCommonStartButLastLineNoEol_2() {
+	void testComparatorReduceCommonStartButLastLineNoEol_2() {
 		RawText a;
 		RawText b;
 		Edit e;
@@ -198,7 +199,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testLineDelimiter() throws Exception {
+	void testLineDelimiter() throws Exception {
 		RawText rt = new RawText(Constants.encodeASCII("foo\n"));
 		assertEquals("\n", rt.getLineDelimiter());
 		assertFalse(rt.isMissingNewlineAtEnd());
@@ -238,7 +239,7 @@ public class RawTextTest {
 	}
 
 	@Test
-	public void testLineDelimiter2() throws Exception {
+	void testLineDelimiter2() throws Exception {
 		RawText rt = new RawText(Constants.encodeASCII("\nfoo"));
 		assertEquals("\n", rt.getLineDelimiter());
 		assertTrue(rt.isMissingNewlineAtEnd());

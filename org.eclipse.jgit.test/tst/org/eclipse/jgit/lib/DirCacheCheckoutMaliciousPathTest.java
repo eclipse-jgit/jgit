@@ -38,8 +38,8 @@
 package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +52,7 @@ import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 
@@ -60,85 +60,85 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 	protected ObjectId theMerge;
 
 	@Test
-	public void testMaliciousAbsolutePathIsOk() throws Exception {
+	void testMaliciousAbsolutePathIsOk() throws Exception {
 		testMaliciousPathGoodFirstCheckout("ok");
 	}
 
 	@Test
-	public void testMaliciousAbsolutePathIsOkSecondCheckout() throws Exception {
+	void testMaliciousAbsolutePathIsOkSecondCheckout() throws Exception {
 		testMaliciousPathGoodSecondCheckout("ok");
 	}
 
 	@Test
-	public void testMaliciousAbsolutePathIsOkTwoLevels() throws Exception {
+	void testMaliciousAbsolutePathIsOkTwoLevels() throws Exception {
 		testMaliciousPathGoodSecondCheckout("a", "ok");
 	}
 
 	@Test
-	public void testMaliciousAbsolutePath() throws Exception {
+	void testMaliciousAbsolutePath() throws Exception {
 		testMaliciousPathBadFirstCheckout("/tmp/x");
 	}
 
 	@Test
-	public void testMaliciousAbsolutePathSecondCheckout() throws Exception {
+	void testMaliciousAbsolutePathSecondCheckout() throws Exception {
 		testMaliciousPathBadSecondCheckout("/tmp/x");
 	}
 
 	@Test
-	public void testMaliciousAbsolutePathTwoLevelsFirstBad() throws Exception {
+	void testMaliciousAbsolutePathTwoLevelsFirstBad() throws Exception {
 		testMaliciousPathBadFirstCheckout("/tmp/x", "y");
 	}
 
 	@Test
-	public void testMaliciousAbsolutePathTwoLevelsSecondBad() throws Exception {
+	void testMaliciousAbsolutePathTwoLevelsSecondBad() throws Exception {
 		testMaliciousPathBadFirstCheckout("y", "/tmp/x");
 	}
 
 	@Test
-	public void testMaliciousAbsoluteCurDrivePathWindows() throws Exception {
+	void testMaliciousAbsoluteCurDrivePathWindows() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("\\somepath");
 	}
 
 	@Test
-	public void testMaliciousAbsoluteCurDrivePathWindowsOnUnix()
+	void testMaliciousAbsoluteCurDrivePathWindowsOnUnix()
 			throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setUnix();
 		testMaliciousPathGoodFirstCheckout("\\somepath");
 	}
 
 	@Test
-	public void testMaliciousAbsoluteUNCPathWindows1() throws Exception {
+	void testMaliciousAbsoluteUNCPathWindows1() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("\\\\somepath");
 	}
 
 	@Test
-	public void testMaliciousAbsoluteUNCPathWindows1OnUnix() throws Exception {
+	void testMaliciousAbsoluteUNCPathWindows1OnUnix() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setUnix();
 		testMaliciousPathGoodFirstCheckout("\\\\somepath");
 	}
 
 	@Test
-	public void testMaliciousAbsoluteUNCPathWindows2() throws Exception {
+	void testMaliciousAbsoluteUNCPathWindows2() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("\\/somepath");
 	}
 
 	@Test
-	public void testMaliciousAbsoluteUNCPathWindows2OnUnix() throws Exception {
+	void testMaliciousAbsoluteUNCPathWindows2OnUnix() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setUnix();
 		testMaliciousPathBadFirstCheckout("\\/somepath");
 	}
 
 	@Test
-	public void testMaliciousAbsoluteWindowsPath1() throws Exception {
+	void testMaliciousAbsoluteWindowsPath1() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("c:\\temp\\x");
 	}
 
 	@Test
-	public void testMaliciousAbsoluteWindowsPath1OnUnix() throws Exception {
+	void testMaliciousAbsoluteWindowsPath1OnUnix() throws Exception {
 		if (File.separatorChar == '\\')
 			return; // cannot emulate Unix on Windows for this test
 		((MockSystemReader) SystemReader.getInstance()).setUnix();
@@ -146,105 +146,105 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMaliciousAbsoluteWindowsPath2() throws Exception {
+	void testMaliciousAbsoluteWindowsPath2() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
 		testMaliciousPathBadFirstCheckout("c:/temp/x");
 	}
 
 	@Test
-	public void testMaliciousGitPath1() throws Exception {
+	void testMaliciousGitPath1() throws Exception {
 		testMaliciousPathBadFirstCheckout(".git/konfig");
 	}
 
 	@Test
-	public void testMaliciousGitPath2() throws Exception {
+	void testMaliciousGitPath2() throws Exception {
 		testMaliciousPathBadFirstCheckout(".git", "konfig");
 	}
 
 	@Test
-	public void testMaliciousGitPath1Case() throws Exception {
+	void testMaliciousGitPath1Case() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows(); // or OS X
 		testMaliciousPathBadFirstCheckout(".Git/konfig");
 	}
 
 	@Test
-	public void testMaliciousGitPath2Case() throws Exception {
+	void testMaliciousGitPath2Case() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows(); // or OS X
 		testMaliciousPathBadFirstCheckout(".gIt", "konfig");
 	}
 
 	@Test
-	public void testMaliciousGitPath3Case() throws Exception {
+	void testMaliciousGitPath3Case() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows(); // or OS X
 		testMaliciousPathBadFirstCheckout(".giT", "konfig");
 	}
 
 	@Test
-	public void testMaliciousGitPathEndSpaceWindows() throws Exception {
+	void testMaliciousGitPathEndSpaceWindows() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout(".git ", "konfig");
 	}
 
 	@Test
-	public void testMaliciousGitPathEndSpaceUnixOk() throws Exception {
+	void testMaliciousGitPathEndSpaceUnixOk() throws Exception {
 		testMaliciousPathBadFirstCheckout(".git ", "konfig");
 	}
 
 	@Test
-	public void testMaliciousGitPathEndDotWindows1() throws Exception {
+	void testMaliciousGitPathEndDotWindows1() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout(".git.", "konfig");
 	}
 
 	@Test
-	public void testMaliciousGitPathEndDotWindows2() throws Exception {
+	void testMaliciousGitPathEndDotWindows2() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout(".f.");
 	}
 
 	@Test
-	public void testMaliciousGitPathEndDotWindows3() throws Exception {
+	void testMaliciousGitPathEndDotWindows3() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathGoodFirstCheckout(".f");
 	}
 
 	@Test
-	public void testMaliciousGitPathEndDotUnixOk() throws Exception {
+	void testMaliciousGitPathEndDotUnixOk() throws Exception {
 		testMaliciousPathBadFirstCheckout(".git.", "konfig");
 	}
 
 	@Test
-	public void testMaliciousPathDotDot() throws Exception {
+	void testMaliciousPathDotDot() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
 		testMaliciousPathBadFirstCheckout("..", "no");
 	}
 
 	@Test
-	public void testMaliciousPathDot() throws Exception {
+	void testMaliciousPathDot() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
 		testMaliciousPathBadFirstCheckout(".", "no");
 	}
 
 	@Test
-	public void testMaliciousPathEmptyUnix() throws Exception {
+	void testMaliciousPathEmptyUnix() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setUnix();
 		testMaliciousPathBadFirstCheckout("", "no");
 	}
 
 	@Test
-	public void testMaliciousPathEmptyWindows() throws Exception {
+	void testMaliciousPathEmptyWindows() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("", "no");
 	}
 
 	@Test
-	public void testMaliciousWindowsADS() throws Exception {
+	void testMaliciousWindowsADS() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("some:path");
 	}
 
 	@Test
-	public void testMaliciousWindowsADSOnUnix() throws Exception {
+	void testMaliciousWindowsADSOnUnix() throws Exception {
 		if (File.separatorChar == '\\')
 			return; // cannot emulate Unix on Windows for this test
 		((MockSystemReader) SystemReader.getInstance()).setUnix();
@@ -252,56 +252,56 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testForbiddenNamesOnWindowsEgCon() throws Exception {
+	void testForbiddenNamesOnWindowsEgCon() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("con");
 	}
 
 	@Test
-	public void testForbiddenNamesOnWindowsEgConDotSuffix() throws Exception {
+	void testForbiddenNamesOnWindowsEgConDotSuffix() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("con.txt");
 	}
 
 	@Test
-	public void testForbiddenNamesOnWindowsEgLpt1() throws Exception {
+	void testForbiddenNamesOnWindowsEgLpt1() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("lpt1");
 	}
 
 	@Test
-	public void testForbiddenNamesOnWindowsEgLpt1DotSuffix() throws Exception {
+	void testForbiddenNamesOnWindowsEgLpt1DotSuffix() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("lpt1.txt");
 	}
 
 	@Test
-	public void testForbiddenNamesOnWindowsEgDotCon() throws Exception {
+	void testForbiddenNamesOnWindowsEgDotCon() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathGoodFirstCheckout(".con");
 	}
 
 	@Test
-	public void testForbiddenNamesOnWindowsEgLpr() throws Exception {
+	void testForbiddenNamesOnWindowsEgLpr() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathGoodFirstCheckout("lpt"); // good name
 	}
 
 	@Test
-	public void testForbiddenNamesOnWindowsEgCon1() throws Exception {
+	void testForbiddenNamesOnWindowsEgCon1() throws Exception {
 		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathGoodFirstCheckout("con1"); // good name
 	}
 
 	@Test
-	public void testForbiddenWindowsNamesOnUnixEgCon() throws Exception {
+	void testForbiddenWindowsNamesOnUnixEgCon() throws Exception {
 		if (File.separatorChar == '\\')
 			return; // cannot emulate Unix on Windows for this test
 		testMaliciousPathGoodFirstCheckout("con");
 	}
 
 	@Test
-	public void testForbiddenWindowsNamesOnUnixEgLpt1() throws Exception {
+	void testForbiddenWindowsNamesOnUnixEgLpt1() throws Exception {
 		if (File.separatorChar == '\\')
 			return; // cannot emulate Unix on Windows for this test
 		testMaliciousPathGoodFirstCheckout("lpt1");

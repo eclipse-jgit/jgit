@@ -9,11 +9,12 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.util.List;
@@ -26,8 +27,8 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link StashCreateCommand}
@@ -41,7 +42,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	private File committedFile;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = Git.wrap(db);
@@ -51,18 +52,20 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNotNull(head);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void dropNegativeRef() {
-		git.stashDrop().setStashRef(-1);
+	@Test
+	void dropNegativeRef() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			git.stashDrop().setStashRef(-1);
+		});
 	}
 
 	@Test
-	public void dropWithNoStashedCommits() throws Exception {
+	void dropWithNoStashedCommits() throws Exception {
 		assertNull(git.stashDrop().call());
 	}
 
 	@Test
-	public void dropWithInvalidLogIndex() throws Exception {
+	void dropWithInvalidLogIndex() throws Exception {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
@@ -81,7 +84,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void dropSingleStashedCommit() throws Exception {
+	void dropSingleStashedCommit() throws Exception {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
@@ -100,7 +103,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void dropAll() throws Exception {
+	void dropAll() throws Exception {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
@@ -128,7 +131,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void dropFirstStashedCommit() throws Exception {
+	void dropFirstStashedCommit() throws Exception {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
@@ -162,7 +165,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void dropMiddleStashCommit() throws Exception {
+	void dropMiddleStashCommit() throws Exception {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
@@ -207,7 +210,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void dropBoundaryStashedCommits() throws Exception {
+	void dropBoundaryStashedCommits() throws Exception {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);

@@ -9,14 +9,14 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StatsTest {
 	@Test
-	public void testStatsTrivial() {
+	void testStatsTrivial() {
 		Stats s = new Stats();
 		s.add(1);
 		s.add(1);
@@ -30,7 +30,7 @@ public class StatsTest {
 	}
 
 	@Test
-	public void testStats() {
+	void testStats() {
 		Stats s = new Stats();
 		s.add(1);
 		s.add(2);
@@ -44,12 +44,12 @@ public class StatsTest {
 		assertEquals(1.290994, s.stddev(), 1E-6);
 	}
 
-	@Test
 	/**
 	 * see
 	 * https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Example
 	 */
-	public void testStatsCancellationExample1() {
+	@Test
+	void testStatsCancellationExample1() {
 		Stats s = new Stats();
 		s.add(1E8 + 4);
 		s.add(1E8 + 7);
@@ -63,12 +63,12 @@ public class StatsTest {
 		assertEquals(5.477226, s.stddev(), 1E-6);
 	}
 
-	@Test
 	/**
 	 * see
 	 * https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Example
 	 */
-	public void testStatsCancellationExample2() {
+	@Test
+	void testStatsCancellationExample2() {
 		Stats s = new Stats();
 		s.add(1E9 + 4);
 		s.add(1E9 + 7);
@@ -83,7 +83,7 @@ public class StatsTest {
 	}
 
 	@Test
-	public void testNoValues() {
+	void testNoValues() {
 		Stats s = new Stats();
 		assertTrue(Double.isNaN(s.var()));
 		assertTrue(Double.isNaN(s.stddev()));

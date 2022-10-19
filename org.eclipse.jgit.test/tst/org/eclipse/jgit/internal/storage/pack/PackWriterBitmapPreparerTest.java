@@ -3,7 +3,7 @@ package org.eclipse.jgit.internal.storage.pack;
 import static org.eclipse.jgit.storage.pack.PackConfig.DEFAULT_BITMAP_DISTANT_COMMIT_SPAN;
 import static org.eclipse.jgit.storage.pack.PackConfig.DEFAULT_BITMAP_RECENT_COMMIT_COUNT;
 import static org.eclipse.jgit.storage.pack.PackConfig.DEFAULT_BITMAP_RECENT_COMMIT_SPAN;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -20,7 +20,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link PackWriterBitmapPreparer}. */
 public class PackWriterBitmapPreparerTest {
@@ -55,15 +55,15 @@ public class PackWriterBitmapPreparerTest {
 	}
 
 	@Test
-	public void testNextSelectionDistanceForActiveBranch() throws Exception {
+	void testNextSelectionDistanceForActiveBranch() throws Exception {
 		PackWriterBitmapPreparer preparer = newPeparer(
 				DEFAULT_BITMAP_RECENT_COMMIT_COUNT, // 20000
 				DEFAULT_BITMAP_RECENT_COMMIT_SPAN, // 100
 				DEFAULT_BITMAP_DISTANT_COMMIT_SPAN); // 5000
-		int[][] distancesAndSpans = { { 0, 100 }, { 100, 100 }, { 10000, 100 },
-				{ 20000, 100 }, { 20100, 100 }, { 20102, 102 }, { 20200, 200 },
-				{ 22200, 2200 }, { 24999, 4999 }, { 25000, 5000 },
-				{ 50000, 5000 }, { 1000000, 5000 }, };
+		int[][] distancesAndSpans = {{0, 100}, {100, 100}, {10000, 100},
+				{20000, 100}, {20100, 100}, {20102, 102}, {20200, 200},
+				{22200, 2200}, {24999, 4999}, {25000, 5000},
+				{50000, 5000}, {1000000, 5000}, };
 
 		for (int[] pair : distancesAndSpans) {
 			assertEquals(pair[1], preparer.nextSpan(pair[0]));
@@ -71,15 +71,15 @@ public class PackWriterBitmapPreparerTest {
 	}
 
 	@Test
-	public void testNextSelectionDistanceWithFewerRecentCommits()
+	void testNextSelectionDistanceWithFewerRecentCommits()
 			throws Exception {
 		PackWriterBitmapPreparer preparer = newPeparer(1000,
 				DEFAULT_BITMAP_RECENT_COMMIT_SPAN, // 100
 				DEFAULT_BITMAP_DISTANT_COMMIT_SPAN); // 5000
-		int[][] distancesAndSpans = { { 0, 100 }, { 100, 100 }, { 1000, 100 },
-				{ 1100, 100 }, { 1111, 111 }, { 2000, 1000 }, { 5999, 4999 },
-				{ 6000, 5000 }, { 10000, 5000 }, { 50000, 5000 },
-				{ 1000000, 5000 } };
+		int[][] distancesAndSpans = {{0, 100}, {100, 100}, {1000, 100},
+				{1100, 100}, {1111, 111}, {2000, 1000}, {5999, 4999},
+				{6000, 5000}, {10000, 5000}, {50000, 5000},
+				{1000000, 5000}};
 
 		for (int[] pair : distancesAndSpans) {
 			assertEquals(pair[1], preparer.nextSpan(pair[0]));
@@ -87,16 +87,16 @@ public class PackWriterBitmapPreparerTest {
 	}
 
 	@Test
-	public void testNextSelectionDistanceWithSmallerRecentSpan()
+	void testNextSelectionDistanceWithSmallerRecentSpan()
 			throws Exception {
 		PackWriterBitmapPreparer preparer = newPeparer(
 				DEFAULT_BITMAP_RECENT_COMMIT_COUNT, // 20000
 				10, // recent span
 				DEFAULT_BITMAP_DISTANT_COMMIT_SPAN); // 5000
-		int[][] distancesAndSpans = { { 0, 10 }, { 100, 10 }, { 10000, 10 },
-				{ 20000, 10 }, { 20010, 10 }, { 20012, 12 }, { 20050, 50 },
-				{ 20200, 200 }, { 22200, 2200 }, { 24999, 4999 },
-				{ 25000, 5000 }, { 50000, 5000 }, { 1000000, 5000 } };
+		int[][] distancesAndSpans = {{0, 10}, {100, 10}, {10000, 10},
+				{20000, 10}, {20010, 10}, {20012, 12}, {20050, 50},
+				{20200, 200}, {22200, 2200}, {24999, 4999},
+				{25000, 5000}, {50000, 5000}, {1000000, 5000}};
 
 		for (int[] pair : distancesAndSpans) {
 			assertEquals(pair[1], preparer.nextSpan(pair[0]));
@@ -104,16 +104,16 @@ public class PackWriterBitmapPreparerTest {
 	}
 
 	@Test
-	public void testNextSelectionDistanceWithSmallerDistantSpan()
+	void testNextSelectionDistanceWithSmallerDistantSpan()
 			throws Exception {
 		PackWriterBitmapPreparer preparer = newPeparer(
 				DEFAULT_BITMAP_RECENT_COMMIT_COUNT, // 20000
 				DEFAULT_BITMAP_RECENT_COMMIT_SPAN, // 100
 				1000);
-		int[][] distancesAndSpans = { { 0, 100 }, { 100, 100 }, { 10000, 100 },
-				{ 20000, 100 }, { 20100, 100 }, { 20102, 102 }, { 20200, 200 },
-				{ 20999, 999 }, { 21000, 1000 }, { 22000, 1000 },
-				{ 25000, 1000 }, { 50000, 1000 }, { 1000000, 1000 } };
+		int[][] distancesAndSpans = {{0, 100}, {100, 100}, {10000, 100},
+				{20000, 100}, {20100, 100}, {20102, 102}, {20200, 200},
+				{20999, 999}, {21000, 1000}, {22000, 1000},
+				{25000, 1000}, {50000, 1000}, {1000000, 1000}};
 
 		for (int[] pair : distancesAndSpans) {
 			assertEquals(pair[1], preparer.nextSpan(pair[0]));

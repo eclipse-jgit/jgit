@@ -16,10 +16,10 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -37,11 +37,11 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MergedReftableTest {
 	@Test
-	public void noTables() throws IOException {
+	void noTables() throws IOException {
 		MergedReftable mr = merge(new byte[0][]);
 		try (RefCursor rc = mr.allRefs()) {
 			assertFalse(rc.next());
@@ -55,7 +55,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void oneEmptyTable() throws IOException {
+	void oneEmptyTable() throws IOException {
 		MergedReftable mr = merge(write());
 		try (RefCursor rc = mr.allRefs()) {
 			assertFalse(rc.next());
@@ -69,7 +69,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void twoEmptyTables() throws IOException {
+	void twoEmptyTables() throws IOException {
 		MergedReftable mr = merge(write(), write());
 		try (RefCursor rc = mr.allRefs()) {
 			assertFalse(rc.next());
@@ -84,7 +84,7 @@ public class MergedReftableTest {
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void oneTableScan() throws IOException {
+	void oneTableScan() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
 			refs.add(ref(String.format("refs/heads/%03d", i), i));
@@ -93,7 +93,7 @@ public class MergedReftableTest {
 		MergedReftable mr = merge(write(refs));
 		try (RefCursor rc = mr.allRefs()) {
 			for (Ref exp : refs) {
-				assertTrue("has " + exp.getName(), rc.next());
+				assertTrue(rc.next(), "has " + exp.getName());
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
@@ -104,7 +104,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void deleteIsHidden() throws IOException {
+	void deleteIsHidden() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -121,7 +121,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void twoTableSeek() throws IOException {
+	void twoTableSeek() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -138,7 +138,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void twoTableSeekPastWithRefCursor() throws IOException {
+	void twoTableSeekPastWithRefCursor() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -167,7 +167,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void oneTableSeekPastWithRefCursor() throws IOException {
+	void oneTableSeekPastWithRefCursor() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -185,7 +185,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void seekPastToNonExistentPrefixToTheMiddle() throws IOException {
+	void seekPastToNonExistentPrefixToTheMiddle() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -206,7 +206,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void seekPastToNonExistentPrefixToTheEnd() throws IOException {
+	void seekPastToNonExistentPrefixToTheEnd() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -222,7 +222,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void seekPastManyTimes() throws IOException {
+	void seekPastManyTimes() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -241,7 +241,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void seekPastOnEmptyTable() throws IOException {
+	void seekPastOnEmptyTable() throws IOException {
 		MergedReftable mr = merge(write(), write());
 		try (RefCursor rc = mr.seekRefsWithPrefix("")) {
 			rc.seekPastPrefix("refs/");
@@ -250,7 +250,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void twoTableById() throws IOException {
+	void twoTableById() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -267,7 +267,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void tableByIDDeletion() throws IOException {
+	void tableByIDDeletion() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/apple", 1),
 				ref("refs/heads/master", 2));
@@ -281,7 +281,7 @@ public class MergedReftableTest {
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void fourTableScan() throws IOException {
+	void fourTableScan() throws IOException {
 		List<Ref> base = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
 			base.add(ref(String.format("refs/heads/%03d", i), i));
@@ -306,7 +306,7 @@ public class MergedReftableTest {
 				write(delta3));
 		try (RefCursor rc = mr.allRefs()) {
 			for (Ref exp : expected) {
-				assertTrue("has " + exp.getName(), rc.next());
+				assertTrue(rc.next(), "has " + exp.getName());
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
@@ -317,7 +317,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void scanIncludeDeletes() throws IOException {
+	void scanIncludeDeletes() throws IOException {
 		List<Ref> delta1 = Arrays.asList(ref("refs/heads/next", 4));
 		List<Ref> delta2 = Arrays.asList(delete("refs/heads/next"));
 		List<Ref> delta3 = Arrays.asList(ref("refs/heads/master", 8));
@@ -344,7 +344,7 @@ public class MergedReftableTest {
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void oneTableSeek() throws IOException {
+	void oneTableSeek() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
 			refs.add(ref(String.format("refs/heads/%03d", i), i));
@@ -353,7 +353,7 @@ public class MergedReftableTest {
 		MergedReftable mr = merge(write(refs));
 		for (Ref exp : refs) {
 			try (RefCursor rc = mr.seekRef(exp.getName())) {
-				assertTrue("has " + exp.getName(), rc.next());
+				assertTrue(rc.next(), "has " + exp.getName());
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
@@ -364,7 +364,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void missedUpdate() throws IOException {
+	void missedUpdate() throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buf)
 				.setMinUpdateIndex(1)
@@ -376,8 +376,8 @@ public class MergedReftableTest {
 		byte[] base = buf.toByteArray();
 
 		byte[] delta = write(Arrays.asList(
-				ref("refs/heads/b", 2),
-				ref("refs/heads/c", 4)),
+						ref("refs/heads/b", 2),
+						ref("refs/heads/c", 4)),
 				2);
 		MergedReftable mr = merge(base, delta);
 		try (RefCursor rc = mr.allRefs()) {
@@ -399,7 +399,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void nonOverlappedUpdateIndices() throws IOException {
+	void nonOverlappedUpdateIndices() throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buf)
 				.setMinUpdateIndex(1)
@@ -438,7 +438,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void overlappedUpdateIndices() throws IOException {
+	void overlappedUpdateIndices() throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buf)
 				.setMinUpdateIndex(2)
@@ -477,7 +477,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void enclosedUpdateIndices() throws IOException {
+	void enclosedUpdateIndices() throws IOException {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buf)
 				.setMinUpdateIndex(2)
@@ -516,7 +516,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void compaction() throws IOException {
+	void compaction() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/next", 4),
 				ref("refs/heads/master", 1));
@@ -543,7 +543,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void versioningSymbolicReftargetMoves() throws IOException {
+	void versioningSymbolicReftargetMoves() throws IOException {
 		Ref master = ref(MASTER, 100);
 
 		List<Ref> delta1 = Arrays.asList(master, sym(HEAD, MASTER));
@@ -558,7 +558,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void versioningSymbolicRefMoves() throws IOException {
+	void versioningSymbolicRefMoves() throws IOException {
 		Ref branchX = ref("refs/heads/branchX", 200);
 
 		List<Ref> delta1 = Arrays.asList(ref(MASTER, 100), branchX,
@@ -579,7 +579,7 @@ public class MergedReftableTest {
 	}
 
 	@Test
-	public void versioningResolveRef() throws IOException {
+	void versioningResolveRef() throws IOException {
 		List<Ref> delta1 = Arrays.asList(sym(HEAD, "refs/heads/tmp"),
 				sym("refs/heads/tmp", MASTER), ref(MASTER, 100));
 		List<Ref> delta2 = Arrays.asList(ref(MASTER, 200));
@@ -590,13 +590,12 @@ public class MergedReftableTest {
 		Ref head = mr.exactRef(HEAD);
 		Ref resolvedHead = mr.resolve(head);
 		assertEquals(resolvedHead.getObjectId(), id(300));
-		assertEquals("HEAD has not moved", resolvedHead.getUpdateIndex(), 1);
+		assertEquals(resolvedHead.getUpdateIndex(), 1, "HEAD has not moved");
 
 		Ref master = mr.exactRef(MASTER);
 		Ref resolvedMaster = mr.resolve(master);
 		assertEquals(resolvedMaster.getObjectId(), id(300));
-		assertEquals("master also has update index",
-				resolvedMaster.getUpdateIndex(), 3);
+		assertEquals(resolvedMaster.getUpdateIndex(), 3, "master also has update index");
 	}
 
 	private static MergedReftable merge(byte[]... table) {

@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.events;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -54,7 +54,7 @@ public class ChangeRecorder implements WorkingTreeModifiedListener {
 	}
 
 	public void assertNoEvent() {
-		assertEquals("Unexpected WorkingTreeModifiedEvent ", 0, eventCount);
+		assertEquals(0, eventCount, "Unexpected WorkingTreeModifiedEvent ");
 	}
 
 	public void assertEvent(String[] expectedModified,
@@ -65,12 +65,12 @@ public class ChangeRecorder implements WorkingTreeModifiedListener {
 		Arrays.sort(expectedModified);
 		Arrays.sort(actuallyDeleted);
 		Arrays.sort(expectedDeleted);
-		assertEquals("Unexpected modifications reported",
-				Arrays.toString(expectedModified),
-				Arrays.toString(actuallyModified));
-		assertEquals("Unexpected deletions reported",
-				Arrays.toString(expectedDeleted),
-				Arrays.toString(actuallyDeleted));
+		assertEquals(Arrays.toString(expectedModified),
+				Arrays.toString(actuallyModified),
+				"Unexpected modifications reported");
+		assertEquals(Arrays.toString(expectedDeleted),
+				Arrays.toString(actuallyDeleted),
+				"Unexpected deletions reported");
 		reset();
 	}
 }

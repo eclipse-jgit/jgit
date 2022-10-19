@@ -11,12 +11,12 @@
 package org.eclipse.jgit.patch;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +43,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -171,25 +171,25 @@ public class PatchApplierTest {
 		/* tests */
 
 		@Test
-		public void testBinaryDelta() throws Exception {
+		void testBinaryDelta() throws Exception {
 			init("delta");
 			checkBinary(applyPatch(), 1);
 		}
 
 		@Test
-		public void testBinaryLiteral() throws Exception {
+		void testBinaryLiteral() throws Exception {
 			init("literal");
 			checkBinary(applyPatch(), 1);
 		}
 
 		@Test
-		public void testBinaryLiteralAdd() throws Exception {
+		void testBinaryLiteralAdd() throws Exception {
 			init("literal_add", false, true);
 			checkBinary(applyPatch(), 1);
 		}
 
 		@Test
-		public void testModifyM2() throws Exception {
+		void testModifyM2() throws Exception {
 			init("M2", true, true);
 
 			Result result = applyPatch();
@@ -204,7 +204,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testModifyM3() throws Exception {
+		void testModifyM3() throws Exception {
 			init("M3", true, true);
 
 			Result result = applyPatch();
@@ -217,7 +217,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testModifyX() throws Exception {
+		void testModifyX() throws Exception {
 			init("X");
 
 			Result result = applyPatch();
@@ -225,7 +225,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testModifyY() throws Exception {
+		void testModifyY() throws Exception {
 			init("Y");
 
 			Result result = applyPatch();
@@ -234,7 +234,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testModifyZ() throws Exception {
+		void testModifyZ() throws Exception {
 			init("Z");
 
 			Result result = applyPatch();
@@ -242,7 +242,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testNonASCII() throws Exception {
+		void testNonASCII() throws Exception {
 			init("NonASCII");
 
 			Result result = applyPatch();
@@ -250,7 +250,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testNonASCII2() throws Exception {
+		void testNonASCII2() throws Exception {
 			init("NonASCII2");
 
 			Result result = applyPatch();
@@ -258,7 +258,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testNonASCIIAdd() throws Exception {
+		void testNonASCIIAdd() throws Exception {
 			init("NonASCIIAdd");
 
 			Result result = applyPatch();
@@ -266,7 +266,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testNonASCIIAdd2() throws Exception {
+		void testNonASCIIAdd2() throws Exception {
 			init("NonASCIIAdd2", false, true);
 
 			Result result = applyPatch();
@@ -274,7 +274,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testNonASCIIDel() throws Exception {
+		void testNonASCIIDel() throws Exception {
 			init("NonASCIIDel", true, false);
 
 			Result result = applyPatch();
@@ -283,7 +283,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testRenameNoHunks() throws Exception {
+		void testRenameNoHunks() throws Exception {
 			init("RenameNoHunks", true, true);
 
 			Result result = applyPatch();
@@ -292,11 +292,11 @@ public class PatchApplierTest {
 			assertTrue(result.getPaths().contains("RenameNoHunks"));
 			assertTrue(result.getPaths().contains("nested/subdir/Renamed"));
 
-			verifyContent(result,"nested/subdir/Renamed", true);
+			verifyContent(result, "nested/subdir/Renamed", true);
 		}
 
 		@Test
-		public void testRenameWithHunks() throws Exception {
+		void testRenameWithHunks() throws Exception {
 			init("RenameWithHunks", true, true);
 
 			Result result = applyPatch();
@@ -304,11 +304,11 @@ public class PatchApplierTest {
 			assertTrue(result.getPaths().contains("RenameWithHunks"));
 			assertTrue(result.getPaths().contains("nested/subdir/Renamed"));
 
-			verifyContent(result,"nested/subdir/Renamed", true);
+			verifyContent(result, "nested/subdir/Renamed", true);
 		}
 
 		@Test
-		public void testCopyWithHunks() throws Exception {
+		void testCopyWithHunks() throws Exception {
 			init("CopyWithHunks", true, true);
 
 			Result result = applyPatch();
@@ -316,7 +316,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testShiftUp() throws Exception {
+		void testShiftUp() throws Exception {
 			init("ShiftUp");
 
 			Result result = applyPatch();
@@ -324,7 +324,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testShiftUp2() throws Exception {
+		void testShiftUp2() throws Exception {
 			init("ShiftUp2");
 
 			Result result = applyPatch();
@@ -332,7 +332,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testShiftDown() throws Exception {
+		void testShiftDown() throws Exception {
 			init("ShiftDown");
 
 			Result result = applyPatch();
@@ -340,7 +340,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testShiftDown2() throws Exception {
+		void testShiftDown2() throws Exception {
 			init("ShiftDown2");
 
 			Result result = applyPatch();
@@ -359,7 +359,7 @@ public class PatchApplierTest {
 		public WithWorktree() { super(false); }
 
 		@Test
-		public void testModifyNL1() throws Exception {
+		void testModifyNL1() throws Exception {
 			init("NL1");
 
 			Result result = applyPatch();
@@ -367,7 +367,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testCrLf() throws Exception {
+		void testCrLf() throws Exception {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
@@ -383,7 +383,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testCrLfOff() throws Exception {
+		void testCrLfOff() throws Exception {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
@@ -399,7 +399,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testCrLfEmptyCommitted() throws Exception {
+		void testCrLfEmptyCommitted() throws Exception {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
@@ -415,7 +415,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testCrLfNewFile() throws Exception {
+		void testCrLfNewFile() throws Exception {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
@@ -431,7 +431,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testPatchWithCrLf() throws Exception {
+		void testPatchWithCrLf() throws Exception {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
@@ -447,7 +447,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testPatchWithCrLf2() throws Exception {
+		void testPatchWithCrLf2() throws Exception {
 			String name = "crlf2";
 			try (Git git = new Git(db)) {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -499,7 +499,7 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testFiltering() throws Exception {
+		void testFiltering() throws Exception {
 			// Set up filter
 			FilterCommandFactory clean = (repo, in, out) -> new ReplaceFilter(in, out, 'A', 'E');
 			FilterCommandFactory smudge = (repo, in, out) -> new ReplaceFilter(in, out, 'E', 'A');

@@ -10,17 +10,19 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class RevQueueTestCase<T extends AbstractRevQueue> extends
 		RevWalkTestCase {
 	protected T q;
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		q = create();
@@ -29,14 +31,14 @@ public abstract class RevQueueTestCase<T extends AbstractRevQueue> extends
 	protected abstract T create();
 
 	@Test
-	public void testEmpty() throws Exception {
+	void testEmpty() throws Exception {
 		assertNull(q.next());
 		assertTrue(q.everbodyHasFlag(RevWalk.UNINTERESTING));
 		assertFalse(q.anybodyHasFlag(RevWalk.UNINTERESTING));
 	}
 
 	@Test
-	public void testClear() throws Exception {
+	void testClear() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(a));
 
@@ -47,7 +49,7 @@ public abstract class RevQueueTestCase<T extends AbstractRevQueue> extends
 	}
 
 	@Test
-	public void testHasFlags() throws Exception {
+	void testHasFlags() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(a));
 

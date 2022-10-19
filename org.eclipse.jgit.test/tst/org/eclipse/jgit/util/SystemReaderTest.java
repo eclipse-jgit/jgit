@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
@@ -17,14 +17,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SystemReaderTest {
 	private Path trash;
 
@@ -35,7 +35,7 @@ public class SystemReaderTest {
 	@Mock
 	private FS fs;
 
-	@Before
+	@BeforeEach
 	public void setup() throws Exception {
 		trash = Files.createTempDirectory("jgit_test");
 		mockSystemConfig = trash.resolve("systemgitconfig");
@@ -49,13 +49,13 @@ public class SystemReaderTest {
 		SystemReader.setInstance(null);
 	}
 
-	@After
+	@AfterEach
 	public void teardown() throws Exception {
 		FileUtils.delete(trash.toFile(), FileUtils.RECURSIVE | FileUtils.RETRY);
 	}
 
 	@Test
-	public void openSystemConfigReturnsDifferentInstances() throws Exception {
+	void openSystemConfigReturnsDifferentInstances() throws Exception {
 		FileBasedConfig system1 = SystemReader.getInstance()
 				.openSystemConfig(null, fs);
 		system1.load();
@@ -76,7 +76,7 @@ public class SystemReaderTest {
 	}
 
 	@Test
-	public void openUserConfigReturnsDifferentInstances() throws Exception {
+	void openUserConfigReturnsDifferentInstances() throws Exception {
 		FileBasedConfig user1 = SystemReader.getInstance().openUserConfig(null,
 				fs);
 		user1.load();

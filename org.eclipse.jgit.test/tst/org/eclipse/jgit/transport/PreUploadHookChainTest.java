@@ -9,22 +9,19 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
-@RunWith(JUnit4.class)
 public class PreUploadHookChainTest {
 
 	@Test
-	public void testDefaultIfEmpty() {
+	void testDefaultIfEmpty() {
 		PreUploadHook[] noHooks = {};
 		PreUploadHook newChain = PreUploadHookChain
 				.newChain(Arrays.asList(noHooks));
@@ -32,7 +29,7 @@ public class PreUploadHookChainTest {
 	}
 
 	@Test
-	public void testFlattenChainIfOnlyOne() {
+	void testFlattenChainIfOnlyOne() {
 		FakePreUploadHook hook1 = new FakePreUploadHook();
 		PreUploadHook newChain = PreUploadHookChain
 				.newChain(Arrays.asList(PreUploadHook.NULL, hook1));
@@ -40,7 +37,7 @@ public class PreUploadHookChainTest {
 	}
 
 	@Test
-	public void testMultipleHooks() throws ServiceMayNotContinueException {
+	void testMultipleHooks() throws ServiceMayNotContinueException {
 		FakePreUploadHook hook1 = new FakePreUploadHook();
 		FakePreUploadHook hook2 = new FakePreUploadHook();
 

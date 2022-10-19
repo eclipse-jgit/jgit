@@ -9,26 +9,26 @@
  */
 package org.eclipse.jgit.treewalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class InstantComparatorTest {
 
 	private final InstantComparator cmp = new InstantComparator();
 
 	@Test
-	public void compareNow() {
+	void compareNow() {
 		Instant now = Instant.now();
 		assertEquals(0, cmp.compare(now, now));
 		assertEquals(0, cmp.compare(now, now, true));
 	}
 
 	@Test
-	public void compareSeconds() {
+	void compareSeconds() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond());
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond(), 123456789);
@@ -38,7 +38,7 @@ public class InstantComparatorTest {
 	}
 
 	@Test
-	public void compareSecondsOnly() {
+	void compareSecondsOnly() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond(), 987654321);
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond(), 123456789);
@@ -48,7 +48,7 @@ public class InstantComparatorTest {
 	}
 
 	@Test
-	public void compareSecondsUnequal() {
+	void compareSecondsUnequal() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond());
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond() - 1L);
@@ -57,7 +57,7 @@ public class InstantComparatorTest {
 	}
 
 	@Test
-	public void compareMillisEqual() {
+	void compareMillisEqual() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond(), 123000000);
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond(), 123456789);
@@ -73,7 +73,7 @@ public class InstantComparatorTest {
 	}
 
 	@Test
-	public void compareMillisUnequal() {
+	void compareMillisUnequal() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond(), 123000000);
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond(), 122000000);
@@ -91,7 +91,7 @@ public class InstantComparatorTest {
 	}
 
 	@Test
-	public void compareMicrosEqual() {
+	void compareMicrosEqual() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond(), 123456000);
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond(), 123456789);
@@ -103,7 +103,7 @@ public class InstantComparatorTest {
 	}
 
 	@Test
-	public void compareMicrosUnequal() {
+	void compareMicrosUnequal() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond(), 123456000);
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond(), 123455000);
@@ -121,7 +121,7 @@ public class InstantComparatorTest {
 	}
 
 	@Test
-	public void compareNanosEqual() {
+	void compareNanosEqual() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond(), 123456789);
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond(), 123456789);
@@ -130,7 +130,7 @@ public class InstantComparatorTest {
 	}
 
 	@Test
-	public void compareNanosUnequal() {
+	void compareNanosUnequal() {
 		Instant now = Instant.now();
 		Instant t = Instant.ofEpochSecond(now.getEpochSecond(), 123456789);
 		Instant s = Instant.ofEpochSecond(now.getEpochSecond(), 123456700);

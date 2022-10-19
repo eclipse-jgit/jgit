@@ -11,7 +11,7 @@
 package org.eclipse.jgit.merge;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,10 +19,10 @@ import java.io.IOException;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Assume;
-import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
@@ -45,7 +45,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testTwoConflictingModifications() throws IOException {
+	void testTwoConflictingModifications() throws IOException {
 		assertEquals(t("a<b=Z>Zdefghij"),
 				merge("abcdefghij", "abZdefghij", "aZZdefghij"));
 	}
@@ -58,7 +58,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testOneAgainstTwoConflictingModifications() throws IOException {
+	void testOneAgainstTwoConflictingModifications() throws IOException {
 		assertEquals(t("aZ<Z=c>Zefghij"),
 				merge("abcdefghij", "aZZZefghij", "aZcZefghij"));
 	}
@@ -70,7 +70,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testNoAgainstOneModification() throws IOException {
+	void testNoAgainstOneModification() throws IOException {
 		assertEquals(t("aZcZefghij"),
 				merge("abcdefghij", "abcdefghij", "aZcZefghij"));
 	}
@@ -82,7 +82,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testTwoNonConflictingModifications() throws IOException {
+	void testTwoNonConflictingModifications() throws IOException {
 		assertEquals(t("YbZdefghij"),
 				merge("abcdefghij", "abZdefghij", "Ybcdefghij"));
 	}
@@ -94,7 +94,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testTwoComplicatedModifications() throws IOException {
+	void testTwoComplicatedModifications() throws IOException {
 		assertEquals(t("a<ZZZZfZhZj=bYdYYYYiY>"),
 				merge("abcdefghij", "aZZZZfZhZj", "abYdYYYYiY"));
 	}
@@ -107,7 +107,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testTwoModificationsWithSharedDelete() throws IOException {
+	void testTwoModificationsWithSharedDelete() throws IOException {
 		assertEquals(t("Cb}n}"),
 				merge("ab}n}n}", "ab}n}", "Cb}n}"));
 	}
@@ -120,7 +120,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testModificationsWithMiddleInsert() throws IOException {
+	void testModificationsWithMiddleInsert() throws IOException {
 		assertEquals(t("aBcd123123uvwxPq"),
 				merge("abcd123uvwxpq", "aBcd123123uvwxPq", "abcd123123uvwxpq"));
 	}
@@ -133,7 +133,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testModificationsWithMiddleDelete() throws IOException {
+	void testModificationsWithMiddleDelete() throws IOException {
 		assertEquals(t("Abz}z123Q"),
 				merge("abz}z}z123q", "Abz}z123Q", "abz}z123q"));
 	}
@@ -144,7 +144,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testConflictAtStart() throws IOException {
+	void testConflictAtStart() throws IOException {
 		assertEquals(t("<Z=Y>bcdefghij"),
 				merge("abcdefghij", "Zbcdefghij", "Ybcdefghij"));
 	}
@@ -155,7 +155,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testConflictAtEnd() throws IOException {
+	void testConflictAtEnd() throws IOException {
 		assertEquals(t("abcdefghi<Z=Y>"),
 				merge("abcdefghij", "abcdefghiZ", "abcdefghiY"));
 	}
@@ -167,7 +167,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testSameModification() throws IOException {
+	void testSameModification() throws IOException {
 		assertEquals(t("abZdefghij"),
 				merge("abcdefghij", "abZdefghij", "abZdefghij"));
 	}
@@ -179,28 +179,28 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testDeleteVsModify() throws IOException {
+	void testDeleteVsModify() throws IOException {
 		assertEquals(t("ab<=Z>defghij"),
 				merge("abcdefghij", "abdefghij", "abZdefghij"));
 	}
 
 	@Test
-	public void testInsertVsModify() throws IOException {
+	void testInsertVsModify() throws IOException {
 		assertEquals(t("a<bZ=XY>"), merge("ab", "abZ", "aXY"));
 	}
 
 	@Test
-	public void testAdjacentModifications() throws IOException {
+	void testAdjacentModifications() throws IOException {
 		assertEquals(t("a<Zc=bY>d"), merge("abcd", "aZcd", "abYd"));
 	}
 
 	@Test
-	public void testSeparateModifications() throws IOException {
+	void testSeparateModifications() throws IOException {
 		assertEquals(t("aZcYe"), merge("abcde", "aZcde", "abcYe"));
 	}
 
 	@Test
-	public void testBlankLines() throws IOException {
+	void testBlankLines() throws IOException {
 		assertEquals(t("aZc\nYe"), merge("abc\nde", "aZc\nde", "abc\nYe"));
 	}
 
@@ -213,7 +213,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testTwoSimilarModsAndOneInsert() throws IOException {
+	void testTwoSimilarModsAndOneInsert() throws IOException {
 		assertEquals(t("aBcDde"), merge("abcde", "aBcde", "aBcDde"));
 		assertEquals(t("IAAAJCAB"), merge("iACAB", "IACAB", "IAAAJCAB"));
 		assertEquals(t("HIAAAJCAB"), merge("HiACAB", "HIACAB", "HIAAAJCAB"));
@@ -230,17 +230,17 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testTwoSimilarModsAndOneInsertAtEnd() throws IOException {
-		Assume.assumeTrue(newlineAtEnd);
+	void testTwoSimilarModsAndOneInsertAtEnd() throws IOException {
+		Assumptions.assumeTrue(newlineAtEnd);
 		assertEquals(t("IAAJ"), merge("iA", "IA", "IAAJ"));
 		assertEquals(t("IAJ"), merge("iA", "IA", "IAJ"));
 		assertEquals(t("IAAAJ"), merge("iA", "IA", "IAAAJ"));
 	}
 
 	@Test
-	public void testTwoSimilarModsAndOneInsertAtEndNoNewlineAtEnd()
+	void testTwoSimilarModsAndOneInsertAtEndNoNewlineAtEnd()
 			throws IOException {
-		Assume.assumeFalse(newlineAtEnd);
+		Assumptions.assumeFalse(newlineAtEnd);
 		assertEquals(t("I<A=AAJ>"), merge("iA", "IA", "IAAJ"));
 		assertEquals(t("I<A=AJ>"), merge("iA", "IA", "IAJ"));
 		assertEquals(t("I<A=AAAJ>"), merge("iA", "IA", "IAAAJ"));
@@ -252,7 +252,7 @@ public class MergeAlgorithmTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testEmptyTexts() throws IOException {
+	void testEmptyTexts() throws IOException {
 		// test modification against deletion
 		assertEquals(t("<AB=>"), merge("A", "AB", ""));
 		assertEquals(t("<=AB>"), merge("A", "", "AB"));

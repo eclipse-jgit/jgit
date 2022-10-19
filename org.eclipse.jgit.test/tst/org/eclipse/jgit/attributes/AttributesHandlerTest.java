@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.attributes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link AttributesHandler}
@@ -37,55 +37,55 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 	private static final FileMode F = FileMode.REGULAR_FILE;
 
 	@Test
-	public void testExpandNonMacro1() throws Exception {
+	void testExpandNonMacro1() throws Exception {
 		setupRepo(null, null, null, "*.txt text");
 
 		try (TreeWalk walk = beginWalk()) {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("text"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testExpandNonMacro2() throws Exception {
+	void testExpandNonMacro2() throws Exception {
 		setupRepo(null, null, null, "*.txt -text");
 
 		try (TreeWalk walk = beginWalk()) {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("-text"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testExpandNonMacro3() throws Exception {
+	void testExpandNonMacro3() throws Exception {
 		setupRepo(null, null, null, "*.txt !text");
 
 		try (TreeWalk walk = beginWalk()) {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs(""));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testExpandNonMacro4() throws Exception {
+	void testExpandNonMacro4() throws Exception {
 		setupRepo(null, null, null, "*.txt text=auto");
 
 		try (TreeWalk walk = beginWalk()) {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("text=auto"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testExpandBuiltInMacro1() throws Exception {
+	void testExpandBuiltInMacro1() throws Exception {
 		setupRepo(null, null, null, "*.txt binary");
 
 		try (TreeWalk walk = beginWalk()) {
@@ -93,12 +93,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt",
 					attrs("binary -diff -merge -text"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testExpandBuiltInMacro2() throws Exception {
+	void testExpandBuiltInMacro2() throws Exception {
 		setupRepo(null, null, null, "*.txt -binary");
 
 		try (TreeWalk walk = beginWalk()) {
@@ -106,24 +106,24 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt",
 					attrs("-binary diff merge text"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testExpandBuiltInMacro3() throws Exception {
+	void testExpandBuiltInMacro3() throws Exception {
 		setupRepo(null, null, null, "*.txt !binary");
 
 		try (TreeWalk walk = beginWalk()) {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs(""));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testCustomGlobalMacro1() throws Exception {
+	void testCustomGlobalMacro1() throws Exception {
 		setupRepo(
 				"[attr]foo a -b !c d=e", null, null, "*.txt foo");
 
@@ -131,48 +131,48 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("foo a -b d=e"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testCustomGlobalMacro2() throws Exception {
+	void testCustomGlobalMacro2() throws Exception {
 		setupRepo("[attr]foo a -b !c d=e", null, null, "*.txt -foo");
 
 		try (TreeWalk walk = beginWalk()) {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("-foo -a b d=e"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testCustomGlobalMacro3() throws Exception {
+	void testCustomGlobalMacro3() throws Exception {
 		setupRepo("[attr]foo a -b !c d=e", null, null, "*.txt !foo");
 
 		try (TreeWalk walk = beginWalk()) {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs(""));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testCustomGlobalMacro4() throws Exception {
+	void testCustomGlobalMacro4() throws Exception {
 		setupRepo("[attr]foo a -b !c d=e", null, null, "*.txt foo=bar");
 
 		try (TreeWalk walk = beginWalk()) {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("foo=bar a -b d=bar"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testInfoOverridesGlobal() throws Exception {
+	void testInfoOverridesGlobal() throws Exception {
 		setupRepo("[attr]foo bar1",
 				"[attr]foo bar2", null, "*.txt foo");
 
@@ -180,12 +180,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("foo bar2"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testWorkDirRootOverridesGlobal() throws Exception {
+	void testWorkDirRootOverridesGlobal() throws Exception {
 		setupRepo("[attr]foo bar1",
 				null,
 				"[attr]foo bar3", "*.txt foo");
@@ -195,12 +195,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("foo bar3"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testInfoOverridesWorkDirRoot() throws Exception {
+	void testInfoOverridesWorkDirRoot() throws Exception {
 		setupRepo("[attr]foo bar1",
 				"[attr]foo bar2", "[attr]foo bar3", "*.txt foo");
 
@@ -209,12 +209,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("foo bar2"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testRecursiveMacro() throws Exception {
+	void testRecursiveMacro() throws Exception {
 		setupRepo(
 				"[attr]foo x bar -foo",
 				null, null, "*.txt foo");
@@ -223,12 +223,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("foo x bar"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testCyclicMacros() throws Exception {
+	void testCyclicMacros() throws Exception {
 		setupRepo(
 				"[attr]foo x -bar\n[attr]bar y -foo", null, null, "*.txt foo");
 
@@ -236,12 +236,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/.gitattributes");
 			assertIteration(walk, F, "sub/a.txt", attrs("foo x -bar -y"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testRelativePaths() throws Exception {
+	void testRelativePaths() throws Exception {
 		setupRepo("sub/ global", "sub/** init",
 				"sub/** top_sub\n*.txt top",
 				"sub/** subsub\nsub/ subsub2\n*.txt foo");
@@ -256,7 +256,7 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 					attrs("init top_sub"));
 			assertIteration(walk, F, "sub/a.txt",
 					attrs("init foo top top_sub"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 		// All right, let's see that they *do* apply in sub/sub:
 		writeTrashFile("sub/sub/b.txt", "b");
@@ -271,12 +271,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 					attrs("init subsub2 top_sub global"));
 			assertIteration(walk, F, "sub/sub/b.txt",
 					attrs("init foo subsub top top_sub"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testNestedMatchNot() throws Exception {
+	void testNestedMatchNot() throws Exception {
 		setupRepo(null, null, "*.xml xml\n*.jar jar", null);
 		writeTrashFile("foo.xml/bar.jar", "b");
 		writeTrashFile("foo.xml/bar.xml", "bx");
@@ -292,12 +292,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/a.txt");
 			assertIteration(walk, F, "sub/b.jar", attrs("jar"));
 			assertIteration(walk, F, "sub/b.xml", attrs("xml"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testNestedMatch() throws Exception {
+	void testNestedMatch() throws Exception {
 		// See also CGitAttributeTest.testNestedMatch()
 		setupRepo(null, null, "foo/ xml\nsub/foo/ sub\n*.jar jar", null);
 		writeTrashFile("foo/bar.jar", "b");
@@ -316,12 +316,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/b.xml");
 			assertIteration(walk, D, "sub/foo", attrs("sub xml"));
 			assertIteration(walk, F, "sub/foo/b.jar", attrs("jar"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testNestedMatchRecursive() throws Exception {
+	void testNestedMatchRecursive() throws Exception {
 		setupRepo(null, null, "foo/** xml\n*.jar jar", null);
 		writeTrashFile("foo/bar.jar", "b");
 		writeTrashFile("foo/bar.xml", "bx");
@@ -340,12 +340,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/b.xml");
 			assertIteration(walk, D, "sub/foo");
 			assertIteration(walk, F, "sub/foo/b.jar", attrs("jar"));
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testStarMatchOnSlashNot() throws Exception {
+	void testStarMatchOnSlashNot() throws Exception {
 		setupRepo(null, null, "s*xt bar", null);
 		writeTrashFile("sub/a.txt", "1");
 		writeTrashFile("foo/sext", "2");
@@ -357,12 +357,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "foo/sext", attrs("bar"));
 			assertIteration(walk, D, "sub");
 			assertIteration(walk, F, "sub/a.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testPrefixMatchNot() throws Exception {
+	void testPrefixMatchNot() throws Exception {
 		setupRepo(null, null, "sub/new bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		try (TreeWalk walk = beginWalk()) {
@@ -371,12 +371,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/a.txt");
 			assertIteration(walk, D, "sub/new", attrs("bar"));
 			assertIteration(walk, F, "sub/new/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testComplexPathMatch() throws Exception {
+	void testComplexPathMatch() throws Exception {
 		setupRepo(null, null, "s[t-v]b/n[de]w bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("sub/ndw", "2");
@@ -387,12 +387,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/ndw", attrs("bar"));
 			assertIteration(walk, D, "sub/new", attrs("bar"));
 			assertIteration(walk, F, "sub/new/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testStarPathMatch() throws Exception {
+	void testStarPathMatch() throws Exception {
 		setupRepo(null, null, "sub/new/* bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("sub/new/lower/foo.txt", "2");
@@ -404,12 +404,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/new/foo.txt", attrs("bar"));
 			assertIteration(walk, D, "sub/new/lower", attrs("bar"));
 			assertIteration(walk, F, "sub/new/lower/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testDirectoryMatchSubSimple() throws Exception {
+	void testDirectoryMatchSubSimple() throws Exception {
 		setupRepo(null, null, "sub/new/ bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("foo/sub/new/foo.txt", "2");
@@ -427,12 +427,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub/sub");
 			assertIteration(walk, D, "sub/sub/new");
 			assertIteration(walk, F, "sub/sub/new/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursive() throws Exception {
+	void testDirectoryMatchSubRecursive() throws Exception {
 		setupRepo(null, null, "**/sub/new/ bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("foo/sub/new/foo.txt", "2");
@@ -446,12 +446,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/a.txt");
 			assertIteration(walk, D, "sub/new", attrs("bar"));
 			assertIteration(walk, F, "sub/new/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack() throws Exception {
 		setupRepo(null, null, "**/sub/new/ bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("foo/sub/new/foo.txt", "2");
@@ -469,12 +469,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub/sub");
 			assertIteration(walk, D, "sub/sub/new", attrs("bar"));
 			assertIteration(walk, F, "sub/sub/new/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack2() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack2() throws Exception {
 		setupRepo(null, null, "**/**/sub/new/ bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("foo/sub/new/foo.txt", "2");
@@ -492,12 +492,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, D, "sub/sub");
 			assertIteration(walk, D, "sub/sub/new", attrs("bar"));
 			assertIteration(walk, F, "sub/sub/new/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testDirectoryMatchSubComplex() throws Exception {
+	void testDirectoryMatchSubComplex() throws Exception {
 		setupRepo(null, null, "s[uv]b/n*/ bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("foo/sub/new/foo.txt", "2");
@@ -511,12 +511,12 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/a.txt");
 			assertIteration(walk, D, "sub/new", attrs("bar"));
 			assertIteration(walk, F, "sub/new/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	@Test
-	public void testDirectoryMatch() throws Exception {
+	void testDirectoryMatch() throws Exception {
 		setupRepo(null, null, "new/ bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("foo/sub/new/foo.txt", "2");
@@ -532,7 +532,7 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 			assertIteration(walk, F, "sub/a.txt");
 			assertIteration(walk, D, "sub/new", attrs("bar"));
 			assertIteration(walk, F, "sub/new/foo.txt");
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
@@ -548,7 +548,7 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 
 	private void assertIteration(TreeWalk walk, FileMode type, String pathName,
 			Collection<Attribute> expectedAttrs) throws IOException {
-		assertTrue("walk has entry", walk.next());
+		assertTrue(walk.next(), "walk has entry");
 		assertEquals(pathName, walk.getPathString());
 		assertEquals(type, walk.getFileMode(0));
 

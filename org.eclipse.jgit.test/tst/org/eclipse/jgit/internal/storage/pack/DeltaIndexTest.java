@@ -10,21 +10,21 @@
 
 package org.eclipse.jgit.internal.storage.pack;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.TestInfoRetriever;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DeltaIndexTest {
+public class DeltaIndexTest extends TestInfoRetriever {
 	private TestRng rng;
 
 	private ByteArrayOutputStream actDeltaBuf;
@@ -40,12 +40,13 @@ public class DeltaIndexTest {
 	private ByteArrayOutputStream dstBuf;
 
 	private TestRng getRng() {
-		if (rng == null)
-			rng = new TestRng(JGitTestUtil.getName());
+		if (rng == null) {
+			rng = new TestRng(getTestMethodName());
+		}
 		return rng;
 	}
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		actDeltaBuf = new ByteArrayOutputStream();
 		expDeltaBuf = new ByteArrayOutputStream();
@@ -54,28 +55,28 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testInsertWholeObject_Length12() throws IOException {
+	void testInsertWholeObject_Length12() throws IOException {
 		src = getRng().nextBytes(12);
 		insert(src);
 		doTest();
 	}
 
 	@Test
-	public void testCopyWholeObject_Length128() throws IOException {
+	void testCopyWholeObject_Length128() throws IOException {
 		src = getRng().nextBytes(128);
 		copy(0, 128);
 		doTest();
 	}
 
 	@Test
-	public void testCopyWholeObject_Length123() throws IOException {
+	void testCopyWholeObject_Length123() throws IOException {
 		src = getRng().nextBytes(123);
 		copy(0, 123);
 		doTest();
 	}
 
 	@Test
-	public void testCopyZeros_Length128() throws IOException {
+	void testCopyZeros_Length128() throws IOException {
 		src = new byte[2048];
 		copy(0, src.length);
 		doTest();
@@ -88,7 +89,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testShuffleSegments() throws IOException {
+	void testShuffleSegments() throws IOException {
 		src = getRng().nextBytes(128);
 		copy(64, 64);
 		copy(0, 64);
@@ -96,7 +97,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testInsertHeadMiddle() throws IOException {
+	void testInsertHeadMiddle() throws IOException {
 		src = getRng().nextBytes(1024);
 		insert("foo");
 		copy(0, 512);
@@ -106,7 +107,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testInsertTail() throws IOException {
+	void testInsertTail() throws IOException {
 		src = getRng().nextBytes(1024);
 		copy(0, 512);
 		insert("bar");
@@ -114,7 +115,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testIndexSize() {
+	void testIndexSize() {
 		src = getRng().nextBytes(1024);
 		DeltaIndex di = new DeltaIndex(src);
 		assertEquals(1860, di.getIndexSize());
@@ -122,7 +123,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testLimitObjectSize_Length12InsertFails() throws IOException {
+	void testLimitObjectSize_Length12InsertFails() throws IOException {
 		src = getRng().nextBytes(12);
 		dst = src;
 
@@ -131,7 +132,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testLimitObjectSize_Length130InsertFails() throws IOException {
+	void testLimitObjectSize_Length130InsertFails() throws IOException {
 		src = getRng().nextBytes(130);
 		dst = getRng().nextBytes(130);
 
@@ -140,7 +141,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testLimitObjectSize_Length130CopyOk() throws IOException {
+	void testLimitObjectSize_Length130CopyOk() throws IOException {
 		src = getRng().nextBytes(130);
 		copy(0, 130);
 		dst = dstBuf.toByteArray();
@@ -156,7 +157,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testLimitObjectSize_Length130CopyFails() throws IOException {
+	void testLimitObjectSize_Length130CopyFails() throws IOException {
 		src = getRng().nextBytes(130);
 		copy(0, 130);
 		dst = dstBuf.toByteArray();
@@ -170,7 +171,7 @@ public class DeltaIndexTest {
 	}
 
 	@Test
-	public void testLimitObjectSize_InsertFrontFails() throws IOException {
+	void testLimitObjectSize_InsertFrontFails() throws IOException {
 		src = getRng().nextBytes(130);
 		insert("eight");
 		copy(0, 130);
@@ -210,7 +211,7 @@ public class DeltaIndexTest {
 		assertEquals(BinaryDelta.format(expDelta, false), //
 				BinaryDelta.format(actDelta, false));
 
-		assertTrue("delta is not empty", actDelta.length > 0);
+		assertTrue(actDelta.length > 0, "delta is not empty");
 		assertEquals(src.length, BinaryDelta.getBaseSize(actDelta));
 		assertEquals(dst.length, BinaryDelta.getResultSize(actDelta));
 		assertArrayEquals(dst, BinaryDelta.apply(src, actDelta));

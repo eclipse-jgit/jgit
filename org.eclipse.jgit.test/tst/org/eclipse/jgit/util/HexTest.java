@@ -13,57 +13,64 @@ package org.eclipse.jgit.util;
 
 import static org.eclipse.jgit.util.Hex.decode;
 import static org.eclipse.jgit.util.Hex.toHexString;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HexTest {
 	@Test
-	public void testEncode() {
+	void testEncode() {
 		assertEquals("68690a", toHexString(b("hi\n")));
 		assertEquals("0001020d0a0971", toHexString(b("\0\1\2\r\n\tq")));
 	}
 
 	@Test
-	public void testDecode() {
+	void testDecode() {
 		JGitTestUtil.assertEquals(b("hi\n"), decode("68690a"));
 		JGitTestUtil.assertEquals(b("\0\1\2\r\n\tq"), decode("0001020d0a0971"));
 		JGitTestUtil.assertEquals(b("\u000EB"), decode("0E42"));
 	}
 
 	@Test
-	public void testEncodeMatchesDecode() {
-		String[] testStrings = { "", "cow", "a", "a secret string",
-				"\0\1\2\r\n\t" };
+	void testEncodeMatchesDecode() {
+		String[] testStrings = {"", "cow", "a", "a secret string",
+				"\0\1\2\r\n\t"};
 		for (String e : testStrings) {
 			JGitTestUtil.assertEquals(b(e), decode(toHexString(b(e))));
 		}
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testIllegal() {
-		decode("0011test00");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testIllegal2() {
-		decode("0123456789abcdefgh");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testIllegal3() {
-		decode("0123456789abcdef-_+*");
+	@Test
+	void testIllegal() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			decode("0011test00");
+		});
 	}
 
 	@Test
-	public void testLegal() {
+	void testIllegal2() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			decode("0123456789abcdefgh");
+		});
+	}
+
+	@Test
+	void testIllegal3() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			decode("0123456789abcdef-_+*");
+		});
+	}
+
+	@Test
+	void testLegal() {
 		decode("0123456789abcdef");
 	}
 
 	@Test
-	public void testLegal2() {
+	void testLegal2() {
 		decode("deadbeef");
 	}
 

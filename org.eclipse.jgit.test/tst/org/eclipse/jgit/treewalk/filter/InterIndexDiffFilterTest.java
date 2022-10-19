@@ -10,9 +10,9 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
@@ -27,22 +27,22 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 
 	private Repository db;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		db = createWorkRepository();
 	}
 
 	@Test
-	public void testEmpty() throws IOException {
+	void testEmpty() throws IOException {
 		DirCache dc1 = DirCache.newInCore();
 		DirCache dc2 = DirCache.newInCore();
 		try (TreeWalk tw = new TreeWalk(db)) {
@@ -63,8 +63,7 @@ public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 		private FileMode type;
 
 		public AddEdit(String entryPath, FileMode type, ObjectId data,
-				long length,
-				boolean assumeValid) {
+				long length, boolean assumeValid) {
 			super(entryPath);
 			this.type = type;
 			this.data = data;
@@ -87,11 +86,12 @@ public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testOneOnly() throws IOException {
+	void testOneOnly() throws IOException {
 		DirCache dc1 = DirCache.newInCore();
 		DirCache dc2 = DirCache.newInCore();
 		DirCacheEditor editor = dc1.editor();
-		editor.add(new AddEdit("a/a", FileMode.REGULAR_FILE, id("a"), 1, false));
+		editor.add(
+				new AddEdit("a/a", FileMode.REGULAR_FILE, id("a"), 1, false));
 		editor.finish();
 
 		try (TreeWalk tw = new TreeWalk(db)) {
@@ -106,7 +106,7 @@ public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testTwoSame() throws IOException {
+	void testTwoSame() throws IOException {
 		DirCache dc1 = DirCache.newInCore();
 		DirCache dc2 = DirCache.newInCore();
 		DirCacheEditor ed1 = dc1.editor();
@@ -127,7 +127,7 @@ public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testTwoSameDifferByAssumeValid() throws IOException {
+	void testTwoSameDifferByAssumeValid() throws IOException {
 		DirCache dc1 = DirCache.newInCore();
 		DirCache dc2 = DirCache.newInCore();
 		DirCacheEditor ed1 = dc1.editor();
@@ -150,8 +150,7 @@ public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testTwoSameSameAssumeValidDifferentContent()
-			throws IOException {
+	void testTwoSameSameAssumeValidDifferentContent() throws IOException {
 		DirCache dc1 = DirCache.newInCore();
 		DirCache dc2 = DirCache.newInCore();
 		DirCacheEditor ed1 = dc1.editor();

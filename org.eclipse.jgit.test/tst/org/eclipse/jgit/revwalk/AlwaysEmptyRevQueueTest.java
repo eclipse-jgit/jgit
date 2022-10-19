@@ -10,19 +10,19 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AlwaysEmptyRevQueueTest extends RevWalkTestCase {
 	private final AbstractRevQueue q = AbstractRevQueue.EMPTY_QUEUE;
 
 	@Test
-	public void testEmpty() throws Exception {
+	void testEmpty() throws Exception {
 		assertNull(q.next());
 		assertTrue(q.everbodyHasFlag(RevWalk.UNINTERESTING));
 		assertFalse(q.anybodyHasFlag(RevWalk.UNINTERESTING));
@@ -30,13 +30,13 @@ public class AlwaysEmptyRevQueueTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testClear() throws Exception {
+	void testClear() throws Exception {
 		q.clear();
 		testEmpty();
 	}
 
 	@Test
-	public void testAddFails() throws Exception {
+	void testAddFails() throws Exception {
 		try {
 			q.add(commit());
 			fail("Did not throw UnsupportedOperationException");

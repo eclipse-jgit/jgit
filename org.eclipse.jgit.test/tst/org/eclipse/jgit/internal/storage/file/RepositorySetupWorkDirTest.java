@@ -11,10 +11,10 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +29,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for setting up the working directory when creating a Repository
@@ -37,7 +37,7 @@ import org.junit.Test;
 public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 
 	@Test
-	public void testIsBare_CreateRepositoryFromArbitraryGitDir()
+	void testIsBare_CreateRepositoryFromArbitraryGitDir()
 			throws Exception {
 		File gitDir = getFile("workdir");
 		Repository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
@@ -45,7 +45,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testNotBare_CreateRepositoryFromDotGitGitDir() throws Exception {
+	void testNotBare_CreateRepositoryFromDotGitGitDir() throws Exception {
 		File gitDir = getFile("workdir", Constants.DOT_GIT);
 		Repository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
 		assertFalse(repo.isBare());
@@ -54,7 +54,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testWorkdirIsParentDir_CreateRepositoryFromDotGitGitDir()
+	void testWorkdirIsParentDir_CreateRepositoryFromDotGitGitDir()
 			throws Exception {
 		File gitDir = getFile("workdir", Constants.DOT_GIT);
 		Repository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
@@ -63,7 +63,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testNotBare_CreateRepositoryFromWorkDirOnly() throws Exception {
+	void testNotBare_CreateRepositoryFromWorkDirOnly() throws Exception {
 		File workdir = getFile("workdir", "repo");
 		Repository repo = new FileRepositoryBuilder().setWorkTree(workdir)
 				.build();
@@ -73,7 +73,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testWorkdirIsDotGit_CreateRepositoryFromWorkDirOnly()
+	void testWorkdirIsDotGit_CreateRepositoryFromWorkDirOnly()
 			throws Exception {
 		File workdir = getFile("workdir", "repo");
 		Repository repo = new FileRepositoryBuilder().setWorkTree(workdir)
@@ -82,7 +82,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testNotBare_CreateRepositoryFromGitDirOnlyWithWorktreeConfig()
+	void testNotBare_CreateRepositoryFromGitDirOnlyWithWorktreeConfig()
 			throws Exception {
 		File gitDir = getFile("workdir", "repoWithConfig");
 		File workTree = getFile("workdir", "treeRoot");
@@ -94,7 +94,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testBare_CreateRepositoryFromGitDirOnlyWithBareConfigTrue()
+	void testBare_CreateRepositoryFromGitDirOnlyWithBareConfigTrue()
 			throws Exception {
 		File gitDir = getFile("workdir", "repoWithConfig");
 		setBare(gitDir, true);
@@ -103,7 +103,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testWorkdirIsParent_CreateRepositoryFromGitDirOnlyWithBareConfigFalse()
+	void testWorkdirIsParent_CreateRepositoryFromGitDirOnlyWithBareConfigFalse()
 			throws Exception {
 		File gitDir = getFile("workdir", "repoWithBareConfigTrue", "child");
 		setBare(gitDir, false);
@@ -112,7 +112,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testNotBare_CreateRepositoryFromGitDirOnlyWithBareConfigFalse()
+	void testNotBare_CreateRepositoryFromGitDirOnlyWithBareConfigFalse()
 			throws Exception {
 		File gitDir = getFile("workdir", "repoWithBareConfigFalse", "child");
 		setBare(gitDir, false);
@@ -123,7 +123,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testExceptionThrown_BareRepoGetWorkDir() throws Exception {
+	void testExceptionThrown_BareRepoGetWorkDir() throws Exception {
 		File gitDir = getFile("workdir");
 		try (Repository repo = new FileRepository(gitDir)) {
 			repo.getWorkTree();
@@ -134,7 +134,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testExceptionThrown_BareRepoGetIndex() throws Exception {
+	void testExceptionThrown_BareRepoGetIndex() throws Exception {
 		File gitDir = getFile("workdir");
 		try (Repository repo = new FileRepository(gitDir)) {
 			repo.readDirCache();
@@ -145,7 +145,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testExceptionThrown_BareRepoGetIndexFile() throws Exception {
+	void testExceptionThrown_BareRepoGetIndexFile() throws Exception {
 		File gitDir = getFile("workdir");
 		try (Repository repo = new FileRepository(gitDir)) {
 			repo.getIndexFile();
@@ -193,13 +193,13 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 			throws IOException {
 		File exp = getFile(expected).getCanonicalFile();
 		File act = repo.getDirectory().getCanonicalFile();
-		assertEquals("Wrong Git Directory", exp, act);
+		assertEquals(exp, act, "Wrong Git Directory");
 	}
 
 	private void assertWorkdirPath(Repository repo, String... expected)
 			throws IOException {
 		File exp = getFile(expected).getCanonicalFile();
 		File act = repo.getWorkTree().getCanonicalFile();
-		assertEquals("Wrong working Directory", exp, act);
+		assertEquals(exp, act, "Wrong working Directory");
 	}
 }

@@ -37,7 +37,7 @@
  */
 package org.eclipse.jgit.symlinks;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.List;
@@ -53,15 +53,15 @@ import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SymlinksTest extends RepositoryTestCase {
-	@Before
+	@BeforeEach
 	public void beforeMethod() {
 		// If this assumption fails the tests are skipped. When running on a
 		// filesystem not supporting symlinks I don't want this tests
-		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		org.junit.jupiter.api.Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void fileModeTestFileThenSymlink() throws Exception {
+	void fileModeTestFileThenSymlink() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "Hello world a");
 			writeTrashFile("b", "Hello world b");
@@ -108,7 +108,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void fileModeTestSymlinkThenFile() throws Exception {
+	void fileModeTestSymlinkThenFile() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("b", "Hello world b");
 			FileUtils.createSymLink(new File(db.getWorkTree(), "a"), "b");
@@ -142,7 +142,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void fileModeTestFolderThenSymlink() throws Exception {
+	void fileModeTestFolderThenSymlink() throws Exception {
 		try (Git git = new Git(db)) {
 			FileUtils.mkdirs(new File(db.getWorkTree(), "a"));
 			writeTrashFile("a/b", "Hello world b");
@@ -177,7 +177,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void fileModeTestSymlinkThenFolder() throws Exception {
+	void fileModeTestSymlinkThenFolder() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("c", "Hello world c");
 			FileUtils.createSymLink(new File(db.getWorkTree(), "a"), "c");
@@ -212,7 +212,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void fileModeTestMissingThenSymlink() throws Exception {
+	void fileModeTestMissingThenSymlink() throws Exception {
 		try (Git git = new Git(db);
 				TreeWalk tw = new TreeWalk(db);) {
 			writeTrashFile("b", "Hello world b");
@@ -244,7 +244,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void fileModeTestSymlinkThenMissing() throws Exception {
+	void fileModeTestSymlinkThenMissing() throws Exception {
 		try (Git git = new Git(db);
 				TreeWalk tw = new TreeWalk(db);) {
 			writeTrashFile("b", "Hello world b");
@@ -268,7 +268,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void createSymlinkAfterTarget() throws Exception {
+	void createSymlinkAfterTarget() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "start");
 			git.add().addFilepattern("a").call();
@@ -293,7 +293,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void createFileSymlinkBeforeTarget() throws Exception {
+	void createFileSymlinkBeforeTarget() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "start");
 			git.add().addFilepattern("a").call();
@@ -318,7 +318,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void createDirSymlinkBeforeTarget() throws Exception {
+	void createDirSymlinkBeforeTarget() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "start");
 			git.add().addFilepattern("a").call();

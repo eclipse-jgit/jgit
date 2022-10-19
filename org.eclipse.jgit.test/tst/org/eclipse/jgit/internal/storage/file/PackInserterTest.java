@@ -50,10 +50,10 @@ import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -86,9 +86,9 @@ import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.util.IO;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("boxing")
 public class PackInserterTest extends RepositoryTestCase {
@@ -96,25 +96,25 @@ public class PackInserterTest extends RepositoryTestCase {
 
 	private static final Random random = new Random(0);
 
-	@Before
+	@BeforeEach
 	public void setWindowCacheConfig() {
 		origWindowCacheConfig = new WindowCacheConfig();
 		origWindowCacheConfig.install();
 	}
 
-	@After
+	@AfterEach
 	public void resetWindowCacheConfig() {
 		origWindowCacheConfig.install();
 	}
 
-	@Before
+	@BeforeEach
 	public void emptyAtSetUp() throws Exception {
 		assertEquals(0, listPacks().size());
 		assertNoObjects();
 	}
 
 	@Test
-	public void noFlush() throws Exception {
+	void noFlush() throws Exception {
 		try (PackInserter ins = newInserter()) {
 			ins.insert(OBJ_BLOB, Constants.encode("foo contents"));
 			// No flush.
@@ -123,7 +123,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void flushEmptyPack() throws Exception {
+	void flushEmptyPack() throws Exception {
 		try (PackInserter ins = newInserter()) {
 			ins.flush();
 		}
@@ -131,7 +131,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void singlePack() throws Exception {
+	void singlePack() throws Exception {
 		ObjectId blobId;
 		byte[] blob = Constants.encode("foo contents");
 		ObjectId treeId;
@@ -179,7 +179,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void multiplePacks() throws Exception {
+	void multiplePacks() throws Exception {
 		ObjectId blobId1;
 		ObjectId blobId2;
 		byte[] blob1 = Constants.encode("blob1");
@@ -205,7 +205,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void largeBlob() throws Exception {
+	void largeBlob() throws Exception {
 		ObjectId blobId;
 		byte[] blob = newLargeBlob();
 		try (PackInserter ins = newInserter()) {
@@ -227,7 +227,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void overwriteExistingPack() throws Exception {
+	void overwriteExistingPack() throws Exception {
 		ObjectId blobId;
 		byte[] blob = Constants.encode("foo contents");
 
@@ -264,7 +264,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkExisting() throws Exception {
+	void checkExisting() throws Exception {
 		ObjectId blobId;
 		byte[] blob = Constants.encode("foo contents");
 
@@ -300,7 +300,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void insertSmallInputStreamRespectsCheckExisting() throws Exception {
+	void insertSmallInputStreamRespectsCheckExisting() throws Exception {
 		ObjectId blobId;
 		byte[] blob = Constants.encode("foo contents");
 		try (PackInserter ins = newInserter()) {
@@ -324,7 +324,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void insertLargeInputStreamBypassesCheckExisting() throws Exception {
+	void insertLargeInputStreamBypassesCheckExisting() throws Exception {
 		ObjectId blobId;
 		byte[] blob = newLargeBlob();
 
@@ -349,7 +349,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void readBackSmallFiles() throws Exception {
+	void readBackSmallFiles() throws Exception {
 		ObjectId blobId1;
 		ObjectId blobId2;
 		ObjectId blobId3;
@@ -390,7 +390,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void readBackLargeFile() throws Exception {
+	void readBackLargeFile() throws Exception {
 		ObjectId blobId;
 		byte[] blob = newLargeBlob();
 
@@ -427,7 +427,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void readBackFallsBackToRepo() throws Exception {
+	void readBackFallsBackToRepo() throws Exception {
 		ObjectId blobId;
 		byte[] blob = Constants.encode("foo contents");
 		try (PackInserter ins = newInserter()) {
@@ -443,7 +443,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void readBackSmallObjectBeforeLargeObject() throws Exception {
+	void readBackSmallObjectBeforeLargeObject() throws Exception {
 		WindowCacheConfig wcc = new WindowCacheConfig();
 		wcc.setStreamFileThreshold(1024);
 		wcc.install();
@@ -483,9 +483,9 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 
 		try (ObjectReader reader = db.newObjectReader()) {
-				assertBlob(reader, blobId1, blob1);
-				assertBlob(reader, blobId2, blob2);
-				assertBlob(reader, largeId, largeBlob);
+			assertBlob(reader, blobId1, blob1);
+			assertBlob(reader, blobId2, blob2);
+			assertBlob(reader, largeId, largeBlob);
 		}
 	}
 

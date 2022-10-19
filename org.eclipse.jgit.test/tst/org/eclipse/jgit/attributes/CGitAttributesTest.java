@@ -10,8 +10,8 @@
 package org.eclipse.jgit.attributes;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -33,8 +33,8 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests that verify that the attributes of files in a repository are the same
@@ -42,7 +42,7 @@ import org.junit.Test;
  */
 public class CGitAttributesTest extends RepositoryTestCase {
 
-	@Before
+	@BeforeEach
 	public void initRepo() throws IOException {
 		// Because we run C-git, we must ensure that global or user exclude
 		// files cannot influence the tests. So we set core.excludesFile to an
@@ -96,8 +96,9 @@ public class CGitAttributesTest extends RepositoryTestCase {
 		ExecutionResult result = fs.execute(builder, new ByteArrayInputStream(
 				input.toString().getBytes(UTF_8)));
 		String errorOut = toString(result.getStderr());
-		assertEquals("External git failed", "exit 0\n",
-				"exit " + result.getRc() + '\n' + errorOut);
+		assertEquals("exit 0\n",
+				"exit " + result.getRc() + '\n' + errorOut,
+				"External git failed");
 		LinkedHashMap<String, Attributes> map = new LinkedHashMap<>();
 		try (BufferedReader r = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(result.getStdout().openInputStream()),
@@ -165,26 +166,25 @@ public class CGitAttributesTest extends RepositoryTestCase {
 				iterator.remove();
 			}
 		}
-		assertArrayEquals("JGit attributes differ from C git",
-				cgit.entrySet().toArray(), jgit.entrySet().toArray());
+		assertArrayEquals(cgit.entrySet().toArray(), jgit.entrySet().toArray(), "JGit attributes differ from C git");
 	}
 
 	@Test
-	public void testBug508568() throws Exception {
+	void testBug508568() throws Exception {
 		createFiles("foo.xml/bar.jar", "sub/foo.xml/bar.jar");
 		writeTrashFile(".gitattributes", "*.xml xml\n" + "*.jar jar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testRelativePath() throws Exception {
+	void testRelativePath() throws Exception {
 		createFiles("sub/foo.txt");
 		writeTrashFile("sub/.gitattributes", "sub/** sub\n" + "*.txt txt\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testRelativePaths() throws Exception {
+	void testRelativePaths() throws Exception {
 		createFiles("sub/foo.txt", "sub/sub/bar", "foo/sub/a.txt",
 				"foo/sub/bar/a.tmp");
 		writeTrashFile(".gitattributes", "sub/** sub\n" + "*.txt txt\n");
@@ -192,7 +192,7 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNestedMatchNot() throws Exception {
+	void testNestedMatchNot() throws Exception {
 		createFiles("foo.xml/bar.jar", "foo.xml/bar.xml", "sub/b.jar",
 				"sub/b.xml");
 		writeTrashFile("sub/.gitattributes", "*.xml xml\n" + "*.jar jar\n");
@@ -200,7 +200,7 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNestedMatch() throws Exception {
+	void testNestedMatch() throws Exception {
 		// This is an interesting test. At the time of this writing, the
 		// gitignore documentation says: "In other words, foo/ will match a
 		// directory foo AND PATHS UNDERNEATH IT, but will not match a regular
@@ -228,7 +228,7 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNestedMatchWithWildcard() throws Exception {
+	void testNestedMatchWithWildcard() throws Exception {
 		// See above.
 		createFiles("foo/bar.jar", "foo/bar.xml", "sub/b.jar", "sub/b.xml",
 				"sub/foo/b.jar");
@@ -238,7 +238,7 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNestedMatchRecursive() throws Exception {
+	void testNestedMatchRecursive() throws Exception {
 		createFiles("foo/bar.jar", "foo/bar.xml", "sub/b.jar", "sub/b.xml",
 				"sub/foo/b.jar");
 		writeTrashFile(".gitattributes", "foo/** xml\n" + "*.jar jar\n");
@@ -246,63 +246,63 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStarMatchOnSlashNot() throws Exception {
+	void testStarMatchOnSlashNot() throws Exception {
 		createFiles("sub/a.txt", "foo/sext", "foo/s.txt");
 		writeTrashFile(".gitattributes", "s*xt bar");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testPrefixMatchNot() throws Exception {
+	void testPrefixMatchNot() throws Exception {
 		createFiles("src/new/foo.txt");
 		writeTrashFile(".gitattributes", "src/new bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testComplexPathMatchNot() throws Exception {
+	void testComplexPathMatchNot() throws Exception {
 		createFiles("src/new/foo.txt", "src/ndw");
 		writeTrashFile(".gitattributes", "s[p-s]c/n[de]w bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testStarPathMatchNot() throws Exception {
+	void testStarPathMatchNot() throws Exception {
 		createFiles("src/new/foo.txt", "src/ndw");
 		writeTrashFile(".gitattributes", "src/* bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubSimple() throws Exception {
+	void testDirectoryMatchSubSimple() throws Exception {
 		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
 		writeTrashFile(".gitattributes", "src/new/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursive() throws Exception {
+	void testDirectoryMatchSubRecursive() throws Exception {
 		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
 		writeTrashFile(".gitattributes", "**/src/new/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack() throws Exception {
 		createFiles("src/new/foo.txt", "src/src/new/foo.txt");
 		writeTrashFile(".gitattributes", "**/src/new/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack2() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack2() throws Exception {
 		createFiles("src/new/foo.txt", "src/src/new/foo.txt");
 		writeTrashFile(".gitattributes", "**/**/src/new/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack3() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack3() throws Exception {
 		createFiles("src/new/src/new/foo.txt",
 				"foo/src/new/bar/src/new/foo.txt");
 		writeTrashFile(".gitattributes", "**/src/new/ bar\n");
@@ -310,7 +310,7 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack4() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack4() throws Exception {
 		createFiles("src/src/src/new/foo.txt",
 				"foo/src/src/bar/src/new/foo.txt");
 		writeTrashFile(".gitattributes", "**/src/ bar\n");
@@ -318,7 +318,7 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack5() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack5() throws Exception {
 		createFiles("x/a/a/b/foo.txt", "x/y/z/b/a/b/foo.txt",
 				"x/y/a/a/a/a/b/foo.txt", "x/y/a/a/a/a/b/a/b/foo.txt");
 		writeTrashFile(".gitattributes", "**/*/a/b bar\n");
@@ -326,56 +326,56 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack6() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack6() throws Exception {
 		createFiles("x/a/a/b/foo.txt", "x/y/a/b/a/b/foo.txt");
 		writeTrashFile(".gitattributes", "**/*/**/a/b bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryWildmatchDoesNotMatchFiles1() throws Exception {
+	void testDirectoryWildmatchDoesNotMatchFiles1() throws Exception {
 		createFiles("a", "dir/b", "dir/sub/c");
 		writeTrashFile(".gitattributes", "**/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryWildmatchDoesNotMatchFiles2() throws Exception {
+	void testDirectoryWildmatchDoesNotMatchFiles2() throws Exception {
 		createFiles("a", "dir/b", "dir/sub/c");
 		writeTrashFile(".gitattributes", "**/**/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryWildmatchDoesNotMatchFiles3() throws Exception {
+	void testDirectoryWildmatchDoesNotMatchFiles3() throws Exception {
 		createFiles("a", "x/b", "sub/x/c", "sub/x/d/e");
 		writeTrashFile(".gitattributes", "x/**/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryWildmatchDoesNotMatchFiles4() throws Exception {
+	void testDirectoryWildmatchDoesNotMatchFiles4() throws Exception {
 		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
 		writeTrashFile(".gitattributes", "x/**/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubComplex() throws Exception {
+	void testDirectoryMatchSubComplex() throws Exception {
 		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
 		writeTrashFile(".gitattributes", "s[rs]c/n*/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatch() throws Exception {
+	void testDirectoryMatch() throws Exception {
 		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
 		writeTrashFile(".gitattributes", "new/ bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testBracketsInGroup() throws Exception {
+	void testBracketsInGroup() throws Exception {
 		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
 		writeTrashFile(".gitattributes", "[[]] bar1\n" + "[\\[]] bar2\n"
 				+ "[[\\]] bar3\n" + "[\\[\\]] bar4\n");

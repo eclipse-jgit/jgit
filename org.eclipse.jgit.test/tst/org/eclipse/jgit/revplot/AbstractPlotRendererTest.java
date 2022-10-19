@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.revplot;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,8 +21,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AbstractPlotRendererTest extends RepositoryTestCase {
 
@@ -30,7 +30,7 @@ public class AbstractPlotRendererTest extends RepositoryTestCase {
 	private TestPlotRenderer plotRenderer;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -38,7 +38,7 @@ public class AbstractPlotRendererTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDrawTextAlignment() throws Exception {
+	void testDrawTextAlignment() throws Exception {
 		git.commit().setMessage("initial commit").call();
 		git.branchCreate().setName("topic").call();
 		git.checkout().setName("topic").call();

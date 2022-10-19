@@ -12,11 +12,11 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,12 +40,12 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("boxing")
 public class GcPackRefsTest extends GcTestCase {
 	@Test
-	public void looseRefPacked() throws Exception {
+	void looseRefPacked() throws Exception {
 		RevBlob a = tr.blob("a");
 		tr.lightweightTag("t", a);
 
@@ -54,7 +54,7 @@ public class GcPackRefsTest extends GcTestCase {
 	}
 
 	@Test
-	public void emptyRefDirectoryDeleted() throws Exception {
+	void emptyRefDirectoryDeleted() throws Exception {
 		String ref = "dir/ref";
 		tr.branch(ref).commit().create();
 		String name = repo.findRef(ref).getName();
@@ -65,7 +65,7 @@ public class GcPackRefsTest extends GcTestCase {
 	}
 
 	@Test
-	public void concurrentOnlyOneWritesPackedRefs() throws Exception {
+	void concurrentOnlyOneWritesPackedRefs() throws Exception {
 		RevBlob a = tr.blob("a");
 		tr.lightweightTag("t", a);
 
@@ -93,7 +93,7 @@ public class GcPackRefsTest extends GcTestCase {
 	}
 
 	@Test
-	public void whileRefLockedRefNotPackedNoError()
+	void whileRefLockedRefNotPackedNoError()
 			throws Exception {
 		RevBlob a = tr.blob("a");
 		tr.lightweightTag("t1", a);
@@ -112,7 +112,7 @@ public class GcPackRefsTest extends GcTestCase {
 	}
 
 	@Test
-	public void whileRefUpdatedRefUpdateSucceeds()
+	void whileRefUpdatedRefUpdateSucceeds()
 			throws Exception {
 		RevBlob a = tr.blob("a");
 		tr.lightweightTag("t", a);
@@ -162,7 +162,7 @@ public class GcPackRefsTest extends GcTestCase {
 	}
 
 	@Test
-	public void dontPackHEAD_nonBare() throws Exception {
+	void dontPackHEAD_nonBare() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/side");
 		RevCommit first = bb.commit().add("A", "A").add("B", "B").create();
 		bb.commit().add("A", "A2").add("B", "B2").create();
@@ -190,7 +190,7 @@ public class GcPackRefsTest extends GcTestCase {
 	}
 
 	@Test
-	public void dontPackHEAD_bare() throws Exception {
+	void dontPackHEAD_bare() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/side");
 		bb.commit().add("A", "A").add("B", "B").create();
 		RevCommit second = bb.commit().add("A", "A2").add("B", "B2").create();

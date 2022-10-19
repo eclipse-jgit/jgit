@@ -10,9 +10,9 @@
 
 package org.eclipse.jgit.notes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
@@ -20,9 +20,9 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DefaultNoteMergerTest extends RepositoryTestCase {
 
@@ -39,7 +39,7 @@ public class DefaultNoteMergerTest extends RepositoryTestCase {
 	private RevBlob noteOn;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		tr = new TestRepository<>(db);
@@ -51,7 +51,7 @@ public class DefaultNoteMergerTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		reader.close();
 		inserter.close();
@@ -59,25 +59,25 @@ public class DefaultNoteMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteDelete() throws Exception {
+	void testDeleteDelete() throws Exception {
 		assertNull(merger.merge(baseNote, null, null, null, null));
 	}
 
 	@Test
-	public void testEditDelete() throws Exception {
+	void testEditDelete() throws Exception {
 		Note edit = newNote("edit");
 		assertSame(merger.merge(baseNote, edit, null, null, null), edit);
 		assertSame(merger.merge(baseNote, null, edit, null, null), edit);
 	}
 
 	@Test
-	public void testIdenticalEdit() throws Exception {
+	void testIdenticalEdit() throws Exception {
 		Note edit = newNote("edit");
 		assertSame(merger.merge(baseNote, edit, edit, null, null), edit);
 	}
 
 	@Test
-	public void testEditEdit() throws Exception {
+	void testEditEdit() throws Exception {
 		Note edit1 = newNote("edit1");
 		Note edit2 = newNote("edit2");
 
@@ -91,13 +91,13 @@ public class DefaultNoteMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIdenticalAdd() throws Exception {
+	void testIdenticalAdd() throws Exception {
 		Note add = newNote("add");
 		assertSame(merger.merge(null, add, add, null, null), add);
 	}
 
 	@Test
-	public void testAddAdd() throws Exception {
+	void testAddAdd() throws Exception {
 		Note add1 = newNote("add1");
 		Note add2 = newNote("add2");
 

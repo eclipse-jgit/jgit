@@ -32,17 +32,17 @@ import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.NULL_SHA1;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.TREE_NOT_SORTED;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ObjectCheckerTest {
 	private static final ObjectChecker SECRET_KEY_CHECKER = new ObjectChecker() {
@@ -83,13 +83,13 @@ public class ObjectCheckerTest {
 
 	private ObjectChecker checker;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		checker = new ObjectChecker();
 	}
 
 	@Test
-	public void testInvalidType() {
+	void testInvalidType() {
 		String msg = MessageFormat.format(
 				JGitText.get().corruptObjectInvalidType2,
 				valueOf(OBJ_BAD));
@@ -97,7 +97,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testCheckBlob() throws CorruptObjectException {
+	void testCheckBlob() throws CorruptObjectException {
 		// Any blob should pass...
 		checker.checkBlob(new byte[0]);
 		checker.checkBlob(new byte[1]);
@@ -107,31 +107,31 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testCheckBlobNotCorrupt() throws CorruptObjectException {
+	void testCheckBlobNotCorrupt() throws CorruptObjectException {
 		SECRET_KEY_CHECKER.check(OBJ_BLOB, encodeASCII("key = \"public_key\""));
 	}
 
 	@Test
-	public void testCheckBlobCorrupt() {
+	void testCheckBlobCorrupt() {
 		assertThrows(CorruptObjectException.class, () -> SECRET_KEY_CHECKER
 				.check(OBJ_BLOB, encodeASCII("key = \"secret_key\"")));
 	}
 
 	@Test
-	public void testCheckBlobWithBlobObjectCheckerNotCorrupt()
+	void testCheckBlobWithBlobObjectCheckerNotCorrupt()
 			throws CorruptObjectException {
 		SECRET_KEY_BLOB_CHECKER.check(OBJ_BLOB,
 				encodeASCII("key = \"public_key\""));
 	}
 
 	@Test
-	public void testCheckBlobWithBlobObjectCheckerCorrupt() {
+	void testCheckBlobWithBlobObjectCheckerCorrupt() {
 		assertThrows(CorruptObjectException.class, () -> SECRET_KEY_BLOB_CHECKER
 				.check(OBJ_BLOB, encodeASCII("key = \"secret_key\"")));
 	}
 
 	@Test
-	public void testValidCommitNoParent() throws CorruptObjectException {
+	void testValidCommitNoParent() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
@@ -147,7 +147,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidCommitBlankAuthor() throws CorruptObjectException {
+	void testValidCommitBlankAuthor() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
@@ -163,7 +163,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testCommitCorruptAuthor() throws CorruptObjectException {
+	void testCommitCorruptAuthor() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree be9bfa841874ccc9f2ef7c48d0c76226f89b7189\n");
 		b.append("author b <b@c> <b@c> 0 +0000\n");
@@ -179,7 +179,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testCommitCorruptCommitter() throws CorruptObjectException {
+	void testCommitCorruptCommitter() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree be9bfa841874ccc9f2ef7c48d0c76226f89b7189\n");
 		b.append("author <> 0 +0000\n");
@@ -195,7 +195,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidCommit1Parent() throws CorruptObjectException {
+	void testValidCommit1Parent() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
@@ -215,7 +215,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidCommit2Parent() throws CorruptObjectException {
+	void testValidCommit2Parent() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
@@ -239,14 +239,14 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidCommit128Parent() throws CorruptObjectException {
+	void testValidCommit128Parent() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
 
-		for (int i = 0; i < 128; i++) {
+		for (int i = 0;i < 128;i++) {
 			b.append("parent ");
 			b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 			b.append('\n');
@@ -261,7 +261,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidCommitNormalTime() throws CorruptObjectException {
+	void testValidCommitNormalTime() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		String when = "1222757360 -0730";
 
@@ -278,7 +278,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitNoTree1() {
+	void testInvalidCommitNoTree1() {
 		StringBuilder b = new StringBuilder();
 		b.append("parent ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -287,7 +287,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitNoTree2() {
+	void testInvalidCommitNoTree2() {
 		StringBuilder b = new StringBuilder();
 		b.append("trie ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -296,7 +296,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitNoTree3() {
+	void testInvalidCommitNoTree3() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -305,7 +305,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitNoTree4() {
+	void testInvalidCommitNoTree4() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree\t");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -314,7 +314,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidTree1() {
+	void testInvalidCommitInvalidTree1() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("zzzzfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -323,7 +323,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidTree2() {
+	void testInvalidCommitInvalidTree2() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -332,7 +332,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidTree3() {
+	void testInvalidCommitInvalidTree3() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9b");
@@ -343,7 +343,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidTree4() {
+	void testInvalidCommitInvalidTree4() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree  ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -352,7 +352,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidParent1() {
+	void testInvalidCommitInvalidParent1() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -363,7 +363,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidParent2() {
+	void testInvalidCommitInvalidParent2() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -375,7 +375,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidParent3() {
+	void testInvalidCommitInvalidParent3() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -387,7 +387,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidParent4() {
+	void testInvalidCommitInvalidParent4() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -399,7 +399,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidParent5() {
+	void testInvalidCommitInvalidParent5() {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -415,7 +415,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitNoAuthor() throws CorruptObjectException {
+	void testInvalidCommitNoAuthor() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -428,7 +428,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitNoCommitter1() throws CorruptObjectException {
+	void testInvalidCommitNoCommitter1() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -441,7 +441,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitNoCommitter2() throws CorruptObjectException {
+	void testInvalidCommitNoCommitter2() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -455,7 +455,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor1()
+	void testInvalidCommitInvalidAuthor1()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
@@ -469,7 +469,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor2()
+	void testInvalidCommitInvalidAuthor2()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
@@ -483,7 +483,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor3()
+	void testInvalidCommitInvalidAuthor3()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
@@ -497,7 +497,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor4()
+	void testInvalidCommitInvalidAuthor4()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
@@ -511,7 +511,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor5()
+	void testInvalidCommitInvalidAuthor5()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
@@ -525,7 +525,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor6()
+	void testInvalidCommitInvalidAuthor6()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
@@ -539,7 +539,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor7()
+	void testInvalidCommitInvalidAuthor7()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
@@ -553,7 +553,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidCommitInvalidCommitter()
+	void testInvalidCommitInvalidCommitter()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
@@ -568,7 +568,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTag() throws CorruptObjectException {
+	void testValidTag() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -583,12 +583,12 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoObject1() {
+	void testInvalidTagNoObject1() {
 		assertCorrupt("no object header", OBJ_TAG, new byte[0]);
 	}
 
 	@Test
-	public void testInvalidTagNoObject2() {
+	void testInvalidTagNoObject2() {
 		StringBuilder b = new StringBuilder();
 		b.append("object\t");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -597,7 +597,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoObject3() {
+	void testInvalidTagNoObject3() {
 		StringBuilder b = new StringBuilder();
 		b.append("obejct ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -606,7 +606,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoObject4() {
+	void testInvalidTagNoObject4() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("zz9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -615,7 +615,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoObject5() {
+	void testInvalidTagNoObject5() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -624,7 +624,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoObject6() {
+	void testInvalidTagNoObject6() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9");
@@ -632,7 +632,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoType1() {
+	void testInvalidTagNoType1() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -641,7 +641,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoType2() {
+	void testInvalidTagNoType2() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -651,7 +651,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoType3() {
+	void testInvalidTagNoType3() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -661,7 +661,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoType4() {
+	void testInvalidTagNoType4() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -671,7 +671,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoTagHeader1() {
+	void testInvalidTagNoTagHeader1() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -681,7 +681,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoTagHeader2() {
+	void testInvalidTagNoTagHeader2() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -692,7 +692,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagNoTagHeader3() {
+	void testInvalidTagNoTagHeader3() {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -703,7 +703,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTagHasNoTaggerHeader() throws CorruptObjectException {
+	void testValidTagHasNoTaggerHeader() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -714,7 +714,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagInvalidTaggerHeader1()
+	void testInvalidTagInvalidTaggerHeader1()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
@@ -734,7 +734,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTagInvalidTaggerHeader3()
+	void testInvalidTagInvalidTaggerHeader3()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
@@ -750,55 +750,55 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidEmptyTree() throws CorruptObjectException {
+	void testValidEmptyTree() throws CorruptObjectException {
 		checker.checkTree(new byte[0]);
 		checker.check(OBJ_TREE, new byte[0]);
 	}
 
 	@Test
-	public void testValidTree1() throws CorruptObjectException {
+	void testValidTree1() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 regular-file");
 		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
-	public void testValidTree2() throws CorruptObjectException {
+	void testValidTree2() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100755 executable");
 		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
-	public void testValidTree3() throws CorruptObjectException {
+	void testValidTree3() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "40000 tree");
 		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
-	public void testValidTree4() throws CorruptObjectException {
+	void testValidTree4() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "120000 symlink");
 		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
-	public void testValidTree5() throws CorruptObjectException {
+	void testValidTree5() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "160000 git link");
 		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
-	public void testValidTree6() throws CorruptObjectException {
+	void testValidTree6() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .a");
 		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
-	public void testValidTreeWithGitmodules() throws CorruptObjectException {
+	void testValidTreeWithGitmodules() throws CorruptObjectException {
 		ObjectId treeId = ObjectId
 				.fromString("0123012301230123012301230123012301230123");
 		StringBuilder b = new StringBuilder();
@@ -819,8 +819,8 @@ public class ObjectCheckerTest {
 	 * Johannes Schindelin and Congyi Wu.
 	 */
 	@Test
-	public void testNTFSGitmodules() throws CorruptObjectException {
-		for (String gitmodules : new String[] {
+	void testNTFSGitmodules() throws CorruptObjectException {
+		for (String gitmodules : new String[]{
 			".GITMODULES",
 			".gitmodules",
 			".Gitmodules",
@@ -851,8 +851,8 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testNotGitmodules() throws CorruptObjectException {
-		for (String notGitmodules : new String[] {
+	void testNotGitmodules() throws CorruptObjectException {
+		for (String notGitmodules : new String[]{
 			".gitmodu",
 			".gitmodules oh never mind",
 		}) {
@@ -875,7 +875,7 @@ public class ObjectCheckerTest {
 	 */
 
 	@Test
-	public void testValidTreeWithGitmodulesUppercase()
+	void testValidTreeWithGitmodulesUppercase()
 			throws CorruptObjectException {
 		ObjectId treeId = ObjectId
 				.fromString("0123012301230123012301230123012301230123");
@@ -891,7 +891,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testTreeWithInvalidGitmodules() throws CorruptObjectException {
+	void testTreeWithInvalidGitmodules() throws CorruptObjectException {
 		ObjectId treeId = ObjectId
 				.fromString("0123012301230123012301230123012301230123");
 		StringBuilder b = new StringBuilder();
@@ -904,9 +904,9 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testNullSha1InTreeEntry() throws CorruptObjectException {
+	void testNullSha1InTreeEntry() throws CorruptObjectException {
 		byte[] data = concat(
-				encodeASCII("100644 A"), new byte[] { '\0' },
+				encodeASCII("100644 A"), new byte[]{'\0'},
 				new byte[OBJECT_ID_LENGTH]);
 		assertCorrupt("entry points to null SHA-1", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
@@ -915,7 +915,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidPosixTree() throws CorruptObjectException {
+	void testValidPosixTree() throws CorruptObjectException {
 		checkOneName("a<b>c:d|e");
 		checkOneName("test ");
 		checkOneName("test.");
@@ -923,7 +923,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeSorting1() throws CorruptObjectException {
+	void testValidTreeSorting1() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 fooaaa");
 		entry(b, "100755 foobar");
@@ -931,7 +931,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeSorting2() throws CorruptObjectException {
+	void testValidTreeSorting2() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100755 fooaaa");
 		entry(b, "100644 foobar");
@@ -939,7 +939,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeSorting3() throws CorruptObjectException {
+	void testValidTreeSorting3() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "40000 a");
 		entry(b, "100644 b");
@@ -947,7 +947,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeSorting4() throws CorruptObjectException {
+	void testValidTreeSorting4() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "40000 b");
@@ -955,7 +955,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeSorting5() throws CorruptObjectException {
+	void testValidTreeSorting5() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a.c");
 		entry(b, "40000 a");
@@ -964,7 +964,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeSorting6() throws CorruptObjectException {
+	void testValidTreeSorting6() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "40000 a");
 		entry(b, "100644 apple");
@@ -972,7 +972,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeSorting7() throws CorruptObjectException {
+	void testValidTreeSorting7() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "40000 an orang");
 		entry(b, "40000 an orange");
@@ -980,7 +980,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeSorting8() throws CorruptObjectException {
+	void testValidTreeSorting8() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "100644 a0c");
@@ -989,7 +989,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testAcceptTreeModeWithZero() throws CorruptObjectException {
+	void testAcceptTreeModeWithZero() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "040000 a");
 		byte[] data = encodeASCII(b.toString());
@@ -1004,35 +1004,35 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeModeStartsWithZero1() {
+	void testInvalidTreeModeStartsWithZero1() {
 		StringBuilder b = new StringBuilder();
 		entry(b, "0 a");
 		assertCorrupt("mode starts with '0'", OBJ_TREE, b);
 	}
 
 	@Test
-	public void testInvalidTreeModeStartsWithZero2() {
+	void testInvalidTreeModeStartsWithZero2() {
 		StringBuilder b = new StringBuilder();
 		entry(b, "0100644 a");
 		assertCorrupt("mode starts with '0'", OBJ_TREE, b);
 	}
 
 	@Test
-	public void testInvalidTreeModeStartsWithZero3() {
+	void testInvalidTreeModeStartsWithZero3() {
 		StringBuilder b = new StringBuilder();
 		entry(b, "040000 a");
 		assertCorrupt("mode starts with '0'", OBJ_TREE, b);
 	}
 
 	@Test
-	public void testInvalidTreeModeNotOctal1() {
+	void testInvalidTreeModeNotOctal1() {
 		StringBuilder b = new StringBuilder();
 		entry(b, "8 a");
 		assertCorrupt("invalid mode character", OBJ_TREE, b);
 	}
 
 	@Test
-	public void testInvalidTreeModeNotOctal2() {
+	void testInvalidTreeModeNotOctal2() {
 		StringBuilder b = new StringBuilder();
 		entry(b, "Z a");
 		byte[] data = encodeASCII(b.toString());
@@ -1041,7 +1041,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeModeNotSupportedMode1() {
+	void testInvalidTreeModeNotSupportedMode1() {
 		StringBuilder b = new StringBuilder();
 		entry(b, "1 a");
 		byte[] data = encodeASCII(b.toString());
@@ -1050,21 +1050,21 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeModeNotSupportedMode2() {
+	void testInvalidTreeModeNotSupportedMode2() {
 		StringBuilder b = new StringBuilder();
 		entry(b, "170000 a");
 		assertCorrupt("invalid mode " + 0170000, OBJ_TREE, b);
 	}
 
 	@Test
-	public void testInvalidTreeModeMissingName() {
+	void testInvalidTreeModeMissingName() {
 		StringBuilder b = new StringBuilder();
 		b.append("100644");
 		assertCorrupt("truncated in mode", OBJ_TREE, b);
 	}
 
 	@Test
-	public void testInvalidTreeNameContainsSlash()
+	void testInvalidTreeNameContainsSlash()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a/b");
@@ -1076,7 +1076,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsEmpty() throws CorruptObjectException {
+	void testInvalidTreeNameIsEmpty() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 ");
 		byte[] data = encodeASCII(b.toString());
@@ -1087,7 +1087,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDot() throws CorruptObjectException {
+	void testInvalidTreeNameIsDot() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .");
 		byte[] data = encodeASCII(b.toString());
@@ -1098,7 +1098,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotDot() throws CorruptObjectException {
+	void testInvalidTreeNameIsDotDot() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 ..");
 		byte[] data = encodeASCII(b.toString());
@@ -1109,7 +1109,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsGit() throws CorruptObjectException {
+	void testInvalidTreeNameIsGit() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git");
 		byte[] data = encodeASCII(b.toString());
@@ -1120,7 +1120,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMixedCaseGit()
+	void testInvalidTreeNameIsMixedCaseGit()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .GiT");
@@ -1132,7 +1132,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGit() throws CorruptObjectException {
+	void testInvalidTreeNameIsMacHFSGit() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gi\u200Ct");
 		byte[] data = encode(b.toString());
@@ -1151,7 +1151,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGit2()
+	void testInvalidTreeNameIsMacHFSGit2()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 \u206B.git");
@@ -1171,7 +1171,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGit3()
+	void testInvalidTreeNameIsMacHFSGit3()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git\uFEFF");
@@ -1191,12 +1191,11 @@ public class ObjectCheckerTest {
 	}
 
 
-
 	@Test
-	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd()
+	void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd()
 			throws CorruptObjectException {
 		byte[] data = concat(encode("100644 .git"),
-				new byte[] { (byte) 0xef });
+				new byte[]{(byte) 0xef});
 		StringBuilder b = new StringBuilder();
 		entry(b, "");
 		data = concat(data, encode(b.toString()));
@@ -1213,11 +1212,11 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd2()
+	void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd2()
 			throws CorruptObjectException {
 		byte[] data = concat(encode("100644 .git"),
-				new byte[] {
-				(byte) 0xe2, (byte) 0xab });
+				new byte[]{
+						(byte) 0xe2, (byte) 0xab});
 		StringBuilder b = new StringBuilder();
 		entry(b, "");
 		data = concat(data, encode(b.toString()));
@@ -1234,7 +1233,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsNotMacHFSGit()
+	void testInvalidTreeNameIsNotMacHFSGit()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git\u200Cx");
@@ -1244,7 +1243,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsNotMacHFSGit2()
+	void testInvalidTreeNameIsNotMacHFSGit2()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .kit\u200C");
@@ -1254,7 +1253,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsNotMacHFSGitOtherPlatform()
+	void testInvalidTreeNameIsNotMacHFSGitOtherPlatform()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git\u200C");
@@ -1263,7 +1262,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitDot() throws CorruptObjectException {
+	void testInvalidTreeNameIsDotGitDot() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git.");
 		byte[] data = encodeASCII(b.toString());
@@ -1274,7 +1273,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeNameIsDotGitDotDot()
+	void testValidTreeNameIsDotGitDotDot()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git..");
@@ -1282,7 +1281,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitSpace()
+	void testInvalidTreeNameIsDotGitSpace()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git ");
@@ -1294,7 +1293,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitSomething()
+	void testInvalidTreeNameIsDotGitSomething()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gitfoobar");
@@ -1303,7 +1302,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitSomethingSpaceSomething()
+	void testInvalidTreeNameIsDotGitSomethingSpaceSomething()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gitfoo bar");
@@ -1312,7 +1311,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitSomethingDot()
+	void testInvalidTreeNameIsDotGitSomethingDot()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gitfoobar.");
@@ -1321,7 +1320,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitSomethingDotDot()
+	void testInvalidTreeNameIsDotGitSomethingDotDot()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gitfoobar..");
@@ -1330,7 +1329,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitDotSpace()
+	void testInvalidTreeNameIsDotGitDotSpace()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git. ");
@@ -1342,7 +1341,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitSpaceDot()
+	void testInvalidTreeNameIsDotGitSpaceDot()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git . ");
@@ -1354,7 +1353,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsGITTilde1() throws CorruptObjectException {
+	void testInvalidTreeNameIsGITTilde1() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 GIT~1");
 		byte[] data = encodeASCII(b.toString());
@@ -1365,7 +1364,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameIsGiTTilde1() throws CorruptObjectException {
+	void testInvalidTreeNameIsGiTTilde1() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 GiT~1");
 		byte[] data = encodeASCII(b.toString());
@@ -1376,7 +1375,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testValidTreeNameIsGitTilde11() throws CorruptObjectException {
+	void testValidTreeNameIsGitTilde11() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 GIT~11");
 		byte[] data = encodeASCII(b.toString());
@@ -1384,7 +1383,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeTruncatedInName() {
+	void testInvalidTreeTruncatedInName() {
 		StringBuilder b = new StringBuilder();
 		b.append("100644 b");
 		byte[] data = encodeASCII(b.toString());
@@ -1393,7 +1392,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeTruncatedInObjectId() {
+	void testInvalidTreeTruncatedInObjectId() {
 		StringBuilder b = new StringBuilder();
 		b.append("100644 b\0\1\2");
 		byte[] data = encodeASCII(b.toString());
@@ -1402,7 +1401,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeBadSorting1() throws CorruptObjectException {
+	void testInvalidTreeBadSorting1() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 foobar");
 		entry(b, "100644 fooaaa");
@@ -1426,7 +1425,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeBadSorting2() throws CorruptObjectException {
+	void testInvalidTreeBadSorting2() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "40000 a");
 		entry(b, "100644 a.c");
@@ -1438,7 +1437,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeBadSorting3() throws CorruptObjectException {
+	void testInvalidTreeBadSorting3() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a0c");
 		entry(b, "40000 a");
@@ -1450,7 +1449,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames1_File()
+	void testInvalidTreeDuplicateNames1_File()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
@@ -1463,7 +1462,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames1_Tree()
+	void testInvalidTreeDuplicateNames1_Tree()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "40000 a");
@@ -1476,7 +1475,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames2() throws CorruptObjectException {
+	void testInvalidTreeDuplicateNames2() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "100755 a");
@@ -1488,7 +1487,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames3() throws CorruptObjectException {
+	void testInvalidTreeDuplicateNames3() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "40000 a");
@@ -1500,7 +1499,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames4() throws CorruptObjectException {
+	void testInvalidTreeDuplicateNames4() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "100644 a.c");
@@ -1516,7 +1515,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames5()
+	void testInvalidTreeDuplicateNames5()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
@@ -1530,7 +1529,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames6()
+	void testInvalidTreeDuplicateNames6()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
@@ -1544,7 +1543,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames7()
+	void testInvalidTreeDuplicateNames7()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 \u0065\u0301");
@@ -1558,7 +1557,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames8()
+	void testInvalidTreeDuplicateNames8()
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
@@ -1567,7 +1566,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testRejectNulInPathSegment() {
+	void testRejectNulInPathSegment() {
 		try {
 			checker.checkPathSegment(encodeASCII("a\u0000b"), 0, 3);
 			fail("incorrectly accepted NUL in middle of name");
@@ -1577,7 +1576,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testRejectSpaceAtEndOnWindows() {
+	void testRejectSpaceAtEndOnWindows() {
 		checker.setSafeForWindows(true);
 		try {
 			checkOneName("test ");
@@ -1588,18 +1587,18 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testBug477090() throws CorruptObjectException {
+	void testBug477090() throws CorruptObjectException {
 		checker.setSafeForMacOS(true);
 		final byte[] bytes = {
 				// U+221E 0xe2889e INFINITY ∞
 				(byte) 0xe2, (byte) 0x88, (byte) 0x9e,
 				// .html
-				0x2e, 0x68, 0x74, 0x6d, 0x6c };
+				0x2e, 0x68, 0x74, 0x6d, 0x6c};
 		checker.checkPathSegment(bytes, 0, bytes.length);
 	}
 
 	@Test
-	public void testRejectDotAtEndOnWindows() {
+	void testRejectDotAtEndOnWindows() {
 		checker.setSafeForWindows(true);
 		try {
 			checkOneName("test.");
@@ -1610,12 +1609,12 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testRejectDevicesOnWindows() {
+	void testRejectDevicesOnWindows() {
 		checker.setSafeForWindows(true);
 
-		String[] bad = { "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3",
+		String[] bad = {"CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3",
 				"COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2",
-				"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
+				"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
 		for (String b : bad) {
 			try {
 				checkOneName(b);
@@ -1633,7 +1632,7 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testRejectInvalidWindowsCharacters() {
+	void testRejectInvalidWindowsCharacters() {
 		checker.setSafeForWindows(true);
 		rejectName('<');
 		rejectName('>');
@@ -1644,7 +1643,7 @@ public class ObjectCheckerTest {
 		rejectName('?');
 		rejectName('*');
 
-		for (int i = 1; i <= 31; i++)
+		for (int i = 1;i <= 31;i++)
 			rejectName((byte) i);
 	}
 
@@ -1670,7 +1669,7 @@ public class ObjectCheckerTest {
 
 
 	@Test
-	public void testRejectInvalidCharacter() {
+	void testRejectInvalidCharacter() {
 		try {
 			checkOneName("te/st");
 			fail("incorrectly accepted with /");

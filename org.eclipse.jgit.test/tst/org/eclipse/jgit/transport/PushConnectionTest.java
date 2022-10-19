@@ -13,8 +13,8 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_REPORT_STATUS;
 import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -34,9 +34,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PushConnectionTest {
 	private URIish uri;
@@ -50,7 +50,7 @@ public class PushConnectionTest {
 	private ObjectId obj3;
 	private String refName = "refs/tags/blob";
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		server = newRepo("server");
 		client = newRepo("client");
@@ -83,7 +83,7 @@ public class PushConnectionTest {
 		}
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		Transport.unregister(testProtocol);
 	}
@@ -93,7 +93,7 @@ public class PushConnectionTest {
 	}
 
 	@Test
-	public void testWrongOldIdDoesNotReplace() throws IOException {
+	void testWrongOldIdDoesNotReplace() throws IOException {
 		RemoteRefUpdate rru = new RemoteRefUpdate(null, null, obj2, refName,
 				false, null, obj3);
 
@@ -110,7 +110,7 @@ public class PushConnectionTest {
 	}
 
 	@Test
-	public void invalidCommand() throws IOException {
+	void invalidCommand() throws IOException {
 		try (Transport tn = testProtocol.open(uri, client, "server");
 				InternalPushConnection c = (InternalPushConnection) tn.openPush()) {
 			StringWriter msgs = new StringWriter();
@@ -145,7 +145,7 @@ public class PushConnectionTest {
 	}
 
 	@Test
-	public void limitCommandBytes() throws IOException {
+	void limitCommandBytes() throws IOException {
 		Map<String, RemoteRefUpdate> updates = new HashMap<>();
 		for (int i = 0; i < 4; i++) {
 			RemoteRefUpdate rru = new RemoteRefUpdate(
@@ -170,7 +170,7 @@ public class PushConnectionTest {
 	}
 
 	@Test
-	public void commandOrder() throws Exception {
+	void commandOrder() throws Exception {
 		List<RemoteRefUpdate> updates = new ArrayList<>();
 		try (TestRepository<?> tr = new TestRepository<>(client)) {
 			// Arbitrary non-sorted order.
@@ -190,17 +190,14 @@ public class PushConnectionTest {
 
 		for (RemoteRefUpdate remoteUpdate : result.getRemoteUpdates()) {
 			assertEquals(
-					"update should succeed on " + remoteUpdate.getRemoteName(),
-					RemoteRefUpdate.Status.OK, remoteUpdate.getStatus());
+					RemoteRefUpdate.Status.OK, remoteUpdate.getStatus(), "update should succeed on " + remoteUpdate.getRemoteName());
 		}
 
 		List<String> expected = remoteRefNames(updates);
 		assertEquals(
-				"ref names processed by ReceivePack should match input ref names in order",
-				expected, processedRefs);
+				expected, processedRefs, "ref names processed by ReceivePack should match input ref names in order");
 		assertEquals(
-				"remote ref names should match input ref names in order",
-				expected, remoteRefNames(result.getRemoteUpdates()));
+				expected, remoteRefNames(result.getRemoteUpdates()), "remote ref names should match input ref names in order");
 	}
 
 	private static List<String> remoteRefNames(Collection<RemoteRefUpdate> updates) {

@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -30,10 +30,10 @@ import org.eclipse.jgit.submodule.SubmoduleStatusType;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
-import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
@@ -63,7 +63,7 @@ public class FetchAndPullCommandsRecurseSubmodulesTest extends RepositoryTestCas
 
 	private final String PATH = "sub";
 
-	@Before
+	@BeforeEach
 	public void setUpSubmodules() throws Exception {
 		git = new Git(db);
 

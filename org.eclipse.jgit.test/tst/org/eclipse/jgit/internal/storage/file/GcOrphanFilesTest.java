@@ -10,14 +10,14 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GcOrphanFilesTest extends GcTestCase {
 	private static final String PACK = "pack";
@@ -39,14 +39,14 @@ public class GcOrphanFilesTest extends GcTestCase {
 	private File packDir;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		packDir = repo.getObjectDatabase().getPackDirectory();
 	}
 
 	@Test
-	public void bitmapAndIdxDeletedButPackNot() throws Exception {
+	void bitmapAndIdxDeletedButPackNot() throws Exception {
 		createFileInPackFolder(BITMAP_File_1);
 		createFileInPackFolder(IDX_File_2);
 		createFileInPackFolder(PACK_File_3);
@@ -57,7 +57,7 @@ public class GcOrphanFilesTest extends GcTestCase {
 	}
 
 	@Test
-	public void bitmapDeletedButIdxAndPackNot() throws Exception {
+	void bitmapDeletedButIdxAndPackNot() throws Exception {
 		createFileInPackFolder(BITMAP_File_1);
 		createFileInPackFolder(IDX_File_2);
 		createFileInPackFolder(PACK_File_2);
@@ -70,14 +70,14 @@ public class GcOrphanFilesTest extends GcTestCase {
 	}
 
 	@Test
-	public void malformedIdxNotDeleted() throws Exception {
+	void malformedIdxNotDeleted() throws Exception {
 		createFileInPackFolder(IDX_File_malformed);
 		gc.gc().get();
 		assertTrue(new File(packDir, IDX_File_malformed).exists());
 	}
 
 	@Test
-	public void keepPreventsDeletionOfIndexFilesForMissingPackFile()
+	void keepPreventsDeletionOfIndexFilesForMissingPackFile()
 			throws Exception {
 		createFileInPackFolder(BITMAP_File_1);
 		createFileInPackFolder(IDX_File_2);
@@ -100,7 +100,7 @@ public class GcOrphanFilesTest extends GcTestCase {
 	}
 
 	@Test
-	public void noSuchPackFolder() throws Exception {
+	void noSuchPackFolder() throws Exception {
 		assertTrue(packDir.delete());
 		gc.gc().get();
 	}

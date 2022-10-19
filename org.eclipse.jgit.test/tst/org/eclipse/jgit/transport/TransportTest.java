@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,14 +30,14 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TransportTest extends SampleDataRepositoryTestCase {
 	private RemoteConfig remoteConfig;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		final Config config = db.getConfig();
@@ -52,7 +52,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testFindRemoteRefUpdatesNoWildcardNoTracking()
+	void testFindRemoteRefUpdatesNoWildcardNoTracking()
 			throws IOException {
 		Collection<RemoteRefUpdate> result;
 		try (Transport transport = Transport.open(db, remoteConfig)) {
@@ -76,7 +76,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testFindRemoteRefUpdatesNoWildcardNoDestination()
+	void testFindRemoteRefUpdatesNoWildcardNoDestination()
 			throws IOException {
 		Collection<RemoteRefUpdate> result;
 		try (Transport transport = Transport.open(db, remoteConfig)) {
@@ -99,7 +99,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testFindRemoteRefUpdatesWildcardNoTracking() throws IOException {
+	void testFindRemoteRefUpdatesWildcardNoTracking() throws IOException {
 		Collection<RemoteRefUpdate> result;
 		try (Transport transport = Transport.open(db, remoteConfig)) {
 			result = transport.findRemoteRefUpdatesFor(Collections.nCopies(1,
@@ -128,7 +128,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testFindRemoteRefUpdatesTwoRefSpecs() throws IOException {
+	void testFindRemoteRefUpdatesTwoRefSpecs() throws IOException {
 		final RefSpec specA = new RefSpec("+refs/heads/a:refs/heads/b");
 		final RefSpec specC = new RefSpec("+refs/heads/c:refs/heads/d");
 		final Collection<RefSpec> specs = Arrays.asList(specA, specC);
@@ -159,7 +159,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testFindRemoteRefUpdatesTrackingRef() throws IOException {
+	void testFindRemoteRefUpdatesTrackingRef() throws IOException {
 		remoteConfig.addFetchRefSpec(new RefSpec(
 				"refs/heads/*:refs/remotes/test/*"));
 
@@ -184,7 +184,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testFindRemoteRefUpdatesWithLeases() throws IOException {
+	void testFindRemoteRefUpdatesWithLeases() throws IOException {
 		final RefSpec specA = new RefSpec("+refs/heads/a:refs/heads/b");
 		final RefSpec specC = new RefSpec("+refs/heads/c:refs/heads/d");
 		final Collection<RefSpec> specs = Arrays.asList(specA, specC);
@@ -218,7 +218,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testLocalTransportWithRelativePath() throws Exception {
+	void testLocalTransportWithRelativePath() throws Exception {
 		Repository other = createWorkRepository();
 		String otherDir = other.getWorkTree().getName();
 
@@ -230,7 +230,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testLocalTransportFetchWithoutLocalRepository()
+	void testLocalTransportFetchWithoutLocalRepository()
 			throws Exception {
 		URIish uri = new URIish("file://" + db.getWorkTree().getAbsolutePath());
 		try (Transport transport = Transport.open(uri)) {
@@ -242,7 +242,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testOpenPushUseBitmaps() throws Exception {
+	void testOpenPushUseBitmaps() throws Exception {
 		URIish uri = new URIish("file://" + db.getWorkTree().getAbsolutePath());
 		// default
 		try (Transport transport = Transport.open(uri)) {
@@ -273,7 +273,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testSpi() {
+	void testSpi() {
 		List<TransportProtocol> protocols = Transport.getTransportProtocols();
 		assertNotNull(protocols);
 		assertFalse(protocols.isEmpty());

@@ -13,10 +13,10 @@ package org.eclipse.jgit.treewalk;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
 import static org.eclipse.jgit.lib.FileMode.SYMLINK;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 
@@ -26,8 +26,8 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CanonicalTreeParserTest {
 	private final CanonicalTreeParser ctp = new CanonicalTreeParser();
@@ -51,7 +51,7 @@ public class CanonicalTreeParserTest {
 
 	private byte[] tree3;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tree1 = mktree(entry(m644, "a", hash_a));
 		tree2 = mktree(entry(m644, "a", hash_a), entry(m644, "foo", hash_foo));
@@ -83,13 +83,13 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testEmptyTree_AtEOF() throws Exception {
+	void testEmptyTree_AtEOF() throws Exception {
 		ctp.reset(new byte[0]);
 		assertTrue(ctp.eof());
 	}
 
 	@Test
-	public void testOneEntry_Forward() throws Exception {
+	void testOneEntry_Forward() throws Exception {
 		ctp.reset(tree1);
 
 		assertTrue(ctp.first());
@@ -104,7 +104,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testTwoEntries_ForwardOneAtATime() throws Exception {
+	void testTwoEntries_ForwardOneAtATime() throws Exception {
 		ctp.reset(tree2);
 
 		assertTrue(ctp.first());
@@ -125,28 +125,28 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testOneEntry_Seek1IsEOF() throws Exception {
+	void testOneEntry_Seek1IsEOF() throws Exception {
 		ctp.reset(tree1);
 		ctp.next(1);
 		assertTrue(ctp.eof());
 	}
 
 	@Test
-	public void testTwoEntries_Seek2IsEOF() throws Exception {
+	void testTwoEntries_Seek2IsEOF() throws Exception {
 		ctp.reset(tree2);
 		ctp.next(2);
 		assertTrue(ctp.eof());
 	}
 
 	@Test
-	public void testThreeEntries_Seek3IsEOF() throws Exception {
+	void testThreeEntries_Seek3IsEOF() throws Exception {
 		ctp.reset(tree3);
 		ctp.next(3);
 		assertTrue(ctp.eof());
 	}
 
 	@Test
-	public void testThreeEntries_Seek2() throws Exception {
+	void testThreeEntries_Seek2() throws Exception {
 		ctp.reset(tree3);
 
 		ctp.next(2);
@@ -161,7 +161,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testOneEntry_Backwards() throws Exception {
+	void testOneEntry_Backwards() throws Exception {
 		ctp.reset(tree1);
 		ctp.next(1);
 		assertFalse(ctp.first());
@@ -176,7 +176,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testTwoEntries_BackwardsOneAtATime() throws Exception {
+	void testTwoEntries_BackwardsOneAtATime() throws Exception {
 		ctp.reset(tree2);
 		ctp.next(2);
 		assertTrue(ctp.eof());
@@ -195,7 +195,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testTwoEntries_BackwardsTwo() throws Exception {
+	void testTwoEntries_BackwardsTwo() throws Exception {
 		ctp.reset(tree2);
 		ctp.next(2);
 		assertTrue(ctp.eof());
@@ -217,7 +217,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testThreeEntries_BackwardsTwo() throws Exception {
+	void testThreeEntries_BackwardsTwo() throws Exception {
 		ctp.reset(tree3);
 		ctp.next(3);
 		assertTrue(ctp.eof());
@@ -239,7 +239,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testBackwards_ConfusingPathName() throws Exception {
+	void testBackwards_ConfusingPathName() throws Exception {
 		final String aVeryConfusingName = "confusing 644 entry 755 and others";
 		ctp.reset(mktree(entry(m644, "a", hash_a), entry(mt, aVeryConfusingName,
 				hash_sometree), entry(m644, "foo", hash_foo)));
@@ -260,7 +260,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testBackwords_Prebuilts1() throws Exception {
+	void testBackwords_Prebuilts1() throws Exception {
 		// What is interesting about this test is the ObjectId for the
 		// "darwin-x86" path entry ends in an octal digit (37 == '7').
 		// Thus when scanning backwards we could over scan and consume
@@ -295,7 +295,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testBackwords_Prebuilts2() throws Exception {
+	void testBackwords_Prebuilts2() throws Exception {
 		// What is interesting about this test is the ObjectId for the
 		// "darwin-x86" path entry ends in an octal digit (37 == '7').
 		// Thus when scanning backwards we could over scan and consume
@@ -330,7 +330,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testFreakingHugePathName() throws Exception {
+	void testFreakingHugePathName() throws Exception {
 		final int n = AbstractTreeIterator.DEFAULT_PATH_SIZE * 4;
 		final StringBuilder b = new StringBuilder(n);
 		for (int i = 0; i < n; i++)
@@ -343,7 +343,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testFindAttributesWhenFirst() throws CorruptObjectException {
+	void testFindAttributesWhenFirst() throws CorruptObjectException {
 		TreeFormatter tree = new TreeFormatter();
 		tree.append(".gitattributes", REGULAR_FILE, hash_a);
 		ctp.reset(tree.toByteArray());
@@ -355,7 +355,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testFindAttributesWhenSecond() throws CorruptObjectException {
+	void testFindAttributesWhenSecond() throws CorruptObjectException {
 		TreeFormatter tree = new TreeFormatter();
 		tree.append(".config", SYMLINK, hash_a);
 		tree.append(".gitattributes", REGULAR_FILE, hash_foo);
@@ -368,7 +368,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	@Test
-	public void testFindAttributesWhenMissing() throws CorruptObjectException {
+	void testFindAttributesWhenMissing() throws CorruptObjectException {
 		TreeFormatter tree = new TreeFormatter();
 		tree.append("src", REGULAR_FILE, hash_a);
 		tree.append("zoo", REGULAR_FILE, hash_foo);

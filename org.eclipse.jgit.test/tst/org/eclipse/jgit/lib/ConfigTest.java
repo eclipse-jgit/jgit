@@ -24,14 +24,14 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.util.FileUtils.pathToString;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,10 +59,9 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Test reading of git config
@@ -78,34 +77,34 @@ public class ConfigTest {
 
 	private static final String REFS_BACKUP = "+refs/heads/*:refs/remotes/backup/*";
 
-	@Rule
-	public TemporaryFolder tmp = new TemporaryFolder();
+	@TempDir
+	public File tmp;
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		SystemReader.setInstance(null);
 	}
 
 	@Test
-	public void test001_ReadBareKey() throws ConfigInvalidException {
+	void test001_ReadBareKey() throws ConfigInvalidException {
 		final Config c = parse("[foo]\nbar\n");
 		assertTrue(c.getBoolean("foo", null, "bar", false));
 		assertEquals("", c.getString("foo", null, "bar"));
 	}
 
 	@Test
-	public void test002_ReadWithSubsection() throws ConfigInvalidException {
+	void test002_ReadWithSubsection() throws ConfigInvalidException {
 		final Config c = parse("[foo \"zip\"]\nbar\n[foo \"zap\"]\nbar=false\nn=3\n");
 		assertTrue(c.getBoolean("foo", "zip", "bar", false));
-		assertEquals("", c.getString("foo","zip", "bar"));
+		assertEquals("", c.getString("foo", "zip", "bar"));
 		assertFalse(c.getBoolean("foo", "zap", "bar", true));
 		assertEquals("false", c.getString("foo", "zap", "bar"));
 		assertEquals(3, c.getInt("foo", "zap", "n", 4));
-		assertEquals(4, c.getInt("foo", "zap","m", 4));
+		assertEquals(4, c.getInt("foo", "zap", "m", 4));
 	}
 
 	@Test
-	public void test003_PutRemote() {
+	void test003_PutRemote() {
 		final Config c = new Config();
 		c.setString("sec", "ext", "name", "value");
 		c.setString("sec", "ext", "name2", "value2");
@@ -114,7 +113,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void test004_PutGetSimple() {
+	void test004_PutGetSimple() {
 		Config c = new Config();
 		c.setString("my", null, "somename", "false");
 		assertEquals("false", c.getString("my", null, "somename"));
@@ -122,7 +121,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void test005_PutGetStringList() {
+	void test005_PutGetStringList() {
 		Config c = new Config();
 		final LinkedList<String> values = new LinkedList<>();
 		values.add("value1");
@@ -138,14 +137,14 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void test006_readCaseInsensitive() throws ConfigInvalidException {
+	void test006_readCaseInsensitive() throws ConfigInvalidException {
 		final Config c = parse("[Foo]\nBar\n");
 		assertTrue(c.getBoolean("foo", null, "bar", false));
 		assertEquals("", c.getString("foo", null, "bar"));
 	}
 
 	@Test
-	public void test007_readUserConfig() {
+	void test007_readUserConfig() {
 		final MockSystemReader mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 		final String hostname = mockSystemReader.getHostname();
@@ -235,7 +234,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadUserConfigWithInvalidCharactersStripped() {
+	void testReadUserConfigWithInvalidCharactersStripped() {
 		final MockSystemReader mockSystemReader = new MockSystemReader();
 		final Config localConfig = new Config(mockSystemReader.openUserConfig(
 				null, FS.DETECTED));
@@ -249,7 +248,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadBoolean_TrueFalse1() throws ConfigInvalidException {
+	void testReadBoolean_TrueFalse1() throws ConfigInvalidException {
 		final Config c = parse("[s]\na = true\nb = false\n");
 		assertEquals("true", c.getString("s", null, "a"));
 		assertEquals("false", c.getString("s", null, "b"));
@@ -259,7 +258,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadBoolean_TrueFalse2() throws ConfigInvalidException {
+	void testReadBoolean_TrueFalse2() throws ConfigInvalidException {
 		final Config c = parse("[s]\na = TrUe\nb = fAlSe\n");
 		assertEquals("TrUe", c.getString("s", null, "a"));
 		assertEquals("fAlSe", c.getString("s", null, "b"));
@@ -269,7 +268,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadBoolean_YesNo1() throws ConfigInvalidException {
+	void testReadBoolean_YesNo1() throws ConfigInvalidException {
 		final Config c = parse("[s]\na = yes\nb = no\n");
 		assertEquals("yes", c.getString("s", null, "a"));
 		assertEquals("no", c.getString("s", null, "b"));
@@ -279,7 +278,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadBoolean_YesNo2() throws ConfigInvalidException {
+	void testReadBoolean_YesNo2() throws ConfigInvalidException {
 		final Config c = parse("[s]\na = yEs\nb = NO\n");
 		assertEquals("yEs", c.getString("s", null, "a"));
 		assertEquals("NO", c.getString("s", null, "b"));
@@ -289,7 +288,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadBoolean_OnOff1() throws ConfigInvalidException {
+	void testReadBoolean_OnOff1() throws ConfigInvalidException {
 		final Config c = parse("[s]\na = on\nb = off\n");
 		assertEquals("on", c.getString("s", null, "a"));
 		assertEquals("off", c.getString("s", null, "b"));
@@ -299,7 +298,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadBoolean_OnOff2() throws ConfigInvalidException {
+	void testReadBoolean_OnOff2() throws ConfigInvalidException {
 		final Config c = parse("[s]\na = ON\nb = OFF\n");
 		assertEquals("ON", c.getString("s", null, "a"));
 		assertEquals("OFF", c.getString("s", null, "b"));
@@ -313,7 +312,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testGetEnum() throws ConfigInvalidException {
+	void testGetEnum() throws ConfigInvalidException {
 		Config c = parse("[s]\na = ON\nb = input\nc = true\nd = off\n");
 		assertSame(CoreConfig.AutoCRLF.TRUE, c.getEnum("s", null, "a",
 				CoreConfig.AutoCRLF.FALSE));
@@ -339,7 +338,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testGetInvalidEnum() throws ConfigInvalidException {
+	void testGetInvalidEnum() throws ConfigInvalidException {
 		Config c = parse("[a]\n\tb = invalid\n");
 		try {
 			c.getEnum("a", null, "b", TestEnum.ONE_TWO);
@@ -358,14 +357,14 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testSetEnum() {
+	void testSetEnum() {
 		final Config c = new Config();
 		c.setEnum("s", "b", "c", TestEnum.ONE_TWO);
 		assertEquals("[s \"b\"]\n\tc = one two\n", c.toText());
 	}
 
 	@Test
-	public void testGetFastForwardMergeoptions() throws ConfigInvalidException {
+	void testGetFastForwardMergeoptions() throws ConfigInvalidException {
 		Config c = new Config(null); // not set
 		assertSame(FastForwardMode.FF, c.getEnum(
 				ConfigConstants.CONFIG_BRANCH_SECTION, "side",
@@ -394,7 +393,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testSetFastForwardMergeoptions() {
+	void testSetFastForwardMergeoptions() {
 		final Config c = new Config();
 		c.setEnum("branch", "side", "mergeoptions", FastForwardMode.FF);
 		assertEquals("[branch \"side\"]\n\tmergeoptions = --ff\n", c.toText());
@@ -407,7 +406,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testGetFastForwardMerge() throws ConfigInvalidException {
+	void testGetFastForwardMerge() throws ConfigInvalidException {
 		Config c = new Config(null); // not set
 		assertSame(FastForwardMode.Merge.TRUE, c.getEnum(
 				ConfigConstants.CONFIG_KEY_MERGE, null,
@@ -435,7 +434,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testCombinedMergeOptions() throws ConfigInvalidException {
+	void testCombinedMergeOptions() throws ConfigInvalidException {
 		Config c = new Config(null); // not set
 		MergeConfig mergeConfig = c.get(MergeConfig.getParser("side"));
 		assertSame(FastForwardMode.FF, mergeConfig.getFastForwardMode());
@@ -465,7 +464,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testSetFastForwardMerge() {
+	void testSetFastForwardMerge() {
 		final Config c = new Config();
 		c.setEnum("merge", null, "ff",
 				FastForwardMode.Merge.valueOf(FastForwardMode.FF));
@@ -479,7 +478,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadLong() throws ConfigInvalidException {
+	void testReadLong() throws ConfigInvalidException {
 		assertReadLong(1L);
 		assertReadLong(-1L);
 		assertReadLong(Long.MIN_VALUE);
@@ -497,7 +496,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testBooleanWithNoValue() throws ConfigInvalidException {
+	void testBooleanWithNoValue() throws ConfigInvalidException {
 		Config c = parse("[my]\n\tempty\n");
 		assertEquals("", c.getString("my", null, "empty"));
 		assertEquals(1, c.getStringList("my", null, "empty").length);
@@ -507,7 +506,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testUnsetBranchSection() throws ConfigInvalidException {
+	void testUnsetBranchSection() throws ConfigInvalidException {
 		Config c = parse("" //
 				+ "[branch \"keep\"]\n"
 				+ "  merge = master.branch.to.keep.in.the.file\n"
@@ -529,7 +528,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testUnsetSingleSection() throws ConfigInvalidException {
+	void testUnsetSingleSection() throws ConfigInvalidException {
 		Config c = parse("" //
 				+ "[branch \"keep\"]\n"
 				+ "  merge = master.branch.to.keep.in.the.file\n"
@@ -550,28 +549,28 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void test008_readSectionNames() throws ConfigInvalidException {
+	void test008_readSectionNames() throws ConfigInvalidException {
 		final Config c = parse("[a]\n [B]\n");
 		Set<String> sections = c.getSections();
-		assertTrue("Sections should contain \"a\"", sections.contains("a"));
-		assertTrue("Sections should contain \"b\"", sections.contains("b"));
+		assertTrue(sections.contains("a"), "Sections should contain \"a\"");
+		assertTrue(sections.contains("b"), "Sections should contain \"b\"");
 	}
 
 	@Test
-	public void test009_readNamesInSection() throws ConfigInvalidException {
+	void test009_readNamesInSection() throws ConfigInvalidException {
 		String configString = "[core]\n" + "repositoryFormatVersion = 0\n"
 				+ "filemode = false\n" + "logAllRefUpdates = true\n";
 		final Config c = parse(configString);
 		Set<String> names = c.getNames("core");
-		assertEquals("Core section size", 3, names.size());
-		assertTrue("Core section should contain \"filemode\"", names
-				.contains("filemode"));
+		assertEquals(3, names.size(), "Core section size");
+		assertTrue(names
+				.contains("filemode"), "Core section should contain \"filemode\"");
 
-		assertTrue("Core section should contain \"repositoryFormatVersion\"",
-				names.contains("repositoryFormatVersion"));
+		assertTrue(names.contains("repositoryFormatVersion"),
+				"Core section should contain \"repositoryFormatVersion\"");
 
-		assertTrue("Core section should contain \"repositoryformatversion\"",
-				names.contains("repositoryformatversion"));
+		assertTrue(names.contains("repositoryformatversion"),
+				"Core section should contain \"repositoryformatversion\"");
 
 		Iterator<String> itr = names.iterator();
 		assertEquals("filemode", itr.next());
@@ -581,22 +580,22 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void test_ReadNamesInSectionRecursive()
+	void test_ReadNamesInSectionRecursive()
 			throws ConfigInvalidException {
 		String baseConfigString = "[core]\n" + "logAllRefUpdates = true\n";
 		String configString = "[core]\n" + "repositoryFormatVersion = 0\n"
 				+ "filemode = false\n";
 		final Config c = parse(configString, parse(baseConfigString));
 		Set<String> names = c.getNames("core", true);
-		assertEquals("Core section size", 3, names.size());
-		assertTrue("Core section should contain \"filemode\"",
-				names.contains("filemode"));
-		assertTrue("Core section should contain \"repositoryFormatVersion\"",
-				names.contains("repositoryFormatVersion"));
-		assertTrue("Core section should contain \"logAllRefUpdates\"",
-				names.contains("logAllRefUpdates"));
-		assertTrue("Core section should contain \"logallrefupdates\"",
-				names.contains("logallrefupdates"));
+		assertEquals(3, names.size(), "Core section size");
+		assertTrue(names.contains("filemode"),
+				"Core section should contain \"filemode\"");
+		assertTrue(names.contains("repositoryFormatVersion"),
+				"Core section should contain \"repositoryFormatVersion\"");
+		assertTrue(names.contains("logAllRefUpdates"),
+				"Core section should contain \"logAllRefUpdates\"");
+		assertTrue(names.contains("logallrefupdates"),
+				"Core section should contain \"logallrefupdates\"");
 
 		Iterator<String> itr = names.iterator();
 		assertEquals("filemode", itr.next());
@@ -606,53 +605,53 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void test010_readNamesInSubSection() throws ConfigInvalidException {
-		String configString = "[a \"sub1\"]\n"//
+	void test010_readNamesInSubSection() throws ConfigInvalidException {
+		String configString = "[a \"sub1\"]\n" //
 				+ "x = 0\n" //
-				+ "y = false\n"//
-				+ "z = true\n"//
-				+ "[a \"sub2\"]\n"//
-				+ "a=0\n"//
+				+ "y = false\n" //
+				+ "z = true\n" //
+				+ "[a \"sub2\"]\n" //
+				+ "a=0\n" //
 				+ "b=1\n";
 		final Config c = parse(configString);
 		Set<String> names = c.getNames("a", "sub1");
-		assertEquals("Subsection size", 3, names.size());
-		assertTrue("Subsection should contain \"x\"", names.contains("x"));
-		assertTrue("Subsection should contain \"y\"", names.contains("y"));
-		assertTrue("Subsection should contain \"z\"", names.contains("z"));
+		assertEquals(3, names.size(), "Subsection size");
+		assertTrue(names.contains("x"), "Subsection should contain \"x\"");
+		assertTrue(names.contains("y"), "Subsection should contain \"y\"");
+		assertTrue(names.contains("z"), "Subsection should contain \"z\"");
 		names = c.getNames("a", "sub2");
-		assertEquals("Subsection size", 2, names.size());
-		assertTrue("Subsection should contain \"a\"", names.contains("a"));
-		assertTrue("Subsection should contain \"b\"", names.contains("b"));
+		assertEquals(2, names.size(), "Subsection size");
+		assertTrue(names.contains("a"), "Subsection should contain \"a\"");
+		assertTrue(names.contains("b"), "Subsection should contain \"b\"");
 	}
 
 	@Test
-	public void readNamesInSubSectionRecursive() throws ConfigInvalidException {
-		String baseConfigString = "[a \"sub1\"]\n"//
+	void readNamesInSubSectionRecursive() throws ConfigInvalidException {
+		String baseConfigString = "[a \"sub1\"]\n" //
 				+ "x = 0\n" //
-				+ "y = false\n"//
-				+ "[a \"sub2\"]\n"//
+				+ "y = false\n" //
+				+ "[a \"sub2\"]\n" //
 				+ "A=0\n";//
-		String configString = "[a \"sub1\"]\n"//
-				+ "z = true\n"//
-				+ "[a \"sub2\"]\n"//
+		String configString = "[a \"sub1\"]\n" //
+				+ "z = true\n" //
+				+ "[a \"sub2\"]\n" //
 				+ "B=1\n";
 		final Config c = parse(configString, parse(baseConfigString));
 		Set<String> names = c.getNames("a", "sub1", true);
-		assertEquals("Subsection size", 3, names.size());
-		assertTrue("Subsection should contain \"x\"", names.contains("x"));
-		assertTrue("Subsection should contain \"y\"", names.contains("y"));
-		assertTrue("Subsection should contain \"z\"", names.contains("z"));
+		assertEquals(3, names.size(), "Subsection size");
+		assertTrue(names.contains("x"), "Subsection should contain \"x\"");
+		assertTrue(names.contains("y"), "Subsection should contain \"y\"");
+		assertTrue(names.contains("z"), "Subsection should contain \"z\"");
 		names = c.getNames("a", "sub2", true);
-		assertEquals("Subsection size", 2, names.size());
-		assertTrue("Subsection should contain \"A\"", names.contains("A"));
-		assertTrue("Subsection should contain \"a\"", names.contains("a"));
-		assertTrue("Subsection should contain \"B\"", names.contains("B"));
+		assertEquals(2, names.size(), "Subsection size");
+		assertTrue(names.contains("A"), "Subsection should contain \"A\"");
+		assertTrue(names.contains("a"), "Subsection should contain \"a\"");
+		assertTrue(names.contains("B"), "Subsection should contain \"B\"");
 	}
 
 
 	@Test
-	public void testNoFinalNewline() throws ConfigInvalidException {
+	void testNoFinalNewline() throws ConfigInvalidException {
 		Config c = parse("[a]\n"
 				+ "x = 0\n"
 				+ "y = 1");
@@ -661,7 +660,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testExplicitlySetEmptyString() throws Exception {
+	void testExplicitlySetEmptyString() throws Exception {
 		Config c = new Config();
 		c.setString("a", null, "x", "0");
 		c.setString("a", null, "y", "");
@@ -678,7 +677,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testParsedEmptyString() throws Exception {
+	void testParsedEmptyString() throws Exception {
 		Config c = parse("[a]\n"
 				+ "x = 0\n"
 				+ "y =\n");
@@ -695,14 +694,14 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testSetStringListWithEmptyValue() throws Exception {
+	void testSetStringListWithEmptyValue() throws Exception {
 		Config c = new Config();
 		c.setStringList("a", null, "x", Arrays.asList(""));
 		assertArrayEquals(new String[]{""}, c.getStringList("a", null, "x"));
 	}
 
 	@Test
-	public void testEmptyValueAtEof() throws Exception {
+	void testEmptyValueAtEof() throws Exception {
 		String text = "[a]\nx =";
 		Config c = parse(text);
 		assertNull(c.getString("a", null, "x"));
@@ -715,32 +714,30 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadMultipleValuesForName() throws ConfigInvalidException {
+	void testReadMultipleValuesForName() throws ConfigInvalidException {
 		Config c = parse("[foo]\nbar=false\nbar=true\n");
 		assertTrue(c.getBoolean("foo", "bar", false));
 	}
 
 	@Test
-	public void testIncludeInvalidName() {
-		assertThrows(JGitText.get().invalidLineInConfigFile,
-				ConfigInvalidException.class, () -> parse("[include]\nbar\n"));
+	void testIncludeInvalidName() {
+		assertThrows(ConfigInvalidException.class, () -> parse("[include]\nbar\n"), JGitText.get().invalidLineInConfigFile);
 	}
 
 	@Test
-	public void testIncludeNoValue() {
-		assertThrows(JGitText.get().invalidLineInConfigFile,
-				ConfigInvalidException.class, () -> parse("[include]\npath\n"));
+	void testIncludeNoValue() {
+		assertThrows(ConfigInvalidException.class, () -> parse("[include]\npath\n"), JGitText.get().invalidLineInConfigFile);
 	}
 
 	@Test
-	public void testIncludeEmptyValue() {
-		assertThrows(JGitText.get().invalidLineInConfigFile,
-				ConfigInvalidException.class,
-				() -> parse("[include]\npath=\n"));
+	void testIncludeEmptyValue() {
+		assertThrows(ConfigInvalidException.class,
+				() -> parse("[include]\npath=\n"),
+				JGitText.get().invalidLineInConfigFile);
 	}
 
 	@Test
-	public void testIncludeValuePathNotFound() throws ConfigInvalidException {
+	void testIncludeValuePathNotFound() throws ConfigInvalidException {
 		// we do not expect an exception, included path not found are ignored
 		String notFound = "/not/found";
 		Config parsed = parse("[include]\npath=" + notFound + "\n");
@@ -749,7 +746,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeValuePathWithTilde() throws ConfigInvalidException {
+	void testIncludeValuePathWithTilde() throws ConfigInvalidException {
 		// we do not expect an exception, included path not supported are
 		// ignored
 		String notSupported = "~/someFile";
@@ -759,7 +756,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeValuePathRelative() throws ConfigInvalidException {
+	void testIncludeValuePathRelative() throws ConfigInvalidException {
 		// we do not expect an exception, included path not supported are
 		// ignored
 		String notSupported = "someRelativeFile";
@@ -769,15 +766,15 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeTooManyRecursions() throws IOException {
-		File config = tmp.newFile("config");
+	void testIncludeTooManyRecursions() throws IOException {
+		File config = File.createTempFile("config", null, tmp);
 		String include = "[include]\npath=" + pathToString(config) + "\n";
 		Files.write(config.toPath(), include.getBytes(UTF_8));
 		try {
 			loadConfig(config);
 			fail();
 		} catch (ConfigInvalidException cie) {
-			for (Throwable t = cie; t != null; t = t.getCause()) {
+			for (Throwable t = cie;t != null;t = t.getCause()) {
 				if (t.getMessage()
 						.equals(JGitText.get().tooManyIncludeRecursions)) {
 					return;
@@ -789,8 +786,8 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeIsNoop() throws IOException, ConfigInvalidException {
-		File config = tmp.newFile("config");
+	void testIncludeIsNoop() throws IOException, ConfigInvalidException {
+		File config = File.createTempFile("config", null, tmp);
 
 		String fooBar = "[foo]\nbar=true\n";
 		Files.write(config.toPath(), fooBar.getBytes(UTF_8));
@@ -800,13 +797,13 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeCaseInsensitiveSection()
+	void testIncludeCaseInsensitiveSection()
 			throws IOException, ConfigInvalidException {
-		File included = tmp.newFile("included");
+		File included = File.createTempFile("included", null, tmp);
 		String content = "[foo]\nbar=true\n";
 		Files.write(included.toPath(), content.getBytes(UTF_8));
 
-		File config = tmp.newFile("config");
+		File config = File.createTempFile("config", null, tmp);
 		content = "[Include]\npath=" + pathToString(included) + "\n";
 		Files.write(config.toPath(), content.getBytes(UTF_8));
 
@@ -815,13 +812,13 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeCaseInsensitiveKey()
+	void testIncludeCaseInsensitiveKey()
 			throws IOException, ConfigInvalidException {
-		File included = tmp.newFile("included");
+		File included = File.createTempFile("included", null, tmp);
 		String content = "[foo]\nbar=true\n";
 		Files.write(included.toPath(), content.getBytes(UTF_8));
 
-		File config = tmp.newFile("config");
+		File config = File.createTempFile("config", null, tmp);
 		content = "[include]\nPath=" + pathToString(included) + "\n";
 		Files.write(config.toPath(), content.getBytes(UTF_8));
 
@@ -830,25 +827,25 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeExceptionContainsLine() {
+	void testIncludeExceptionContainsLine() {
 		try {
 			parse("[include]\npath=\n");
 			fail("Expected ConfigInvalidException");
 		} catch (ConfigInvalidException e) {
 			assertTrue(
-					"Expected to find the problem line in the exception message",
-					e.getMessage().contains("include.path"));
+					e.getMessage().contains("include.path"),
+					"Expected to find the problem line in the exception message");
 		}
 	}
 
 	@Test
-	public void testIncludeExceptionContainsFile() throws IOException {
-		File included = tmp.newFile("included");
+	void testIncludeExceptionContainsFile() throws IOException {
+		File included = File.createTempFile("included", null, tmp);
 		String includedPath = pathToString(included);
 		String content = "[include]\npath=\n";
 		Files.write(included.toPath(), content.getBytes(UTF_8));
 
-		File config = tmp.newFile("config");
+		File config = File.createTempFile("config", null, tmp);
 		String include = "[include]\npath=" + includedPath + "\n";
 		Files.write(config.toPath(), include.getBytes(UTF_8));
 		try {
@@ -857,7 +854,7 @@ public class ConfigTest {
 		} catch (ConfigInvalidException e) {
 			// Check that there is some exception in the chain that contains
 			// includedPath
-			for (Throwable t = e; t != null; t = t.getCause()) {
+			for (Throwable t = e;t != null;t = t.getCause()) {
 				if (t.getMessage().contains(includedPath)) {
 					return;
 				}
@@ -868,11 +865,11 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeSetValueMustNotTouchIncludedLines1()
+	void testIncludeSetValueMustNotTouchIncludedLines1()
 			throws IOException, ConfigInvalidException {
 		File includedFile = createAllTypesIncludedContent();
 
-		File configFile = tmp.newFile("config");
+		File configFile = File.createTempFile("config", null, tmp);
 		String content = createAllTypesSampleContent("Alice Parker", false, 11,
 				21, 31, CoreConfig.AutoCRLF.FALSE,
 				"+refs/heads/*:refs/remotes/origin/*") + "\n[include]\npath="
@@ -891,15 +888,15 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeSetValueMustNotTouchIncludedLines2()
+	void testIncludeSetValueMustNotTouchIncludedLines2()
 			throws IOException, ConfigInvalidException {
 		File includedFile = createAllTypesIncludedContent();
 
-		File configFile = tmp.newFile("config");
+		File configFile = File.createTempFile("config", null, tmp);
 		String content = "[include]\npath=" + pathToString(includedFile) + "\n"
 				+ createAllTypesSampleContent("Alice Parker", false, 11, 21, 31,
-						CoreConfig.AutoCRLF.FALSE,
-						"+refs/heads/*:refs/remotes/origin/*");
+				CoreConfig.AutoCRLF.FALSE,
+				"+refs/heads/*:refs/remotes/origin/*");
 		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
@@ -914,11 +911,11 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeSetValueOnFileWithJustContainsInclude()
+	void testIncludeSetValueOnFileWithJustContainsInclude()
 			throws IOException, ConfigInvalidException {
 		File includedFile = createAllTypesIncludedContent();
 
-		File configFile = tmp.newFile("config");
+		File configFile = File.createTempFile("config", null, tmp);
 		String content = "[include]\npath=" + pathToString(includedFile);
 		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
@@ -934,11 +931,11 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeSetValueOnFileWithJustEmptySection1()
+	void testIncludeSetValueOnFileWithJustEmptySection1()
 			throws IOException, ConfigInvalidException {
 		File includedFile = createAllTypesIncludedContent();
 
-		File configFile = tmp.newFile("config");
+		File configFile = File.createTempFile("config", null, tmp);
 		String content = "[user]\n[include]\npath="
 				+ pathToString(includedFile);
 		Files.write(configFile.toPath(), content.getBytes(UTF_8));
@@ -956,11 +953,11 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeSetValueOnFileWithJustEmptySection2()
+	void testIncludeSetValueOnFileWithJustEmptySection2()
 			throws IOException, ConfigInvalidException {
 		File includedFile = createAllTypesIncludedContent();
 
-		File configFile = tmp.newFile("config");
+		File configFile = File.createTempFile("config", null, tmp);
 		String content = "[include]\npath=" + pathToString(includedFile)
 				+ "\n[user]";
 		Files.write(configFile.toPath(), content.getBytes(UTF_8));
@@ -977,11 +974,11 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeSetValueOnFileWithJustExistingSection1()
+	void testIncludeSetValueOnFileWithJustExistingSection1()
 			throws IOException, ConfigInvalidException {
 		File includedFile = createAllTypesIncludedContent();
 
-		File configFile = tmp.newFile("config");
+		File configFile = File.createTempFile("config", null, tmp);
 		String content = "[user]\nemail=alice@home\n[include]\npath="
 				+ pathToString(includedFile);
 		Files.write(configFile.toPath(), content.getBytes(UTF_8));
@@ -999,11 +996,11 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeSetValueOnFileWithJustExistingSection2()
+	void testIncludeSetValueOnFileWithJustExistingSection2()
 			throws IOException, ConfigInvalidException {
 		File includedFile = createAllTypesIncludedContent();
 
-		File configFile = tmp.newFile("config");
+		File configFile = File.createTempFile("config", null, tmp);
 		String content = "[include]\npath=" + pathToString(includedFile)
 				+ "\n[user]\nemail=alice@home\n";
 		Files.write(configFile.toPath(), content.getBytes(UTF_8));
@@ -1020,15 +1017,15 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeUnsetSectionMustNotTouchIncludedLines()
+	void testIncludeUnsetSectionMustNotTouchIncludedLines()
 			throws IOException, ConfigInvalidException {
-		File includedFile = tmp.newFile("included");
+		File includedFile = File.createTempFile("included", null, tmp);
 		RefSpec includedRefSpec = new RefSpec(REFS_UPSTREAM);
 		String includedContent = "[remote \"origin\"]\n" + "fetch="
 				+ includedRefSpec;
 		Files.write(includedFile.toPath(), includedContent.getBytes(UTF_8));
 
-		File configFile = tmp.newFile("config");
+		File configFile = File.createTempFile("config", null, tmp);
 		RefSpec refSpec = new RefSpec(REFS_ORIGIN);
 		String content = "[include]\npath=" + pathToString(includedFile) + "\n"
 				+ "[remote \"origin\"]\n" + "fetch=" + refSpec;
@@ -1050,7 +1047,7 @@ public class ConfigTest {
 	}
 
 	private File createAllTypesIncludedContent() throws IOException {
-		File includedFile = tmp.newFile("included");
+		File includedFile = File.createTempFile("included", null, tmp);
 		String includedContent = createAllTypesSampleContent("Alice Muller",
 				true, 10, 20, 30, CoreConfig.AutoCRLF.TRUE,
 				"+refs/heads/*:refs/remotes/upstream/*");
@@ -1190,7 +1187,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testTimeUnit() throws ConfigInvalidException {
+	void testTimeUnit() throws ConfigInvalidException {
 		assertEquals(0, parseTime("0", NANOSECONDS));
 		assertEquals(2, parseTime("2ns", NANOSECONDS));
 		assertEquals(200, parseTime("200 nanoseconds", NANOSECONDS));
@@ -1253,7 +1250,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testTimeUnitDefaultValue() throws ConfigInvalidException {
+	void testTimeUnitDefaultValue() throws ConfigInvalidException {
 		// value not present
 		assertEquals(20, parse("[a]\na=0\n").getTimeUnit("a", null, "b", 20,
 				MILLISECONDS));
@@ -1267,28 +1264,28 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testTimeUnitInvalid() {
-		assertThrows("Invalid time unit value: a.a=1 monttthhh",
-				IllegalArgumentException.class,
-				() -> parseTime("1 monttthhh", DAYS));
+	void testTimeUnitInvalid() {
+		assertThrows(IllegalArgumentException.class,
+				() -> parseTime("1 monttthhh", DAYS),
+				"Invalid time unit value: a.a=1 monttthhh");
 	}
 
 	@Test
-	public void testTimeUnitInvalidWithSection() throws ConfigInvalidException {
+	void testTimeUnitInvalidWithSection() throws ConfigInvalidException {
 		Config c = parse("[a \"b\"]\na=1 monttthhh\n");
-		assertThrows("Invalid time unit value: a.b.a=1 monttthhh",
-				IllegalArgumentException.class,
-				() -> c.getTimeUnit("a", "b", "a", 0, DAYS));
+		assertThrows(IllegalArgumentException.class,
+				() -> c.getTimeUnit("a", "b", "a", 0, DAYS),
+				"Invalid time unit value: a.b.a=1 monttthhh");
 	}
 
 	@Test
-	public void testTimeUnitNegative() {
+	void testTimeUnitNegative() {
 		assertThrows(IllegalArgumentException.class,
 				() -> parseTime("-1", MILLISECONDS));
 	}
 
 	@Test
-	public void testEscapeSpacesOnly() throws ConfigInvalidException {
+	void testEscapeSpacesOnly() throws ConfigInvalidException {
 		// Empty string is read back as null, so this doesn't round-trip.
 		assertEquals("", Config.escapeValue(""));
 
@@ -1297,21 +1294,21 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testEscapeLeadingSpace() throws ConfigInvalidException {
+	void testEscapeLeadingSpace() throws ConfigInvalidException {
 		assertValueRoundTrip("x", "x");
 		assertValueRoundTrip(" x", "\" x\"");
 		assertValueRoundTrip("  x", "\"  x\"");
 	}
 
 	@Test
-	public void testEscapeTrailingSpace() throws ConfigInvalidException {
+	void testEscapeTrailingSpace() throws ConfigInvalidException {
 		assertValueRoundTrip("x", "x");
-		assertValueRoundTrip("x  ","\"x  \"");
-		assertValueRoundTrip("x ","\"x \"");
+		assertValueRoundTrip("x  ", "\"x  \"");
+		assertValueRoundTrip("x ", "\"x \"");
 	}
 
 	@Test
-	public void testEscapeLeadingAndTrailingSpace()
+	void testEscapeLeadingAndTrailingSpace()
 			throws ConfigInvalidException {
 		assertValueRoundTrip(" x ", "\" x \"");
 		assertValueRoundTrip("  x ", "\"  x \"");
@@ -1320,7 +1317,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testNoEscapeInternalSpaces() throws ConfigInvalidException {
+	void testNoEscapeInternalSpaces() throws ConfigInvalidException {
 		assertValueRoundTrip("x y");
 		assertValueRoundTrip("x  y");
 		assertValueRoundTrip("x  y");
@@ -1329,7 +1326,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testNoEscapeSpecialCharacters() throws ConfigInvalidException {
+	void testNoEscapeSpecialCharacters() throws ConfigInvalidException {
 		assertValueRoundTrip("x\\y", "x\\\\y");
 		assertValueRoundTrip("x\"y", "x\\\"y");
 		assertValueRoundTrip("x\ny", "x\\ny");
@@ -1338,36 +1335,36 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testParseLiteralBackspace() throws ConfigInvalidException {
+	void testParseLiteralBackspace() throws ConfigInvalidException {
 		// This is round-tripped with an escape sequence by JGit, but C git writes
 		// it out as a literal backslash.
 		assertEquals("x\by", parseEscapedValue("x\by"));
 	}
 
 	@Test
-	public void testEscapeCommentCharacters() throws ConfigInvalidException {
+	void testEscapeCommentCharacters() throws ConfigInvalidException {
 		assertValueRoundTrip("x#y", "\"x#y\"");
 		assertValueRoundTrip("x;y", "\"x;y\"");
 	}
 
 	@Test
-	public void testEscapeValueInvalidCharacters() {
+	void testEscapeValueInvalidCharacters() {
 		assertIllegalArgumentException(() -> Config.escapeSubsection("x\0y"));
 	}
 
 	@Test
-	public void testEscapeSubsectionInvalidCharacters() {
+	void testEscapeSubsectionInvalidCharacters() {
 		assertIllegalArgumentException(() -> Config.escapeSubsection("x\ny"));
 		assertIllegalArgumentException(() -> Config.escapeSubsection("x\0y"));
 	}
 
 	@Test
-	public void testParseMultipleQuotedRegions() throws ConfigInvalidException {
+	void testParseMultipleQuotedRegions() throws ConfigInvalidException {
 		assertEquals("b a z; \n", parseEscapedValue("b\" a\"\" z; \\n\""));
 	}
 
 	@Test
-	public void testParseComments() throws ConfigInvalidException {
+	void testParseComments() throws ConfigInvalidException {
 		assertEquals("baz", parseEscapedValue("baz; comment"));
 		assertEquals("baz", parseEscapedValue("baz# comment"));
 		assertEquals("baz", parseEscapedValue("baz ; comment"));
@@ -1385,7 +1382,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testEscapeSubsection() throws ConfigInvalidException {
+	void testEscapeSubsection() throws ConfigInvalidException {
 		assertSubsectionRoundTrip("", "\"\"");
 		assertSubsectionRoundTrip("x", "\"x\"");
 		assertSubsectionRoundTrip(" x", "\" x\"");
@@ -1402,7 +1399,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testParseInvalidValues() {
+	void testParseInvalidValues() {
 		assertInvalidValue(JGitText.get().newlineInQuotesNotAllowed, "x\"\n\"y");
 		assertInvalidValue(JGitText.get().endOfFileInEscape, "x\\");
 		assertInvalidValue(
@@ -1410,13 +1407,13 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testParseInvalidSubsections() {
+	void testParseInvalidSubsections() {
 		assertInvalidSubsection(
 				JGitText.get().newlineInQuotesNotAllowed, "\"x\ny\"");
 	}
 
 	@Test
-	public void testDropBackslashFromInvalidEscapeSequenceInSubsectionName()
+	void testDropBackslashFromInvalidEscapeSequenceInSubsectionName()
 			throws ConfigInvalidException {
 		assertEquals("x0", parseEscapedSubsection("\"x\\0\""));
 		assertEquals("xq", parseEscapedSubsection("\"x\\q\""));
@@ -1427,47 +1424,49 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testInvalidGroupHeader() {
-		assertThrows(JGitText.get().badGroupHeader,
-				ConfigInvalidException.class,
-				() -> parse("[foo \"bar\" ]\nfoo=bar\n"));
+	void testInvalidGroupHeader() {
+		assertThrows(ConfigInvalidException.class,
+				() -> parse("[foo \"bar\" ]\nfoo=bar\n"),
+				JGitText.get().badGroupHeader);
 	}
 
 	@Test
-	public void testCrLf() throws ConfigInvalidException {
+	void testCrLf() throws ConfigInvalidException {
 		assertEquals("true", parseEscapedValue("true\r\n"));
 	}
 
 	@Test
-	public void testLfContinuation() throws ConfigInvalidException {
+	void testLfContinuation() throws ConfigInvalidException {
 		assertEquals("true", parseEscapedValue("tr\\\nue"));
 	}
 
 	@Test
-	public void testCrCharContinuation() {
-		assertThrows("Bad escape: \\u000d", ConfigInvalidException.class,
-				() -> parseEscapedValue("tr\\\rue"));
+	void testCrCharContinuation() {
+		assertThrows(ConfigInvalidException.class,
+				() -> parseEscapedValue("tr\\\rue"),
+				"Bad escape: \\u000d");
 	}
 
 	@Test
-	public void testCrEOFContinuation() {
-		assertThrows("Bad escape: \\u000d", ConfigInvalidException.class,
-				() -> parseEscapedValue("tr\\\r"));
+	void testCrEOFContinuation() {
+		assertThrows(ConfigInvalidException.class,
+				() -> parseEscapedValue("tr\\\r"),
+				"Bad escape: \\u000d");
 	}
 
 	@Test
-	public void testCrLfContinuation() throws ConfigInvalidException {
+	void testCrLfContinuation() throws ConfigInvalidException {
 		assertEquals("true", parseEscapedValue("tr\\\r\nue"));
 	}
 
 	@Test
-	public void testWhitespaceContinuation() throws ConfigInvalidException {
+	void testWhitespaceContinuation() throws ConfigInvalidException {
 		assertEquals("tr   ue", parseEscapedValue("tr \\\n  ue"));
 		assertEquals("tr   ue", parseEscapedValue("tr \\\r\n  ue"));
 	}
 
 	@Test
-	public void testCommitTemplateEmptyConfig()
+	void testCommitTemplateEmptyConfig()
 			throws ConfigInvalidException, IOException {
 		// no values defined nowhere
 		Config config = new Config(null);
@@ -1477,11 +1476,11 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testCommitTemplateConfig()
+	void testCommitTemplateConfig()
 			throws ConfigInvalidException, IOException {
 
-		File workTree = tmp.newFolder("dummy-worktree");
-		File tempFile = tmp.newFile("testCommitTemplate-");
+		File workTree = newFolder(tmp, "dummy-worktree");
+		File tempFile = File.createTempFile("testCommitTemplate-", null, tmp);
 		Repository repo = FileRepositoryBuilder.create(workTree);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
@@ -1498,16 +1497,16 @@ public class ConfigTest {
 		assertEquals(expectedTemplatePath, templatePath);
 		assertEquals(templateContent,
 				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
-		assertNull("no commitEncoding has been set so it must be null",
-				commitEncoding);
+		assertNull(commitEncoding,
+				"no commitEncoding has been set so it must be null");
 	}
 
 	@Test
-	public void testCommitTemplateConfigRelativePath()
+	void testCommitTemplateConfigRelativePath()
 			throws ConfigInvalidException, IOException {
 
-		File workTree = tmp.newFolder("dummy-worktree");
-		File tempFile = tmp.newFile("testCommitTemplate-");
+		File workTree = newFolder(tmp, "dummy-worktree");
+		File tempFile = File.createTempFile("testCommitTemplate-", null, tmp);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		String expectedTemplatePath = "../" + tempFile.getName();
@@ -1523,17 +1522,17 @@ public class ConfigTest {
 		assertEquals(templateContent, config.get(CommitConfig.KEY)
 				.getCommitTemplateContent(
 						new RepositoryBuilder().setWorkTree(workTree).build()));
-		assertNull("no commitEncoding has been set so it must be null",
-				commitEncoding);
+		assertNull(commitEncoding,
+				"no commitEncoding has been set so it must be null");
 	}
 
 	@Test
-	public void testCommitTemplateEncoding()
+	void testCommitTemplateEncoding()
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
-		File workTree = tmp.newFolder("dummy-worktree");
+		File workTree = newFolder(tmp, "dummy-worktree");
 		Repository repo = FileRepositoryBuilder.create(workTree);
-		File tempFile = tmp.newFile("testCommitTemplate-");
+		File tempFile = File.createTempFile("testCommitTemplate-", null, tmp);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		String expectedTemplatePath = tempFile.getPath();
@@ -1544,41 +1543,42 @@ public class ConfigTest {
 				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
 		String commitEncoding = config.get(CommitConfig.KEY)
 				.getCommitEncoding();
-		assertEquals("commitEncoding has been set to utf-8 it must be utf-8",
-				"utf-8", commitEncoding);
+		assertEquals("utf-8", commitEncoding, "commitEncoding has been set to utf-8 it must be utf-8");
 	}
 
-	@Test(expected = ConfigInvalidException.class)
-	public void testCommitTemplateWithInvalidEncoding()
-			throws ConfigInvalidException, IOException {
-		Config config = new Config(null);
-		File workTree = tmp.newFolder("dummy-worktree");
-		File tempFile = tmp.newFile("testCommitTemplate-");
-		Repository repo = FileRepositoryBuilder.create(workTree);
-		String templateContent = "content of the template";
-		JGitTestUtil.write(tempFile, templateContent);
-		config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
-				+ "[commit]\n\ttemplate = "
-				+ Config.escapeValue(tempFile.getPath()) + "\n");
-		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
+	@Test
+	void testCommitTemplateWithInvalidEncoding() {
+		assertThrows(ConfigInvalidException.class, () -> {
+			Config config = new Config(null);
+			File workTree = newFolder(tmp, "dummy-worktree");
+			File tempFile = File.createTempFile("testCommitTemplate-", null, tmp);
+			Repository repo = FileRepositoryBuilder.create(workTree);
+			String templateContent = "content of the template";
+			JGitTestUtil.write(tempFile, templateContent);
+			config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
+					+ "[commit]\n\ttemplate = "
+					+ Config.escapeValue(tempFile.getPath()) + "\n");
+			config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
+		});
 	}
 
-	@Test(expected = FileNotFoundException.class)
-	public void testCommitTemplateWithInvalidPath()
-			throws ConfigInvalidException, IOException {
-		Config config = new Config(null);
-		File workTree = tmp.newFolder("dummy-worktree");
-		File tempFile = tmp.newFile("testCommitTemplate-");
-		Repository repo = FileRepositoryBuilder.create(workTree);
-		String templateContent = "content of the template";
-		JGitTestUtil.write(tempFile, templateContent);
-		// commit message encoding
-		String expectedTemplatePath = "~/nonExistingTemplate";
-		config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
-		String templatePath = config.get(CommitConfig.KEY)
-				.getCommitTemplatePath();
-		assertEquals(expectedTemplatePath, templatePath);
-		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
+	@Test
+	void testCommitTemplateWithInvalidPath() {
+		assertThrows(FileNotFoundException.class, () -> {
+			Config config = new Config(null);
+			File workTree = newFolder(tmp, "dummy-worktree");
+			File tempFile = File.createTempFile("testCommitTemplate-", null, tmp);
+			Repository repo = FileRepositoryBuilder.create(workTree);
+			String templateContent = "content of the template";
+			JGitTestUtil.write(tempFile, templateContent);
+			// commit message encoding
+			String expectedTemplatePath = "~/nonExistingTemplate";
+			config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+			String templatePath = config.get(CommitConfig.KEY)
+					.getCommitTemplatePath();
+			assertEquals(expectedTemplatePath, templatePath);
+			config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
+		});
 	}
 
 	private static void assertValueRoundTrip(String value)
@@ -1589,8 +1589,8 @@ public class ConfigTest {
 	private static void assertValueRoundTrip(String value, String expectedEscaped)
 			throws ConfigInvalidException {
 		String escaped = Config.escapeValue(value);
-		assertEquals("escape failed;", expectedEscaped, escaped);
-		assertEquals("parse failed;", value, parseEscapedValue(escaped));
+		assertEquals(expectedEscaped, escaped, "escape failed;");
+		assertEquals(value, parseEscapedValue(escaped), "parse failed;");
 	}
 
 	private static String parseEscapedValue(String escapedValue)
@@ -1613,8 +1613,8 @@ public class ConfigTest {
 	private static void assertSubsectionRoundTrip(String subsection,
 			String expectedEscaped) throws ConfigInvalidException {
 		String escaped = Config.escapeSubsection(subsection);
-		assertEquals("escape failed;", expectedEscaped, escaped);
-		assertEquals("parse failed;", subsection, parseEscapedSubsection(escaped));
+		assertEquals(expectedEscaped, escaped, "escape failed;");
+		assertEquals(subsection, parseEscapedSubsection(escaped), "parse failed;");
 	}
 
 	private static String parseEscapedSubsection(String escapedSubsection)
@@ -1622,7 +1622,7 @@ public class ConfigTest {
 		String text = "[foo " + escapedSubsection + "]\nbar = value";
 		Config c = parse(text);
 		Set<String> subsections = c.getSubsections("foo");
-		assertEquals("only one section", 1, subsections.size());
+		assertEquals(1, subsections.size(), "only one section");
 		return subsections.iterator().next();
 	}
 
@@ -1651,5 +1651,14 @@ public class ConfigTest {
 				FS.DETECTED);
 		config.load();
 		return config;
+	}
+
+	private static File newFolder(File root, String... subDirs) throws IOException {
+		String subFolder = String.join("/", subDirs);
+		File result = new File(root, subFolder);
+		if (!result.mkdirs()) {
+			throw new IOException("Couldn't create folders " + root);
+		}
+		return result;
 	}
 }

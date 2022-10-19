@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,25 +19,25 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectIdSerializerTest {
 	@Test
-	public void serialize() throws Exception {
+	void serialize() throws Exception {
 		ObjectId original = new ObjectId(1, 2, 3, 4, 5);
 		ObjectId deserialized = writeAndReadBackFromTempFile(original);
 		assertEquals(original, deserialized);
 	}
 
 	@Test
-	public void serializeZeroId() throws Exception {
+	void serializeZeroId() throws Exception {
 		ObjectId original = ObjectId.zeroId();
 		ObjectId deserialized = writeAndReadBackFromTempFile(original);
 		assertEquals(original, deserialized);
 	}
 
 	@Test
-	public void serializeNull() throws Exception {
+	void serializeNull() throws Exception {
 		ObjectId deserialized = writeAndReadBackFromTempFile(null);
 		assertNull(deserialized);
 	}

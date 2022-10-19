@@ -11,22 +11,22 @@
 package org.eclipse.jgit.patch;
 
 import static java.lang.Integer.valueOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.junit.JGitTestUtil;
-import org.junit.Test;
+import org.eclipse.jgit.junit.TestInfoRetriever;
+import org.junit.jupiter.api.Test;
 
-public class PatchCcErrorTest {
+public class PatchCcErrorTest extends TestInfoRetriever {
 	@Test
-	public void testError_CcTruncatedOld() throws IOException {
+	void testError_CcTruncatedOld() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
 		assertEquals(3, p.getErrors().size());
@@ -62,7 +62,7 @@ public class PatchCcErrorTest {
 	}
 
 	private Patch parseTestPatchFile() throws IOException {
-		final String patchFile = JGitTestUtil.getName() + ".patch";
+		final String patchFile = getTestMethodName() + ".patch";
 		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
 			if (in == null) {
 				fail("No " + patchFile + " test vector");

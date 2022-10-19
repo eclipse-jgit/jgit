@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,10 +26,10 @@ import java.util.regex.Matcher;
 import javax.management.remote.JMXProviderException;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FileUtilsTest {
 	private static final String MSG = "Stale file handle";
@@ -45,20 +45,20 @@ public class FileUtilsTest {
 
 	private File trash;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		trash = File.createTempFile("tmp_", "");
 		trash.delete();
-		assertTrue("mkdir " + trash, trash.mkdir());
+		assertTrue(trash.mkdir(), "mkdir " + trash);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.RETRY);
 	}
 
 	@Test
-	public void testDeleteFile() throws IOException {
+	void testDeleteFile() throws IOException {
 		File f = new File(trash, "test");
 		FileUtils.createNewFile(f);
 		FileUtils.delete(f);
@@ -79,7 +79,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteReadOnlyFile() throws IOException {
+	void testDeleteReadOnlyFile() throws IOException {
 		File f = new File(trash, "f");
 		FileUtils.createNewFile(f);
 		assertTrue(f.setReadOnly());
@@ -88,7 +88,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteRecursive() throws IOException {
+	void testDeleteRecursive() throws IOException {
 		File f1 = new File(trash, "test/test/a");
 		FileUtils.mkdirs(f1.getParentFile());
 		FileUtils.createNewFile(f1);
@@ -113,7 +113,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteRecursiveEmpty() throws IOException {
+	void testDeleteRecursiveEmpty() throws IOException {
 		File f1 = new File(trash, "test/test/a");
 		File f2 = new File(trash, "test/a");
 		File d1 = new File(trash, "test");
@@ -130,7 +130,7 @@ public class FileUtilsTest {
 			fail("delete should fail");
 		} catch (IOException e1) {
 			try {
-				FileUtils.delete(d1, FileUtils.EMPTY_DIRECTORIES_ONLY|FileUtils.RECURSIVE);
+				FileUtils.delete(d1, FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.RECURSIVE);
 				fail("delete should fail");
 			} catch (IOException e2) {
 				// Everything still there
@@ -184,7 +184,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteRecursiveEmptyNeedsToCheckFilesFirst()
+	void testDeleteRecursiveEmptyNeedsToCheckFilesFirst()
 			throws IOException {
 		File d1 = new File(trash, "test");
 		File d2 = new File(trash, "test/a");
@@ -213,7 +213,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteRecursiveEmptyDirectoriesOnlyButIsFile()
+	void testDeleteRecursiveEmptyDirectoriesOnlyButIsFile()
 			throws IOException {
 		File f1 = new File(trash, "test/test/a");
 		FileUtils.mkdirs(f1.getParentFile());
@@ -227,7 +227,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testMkdir() throws IOException {
+	void testMkdir() throws IOException {
 		File d = new File(trash, "test");
 		FileUtils.mkdir(d);
 		assertTrue(d.exists() && d.isDirectory());
@@ -256,7 +256,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testMkdirs() throws IOException {
+	void testMkdirs() throws IOException {
 		File root = new File(trash, "test");
 		assertTrue(root.mkdir());
 
@@ -288,7 +288,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testCreateNewFile() throws IOException {
+	void testCreateNewFile() throws IOException {
 		File f = new File(trash, "x");
 		FileUtils.createNewFile(f);
 		assertTrue(f.exists());
@@ -304,7 +304,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteEmptyTreeOk() throws IOException {
+	void testDeleteEmptyTreeOk() throws IOException {
 		File t = new File(trash, "t");
 		FileUtils.mkdir(t);
 		FileUtils.mkdir(new File(t, "d"));
@@ -314,7 +314,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteNotEmptyTreeNotOk() throws IOException {
+	void testDeleteNotEmptyTreeNotOk() throws IOException {
 		File t = new File(trash, "t");
 		FileUtils.mkdir(t);
 		FileUtils.mkdir(new File(t, "d"));
@@ -331,7 +331,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteNotEmptyTreeNotOkButIgnoreFail() throws IOException {
+	void testDeleteNotEmptyTreeNotOkButIgnoreFail() throws IOException {
 		File t = new File(trash, "t");
 		FileUtils.mkdir(t);
 		FileUtils.mkdir(new File(t, "d"));
@@ -348,7 +348,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteNonRecursiveTreeNotOk() throws IOException {
+	void testDeleteNonRecursiveTreeNotOk() throws IOException {
 		File t = new File(trash, "t");
 		FileUtils.mkdir(t);
 		File f = new File(t, "f");
@@ -364,7 +364,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteNonRecursiveTreeIgnoreError() throws IOException {
+	void testDeleteNonRecursiveTreeIgnoreError() throws IOException {
 		File t = new File(trash, "t");
 		FileUtils.mkdir(t);
 		File f = new File(t, "f");
@@ -376,7 +376,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRenameOverNonExistingFile() throws IOException {
+	void testRenameOverNonExistingFile() throws IOException {
 		File d = new File(trash, "d");
 		FileUtils.mkdirs(d);
 		File f1 = new File(trash, "d/f");
@@ -390,7 +390,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRenameOverExistingFile() throws IOException {
+	void testRenameOverExistingFile() throws IOException {
 		File d = new File(trash, "d");
 		FileUtils.mkdirs(d);
 		File f1 = new File(trash, "d/f");
@@ -405,7 +405,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRenameOverExistingNonEmptyDirectory() throws IOException {
+	void testRenameOverExistingNonEmptyDirectory() throws IOException {
 		File d = new File(trash, "d");
 		FileUtils.mkdirs(d);
 		File f1 = new File(trash, "d/f");
@@ -427,7 +427,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRenameOverExistingEmptyDirectory() throws IOException {
+	void testRenameOverExistingEmptyDirectory() throws IOException {
 		File d = new File(trash, "d");
 		FileUtils.mkdirs(d);
 		File f1 = new File(trash, "d/f");
@@ -443,20 +443,20 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testCreateSymlink() throws IOException {
+	void testCreateSymlink() throws IOException {
 		FS fs = FS.DETECTED;
 		// show test as ignored if the FS doesn't support symlinks
-		Assume.assumeTrue(fs.supportsSymlinks());
+		Assumptions.assumeTrue(fs.supportsSymlinks());
 		fs.createSymLink(new File(trash, "x"), "y");
 		String target = fs.readSymLink(new File(trash, "x"));
 		assertEquals("y", target);
 	}
 
 	@Test
-	public void testCreateSymlinkOverrideExisting() throws IOException {
+	void testCreateSymlinkOverrideExisting() throws IOException {
 		FS fs = FS.DETECTED;
 		// show test as ignored if the FS doesn't support symlinks
-		Assume.assumeTrue(fs.supportsSymlinks());
+		Assumptions.assumeTrue(fs.supportsSymlinks());
 		File file = new File(trash, "x");
 		fs.createSymLink(file, "y");
 		String target = fs.readSymLink(file);
@@ -467,7 +467,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRelativize_doc() {
+	void testRelativize_doc() {
 		// This is the example from the javadoc
 		String base = toOSPathString("c:\\Users\\jdoe\\eclipse\\git\\project");
 		String other = toOSPathString("c:\\Users\\jdoe\\eclipse\\git\\another_project\\pom.xml");
@@ -478,7 +478,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRelativize_mixedCase() {
+	void testRelativize_mixedCase() {
 		SystemReader systemReader = SystemReader.getInstance();
 		String base = toOSPathString("C:\\git\\jgit");
 		String other = toOSPathString("C:\\Git\\test\\d\\f.txt");
@@ -498,7 +498,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRelativize_scheme() {
+	void testRelativize_scheme() {
 		String base = toOSPathString("file:/home/eclipse/runtime-New_configuration/project_1/file.java");
 		String other = toOSPathString("file:/home/eclipse/runtime-New_configuration/project");
 		// 'file.java' is treated as a folder
@@ -509,7 +509,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRelativize_equalPaths() {
+	void testRelativize_equalPaths() {
 		String base = toOSPathString("file:/home/eclipse/runtime-New_configuration/project_1");
 		String other = toOSPathString("file:/home/eclipse/runtime-New_configuration/project_1");
 		String expected = "";
@@ -519,7 +519,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testRelativize_whitespaces() {
+	void testRelativize_whitespaces() {
 		String base = toOSPathString("/home/eclipse 3.4/runtime New_configuration/project_1");
 		String other = toOSPathString("/home/eclipse 3.4/runtime New_configuration/project_1/file");
 		String expected = "file";
@@ -529,9 +529,9 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testDeleteSymlinkToDirectoryDoesNotDeleteTarget()
+	void testDeleteSymlinkToDirectoryDoesNotDeleteTarget()
 			throws IOException {
-		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		org.junit.jupiter.api.Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 		FS fs = FS.DETECTED;
 		File dir = new File(trash, "dir");
 		File file = new File(dir, "file");
@@ -546,7 +546,7 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testAtomicMove() throws IOException {
+	void testAtomicMove() throws IOException {
 		File src = new File(trash, "src");
 		Files.createFile(src.toPath());
 		File dst = new File(trash, "dst");
@@ -561,25 +561,25 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testIsStaleFileHandleWithDirectCause() throws Exception {
+	void testIsStaleFileHandleWithDirectCause() throws Exception {
 		assertTrue(FileUtils.isStaleFileHandle(IO_EXCEPTION));
 	}
 
 	@Test
-	public void testIsStaleFileHandleWithIndirectCause() throws Exception {
+	void testIsStaleFileHandleWithIndirectCause() throws Exception {
 		assertFalse(
 				FileUtils.isStaleFileHandle(IO_EXCEPTION_WITH_CAUSE));
 	}
 
 	@Test
-	public void testIsStaleFileHandleInCausalChainWithDirectCause()
+	void testIsStaleFileHandleInCausalChainWithDirectCause()
 			throws Exception {
 		assertTrue(
 				FileUtils.isStaleFileHandleInCausalChain(IO_EXCEPTION));
 	}
 
 	@Test
-	public void testIsStaleFileHandleInCausalChainWithIndirectCause()
+	void testIsStaleFileHandleInCausalChainWithIndirectCause()
 			throws Exception {
 		assertTrue(FileUtils
 				.isStaleFileHandleInCausalChain(IO_EXCEPTION_WITH_CAUSE));

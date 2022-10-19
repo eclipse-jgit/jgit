@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +25,8 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class PackIndexTestCase extends RepositoryTestCase {
 
@@ -34,6 +35,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	PackIndex denseIdx;
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		smallIdx = PackIndex.open(getFileForPack34be9032());
@@ -75,7 +77,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * limitations.
 	 */
 	@Test
-	public void testIteratorMethodsContract() {
+	void testIteratorMethodsContract() {
 		Iterator<PackIndex.MutableEntry> iter = smallIdx.iterator();
 		while (iter.hasNext()) {
 			iter.next();
@@ -101,7 +103,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * small index.
 	 */
 	@Test
-	public void testIteratorReturnedValues1() {
+	void testIteratorReturnedValues1() {
 		Iterator<PackIndex.MutableEntry> iter = smallIdx.iterator();
 		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", iter.next()
 				.name());
@@ -126,7 +128,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * Compare offset from iterator entries with output of findOffset() method.
 	 */
 	@Test
-	public void testCompareEntriesOffsetsWithFindOffsets() {
+	void testCompareEntriesOffsetsWithFindOffsets() {
 		for (MutableEntry me : smallIdx) {
 			assertEquals(smallIdx.findOffset(me.toObjectId()), me.getOffset());
 		}
@@ -139,7 +141,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * Compare offset from iterator entries with output of getOffset() method.
 	 */
 	@Test
-	public void testCompareEntriesOffsetsWithGetOffsets() {
+	void testCompareEntriesOffsetsWithGetOffsets() {
 		int i = 0;
 		for (MutableEntry me : smallIdx) {
 			assertEquals(smallIdx.getOffset(i++), me.getOffset());
@@ -155,7 +157,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * (prepared) dense index, that may need multi-level indexing.
 	 */
 	@Test
-	public void testIteratorReturnedValues2() {
+	void testIteratorReturnedValues2() {
 		Iterator<PackIndex.MutableEntry> iter = denseIdx.iterator();
 		while (!iter.next().name().equals(
 				"0a3d7772488b6b106fb62813c4d6d627918d9181")) {
@@ -170,7 +172,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBadFanoutTable() {
+	void testBadFanoutTable() {
 		IOException ex = assertThrows(IOException.class, () -> {
 			try (FileInputStream fis = new FileInputStream(
 					getFileForBadFanoutTable())) {

@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,22 +21,22 @@ import java.util.List;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 
 	private RenameDetector rd;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		rd = new RenameDetector(db);
 	}
 
 	@Test
-	public void testExactRename_OneRename() throws Exception {
+	void testExactRename_OneRename() throws Exception {
 		ObjectId foo = blob("foo");
 
 		DiffEntry a = DiffEntry.add(PATH_A, foo);
@@ -51,7 +51,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRename_DifferentObjects() throws Exception {
+	void testExactRename_DifferentObjects() throws Exception {
 		ObjectId foo = blob("foo");
 		ObjectId bar = blob("bar");
 
@@ -71,7 +71,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRename_OneRenameOneModify() throws Exception {
+	void testExactRename_OneRenameOneModify() throws Exception {
 		ObjectId foo = blob("foo");
 		ObjectId bar = blob("bar");
 
@@ -92,7 +92,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRename_ManyRenames() throws Exception {
+	void testExactRename_ManyRenames() throws Exception {
 		ObjectId foo = blob("foo");
 		ObjectId bar = blob("bar");
 
@@ -114,7 +114,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRename_MultipleIdenticalDeletes() throws Exception {
+	void testExactRename_MultipleIdenticalDeletes() throws Exception {
 		ObjectId foo = blob("foo");
 
 		DiffEntry a = DiffEntry.delete(PATH_A, foo);
@@ -137,7 +137,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRename_PathBreaksTie() throws Exception {
+	void testExactRename_PathBreaksTie() throws Exception {
 		ObjectId foo = blob("foo");
 
 		DiffEntry a = DiffEntry.add("src/com/foo/a.java", foo);
@@ -162,7 +162,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRename_OneDeleteManyAdds() throws Exception {
+	void testExactRename_OneDeleteManyAdds() throws Exception {
 		ObjectId foo = blob("foo");
 
 		DiffEntry a = DiffEntry.add("src/com/foo/a.java", foo);
@@ -184,7 +184,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRename_UnstagedFile() throws Exception {
+	void testExactRename_UnstagedFile() throws Exception {
 		ObjectId aId = blob("foo");
 		DiffEntry a = DiffEntry.delete(PATH_A, aId);
 		DiffEntry b = DiffEntry.add(PATH_B, aId);
@@ -197,7 +197,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRename_OnePair() throws Exception {
+	void testInexactRename_OnePair() throws Exception {
 		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
 		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
 
@@ -213,7 +213,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRename_OneRenameTwoUnrelatedFiles() throws Exception {
+	void testInexactRename_OneRenameTwoUnrelatedFiles() throws Exception {
 		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
 		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
 		DiffEntry a = DiffEntry.add(PATH_A, aId);
@@ -237,7 +237,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRename_LastByteDifferent() throws Exception {
+	void testInexactRename_LastByteDifferent() throws Exception {
 		ObjectId aId = blob("foo\nbar\na");
 		ObjectId bId = blob("foo\nbar\nb");
 
@@ -253,7 +253,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRename_NewlinesOnly() throws Exception {
+	void testInexactRename_NewlinesOnly() throws Exception {
 		ObjectId aId = blob("\n\n\n");
 		ObjectId bId = blob("\n\n\n\n");
 
@@ -269,7 +269,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRename_SameContentMultipleTimes() throws Exception {
+	void testInexactRename_SameContentMultipleTimes() throws Exception {
 		ObjectId aId = blob("a\na\na\na\n");
 		ObjectId bId = blob("a\na\na\n");
 
@@ -285,7 +285,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRenames_OnePair2() throws Exception {
+	void testInexactRenames_OnePair2() throws Exception {
 		ObjectId aId = blob("ab\nab\nab\nac\nad\nae\n");
 		ObjectId bId = blob("ac\nab\nab\nab\naa\na0\na1\n");
 
@@ -302,7 +302,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testNoRenames_SingleByteFiles() throws Exception {
+	void testNoRenames_SingleByteFiles() throws Exception {
 		ObjectId aId = blob("a");
 		ObjectId bId = blob("b");
 
@@ -319,7 +319,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testNoRenames_EmptyFile1() throws Exception {
+	void testNoRenames_EmptyFile1() throws Exception {
 		ObjectId aId = blob("");
 		DiffEntry a = DiffEntry.add(PATH_A, aId);
 
@@ -331,7 +331,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testNoRenames_EmptyFile2() throws Exception {
+	void testNoRenames_EmptyFile2() throws Exception {
 		ObjectId aId = blob("");
 		ObjectId bId = blob("blah");
 
@@ -348,7 +348,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testNoRenames_SymlinkAndFile() throws Exception {
+	void testNoRenames_SymlinkAndFile() throws Exception {
 		ObjectId aId = blob("src/dest");
 
 		DiffEntry a = DiffEntry.add(PATH_A, aId);
@@ -365,7 +365,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testNoRenames_GitlinkAndFile() throws Exception {
+	void testNoRenames_GitlinkAndFile() throws Exception {
 		ObjectId aId = blob("src/dest");
 
 		DiffEntry a = DiffEntry.add(PATH_A, aId);
@@ -382,7 +382,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testNoRenames_SymlinkAndFileSamePath() throws Exception {
+	void testNoRenames_SymlinkAndFileSamePath() throws Exception {
 		ObjectId aId = blob("src/dest");
 
 		DiffEntry a = DiffEntry.delete(PATH_A, aId);
@@ -400,7 +400,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testNoRenames_UntrackedFile() throws Exception {
+	void testNoRenames_UntrackedFile() throws Exception {
 		ObjectId aId = blob("foo");
 		ObjectId bId = ObjectId
 				.fromString("3049eb6eee7e1318f4e78e799bf33f1e54af9cbf");
@@ -417,7 +417,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testBreakModify_BreakAll() throws Exception {
+	void testBreakModify_BreakAll() throws Exception {
 		ObjectId aId = blob("foo");
 		ObjectId bId = blob("bar");
 
@@ -439,7 +439,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testBreakModify_BreakNone() throws Exception {
+	void testBreakModify_BreakNone() throws Exception {
 		ObjectId aId = blob("foo");
 		ObjectId bId = blob("bar");
 
@@ -461,7 +461,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testBreakModify_BreakBelowScore() throws Exception {
+	void testBreakModify_BreakBelowScore() throws Exception {
 		ObjectId aId = blob("foo");
 		ObjectId bId = blob("bar");
 
@@ -483,7 +483,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testBreakModify_DontBreakAboveScore() throws Exception {
+	void testBreakModify_DontBreakAboveScore() throws Exception {
 		ObjectId aId = blob("blah\nblah\nfoo");
 		ObjectId bId = blob("blah\nblah\nbar");
 
@@ -505,7 +505,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testBreakModify_RejoinIfUnpaired() throws Exception {
+	void testBreakModify_RejoinIfUnpaired() throws Exception {
 		ObjectId aId = blob("foo");
 		ObjectId bId = blob("bar");
 
@@ -532,7 +532,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRename_LargeFile() throws Exception {
+	void testExactRename_LargeFile() throws Exception {
 		ObjectId aId = blob("blah\nblah\nfoo"); // size = 14
 
 		DiffEntry a = DiffEntry.add(PATH_A, aId);
@@ -549,7 +549,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRename_LargeFile() throws Exception {
+	void testInexactRename_LargeFile() throws Exception {
 		ObjectId aId = blob("blah\nblah\nfoo"); // size = 14
 		ObjectId bId = blob("bla\nblah\nfoo"); // size = 13
 
@@ -569,7 +569,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testExactRenameForBinaryFile_isIdentified() throws Exception {
+	void testExactRenameForBinaryFile_isIdentified() throws Exception {
 		ObjectId aId = blob("a\nb\nc\n\0\0\0\0d\n");
 
 		DiffEntry a = DiffEntry.add(PATH_A, aId);
@@ -584,7 +584,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRenameForBinaryFile_identifiedByDefault() throws Exception {
+	void testInexactRenameForBinaryFile_identifiedByDefault() throws Exception {
 		ObjectId aId = blob("a\nb\nc\n\0\0\0\0d\n");
 		ObjectId bId = blob("a\nb\nc\n\0\0\0d\n");
 
@@ -601,7 +601,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testInexactRenameForBinaryFile_notIdentifiedIfSkipParameterSet() throws Exception {
+	void testInexactRenameForBinaryFile_notIdentifiedIfSkipParameterSet() throws Exception {
 		ObjectId aId = blob("a\nb\nc\n\0\0\0\0d\n");
 		ObjectId bId = blob("a\nb\nc\n\0\0\0d\n");
 
@@ -620,7 +620,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testSetRenameScore_IllegalArgs() throws Exception {
+	void testSetRenameScore_IllegalArgs() throws Exception {
 		try {
 			rd.setRenameScore(-1);
 			fail();
@@ -637,7 +637,7 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
-	public void testRenameLimit() throws Exception {
+	void testRenameLimit() throws Exception {
 		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
 		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
 		DiffEntry a = DiffEntry.add(PATH_A, aId);

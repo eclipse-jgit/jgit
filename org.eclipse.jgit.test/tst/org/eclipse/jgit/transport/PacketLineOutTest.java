@@ -11,15 +11,15 @@
 package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 // Note, test vectors created with:
 //
@@ -30,7 +30,7 @@ public class PacketLineOutTest {
 
 	private PacketLineOut out;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		rawOut = new ByteArrayOutputStream();
 		out = new PacketLineOut(rawOut);
@@ -39,21 +39,21 @@ public class PacketLineOutTest {
 	// writeString
 
 	@Test
-	public void testWriteString1() throws IOException {
+	void testWriteString1() throws IOException {
 		out.writeString("a");
 		out.writeString("bc");
 		assertBuffer("0005a0006bc");
 	}
 
 	@Test
-	public void testWriteString2() throws IOException {
+	void testWriteString2() throws IOException {
 		out.writeString("a\n");
 		out.writeString("bc\n");
 		assertBuffer("0006a\n0007bc\n");
 	}
 
 	@Test
-	public void testWriteString3() throws IOException {
+	void testWriteString3() throws IOException {
 		out.writeString("");
 		assertBuffer("0004");
 	}
@@ -61,7 +61,7 @@ public class PacketLineOutTest {
 	// end
 
 	@Test
-	public void testWriteEnd() throws IOException {
+	void testWriteEnd() throws IOException {
 		final int[] flushCnt = new int[1];
 		final OutputStream mockout = new OutputStream() {
 			@Override
@@ -81,7 +81,7 @@ public class PacketLineOutTest {
 	}
 
 	@Test
-	public void testWriteDelim() throws IOException {
+	void testWriteDelim() throws IOException {
 		out.writeDelim();
 		assertBuffer("0001");
 	}
@@ -89,19 +89,19 @@ public class PacketLineOutTest {
 	// writePacket
 
 	@Test
-	public void testWritePacket1() throws IOException {
-		out.writePacket(new byte[] { 'a' });
+	void testWritePacket1() throws IOException {
+		out.writePacket(new byte[]{'a'});
 		assertBuffer("0005a");
 	}
 
 	@Test
-	public void testWritePacket2() throws IOException {
-		out.writePacket(new byte[] { 'a', 'b', 'c', 'd' });
+	void testWritePacket2() throws IOException {
+		out.writePacket(new byte[]{'a', 'b', 'c', 'd'});
 		assertBuffer("0008abcd");
 	}
 
 	@Test
-	public void testWritePacket3() throws IOException {
+	void testWritePacket3() throws IOException {
 		final int buflen = SideBandOutputStream.MAX_BUF - 5;
 		final byte[] buf = new byte[buflen];
 		for (int i = 0; i < buf.length; i++) {
@@ -122,7 +122,7 @@ public class PacketLineOutTest {
 	// flush
 
 	@Test
-	public void testFlush() throws IOException {
+	void testFlush() throws IOException {
 		final int[] flushCnt = new int[1];
 		final OutputStream mockout = new OutputStream() {
 			@Override

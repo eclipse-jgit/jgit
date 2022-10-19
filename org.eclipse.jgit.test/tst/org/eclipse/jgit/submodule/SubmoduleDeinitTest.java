@@ -31,12 +31,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests of {@link SubmoduleDeinitCommand}
@@ -44,7 +44,7 @@ import static org.junit.Assert.assertTrue;
 public class SubmoduleDeinitTest extends RepositoryTestCase {
 
 	@Test
-	public void repositoryWithNoSubmodules() throws GitAPIException {
+	void repositoryWithNoSubmodules() throws GitAPIException {
 		SubmoduleDeinitCommand command = new SubmoduleDeinitCommand(db);
 		Collection<SubmoduleDeinitResult> modules = command.call();
 		assertNotNull(modules);
@@ -52,7 +52,7 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void alreadyClosedSubmodule() throws Exception {
+	void alreadyClosedSubmodule() throws Exception {
 		final String path = "sub";
 		Git git = Git.wrap(db);
 
@@ -64,7 +64,7 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void dirtySubmoduleBecauseUntracked() throws Exception {
+	void dirtySubmoduleBecauseUntracked() throws Exception {
 		final String path = "sub";
 		Git git = Git.wrap(db);
 
@@ -89,7 +89,7 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void dirtySubmoduleBecauseNewCommit() throws Exception {
+	void dirtySubmoduleBecauseNewCommit() throws Exception {
 		final String path = "sub";
 		Git git = Git.wrap(db);
 
@@ -132,7 +132,7 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void dirtySubmoduleWithForce() throws Exception {
+	void dirtySubmoduleWithForce() throws Exception {
 		final String path = "sub";
 		Git git = Git.wrap(db);
 
@@ -158,7 +158,7 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void cleanSubmodule() throws Exception {
+	void cleanSubmodule() throws Exception {
 		final String path = "sub";
 		Git git = Git.wrap(db);
 

@@ -14,11 +14,11 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.eclipse.jgit.util.RawCharUtil.isWhitespace;
 import static org.eclipse.jgit.util.RawCharUtil.trimLeadingWhitespace;
 import static org.eclipse.jgit.util.RawCharUtil.trimTrailingWhitespace;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RawCharUtilTest {
 
@@ -26,17 +26,17 @@ public class RawCharUtilTest {
 	 * Test method for {@link RawCharUtil#isWhitespace(byte)}.
 	 */
 	@Test
-	public void testIsWhitespace() {
+	void testIsWhitespace() {
 		for (byte c = -128; c < 127; c++) {
 			switch (c) {
-			case (byte) '\r':
-			case (byte) '\n':
-			case (byte) '\t':
-			case (byte) ' ':
-				assertTrue(isWhitespace(c));
-				break;
-			default:
-				assertFalse(isWhitespace(c));
+				case (byte) '\r':
+				case (byte) '\n':
+				case (byte) '\t':
+				case (byte) ' ':
+					assertTrue(isWhitespace(c));
+					break;
+				default:
+					assertFalse(isWhitespace(c));
 			}
 		}
 	}
@@ -46,7 +46,7 @@ public class RawCharUtilTest {
 	 * {@link RawCharUtil#trimTrailingWhitespace(byte[], int, int)}.
 	 */
 	@Test
-	public void testTrimTrailingWhitespace() {
+	void testTrimTrailingWhitespace() {
 		assertEquals(0, trimTrailingWhitespace("".getBytes(US_ASCII), 0, 0));
 		assertEquals(0, trimTrailingWhitespace(" ".getBytes(US_ASCII), 0, 1));
 		assertEquals(1, trimTrailingWhitespace("a ".getBytes(US_ASCII), 0, 2));
@@ -61,7 +61,7 @@ public class RawCharUtilTest {
 	 * {@link RawCharUtil#trimLeadingWhitespace(byte[], int, int)}.
 	 */
 	@Test
-	public void testTrimLeadingWhitespace() {
+	void testTrimLeadingWhitespace() {
 		assertEquals(0, trimLeadingWhitespace("".getBytes(US_ASCII), 0, 0));
 		assertEquals(1, trimLeadingWhitespace(" ".getBytes(US_ASCII), 0, 1));
 		assertEquals(0, trimLeadingWhitespace("a ".getBytes(US_ASCII), 0, 2));
@@ -69,7 +69,7 @@ public class RawCharUtilTest {
 		assertEquals(2, trimLeadingWhitespace("  a".getBytes(US_ASCII), 0, 3));
 		assertEquals(2,
 				trimLeadingWhitespace("  test   ".getBytes(US_ASCII),
-				2, 9));
+						2, 9));
 	}
 
 }

@@ -10,14 +10,14 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for correctly resolving URIs when reading http.* values from a
@@ -32,13 +32,13 @@ public class HttpConfigTest {
 
 	private Config config;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		config = new Config();
 	}
 
 	@Test
-	public void testDefault() throws Exception {
+	void testDefault() throws Exception {
 		HttpConfig http = new HttpConfig(config,
 				new URIish("http://example.com/path/repo.git"));
 		assertEquals(1024 * 1024, http.getPostBuffer());
@@ -48,7 +48,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchSuccess() throws Exception {
+	void testMatchSuccess() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
 				+ "\tpostBuffer = 1024\n");
 		HttpConfig http = new HttpConfig(config,
@@ -69,7 +69,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchWithOnlySchemeInConfig() throws Exception {
+	void testMatchWithOnlySchemeInConfig() throws Exception {
 		config.fromText(
 				DEFAULT + "[http \"http://\"]\n" + "\tpostBuffer = 1024\n");
 		HttpConfig http = new HttpConfig(config,
@@ -78,7 +78,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchWithPrefixUriInConfig() throws Exception {
+	void testMatchWithPrefixUriInConfig() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example\"]\n"
 				+ "\tpostBuffer = 1024\n");
 		HttpConfig http = new HttpConfig(config,
@@ -87,7 +87,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchCaseSensitivity() throws Exception {
+	void testMatchCaseSensitivity() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://exAMPle.com\"]\n"
 				+ "\tpostBuffer = 1024\n");
 		HttpConfig http = new HttpConfig(config,
@@ -96,7 +96,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchWithInvalidUriInConfig() throws Exception {
+	void testMatchWithInvalidUriInConfig() throws Exception {
 		config.fromText(
 				DEFAULT + "[http \"///#expectedWarning\"]\n"
 						+ "\tpostBuffer = 1024\n");
@@ -106,7 +106,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchWithInvalidAndValidUriInConfig() throws Exception {
+	void testMatchWithInvalidAndValidUriInConfig() throws Exception {
 		config.fromText(DEFAULT + "[http \"///#expectedWarning\"]\n"
 				+ "\tpostBuffer = 1024\n"
 				+ "[http \"http://example.com\"]\n" + "\tpostBuffer = 2048\n");
@@ -116,7 +116,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchWithHostEndingInSlash() throws Exception {
+	void testMatchWithHostEndingInSlash() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com/\"]\n"
 				+ "\tpostBuffer = 1024\n");
 		HttpConfig http = new HttpConfig(config,
@@ -125,7 +125,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchWithUser() throws Exception {
+	void testMatchWithUser() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com/path\"]\n"
 				+ "\tpostBuffer = 1024\n"
 				+ "[http \"http://example.com/path/repo\"]\n"
@@ -156,7 +156,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testMatchLonger() throws Exception {
+	void testMatchLonger() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com/path\"]\n"
 				+ "\tpostBuffer = 1024\n"
 				+ "[http \"http://example.com/path/repo\"]\n"
@@ -181,7 +181,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testExtraHeaders() throws Exception {
+	void testExtraHeaders() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
 				+ "\textraHeader=foo: bar\n");
 		HttpConfig http = new HttpConfig(config,
@@ -191,7 +191,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testExtraHeadersMultiple() throws Exception {
+	void testExtraHeadersMultiple() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
 				+ "\textraHeader=foo: bar\n" //
 				+ "\textraHeader=bar: foo\n");
@@ -203,7 +203,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testExtraHeadersReset() throws Exception {
+	void testExtraHeadersReset() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
 				+ "\textraHeader=foo: bar\n" //
 				+ "\textraHeader=bar: foo\n" //
@@ -214,7 +214,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testExtraHeadersResetAndMore() throws Exception {
+	void testExtraHeadersResetAndMore() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
 				+ "\textraHeader=foo: bar\n" //
 				+ "\textraHeader=bar: foo\n" //
@@ -227,7 +227,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testUserAgent() throws Exception {
+	void testUserAgent() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
 				+ "\tuserAgent=DummyAgent/4.0\n");
 		HttpConfig http = new HttpConfig(config,
@@ -236,7 +236,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testUserAgentEnvOverride() throws Exception {
+	void testUserAgentEnvOverride() throws Exception {
 		String mockAgent = "jgit-test/5.10.0";
 		SystemReader originalReader = SystemReader.getInstance();
 		SystemReader.setInstance(new MockSystemReader() {
@@ -261,7 +261,7 @@ public class HttpConfigTest {
 	}
 
 	@Test
-	public void testUserAgentNonAscii() throws Exception {
+	void testUserAgentNonAscii() throws Exception {
 		config.fromText(DEFAULT + "[http \"http://example.com\"]\n"
 				+ "\tuserAgent= d ümmy Agent -5.10\n");
 		HttpConfig http = new HttpConfig(config,

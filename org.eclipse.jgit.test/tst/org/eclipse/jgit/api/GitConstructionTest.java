@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,14 +22,14 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GitConstructionTest extends RepositoryTestCase {
 	private Repository bareRepo;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		try (Git git = new Git(db)) {
@@ -47,7 +47,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWrap() throws JGitInternalException, GitAPIException {
+	void testWrap() throws JGitInternalException, GitAPIException {
 		Git git = Git.wrap(db);
 		assertEquals(1, git.branchList().call().size());
 
@@ -64,7 +64,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOpen() throws IOException, JGitInternalException,
+	void testOpen() throws IOException, JGitInternalException,
 			GitAPIException {
 		Git git = Git.open(db.getDirectory());
 		assertEquals(1, git.branchList().call().size());
@@ -85,7 +85,6 @@ public class GitConstructionTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
 	/**
 	 * Tests that a repository with packfiles can be deleted after calling
 	 * Git.close(). On Windows the first try to delete the worktree will fail
@@ -96,7 +95,8 @@ public class GitConstructionTest extends RepositoryTestCase {
 	 * @throws JGitInternalException
 	 * @throws GitAPIException
 	 */
-	public void testClose() throws IOException, JGitInternalException,
+	@Test
+	void testClose() throws IOException, JGitInternalException,
 			GitAPIException {
 		File workTree = db.getWorkTree();
 		Git git = Git.open(workTree);

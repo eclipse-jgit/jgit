@@ -26,19 +26,21 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class BareSuperprojectWriterTest extends RepositoryTestCase {
 
 	private static final String SHA1_A = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 	}
 
 	@Test
-	public void write_setGitModulesContents() throws Exception {
+	void write_setGitModulesContents() throws Exception {
 		try (Repository bareRepo = createBareRepository()) {
 			RepoProject repoProject = new RepoProject("subprojectX", "path/to",
 					"refs/heads/branch-x", "remote", "");
@@ -47,7 +49,7 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 			RemoteReader mockRemoteReader = mock(RemoteReader.class);
 			when(mockRemoteReader.sha1("http://example.com/a",
 					"refs/heads/branch-x"))
-							.thenReturn(ObjectId.fromString(SHA1_A));
+					.thenReturn(ObjectId.fromString(SHA1_A));
 
 			BareSuperprojectWriter w = new BareSuperprojectWriter(bareRepo,
 					null, "refs/heads/master", author, mockRemoteReader,
@@ -68,7 +70,7 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void write_setExtraContents() throws Exception {
+	void write_setExtraContents() throws Exception {
 		try (Repository bareRepo = createBareRepository()) {
 			RepoProject repoProject = new RepoProject("subprojectX", "path/to",
 					"refs/heads/branch-x", "remote", "");
@@ -77,7 +79,7 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 			RemoteReader mockRemoteReader = mock(RemoteReader.class);
 			when(mockRemoteReader.sha1("http://example.com/a",
 					"refs/heads/branch-x"))
-							.thenReturn(ObjectId.fromString(SHA1_A));
+					.thenReturn(ObjectId.fromString(SHA1_A));
 
 			BareSuperprojectWriter w = new BareSuperprojectWriter(bareRepo,
 					null, "refs/heads/master", author, mockRemoteReader,

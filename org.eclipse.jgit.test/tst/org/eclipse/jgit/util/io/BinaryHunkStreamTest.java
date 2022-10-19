@@ -9,17 +9,17 @@
  */
 package org.eclipse.jgit.util.io;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link BinaryHunkInputStream} and {@link BinaryHunkOutputStream}.
@@ -27,10 +27,10 @@ import org.junit.Test;
 public class BinaryHunkStreamTest {
 
 	@Test
-	public void testRoundtripWholeBuffer() throws IOException {
-		for (int length = 1; length < 520 + 52; length++) {
+	void testRoundtripWholeBuffer() throws IOException {
+		for (int length = 1;length < 520 + 52;length++) {
 			byte[] data = new byte[length];
-			for (int i = 0; i < data.length; i++) {
+			for (int i = 0;i < data.length;i++) {
 				data[i] = (byte) (255 - (i % 256));
 			}
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -53,10 +53,10 @@ public class BinaryHunkStreamTest {
 	}
 
 	@Test
-	public void testRoundtripChunks() throws IOException {
-		for (int length = 1; length < 520 + 52; length++) {
+	void testRoundtripChunks() throws IOException {
+		for (int length = 1;length < 520 + 52;length++) {
 			byte[] data = new byte[length];
-			for (int i = 0; i < data.length; i++) {
+			for (int i = 0;i < data.length;i++) {
 				data[i] = (byte) (255 - (i % 256));
 			}
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -88,16 +88,16 @@ public class BinaryHunkStreamTest {
 	}
 
 	@Test
-	public void testRoundtripBytes() throws IOException {
-		for (int length = 1; length < 520 + 52; length++) {
+	void testRoundtripBytes() throws IOException {
+		for (int length = 1;length < 520 + 52;length++) {
 			byte[] data = new byte[length];
-			for (int i = 0; i < data.length; i++) {
+			for (int i = 0;i < data.length;i++) {
 				data[i] = (byte) (255 - (i % 256));
 			}
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
 					BinaryHunkOutputStream out = new BinaryHunkOutputStream(
 							bos)) {
-				for (int i = 0; i < data.length; i++) {
+				for (int i = 0;i < data.length;i++) {
 					out.write(data[i]);
 				}
 				out.flush();
@@ -106,7 +106,7 @@ public class BinaryHunkStreamTest {
 				try (BinaryHunkInputStream in = new BinaryHunkInputStream(
 						new ByteArrayInputStream(encoded))) {
 					byte[] decoded = new byte[data.length];
-					for (int i = 0; i < decoded.length; i++) {
+					for (int i = 0;i < decoded.length;i++) {
 						int val = in.read();
 						assertTrue(0 <= val && val <= 255);
 						decoded[i] = (byte) val;
@@ -119,10 +119,10 @@ public class BinaryHunkStreamTest {
 	}
 
 	@Test
-	public void testRoundtripWithClose() throws IOException {
-		for (int length = 1; length < 520 + 52; length++) {
+	void testRoundtripWithClose() throws IOException {
+		for (int length = 1;length < 520 + 52;length++) {
 			byte[] data = new byte[length];
-			for (int i = 0; i < data.length; i++) {
+			for (int i = 0;i < data.length;i++) {
 				data[i] = (byte) (255 - (i % 256));
 			}
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {

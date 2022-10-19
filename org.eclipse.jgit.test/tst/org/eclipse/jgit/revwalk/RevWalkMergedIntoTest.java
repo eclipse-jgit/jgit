@@ -9,17 +9,18 @@
  */
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Ref;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkMergedIntoTest extends RevWalkTestCase {
 
 	@Test
-	public void testOldCommitWalk() throws Exception {
+	void testOldCommitWalk() throws Exception {
 		/*
 		 * Sometimes a merge is performed on a machine with faulty time.
 		 * This makes the traversal of the graph, when trying to find out if B
@@ -49,7 +50,7 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testGetMergedInto() throws Exception {
+	void testGetMergedInto() throws Exception {
 		/*
 		 *          i
 		 *         / \
@@ -75,14 +76,14 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 		List<String>  modifiedResult = rw.getMergedInto(a, getRefs())
 				.stream().map(Ref::getName).collect(Collectors.toList());
 
-		assertTrue(modifiedResult.size() == 3);
+		assertEquals(modifiedResult.size(), 3);
 		assertTrue(modifiedResult.contains(b));
 		assertTrue(modifiedResult.contains(c));
 		assertTrue(modifiedResult.contains(d));
 	}
 
 	@Test
-	public void testIsMergedIntoAny() throws Exception {
+	void testIsMergedIntoAny() throws Exception {
 		/*
 		 *          i
 		 *         / \
@@ -103,7 +104,7 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testIsMergedIntoAll() throws Exception {
+	void testIsMergedIntoAll() throws Exception {
 		/*
 		 *
 		 *        A
@@ -127,7 +128,7 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testMergeIntoAnnotatedTag() throws Exception {
+	void testMergeIntoAnnotatedTag() throws Exception {
 		/*
 		 *        a
 		 *        |

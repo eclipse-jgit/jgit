@@ -10,25 +10,25 @@
 package org.eclipse.jgit.ignore;
 
 import static org.eclipse.jgit.ignore.internal.Strings.split;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FastIgnoreRuleTest {
 
 	private boolean pathMatch;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		pathMatch = false;
 	}
 
 	@Test
-	public void testSimpleCharClass() {
+	void testSimpleCharClass() {
 		assertMatched("][a]", "]a");
 		assertMatched("[a]", "a");
 		assertMatched("][a]", "]a");
@@ -64,7 +64,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testCharClass() {
+	void testCharClass() {
 		assertMatched("[v-z]", "x");
 		assertMatched("[v-z]", "x/");
 		assertMatched("[v-z]", "x/b");
@@ -98,7 +98,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testTrailingSpaces() {
+	void testTrailingSpaces() {
 		assertMatched("a ", "a");
 		assertMatched("a/ ", "a/");
 		assertMatched("a/ ", "a/b");
@@ -109,7 +109,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testAsteriskDot() {
+	void testAsteriskDot() {
 		assertMatched("*.a", ".a");
 		assertMatched("*.a", "/.a");
 		assertMatched("*.a", "a.a");
@@ -120,7 +120,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testAsteriskDotDoNotMatch() {
+	void testAsteriskDotDoNotMatch() {
 		assertNotMatched("*.a", ".ab");
 		assertNotMatched("*.a", "/.ab");
 		assertNotMatched("*.a", "/b.ba");
@@ -132,7 +132,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testDotAsteriskMatch() {
+	void testDotAsteriskMatch() {
 		assertMatched("a.*", "a.");
 		assertMatched("a.*", "a./");
 		assertMatched("a.*", "a.b");
@@ -161,7 +161,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testAsterisk() {
+	void testAsterisk() {
 		assertMatched("a*", "a");
 		assertMatched("a*", "a/");
 		assertMatched("a*", "ab");
@@ -194,7 +194,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testQuestionmark() {
+	void testQuestionmark() {
 		assertMatched("a?", "ab");
 		assertMatched("a?", "ab/");
 
@@ -220,7 +220,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testQuestionmarkDoNotMatch() {
+	void testQuestionmarkDoNotMatch() {
 		assertNotMatched("a?", "a/");
 		assertNotMatched("a?", "abc");
 		assertNotMatched("a?", "abc/");
@@ -247,7 +247,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testSimplePatterns() {
+	void testSimplePatterns() {
 		assertMatched("a", "a");
 		assertMatched("a", "a/");
 		assertMatched("a", "a/b");
@@ -282,7 +282,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testSimplePatternsDoNotMatch() {
+	void testSimplePatternsDoNotMatch() {
 		assertNotMatched("ab", "a");
 		assertNotMatched("abc", "a/");
 		assertNotMatched("abc", "a/b");
@@ -316,7 +316,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testSegments() {
+	void testSegments() {
 		assertMatched("/a/b", "a/b");
 		assertMatched("/a/b", "/a/b");
 		assertMatched("/a/b", "/a/b/");
@@ -333,7 +333,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testSegmentsDoNotMatch() {
+	void testSegmentsDoNotMatch() {
 		assertNotMatched("a/b", "/a/bb");
 		assertNotMatched("a/b", "/aa/b");
 		assertNotMatched("a/b", "a/bb");
@@ -355,7 +355,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testWildmatch() {
+	void testWildmatch() {
 		assertMatched("**/a/b", "a/b");
 		assertMatched("**/a/b", "c/a/b");
 		assertMatched("**/a/b", "c/d/a/b");
@@ -401,7 +401,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testWildmatchDoNotMatch() {
+	void testWildmatchDoNotMatch() {
 		assertNotMatched("a/**", "a/");
 		assertNotMatched("a/b/**", "a/b/");
 		assertNotMatched("a/**", "a");
@@ -420,7 +420,7 @@ public class FastIgnoreRuleTest {
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testSimpleRules() {
+	void testSimpleRules() {
 		try {
 			new FastIgnoreRule(null);
 			fail("Illegal input allowed!");
@@ -435,7 +435,8 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testSplit() {
+	@SuppressWarnings("ReturnValueIgnored")
+	void testSplit() {
 		try {
 			split("/", '/').toArray();
 			fail("should not allow single slash");
@@ -443,22 +444,22 @@ public class FastIgnoreRuleTest {
 			// expected
 		}
 
-		assertArrayEquals(new String[] { "a", "b" }, split("a/b", '/')
+		assertArrayEquals(new String[]{"a", "b"}, split("a/b", '/')
 				.toArray());
-		assertArrayEquals(new String[] { "a", "b/" }, split("a/b/", '/')
+		assertArrayEquals(new String[]{"a", "b/"}, split("a/b/", '/')
 				.toArray());
-		assertArrayEquals(new String[] { "/a", "b" }, split("/a/b", '/')
+		assertArrayEquals(new String[]{"/a", "b"}, split("/a/b", '/')
 				.toArray());
-		assertArrayEquals(new String[] { "/a", "b/" }, split("/a/b/", '/')
+		assertArrayEquals(new String[]{"/a", "b/"}, split("/a/b/", '/')
 				.toArray());
-		assertArrayEquals(new String[] { "/a", "b", "c" }, split("/a/b/c", '/')
+		assertArrayEquals(new String[]{"/a", "b", "c"}, split("/a/b/c", '/')
 				.toArray());
-		assertArrayEquals(new String[] { "/a", "b", "c/" },
+		assertArrayEquals(new String[]{"/a", "b", "c/"},
 				split("/a/b/c/", '/').toArray());
 	}
 
 	@Test
-	public void testPathMatch() {
+	void testPathMatch() {
 		pathMatch = true;
 		assertMatched("a", "a");
 		assertMatched("a/", "a/");
@@ -480,7 +481,7 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
-	public void testFileNameWithLineTerminator() {
+	void testFileNameWithLineTerminator() {
 		assertMatched("a?", "a\r");
 		assertMatched("a?", "dir/a\r");
 		assertMatched("a?", "a\r/file");
@@ -495,8 +496,8 @@ public class FastIgnoreRuleTest {
 		if (!match) {
 			System.err.println(result);
 		}
-		assertTrue("Expected a match for: " + pattern + " with: " + path,
-					match);
+		assertTrue(match,
+					"Expected a match for: " + pattern + " with: " + path);
 
 		if (pattern.startsWith("!")) {
 			pattern = pattern.substring(1);
@@ -504,8 +505,8 @@ public class FastIgnoreRuleTest {
 			pattern = "!" + pattern;
 		}
 		match = match(pattern, path);
-		assertFalse("Expected no match for: " + pattern + " with: " + path,
-				match);
+		assertFalse(match,
+				"Expected no match for: " + pattern + " with: " + path);
 	}
 
 	private void assertNotMatched(String pattern, String path) {
@@ -515,8 +516,8 @@ public class FastIgnoreRuleTest {
 		if (match) {
 			System.err.println(result);
 		}
-		assertFalse("Expected no match for: " + pattern + " with: " + path,
-					match);
+		assertFalse(match,
+					"Expected no match for: " + pattern + " with: " + path);
 
 		if (pattern.startsWith("!")) {
 			pattern = pattern.substring(1);
@@ -524,8 +525,8 @@ public class FastIgnoreRuleTest {
 			pattern = "!" + pattern;
 		}
 		match = match(pattern, path);
-		assertTrue("Expected a match for: " + pattern + " with: " + path,
-					match);
+		assertTrue(match,
+					"Expected a match for: " + pattern + " with: " + path);
 	}
 
 	/**

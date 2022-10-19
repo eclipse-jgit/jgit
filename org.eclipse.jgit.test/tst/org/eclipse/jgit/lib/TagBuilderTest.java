@@ -11,12 +11,12 @@ package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TagBuilderTest {
 
@@ -41,7 +41,7 @@ public class TagBuilderTest {
 			.parsePersonIdent(TAGGER_LINE);
 
 	@Test
-	public void testTagSimple() throws Exception {
+	void testTagSimple() throws Exception {
 		TagBuilder t = new TagBuilder();
 		t.setTag("sometag");
 		t.setObjectId(ObjectId.zeroId(), Constants.OBJ_COMMIT);
@@ -60,7 +60,7 @@ public class TagBuilderTest {
 	}
 
 	@Test
-	public void testTagWithSignatureShortMessageEndsInLF() throws Exception {
+	void testTagWithSignatureShortMessageEndsInLF() throws Exception {
 		TagBuilder t = new TagBuilder();
 		t.setTag("sometag");
 		t.setObjectId(ObjectId.zeroId(), Constants.OBJ_COMMIT);
@@ -81,7 +81,7 @@ public class TagBuilderTest {
 	}
 
 	@Test
-	public void testTagWithSignatureMessageNoLF() {
+	void testTagWithSignatureMessageNoLF() {
 		TagBuilder t = new TagBuilder();
 		t.setTag("sometag");
 		t.setObjectId(ObjectId.zeroId(), Constants.OBJ_COMMIT);
@@ -94,7 +94,7 @@ public class TagBuilderTest {
 	}
 
 	@Test
-	public void testTagWithSignatureNoParagraphsMessage() throws Exception {
+	void testTagWithSignatureNoParagraphsMessage() throws Exception {
 		TagBuilder t = new TagBuilder();
 		t.setTag("sometag");
 		t.setObjectId(ObjectId.zeroId(), Constants.OBJ_COMMIT);
@@ -115,7 +115,7 @@ public class TagBuilderTest {
 	}
 
 	@Test
-	public void testTagWithSignatureLongMessage() throws Exception {
+	void testTagWithSignatureLongMessage() throws Exception {
 		TagBuilder t = new TagBuilder();
 		t.setTag("sometag");
 		t.setObjectId(ObjectId.zeroId(), Constants.OBJ_COMMIT);
@@ -134,7 +134,7 @@ public class TagBuilderTest {
 	}
 
 	@Test
-	public void testTagWithSignatureEmptyMessage() throws Exception {
+	void testTagWithSignatureEmptyMessage() throws Exception {
 		TagBuilder t = new TagBuilder();
 		t.setTag("sometag");
 		t.setObjectId(ObjectId.zeroId(), Constants.OBJ_COMMIT);
@@ -153,7 +153,7 @@ public class TagBuilderTest {
 	}
 
 	@Test
-	public void testTagWithSignatureOnly() throws Exception {
+	void testTagWithSignatureOnly() throws Exception {
 		TagBuilder t = new TagBuilder();
 		t.setTag("sometag");
 		t.setObjectId(ObjectId.zeroId(), Constants.OBJ_COMMIT);

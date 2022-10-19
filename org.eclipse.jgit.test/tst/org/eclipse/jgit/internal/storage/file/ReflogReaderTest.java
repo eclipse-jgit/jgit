@@ -12,9 +12,9 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,7 +30,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 
@@ -62,7 +62,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 			.getBytes(UTF_8);
 
 	@Test
-	public void testReadOneLine() throws Exception {
+	void testReadOneLine() throws Exception {
 		setupReflog("logs/refs/heads/master", oneLine);
 
 		ReflogReader reader = new ReflogReaderImpl(db, "refs/heads/master");
@@ -89,7 +89,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testReadTwoLine() throws Exception {
+	void testReadTwoLine() throws Exception {
 		setupReflog("logs/refs/heads/master", twoLine);
 
 		ReflogReader reader = new ReflogReaderImpl(db, "refs/heads/master");
@@ -125,7 +125,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testReadWhileAppendIsInProgress() throws Exception {
+	void testReadWhileAppendIsInProgress() throws Exception {
 		setupReflog("logs/refs/heads/master", twoLineWithAppendInProgress);
 		ReflogReader reader = new ReflogReaderImpl(db, "refs/heads/master");
 		List<ReflogEntry> reverseEntries = reader.getReverseEntries();
@@ -150,7 +150,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 
 
 	@Test
-	public void testReadRightLog() throws Exception {
+	void testReadRightLog() throws Exception {
 		setupReflog("logs/refs/heads/a", aLine);
 		setupReflog("logs/refs/heads/master", masterLine);
 		setupReflog("logs/HEAD", headLine);
@@ -163,7 +163,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testReadLineWithMissingComment() throws Exception {
+	void testReadLineWithMissingComment() throws Exception {
 		setupReflog("logs/refs/heads/master", oneLineWithoutComment);
 		final ReflogReader reader = db.getReflogReader("master");
 		ReflogEntry e = reader.getLastEntry();
@@ -182,13 +182,13 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testNoLog() throws Exception {
+	void testNoLog() throws Exception {
 		assertEquals(0, db.getReflogReader("master").getReverseEntries().size());
 		assertNull(db.getReflogReader("master").getLastEntry());
 	}
 
 	@Test
-	public void testCheckout() throws Exception {
+	void testCheckout() throws Exception {
 		setupReflog("logs/HEAD", switchBranch);
 		List<ReflogEntry> entries = db.getReflogReader(Constants.HEAD)
 				.getReverseEntries();
@@ -201,7 +201,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testSpecificEntryNumber() throws Exception {
+	void testSpecificEntryNumber() throws Exception {
 		setupReflog("logs/refs/heads/master", twoLine);
 
 		ReflogReader reader = new ReflogReaderImpl(db, "refs/heads/master");

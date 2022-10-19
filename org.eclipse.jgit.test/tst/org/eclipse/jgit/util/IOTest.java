@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IOTest {
 
@@ -40,7 +40,7 @@ public class IOTest {
 	}
 
 	@Test
-	public void readFullyBufferShorter() throws Exception {
+	void readFullyBufferShorter() throws Exception {
 		byte[] buffer = initBuffer(9);
 		int length = read(buffer, 0);
 		assertEquals(buffer.length, length);
@@ -48,7 +48,7 @@ public class IOTest {
 	}
 
 	@Test
-	public void readFullyBufferLonger() throws Exception {
+	void readFullyBufferLonger() throws Exception {
 		byte[] buffer = initBuffer(50);
 		byte[] initial = Arrays.copyOf(buffer, buffer.length);
 		int length = read(buffer, 0);
@@ -59,7 +59,7 @@ public class IOTest {
 	}
 
 	@Test
-	public void readFullyBufferShorterOffset() throws Exception {
+	void readFullyBufferShorterOffset() throws Exception {
 		byte[] buffer = initBuffer(9);
 		byte[] initial = Arrays.copyOf(buffer, buffer.length);
 		int length = read(buffer, 6);
@@ -71,7 +71,7 @@ public class IOTest {
 	}
 
 	@Test
-	public void readFullyBufferLongerOffset() throws Exception {
+	void readFullyBufferLongerOffset() throws Exception {
 		byte[] buffer = initBuffer(50);
 		byte[] initial = Arrays.copyOf(buffer, buffer.length);
 		int length = read(buffer, 40);

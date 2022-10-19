@@ -11,18 +11,18 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.PushCertificateIdent.parse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Date;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.lib.PersonIdent;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PushCertificateIdentTest {
 	@Test
-	public void parseValid() throws Exception {
+	void parseValid() throws Exception {
 		String raw = "A U. Thor <a_u_thor@example.com> 1218123387 +0700";
 		PushCertificateIdent ident = parse(raw);
 		assertEquals(raw, ident.getRaw());
@@ -35,7 +35,7 @@ public class PushCertificateIdentTest {
 	}
 
 	@Test
-	public void trimName() throws Exception {
+	void trimName() throws Exception {
 		String name = "A U. Thor";
 		String email = "a_u_thor@example.com";
 		String rest = "<a_u_thor@example.com> 1218123387 +0700";
@@ -49,7 +49,7 @@ public class PushCertificateIdentTest {
 	}
 
 	@Test
-	public void noEmail() throws Exception {
+	void noEmail() throws Exception {
 		String name = "A U. Thor";
 		String rest = " 1218123387 +0700";
 
@@ -62,7 +62,7 @@ public class PushCertificateIdentTest {
 	}
 
 	@Test
-	public void exoticUserId() throws Exception {
+	void exoticUserId() throws Exception {
 		String rest = " 218123387 +0700";
 		assertEquals("", parse(rest).getUserId());
 
@@ -71,7 +71,7 @@ public class PushCertificateIdentTest {
 	}
 
 	@Test
-	public void fuzzyCasesMatchPersonIdent() throws Exception {
+	void fuzzyCasesMatchPersonIdent() throws Exception {
 		// See RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_fuzzyCases()
 		Date when = new Date(1234567890000l);
 		TimeZone tz = TimeZone.getTimeZone("GMT-7");
@@ -87,7 +87,7 @@ public class PushCertificateIdentTest {
 	}
 
 	@Test
-	public void incompleteCasesMatchPersonIdent() throws Exception {
+	void incompleteCasesMatchPersonIdent() throws Exception {
 		// See RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_incompleteCases()
 		Date when = new Date(1234567890000l);
 		TimeZone tz = TimeZone.getTimeZone("GMT-7");

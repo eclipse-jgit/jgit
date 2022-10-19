@@ -10,16 +10,16 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkMergeBaseTest extends RevWalkTestCase {
 	@Test
-	public void testNone() throws Exception {
+	void testNone() throws Exception {
 		final RevCommit c1 = commit(commit(commit()));
 		final RevCommit c2 = commit(commit(commit()));
 
@@ -30,7 +30,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testDisallowTreeFilter() throws Exception {
+	void testDisallowTreeFilter() throws Exception {
 		final RevCommit c1 = commit();
 		final RevCommit c2 = commit();
 
@@ -47,7 +47,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSimple() throws Exception {
+	void testSimple() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c1 = commit(commit(commit(commit(commit(b)))));
@@ -61,7 +61,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testMultipleHeads_SameBase1() throws Exception {
+	void testMultipleHeads_SameBase1() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c1 = commit(commit(commit(commit(commit(b)))));
@@ -77,7 +77,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testMultipleHeads_SameBase2() throws Exception {
+	void testMultipleHeads_SameBase2() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(b);
@@ -94,7 +94,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testCrissCross() throws Exception {
+	void testCrissCross() throws Exception {
 		// See http://marc.info/?l=git&m=111463358500362&w=2 for a nice
 		// description of what this test is creating. We don't have a
 		// clean merge base for d,e as they each merged the parents b,c
@@ -115,7 +115,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testInconsistentCommitTimes() throws Exception {
+	void testInconsistentCommitTimes() throws Exception {
 		// When commit times are inconsistent (a parent is younger than a child)
 		// make sure that not both, parent and child, are reported as merge
 		// base. In the following repo the merge base between C,D should be B.

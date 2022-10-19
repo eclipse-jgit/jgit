@@ -10,12 +10,13 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -25,8 +26,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RefMapTest {
 	private static final ObjectId ID_ONE = ObjectId
@@ -41,7 +42,7 @@ public class RefMapTest {
 
 	private RefList<Ref> resolved;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		packed = RefList.emptyList();
 		loose = RefList.emptyList();
@@ -49,7 +50,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testEmpty_NoPrefix1() {
+	void testEmpty_NoPrefix1() {
 		RefMap map = new RefMap("", packed, loose, resolved);
 		assertTrue(map.isEmpty()); // before size was computed
 		assertEquals(0, map.size());
@@ -62,7 +63,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testEmpty_NoPrefix2() {
+	void testEmpty_NoPrefix2() {
 		RefMap map = new RefMap();
 		assertTrue(map.isEmpty()); // before size was computed
 		assertEquals(0, map.size());
@@ -75,7 +76,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testNotEmpty_NoPrefix() {
+	void testNotEmpty_NoPrefix() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		packed = toList(master);
 
@@ -87,7 +88,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testEmpty_WithPrefix() {
+	void testEmpty_WithPrefix() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		packed = toList(master);
 
@@ -101,7 +102,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testNotEmpty_WithPrefix() {
+	void testNotEmpty_WithPrefix() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		packed = toList(master);
 
@@ -113,7 +114,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testClear() {
+	void testClear() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		loose = toList(master);
 
@@ -127,7 +128,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testIterator_RefusesRemove() {
+	void testIterator_RefusesRemove() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		loose = toList(master);
 
@@ -144,7 +145,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testIterator_FailsAtEnd() {
+	void testIterator_FailsAtEnd() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		loose = toList(master);
 
@@ -161,7 +162,8 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testIterator_MissingUnresolvedSymbolicRefIsBug() {
+	@SuppressWarnings("ReturnValueIgnored")
+	void testIterator_MissingUnresolvedSymbolicRefIsBug() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		final Ref headR = newRef("HEAD", master);
 
@@ -180,7 +182,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testMerge_HeadMaster() {
+	void testMerge_HeadMaster() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		final Ref headU = newRef("HEAD", "refs/heads/master");
 		final Ref headR = newRef("HEAD", master);
@@ -206,7 +208,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testMerge_PackedLooseLoose() {
+	void testMerge_PackedLooseLoose() {
 		final Ref refA = newRef("A", ID_ONE);
 		final Ref refB_ONE = newRef("B", ID_ONE);
 		final Ref refB_TWO = newRef("B", ID_TWO);
@@ -235,7 +237,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testMerge_WithPrefix() {
+	void testMerge_WithPrefix() {
 		final Ref a = newRef("refs/heads/A", ID_ONE);
 		final Ref b = newRef("refs/heads/foo/bar/B", ID_TWO);
 		final Ref c = newRef("refs/heads/foo/rab/C", ID_TWO);
@@ -269,7 +271,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testPut_KeyMustMatchName_NoPrefix() {
+	void testPut_KeyMustMatchName_NoPrefix() {
 		final Ref refA = newRef("refs/heads/A", ID_ONE);
 		RefMap map = new RefMap("", packed, loose, resolved);
 		try {
@@ -281,7 +283,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testPut_KeyMustMatchName_WithPrefix() {
+	void testPut_KeyMustMatchName_WithPrefix() {
 		final Ref refA = newRef("refs/heads/A", ID_ONE);
 		RefMap map = new RefMap("refs/heads/", packed, loose, resolved);
 		try {
@@ -293,7 +295,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testPut_NoPrefix() {
+	void testPut_NoPrefix() {
 		final Ref refA_one = newRef("refs/heads/A", ID_ONE);
 		final Ref refA_two = newRef("refs/heads/A", ID_TWO);
 
@@ -313,7 +315,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testPut_WithPrefix() {
+	void testPut_WithPrefix() {
 		final Ref refA_one = newRef("refs/heads/A", ID_ONE);
 		final Ref refA_two = newRef("refs/heads/A", ID_TWO);
 
@@ -333,7 +335,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testPut_CollapseResolved() {
+	void testPut_CollapseResolved() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		final Ref headU = newRef("HEAD", "refs/heads/master");
 		final Ref headR = newRef("HEAD", master);
@@ -349,7 +351,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testRemove() {
+	void testRemove() {
 		final Ref master = newRef("refs/heads/master", ID_ONE);
 		final Ref headU = newRef("HEAD", "refs/heads/master");
 		final Ref headR = newRef("HEAD", master);
@@ -371,7 +373,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testToString_NoPrefix() {
+	void testToString_NoPrefix() {
 		final Ref a = newRef("refs/heads/A", ID_ONE);
 		final Ref b = newRef("refs/heads/B", ID_TWO);
 
@@ -389,7 +391,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testToString_WithPrefix() {
+	void testToString_WithPrefix() {
 		final Ref a = newRef("refs/heads/A", ID_ONE);
 		final Ref b = newRef("refs/heads/foo/B", ID_TWO);
 		final Ref c = newRef("refs/heads/foo/C", ID_TWO);
@@ -409,7 +411,7 @@ public class RefMapTest {
 	}
 
 	@Test
-	public void testEntryType() {
+	void testEntryType() {
 		final Ref a = newRef("refs/heads/A", ID_ONE);
 		final Ref b = newRef("refs/heads/B", ID_TWO);
 
@@ -422,13 +424,13 @@ public class RefMapTest {
 
 		assertEquals(ent_a.hashCode(), "A".hashCode());
 		assertEquals(ent_a, ent_a);
-		assertFalse(ent_a.equals(ent_b));
+		assertNotEquals(ent_a, ent_b);
 
 		assertEquals(a.toString(), ent_a.toString());
 	}
 
 	@Test
-	public void testEntryTypeSet() {
+	void testEntryTypeSet() {
 		final Ref refA_one = newRef("refs/heads/A", ID_ONE);
 		final Ref refA_two = newRef("refs/heads/A", ID_TWO);
 

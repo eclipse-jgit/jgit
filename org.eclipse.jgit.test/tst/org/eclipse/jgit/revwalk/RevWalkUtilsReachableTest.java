@@ -11,7 +11,7 @@
 package org.eclipse.jgit.revwalk;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,12 +19,12 @@ import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 
 	@Test
-	public void oneCommit() throws Exception {
+	void oneCommit() throws Exception {
 		RevCommit a = commit();
 		Ref branchA = branch("a", a);
 
@@ -32,7 +32,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void twoCommits() throws Exception {
+	void twoCommits() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 		branch("a", a);
@@ -42,7 +42,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void multipleBranches() throws Exception {
+	void multipleBranches() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit(a);
 		branch("a", a);
@@ -53,7 +53,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void withMerge() throws Exception {
+	void withMerge() throws Exception {
 		RevCommit a = commit();
 		RevCommit b = commit();
 		RevCommit c = commit(a, b);
@@ -66,7 +66,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void withCommitLoadedByDifferentRevWalk() throws Exception {
+	void withCommitLoadedByDifferentRevWalk() throws Exception {
 		RevCommit a = commit();
 		Ref branchA = branch("a", a);
 
@@ -77,7 +77,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void findBranchesReachableManyTimes() throws Exception {
+	void findBranchesReachableManyTimes() throws Exception {
 		/*
 		 *  a   b
 		 *  |   |

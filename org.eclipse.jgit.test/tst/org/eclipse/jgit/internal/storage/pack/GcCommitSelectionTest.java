@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.pack;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,17 +30,17 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GcCommitSelectionTest extends GcTestCase {
 
 	@Test
-	public void testBitmapSpansNoMerges() throws Exception {
+	void testBitmapSpansNoMerges() throws Exception {
 		testBitmapSpansNoMerges(false);
 	}
 
 	@Test
-	public void testBitmapSpansNoMergesWithTags() throws Exception {
+	void testBitmapSpansNoMergesWithTags() throws Exception {
 		testBitmapSpansNoMerges(true);
 	}
 
@@ -77,13 +77,14 @@ public class GcCommitSelectionTest extends GcTestCase {
 			gc.gc().get();
 			assertEquals(currentCommits * 3, // commit/tree/object
 					gc.getStatistics().numberOfPackedObjects);
-			assertEquals(currentCommits + " commits: ", expectedBitmapCount,
-					gc.getStatistics().numberOfBitmaps);
+			assertEquals(expectedBitmapCount,
+					gc.getStatistics().numberOfBitmaps,
+					currentCommits + " commits: ");
 		}
 	}
 
 	@Test
-	public void testBitmapSpansWithMerges() throws Exception {
+	void testBitmapSpansWithMerges() throws Exception {
 		/*
 		 * Commits that are merged. Since 55 is in the oldest history it is
 		 * never considered. Searching goes from oldest to newest so 115 is the
@@ -101,20 +102,20 @@ public class GcCommitSelectionTest extends GcTestCase {
 		 * range will only be considered for commit counts > 200.
 		 */
 		int[][] bitmapCounts = { //
-				{ 1, 1 }, { 55, 55 }, { 56, 57 }, // +1 bitmap from branch A55
-				{ 99, 100 }, // still +1 branch @55
-				{ 100, 100 }, // 101 commits, only 100 newest
-				{ 116, 100 }, // @55 still in 100 newest bitmaps
-				{ 176, 101 }, // @55 branch tip is not in 100 newest
-				{ 213, 101 }, // 216 commits, @115&@175 in 100 newest
-				{ 214, 102 }, // @55 branch tip, merge @115, @177 in newest
-				{ 236, 102 }, // all 4 merge points in history
-				{ 273, 102 }, // 277 commits, @175&@235 in newest
-				{ 274, 103 }, // @55, @115, merge @175, @235 in newest
-				{ 334, 103 }, // @55,@115,@175, @235 in newest
-				{ 335, 104 }, // @55,@115,@175, merge @235
-				{ 435, 104 }, // @55,@115,@175,@235 tips
-				{ 436, 104 }, // force @236
+				{1, 1}, {55, 55}, {56, 57}, // +1 bitmap from branch A55
+				{99, 100}, // still +1 branch @55
+				{100, 100}, // 101 commits, only 100 newest
+				{116, 100}, // @55 still in 100 newest bitmaps
+				{176, 101}, // @55 branch tip is not in 100 newest
+				{213, 101}, // 216 commits, @115&@175 in 100 newest
+				{214, 102}, // @55 branch tip, merge @115, @177 in newest
+				{236, 102}, // all 4 merge points in history
+				{273, 102}, // 277 commits, @175&@235 in newest
+				{274, 103}, // @55, @115, merge @175, @235 in newest
+				{334, 103}, // @55,@115,@175, @235 in newest
+				{335, 104}, // @55,@115,@175, merge @235
+				{435, 104}, // @55,@115,@175,@235 tips
+				{436, 104}, // force @236
 		};
 
 		int currentCommits = 0;
@@ -139,13 +140,14 @@ public class GcCommitSelectionTest extends GcTestCase {
 			gc.setPackExpireAgeMillis(0); // immediately delete old packs
 			gc.setExpireAgeMillis(0);
 			gc.gc().get();
-			assertEquals(currentCommits + " commits: ", expectedBitmapCount,
-					gc.getStatistics().numberOfBitmaps);
+			assertEquals(expectedBitmapCount,
+					gc.getStatistics().numberOfBitmaps,
+					currentCommits + " commits: ");
 		}
 	}
 
 	@Test
-	public void testBitmapsForExcessiveBranches() throws Exception {
+	void testBitmapsForExcessiveBranches() throws Exception {
 		int oneDayInSeconds = 60 * 60 * 24;
 
 		// All of branch A is committed on day1
@@ -187,7 +189,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 	}
 
 	@Test
-	public void testSelectionOrderingWithChains() throws Exception {
+	void testSelectionOrderingWithChains() throws Exception {
 		/*-
 		 * Create a history like this, where 'N' is the number of seconds from
 		 * the first commit in the branch:
@@ -216,12 +218,12 @@ public class GcCommitSelectionTest extends GcTestCase {
 				preparer.selectCommits(commits.size(), PackWriter.NONE));
 
 		// Verify that the output is ordered by the separate "chains"
-		String[] expected = { m0.name(), m1.name(), m2.name(), m4.name(),
+		String[] expected = {m0.name(), m1.name(), m2.name(), m4.name(),
 				m6.name(), m8.name(), m9.name(), b3.name(), b5.name(),
-				b7.name() };
+				b7.name()};
 		assertEquals(expected.length, selection.size());
 		for (int i = 0; i < expected.length; i++) {
-			assertEquals("Entry " + i, expected[i], selection.get(i).getName());
+			assertEquals(expected[i], selection.get(i).getName(), "Entry " + i);
 		}
 	}
 
@@ -236,10 +238,10 @@ public class GcCommitSelectionTest extends GcTestCase {
 	}
 
 	@Test
-	public void testDistributionOnMultipleBranches() throws Exception {
-		BranchBuilder[] branches = { tr.branch("refs/heads/main"),
+	void testDistributionOnMultipleBranches() throws Exception {
+		BranchBuilder[] branches = {tr.branch("refs/heads/main"),
 				tr.branch("refs/heads/a"), tr.branch("refs/heads/b"),
-				tr.branch("refs/heads/c") };
+				tr.branch("refs/heads/c")};
 		RevCommit[] tips = new RevCommit[branches.length];
 		List<RevCommit> commits = createHistory(branches, tips);
 		PackConfig config = new PackConfig();

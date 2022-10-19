@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,15 +30,15 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TransportBundleStream;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DfsBundleWriterTest {
 	private TestRepository<InMemoryRepository> git;
 
 	private InMemoryRepository repo;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws IOException {
 		DfsRepositoryDescription desc = new DfsRepositoryDescription("test");
 		git = new TestRepository<>(new InMemoryRepository(desc));
@@ -46,7 +46,7 @@ public class DfsBundleWriterTest {
 	}
 
 	@Test
-	public void makeBundle_containsUnreferencedObject() throws Exception {
+	void makeBundle_containsUnreferencedObject() throws Exception {
 		RevCommit commit0 = git.commit().message("0").create();
 		RevCommit commit1 = git.commit().message("1").parent(commit0).create();
 		git.update("master", commit1);
@@ -67,7 +67,7 @@ public class DfsBundleWriterTest {
 	}
 
 	@Test
-	public void makeBundle_containsObjectInGcRestPack() throws Exception {
+	void makeBundle_containsObjectInGcRestPack() throws Exception {
 		RevCommit commit0 = git.commit().message("0").create();
 		RevCommit commit1 = git.commit().message("1").parent(commit0).create();
 		git.update("master", commit1);

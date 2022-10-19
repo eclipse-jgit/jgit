@@ -9,17 +9,18 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SimpleLruCacheTest {
 
@@ -28,54 +29,61 @@ public class SimpleLruCacheTest {
 	private SimpleLruCache<String, String> cache;
 
 
-	@Before
+	@BeforeEach
 	public void setup() throws IOException {
 		trash = Files.createTempDirectory("tmp_");
 		cache = new SimpleLruCache<>(100, 0.2f);
 	}
 
-	@Before
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		FileUtils.delete(trash.toFile(),
 				FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 	}
 
 	@Test
-	public void testPutGet() {
+	void testPutGet() {
 		cache.put("a", "A");
 		cache.put("z", "Z");
 		assertEquals("A", cache.get("a"));
 		assertEquals("Z", cache.get("z"));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testPurgeFactorTooLarge() {
-		cache.configure(5, 1.01f);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testPurgeFactorTooLarge2() {
-		cache.configure(5, 100);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testPurgeFactorTooSmall() {
-		cache.configure(5, 0);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testPurgeFactorTooSmall2() {
-		cache.configure(5, -100);
+	@Test
+	void testPurgeFactorTooLarge() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			cache.configure(5, 1.01f);
+		});
 	}
 
 	@Test
-	public void testGetMissing() {
-		assertEquals(null, cache.get("a"));
+	void testPurgeFactorTooLarge2() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			cache.configure(5, 100);
+		});
 	}
 
 	@Test
-	public void testPurge() {
+	void testPurgeFactorTooSmall() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			cache.configure(5, 0);
+		});
+	}
+
+	@Test
+	void testPurgeFactorTooSmall2() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			cache.configure(5, -100);
+		});
+	}
+
+	@Test
+	void testGetMissing() {
+		assertNull(cache.get("a"));
+	}
+
+	@Test
+	void testPurge() {
 		for (int i = 0; i < 101; i++) {
 			cache.put("a" + i, "a" + i);
 		}
@@ -87,7 +95,7 @@ public class SimpleLruCacheTest {
 	}
 
 	@Test
-	public void testConfigure() {
+	void testConfigure() {
 		for (int i = 0; i < 100; i++) {
 			cache.put("a" + i, "a" + i);
 		}

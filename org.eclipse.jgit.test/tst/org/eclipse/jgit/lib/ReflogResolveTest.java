@@ -9,16 +9,16 @@
  */
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for resolving reflog-based revisions
@@ -26,7 +26,7 @@ import org.junit.Test;
 public class ReflogResolveTest extends RepositoryTestCase {
 
 	@Test
-	public void resolveMasterCommits() throws Exception {
+	void resolveMasterCommits() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -41,7 +41,7 @@ public class ReflogResolveTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveUnnamedCurrentBranchCommits() throws Exception {
+	void resolveUnnamedCurrentBranchCommits() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -74,7 +74,7 @@ public class ReflogResolveTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveReflogParent() throws Exception {
+	void resolveReflogParent() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -88,7 +88,7 @@ public class ReflogResolveTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveNonExistingBranch() throws Exception {
+	void resolveNonExistingBranch() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -98,7 +98,7 @@ public class ReflogResolveTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolvePreviousBranch() throws Exception {
+	void resolvePreviousBranch() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -133,7 +133,7 @@ public class ReflogResolveTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void resolveDate() throws Exception {
+	void resolveDate() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();

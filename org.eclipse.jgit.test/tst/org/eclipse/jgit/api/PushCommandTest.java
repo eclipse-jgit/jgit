@@ -9,12 +9,13 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,12 +50,12 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PushCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testPush() throws JGitInternalException, IOException,
+	void testPush() throws JGitInternalException, IOException,
 			GitAPIException, URISyntaxException {
 
 		// create other repository
@@ -98,7 +99,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPrePushHook() throws JGitInternalException, IOException,
+	void testPrePushHook() throws JGitInternalException, IOException,
 			GitAPIException, URISyntaxException {
 
 		// create other repository
@@ -187,7 +188,7 @@ public class PushCommandTest extends RepositoryTestCase {
 
 
 	@Test
-	public void testTrackingUpdate() throws Exception {
+	void testTrackingUpdate() throws Exception {
 		Repository db2 = createBareRepository();
 
 		String remote = "origin";
@@ -241,7 +242,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushRefUpdate() throws Exception {
+	void testPushRefUpdate() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
@@ -257,7 +258,7 @@ public class PushCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("f").call();
 			RevCommit commit = git.commit().setMessage("adding f").call();
 
-			assertEquals(null, git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			git.push().setRemote("test").call();
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/master"));
@@ -271,8 +272,9 @@ public class PushCommandTest extends RepositoryTestCase {
 				commit = git.commit().setMessage("adding f" + i).call();
 				git.push().setRemote("test").call();
 				git2.getRepository().getRefDatabase().getRefs();
-				assertEquals("failed to update on attempt " + i, commit.getId(),
-						git2.getRepository().resolve("refs/heads/test"));
+				assertEquals(commit.getId(),
+						git2.getRepository().resolve("refs/heads/test"),
+						"failed to update on attempt " + i);
 			}
 		}
 	}
@@ -283,7 +285,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushWithRefSpecFromConfig() throws Exception {
+	void testPushWithRefSpecFromConfig() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
@@ -299,7 +301,7 @@ public class PushCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("f").call();
 			RevCommit commit = git.commit().setMessage("adding f").call();
 
-			assertEquals(null, git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			git.push().setRemote("test").call();
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/newbranch"));
@@ -312,7 +314,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushWithoutPushRefSpec() throws Exception {
+	void testPushWithoutPushRefSpec() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
@@ -332,17 +334,16 @@ public class PushCommandTest extends RepositoryTestCase {
 			git.checkout().setName("not-pushed").setCreateBranch(true).call();
 			git.checkout().setName("branchtopush").setCreateBranch(true).call();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null, git2.getRepository()
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository()
 					.resolve("refs/heads/not-pushed"));
-			assertEquals(null, git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			git.push().setRemote("test").call();
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null, git2.getRepository()
+			assertNull(git2.getRepository()
 					.resolve("refs/heads/not-pushed"));
-			assertEquals(null, git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 		}
 	}
 
@@ -353,7 +354,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultDetachedHead() throws Exception {
+	void testPushDefaultDetachedHead() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
@@ -388,7 +389,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultNothing() throws Exception {
+	void testPushDefaultNothing() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
@@ -408,12 +409,9 @@ public class PushCommandTest extends RepositoryTestCase {
 			git.checkout().setName("not-pushed").setCreateBranch(true).call();
 			git.checkout().setName("branchtopush").setCreateBranch(true).call();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			assertThrows(InvalidRefNameException.class,
 					() -> git.push().setRemote("test")
 							.setPushDefault(PushDefault.NOTHING).call());
@@ -427,7 +425,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultMatching() throws Exception {
+	void testPushDefaultMatching() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			final StoredConfig config = git.getRepository().getConfig();
@@ -447,12 +445,9 @@ public class PushCommandTest extends RepositoryTestCase {
 			git.checkout().setName("not-pushed").setCreateBranch(true).call();
 			git.checkout().setName("branchtopush").setCreateBranch(true).call();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			// push master and branchtopush
 			git.push().setRemote("test").setRefSpecs(
 					new RefSpec("refs/heads/master:refs/heads/master"),
@@ -463,8 +458,7 @@ public class PushCommandTest extends RepositoryTestCase {
 					git2.getRepository().resolve("refs/heads/master"));
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
 			// Create two different commits on these two branches
 			writeTrashFile("b", "on branchtopush");
 			git.add().addFilepattern("b").call();
@@ -485,7 +479,497 @@ public class PushCommandTest extends RepositoryTestCase {
 				assertEquals(2, r.getRemoteUpdates().size());
 				for (RemoteRefUpdate update : r.getRemoteUpdates()) {
 					assertFalse(update.isMatching());
-					assertTrue(update.getSrcRef()
+					/*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @62fb7ff2)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @6bf623c1)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @79d60cf1)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @44675487)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @2cdae920)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @3675fec1)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @39a80ecc)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @52f98f20)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @a6f96bb)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @5d20124d)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @3a412fd)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @18a24734)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @56f9473a)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @1d197565)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @3a412fd)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @557458f6)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @47719777)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @64b03ee6)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @5d8b8d27)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @27a8170d)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @5fd02a5c)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @4c2021d2)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @430b8a74)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @7a441948)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @284ef0a1)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @25589484)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @246f3e6e)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @1a696b7b)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @2e26d349)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @389149ea)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @288196cc)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @efcba8)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @2632fa66)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @2694d587)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @5583953)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @2ef9f032)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @25fbe503)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @1080d265)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @730c14f)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @3355dbf6)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @4fd3ed67)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @288196cc)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @3f9fbc68)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @4407b1b8)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @1080d265)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @60198c7c)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @4407b1b8)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @7e06b3cb)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*//*~~(Recipe failed with an exception.
+java.lang.ClassCastException: class org.openrewrite.java.tree.J$Binary cannot be cast to class org.openrewrite.java.tree.J$MethodInvocation (org.openrewrite.java.tree.J$Binary and org.openrewrite.java.tree.J$MethodInvocation are in unnamed module of loader org.codehaus.plexus.classworlds.realm.ClassRealm @331f3583)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:76)
+  org.openrewrite.java.testing.cleanup.AssertTrueEqualsToAssertEquals$1.visitMethodInvocation(AssertTrueEqualsToAssertEquals.java:51)
+  org.openrewrite.java.tree.J$MethodInvocation.acceptJava(J.java:3470)
+  org.openrewrite.java.tree.J.accept(J.java:60)
+  org.openrewrite.TreeVisitor.visit(TreeVisitor.java:248)
+  org.openrewrite.TreeVisitor.visitAndCast(TreeVisitor.java:327)
+  org.openrewrite.java.JavaVisitor.visitRightPadded(JavaVisitor.java:1226)
+  org.openrewrite.java.JavaVisitor.lambda$visitBlock$4(JavaVisitor.java:367)
+  ...)~~>*/assertTrue(update.getSrcRef()
 							.equals("refs/heads/branchtopush")
 							|| update.getSrcRef().equals("refs/heads/master"));
 					assertEquals(RemoteRefUpdate.Status.OK, update.getStatus());
@@ -493,13 +977,12 @@ public class PushCommandTest extends RepositoryTestCase {
 			}
 			assertEquals(bCommit.getId(),
 					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
 			assertEquals(mCommit.getId(),
 					git2.getRepository().resolve("refs/heads/master"));
 			assertEquals(bCommit.getId(), git.getRepository()
 					.resolve("refs/remotes/origin/branchtopush"));
-			assertEquals(null, git.getRepository()
+			assertNull(git.getRepository()
 					.resolve("refs/remotes/origin/not-pushed"));
 			assertEquals(mCommit.getId(),
 					git.getRepository().resolve("refs/remotes/origin/master"));
@@ -513,7 +996,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultUpstream() throws Exception {
+	void testPushDefaultUpstream() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -539,27 +1022,20 @@ public class PushCommandTest extends RepositoryTestCase {
 					"refs/heads/upstreambranch");
 			config.save();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/upstreambranch"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			git.push().setRemote("test").setPushDefault(PushDefault.UPSTREAM)
 					.call();
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/upstreambranch"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			assertEquals(commit.getId(), git.getRepository()
 					.resolve("refs/remotes/origin/upstreambranch"));
-			assertEquals(null, git.getRepository()
+			assertNull(git.getRepository()
 					.resolve("refs/remotes/origin/branchtopush"));
 		}
 	}
@@ -571,7 +1047,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultUpstreamNoTracking() throws Exception {
+	void testPushDefaultUpstreamNoTracking() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -609,7 +1085,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultUpstreamTriangular() throws Exception {
+	void testPushDefaultUpstreamTriangular() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -648,7 +1124,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultSimple() throws Exception {
+	void testPushDefaultSimple() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -674,20 +1150,15 @@ public class PushCommandTest extends RepositoryTestCase {
 					"refs/heads/branchtopush");
 			config.save();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			git.push().setRemote("test").setPushDefault(PushDefault.SIMPLE)
 					.call();
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			assertEquals(commit.getId(), git.getRepository()
 					.resolve("refs/remotes/origin/branchtopush"));
 		}
@@ -700,7 +1171,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultSimpleTriangular() throws Exception {
+	void testPushDefaultSimpleTriangular() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -727,24 +1198,17 @@ public class PushCommandTest extends RepositoryTestCase {
 					"refs/heads/upstreambranch");
 			config.save();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/upstreambranch"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			git.push().setRemote("test").setPushDefault(PushDefault.SIMPLE)
 					.call();
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/upstreambranch"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			assertEquals(commit.getId(), git.getRepository()
 					.resolve("refs/remotes/origin/branchtopush"));
 		}
@@ -757,7 +1221,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultSimpleNoTracking() throws Exception {
+	void testPushDefaultSimpleNoTracking() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -795,7 +1259,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultSimpleDifferentTracking() throws Exception {
+	void testPushDefaultSimpleDifferentTracking() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -834,7 +1298,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultFromConfig() throws Exception {
+	void testPushDefaultFromConfig() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -861,28 +1325,21 @@ public class PushCommandTest extends RepositoryTestCase {
 					"refs/heads/upstreambranch");
 			config.save();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/upstreambranch"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/upstreambranch"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			PushCommand cmd = git.push();
 			cmd.setRemote("test").setPushDefault(null).call();
 			assertEquals(PushDefault.UPSTREAM, cmd.getPushDefault());
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/upstreambranch"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			assertEquals(commit.getId(), git.getRepository()
 					.resolve("refs/remotes/origin/upstreambranch"));
-			assertEquals(null, git.getRepository()
+			assertNull(git.getRepository()
 					.resolve("refs/remotes/origin/branchtopush"));
 		}
 	}
@@ -894,7 +1351,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushDefaultFromConfigDefault() throws Exception {
+	void testPushDefaultFromConfigDefault() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -920,21 +1377,16 @@ public class PushCommandTest extends RepositoryTestCase {
 					"refs/heads/branchtopush");
 			config.save();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			PushCommand cmd = git.push();
 			cmd.setRemote("test").setPushDefault(null).call();
 			assertEquals(PushDefault.SIMPLE, cmd.getPushDefault());
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			assertEquals(commit.getId(), git.getRepository()
 					.resolve("refs/remotes/origin/branchtopush"));
 		}
@@ -946,7 +1398,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testBranchPushRemote() throws Exception {
+	void testBranchPushRemote() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -985,7 +1437,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testRemotePushDefault() throws Exception {
+	void testRemotePushDefault() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -1023,7 +1475,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testDefaultRemote() throws Exception {
+	void testDefaultRemote() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -1064,7 +1516,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testDefaultPush() throws Exception {
+	void testDefaultPush() throws Exception {
 		try (Git git = new Git(db);
 				Git git2 = new Git(createBareRepository())) {
 			StoredConfig config = git.getRepository().getConfig();
@@ -1088,12 +1540,9 @@ public class PushCommandTest extends RepositoryTestCase {
 			config.setString("branch", "branchtopush", "remote", "test");
 			config.save();
 
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/branchtopush"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			// Should use remote "test", push.default=current
 			PushCommand cmd = git.push();
 			cmd.call();
@@ -1101,10 +1550,8 @@ public class PushCommandTest extends RepositoryTestCase {
 			assertEquals(PushDefault.CURRENT, cmd.getPushDefault());
 			assertEquals(commit.getId(),
 					git2.getRepository().resolve("refs/heads/branchtopush"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/not-pushed"));
-			assertEquals(null,
-					git2.getRepository().resolve("refs/heads/master"));
+			assertNull(git2.getRepository().resolve("refs/heads/not-pushed"));
+			assertNull(git2.getRepository().resolve("refs/heads/master"));
 			assertEquals(commit.getId(), git.getRepository()
 					.resolve("refs/remotes/origin/branchtopush"));
 		}
@@ -1116,7 +1563,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testPushAfterGC() throws Exception {
+	void testPushAfterGC() throws Exception {
 		// create other repository
 		Repository db2 = createWorkRepository();
 		addRepoToClose(db2);
@@ -1158,8 +1605,8 @@ public class PushCommandTest extends RepositoryTestCase {
 				// Re-run the push.  Failure may happen here.
 				git1.push().setRemote("test").setRefSpecs(spec).call();
 			} catch (TransportException e) {
-				assertTrue("should be caused by a MissingObjectException", e
-						.getCause().getCause() instanceof MissingObjectException);
+				assertTrue(e
+						.getCause().getCause() instanceof MissingObjectException, "should be caused by a MissingObjectException");
 				fail("caught MissingObjectException for a change we don't have");
 			}
 
@@ -1178,7 +1625,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPushWithLease() throws JGitInternalException, IOException,
+	void testPushWithLease() throws JGitInternalException, IOException,
 			GitAPIException, URISyntaxException {
 
 		// create other repository

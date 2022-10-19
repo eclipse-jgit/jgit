@@ -11,8 +11,8 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -21,12 +21,12 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkResetTest extends RevWalkTestCase {
 
 	@Test
-	public void testRevFilterReceivesParsedCommits() throws Exception {
+	void testRevFilterReceivesParsedCommits() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(b);
@@ -38,7 +38,7 @@ public class RevWalkResetTest extends RevWalkTestCase {
 			public boolean include(RevWalk walker, RevCommit cmit)
 					throws StopWalkException, MissingObjectException,
 					IncorrectObjectTypeException, IOException {
-				assertNotNull("commit is parsed", cmit.getRawBuffer());
+				assertNotNull(cmit.getRawBuffer(), "commit is parsed");
 				filterRan.set(true);
 				return true;
 			}
@@ -63,7 +63,7 @@ public class RevWalkResetTest extends RevWalkTestCase {
 			// Don't dispose the body here, because we want to test the effect
 			// of marking 'b' as uninteresting.
 		}
-		assertTrue("filter ran", filterRan.get());
+		assertTrue(filterRan.get(), "filter ran");
 
 		// Run through the walk again, this time disposing of all commits.
 		filterRan.set(false);
@@ -72,7 +72,7 @@ public class RevWalkResetTest extends RevWalkTestCase {
 		for (RevCommit cmit = rw.next(); cmit != null; cmit = rw.next()) {
 			cmit.disposeBody();
 		}
-		assertTrue("filter ran", filterRan.get());
+		assertTrue(filterRan.get(), "filter ran");
 
 		// Do the third run through the reused walk. Test that the explicitly
 		// disposed commits are parsed on this walk.
@@ -82,7 +82,7 @@ public class RevWalkResetTest extends RevWalkTestCase {
 		for (RevCommit cmit = rw.next(); cmit != null; cmit = rw.next()) {
 			// spin through the walk.
 		}
-		assertTrue("filter ran", filterRan.get());
+		assertTrue(filterRan.get(), "filter ran");
 
 	}
 }

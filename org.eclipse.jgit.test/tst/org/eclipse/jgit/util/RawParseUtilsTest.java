@@ -9,15 +9,15 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -39,14 +39,14 @@ public class RawParseUtilsTest {
 		"commit message";
 
 	@Test
-	public void testParseEncoding_ISO8859_1_encoding() {
+	void testParseEncoding_ISO8859_1_encoding() {
 		Charset result = RawParseUtils.parseEncoding(Constants
 				.encodeASCII("encoding ISO-8859-1\n"));
 		assertNotNull(result);
 	}
 
 	@Test
-	public void testParseEncoding_Accept_Latin_One_AsISO8859_1() {
+	void testParseEncoding_Accept_Latin_One_AsISO8859_1() {
 		Charset result = RawParseUtils.parseEncoding(Constants
 				.encodeASCII("encoding latin-1\n"));
 		assertNotNull(result);
@@ -54,7 +54,7 @@ public class RawParseUtilsTest {
 	}
 
 	@Test
-	public void testParseEncoding_badEncoding() {
+	void testParseEncoding_badEncoding() {
 		try {
 			RawParseUtils.parseEncoding(Constants.encodeASCII("encoding xyz\n"));
 			fail("should throw an UnsupportedCharsetException: xyz");
@@ -64,7 +64,7 @@ public class RawParseUtilsTest {
 	}
 
 	@Test
-	public void testHeaderStart() {
+	void testHeaderStart() {
 		byte[] headerName = "some".getBytes(UTF_8);
 		byte[] commitBytes = commit.getBytes(UTF_8);
 		assertEquals(625, RawParseUtils.headerStart(headerName, commitBytes, 0));
@@ -72,16 +72,16 @@ public class RawParseUtilsTest {
 
 		byte[] missingHeaderName = "missing".getBytes(UTF_8);
 		assertEquals(-1, RawParseUtils.headerStart(missingHeaderName,
-							   commitBytes, 0));
+				commitBytes, 0));
 
 		byte[] fauxHeaderName = "other".getBytes(UTF_8);
 		assertEquals(-1, RawParseUtils.headerStart(fauxHeaderName, commitBytes, 625 + 4));
 	}
 
 	@Test
-	public void testHeaderEnd() {
+	void testHeaderEnd() {
 		byte[] commitBytes = commit.getBytes(UTF_8);
-		int[] expected = new int[] {45, 93, 148, 619, 637};
+		int[] expected = new int[]{45, 93, 148, 619, 637};
 		int start = 0;
 		for (int i = 0; i < expected.length; i++) {
 			start = RawParseUtils.headerEnd(commitBytes, start);

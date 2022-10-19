@@ -11,10 +11,10 @@
 package org.eclipse.jgit.util.sha1;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.IO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SHA1Test {
 	private static final String TEST1 = "abc";
@@ -35,20 +35,20 @@ public class SHA1Test {
 	private static final String TEST2 = TEST2a + TEST2b;
 
 	@Test
-	public void test0() throws NoSuchAlgorithmException {
+	void test0() throws NoSuchAlgorithmException {
 		ObjectId exp = ObjectId
 				.fromString("da39a3ee5e6b4b0d3255bfef95601890afd80709");
 
 		MessageDigest m = MessageDigest.getInstance("SHA-1");
-		m.update(new byte[] {});
+		m.update(new byte[]{});
 		ObjectId m1 = ObjectId.fromRaw(m.digest());
 
 		SHA1 s = SHA1.newInstance();
-		s.update(new byte[] {});
+		s.update(new byte[]{});
 		ObjectId s1 = ObjectId.fromRaw(s.digest());
 
 		s.reset();
-		s.update(new byte[] {});
+		s.update(new byte[]{});
 		ObjectId s2 = s.toObjectId();
 
 		assertEquals(m1, s1);
@@ -57,7 +57,7 @@ public class SHA1Test {
 	}
 
 	@Test
-	public void test1() throws NoSuchAlgorithmException {
+	void test1() throws NoSuchAlgorithmException {
 		ObjectId exp = ObjectId
 				.fromString("a9993e364706816aba3e25717850c26c9cd0d89d");
 
@@ -79,7 +79,7 @@ public class SHA1Test {
 	}
 
 	@Test
-	public void test2() throws NoSuchAlgorithmException {
+	void test2() throws NoSuchAlgorithmException {
 		ObjectId exp = ObjectId
 				.fromString("84983e441c3bd26ebaae4aa1f95129e5e54670f1");
 
@@ -101,7 +101,7 @@ public class SHA1Test {
 	}
 
 	@Test
-	public void shatteredCollision()
+	void shatteredCollision()
 			throws IOException, NoSuchAlgorithmException {
 		byte[] pdf1 = read("shattered-1.pdf", 422435);
 		byte[] pdf2 = read("shattered-2.pdf", 422435);
@@ -113,19 +113,21 @@ public class SHA1Test {
 				.fromString("38762cf7f55934b34d179ae6a4c80cadccbb7f0a");
 		md = MessageDigest.getInstance("SHA-1");
 		md.update(pdf1);
-		assertEquals("shattered-1 collides", bad,
-				ObjectId.fromRaw(md.digest()));
+		assertEquals(bad,
+				ObjectId.fromRaw(md.digest()),
+				"shattered-1 collides");
 		s = SHA1.newInstance().setDetectCollision(false);
 		s.update(pdf1);
-		assertEquals("shattered-1 collides", bad, s.toObjectId());
+		assertEquals(bad, s.toObjectId(), "shattered-1 collides");
 
 		md = MessageDigest.getInstance("SHA-1");
 		md.update(pdf2);
-		assertEquals("shattered-2 collides", bad,
-				ObjectId.fromRaw(md.digest()));
+		assertEquals(bad,
+				ObjectId.fromRaw(md.digest()),
+				"shattered-2 collides");
 		s = SHA1.newInstance().setDetectCollision(false);
 		s.update(pdf2);
-		assertEquals("shattered-2 collides", bad, s.toObjectId());
+		assertEquals(bad, s.toObjectId(), "shattered-2 collides");
 
 		// SHA1 with detectCollision shouldn't be fooled.
 		s = SHA1.newInstance().setDetectCollision(true);
@@ -150,7 +152,7 @@ public class SHA1Test {
 	}
 
 	@Test
-	public void shatteredStoredInGitBlob() throws IOException {
+	void shatteredStoredInGitBlob() throws IOException {
 		byte[] pdf1 = read("shattered-1.pdf", 422435);
 		byte[] pdf2 = read("shattered-2.pdf", 422435);
 
@@ -170,7 +172,7 @@ public class SHA1Test {
 	}
 
 	@Test
-	public void detectsShatteredByDefault() throws IOException {
+	void detectsShatteredByDefault() throws IOException {
 		assumeTrue(System.getProperty("org.eclipse.jgit.util.sha1.detectCollision") == null);
 		assumeTrue(System.getProperty("org.eclipse.jgit.util.sha1.safeHash") == null);
 
@@ -181,7 +183,7 @@ public class SHA1Test {
 			s.digest();
 			fail("expected " + Sha1CollisionException.class.getSimpleName());
 		} catch (Sha1CollisionException e) {
-			assertTrue("shattered-1 detected", true);
+			assertTrue(true, "shattered-1 detected");
 		}
 	}
 

@@ -12,21 +12,21 @@ package org.eclipse.jgit.patch;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
-import org.eclipse.jgit.junit.JGitTestUtil;
-import org.junit.Test;
+import org.eclipse.jgit.junit.TestInfoRetriever;
+import org.junit.jupiter.api.Test;
 
-public class GetTextTest {
+public class GetTextTest extends TestInfoRetriever {
 	@Test
-	public void testGetText_BothISO88591() throws IOException {
+	void testGetText_BothISO88591() throws IOException {
 		final Charset cs = ISO_8859_1;
 		final Patch p = parseTestPatchFile();
 		assertTrue(p.getErrors().isEmpty());
@@ -37,7 +37,7 @@ public class GetTextTest {
 	}
 
 	@Test
-	public void testGetText_NoBinary() throws IOException {
+	void testGetText_NoBinary() throws IOException {
 		final Charset cs = ISO_8859_1;
 		final Patch p = parseTestPatchFile();
 		assertTrue(p.getErrors().isEmpty());
@@ -48,7 +48,7 @@ public class GetTextTest {
 	}
 
 	@Test
-	public void testGetText_Convert() throws IOException {
+	void testGetText_Convert() throws IOException {
 		final Charset csOld = ISO_8859_1;
 		final Charset csNew = UTF_8;
 		final Patch p = parseTestPatchFile();
@@ -68,7 +68,7 @@ public class GetTextTest {
 	}
 
 	@Test
-	public void testGetText_DiffCc() throws IOException {
+	void testGetText_DiffCc() throws IOException {
 		final Charset csOld = ISO_8859_1;
 		final Charset csNew = UTF_8;
 		final Patch p = parseTestPatchFile();
@@ -85,11 +85,11 @@ public class GetTextTest {
 		exp = exp.replace("\303\205ngstr\303\266m", "\u00c5ngstr\u00f6m");
 
 		assertEquals(exp, fh
-				.getScriptText(new Charset[] { csNew, csOld, csNew }));
+				.getScriptText(new Charset[]{csNew, csOld, csNew}));
 	}
 
 	private Patch parseTestPatchFile() throws IOException {
-		final String patchFile = JGitTestUtil.getName() + ".patch";
+		final String patchFile = getTestMethodName() + ".patch";
 		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
 			if (in == null) {
 				fail("No " + patchFile + " test vector");
@@ -102,7 +102,7 @@ public class GetTextTest {
 	}
 
 	private String readTestPatchFile(Charset cs) throws IOException {
-		final String patchFile = JGitTestUtil.getName() + ".patch";
+		final String patchFile = getTestMethodName() + ".patch";
 		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
 			if (in == null) {
 				fail("No " + patchFile + " test vector");

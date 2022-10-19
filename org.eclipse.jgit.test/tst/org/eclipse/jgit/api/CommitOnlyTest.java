@@ -11,9 +11,9 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testing the 'commit only' option:
@@ -109,7 +109,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	private static int E = 4;
 
 	@Test
-	public void testOnlyOption_f1_1_a() throws Exception {
+	void testOnlyOption_f1_1_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_1(git);
@@ -117,7 +117,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_b() throws Exception {
+	void testOnlyOption_f1_1_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_1(git);
@@ -125,7 +125,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_c() throws Exception {
+	void testOnlyOption_f1_1_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_1(git);
@@ -133,7 +133,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_d() throws Exception {
+	void testOnlyOption_f1_1_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_1(git);
@@ -141,7 +141,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_e() throws Exception {
+	void testOnlyOption_f1_1_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_1(git);
@@ -149,7 +149,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_f2_14_a() throws Exception {
+	void testOnlyOption_f1_1_f2_14_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, A);
 		prepare_f1_1(git);
@@ -157,7 +157,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_f2_14_b() throws Exception {
+	void testOnlyOption_f1_1_f2_14_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, B);
 		prepare_f1_1(git);
@@ -165,7 +165,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_f2_14_c() throws Exception {
+	void testOnlyOption_f1_1_f2_14_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, C);
 		prepare_f1_1(git);
@@ -173,7 +173,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_f2_14_d() throws Exception {
+	void testOnlyOption_f1_1_f2_14_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, D);
 		prepare_f1_1(git);
@@ -181,7 +181,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_1_f2_14_e() throws Exception {
+	void testOnlyOption_f1_1_f2_14_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, E);
 		prepare_f1_1(git);
@@ -189,7 +189,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_a() throws Exception {
+	void testOnlyOption_f1_2_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_2(git);
@@ -197,7 +197,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_b() throws Exception {
+	void testOnlyOption_f1_2_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_2(git);
@@ -205,7 +205,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_c() throws Exception {
+	void testOnlyOption_f1_2_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_2(git);
@@ -213,7 +213,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_d() throws Exception {
+	void testOnlyOption_f1_2_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_2(git);
@@ -221,7 +221,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_e() throws Exception {
+	void testOnlyOption_f1_2_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_2(git);
@@ -229,7 +229,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_f2_14_a() throws Exception {
+	void testOnlyOption_f1_2_f2_14_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, A);
 		prepare_f1_2(git);
@@ -237,7 +237,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_f2_14_b() throws Exception {
+	void testOnlyOption_f1_2_f2_14_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, B);
 		prepare_f1_2(git);
@@ -245,7 +245,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_f2_14_c() throws Exception {
+	void testOnlyOption_f1_2_f2_14_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, C);
 		prepare_f1_2(git);
@@ -253,7 +253,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_f2_14_d() throws Exception {
+	void testOnlyOption_f1_2_f2_14_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, D);
 		prepare_f1_2(git);
@@ -261,7 +261,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_2_f2_14_e() throws Exception {
+	void testOnlyOption_f1_2_f2_14_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, E);
 		prepare_f1_2(git);
@@ -269,7 +269,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_3_a() throws Exception {
+	void testOnlyOption_f1_3_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_3(git);
@@ -277,7 +277,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_3_b() throws Exception {
+	void testOnlyOption_f1_3_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_3(git);
@@ -285,7 +285,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_3_c() throws Exception {
+	void testOnlyOption_f1_3_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_3(git);
@@ -293,7 +293,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_3_d() throws Exception {
+	void testOnlyOption_f1_3_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_3(git);
@@ -301,7 +301,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_3_e() throws Exception {
+	void testOnlyOption_f1_3_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_3(git);
@@ -309,7 +309,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_4_a() throws Exception {
+	void testOnlyOption_f1_4_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_4(git);
@@ -317,7 +317,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_4_b() throws Exception {
+	void testOnlyOption_f1_4_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_4(git);
@@ -325,7 +325,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_4_c() throws Exception {
+	void testOnlyOption_f1_4_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_4(git);
@@ -333,7 +333,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_4_d() throws Exception {
+	void testOnlyOption_f1_4_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_4(git);
@@ -341,7 +341,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_4_e() throws Exception {
+	void testOnlyOption_f1_4_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_4(git);
@@ -349,7 +349,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_5_a() throws Exception {
+	void testOnlyOption_f1_5_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_5(git);
@@ -357,7 +357,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_5_b() throws Exception {
+	void testOnlyOption_f1_5_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_5(git);
@@ -365,7 +365,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_5_c() throws Exception {
+	void testOnlyOption_f1_5_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_5(git);
@@ -373,7 +373,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_5_d() throws Exception {
+	void testOnlyOption_f1_5_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_5(git);
@@ -381,7 +381,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_5_e() throws Exception {
+	void testOnlyOption_f1_5_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_5(git);
@@ -389,7 +389,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_a() throws Exception {
+	void testOnlyOption_f1_6_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_6(git);
@@ -397,7 +397,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_b() throws Exception {
+	void testOnlyOption_f1_6_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_6(git);
@@ -405,7 +405,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_c() throws Exception {
+	void testOnlyOption_f1_6_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_6(git);
@@ -413,7 +413,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_d() throws Exception {
+	void testOnlyOption_f1_6_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_6(git);
@@ -421,7 +421,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_e() throws Exception {
+	void testOnlyOption_f1_6_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_6(git);
@@ -429,7 +429,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_f2_14_a() throws Exception {
+	void testOnlyOption_f1_6_f2_14_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, A);
 		prepare_f1_6(git);
@@ -437,7 +437,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_f2_14_b() throws Exception {
+	void testOnlyOption_f1_6_f2_14_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, B);
 		prepare_f1_6(git);
@@ -445,7 +445,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_f2_14_c() throws Exception {
+	void testOnlyOption_f1_6_f2_14_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, C);
 		prepare_f1_6(git);
@@ -453,7 +453,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_f2_14_d() throws Exception {
+	void testOnlyOption_f1_6_f2_14_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, D);
 		prepare_f1_6(git);
@@ -461,7 +461,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_6_f2_14_e() throws Exception {
+	void testOnlyOption_f1_6_f2_14_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, E);
 		prepare_f1_6(git);
@@ -469,7 +469,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_a() throws Exception {
+	void testOnlyOption_f1_7_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_7(git);
@@ -477,7 +477,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_b() throws Exception {
+	void testOnlyOption_f1_7_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_7(git);
@@ -485,7 +485,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_c() throws Exception {
+	void testOnlyOption_f1_7_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_7(git);
@@ -493,7 +493,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_d() throws Exception {
+	void testOnlyOption_f1_7_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_7(git);
@@ -501,7 +501,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_e() throws Exception {
+	void testOnlyOption_f1_7_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_7(git);
@@ -509,7 +509,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_f2_14_a() throws Exception {
+	void testOnlyOption_f1_7_f2_14_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, A);
 		prepare_f1_7(git);
@@ -517,7 +517,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_f2_14_b() throws Exception {
+	void testOnlyOption_f1_7_f2_14_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, B);
 		prepare_f1_7(git);
@@ -525,7 +525,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_f2_14_c() throws Exception {
+	void testOnlyOption_f1_7_f2_14_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, C);
 		prepare_f1_7(git);
@@ -533,7 +533,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_f2_14_d() throws Exception {
+	void testOnlyOption_f1_7_f2_14_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, D);
 		prepare_f1_7(git);
@@ -541,7 +541,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_7_f2_14_e() throws Exception {
+	void testOnlyOption_f1_7_f2_14_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, E);
 		prepare_f1_7(git);
@@ -549,7 +549,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_8_a() throws Exception {
+	void testOnlyOption_f1_8_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_8(git);
@@ -557,7 +557,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_8_b() throws Exception {
+	void testOnlyOption_f1_8_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_8(git);
@@ -565,7 +565,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_8_c() throws Exception {
+	void testOnlyOption_f1_8_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_8(git);
@@ -573,7 +573,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_8_d() throws Exception {
+	void testOnlyOption_f1_8_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_8(git);
@@ -581,7 +581,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_8_e() throws Exception {
+	void testOnlyOption_f1_8_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_8(git);
@@ -589,7 +589,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_9_a() throws Exception {
+	void testOnlyOption_f1_9_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_9(git);
@@ -597,7 +597,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_9_b() throws Exception {
+	void testOnlyOption_f1_9_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_9(git);
@@ -605,7 +605,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_9_c() throws Exception {
+	void testOnlyOption_f1_9_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_9(git);
@@ -613,7 +613,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_9_d() throws Exception {
+	void testOnlyOption_f1_9_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_9(git);
@@ -621,7 +621,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_9_e() throws Exception {
+	void testOnlyOption_f1_9_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_9(git);
@@ -629,7 +629,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_10_a() throws Exception {
+	void testOnlyOption_f1_10_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_10(git);
@@ -637,7 +637,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_10_b() throws Exception {
+	void testOnlyOption_f1_10_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_10(git);
@@ -645,7 +645,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_10_c() throws Exception {
+	void testOnlyOption_f1_10_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_10(git);
@@ -653,7 +653,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_10_d() throws Exception {
+	void testOnlyOption_f1_10_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_10(git);
@@ -661,7 +661,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_10_e() throws Exception {
+	void testOnlyOption_f1_10_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_10(git);
@@ -669,7 +669,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_11_a() throws Exception {
+	void testOnlyOption_f1_11_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_11(git);
@@ -677,7 +677,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_11_b() throws Exception {
+	void testOnlyOption_f1_11_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_11(git);
@@ -685,7 +685,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_11_c() throws Exception {
+	void testOnlyOption_f1_11_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_11(git);
@@ -693,7 +693,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_11_d() throws Exception {
+	void testOnlyOption_f1_11_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_11(git);
@@ -701,7 +701,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_11_e() throws Exception {
+	void testOnlyOption_f1_11_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_11(git);
@@ -709,7 +709,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_a() throws Exception {
+	void testOnlyOption_f1_12_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_12(git);
@@ -717,7 +717,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_b() throws Exception {
+	void testOnlyOption_f1_12_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_12(git);
@@ -725,7 +725,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_c() throws Exception {
+	void testOnlyOption_f1_12_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_12(git);
@@ -733,7 +733,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_d() throws Exception {
+	void testOnlyOption_f1_12_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_12(git);
@@ -741,7 +741,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_e() throws Exception {
+	void testOnlyOption_f1_12_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_12(git);
@@ -749,7 +749,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_f2_14_a() throws Exception {
+	void testOnlyOption_f1_12_f2_14_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, A);
 		prepare_f1_12(git);
@@ -757,7 +757,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_f2_14_b() throws Exception {
+	void testOnlyOption_f1_12_f2_14_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, B);
 		prepare_f1_12(git);
@@ -765,7 +765,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_f2_14_c() throws Exception {
+	void testOnlyOption_f1_12_f2_14_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, C);
 		prepare_f1_12(git);
@@ -773,7 +773,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_f2_14_d() throws Exception {
+	void testOnlyOption_f1_12_f2_14_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, D);
 		prepare_f1_12(git);
@@ -781,7 +781,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_12_f2_14_e() throws Exception {
+	void testOnlyOption_f1_12_f2_14_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3_f2_14(git, E);
 		prepare_f1_12(git);
@@ -789,7 +789,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_13_a() throws Exception {
+	void testOnlyOption_f1_13_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_13(git);
@@ -797,7 +797,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_13_b() throws Exception {
+	void testOnlyOption_f1_13_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_13(git);
@@ -805,7 +805,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_13_c() throws Exception {
+	void testOnlyOption_f1_13_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_13(git);
@@ -813,7 +813,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_13_d() throws Exception {
+	void testOnlyOption_f1_13_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_13(git);
@@ -821,7 +821,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_13_e() throws Exception {
+	void testOnlyOption_f1_13_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_13(git);
@@ -829,7 +829,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_14_a() throws Exception {
+	void testOnlyOption_f1_14_a() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, A);
 		prepare_f1_14(git);
@@ -837,7 +837,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_14_b() throws Exception {
+	void testOnlyOption_f1_14_b() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, B);
 		prepare_f1_14(git);
@@ -845,7 +845,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_14_c() throws Exception {
+	void testOnlyOption_f1_14_c() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, C);
 		prepare_f1_14(git);
@@ -853,7 +853,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_14_d() throws Exception {
+	void testOnlyOption_f1_14_d() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, D);
 		prepare_f1_14(git);
@@ -861,7 +861,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOption_f1_14_e() throws Exception {
+	void testOnlyOption_f1_14_e() throws Exception {
 		final Git git = new Git(db);
 		prepare_f3(git, E);
 		prepare_f1_14(git);
@@ -869,7 +869,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOnlyOptionWithDirectory() throws Exception {
+	void testOnlyOptionWithDirectory() throws Exception {
 		final Git git = new Git(db);
 
 		// write files

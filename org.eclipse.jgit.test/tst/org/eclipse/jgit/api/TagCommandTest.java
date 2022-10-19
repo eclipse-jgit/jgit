@@ -10,11 +10,11 @@
 package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,12 +29,12 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TagCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testTagKind() {
+	void testTagKind() {
 		try (Git git = new Git(db)) {
 			assertTrue(git.tag().isAnnotated());
 			assertTrue(git.tag().setSigned(true).isAnnotated());
@@ -87,7 +87,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTaggingOnHead() throws GitAPIException, IOException {
+	void testTaggingOnHead() throws GitAPIException, IOException {
 		try (Git git = new Git(db);
 				RevWalk walk = new RevWalk(db)) {
 			RevCommit commit = git.commit().setMessage("initial commit").call();
@@ -99,7 +99,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTagging()
+	void testTagging()
 			throws GitAPIException, JGitInternalException, IOException {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
@@ -112,7 +112,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUnannotatedTagging() throws GitAPIException,
+	void testUnannotatedTagging() throws GitAPIException,
 			JGitInternalException {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
@@ -125,7 +125,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testForceNoChangeLightweight() throws GitAPIException {
+	void testForceNoChangeLightweight() throws GitAPIException {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			RevCommit commit = git.commit().setMessage("second commit").call();
@@ -148,7 +148,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyTagName() throws GitAPIException {
+	void testEmptyTagName() throws GitAPIException {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			try {
@@ -162,7 +162,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInvalidTagName() throws GitAPIException {
+	void testInvalidTagName() throws GitAPIException {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			try {
@@ -179,7 +179,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDelete() throws Exception {
+	void testDelete() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			Ref tagRef = git.tag().setName("tag").call();
@@ -202,7 +202,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteFullName() throws Exception {
+	void testDeleteFullName() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			Ref tagRef = git.tag().setName("tag").call();
@@ -217,7 +217,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteEmptyTagNames() throws Exception {
+	void testDeleteEmptyTagNames() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 
@@ -227,7 +227,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteNonExisting() throws Exception {
+	void testDeleteNonExisting() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 
@@ -237,7 +237,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteBadName() throws Exception {
+	void testDeleteBadName() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 
@@ -248,7 +248,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShouldNotBlowUpIfThereAreNoTagsInRepository()
+	void testShouldNotBlowUpIfThereAreNoTagsInRepository()
 			throws Exception {
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("*").call();
@@ -259,7 +259,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShouldNotBlowUpIfThereAreNoCommitsInRepository()
+	void testShouldNotBlowUpIfThereAreNoCommitsInRepository()
 			throws Exception {
 		try (Git git = new Git(db)) {
 			List<Ref> list = git.tagList().call();
@@ -268,7 +268,7 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testListAllTagsInRepositoryInOrder() throws Exception {
+	void testListAllTagsInRepositoryInOrder() throws Exception {
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("*").call();
 			git.commit().setMessage("initial commit").call();

@@ -10,9 +10,9 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,9 +29,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AtomicPushTest {
 	private URIish uri;
@@ -42,7 +42,7 @@ public class AtomicPushTest {
 	private ObjectId commit1;
 	private ObjectId commit2;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		server = newRepo("server");
 		client = newRepo("client");
@@ -66,7 +66,7 @@ public class AtomicPushTest {
 		}
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		Transport.unregister(testProtocol);
 	}
@@ -76,7 +76,7 @@ public class AtomicPushTest {
 	}
 
 	@Test
-	public void pushNonAtomic() throws Exception {
+	void pushNonAtomic() throws Exception {
 		PushResult r;
 		server.setPerformsAtomicTransactions(false);
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
@@ -93,7 +93,7 @@ public class AtomicPushTest {
 	}
 
 	@Test
-	public void pushAtomicClientGivesUpEarly() throws Exception {
+	void pushAtomicClientGivesUpEarly() throws Exception {
 		PushResult r;
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.setPushAtomic(true);
@@ -112,7 +112,7 @@ public class AtomicPushTest {
 	}
 
 	@Test
-	public void pushAtomicDisabled() throws Exception {
+	void pushAtomicDisabled() throws Exception {
 		List<RemoteRefUpdate> cmds = new ArrayList<>();
 		cmds.add(new RemoteRefUpdate(
 				null, null,

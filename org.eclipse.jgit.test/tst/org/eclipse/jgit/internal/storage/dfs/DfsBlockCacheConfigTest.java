@@ -40,23 +40,23 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DfsBlockCacheConfigTest {
 
 	@Test
-	public void blockSizeNotPowerOfTwoExpectsException() {
-		assertThrows(JGitText.get().blockSizeNotPowerOf2,
-				IllegalArgumentException.class,
-				() -> new DfsBlockCacheConfig().setBlockSize(1000));
+	void blockSizeNotPowerOfTwoExpectsException() {
+		assertThrows(IllegalArgumentException.class,
+				() -> new DfsBlockCacheConfig().setBlockSize(1000),
+				JGitText.get().blockSizeNotPowerOf2);
 	}
 
 	@Test
 	@SuppressWarnings("boxing")
-	public void negativeBlockSizeIsConvertedToDefault() {
+	void negativeBlockSizeIsConvertedToDefault() {
 		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
 		config.setBlockSize(-1);
 
@@ -65,7 +65,7 @@ public class DfsBlockCacheConfigTest {
 
 	@Test
 	@SuppressWarnings("boxing")
-	public void tooSmallBlockSizeIsConvertedToDefault() {
+	void tooSmallBlockSizeIsConvertedToDefault() {
 		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
 		config.setBlockSize(10);
 
@@ -74,7 +74,7 @@ public class DfsBlockCacheConfigTest {
 
 	@Test
 	@SuppressWarnings("boxing")
-	public void validBlockSize() {
+	void validBlockSize() {
 		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
 		config.setBlockSize(65536);
 

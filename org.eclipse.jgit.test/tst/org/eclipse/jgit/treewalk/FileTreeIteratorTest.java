@@ -11,11 +11,11 @@
 package org.eclipse.jgit.treewalk;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNoException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,8 +50,8 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FileTreeIteratorTest extends RepositoryTestCase {
 	private final String[] paths = { "a,", "a,b", "a/b", "a0b" };
@@ -59,7 +59,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	private Instant[] mtime;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -78,7 +78,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testGetEntryContentLength() throws Exception {
+	void testGetEntryContentLength() throws Exception {
 		final FileTreeIterator fti = new FileTreeIterator(db);
 		fti.next(1);
 		assertEquals(3, fti.getEntryContentLength());
@@ -91,7 +91,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyIfRootIsFile() throws Exception {
+	void testEmptyIfRootIsFile() throws Exception {
 		final File r = new File(trash, paths[0]);
 		assertTrue(r.isFile());
 		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
@@ -101,7 +101,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyIfRootDoesNotExist() throws Exception {
+	void testEmptyIfRootDoesNotExist() throws Exception {
 		final File r = new File(trash, "not-existing-file");
 		assertFalse(r.exists());
 		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
@@ -111,7 +111,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyIfRootIsEmpty() throws Exception {
+	void testEmptyIfRootIsEmpty() throws Exception {
 		final File r = new File(trash, "not-existing-file");
 		assertFalse(r.exists());
 		FileUtils.mkdir(r);
@@ -123,7 +123,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyIteratorOnEmptyDirectory() throws Exception {
+	void testEmptyIteratorOnEmptyDirectory() throws Exception {
 		String nonExistingFileName = "not-existing-file";
 		final File r = new File(trash, nonExistingFileName);
 		assertFalse(r.exists());
@@ -160,7 +160,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleIterate() throws Exception {
+	void testSimpleIterate() throws Exception {
 		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
 				db.getConfig().get(WorkingTreeOptions.KEY));
 
@@ -210,7 +210,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testComputeFileObjectId() throws Exception {
+	void testComputeFileObjectId() throws Exception {
 		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
 				db.getConfig().get(WorkingTreeOptions.KEY));
 
@@ -231,7 +231,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDirCacheMatchingId() throws Exception {
+	void testDirCacheMatchingId() throws Exception {
 		File f = writeTrashFile("file", "content");
 		try (Git git = new Git(db)) {
 			writeTrashFile("file", "content");
@@ -260,7 +260,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTreewalkEnterSubtree() throws Exception {
+	void testTreewalkEnterSubtree() throws Exception {
 		try (Git git = new Git(db); TreeWalk tw = new TreeWalk(db)) {
 			writeTrashFile("b/c", "b/c");
 			writeTrashFile("z/.git", "gitdir: /tmp/somewhere");
@@ -290,7 +290,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIsModifiedSymlinkAsFile() throws Exception {
+	void testIsModifiedSymlinkAsFile() throws Exception {
 		writeTrashFile("symlink", "content");
 		try (Git git = new Git(db)) {
 			db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -318,7 +318,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIsModifiedFileSmudged() throws Exception {
+	void testIsModifiedFileSmudged() throws Exception {
 		File f = writeTrashFile("file", "content");
 		FS fs = db.getFS();
 		try (Git git = new Git(db)) {
@@ -350,7 +350,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void submoduleHeadMatchesIndex() throws Exception {
+	void submoduleHeadMatchesIndex() throws Exception {
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
@@ -385,7 +385,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void submoduleWithNoGitDirectory() throws Exception {
+	void submoduleWithNoGitDirectory() throws Exception {
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
@@ -421,7 +421,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void submoduleWithNoHead() throws Exception {
+	void submoduleWithNoHead() throws Exception {
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
@@ -456,7 +456,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void submoduleDirectoryIterator() throws Exception {
+	void submoduleDirectoryIterator() throws Exception {
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
@@ -492,7 +492,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void submoduleNestedWithHeadMatchingIndex() throws Exception {
+	void submoduleNestedWithHeadMatchingIndex() throws Exception {
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
@@ -527,7 +527,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void idOffset() throws Exception {
+	void idOffset() throws Exception {
 		try (Git git = new Git(db);
 				TreeWalk tw = new TreeWalk(db)) {
 			writeTrashFile("fileAinfsonly", "A");
@@ -595,7 +595,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCustomFileModeStrategy() throws Exception {
+	void testCustomFileModeStrategy() throws Exception {
 		try (Repository nestedRepo = createNestedRepo();
 				Git git = new Git(nestedRepo)) {
 			// validate that our custom strategy is honored
@@ -611,7 +611,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCustomFileModeStrategyFromParentIterator() throws Exception {
+	void testCustomFileModeStrategyFromParentIterator() throws Exception {
 		try (Repository nestedRepo = createNestedRepo();
 				Git git = new Git(nestedRepo)) {
 			FileTreeIterator customIterator = new FileTreeIterator(nestedRepo,
@@ -634,8 +634,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileModeSymLinkIsNotATree() throws IOException {
-		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+	void testFileModeSymLinkIsNotATree() throws IOException {
+		org.junit.jupiter.api.Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 		FS fs = db.getFS();
 		// mål = target in swedish, just to get some unicode in here
 		writeTrashFile("mål/data", "targetdata");
@@ -650,7 +650,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			// unsets LANG
 			// (https://docs.bazel.build/versions/master/test-encyclopedia.html#initial-conditions).
 			// Skip the test if the runtime cannot handle Unicode characters.
-			assumeNoException(e);
+			assumeTrue(false);
 		}
 
 		fs.createSymLink(file, "mål");
@@ -670,7 +670,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSymlinkNotModifiedThoughNormalized() throws Exception {
+	void testSymlinkNotModifiedThoughNormalized() throws Exception {
 		DirCache dc = db.lockDirCache();
 		DirCacheEditor dce = dc.editor();
 		final String UNNORMALIZED = "target/";
@@ -714,7 +714,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testSymlinkModifiedNotNormalized() throws Exception {
+	void testSymlinkModifiedNotNormalized() throws Exception {
 		DirCache dc = db.lockDirCache();
 		DirCacheEditor dce = dc.editor();
 		final String NORMALIZED = "target";
@@ -758,8 +758,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testSymlinkActuallyModified() throws Exception {
-		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+	void testSymlinkActuallyModified() throws Exception {
+		org.junit.jupiter.api.Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 		final String NORMALIZED = "target";
 		final byte[] NORMALIZED_BYTES = Constants.encode(NORMALIZED);
 		try (ObjectInserter oi = db.newObjectInserter()) {

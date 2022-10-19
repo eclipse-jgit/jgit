@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.Collection;
@@ -23,13 +23,15 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class LsRemoteCommandTest extends RepositoryTestCase {
 
 	private Git git;
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -50,7 +52,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLsRemote() throws Exception {
+	void testLsRemote() throws Exception {
 		File directory = createTempDirectory("testRepository");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
@@ -67,7 +69,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLsRemoteWithTags() throws Exception {
+	void testLsRemoteWithTags() throws Exception {
 		File directory = createTempDirectory("testRepository");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
@@ -84,7 +86,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLsRemoteWithHeads() throws Exception {
+	void testLsRemoteWithHeads() throws Exception {
 		File directory = createTempDirectory("testRepository");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
@@ -101,7 +103,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLsRemoteWithoutLocalRepository() throws Exception {
+	void testLsRemoteWithoutLocalRepository() throws Exception {
 		String uri = fileUri();
 		Collection<Ref> refs = Git.lsRemoteRepository().setRemote(uri).setHeads(true).call();
 		assertNotNull(refs);
@@ -109,7 +111,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLsRemoteWithoutLocalRepositoryUrlInsteadOf()
+	void testLsRemoteWithoutLocalRepositoryUrlInsteadOf()
 			throws Exception {
 		String uri = fileUri();
 		StoredConfig userConfig = SystemReader.getInstance().getUserConfig();
@@ -123,7 +125,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLsRemoteWithSymRefs() throws Exception {
+	void testLsRemoteWithSymRefs() throws Exception {
 		File directory = createTempDirectory("testRepository");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
@@ -139,8 +141,8 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 		assertEquals(6, refs.size());
 
 		Optional<Ref> headRef = refs.stream().filter(ref -> ref.getName().equals(Constants.HEAD)).findFirst();
-		assertTrue("expected a HEAD Ref", headRef.isPresent());
-		assertTrue("expected HEAD Ref to be a Symbolic", headRef.get().isSymbolic());
+		assertTrue(headRef.isPresent(), "expected a HEAD Ref");
+		assertTrue(headRef.get().isSymbolic(), "expected HEAD Ref to be a Symbolic");
 		assertEquals("refs/heads/test", headRef.get().getTarget().getName());
 	}
 

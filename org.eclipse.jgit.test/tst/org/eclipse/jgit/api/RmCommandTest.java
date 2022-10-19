@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +18,8 @@ import java.io.IOException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RmCommandTest extends RepositoryTestCase {
 
@@ -28,7 +28,7 @@ public class RmCommandTest extends RepositoryTestCase {
 	private static final String FILE = "test.txt";
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -39,7 +39,7 @@ public class RmCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRemove() throws JGitInternalException,
+	void testRemove() throws JGitInternalException,
 			IllegalStateException, IOException, GitAPIException {
 		assertEquals("[test.txt, mode:100644, content:Hello world]",
 				indexState(CONTENT));
@@ -50,7 +50,7 @@ public class RmCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRemoveCached() throws Exception {
+	void testRemoveCached() throws Exception {
 		File newFile = writeTrashFile("new.txt", "new");
 		git.add().addFilepattern(newFile.getName()).call();
 		assertEquals("[new.txt, mode:100644][test.txt, mode:100644]",
@@ -59,6 +59,6 @@ public class RmCommandTest extends RepositoryTestCase {
 		git.rm().setCached(true).addFilepattern(newFile.getName()).call();
 
 		assertEquals("[test.txt, mode:100644]", indexState(0));
-		assertTrue("File should not have been removed.", newFile.exists());
+		assertTrue(newFile.exists(), "File should not have been removed.");
 	}
 }

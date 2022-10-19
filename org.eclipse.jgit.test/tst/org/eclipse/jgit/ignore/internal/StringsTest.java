@@ -9,19 +9,20 @@
  */
 package org.eclipse.jgit.ignore.internal;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 public class StringsTest {
 
 	private void testString(String string, int n, int m) {
-		assertEquals(string, n, Strings.count(string, '/', false));
-		assertEquals(string, m, Strings.count(string, '/', true));
+		assertEquals(n, Strings.count(string, '/', false), string);
+		assertEquals(m, Strings.count(string, '/', true), string);
 	}
 
 	@Test
-	public void testCount() {
+	void testCount() {
 		testString("", 0, 0);
 		testString("/", 1, 0);
 		testString("//", 2, 0);

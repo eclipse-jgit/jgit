@@ -10,22 +10,22 @@
 
 package org.eclipse.jgit.patch;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.TestInfoRetriever;
 import org.eclipse.jgit.lib.FileMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PatchCcTest {
+public class PatchCcTest extends TestInfoRetriever {
 	@Test
-	public void testParse_OneFileCc() throws IOException {
+	void testParse_OneFileCc() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
 		assertTrue(p.getErrors().isEmpty());
@@ -81,7 +81,7 @@ public class PatchCcTest {
 	}
 
 	@Test
-	public void testParse_CcNewFile() throws IOException {
+	void testParse_CcNewFile() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
 		assertTrue(p.getErrors().isEmpty());
@@ -136,7 +136,7 @@ public class PatchCcTest {
 	}
 
 	@Test
-	public void testParse_CcDeleteFile() throws IOException {
+	void testParse_CcDeleteFile() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
 		assertTrue(p.getErrors().isEmpty());
@@ -165,7 +165,7 @@ public class PatchCcTest {
 	}
 
 	private Patch parseTestPatchFile() throws IOException {
-		final String patchFile = JGitTestUtil.getName() + ".patch";
+		final String patchFile = getTestMethodName() + ".patch";
 		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
 			if (in == null) {
 				fail("No " + patchFile + " test vector");

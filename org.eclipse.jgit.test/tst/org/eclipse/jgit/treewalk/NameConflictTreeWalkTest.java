@@ -10,16 +10,16 @@
 
 package org.eclipse.jgit.treewalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	private static final FileMode TREE = FileMode.TREE;
@@ -33,7 +33,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	private static final FileMode EXECUTABLE_FILE = FileMode.EXECUTABLE_FILE;
 
 	@Test
-	public void testNoDF_NoGap() throws Exception {
+	void testNoDF_NoGap() throws Exception {
 		final DirCache tree0 = db.readDirCache();
 		final DirCache tree1 = db.readDirCache();
 		{
@@ -65,7 +65,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDF_NoGap() throws Exception {
+	void testDF_NoGap() throws Exception {
 		final DirCache tree0 = db.readDirCache();
 		final DirCache tree1 = db.readDirCache();
 		{
@@ -101,7 +101,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDF_GapByOne() throws Exception {
+	void testDF_GapByOne() throws Exception {
 		final DirCache tree0 = db.readDirCache();
 		final DirCache tree1 = db.readDirCache();
 		{
@@ -138,7 +138,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDF_specialFileNames() throws Exception {
+	void testDF_specialFileNames() throws Exception {
 		final DirCache tree0 = db.readDirCache();
 		final DirCache tree1 = db.readDirCache();
 		final DirCache tree2 = db.readDirCache();
@@ -186,7 +186,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDF_SkipsSeenSubtree() throws Exception {
+	void testDF_SkipsSeenSubtree() throws Exception {
 		final DirCache tree0 = db.readDirCache();
 		final DirCache tree1 = db.readDirCache();
 		{
@@ -223,7 +223,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDF_DetectConflict() throws Exception {
+	void testDF_DetectConflict() throws Exception {
 		final DirCache tree0 = db.readDirCache();
 		final DirCache tree1 = db.readDirCache();
 		{
@@ -268,7 +268,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 	private static void assertModes(String path, FileMode mode0, FileMode mode1,
 			TreeWalk tw) throws Exception {
-		assertTrue("has " + path, tw.next());
+		assertTrue(tw.next(), "has " + path);
 		assertEquals(path, tw.getPathString());
 		assertEquals(mode0, tw.getFileMode(0));
 		assertEquals(mode1, tw.getFileMode(1));
@@ -276,7 +276,7 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 	private static void assertModes(String path, FileMode mode0, FileMode mode1,
 			FileMode mode2, TreeWalk tw) throws Exception {
-		assertTrue("has " + path, tw.next());
+		assertTrue(tw.next(), "has " + path);
 		assertEquals(path, tw.getPathString());
 		if (tw.getFileMode(0) != FileMode.MISSING) {
 			assertEquals(path, TreeWalk.pathOf(tw.trees[0]));

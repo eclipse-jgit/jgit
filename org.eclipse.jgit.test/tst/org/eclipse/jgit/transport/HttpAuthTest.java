@@ -42,7 +42,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.transport.http.JDKHttpConnection;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HttpAuthTest {
 	private static String digestHeader = "WWW-Authenticate: Digest qop=\"auth\",algorithm=MD5-sess,nonce=\"+Upgraded+v1b9...ba\",charset=utf-8,realm=\"Digest\"";
@@ -75,20 +75,20 @@ public class HttpAuthTest {
 	private static String NEGOTIATE = "Negotiate";
 
 	@Test
-	public void testHttpAuthScanResponse() {
-		checkResponse(new String[] { basicHeader }, BASIC);
-		checkResponse(new String[] { digestHeader }, DIGEST);
-		checkResponse(new String[] { negotiateHeader }, NEGOTIATE);
-		checkResponse(new String[] { basicHeader, digestHeader }, DIGEST);
-		checkResponse(new String[] { digestHeader, basicHeader }, DIGEST);
-		checkResponse(new String[] { digestHeader, negotiateHeader }, NEGOTIATE);
-		checkResponse(new String[] { negotiateHeader, digestHeader }, NEGOTIATE);
-		checkResponse(new String[] { ntlmHeader, basicHeader, digestHeader,
-				bearerHeader }, DIGEST);
-		checkResponse(new String[] { ntlmHeader, basicHeader, bearerHeader },
+	void testHttpAuthScanResponse() {
+		checkResponse(new String[]{basicHeader}, BASIC);
+		checkResponse(new String[]{digestHeader}, DIGEST);
+		checkResponse(new String[]{negotiateHeader}, NEGOTIATE);
+		checkResponse(new String[]{basicHeader, digestHeader}, DIGEST);
+		checkResponse(new String[]{digestHeader, basicHeader}, DIGEST);
+		checkResponse(new String[]{digestHeader, negotiateHeader}, NEGOTIATE);
+		checkResponse(new String[]{negotiateHeader, digestHeader}, NEGOTIATE);
+		checkResponse(new String[]{ntlmHeader, basicHeader, digestHeader,
+				bearerHeader}, DIGEST);
+		checkResponse(new String[]{ntlmHeader, basicHeader, bearerHeader},
 				BASIC);
-		checkResponse(new String[] { ntlmHeader, basicHeader, digestHeader,
-				negotiateHeader, bearerHeader }, NEGOTIATE);
+		checkResponse(new String[]{ntlmHeader, basicHeader, digestHeader,
+				negotiateHeader, bearerHeader}, NEGOTIATE);
 	}
 
 	private static void checkResponse(String[] headers,

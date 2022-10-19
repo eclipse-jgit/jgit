@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RebaseTodoFileTest extends RepositoryTestCase {
 
@@ -33,75 +33,90 @@ public class RebaseTodoFileTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReadTodoFile() throws Exception {
-		String[] expected = { "reword " + ObjectId.zeroId().name() + " Foo",
+	void testReadTodoFile() throws Exception {
+		String[] expected = {"reword " + ObjectId.zeroId().name() + " Foo",
 				"# A comment in the todo list",
 				"pick " + ObjectId.zeroId().name() + " Foo fie",
 				"squash " + ObjectId.zeroId().name() + " F",
 				"fixup " + ObjectId.zeroId().name(),
 				"edit " + ObjectId.zeroId().name() + " f",
-				"edit " + ObjectId.zeroId().name() + ' ' };
+				"edit " + ObjectId.zeroId().name() + ' '};
 		createTodoList(expected);
 		RebaseTodoFile todo = new RebaseTodoFile(db);
 		List<RebaseTodoLine> lines = todo.readRebaseTodo(TEST_TODO, true);
-		assertEquals("Expected 7 lines", 7, lines.size());
+		assertEquals(7, lines.size(), "Expected 7 lines");
 		int i = 0;
 		for (RebaseTodoLine line : lines) {
 			switch (i) {
-			case 0:
-				assertEquals("Expected REWORD", RebaseTodoLine.Action.REWORD,
-						line.getAction());
-				assertEquals("Unexpected ID", ObjectId.zeroId().abbreviate(40),
-						line.getCommit());
-				assertEquals("Unexpected Message", "Foo",
-						line.getShortMessage());
-				break;
-			case 1:
-				assertEquals("Expected COMMENT", RebaseTodoLine.Action.COMMENT,
-						line.getAction());
-				assertEquals("Unexpected Message",
-						"# A comment in the todo list",
-						line.getComment());
-				break;
-			case 2:
-				assertEquals("Expected PICK", RebaseTodoLine.Action.PICK,
-						line.getAction());
-				assertEquals("Unexpected ID", ObjectId.zeroId().abbreviate(40),
-						line.getCommit());
-				assertEquals("Unexpected Message", "Foo fie",
-						line.getShortMessage());
-				break;
-			case 3:
-				assertEquals("Expected SQUASH", RebaseTodoLine.Action.SQUASH,
-						line.getAction());
-				assertEquals("Unexpected ID", ObjectId.zeroId().abbreviate(40),
-						line.getCommit());
-				assertEquals("Unexpected Message", "F", line.getShortMessage());
-				break;
-			case 4:
-				assertEquals("Expected FIXUP", RebaseTodoLine.Action.FIXUP,
-						line.getAction());
-				assertEquals("Unexpected ID", ObjectId.zeroId().abbreviate(40),
-						line.getCommit());
-				assertEquals("Unexpected Message", "", line.getShortMessage());
-				break;
-			case 5:
-				assertEquals("Expected EDIT", RebaseTodoLine.Action.EDIT,
-						line.getAction());
-				assertEquals("Unexpected ID", ObjectId.zeroId().abbreviate(40),
-						line.getCommit());
-				assertEquals("Unexpected Message", "f", line.getShortMessage());
-				break;
-			case 6:
-				assertEquals("Expected EDIT", RebaseTodoLine.Action.EDIT,
-						line.getAction());
-				assertEquals("Unexpected ID", ObjectId.zeroId().abbreviate(40),
-						line.getCommit());
-				assertEquals("Unexpected Message", "", line.getShortMessage());
-				break;
-			default:
-				fail("Too many lines");
-				return;
+				case 0:
+					assertEquals(RebaseTodoLine.Action.REWORD,
+							line.getAction(),
+							"Expected REWORD");
+					assertEquals(ObjectId.zeroId().abbreviate(40),
+							line.getCommit(),
+							"Unexpected ID");
+					assertEquals("Foo",
+							line.getShortMessage(),
+							"Unexpected Message");
+					break;
+				case 1:
+					assertEquals(RebaseTodoLine.Action.COMMENT,
+							line.getAction(),
+							"Expected COMMENT");
+					assertEquals("# A comment in the todo list",
+							line.getComment(),
+							"Unexpected Message");
+					break;
+				case 2:
+					assertEquals(RebaseTodoLine.Action.PICK,
+							line.getAction(),
+							"Expected PICK");
+					assertEquals(ObjectId.zeroId().abbreviate(40),
+							line.getCommit(),
+							"Unexpected ID");
+					assertEquals("Foo fie",
+							line.getShortMessage(),
+							"Unexpected Message");
+					break;
+				case 3:
+					assertEquals(RebaseTodoLine.Action.SQUASH,
+							line.getAction(),
+							"Expected SQUASH");
+					assertEquals(ObjectId.zeroId().abbreviate(40),
+							line.getCommit(),
+							"Unexpected ID");
+					assertEquals("F", line.getShortMessage(), "Unexpected Message");
+					break;
+				case 4:
+					assertEquals(RebaseTodoLine.Action.FIXUP,
+							line.getAction(),
+							"Expected FIXUP");
+					assertEquals(ObjectId.zeroId().abbreviate(40),
+							line.getCommit(),
+							"Unexpected ID");
+					assertEquals("", line.getShortMessage(), "Unexpected Message");
+					break;
+				case 5:
+					assertEquals(RebaseTodoLine.Action.EDIT,
+							line.getAction(),
+							"Expected EDIT");
+					assertEquals(ObjectId.zeroId().abbreviate(40),
+							line.getCommit(),
+							"Unexpected ID");
+					assertEquals("f", line.getShortMessage(), "Unexpected Message");
+					break;
+				case 6:
+					assertEquals(RebaseTodoLine.Action.EDIT,
+							line.getAction(),
+							"Expected EDIT");
+					assertEquals(ObjectId.zeroId().abbreviate(40),
+							line.getCommit(),
+							"Unexpected ID");
+					assertEquals("", line.getShortMessage(), "Unexpected Message");
+					break;
+				default:
+					fail("Too many lines");
+					return;
 			}
 			i++;
 		}

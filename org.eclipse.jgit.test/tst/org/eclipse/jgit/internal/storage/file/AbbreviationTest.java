@@ -12,10 +12,10 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -38,9 +38,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	private FileRepository db;
@@ -50,7 +50,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	private TestRepository<Repository> test;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		db = createBareRepository();
@@ -59,7 +59,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (reader != null) {
 			reader.close();
@@ -67,7 +67,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testAbbreviateOnEmptyRepository() throws IOException {
+	void testAbbreviateOnEmptyRepository() throws IOException {
 		ObjectId id = id("9d5b926ed164e8ee88d3b8b1e525d699adda01ba");
 
 		assertEquals(id.abbreviate(2), reader.abbreviate(id, 2));
@@ -92,7 +92,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testAbbreviateLooseBlob() throws Exception {
+	void testAbbreviateLooseBlob() throws Exception {
 		ObjectId id = test.blob("test");
 
 		assertEquals(id.abbreviate(2), reader.abbreviate(id, 2));
@@ -110,7 +110,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testAbbreviatePackedBlob() throws Exception {
+	void testAbbreviatePackedBlob() throws Exception {
 		RevBlob id = test.blob("test");
 		test.branch("master").commit().add("test", id).child();
 		test.packAndPrune();
@@ -130,7 +130,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testAbbreviateIsActuallyUnique() throws Exception {
+	void testAbbreviateIsActuallyUnique() throws Exception {
 		// This test is far more difficult. We have to manually craft
 		// an input that contains collisions at a particular prefix,
 		// but this is computationally difficult. Instead we force an
@@ -166,7 +166,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		assertNotNull(matches);
 		assertEquals(objects.size(), matches.size());
 		for (PackedObjectInfo info : objects)
-			assertTrue("contains " + info.name(), matches.contains(info));
+			assertTrue(matches.contains(info), "contains " + info.name());
 
 		try {
 			db.resolve(abbrev8.name());
@@ -177,7 +177,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 			assertNotNull(matches);
 			assertEquals(objects.size(), matches.size());
 			for (PackedObjectInfo info : objects)
-				assertTrue("contains " + info.name(), matches.contains(info));
+				assertTrue(matches.contains(info), "contains " + info.name());
 		}
 
 		assertEquals(id, db.resolve(id.abbreviate(20).name()));

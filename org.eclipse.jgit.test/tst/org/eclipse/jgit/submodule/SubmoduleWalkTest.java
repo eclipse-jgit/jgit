@@ -14,11 +14,11 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PATH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_URL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_SUBMODULE_SECTION;
 import static org.eclipse.jgit.lib.Constants.DOT_GIT_MODULES;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -47,8 +47,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link SubmoduleWalk}
@@ -57,14 +57,14 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	private TestRepository<Repository> testDb;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		testDb = new TestRepository<>(db);
 	}
 
 	@Test
-	public void repositoryWithNoSubmodules() throws IOException {
+	void repositoryWithNoSubmodules() throws IOException {
 		try (SubmoduleWalk gen = SubmoduleWalk.forIndex(db)) {
 			assertFalse(gen.next());
 			assertNull(gen.getPath());
@@ -73,14 +73,14 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void bareRepositoryWithNoSubmodules() throws IOException {
+	void bareRepositoryWithNoSubmodules() throws IOException {
 		FileRepository bareRepo = createBareRepository();
 		boolean result = SubmoduleWalk.containsGitModulesFile(bareRepo);
 		assertFalse(result);
 	}
 
 	@Test
-	public void repositoryWithRootLevelSubmodule() throws IOException,
+	void repositoryWithRootLevelSubmodule() throws IOException,
 			ConfigInvalidException, NoWorkTreeException, GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -115,7 +115,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithRootLevelSubmoduleAbsoluteRef()
+	void repositoryWithRootLevelSubmoduleAbsoluteRef()
 			throws IOException, ConfigInvalidException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -169,7 +169,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithRootLevelSubmoduleRelativeRef()
+	void repositoryWithRootLevelSubmoduleRelativeRef()
 			throws IOException, ConfigInvalidException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -223,7 +223,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithNestedSubmodule() throws IOException,
+	void repositoryWithNestedSubmodule() throws IOException,
 			ConfigInvalidException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -256,7 +256,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void generatorFilteredToOneOfTwoSubmodules() throws IOException {
+	void generatorFilteredToOneOfTwoSubmodules() throws IOException {
 		final ObjectId id1 = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path1 = "sub1";
@@ -293,7 +293,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void indexWithGitmodules() throws Exception {
+	void indexWithGitmodules() throws Exception {
 		final ObjectId subId = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -346,7 +346,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void treeIdWithGitmodules() throws Exception {
+	void treeIdWithGitmodules() throws Exception {
 		final ObjectId subId = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -362,12 +362,12 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 				.add(DOT_GIT_MODULES, gitmodules.toText())
 				.edit(new PathEdit(path) {
 
-							@Override
-							public void apply(DirCacheEntry ent) {
-								ent.setFileMode(FileMode.GITLINK);
-								ent.setObjectId(subId);
-							}
-						})
+					@Override
+					public void apply(DirCacheEntry ent) {
+						ent.setFileMode(FileMode.GITLINK);
+						ent.setObjectId(subId);
+					}
+				})
 				.create());
 
 		try (SubmoduleWalk gen = SubmoduleWalk.forPath(db, commit.getTree(),
@@ -386,7 +386,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTreeIteratorWithGitmodules() throws Exception {
+	void testTreeIteratorWithGitmodules() throws Exception {
 		final ObjectId subId = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -402,12 +402,12 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 				.add(DOT_GIT_MODULES, gitmodules.toText())
 				.edit(new PathEdit(path) {
 
-							@Override
-							public void apply(DirCacheEntry ent) {
-								ent.setFileMode(FileMode.GITLINK);
-								ent.setObjectId(subId);
-							}
-						})
+					@Override
+					public void apply(DirCacheEntry ent) {
+						ent.setFileMode(FileMode.GITLINK);
+						ent.setObjectId(subId);
+					}
+				})
 				.create());
 
 		final CanonicalTreeParser p = new CanonicalTreeParser();
@@ -427,7 +427,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTreeIteratorWithGitmodulesNameNotPath() throws Exception {
+	void testTreeIteratorWithGitmodulesNameNotPath() throws Exception {
 		final ObjectId subId = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";

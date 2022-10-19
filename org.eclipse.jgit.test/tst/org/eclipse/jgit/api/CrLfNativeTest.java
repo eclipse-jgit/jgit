@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.HashMap;
@@ -25,12 +25,12 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CrLfNativeTest extends RepositoryTestCase {
 
 	@Test
-	public void checkoutWithCrLfNativeUnix() throws Exception {
+	void checkoutWithCrLfNativeUnix() throws Exception {
 		verifyNativeCheckout(new MockSystemReader() {
 			{
 				setUnix();
@@ -39,7 +39,7 @@ public class CrLfNativeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void checkoutWithCrLfNativeWindows() throws Exception {
+	void checkoutWithCrLfNativeWindows() throws Exception {
 		verifyNativeCheckout(new MockSystemReader() {
 			{
 				setWindows();
@@ -74,7 +74,7 @@ public class CrLfNativeTest extends RepositoryTestCase {
 		checkFile(file, systemReader.isWindows() ? "line 1\r\nline 2\r\n"
 				: "line 1\nline 2\n");
 		Status status = git.status().call();
-		assertTrue("git status should be clean", status.isClean());
+		assertTrue(status.isClean(), "git status should be clean");
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class CrLfNativeTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testCrLfAttribute() throws Exception {
+	void testCrLfAttribute() throws Exception {
 		FileBasedConfig config = db.getConfig();
 		config.setString("core", null, "autocrlf", "false");
 		config.setString("core", null, "eol", "crlf");

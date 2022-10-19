@@ -17,9 +17,9 @@ import java.util.List;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS_POSIX;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base test case for external merge and diff tool tests.
@@ -46,7 +46,7 @@ public abstract class ExternalToolTestCase extends RepositoryTestCase {
 
 	protected FileElement base;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -72,7 +72,7 @@ public abstract class ExternalToolTestCase extends RepositoryTestCase {
 				FileElement.Type.BASE);
 	}
 
-	@After
+	@AfterEach
 	@Override
 	public void tearDown() throws Exception {
 		Files.delete(localFile.toPath());
@@ -86,9 +86,9 @@ public abstract class ExternalToolTestCase extends RepositoryTestCase {
 
 
 	protected static void assumePosixPlatform() {
-		Assume.assumeTrue(
-				"This test can run only in Linux tests",
-				FS.DETECTED instanceof FS_POSIX);
+		Assumptions.assumeTrue(
+				FS.DETECTED instanceof FS_POSIX,
+				"This test can run only in Linux tests");
 	}
 
 	protected static class PromptHandler implements PromptContinueHandler {

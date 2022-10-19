@@ -13,9 +13,9 @@ package org.eclipse.jgit.internal.storage.reftable;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,14 +28,14 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableWriter.Stats;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ReftableCompactorTest {
 	private static final String MASTER = "refs/heads/master";
 	private static final String NEXT = "refs/heads/next";
 
 	@Test
-	public void noTables() throws IOException {
+	void noTables() throws IOException {
 		ReftableCompactor compactor;
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 			compactor = new ReftableCompactor(out);
@@ -48,13 +48,13 @@ public class ReftableCompactorTest {
 	}
 
 	@Test
-	public void oneTable() throws IOException {
+	void oneTable() throws IOException {
 		byte[] inTab;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(0)
-				.setMaxUpdateIndex(0)
-				.begin();
+					.setMinUpdateIndex(0)
+					.setMaxUpdateIndex(0)
+					.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.finish();
@@ -86,13 +86,13 @@ public class ReftableCompactorTest {
 	}
 
 	@Test
-	public void twoTablesOneRef() throws IOException {
+	void twoTablesOneRef() throws IOException {
 		byte[] inTab1;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(0)
-				.setMaxUpdateIndex(0)
-				.begin();
+					.setMinUpdateIndex(0)
+					.setMaxUpdateIndex(0)
+					.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.finish();
@@ -102,9 +102,9 @@ public class ReftableCompactorTest {
 		byte[] inTab2;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(1)
-				.setMaxUpdateIndex(1)
-				.begin();
+					.setMinUpdateIndex(1)
+					.setMaxUpdateIndex(1)
+					.begin();
 
 			writer.writeRef(ref(MASTER, 2));
 			writer.finish();
@@ -134,13 +134,13 @@ public class ReftableCompactorTest {
 	}
 
 	@Test
-	public void twoTablesTwoRefs() throws IOException {
+	void twoTablesTwoRefs() throws IOException {
 		byte[] inTab1;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(0)
-				.setMaxUpdateIndex(0)
-				.begin();
+					.setMinUpdateIndex(0)
+					.setMaxUpdateIndex(0)
+					.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.writeRef(ref(NEXT, 2));
@@ -151,9 +151,9 @@ public class ReftableCompactorTest {
 		byte[] inTab2;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(1)
-				.setMaxUpdateIndex(1)
-				.begin();
+					.setMinUpdateIndex(1)
+					.setMaxUpdateIndex(1)
+					.begin();
 
 			writer.writeRef(ref(MASTER, 3));
 			writer.finish();
@@ -188,13 +188,13 @@ public class ReftableCompactorTest {
 	}
 
 	@Test
-	public void twoTablesIncludeOneDelete() throws IOException {
+	void twoTablesIncludeOneDelete() throws IOException {
 		byte[] inTab1;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(0)
-				.setMaxUpdateIndex(0)
-				.begin();
+					.setMinUpdateIndex(0)
+					.setMaxUpdateIndex(0)
+					.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.finish();
@@ -204,9 +204,9 @@ public class ReftableCompactorTest {
 		byte[] inTab2;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(1)
-				.setMaxUpdateIndex(1)
-				.begin();
+					.setMinUpdateIndex(1)
+					.setMaxUpdateIndex(1)
+					.begin();
 
 			writer.writeRef(tombstone(MASTER));
 			writer.finish();
@@ -234,13 +234,13 @@ public class ReftableCompactorTest {
 	}
 
 	@Test
-	public void twoTablesNotIncludeOneDelete() throws IOException {
+	void twoTablesNotIncludeOneDelete() throws IOException {
 		byte[] inTab1;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(0)
-				.setMaxUpdateIndex(0)
-				.begin();
+					.setMinUpdateIndex(0)
+					.setMaxUpdateIndex(0)
+					.begin();
 
 			writer.writeRef(ref(MASTER, 1));
 			writer.finish();
@@ -250,9 +250,9 @@ public class ReftableCompactorTest {
 		byte[] inTab2;
 		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
 			ReftableWriter writer = new ReftableWriter(inBuf)
-				.setMinUpdateIndex(1)
-				.setMaxUpdateIndex(1)
-				.begin();
+					.setMinUpdateIndex(1)
+					.setMaxUpdateIndex(1)
+					.begin();
 
 			writer.writeRef(tombstone(MASTER));
 			writer.finish();

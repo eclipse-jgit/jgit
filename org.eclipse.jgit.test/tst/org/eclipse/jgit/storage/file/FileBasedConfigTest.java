@@ -11,10 +11,11 @@ package org.eclipse.jgit.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.pathToString;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,9 +34,9 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FileBasedConfigTest {
 
@@ -64,21 +65,21 @@ public class FileBasedConfigTest {
 
 	private MockSystemReader mockSystemReader;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 		trash = Files.createTempDirectory("tmp_");
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		FileUtils.delete(trash.toFile(),
 				FileUtils.RECURSIVE | FileUtils.SKIP_MISSING | FileUtils.RETRY);
 	}
 
 	@Test
-	public void testSystemEncoding() throws IOException, ConfigInvalidException {
+	void testSystemEncoding() throws IOException, ConfigInvalidException {
 		final Path file = createFile(CONTENT1.getBytes(UTF_8));
 		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
 				FS.DETECTED);
@@ -91,7 +92,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testUTF8withoutBOM() throws IOException, ConfigInvalidException {
+	void testUTF8withoutBOM() throws IOException, ConfigInvalidException {
 		final Path file = createFile(CONTENT1.getBytes(UTF_8));
 		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
 				FS.DETECTED);
@@ -104,7 +105,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testUTF8withBOM() throws IOException, ConfigInvalidException {
+	void testUTF8withBOM() throws IOException, ConfigInvalidException {
 		final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
 		bos1.write(0xEF);
 		bos1.write(0xBB);
@@ -129,7 +130,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testLeadingWhitespaces() throws IOException, ConfigInvalidException {
+	void testLeadingWhitespaces() throws IOException, ConfigInvalidException {
 		final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
 		bos1.write(" \n\t".getBytes(UTF_8));
 		bos1.write(CONTENT1.getBytes(UTF_8));
@@ -150,7 +151,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testIncludeAbsolute()
+	void testIncludeAbsolute()
 			throws IOException, ConfigInvalidException {
 		final Path includedFile = createFile(CONTENT1.getBytes(UTF_8));
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -165,7 +166,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testIncludeRelativeDot()
+	void testIncludeRelativeDot()
 			throws IOException, ConfigInvalidException {
 		final Path includedFile = createFile(CONTENT1.getBytes(UTF_8), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -180,7 +181,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testIncludeRelativeDotDot()
+	void testIncludeRelativeDotDot()
 			throws IOException, ConfigInvalidException {
 		final Path includedFile = createFile(CONTENT1.getBytes(UTF_8), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -196,7 +197,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testIncludeRelativeDotDotNotFound()
+	void testIncludeRelativeDotDotNotFound()
 			throws IOException, ConfigInvalidException {
 		final Path includedFile = createFile(CONTENT1.getBytes(UTF_8));
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -207,11 +208,11 @@ public class FileBasedConfigTest {
 		final FileBasedConfig config = new FileBasedConfig(file.toFile(),
 				FS.DETECTED);
 		config.load();
-		assertEquals(null, config.getString(USER, null, NAME));
+		assertNull(config.getString(USER, null, NAME));
 	}
 
 	@Test
-	public void testIncludeWithTilde()
+	void testIncludeWithTilde()
 			throws IOException, ConfigInvalidException {
 		final Path includedFile = createFile(CONTENT1.getBytes(UTF_8), "home");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -228,7 +229,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testIncludeDontInlineIncludedLinesOnSave()
+	void testIncludeDontInlineIncludedLinesOnSave()
 			throws IOException, ConfigInvalidException {
 		// use a content with multiple sections and multiple key/value pairs
 		// because code for first line works different than for subsequent lines
@@ -242,13 +243,13 @@ public class FileBasedConfigTest {
 						+ includedFile.getFileName()));
 
 		// just by setting the include.path, it won't be included
-		assertEquals(null, config.getString(USER, null, NAME));
-		assertEquals(null, config.getString(USER, null, EMAIL));
+		assertNull(config.getString(USER, null, NAME));
+		assertNull(config.getString(USER, null, EMAIL));
 		config.save();
 
 		// and it won't be included after saving
-		assertEquals(null, config.getString(USER, null, NAME));
-		assertEquals(null, config.getString(USER, null, EMAIL));
+		assertNull(config.getString(USER, null, NAME));
+		assertNull(config.getString(USER, null, EMAIL));
 
 		final String expectedText = config.toText();
 		assertEquals(2,
@@ -273,7 +274,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testSavedConfigFileShouldNotReadUserGitConfig()
+	void testSavedConfigFileShouldNotReadUserGitConfig()
 			throws IOException {
 		AtomicBoolean userConfigTimeRead = new AtomicBoolean(false);
 
@@ -300,9 +301,9 @@ public class FileBasedConfigTest {
 		// Needed to trigger the read of FileSnapshot filesystem settings
 		fileBasedConfig.isOutdated();
 		assertFalse(
+				userConfigTimeRead.get(),
 				"User config should not be read when accessing config files "
-						+ "for avoiding deadlocks",
-				userConfigTimeRead.get());
+						+ "for avoiding deadlocks");
 	}
 
 	private Path createFile(byte[] content) throws IOException {

@@ -9,14 +9,16 @@
  */
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 import org.eclipse.jgit.revwalk.filter.SkipRevFilter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SkipRevFilterTest extends RevWalkTestCase {
 	@Test
-	public void testSkipRevFilter() throws Exception {
+	void testSkipRevFilter() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b1 = commit(a);
 		final RevCommit b2 = commit(a);
@@ -32,7 +34,7 @@ public class SkipRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSkipRevFilter0() throws Exception {
+	void testSkipRevFilter0() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 
@@ -44,8 +46,10 @@ public class SkipRevFilterTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testSkipRevFilterNegative() throws Exception {
-		SkipRevFilter.create(-1);
+	@Test
+	void testSkipRevFilterNegative() throws Exception {
+		assertThrows(IllegalArgumentException.class, () -> {
+			SkipRevFilter.create(-1);
+		});
 	}
 }

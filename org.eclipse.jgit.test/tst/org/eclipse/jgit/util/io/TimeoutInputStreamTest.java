@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.util.io;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.util.IO;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TimeoutInputStreamTest {
 	private static final int timeout = 250;
@@ -41,7 +41,7 @@ public class TimeoutInputStreamTest {
 
 	private long start;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		out = new PipedOutputStream();
 		in = new PipedInputStream(out);
@@ -50,7 +50,7 @@ public class TimeoutInputStreamTest {
 		is.setTimeout(timeout);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		timer.terminate();
 		for (Thread t : active())
@@ -58,14 +58,14 @@ public class TimeoutInputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_readByte_Success1() throws IOException {
+	void testTimeout_readByte_Success1() throws IOException {
 		out.write('a');
 		assertEquals('a', is.read());
 	}
 
 	@Test
-	public void testTimeout_readByte_Success2() throws IOException {
-		final byte[] exp = new byte[] { 'a', 'b', 'c' };
+	void testTimeout_readByte_Success2() throws IOException {
+		final byte[] exp = new byte[]{'a', 'b', 'c'};
 		out.write(exp);
 		assertEquals(exp[0], is.read());
 		assertEquals(exp[1], is.read());
@@ -75,7 +75,7 @@ public class TimeoutInputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_readByte_Timeout() throws IOException {
+	void testTimeout_readByte_Timeout() throws IOException {
 		beginRead();
 		try {
 			is.read();
@@ -87,8 +87,8 @@ public class TimeoutInputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_readBuffer_Success1() throws IOException {
-		final byte[] exp = new byte[] { 'a', 'b', 'c' };
+	void testTimeout_readBuffer_Success1() throws IOException {
+		final byte[] exp = new byte[]{'a', 'b', 'c'};
 		final byte[] act = new byte[exp.length];
 		out.write(exp);
 		IO.readFully(is, act, 0, act.length);
@@ -96,8 +96,8 @@ public class TimeoutInputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_readBuffer_Success2() throws IOException {
-		final byte[] exp = new byte[] { 'a', 'b', 'c' };
+	void testTimeout_readBuffer_Success2() throws IOException {
+		final byte[] exp = new byte[]{'a', 'b', 'c'};
 		final byte[] act = new byte[exp.length];
 		out.write(exp);
 		IO.readFully(is, act, 0, 1);
@@ -107,7 +107,7 @@ public class TimeoutInputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_readBuffer_Timeout() throws IOException {
+	void testTimeout_readBuffer_Timeout() throws IOException {
 		beginRead();
 		try {
 			IO.readFully(is, new byte[512], 0, 512);
@@ -119,15 +119,15 @@ public class TimeoutInputStreamTest {
 	}
 
 	@Test
-	public void testTimeout_skip_Success() throws IOException {
-		final byte[] exp = new byte[] { 'a', 'b', 'c' };
+	void testTimeout_skip_Success() throws IOException {
+		final byte[] exp = new byte[]{'a', 'b', 'c'};
 		out.write(exp);
 		assertEquals(2, is.skip(2));
 		assertEquals('c', is.read());
 	}
 
 	@Test
-	public void testTimeout_skip_Timeout() throws IOException {
+	void testTimeout_skip_Timeout() throws IOException {
 		beginRead();
 		try {
 			is.skip(1024);
@@ -150,7 +150,7 @@ public class TimeoutInputStreamTest {
 		// 50 ms of the expected timeout.
 		//
 		final long wait = now() - start;
-		assertTrue("waited only " + wait + " ms", timeout - wait < 50);
+		assertTrue(timeout - wait < 50, "waited only " + wait + " ms");
 	}
 
 	private static List<Thread> active() {

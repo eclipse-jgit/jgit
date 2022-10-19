@@ -9,13 +9,13 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -25,8 +25,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link RenameBranchCommand}
@@ -40,7 +40,7 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = Git.wrap(db);
@@ -51,46 +51,48 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void renameToExisting() throws Exception {
+	void renameToExisting() throws Exception {
 		assertNotNull(git.branchCreate().setName("foo").call());
 		assertThrows(RefAlreadyExistsException.class, () -> git.branchRename()
 				.setOldName("master").setNewName("foo").call());
 	}
 
 	@Test
-	public void renameToTag() throws Exception {
+	void renameToTag() throws Exception {
 		Ref ref = git.tag().setName("foo").call();
 		assertNotNull(ref);
-		assertEquals("Unexpected tag name", Constants.R_TAGS + "foo",
-				ref.getName());
+		assertEquals(Constants.R_TAGS + "foo",
+				ref.getName(),
+				"Unexpected tag name");
 		ref = git.branchRename().setNewName("foo").call();
 		assertNotNull(ref);
-		assertEquals("Unexpected ref name", Constants.R_HEADS + "foo",
-				ref.getName());
+		assertEquals(Constants.R_HEADS + "foo",
+				ref.getName(),
+				"Unexpected ref name");
 		// Check that we can rename it back
 		ref = git.branchRename().setOldName("foo").setNewName(Constants.MASTER)
 				.call();
 		assertNotNull(ref);
-		assertEquals("Unexpected ref name",
-				Constants.R_HEADS + Constants.MASTER, ref.getName());
+		assertEquals(Constants.R_HEADS + Constants.MASTER, ref.getName(), "Unexpected ref name");
 	}
 
 	@Test
-	public void renameToStupidName() throws Exception {
+	void renameToStupidName() throws Exception {
 		Ref ref = git.branchRename().setNewName(Constants.R_HEADS + "foo")
 				.call();
-		assertEquals("Unexpected ref name",
-				Constants.R_HEADS + Constants.R_HEADS + "foo",
-				ref.getName());
+		assertEquals(Constants.R_HEADS + Constants.R_HEADS + "foo",
+				ref.getName(),
+				"Unexpected ref name");
 		// And check that we can rename it back to a sane name
 		ref = git.branchRename().setNewName("foo").call();
 		assertNotNull(ref);
-		assertEquals("Unexpected ref name", Constants.R_HEADS + "foo",
-				ref.getName());
+		assertEquals(Constants.R_HEADS + "foo",
+				ref.getName(),
+				"Unexpected ref name");
 	}
 
 	@Test
-	public void renameBranchNoConfigValues() throws Exception {
+	void renameBranchNoConfigValues() throws Exception {
 		StoredConfig config = git.getRepository().getConfig();
 		config.unsetSection(ConfigConstants.CONFIG_BRANCH_SECTION,
 				Constants.MASTER);
@@ -109,7 +111,7 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void renameBranchSingleConfigValue() throws Exception {
+	void renameBranchSingleConfigValue() throws Exception {
 		StoredConfig config = git.getRepository().getConfig();
 		config.setEnum(ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
 				ConfigConstants.CONFIG_KEY_REBASE, BranchRebaseMode.REBASE);
@@ -140,7 +142,7 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void renameBranchExistingSection() throws Exception {
+	void renameBranchExistingSection() throws Exception {
 		String branch = "b1";
 		StoredConfig config = git.getRepository().getConfig();
 		config.setEnum(ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
@@ -154,12 +156,12 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 		assertNotNull(git.branchRename().setNewName(branch).call());
 
 		config = git.getRepository().getConfig();
-		assertArrayEquals(new String[] { "b", "a" }, config.getStringList(
+		assertArrayEquals(new String[]{"b", "a"}, config.getStringList(
 				ConfigConstants.CONFIG_BRANCH_SECTION, branch, "a"));
 	}
 
 	@Test
-	public void renameBranchMultipleConfigValues() throws Exception {
+	void renameBranchMultipleConfigValues() throws Exception {
 		StoredConfig config = git.getRepository().getConfig();
 		config.setEnum(ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
 				ConfigConstants.CONFIG_KEY_REBASE, BranchRebaseMode.REBASE);

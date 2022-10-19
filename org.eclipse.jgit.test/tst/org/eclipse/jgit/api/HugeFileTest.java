@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -18,10 +18,10 @@ import java.util.Collection;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class HugeFileTest extends RepositoryTestCase {
 
@@ -37,21 +37,21 @@ public class HugeFileTest extends RepositoryTestCase {
 		lastt = c;
 	}
 
-	@Before
+	@BeforeEach
 	public void before() {
 		git = new Git(db);
 	}
 
-	@After
+	@AfterEach
 	public void after() {
 		if (git != null) {
 			git.close();
 		}
 	}
 
-	@Ignore("Test takes way too long (~10 minutes) to be part of the standard suite")
+	@Disabled("Test takes way too long (~10 minutes) to be part of the standard suite")
 	@Test
-	public void testAddHugeFile() throws Exception {
+	void testAddHugeFile() throws Exception {
 		measure("Commencing test");
 		File file = new File(db.getWorkTree(), "a.txt");
 		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {

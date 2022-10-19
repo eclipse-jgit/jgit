@@ -14,13 +14,13 @@ package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.junit.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +36,7 @@ import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Misc tests for refs. A lot of things are tested elsewhere so not having a
@@ -63,7 +63,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testRemoteNames() throws Exception {
+	void testRemoteNames() throws Exception {
 		FileBasedConfig config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_REMOTE_SECTION,
 				"origin", "dummy", true);
@@ -107,14 +107,14 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testReadAllIncludingSymrefs() throws Exception {
+	void testReadAllIncludingSymrefs() throws Exception {
 		ObjectId masterId = db.resolve("refs/heads/master");
 		RefUpdate updateRef = db.updateRef("refs/remotes/origin/master");
 		updateRef.setNewObjectId(masterId);
 		updateRef.setForceUpdate(true);
 		updateRef.update();
 		writeSymref("refs/remotes/origin/HEAD",
-					"refs/remotes/origin/master");
+				"refs/remotes/origin/master");
 
 		ObjectId r = db.resolve("refs/remotes/origin/HEAD");
 		assertEquals(masterId, r);
@@ -138,18 +138,18 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testReadSymRefToPacked() throws IOException {
+	void testReadSymRefToPacked() throws IOException {
 		writeSymref("HEAD", "refs/heads/b");
 		Ref ref = db.exactRef("HEAD");
 		assertEquals(Ref.Storage.LOOSE, ref.getStorage());
-		assertTrue("is symref", ref.isSymbolic());
+		assertTrue(ref.isSymbolic(), "is symref");
 		ref = ref.getTarget();
 		assertEquals("refs/heads/b", ref.getName());
 		assertEquals(Ref.Storage.PACKED, ref.getStorage());
 	}
 
 	@Test
-	public void testReadSymRefToLoosePacked() throws IOException {
+	void testReadSymRefToLoosePacked() throws IOException {
 		ObjectId pid = db.resolve("refs/heads/master^");
 		RefUpdate updateRef = db.updateRef("refs/heads/master");
 		updateRef.setNewObjectId(pid);
@@ -166,7 +166,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testReadLooseRef() throws IOException {
+	void testReadLooseRef() throws IOException {
 		RefUpdate updateRef = db.updateRef("ref/heads/new");
 		updateRef.setNewObjectId(db.resolve("refs/heads/master"));
 		Result update = updateRef.update();
@@ -176,14 +176,14 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetShortRef() throws IOException {
+	void testGetShortRef() throws IOException {
 		Ref ref = db.exactRef("refs/heads/master");
 		assertEquals("refs/heads/master", ref.getName());
 		assertEquals(db.resolve("refs/heads/master"), ref.getObjectId());
 	}
 
 	@Test
-	public void testGetShortExactRef() throws IOException {
+	void testGetShortExactRef() throws IOException {
 		assertNull(db.getRefDatabase().exactRef("master"));
 
 		Ref ref = db.getRefDatabase().exactRef("HEAD");
@@ -193,7 +193,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testRefsUnderRefs() throws IOException {
+	void testRefsUnderRefs() throws IOException {
 		ObjectId masterId = db.resolve("refs/heads/master");
 		writeNewRef("refs/heads/refs/foo/bar", masterId);
 
@@ -205,7 +205,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testAmbiguousRefsUnderRefs() throws IOException {
+	void testAmbiguousRefsUnderRefs() throws IOException {
 		ObjectId masterId = db.resolve("refs/heads/master");
 		writeNewRef("refs/foo/bar", masterId);
 		writeNewRef("refs/heads/refs/foo/bar", masterId);
@@ -226,7 +226,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void testReadLoosePackedRef() throws IOException,
+	void testReadLoosePackedRef() throws IOException,
 			InterruptedException {
 		Ref ref = db.exactRef("refs/heads/master");
 		assertEquals(Storage.PACKED, ref.getStorage());
@@ -247,7 +247,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testReadSimplePackedRefSameRepo() throws IOException {
+	void testReadSimplePackedRefSameRepo() throws IOException {
 		Ref ref = db.exactRef("refs/heads/master");
 		ObjectId pid = db.resolve("refs/heads/master^");
 		assertEquals(Storage.PACKED, ref.getStorage());
@@ -262,20 +262,20 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testResolvedNamesBranch() throws IOException {
+	void testResolvedNamesBranch() throws IOException {
 		Ref ref = db.findRef("a");
 		assertEquals("refs/heads/a", ref.getName());
 	}
 
 	@Test
-	public void testResolvedSymRef() throws IOException {
+	void testResolvedSymRef() throws IOException {
 		Ref ref = db.exactRef(Constants.HEAD);
 		assertEquals(Constants.HEAD, ref.getName());
-		assertTrue("is symbolic ref", ref.isSymbolic());
+		assertTrue(ref.isSymbolic(), "is symbolic ref");
 		assertSame(Ref.Storage.LOOSE, ref.getStorage());
 
 		Ref dst = ref.getTarget();
-		assertNotNull("has target", dst);
+		assertNotNull(dst, "has target");
 		assertEquals("refs/heads/master", dst.getName());
 
 		assertSame(dst.getObjectId(), ref.getObjectId());
@@ -294,7 +294,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsByPrefix() throws IOException {
+	void testGetRefsByPrefix() throws IOException {
 		List<Ref> refs = db.getRefDatabase().getRefsByPrefix("refs/heads/g");
 		assertEquals(2, refs.size());
 		checkContainsRef(refs, db.exactRef("refs/heads/g"));
@@ -306,7 +306,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsByPrefixes() throws IOException {
+	void testGetRefsByPrefixes() throws IOException {
 		List<Ref> refs = db.getRefDatabase().getRefsByPrefix();
 		assertEquals(0, refs.size());
 
@@ -319,7 +319,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsExcludingPrefix() throws IOException {
+	void testGetRefsExcludingPrefix() throws IOException {
 		Set<String> exclude = new HashSet<>();
 		exclude.add("refs/tags");
 		// HEAD + 12 refs/heads are present here.
@@ -334,7 +334,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsExcludingPrefixes() throws IOException {
+	void testGetRefsExcludingPrefixes() throws IOException {
 		Set<String> exclude = new HashSet<>();
 		exclude.add("refs/tags/");
 		exclude.add("refs/heads/");
@@ -344,7 +344,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsExcludingNonExistingPrefixes() throws IOException {
+	void testGetRefsExcludingNonExistingPrefixes() throws IOException {
 		Set<String> prefixes = new HashSet<>();
 		prefixes.add("refs/tags/");
 		prefixes.add("refs/heads/");
@@ -355,7 +355,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsWithPrefixExcludingPrefixes() throws IOException {
+	void testGetRefsWithPrefixExcludingPrefixes() throws IOException {
 		Set<String> exclude = new HashSet<>();
 		exclude.add("refs/heads/pa");
 		String include = "refs/heads/p";
@@ -365,7 +365,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRefsWithPrefixExcludingOverlappingPrefixes() throws IOException {
+	void testGetRefsWithPrefixExcludingOverlappingPrefixes() throws IOException {
 		Set<String> exclude = new HashSet<>();
 		exclude.add("refs/heads/pa");
 		exclude.add("refs/heads/");
@@ -377,7 +377,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testResolveTipSha1() throws IOException {
+	void testResolveTipSha1() throws IOException {
 		ObjectId masterId = db.resolve("refs/heads/master");
 		Set<Ref> resolved = db.getRefDatabase().getTipsWithSha1(masterId);
 

@@ -13,9 +13,9 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -45,8 +45,8 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.UnionInputStream;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test indexing of git packs. A pack is read from a stream, copied
@@ -61,7 +61,7 @@ public class PackParserTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void test1() throws  IOException {
+	void test1() throws  IOException {
 		File packFile = JGitTestUtil.getTestResourceFile("pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack");
 		try (InputStream is = new FileInputStream(packFile)) {
 			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
@@ -116,8 +116,9 @@ public class PackParserTest extends RepositoryTestCase {
 			p.parse(NullProgressMonitor.INSTANCE);
 			List<PackedObjectInfo> parsedObjects = p.getSortedObjectList(null);
 			for (PackedObjectInfo objInfo: parsedObjects) {
-				assertEquals(objInfo.getName(), objInfo.getFullSize(),
-						expected.get(objInfo.getName()).longValue());
+				assertEquals(objInfo.getFullSize(),
+						expected.get(objInfo.getName()).longValue(),
+						objInfo.getName());
 			}
 		}
 	}
@@ -129,7 +130,7 @@ public class PackParserTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void test2() throws  IOException {
+	void test2() throws  IOException {
 		File packFile = JGitTestUtil.getTestResourceFile("pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.pack");
 		try (InputStream is = new FileInputStream(packFile)) {
 			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
@@ -153,7 +154,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParsePack2ReadsObjectSizes() throws IOException {
+	void testParsePack2ReadsObjectSizes() throws IOException {
 		File packFile = JGitTestUtil.getTestResourceFile(
 				"pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.pack");
 		Map<String, Long> expected = new HashMap<>();
@@ -177,8 +178,9 @@ public class PackParserTest extends RepositoryTestCase {
 				if (!expected.containsKey(objInfo.getName())) {
 					continue;
 				}
-				assertEquals(objInfo.getName(), objInfo.getFullSize(),
-						expected.get(objInfo.getName()).longValue());
+				assertEquals(objInfo.getFullSize(),
+						expected.get(objInfo.getName()).longValue(),
+						objInfo.getName());
 				assertedObjs += 1;
 			}
 			assertEquals(assertedObjs, expected.size());
@@ -186,7 +188,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTinyThinPack() throws Exception {
+	void testTinyThinPack() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
 			db.incrementOpen();
@@ -209,7 +211,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPackWithDuplicateBlob() throws Exception {
+	void testPackWithDuplicateBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789abcdefg");
 		try (TestRepository<Repository> d = new TestRepository<>(db)) {
 			db.incrementOpen();
@@ -229,7 +231,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testParseOfsDeltaFullSize() throws Exception {
+	void testParseOfsDeltaFullSize() throws Exception {
 		final byte[] data = Constants.encode("0123456789");
 		try (TestRepository<Repository> d = new TestRepository<>(db)) {
 			db.incrementOpen();
@@ -268,7 +270,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPackWithTrailingGarbage() throws Exception {
+	void testPackWithTrailingGarbage() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
 			db.incrementOpen();
@@ -298,7 +300,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMaxObjectSizeFullBlob() throws Exception {
+	void testMaxObjectSizeFullBlob() throws Exception {
 		final byte[] data = Constants.encode("0123456789");
 		try (TestRepository d = new TestRepository<Repository>(db)) {
 			db.incrementOpen();
@@ -332,7 +334,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMaxObjectSizeDeltaBlock() throws Exception {
+	void testMaxObjectSizeDeltaBlock() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
 			db.incrementOpen();
@@ -366,7 +368,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMaxObjectSizeDeltaResultSize() throws Exception {
+	void testMaxObjectSizeDeltaResultSize() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
 			db.incrementOpen();
@@ -399,7 +401,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNonMarkingInputStream() throws Exception {
+	void testNonMarkingInputStream() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
 			db.incrementOpen();
@@ -440,7 +442,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDataAfterPackFooterSingleRead() throws Exception {
+	void testDataAfterPackFooterSingleRead() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
 			db.incrementOpen();
@@ -471,7 +473,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDataAfterPackFooterSplitObjectRead() throws Exception {
+	void testDataAfterPackFooterSplitObjectRead() throws Exception {
 		final byte[] data = Constants.encode("0123456789");
 
 		// Build a pack ~17k
@@ -501,7 +503,7 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDataAfterPackFooterSplitHeaderRead() throws Exception {
+	void testDataAfterPackFooterSplitHeaderRead() throws Exception {
 		final byte[] data = Constants.encode("a");
 		RevBlob b;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
@@ -587,7 +589,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 	private ObjectInserter inserter;
 
-	@After
+	@AfterEach
 	public void release() {
 		if (inserter != null) {
 			inserter.close();

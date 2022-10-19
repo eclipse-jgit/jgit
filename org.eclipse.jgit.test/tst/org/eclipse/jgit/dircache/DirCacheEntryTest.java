@@ -11,12 +11,12 @@
 package org.eclipse.jgit.dircache;
 
 import static java.time.Instant.EPOCH;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,11 +30,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.MutableInteger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DirCacheEntryTest {
 	@Test
-	public void testIsValidPath() {
+	void testIsValidPath() {
 		assertTrue(isValidPath("a"));
 		assertTrue(isValidPath("a/b"));
 		assertTrue(isValidPath("ab/cd/ef"));
@@ -75,15 +75,17 @@ public class DirCacheEntryTest {
 		MessageDigest md = Constants.newMessageDigest();
 		DirCacheEntry read = new DirCacheEntry(sharedInfo, infoAt, in, md,
 				Instant.ofEpochMilli(now), indexVersion, previous);
-		assertEquals("Paths of length " + name.length() + " should match", name,
-				read.getPathString());
-		assertEquals("Should have been fully read", -1, in.read());
-		assertArrayEquals("Digests should match", md0.digest(),
-				md.digest());
+		assertEquals(name,
+				read.getPathString(),
+				"Paths of length " + name.length() + " should match");
+		assertEquals(-1, in.read(), "Should have been fully read");
+		assertArrayEquals(md0.digest(),
+				md.digest(),
+				"Digests should match");
 	}
 
 	@Test
-	public void testLongPath() throws Exception {
+	void testLongPath() throws Exception {
 		StringBuilder name = new StringBuilder(4094 + 16);
 		for (int i = 0; i < 4094; i++) {
 			name.append('a');
@@ -96,7 +98,7 @@ public class DirCacheEntryTest {
 	}
 
 	@Test
-	public void testLongPathV4() throws Exception {
+	void testLongPathV4() throws Exception {
 		StringBuilder name = new StringBuilder(4094 + 16);
 		for (int i = 0; i < 4094; i++) {
 			name.append('a');
@@ -110,7 +112,7 @@ public class DirCacheEntryTest {
 	}
 
 	@Test
-	public void testShortPath() throws Exception {
+	void testShortPath() throws Exception {
 		StringBuilder name = new StringBuilder(1 + 16);
 		name.append('a');
 		for (int j = 0; j < 16; j++) {
@@ -121,7 +123,7 @@ public class DirCacheEntryTest {
 	}
 
 	@Test
-	public void testShortPathV4() throws Exception {
+	void testShortPathV4() throws Exception {
 		StringBuilder name = new StringBuilder(1 + 16);
 		name.append('a');
 		DirCacheEntry previous = new DirCacheEntry(name.toString());
@@ -133,7 +135,7 @@ public class DirCacheEntryTest {
 	}
 
 	@Test
-	public void testPathV4() throws Exception {
+	void testPathV4() throws Exception {
 		StringBuilder name = new StringBuilder();
 		for (int i = 0; i < 20; i++) {
 			name.append('a');
@@ -149,7 +151,7 @@ public class DirCacheEntryTest {
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCreate_ByStringPath() {
+	void testCreate_ByStringPath() {
 		assertEquals("a", new DirCacheEntry("a").getPathString());
 		assertEquals("a/b", new DirCacheEntry("a/b").getPathString());
 
@@ -163,7 +165,7 @@ public class DirCacheEntryTest {
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCreate_ByStringPathAndStage() {
+	void testCreate_ByStringPathAndStage() {
 		DirCacheEntry e;
 
 		e = new DirCacheEntry("a", 0);
@@ -205,7 +207,7 @@ public class DirCacheEntryTest {
 	}
 
 	@Test
-	public void testSetFileMode() {
+	void testSetFileMode() {
 		final DirCacheEntry e = new DirCacheEntry("a");
 
 		assertEquals(0, e.getRawMode());
@@ -242,7 +244,7 @@ public class DirCacheEntryTest {
 	}
 
 	@Test
-	public void testSetStage() {
+	void testSetStage() {
 		DirCacheEntry e = new DirCacheEntry("some/path", DirCacheEntry.STAGE_1);
 		e.setAssumeValid(true);
 		e.setCreationTime(2L);
@@ -282,12 +284,12 @@ public class DirCacheEntryTest {
 	}
 
 	@Test
-	public void testCopyMetaDataWithStage() {
+	void testCopyMetaDataWithStage() {
 		copyMetaDataHelper(false);
 	}
 
 	@Test
-	public void testCopyMetaDataWithoutStage() {
+	void testCopyMetaDataWithoutStage() {
 		copyMetaDataHelper(true);
 	}
 

@@ -13,10 +13,9 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.junit.JGitTestUtil.concat;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 
@@ -28,8 +27,8 @@ import org.eclipse.jgit.lib.ObjectChecker.ErrorType;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DfsFsckTest {
 	private TestRepository<InMemoryRepository> git;
@@ -38,7 +37,7 @@ public class DfsFsckTest {
 
 	private ObjectInserter ins;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws IOException {
 		DfsRepositoryDescription desc = new DfsRepositoryDescription("test");
 		git = new TestRepository<>(new InMemoryRepository(desc));
@@ -47,7 +46,7 @@ public class DfsFsckTest {
 	}
 
 	@Test
-	public void testHealthyRepo() throws Exception {
+	void testHealthyRepo() throws Exception {
 		RevCommit commit0 = git.commit().message("0").create();
 		RevCommit commit1 = git.commit().message("1").parent(commit0).create();
 		git.update("master", commit1);
@@ -61,7 +60,7 @@ public class DfsFsckTest {
 	}
 
 	@Test
-	public void testCommitWithCorruptAuthor() throws Exception {
+	void testCommitWithCorruptAuthor() throws Exception {
 		StringBuilder b = new StringBuilder();
 		b.append("tree be9bfa841874ccc9f2ef7c48d0c76226f89b7189\n");
 		b.append("author b <b@c> <b@c> 0 +0000\n");
@@ -75,12 +74,12 @@ public class DfsFsckTest {
 
 		assertEquals(errors.getCorruptObjects().size(), 1);
 		CorruptObject o = errors.getCorruptObjects().iterator().next();
-		assertTrue(o.getId().equals(id));
+		assertEquals(o.getId(), id);
 		assertEquals(o.getErrorType(), ErrorType.BAD_DATE);
 	}
 
 	@Test
-	public void testCommitWithoutTree() throws Exception {
+	void testCommitWithoutTree() throws Exception {
 		StringBuilder b = new StringBuilder();
 		b.append("parent ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -94,12 +93,12 @@ public class DfsFsckTest {
 
 		assertEquals(errors.getCorruptObjects().size(), 1);
 		CorruptObject o = errors.getCorruptObjects().iterator().next();
-		assertTrue(o.getId().equals(id));
+		assertEquals(o.getId(), id);
 		assertEquals(o.getErrorType(), ErrorType.MISSING_TREE);
 	}
 
 	@Test
-	public void testTagWithoutObject() throws Exception {
+	void testTagWithoutObject() throws Exception {
 		StringBuilder b = new StringBuilder();
 		b.append("type commit\n");
 		b.append("tag test-tag\n");
@@ -113,13 +112,13 @@ public class DfsFsckTest {
 
 		assertEquals(errors.getCorruptObjects().size(), 1);
 		CorruptObject o = errors.getCorruptObjects().iterator().next();
-		assertTrue(o.getId().equals(id));
+		assertEquals(o.getId(), id);
 		assertEquals(o.getErrorType(), ErrorType.MISSING_OBJECT);
 	}
 
 	@Test
-	public void testTreeWithNullSha() throws Exception {
-		byte[] data = concat(encodeASCII("100644 A"), new byte[] { '\0' },
+	void testTreeWithNullSha() throws Exception {
+		byte[] data = concat(encodeASCII("100644 A"), new byte[]{'\0'},
 				new byte[OBJECT_ID_LENGTH]);
 		ObjectId id = ins.insert(Constants.OBJ_TREE, data);
 		ins.flush();
@@ -129,12 +128,12 @@ public class DfsFsckTest {
 
 		assertEquals(errors.getCorruptObjects().size(), 1);
 		CorruptObject o = errors.getCorruptObjects().iterator().next();
-		assertTrue(o.getId().equals(id));
+		assertEquals(o.getId(), id);
 		assertEquals(o.getErrorType(), ErrorType.NULL_SHA1);
 	}
 
 	@Test
-	public void testMultipleInvalidObjects() throws Exception {
+	void testMultipleInvalidObjects() throws Exception {
 		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -167,7 +166,7 @@ public class DfsFsckTest {
 	}
 
 	@Test
-	public void testValidConnectivity() throws Exception {
+	void testValidConnectivity() throws Exception {
 		ObjectId blobId = ins
 				.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
 
@@ -188,7 +187,7 @@ public class DfsFsckTest {
 	}
 
 	@Test
-	public void testMissingObject() throws Exception {
+	void testMissingObject() throws Exception {
 		ObjectId blobId = ObjectId
 				.fromString("19102815663d23f8b75a47e7a01965dcdc96468c");
 		byte[] blobIdBytes = new byte[OBJECT_ID_LENGTH];
@@ -209,7 +208,7 @@ public class DfsFsckTest {
 	}
 
 	@Test
-	public void testNonCommitHead() throws Exception {
+	void testNonCommitHead() throws Exception {
 		RevCommit commit0 = git.commit().message("0").create();
 		StringBuilder b = new StringBuilder();
 		b.append("object ");
@@ -247,7 +246,7 @@ public class DfsFsckTest {
 	}
 
 	@Test
-	public void testInvalidGitModules() throws Exception {
+	void testInvalidGitModules() throws Exception {
 		String fakeGitmodules = new StringBuilder()
 				.append("[submodule \"test\"]\n")
 				.append("    path = xlib\n")
@@ -271,7 +270,7 @@ public class DfsFsckTest {
 
 
 	@Test
-	public void testValidGitModules() throws Exception {
+	void testValidGitModules() throws Exception {
 		String fakeGitmodules = new StringBuilder()
 				.append("[submodule \"test\"]\n")
 				.append("    path = xlib\n")

@@ -16,10 +16,12 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RawTextLoadTest extends RepositoryTestCase {
 	private static byte[] generate(int size, int nullAt) {
@@ -44,34 +46,40 @@ public class RawTextLoadTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSmallOK() throws Exception {
+	void testSmallOK() throws Exception {
 		byte[] data = generate(1000, -1);
 		RawText result = textFor(data, 1 << 20);
-		Assert.assertArrayEquals(result.content, data);
-	}
-
-	@Test(expected = BinaryBlobException.class)
-	public void testSmallNull() throws Exception {
-		byte[] data = generate(1000, 22);
-		textFor(data, 1 << 20);
+		assertArrayEquals(result.content, data);
 	}
 
 	@Test
-	public void testBigOK() throws Exception {
+	void testSmallNull() throws Exception {
+		assertThrows(BinaryBlobException.class, () -> {
+			byte[] data = generate(1000, 22);
+			textFor(data, 1 << 20);
+		});
+	}
+
+	@Test
+	void testBigOK() throws Exception {
 		byte[] data = generate(10000, -1);
 		RawText result = textFor(data, 1 << 20);
-		Assert.assertArrayEquals(result.content, data);
+		assertArrayEquals(result.content, data);
 	}
 
-	@Test(expected = BinaryBlobException.class)
-	public void testBigWithNullAtStart() throws Exception {
-		byte[] data = generate(10000, 22);
-		textFor(data, 1 << 20);
+	@Test
+	void testBigWithNullAtStart() throws Exception {
+		assertThrows(BinaryBlobException.class, () -> {
+			byte[] data = generate(10000, 22);
+			textFor(data, 1 << 20);
+		});
 	}
 
-	@Test(expected = BinaryBlobException.class)
-	public void testBinaryThreshold() throws Exception {
-		byte[] data = generate(2 << 20, -1);
-		textFor(data, 1 << 20);
+	@Test
+	void testBinaryThreshold() throws Exception {
+		assertThrows(BinaryBlobException.class, () -> {
+			byte[] data = generate(2 << 20, -1);
+			textFor(data, 1 << 20);
+		});
 	}
 }

@@ -10,7 +10,8 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -19,7 +20,7 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class AbstractRenameDetectionTestCase
 		extends RepositoryTestCase {
@@ -35,7 +36,7 @@ public abstract class AbstractRenameDetectionTestCase
 	protected TestRepository<Repository> testDb;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		testDb = new TestRepository<>(db);

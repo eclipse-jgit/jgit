@@ -9,7 +9,9 @@
  */
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,8 @@ import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkFollowFilterTest extends RevWalkTestCase {
 
@@ -35,7 +36,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 
 	private DiffCollector diffCollector;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -51,7 +52,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testNoRename() throws Exception {
+	void testNoRename() throws Exception {
 		final RevCommit a = commit(tree(file("0", blob("0"))));
 		follow("0");
 		markStart(a);
@@ -62,7 +63,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSingleRename() throws Exception {
+	void testSingleRename() throws Exception {
 		final RevCommit a = commit(tree(file("a", blob("A"))));
 
 		// rename a to b
@@ -80,7 +81,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testMultiRename() throws Exception {
+	void testMultiRename() throws Exception {
 		final String contents = "A";
 		final RevCommit a = commit(tree(file("a", blob(contents))));
 
@@ -117,28 +118,28 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 	 *            the rename specs, each one in the form "srcPath-&gt;destPath"
 	 */
 	protected void assertRenames(String... expectedRenames) {
-		Assert.assertEquals("Unexpected number of renames. Expected: " +
-				expectedRenames.length + ", actual: " + diffCollector.diffs.size(),
-				expectedRenames.length, diffCollector.diffs.size());
+		assertEquals(expectedRenames.length, diffCollector.diffs.size(), "Unexpected number of renames. Expected: " +
+				expectedRenames.length + ", actual: " + diffCollector.diffs.size());
 
 		for (int i = 0; i < expectedRenames.length; i++) {
 			DiffEntry diff = diffCollector.diffs.get(i);
-			Assert.assertNotNull(diff);
+			assertNotNull(diff);
 			String[] split = expectedRenames[i].split("->");
 
-			Assert.assertNotNull(split);
-			Assert.assertEquals(2, split.length);
+			assertNotNull(split);
+			assertEquals(2, split.length);
 			String src = split[0];
 			String target = split[1];
 
-			Assert.assertEquals(src, diff.getOldPath());
-			Assert.assertEquals(target, diff.getNewPath());
+			assertEquals(src, diff.getOldPath());
+			assertEquals(target, diff.getNewPath());
 		}
 	}
 
 	protected void assertNoRenames() {
-		Assert.assertEquals("Found unexpected rename/copy diff", 0,
-				diffCollector.diffs.size());
+		assertEquals(0,
+				diffCollector.diffs.size(),
+				"Found unexpected rename/copy diff");
 	}
 
 }

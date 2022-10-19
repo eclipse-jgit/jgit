@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HttpSupportTest {
 
@@ -47,7 +47,7 @@ public class HttpSupportTest {
 	}
 
 	@Test
-	public void testMalformedUri() throws Exception {
+	void testMalformedUri() throws Exception {
 		// Valid URL, but backslash is not allowed in a URI in the userinfo part
 		// per RFC 3986: https://tools.ietf.org/html/rfc3986#section-3.2.1 .
 		// Test that conversion to URI to call the ProxySelector does not throw
@@ -59,7 +59,7 @@ public class HttpSupportTest {
 	}
 
 	@Test
-	public void testCorrectUri() throws Exception {
+	void testCorrectUri() throws Exception {
 		// Backslash escaped as %5C is correct.
 		Proxy proxy = HttpSupport.proxyFor(new TestProxySelector(), new URL(
 				"http://infor%5Cc.jones@somehost/somewhere/someproject.git"));

@@ -10,9 +10,9 @@
 
 package org.eclipse.jgit.notes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -25,9 +25,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class NoteMapMergerTest extends RepositoryTestCase {
 	private TestRepository<Repository> tr;
@@ -61,7 +61,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	private RevCommit sampleTree_a_b;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		tr = new TestRepository<>(db);
@@ -92,7 +92,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		reader.close();
 		inserter.close();
@@ -100,7 +100,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoChange() throws IOException {
+	void testNoChange() throws IOException {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 		NoteMap result;
 
@@ -113,7 +113,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testOursEqualsTheirs() throws Exception {
+	void testOursEqualsTheirs() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 		NoteMap result;
 
@@ -142,7 +142,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBaseEqualsOurs() throws Exception {
+	void testBaseEqualsOurs() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 		NoteMap result;
 
@@ -165,7 +165,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBaseEqualsTheirs() throws Exception {
+	void testBaseEqualsTheirs() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 		NoteMap result;
 
@@ -188,7 +188,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddDifferentNotes() throws Exception {
+	void testAddDifferentNotes() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 		NoteMap result;
 
@@ -206,7 +206,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddSameNoteDifferentContent() throws Exception {
+	void testAddSameNoteDifferentContent() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
 				null);
 		NoteMap result;
@@ -224,7 +224,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEditSameNoteDifferentContent() throws Exception {
+	void testEditSameNoteDifferentContent() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
 				null);
 		NoteMap result;
@@ -248,7 +248,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEditDifferentNotes() throws Exception {
+	void testEditDifferentNotes() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 		NoteMap result;
 
@@ -271,7 +271,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteDifferentNotes() throws Exception {
+	void testDeleteDifferentNotes() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 
 		NoteMap map_b = NoteMap.read(reader, sampleTree_a_b);
@@ -282,7 +282,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEditDeleteConflict() throws Exception {
+	void testEditDeleteConflict() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
 				null);
 		NoteMap result;
@@ -300,7 +300,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLargeTreesWithoutConflict() throws Exception {
+	void testLargeTreesWithoutConflict() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 		NoteMap map1 = createLargeNoteMap("note_1_", "content_1_", 300, 0);
 		NoteMap map2 = createLargeNoteMap("note_2_", "content_2_", 300, 0);
@@ -314,7 +314,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLargeTreesWithConflict() throws Exception {
+	void testLargeTreesWithConflict() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
 				null);
 		NoteMap largeTree1 = createLargeNoteMap("note_1_", "content_1_", 300, 0);
@@ -344,7 +344,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFanoutAndLeafWithoutConflict() throws Exception {
+	void testFanoutAndLeafWithoutConflict() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 
 		NoteMap largeTree = createLargeNoteMap("note_1_", "content_1_", 300, 0);
@@ -353,7 +353,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFanoutAndLeafWitConflict() throws Exception {
+	void testFanoutAndLeafWitConflict() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, new DefaultNoteMerger(),
 				null);
 
@@ -369,7 +369,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCollapseFanoutAfterMerge() throws Exception {
+	void testCollapseFanoutAfterMerge() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null, null);
 
 		NoteMap largeTree = createLargeNoteMap("note_", "content_", 257, 0);
@@ -385,32 +385,32 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNonNotesWithoutNonNoteConflict() throws Exception {
+	void testNonNotesWithoutNonNoteConflict() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null,
 				MergeStrategy.RESOLVE);
 		RevCommit treeWithNonNotes =
-			tr.commit()
-				.add(noteAId.name(), noteABlob) // this is a note
-				.add("a.txt", tr.blob("content of a.txt")) // this is a non-note
-				.create();
+				tr.commit()
+						.add(noteAId.name(), noteABlob) // this is a note
+						.add("a.txt", tr.blob("content of a.txt")) // this is a non-note
+						.create();
 		tr.parseBody(treeWithNonNotes);
 		NoteMap base = NoteMap.read(reader, treeWithNonNotes);
 
 		treeWithNonNotes =
-			tr.commit()
-				.add(noteAId.name(), noteABlob)
-				.add("a.txt", tr.blob("content of a.txt"))
-				.add("b.txt", tr.blob("content of b.txt"))
-				.create();
+				tr.commit()
+						.add(noteAId.name(), noteABlob)
+						.add("a.txt", tr.blob("content of a.txt"))
+						.add("b.txt", tr.blob("content of b.txt"))
+						.create();
 		tr.parseBody(treeWithNonNotes);
 		NoteMap ours = NoteMap.read(reader, treeWithNonNotes);
 
 		treeWithNonNotes =
-			tr.commit()
-				.add(noteAId.name(), noteABlob)
-				.add("a.txt", tr.blob("content of a.txt"))
-				.add("c.txt", tr.blob("content of c.txt"))
-				.create();
+				tr.commit()
+						.add(noteAId.name(), noteABlob)
+						.add("a.txt", tr.blob("content of a.txt"))
+						.add("c.txt", tr.blob("content of c.txt"))
+						.create();
 		tr.parseBody(treeWithNonNotes);
 		NoteMap theirs = NoteMap.read(reader, treeWithNonNotes);
 
@@ -419,30 +419,30 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNonNotesWithNonNoteConflict() throws Exception {
+	void testNonNotesWithNonNoteConflict() throws Exception {
 		NoteMapMerger merger = new NoteMapMerger(db, null,
 				MergeStrategy.RESOLVE);
 		RevCommit treeWithNonNotes =
-			tr.commit()
-				.add(noteAId.name(), noteABlob) // this is a note
-				.add("a.txt", tr.blob("content of a.txt")) // this is a non-note
-				.create();
+				tr.commit()
+						.add(noteAId.name(), noteABlob) // this is a note
+						.add("a.txt", tr.blob("content of a.txt")) // this is a non-note
+						.create();
 		tr.parseBody(treeWithNonNotes);
 		NoteMap base = NoteMap.read(reader, treeWithNonNotes);
 
 		treeWithNonNotes =
-			tr.commit()
-				.add(noteAId.name(), noteABlob)
-				.add("a.txt", tr.blob("change 1"))
-				.create();
+				tr.commit()
+						.add(noteAId.name(), noteABlob)
+						.add("a.txt", tr.blob("change 1"))
+						.create();
 		tr.parseBody(treeWithNonNotes);
 		NoteMap ours = NoteMap.read(reader, treeWithNonNotes);
 
 		treeWithNonNotes =
-			tr.commit()
-				.add(noteAId.name(), noteABlob)
-				.add("a.txt", tr.blob("change 2"))
-				.create();
+				tr.commit()
+						.add(noteAId.name(), noteABlob)
+						.add("a.txt", tr.blob("change 2"))
+						.create();
 		tr.parseBody(treeWithNonNotes);
 		NoteMap theirs = NoteMap.read(reader, treeWithNonNotes);
 

@@ -12,13 +12,13 @@ package org.eclipse.jgit.lib;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,11 +26,11 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
-	public void testNonBareFileKey() throws IOException {
+	void testNonBareFileKey() throws IOException {
 		File gitdir = db.getDirectory();
 		File parent = gitdir.getParentFile();
 		File other = new File(parent, "notagit");
@@ -44,7 +44,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBareFileKey() throws IOException {
+	void testBareFileKey() throws IOException {
 		Repository bare = createBareRepository();
 		File gitdir = bare.getDirectory();
 		File parent = gitdir.getParentFile();
@@ -60,7 +60,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileKeyOpenExisting() throws IOException {
+	void testFileKeyOpenExisting() throws IOException {
 		try (Repository r = new FileKey(db.getDirectory(), db.getFS())
 				.open(true)) {
 			assertNotNull(r);
@@ -75,7 +75,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileKeyOpenNew() throws IOException {
+	void testFileKeyOpenNew() throws IOException {
 		File gitdir;
 		try (Repository n = createRepository(true)) {
 			gitdir = n.getDirectory();
@@ -98,7 +98,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCacheRegisterOpen() throws Exception {
+	void testCacheRegisterOpen() throws Exception {
 		final File dir = db.getDirectory();
 		RepositoryCache.register(db);
 		assertSame(db, RepositoryCache.open(FileKey.exact(dir, db.getFS())));
@@ -109,7 +109,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCacheOpen() throws Exception {
+	void testCacheOpen() throws Exception {
 		final FileKey loc = FileKey.exact(db.getDirectory(), db.getFS());
 		@SuppressWarnings("resource") // We are testing the close() method
 		final Repository d2 = RepositoryCache.open(loc);
@@ -120,12 +120,12 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testGetRegisteredWhenEmpty() {
+	void testGetRegisteredWhenEmpty() {
 		assertEquals(0, RepositoryCache.getRegisteredKeys().size());
 	}
 
 	@Test
-	public void testGetRegistered() {
+	void testGetRegistered() {
 		RepositoryCache.register(db);
 
 		assertThat(RepositoryCache.getRegisteredKeys(),
@@ -134,7 +134,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUnregister() {
+	void testUnregister() {
 		RepositoryCache.register(db);
 		RepositoryCache
 				.unregister(FileKey.exact(db.getDirectory(), db.getFS()));
@@ -143,7 +143,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepositoryUsageCount() throws Exception {
+	void testRepositoryUsageCount() throws Exception {
 		FileKey loc = FileKey.exact(db.getDirectory(), db.getFS());
 		@SuppressWarnings("resource") // We are testing the close() method
 		Repository d2 = RepositoryCache.open(loc);
@@ -157,7 +157,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepositoryUsageCountWithRegisteredRepository()
+	void testRepositoryUsageCountWithRegisteredRepository()
 			throws IOException {
 		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
 		Repository repo = createRepository(false, false);
@@ -169,7 +169,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepositoryNotUnregisteringWhenClosing() throws Exception {
+	void testRepositoryNotUnregisteringWhenClosing() throws Exception {
 		FileKey loc = FileKey.exact(db.getDirectory(), db.getFS());
 		@SuppressWarnings("resource") // We are testing the close() method
 		Repository d2 = RepositoryCache.open(loc);
@@ -184,7 +184,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepositoryUnregisteringWhenExpiredAndUsageCountNegative()
+	void testRepositoryUnregisteringWhenExpiredAndUsageCountNegative()
 			throws Exception {
 		@SuppressWarnings("resource") // We are testing the close() method
 		Repository repoA = createBareRepository();
@@ -206,7 +206,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepositoryUnregisteringWhenExpired() throws Exception {
+	void testRepositoryUnregisteringWhenExpired() throws Exception {
 		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
 		Repository repoA = createRepository(true, false);
 		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
@@ -242,7 +242,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReconfigure() throws InterruptedException, IOException {
+	void testReconfigure() throws InterruptedException, IOException {
 		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
 		Repository repo = createRepository(false, false);
 		RepositoryCache.register(repo);
@@ -264,7 +264,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 		// Instead of using a fixed waiting time, start with small and increase:
 		// sleep 1, 2, 4, 8, 16, ..., 1024 ms
 		// This wait will time out after 2048 ms
-		for (int i = 0; i <= 10; i++) {
+		for (int i = 0;i <= 10;i++) {
 			Thread.sleep(1 << i);
 			if (!RepositoryCache.isCached(repo)) {
 				return;

@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -45,9 +45,9 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DiffFormatterTest extends RepositoryTestCase {
 	private static final String DIFF = "diff --git ";
@@ -65,7 +65,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	private TestRepository<Repository> testDb;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		testDb = new TestRepository<>(db);
@@ -75,7 +75,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (df != null) {
 			df.close();
@@ -84,7 +84,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDefaultRenameDetectorSettings() throws Exception {
+	void testDefaultRenameDetectorSettings() throws Exception {
 		RenameDetector rd = df.getRenameDetector();
 		assertNull(rd);
 		df.setDetectRenames(true);
@@ -95,7 +95,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeader_Add() throws Exception {
+	void testCreateFileHeader_Add() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		DiffEntry ent = DiffEntry.add("FOO", adId);
 		FileHeader fh = df.toFileHeader(ent);
@@ -106,7 +106,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 				+ ObjectId.zeroId().abbreviate(8).name()
 				+ ".."
 				+ adId.abbreviate(8).name() + "\n" //
-				+ "--- /dev/null\n"//
+				+ "--- /dev/null\n" //
 				+ "+++ b/FOO\n";
 		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
 
@@ -131,7 +131,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeader_Delete() throws Exception {
+	void testCreateFileHeader_Delete() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		DiffEntry ent = DiffEntry.delete("FOO", adId);
 		FileHeader fh = df.toFileHeader(ent);
@@ -142,7 +142,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 				+ adId.abbreviate(8).name()
 				+ ".."
 				+ ObjectId.zeroId().abbreviate(8).name() + "\n" //
-				+ "--- a/FOO\n"//
+				+ "--- a/FOO\n" //
 				+ "+++ /dev/null\n";
 		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
 
@@ -167,7 +167,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeader_Modify() throws Exception {
+	void testCreateFileHeader_Modify() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		ObjectId abcdId = blob("a\nb\nc\nd\n");
 
@@ -202,7 +202,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeader_Binary() throws Exception {
+	void testCreateFileHeader_Binary() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		ObjectId binId = blob("a\nb\nc\n\0\0\0\0d\n");
 
@@ -226,7 +226,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeader_GitLink() throws Exception {
+	void testCreateFileHeader_GitLink() throws Exception {
 		ObjectId aId = blob("a\n");
 		ObjectId bId = blob("b\n");
 
@@ -250,7 +250,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeader_AddGitLink() throws Exception {
+	void testCreateFileHeader_AddGitLink() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		DiffEntry ent = DiffEntry.add("FOO", adId);
 		ent.newMode = FileMode.GITLINK;
@@ -262,7 +262,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 				+ ObjectId.zeroId().abbreviate(8).name()
 				+ ".."
 				+ adId.abbreviate(8).name() + "\n" //
-				+ "--- /dev/null\n"//
+				+ "--- /dev/null\n" //
 				+ "+++ b/FOO\n";
 		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
 
@@ -281,7 +281,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeader_DeleteGitLink() throws Exception {
+	void testCreateFileHeader_DeleteGitLink() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		DiffEntry ent = DiffEntry.delete("FOO", adId);
 		ent.oldMode = FileMode.GITLINK;
@@ -293,7 +293,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 				+ adId.abbreviate(8).name()
 				+ ".."
 				+ ObjectId.zeroId().abbreviate(8).name() + "\n" //
-				+ "--- a/FOO\n"//
+				+ "--- a/FOO\n" //
 				+ "+++ /dev/null\n";
 		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
 
@@ -312,7 +312,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeaderWithoutIndexLine() throws Exception {
+	void testCreateFileHeaderWithoutIndexLine() throws Exception {
 		DiffEntry m = DiffEntry.modify(PATH_A);
 		m.oldMode = FileMode.REGULAR_FILE;
 		m.newMode = FileMode.EXECUTABLE_FILE;
@@ -325,7 +325,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeaderForRenameWithoutContentChange() throws Exception {
+	void testCreateFileHeaderForRenameWithoutContentChange() throws Exception {
 		DiffEntry a = DiffEntry.delete(PATH_A, ObjectId.zeroId());
 		DiffEntry b = DiffEntry.add(PATH_B, ObjectId.zeroId());
 		DiffEntry m = DiffEntry.pair(ChangeType.RENAME, a, b, 100);
@@ -341,7 +341,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateFileHeaderForRenameModeChange()
+	void testCreateFileHeaderForRenameModeChange()
 			throws Exception {
 		DiffEntry a = DiffEntry.delete(PATH_A, ObjectId.zeroId());
 		DiffEntry b = DiffEntry.add(PATH_B, ObjectId.zeroId());
@@ -364,7 +364,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiff() throws Exception {
+	void testDiff() throws Exception {
 		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
 		File folder = new File(db.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
@@ -386,18 +386,18 @@ public class DiffFormatterTest extends RepositoryTestCase {
 			String actual = os.toString("UTF-8");
 			String expected =
 					"diff --git a/folder/folder.txt b/folder/folder.txt\n"
-					+ "index 0119635..95c4c65 100644\n"
-					+ "--- a/folder/folder.txt\n" + "+++ b/folder/folder.txt\n"
-					+ "@@ -1 +1 @@\n" + "-folder\n"
-					+ "\\ No newline at end of file\n" + "+folder change\n"
-					+ "\\ No newline at end of file\n";
+							+ "index 0119635..95c4c65 100644\n"
+							+ "--- a/folder/folder.txt\n" + "+++ b/folder/folder.txt\n"
+							+ "@@ -1 +1 @@\n" + "-folder\n"
+							+ "\\ No newline at end of file\n" + "+folder change\n"
+							+ "\\ No newline at end of file\n";
 
 			assertEquals(expected, actual);
 		}
 	}
 
 	@Test
-	public void testDiffRootNullToTree() throws Exception {
+	void testDiffRootNullToTree() throws Exception {
 		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
 		File folder = new File(db.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
@@ -429,7 +429,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffRootTreeToNull() throws Exception {
+	void testDiffRootTreeToNull() throws Exception {
 		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
 		File folder = new File(db.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
@@ -461,7 +461,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffNullToNull() throws Exception {
+	void testDiffNullToNull() throws Exception {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
 				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os))) {
 			dfmt.setRepository(db);
@@ -476,7 +476,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTrackedFileInIgnoredFolderUnchanged()
+	void testTrackedFileInIgnoredFolderUnchanged()
 			throws Exception {
 		commitFile("empty/empty/foo", "", "master");
 		commitFile(".gitignore", "empty/*", "master");
@@ -498,7 +498,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFilter() throws Exception {
+	void testFilter() throws Exception {
 		RevCommit parent;
 		RevCommit head;
 		try (Git git = new Git(db)) {
@@ -560,7 +560,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTrackedFileInIgnoredFolderChanged()
+	void testTrackedFileInIgnoredFolderChanged()
 			throws Exception {
 		String expectedDiff = "diff --git a/empty/empty/foo b/empty/empty/foo\n"
 				+ "index e69de29..5ea2ed4 100644\n" //
@@ -590,7 +590,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffAutoCrlfSmallFile() throws Exception {
+	void testDiffAutoCrlfSmallFile() throws Exception {
 		String content = "01234\r\n01234\r\n01234\r\n";
 		String expectedDiff = "diff --git a/test.txt b/test.txt\n"
 				+ "index fe25983..a44a032 100644\n" //
@@ -605,7 +605,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffAutoCrlfMediumFile() throws Exception {
+	void testDiffAutoCrlfMediumFile() throws Exception {
 		String content = mediumCrLfString();
 		String expectedDiff = "diff --git a/test.txt b/test.txt\n"
 				+ "index 6d9ffed..50d7b5a 100644\n" //
@@ -621,7 +621,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffAutoCrlfLargeFile() throws Exception {
+	void testDiffAutoCrlfLargeFile() throws Exception {
 		String content = largeCrLfString();
 		String expectedDiff = "diff --git a/test.txt b/test.txt\n"
 				+ "index d6399a1..de26ce5 100644\n" //

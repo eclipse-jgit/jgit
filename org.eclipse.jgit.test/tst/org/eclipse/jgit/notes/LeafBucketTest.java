@@ -10,19 +10,19 @@
 
 package org.eclipse.jgit.notes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.MutableObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LeafBucketTest {
 	@Test
-	public void testEmpty() {
+	void testEmpty() {
 		LeafBucket b = new LeafBucket(0);
 		assertNull(b.getNote(id(0x00), null));
 		assertNull(b.getNote(id(0x01), null));
@@ -30,7 +30,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testParseFive() {
+	void testParseFive() {
 		LeafBucket b = new LeafBucket(0);
 
 		b.parseOneEntry(id(0x11), id(0x81));
@@ -49,7 +49,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testSetFive_InOrder() throws IOException {
+	void testSetFive_InOrder() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 
 		assertSame(b, b.set(id(0x11), id(0x81), null));
@@ -68,7 +68,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testSetFive_ReverseOrder() throws IOException {
+	void testSetFive_ReverseOrder() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 
 		assertSame(b, b.set(id(0x55), id(0x85), null));
@@ -87,7 +87,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testSetFive_MixedOrder() throws IOException {
+	void testSetFive_MixedOrder() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 
 		assertSame(b, b.set(id(0x11), id(0x81), null));
@@ -107,7 +107,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testSet_Replace() throws IOException {
+	void testSet_Replace() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 
 		assertSame(b, b.set(id(0x11), id(0x81), null));
@@ -118,7 +118,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testRemoveMissingNote() throws IOException {
+	void testRemoveMissingNote() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 		assertNull(b.getNote(id(0x11), null));
 		assertSame(b, b.set(id(0x11), null, null));
@@ -126,7 +126,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testRemoveFirst() throws IOException {
+	void testRemoveFirst() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 
 		assertSame(b, b.set(id(0x11), id(0x81), null));
@@ -147,7 +147,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testRemoveMiddle() throws IOException {
+	void testRemoveMiddle() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 
 		assertSame(b, b.set(id(0x11), id(0x81), null));
@@ -168,7 +168,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testRemoveLast() throws IOException {
+	void testRemoveLast() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 
 		assertSame(b, b.set(id(0x11), id(0x81), null));
@@ -189,7 +189,7 @@ public class LeafBucketTest {
 	}
 
 	@Test
-	public void testRemoveMakesEmpty() throws IOException {
+	void testRemoveMakesEmpty() throws IOException {
 		LeafBucket b = new LeafBucket(0);
 
 		assertSame(b, b.set(id(0x11), id(0x81), null));

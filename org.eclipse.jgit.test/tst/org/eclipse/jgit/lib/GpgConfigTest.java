@@ -9,14 +9,15 @@
  */
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GpgConfigTest {
 
@@ -27,14 +28,14 @@ public class GpgConfigTest {
 	}
 
 	@Test
-	public void isSignCommits_defaultIsFalse() throws Exception {
+	void isSignCommits_defaultIsFalse() throws Exception {
 		Config c = parse("");
 
 		assertFalse(new GpgConfig(c).isSignCommits());
 	}
 
 	@Test
-	public void isSignCommits_false() throws Exception {
+	void isSignCommits_false() throws Exception {
 		Config c = parse("" //
 				+ "[gpg]\n" //
 				+ "  format = x509\n" //
@@ -46,7 +47,7 @@ public class GpgConfigTest {
 	}
 
 	@Test
-	public void isSignCommits_true() throws Exception {
+	void isSignCommits_true() throws Exception {
 		Config c = parse("" //
 				+ "[commit]\n" //
 				+ "  gpgSign = true\n" //
@@ -56,26 +57,28 @@ public class GpgConfigTest {
 	}
 
 	@Test
-	public void testGetKeyFormat_defaultsToOpenpgp() throws Exception {
+	void testGetKeyFormat_defaultsToOpenpgp() throws Exception {
 		Config c = parse("");
 
 		assertEquals(GpgConfig.GpgFormat.OPENPGP,
 				new GpgConfig(c).getKeyFormat());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testGetKeyFormat_failsForInvalidValue() throws Exception {
-		Config c = parse("" //
-				+ "[gpg]\n" //
-				+ "  format = invalid\n" //
-		);
+	@Test
+	void testGetKeyFormat_failsForInvalidValue() throws Exception {
+		assertThrows(IllegalArgumentException.class, () -> {
+			Config c = parse("" //
+					+ "[gpg]\n" //
+					+ "  format = invalid\n" //
+			);
 
-		new GpgConfig(c).getKeyFormat();
-		fail("Call should not have succeeded!");
+			new GpgConfig(c).getKeyFormat();
+			fail("Call should not have succeeded!");
+		});
 	}
 
 	@Test
-	public void testGetKeyFormat_openpgp() throws Exception {
+	void testGetKeyFormat_openpgp() throws Exception {
 		Config c = parse("" //
 				+ "[gpg]\n" //
 				+ "  format = openpgp\n" //
@@ -86,7 +89,7 @@ public class GpgConfigTest {
 	}
 
 	@Test
-	public void testGetKeyFormat_x509() throws Exception {
+	void testGetKeyFormat_x509() throws Exception {
 		Config c = parse("" //
 				+ "[gpg]\n" //
 				+ "  format = x509\n" //
@@ -96,7 +99,7 @@ public class GpgConfigTest {
 	}
 
 	@Test
-	public void testGetSigningKey() throws Exception {
+	void testGetSigningKey() throws Exception {
 		Config c = parse("" //
 				+ "[user]\n" //
 				+ "  signingKey = 0x2345\n" //
@@ -106,7 +109,7 @@ public class GpgConfigTest {
 	}
 
 	@Test
-	public void testGetSigningKey_defaultToNull() throws Exception {
+	void testGetSigningKey_defaultToNull() throws Exception {
 		Config c = parse("");
 
 		assertNull(new GpgConfig(c).getSigningKey());

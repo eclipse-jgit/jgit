@@ -13,15 +13,13 @@ package org.eclipse.jgit.api;
 import static java.time.Instant.EPOCH;
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,8 +60,8 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CheckoutCommandTest extends RepositoryTestCase {
 	private Git git;
@@ -73,7 +71,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	RevCommit secondCommit;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		BuiltinLFS.register();
 		super.setUp();
@@ -95,12 +93,12 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleCheckout() throws Exception {
+	void testSimpleCheckout() throws Exception {
 		git.checkout().setName("test").call();
 	}
 
 	@Test
-	public void testCheckout() throws Exception {
+	void testCheckout() throws Exception {
 		git.checkout().setName("test").call();
 		assertEquals("[Test.txt, mode:100644, content:Some change]",
 				indexState(CONTENT));
@@ -112,7 +110,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutForced() throws Exception {
+	void testCheckoutForced() throws Exception {
 		writeTrashFile("Test.txt", "Garbage");
 		try {
 			git.checkout().setName("master").call().getObjectId();
@@ -125,7 +123,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutForced_deleteFileAndRestore() throws Exception {
+	void testCheckoutForced_deleteFileAndRestore() throws Exception {
 		File testFile = new File(db.getWorkTree(), "Test.txt");
 		assertTrue(testFile.exists());
 
@@ -147,13 +145,13 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutForcedNoChangeNotInIndex() throws Exception {
+	void testCheckoutForcedNoChangeNotInIndex() throws Exception {
 		git.checkout().setCreateBranch(true).setName("test2").call();
 		File f = writeTrashFile("NewFile.txt", "New file");
 		git.add().addFilepattern("NewFile.txt").call();
 		git.commit().setMessage("New file created").call();
 		git.checkout().setName("test").call();
-		assertFalse("NewFile.txt should not exist", f.exists());
+		assertFalse(f.exists(), "NewFile.txt should not exist");
 		writeTrashFile("NewFile.txt", "New file");
 		git.add().addFilepattern("NewFile.txt").call();
 		git.commit().setMessage("New file created again with same content")
@@ -161,23 +159,23 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		// Now remove the file from the index only. So it exists in both
 		// commits, and in the working tree, but not in the index.
 		git.rm().addFilepattern("NewFile.txt").setCached(true).call();
-		assertTrue("NewFile.txt should exist", f.isFile());
+		assertTrue(f.isFile(), "NewFile.txt should exist");
 		git.checkout().setForced(true).setName("test2").call();
-		assertTrue("NewFile.txt should exist", f.isFile());
+		assertTrue(f.isFile(), "NewFile.txt should exist");
 		assertEquals(Constants.R_HEADS + "test2", git.getRepository()
 				.exactRef(Constants.HEAD).getTarget().getName());
-		assertTrue("Force checkout should have undone git rm --cached",
-				git.status().call().isClean());
+		assertTrue(git.status().call().isClean(),
+				"Force checkout should have undone git rm --cached");
 	}
 
 	@Test
-	public void testCheckoutNoChangeNotInIndex() throws Exception {
+	void testCheckoutNoChangeNotInIndex() throws Exception {
 		git.checkout().setCreateBranch(true).setName("test2").call();
 		File f = writeTrashFile("NewFile.txt", "New file");
 		git.add().addFilepattern("NewFile.txt").call();
 		git.commit().setMessage("New file created").call();
 		git.checkout().setName("test").call();
-		assertFalse("NewFile.txt should not exist", f.exists());
+		assertFalse(f.exists(), "NewFile.txt should not exist");
 		writeTrashFile("NewFile.txt", "New file");
 		git.add().addFilepattern("NewFile.txt").call();
 		git.commit().setMessage("New file created again with same content")
@@ -185,9 +183,9 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		// Now remove the file from the index only. So it exists in both
 		// commits, and in the working tree, but not in the index.
 		git.rm().addFilepattern("NewFile.txt").setCached(true).call();
-		assertTrue("NewFile.txt should exist", f.isFile());
+		assertTrue(f.isFile(), "NewFile.txt should exist");
 		git.checkout().setName("test2").call();
-		assertTrue("NewFile.txt should exist", f.isFile());
+		assertTrue(f.isFile(), "NewFile.txt should exist");
 		assertEquals(Constants.R_HEADS + "test2", git.getRepository()
 				.exactRef(Constants.HEAD).getTarget().getName());
 		org.eclipse.jgit.api.Status status = git.status().call();
@@ -196,13 +194,13 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateBranchOnCheckout() throws Exception {
+	void testCreateBranchOnCheckout() throws Exception {
 		git.checkout().setCreateBranch(true).setName("test2").call();
 		assertNotNull(db.exactRef("refs/heads/test2"));
 	}
 
 	@Test
-	public void testCheckoutToNonExistingBranch() throws GitAPIException {
+	void testCheckoutToNonExistingBranch() throws GitAPIException {
 		try {
 			git.checkout().setName("badbranch").call();
 			fail("Should have failed");
@@ -212,7 +210,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutWithConflict() throws Exception {
+	void testCheckoutWithConflict() throws Exception {
 		CheckoutCommand co = git.checkout();
 		try {
 			writeTrashFile("Test.txt", "Another change");
@@ -224,11 +222,11 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			assertTrue(co.getResult().getConflictList().contains("Test.txt"));
 		}
 		git.checkout().setName("master").setForced(true).call();
-		assertThat(read("Test.txt"), is("Hello world"));
+		assertEquals("Hello world", read("Test.txt"));
 	}
 
 	@Test
-	public void testCheckoutWithNonDeletedFiles() throws Exception {
+	void testCheckoutWithNonDeletedFiles() throws Exception {
 		File testFile = writeTrashFile("temp", "");
 		try (FileInputStream fis = new FileInputStream(testFile)) {
 			FileUtils.delete(testFile);
@@ -259,7 +257,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutCommit() throws Exception {
+	void testCheckoutCommit() throws Exception {
 		Ref result = git.checkout().setName(initialCommit.name()).call();
 		assertEquals("[Test.txt, mode:100644, content:Hello world]",
 				indexState(CONTENT));
@@ -268,7 +266,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutLightweightTag() throws Exception {
+	void testCheckoutLightweightTag() throws Exception {
 		git.tag().setAnnotated(false).setName("test-tag")
 				.setObjectId(initialCommit).call();
 		Ref result = git.checkout().setName("test-tag").call();
@@ -279,7 +277,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutAnnotatedTag() throws Exception {
+	void testCheckoutAnnotatedTag() throws Exception {
 		git.tag().setAnnotated(true).setName("test-tag")
 				.setObjectId(initialCommit).call();
 		Ref result = git.checkout().setName("test-tag").call();
@@ -290,7 +288,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutRemoteTrackingWithUpstream() throws Exception {
+	void testCheckoutRemoteTrackingWithUpstream() throws Exception {
 		Repository db2 = createRepositoryWithRemote();
 		addRepoToClose(db2);
 
@@ -310,7 +308,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutRemoteTrackingWithoutLocalBranch() throws Exception {
+	void testCheckoutRemoteTrackingWithoutLocalBranch() throws Exception {
 		Repository db2 = createRepositoryWithRemote();
 		addRepoToClose(db2);
 
@@ -322,9 +320,8 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 
-
 	@Test
-	public void testCheckoutOfFileWithInexistentParentDir() throws Exception {
+	void testCheckoutOfFileWithInexistentParentDir() throws Exception {
 		File a = writeTrashFile("dir/a.txt", "A");
 		writeTrashFile("dir/b.txt", "A");
 		git.add().addFilepattern("dir/a.txt").addFilepattern("dir/b.txt")
@@ -339,7 +336,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutOfDirectoryShouldBeRecursive() throws Exception {
+	void testCheckoutOfDirectoryShouldBeRecursive() throws Exception {
 		File a = writeTrashFile("dir/a.txt", "A");
 		File b = writeTrashFile("dir/sub/b.txt", "B");
 		git.add().addFilepattern("dir").call();
@@ -349,12 +346,12 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		write(b, "modified");
 		git.checkout().addPath("dir").call();
 
-		assertThat(read(a), is("A"));
-		assertThat(read(b), is("B"));
+		assertEquals("A", read(a));
+		assertEquals("B", read(b));
 	}
 
 	@Test
-	public void testCheckoutAllPaths() throws Exception {
+	void testCheckoutAllPaths() throws Exception {
 		File a = writeTrashFile("dir/a.txt", "A");
 		File b = writeTrashFile("dir/sub/b.txt", "B");
 		git.add().addFilepattern("dir").call();
@@ -364,12 +361,12 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		write(b, "modified");
 		git.checkout().setAllPaths(true).call();
 
-		assertThat(read(a), is("A"));
-		assertThat(read(b), is("B"));
+		assertEquals("A", read(a));
+		assertEquals("B", read(b));
 	}
 
 	@Test
-	public void testCheckoutWithStartPoint() throws Exception {
+	void testCheckoutWithStartPoint() throws Exception {
 		File a = writeTrashFile("a.txt", "A");
 		git.add().addFilepattern("a.txt").call();
 		RevCommit first = git.commit().setMessage("Added a").call();
@@ -380,11 +377,11 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		git.checkout().setCreateBranch(true).setName("a")
 				.setStartPoint(first.getId().getName()).call();
 
-		assertThat(read(a), is("A"));
+		assertEquals("A", read(a));
 	}
 
 	@Test
-	public void testCheckoutWithStartPointOnlyCertainFiles() throws Exception {
+	void testCheckoutWithStartPointOnlyCertainFiles() throws Exception {
 		File a = writeTrashFile("a.txt", "A");
 		File b = writeTrashFile("b.txt", "B");
 		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
@@ -397,12 +394,12 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		git.checkout().setCreateBranch(true).setName("a")
 				.setStartPoint(first.getId().getName()).addPath("a.txt").call();
 
-		assertThat(read(a), is("A"));
-		assertThat(read(b), is("other"));
+		assertEquals("A", read(a));
+		assertEquals("other", read(b));
 	}
 
 	@Test
-	public void testDetachedHeadOnCheckout() throws JGitInternalException,
+	void testDetachedHeadOnCheckout() throws JGitInternalException,
 			IOException, GitAPIException {
 		CheckoutCommand co = git.checkout();
 		co.setName("master").call();
@@ -415,7 +412,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateSmudgedEntries() throws Exception {
+	void testUpdateSmudgedEntries() throws Exception {
 		git.branchCreate().setName("test2").call();
 		RefUpdate rup = db.updateRef(Constants.HEAD);
 		rup.link("refs/heads/test2");
@@ -454,7 +451,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutOrphanBranch() throws Exception {
+	void testCheckoutOrphanBranch() throws Exception {
 		CheckoutCommand co = newOrphanBranchCommand();
 		assertCheckoutRef(co.call());
 
@@ -519,7 +516,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateOrphanBranchWithStartCommit() throws Exception {
+	void testCreateOrphanBranchWithStartCommit() throws Exception {
 		CheckoutCommand co = newOrphanBranchCommand();
 		Ref ref = co.setStartPoint(initialCommit).call();
 		assertCheckoutRef(ref);
@@ -529,7 +526,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCreateOrphanBranchWithStartPoint() throws Exception {
+	void testCreateOrphanBranchWithStartPoint() throws Exception {
 		CheckoutCommand co = newOrphanBranchCommand();
 		Ref ref = co.setStartPoint("HEAD^").call();
 		assertCheckoutRef(ref);
@@ -540,7 +537,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInvalidRefName() throws Exception {
+	void testInvalidRefName() throws Exception {
 		try {
 			git.checkout().setOrphan(true).setName("../invalidname").call();
 			fail("Should have failed");
@@ -550,7 +547,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNullRefName() throws Exception {
+	void testNullRefName() throws Exception {
 		try {
 			git.checkout().setOrphan(true).setName(null).call();
 			fail("Should have failed");
@@ -560,7 +557,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAlreadyExists() throws Exception {
+	void testAlreadyExists() throws Exception {
 		this.git.checkout().setCreateBranch(true).setName("orphanbranch")
 				.call();
 		this.git.checkout().setName("master").call();
@@ -576,7 +573,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	// TODO: write a faster test which depends less on characteristics of
 	// underlying filesystem/OS.
 	@Test
-	public void testCheckoutAutoCrlfTrue() throws Exception {
+	void testCheckoutAutoCrlfTrue() throws Exception {
 		int nrOfAutoCrlfTestFiles = 200;
 
 		FileBasedConfig c = db.getConfig();
@@ -612,15 +609,16 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 					"Test_" + i + ".txt");
 			if (!entry.isSmudged()) {
 				foundUnsmudged = true;
-				assertEquals("unexpected file length in git index", 28,
-						entry.getLength());
+				assertEquals(28,
+						entry.getLength(),
+						"unexpected file length in git index");
 			}
 		}
-		org.junit.Assume.assumeTrue(foundUnsmudged);
+		org.junit.jupiter.api.Assumptions.assumeTrue(foundUnsmudged);
 	}
 
 	@Test
-	public void testSmudgeFilter_modifyExisting() throws IOException, GitAPIException {
+	void testSmudgeFilter_modifyExisting() throws IOException, GitAPIException {
 		File script = writeTempFile("sed s/o/e/g");
 		StoredConfig config = git.getRepository().getConfig();
 		config.setString("filter", "lfs", "smudge",
@@ -657,7 +655,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSmudgeFilter_createNew()
+	void testSmudgeFilter_createNew()
 			throws IOException, GitAPIException {
 		File script = writeTempFile("sed s/o/e/g");
 		StoredConfig config = git.getRepository().getConfig();
@@ -692,7 +690,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSmudgeFilter_deleteFileAndRestoreFromCommit()
+	void testSmudgeFilter_deleteFileAndRestoreFromCommit()
 			throws IOException, GitAPIException {
 		File script = writeTempFile("sed s/o/e/g");
 		StoredConfig config = git.getRepository().getConfig();
@@ -728,7 +726,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSmudgeFilter_deleteFileAndRestoreFromIndex()
+	void testSmudgeFilter_deleteFileAndRestoreFromIndex()
 			throws IOException, GitAPIException {
 		File script = writeTempFile("sed s/o/e/g");
 		StoredConfig config = git.getRepository().getConfig();
@@ -763,7 +761,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSmudgeFilter_deleteFileAndCreateBranchAndRestoreFromCommit()
+	void testSmudgeFilter_deleteFileAndCreateBranchAndRestoreFromCommit()
 			throws IOException, GitAPIException {
 		File script = writeTempFile("sed s/o/e/g");
 		StoredConfig config = git.getRepository().getConfig();
@@ -799,7 +797,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSmudgeAndClean() throws Exception {
+	void testSmudgeAndClean() throws Exception {
 		File clean_filter = writeTempFile("sed s/V1/@version/g");
 		File smudge_filter = writeTempFile("sed s/@version/V1/g");
 
@@ -848,10 +846,10 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNonDeletableFilesOnWindows()
+	void testNonDeletableFilesOnWindows()
 			throws GitAPIException, IOException {
 		// Only on windows a FileInputStream blocks us from deleting a file
-		org.junit.Assume.assumeTrue(SystemReader.getInstance().isWindows());
+		org.junit.jupiter.api.Assumptions.assumeTrue(SystemReader.getInstance().isWindows());
 		writeTrashFile("toBeModified.txt", "a");
 		writeTrashFile("toBeDeleted.txt", "a");
 		git.add().addFilepattern(".").call();
@@ -865,7 +863,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		RevCommit crudCommit = git.commit().setMessage("delete, modify, add")
 				.call();
 		git.checkout().setName(addFiles.getName()).call();
-		try ( FileInputStream fis=new FileInputStream(new File(db.getWorkTree(), "Test.txt")) ) {
+		try (FileInputStream fis = new FileInputStream(new File(db.getWorkTree(), "Test.txt"))) {
 			CheckoutCommand coCommand = git.checkout();
 			coCommand.setName(crudCommit.getName()).call();
 			CheckoutResult result = coCommand.getResult();

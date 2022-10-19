@@ -10,6 +10,9 @@
 package org.eclipse.jgit.transport;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,9 +31,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.http.HttpCookiesMatcher;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
@@ -39,7 +41,7 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 	private File cookieFile;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		uri = new URIish("https://everyones.loves.git/u/2");
@@ -52,43 +54,43 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testMatchesCookieDomain() {
-		Assert.assertTrue(TransportHttp.matchesCookieDomain("example.com",
+	void testMatchesCookieDomain() {
+		assertTrue(TransportHttp.matchesCookieDomain("example.com",
 				"example.com"));
-		Assert.assertTrue(TransportHttp.matchesCookieDomain("Example.Com",
+		assertTrue(TransportHttp.matchesCookieDomain("Example.Com",
 				"example.cOM"));
-		Assert.assertTrue(TransportHttp.matchesCookieDomain(
+		assertTrue(TransportHttp.matchesCookieDomain(
 				"some.subdomain.example.com", "example.com"));
-		Assert.assertFalse(TransportHttp
+		assertFalse(TransportHttp
 				.matchesCookieDomain("someotherexample.com", "example.com"));
-		Assert.assertFalse(TransportHttp.matchesCookieDomain("example.com",
+		assertFalse(TransportHttp.matchesCookieDomain("example.com",
 				"example1.com"));
-		Assert.assertFalse(TransportHttp
+		assertFalse(TransportHttp
 				.matchesCookieDomain("sub.sub.example.com", ".example.com"));
-		Assert.assertTrue(TransportHttp.matchesCookieDomain("host.example.com",
+		assertTrue(TransportHttp.matchesCookieDomain("host.example.com",
 				"example.com"));
-		Assert.assertTrue(TransportHttp.matchesCookieDomain(
+		assertTrue(TransportHttp.matchesCookieDomain(
 				"something.example.com", "something.example.com"));
-		Assert.assertTrue(TransportHttp.matchesCookieDomain(
+		assertTrue(TransportHttp.matchesCookieDomain(
 				"host.something.example.com", "something.example.com"));
 	}
 
 	@Test
-	public void testMatchesCookiePath() {
-		Assert.assertTrue(
+	void testMatchesCookiePath() {
+		assertTrue(
 				TransportHttp.matchesCookiePath("/some/path", "/some/path"));
-		Assert.assertTrue(TransportHttp.matchesCookiePath("/some/path/child",
+		assertTrue(TransportHttp.matchesCookiePath("/some/path/child",
 				"/some/path"));
-		Assert.assertTrue(TransportHttp.matchesCookiePath("/some/path/child",
+		assertTrue(TransportHttp.matchesCookiePath("/some/path/child",
 				"/some/path/"));
-		Assert.assertFalse(TransportHttp.matchesCookiePath("/some/pathother",
+		assertFalse(TransportHttp.matchesCookiePath("/some/pathother",
 				"/some/path"));
-		Assert.assertFalse(
+		assertFalse(
 				TransportHttp.matchesCookiePath("otherpath", "/some/path"));
 	}
 
 	@Test
-	public void testProcessResponseCookies() throws IOException {
+	void testProcessResponseCookies() throws IOException {
 		HttpConnection connection = Mockito.mock(HttpConnection.class);
 		Mockito.when(
 				connection.getHeaderFields(ArgumentMatchers.eq("Set-Cookie")))
@@ -132,7 +134,7 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testProcessResponseCookiesNotPersistingWithSaveCookiesFalse()
+	void testProcessResponseCookiesNotPersistingWithSaveCookiesFalse()
 			throws IOException {
 		HttpConnection connection = Mockito.mock(HttpConnection.class);
 		Mockito.when(
@@ -153,8 +155,8 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 			transportHttp.processResponseCookies(connection);
 
 			// evaluate written cookie file
-			Assert.assertFalse("Cookie file was not supposed to be written!",
-					cookieFile.exists());
+			assertFalse(cookieFile.exists(),
+					"Cookie file was not supposed to be written!");
 		}
 	}
 
@@ -168,38 +170,38 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 		}).when(fake).setRequestProperty(ArgumentMatchers.anyString(),
 				ArgumentMatchers.anyString());
 		TransportHttp.addHeaders(fake, Arrays.asList(headersToAdd));
-		Assert.assertEquals(expected, headers.toString());
+		assertEquals(expected, headers.toString());
 	}
 
 	@Test
-	public void testAddHeaders() {
+	void testAddHeaders() {
 		assertHeaders("{a=b, c=d}", "a: b", "c :d");
 	}
 
 	@Test
-	public void testAddHeaderEmptyValue() {
+	void testAddHeaderEmptyValue() {
 		assertHeaders("{a-x=b, c=, d=e}", "a-x: b", "c:", "d:e");
 	}
 
 	@Test
-	public void testSkipHeaderWithEmptyKey() {
+	void testSkipHeaderWithEmptyKey() {
 		assertHeaders("{a=b, c=d}", "a: b", " : x", "c :d");
 		assertHeaders("{a=b, c=d}", "a: b", ": x", "c :d");
 	}
 
 	@Test
-	public void testSkipHeaderWithoutKey() {
+	void testSkipHeaderWithoutKey() {
 		assertHeaders("{a=b, c=d}", "a: b", "x", "c :d");
 	}
 
 	@Test
-	public void testSkipHeaderWithInvalidKey() {
+	void testSkipHeaderWithInvalidKey() {
 		assertHeaders("{a=b, c=d}", "a: b", "q/p: x", "c :d");
 		assertHeaders("{a=b, c=d}", "a: b", "ä: x", "c :d");
 	}
 
 	@Test
-	public void testSkipHeaderWithNonAsciiValue() {
+	void testSkipHeaderWithNonAsciiValue() {
 		assertHeaders("{a=b, c=d}", "a: b", "q/p: x", "c :d");
 		assertHeaders("{a=b, c=d}", "a: b", "x: ä", "c :d");
 	}

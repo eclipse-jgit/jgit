@@ -9,12 +9,12 @@
  */
 package org.eclipse.jgit.attributes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests git attributes pattern matches
@@ -22,7 +22,7 @@ import org.junit.Test;
 public class AttributesMatcherTest {
 
 	@Test
-	public void testBasic() {
+	void testBasic() {
 		String pattern = "/test.stp";
 		assertMatched(pattern, "/test.stp");
 
@@ -31,7 +31,7 @@ public class AttributesMatcherTest {
 	}
 
 	@Test
-	public void testFileNameWildcards() {
+	void testFileNameWildcards() {
 		//Test basic * and ? for any pattern + any character
 		String pattern = "*.st?";
 		assertMatched(pattern, "/test.stp");
@@ -91,7 +91,7 @@ public class AttributesMatcherTest {
 	}
 
 	@Test
-	public void testTargetWithoutLeadingSlash() {
+	void testTargetWithoutLeadingSlash() {
 		//Test basic * and ? for any pattern + any character
 		String pattern = "/*.st?";
 		assertMatched(pattern, "test.stp");
@@ -151,7 +151,7 @@ public class AttributesMatcherTest {
 	}
 
 	@Test
-	public void testParentDirectoryGitAttributes() {
+	void testParentDirectoryGitAttributes() {
 		//Contains git attribute patterns such as might be seen in a parent directory
 
 		//Test for wildcards
@@ -187,7 +187,7 @@ public class AttributesMatcherTest {
 	}
 
 	@Test
-	public void testTrailingSlash() {
+	void testTrailingSlash() {
 		String pattern = "/src/";
 		assertMatched(pattern, "/src/");
 		assertNotMatched(pattern, "/src/new");
@@ -211,7 +211,7 @@ public class AttributesMatcherTest {
 	}
 
 	@Test
-	public void testNameOnlyMatches() {
+	void testNameOnlyMatches() {
 		/*
 		 * Name-only matches do not contain any path separators
 		 */
@@ -279,7 +279,7 @@ public class AttributesMatcherTest {
 	}
 
 	@Test
-	public void testGetters() {
+	void testGetters() {
 		AttributesRule r = new AttributesRule("/pattern/", "");
 		assertFalse(r.isNameOnly());
 		assertTrue(r.isDirOnly());
@@ -350,7 +350,7 @@ public class AttributesMatcherTest {
 	}
 
 	@Test
-	public void testBracketsInGroup() {
+	void testBracketsInGroup() {
 		//combinations of brackets in brackets, escaped and not
 
 		String[] patterns = new String[]{"[[\\]]", "[\\[\\]]"};
@@ -383,7 +383,7 @@ public class AttributesMatcherTest {
 	}
 
 	@Test
-	public void testFileNameWithLineTerminator() {
+	void testFileNameWithLineTerminator() {
 		assertMatched("a?", "a\r");
 		assertMatched("a?", "dir/a\r");
 		assertMatched("*a", "\ra");
@@ -401,8 +401,8 @@ public class AttributesMatcherTest {
 	 */
 	private void assertMatched(String pattern, String target) {
 		boolean value = match(pattern, target);
-		assertTrue("Expected a match for: " + pattern + " with: " + target,
-				value);
+		assertTrue(value,
+				"Expected a match for: " + pattern + " with: " + target);
 	}
 
 	/**
@@ -416,8 +416,8 @@ public class AttributesMatcherTest {
 	 */
 	private void assertNotMatched(String pattern, String target) {
 		boolean value = match(pattern, target);
-		assertFalse("Expected no match for: " + pattern + " with: " + target,
-				value);
+		assertFalse(value,
+				"Expected no match for: " + pattern + " with: " + target);
 	}
 
 	/**

@@ -9,14 +9,15 @@
  */
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 import org.eclipse.jgit.revwalk.filter.MaxCountRevFilter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MaxCountRevFilterTest extends RevWalkTestCase {
 	@Test
-	public void testMaxCountRevFilter() throws Exception {
+	void testMaxCountRevFilter() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c1 = commit(b);
@@ -39,7 +40,7 @@ public class MaxCountRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testMaxCountRevFilter0() throws Exception {
+	void testMaxCountRevFilter0() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 

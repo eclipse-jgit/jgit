@@ -10,9 +10,9 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.beans.Statement;
 import java.io.BufferedInputStream;
@@ -55,10 +55,10 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.StringUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class ArchiveCommandTest extends RepositoryTestCase {
 
@@ -73,7 +73,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	private MockFormat format = null;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		format = new MockFormat();
 		ArchiveCommand.registerFormat(format.SUFFIXES.get(0), format);
@@ -81,14 +81,14 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() {
 		ArchiveCommand.unregisterFormat(format.SUFFIXES.get(0));
 		ArchiveFormats.unregisterAll();
 	}
 
 	@Test
-	public void archiveHeadAllFiles() throws IOException, GitAPIException {
+	void archiveHeadAllFiles() throws IOException, GitAPIException {
 		try (Git git = new Git(db)) {
 			createTestContent(git);
 
@@ -96,14 +96,14 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 					.setFormat(format.SUFFIXES.get(0))
 					.setTree(git.getRepository().resolve("HEAD")).call();
 
-			assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, format.size());
-			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_2", format.getByPath("file_1.txt"));
-			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath("file_2.txt"));
+			assertEquals(2, format.size(), UNEXPECTED_ARCHIVE_SIZE);
+			assertEquals("content_1_2", format.getByPath("file_1.txt"), UNEXPECTED_FILE_CONTENTS);
+			assertEquals("content_2_2", format.getByPath("file_2.txt"), UNEXPECTED_FILE_CONTENTS);
 		}
 	}
 
 	@Test
-	public void archiveHeadSpecificPath() throws IOException, GitAPIException {
+	void archiveHeadSpecificPath() throws IOException, GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file_1.txt", "content_1_1");
 			git.add().addFilepattern("file_1.txt").call();
@@ -120,14 +120,14 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 					.setTree(git.getRepository().resolve("HEAD"))
 					.setPaths(expectedFilePath).call();
 
-			assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, format.size());
-			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath(expectedFilePath));
-			assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory"));
+			assertEquals(2, format.size(), UNEXPECTED_ARCHIVE_SIZE);
+			assertEquals("content_2_2", format.getByPath(expectedFilePath), UNEXPECTED_FILE_CONTENTS);
+			assertNull(format.getByPath("some_directory"), UNEXPECTED_TREE_CONTENTS);
 		}
 	}
 
 	@Test
-	public void archiveByIdSpecificFile() throws IOException, GitAPIException {
+	void archiveByIdSpecificFile() throws IOException, GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file_1.txt", "content_1_1");
 			git.add().addFilepattern("file_1.txt").call();
@@ -150,13 +150,13 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 					.setPaths("file_1.txt").call();
 
 			assertEquals(opt.intValue(), out.getFoo());
-			assertEquals(UNEXPECTED_ARCHIVE_SIZE, 1, format.size());
-			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_1", format.getByPath("file_1.txt"));
+			assertEquals(1, format.size(), UNEXPECTED_ARCHIVE_SIZE);
+			assertEquals("content_1_1", format.getByPath("file_1.txt"), UNEXPECTED_FILE_CONTENTS);
 		}
 	}
 
 	@Test
-	public void archiveByDirectoryPath() throws GitAPIException, IOException {
+	void archiveByDirectoryPath() throws GitAPIException, IOException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file_0.txt", "content_0_1");
 			git.add().addFilepattern("file_0.txt").call();
@@ -167,7 +167,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 			writeTrashFile(expectedFilePath1, "content_1_2");
 			String expectedFilePath2 = "some_directory/file_2.txt";
 			writeTrashFile(expectedFilePath2, "content_2_2");
-		        String expectedFilePath3 = "some_directory/nested_directory/file_3.txt";
+			String expectedFilePath3 = "some_directory/nested_directory/file_3.txt";
 			writeTrashFile(expectedFilePath3, "content_3_2");
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("commit_2").call();
@@ -176,60 +176,60 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 					.setTree(git.getRepository().resolve("HEAD"))
 					.setPaths("some_directory/").call();
 
-			assertEquals(UNEXPECTED_ARCHIVE_SIZE, 5, format.size());
-			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_2", format.getByPath(expectedFilePath1));
-			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath(expectedFilePath2));
-			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_3_2", format.getByPath(expectedFilePath3));
-			assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory"));
-			assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory/nested_directory"));
+			assertEquals(5, format.size(), UNEXPECTED_ARCHIVE_SIZE);
+			assertEquals("content_1_2", format.getByPath(expectedFilePath1), UNEXPECTED_FILE_CONTENTS);
+			assertEquals("content_2_2", format.getByPath(expectedFilePath2), UNEXPECTED_FILE_CONTENTS);
+			assertEquals("content_3_2", format.getByPath(expectedFilePath3), UNEXPECTED_FILE_CONTENTS);
+			assertNull(format.getByPath("some_directory"), UNEXPECTED_TREE_CONTENTS);
+			assertNull(format.getByPath("some_directory/nested_directory"), UNEXPECTED_TREE_CONTENTS);
 		}
 	}
 
 	@Test
-	public void archiveHeadAllFilesTarTimestamps() throws Exception {
+	void archiveHeadAllFilesTarTimestamps() throws Exception {
 		archiveHeadAllFiles("tar");
 	}
 
 	@Test
-	public void archiveHeadAllFilesTgzTimestamps() throws Exception {
+	void archiveHeadAllFilesTgzTimestamps() throws Exception {
 		archiveHeadAllFiles("tgz");
 	}
 
 	@Test
-	public void archiveHeadAllFilesTbz2Timestamps() throws Exception {
+	void archiveHeadAllFilesTbz2Timestamps() throws Exception {
 		archiveHeadAllFiles("tbz2");
 	}
 
 	@Test
-	public void archiveHeadAllFilesTxzTimestamps() throws Exception {
+	void archiveHeadAllFilesTxzTimestamps() throws Exception {
 		archiveHeadAllFiles("txz");
 	}
 
 	@Test
-	public void archiveHeadAllFilesZipTimestamps() throws Exception {
+	void archiveHeadAllFilesZipTimestamps() throws Exception {
 		archiveHeadAllFiles("zip");
 	}
 
 	@Test
-	public void archiveHeadAllFilesTgzWithCompressionReducesArchiveSize() throws Exception {
+	void archiveHeadAllFilesTgzWithCompressionReducesArchiveSize() throws Exception {
 		archiveHeadAllFilesWithCompression("tgz");
 	}
 
 	@Test
-	public void archiveHeadAllFilesTbz2WithCompressionReducesArchiveSize() throws Exception {
+	void archiveHeadAllFilesTbz2WithCompressionReducesArchiveSize() throws Exception {
 		archiveHeadAllFilesWithCompression("tbz2");
 	}
 
 	@Test
-	@Ignore
-	public void archiveHeadAllFilesTxzWithCompressionReducesArchiveSize() throws Exception {
+	@Disabled
+	void archiveHeadAllFilesTxzWithCompressionReducesArchiveSize() throws Exception {
 		// We ignore this test because the txz format consumes a lot of memory for high level
 		// compressions.
 		archiveHeadAllFilesWithCompression("txz");
 	}
 
 	@Test
-	public void archiveHeadAllFilesZipWithCompressionReducesArchiveSize() throws Exception {
+	void archiveHeadAllFilesZipWithCompressionReducesArchiveSize() throws Exception {
 		archiveHeadAllFilesWithCompression("zip");
 	}
 
@@ -249,8 +249,9 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 			Thread.sleep(WAIT);
 			archive(git, archive, fmt);
-			assertEquals(UNEXPECTED_DIFFERENT_HASH, hash1,
-					ObjectId.fromRaw(IO.readFully(archive)));
+			assertEquals(hash1,
+					ObjectId.fromRaw(IO.readFully(archive)),
+					UNEXPECTED_DIFFERENT_HASH);
 		}
 	}
 
@@ -347,11 +348,11 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		int n = 0;
 		while ((e = o.getNextEntry()) != null) {
 			n++;
-			assertEquals(UNEXPECTED_LAST_MODIFIED,
-					(1250379778668L / 1000L) * 1000L,
-					e.getLastModifiedDate().getTime());
+			assertEquals((1250379778668L / 1000L) * 1000L,
+					e.getLastModifiedDate().getTime(),
+					UNEXPECTED_LAST_MODIFIED);
 		}
-		assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, n);
+		assertEquals(2, n, UNEXPECTED_ARCHIVE_SIZE);
 	}
 
 	private static int getNumBytes(File archive) throws Exception {

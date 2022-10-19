@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.submodule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link SubmoduleStatusCommand}
@@ -42,7 +42,7 @@ import org.junit.Test;
 public class SubmoduleStatusTest extends RepositoryTestCase {
 
 	@Test
-	public void repositoryWithNoSubmodules() throws GitAPIException {
+	void repositoryWithNoSubmodules() throws GitAPIException {
 		SubmoduleStatusCommand command = new SubmoduleStatusCommand(db);
 		Map<String, SubmoduleStatus> statuses = command.call();
 		assertNotNull(statuses);
@@ -50,7 +50,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithMissingSubmodule() throws IOException,
+	void repositoryWithMissingSubmodule() throws IOException,
 			GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -83,7 +83,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithUninitializedSubmodule() throws IOException,
+	void repositoryWithUninitializedSubmodule() throws IOException,
 			GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -124,7 +124,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithNoHeadInSubmodule() throws IOException,
+	void repositoryWithNoHeadInSubmodule() throws IOException,
 			GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -176,7 +176,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithNoSubmoduleRepository() throws IOException,
+	void repositoryWithNoSubmoduleRepository() throws IOException,
 			GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -223,7 +223,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithInitializedSubmodule() throws Exception {
+	void repositoryWithInitializedSubmodule() throws Exception {
 		String path = "sub";
 		Repository subRepo = Git.init().setBare(false)
 				.setDirectory(new File(db.getWorkTree(), path)).call()
@@ -277,7 +277,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithDifferentRevCheckedOutSubmodule() throws Exception {
+	void repositoryWithDifferentRevCheckedOutSubmodule() throws Exception {
 		String path = "sub";
 		Repository subRepo = Git.init().setBare(false)
 				.setDirectory(new File(db.getWorkTree(), path)).call()

@@ -11,19 +11,19 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import static org.eclipse.jgit.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NotTreeFilterTest extends RepositoryTestCase {
 	@Test
-	public void testWrap() throws Exception {
+	void testWrap() throws Exception {
 		try (TreeWalk tw = new TreeWalk(db)) {
 			final TreeFilter a = TreeFilter.ALL;
 			final TreeFilter n = NotTreeFilter.create(a);
@@ -34,21 +34,21 @@ public class NotTreeFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNegateIsUnwrap() throws Exception {
+	void testNegateIsUnwrap() throws Exception {
 		final TreeFilter a = PathFilter.create("a/b");
 		final TreeFilter n = NotTreeFilter.create(a);
 		assertSame(a, n.negate());
 	}
 
 	@Test
-	public void testShouldBeRecursive_ALL() throws Exception {
+	void testShouldBeRecursive_ALL() throws Exception {
 		final TreeFilter a = TreeFilter.ALL;
 		final TreeFilter n = NotTreeFilter.create(a);
 		assertEquals(a.shouldBeRecursive(), n.shouldBeRecursive());
 	}
 
 	@Test
-	public void testShouldBeRecursive_PathFilter() throws Exception {
+	void testShouldBeRecursive_PathFilter() throws Exception {
 		final TreeFilter a = PathFilter.create("a/b");
 		assertTrue(a.shouldBeRecursive());
 		final TreeFilter n = NotTreeFilter.create(a);
@@ -56,7 +56,7 @@ public class NotTreeFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneIsDeepClone() throws Exception {
+	void testCloneIsDeepClone() throws Exception {
 		final TreeFilter a = new AlwaysCloneTreeFilter();
 		assertNotSame(a, a.clone());
 		final TreeFilter n = NotTreeFilter.create(a);
@@ -64,7 +64,7 @@ public class NotTreeFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneIsSparseWhenPossible() throws Exception {
+	void testCloneIsSparseWhenPossible() throws Exception {
 		final TreeFilter a = TreeFilter.ALL;
 		assertSame(a, a.clone());
 		final TreeFilter n = NotTreeFilter.create(a);

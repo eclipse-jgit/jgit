@@ -9,14 +9,15 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.util.Date;
@@ -54,8 +55,8 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link CommitCommand}.
@@ -63,7 +64,7 @@ import org.junit.Test;
 public class CommitCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testExecutableRetention() throws Exception {
+	void testExecutableRetention() throws Exception {
 		StoredConfig config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FILEMODE, true);
@@ -181,7 +182,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitNewSubmodule() throws Exception {
+	void commitNewSubmodule() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -229,7 +230,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitSubmoduleUpdate() throws Exception {
+	void commitSubmoduleUpdate() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -288,9 +289,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Ignore("very flaky when run with Hudson")
+	@Disabled("very flaky when run with Hudson")
 	@Test
-	public void commitUpdatesSmudgedEntries() throws Exception {
+	void commitUpdatesSmudgedEntries() throws Exception {
 		try (Git git = new Git(db)) {
 			File file1 = writeTrashFile("file1.txt", "content1");
 			TimeUtil.setLastModifiedWithOffset(file1.toPath(), -5000L);
@@ -346,9 +347,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Ignore("very flaky when run with Hudson")
+	@Disabled("very flaky when run with Hudson")
 	@Test
-	public void commitIgnoresSmudgedEntryWithDifferentId() throws Exception {
+	void commitIgnoresSmudgedEntryWithDifferentId() throws Exception {
 		try (Git git = new Git(db)) {
 			File file1 = writeTrashFile("file1.txt", "content1");
 			TimeUtil.setLastModifiedWithOffset(file1.toPath(), -5000L);
@@ -398,7 +399,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitAfterSquashMerge() throws Exception {
+	void commitAfterSquashMerge() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -438,7 +439,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReflogs() throws Exception {
+	void testReflogs() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("f", "1");
 			git.add().addFilepattern("f").call();
@@ -467,15 +468,17 @@ public class CommitCommandTest extends RepositoryTestCase {
 		return b.toString();
 	}
 
-	@Test(expected = WrongRepositoryStateException.class)
-	public void commitAmendOnInitialShouldFail() throws Exception {
-		try (Git git = new Git(db)) {
-			git.commit().setAmend(true).setMessage("initial commit").call();
-		}
+	@Test
+	void commitAmendOnInitialShouldFail() throws Exception {
+		assertThrows(WrongRepositoryStateException.class, () -> {
+			try (Git git = new Git(db)) {
+				git.commit().setAmend(true).setMessage("initial commit").call();
+			}
+		});
 	}
 
 	@Test
-	public void commitAmendWithoutAuthorShouldSetOriginalAuthorAndAuthorTime()
+	void commitAmendWithoutAuthorShouldSetOriginalAuthorAndAuthorTime()
 			throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
@@ -499,7 +502,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitAmendWithAuthorShouldUseIt() throws Exception {
+	void commitAmendWithAuthorShouldUseIt() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -516,7 +519,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitMessageVerbatim() throws Exception {
+	void commitMessageVerbatim() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -528,7 +531,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitMessageStrip() throws Exception {
+	void commitMessageStrip() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -542,7 +545,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitMessageDefault() throws Exception {
+	void commitMessageDefault() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -556,7 +559,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitMessageDefaultWhitespace() throws Exception {
+	void commitMessageDefaultWhitespace() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -572,7 +575,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitEmptyCommits() throws Exception {
+	void commitEmptyCommits() throws Exception {
 		try (Git git = new Git(db)) {
 
 			writeTrashFile("file1", "file1");
@@ -605,7 +608,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitOnlyShouldCommitUnmergedPathAndNotAffectOthers()
+	void commitOnlyShouldCommitUnmergedPathAndNotAffectOthers()
 			throws Exception {
 		DirCache index = db.lockDirCache();
 		DirCacheBuilder builder = index.builder();
@@ -646,7 +649,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitOnlyShouldHandleIgnored() throws Exception {
+	void commitOnlyShouldHandleIgnored() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("subdir/foo", "Hello World");
 			writeTrashFile("subdir/bar", "Hello World");
@@ -704,19 +707,19 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitWithAutoCrlfAndNonNormalizedIndex() throws Exception {
+	void commitWithAutoCrlfAndNonNormalizedIndex() throws Exception {
 		nonNormalizedIndexTest(false);
 	}
 
 	@Test
-	public void commitExecutableWithAutoCrlfAndNonNormalizedIndex()
+	void commitExecutableWithAutoCrlfAndNonNormalizedIndex()
 			throws Exception {
 		assumeTrue(FS.DETECTED.supportsExecute());
 		nonNormalizedIndexTest(true);
 	}
 
 	@Test
-	public void testDeletionConflictWithAutoCrlf() throws Exception {
+	void testDeletionConflictWithAutoCrlf() throws Exception {
 		try (Git git = new Git(db)) {
 			// Commit a file with CR/LF into the index
 			FileBasedConfig config = db.getConfig();
@@ -746,8 +749,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.checkout().setName("side").call();
 			// Cherry pick master: produces a delete-modify conflict.
 			CherryPickResult pick = git.cherryPick().include(master).call();
-			assertEquals("Expected a cherry-pick conflict",
-					CherryPickStatus.CONFLICTING, pick.getStatus());
+			assertEquals(CherryPickStatus.CONFLICTING, pick.getStatus(), "Expected a cherry-pick conflict");
 			// XXX: g/file2.txt should actually be staged already, but isn't.
 			git.add().addFilepattern("g/file2.txt").call();
 			// Resolve the conflict by taking the master version
@@ -788,8 +790,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			config.save();
 			// Cherry pick side: conflict. Resolve with CR-LF and commit.
 			CherryPickResult pick = git.cherryPick().include(side).call();
-			assertEquals("Expected a cherry-pick conflict",
-					CherryPickStatus.CONFLICTING, pick.getStatus());
+			assertEquals(CherryPickStatus.CONFLICTING, pick.getStatus(), "Expected a cherry-pick conflict");
 			writeTrashFile("file.txt", "foobar\r\n");
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("Second").call();
@@ -799,22 +800,22 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commitConflictWithAutoCrlfBaseCrLfOursLf() throws Exception {
+	void commitConflictWithAutoCrlfBaseCrLfOursLf() throws Exception {
 		testConflictWithAutoCrlf("\r\n", "\n");
 	}
 
 	@Test
-	public void commitConflictWithAutoCrlfBaseLfOursLf() throws Exception {
+	void commitConflictWithAutoCrlfBaseLfOursLf() throws Exception {
 		testConflictWithAutoCrlf("\n", "\n");
 	}
 
 	@Test
-	public void commitConflictWithAutoCrlfBasCrLfOursCrLf() throws Exception {
+	void commitConflictWithAutoCrlfBasCrLfOursCrLf() throws Exception {
 		testConflictWithAutoCrlf("\r\n", "\r\n");
 	}
 
 	@Test
-	public void commitConflictWithAutoCrlfBaseLfOursCrLf() throws Exception {
+	void commitConflictWithAutoCrlfBaseLfOursCrLf() throws Exception {
 		testConflictWithAutoCrlf("\n", "\r\n");
 	}
 
@@ -831,7 +832,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void callSignerWithProperSigningKey() throws Exception {
+	void callSignerWithProperSigningKey() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
@@ -898,7 +899,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void callSignerOnlyWhenSigning() throws Exception {
+	void callSignerOnlyWhenSigning() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();

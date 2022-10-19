@@ -11,7 +11,7 @@ package org.eclipse.jgit.transport;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,8 +25,8 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 // TODO: refactor UploadPackTest to run against both DfsRepository and FileRepository
 public class UploadPackLsRefsFileRepositoryTest
@@ -36,7 +36,7 @@ public class UploadPackLsRefsFileRepositoryTest
 
 	private TestRepository<FileRepository> remote;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -45,7 +45,7 @@ public class UploadPackLsRefsFileRepositoryTest
 	}
 
 	@Test
-	public void testV2LsRefsPeel() throws Exception {
+	void testV2LsRefsPeel() throws Exception {
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		server.updateRef("HEAD").link("refs/heads/master");

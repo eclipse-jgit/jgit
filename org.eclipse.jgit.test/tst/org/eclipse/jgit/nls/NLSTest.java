@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.nls;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Locale;
 import java.util.concurrent.Callable;
@@ -22,12 +22,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NLSTest {
 
 	@Test
-	public void testNLSLocale() {
+	void testNLSLocale() {
 		NLS.setLocale(NLS.ROOT_LOCALE);
 		GermanTranslatedBundle bundle = GermanTranslatedBundle.get();
 		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
@@ -38,7 +38,7 @@ public class NLSTest {
 	}
 
 	@Test
-	public void testJVMDefaultLocale() {
+	void testJVMDefaultLocale() {
 		Locale.setDefault(NLS.ROOT_LOCALE);
 		NLS.useJVMDefaultLocale();
 		GermanTranslatedBundle bundle = GermanTranslatedBundle.get();
@@ -51,10 +51,11 @@ public class NLSTest {
 	}
 
 	@Test
-	public void testThreadTranslationBundleInheritance() throws InterruptedException {
+	void testThreadTranslationBundleInheritance() throws InterruptedException {
 
 		class T extends Thread {
 			GermanTranslatedBundle bundle;
+
 			@Override
 			public void run() {
 				bundle = GermanTranslatedBundle.get();
@@ -77,7 +78,7 @@ public class NLSTest {
 	}
 
 	@Test
-	public void testParallelThreadsWithDifferentLocales()
+	void testParallelThreadsWithDifferentLocales()
 			throws InterruptedException, ExecutionException {
 
 		final CyclicBarrier barrier = new CyclicBarrier(2);

@@ -10,9 +10,9 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,10 +40,9 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.experimental.theories.DataPoint;
 import org.junit.experimental.theories.Theories;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 /**
@@ -150,7 +149,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDefaultSetup() throws Exception {
+	void testDefaultSetup() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(null, null, null, null, "* text=auto");
 		collectRepositoryState();
@@ -172,7 +171,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_false() throws Exception {
+	void test_ConfigAutoCRLF_false() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.FALSE, null, null, null, "* text=auto");
 		collectRepositoryState();
@@ -185,7 +184,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_true() throws Exception {
+	void test_ConfigAutoCRLF_true() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.TRUE, null, null, null, "* text=auto");
 		collectRepositoryState();
@@ -196,7 +195,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_input() throws Exception {
+	void test_ConfigAutoCRLF_input() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.INPUT, null, null, null, "* text=auto");
 		collectRepositoryState();
@@ -207,7 +206,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigEOL_lf() throws Exception {
+	void test_ConfigEOL_lf() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(null, EOL.LF, "*.txt text", null, null);
 		collectRepositoryState();
@@ -218,7 +217,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigEOL_crlf() throws Exception {
+	void test_ConfigEOL_crlf() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(null, EOL.CRLF, "*.txt text", null, null);
 		collectRepositoryState();
@@ -229,7 +228,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigEOL_native_windows() throws Exception {
+	void test_ConfigEOL_native_windows() throws Exception {
 		mockSystemReader.setWindows();
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(null, EOL.NATIVE, "*.txt text", null, null);
@@ -240,7 +239,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigEOL_native_xnix() throws Exception {
+	void test_ConfigEOL_native_xnix() throws Exception {
 		mockSystemReader.setUnix();
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(null, EOL.NATIVE, "*.txt text", null, null);
@@ -251,7 +250,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_false_ConfigEOL_lf() throws Exception {
+	void test_ConfigAutoCRLF_false_ConfigEOL_lf() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.FALSE, EOL.LF, "*.txt text", null, null);
 		collectRepositoryState();
@@ -262,7 +261,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_false_ConfigEOL_native() throws Exception {
+	void test_ConfigAutoCRLF_false_ConfigEOL_native() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.FALSE, EOL.NATIVE, "*.txt text", null, null);
 		collectRepositoryState();
@@ -274,7 +273,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_true_ConfigEOL_lf() throws Exception {
+	void test_ConfigAutoCRLF_true_ConfigEOL_lf() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.TRUE, EOL.LF, "*.txt text", null, null);
 		collectRepositoryState();
@@ -285,7 +284,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_switchToBranchWithTextAttributes()
+	void test_switchToBranchWithTextAttributes()
 			throws Exception {
 		Git git = Git.wrap(db);
 
@@ -322,7 +321,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_switchToBranchWithBinaryAttributes() throws Exception {
+	void test_switchToBranchWithBinaryAttributes() throws Exception {
 		Git git = Git.wrap(db);
 
 		// for EOL to work, the text attribute must be set
@@ -358,7 +357,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_input_ConfigEOL_lf() throws Exception {
+	void test_ConfigAutoCRLF_input_ConfigEOL_lf() throws Exception {
 		// for EOL to work, the text attribute must be set
 		setupGitAndDoHardReset(AutoCRLF.INPUT, EOL.LF, "*.txt text", null, null);
 		collectRepositoryState();
@@ -369,7 +368,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_true_GlobalEOL_lf() throws Exception {
+	void test_ConfigAutoCRLF_true_GlobalEOL_lf() throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.TRUE, EOL.LF, "*.txt eol=lf", null, null);
 		collectRepositoryState();
 		assertEquals("eol=lf", entryCRLF.attrs);
@@ -379,7 +378,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_false_GlobalEOL_lf() throws Exception {
+	void test_ConfigAutoCRLF_false_GlobalEOL_lf() throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.FALSE, EOL.LF, "*.txt eol=lf", null, null);
 		collectRepositoryState();
 		assertEquals("eol=lf", entryCRLF.attrs);
@@ -389,7 +388,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_input_GlobalEOL_lf() throws Exception {
+	void test_ConfigAutoCRLF_input_GlobalEOL_lf() throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.INPUT, EOL.LF, "*.txt eol=lf", null, null);
 		collectRepositoryState();
 		assertEquals("eol=lf", entryCRLF.attrs);
@@ -399,7 +398,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_true_GlobalEOL_crlf() throws Exception {
+	void test_ConfigAutoCRLF_true_GlobalEOL_crlf() throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.TRUE, EOL.LF, "*.txt eol=crlf", null, null);
 		collectRepositoryState();
 		assertEquals("eol=crlf", entryCRLF.attrs);
@@ -409,7 +408,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_false_GlobalEOL_crlf() throws Exception {
+	void test_ConfigAutoCRLF_false_GlobalEOL_crlf() throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.FALSE, EOL.LF, "*.txt eol=crlf", null, null);
 		collectRepositoryState();
 		assertEquals("eol=crlf", entryCRLF.attrs);
@@ -419,7 +418,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_input_GlobalEOL_crlf() throws Exception {
+	void test_ConfigAutoCRLF_input_GlobalEOL_crlf() throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.INPUT, EOL.LF, "*.txt eol=crlf", null, null);
 		collectRepositoryState();
 		assertEquals("eol=crlf", entryCRLF.attrs);
@@ -429,7 +428,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_true_GlobalEOL_lf_InfoEOL_crlf()
+	void test_ConfigAutoCRLF_true_GlobalEOL_lf_InfoEOL_crlf()
 			throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.TRUE, null, "*.txt eol=lf", "*.txt eol=crlf", null);
 		// info decides
@@ -441,7 +440,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_ConfigAutoCRLF_false_GlobalEOL_crlf_InfoEOL_lf()
+	void test_ConfigAutoCRLF_false_GlobalEOL_crlf_InfoEOL_lf()
 			throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.FALSE, null, "*.txt eol=crlf", "*.txt eol=lf", null);
 		// info decides
@@ -453,7 +452,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_GlobalEOL_lf_RootEOL_crlf() throws Exception {
+	void test_GlobalEOL_lf_RootEOL_crlf() throws Exception {
 		setupGitAndDoHardReset(null, null, "*.txt eol=lf", null, "*.txt eol=crlf");
 		// root over global
 		collectRepositoryState();
@@ -464,7 +463,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_GlobalEOL_lf_InfoEOL_crlf_RootEOL_lf() throws Exception {
+	void test_GlobalEOL_lf_InfoEOL_crlf_RootEOL_lf() throws Exception {
 		setupGitAndDoHardReset(null, null, "*.txt eol=lf", "*.txt eol=crlf", "*.txt eol=lf");
 		// info overrides all
 		collectRepositoryState();
@@ -475,7 +474,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_GlobalEOL_lf_InfoEOL_crlf_RootEOL_unspec()
+	void test_GlobalEOL_lf_InfoEOL_crlf_RootEOL_unspec()
 			throws Exception {
 		setupGitAndDoHardReset(null, null, "*.txt eol=lf", "*.txt eol=crlf",
 				"*.txt text !eol");
@@ -488,7 +487,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void test_GlobalEOL_lf_InfoEOL_unspec_RootEOL_crlf()
+	void test_GlobalEOL_lf_InfoEOL_unspec_RootEOL_crlf()
 			throws Exception {
 		setupGitAndDoHardReset(null, null, "*.txt eol=lf", "*.txt !eol",
 				"*.txt text eol=crlf");
@@ -504,7 +503,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBinary1() throws Exception {
+	void testBinary1() throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.TRUE, EOL.CRLF, "*.txt text", "*.txt binary",
 				"*.txt eol=crlf");
 		// info overrides all
@@ -516,7 +515,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBinary2() throws Exception {
+	void testBinary2() throws Exception {
 		setupGitAndDoHardReset(AutoCRLF.TRUE, EOL.CRLF, "*.txt text eol=crlf", null,
 				"*.txt binary");
 		// root over global
@@ -619,7 +618,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 			if (f == null)
 				continue;
 			f.delete();
-			Assert.assertFalse(f.exists());
+			assertFalse(f.exists());
 		}
 		gitResetHard(git);
 		fsTick(db.getIndexFile());
@@ -655,7 +654,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 					content);
 		}
 		gitAdd(git, path);
-		Assert.assertTrue(f.exists());
+		assertTrue(f.exists());
 		return f;
 	}
 
@@ -674,14 +673,14 @@ public class EolRepositoryTest extends RepositoryTestCase {
 					entryLF);
 			collectEntryContentAndAttributes(walk, F, fileMixed.getName(),
 					entryMixed);
-			assertFalse("Not all files tested", walk.next());
+			assertFalse(walk.next(), "Not all files tested");
 		}
 	}
 
 	private void collectEntryContentAndAttributes(TreeWalk walk, FileMode type,
 			String pathName,
 			ActualEntry e) throws IOException {
-		assertTrue("walk has entry", walk.next());
+		assertTrue(walk.next(), "walk has entry");
 
 		assertEquals(pathName, walk.getPathString());
 		assertEquals(type, walk.getFileMode(0));

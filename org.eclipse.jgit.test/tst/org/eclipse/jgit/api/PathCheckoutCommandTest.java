@@ -9,9 +9,10 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,9 +32,9 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of path-based uses of {@link CheckoutCommand}
@@ -55,7 +56,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	RevCommit secondCommit;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -74,8 +75,8 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateSymLink() throws Exception {
-		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+	void testUpdateSymLink() throws Exception {
+		Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 
 		Path path = writeLink(LINK, FILE1);
 		git.add().addFilepattern(LINK).call();
@@ -92,8 +93,8 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateBrokenSymLinkToDirectory() throws Exception {
-		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+	void testUpdateBrokenSymLinkToDirectory() throws Exception {
+		Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 
 		Path path = writeLink(LINK, "f");
 		git.add().addFilepattern(LINK).call();
@@ -112,8 +113,8 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateBrokenSymLink() throws Exception {
-		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+	void testUpdateBrokenSymLink() throws Exception {
+		Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 
 		Path path = writeLink(LINK, FILE1);
 		git.add().addFilepattern(LINK).call();
@@ -132,7 +133,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateWorkingDirectory() throws Exception {
+	void testUpdateWorkingDirectory() throws Exception {
 		CheckoutCommand co = git.checkout();
 		File written = writeTrashFile(FILE1, "");
 		assertEquals("", read(written));
@@ -142,7 +143,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutFirst() throws Exception {
+	void testCheckoutFirst() throws Exception {
 		CheckoutCommand co = git.checkout();
 		File written = writeTrashFile(FILE1, "");
 		co.setStartPoint(initialCommit).addPath(FILE1).call();
@@ -151,7 +152,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutSecond() throws Exception {
+	void testCheckoutSecond() throws Exception {
 		CheckoutCommand co = git.checkout();
 		File written = writeTrashFile(FILE1, "");
 		co.setStartPoint("HEAD~1").addPath(FILE1).call();
@@ -160,7 +161,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutMultiple() throws Exception {
+	void testCheckoutMultiple() throws Exception {
 		CheckoutCommand co = git.checkout();
 		File test = writeTrashFile(FILE1, "");
 		File test2 = writeTrashFile(FILE2, "");
@@ -170,7 +171,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateWorkingDirectoryFromIndex() throws Exception {
+	void testUpdateWorkingDirectoryFromIndex() throws Exception {
 		CheckoutCommand co = git.checkout();
 		File written = writeTrashFile(FILE1, "3a");
 		git.add().addFilepattern(FILE1).call();
@@ -182,7 +183,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateWorkingDirectoryFromHeadWithIndexChange()
+	void testUpdateWorkingDirectoryFromHeadWithIndexChange()
 			throws Exception {
 		CheckoutCommand co = git.checkout();
 		File written = writeTrashFile(FILE1, "3a");
@@ -195,7 +196,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUpdateWorkingDirectoryFromIndex2() throws Exception {
+	void testUpdateWorkingDirectoryFromIndex2() throws Exception {
 		CheckoutCommand co = git.checkout();
 		fsTick(git.getRepository().getIndexFile());
 
@@ -240,7 +241,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutMixedNewlines() throws Exception {
+	void testCheckoutMixedNewlines() throws Exception {
 		// "git config core.autocrlf true"
 		StoredConfig config = git.getRepository().getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -272,7 +273,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutRepository() throws Exception {
+	void testCheckoutRepository() throws Exception {
 		CheckoutCommand co = git.checkout();
 		File test = writeTrashFile(FILE1, "");
 		File test2 = writeTrashFile(FILE2, "");
@@ -282,16 +283,18 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 
-	@Test(expected = JGitInternalException.class)
-	public void testCheckoutOfConflictingFileShouldThrow()
+	@Test
+	void testCheckoutOfConflictingFileShouldThrow()
 			throws Exception {
-		setupConflictingState();
+		assertThrows(JGitInternalException.class, () -> {
+			setupConflictingState();
 
-		git.checkout().addPath(FILE1).call();
+			git.checkout().addPath(FILE1).call();
+		});
 	}
 
 	@Test
-	public void testCheckoutOurs() throws Exception {
+	void testCheckoutOurs() throws Exception {
 		setupConflictingState();
 
 		git.checkout().setStage(Stage.OURS).addPath(FILE1).call();
@@ -301,7 +304,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutTheirs() throws Exception {
+	void testCheckoutTheirs() throws Exception {
 		setupConflictingState();
 
 		git.checkout().setStage(Stage.THEIRS).addPath(FILE1).call();
@@ -311,7 +314,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutFileWithConflict() throws Exception {
+	void testCheckoutFileWithConflict() throws Exception {
 		setupConflictingState();
 		assertEquals('[' + FILE1 + ']',
 				git.status().call().getConflicting().toString());
@@ -321,7 +324,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutOursWhenNoBase() throws Exception {
+	void testCheckoutOursWhenNoBase() throws Exception {
 		String file = "added.txt";
 
 		git.checkout().setCreateBranch(true).setName("side")
@@ -339,8 +342,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
 
 		DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
-		assertEquals("Expected add/add file to not have base stage",
-				DirCacheEntry.STAGE_2, cache.getEntry(file).getStage());
+		assertEquals(DirCacheEntry.STAGE_2, cache.getEntry(file).getStage(), "Expected add/add file to not have base stage");
 
 		assertTrue(read(file).startsWith("<<<<<<< HEAD"));
 
@@ -349,13 +351,14 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertEquals("Added on master", read(file));
 
 		cache = DirCache.read(db.getIndexFile(), db.getFS());
-		assertEquals("Expected conflict stages to still exist after checkout",
-				DirCacheEntry.STAGE_2, cache.getEntry(file).getStage());
+		assertEquals(DirCacheEntry.STAGE_2, cache.getEntry(file).getStage(), "Expected conflict stages to still exist after checkout");
 	}
 
-	@Test(expected = IllegalStateException.class)
-	public void testStageNotPossibleWithBranch() throws Exception {
-		git.checkout().setStage(Stage.OURS).setStartPoint("master").call();
+	@Test
+	void testStageNotPossibleWithBranch() throws Exception {
+		assertThrows(IllegalStateException.class, () -> {
+			git.checkout().setStage(Stage.OURS).setStartPoint("master").call();
+		});
 	}
 
 	private void setupConflictingState() throws Exception {

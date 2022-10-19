@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,9 +24,9 @@ import java.util.Collections;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests that using a SecurityManager does not result in errors logged.
@@ -43,7 +43,7 @@ public class SecurityManagerMissingPermissionsTest extends RepositoryTestCase {
 	private PrintStream defaultErrorOutput;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		originalSecurityManager = System.getSecurityManager();
 
@@ -64,15 +64,15 @@ public class SecurityManagerMissingPermissionsTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testCreateNewRepos_MissingPermissions() throws Exception {
+	void testCreateNewRepos_MissingPermissions() throws Exception {
 		File wcTree = new File(getTemporaryDirectory(),
 				"CreateNewRepositoryTest_testCreateNewRepos");
 
 		File marker = new File(getTemporaryDirectory(), "marker");
 		Files.write(marker.toPath(), Collections.singletonList("Can write"));
-		assertTrue("Can write in test directory", marker.isFile());
+		assertTrue(marker.isFile(), "Can write in test directory");
 		FileUtils.delete(marker);
-		assertFalse("Can delete in test direcory", marker.exists());
+		assertFalse(marker.exists(), "Can delete in test direcory");
 
 		Git git = Git.init().setBare(false)
 				.setDirectory(new File(wcTree.getAbsolutePath())).call();
@@ -83,7 +83,7 @@ public class SecurityManagerMissingPermissionsTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		System.setSecurityManager(originalSecurityManager);
 		System.setErr(defaultErrorOutput);

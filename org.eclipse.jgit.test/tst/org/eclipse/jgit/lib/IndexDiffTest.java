@@ -13,9 +13,9 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,7 +42,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.IO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IndexDiffTest extends RepositoryTestCase {
 
@@ -65,7 +65,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAdded() throws IOException {
+	void testAdded() throws IOException {
 		writeTrashFile("file1", "file1");
 		writeTrashFile("dir/subfile", "dir/subfile");
 		ObjectId tree = insertTree(new TreeFormatter());
@@ -88,7 +88,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMissing() throws Exception {
+	void testMissing() throws Exception {
 		File file2 = writeTrashFile("file2", "file2");
 		File file3 = writeTrashFile("dir/file3", "dir/file3");
 		try (Git git = new Git(db)) {
@@ -112,7 +112,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRemoved() throws IOException {
+	void testRemoved() throws IOException {
 		writeTrashFile("file2", "file2");
 		writeTrashFile("dir/file3", "dir/file3");
 
@@ -137,7 +137,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testModified() throws IOException, GitAPIException {
+	void testModified() throws IOException, GitAPIException {
 
 		writeTrashFile("file2", "file2");
 		writeTrashFile("dir/file3", "dir/file3");
@@ -171,7 +171,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testConflicting() throws Exception {
+	void testConflicting() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -215,7 +215,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testConflictingDeletedAndModified() throws Exception {
+	void testConflictingDeletedAndModified() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			writeTrashFile("b", "1\nb\n3\n");
@@ -256,7 +256,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testConflictingFromMultipleCreations() throws Exception {
+	void testConflictingFromMultipleCreations() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "1\na\n3\n");
 			git.add().addFilepattern("a").call();
@@ -294,7 +294,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUnchangedSimple() throws IOException, GitAPIException {
+	void testUnchangedSimple() throws IOException, GitAPIException {
 		writeTrashFile("a.b", "a.b");
 		writeTrashFile("a.c", "a.c");
 		writeTrashFile("a=c", "a=c");
@@ -333,7 +333,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 * @throws GitAPIException
 	 */
 	@Test
-	public void testUnchangedComplex() throws IOException, GitAPIException {
+	void testUnchangedComplex() throws IOException, GitAPIException {
 		writeTrashFile("a.b", "a.b");
 		writeTrashFile("a.c", "a.c");
 		writeTrashFile("a/b.b/b", "a/b.b/b");
@@ -393,7 +393,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testRemovedUntracked() throws Exception{
+	void testRemovedUntracked() throws Exception {
 		String path = "file";
 		try (Git git = new Git(db)) {
 			writeTrashFile(path, "content");
@@ -414,7 +414,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testUntrackedFolders() throws Exception {
+	void testUntrackedFolders() throws Exception {
 		try (Git git = new Git(db)) {
 			IndexDiff diff = new IndexDiff(db, Constants.HEAD,
 					new FileTreeIterator(db));
@@ -469,7 +469,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testUntrackedNotIgnoredFolders() throws Exception {
+	void testUntrackedNotIgnoredFolders() throws Exception {
 		try (Git git = new Git(db)) {
 			IndexDiff diff = new IndexDiff(db, Constants.HEAD,
 					new FileTreeIterator(db));
@@ -513,7 +513,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAssumeUnchanged() throws Exception {
+	void testAssumeUnchanged() throws Exception {
 		try (Git git = new Git(db)) {
 			String path = "file";
 			writeTrashFile(path, "content");
@@ -555,7 +555,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStageState() throws IOException {
+	void testStageState() throws IOException {
 		final int base = DirCacheEntry.STAGE_1;
 		final int ours = DirCacheEntry.STAGE_2;
 		final int theirs = DirCacheEntry.STAGE_3;
@@ -576,7 +576,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStageState_mergeAndReset_bug() throws Exception {
+	void testStageState_mergeAndReset_bug() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "content");
 			git.add().addFilepattern("a").call();
@@ -639,7 +639,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testStageState_simulated_bug() throws Exception {
+	void testStageState_simulated_bug() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "content");
 			git.add().addFilepattern("a").call();
@@ -692,7 +692,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAutoCRLFInput() throws Exception {
+	void testAutoCRLFInput() throws Exception {
 		try (Git git = new Git(db)) {
 			FileBasedConfig config = db.getConfig();
 
@@ -716,8 +716,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			diff.diff();
 
 			assertTrue(
-					"Expected no modified files, but there were: "
-							+ diff.getModified(), diff.getModified().isEmpty());
+					diff.getModified().isEmpty(), "Expected no modified files, but there were: "
+					+ diff.getModified());
 		}
 	}
 
@@ -736,8 +736,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		diff.diff();
 
 		assertEquals(
-				"Conflict for entries in stages " + Arrays.toString(stages),
-				expected, diff.getConflictingStageStates().get("a"));
+				expected, diff.getConflictingStageStates().get("a"), "Conflict for entries in stages " + Arrays.toString(stages));
 	}
 
 	private void removeFromIndex(String path) throws IOException {

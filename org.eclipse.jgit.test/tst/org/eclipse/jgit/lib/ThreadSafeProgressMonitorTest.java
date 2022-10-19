@@ -10,20 +10,20 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ThreadSafeProgressMonitorTest {
 	@Test
-	public void testFailsMethodsOnBackgroundThread()
+	void testFailsMethodsOnBackgroundThread()
 			throws InterruptedException {
 		final MockProgressMonitor mock = new MockProgressMonitor();
 		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(mock);
@@ -57,7 +57,7 @@ public class ThreadSafeProgressMonitorTest {
 	}
 
 	@Test
-	public void testMethodsOkOnMainThread() {
+	void testMethodsOkOnMainThread() {
 		final MockProgressMonitor mock = new MockProgressMonitor();
 		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(mock);
 
@@ -82,7 +82,7 @@ public class ThreadSafeProgressMonitorTest {
 	}
 
 	@Test
-	public void testUpdateOnBackgroundThreads() throws InterruptedException {
+	void testUpdateOnBackgroundThreads() throws InterruptedException {
 		final MockProgressMonitor mock = new MockProgressMonitor();
 		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(mock);
 
@@ -123,7 +123,7 @@ public class ThreadSafeProgressMonitorTest {
 
 	private static void await(CountDownLatch cdl) {
 		try {
-			assertTrue("latch released", cdl.await(1000, TimeUnit.MILLISECONDS));
+			assertTrue(cdl.await(1000, TimeUnit.MILLISECONDS), "latch released");
 		} catch (InterruptedException ie) {
 			fail("Did not expect to be interrupted");
 		}
@@ -133,7 +133,7 @@ public class ThreadSafeProgressMonitorTest {
 		Thread t = new Thread(task);
 		t.start();
 		t.join(1000);
-		assertFalse("thread has stopped", t.isAlive());
+		assertFalse(t.isAlive(), "thread has stopped");
 	}
 
 	private static class MockProgressMonitor implements ProgressMonitor {

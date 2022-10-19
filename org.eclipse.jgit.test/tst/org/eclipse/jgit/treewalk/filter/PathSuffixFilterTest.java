@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,12 +25,12 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PathSuffixFilterTest extends RepositoryTestCase {
 
 	@Test
-	public void testNonRecursiveFiltering() throws IOException {
+	void testNonRecursiveFiltering() throws IOException {
 		ObjectId treeId = createTree("a.sth", "a.txt");
 
 		List<String> paths = getMatchingPaths(".txt", treeId);
@@ -40,7 +40,7 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRecursiveFiltering() throws IOException {
+	void testRecursiveFiltering() throws IOException {
 		ObjectId treeId = createTree("a.sth", "a.txt", "sub/b.sth", "sub/b.txt",
 				"t.sth", "t.txt");
 
@@ -51,7 +51,7 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEdgeCases() throws IOException {
+	void testEdgeCases() throws IOException {
 		ObjectId treeId = createTree("abc", "abcd", "bcd", "c");
 		assertEquals(new ArrayList<String>(), getMatchingPaths("xbcd", treeId));
 		assertEquals(new ArrayList<String>(), getMatchingPaths("abcx", treeId));
@@ -61,7 +61,7 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNegated() throws IOException {
+	void testNegated() throws IOException {
 		ObjectId treeId = createTree("a.sth", "a.txt", "sub/b.sth",
 				"sub/b.txt", "t.sth", "t.txt");
 

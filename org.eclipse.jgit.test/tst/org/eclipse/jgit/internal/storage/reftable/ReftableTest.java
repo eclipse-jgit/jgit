@@ -18,14 +18,14 @@ import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -47,7 +47,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ReftableTest {
 	private static final byte[] LAST_UTF8_CHAR = new byte[] {
@@ -65,7 +65,7 @@ public class ReftableTest {
 	private Stats stats;
 
 	@Test
-	public void emptyTable() throws IOException {
+	void emptyTable() throws IOException {
 		byte[] table = write();
 		assertEquals(92 /* header, footer */, table.length);
 		assertEquals('R', table[0]);
@@ -92,7 +92,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void emptyVirtualTableFromRefs() throws IOException {
+	void emptyVirtualTableFromRefs() throws IOException {
 		Reftable t = Reftable.from(Collections.emptyList());
 		try (RefCursor rc = t.allRefs()) {
 			assertFalse(rc.next());
@@ -106,7 +106,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void estimateCurrentBytesOneRef() throws IOException {
+	void estimateCurrentBytesOneRef() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		int expBytes = 24 + 4 + 5 + 4 + MASTER.length() + 20 + 68;
 
@@ -126,7 +126,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void estimateCurrentBytesWithIndex() throws IOException {
+	void estimateCurrentBytesWithIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
 			@SuppressWarnings("boxing")
@@ -154,7 +154,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void hasObjMapRefs() throws IOException {
+	void hasObjMapRefs() throws IOException {
 		ArrayList<Ref> refs = new ArrayList<>();
 		refs.add(ref(MASTER, 1));
 		byte[] table = write(refs);
@@ -163,7 +163,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void hasObjMapRefsSmallTable() throws IOException {
+	void hasObjMapRefsSmallTable() throws IOException {
 		ArrayList<Ref> refs = new ArrayList<>();
 		ReftableConfig cfg = new ReftableConfig();
 		cfg.setIndexObjects(false);
@@ -174,7 +174,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void hasObjLogs() throws IOException {
+	void hasObjLogs() throws IOException {
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
 		ReftableConfig cfg = new ReftableConfig();
@@ -182,10 +182,10 @@ public class ReftableTest {
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buffer)
-			.setMinUpdateIndex(1)
-			.setConfig(cfg)
-			.setMaxUpdateIndex(1)
-			.begin();
+				.setMinUpdateIndex(1)
+				.setConfig(cfg)
+				.setMaxUpdateIndex(1)
+				.begin();
 
 		writer.writeLog("master", 1, who, ObjectId.zeroId(), id(1), msg);
 		writer.finish();
@@ -196,7 +196,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void hasObjMapRefsNoIndexObjects() throws IOException {
+	void hasObjMapRefsNoIndexObjects() throws IOException {
 		ArrayList<Ref> refs = new ArrayList<>();
 		ReftableConfig cfg = new ReftableConfig();
 		cfg.setIndexObjects(false);
@@ -205,7 +205,7 @@ public class ReftableTest {
 
 		// Fill up 5 blocks.
 		int N = 256 * 5 / 25;
-		for (int i= 0; i < N; i++) {
+		for (int i = 0; i < N; i++) {
 			@SuppressWarnings("boxing")
 			Ref ref = ref(String.format("%02d/xxxxxxxxxx", i), i);
 			refs.add(ref);
@@ -217,7 +217,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void oneIdRef() throws IOException {
+	void oneIdRef() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		byte[] table = write(exp);
 		assertEquals(24 + 4 + 5 + 4 + MASTER.length() + 20 + 68, table.length);
@@ -248,7 +248,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void oneTagRef() throws IOException {
+	void oneTagRef() throws IOException {
 		Ref exp = tag(V1_0, 1, 2);
 		byte[] table = write(exp);
 		assertEquals(24 + 4 + 5 + 3 + V1_0.length() + 40 + 68, table.length);
@@ -269,7 +269,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void oneSymbolicRef() throws IOException {
+	void oneSymbolicRef() throws IOException {
 		Ref exp = sym(HEAD, MASTER);
 		byte[] table = write(exp);
 		assertEquals(
@@ -291,7 +291,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void resolveSymbolicRef() throws IOException {
+	void resolveSymbolicRef() throws IOException {
 		Reftable t = read(write(
 				sym(HEAD, "refs/heads/tmp"),
 				sym("refs/heads/tmp", MASTER),
@@ -314,7 +314,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void failDeepChainOfSymbolicRef() throws IOException {
+	void failDeepChainOfSymbolicRef() throws IOException {
 		Reftable t = read(write(
 				sym(HEAD, "refs/heads/1"),
 				sym("refs/heads/1", "refs/heads/2"),
@@ -330,7 +330,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void oneDeletedRef() throws IOException {
+	void oneDeletedRef() throws IOException {
 		String name = "refs/heads/gone";
 		Ref exp = newRef(name);
 		byte[] table = write(exp);
@@ -355,7 +355,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void seekNotFound() throws IOException {
+	void seekNotFound() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		ReftableReader t = read(write(exp));
 		try (RefCursor rc = t.seekRef("refs/heads/a")) {
@@ -367,7 +367,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void namespaceNotFound() throws IOException {
+	void namespaceNotFound() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		ReftableReader t = read(write(exp));
 		try (RefCursor rc = t.seekRefsWithPrefix("refs/changes/")) {
@@ -379,7 +379,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void namespaceHeads() throws IOException {
+	void namespaceHeads() throws IOException {
 		Ref master = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
 		Ref v1 = tag(V1_0, 3, 4);
@@ -405,7 +405,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void seekPastRefWithRefCursor() throws IOException {
+	void seekPastRefWithRefCursor() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
 		Ref afterNext = ref(AFTER_NEXT, 3);
@@ -427,7 +427,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void seekPastToNonExistentPrefixToTheMiddle() throws IOException {
+	void seekPastToNonExistentPrefixToTheMiddle() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
 		Ref afterNext = ref(AFTER_NEXT, 3);
@@ -450,7 +450,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void seekPastToNonExistentPrefixToTheEnd() throws IOException {
+	void seekPastToNonExistentPrefixToTheEnd() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
 		Ref afterNext = ref(AFTER_NEXT, 3);
@@ -463,7 +463,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void seekPastWithSeekRefsWithPrefix() throws IOException {
+	void seekPastWithSeekRefsWithPrefix() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
 		Ref afterNext = ref(AFTER_NEXT, 3);
@@ -484,7 +484,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void seekPastWithLotsOfRefs() throws IOException {
+	void seekPastWithLotsOfRefs() throws IOException {
 		Ref[] refs = new Ref[500];
 		for (int i = 1; i <= 500; i++) {
 			refs[i - 1] = ref(String.format("refs/%d", Integer.valueOf(i)), i);
@@ -508,7 +508,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void seekPastManyTimes() throws IOException {
+	void seekPastManyTimes() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
 		Ref afterNext = ref(AFTER_NEXT, 3);
@@ -525,7 +525,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void seekPastOnEmptyTable() throws IOException {
+	void seekPastOnEmptyTable() throws IOException {
 		ReftableReader t = read(write());
 		try (RefCursor rc = t.seekRefsWithPrefix("")) {
 			rc.seekPastPrefix("refs/");
@@ -534,7 +534,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void indexScan() throws IOException {
+	void indexScan() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
 			@SuppressWarnings("boxing")
@@ -549,7 +549,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void indexSeek() throws IOException {
+	void indexSeek() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5670; i++) {
 			@SuppressWarnings("boxing")
@@ -564,7 +564,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void noIndexScan() throws IOException {
+	void noIndexScan() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
 			@SuppressWarnings("boxing")
@@ -580,7 +580,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void noIndexSeek() throws IOException {
+	void noIndexSeek() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 567; i++) {
 			@SuppressWarnings("boxing")
@@ -594,57 +594,57 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void invalidRefWriteOrderSortAndWrite() {
+	void invalidRefWriteOrderSortAndWrite() {
 		Ref master = ref(MASTER, 1);
 		ReftableWriter writer = new ReftableWriter(new ByteArrayOutputStream())
-			.setMinUpdateIndex(1)
-			.setMaxUpdateIndex(1)
-			.begin();
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1)
+				.begin();
 
 		List<Ref> refs = new ArrayList<>();
 		refs.add(master);
 		refs.add(master);
 
 		IllegalArgumentException e  = assertThrows(
-			IllegalArgumentException.class,
-			() -> writer.sortAndWriteRefs(refs));
+				IllegalArgumentException.class,
+				() -> writer.sortAndWriteRefs(refs));
 		assertThat(e.getMessage(), containsString("records must be increasing"));
 	}
 
 	@Test
-	public void invalidReflogWriteOrderUpdateIndex() throws IOException {
+	void invalidReflogWriteOrderUpdateIndex() throws IOException {
 		ReftableWriter writer = new ReftableWriter(new ByteArrayOutputStream())
-			.setMinUpdateIndex(1)
-			.setMaxUpdateIndex(2)
-			.begin();
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(2)
+				.begin();
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
 
 		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
 		IllegalArgumentException e  = assertThrows(IllegalArgumentException.class,
-			() -> writer.writeLog(
-				MASTER, 2, who, ObjectId.zeroId(), id(2), msg));
+				() -> writer.writeLog(
+						MASTER, 2, who, ObjectId.zeroId(), id(2), msg));
 		assertThat(e.getMessage(), containsString("records must be increasing"));
 	}
 
 	@Test
-	public void invalidReflogWriteOrderName() throws IOException {
+	void invalidReflogWriteOrderName() throws IOException {
 		ReftableWriter writer = new ReftableWriter(new ByteArrayOutputStream())
-			.setMinUpdateIndex(1)
-			.setMaxUpdateIndex(1)
-			.begin();
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1)
+				.begin();
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
 
 		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(1), msg);
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-			() -> writer.writeLog(
-				MASTER, 1, who, ObjectId.zeroId(), id(2), msg));
+				() -> writer.writeLog(
+						MASTER, 1, who, ObjectId.zeroId(), id(2), msg));
 		assertThat(e.getMessage(), containsString("records must be increasing"));
 	}
 
 	@Test
-	public void withReflog() throws IOException {
+	void withReflog() throws IOException {
 		Ref master = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
@@ -701,7 +701,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void reflogReader() throws IOException {
+	void reflogReader() throws IOException {
 		Ref master = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
 
@@ -742,7 +742,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void allRefs() throws IOException {
+	void allRefs() throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		ReftableConfig cfg = new ReftableConfig();
 		cfg.setRefBlockSize(1024);
@@ -781,7 +781,7 @@ public class ReftableTest {
 
 
 	@Test
-	public void reflogSeek() throws IOException {
+	void reflogSeek() throws IOException {
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
 		String msgNext = "test next";
@@ -826,14 +826,14 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void reflogSeekPrefix() throws IOException {
+	void reflogSeekPrefix() throws IOException {
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buffer)
-			.setMinUpdateIndex(1)
-			.setMaxUpdateIndex(1)
-			.begin();
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1)
+				.begin();
 
 		writer.writeLog("branchname", 1, who, ObjectId.zeroId(), id(1), "branchname");
 
@@ -849,7 +849,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void onlyReflog() throws IOException {
+	void onlyReflog() throws IOException {
 		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
 		String msg = "test";
 
@@ -899,7 +899,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void logScan() throws IOException {
+	void logScan() throws IOException {
 		ReftableConfig cfg = new ReftableConfig();
 		cfg.setRefBlockSize(256);
 		cfg.setLogBlockSize(2048);
@@ -930,7 +930,7 @@ public class ReftableTest {
 		ReftableReader t = read(table);
 		try (LogCursor lc = t.allLogs()) {
 			for (Ref exp : refs) {
-				assertTrue("has " + exp.getName(), lc.next());
+				assertTrue(lc.next(), "has " + exp.getName());
 				assertEquals(exp.getName(), lc.getRefName());
 				ReflogEntry entry = lc.getReflogEntry();
 				assertNotNull(entry);
@@ -943,14 +943,14 @@ public class ReftableTest {
 		}
 
 		for (Ref exp : refs) {
- 			try (LogCursor lc = t.seekLog(exp.getName())) {
-				assertTrue("has " + exp.getName(), lc.next());
+			try (LogCursor lc = t.seekLog(exp.getName())) {
+				assertTrue(lc.next(), "has " + exp.getName());
 			}
 		}
 	}
 
 	@Test
-	public void byObjectIdOneRefNoIndex() throws IOException {
+	void byObjectIdOneRefNoIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 200; i++) {
 			@SuppressWarnings("boxing")
@@ -963,18 +963,18 @@ public class ReftableTest {
 		assertEquals(0, stats.objIndexSize());
 
 		try (RefCursor rc = t.byObjectId(id(42))) {
-			assertTrue("has 42", rc.next());
+			assertTrue(rc.next(), "has 42");
 			assertEquals("refs/heads/42", rc.getRef().getName());
 			assertEquals(id(42), rc.getRef().getObjectId());
 			assertEquals(0, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 		try (RefCursor rc = t.byObjectId(id(100))) {
-			assertTrue("has 100", rc.next());
+			assertTrue(rc.next(), "has 100");
 			assertEquals("refs/heads/100", rc.getRef().getName());
 			assertEquals(id(100), rc.getRef().getObjectId());
 
-			assertTrue("has master", rc.next());
+			assertTrue(rc.next(), "has master");
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(100), rc.getRef().getObjectId());
 			assertEquals(0, rc.getRef().getUpdateIndex());
@@ -984,7 +984,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void byObjectIdOneRefWithIndex() throws IOException {
+	void byObjectIdOneRefWithIndex() throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		for (int i = 1; i <= 5200; i++) {
 			@SuppressWarnings("boxing")
@@ -997,18 +997,18 @@ public class ReftableTest {
 		assertTrue(stats.objIndexSize() > 0);
 
 		try (RefCursor rc = t.byObjectId(id(42))) {
-			assertTrue("has 42", rc.next());
+			assertTrue(rc.next(), "has 42");
 			assertEquals("refs/heads/42", rc.getRef().getName());
 			assertEquals(id(42), rc.getRef().getObjectId());
 			assertEquals(0, rc.getRef().getUpdateIndex());
 			assertFalse(rc.next());
 		}
 		try (RefCursor rc = t.byObjectId(id(100))) {
-			assertTrue("has 100", rc.next());
+			assertTrue(rc.next(), "has 100");
 			assertEquals("refs/heads/100", rc.getRef().getName());
 			assertEquals(id(100), rc.getRef().getObjectId());
 
-			assertTrue("has master", rc.next());
+			assertTrue(rc.next(), "has master");
 			assertEquals("refs/heads/master", rc.getRef().getName());
 			assertEquals(id(100), rc.getRef().getObjectId());
 			assertEquals(0, rc.getRef().getUpdateIndex());
@@ -1018,7 +1018,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void byObjectIdSkipPastPrefix() throws IOException {
+	void byObjectIdSkipPastPrefix() throws IOException {
 		ReftableReader t = read(write());
 		try (RefCursor rc = t.byObjectId(id(2))) {
 			assertThrows(UnsupportedOperationException.class, () -> rc.seekPastPrefix("refs/heads/"));
@@ -1026,7 +1026,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void unpeeledDoesNotWrite() {
+	void unpeeledDoesNotWrite() {
 		try {
 			write(new ObjectIdRef.Unpeeled(PACKED, MASTER, id(1)));
 			fail("expected IOException");
@@ -1036,9 +1036,9 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void skipPastRefWithLastUTF8() throws IOException {
+	void skipPastRefWithLastUTF8() throws IOException {
 		ReftableReader t = read(write(ref(String.format("refs/heads/%sbla", new String(LAST_UTF8_CHAR
-				, UTF_8)), 1)));
+		, UTF_8)), 1)));
 
 		try (RefCursor rc = t.allRefs()) {
 			rc.seekPastPrefix("refs/heads/");
@@ -1048,7 +1048,7 @@ public class ReftableTest {
 
 
 	@Test
-	public void nameTooLongDoesNotWrite() throws IOException {
+	void nameTooLongDoesNotWrite() throws IOException {
 		try {
 			ReftableConfig cfg = new ReftableConfig();
 			cfg.setRefBlockSize(64);
@@ -1064,7 +1064,7 @@ public class ReftableTest {
 	}
 
 	@Test
-	public void badCrc32() throws IOException {
+	void badCrc32() throws IOException {
 		byte[] table = write();
 		table[table.length - 1] = 0x42;
 
@@ -1080,7 +1080,7 @@ public class ReftableTest {
 			throws IOException {
 		try (RefCursor rc = t.allRefs()) {
 			for (Ref exp : refs) {
-				assertTrue("has " + exp.getName(), rc.next());
+				assertTrue(rc.next(), "has " + exp.getName());
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());
@@ -1094,7 +1094,7 @@ public class ReftableTest {
 			throws IOException {
 		for (Ref exp : refs) {
 			try (RefCursor rc = t.seekRef(exp.getName())) {
-				assertTrue("has " + exp.getName(), rc.next());
+				assertTrue(rc.next(), "has " + exp.getName());
 				Ref act = rc.getRef();
 				assertEquals(exp.getName(), act.getName());
 				assertEquals(exp.getObjectId(), act.getObjectId());

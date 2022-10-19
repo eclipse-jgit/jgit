@@ -11,11 +11,11 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -33,14 +33,14 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testing the git commit and log commands
  */
 public class CommitAndLogCommandTest extends RepositoryTestCase {
 	@Test
-	public void testSomeCommits() throws Exception {
+	void testSomeCommits() throws Exception {
 		// do 4 commits
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
@@ -53,12 +53,12 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 
 			// check that all commits came in correctly
 			PersonIdent defaultCommitter = new PersonIdent(db);
-			PersonIdent expectedAuthors[] = new PersonIdent[] {
-					defaultCommitter, committer, author, author };
-			PersonIdent expectedCommitters[] = new PersonIdent[] {
-					defaultCommitter, committer, defaultCommitter, committer };
-			String expectedMessages[] = new String[] { "initial commit",
-					"second commit", "third commit", "fourth commit" };
+			PersonIdent expectedAuthors[] = new PersonIdent[]{
+					defaultCommitter, committer, author, author};
+			PersonIdent expectedCommitters[] = new PersonIdent[]{
+					defaultCommitter, committer, defaultCommitter, committer};
+			String expectedMessages[] = new String[]{"initial commit",
+					"second commit", "third commit", "fourth commit"};
 			int l = expectedAuthors.length - 1;
 			for (RevCommit c : commits) {
 				assertEquals(expectedAuthors[l].getName(),
@@ -80,7 +80,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 
 	// try to do a commit without specifying a message. Should fail!
 	@Test
-	public void testWrongParams() throws GitAPIException {
+	void testWrongParams() throws GitAPIException {
 		try (Git git = new Git(db)) {
 			git.commit().setAuthor(author).call();
 			fail("Didn't get the expected exception");
@@ -92,7 +92,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 	// try to work with Commands after command has been invoked. Should throw
 	// exceptions
 	@Test
-	public void testMultipleInvocations() throws GitAPIException {
+	void testMultipleInvocations() throws GitAPIException {
 		try (Git git = new Git(db)) {
 			CommitCommand commitCmd = git.commit();
 			commitCmd.setMessage("initial commit").call();
@@ -116,7 +116,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMergeEmptyBranches() throws Exception {
+	void testMergeEmptyBranches() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			RefUpdate r = db.updateRef("refs/heads/side");
@@ -141,7 +141,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddUnstagedChanges() throws Exception {
+	void testAddUnstagedChanges() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
@@ -172,7 +172,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testModeChange() throws Exception {
+	void testModeChange() throws Exception {
 		assumeFalse(System.getProperty("os.name").startsWith("Windows"));// SKIP
 		try (Git git = new Git(db)) {
 			// create file
@@ -202,7 +202,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCommitRange() throws Exception {
+	void testCommitRange() throws Exception {
 		// do 4 commits and set the range to the second and fourth one
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("first commit").call();
@@ -216,12 +216,12 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 
 			// check that we have the third and fourth commit
 			PersonIdent defaultCommitter = new PersonIdent(db);
-			PersonIdent expectedAuthors[] = new PersonIdent[] { author,
-					author };
-			PersonIdent expectedCommitters[] = new PersonIdent[] {
-					defaultCommitter, committer };
-			String expectedMessages[] = new String[] { "third commit",
-					"fourth commit" };
+			PersonIdent expectedAuthors[] = new PersonIdent[]{author,
+					author};
+			PersonIdent expectedCommitters[] = new PersonIdent[]{
+					defaultCommitter, committer};
+			String expectedMessages[] = new String[]{"third commit",
+					"fourth commit"};
 			int l = expectedAuthors.length - 1;
 			for (RevCommit c : commits) {
 				assertEquals(expectedAuthors[l].getName(),
@@ -236,7 +236,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCommitAmend() throws Exception {
+	void testCommitAmend() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("first comit").call(); // typo
 			git.commit().setAmend(true).setMessage("first commit").call();
@@ -258,7 +258,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInsertChangeId() throws Exception {
+	void testInsertChangeId() throws Exception {
 		try (Git git = new Git(db)) {
 			String messageHeader = "Some header line\n\nSome detail explanation\n";
 			String changeIdTemplate = "\nChange-Id: I"

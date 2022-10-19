@@ -37,7 +37,7 @@
  */
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -48,19 +48,19 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DirCacheCheckoutTestWithSymlinks extends RepositoryTestCase {
-	@Before
+	@BeforeEach
 	public void beforeMethod() {
 		// If this assumption fails the tests are skipped. When running on a
 		// filesystem not supporting symlinks I don't want this tests
-		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		org.junit.jupiter.api.Assumptions.assumeTrue(FS.DETECTED.supportsSymlinks());
 	}
 
 	@Test
-	public void testDontDeleteSymlinkOnTopOfRootDir() throws Exception {
+	void testDontDeleteSymlinkOnTopOfRootDir() throws Exception {
 		// create a parent folder containing a folder with a test repository
 		File repos = createTempDirectory("repos");
 		File testRepo = new File(repos, "repo");
@@ -93,7 +93,7 @@ public class DirCacheCheckoutTestWithSymlinks extends RepositoryTestCase {
 		symlinkRepo.checkout().setName("master").call();
 
 		// check that the symlink still exists
-		assertTrue("The symlink to the repo should exist after a checkout",
-				reposSymlink.exists());
+		assertTrue(reposSymlink.exists(),
+				"The symlink to the repo should exist after a checkout");
 	}
 }

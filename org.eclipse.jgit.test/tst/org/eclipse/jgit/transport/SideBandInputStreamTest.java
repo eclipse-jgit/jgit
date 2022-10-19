@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -18,8 +18,8 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SideBandInputStreamTest {
 
@@ -27,55 +27,55 @@ public class SideBandInputStreamTest {
 
 	private SideBandInputStream sideband;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		messages = new StringWriter();
 	}
 
 	@Test
-	public void progressSingleCR() throws IOException {
+	void progressSingleCR() throws IOException {
 		init(packet("message\r"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message\r", messages.toString());
 	}
 
 	@Test
-	public void progressSingleLF() throws IOException {
+	void progressSingleLF() throws IOException {
 		init(packet("message\n"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message\n", messages.toString());
 	}
 
 	@Test
-	public void progressSingleCRLF() throws IOException {
+	void progressSingleCRLF() throws IOException {
 		init(packet("message\r\n"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message\r\n", messages.toString());
 	}
 
 	@Test
-	public void progressMultiCR() throws IOException {
+	void progressMultiCR() throws IOException {
 		init(packet("message   0%\rmessage 100%\r"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\rmessage 100%\r", messages.toString());
 	}
 
 	@Test
-	public void progressMultiLF() throws IOException {
+	void progressMultiLF() throws IOException {
 		init(packet("message   0%\nmessage 100%\n"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\nmessage 100%\n", messages.toString());
 	}
 
 	@Test
-	public void progressMultiCRLF() throws IOException {
+	void progressMultiCRLF() throws IOException {
 		init(packet("message   0%\r\nmessage 100%\r\n"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\r\nmessage 100%\r\n", messages.toString());
 	}
 
 	@Test
-	public void progressPartial() throws IOException {
+	void progressPartial() throws IOException {
 		init(packet("message"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("", messages.toString());
@@ -84,49 +84,49 @@ public class SideBandInputStreamTest {
 	}
 
 	@Test
-	public void progressPartialTwoCR() throws IOException {
+	void progressPartialTwoCR() throws IOException {
 		init(packet("message") + packet("message\r"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("messagemessage\r", messages.toString());
 	}
 
 	@Test
-	public void progressPartialTwoLF() throws IOException {
+	void progressPartialTwoLF() throws IOException {
 		init(packet("message") + packet("message\n"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("messagemessage\n", messages.toString());
 	}
 
 	@Test
-	public void progressPartialTwoCRLF() throws IOException {
+	void progressPartialTwoCRLF() throws IOException {
 		init(packet("message") + packet("message\r\n"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("messagemessage\r\n", messages.toString());
 	}
 
 	@Test
-	public void progressPartialThreeCR() throws IOException {
+	void progressPartialThreeCR() throws IOException {
 		init(packet("message") + packet("message") + packet("message\r"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("messagemessagemessage\r", messages.toString());
 	}
 
 	@Test
-	public void progressPartialThreeLF() throws IOException {
+	void progressPartialThreeLF() throws IOException {
 		init(packet("message") + packet("message") + packet("message\n"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("messagemessagemessage\n", messages.toString());
 	}
 
 	@Test
-	public void progressPartialThreeCRLF() throws IOException {
+	void progressPartialThreeCRLF() throws IOException {
 		init(packet("message") + packet("message") + packet("message\r\n"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("messagemessagemessage\r\n", messages.toString());
 	}
 
 	@Test
-	public void progressPartialCR() throws IOException {
+	void progressPartialCR() throws IOException {
 		init(packet("message   0%\rmessage 100%"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\r", messages.toString());
@@ -135,7 +135,7 @@ public class SideBandInputStreamTest {
 	}
 
 	@Test
-	public void progressPartialLF() throws IOException {
+	void progressPartialLF() throws IOException {
 		init(packet("message   0%\nmessage 100%"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\n", messages.toString());
@@ -144,7 +144,7 @@ public class SideBandInputStreamTest {
 	}
 
 	@Test
-	public void progressPartialCRLF() throws IOException {
+	void progressPartialCRLF() throws IOException {
 		init(packet("message   0%\r\nmessage 100%"));
 		assertTrue(sideband.read() < 0);
 		assertEquals("message   0%\r\n", messages.toString());
@@ -153,7 +153,7 @@ public class SideBandInputStreamTest {
 	}
 
 	@Test
-	public void progressPartialSplitCR() throws IOException {
+	void progressPartialSplitCR() throws IOException {
 		init(packet("message") + "0006\001a" + packet("   0%\rmessa")
 				+ packet("ge 100%"));
 		assertEquals('a', sideband.read());
@@ -165,7 +165,7 @@ public class SideBandInputStreamTest {
 	}
 
 	@Test
-	public void progressPartialSplitLF() throws IOException {
+	void progressPartialSplitLF() throws IOException {
 		init(packet("message") + "0006\001a" + packet("   0%\nmessa")
 				+ packet("ge 100%"));
 		assertEquals('a', sideband.read());
@@ -177,7 +177,7 @@ public class SideBandInputStreamTest {
 	}
 
 	@Test
-	public void progressPartialSplitCRLF() throws IOException {
+	void progressPartialSplitCRLF() throws IOException {
 		init(packet("message") + "0006\001a" + packet("   0%\r\nmessa")
 				+ packet("ge 100%"));
 		assertEquals('a', sideband.read());
@@ -189,7 +189,7 @@ public class SideBandInputStreamTest {
 	}
 
 	@Test
-	public void progressInterleaved() throws IOException {
+	void progressInterleaved() throws IOException {
 		init(packet("message   0%\r") + "0006\001a" + packet("message  10%")
 				+ "0006\001b" + packet("\rmessage 100%\n"));
 		assertEquals('a', sideband.read());
@@ -202,7 +202,7 @@ public class SideBandInputStreamTest {
 	}
 
 	@Test
-	public void progressInterleavedPartial() throws IOException {
+	void progressInterleavedPartial() throws IOException {
 		init(packet("message   0%\r") + "0006\001a" + packet("message  10%")
 				+ "0006\001b" + packet("\rmessage 100%"));
 		assertEquals('a', sideband.read());

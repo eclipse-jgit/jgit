@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,25 +19,25 @@ import java.util.zip.Deflater;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
-import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.TestInfoRetriever;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DfsPackFileTest {
+public class DfsPackFileTest extends TestInfoRetriever {
 	InMemoryRepository db;
 	boolean bypassCache;
 	boolean clearCache;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		db = new InMemoryRepository(new DfsRepositoryDescription("test"));
 	}
 
 	@Test
-	public void testCopyPackBypassCachesSmallCached() throws IOException {
+	void testCopyPackBypassCachesSmallCached() throws IOException {
 		bypassCache = true;
 		clearCache = false;
 		setupPack(512, 256);
@@ -45,7 +45,7 @@ public class DfsPackFileTest {
 	}
 
 	@Test
-	public void testCopyPackBypassCacheSmallNoCache() throws IOException {
+	void testCopyPackBypassCacheSmallNoCache() throws IOException {
 		bypassCache = true;
 		clearCache = true;
 		setupPack(512, 256);
@@ -53,7 +53,7 @@ public class DfsPackFileTest {
 	}
 
 	@Test
-	public void testCopyPackBypassCacheLargeCached() throws IOException {
+	void testCopyPackBypassCacheLargeCached() throws IOException {
 		bypassCache = true;
 		clearCache = false;
 		setupPack(512, 8000);
@@ -61,7 +61,7 @@ public class DfsPackFileTest {
 	}
 
 	@Test
-	public void testCopyPackBypassCacheLargeNoCache() throws IOException {
+	void testCopyPackBypassCacheLargeNoCache() throws IOException {
 		bypassCache = true;
 		clearCache = true;
 		setupPack(512, 8000);
@@ -69,7 +69,7 @@ public class DfsPackFileTest {
 	}
 
 	@Test
-	public void testCopyPackThroughCacheSmallCached() throws IOException {
+	void testCopyPackThroughCacheSmallCached() throws IOException {
 		bypassCache = false;
 		clearCache = false;
 		setupPack(512, 256);
@@ -77,7 +77,7 @@ public class DfsPackFileTest {
 	}
 
 	@Test
-	public void testCopyPackThroughCacheSmallNoCache() throws IOException {
+	void testCopyPackThroughCacheSmallNoCache() throws IOException {
 		bypassCache = false;
 		clearCache = true;
 		setupPack(512, 256);
@@ -85,7 +85,7 @@ public class DfsPackFileTest {
 	}
 
 	@Test
-	public void testCopyPackThroughCacheLargeCached() throws IOException {
+	void testCopyPackThroughCacheLargeCached() throws IOException {
 		bypassCache = false;
 		clearCache = false;
 		setupPack(512, 8000);
@@ -93,7 +93,7 @@ public class DfsPackFileTest {
 	}
 
 	@Test
-	public void testCopyPackThroughCacheLargeNoCache() throws IOException {
+	void testCopyPackThroughCacheLargeNoCache() throws IOException {
 		bypassCache = false;
 		clearCache = true;
 		setupPack(512, 8000);
@@ -105,7 +105,7 @@ public class DfsPackFileTest {
 				.setBlockLimit(bs * 100).setStreamRatio(bypassCache ? 0F : 1F);
 		DfsBlockCache.reconfigure(cfg);
 
-		byte[] data = new TestRng(JGitTestUtil.getName()).nextBytes(ps);
+		byte[] data = new TestRng(getTestMethodName()).nextBytes(ps);
 		DfsInserter ins = (DfsInserter) db.newObjectInserter();
 		ins.setCompressionLevel(Deflater.NO_COMPRESSION);
 		ins.insert(Constants.OBJ_BLOB, data);

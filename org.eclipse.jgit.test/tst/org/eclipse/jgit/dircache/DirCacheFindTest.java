@@ -10,20 +10,20 @@
 
 package org.eclipse.jgit.dircache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DirCacheFindTest extends RepositoryTestCase {
 	@Test
-	public void testEntriesWithin() throws Exception {
+	void testEntriesWithin() throws Exception {
 		final DirCache dc = db.readDirCache();
 
-		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
+		final String[] paths = {"a-", "a/b", "a/c", "a/d", "a0b"};
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);

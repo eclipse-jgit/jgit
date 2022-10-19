@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.attributes;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * End-to-end tests for some attribute combinations. Writes files, commit them,
@@ -41,7 +41,7 @@ import org.junit.Test;
 public class AttributeFileTests extends RepositoryTestCase {
 
 	@Test
-	public void testTextAutoCoreEolCoreAutoCrLfInput() throws Exception {
+	void testTextAutoCoreEolCoreAutoCrLfInput() throws Exception {
 		FileBasedConfig cfg = db.getConfig();
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
@@ -52,32 +52,32 @@ public class AttributeFileTests extends RepositoryTestCase {
 			File dummy = writeTrashFile("dummy.txt", content);
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Commit with LF").call();
-			assertEquals("Unexpected index state",
-					"[.gitattributes, mode:100644, content:* text=auto]"
-							+ "[dummy.txt, mode:100644, content:" + content
-							+ ']',
-					indexState(CONTENT));
-			assertTrue("Should be able to delete " + dummy, dummy.delete());
+			assertEquals("[.gitattributes, mode:100644, content:* text=auto]"
+					+ "[dummy.txt, mode:100644, content:" + content
+					+ ']',
+					indexState(CONTENT),
+					"Unexpected index state");
+			assertTrue(dummy.delete(), "Should be able to delete " + dummy);
 			cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_EOL, "crlf");
 			cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
 			cfg.save();
 			git.reset().setMode(ResetType.HARD).call();
-			assertTrue("File " + dummy + "should exist", dummy.isFile());
+			assertTrue(dummy.isFile(), "File " + dummy + "should exist");
 			String textFile = RawParseUtils.decode(IO.readFully(dummy, 512));
-			assertEquals("Unexpected text content", content, textFile);
+			assertEquals(content, textFile, "Unexpected text content");
 		}
 	}
 
 	@Test
-	public void testTextAutoEolLf() throws Exception {
+	void testTextAutoEolLf() throws Exception {
 		writeTrashFile(".gitattributes", "* text=auto eol=lf");
 		performTest("Test\r\nFile", "Test\nFile", "Test\nFile");
 	}
 
 	@Test
-	public void testTextAutoEolCrLf() throws Exception {
+	void testTextAutoEolCrLf() throws Exception {
 		writeTrashFile(".gitattributes", "* text=auto eol=crlf");
 		performTest("Test\r\nFile", "Test\nFile", "Test\r\nFile");
 	}
@@ -86,7 +86,7 @@ public class AttributeFileTests extends RepositoryTestCase {
 			throws Exception {
 		File dummy = writeTrashFile("dummy.foo", initial);
 		byte[] data = readTestResource("add.png");
-		assertTrue("Expected some binary data", data.length > 100);
+		assertTrue(data.length > 100, "Expected some binary data");
 		File binary = writeTrashFile("add.png", "");
 		Files.write(binary.toPath(), data);
 		try (Git git = Git.wrap(db)) {
@@ -96,16 +96,16 @@ public class AttributeFileTests extends RepositoryTestCase {
 			verifyIndexContent("dummy.foo",
 					index.getBytes(StandardCharsets.UTF_8));
 			verifyIndexContent("add.png", data);
-			assertTrue("Should be able to delete " + dummy, dummy.delete());
-			assertTrue("Should be able to delete " + binary, binary.delete());
+			assertTrue(dummy.delete(), "Should be able to delete " + dummy);
+			assertTrue(binary.delete(), "Should be able to delete " + binary);
 			git.reset().setMode(ResetType.HARD).call();
-			assertTrue("File " + dummy + " should exist", dummy.isFile());
-			assertTrue("File " + binary + " should exist", binary.isFile());
+			assertTrue(dummy.isFile(), "File " + dummy + " should exist");
+			assertTrue(binary.isFile(), "File " + binary + " should exist");
 			// binary should be unchanged, dummy should match "finalText"
 			String textFile = RawParseUtils.decode(IO.readFully(dummy, 512));
-			assertEquals("Unexpected text content", finalText, textFile);
+			assertEquals(finalText, textFile, "Unexpected text content");
 			byte[] binaryFile = IO.readFully(binary, 512);
-			assertArrayEquals("Unexpected binary content", data, binaryFile);
+			assertArrayEquals(data, binaryFile, "Unexpected binary content");
 		}
 	}
 
@@ -129,8 +129,7 @@ public class AttributeFileTests extends RepositoryTestCase {
 			if (path.equals(entry.getPathString())) {
 				byte[] data = db.open(entry.getObjectId(), Constants.OBJ_BLOB)
 						.getCachedBytes();
-				assertArrayEquals("Unexpected index content for " + path,
-						expectedContent, data);
+				assertArrayEquals(expectedContent, data, "Unexpected index content for " + path);
 				return;
 			}
 		}

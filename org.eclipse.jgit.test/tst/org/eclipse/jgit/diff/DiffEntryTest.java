@@ -14,9 +14,10 @@ import static org.eclipse.jgit.util.FileUtils.delete;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.List;
@@ -39,12 +40,12 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DiffEntryTest extends RepositoryTestCase {
 
 	@Test
-	public void shouldListAddedFileInInitialCommit() throws Exception {
+	void shouldListAddedFileInInitialCommit() throws Exception {
 		// given
 		writeTrashFile("a.txt", "content");
 		try (Git git = new Git(db);
@@ -69,7 +70,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void shouldListAddedFileBetweenTwoCommits() throws Exception {
+	void shouldListAddedFileBetweenTwoCommits() throws Exception {
 		// given
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
@@ -95,7 +96,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void shouldListModificationBetweenTwoCommits() throws Exception {
+	void shouldListModificationBetweenTwoCommits() throws Exception {
 		// given
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
@@ -122,7 +123,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void shouldListDeletionBetweenTwoCommits() throws Exception {
+	void shouldListDeletionBetweenTwoCommits() throws Exception {
 		// given
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
@@ -150,7 +151,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void shouldListModificationInDirWithoutModifiedTrees()
+	void shouldListModificationInDirWithoutModifiedTrees()
 			throws Exception {
 		// given
 		try (Git git = new Git(db);
@@ -183,7 +184,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void shouldListModificationInDirWithModifiedTrees() throws Exception {
+	void shouldListModificationInDirWithModifiedTrees() throws Exception {
 		// given
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
@@ -222,7 +223,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void shouldListChangesInWorkingTree() throws Exception {
+	void shouldListChangesInWorkingTree() throws Exception {
 		// given
 		writeTrashFile("a.txt", "content");
 		try (Git git = new Git(db);
@@ -246,7 +247,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void shouldMarkEntriesWhenGivenMarkTreeFilter() throws Exception {
+	void shouldMarkEntriesWhenGivenMarkTreeFilter() throws Exception {
 		// given
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
@@ -266,8 +267,8 @@ public class DiffEntryTest extends RepositoryTestCase {
 			// when
 			walk.addTree(c1.getTree());
 			walk.addTree(c2.getTree());
-			List<DiffEntry> result = DiffEntry.scan(walk, true, new TreeFilter[] {
-					filterA, filterB, filterB2 });
+			List<DiffEntry> result = DiffEntry.scan(walk, true, new TreeFilter[]{
+					filterA, filterB, filterB2});
 
 			// then
 			assertThat(result, notNullValue());
@@ -311,48 +312,54 @@ public class DiffEntryTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowIAEWhenTreeWalkHasLessThanTwoTrees()
+	@Test
+	void shouldThrowIAEWhenTreeWalkHasLessThanTwoTrees()
 			throws Exception {
-		// given - we don't need anything here
+		assertThrows(IllegalArgumentException.class, () -> {
+			// given - we don't need anything here
 
-		// when
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(new EmptyTreeIterator());
-			DiffEntry.scan(walk);
-		}
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowIAEWhenTreeWalkHasMoreThanTwoTrees()
-			throws Exception {
-		// given - we don't need anything here
-
-		// when
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(new EmptyTreeIterator());
-			walk.addTree(new EmptyTreeIterator());
-			walk.addTree(new EmptyTreeIterator());
-			DiffEntry.scan(walk);
-		}
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowIAEWhenScanShouldIncludeTreesAndWalkIsRecursive()
-			throws Exception {
-		// given - we don't need anything here
-
-		// when
-		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(new EmptyTreeIterator());
-			walk.addTree(new EmptyTreeIterator());
-			walk.setRecursive(true);
-			DiffEntry.scan(walk, true);
-		}
+			// when
+			try (TreeWalk walk = new TreeWalk(db)) {
+				walk.addTree(new EmptyTreeIterator());
+				DiffEntry.scan(walk);
+			}
+		});
 	}
 
 	@Test
-	public void shouldReportFileModeChange() throws Exception {
+	void shouldThrowIAEWhenTreeWalkHasMoreThanTwoTrees()
+			throws Exception {
+		assertThrows(IllegalArgumentException.class, () -> {
+			// given - we don't need anything here
+
+			// when
+			try (TreeWalk walk = new TreeWalk(db)) {
+				walk.addTree(new EmptyTreeIterator());
+				walk.addTree(new EmptyTreeIterator());
+				walk.addTree(new EmptyTreeIterator());
+				DiffEntry.scan(walk);
+			}
+		});
+	}
+
+	@Test
+	void shouldThrowIAEWhenScanShouldIncludeTreesAndWalkIsRecursive()
+			throws Exception {
+		assertThrows(IllegalArgumentException.class, () -> {
+			// given - we don't need anything here
+
+			// when
+			try (TreeWalk walk = new TreeWalk(db)) {
+				walk.addTree(new EmptyTreeIterator());
+				walk.addTree(new EmptyTreeIterator());
+				walk.setRecursive(true);
+				DiffEntry.scan(walk, true);
+			}
+		});
+	}
+
+	@Test
+	void shouldReportFileModeChange() throws Exception {
 		writeTrashFile("a.txt", "content");
 		try (Git git = new Git(db);
 				TreeWalk walk = new TreeWalk(db)) {
@@ -379,7 +386,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 			List<DiffEntry> diffs = DiffEntry.scan(walk, false);
 			assertEquals(1, diffs.size());
 			DiffEntry diff = diffs.get(0);
-			assertEquals(ChangeType.MODIFY,diff.getChangeType());
+			assertEquals(ChangeType.MODIFY, diff.getChangeType());
 			assertEquals(diff.getOldId(), diff.getNewId());
 			assertEquals("a.txt", diff.getOldPath());
 			assertEquals(diff.getOldPath(), diff.getNewPath());
@@ -389,7 +396,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void shouldReportSubmoduleReplacedByFileMove() throws Exception {
+	void shouldReportSubmoduleReplacedByFileMove() throws Exception {
 		// Create a submodule
 		FileRepository submoduleStandalone = createWorkRepository();
 		JGitTestUtil.writeTrashFile(submoduleStandalone, "fileInSubmodule",

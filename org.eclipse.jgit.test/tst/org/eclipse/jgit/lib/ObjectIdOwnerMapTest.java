@@ -10,25 +10,25 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ObjectIdOwnerMapTest {
 	private MutableObjectId idBuf;
 
 	private SubId id_1, id_2, id_3, id_a31, id_b31;
 
-	@Before
+	@BeforeEach
 	public void init() {
 		idBuf = new MutableObjectId();
 		id_1 = new SubId(id(1));
@@ -39,7 +39,7 @@ public class ObjectIdOwnerMapTest {
 	}
 
 	@Test
-	public void testEmptyMap() {
+	void testEmptyMap() {
 		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		assertTrue(m.isEmpty());
 		assertEquals(0, m.size());
@@ -52,7 +52,7 @@ public class ObjectIdOwnerMapTest {
 	}
 
 	@Test
-	public void testAddGetAndContains() {
+	void testAddGetAndContains() {
 		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
 		m.add(id_2);
@@ -74,7 +74,7 @@ public class ObjectIdOwnerMapTest {
 	}
 
 	@Test
-	public void testClear() {
+	void testClear() {
 		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 
 		m.add(id_1);
@@ -92,7 +92,7 @@ public class ObjectIdOwnerMapTest {
 	}
 
 	@Test
-	public void testAddIfAbsent() {
+	void testAddIfAbsent() {
 		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
 
@@ -110,35 +110,35 @@ public class ObjectIdOwnerMapTest {
 	}
 
 	@Test
-	public void testAddGrowsWithObjects() {
+	void testAddGrowsWithObjects() {
 		int n = 16384;
 		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
-		for (int i = 32; i < n; i++)
+		for (int i = 32;i < n;i++)
 			m.add(new SubId(id(i)));
 		assertEquals(n - 32 + 1, m.size());
 
 		assertSame(id_1, m.get(id_1.copy()));
-		for (int i = 32; i < n; i++)
+		for (int i = 32;i < n;i++)
 			assertTrue(m.contains(id(i)));
 	}
 
 	@Test
-	public void testAddIfAbsentGrowsWithObjects() {
+	void testAddIfAbsentGrowsWithObjects() {
 		int n = 16384;
 		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
-		for (int i = 32; i < n; i++)
+		for (int i = 32;i < n;i++)
 			m.addIfAbsent(new SubId(id(i)));
 		assertEquals(n - 32 + 1, m.size());
 
 		assertSame(id_1, m.get(id_1.copy()));
-		for (int i = 32; i < n; i++)
+		for (int i = 32;i < n;i++)
 			assertTrue(m.contains(id(i)));
 	}
 
 	@Test
-	public void testIterator() {
+	void testIterator() {
 		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
 		m.add(id_2);

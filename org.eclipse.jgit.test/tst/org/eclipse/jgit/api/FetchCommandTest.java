@@ -9,11 +9,11 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,15 +35,15 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FetchCommandTest extends RepositoryTestCase {
 
 	private Git git;
 	private Git remoteGit;
 
-	@Before
+	@BeforeEach
 	public void setupRemoteRepository() throws Exception {
 		git = new Git(db);
 
@@ -61,7 +61,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFetch() throws Exception {
+	void testFetch() throws Exception {
 
 		// create some refs via commits and tag
 		RevCommit commit = remoteGit.commit().setMessage("initial commit").call();
@@ -77,7 +77,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFetchHasRefLogForRemoteRef() throws Exception {
+	void testFetchHasRefLogForRemoteRef() throws Exception {
 		// create an initial commit SHA1 for the default branch
 		ObjectId defaultBranchSha1 = remoteGit.commit()
 				.setMessage("initial commit").call().getId();
@@ -97,7 +97,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testForcedFetch() throws Exception {
+	void testForcedFetch() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		remoteGit.commit().setMessage("commit2").call();
 		git.fetch().setRemote("test")
@@ -116,7 +116,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFetchSimpleNegativeRefSpec() throws Exception {
+	void testFetchSimpleNegativeRefSpec() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 
 		FetchResult res = git.fetch().setRemote("test")
@@ -133,7 +133,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void negativeRefSpecFilterBySource() throws Exception {
+	void negativeRefSpecFilterBySource() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		remoteGit.branchCreate().setName("test").call();
 		remoteGit.commit().setMessage("commit1").call();
@@ -148,7 +148,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void negativeRefSpecFilterByDestination() throws Exception {
+	void negativeRefSpecFilterByDestination() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		remoteGit.branchCreate().setName("meta").call();
 		remoteGit.commit().setMessage("commit1").call();
@@ -163,7 +163,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchAddsBranches() throws Exception {
+	void fetchAddsBranches() throws Exception {
 		final String branch1 = "b1";
 		final String branch2 = "b2";
 		final String remoteBranch1 = "test/" + branch1;
@@ -180,7 +180,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchDoesntDeleteBranches() throws Exception {
+	void fetchDoesntDeleteBranches() throws Exception {
 		final String branch1 = "b1";
 		final String branch2 = "b2";
 		final String remoteBranch1 = "test/" + branch1;
@@ -202,7 +202,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchUpdatesBranches() throws Exception {
+	void fetchUpdatesBranches() throws Exception {
 		final String branch1 = "b1";
 		final String branch2 = "b2";
 		final String remoteBranch1 = "test/" + branch1;
@@ -225,7 +225,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchPrunesBranches() throws Exception {
+	void fetchPrunesBranches() throws Exception {
 		final String branch1 = "b1";
 		final String branch2 = "b2";
 		final String remoteBranch1 = "test/" + branch1;
@@ -248,7 +248,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchShouldAutoFollowTag() throws Exception {
+	void fetchShouldAutoFollowTag() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		Ref tagRef = remoteGit.tag().setName("foo").call();
 
@@ -260,7 +260,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchShouldAutoFollowTagForFetchedObjects() throws Exception {
+	void fetchShouldAutoFollowTagForFetchedObjects() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		Ref tagRef = remoteGit.tag().setName("foo").call();
 		remoteGit.commit().setMessage("commit2").call();
@@ -271,7 +271,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchShouldNotFetchTagsFromOtherBranches() throws Exception {
+	void fetchShouldNotFetchTagsFromOtherBranches() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		remoteGit.checkout().setName("other").setCreateBranch(true).call();
 		remoteGit.commit().setMessage("commit2").call();
@@ -283,7 +283,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchWithUpdatedTagShouldNotTryToUpdateLocal() throws Exception {
+	void fetchWithUpdatedTagShouldNotTryToUpdateLocal() throws Exception {
 		final String tagName = "foo";
 		remoteGit.commit().setMessage("commit").call();
 		Ref tagRef = remoteGit.tag().setName(tagName).call();
@@ -310,7 +310,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchWithExplicitTagsShouldUpdateLocal() throws Exception {
+	void fetchWithExplicitTagsShouldUpdateLocal() throws Exception {
 		final String tagName = "foo";
 		remoteGit.commit().setMessage("commit").call();
 		Ref tagRef1 = remoteGit.tag().setName(tagName).call();
@@ -333,7 +333,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFetchWithPruneShouldKeepOriginHead() throws Exception {
+	void testFetchWithPruneShouldKeepOriginHead() throws Exception {
 		// Create a commit in the test repo.
 		commitFile("foo", "foo", "master");
 		// Produce a real clone of the git repo
@@ -347,9 +347,8 @@ public class FetchCommandTest extends RepositoryTestCase {
 		addRepoToClose(clonedRepo);
 		ObjectId originMasterId = clonedRepo
 				.resolve("refs/remotes/origin/master");
-		assertNotNull("Should have origin/master", originMasterId);
-		assertNotEquals("origin/master should not be zero ID",
-				ObjectId.zeroId(), originMasterId);
+		assertNotNull(originMasterId, "Should have origin/master");
+		assertNotEquals(ObjectId.zeroId(), originMasterId, "origin/master should not be zero ID");
 		// Canonical git creates origin/HEAD; JGit (for now) doesn't. Let's
 		// pretend we did the clone via command-line git.
 		ObjectId originHeadId = clonedRepo.resolve("refs/remotes/origin/HEAD");
@@ -360,19 +359,21 @@ public class FetchCommandTest extends RepositoryTestCase {
 					"ref: refs/remotes/origin/master\n");
 			originHeadId = clonedRepo.resolve("refs/remotes/origin/HEAD");
 		}
-		assertEquals("Should have origin/HEAD", originMasterId, originHeadId);
+		assertEquals(originMasterId, originHeadId, "Should have origin/HEAD");
 		FetchResult result = cloned.fetch().setRemote("origin")
 				.setRemoveDeletedRefs(true).call();
-		assertTrue("Fetch after clone should be up-to-date",
-				result.getTrackingRefUpdates().isEmpty());
-		assertEquals("origin/master should still exist", originMasterId,
-				clonedRepo.resolve("refs/remotes/origin/master"));
-		assertEquals("origin/HEAD should be unchanged", originHeadId,
-				clonedRepo.resolve("refs/remotes/origin/HEAD"));
+		assertTrue(result.getTrackingRefUpdates().isEmpty(),
+				"Fetch after clone should be up-to-date");
+		assertEquals(originMasterId,
+				clonedRepo.resolve("refs/remotes/origin/master"),
+				"origin/master should still exist");
+		assertEquals(originHeadId,
+				clonedRepo.resolve("refs/remotes/origin/HEAD"),
+				"origin/HEAD should be unchanged");
 	}
 
 	@Test
-	public void fetchAddRefsWithDuplicateRefspec() throws Exception {
+	void fetchAddRefsWithDuplicateRefspec() throws Exception {
 		final String branchName = "branch";
 		final String remoteBranchName = "test/" + branchName;
 		remoteGit.commit().setMessage("commit").call();
@@ -391,7 +392,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchPruneRefsWithDuplicateRefspec()
+	void fetchPruneRefsWithDuplicateRefspec()
 			throws Exception {
 		final String branchName = "branch";
 		final String remoteBranchName = "test/" + branchName;
@@ -416,7 +417,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void fetchUpdateRefsWithDuplicateRefspec() throws Exception {
+	void fetchUpdateRefsWithDuplicateRefspec() throws Exception {
 		final String tagName = "foo";
 		remoteGit.commit().setMessage("commit").call();
 		Ref tagRef1 = remoteGit.tag().setName(tagName).call();

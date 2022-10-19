@@ -10,25 +10,25 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class LongMapTest {
 	private LongMap<Long> map;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		map = new LongMap<>();
 	}
 
 	@Test
-	public void testEmptyMap() {
+	void testEmptyMap() {
 		assertFalse(map.containsKey(0));
 		assertFalse(map.containsKey(1));
 
@@ -40,7 +40,7 @@ public class LongMapTest {
 	}
 
 	@Test
-	public void testInsertMinValue() {
+	void testInsertMinValue() {
 		final Long min = Long.valueOf(Long.MIN_VALUE);
 		assertNull(map.put(Long.MIN_VALUE, min));
 		assertTrue(map.containsKey(Long.MIN_VALUE));
@@ -49,7 +49,7 @@ public class LongMapTest {
 	}
 
 	@Test
-	public void testReplaceMaxValue() {
+	void testReplaceMaxValue() {
 		final Long min = Long.valueOf(Long.MAX_VALUE);
 		final Long one = Long.valueOf(1);
 		assertNull(map.put(Long.MAX_VALUE, min));
@@ -59,7 +59,7 @@ public class LongMapTest {
 	}
 
 	@Test
-	public void testRemoveOne() {
+	void testRemoveOne() {
 		final long start = 1;
 		assertNull(map.put(start, Long.valueOf(start)));
 		assertEquals(Long.valueOf(start), map.remove(start));
@@ -67,7 +67,7 @@ public class LongMapTest {
 	}
 
 	@Test
-	public void testRemoveCollision1() {
+	void testRemoveCollision1() {
 		// This test relies upon the fact that we always >>> 1 the value
 		// to derive an unsigned hash code. Thus, 0 and 1 fall into the
 		// same hash bucket. Further it relies on the fact that we add
@@ -83,7 +83,7 @@ public class LongMapTest {
 	}
 
 	@Test
-	public void testRemoveCollision2() {
+	void testRemoveCollision2() {
 		// This test relies upon the fact that we always >>> 1 the value
 		// to derive an unsigned hash code. Thus, 0 and 1 fall into the
 		// same hash bucket. Further it relies on the fact that we add
@@ -99,7 +99,7 @@ public class LongMapTest {
 	}
 
 	@Test
-	public void testSmallMap() {
+	void testSmallMap() {
 		final long start = 12;
 		final long n = 8;
 		for (long i = start; i < start + n; i++)
@@ -109,7 +109,7 @@ public class LongMapTest {
 	}
 
 	@Test
-	public void testLargeMap() {
+	void testLargeMap() {
 		final long start = Integer.MAX_VALUE;
 		final long n = 100000;
 		for (long i = start; i < start + n; i++)

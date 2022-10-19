@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.internal.revwalk;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -24,16 +24,20 @@ import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class ObjectReachabilityTestCase
 		extends LocalDiskRepositoryTestCase {
 
 	private TestRepository<FileRepository> repo;
+
 	private AddressableRevCommit baseCommit;
+
 	private AddressableRevCommit branchACommit;
+
 	private AddressableRevCommit branchBCommit;
+
 	private AddressableRevCommit mergeCommit;
 
 	abstract ObjectReachabilityChecker getChecker(
@@ -53,7 +57,7 @@ public abstract class ObjectReachabilityTestCase
 
 	/** {@inheritDoc} */
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		FileRepository db = createWorkRepository();
@@ -62,30 +66,28 @@ public abstract class ObjectReachabilityTestCase
 	}
 
 	@Test
-	public void blob_in_base_reachable_from_branches() throws Exception {
+	void blob_in_base_reachable_from_branches() throws Exception {
 		ObjectReachabilityChecker checker = getChecker(repo);
 
 		RevObject baseBlob = baseCommit.blob;
 		assertReachable("reachable from one branch", checker.areAllReachable(
 				Arrays.asList(baseBlob), Stream.of(branchACommit.commit)));
 		assertReachable("reachable from another branch",
-				checker.areAllReachable(
-						Arrays.asList(baseBlob),
+				checker.areAllReachable(Arrays.asList(baseBlob),
 						Stream.of(branchBCommit.commit)));
 	}
 
 	@Test
-	public void blob_reachable_from_owning_commit() throws Exception {
+	void blob_reachable_from_owning_commit() throws Exception {
 		ObjectReachabilityChecker checker = getChecker(repo);
 
 		RevObject branchABlob = branchACommit.blob;
-		assertReachable("reachable from itself",
-				checker.areAllReachable(Arrays.asList(branchABlob),
-						Stream.of(branchACommit.commit)));
+		assertReachable("reachable from itself", checker.areAllReachable(
+				Arrays.asList(branchABlob), Stream.of(branchACommit.commit)));
 	}
 
 	@Test
-	public void blob_in_branch_reachable_from_merge() throws Exception {
+	void blob_in_branch_reachable_from_merge() throws Exception {
 		ObjectReachabilityChecker checker = getChecker(repo);
 
 		RevObject branchABlob = branchACommit.blob;
@@ -94,7 +96,7 @@ public abstract class ObjectReachabilityTestCase
 	}
 
 	@Test
-	public void blob_unreachable_from_earlier_commit() throws Exception {
+	void blob_unreachable_from_earlier_commit() throws Exception {
 		ObjectReachabilityChecker checker = getChecker(repo);
 
 		RevObject branchABlob = branchACommit.blob;
@@ -104,7 +106,7 @@ public abstract class ObjectReachabilityTestCase
 	}
 
 	@Test
-	public void blob_unreachable_from_parallel_branch() throws Exception {
+	void blob_unreachable_from_parallel_branch() throws Exception {
 		ObjectReachabilityChecker checker = getChecker(repo);
 
 		RevObject branchABlob = branchACommit.blob;
@@ -125,7 +127,8 @@ public abstract class ObjectReachabilityTestCase
 		repo.update("refs/heads/merge", mergeCommit.commit);
 	}
 
-	private AddressableRevCommit createCommit(String blobPath, AddressableRevCommit... parents) throws Exception {
+	private AddressableRevCommit createCommit(String blobPath,
+			AddressableRevCommit... parents) throws Exception {
 		RevBlob blob = repo.blob(blobPath + " content");
 		CommitBuilder commitBuilder = repo.commit();
 		for (int i = 0; i < parents.length; i++) {
@@ -137,11 +140,13 @@ public abstract class ObjectReachabilityTestCase
 		return new AddressableRevCommit(commit, blob);
 	}
 
-	private static void assertReachable(String msg, Optional<RevObject> result) {
-		assertFalse(msg, result.isPresent());
+	private static void assertReachable(String msg,
+			Optional<RevObject> result) {
+		assertFalse(result.isPresent(), msg);
 	}
 
-	private static void assertUnreachable(String msg, Optional<RevObject> result) {
-		assertTrue(msg, result.isPresent());
+	private static void assertUnreachable(String msg,
+			Optional<RevObject> result) {
+		assertTrue(result.isPresent(), msg);
 	}
 }

@@ -19,11 +19,13 @@ import java.io.IOException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /** Test case which includes C Git generated pack files for testing. */
 public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		copyCGitTestPacks(db);

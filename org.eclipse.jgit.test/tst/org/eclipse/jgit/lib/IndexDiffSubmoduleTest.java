@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,26 +30,22 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleWalk.IgnoreSubmoduleMode;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
-@RunWith(Theories.class)
 public class IndexDiffSubmoduleTest extends RepositoryTestCase {
+	private static final String DISPLAY_NAME = "mode=''{0}''";
+
 	/** a submodule repository inside a root repository */
 	protected FileRepository submodule_db;
 
 	/** Working directory of the submodule repository */
 	protected File submodule_trash;
 
-	@DataPoints
-	public static IgnoreSubmoduleMode allModes[] = IgnoreSubmoduleMode.values();
-
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		FileRepository submoduleStandalone = createWorkRepository();
@@ -72,7 +68,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		rootGit.commit().setMessage("add submodule and root file").call();
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testInitiallyClean(IgnoreSubmoduleMode mode)
 			throws IOException {
 		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
@@ -93,7 +90,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		return git2.getRepository();
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testCleanAfterClone(IgnoreSubmoduleMode mode) throws Exception {
 		Repository db2 = cloneWithoutCloningSubmodule();
 		IndexDiff indexDiff = new IndexDiff(db2, Constants.HEAD,
@@ -103,7 +101,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		assertFalse(changed);
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testMissingIfDirectoryGone(IgnoreSubmoduleMode mode)
 			throws Exception {
 		recursiveDelete(submodule_trash);
@@ -120,7 +119,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		}
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testSubmoduleReplacedByFile(IgnoreSubmoduleMode mode)
 			throws Exception {
 		recursiveDelete(submodule_trash);
@@ -134,7 +134,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		assertEquals("[modules/submodule]", indexDiff.getModified().toString());
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testDirtyRootWorktree(IgnoreSubmoduleMode mode)
 			throws IOException {
 		writeTrashFile("fileInRoot", "2");
@@ -158,19 +159,21 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 			}
 		}
 		if (emptyExpected) {
-			assertFalse("diff should be false with mode=" + mode,
-					diffResult);
-			assertEquals("should have no paths with FileMode.GITLINK", 0,
-					submodulePaths.size());
+			assertFalse(diffResult,
+					"diff should be false with mode=" + mode);
+			assertEquals(0,
+					submodulePaths.size(),
+					"should have no paths with FileMode.GITLINK");
 		} else {
-			assertTrue("diff should be true with mode=" + mode,
-					diffResult);
-			assertTrue("submodule path should have FileMode.GITLINK",
-					submodulePaths.contains("modules/submodule"));
+			assertTrue(diffResult,
+					"diff should be true with mode=" + mode);
+			assertTrue(submodulePaths.contains("modules/submodule"),
+					"submodule path should have FileMode.GITLINK");
 		}
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testDirtySubmoduleWorktree(IgnoreSubmoduleMode mode)
 			throws IOException {
 		JGitTestUtil.writeTrashFile(submodule_db, "fileInSubmodule", "2");
@@ -181,7 +184,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 				IgnoreSubmoduleMode.DIRTY);
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testDirtySubmoduleHEAD(IgnoreSubmoduleMode mode)
 			throws IOException, GitAPIException {
 		JGitTestUtil.writeTrashFile(submodule_db, "fileInSubmodule", "2");
@@ -195,7 +199,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		assertDiff(indexDiff, mode, IgnoreSubmoduleMode.ALL);
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testDirtySubmoduleIndex(IgnoreSubmoduleMode mode)
 			throws IOException, GitAPIException {
 		JGitTestUtil.writeTrashFile(submodule_db, "fileInSubmodule", "2");
@@ -209,7 +214,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 				IgnoreSubmoduleMode.DIRTY);
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testDirtySubmoduleIndexAndWorktree(IgnoreSubmoduleMode mode)
 			throws IOException, GitAPIException, NoWorkTreeException {
 		JGitTestUtil.writeTrashFile(submodule_db, "fileInSubmodule", "2");
@@ -224,7 +230,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 				IgnoreSubmoduleMode.DIRTY);
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testDirtySubmoduleWorktreeUntracked(IgnoreSubmoduleMode mode)
 			throws IOException {
 		JGitTestUtil.writeTrashFile(submodule_db, "additionalFileInSubmodule",
@@ -236,7 +243,8 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 				IgnoreSubmoduleMode.DIRTY, IgnoreSubmoduleMode.UNTRACKED);
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@EnumSource
 	public void testSubmoduleReplacedByMovedFile(IgnoreSubmoduleMode mode)
 			throws Exception {
 		Git git = Git.wrap(db);
@@ -265,7 +273,7 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIndexDiffTwoSubmodules() throws Exception {
+	void testIndexDiffTwoSubmodules() throws Exception {
 		// Create a second submodule
 		try (Repository submodule2 = createWorkRepository()) {
 			JGitTestUtil.writeTrashFile(submodule2, "fileInSubmodule2",

@@ -14,12 +14,12 @@ package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -45,26 +45,26 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BundleWriterTest extends SampleDataRepositoryTestCase {
 
 	@Test
-	public void testEmptyBundleFails() throws Exception {
+	void testEmptyBundleFails() throws Exception {
 		Repository newRepo = createBareRepository();
 		assertThrows(TransportException.class,
 				() -> fetchFromBundle(newRepo, new byte[0]));
 	}
 
 	@Test
-	public void testNonBundleFails() throws Exception {
+	void testNonBundleFails() throws Exception {
 		Repository newRepo = createBareRepository();
 		assertThrows(TransportException.class, () -> fetchFromBundle(newRepo,
 				"Not a bundle file".getBytes(UTF_8)));
 	}
 
 	@Test
-	public void testGarbageBundleFails() throws Exception {
+	void testGarbageBundleFails() throws Exception {
 		Repository newRepo = createBareRepository();
 		assertThrows(TransportException.class, () -> fetchFromBundle(newRepo,
 				(TransportBundle.V2_BUNDLE_SIGNATURE + '\n' + "Garbage")
@@ -72,7 +72,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testWriteSingleRef() throws Exception {
+	void testWriteSingleRef() throws Exception {
 		// Create a tiny bundle, (well one of) the first commits only
 		final byte[] bundle = makeBundle("refs/heads/firstcommit",
 				"42e4e7c5e507e113ebbb7801b16b52cf867b7ce1", null);
@@ -94,7 +94,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testWriteHEAD() throws Exception {
+	void testWriteHEAD() throws Exception {
 		byte[] bundle = makeBundle("HEAD",
 				"42e4e7c5e507e113ebbb7801b16b52cf867b7ce1", null);
 
@@ -107,7 +107,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testIncrementalBundle() throws Exception {
+	void testIncrementalBundle() throws Exception {
 		byte[] bundle;
 
 		// Create a small bundle, an early commit
@@ -151,7 +151,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testAbortWrite() throws Exception {
+	void testAbortWrite() throws Exception {
 		boolean caught = false;
 		try {
 			makeBundleWithCallback(
@@ -163,13 +163,13 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testCustomObjectReader() throws Exception {
+	void testCustomObjectReader() throws Exception {
 		String refName = "refs/heads/blob";
 		String data = "unflushed data";
 		ObjectId id;
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try (Repository repo = new InMemoryRepository(
-					new DfsRepositoryDescription("repo"));
+				new DfsRepositoryDescription("repo"));
 				ObjectInserter ins = repo.newObjectInserter();
 				ObjectReader or = ins.newReader()) {
 			id = ins.insert(OBJ_BLOB, Constants.encode(data));
@@ -186,7 +186,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		}
 
 		try (Repository repo = new InMemoryRepository(
-					new DfsRepositoryDescription("copy"))) {
+				new DfsRepositoryDescription("copy"))) {
 			fetchFromBundle(repo, out.toByteArray());
 			Ref ref = repo.exactRef(refName);
 			assertNotNull(ref);

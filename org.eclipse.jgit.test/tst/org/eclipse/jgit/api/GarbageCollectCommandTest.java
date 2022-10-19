@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 import java.util.Properties;
@@ -17,14 +17,14 @@ import java.util.Properties;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GarbageCollectCommandTest extends RepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -35,15 +35,15 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testGConeCommit() throws Exception {
+	void testGConeCommit() throws Exception {
 		Date expire = GitDateParser.parse("now", null, SystemReader
 				.getInstance().getLocale());
 		Properties res = git.gc().setExpire(expire).call();
-		assertTrue(res.size() == 8);
+		assertEquals(res.size(), 8);
 	}
 
 	@Test
-	public void testGCmoreCommits() throws Exception {
+	void testGCmoreCommits() throws Exception {
 		writeTrashFile("a.txt", "a couple of words for gc to pack");
 		writeTrashFile("b.txt", "a couple of words for gc to pack 2");
 		writeTrashFile("c.txt", "a couple of words for gc to pack 3");
@@ -57,6 +57,6 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 				.setExpire(
 						GitDateParser.parse("now", null, SystemReader
 								.getInstance().getLocale())).call();
-		assertTrue(res.size() == 8);
+		assertEquals(res.size(), 8);
 	}
 }

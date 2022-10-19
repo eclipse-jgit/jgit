@@ -10,16 +10,17 @@
 package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RawSubStringPatternTest extends RepositoryTestCase {
 
 	@Test
-	public void testBoundary() {
+	void testBoundary() {
 		assertMatchResult("a", "a", 0);
 		assertMatchResult("a", "abcd", 0);
 		assertMatchResult("ab", "abcd", 0);
@@ -32,7 +33,7 @@ public class RawSubStringPatternTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoMatches() {
+	void testNoMatches() {
 		assertMatchResult("a", "", -1);
 		assertMatchResult("a", "b", -1);
 		assertMatchResult("abab", "abaaba", -1);
@@ -40,23 +41,24 @@ public class RawSubStringPatternTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCaseInsensitive() {
+	void testCaseInsensitive() {
 		assertMatchResult("a", "A", 0);
 		assertMatchResult("A", "a", 0);
 		assertMatchResult("Ab", "aB", 0);
 		assertMatchResult("aB", "Ab", 0);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyPattern() {
-		assertNotNull(new RawSubStringPattern(""));
+	@Test
+	void testEmptyPattern() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			assertNotNull(new RawSubStringPattern(""));
+		});
 	}
 
 	private static void assertMatchResult(String pattern, String input, int position) {
 		RawSubStringPattern p = new RawSubStringPattern(pattern);
-		assertEquals("Expected match result " + position + " with input "
-				+ input + " for pattern " + pattern,
-				position, p.match(raw(input)));
+		assertEquals(position, p.match(raw(input)), "Expected match result " + position + " with input "
+				+ input + " for pattern " + pattern);
 	}
 
 	private static RawCharSequence raw(String text) {

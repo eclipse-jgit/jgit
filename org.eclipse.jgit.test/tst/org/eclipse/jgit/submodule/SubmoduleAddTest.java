@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.submodule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -35,7 +35,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link org.eclipse.jgit.api.SubmoduleAddCommand}
@@ -43,7 +43,7 @@ import org.junit.Test;
 public class SubmoduleAddTest extends RepositoryTestCase {
 
 	@Test
-	public void commandWithNullPath() throws GitAPIException {
+	void commandWithNullPath() throws GitAPIException {
 		try {
 			new SubmoduleAddCommand(db).setURI("uri").call().close();
 			fail("Exception not thrown");
@@ -53,7 +53,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commandWithEmptyPath() throws GitAPIException {
+	void commandWithEmptyPath() throws GitAPIException {
 		try {
 			new SubmoduleAddCommand(db).setPath("").setURI("uri").call()
 					.close();
@@ -64,7 +64,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commandWithNullUri() throws GitAPIException {
+	void commandWithNullUri() throws GitAPIException {
 		try {
 			new SubmoduleAddCommand(db).setPath("sub").call().close();
 			fail("Exception not thrown");
@@ -74,7 +74,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void commandWithEmptyUri() throws GitAPIException {
+	void commandWithEmptyUri() throws GitAPIException {
 		try {
 			new SubmoduleAddCommand(db).setPath("sub").setURI("").call()
 					.close();
@@ -85,7 +85,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void addSubmodule() throws Exception {
+	void addSubmodule() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -123,7 +123,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void addSubmoduleWithName() throws Exception {
+	void addSubmoduleWithName() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -163,7 +163,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void addExistentSubmodule() throws Exception {
+	void addExistentSubmodule() throws Exception {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -193,7 +193,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void addSubmoduleWithInvalidPath() throws Exception {
+	void addSubmoduleWithInvalidPath() throws Exception {
 		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
 		command.setPath("-invalid-path");
 		command.setName("sub");
@@ -208,7 +208,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void addSubmoduleWithInvalidUri() throws Exception {
+	void addSubmoduleWithInvalidUri() throws Exception {
 		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
 		command.setPath("valid-path");
 		command.setURI("-upstream");
@@ -221,7 +221,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void addSubmoduleWithRelativeUri() throws Exception {
+	void addSubmoduleWithRelativeUri() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
@@ -265,7 +265,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void addSubmoduleWithExistingSubmoduleDefined() throws Exception {
+	void addSubmoduleWithExistingSubmoduleDefined() throws Exception {
 		String path1 = "sub1";
 		String url1 = "git://server/repo1.git";
 		String path2 = "sub2";
@@ -308,7 +308,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void denySubmoduleWithDotDot() throws Exception {
+	void denySubmoduleWithDotDot() throws Exception {
 		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
 		command.setName("dir/../");
 		command.setPath("sub");

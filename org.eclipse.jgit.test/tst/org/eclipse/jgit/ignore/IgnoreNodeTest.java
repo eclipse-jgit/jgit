@@ -11,10 +11,10 @@ package org.eclipse.jgit.ignore;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.junit.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -30,8 +30,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests ignore node behavior on the local filesystem.
@@ -47,7 +47,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 
 	private TreeWalk walk;
 
-	@After
+	@AfterEach
 	public void closeWalk() {
 		if (walk != null) {
 			walk.close();
@@ -55,7 +55,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreGlobalIgnore() throws IOException {
+	void testSimpleRootGitIgnoreGlobalIgnore() throws IOException {
 		writeIgnoreFile(".gitignore", "x");
 
 		writeTrashFile("a/x/file", "");
@@ -75,7 +75,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreGlobalDirIgnore() throws IOException {
+	void testSimpleRootGitIgnoreGlobalDirIgnore() throws IOException {
 		writeIgnoreFile(".gitignore", "x/");
 
 		writeTrashFile("a/x/file", "");
@@ -92,7 +92,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreWildMatcher() throws IOException {
+	void testSimpleRootGitIgnoreWildMatcher() throws IOException {
 		writeIgnoreFile(".gitignore", "**");
 
 		writeTrashFile("a/x", "");
@@ -107,7 +107,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreWildMatcherDirOnly() throws IOException {
+	void testSimpleRootGitIgnoreWildMatcherDirOnly() throws IOException {
 		writeIgnoreFile(".gitignore", "**/");
 
 		writeTrashFile("a/x", "");
@@ -122,7 +122,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreGlobalNegation1() throws IOException {
+	void testSimpleRootGitIgnoreGlobalNegation1() throws IOException {
 		writeIgnoreFile(".gitignore", "*", "!x*");
 		writeTrashFile("x1", "");
 		writeTrashFile("a/x2", "");
@@ -139,7 +139,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreGlobalNegation2() throws IOException {
+	void testSimpleRootGitIgnoreGlobalNegation2() throws IOException {
 		writeIgnoreFile(".gitignore", "*", "!x*", "!/a");
 		writeTrashFile("x1", "");
 		writeTrashFile("a/x2", "");
@@ -156,7 +156,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreGlobalNegation3() throws IOException {
+	void testSimpleRootGitIgnoreGlobalNegation3() throws IOException {
 		writeIgnoreFile(".gitignore", "*", "!x*", "!x*/**");
 		writeTrashFile("x1", "");
 		writeTrashFile("a/x2", "");
@@ -173,7 +173,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreGlobalNegation4() throws IOException {
+	void testSimpleRootGitIgnoreGlobalNegation4() throws IOException {
 		writeIgnoreFile(".gitignore", "*", "!**/");
 		writeTrashFile("x1", "");
 		writeTrashFile("a/x2", "");
@@ -190,7 +190,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRules() throws IOException {
+	void testRules() throws IOException {
 		writeIgnoreFile(".git/info/exclude", "*~", "/out");
 
 		writeIgnoreFile(".gitignore", "*.o", "/config");
@@ -230,7 +230,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNegation() throws IOException {
+	void testNegation() throws IOException {
 		// ignore all *.o files and ignore all "d" directories
 		writeIgnoreFile(".gitignore", "*.o", "d");
 
@@ -269,7 +269,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=407475
 	 */
 	@Test
-	public void testNegateAllExceptJavaInSrc() throws IOException {
+	void testNegateAllExceptJavaInSrc() throws IOException {
 		// ignore all files except from src directory
 		writeIgnoreFile(".gitignore", "/*", "!/src/");
 		writeTrashFile("nothere.o", "");
@@ -297,7 +297,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=407475
 	 */
 	@Test
-	public void testNegationAllExceptJavaInSrcAndExceptChildDirInSrc()
+	void testNegationAllExceptJavaInSrcAndExceptChildDirInSrc()
 			throws IOException {
 		// ignore all files except from src directory
 		writeIgnoreFile(".gitignore", "/*", "!/src/");
@@ -329,7 +329,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=448094
 	 */
 	@Test
-	public void testRepeatedNegation() throws IOException {
+	void testRepeatedNegation() throws IOException {
 		writeIgnoreFile(".gitignore", "e", "!e", "e", "!e", "e");
 
 		writeTrashFile("e/nothere.o", "");
@@ -345,7 +345,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=448094
 	 */
 	@Test
-	public void testRepeatedNegationInDifferentFiles1() throws IOException {
+	void testRepeatedNegationInDifferentFiles1() throws IOException {
 		writeIgnoreFile(".gitignore", "*.o", "e");
 
 		writeIgnoreFile("e/.gitignore", "!e");
@@ -363,7 +363,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=448094
 	 */
 	@Test
-	public void testRepeatedNegationInDifferentFiles2() throws IOException {
+	void testRepeatedNegationInDifferentFiles2() throws IOException {
 		writeIgnoreFile(".gitignore", "*.o", "e");
 
 		writeIgnoreFile("a/.gitignore", "!e");
@@ -382,7 +382,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=448094
 	 */
 	@Test
-	public void testRepeatedNegationInDifferentFiles3() throws IOException {
+	void testRepeatedNegationInDifferentFiles3() throws IOException {
 		writeIgnoreFile(".gitignore", "*.o");
 
 		writeIgnoreFile("a/.gitignore", "e");
@@ -401,7 +401,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepeatedNegationInDifferentFiles4() throws IOException {
+	void testRepeatedNegationInDifferentFiles4() throws IOException {
 		writeIgnoreFile(".gitignore", "*.o");
 
 		writeIgnoreFile("a/.gitignore", "e");
@@ -425,7 +425,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepeatedNegationInDifferentFiles5() throws IOException {
+	void testRepeatedNegationInDifferentFiles5() throws IOException {
 		writeIgnoreFile(".gitignore", "e");
 		writeIgnoreFile("a/.gitignore", "e");
 		writeIgnoreFile("a/b/.gitignore", "!e");
@@ -443,7 +443,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIneffectiveNegationDifferentLevels1() throws IOException {
+	void testIneffectiveNegationDifferentLevels1() throws IOException {
 		writeIgnoreFile(".gitignore", "a/b/e/", "!a/b/e/*");
 		writeTrashFile("a/b/e/nothere.o", "");
 
@@ -457,7 +457,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIneffectiveNegationDifferentLevels2() throws IOException {
+	void testIneffectiveNegationDifferentLevels2() throws IOException {
 		writeIgnoreFile(".gitignore", "a/b/e/");
 		writeIgnoreFile("a/.gitignore", "!b/e/*");
 		writeTrashFile("a/b/e/nothere.o", "");
@@ -473,7 +473,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIneffectiveNegationDifferentLevels3() throws IOException {
+	void testIneffectiveNegationDifferentLevels3() throws IOException {
 		writeIgnoreFile(".gitignore", "a/b/e/");
 		writeIgnoreFile("a/b/.gitignore", "!e/*");
 		writeTrashFile("a/b/e/nothere.o", "");
@@ -489,7 +489,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIneffectiveNegationDifferentLevels4() throws IOException {
+	void testIneffectiveNegationDifferentLevels4() throws IOException {
 		writeIgnoreFile(".gitignore", "a/b/e/");
 		writeIgnoreFile("a/b/e/.gitignore", "!*");
 		writeTrashFile("a/b/e/nothere.o", "");
@@ -505,7 +505,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIneffectiveNegationDifferentLevels5() throws IOException {
+	void testIneffectiveNegationDifferentLevels5() throws IOException {
 		writeIgnoreFile("a/.gitignore", "b/e/");
 		writeIgnoreFile("a/b/.gitignore", "!e/*");
 		writeTrashFile("a/b/e/nothere.o", "");
@@ -521,7 +521,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyIgnoreRules() throws IOException {
+	void testEmptyIgnoreRules() throws IOException {
 		IgnoreNode node = new IgnoreNode();
 		node.parse(writeToString("", "#", "!", "[[=a=]]"));
 		assertEquals(new ArrayList<>(), node.getRules());
@@ -530,7 +530,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSlashOnlyMatchesDirectory() throws IOException {
+	void testSlashOnlyMatchesDirectory() throws IOException {
 		writeIgnoreFile(".gitignore", "out/");
 		writeTrashFile("out", "");
 
@@ -549,7 +549,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSlashMatchesDirectory() throws IOException {
+	void testSlashMatchesDirectory() throws IOException {
 		writeIgnoreFile(".gitignore", "out2/");
 
 		writeTrashFile("out1/out1", "");
@@ -569,7 +569,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWildcardWithSlashMatchesDirectory() throws IOException {
+	void testWildcardWithSlashMatchesDirectory() throws IOException {
 		writeIgnoreFile(".gitignore", "out2*/");
 
 		writeTrashFile("out1/out1.txt", "");
@@ -599,7 +599,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWithSlashDoesNotMatchInSubDirectory() throws IOException {
+	void testWithSlashDoesNotMatchInSubDirectory() throws IOException {
 		writeIgnoreFile(".gitignore", "a/b");
 		writeTrashFile("a/a", "");
 		writeTrashFile("a/b", "");
@@ -619,7 +619,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoPatterns() throws IOException {
+	void testNoPatterns() throws IOException {
 		writeIgnoreFile(".gitignore", "", " ", "# comment", "/");
 		writeTrashFile("a/a", "");
 
@@ -631,7 +631,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLeadingSpaces() throws IOException {
+	void testLeadingSpaces() throws IOException {
 		writeTrashFile("  a/  a", "");
 		writeTrashFile("  a/ a", "");
 		writeTrashFile("  a/a", "");
@@ -661,10 +661,10 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTrailingSpaces() throws IOException {
+	void testTrailingSpaces() throws IOException {
 		// Windows can't create files with trailing spaces
 		// If this assumption fails the test is halted and ignored.
-		org.junit.Assume.assumeFalse(SystemReader.getInstance().isWindows());
+		org.junit.jupiter.api.Assumptions.assumeFalse(SystemReader.getInstance().isWindows());
 		writeTrashFile("a  /a", "");
 		writeTrashFile("a  /a ", "");
 		writeTrashFile("a  /a  ", "");
@@ -698,7 +698,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testToString() throws Exception {
+	void testToString() throws Exception {
 		assertEquals(Arrays.asList("").toString(), new IgnoreNode().toString());
 		assertEquals(Arrays.asList("hello").toString(),
 				new IgnoreNode(Arrays.asList(new FastIgnoreRule("hello")))
@@ -713,17 +713,17 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	private void endWalk() throws IOException {
-		assertFalse("Not all files tested", walk.next());
+		assertFalse(walk.next(), "Not all files tested");
 	}
 
 	private void assertEntry(FileMode type, boolean entryIgnored,
 			String pathName) throws IOException {
-		assertTrue("walk has entry", walk.next());
+		assertTrue(walk.next(), "walk has entry");
 		assertEquals(pathName, walk.getPathString());
 		assertEquals(type, walk.getFileMode(0));
 
 		WorkingTreeIterator itr = walk.getTree(0, WorkingTreeIterator.class);
-		assertNotNull("has tree", itr);
+		assertNotNull(itr, "has tree");
 		assertEquals("is ignored", entryIgnored, itr.isEntryIgnored());
 		if (D.equals(type))
 			walk.enterSubtree();

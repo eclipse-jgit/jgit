@@ -43,13 +43,13 @@
 package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
@@ -66,8 +66,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Test for push certificate parsing. */
 public class PushCertificateParserTest {
@@ -119,7 +119,7 @@ public class PushCertificateParserTest {
 
 	private Repository db;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		db = new InMemoryRepository(new DfsRepositoryDescription("repo"));
 	}
@@ -135,7 +135,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void noCert() throws Exception {
+	void noCert() throws Exception {
 		PushCertificateParser parser =
 				new PushCertificateParser(db, newEnabledConfig());
 		assertTrue(parser.enabled());
@@ -153,7 +153,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void disabled() throws Exception {
+	void disabled() throws Exception {
 		PacketLineIn pckIn = newPacketLineIn(INPUT);
 		PushCertificateParser parser =
 				new PushCertificateParser(db, newDisabledConfig());
@@ -168,7 +168,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void disabledParserStillRequiresCorrectSyntax() throws Exception {
+	void disabledParserStillRequiresCorrectSyntax() throws Exception {
 		PacketLineIn pckIn = newPacketLineIn("001ccertificate version XYZ\n");
 		PushCertificateParser parser =
 				new PushCertificateParser(db, newDisabledConfig());
@@ -179,14 +179,14 @@ public class PushCertificateParserTest {
 		} catch (PackProtocolException e) {
 			assertEquals(
 					"Push certificate has missing or invalid value for certificate"
-						+ " version: XYZ",
+							+ " version: XYZ",
 					e.getMessage());
 		}
 		assertNull(parser.build());
 	}
 
 	@Test
-	public void parseCertFromPktLine() throws Exception {
+	void parseCertFromPktLine() throws Exception {
 		PacketLineIn pckIn = newPacketLineIn(INPUT);
 		PushCertificateParser parser =
 				new PushCertificateParser(db, newEnabledConfig());
@@ -225,7 +225,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void parseCertFromPktLineNoNewlines() throws Exception {
+	void parseCertFromPktLineNoNewlines() throws Exception {
 		PacketLineIn pckIn = newPacketLineIn(INPUT_NO_NEWLINES);
 		PushCertificateParser parser =
 				new PushCertificateParser(db, newEnabledConfig());
@@ -264,7 +264,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void testConcatPacketLines() throws Exception {
+	void testConcatPacketLines() throws Exception {
 		String input = "000bline 1\n000bline 2\n000bline 3\n";
 		assertEquals("line 1\n", concatPacketLines(input, 0, 1));
 		assertEquals("line 1\nline 2\n", concatPacketLines(input, 0, 2));
@@ -273,7 +273,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void testConcatPacketLinesInsertsNewlines() throws Exception {
+	void testConcatPacketLinesInsertsNewlines() throws Exception {
 		String input = "000bline 1\n000aline 2000bline 3\n";
 		assertEquals("line 1\n", concatPacketLines(input, 0, 1));
 		assertEquals("line 1\nline 2\n", concatPacketLines(input, 0, 2));
@@ -282,7 +282,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void testParseReader() throws Exception {
+	void testParseReader() throws Exception {
 		Reader reader = new StringReader(concatPacketLines(INPUT, 0, 18));
 		PushCertificate streamCert = PushCertificateParser.fromReader(reader);
 
@@ -322,7 +322,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void testParseString() throws Exception {
+	void testParseString() throws Exception {
 		String str = concatPacketLines(INPUT, 0, 18);
 		assertEquals(
 				PushCertificateParser.fromReader(new StringReader(str)),
@@ -330,7 +330,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void testParseMultipleFromStream() throws Exception {
+	void testParseMultipleFromStream() throws Exception {
 		String input = concatPacketLines(INPUT, 0, 17);
 		assertFalse(input.contains(PushCertificateParser.END_CERT));
 		input += input;
@@ -344,7 +344,7 @@ public class PushCertificateParserTest {
 	}
 
 	@Test
-	public void testMissingPusheeField() throws Exception {
+	void testMissingPusheeField() throws Exception {
 		// Omit pushee line from existing cert. (This means the signature would not
 		// match, but we're not verifying it here.)
 		String input = INPUT.replace("0024pushee git://localhost/repo.git\n", "");

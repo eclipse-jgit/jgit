@@ -10,17 +10,17 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectIdRefTest {
 	private static final ObjectId ID_A = ObjectId
@@ -32,18 +32,18 @@ public class ObjectIdRefTest {
 	private static final String name = "refs/heads/a.test.ref";
 
 	@Test
-	public void testConstructor_PeeledStatusNotKnown() {
+	void testConstructor_PeeledStatusNotKnown() {
 		ObjectIdRef r;
 
 		r = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A);
 		assertSame(Ref.Storage.LOOSE, r.getStorage());
 		assertSame(name, r.getName());
 		assertSame(ID_A, r.getObjectId());
-		assertFalse("not peeled", r.isPeeled());
-		assertNull("no peel id", r.getPeeledObjectId());
-		assertSame("leaf is this", r, r.getLeaf());
-		assertSame("target is this", r, r.getTarget());
-		assertFalse("not symbolic", r.isSymbolic());
+		assertFalse(r.isPeeled(), "not peeled");
+		assertNull(r.getPeeledObjectId(), "no peel id");
+		assertSame(r, r.getLeaf(), "leaf is this");
+		assertSame(r, r.getTarget(), "target is this");
+		assertFalse(r.isSymbolic(), "not symbolic");
 
 		r = new ObjectIdRef.Unpeeled(Ref.Storage.PACKED, name, ID_A);
 		assertSame(Ref.Storage.PACKED, r.getStorage());
@@ -54,53 +54,53 @@ public class ObjectIdRefTest {
 		r = new ObjectIdRef.Unpeeled(Ref.Storage.NEW, name, null);
 		assertSame(Ref.Storage.NEW, r.getStorage());
 		assertSame(name, r.getName());
-		assertNull("no id on new ref", r.getObjectId());
-		assertFalse("not peeled", r.isPeeled());
-		assertNull("no peel id", r.getPeeledObjectId());
-		assertSame("leaf is this", r, r.getLeaf());
-		assertSame("target is this", r, r.getTarget());
-		assertFalse("not symbolic", r.isSymbolic());
+		assertNull(r.getObjectId(), "no id on new ref");
+		assertFalse(r.isPeeled(), "not peeled");
+		assertNull(r.getPeeledObjectId(), "no peel id");
+		assertSame(r, r.getLeaf(), "leaf is this");
+		assertSame(r, r.getTarget(), "target is this");
+		assertFalse(r.isSymbolic(), "not symbolic");
 	}
 
 	@Test
-	public void testConstructor_Peeled() {
+	void testConstructor_Peeled() {
 		ObjectIdRef r;
 
 		r = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A);
 		assertSame(Ref.Storage.LOOSE, r.getStorage());
 		assertSame(name, r.getName());
 		assertSame(ID_A, r.getObjectId());
-		assertFalse("not peeled", r.isPeeled());
-		assertNull("no peel id", r.getPeeledObjectId());
-		assertSame("leaf is this", r, r.getLeaf());
-		assertSame("target is this", r, r.getTarget());
-		assertFalse("not symbolic", r.isSymbolic());
+		assertFalse(r.isPeeled(), "not peeled");
+		assertNull(r.getPeeledObjectId(), "no peel id");
+		assertSame(r, r.getLeaf(), "leaf is this");
+		assertSame(r, r.getTarget(), "target is this");
+		assertFalse(r.isSymbolic(), "not symbolic");
 
 		r = new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE, name, ID_A);
-		assertTrue("is peeled", r.isPeeled());
-		assertNull("no peel id", r.getPeeledObjectId());
+		assertTrue(r.isPeeled(), "is peeled");
+		assertNull(r.getPeeledObjectId(), "no peel id");
 
 		r = new ObjectIdRef.PeeledTag(Ref.Storage.LOOSE, name, ID_A, ID_B);
-		assertTrue("is peeled", r.isPeeled());
+		assertTrue(r.isPeeled(), "is peeled");
 		assertSame(ID_B, r.getPeeledObjectId());
 	}
 
 	@Test
-	public void testUpdateIndex() {
+	void testUpdateIndex() {
 		ObjectIdRef r;
 
 		r = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A, 3);
-		assertTrue(r.getUpdateIndex() == 3);
+		assertEquals(r.getUpdateIndex(), 3);
 
 		r = new ObjectIdRef.PeeledTag(Ref.Storage.LOOSE, name, ID_A, ID_B, 4);
-		assertTrue(r.getUpdateIndex() == 4);
+		assertEquals(r.getUpdateIndex(), 4);
 
 		r = new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE, name, ID_A, 5);
-		assertTrue(r.getUpdateIndex() == 5);
+		assertEquals(r.getUpdateIndex(), 5);
 	}
 
 	@Test
-	public void testUpdateIndexNotSet() {
+	void testUpdateIndexNotSet() {
 		List<ObjectIdRef> r = Arrays.asList(
 				new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A),
 				new ObjectIdRef.PeeledTag(Ref.Storage.LOOSE, name, ID_A, ID_B),
@@ -118,7 +118,7 @@ public class ObjectIdRefTest {
 
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		ObjectIdRef r;
 
 		r = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A);

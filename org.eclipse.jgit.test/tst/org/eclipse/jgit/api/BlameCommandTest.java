@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link BlameCommand}
@@ -40,9 +40,9 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSingleRevision() throws Exception {
+	void testSingleRevision() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content = new String[] { "first", "second", "third" };
+			String[] content = new String[]{"first", "second", "third"};
 
 			writeTrashFile("file.txt", join(content));
 			git.add().addFilepattern("file.txt").call();
@@ -62,14 +62,14 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTwoRevisions() throws Exception {
+	void testTwoRevisions() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = new String[] { "first", "second" };
+			String[] content1 = new String[]{"first", "second"};
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit1 = git.commit().setMessage("create file").call();
 
-			String[] content2 = new String[] { "first", "second", "third" };
+			String[] content2 = new String[]{"first", "second", "third"};
 			writeTrashFile("file.txt", join(content2));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit2 = git.commit().setMessage("create file").call();
@@ -91,17 +91,17 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRename() throws Exception {
+	void testRename() throws Exception {
 		testRename("file1.txt", "file2.txt");
 	}
 
 	@Test
-	public void testRenameInSubDir() throws Exception {
+	void testRenameInSubDir() throws Exception {
 		testRename("subdir/file1.txt", "subdir/file2.txt");
 	}
 
 	@Test
-	public void testMoveToOtherDir() throws Exception {
+	void testMoveToOtherDir() throws Exception {
 		testRename("subdir/file1.txt", "otherdir/file1.txt");
 	}
 
@@ -143,10 +143,10 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTwoRenames() throws Exception {
+	void testTwoRenames() throws Exception {
 		try (Git git = new Git(db)) {
 			// Commit 1: Add file.txt
-			String[] content1 = new String[] { "a" };
+			String[] content1 = new String[]{"a"};
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit commit1 = git.commit().setMessage("create file").call();
@@ -158,7 +158,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 			git.commit().setMessage("moving file").call();
 
 			// Commit 3: Edit file1.txt
-			String[] content2 = new String[] { "a", "b" };
+			String[] content2 = new String[]{"a", "b"};
 			writeTrashFile("file1.txt", join(content2));
 			git.add().addFilepattern("file1.txt").call();
 			RevCommit commit3 = git.commit().setMessage("editing file").call();
@@ -185,10 +185,10 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteTrailingLines() throws Exception {
+	void testDeleteTrailingLines() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = new String[] { "a", "b", "c", "d" };
-			String[] content2 = new String[] { "a", "b" };
+			String[] content1 = new String[]{"a", "b", "c", "d"};
+			String[] content2 = new String[]{"a", "b"};
 
 			writeTrashFile("file.txt", join(content2));
 			git.add().addFilepattern("file.txt").call();
@@ -217,10 +217,10 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteMiddleLines() throws Exception {
+	void testDeleteMiddleLines() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = new String[] { "a", "b", "c", "d", "e" };
-			String[] content2 = new String[] { "a", "c", "e" };
+			String[] content1 = new String[]{"a", "b", "c", "d", "e"};
+			String[] content2 = new String[]{"a", "c", "e"};
 
 			writeTrashFile("file.txt", join(content2));
 			git.add().addFilepattern("file.txt").call();
@@ -252,10 +252,10 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEditAllLines() throws Exception {
+	void testEditAllLines() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = new String[] { "a", "1" };
-			String[] content2 = new String[] { "b", "2" };
+			String[] content1 = new String[]{"a", "1"};
+			String[] content2 = new String[]{"b", "2"};
 
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
@@ -276,9 +276,9 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMiddleClearAllLines() throws Exception {
+	void testMiddleClearAllLines() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = new String[] { "a", "b", "c" };
+			String[] content1 = new String[]{"a", "b", "c"};
 
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
@@ -304,27 +304,27 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCoreAutoCrlf1() throws Exception {
+	void testCoreAutoCrlf1() throws Exception {
 		testCoreAutoCrlf(AutoCRLF.INPUT, AutoCRLF.FALSE);
 	}
 
 	@Test
-	public void testCoreAutoCrlf2() throws Exception {
+	void testCoreAutoCrlf2() throws Exception {
 		testCoreAutoCrlf(AutoCRLF.FALSE, AutoCRLF.FALSE);
 	}
 
 	@Test
-	public void testCoreAutoCrlf3() throws Exception {
+	void testCoreAutoCrlf3() throws Exception {
 		testCoreAutoCrlf(AutoCRLF.INPUT, AutoCRLF.INPUT);
 	}
 
 	@Test
-	public void testCoreAutoCrlf4() throws Exception {
+	void testCoreAutoCrlf4() throws Exception {
 		testCoreAutoCrlf(AutoCRLF.FALSE, AutoCRLF.INPUT);
 	}
 
 	@Test
-	public void testCoreAutoCrlf5() throws Exception {
+	void testCoreAutoCrlf5() throws Exception {
 		testCoreAutoCrlf(AutoCRLF.INPUT, AutoCRLF.TRUE);
 	}
 
@@ -360,7 +360,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testConflictingMerge1() throws Exception {
+	void testConflictingMerge1() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
 					"master");
@@ -396,7 +396,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 	// this test inverts the order of the master and side commit and is
 	// otherwise identical to testConflictingMerge1
 	@Test
-	public void testConflictingMerge2() throws Exception {
+	void testConflictingMerge2() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
 					"master");
@@ -430,7 +430,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUnresolvedMergeConflict() throws Exception {
+	void testUnresolvedMergeConflict() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit base = commitFile("file.txt", "Origin\n", "master");
 
@@ -446,8 +446,8 @@ public class BlameCommandTest extends RepositoryTestCase {
 			MergeResult result = git.merge().include(side).call();
 
 			// The merge results in a conflict, which we do not resolve
-			assertTrue("Expected a conflict",
-					result.getConflicts().containsKey("file.txt"));
+			assertTrue(result.getConflicts().containsKey("file.txt"),
+					"Expected a conflict");
 
 			BlameCommand command = new BlameCommand(db);
 			command.setFilePath("file.txt");
@@ -463,7 +463,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWhitespaceMerge() throws Exception {
+	void testWhitespaceMerge() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit base = commitFile("file.txt", join("0", "1", "2"), "master");
 			RevCommit side = commitFile("file.txt", join("0", "1", "   2 side  "),
@@ -493,31 +493,31 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBlameWithNulByteInHistory() throws Exception {
+	void testBlameWithNulByteInHistory() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = { "First line", "Another line" };
+			String[] content1 = {"First line", "Another line"};
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c1 = git.commit().setMessage("create file").call();
 
-			String[] content2 = { "First line", "Second line with NUL >\000<",
-					"Another line" };
-			assertTrue("Content should contain a NUL byte",
-					content2[1].indexOf(0) > 0);
+			String[] content2 = {"First line", "Second line with NUL >\000<",
+					"Another line"};
+			assertTrue(content2[1].indexOf(0) > 0,
+					"Content should contain a NUL byte");
 			writeTrashFile("file.txt", join(content2));
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("add line with NUL").call();
 
-			String[] content3 = { "First line", "Second line with NUL >\000<",
-					"Third line" };
+			String[] content3 = {"First line", "Second line with NUL >\000<",
+					"Third line"};
 			writeTrashFile("file.txt", join(content3));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c3 = git.commit().setMessage("change third line").call();
 
-			String[] content4 = { "First line", "Second line with NUL >\\000<",
-					"Third line" };
-			assertTrue("Content should not contain a NUL byte",
-					content4[1].indexOf(0) < 0);
+			String[] content4 = {"First line", "Second line with NUL >\\000<",
+					"Third line"};
+			assertTrue(content4[1].indexOf(0) < 0,
+					"Content should not contain a NUL byte");
 			writeTrashFile("file.txt", join(content4));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c4 = git.commit().setMessage("fix NUL line").call();
@@ -531,23 +531,23 @@ public class BlameCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBlameWithNulByteInTopRevision() throws Exception {
+	void testBlameWithNulByteInTopRevision() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = { "First line", "Another line" };
+			String[] content1 = {"First line", "Another line"};
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c1 = git.commit().setMessage("create file").call();
 
-			String[] content2 = { "First line", "Second line with NUL >\000<",
-					"Another line" };
-			assertTrue("Content should contain a NUL byte",
-					content2[1].indexOf(0) > 0);
+			String[] content2 = {"First line", "Second line with NUL >\000<",
+					"Another line"};
+			assertTrue(content2[1].indexOf(0) > 0,
+					"Content should contain a NUL byte");
 			writeTrashFile("file.txt", join(content2));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c2 = git.commit().setMessage("add line with NUL").call();
 
-			String[] content3 = { "First line", "Second line with NUL >\000<",
-					"Third line" };
+			String[] content3 = {"First line", "Second line with NUL >\000<",
+					"Third line"};
 			writeTrashFile("file.txt", join(content3));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c3 = git.commit().setMessage("change third line").call();

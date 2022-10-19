@@ -12,18 +12,18 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ReflogConfigTest extends RepositoryTestCase {
 	@Test
-	public void testlogAllRefUpdates() throws Exception {
+	void testlogAllRefUpdates() throws Exception {
 		long commitTime = 1154236443000L;
 		int tz = -4 * 60;
 
@@ -39,8 +39,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// written
 		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
-		assertTrue("Reflog for HEAD still contain no entry", db
-				.getReflogReader(Constants.HEAD).getReverseEntries().isEmpty());
+		assertTrue(db
+				.getReflogReader(Constants.HEAD).getReverseEntries().isEmpty(), "Reflog for HEAD still contain no entry");
 
 		// set the logAllRefUpdates parameter to true and check it
 		cfg.setBoolean("core", null, "logallrefupdates", true);
@@ -53,9 +53,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// do one commit and check that reflog size is increased to 1
 		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
-		assertTrue(
-				"Reflog for HEAD should contain one entry",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 1);
+		assertEquals(db.getReflogReader(Constants.HEAD).getReverseEntries().size(), 1, "Reflog for HEAD should contain one entry");
 
 		// set the logAllRefUpdates parameter to false and check it
 		cfg.setBoolean("core", null, "logallrefupdates", false);
@@ -68,9 +66,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// do one commit and check that reflog size is 2
 		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
-		assertTrue(
-				"Reflog for HEAD should contain two entries",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
+		assertEquals(db.getReflogReader(Constants.HEAD).getReverseEntries().size(), 2, "Reflog for HEAD should contain two entries");
 
 		// set the logAllRefUpdates parameter to false and check it
 		cfg.setEnum("core", null, "logallrefupdates",
@@ -83,9 +79,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// do one commit and check that reflog size is 3
 		commit("A Commit\n", commitTime, tz);
-		assertTrue("Reflog for HEAD should contain three entries",
-				db.getReflogReader(Constants.HEAD).getReverseEntries()
-						.size() == 3);
+		assertEquals(db.getReflogReader(Constants.HEAD).getReverseEntries()
+				.size(), 3, "Reflog for HEAD should contain three entries");
 	}
 
 	private void commit(String commitMsg, long commitTime, int tz)

@@ -9,44 +9,37 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.eclipse.jgit.junit.MockSystemReader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests which assert that unparseable Strings lead to ParseExceptions
  */
-@RunWith(Theories.class)
 public class GitDateParserBadlyFormattedTest {
-	private String dateStr;
 
-	@Before
+	private static final String DISPLAY_NAME = "dateStr=''{0}''";
+
+	@BeforeEach
 	public void setUp() {
 		MockSystemReader mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		SystemReader.setInstance(null);
 	}
 
-	public GitDateParserBadlyFormattedTest(String dateStr) {
-		this.dateStr = dateStr;
-	}
-
-	@DataPoints
-	public static String[] getDataPoints() {
+	private static String[] getDataPoints() {
 		return new String[] { "", "1970", "3000.3000.3000", "3 yesterday ago",
 				"now yesterday ago", "yesterdays", "3.day. 2.week.ago",
 				"day ago", "Gra Feb 21 15:35:00 2007 +0100",
@@ -54,8 +47,9 @@ public class GitDateParserBadlyFormattedTest {
 				"Wed Feb 21 15:35:00 Grand +0100" };
 	}
 
-	@Theory
-	public void badlyFormattedWithExplicitRef() {
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@MethodSource("getDataPoints")
+	public void badlyFormattedWithExplicitRef(String dateStr) {
 		Calendar ref = new GregorianCalendar(SystemReader.getInstance()
 				.getTimeZone(), SystemReader.getInstance().getLocale());
 		try {
@@ -68,8 +62,9 @@ public class GitDateParserBadlyFormattedTest {
 		}
 	}
 
-	@Theory
-	public void badlyFormattedWithoutRef() {
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@MethodSource("getDataPoints")
+	public void badlyFormattedWithoutRef(String dateStr) {
 		try {
 			GitDateParser.parse(dateStr, null, SystemReader.getInstance()
 					.getLocale());

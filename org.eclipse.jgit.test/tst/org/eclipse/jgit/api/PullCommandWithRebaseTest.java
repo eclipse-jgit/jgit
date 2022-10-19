@@ -10,11 +10,12 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -39,8 +40,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	/** Second Test repository */
@@ -55,7 +56,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	private File targetFile;
 
 	@Test
-	public void testPullFastForward() throws Exception {
+	void testPullFastForward() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
@@ -81,7 +82,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullFastForwardWithBranchInSource() throws Exception {
+	void testPullFastForwardWithBranchInSource() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
@@ -117,7 +118,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullFastForwardDetachedHead() throws Exception {
+	void testPullFastForwardDetachedHead() throws Exception {
 		Repository repository = source.getRepository();
 		writeToFile(sourceFile, "2nd commit");
 		source.add().addFilepattern("SomeFile.txt").call();
@@ -129,12 +130,13 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 			Ref initialRef = repository.findRef(Constants.HEAD);
 			RevCommit initialCommit = revWalk
 					.parseCommit(initialRef.getObjectId());
-			assertEquals("this test need linear history", 1,
-					initialCommit.getParentCount());
+			assertEquals(1,
+					initialCommit.getParentCount(),
+					"this test need linear history");
 			source.checkout().setName(initialCommit.getParent(0).getName())
 					.call();
-			assertFalse("expected detached HEAD",
-					repository.getFullBranch().startsWith(Constants.R_HEADS));
+			assertFalse(repository.getFullBranch().startsWith(Constants.R_HEADS),
+					"expected detached HEAD");
 
 			// change and commit another file
 			File otherFile = new File(sourceFile.getParentFile(),
@@ -168,7 +170,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullConflict() throws Exception {
+	void testPullConflict() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
@@ -205,7 +207,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullLocalConflict() throws Exception {
+	void testPullLocalConflict() throws Exception {
 		target.branchCreate().setName("basedOnMaster").setStartPoint(
 				"refs/heads/master").setUpstreamMode(SetupUpstreamMode.NOTRACK)
 				.call();
@@ -249,12 +251,12 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 				.getRepository().getRepositoryState());
 	}
 
-    @Test
-	public void testPullFastForwardWithLocalCommitAndRebaseFlagSet() throws Exception {
+	@Test
+	void testPullFastForwardWithLocalCommitAndRebaseFlagSet() throws Exception {
 		final String SOURCE_COMMIT_MESSAGE = "Source commit message for rebase flag test";
 		final String TARGET_COMMIT_MESSAGE = "Target commit message for rebase flag test";
 
-		assertFalse(SOURCE_COMMIT_MESSAGE.equals(TARGET_COMMIT_MESSAGE));
+		assertNotEquals(SOURCE_COMMIT_MESSAGE, TARGET_COMMIT_MESSAGE);
 
 		final String SOURCE_FILE_CONTENTS = "Source change";
 		final String NEW_FILE_CONTENTS = "New file from target";
@@ -312,12 +314,12 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 			assertFileContentsEqual(newFile, NEW_FILE_CONTENTS);
 			// verify repository state
 			assertEquals(RepositoryState.SAFE, target
-				.getRepository().getRepositoryState());
+					.getRepository().getRepositoryState());
 		}
 	}
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		dbTarget = createWorkRepository();

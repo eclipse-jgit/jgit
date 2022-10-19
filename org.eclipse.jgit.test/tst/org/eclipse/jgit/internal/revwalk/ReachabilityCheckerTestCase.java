@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.internal.revwalk;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -21,8 +21,8 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class ReachabilityCheckerTestCase
 		extends LocalDiskRepositoryTestCase {
@@ -34,7 +34,7 @@ public abstract class ReachabilityCheckerTestCase
 
 	/** {@inheritDoc} */
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		FileRepository db = createWorkRepository();
@@ -42,7 +42,7 @@ public abstract class ReachabilityCheckerTestCase
 	}
 
 	@Test
-	public void reachable() throws Exception {
+	void reachable() throws Exception {
 		RevCommit a = repo.commit().create();
 		RevCommit b1 = repo.commit(a);
 		RevCommit b2 = repo.commit(b1);
@@ -61,7 +61,7 @@ public abstract class ReachabilityCheckerTestCase
 	}
 
 	@Test
-	public void reachable_merge() throws Exception {
+	void reachable_merge() throws Exception {
 		RevCommit a = repo.commit().create();
 		RevCommit b1 = repo.commit(a);
 		RevCommit b2 = repo.commit(b1);
@@ -73,18 +73,15 @@ public abstract class ReachabilityCheckerTestCase
 		ReachabilityChecker checker = getChecker(repo);
 
 		assertReachable("reachable through one branch",
-				checker.areAllReachable(Arrays.asList(b1),
-						Stream.of(merge)));
+				checker.areAllReachable(Arrays.asList(b1), Stream.of(merge)));
 		assertReachable("reachable through another branch",
-				checker.areAllReachable(Arrays.asList(c1),
-						Stream.of(merge)));
+				checker.areAllReachable(Arrays.asList(c1), Stream.of(merge)));
 		assertReachable("reachable, before the branching",
-				checker.areAllReachable(Arrays.asList(a),
-						Stream.of(merge)));
+				checker.areAllReachable(Arrays.asList(a), Stream.of(merge)));
 	}
 
 	@Test
-	public void unreachable_isLaterCommit() throws Exception {
+	void unreachable_isLaterCommit() throws Exception {
 		RevCommit a = repo.commit().create();
 		RevCommit b1 = repo.commit(a);
 		RevCommit b2 = repo.commit(b1);
@@ -97,7 +94,7 @@ public abstract class ReachabilityCheckerTestCase
 	}
 
 	@Test
-	public void unreachable_differentBranch() throws Exception {
+	void unreachable_differentBranch() throws Exception {
 		RevCommit a = repo.commit().create();
 		RevCommit b1 = repo.commit(a);
 		RevCommit b2 = repo.commit(b1);
@@ -111,7 +108,7 @@ public abstract class ReachabilityCheckerTestCase
 	}
 
 	@Test
-	public void reachable_longChain() throws Exception {
+	void reachable_longChain() throws Exception {
 		RevCommit root = repo.commit().create();
 		RevCommit head = root;
 		for (int i = 0; i < 10000; i++) {
@@ -121,17 +118,17 @@ public abstract class ReachabilityCheckerTestCase
 
 		ReachabilityChecker checker = getChecker(repo);
 
-		assertReachable("reachable with long chain in the middle", checker
-				.areAllReachable(Arrays.asList(root), Stream.of(head)));
+		assertReachable("reachable with long chain in the middle",
+				checker.areAllReachable(Arrays.asList(root), Stream.of(head)));
 	}
 
 	private static void assertReachable(String msg,
 			Optional<RevCommit> result) {
-		assertFalse(msg, result.isPresent());
+		assertFalse(result.isPresent(), msg);
 	}
 
 	private static void assertUnreachable(String msg,
 			Optional<RevCommit> result) {
-		assertTrue(msg, result.isPresent());
+		assertTrue(result.isPresent(), msg);
 	}
 }

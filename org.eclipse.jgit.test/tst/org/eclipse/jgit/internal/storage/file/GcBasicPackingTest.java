@@ -10,9 +10,9 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,10 +28,10 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
@@ -178,7 +178,7 @@ public class GcBasicPackingTest extends GcTestCase {
 	}
 
 	@Test
-	public void testDonePruneTooYoungPacks() throws Exception {
+	void testDonePruneTooYoungPacks() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().message("M").add("M", "M").create();
 
@@ -243,7 +243,7 @@ public class GcBasicPackingTest extends GcTestCase {
 	}
 
 	@Test
-	public void testImmediatePruning() throws Exception {
+	void testImmediatePruning() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().message("M").add("M", "M").create();
 
@@ -267,7 +267,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		// We want to immediately prune deleted objects
 		FileBasedConfig config = repo.getConfig();
 		config.setString(ConfigConstants.CONFIG_GC_SECTION, null,
-			ConfigConstants.CONFIG_KEY_PRUNEEXPIRE, "now");
+				ConfigConstants.CONFIG_KEY_PRUNEEXPIRE, "now");
 		config.save();
 
 		//And we don't want to keep packs full of dead objects
@@ -281,7 +281,7 @@ public class GcBasicPackingTest extends GcTestCase {
 	}
 
 	@Test
-	public void testPreserveAndPruneOldPacks() throws Exception {
+	void testPreserveAndPruneOldPacks() throws Exception {
 		testPreserveOldPacks();
 		configureGc(gc, false).setPrunePreserved(true);
 		gc.gc().get();
@@ -316,7 +316,7 @@ public class GcBasicPackingTest extends GcTestCase {
 	}
 
 	@Test
-	public void testPruneAndRestoreOldPacks() throws Exception {
+	void testPruneAndRestoreOldPacks() throws Exception {
 		String tempRef = "refs/heads/soon-to-be-unreferenced";
 		BranchBuilder bb = tr.branch(tempRef);
 		bb.commit().add("A", "A").add("B", "B").create();

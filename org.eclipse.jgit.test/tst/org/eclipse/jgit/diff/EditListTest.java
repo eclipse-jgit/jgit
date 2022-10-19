@@ -10,19 +10,19 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class EditListTest {
-	@SuppressWarnings("unlikely-arg-type")
 	@Test
-	public void testEmpty() {
+	void testEmpty() {
 		final EditList l = new EditList();
 		assertEquals(0, l.size());
 		assertTrue(l.isEmpty());
@@ -30,12 +30,12 @@ public class EditListTest {
 
 		assertEquals(l, l);
 		assertEquals(new EditList(), l);
-		assertFalse(l.equals(""));
+		assertNotEquals(l, "");
 		assertEquals(l.hashCode(), new EditList().hashCode());
 	}
 
 	@Test
-	public void testAddOne() {
+	void testAddOne() {
 		final Edit e = new Edit(1, 2, 1, 1);
 		final EditList l = new EditList();
 		l.add(e);
@@ -45,7 +45,7 @@ public class EditListTest {
 		assertSame(e, l.iterator().next());
 
 		assertEquals(l, l);
-		assertFalse(l.equals(new EditList()));
+		assertNotEquals(l, new EditList());
 
 		final EditList l2 = new EditList();
 		l2.add(e);
@@ -55,7 +55,7 @@ public class EditListTest {
 	}
 
 	@Test
-	public void testAddTwo() {
+	void testAddTwo() {
 		final Edit e1 = new Edit(1, 2, 1, 1);
 		final Edit e2 = new Edit(8, 8, 8, 12);
 		final EditList l = new EditList();
@@ -70,7 +70,7 @@ public class EditListTest {
 		assertSame(e2, i.next());
 
 		assertEquals(l, l);
-		assertFalse(l.equals(new EditList()));
+		assertNotEquals(l, new EditList());
 
 		final EditList l2 = new EditList();
 		l2.add(e1);
@@ -81,7 +81,7 @@ public class EditListTest {
 	}
 
 	@Test
-	public void testSet() {
+	void testSet() {
 		final Edit e1 = new Edit(1, 2, 1, 1);
 		final Edit e2 = new Edit(3, 4, 3, 3);
 		final EditList l = new EditList();
@@ -92,7 +92,7 @@ public class EditListTest {
 	}
 
 	@Test
-	public void testRemove() {
+	void testRemove() {
 		final Edit e1 = new Edit(1, 2, 1, 1);
 		final Edit e2 = new Edit(8, 8, 8, 12);
 		final EditList l = new EditList();

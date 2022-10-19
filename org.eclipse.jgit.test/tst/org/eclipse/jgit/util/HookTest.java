@@ -10,9 +10,9 @@
 package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,37 +29,39 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
 public class HookTest extends RepositoryTestCase {
 
 	@Test
-	public void testFindHook() throws Exception {
+	void testFindHook() throws Exception {
 		assumeSupportedPlatform();
 
-		assertNull("no hook should be installed",
-				FS.DETECTED.findHook(db, PreCommitHook.NAME));
+		assertNull(FS.DETECTED.findHook(db, PreCommitHook.NAME),
+				"no hook should be installed");
 		File hookFile = writeHookFile(PreCommitHook.NAME,
 				"#!/bin/bash\necho \"test $1 $2\"");
-		assertEquals("expected to find pre-commit hook", hookFile,
-				FS.DETECTED.findHook(db, PreCommitHook.NAME));
+		assertEquals(hookFile,
+				FS.DETECTED.findHook(db, PreCommitHook.NAME),
+				"expected to find pre-commit hook");
 	}
 
 	@Test
-	public void testFindPostCommitHook() throws Exception {
+	void testFindPostCommitHook() throws Exception {
 		assumeSupportedPlatform();
 
-		assertNull("no hook should be installed",
-				FS.DETECTED.findHook(db, PostCommitHook.NAME));
+		assertNull(FS.DETECTED.findHook(db, PostCommitHook.NAME),
+				"no hook should be installed");
 		File hookFile = writeHookFile(PostCommitHook.NAME,
 				"#!/bin/bash\necho \"test $1 $2\"");
-		assertEquals("expected to find post-commit hook", hookFile,
-				FS.DETECTED.findHook(db, PostCommitHook.NAME));
+		assertEquals(hookFile,
+				FS.DETECTED.findHook(db, PostCommitHook.NAME),
+				"expected to find post-commit hook");
 	}
 
 	@Test
-	public void testFailedCommitMsgHookBlocksCommit() throws Exception {
+	void testFailedCommitMsgHookBlocksCommit() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(CommitMsgHook.NAME,
@@ -74,16 +76,17 @@ public class HookTest extends RepositoryTestCase {
 					.setHookOutputStream(new PrintStream(out)).call();
 			fail("expected commit-msg hook to abort commit");
 		} catch (AbortedByHookException e) {
-			assertEquals("unexpected error message from commit-msg hook",
-					"Rejected by \"commit-msg\" hook.\nstderr\n",
-					e.getMessage());
-			assertEquals("unexpected output from commit-msg hook", "test\n",
-					out.toString(UTF_8));
+			assertEquals("Rejected by \"commit-msg\" hook.\nstderr\n",
+					e.getMessage(),
+					"unexpected error message from commit-msg hook");
+			assertEquals("test\n",
+					out.toString(UTF_8),
+					"unexpected output from commit-msg hook");
 		}
 	}
 
 	@Test
-	public void testCommitMsgHookReceivesCorrectParameter() throws Exception {
+	void testCommitMsgHookReceivesCorrectParameter() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(CommitMsgHook.NAME,
@@ -100,7 +103,7 @@ public class HookTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCommitMsgHookCanModifyCommitMessage() throws Exception {
+	void testCommitMsgHookCanModifyCommitMessage() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(CommitMsgHook.NAME,
@@ -116,7 +119,7 @@ public class HookTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPostCommitRunHook() throws Exception {
+	void testPostCommitRunHook() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(PostCommitHook.NAME,
@@ -125,21 +128,24 @@ public class HookTest extends RepositoryTestCase {
 		ByteArrayOutputStream err = new ByteArrayOutputStream();
 		ProcessResult res = FS.DETECTED.runHookIfPresent(db,
 				PostCommitHook.NAME,
-				new String[] {
-				"arg1", "arg2" },
+				new String[]{
+						"arg1", "arg2"},
 				new PrintStream(out), new PrintStream(err), "stdin");
 
-		assertEquals("unexpected hook output", "test arg1 arg2\nstdin\n",
-				out.toString(UTF_8));
-		assertEquals("unexpected output on stderr stream", "stderr\n",
-				err.toString(UTF_8));
-		assertEquals("unexpected exit code", 0, res.getExitCode());
-		assertEquals("unexpected process status", ProcessResult.Status.OK,
-				res.getStatus());
+		assertEquals("test arg1 arg2\nstdin\n",
+				out.toString(UTF_8),
+				"unexpected hook output");
+		assertEquals("stderr\n",
+				err.toString(UTF_8),
+				"unexpected output on stderr stream");
+		assertEquals(0, res.getExitCode(), "unexpected exit code");
+		assertEquals(ProcessResult.Status.OK,
+				res.getStatus(),
+				"unexpected process status");
 	}
 
 	@Test
-	public void testAllCommitHooks() throws Exception {
+	void testAllCommitHooks() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(PreCommitHook.NAME,
@@ -159,13 +165,13 @@ public class HookTest extends RepositoryTestCase {
 		} catch (AbortedByHookException e) {
 			fail("unexpected hook failure");
 		}
-		assertEquals("unexpected hook output",
-				"test pre-commit\ntest commit-msg .git/COMMIT_EDITMSG\ntest post-commit\n",
-				out.toString(UTF_8));
+		assertEquals("test pre-commit\ntest commit-msg .git/COMMIT_EDITMSG\ntest post-commit\n",
+				out.toString(UTF_8),
+				"unexpected hook output");
 	}
 
 	@Test
-	public void testRunHook() throws Exception {
+	void testRunHook() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(PreCommitHook.NAME,
@@ -175,23 +181,25 @@ public class HookTest extends RepositoryTestCase {
 		ByteArrayOutputStream err = new ByteArrayOutputStream();
 		ProcessResult res = FS.DETECTED.runHookIfPresent(db,
 				PreCommitHook.NAME,
-				new String[] {
-				"arg1", "arg2" },
+				new String[]{
+						"arg1", "arg2"},
 				new PrintStream(out), new PrintStream(err), "stdin");
 
-		assertEquals("unexpected hook output",
-				"test arg1 arg2\nstdin\n" + db.getDirectory().getAbsolutePath()
-						+ '\n' + db.getWorkTree().getAbsolutePath() + '\n',
-				out.toString(UTF_8));
-		assertEquals("unexpected output on stderr stream", "stderr\n",
-				err.toString(UTF_8));
-		assertEquals("unexpected exit code", 0, res.getExitCode());
-		assertEquals("unexpected process status", ProcessResult.Status.OK,
-				res.getStatus());
+		assertEquals("test arg1 arg2\nstdin\n" + db.getDirectory().getAbsolutePath()
+				+ '\n' + db.getWorkTree().getAbsolutePath() + '\n',
+				out.toString(UTF_8),
+				"unexpected hook output");
+		assertEquals("stderr\n",
+				err.toString(UTF_8),
+				"unexpected output on stderr stream");
+		assertEquals(0, res.getExitCode(), "unexpected exit code");
+		assertEquals(ProcessResult.Status.OK,
+				res.getStatus(),
+				"unexpected process status");
 	}
 
 	@Test
-	public void testRunHookHooksPathRelative() throws Exception {
+	void testRunHookHooksPathRelative() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(PreCommitHook.NAME,
@@ -208,24 +216,26 @@ public class HookTest extends RepositoryTestCase {
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream();
 				ByteArrayOutputStream err = new ByteArrayOutputStream()) {
 			ProcessResult res = FS.DETECTED.runHookIfPresent(db,
-					PreCommitHook.NAME, new String[] { "arg1", "arg2" },
+					PreCommitHook.NAME, new String[]{"arg1", "arg2"},
 					new PrintStream(out), new PrintStream(err), "stdin");
 
-			assertEquals("unexpected hook output",
-					"test arg1 arg2\nstdin\n"
-							+ db.getDirectory().getAbsolutePath() + '\n'
-							+ db.getWorkTree().getAbsolutePath() + '\n',
-					out.toString(UTF_8));
-			assertEquals("unexpected output on stderr stream", "stderr\n",
-					err.toString(UTF_8));
-			assertEquals("unexpected exit code", 0, res.getExitCode());
-			assertEquals("unexpected process status", ProcessResult.Status.OK,
-					res.getStatus());
+			assertEquals("test arg1 arg2\nstdin\n"
+					+ db.getDirectory().getAbsolutePath() + '\n'
+					+ db.getWorkTree().getAbsolutePath() + '\n',
+					out.toString(UTF_8),
+					"unexpected hook output");
+			assertEquals("stderr\n",
+					err.toString(UTF_8),
+					"unexpected output on stderr stream");
+			assertEquals(0, res.getExitCode(), "unexpected exit code");
+			assertEquals(ProcessResult.Status.OK,
+					res.getStatus(),
+					"unexpected process status");
 		}
 	}
 
 	@Test
-	public void testRunHookHooksPathAbsolute() throws Exception {
+	void testRunHookHooksPathAbsolute() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(PreCommitHook.NAME,
@@ -243,24 +253,26 @@ public class HookTest extends RepositoryTestCase {
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream();
 				ByteArrayOutputStream err = new ByteArrayOutputStream()) {
 			ProcessResult res = FS.DETECTED.runHookIfPresent(db,
-					PreCommitHook.NAME, new String[] { "arg1", "arg2" },
+					PreCommitHook.NAME, new String[]{"arg1", "arg2"},
 					new PrintStream(out), new PrintStream(err), "stdin");
 
-			assertEquals("unexpected hook output",
-					"test arg1 arg2\nstdin\n"
-							+ db.getDirectory().getAbsolutePath() + '\n'
-							+ db.getWorkTree().getAbsolutePath() + '\n',
-					out.toString(UTF_8));
-			assertEquals("unexpected output on stderr stream", "stderr\n",
-					err.toString(UTF_8));
-			assertEquals("unexpected exit code", 0, res.getExitCode());
-			assertEquals("unexpected process status", ProcessResult.Status.OK,
-					res.getStatus());
+			assertEquals("test arg1 arg2\nstdin\n"
+					+ db.getDirectory().getAbsolutePath() + '\n'
+					+ db.getWorkTree().getAbsolutePath() + '\n',
+					out.toString(UTF_8),
+					"unexpected hook output");
+			assertEquals("stderr\n",
+					err.toString(UTF_8),
+					"unexpected output on stderr stream");
+			assertEquals(0, res.getExitCode(), "unexpected exit code");
+			assertEquals(ProcessResult.Status.OK,
+					res.getStatus(),
+					"unexpected process status");
 		}
 	}
 
 	@Test
-	public void testHookPathWithBlank() throws Exception {
+	void testHookPathWithBlank() throws Exception {
 		assumeSupportedPlatform();
 
 		File file = writeHookFile("../../a directory/" + PreCommitHook.NAME,
@@ -275,24 +287,26 @@ public class HookTest extends RepositoryTestCase {
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream();
 				ByteArrayOutputStream err = new ByteArrayOutputStream()) {
 			ProcessResult res = FS.DETECTED.runHookIfPresent(db,
-					PreCommitHook.NAME, new String[] { "arg1", "arg2" },
+					PreCommitHook.NAME, new String[]{"arg1", "arg2"},
 					new PrintStream(out), new PrintStream(err), "stdin");
 
-			assertEquals("unexpected hook output",
-					"test arg1 arg2\nstdin\n"
-							+ db.getDirectory().getAbsolutePath() + '\n'
-							+ db.getWorkTree().getAbsolutePath() + '\n',
-					out.toString(UTF_8));
-			assertEquals("unexpected output on stderr stream", "stderr\n",
-					err.toString(UTF_8));
-			assertEquals("unexpected exit code", 0, res.getExitCode());
-			assertEquals("unexpected process status", ProcessResult.Status.OK,
-					res.getStatus());
+			assertEquals("test arg1 arg2\nstdin\n"
+					+ db.getDirectory().getAbsolutePath() + '\n'
+					+ db.getWorkTree().getAbsolutePath() + '\n',
+					out.toString(UTF_8),
+					"unexpected hook output");
+			assertEquals("stderr\n",
+					err.toString(UTF_8),
+					"unexpected output on stderr stream");
+			assertEquals(0, res.getExitCode(), "unexpected exit code");
+			assertEquals(ProcessResult.Status.OK,
+					res.getStatus(),
+					"unexpected process status");
 		}
 	}
 
 	@Test
-	public void testFailedPreCommitHookBlockCommit() throws Exception {
+	void testFailedPreCommitHookBlockCommit() throws Exception {
 		assumeSupportedPlatform();
 
 		writeHookFile(PreCommitHook.NAME,
@@ -307,11 +321,12 @@ public class HookTest extends RepositoryTestCase {
 					.setHookOutputStream(new PrintStream(out)).call();
 			fail("expected pre-commit hook to abort commit");
 		} catch (AbortedByHookException e) {
-			assertEquals("unexpected error message from pre-commit hook",
-					"Rejected by \"pre-commit\" hook.\nstderr\n",
-					e.getMessage());
-			assertEquals("unexpected output from pre-commit hook", "test\n",
-					out.toString(UTF_8));
+			assertEquals("Rejected by \"pre-commit\" hook.\nstderr\n",
+					e.getMessage(),
+					"unexpected error message from pre-commit hook");
+			assertEquals("test\n",
+					out.toString(UTF_8),
+					"unexpected output from pre-commit hook");
 		}
 	}
 
@@ -324,7 +339,7 @@ public class HookTest extends RepositoryTestCase {
 	}
 
 	private void assumeSupportedPlatform() {
-		Assume.assumeTrue(FS.DETECTED instanceof FS_POSIX
+		Assumptions.assumeTrue(FS.DETECTED instanceof FS_POSIX
 				|| FS.DETECTED instanceof FS_Win32_Cygwin);
 	}
 }

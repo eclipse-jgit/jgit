@@ -9,21 +9,18 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
 import org.eclipse.jgit.storage.pack.PackStatistics;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
-@RunWith(JUnit4.class)
 public class PostUploadHookChainTest {
 
 	@Test
-	public void testDefaultIfEmpty() {
+	void testDefaultIfEmpty() {
 		PostUploadHook[] noHooks = {};
 		PostUploadHook newChain = PostUploadHookChain
 				.newChain(Arrays.asList(noHooks));
@@ -31,7 +28,7 @@ public class PostUploadHookChainTest {
 	}
 
 	@Test
-	public void testFlattenChainIfOnlyOne() {
+	void testFlattenChainIfOnlyOne() {
 		FakePostUploadHook hook1 = new FakePostUploadHook();
 		PostUploadHook newChain = PostUploadHookChain
 				.newChain(Arrays.asList(PostUploadHook.NULL, hook1));
@@ -39,7 +36,7 @@ public class PostUploadHookChainTest {
 	}
 
 	@Test
-	public void testMultipleHooks() {
+	void testMultipleHooks() {
 		FakePostUploadHook hook1 = new FakePostUploadHook();
 		FakePostUploadHook hook2 = new FakePostUploadHook();
 

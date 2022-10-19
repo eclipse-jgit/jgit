@@ -12,11 +12,12 @@ package org.eclipse.jgit.merge;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.Instant.EPOCH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -61,7 +62,6 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Assert;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -723,7 +723,7 @@ public class MergerTest extends RepositoryTestCase {
 		git.add().addFilepattern("0/0").call();
 		try {
 			git.merge().setStrategy(strategy).include(masterCommit).call();
-			Assert.fail("Didn't get the expected exception");
+			fail("Didn't get the expected exception");
 		} catch (CheckoutConflictException e) {
 			assertEquals(1, e.getConflictingPaths().size());
 			assertEquals("0/0", e.getConflictingPaths().get(0));
@@ -1158,9 +1158,10 @@ public class MergerTest extends RepositoryTestCase {
 				.call();
 		checkConsistentLastModified("0", "1", "2", "3", "4");
 		checkModificationTimeStampOrder("1", "2", "3", "4", "<.git/index");
-		assertEquals("Commit should not touch working tree file 4", lastTs4,
+		assertEquals(lastTs4,
 				FS.DETECTED
-						.lastModifiedInstant(new File(db.getWorkTree(), "4")));
+						.lastModifiedInstant(new File(db.getWorkTree(), "4")),
+				"Commit should not touch working tree file 4");
 		lastTsIndex = FS.DETECTED.lastModifiedInstant(indexFile);
 
 		// Do modifications on the master branch. Then add and commit. This
@@ -1490,7 +1491,7 @@ public class MergerTest extends RepositoryTestCase {
 
 		// Merge branch-to-merge into second-branch
 		MergeResult mergeResult = git.merge().include(commitA2).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
+		assertNull(mergeResult.getNewHead());
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
 		// Resolve the conflict manually, merge "a" as a file
 		git.rm().addFilepattern("a").call();
@@ -1503,7 +1504,7 @@ public class MergerTest extends RepositoryTestCase {
 		// Merge branch-to-merge into master
 		git.checkout().setName("master").call();
 		mergeResult = git.merge().include(commitA2).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
+		assertNull(mergeResult.getNewHead());
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
 
 		// Resolve the conflict manually - merge "a" as a file
@@ -1562,7 +1563,7 @@ public class MergerTest extends RepositoryTestCase {
 
 		// Merge branch-to-merge into second-branch
 		MergeResult mergeResult = git.merge().include(commitA2).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
+		assertNull(mergeResult.getNewHead());
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
 		// Resolve the conflict manually - write a file
 		git.rm().addFilepattern("a").call();
@@ -1576,7 +1577,7 @@ public class MergerTest extends RepositoryTestCase {
 		// Merge branch-to-merge into master
 		git.checkout().setName("master").call();
 		mergeResult = git.merge().include(commitA2).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
+		assertNull(mergeResult.getNewHead());
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
 
 		// Resolve the conflict manually - write a file
@@ -1646,7 +1647,7 @@ public class MergerTest extends RepositoryTestCase {
 
 		// Merge branch-to-merge into second-branch
 		MergeResult mergeResult = git.merge().include(commitA2).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
+		assertNull(mergeResult.getNewHead());
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
 		// Resolve the conflict manually - write a file
 		git.rm().addFilepattern("a").call();
@@ -1660,7 +1661,7 @@ public class MergerTest extends RepositoryTestCase {
 		// Merge branch-to-merge into master
 		git.checkout().setName("master").call();
 		mergeResult = git.merge().include(commitA2).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
+		assertNull(mergeResult.getNewHead());
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
 
 		// Resolve the conflict manually - write a file
@@ -1734,7 +1735,7 @@ public class MergerTest extends RepositoryTestCase {
 
 		// Merge branch-to-merge into second-branch
 		MergeResult mergeResult = git.merge().include(commitA2).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
+		assertNull(mergeResult.getNewHead());
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
 		// Resolve the conflict manually, merge "a" as non-executable
 		a = writeTrashFile("a", "merge conflict resolution");
@@ -1745,7 +1746,7 @@ public class MergerTest extends RepositoryTestCase {
 		// Merge branch-to-merge into master
 		git.checkout().setName("master").call();
 		mergeResult = git.merge().include(commitA2).setStrategy(strategy).call();
-		assertEquals(mergeResult.getNewHead(), null);
+		assertNull(mergeResult.getNewHead());
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.CONFLICTING);
 
 		// Resolve the conflict manually - merge "a" as non-executable
@@ -1807,12 +1808,12 @@ public class MergerTest extends RepositoryTestCase {
 		File workTree = db.getWorkTree();
 		for (String path : pathes)
 			assertEquals(
-					"IndexEntry with path "
-							+ path
-							+ " has lastmodified which is different from the worktree file",
 					FS.DETECTED.lastModifiedInstant(new File(workTree, path)),
 					dc.getEntry(path)
-							.getLastModifiedInstant());
+							.getLastModifiedInstant(),
+					"IndexEntry with path "
+							+ path
+							+ " has lastmodified which is different from the worktree file");
 	}
 
 	// Assert that modification timestamps of working tree files are as
@@ -1831,11 +1832,11 @@ public class MergerTest extends RepositoryTestCase {
 					: FS.DETECTED
 							.lastModifiedInstant(new File(db.getWorkTree(), p));
 			if (strong) {
-				assertTrue("path " + p + " is not younger than predecesssor",
-						curMod.compareTo(lastMod) > 0);
+				assertTrue(curMod.compareTo(lastMod) > 0,
+						"path " + p + " is not younger than predecesssor");
 			} else {
-				assertTrue("path " + p + " is older than predecesssor",
-						curMod.compareTo(lastMod) >= 0);
+				assertTrue(curMod.compareTo(lastMod) >= 0,
+						"path " + p + " is older than predecesssor");
 			}
 		}
 	}

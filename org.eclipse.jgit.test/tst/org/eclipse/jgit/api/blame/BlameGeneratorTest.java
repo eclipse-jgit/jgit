@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.api.blame;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.blame.BlameGenerator;
@@ -19,19 +19,19 @@ import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests of {@link BlameGenerator}. */
 public class BlameGeneratorTest extends RepositoryTestCase {
 	@Test
-	public void testBoundLineDelete() throws Exception {
+	void testBoundLineDelete() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = new String[] { "first", "second" };
+			String[] content1 = new String[]{"first", "second"};
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c1 = git.commit().setMessage("create file").call();
 
-			String[] content2 = new String[] { "third", "first", "second" };
+			String[] content2 = new String[]{"third", "first", "second"};
 			writeTrashFile("file.txt", join(content2));
 			git.add().addFilepattern("file.txt").call();
 			RevCommit c2 = git.commit().setMessage("create file").call();
@@ -64,12 +64,12 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRenamedBoundLineDelete() throws Exception {
+	void testRenamedBoundLineDelete() throws Exception {
 		try (Git git = new Git(db)) {
 			final String FILENAME_1 = "subdir/file1.txt";
 			final String FILENAME_2 = "subdir/file2.txt";
 
-			String[] content1 = new String[] { "first", "second" };
+			String[] content1 = new String[]{"first", "second"};
 			writeTrashFile(FILENAME_1, join(content1));
 			git.add().addFilepattern(FILENAME_1).call();
 			RevCommit c1 = git.commit().setMessage("create file1").call();
@@ -82,7 +82,7 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 			git.commit().setMessage("rename file1.txt to file2.txt").call();
 
 			// and change the new file
-			String[] content2 = new String[] { "third", "first", "second" };
+			String[] content2 = new String[]{"third", "first", "second"};
 			writeTrashFile(FILENAME_2, join(content2));
 			git.add().addFilepattern(FILENAME_2).call();
 			RevCommit c2 = git.commit().setMessage("change file2").call();
@@ -132,15 +132,15 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLinesAllDeletedShortenedWalk() throws Exception {
+	void testLinesAllDeletedShortenedWalk() throws Exception {
 		try (Git git = new Git(db)) {
-			String[] content1 = new String[] { "first", "second", "third" };
+			String[] content1 = new String[]{"first", "second", "third"};
 
 			writeTrashFile("file.txt", join(content1));
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("create file").call();
 
-			String[] content2 = new String[] { "" };
+			String[] content2 = new String[]{""};
 
 			writeTrashFile("file.txt", join(content2));
 			git.add().addFilepattern("file.txt").call();

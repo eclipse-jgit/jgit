@@ -11,9 +11,9 @@
 package org.eclipse.jgit.revwalk;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -21,15 +21,15 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RevCommitWithOverriddenParentTest {
 	private TestRepository<InMemoryRepository> tr;
 
 	private RevWalk rw;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tr = new TestRepository<>(
 				new InMemoryRepository(new DfsRepositoryDescription("test")));
@@ -37,7 +37,7 @@ public class RevCommitWithOverriddenParentTest {
 	}
 
 	@Test
-	public void testParseBody() throws Exception {
+	void testParseBody() throws Exception {
 		RevCommit a = tr.commit().add("a", "foo").create();
 		RevCommit b = tr.commit().parent(a).add("b", "bar").create();
 		RevCommit c = tr.commit().parent(b).message("commit3").add("a", "foo'")
@@ -56,7 +56,7 @@ public class RevCommitWithOverriddenParentTest {
 
 			@Override
 			public RevCommit[] getParents() {
-				return new RevCommit[] { a };
+				return new RevCommit[]{a};
 			}
 		};
 
@@ -67,7 +67,7 @@ public class RevCommitWithOverriddenParentTest {
 	}
 
 	@Test
-	public void testParseHeader() throws Exception {
+	void testParseHeader() throws Exception {
 		RevCommit a = tr.commit().add("a", "foo").create();
 		RevCommit b = tr.commit().parent(a).add("b", "bar").create();
 		RevCommit c = tr.commit().parent(b).message("commit3").add("a", "foo'")
@@ -86,7 +86,7 @@ public class RevCommitWithOverriddenParentTest {
 
 			@Override
 			public RevCommit[] getParents() {
-				return new RevCommit[] { a };
+				return new RevCommit[]{a};
 			}
 		};
 
@@ -100,7 +100,7 @@ public class RevCommitWithOverriddenParentTest {
 	}
 
 	@Test
-	public void testFilter() throws Exception {
+	void testFilter() throws Exception {
 		RevCommit a = tr.commit().add("a", "foo").create();
 		RevCommit b = tr.commit().parent(a).add("b", "bar").create();
 		RevCommit c = tr.commit().parent(b).message("commit3").add("a", "foo'")
@@ -119,7 +119,7 @@ public class RevCommitWithOverriddenParentTest {
 
 			@Override
 			public RevCommit[] getParents() {
-				return new RevCommit[] { a };
+				return new RevCommit[]{a};
 			}
 		};
 
@@ -131,7 +131,7 @@ public class RevCommitWithOverriddenParentTest {
 	}
 
 	@Test
-	public void testFlag() throws Exception {
+	void testFlag() throws Exception {
 		RevCommit root = tr.commit().add("todelete", "to be deleted").create();
 		RevCommit orig = tr.commit().parent(root).rm("todelete")
 				.add("foo", "foo contents").add("bar", "bar contents")
@@ -150,7 +150,7 @@ public class RevCommitWithOverriddenParentTest {
 
 			@Override
 			public RevCommit[] getParents() {
-				return new RevCommit[] { root };
+				return new RevCommit[]{root};
 			}
 		};
 

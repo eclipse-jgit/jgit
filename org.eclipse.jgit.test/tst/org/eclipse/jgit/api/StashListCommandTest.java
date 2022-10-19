@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -22,7 +22,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of {@link StashListCommand}
@@ -30,7 +30,7 @@ import org.junit.Test;
 public class StashListCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void noStashRef() throws Exception {
+	void noStashRef() throws Exception {
 		StashListCommand command = Git.wrap(db).stashList();
 		Collection<RevCommit> stashed = command.call();
 		assertNotNull(stashed);
@@ -38,7 +38,7 @@ public class StashListCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void emptyStashReflog() throws Exception {
+	void emptyStashReflog() throws Exception {
 		Git git = Git.wrap(db);
 		writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
@@ -56,7 +56,7 @@ public class StashListCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void singleStashedCommit() throws Exception {
+	void singleStashedCommit() throws Exception {
 		Git git = Git.wrap(db);
 		writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
@@ -72,7 +72,7 @@ public class StashListCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void multipleStashedCommits() throws Exception {
+	void multipleStashedCommits() throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("file.txt", "content");

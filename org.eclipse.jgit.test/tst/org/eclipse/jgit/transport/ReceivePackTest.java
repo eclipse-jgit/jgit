@@ -42,17 +42,17 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for receive-pack utilities. */
 public class ReceivePackTest {
 	@Test
-	public void parseCommand() throws Exception {
+	void parseCommand() throws Exception {
 		String o = "0000000000000000000000000000000000000000";
 		String n = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
 		String r = "refs/heads/master";

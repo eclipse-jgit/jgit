@@ -10,17 +10,16 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 public class InflatingBitSetTest {
 
 	@Test
-	public void testMaybeContains() {
+	void testMaybeContains() {
 		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
 		ecb.set(63);
 		ecb.set(64);
@@ -37,7 +36,7 @@ public class InflatingBitSetTest {
 	}
 
 	@Test
-	public void testContainsMany() {
+	void testContainsMany() {
 		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
 		ecb.set(64);
 		ecb.set(65);
@@ -53,7 +52,7 @@ public class InflatingBitSetTest {
 	}
 
 	@Test
-	public void testContainsOne() {
+	void testContainsOne() {
 		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
 		ecb.set(64);
 
@@ -65,7 +64,7 @@ public class InflatingBitSetTest {
 	}
 
 	@Test
-	public void testContainsEmpty() {
+	void testContainsEmpty() {
 		InflatingBitSet ibs = new InflatingBitSet(new EWAHCompressedBitmap());
 		assertFalse(ibs.maybeContains(0));
 		assertFalse(ibs.contains(0));

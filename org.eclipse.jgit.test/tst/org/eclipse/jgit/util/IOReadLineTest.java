@@ -11,7 +11,7 @@
 package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -21,22 +21,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class IOReadLineTest {
-	@Parameter(0)
 	public boolean buffered;
-
-	@Parameter(1)
 	public int sizeHint;
 
 	@SuppressWarnings("boxing")
-	@Parameters(name="buffered={0}, sizeHint={1}")
 	public static Collection<Object[]> getParameters() {
 		Boolean[] bv = {false, true};
 		Integer[] sv = {-1, 0, 1, 2, 3, 4, 64};
@@ -49,8 +41,10 @@ public class IOReadLineTest {
 		return params;
 	}
 
-	@Test
-	public void testReadLine() throws Exception {
+	@MethodSource("getParameters")
+	@ParameterizedTest(name = "buffered={0}, sizeHint={1}")
+	void testReadLine(boolean buffered, int sizeHint) throws Exception {
+		initIOReadLineTest(buffered, sizeHint);
 		Reader r = newReader("foo\nbar\nbaz\n");
 		assertEquals("foo\n", readLine(r));
 		assertEquals("bar\n", readLine(r));
@@ -58,8 +52,10 @@ public class IOReadLineTest {
 		assertEquals("", readLine(r));
 	}
 
-	@Test
-	public void testReadLineNoTrailingNewline() throws Exception {
+	@MethodSource("getParameters")
+	@ParameterizedTest(name = "buffered={0}, sizeHint={1}")
+	void testReadLineNoTrailingNewline(boolean buffered, int sizeHint) throws Exception {
+		initIOReadLineTest(buffered, sizeHint);
 		Reader r = newReader("foo\nbar\nbaz");
 		assertEquals("foo\n", readLine(r));
 		assertEquals("bar\n", readLine(r));
@@ -80,5 +76,10 @@ public class IOReadLineTest {
 		assertEquals(Boolean.valueOf(buffered),
 				Boolean.valueOf(r.markSupported()));
 		return r;
+	}
+
+	public void initIOReadLineTest(boolean buffered, int sizeHint) {
+		this.buffered = buffered;
+		this.sizeHint = sizeHint;
 	}
 }

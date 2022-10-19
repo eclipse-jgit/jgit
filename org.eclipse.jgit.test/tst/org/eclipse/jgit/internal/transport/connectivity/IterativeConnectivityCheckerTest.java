@@ -30,16 +30,14 @@ import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ConnectivityChecker;
 import org.eclipse.jgit.transport.ConnectivityChecker.ConnectivityCheckInfo;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class IterativeConnectivityCheckerTest {
-	@Rule
-	public MockitoRule rule = MockitoJUnit.rule();
 
 	private ObjectId branchHeadObjectId;
 
@@ -69,7 +67,7 @@ public class IterativeConnectivityCheckerTest {
 
 	private TestRepository tr;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tr = new TestRepository<>(
 				new InMemoryRepository(new DfsRepositoryDescription("test")));
@@ -91,7 +89,7 @@ public class IterativeConnectivityCheckerTest {
 	}
 
 	@Test
-	public void testSuccessfulNewBranchBasedOnOld() throws Exception {
+	void testSuccessfulNewBranchBasedOnOld() throws Exception {
 		createNewCommit(branchHeadCommitObject);
 		connectivityCheckInfo.setCommands(
 				Collections.singletonList(createNewBrachCommand()));
@@ -106,7 +104,7 @@ public class IterativeConnectivityCheckerTest {
 	}
 
 	@Test
-	public void testSuccessfulNewBranchBasedOnOldWithTip() throws Exception {
+	void testSuccessfulNewBranchBasedOnOldWithTip() throws Exception {
 		createNewCommit(branchHeadCommitObject);
 		connectivityCheckInfo.setCommands(
 				Collections.singletonList(createNewBrachCommand()));
@@ -124,7 +122,7 @@ public class IterativeConnectivityCheckerTest {
 	}
 
 	@Test
-	public void testSuccessfulNewBranchMerge() throws Exception {
+	void testSuccessfulNewBranchMerge() throws Exception {
 		createNewCommit(branchHeadCommitObject, openReviewCommitObject);
 		connectivityCheckInfo.setCommands(
 				Collections.singletonList(createNewBrachCommand()));
@@ -140,7 +138,7 @@ public class IterativeConnectivityCheckerTest {
 	}
 
 	@Test
-	public void testSuccessfulNewBranchBasedOnNewWithTip() throws Exception {
+	void testSuccessfulNewBranchBasedOnNewWithTip() throws Exception {
 		createNewCommit();
 		connectivityCheckInfo.setCommands(
 				Collections.singletonList(createNewBrachCommand()));
@@ -155,7 +153,7 @@ public class IterativeConnectivityCheckerTest {
 	}
 
 	@Test
-	public void testSuccessfulPushOldBranch() throws Exception {
+	void testSuccessfulPushOldBranch() throws Exception {
 		createNewCommit(branchHeadCommitObject);
 		connectivityCheckInfo.setCommands(
 				Collections.singletonList(pushOldBranchCommand()));
@@ -169,7 +167,7 @@ public class IterativeConnectivityCheckerTest {
 	}
 
 	@Test
-	public void testSuccessfulPushOldBranchMergeCommit() throws Exception {
+	void testSuccessfulPushOldBranchMergeCommit() throws Exception {
 		createNewCommit(branchHeadCommitObject, openReviewCommitObject);
 		connectivityCheckInfo.setCommands(
 				Collections.singletonList(pushOldBranchCommand()));
@@ -186,7 +184,7 @@ public class IterativeConnectivityCheckerTest {
 
 
 	@Test
-	public void testNoChecksIfCantFindSubset() throws Exception {
+	void testNoChecksIfCantFindSubset() throws Exception {
 		createNewCommit();
 		connectivityCheckInfo.setCommands(
 				Collections.singletonList(createNewBrachCommand()));
@@ -199,15 +197,15 @@ public class IterativeConnectivityCheckerTest {
 	}
 
 	@Test
-	public void testReiterateInCaseNotSuccessful() throws Exception {
+	void testReiterateInCaseNotSuccessful() throws Exception {
 		createNewCommit(branchHeadCommitObject);
 		connectivityCheckInfo.setCommands(
 				Collections.singletonList(createNewBrachCommand()));
 
 		doThrow(new MissingObjectException(branchHeadCommitObject,
 				Constants.OBJ_COMMIT)).when(connectivityCheckerDelegate)
-						.checkConnectivity(connectivityCheckInfo,
-								wrap(branchHeadObjectId /* as direct parent */), pm);
+				.checkConnectivity(connectivityCheckInfo,
+						wrap(branchHeadObjectId /* as direct parent */), pm);
 
 		connectivityChecker.checkConnectivity(connectivityCheckInfo,
 				advertisedHaves, pm);
@@ -217,8 +215,8 @@ public class IterativeConnectivityCheckerTest {
 	}
 
 	@Test
-	public void testDependOnGrandparent() throws Exception {
-		RevCommit grandparent = tr.commit(new RevCommit[] {});
+	void testDependOnGrandparent() throws Exception {
+		RevCommit grandparent = tr.commit(new RevCommit[]{});
 		RevCommit parent = tr.commit(grandparent);
 		createNewCommit(parent);
 

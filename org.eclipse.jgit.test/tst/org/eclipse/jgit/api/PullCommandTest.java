@@ -10,11 +10,12 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,8 +43,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PullCommandTest extends RepositoryTestCase {
 	/** Second Test repository */
@@ -58,12 +59,11 @@ public class PullCommandTest extends RepositoryTestCase {
 	private File targetFile;
 
 	@Test
-	public void testPullFastForward() throws Exception {
+	void testPullFastForward() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(res.getMergeResult().getMergeStatus(), MergeStatus.ALREADY_UP_TO_DATE);
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -87,12 +87,11 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullMerge() throws Exception {
+	void testPullMerge() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus()
-				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(res.getMergeResult().getMergeStatus(), MergeStatus.ALREADY_UP_TO_DATE);
 
 		writeToFile(sourceFile, "Source change");
 		source.add().addFilepattern("SomeFile.txt");
@@ -120,12 +119,11 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullConflict() throws Exception {
+	void testPullConflict() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(res.getMergeResult().getMergeStatus(), MergeStatus.ALREADY_UP_TO_DATE);
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -143,7 +141,7 @@ public class PullCommandTest extends RepositoryTestCase {
 
 		String sourceChangeString = "Source change\n>>>>>>> branch 'master' of "
 				+ target.getRepository().getConfig().getString("remote",
-						"origin", "url");
+				"origin", "url");
 
 		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
 		assertEquals(res.getMergeResult().getMergeStatus(),
@@ -156,12 +154,11 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullConflictTheirs() throws Exception {
+	void testPullConflictTheirs() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus()
-				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(res.getMergeResult().getMergeStatus(), MergeStatus.ALREADY_UP_TO_DATE);
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -185,12 +182,11 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullConflictXtheirs() throws Exception {
+	void testPullConflictXtheirs() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus()
-				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(res.getMergeResult().getMergeStatus(), MergeStatus.ALREADY_UP_TO_DATE);
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -225,7 +221,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullWithUntrackedStash() throws Exception {
+	void testPullWithUntrackedStash() throws Exception {
 		target.pull().call();
 
 		// change the source file
@@ -259,7 +255,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullLocalConflict() throws Exception {
+	void testPullLocalConflict() throws Exception {
 		target.branchCreate().setName("basedOnMaster").setStartPoint(
 				"refs/heads/master").setUpstreamMode(SetupUpstreamMode.TRACK)
 				.call();
@@ -268,8 +264,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertNull(res.getFetchResult());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(res.getMergeResult().getMergeStatus(), MergeStatus.ALREADY_UP_TO_DATE);
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -301,17 +296,19 @@ public class PullCommandTest extends RepositoryTestCase {
 				.getRepositoryState());
 	}
 
-	@Test(expected = NoHeadException.class)
-	public void testPullEmptyRepository() throws Exception {
-		Repository empty = createWorkRepository();
-		RefUpdate delete = empty.updateRef(Constants.HEAD, true);
-		delete.setForceUpdate(true);
-		delete.delete();
-		Git.wrap(empty).pull().call();
+	@Test
+	void testPullEmptyRepository() throws Exception {
+		assertThrows(NoHeadException.class, () -> {
+			Repository empty = createWorkRepository();
+			RefUpdate delete = empty.updateRef(Constants.HEAD, true);
+			delete.setForceUpdate(true);
+			delete.delete();
+			Git.wrap(empty).pull().call();
+		});
 	}
 
 	@Test
-	public void testPullMergeProgrammaticConfiguration() throws Exception {
+	void testPullMergeProgrammaticConfiguration() throws Exception {
 		// create another commit on another branch in source
 		source.checkout().setCreateBranch(true).setName("other").call();
 		sourceFile = new File(db.getWorkTree(), "file2.txt");
@@ -343,7 +340,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPullMergeProgrammaticConfigurationImpliedTargetBranch()
+	void testPullMergeProgrammaticConfigurationImpliedTargetBranch()
 			throws Exception {
 		// create another commit on another branch in source
 		source.checkout().setCreateBranch(true).setName("other").call();
@@ -381,9 +378,9 @@ public class PullCommandTest extends RepositoryTestCase {
 		MERGE, REBASE, REBASE_PREASERVE
 	}
 
-	@Test
 	/** global rebase config should be respected */
-	public void testPullWithRebasePreserve1Config() throws Exception {
+	@Test
+	void testPullWithRebasePreserve1Config() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("pull", null, "rebase", "preserve");
@@ -393,9 +390,9 @@ public class PullCommandTest extends RepositoryTestCase {
 		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
 	}
 
-	@Test
 	/** the branch-local config should win over the global config */
-	public void testPullWithRebasePreserveConfig2() throws Exception {
+	@Test
+	void testPullWithRebasePreserveConfig2() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("pull", null, "rebase", "false");
@@ -406,9 +403,9 @@ public class PullCommandTest extends RepositoryTestCase {
 		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
 	}
 
-	@Test
 	/** the branch-local config should be respected */
-	public void testPullWithRebasePreserveConfig3() throws Exception {
+	@Test
+	void testPullWithRebasePreserveConfig3() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("branch", "master", "rebase", "preserve");
@@ -418,9 +415,9 @@ public class PullCommandTest extends RepositoryTestCase {
 		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
 	}
 
-	@Test
 	/** global rebase config should be respected */
-	public void testPullWithRebaseConfig1() throws Exception {
+	@Test
+	void testPullWithRebaseConfig1() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("pull", null, "rebase", "true");
@@ -430,9 +427,9 @@ public class PullCommandTest extends RepositoryTestCase {
 		doTestPullWithRebase(setup, TestPullMode.REBASE);
 	}
 
-	@Test
 	/** the branch-local config should win over the global config */
-	public void testPullWithRebaseConfig2() throws Exception {
+	@Test
+	void testPullWithRebaseConfig2() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("pull", null, "rebase", "preserve");
@@ -443,9 +440,9 @@ public class PullCommandTest extends RepositoryTestCase {
 		doTestPullWithRebase(setup, TestPullMode.REBASE);
 	}
 
-	@Test
 	/** the branch-local config should be respected */
-	public void testPullWithRebaseConfig3() throws Exception {
+	@Test
+	void testPullWithRebaseConfig3() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("branch", "master", "rebase", "true");
@@ -455,16 +452,16 @@ public class PullCommandTest extends RepositoryTestCase {
 		doTestPullWithRebase(setup, TestPullMode.REBASE);
 	}
 
-	@Test
 	/** without config it should merge */
-	public void testPullWithoutConfig() throws Exception {
+	@Test
+	void testPullWithoutConfig() throws Exception {
 		Callable<PullResult> setup = target.pull()::call;
 		doTestPullWithRebase(setup, TestPullMode.MERGE);
 	}
 
-	@Test
 	/** the branch local config should win over the global config */
-	public void testPullWithMergeConfig() throws Exception {
+	@Test
+	void testPullWithMergeConfig() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("pull", null, "rebase", "true");
@@ -475,9 +472,9 @@ public class PullCommandTest extends RepositoryTestCase {
 		doTestPullWithRebase(setup, TestPullMode.MERGE);
 	}
 
-	@Test
 	/** the branch local config should win over the global config */
-	public void testPullWithMergeConfig2() throws Exception {
+	@Test
+	void testPullWithMergeConfig2() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("pull", null, "rebase", "false");
@@ -563,7 +560,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		dbTarget = createWorkRepository();

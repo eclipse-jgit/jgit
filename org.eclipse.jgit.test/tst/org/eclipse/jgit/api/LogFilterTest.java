@@ -10,7 +10,7 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -21,9 +21,9 @@ import java.util.Iterator;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testing the log command with include and exclude filters
@@ -31,8 +31,9 @@ import org.junit.Test;
 public class LogFilterTest extends RepositoryTestCase {
 	private Git git;
 
-	@Before
-	public void setup() throws Exception {
+	@Override
+	@BeforeEach
+	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 
@@ -87,7 +88,7 @@ public class LogFilterTest extends RepositoryTestCase {
 		git.commit().setMessage("commit4").setCommitter(committer).call();
 	}
 
-	@After
+	@AfterEach
 	@Override
 	public void tearDown() throws Exception {
 		git.close();
@@ -95,7 +96,7 @@ public class LogFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLogWithFilterCanDistinguishFilesByPath() throws Exception {
+	void testLogWithFilterCanDistinguishFilesByPath() throws Exception {
 		int count = 0;
 		for (RevCommit c : git.log().addPath("a.txt").call()) {
 			assertEquals("commit1", c.getFullMessage());
@@ -112,7 +113,7 @@ public class LogFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLogWithFilterCanIncludeFilesInDirectory() throws Exception {
+	void testLogWithFilterCanIncludeFilesInDirectory() throws Exception {
 		int count = 0;
 		for (RevCommit c : git.log().addPath("subdir-include").call()) {
 			assertEquals("commit3", c.getFullMessage());
@@ -122,7 +123,7 @@ public class LogFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLogWithFilterCanExcludeFilesInDirectory() throws Exception {
+	void testLogWithFilterCanExcludeFilesInDirectory() throws Exception {
 		int count = 0;
 		Iterator it = git.log().excludePath("subdir-exclude").call().iterator();
 		while (it.hasNext()) {
@@ -134,7 +135,7 @@ public class LogFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLogWithoutFilter() throws Exception {
+	void testLogWithoutFilter() throws Exception {
 		int count = 0;
 		for (RevCommit c : git.log().call()) {
 			assertEquals(committer, c.getCommitterIdent());
@@ -144,7 +145,7 @@ public class LogFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLogWithFilterCanExcludeAndIncludeFilesInDifferentDirectories()
+	void testLogWithFilterCanExcludeAndIncludeFilesInDifferentDirectories()
 			throws Exception {
 		int count = 0;
 		Iterator it = git.log().addPath("subdir-include")
@@ -158,7 +159,7 @@ public class LogFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLogWithFilterExcludeAndIncludeSameFileIncludesNothing()
+	void testLogWithFilterExcludeAndIncludeSameFileIncludesNothing()
 			throws Exception {
 		int count = 0;
 		Iterator it = git.log().addPath("subdir-exclude")
@@ -173,7 +174,7 @@ public class LogFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLogWithFilterCanExcludeFileAndDirectory() throws Exception {
+	void testLogWithFilterCanExcludeFileAndDirectory() throws Exception {
 		int count = 0;
 		Iterator it = git.log().excludePath("b.txt")
 				.excludePath("subdir-exclude").call().iterator();

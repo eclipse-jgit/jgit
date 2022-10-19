@@ -10,9 +10,9 @@
 package org.eclipse.jgit.gitrepo;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -22,33 +22,33 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 public class ManifestParserTest {
 
 	@Test
-	public void testManifestParser() throws Exception {
+	void testManifestParser() throws Exception {
 		String baseUrl = "https://git.google.com/";
 		StringBuilder xmlContent = new StringBuilder();
 		Set<String> results = new HashSet<>();
 		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-			.append("<manifest>")
-			.append("<remote name=\"remote1\" fetch=\".\" />")
-			.append("<default revision=\"master\" remote=\"remote1\" />")
-			.append("<project path=\"foo\" name=\"")
-			.append("foo")
-			.append("\" groups=\"a,test\" />")
-			.append("<project path=\"bar\" name=\"")
-			.append("bar")
-			.append("\" groups=\"notdefault\" />")
-			.append("<project path=\"foo/a\" name=\"")
-			.append("a")
-			.append("\" groups=\"a\" />")
-			.append("<project path=\"b\" name=\"")
-			.append("b")
-			.append("\" groups=\"b\" />")
-			.append("</manifest>");
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"foo\" name=\"")
+				.append("foo")
+				.append("\" groups=\"a,test\" />")
+				.append("<project path=\"bar\" name=\"")
+				.append("bar")
+				.append("\" groups=\"notdefault\" />")
+				.append("<project path=\"foo/a\" name=\"")
+				.append("a")
+				.append("\" groups=\"a\" />")
+				.append("<project path=\"b\" name=\"")
+				.append("b")
+				.append("\" groups=\"b\" />")
+				.append("</manifest>");
 
 		ManifestParser parser = new ManifestParser(
 				null, null, "master", baseUrl, null, null);
@@ -63,12 +63,12 @@ public class ManifestParserTest {
 			String msg = String.format(
 					"project \"%s\" should be included in unfiltered projects",
 					proj.getPath());
-			assertTrue(msg, results.contains(proj.getPath()));
+			assertTrue(results.contains(proj.getPath()), msg);
 			results.remove(proj.getPath());
 		}
 		assertTrue(
-				"Unfiltered projects shouldn't contain any unexpected results",
-				results.isEmpty());
+				results.isEmpty(),
+				"Unfiltered projects shouldn't contain any unexpected results");
 		// Filtered projects should have foo & b
 		results.clear();
 		results.add("foo");
@@ -77,16 +77,16 @@ public class ManifestParserTest {
 			String msg = String.format(
 					"project \"%s\" should be included in filtered projects",
 					proj.getPath());
-			assertTrue(msg, results.contains(proj.getPath()));
+			assertTrue(results.contains(proj.getPath()), msg);
 			results.remove(proj.getPath());
 		}
 		assertTrue(
-				"Filtered projects shouldn't contain any unexpected results",
-				results.isEmpty());
+				results.isEmpty(),
+				"Filtered projects shouldn't contain any unexpected results");
 	}
 
 	@Test
-	public void testManifestParserWithMissingFetchOnRemote() throws Exception {
+	void testManifestParserWithMissingFetchOnRemote() throws Exception {
 		String baseUrl = "https://git.google.com/";
 		StringBuilder xmlContent = new StringBuilder();
 		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -116,7 +116,7 @@ public class ManifestParserTest {
 	}
 
 	@Test
-	public void testRemoveProject() throws Exception {
+	void testRemoveProject() throws Exception {
 		StringBuilder xmlContent = new StringBuilder();
 		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 				.append("<manifest>")
@@ -146,7 +146,7 @@ public class ManifestParserTest {
 	}
 
 	@Test
-	public void testNormalizeEmptyPath() {
+	void testNormalizeEmptyPath() {
 		testNormalize("http://a.b", "http://a.b/");
 		testNormalize("http://a.b/", "http://a.b/");
 		testNormalize("", "");

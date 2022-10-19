@@ -10,13 +10,13 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -48,11 +48,12 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCase {
+public class ReceivePackAdvertiseRefsHookTest
+		extends LocalDiskRepositoryTestCase {
 	private static final NullProgressMonitor PM = NullProgressMonitor.INSTANCE;
 
 	private static final String R_MASTER = Constants.R_HEADS + Constants.MASTER;
@@ -68,7 +69,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	private RevBlob a, b;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -103,7 +104,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	@Test
-	public void testFilterHidesPrivate() throws Exception {
+	void testFilterHidesPrivate() throws Exception {
 		Map<String, Ref> refs;
 		try (TransportLocal t = new TransportLocal(src, uriOf(dst),
 				dst.getDirectory()) {
@@ -120,17 +121,17 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		}
 
 		assertNotNull(refs);
-		assertNull("no private", refs.get(R_PRIVATE));
-		assertNull("no HEAD", refs.get(Constants.HEAD));
+		assertNull(refs.get(R_PRIVATE), "no private");
+		assertNull(refs.get(Constants.HEAD), "no HEAD");
 		assertEquals(1, refs.size());
 
 		Ref master = refs.get(R_MASTER);
-		assertNotNull("has master", master);
+		assertNotNull(master, "has master");
 		assertEquals(B, master.getObjectId());
 	}
 
 	@Test
-	public void resetsHaves() throws Exception {
+	void resetsHaves() throws Exception {
 		AtomicReference<Set<ObjectId>> haves = new AtomicReference<>();
 		try (TransportLocal t = new TransportLocal(src, uriOf(dst),
 				dst.getDirectory()) {
@@ -181,7 +182,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	@Test
-	public void testSuccess() throws Exception {
+	void testSuccess() throws Exception {
 		// Manually force a delta of an object so we reuse it later.
 		//
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
@@ -200,8 +201,8 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		// Verify the only storage of b is our packed delta above.
 		//
 		ObjectDirectory od = (ObjectDirectory) src.getObjectDatabase();
-		assertTrue("has b", od.has(b));
-		assertFalse("b not loose", od.fileFor(b).exists());
+		assertTrue(od.has(b), "has b");
+		assertFalse(od.fileFor(b).exists(), "b not loose");
 
 		// Now use b but in a different commit than what is hidden.
 		//
@@ -226,16 +227,16 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 				r = t.push(PM, Collections.singleton(u));
 			}
 
-			assertNotNull("have result", r);
-			assertNull("private not advertised", r.getAdvertisedRef(R_PRIVATE));
-			assertSame("master updated", RemoteRefUpdate.Status.OK,
-					u.getStatus());
+			assertNotNull(r, "have result");
+			assertNull(r.getAdvertisedRef(R_PRIVATE), "private not advertised");
+			assertSame(RemoteRefUpdate.Status.OK, u.getStatus(),
+					"master updated");
 			assertEquals(N, dst.resolve(R_MASTER));
 		}
 	}
 
 	@Test
-	public void testCreateBranchAtHiddenCommitFails() throws Exception {
+	void testCreateBranchAtHiddenCommitFails() throws Exception {
 		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64);
 		packHeader(pack, 0);
 		digest(pack);
@@ -266,7 +267,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		final PacketLineIn r = asPacketLineIn(outBuf);
 		String master = r.readString();
 		int nul = master.indexOf('\0');
-		assertTrue("has capability list", nul > 0);
+		assertTrue(nul > 0, "has capability list");
 		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
 		assertTrue(PacketLineIn.isEnd(r.readString()));
 
@@ -282,7 +283,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	@Test
-	public void testUsingHiddenDeltaBaseFails() throws Exception {
+	void testUsingHiddenDeltaBaseFails() throws Exception {
 		byte[] delta = { 0x1, 0x1, 0x1, 'c' };
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
 			src.incrementOpen();
@@ -327,7 +328,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			final PacketLineIn r = asPacketLineIn(outBuf);
 			String master = r.readString();
 			int nul = master.indexOf('\0');
-			assertTrue("has capability list", nul > 0);
+			assertTrue(nul > 0, "has capability list");
 			assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
 			assertTrue(PacketLineIn.isEnd(r.readString()));
 
@@ -340,7 +341,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	@Test
-	public void testUsingHiddenCommonBlobFails() throws Exception {
+	void testUsingHiddenCommonBlobFails() throws Exception {
 		// Try to use the 'b' blob that is hidden.
 		//
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
@@ -381,7 +382,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			final PacketLineIn r = asPacketLineIn(outBuf);
 			String master = r.readString();
 			int nul = master.indexOf('\0');
-			assertTrue("has capability list", nul > 0);
+			assertTrue(nul > 0, "has capability list");
 			assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
 			assertTrue(PacketLineIn.isEnd(r.readString()));
 
@@ -394,7 +395,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	@Test
-	public void testUsingUnknownBlobFails() throws Exception {
+	void testUsingUnknownBlobFails() throws Exception {
 		// Try to use the 'n' blob that is not on the server.
 		//
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
@@ -436,7 +437,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			final PacketLineIn r = asPacketLineIn(outBuf);
 			String master = r.readString();
 			int nul = master.indexOf('\0');
-			assertTrue("has capability list", nul > 0);
+			assertTrue(nul > 0, "has capability list");
 			assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
 			assertTrue(PacketLineIn.isEnd(r.readString()));
 
@@ -449,7 +450,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	@Test
-	public void testIncludesInvalidGitmodules() throws Exception {
+	void testIncludesInvalidGitmodules() throws Exception {
 		final TemporaryBuffer.Heap inBuf = setupSourceRepoInvalidGitmodules();
 		final TemporaryBuffer.Heap outBuf = new TemporaryBuffer.Heap(1024);
 		final ReceivePack rp = new ReceivePack(dst);
@@ -466,7 +467,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		final PacketLineIn r = asPacketLineIn(outBuf);
 		String master = r.readString();
 		int nul = master.indexOf('\0');
-		assertTrue("has capability list", nul > 0);
+		assertTrue(nul > 0, "has capability list");
 		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
 		assertTrue(PacketLineIn.isEnd(r.readString()));
 
@@ -480,13 +481,10 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	private TemporaryBuffer.Heap setupSourceRepoInvalidGitmodules()
 			throws IOException, Exception, MissingObjectException {
 		String fakeGitmodules = new StringBuilder()
-				.append("[submodule \"test\"]\n")
-				.append("    path = xlib\n")
+				.append("[submodule \"test\"]\n").append("    path = xlib\n")
 				.append("    url = https://example.com/repo/xlib.git\n\n")
-				.append("[submodule \"test2\"]\n")
-				.append("    path = zlib\n")
-				.append("    url = -upayload.sh\n")
-				.toString();
+				.append("[submodule \"test2\"]\n").append("    path = zlib\n")
+				.append("    url = -upayload.sh\n").toString();
 
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
 			src.incrementOpen();
@@ -514,7 +512,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	@Test
-	public void testUsingUnknownTreeFails() throws Exception {
+	void testUsingUnknownTreeFails() throws Exception {
 		try (TestRepository<Repository> s = new TestRepository<>(src)) {
 			src.incrementOpen();
 			RevCommit N = s.commit().parent(B).add("q", s.blob("a")).create();
@@ -553,7 +551,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			final PacketLineIn r = asPacketLineIn(outBuf);
 			String master = r.readString();
 			int nul = master.indexOf('\0');
-			assertTrue("has capability list", nul > 0);
+			assertTrue(nul > 0, "has capability list");
 			assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
 			assertTrue(PacketLineIn.isEnd(r.readString()));
 
@@ -587,7 +585,8 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		dataLength = nextLength;
 		while (dataLength > 0) {
 			nextLength >>>= 7;
-			buf[size++] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (dataLength & 0x7F));
+			buf[size++] = (byte) ((nextLength > 0 ? 0x80 : 0x00)
+					| (dataLength & 0x7F));
 			dataLength = nextLength;
 		}
 		tinyPack.write(buf, 0, size);
@@ -595,8 +594,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	private static void deflate(TemporaryBuffer.Heap tinyPack,
-			final byte[] content)
-			throws IOException {
+			final byte[] content) throws IOException {
 		final Deflater deflater = new Deflater();
 		final byte[] buf = new byte[128];
 		deflater.setInput(content, 0, content.length);
@@ -616,7 +614,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 	private ObjectInserter inserter;
 
-	@After
+	@AfterEach
 	public void release() {
 		if (inserter != null) {
 			inserter.close();
@@ -638,9 +636,11 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		return new PacketLineIn(new ByteArrayInputStream(buf.toByteArray()));
 	}
 
-	private static final class HidePrivateHook extends AbstractAdvertiseRefsHook {
+	private static final class HidePrivateHook
+			extends AbstractAdvertiseRefsHook {
 		@Override
-		public Map<String, Ref> getAdvertisedRefs(Repository r, RevWalk revWalk) {
+		public Map<String, Ref> getAdvertisedRefs(Repository r,
+				RevWalk revWalk) {
 			Map<String, Ref> refs = new HashMap<>(r.getAllRefs());
 			assertNotNull(refs.remove(R_PRIVATE));
 			return refs;

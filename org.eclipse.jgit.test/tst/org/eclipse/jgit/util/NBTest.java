@@ -10,15 +10,15 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NBTest {
 	@Test
-	public void testCompareUInt32() {
-		assertTrue(NB.compareUInt32(0, 0) == 0);
+	void testCompareUInt32() {
+		assertEquals(NB.compareUInt32(0, 0), 0);
 		assertTrue(NB.compareUInt32(1, 0) > 0);
 		assertTrue(NB.compareUInt32(0, 1) < 0);
 		assertTrue(NB.compareUInt32(-1, 0) > 0);
@@ -28,8 +28,8 @@ public class NBTest {
 	}
 
 	@Test
-	public void testCompareUInt64() {
-		assertTrue(NB.compareUInt64(0, 0) == 0);
+	void testCompareUInt64() {
+		assertEquals(NB.compareUInt64(0, 0), 0);
 		assertTrue(NB.compareUInt64(1, 0) > 0);
 		assertTrue(NB.compareUInt64(0, 1) < 0);
 		assertTrue(NB.compareUInt64(-1, 0) > 0);
@@ -39,7 +39,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testDecodeUInt16() {
+	void testDecodeUInt16() {
 		assertEquals(0, NB.decodeUInt16(b(0, 0), 0));
 		assertEquals(0, NB.decodeUInt16(padb(3, 0, 0), 3));
 
@@ -57,7 +57,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testDecodeUInt24() {
+	void testDecodeUInt24() {
 		assertEquals(0, NB.decodeUInt24(b(0, 0, 0), 0));
 		assertEquals(0, NB.decodeUInt24(padb(3, 0, 0, 0), 3));
 
@@ -75,7 +75,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testDecodeInt32() {
+	void testDecodeInt32() {
 		assertEquals(0, NB.decodeInt32(b(0, 0, 0, 0), 0));
 		assertEquals(0, NB.decodeInt32(padb(3, 0, 0, 0, 0), 3));
 
@@ -96,7 +96,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testDecodeUInt32() {
+	void testDecodeUInt32() {
 		assertEquals(0L, NB.decodeUInt32(b(0, 0, 0, 0), 0));
 		assertEquals(0L, NB.decodeUInt32(padb(3, 0, 0, 0, 0), 3));
 
@@ -117,7 +117,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testDecodeUInt64() {
+	void testDecodeUInt64() {
 		assertEquals(0L, NB.decodeUInt64(b(0, 0, 0, 0, 0, 0, 0, 0), 0));
 		assertEquals(0L, NB.decodeUInt64(padb(3, 0, 0, 0, 0, 0, 0, 0, 0), 3));
 
@@ -150,7 +150,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testEncodeInt16() {
+	void testEncodeInt16() {
 		final byte[] out = new byte[16];
 
 		prepareOutput(out);
@@ -183,7 +183,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testEncodeInt24() {
+	void testEncodeInt24() {
 		byte[] out = new byte[16];
 
 		prepareOutput(out);
@@ -216,7 +216,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testEncodeInt32() {
+	void testEncodeInt32() {
 		final byte[] out = new byte[16];
 
 		prepareOutput(out);
@@ -257,7 +257,7 @@ public class NBTest {
 	}
 
 	@Test
-	public void testEncodeInt64() {
+	void testEncodeInt64() {
 		final byte[] out = new byte[16];
 
 		prepareOutput(out);

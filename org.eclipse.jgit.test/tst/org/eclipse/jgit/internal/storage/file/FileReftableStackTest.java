@@ -11,10 +11,10 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,9 +34,9 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 public class FileReftableStackTest {
@@ -47,12 +47,12 @@ public class FileReftableStackTest {
 
 	private File reftableDir;
 
-	@Before
+	@BeforeEach
 	public void setup() throws Exception {
 		reftableDir = FileUtils.createTempDir("rtstack", "", null);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (reftableDir != null) {
 			FileUtils.delete(reftableDir, FileUtils.RECURSIVE);
@@ -109,18 +109,18 @@ public class FileReftableStackTest {
 	}
 
 	@Test
-	public void testCompaction9() throws Exception {
+	void testCompaction9() throws Exception {
 		testCompaction(9);
 	}
 
 	@Test
-	public void testCompaction1024() throws Exception {
+	void testCompaction1024() throws Exception {
 		testCompaction(1024);
 	}
 
 	@SuppressWarnings("resource")
 	@Test
-	public void missingReftable() throws Exception {
+	void missingReftable() throws Exception {
 		// Can't delete in-use files on Windows.
 		assumeFalse(SystemReader.getInstance().isWindows());
 
@@ -157,20 +157,20 @@ public class FileReftableStackTest {
 	}
 
 	@Test
-	public void testSegments() {
-		long in[] = { 1024, 1024, 1536, 100, 64, 50, 25, 24 };
+	void testSegments() {
+		long in[] = {1024, 1024, 1536, 100, 64, 50, 25, 24};
 		List<Segment> got = FileReftableStack.segmentSizes(in);
-		Segment want[] = { new Segment(0, 3, 10, 3584),
+		Segment want[] = {new Segment(0, 3, 10, 3584),
 				new Segment(3, 5, 6, 164), new Segment(5, 6, 5, 50),
 				new Segment(6, 8, 4, 49), };
 		assertEquals(got.size(), want.length);
 		for (int i = 0; i < want.length; i++) {
-			assertTrue(want[i].equals(got.get(i)));
+			assertEquals(want[i], got.get(i));
 		}
 	}
 
 	@Test
-	public void testLog2() throws Exception {
+	void testLog2() throws Exception {
 		assertEquals(10, FileReftableStack.log(1024));
 		assertEquals(10, FileReftableStack.log(1025));
 		assertEquals(10, FileReftableStack.log(2047));

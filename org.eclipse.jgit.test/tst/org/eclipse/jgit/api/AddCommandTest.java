@@ -12,10 +12,10 @@ package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.RECURSIVE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,26 +49,25 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-@RunWith(Theories.class)
 public class AddCommandTest extends RepositoryTestCase {
-	@DataPoints
-	public static boolean[] sleepBeforeAddOptions = { true, false };
 
+	private static final String DISPLAY_NAME = "sleepBeforeAdd=''{0}''";
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
+		super.setUp();
 		BuiltinLFS.register();
 		super.setUp();
 	}
 
 	@Test
-	public void testAddNothing() throws GitAPIException {
+	void testAddNothing() throws GitAPIException {
 		try (Git git = new Git(db)) {
 			git.add().call();
 			fail("Expected IllegalArgumentException");
@@ -79,7 +78,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddNonExistingSingleFile() throws GitAPIException {
+	void testAddNonExistingSingleFile() throws GitAPIException {
 		try (Git git = new Git(db)) {
 			DirCache dc = git.add().addFilepattern("a.txt").call();
 			assertEquals(0, dc.getEntryCount());
@@ -87,7 +86,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFile() throws IOException, GitAPIException {
+	void testAddExistingSingleFile() throws IOException, GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
@@ -104,7 +103,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddLink() throws IOException, GitAPIException {
+	void testAddLink() throws IOException, GitAPIException {
 		assumeTrue(db.getFS().supportsSymlinks());
 		try (Git git = new Git(db)) {
 			writeTrashFile("a.txt", "a");
@@ -141,7 +140,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCleanFilter() throws IOException, GitAPIException {
+	void testCleanFilter() throws IOException, GitAPIException {
 		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
 		writeTrashFile("src/a.tmp", "foo");
 		// Caution: we need a trailing '\n' since sed on mac always appends
@@ -164,7 +163,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@ValueSource(booleans = { true, false })
 	public void testBuiltinFilters(boolean sleepBeforeAdd)
 			throws IOException,
 			GitAPIException, InterruptedException {
@@ -220,7 +220,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Theory
+	@ParameterizedTest(name = DISPLAY_NAME)
+	@ValueSource(booleans = { true, false })
 	public void testBuiltinCleanFilter(boolean sleepBeforeAdd)
 			throws IOException, GitAPIException, InterruptedException {
 		writeTrashFile(".gitattributes", "*.txt filter=lfs");
@@ -287,7 +288,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAttributesWithTreeWalkFilter()
+	void testAttributesWithTreeWalkFilter()
 			throws IOException, GitAPIException {
 		writeTrashFile(".gitattributes", "*.txt filter=lfs");
 		writeTrashFile("src/a.tmp", "foo");
@@ -310,7 +311,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAttributesConflictingMatch() throws Exception {
+	void testAttributesConflictingMatch() throws Exception {
 		writeTrashFile(".gitattributes", "foo/** crlf=input\n*.jar binary");
 		writeTrashFile("foo/bar.jar", "\r\n");
 		// We end up with attributes [binary -diff -merge -text crlf=input].
@@ -325,7 +326,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCleanFilterEnvironment()
+	void testCleanFilterEnvironment()
 			throws IOException, GitAPIException {
 		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
 		writeTrashFile("src/a.txt", "foo");
@@ -346,7 +347,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMultipleCleanFilter() throws IOException, GitAPIException {
+	void testMultipleCleanFilter() throws IOException, GitAPIException {
 		writeTrashFile(".gitattributes",
 				"*.txt filter=tstFilter\n*.tmp filter=tstFilter2");
 		// Caution: we need a trailing '\n' since sed on mac always appends
@@ -384,7 +385,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	 * @throws GitAPIException
 	 */
 	@Test
-	public void testCommandInjection() throws IOException, GitAPIException {
+	void testCommandInjection() throws IOException, GitAPIException {
 		// Caution: we need a trailing '\n' since sed on mac always appends
 		// linefeeds if missing
 		writeTrashFile("; echo virus", "foo\n");
@@ -405,7 +406,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBadCleanFilter() throws IOException, GitAPIException {
+	void testBadCleanFilter() throws IOException, GitAPIException {
 		writeTrashFile("a.txt", "foo");
 		File script = writeTempFile("sedfoo s/o/e/g");
 
@@ -426,7 +427,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBadCleanFilter2() throws IOException, GitAPIException {
+	void testBadCleanFilter2() throws IOException, GitAPIException {
 		writeTrashFile("a.txt", "foo");
 		File script = writeTempFile("sed s/o/e/g");
 
@@ -447,7 +448,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCleanFilterReturning12() throws IOException,
+	void testCleanFilterReturning12() throws IOException,
 			GitAPIException {
 		writeTrashFile("a.txt", "foo");
 		File script = writeTempFile("exit 12");
@@ -469,7 +470,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNotApplicableFilter() throws IOException, GitAPIException {
+	void testNotApplicableFilter() throws IOException, GitAPIException {
 		writeTrashFile("a.txt", "foo");
 		File script = writeTempFile("sed s/o/e/g");
 
@@ -494,7 +495,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleSmallFileWithNewLine() throws IOException,
+	void testAddExistingSingleSmallFileWithNewLine() throws IOException,
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
@@ -519,7 +520,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleMediumSizeFileWithNewLine()
+	void testAddExistingSingleMediumSizeFileWithNewLine()
 			throws IOException, GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
@@ -548,7 +549,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleBinaryFile() throws IOException,
+	void testAddExistingSingleBinaryFile() throws IOException,
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
@@ -573,7 +574,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFileInSubDir() throws IOException,
+	void testAddExistingSingleFileInSubDir() throws IOException,
 			GitAPIException {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
@@ -592,7 +593,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFileTwice() throws IOException,
+	void testAddExistingSingleFileTwice() throws IOException,
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
@@ -618,7 +619,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFileTwiceWithCommit() throws Exception {
+	void testAddExistingSingleFileTwiceWithCommit() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
@@ -645,7 +646,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddRemovedFile() throws Exception {
+	void testAddRemovedFile() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
@@ -668,7 +669,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddRemovedCommittedFile() throws Exception {
+	void testAddRemovedCommittedFile() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
@@ -693,7 +694,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddWithConflicts() throws Exception {
+	void testAddWithConflicts() throws Exception {
 		// prepare conflict
 
 		File file = new File(db.getWorkTree(), "a.txt");
@@ -730,9 +731,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		}
 		assertEquals(
 				"[a.txt, mode:100644, stage:1, content:content]" +
-				"[a.txt, mode:100644, stage:2, content:our content]" +
-				"[a.txt, mode:100644, stage:3, content:other content]" +
-				"[b.txt, mode:100644, content:content b]",
+						"[a.txt, mode:100644, stage:2, content:our content]" +
+						"[a.txt, mode:100644, stage:3, content:other content]" +
+						"[b.txt, mode:100644, content:content b]",
 				indexState(CONTENT));
 
 		// now the test begins
@@ -742,13 +743,13 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			assertEquals(
 					"[a.txt, mode:100644, content:our content]" +
-					"[b.txt, mode:100644, content:content b]",
+							"[b.txt, mode:100644, content:content b]",
 					indexState(CONTENT));
 		}
 	}
 
 	@Test
-	public void testAddTwoFiles() throws Exception  {
+	void testAddTwoFiles() throws Exception  {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
@@ -765,13 +766,13 @@ public class AddCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
 			assertEquals(
 					"[a.txt, mode:100644, content:content]" +
-					"[b.txt, mode:100644, content:content b]",
+							"[b.txt, mode:100644, content:content b]",
 					indexState(CONTENT));
 		}
 	}
 
 	@Test
-	public void testAddFolder() throws Exception  {
+	void testAddFolder() throws Exception  {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -789,13 +790,13 @@ public class AddCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("sub").call();
 			assertEquals(
 					"[sub/a.txt, mode:100644, content:content]" +
-					"[sub/b.txt, mode:100644, content:content b]",
+							"[sub/b.txt, mode:100644, content:content b]",
 					indexState(CONTENT));
 		}
 	}
 
 	@Test
-	public void testAddIgnoredFile() throws Exception  {
+	void testAddIgnoredFile() throws Exception  {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -825,7 +826,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddWholeRepo() throws Exception  {
+	void testAddWholeRepo() throws Exception  {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -843,7 +844,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern(".").call();
 			assertEquals(
 					"[sub/a.txt, mode:100644, content:content]" +
-					"[sub/b.txt, mode:100644, content:content b]",
+							"[sub/b.txt, mode:100644, content:content b]",
 					indexState(CONTENT));
 		}
 	}
@@ -853,7 +854,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	// file b exists not in workdir but in index -> unchanged
 	// file c exists in workdir but not in index -> added
 	@Test
-	public void testAddWithoutParameterUpdate() throws Exception {
+	void testAddWithoutParameterUpdate() throws Exception {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -872,7 +873,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			assertEquals(
 					"[sub/a.txt, mode:100644, content:content]" +
-					"[sub/b.txt, mode:100644, content:content b]",
+							"[sub/b.txt, mode:100644, content:content b]",
 					indexState(CONTENT));
 
 			git.commit().setMessage("commit").call();
@@ -898,8 +899,8 @@ public class AddCommandTest extends RepositoryTestCase {
 			// sub/c.txt is staged
 			assertEquals(
 					"[sub/a.txt, mode:100644, content:modified content]" +
-					"[sub/b.txt, mode:100644, content:content b]" +
-					"[sub/c.txt, mode:100644, content:content c]",
+							"[sub/b.txt, mode:100644, content:content b]" +
+							"[sub/c.txt, mode:100644, content:content c]",
 					indexState(CONTENT));
 		}
 	}
@@ -908,7 +909,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	// file b exists not in workdir but in index -> deleted
 	// file c exists in workdir but not in index -> unchanged
 	@Test
-	public void testAddWithParameterUpdate() throws Exception {
+	void testAddWithParameterUpdate() throws Exception {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -927,7 +928,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			assertEquals(
 					"[sub/a.txt, mode:100644, content:content]" +
-					"[sub/b.txt, mode:100644, content:content b]",
+							"[sub/b.txt, mode:100644, content:content b]",
 					indexState(CONTENT));
 
 			git.commit().setMessage("commit").call();
@@ -958,7 +959,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAssumeUnchanged() throws Exception {
+	void testAssumeUnchanged() throws Exception {
 		try (Git git = new Git(db)) {
 			String path = "a.txt";
 			writeTrashFile(path, "content");
@@ -986,12 +987,12 @@ public class AddCommandTest extends RepositoryTestCase {
 					+ " assume-unchanged:false][b.txt, mode:100644,"
 					+ " content:content, assume-unchanged:true]",
 					indexState(CONTENT
-					| ASSUME_UNCHANGED));
+							| ASSUME_UNCHANGED));
 		}
 	}
 
 	@Test
-	public void testReplaceFileWithDirectory()
+	void testReplaceFileWithDirectory()
 			throws IOException, NoFilepatternException, GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("df", "before replacement");
@@ -1007,7 +1008,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReplaceDirectoryWithFile()
+	void testReplaceDirectoryWithFile()
 			throws IOException, NoFilepatternException, GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("df/f", "before replacement");
@@ -1023,20 +1024,20 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReplaceFileByPartOfDirectory()
+	void testReplaceFileByPartOfDirectory()
 			throws IOException, NoFilepatternException, GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("src/main", "df", "before replacement");
 			writeTrashFile("src/main", "z", "z");
 			writeTrashFile("z", "z2");
 			git.add().addFilepattern("src/main/df")
-				.addFilepattern("src/main/z")
-				.addFilepattern("z")
-				.call();
+					.addFilepattern("src/main/z")
+					.addFilepattern("z")
+					.call();
 			assertEquals(
 					"[src/main/df, mode:100644, content:before replacement]" +
-					"[src/main/z, mode:100644, content:z]" +
-					"[z, mode:100644, content:z2]",
+							"[src/main/z, mode:100644, content:z]" +
+							"[z, mode:100644, content:z2]",
 					indexState(CONTENT));
 			FileUtils.delete(new File(db.getWorkTree(), "src/main/df"));
 			writeTrashFile("src/main/df", "a", "after replacement");
@@ -1044,14 +1045,14 @@ public class AddCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("src/main/df/a").call();
 			assertEquals(
 					"[src/main/df/a, mode:100644, content:after replacement]" +
-					"[src/main/z, mode:100644, content:z]" +
-					"[z, mode:100644, content:z2]",
+							"[src/main/z, mode:100644, content:z]" +
+							"[z, mode:100644, content:z2]",
 					indexState(CONTENT));
 		}
 	}
 
 	@Test
-	public void testReplaceDirectoryConflictsWithFile()
+	void testReplaceDirectoryConflictsWithFile()
 			throws IOException, NoFilepatternException, GitAPIException {
 		DirCache dc = db.lockDirCache();
 		try (ObjectInserter oi = db.newObjectInserter()) {
@@ -1071,9 +1072,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		}
 		assertEquals(
 				"[a, mode:100644, stage:1, content:content]" +
-				"[a/df, mode:100644, stage:2, content:our content]" +
-				"[a/df, mode:100644, stage:3, content:other content]" +
-				"[z, mode:100644, content:z]",
+						"[a/df, mode:100644, stage:2, content:our content]" +
+						"[a/df, mode:100644, stage:3, content:other content]" +
+						"[z, mode:100644, content:z]",
 				indexState(CONTENT));
 
 		try (Git git = new Git(db)) {
@@ -1087,7 +1088,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testExecutableRetention() throws Exception {
+	void testExecutableRetention() throws Exception {
 		StoredConfig config = db.getConfig();
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FILEMODE, true);
@@ -1180,7 +1181,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddGitlink() throws Exception {
+	void testAddGitlink() throws Exception {
 		createNestedRepo("git-link-dir");
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("git-link-dir").call();
@@ -1195,7 +1196,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddSubrepoWithDirNoGitlinks() throws Exception {
+	void testAddSubrepoWithDirNoGitlinks() throws Exception {
 		createNestedRepo("nested-repo");
 
 		// Set DIR_NO_GITLINKS
@@ -1236,7 +1237,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddGitlinkDoesNotChange() throws Exception {
+	void testAddGitlinkDoesNotChange() throws Exception {
 		createNestedRepo("nested-repo");
 
 		try (Git git = new Git(db)) {

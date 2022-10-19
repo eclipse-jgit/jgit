@@ -10,35 +10,35 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevTag;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GcTagTest extends GcTestCase {
 	@Test
-	public void lightweightTag_objectNotPruned() throws Exception {
+	void lightweightTag_objectNotPruned() throws Exception {
 		RevBlob a = tr.blob("a");
 		tr.lightweightTag("t", a);
 		gc.setExpireAgeMillis(0);
 		fsTick();
-		gc.prune(Collections.<ObjectId> emptySet());
+		gc.prune(Collections.<ObjectId>emptySet());
 		assertTrue(repo.getObjectDatabase().has(a));
 	}
 
 	@Test
-	public void annotatedTag_objectNotPruned() throws Exception {
+	void annotatedTag_objectNotPruned() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevTag t = tr.tag("t", a); // this doesn't create the refs/tags/t ref
 		tr.lightweightTag("t", t);
 
 		gc.setExpireAgeMillis(0);
 		fsTick();
-		gc.prune(Collections.<ObjectId> emptySet());
+		gc.prune(Collections.<ObjectId>emptySet());
 		assertTrue(repo.getObjectDatabase().has(t));
 		assertTrue(repo.getObjectDatabase().has(a));
 	}

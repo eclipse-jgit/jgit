@@ -10,19 +10,19 @@
 
 package org.eclipse.jgit.nls;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Locale;
 
 import org.eclipse.jgit.errors.TranslationBundleLoadingException;
 import org.eclipse.jgit.errors.TranslationStringMissingException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TranslationBundleTest {
 
 	@Test
-	public void testMissingPropertiesFile() {
+	void testMissingPropertiesFile() {
 		try {
 			new NoPropertiesBundle().load(NLS.ROOT_LOCALE);
 			fail("Expected TranslationBundleLoadingException");
@@ -34,7 +34,7 @@ public class TranslationBundleTest {
 	}
 
 	@Test
-	public void testMissingString() {
+	void testMissingString() {
 		try {
 			new MissingPropertyBundle().load(NLS.ROOT_LOCALE);
 			fail("Expected TranslationStringMissingException");
@@ -47,7 +47,7 @@ public class TranslationBundleTest {
 	}
 
 	@Test
-	public void testNonTranslatedBundle() {
+	void testNonTranslatedBundle() {
 		NonTranslatedBundle bundle = new NonTranslatedBundle();
 
 		bundle.load(NLS.ROOT_LOCALE);
@@ -64,7 +64,7 @@ public class TranslationBundleTest {
 	}
 
 	@Test
-	public void testGermanTranslation() {
+	void testGermanTranslation() {
 		GermanTranslatedBundle bundle = new GermanTranslatedBundle();
 
 		bundle.load(NLS.ROOT_LOCALE);

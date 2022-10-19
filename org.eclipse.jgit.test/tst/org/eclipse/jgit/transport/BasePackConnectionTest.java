@@ -13,9 +13,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
@@ -29,12 +29,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BasePackConnectionTest {
 
 	@Test
-	public void testReadAdvertisedRefsShouldThrowExceptionWithOriginalCause() {
+	void testReadAdvertisedRefsShouldThrowExceptionWithOriginalCause() {
 		try (FailingBasePackConnection basePackConnection =
 				new FailingBasePackConnection()) {
 			Exception result = assertThrows(NoRemoteRepositoryException.class,
@@ -44,7 +44,7 @@ public class BasePackConnectionTest {
 	}
 
 	@Test
-	public void testUpdateWithSymRefsAdds() {
+	void testUpdateWithSymRefsAdds() {
 		final Ref mainRef = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE,
 				"refs/heads/main", ObjectId.fromString(
 						"0000000000000000000000000000000000000001"));
@@ -70,7 +70,7 @@ public class BasePackConnectionTest {
 	}
 
 	@Test
-	public void testUpdateWithSymRefsReplaces() {
+	void testUpdateWithSymRefsReplaces() {
 		final Ref mainRef = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE,
 				"refs/heads/main", ObjectId.fromString(
 						"0000000000000000000000000000000000000001"));
@@ -98,7 +98,7 @@ public class BasePackConnectionTest {
 	}
 
 	@Test
-	public void testUpdateWithSymRefsWithIndirectsAdds() {
+	void testUpdateWithSymRefsWithIndirectsAdds() {
 		final Ref mainRef = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE,
 				"refs/heads/main", ObjectId.fromString(
 						"0000000000000000000000000000000000000001"));
@@ -140,7 +140,7 @@ public class BasePackConnectionTest {
 	}
 
 	@Test
-	public void testUpdateWithSymRefsWithIndirectsReplaces() {
+	void testUpdateWithSymRefsWithIndirectsReplaces() {
 		final Ref mainRef = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE,
 				"refs/heads/main", ObjectId.fromString(
 						"0000000000000000000000000000000000000001"));
@@ -188,7 +188,7 @@ public class BasePackConnectionTest {
 	}
 
 	@Test
-	public void testUpdateWithSymRefsIgnoresSelfReference() {
+	void testUpdateWithSymRefsIgnoresSelfReference() {
 		final Ref mainRef = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE,
 				"refs/heads/main", ObjectId.fromString(
 						"0000000000000000000000000000000000000001"));
@@ -210,7 +210,7 @@ public class BasePackConnectionTest {
 	}
 
 	@Test
-	public void testUpdateWithSymRefsIgnoreCircularReference() {
+	void testUpdateWithSymRefsIgnoreCircularReference() {
 		final Ref mainRef = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE,
 				"refs/heads/main", ObjectId.fromString(
 						"0000000000000000000000000000000000000001"));
@@ -234,7 +234,7 @@ public class BasePackConnectionTest {
 	}
 
 	@Test
-	public void testUpdateWithSymRefsFillInHead() {
+	void testUpdateWithSymRefsFillInHead() {
 		final String oidName = "0000000000000000000000000000000000000001";
 		final Ref advertised = new ObjectIdRef.PeeledNonTag(Ref.Storage.NETWORK,
 				Constants.HEAD, ObjectId.fromString(oidName));

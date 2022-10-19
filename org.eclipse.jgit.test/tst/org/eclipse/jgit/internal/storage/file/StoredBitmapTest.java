@@ -10,31 +10,30 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-
 import org.eclipse.jgit.internal.storage.file.BasePackBitmapIndex.StoredBitmap;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StoredBitmapTest {
 
 	@Test
-	public void testGetBitmapWithoutXor() {
+	void testGetBitmapWithoutXor() {
 		EWAHCompressedBitmap b = bitmapOf(100);
 		StoredBitmap sb = newStoredBitmap(bitmapOf(100));
 		assertEquals(b, sb.getBitmap());
 	}
 
 	@Test
-	public void testGetBitmapWithOneXor() {
+	void testGetBitmapWithOneXor() {
 		StoredBitmap sb = newStoredBitmap(bitmapOf(100), bitmapOf(100, 101));
 		assertEquals(bitmapOf(101), sb.getBitmap());
 	}
 
 	@Test
-	public void testGetBitmapWithThreeXor() {
+	void testGetBitmapWithThreeXor() {
 		StoredBitmap sb = newStoredBitmap(
 				bitmapOf(100),
 				bitmapOf(90, 101),

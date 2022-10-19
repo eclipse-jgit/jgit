@@ -11,9 +11,9 @@ package org.eclipse.jgit.transport;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
@@ -30,9 +30,9 @@ import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test combinations of:
@@ -56,7 +56,7 @@ public class UploadPackReachabilityTest {
 
 	private TestRepository<InMemoryRepository> remote;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		server = newRepo("server");
 		client = newRepo("client");
@@ -64,13 +64,13 @@ public class UploadPackReachabilityTest {
 		remote = new TestRepository<>(server);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		Transport.unregister(testProtocol);
 	}
 
 	@Test
-	public void testFetchUnreachableBlobWithBitmap() throws Exception {
+	void testFetchUnreachableBlobWithBitmap() throws Exception {
 		RevBlob blob = remote.blob("foo");
 		remote.commit(remote.tree(remote.file("foo", blob)));
 		generateBitmaps(server);
@@ -90,7 +90,7 @@ public class UploadPackReachabilityTest {
 	}
 
 	@Test
-	public void testFetchReachableBlobWithoutBitmap() throws Exception {
+	void testFetchReachableBlobWithoutBitmap() throws Exception {
 		RevBlob blob = remote.blob("foo");
 		RevCommit commit = remote.commit(remote.tree(remote.file("foo", blob)));
 		remote.update("master", commit);
@@ -106,12 +106,12 @@ public class UploadPackReachabilityTest {
 							.singletonList(new RefSpec(blob.name()))));
 			assertThat(e.getMessage(),
 					containsString(
-						"want " + blob.name() + " not valid"));
+							"want " + blob.name() + " not valid"));
 		}
 	}
 
 	@Test
-	public void testFetchReachableBlobWithoutBitmapButFilterAllowed() throws Exception {
+	void testFetchReachableBlobWithoutBitmapButFilterAllowed() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
@@ -140,7 +140,7 @@ public class UploadPackReachabilityTest {
 	}
 
 	@Test
-	public void testFetchUnreachableBlobWithoutBitmap() throws Exception {
+	void testFetchUnreachableBlobWithoutBitmap() throws Exception {
 		RevBlob blob = remote.blob("foo");
 		remote.commit(remote.tree(remote.file("foo", blob)));
 
@@ -151,15 +151,15 @@ public class UploadPackReachabilityTest {
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			TransportException e = assertThrows(TransportException.class, () ->
-			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(blob.name()))));
+					tn.fetch(NullProgressMonitor.INSTANCE,
+							Collections.singletonList(new RefSpec(blob.name()))));
 			assertThat(e.getMessage(),
 					containsString("want " + blob.name() + " not valid"));
 		}
 	}
 
 	@Test
-	public void testFetchReachableBlobWithBitmap() throws Exception {
+	void testFetchReachableBlobWithBitmap() throws Exception {
 		RevBlob blob = remote.blob("foo");
 		RevCommit commit = remote.commit(remote.tree(remote.file("foo", blob)));
 		remote.update("master", commit);
@@ -178,7 +178,7 @@ public class UploadPackReachabilityTest {
 	}
 
 	@Test
-	public void testFetchReachableCommitWithBitmap() throws Exception {
+	void testFetchReachableCommitWithBitmap() throws Exception {
 		RevCommit commit = remote
 				.commit(remote.tree(remote.file("foo", remote.blob("foo"))));
 		remote.update("master", commit);
@@ -197,7 +197,7 @@ public class UploadPackReachabilityTest {
 	}
 
 	@Test
-	public void testFetchReachableCommitWithoutBitmap() throws Exception {
+	void testFetchReachableCommitWithoutBitmap() throws Exception {
 		RevCommit commit = remote
 				.commit(remote.tree(remote.file("foo", remote.blob("foo"))));
 		remote.update("master", commit);
@@ -216,7 +216,7 @@ public class UploadPackReachabilityTest {
 	}
 
 	@Test
-	public void testFetchUnreachableCommitWithBitmap() throws Exception {
+	void testFetchUnreachableCommitWithBitmap() throws Exception {
 		RevCommit commit = remote
 				.commit(remote.tree(remote.file("foo", remote.blob("foo"))));
 		generateBitmaps(server);
@@ -229,14 +229,14 @@ public class UploadPackReachabilityTest {
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			TransportException e = assertThrows(TransportException.class,
 					() -> tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name()))));
+							Collections.singletonList(new RefSpec(commit.name()))));
 			assertThat(e.getMessage(),
 					containsString("want " + commit.name() + " not valid"));
 		}
 	}
 
 	@Test
-	public void testFetchUnreachableCommitWithoutBitmap() throws Exception {
+	void testFetchUnreachableCommitWithoutBitmap() throws Exception {
 		RevCommit commit = remote
 				.commit(remote.tree(remote.file("foo", remote.blob("foo"))));
 

@@ -11,15 +11,15 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.eclipse.jgit.internal.storage.dfs.DeltaBaseCache.Entry;
 import org.eclipse.jgit.junit.TestRng;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DeltaBaseCacheTest {
 	private static final int SZ = 512;
@@ -28,7 +28,7 @@ public class DeltaBaseCacheTest {
 	private DeltaBaseCache cache;
 	private TestRng rng;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
 		key = DfsStreamKey.of(repo, "test.key", null);
@@ -37,15 +37,15 @@ public class DeltaBaseCacheTest {
 	}
 
 	@Test
-	public void testObjectLargerThanCacheDoesNotEvict() {
+	void testObjectLargerThanCacheDoesNotEvict() {
 		byte[] obj12 = put(12, 32);
 		put(24, SZ + 5);
-		assertNull("does not store large object", cache.get(key, 24));
+		assertNull(cache.get(key, 24), "does not store large object");
 		get(obj12, 12);
 	}
 
 	@Test
-	public void testCacheLruExpires1() {
+	void testCacheLruExpires1() {
 		byte[] obj1 = put(1, SZ / 4);
 		put(2, SZ / 4);
 		byte[] obj3 = put(3, SZ / 4);
@@ -66,7 +66,7 @@ public class DeltaBaseCacheTest {
 	}
 
 	@Test
-	public void testCacheLruExpires2() {
+	void testCacheLruExpires2() {
 		int pos0 = (0 << 10) | 2;
 		int pos1 = (1 << 10) | 2;
 		int pos2 = (2 << 10) | 2;
@@ -92,7 +92,7 @@ public class DeltaBaseCacheTest {
 	}
 
 	@Test
-	public void testCacheMemoryUsedConsistentWithExpectations() {
+	void testCacheMemoryUsedConsistentWithExpectations() {
 		put(1, 32);
 		put(2, 32);
 		put(3, 32);
@@ -107,9 +107,9 @@ public class DeltaBaseCacheTest {
 
 	private void get(byte[] data, int position) {
 		Entry e = cache.get(key, position);
-		assertNotNull("expected entry at " + position, e);
-		assertEquals("expected blob for " + position, OBJ_BLOB, e.type);
-		assertSame("expected data for " + position, data, e.data);
+		assertNotNull(e, "expected entry at " + position);
+		assertEquals(OBJ_BLOB, e.type, "expected blob for " + position);
+		assertSame(data, e.data, "expected data for " + position);
 	}
 
 	private byte[] put(int position, int sz) {

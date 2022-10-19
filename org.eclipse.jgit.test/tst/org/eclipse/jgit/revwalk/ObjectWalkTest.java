@@ -10,15 +10,15 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.TreeFormatter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectWalkTest extends RevWalkTestCase {
 	protected ObjectWalk objw;
@@ -29,13 +29,13 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testNoCommits() throws Exception {
+	void testNoCommits() throws Exception {
 		assertNull(objw.next());
 		assertNull(objw.nextObject());
 	}
 
 	@Test
-	public void testTwoCommitsEmptyTree() throws Exception {
+	void testTwoCommitsEmptyTree() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		markStart(b);
@@ -49,7 +49,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testOneCommitOneTreeTwoBlob() throws Exception {
+	void testOneCommitOneTreeTwoBlob() throws Exception {
 		final RevBlob f0 = blob("0");
 		final RevBlob f1 = blob("1");
 		final RevTree t = tree(file("0", f0), file("1", f1), file("2", f1));
@@ -66,7 +66,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testTwoCommitTwoTreeTwoBlob() throws Exception {
+	void testTwoCommitTwoTreeTwoBlob() throws Exception {
 		final RevBlob f0 = blob("0");
 		final RevBlob f1 = blob("1");
 		final RevBlob f2 = blob("0v2");
@@ -91,7 +91,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testTwoCommitDeepTree1() throws Exception {
+	void testTwoCommitDeepTree1() throws Exception {
 		final RevBlob f0 = blob("0");
 		final RevBlob f1 = blob("0v2");
 		final RevTree ta = tree(file("a/b/0", f0));
@@ -118,7 +118,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testTwoCommitDeepTree2() throws Exception {
+	void testTwoCommitDeepTree2() throws Exception {
 		final RevBlob f1 = blob("1");
 		final RevTree ta = tree(file("a/b/0", f1), file("a/c/q", f1));
 		final RevTree tb = tree(file("a/b/1", f1), file("a/c/q", f1));
@@ -144,7 +144,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testCull() throws Exception {
+	void testCull() throws Exception {
 		final RevBlob f1 = blob("1");
 		final RevBlob f2 = blob("2");
 		final RevBlob f3 = blob("3");
@@ -180,7 +180,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testEmptyTreeCorruption() throws Exception {
+	void testEmptyTreeCorruption() throws Exception {
 		ObjectId bId = ObjectId
 				.fromString("abbbfafe3129f85747aba7bfac992af77134c607");
 		final RevTree tree_root, tree_A, tree_AB;
@@ -218,7 +218,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testSkipTreeWhenStartFromBlob() throws Exception {
+	void testSkipTreeWhenStartFromBlob() throws Exception {
 		final RevBlob f1 = blob("1");
 		objw.markStart(f1);
 		assertSame(f1, objw.nextObject());

@@ -10,16 +10,16 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IntListTest {
 	@Test
-	public void testEmpty_DefaultCapacity() {
+	void testEmpty_DefaultCapacity() {
 		final IntList i = new IntList();
 		assertEquals(0, i.size());
 		try {
@@ -31,7 +31,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testEmpty_SpecificCapacity() {
+	void testEmpty_SpecificCapacity() {
 		final IntList i = new IntList(5);
 		assertEquals(0, i.size());
 		try {
@@ -43,7 +43,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testAdd_SmallGroup() {
+	void testAdd_SmallGroup() {
 		final IntList i = new IntList();
 		final int n = 5;
 		for (int v = 0; v < n; v++)
@@ -61,7 +61,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testAdd_ZeroCapacity() {
+	void testAdd_ZeroCapacity() {
 		final IntList i = new IntList(0);
 		assertEquals(0, i.size());
 		i.add(1);
@@ -69,7 +69,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testAdd_LargeGroup() {
+	void testAdd_LargeGroup() {
 		final IntList i = new IntList();
 		final int n = 500;
 		for (int v = 0; v < n; v++)
@@ -87,14 +87,14 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testFillTo0() {
+	void testFillTo0() {
 		final IntList i = new IntList();
 		i.fillTo(0, Integer.MIN_VALUE);
 		assertEquals(0, i.size());
 	}
 
 	@Test
-	public void testFillTo1() {
+	void testFillTo1() {
 		final IntList i = new IntList();
 		i.fillTo(1, Integer.MIN_VALUE);
 		assertEquals(1, i.size());
@@ -104,7 +104,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testFillTo100() {
+	void testFillTo100() {
 		final IntList i = new IntList();
 		i.fillTo(100, Integer.MIN_VALUE);
 		assertEquals(100, i.size());
@@ -114,7 +114,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testClear() {
+	void testClear() {
 		final IntList i = new IntList();
 		final int n = 5;
 		for (int v = 0; v < n; v++)
@@ -132,7 +132,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testSet() {
+	void testSet() {
 		final IntList i = new IntList();
 		i.add(1);
 		assertEquals(1, i.size());
@@ -144,7 +144,7 @@ public class IntListTest {
 		try {
 			i.set(5, 5);
 			fail("accepted set of 5 beyond end of list");
-		} catch (ArrayIndexOutOfBoundsException e){
+		} catch (ArrayIndexOutOfBoundsException e) {
 			assertTrue(true);
 		}
 
@@ -154,7 +154,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testContains() {
+	void testContains() {
 		IntList i = new IntList();
 		i.add(1);
 		i.add(4);
@@ -164,7 +164,7 @@ public class IntListTest {
 	}
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		final IntList i = new IntList();
 		i.add(1);
 		assertEquals("[1]", i.toString());

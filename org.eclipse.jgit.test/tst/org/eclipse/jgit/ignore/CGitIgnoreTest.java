@@ -10,10 +10,10 @@
 package org.eclipse.jgit.ignore;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -35,8 +35,8 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests that verify that the set of ignore files in a repository is the same in
@@ -44,7 +44,7 @@ import org.junit.Test;
  */
 public class CGitIgnoreTest extends RepositoryTestCase {
 
-	@Before
+	@BeforeEach
 	public void initRepo() throws IOException {
 		// These tests focus on .gitignore files inside the repository. Because
 		// we run C-git, we must ensure that global or user exclude files cannot
@@ -78,8 +78,9 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		ExecutionResult result = fs.execute(builder,
 				new ByteArrayInputStream(new byte[0]));
 		String errorOut = toString(result.getStderr());
-		assertEquals("External git failed", "exit 0\n",
-				"exit " + result.getRc() + '\n' + errorOut);
+		assertEquals("exit 0\n",
+				"exit " + result.getRc() + '\n' + errorOut,
+				"External git failed");
 		try (BufferedReader r = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(result.getStdout().openInputStream()),
 				UTF_8))) {
@@ -96,8 +97,9 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		ExecutionResult result = fs.execute(builder,
 				new ByteArrayInputStream(new byte[0]));
 		String errorOut = toString(result.getStderr());
-		assertEquals("External git failed", "exit 0\n",
-				"exit " + result.getRc() + '\n' + errorOut);
+		assertEquals("exit 0\n",
+				"exit " + result.getRc() + '\n' + errorOut,
+				"External git failed");
 		try (BufferedReader r = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(result.getStdout().openInputStream()),
 				UTF_8))) {
@@ -135,8 +137,8 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 			walk.setRecursive(true);
 			while (walk.next()) {
 				String path = walk.getPathString();
-				assertFalse("File " + path + " is ignored, should not appear",
-						ignored.contains(path));
+				assertFalse(ignored.contains(path),
+						"File " + path + " is ignored, should not appear");
 			}
 		}
 	}
@@ -150,14 +152,14 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		assertArrayEquals(cgit, ignored.toArray());
 		assertArrayEquals(cgitUntracked, untracked.toArray());
 		for (String notExcluded : notIgnored) {
-			assertFalse("File " + notExcluded + " should not be ignored",
-					ignored.contains(notExcluded));
+			assertFalse(ignored.contains(notExcluded),
+					"File " + notExcluded + " should not be ignored");
 		}
 		assertNoIgnoredVisited(ignored);
 	}
 
 	@Test
-	public void testSimpleIgnored() throws Exception {
+	void testSimpleIgnored() throws Exception {
 		createFiles("a.txt", "a.tmp", "src/sub/a.txt", "src/a.tmp",
 				"src/a.txt/b.tmp", "ignored/a.tmp", "ignored/not_ignored/a.tmp",
 				"ignored/other/a.tmp");
@@ -167,63 +169,63 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDirOnlyMatch() throws Exception {
+	void testDirOnlyMatch() throws Exception {
 		createFiles("a.txt", "src/foo/a.txt", "src/a.txt", "foo/a.txt");
 		writeTrashFile(".gitignore", "foo/");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirOnlyMatchDeep() throws Exception {
+	void testDirOnlyMatchDeep() throws Exception {
 		createFiles("a.txt", "src/foo/a.txt", "src/a.txt", "foo/a.txt");
 		writeTrashFile(".gitignore", "**/foo/");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testStarMatchOnSlashNot() throws Exception {
+	void testStarMatchOnSlashNot() throws Exception {
 		createFiles("sub/a.txt", "foo/sext", "foo/s.txt");
 		writeTrashFile(".gitignore", "s*xt");
 		assertSameAsCGit("sub/a.txt");
 	}
 
 	@Test
-	public void testPrefixMatch() throws Exception {
+	void testPrefixMatch() throws Exception {
 		createFiles("src/new/foo.txt");
 		writeTrashFile(".gitignore", "src/new");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursive() throws Exception {
+	void testDirectoryMatchSubRecursive() throws Exception {
 		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
 		writeTrashFile(".gitignore", "**/src/new/");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack() throws Exception {
 		createFiles("src/new/foo.txt", "src/src/new/foo.txt");
 		writeTrashFile(".gitignore", "**/src/new/");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack2() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack2() throws Exception {
 		createFiles("src/new/foo.txt", "src/src/new/foo.txt");
 		writeTrashFile(".gitignore", "**/**/src/new/");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack3() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack3() throws Exception {
 		createFiles("x/a/a/b/foo.txt");
 		writeTrashFile(".gitignore", "**/*/a/b/");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack4() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack4() throws Exception {
 		createFiles("x/a/a/b/foo.txt", "x/y/z/b/a/b/foo.txt",
 				"x/y/a/a/a/a/b/foo.txt", "x/y/a/a/a/a/b/a/b/foo.txt");
 		writeTrashFile(".gitignore", "**/*/a/b bar\n");
@@ -231,70 +233,70 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDirectoryMatchSubRecursiveBacktrack5() throws Exception {
+	void testDirectoryMatchSubRecursiveBacktrack5() throws Exception {
 		createFiles("x/a/a/b/foo.txt", "x/y/a/b/a/b/foo.txt");
 		writeTrashFile(".gitignore", "**/*/**/a/b bar\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryWildmatchDoesNotMatchFiles1() throws Exception {
+	void testDirectoryWildmatchDoesNotMatchFiles1() throws Exception {
 		createFiles("a", "dir/b", "dir/sub/c");
 		writeTrashFile(".gitignore", "**/\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryWildmatchDoesNotMatchFiles2() throws Exception {
+	void testDirectoryWildmatchDoesNotMatchFiles2() throws Exception {
 		createFiles("a", "dir/b", "dir/sub/c");
 		writeTrashFile(".gitignore", "**/**/\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryWildmatchDoesNotMatchFiles3() throws Exception {
+	void testDirectoryWildmatchDoesNotMatchFiles3() throws Exception {
 		createFiles("a", "x/b", "sub/x/c", "sub/x/d/e");
 		writeTrashFile(".gitignore", "x/**/\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testDirectoryWildmatchDoesNotMatchFiles4() throws Exception {
+	void testDirectoryWildmatchDoesNotMatchFiles4() throws Exception {
 		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
 		writeTrashFile(".gitignore", "**/x/\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testUnescapedBracketsInGroup() throws Exception {
+	void testUnescapedBracketsInGroup() throws Exception {
 		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
 		writeTrashFile(".gitignore", "[[]]\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testEscapedFirstBracketInGroup() throws Exception {
+	void testEscapedFirstBracketInGroup() throws Exception {
 		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
 		writeTrashFile(".gitignore", "[\\[]]\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testEscapedSecondBracketInGroup() throws Exception {
+	void testEscapedSecondBracketInGroup() throws Exception {
 		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
 		writeTrashFile(".gitignore", "[[\\]]\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testEscapedBothBracketsInGroup() throws Exception {
+	void testEscapedBothBracketsInGroup() throws Exception {
 		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
 		writeTrashFile(".gitignore", "[\\[\\]]\n");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testSimpleRootGitIgnoreGlobalNegation1() throws Exception {
+	void testSimpleRootGitIgnoreGlobalNegation1() throws Exception {
 		// see IgnoreNodeTest.testSimpleRootGitIgnoreGlobalNegation1
 		createFiles("x1", "a/x2", "x3/y");
 		writeTrashFile(".gitignore", "*\n!x*");
@@ -302,7 +304,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepeatedNegationInDifferentFiles5() throws Exception {
+	void testRepeatedNegationInDifferentFiles5() throws Exception {
 		// see IgnoreNodeTest.testRepeatedNegationInDifferentFiles5
 		createFiles("a/b/e/nothere.o");
 		writeTrashFile(".gitignore", "e");
@@ -312,7 +314,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepeatedNegationInDifferentFilesWithWildmatcher1()
+	void testRepeatedNegationInDifferentFilesWithWildmatcher1()
 			throws Exception {
 		createFiles("e", "x/e/f", "a/e/x1", "a/e/x2", "a/e/y", "a/e/sub/y");
 		writeTrashFile(".gitignore", "a/e/**");
@@ -321,7 +323,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepeatedNegationInDifferentFilesWithWildmatcher2()
+	void testRepeatedNegationInDifferentFilesWithWildmatcher2()
 			throws Exception {
 		createFiles("e", "dir/f", "dir/g/h", "a/dir/i", "a/dir/j/k",
 				"a/b/dir/l", "a/b/dir/m/n", "a/b/dir/m/o/p", "a/q/dir/r",
@@ -334,7 +336,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNegationForSubDirectoryWithinIgnoredDirectoryHasNoEffect1()
+	void testNegationForSubDirectoryWithinIgnoredDirectoryHasNoEffect1()
 			throws Exception {
 		createFiles("e", "a/f", "a/b/g", "a/b/h/i");
 		writeTrashFile(".gitignore", "a/b");
@@ -346,7 +348,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=407475
 	 */
 	@Test
-	public void testNegationAllExceptJavaInSrcAndExceptChildDirInSrc()
+	void testNegationAllExceptJavaInSrcAndExceptChildDirInSrc()
 			throws Exception {
 		// see
 		// IgnoreNodeTest.testNegationAllExceptJavaInSrcAndExceptChildDirInSrc
@@ -358,21 +360,21 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMultipleEntriesIgnored() throws Exception {
+	void testMultipleEntriesIgnored() throws Exception {
 		createFiles("dir/a");
 		writeTrashFile(".gitignore", "!dir/a\ndir/a");
 		assertSameAsCGit();
 	}
 
 	@Test
-	public void testMultipleEntriesNotIgnored() throws Exception {
+	void testMultipleEntriesNotIgnored() throws Exception {
 		createFiles("dir/a");
 		writeTrashFile(".gitignore", "dir/a\n!dir/a");
 		assertSameAsCGit("dir/a");
 	}
 
 	@Test
-	public void testInfoExcludes() throws Exception {
+	void testInfoExcludes() throws Exception {
 		createFiles("dir/a", "dir/b");
 		File gitDir = db.getDirectory();
 		File info = new File(gitDir, "info");
@@ -383,7 +385,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInfoExcludesPrecedence() throws Exception {
+	void testInfoExcludesPrecedence() throws Exception {
 		createFiles("dir/a", "dir/b");
 		writeTrashFile(".gitignore", "!dir/a");
 		File gitDir = db.getDirectory();
@@ -395,14 +397,14 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCoreExcludes() throws Exception {
+	void testCoreExcludes() throws Exception {
 		createFiles("dir/a", "dir/b");
 		writeTrashFile(".fake_git_ignore", "dir/a");
 		assertSameAsCGit("dir/b");
 	}
 
 	@Test
-	public void testInfoCoreExcludes() throws Exception {
+	void testInfoCoreExcludes() throws Exception {
 		createFiles("dir/a", "dir/b");
 		File gitDir = db.getDirectory();
 		File info = new File(gitDir, "info");
@@ -414,7 +416,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInfoCoreExcludesPrecedence() throws Exception {
+	void testInfoCoreExcludesPrecedence() throws Exception {
 		createFiles("dir/a", "dir/b");
 		File gitDir = db.getDirectory();
 		File info = new File(gitDir, "info");
@@ -426,7 +428,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInfoCoreExcludesPrecedence2() throws Exception {
+	void testInfoCoreExcludesPrecedence2() throws Exception {
 		createFiles("dir/a", "dir/b");
 		File gitDir = db.getDirectory();
 		File info = new File(gitDir, "info");

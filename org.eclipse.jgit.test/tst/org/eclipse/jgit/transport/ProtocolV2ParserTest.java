@@ -16,10 +16,10 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.transport.ObjectIdMatcher.hasOnlyObjectIds;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,14 +31,14 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ProtocolV2ParserTest {
 
 	private TestRepository<InMemoryRepository> testRepo;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		testRepo = new TestRepository<>(newRepo("protocol-v2-parser-test"));
 	}
@@ -106,7 +106,7 @@ public class ProtocolV2ParserTest {
 	 * Successful fetch with the basic core commands of the protocol.
 	 */
 	@Test
-	public void testFetchBasicArguments()
+	void testFetchBasicArguments()
 			throws PackProtocolException, IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				PacketLineIn.delimiter(),
@@ -138,7 +138,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchWithShallow_deepen() throws IOException {
+	void testFetchWithShallow_deepen() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				PacketLineIn.delimiter(),
 				"deepen 15",
@@ -159,7 +159,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchWithShallow_deepenNot() throws IOException {
+	void testFetchWithShallow_deepenNot() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"shallow 28274d02c489f4c7e68153056e9061a46f62d7a0",
 				"shallow 145e683b229dcab9d0e2ccb01b386f9ecc17d29d",
@@ -176,7 +176,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchWithShallow_deepenSince() throws IOException {
+	void testFetchWithShallow_deepenSince() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"shallow 28274d02c489f4c7e68153056e9061a46f62d7a0",
 				"shallow 145e683b229dcab9d0e2ccb01b386f9ecc17d29d",
@@ -192,7 +192,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchWithNoneFilter() throws IOException {
+	void testFetchWithNoneFilter() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter blob:none",
 				PacketLineIn.end());
@@ -208,7 +208,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchWithBlobSizeFilter() throws IOException {
+	void testFetchWithBlobSizeFilter() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter blob:limit=15",
 				PacketLineIn.end());
@@ -224,7 +224,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchWithTreeDepthFilter() throws IOException {
+	void testFetchWithTreeDepthFilter() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter tree:3",
 				PacketLineIn.end());
@@ -240,7 +240,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchMustNotHaveMultipleFilters() throws IOException {
+	void testFetchMustNotHaveMultipleFilters() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter blob:none",
 				"filter blob:limit=12",
@@ -253,7 +253,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchFilterWithoutAllowFilter() throws IOException {
+	void testFetchFilterWithoutAllowFilter() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"filter blob:limit=12", PacketLineIn.end());
 		ProtocolV2Parser parser = new ProtocolV2Parser(
@@ -264,7 +264,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchWithRefInWant() throws Exception {
+	void testFetchWithRefInWant() throws Exception {
 		RevCommit one = testRepo.commit().message("1").create();
 		RevCommit two = testRepo.commit().message("2").create();
 		testRepo.update("branchA", one);
@@ -287,7 +287,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testFetchWithRefInWantUnknownRef() throws Exception {
+	void testFetchWithRefInWantUnknownRef() throws Exception {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"want e4980cdc48cfa1301493ca94eb70523f6788b819",
 				"want-ref refs/heads/branchC",
@@ -306,7 +306,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testLsRefsMinimalReq() throws IOException {
+	void testLsRefsMinimalReq() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				PacketLineIn.end());
 
@@ -319,7 +319,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testLsRefsSymrefs() throws IOException {
+	void testLsRefsSymrefs() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(), "symrefs",
 				PacketLineIn.end());
 
@@ -333,7 +333,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testLsRefsPeel() throws IOException {
+	void testLsRefsPeel() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(
 				PacketLineIn.delimiter(),
 				"peel",
@@ -348,7 +348,7 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
-	public void testLsRefsRefPrefixes() throws IOException {
+	void testLsRefsRefPrefixes() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"ref-prefix refs/for", "ref-prefix refs/heads",
 				PacketLineIn.end());

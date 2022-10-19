@@ -20,27 +20,29 @@ import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 	protected TestRepository<FileRepository> tr;
+
 	protected FileRepository repo;
+
 	protected GC gc;
+
 	protected RepoStatistics stats;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		repo = createWorkRepository();
-		tr = new TestRepository<>(repo, new RevWalk(repo),
-				mockSystemReader);
+		tr = new TestRepository<>(repo, new RevWalk(repo), mockSystemReader);
 		gc = new GC(repo);
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		tr.close();
 		super.tearDown();
@@ -99,13 +101,14 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 			throw new IllegalArgumentException("Chain depth must be > 0");
 		}
 		if (width <= 0) {
-			throw new IllegalArgumentException("Number of files per commit must be > 0");
+			throw new IllegalArgumentException(
+					"Number of files per commit must be > 0");
 		}
 		CommitBuilder cb = tr.commit();
 		RevCommit tip = null;
 		do {
 			--depth;
-			for (int i=0; i < width; i++) {
+			for (int i = 0; i < width; i++) {
 				String id = depth + "-" + i;
 				cb.add("a" + id, id).message(id);
 			}

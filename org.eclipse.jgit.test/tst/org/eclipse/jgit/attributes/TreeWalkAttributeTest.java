@@ -9,9 +9,9 @@
  */
 package org.eclipse.jgit.attributes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,9 +36,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the attributes are correctly computed in a {@link TreeWalk}.
@@ -89,14 +89,14 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	private File customAttributeFile;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (walk != null) {
 			walk.close();
@@ -122,7 +122,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws GitAPIException
 	 */
 	@Test
-	public void testCheckinCheckoutDifferences() throws IOException,
+	void testCheckinCheckoutDifferences() throws IOException,
 			NoFilepatternException, GitAPIException {
 
 		writeGlobalAttributeFile("globalAttributesFile", "*.txt -custom2");
@@ -176,7 +176,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws GitAPIException
 	 */
 	@Test
-	public void testIndexOnly() throws IOException, NoFilepatternException,
+	void testIndexOnly() throws IOException, NoFilepatternException,
 			GitAPIException {
 		List<File> attrFiles = new ArrayList<>();
 		attrFiles.add(writeGlobalAttributeFile("globalAttributesFile",
@@ -211,13 +211,13 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 		assertEntry(M, "level1/.gitattributes");
 		assertEntry(F, "level1/l1.txt",
 
-		asSet(CUSTOM_ROOT, TEXT_SET));
+				asSet(CUSTOM_ROOT, TEXT_SET));
 
 		assertEntry(D, "level1/level2");
 		assertEntry(M, "level1/level2/.gitattributes");
 		assertEntry(F, "level1/level2/l2.txt",
 
-		asSet(CUSTOM_ROOT, TEXT_SET, DELTA_UNSET));
+				asSet(CUSTOM_ROOT, TEXT_SET, DELTA_UNSET));
 
 		endWalk();
 	}
@@ -231,7 +231,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws GitAPIException
 	 */
 	@Test
-	public void testIndexOnly2()
+	void testIndexOnly2()
 			throws IOException, NoFilepatternException, GitAPIException {
 		File l2 = writeTrashFile("level1/level2/l2.txt", "");
 		writeTrashFile("level1/level2/l1.txt", "");
@@ -263,7 +263,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws GitAPIException
 	 */
 	@Test
-	public void testRules() throws IOException, NoFilepatternException,
+	void testRules() throws IOException, NoFilepatternException,
 			GitAPIException {
 		writeAttributesFile(".git/info/attributes", "windows* eol=crlf");
 
@@ -304,7 +304,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testNoAttributes() throws IOException {
+	void testNoAttributes() throws IOException {
 		writeTrashFile("l0.txt", "");
 		writeTrashFile("level1/l1.txt", "");
 		writeTrashFile("level1/level2/l2.txt", "");
@@ -328,7 +328,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testEmptyGitAttributeFile() throws IOException {
+	void testEmptyGitAttributeFile() throws IOException {
 		writeAttributesFile(".git/info/attributes", "");
 		writeTrashFile("l0.txt", "");
 		writeAttributesFile(".gitattributes", "");
@@ -350,7 +350,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoMatchingAttributes() throws IOException {
+	void testNoMatchingAttributes() throws IOException {
 		writeAttributesFile(".git/info/attributes", "*.java delta");
 		writeAttributesFile(".gitattributes", "*.java -delta");
 		writeAttributesFile("levelA/.gitattributes", "*.java eol=lf");
@@ -378,7 +378,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testPrecedenceInfo() throws IOException {
+	void testPrecedenceInfo() throws IOException {
 		writeGlobalAttributeFile("globalAttributesFile", "*.txt custom=global");
 		writeAttributesFile(".git/info/attributes", "*.txt custom=info");
 		writeAttributesFile(".gitattributes", "*.txt custom=root");
@@ -409,7 +409,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testPrecedenceCurrent() throws IOException {
+	void testPrecedenceCurrent() throws IOException {
 		writeGlobalAttributeFile("globalAttributesFile", "*.txt custom=global");
 		writeAttributesFile(".gitattributes", "*.txt custom=root");
 		writeAttributesFile("level1/.gitattributes", "*.txt custom=parent");
@@ -438,7 +438,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testPrecedenceParent() throws IOException {
+	void testPrecedenceParent() throws IOException {
 		writeGlobalAttributeFile("globalAttributesFile", "*.txt custom=global");
 		writeAttributesFile(".gitattributes", "*.txt custom=root");
 		writeAttributesFile("level1/.gitattributes", "*.txt custom=parent");
@@ -464,7 +464,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testPrecedenceRoot() throws IOException {
+	void testPrecedenceRoot() throws IOException {
 		writeGlobalAttributeFile("globalAttributesFile", "*.txt custom=global");
 		writeAttributesFile(".gitattributes", "*.txt custom=root");
 
@@ -488,7 +488,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testPrecedenceGlobal() throws IOException {
+	void testPrecedenceGlobal() throws IOException {
 		writeGlobalAttributeFile("globalAttributesFile", "*.txt custom=global");
 
 		writeTrashFile("level1/level2/file.txt", "");
@@ -514,7 +514,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws NoFilepatternException
 	 */
 	@Test
-	public void testHierarchyBothIterator() throws IOException,
+	void testHierarchyBothIterator() throws IOException,
 			NoFilepatternException, GitAPIException {
 		writeAttributesFile(".git/info/attributes", "*.global eol=crlf");
 		writeAttributesFile(".gitattributes", "*.local eol=lf");
@@ -563,7 +563,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws NoFilepatternException
 	 */
 	@Test
-	public void testHierarchyWorktreeOnly()
+	void testHierarchyWorktreeOnly()
 			throws IOException, NoFilepatternException, GitAPIException {
 		writeAttributesFile(".git/info/attributes", "*.global eol=crlf");
 		writeAttributesFile(".gitattributes", "*.local eol=lf");
@@ -606,7 +606,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testAggregation() throws IOException {
+	void testAggregation() throws IOException {
 		writeGlobalAttributeFile("globalAttributesFile", "*.txt -custom2");
 		writeAttributesFile(".git/info/attributes", "*.txt eol=crlf");
 		writeAttributesFile(".gitattributes", "*.txt custom=root");
@@ -648,21 +648,21 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testOverriding() throws IOException {
-		writeAttributesFile(".git/info/attributes",//
+	void testOverriding() throws IOException {
+		writeAttributesFile(".git/info/attributes", //
 				//
-				"*.txt custom=current",//
-				"*.txt custom=parent",//
-				"*.txt custom=root",//
+				"*.txt custom=current", //
+				"*.txt custom=parent", //
+				"*.txt custom=root", //
 				"*.txt custom=info",
 				//
-				"*.txt delta",//
+				"*.txt delta", //
 				"*.txt -delta",
 				//
-				"*.txt eol=lf",//
+				"*.txt eol=lf", //
 				"*.txt eol=crlf",
 				//
-				"*.txt text",//
+				"*.txt text", //
 				"*.txt -text");
 
 		writeTrashFile("l0.txt", "");
@@ -681,11 +681,11 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testOverriding2() throws IOException {
+	void testOverriding2() throws IOException {
 		writeAttributesFile(".git/info/attributes",
-				"*.txt custom=current custom=parent custom=root custom=info",//
-				"*.txt delta -delta",//
-				"*.txt eol=lf eol=crlf",//
+				"*.txt custom=current custom=parent custom=root custom=info", //
+				"*.txt delta -delta", //
+				"*.txt eol=lf eol=crlf", //
 				"*.txt text -text");
 		writeTrashFile("l0.txt", "");
 		beginWalk();
@@ -697,7 +697,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRulesInherited() throws Exception {
+	void testRulesInherited() throws Exception {
 		writeAttributesFile(".gitattributes", "**/*.txt eol=lf");
 		writeTrashFile("src/config/readme.txt", "");
 		writeTrashFile("src/config/windows.file", "");
@@ -710,7 +710,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 
 		assertEntry(F, "src/config/readme.txt", asSet(EOL_LF));
 		assertEntry(F, "src/config/windows.file",
-				Collections.<Attribute> emptySet());
+				Collections.<Attribute>emptySet());
 
 		endWalk();
 	}
@@ -770,8 +770,8 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	private void assertEntry(FileMode type, String pathName,
 			Set<Attribute> checkinAttributes, Set<Attribute> checkoutAttributes)
 			throws IOException {
-		assertTrue("walk has entry", walk.next());
-		assertTrue("walk has entry", ci_walk.next());
+		assertTrue(walk.next(), "walk has entry");
+		assertTrue(ci_walk.next(), "walk has entry");
 		assertEquals(pathName, walk.getPathString());
 		assertEquals(type, walk.getFileMode(0));
 
@@ -833,7 +833,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	}
 
 	private void endWalk() throws IOException {
-		assertFalse("Not all files tested", walk.next());
-		assertFalse("Not all files tested", ci_walk.next());
+		assertFalse(walk.next(), "Not all files tested");
+		assertFalse(ci_walk.next(), "Not all files tested");
 	}
 }

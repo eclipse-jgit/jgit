@@ -10,9 +10,7 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.util.Set;
 
@@ -24,9 +22,9 @@ import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.NotRevFilter;
 import org.eclipse.jgit.revwalk.filter.ObjectFilter;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ObjectWalkFilterTest {
 	private TestRepository<InMemoryRepository> tr;
@@ -35,7 +33,7 @@ public class ObjectWalkFilterTest {
 	// 3 commits, 2 top-level trees, 4 subtrees, 3 blobs
 	private static final int OBJECT_COUNT = 12;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tr = new TestRepository<>(new InMemoryRepository(
 				new DfsRepositoryDescription("test")));
@@ -59,7 +57,7 @@ public class ObjectWalkFilterTest {
 			.create());
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		rw.close();
 		tr.getRepository().close();
@@ -94,14 +92,13 @@ public class ObjectWalkFilterTest {
 	}
 
 	@Test
-	public void testDefaultFilter() throws Exception {
-		assertTrue("filter is ALL",
-				rw.getObjectFilter() == ObjectFilter.ALL);
+	void testDefaultFilter() throws Exception {
+		assertEquals(rw.getObjectFilter(), ObjectFilter.ALL, "filter is ALL");
 		assertEquals(OBJECT_COUNT, countObjects());
 	}
 
 	@Test
-	public void testObjectFilterCanFilterOutBlob() throws Exception {
+	void testObjectFilterCanFilterOutBlob() throws Exception {
 		AnyObjectId one = rw.parseAny(resolve("master:a/a"));
 		AnyObjectId two = rw.parseAny(resolve("master:b/b"));
 		rw.setObjectFilter(new BlacklistObjectFilter(Sets.of(one, two)));
@@ -111,14 +108,14 @@ public class ObjectWalkFilterTest {
 	}
 
 	@Test
-	public void testFilteringCommitsHasNoEffect() throws Exception {
+	void testFilteringCommitsHasNoEffect() throws Exception {
 		AnyObjectId initial = rw.parseCommit(resolve("master^^"));
 		rw.setObjectFilter(new BlacklistObjectFilter(Sets.of(initial)));
 		assertEquals(OBJECT_COUNT, countObjects());
 	}
 
 	@Test
-	public void testRevFilterAndObjectFilterCanCombine() throws Exception {
+	void testRevFilterAndObjectFilterCanCombine() throws Exception {
 		AnyObjectId one = rw.parseAny(resolve("master:a/a"));
 		AnyObjectId two = rw.parseAny(resolve("master:b/b"));
 		rw.setObjectFilter(new BlacklistObjectFilter(Sets.of(one, two)));
@@ -130,7 +127,7 @@ public class ObjectWalkFilterTest {
 	}
 
 	@Test
-	public void testFilteringTreeFiltersSubtrees() throws Exception {
+	void testFilteringTreeFiltersSubtrees() throws Exception {
 		AnyObjectId capitalizeTree = rw.parseAny(resolve("master^:"));
 		rw.setObjectFilter(new BlacklistObjectFilter(
 				Sets.of(capitalizeTree)));
@@ -140,7 +137,7 @@ public class ObjectWalkFilterTest {
 	}
 
 	@Test
-	public void testFilteringTreeFiltersReferencedBlobs() throws Exception {
+	void testFilteringTreeFiltersReferencedBlobs() throws Exception {
 		AnyObjectId a1 = rw.parseAny(resolve("master:a"));
 		AnyObjectId a2 = rw.parseAny(resolve("master^:a"));
 		rw.setObjectFilter(new BlacklistObjectFilter(Sets.of(a1, a2)));

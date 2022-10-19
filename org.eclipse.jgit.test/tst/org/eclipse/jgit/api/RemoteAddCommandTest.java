@@ -9,18 +9,18 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RemoteAddCommandTest extends AbstractRemoteCommandTest {
 
 	@Test
-	public void testAdd() throws Exception {
+	void testAdd() throws Exception {
 		// create another repository
 		Repository remoteRepository = createWorkRepository();
 		URIish uri = new URIish(
@@ -34,7 +34,7 @@ public class RemoteAddCommandTest extends AbstractRemoteCommandTest {
 
 		// assert that the added remote represents the remote repository
 		assertEquals(REMOTE_NAME, remote.getName());
-		assertArrayEquals(new URIish[] { uri }, remote.getURIs().toArray());
+		assertArrayEquals(new URIish[]{uri}, remote.getURIs().toArray());
 		assertEquals(1, remote.getFetchRefSpecs().size());
 		assertEquals(
 				String.format("+refs/heads/*:refs/remotes/%s/*", REMOTE_NAME),

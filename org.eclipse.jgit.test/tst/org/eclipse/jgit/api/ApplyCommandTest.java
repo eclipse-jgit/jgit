@@ -9,11 +9,12 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,7 +29,7 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ApplyCommandTest extends RepositoryTestCase {
 
@@ -91,7 +92,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEncodingChange() throws Exception {
+	void testEncodingChange() throws Exception {
 		// This is a text patch that changes a file containing ÄÖÜ in UTF-8 to
 		// the same characters in ISO-8859-1. The patch file itself uses mixed
 		// encoding. Since checkFile() works with strings use the binary check.
@@ -99,7 +100,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyLine() throws Exception {
+	void testEmptyLine() throws Exception {
 		// C git accepts completely empty lines as empty context lines.
 		// According to comments in the C git sources (apply.c), newer GNU diff
 		// may produce such diffs.
@@ -107,7 +108,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMultiFileNoNewline() throws Exception {
+	void testMultiFileNoNewline() throws Exception {
 		// This test needs two files. One is in the test resources.
 		try (Git git = new Git(db)) {
 			Files.write(db.getWorkTree().toPath().resolve("yello"),
@@ -119,7 +120,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddA1() throws Exception {
+	void testAddA1() throws Exception {
 		ApplyResult result = init("A1", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertEquals(new File(db.getWorkTree(), "A1"), result.getUpdatedFiles()
@@ -129,7 +130,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddA2() throws Exception {
+	void testAddA2() throws Exception {
 		ApplyResult result = init("A2", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertEquals(new File(db.getWorkTree(), "A2"), result.getUpdatedFiles()
@@ -139,7 +140,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddA3() throws Exception {
+	void testAddA3() throws Exception {
 		ApplyResult result = init("A3", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertEquals(new File(db.getWorkTree(), "A3"),
@@ -149,7 +150,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddA1Sub() throws Exception {
+	void testAddA1Sub() throws Exception {
 		ApplyResult result = init("A1_sub", false, false);
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertEquals(new File(db.getWorkTree(), "sub/A1"), result
@@ -157,7 +158,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDeleteD() throws Exception {
+	void testDeleteD() throws Exception {
 		ApplyResult result = init("D", true, false);
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertEquals(new File(db.getWorkTree(), "D"), result.getUpdatedFiles()
@@ -165,18 +166,22 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "D").exists());
 	}
 
-	@Test(expected = PatchFormatException.class)
-	public void testFailureF1() throws Exception {
-		init("F1", true, false);
-	}
-
-	@Test(expected = PatchApplyException.class)
-	public void testFailureF2() throws Exception {
-		init("F2", true, false);
+	@Test
+	void testFailureF1() throws Exception {
+		assertThrows(PatchFormatException.class, () -> {
+			init("F1", true, false);
+		});
 	}
 
 	@Test
-	public void testModifyE() throws Exception {
+	void testFailureF2() throws Exception {
+		assertThrows(PatchApplyException.class, () -> {
+			init("F2", true, false);
+		});
+	}
+
+	@Test
+	void testModifyE() throws Exception {
 		ApplyResult result = init("E");
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertEquals(new File(db.getWorkTree(), "E"), result.getUpdatedFiles()
@@ -186,7 +191,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testModifyW() throws Exception {
+	void testModifyW() throws Exception {
 		ApplyResult result = init("W");
 		assertEquals(1, result.getUpdatedFiles().size());
 		assertEquals(new File(db.getWorkTree(), "W"),
@@ -196,7 +201,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddM1() throws Exception {
+	void testAddM1() throws Exception {
 		ApplyResult result = init("M1", false, true);
 		assertEquals(1, result.getUpdatedFiles().size());
 		if (FS.DETECTED.supportsExecute()) {

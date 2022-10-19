@@ -10,7 +10,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.INFO_ALTERNATES;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,13 +29,15 @@ import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AlternatesTest extends SampleDataRepositoryTestCase {
 
 	private FileRepository db2;
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		db2 = createWorkRepository();
@@ -53,7 +55,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testAlternate() throws Exception {
+	void testAlternate() throws Exception {
 		setAlternate(db2, db);
 		RevCommit c = createCommit();
 		assertCommit(c);
@@ -61,7 +63,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testAlternateCyclic2() throws Exception {
+	void testAlternateCyclic2() throws Exception {
 		setAlternate(db2, db);
 		setAlternate(db, db2);
 		RevCommit c = createCommit();
@@ -70,7 +72,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testAlternateCyclic3() throws Exception {
+	void testAlternateCyclic3() throws Exception {
 		FileRepository db3 = createBareRepository();
 		setAlternate(db2, db3);
 		setAlternate(db3, db);
@@ -93,8 +95,8 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 
 	private void assertCommit(RevCommit c) {
 		ObjectDirectory od = db2.getObjectDatabase();
-		assertTrue("can't find expected commit" + c.name(),
-				od.has(c.toObjectId()));
+		assertTrue(od.has(c.toObjectId()),
+				"can't find expected commit" + c.name());
 	}
 
 	private void assertAlternateObjects(FileRepository repo) {
@@ -110,8 +112,8 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 						"cd4bcfc27da62c6b840de700be1c60a7e69952a5") };
 		ObjectDirectory od = repo.getObjectDatabase();
 		for (ObjectId o : alternateObjects) {
-			assertTrue(String.format("can't find object %s in alternate",
-					o.getName()), od.has(o));
+			assertTrue(od.has(o), String.format("can't find object %s in alternate",
+					o.getName()));
 		}
 	}
 }

@@ -16,7 +16,7 @@ import static org.eclipse.jgit.lib.CoreConfig.EolStreamType.AUTO_LF;
 import static org.eclipse.jgit.lib.CoreConfig.EolStreamType.DIRECT;
 import static org.eclipse.jgit.lib.CoreConfig.EolStreamType.TEXT_CRLF;
 import static org.eclipse.jgit.lib.CoreConfig.EolStreamType.TEXT_LF;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,7 +27,7 @@ import java.util.Arrays;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for end-of-line conversion streams
@@ -35,7 +35,7 @@ import org.junit.Test;
 public class EolStreamTypeUtilTest {
 
 	@Test
-	public void testCheckoutDirect() throws Exception {
+	void testCheckoutDirect() throws Exception {
 		testCheckout(DIRECT, DIRECT, "", "");
 		testCheckout(DIRECT, DIRECT, "\r", "\r");
 		testCheckout(DIRECT, DIRECT, "\n", "\n");
@@ -53,7 +53,7 @@ public class EolStreamTypeUtilTest {
 	}
 
 	@Test
-	public void testCheckoutLF() throws Exception {
+	void testCheckoutLF() throws Exception {
 		testCheckout(TEXT_LF, AUTO_LF, "", "");
 		testCheckout(TEXT_LF, AUTO_LF, "\r", "\r");
 		testCheckout(TEXT_LF, AUTO_LF, "\n", "\n");
@@ -75,7 +75,7 @@ public class EolStreamTypeUtilTest {
 	}
 
 	@Test
-	public void testCheckoutCRLF() throws Exception {
+	void testCheckoutCRLF() throws Exception {
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "", "");
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "\r", "\r");
 		testCheckout(TEXT_CRLF, AUTO_CRLF, "\n", "\r\n");
@@ -174,7 +174,7 @@ public class EolStreamTypeUtilTest {
 	}
 
 	@Test
-	public void testCheckinDirect() throws Exception {
+	void testCheckinDirect() throws Exception {
 		testCheckin(DIRECT, DIRECT, "", "");
 		testCheckin(DIRECT, DIRECT, "\r", "\r");
 		testCheckin(DIRECT, DIRECT, "\n", "\n");
@@ -192,7 +192,7 @@ public class EolStreamTypeUtilTest {
 	}
 
 	@Test
-	public void testCheckinLF() throws Exception {
+	void testCheckinLF() throws Exception {
 		testCheckin(TEXT_LF, AUTO_LF, "", "");
 		testCheckin(TEXT_LF, AUTO_LF, "\r", "\r");
 		testCheckin(TEXT_LF, AUTO_LF, "\n", "\n");
@@ -211,7 +211,7 @@ public class EolStreamTypeUtilTest {
 	}
 
 	@Test
-	public void testCheckinCRLF() throws Exception {
+	void testCheckinCRLF() throws Exception {
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "", "");
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "\r", "\r");
 		testCheckin(TEXT_CRLF, AUTO_CRLF, "\n", "\r\n");

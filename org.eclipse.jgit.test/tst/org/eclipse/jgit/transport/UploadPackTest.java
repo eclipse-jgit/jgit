@@ -6,11 +6,11 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -55,9 +55,9 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.util.io.NullOutputStream;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for server upload-pack utilities.
@@ -77,7 +77,7 @@ public class UploadPackTest {
 
 	private PackStatistics stats;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		server = newRepo("server");
 		client = newRepo("client");
@@ -85,7 +85,7 @@ public class UploadPackTest {
 		remote = new TestRepository<>(server);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		Transport.unregister(testProtocol);
 	}
@@ -100,7 +100,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchParentOfShallowCommit() throws Exception {
+	void testFetchParentOfShallowCommit() throws Exception {
 		RevCommit commit0 = remote.commit().message("0").create();
 		RevCommit commit1 = remote.commit().message("1").parent(commit0).create();
 		RevCommit tip = remote.commit().message("2").parent(commit1).create();
@@ -127,7 +127,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchWithBlobZeroFilter() throws Exception {
+	void testFetchWithBlobZeroFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
@@ -159,7 +159,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchExplicitBlobWithFilter() throws Exception {
+	void testFetchExplicitBlobWithFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
@@ -192,7 +192,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchWithBlobLimitFilter() throws Exception {
+	void testFetchWithBlobLimitFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
@@ -225,7 +225,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchExplicitBlobWithFilterAndBitmaps() throws Exception {
+	void testFetchExplicitBlobWithFilterAndBitmaps() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
@@ -261,7 +261,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchWithBlobLimitFilterAndBitmaps() throws Exception {
+	void testFetchWithBlobLimitFilterAndBitmaps() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
@@ -298,7 +298,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchWithTreeZeroFilter() throws Exception {
+	void testFetchWithTreeZeroFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
@@ -330,7 +330,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testFetchWithNonSupportingServer() throws Exception {
+	void testFetchWithNonSupportingServer() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
 		try (TestRepository<InMemoryRepository> remote2 = new TestRepository<>(
 				server2)) {
@@ -483,7 +483,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2Capabilities() throws Exception {
+	void testV2Capabilities() throws Exception {
 		TestV2Hook hook = new TestV2Hook();
 		ByteArrayInputStream recvStream = uploadPackSetup(
 				TransferConfig.ProtocolVersion.V2.version(),
@@ -557,24 +557,24 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2CapabilitiesAllowFilter() throws Exception {
+	void testV2CapabilitiesAllowFilter() throws Exception {
 		checkAdvertisedIfAllowed("uploadpack", "allowfilter", "filter");
 		checkUnadvertisedIfUnallowed("uploadpack", "allowfilter", "filter");
 	}
 
 	@Test
-	public void testV2CapabilitiesRefInWant() throws Exception {
+	void testV2CapabilitiesRefInWant() throws Exception {
 		checkAdvertisedIfAllowed("uploadpack", "allowrefinwant", "ref-in-want");
 	}
 
 	@Test
-	public void testV2CapabilitiesRefInWantNotAdvertisedIfUnallowed() throws Exception {
+	void testV2CapabilitiesRefInWantNotAdvertisedIfUnallowed() throws Exception {
 		checkUnadvertisedIfUnallowed("uploadpack", "allowrefinwant",
 				"ref-in-want");
 	}
 
 	@Test
-	public void testV2CapabilitiesAdvertiseSidebandAll() throws Exception {
+	void testV2CapabilitiesAdvertiseSidebandAll() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall",
 				true);
 		checkAdvertisedIfAllowed("uploadpack", "advertisesidebandall",
@@ -584,7 +584,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2CapabilitiesRefInWantNotAdvertisedIfAdvertisingForbidden() throws Exception {
+	void testV2CapabilitiesRefInWantNotAdvertisedIfAdvertisingForbidden() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
 		server.getConfig().setBoolean("uploadpack", null, "advertiserefinwant", false);
 		ByteArrayInputStream recvStream = uploadPackSetup(
@@ -601,7 +601,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2EmptyRequest() throws Exception {
+	void testV2EmptyRequest() throws Exception {
 		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.end());
 		// Verify that there is nothing more after the capability
 		// advertisement.
@@ -609,7 +609,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2LsRefs() throws Exception {
+	void testV2LsRefs() throws Exception {
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		server.updateRef("HEAD").link("refs/heads/master");
@@ -618,7 +618,9 @@ public class UploadPackTest {
 
 		TestV2Hook hook = new TestV2Hook();
 		ByteArrayInputStream recvStream = uploadPackV2(
-				(UploadPack up) -> {up.setProtocolV2Hook(hook);},
+				(UploadPack up) -> {
+					up.setProtocolV2Hook(hook);
+				},
 				"command=ls-refs\n", PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
@@ -630,7 +632,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2LsRefsSymrefs() throws Exception {
+	void testV2LsRefsSymrefs() throws Exception {
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		server.updateRef("HEAD").link("refs/heads/master");
@@ -648,7 +650,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2LsRefsPeel() throws Exception {
+	void testV2LsRefsPeel() throws Exception {
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		server.updateRef("HEAD").link("refs/heads/master");
@@ -669,7 +671,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2LsRefsMultipleCommands() throws Exception {
+	void testV2LsRefsMultipleCommands() throws Exception {
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		server.updateRef("HEAD").link("refs/heads/master");
@@ -696,7 +698,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2LsRefsRefPrefix() throws Exception {
+	void testV2LsRefsRefPrefix() throws Exception {
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		remote.update("other", tip);
@@ -716,7 +718,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2LsRefsRefPrefixNoSlash() throws Exception {
+	void testV2LsRefsRefPrefixNoSlash() throws Exception {
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		remote.update("other", tip);
@@ -735,7 +737,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2LsRefsUnrecognizedArgument() throws Exception {
+	void testV2LsRefsUnrecognizedArgument() throws Exception {
 		UploadPackInternalServerErrorException e = assertThrows(
 				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2("command=ls-refs\n",
@@ -746,7 +748,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2LsRefsServerOptions() throws Exception {
+	void testV2LsRefsServerOptions() throws Exception {
 		String[] lines = { "command=ls-refs\n",
 				"server-option=one\n", "server-option=two\n",
 				PacketLineIn.delimiter(),
@@ -786,14 +788,16 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchRequestPolicyAdvertised() throws Exception {
+	void testV2FetchRequestPolicyAdvertised() throws Exception {
 		RevCommit advertized = remote.commit().message("x").create();
 		RevCommit unadvertized = remote.commit().message("y").create();
 		remote.update("branch1", advertized);
 
 		// This works
 		uploadPackV2(
-			(UploadPack up) -> {up.setRequestPolicy(RequestPolicy.ADVERTISED);},
+				(UploadPack up) -> {
+					up.setRequestPolicy(RequestPolicy.ADVERTISED);
+				},
 			"command=fetch\n",
 			PacketLineIn.delimiter(),
 			"want " + advertized.name() + "\n",
@@ -803,7 +807,9 @@ public class UploadPackTest {
 		UploadPackInternalServerErrorException e = assertThrows(
 				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2(
-						(UploadPack up) -> {up.setRequestPolicy(RequestPolicy.ADVERTISED);},
+						(UploadPack up) -> {
+							up.setRequestPolicy(RequestPolicy.ADVERTISED);
+						},
 						"command=fetch\n", PacketLineIn.delimiter(),
 						"want " + unadvertized.name() + "\n",
 						PacketLineIn.end()));
@@ -812,7 +818,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchRequestPolicyReachableCommit() throws Exception {
+	void testV2FetchRequestPolicyReachableCommit() throws Exception {
 		RevCommit reachable = remote.commit().message("x").create();
 		RevCommit advertized = remote.commit().message("x").parent(reachable)
 				.create();
@@ -821,7 +827,9 @@ public class UploadPackTest {
 
 		// This works
 		uploadPackV2(
-			(UploadPack up) -> {up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);},
+				(UploadPack up) -> {
+					up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+				},
 			"command=fetch\n",
 			PacketLineIn.delimiter(),
 			"want " + reachable.name() + "\n",
@@ -831,7 +839,9 @@ public class UploadPackTest {
 		UploadPackInternalServerErrorException e = assertThrows(
 				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2(
-						(UploadPack up) -> {up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);},
+						(UploadPack up) -> {
+							up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+						},
 						"command=fetch\n", PacketLineIn.delimiter(),
 						"want " + unreachable.name() + "\n",
 						PacketLineIn.end()));
@@ -840,7 +850,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchRequestPolicyTip() throws Exception {
+	void testV2FetchRequestPolicyTip() throws Exception {
 		RevCommit parentOfTip = remote.commit().message("x").create();
 		RevCommit tip = remote.commit().message("y").parent(parentOfTip)
 				.create();
@@ -873,7 +883,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchRequestPolicyReachableCommitTip() throws Exception {
+	void testV2FetchRequestPolicyReachableCommitTip() throws Exception {
 		RevCommit parentOfTip = remote.commit().message("x").create();
 		RevCommit tip = remote.commit().message("y").parent(parentOfTip)
 				.create();
@@ -907,12 +917,14 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchRequestPolicyAny() throws Exception {
+	void testV2FetchRequestPolicyAny() throws Exception {
 		RevCommit unreachable = remote.commit().message("y").create();
 
 		// Exercise to make sure that even unreachable commits can be fetched
 		uploadPackV2(
-			(UploadPack up) -> {up.setRequestPolicy(RequestPolicy.ANY);},
+				(UploadPack up) -> {
+					up.setRequestPolicy(RequestPolicy.ANY);
+				},
 			"command=fetch\n",
 			PacketLineIn.delimiter(),
 			"want " + unreachable.name() + "\n",
@@ -920,7 +932,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchServerDoesNotStopNegotiation() throws Exception {
+	void testV2FetchServerDoesNotStopNegotiation() throws Exception {
 		RevCommit fooParent = remote.commit().message("x").create();
 		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
 		RevCommit barParent = remote.commit().message("y").create();
@@ -943,7 +955,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchServerStopsNegotiation() throws Exception {
+	void testV2FetchServerStopsNegotiation() throws Exception {
 		RevCommit fooParent = remote.commit().message("x").create();
 		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
 		RevCommit barParent = remote.commit().message("y").create();
@@ -978,7 +990,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchClientStopsNegotiation() throws Exception {
+	void testV2FetchClientStopsNegotiation() throws Exception {
 		RevCommit fooParent = remote.commit().message("x").create();
 		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
 		RevCommit barParent = remote.commit().message("y").create();
@@ -1005,7 +1017,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchWithoutWaitForDoneReceivesPackfile()
+	void testV2FetchWithoutWaitForDoneReceivesPackfile()
 			throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
@@ -1043,7 +1055,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchWithWaitForDoneOnlyDoesNegotiation()
+	void testV2FetchWithWaitForDoneOnlyDoesNegotiation()
 			throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
@@ -1078,7 +1090,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchWithWaitForDoneOnlyDoesNegotiationAndNothingToAck()
+	void testV2FetchWithWaitForDoneOnlyDoesNegotiationAndNothingToAck()
 			throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
@@ -1107,7 +1119,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchServerStopsNegotiationForRefWithoutParents()
+	void testV2FetchServerStopsNegotiationForRefWithoutParents()
 			throws Exception {
 		RevCommit fooCommit = remote.commit().message("x").create();
 		RevCommit barCommit = remote.commit().message("y").create();
@@ -1132,7 +1144,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchServerDoesNotStopNegotiationWhenOneRefWithoutParentAndOtherWithParents()
+	void testV2FetchServerDoesNotStopNegotiationWhenOneRefWithoutParentAndOtherWithParents()
 			throws Exception {
 		RevCommit fooCommit = remote.commit().message("x").create();
 		RevCommit barParent = remote.commit().message("y").create();
@@ -1162,7 +1174,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchThinPack() throws Exception {
+	void testV2FetchThinPack() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -1192,7 +1204,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchNoProgress() throws Exception {
+	void testV2FetchNoProgress() throws Exception {
 		RevCommit commit = remote.commit().message("x").create();
 		remote.update("branch1", commit);
 
@@ -1225,7 +1237,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchIncludeTag() throws Exception {
+	void testV2FetchIncludeTag() throws Exception {
 		RevCommit commit = remote.commit().message("x").create();
 		RevTag tag = remote.tag("tag", commit);
 		remote.update("branch1", commit);
@@ -1258,7 +1270,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testUploadNewBytes() throws Exception {
+	void testUploadNewBytes() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwx";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -1277,12 +1289,12 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		ReceivedPackStatistics receivedStats = parsePack(recvStream);
-		assertTrue(receivedStats.getNumBytesDuplicated() == 0);
-		assertTrue(receivedStats.getNumObjectsDuplicated() == 0);
+		assertEquals(receivedStats.getNumBytesDuplicated(), 0);
+		assertEquals(receivedStats.getNumObjectsDuplicated(), 0);
 	}
 
 	@Test
-	public void testUploadRedundantBytes() throws Exception {
+	void testUploadRedundantBytes() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -1317,12 +1329,12 @@ public class UploadPackTest {
 		long sizeOfTrailer = 20;
 		long expectedSize = receivedStats.getNumBytesRead() - sizeOfHeader
 				- sizeOfTrailer;
-		assertTrue(receivedStats.getNumBytesDuplicated() == expectedSize);
-		assertTrue(receivedStats.getNumObjectsDuplicated() == 6);
+		assertEquals(receivedStats.getNumBytesDuplicated(), expectedSize);
+		assertEquals(receivedStats.getNumObjectsDuplicated(), 6);
 	}
 
 	@Test
-	public void testV2FetchOfsDelta() throws Exception {
+	void testV2FetchOfsDelta() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -1341,7 +1353,7 @@ public class UploadPackTest {
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 		assertThat(pckIn.readString(), is("packfile"));
 		ReceivedPackStatistics receivedStats = parsePack(recvStream);
-		assertTrue(receivedStats.getNumOfsDelta() == 0);
+		assertEquals(receivedStats.getNumOfsDelta(), 0);
 
 		// With ofs-delta.
 		recvStream = uploadPackV2(
@@ -1358,7 +1370,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchShallow() throws Exception {
+	void testV2FetchShallow() throws Exception {
 		RevCommit commonParent = remote.commit().message("parent").create();
 		RevCommit fooChild = remote.commit().message("x").parent(commonParent).create();
 		RevCommit barChild = remote.commit().message("y").parent(commonParent).create();
@@ -1396,7 +1408,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchDeepenAndDone() throws Exception {
+	void testV2FetchDeepenAndDone() throws Exception {
 		RevCommit parent = remote.commit().message("parent").create();
 		RevCommit child = remote.commit().message("x").parent(parent).create();
 		remote.update("branch1", child);
@@ -1432,7 +1444,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchDeepenWithoutDone() throws Exception {
+	void testV2FetchDeepenWithoutDone() throws Exception {
 		RevCommit parent = remote.commit().message("parent").create();
 		RevCommit child = remote.commit().message("x").parent(parent).create();
 		remote.update("branch1", child);
@@ -1454,7 +1466,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchShallowSince() throws Exception {
+	void testV2FetchShallowSince() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
 		RevCommit beyondBoundary = remote.commit()
@@ -1507,7 +1519,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchShallowSince_excludedParentWithMultipleChildren() throws Exception {
+	void testV2FetchShallowSince_excludedParentWithMultipleChildren() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
 		RevCommit base = remote.commit()
@@ -1549,7 +1561,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchShallowSince_noCommitsSelected() throws Exception {
+	void testV2FetchShallowSince_noCommitsSelected() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
 		RevCommit tooOld = remote.commit()
@@ -1568,7 +1580,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchDeepenNot() throws Exception {
+	void testV2FetchDeepenNot() throws Exception {
 		RevCommit one = remote.commit().message("one").create();
 		RevCommit two = remote.commit().message("two").parent(one).create();
 		RevCommit three = remote.commit().message("three").parent(two).create();
@@ -1623,7 +1635,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchDeepenNot_excludeDescendantOfWant()
+	void testV2FetchDeepenNot_excludeDescendantOfWant()
 			throws Exception {
 		RevCommit one = remote.commit().message("one").create();
 		RevCommit two = remote.commit().message("two").parent(one).create();
@@ -1644,7 +1656,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchDeepenNot_supportAnnotatedTags() throws Exception {
+	void testV2FetchDeepenNot_supportAnnotatedTags() throws Exception {
 		RevCommit one = remote.commit().message("one").create();
 		RevCommit two = remote.commit().message("two").parent(one).create();
 		RevCommit three = remote.commit().message("three").parent(two).create();
@@ -1674,7 +1686,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchDeepenNot_excludedParentWithMultipleChildren() throws Exception {
+	void testV2FetchDeepenNot_excludedParentWithMultipleChildren() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
 		RevCommit base = remote.commit()
@@ -1717,7 +1729,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchUnrecognizedArgument() throws Exception {
+	void testV2FetchUnrecognizedArgument() throws Exception {
 		UploadPackInternalServerErrorException e = assertThrows(
 				UploadPackInternalServerErrorException.class,
 				() -> uploadPackV2("command=fetch\n", PacketLineIn.delimiter(),
@@ -1727,7 +1739,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchServerOptions() throws Exception {
+	void testV2FetchServerOptions() throws Exception {
 		String[] lines = { "command=fetch\n", "server-option=one\n",
 				"server-option=two\n", PacketLineIn.delimiter(),
 				PacketLineIn.end() };
@@ -1745,7 +1757,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchFilter() throws Exception {
+	void testV2FetchFilter() throws Exception {
 		RevBlob big = remote.blob("foobar");
 		RevBlob small = remote.blob("fooba");
 		RevTree tree = remote.tree(remote.file("1", big),
@@ -1829,7 +1841,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchFilterTreeDepth0() throws Exception {
+	void testV2FetchFilterTreeDepth0() throws Exception {
 		DeepTreePreparator preparator = new DeepTreePreparator();
 		remote.update("master", preparator.commit);
 
@@ -1847,7 +1859,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchFilterTreeDepth1_serverHasBitmap() throws Exception {
+	void testV2FetchFilterTreeDepth1_serverHasBitmap() throws Exception {
 		DeepTreePreparator preparator = new DeepTreePreparator();
 		remote.update("master", preparator.commit);
 
@@ -1869,7 +1881,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchFilterTreeDepth2() throws Exception {
+	void testV2FetchFilterTreeDepth2() throws Exception {
 		DeepTreePreparator preparator = new DeepTreePreparator();
 		remote.update("master", preparator.commit);
 
@@ -1926,7 +1938,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchFilterTreeDepth_iterateOverTreeAtTwoLevels()
+	void testV2FetchFilterTreeDepth_iterateOverTreeAtTwoLevels()
 			throws Exception {
 		// Test tree:<depth> where a tree is iterated to twice - once where a
 		// subentry is too deep to be included, and again where the blob inside
@@ -2031,7 +2043,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchFilterTreeDepth_repeatTreeAtSameLevelIncludeFile()
+	void testV2FetchFilterTreeDepth_repeatTreeAtSameLevelIncludeFile()
 			throws Exception {
 		RepeatedSubtreeAtSameLevelPreparator preparator =
 				new RepeatedSubtreeAtSameLevelPreparator();
@@ -2047,7 +2059,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchFilterTreeDepth_repeatTreeAtSameLevelExcludeFile()
+	void testV2FetchFilterTreeDepth_repeatTreeAtSameLevelExcludeFile()
 			throws Exception {
 		RepeatedSubtreeAtSameLevelPreparator preparator =
 				new RepeatedSubtreeAtSameLevelPreparator();
@@ -2063,7 +2075,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testWantFilteredObject() throws Exception {
+	void testWantFilteredObject() throws Exception {
 		RepeatedSubtreePreparator preparator = new RepeatedSubtreePreparator();
 		remote.update("master", preparator.commit);
 
@@ -2104,28 +2116,28 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchFilterWhenNotAllowed() throws Exception {
+	void testV2FetchFilterWhenNotAllowed() throws Exception {
 		checkV2FetchWhenNotAllowed(
 			"filter blob:limit=5\n",
 			"unexpected filter blob:limit=5");
 	}
 
 	@Test
-	public void testV2FetchWantRefIfNotAllowed() throws Exception {
+	void testV2FetchWantRefIfNotAllowed() throws Exception {
 		checkV2FetchWhenNotAllowed(
 			"want-ref refs/heads/one\n",
 			"unexpected want-ref refs/heads/one");
 	}
 
 	@Test
-	public void testV2FetchSidebandAllIfNotAllowed() throws Exception {
+	void testV2FetchSidebandAllIfNotAllowed() throws Exception {
 		checkV2FetchWhenNotAllowed(
 			"sideband-all\n",
 			"unexpected sideband-all");
 	}
 
 	@Test
-	public void testV2FetchWantRef() throws Exception {
+	void testV2FetchWantRef() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		RevCommit two = remote.commit().message("2").create();
 		RevCommit three = remote.commit().message("3").create();
@@ -2159,7 +2171,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchBadWantRef() throws Exception {
+	void testV2FetchBadWantRef() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
@@ -2177,7 +2189,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchMixedWantRef() throws Exception {
+	void testV2FetchMixedWantRef() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		RevCommit two = remote.commit().message("2").create();
 		RevCommit three = remote.commit().message("3").create();
@@ -2209,7 +2221,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchWantRefWeAlreadyHave() throws Exception {
+	void testV2FetchWantRefWeAlreadyHave() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
@@ -2240,7 +2252,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchWantRefAndDeepen() throws Exception {
+	void testV2FetchWantRefAndDeepen() throws Exception {
 		RevCommit parent = remote.commit().message("parent").create();
 		RevCommit child = remote.commit().message("x").parent(parent).create();
 		remote.update("branch1", child);
@@ -2270,7 +2282,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchMissingShallow() throws Exception {
+	void testV2FetchMissingShallow() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		RevCommit two = remote.commit().message("2").parent(one).create();
 		RevCommit three = remote.commit().message("3").parent(two).create();
@@ -2308,7 +2320,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchSidebandAllNoPackfile() throws Exception {
+	void testV2FetchSidebandAllNoPackfile() throws Exception {
 		RevCommit fooParent = remote.commit().message("x").create();
 		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
 		RevCommit barParent = remote.commit().message("y").create();
@@ -2334,7 +2346,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchSidebandAllPackfile() throws Exception {
+	void testV2FetchSidebandAllPackfile() throws Exception {
 		RevCommit commit = remote.commit().message("x").create();
 		remote.update("master", commit);
 
@@ -2360,7 +2372,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testV2FetchPackfileUris() throws Exception {
+	void testV2FetchPackfileUris() throws Exception {
 		// Inside the pack
 		RevCommit commit = remote.commit().message("x").create();
 		remote.update("master", commit);
@@ -2412,7 +2424,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testGetPeerAgentProtocolV0() throws Exception {
+	void testGetPeerAgentProtocolV0() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
@@ -2429,7 +2441,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testGetSessionIDValueProtocolV0() throws Exception {
+	void testGetSessionIDValueProtocolV0() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
@@ -2447,7 +2459,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testGetPeerAgentProtocolV2() throws Exception {
+	void testGetPeerAgentProtocolV2() throws Exception {
 		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
 				null, ConfigConstants.CONFIG_KEY_VERSION,
 				TransferConfig.ProtocolVersion.V2.version());
@@ -2502,7 +2514,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testSingleBranchCloneTagChain() throws Exception {
+	void testSingleBranchCloneTagChain() throws Exception {
 		RevBlob blob0 = remote.blob("Initial content of first file");
 		RevBlob blob1 = remote.blob("Second file content");
 		RevCommit commit0 = remote
@@ -2581,7 +2593,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testSafeToClearRefsInFetchV0() throws Exception {
+	void testSafeToClearRefsInFetchV0() throws Exception {
 		server =
 			new RefCallsCountingRepository(
 				new DfsRepositoryDescription("server"));
@@ -2602,7 +2614,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testSafeToClearRefsInFetchV2() throws Exception {
+	void testSafeToClearRefsInFetchV2() throws Exception {
 		server =
 			new RefCallsCountingRepository(
 				new DfsRepositoryDescription("server"));
@@ -2634,7 +2646,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testNotAdvertisedWantsV1Fetch() throws Exception {
+	void testNotAdvertisedWantsV1Fetch() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -2654,7 +2666,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testNotAdvertisedWantsV1FetchRequestPolicyReachableCommit() throws Exception {
+	void testNotAdvertisedWantsV1FetchRequestPolicyReachableCommit() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -2666,7 +2678,9 @@ public class UploadPackTest {
 
 		remote.update("branch1", child);
 
-		uploadPackV1((UploadPack up) -> {up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);},
+		uploadPackV1((UploadPack up) -> {
+					up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+				},
 				"want " + parent.toObjectId().getName() + "\n",
 				PacketLineIn.end(),
 				"done\n", PacketLineIn.end());
@@ -2675,7 +2689,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testNotAdvertisedWantsV2FetchThinPack() throws Exception {
+	void testNotAdvertisedWantsV2FetchThinPack() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -2699,7 +2713,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testNotAdvertisedWantsV2FetchRequestPolicyReachableCommit() throws Exception {
+	void testNotAdvertisedWantsV2FetchRequestPolicyReachableCommit() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
 
 		RevBlob parentBlob = remote.blob(commonInBlob + "a");
@@ -2711,7 +2725,9 @@ public class UploadPackTest {
 
 		remote.update("branch1", child);
 
-		uploadPackV2((UploadPack up) -> {up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);},
+		uploadPackV2((UploadPack up) -> {
+					up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+				},
 				"command=fetch\n",
 				PacketLineIn.delimiter(),
 				"want " + parent.toObjectId().getName() + "\n", "thin-pack\n",
@@ -2746,7 +2762,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testObjectInfo() throws Exception {
+	void testObjectInfo() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "advertiseobjectinfo",
 				true);
 
@@ -2775,7 +2791,7 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testObjectInfo_invalidOid() throws Exception {
+	void testObjectInfo_invalidOid() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "advertiseobjectinfo",
 				true);
 

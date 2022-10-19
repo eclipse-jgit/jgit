@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RefDatabaseConflictingNamesTest {
 
@@ -82,7 +82,7 @@ public class RefDatabaseConflictingNamesTest {
 	};
 
 	@Test
-	public void testGetConflictingNames() throws IOException {
+	void testGetConflictingNames() throws IOException {
 		// new references cannot replace an existing container
 		assertConflictingNames("refs", "refs/heads/a/b", "refs/heads/q");
 		assertConflictingNames("refs/heads", "refs/heads/a/b", "refs/heads/q");
@@ -101,8 +101,8 @@ public class RefDatabaseConflictingNamesTest {
 	}
 
 	private void assertNoConflictingNames(String proposed) throws IOException {
-		assertTrue("expected conflicting names to be empty", refDatabase
-				.getConflictingNames(proposed).isEmpty());
+		assertTrue(refDatabase
+				.getConflictingNames(proposed).isEmpty(), "expected conflicting names to be empty");
 	}
 
 	private void assertConflictingNames(String proposed, String... conflicts)

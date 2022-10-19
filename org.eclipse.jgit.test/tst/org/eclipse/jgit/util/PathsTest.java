@@ -12,18 +12,18 @@ package org.eclipse.jgit.util;
 
 import static org.eclipse.jgit.util.Paths.compare;
 import static org.eclipse.jgit.util.Paths.compareSameName;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PathsTest {
 	@Test
-	public void testStripTrailingSeparator() {
+	void testStripTrailingSeparator() {
 		assertNull(Paths.stripTrailingSeparator(null));
 		assertEquals("", Paths.stripTrailingSeparator(""));
 		assertEquals("a", Paths.stripTrailingSeparator("a"));
@@ -34,7 +34,7 @@ public class PathsTest {
 	}
 
 	@Test
-	public void testPrefix() {
+	void testPrefix() {
 		assertTrue(Paths.isEqualOrPrefix("a", "a"));
 		assertTrue(Paths.isEqualOrPrefix("a", "a/b"));
 		assertTrue(Paths.isEqualOrPrefix("a", "a/a.txt"));
@@ -51,7 +51,7 @@ public class PathsTest {
 	}
 
 	@Test
-	public void testPathCompare() {
+	void testPathCompare() {
 		byte[] a = Constants.encode("afoo/bar.c");
 		byte[] b = Constants.encode("bfoo/bar.c");
 

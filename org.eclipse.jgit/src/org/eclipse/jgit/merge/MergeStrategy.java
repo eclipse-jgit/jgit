@@ -159,4 +159,9 @@ public abstract class MergeStrategy {
 	 * @since 4.8
 	 */
 	public abstract Merger newMerger(ObjectInserter inserter, Config config);
+
+	@Override
+	public String toString() {
+		return this.getClass().getName();
+	}
 }

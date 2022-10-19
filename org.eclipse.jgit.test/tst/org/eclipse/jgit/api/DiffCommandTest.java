@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,11 +28,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DiffCommandTest extends RepositoryTestCase {
 	@Test
-	public void testDiffModified() throws Exception {
+	void testDiffModified() throws Exception {
 		write(new File(db.getWorkTree(), "test.txt"), "test");
 		File folder = new File(db.getWorkTree(), "folder");
 		folder.mkdir();
@@ -67,7 +67,7 @@ public class DiffCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffCached() throws Exception {
+	void testDiffCached() throws Exception {
 		write(new File(db.getWorkTree(), "test.txt"), "test");
 		File folder = new File(db.getWorkTree(), "folder");
 		folder.mkdir();
@@ -102,7 +102,7 @@ public class DiffCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffTwoCommits() throws Exception {
+	void testDiffTwoCommits() throws Exception {
 		write(new File(db.getWorkTree(), "test.txt"), "test");
 		File folder = new File(db.getWorkTree(), "folder");
 		folder.mkdir();
@@ -151,7 +151,7 @@ public class DiffCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffWithPrefixes() throws Exception {
+	void testDiffWithPrefixes() throws Exception {
 		write(new File(db.getWorkTree(), "test.txt"), "test");
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern(".").call();
@@ -173,7 +173,7 @@ public class DiffCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDiffWithNegativeLineCount() throws Exception {
+	void testDiffWithNegativeLineCount() throws Exception {
 		write(new File(db.getWorkTree(), "test.txt"),
 				"0\n1\n2\n3\n4\n5\n6\n7\n8\n9");
 		try (Git git = new Git(db)) {
@@ -195,7 +195,7 @@ public class DiffCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoOutputStreamSet() throws Exception {
+	void testNoOutputStreamSet() throws Exception {
 		File file = writeTrashFile("test.txt", "a");
 		TimeUtil.setLastModifiedWithOffset(file.toPath(), -5000L);
 		try (Git git = new Git(db)) {

@@ -11,11 +11,11 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,13 +23,13 @@ import java.util.List;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RemoteConfigTest {
 	private Config config;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		config = new Config();
 	}
@@ -44,7 +44,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSimple() throws Exception {
+	void testSimple() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "fetch = +refs/heads/*:refs/remotes/spearce/*\n");
@@ -76,7 +76,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSimpleNoTags() throws Exception {
+	void testSimpleNoTags() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "fetch = +refs/heads/*:refs/remotes/spearce/*\n"
@@ -86,7 +86,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSimpleAlwaysTags() throws Exception {
+	void testSimpleAlwaysTags() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "fetch = +refs/heads/*:refs/remotes/spearce/*\n"
@@ -96,7 +96,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testMirror() throws Exception {
+	void testMirror() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "fetch = +refs/heads/*:refs/heads/*\n"
@@ -133,7 +133,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testBackup() throws Exception {
+	void testBackup() throws Exception {
 		readConfig("[remote \"backup\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "url = user@repo.or.cz:/srv/git/egit.git\n"
@@ -172,7 +172,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testUploadPack() throws Exception {
+	void testUploadPack() throws Exception {
 		readConfig("[remote \"example\"]\n"
 				+ "url = user@example.com:egit.git\n"
 				+ "fetch = +refs/heads/*:refs/remotes/example/*\n"
@@ -205,7 +205,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testUnknown() throws Exception {
+	void testUnknown() throws Exception {
 		readConfig("");
 
 		final RemoteConfig rc = new RemoteConfig(config, "backup");
@@ -217,7 +217,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testAddURI() throws Exception {
+	void testAddURI() throws Exception {
 		readConfig("");
 
 		final URIish uri = new URIish("/some/dir");
@@ -233,7 +233,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testRemoveFirstURI() throws Exception {
+	void testRemoveFirstURI() throws Exception {
 		readConfig("");
 
 		final URIish a = new URIish("/some/dir");
@@ -256,7 +256,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testRemoveMiddleURI() throws Exception {
+	void testRemoveMiddleURI() throws Exception {
 		readConfig("");
 
 		final URIish a = new URIish("/some/dir");
@@ -279,7 +279,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testRemoveLastURI() throws Exception {
+	void testRemoveLastURI() throws Exception {
 		readConfig("");
 
 		final URIish a = new URIish("/some/dir");
@@ -302,7 +302,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testRemoveOnlyURI() throws Exception {
+	void testRemoveOnlyURI() throws Exception {
 		readConfig("");
 
 		final URIish a = new URIish("/some/dir");
@@ -317,7 +317,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testCreateOrigin() throws Exception {
+	void testCreateOrigin() throws Exception {
 		final RemoteConfig rc = new RemoteConfig(config, "origin");
 		rc.addURI(new URIish("/some/dir"));
 		rc.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/"
@@ -328,7 +328,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSaveAddURI() throws Exception {
+	void testSaveAddURI() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "fetch = +refs/heads/*:refs/remotes/spearce/*\n");
@@ -344,7 +344,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSaveRemoveLastURI() throws Exception {
+	void testSaveRemoveLastURI() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "url = /some/dir\n"
@@ -361,7 +361,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSaveRemoveFirstURI() throws Exception {
+	void testSaveRemoveFirstURI() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "url = /some/dir\n"
@@ -377,7 +377,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSaveNoTags() throws Exception {
+	void testSaveNoTags() throws Exception {
 		final RemoteConfig rc = new RemoteConfig(config, "origin");
 		rc.addURI(new URIish("/some/dir"));
 		rc.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/"
@@ -390,7 +390,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSaveAllTags() throws Exception {
+	void testSaveAllTags() throws Exception {
 		final RemoteConfig rc = new RemoteConfig(config, "origin");
 		rc.addURI(new URIish("/some/dir"));
 		rc.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/"
@@ -403,7 +403,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSimpleTimeout() throws Exception {
+	void testSimpleTimeout() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
 				+ "fetch = +refs/heads/*:refs/remotes/spearce/*\n"
@@ -413,7 +413,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void testSaveTimeout() throws Exception {
+	void testSaveTimeout() throws Exception {
 		final RemoteConfig rc = new RemoteConfig(config, "origin");
 		rc.addURI(new URIish("/some/dir"));
 		rc.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/"
@@ -426,7 +426,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void noInsteadOf() throws Exception {
+	void noInsteadOf() throws Exception {
 		config.setString("remote", "origin", "url", "short:project.git");
 		config.setString("url", "https://server/repos/", "name", "short:");
 		RemoteConfig rc = new RemoteConfig(config, "origin");
@@ -435,7 +435,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void singleInsteadOf() throws Exception {
+	void singleInsteadOf() throws Exception {
 		config.setString("remote", "origin", "url", "short:project.git");
 		config.setString("url", "https://server/repos/", "insteadOf", "short:");
 		RemoteConfig rc = new RemoteConfig(config, "origin");
@@ -445,7 +445,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void multipleInsteadOf() throws Exception {
+	void multipleInsteadOf() throws Exception {
 		config.setString("remote", "origin", "url", "prefixproject.git");
 		config.setStringList("url", "https://server/repos/", "insteadOf",
 				Arrays.asList("pre", "prefix", "pref", "perf"));
@@ -456,7 +456,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void noPushInsteadOf() throws Exception {
+	void noPushInsteadOf() throws Exception {
 		config.setString("remote", "origin", "pushurl", "short:project.git");
 		config.setString("url", "https://server/repos/", "name", "short:");
 		RemoteConfig rc = new RemoteConfig(config, "origin");
@@ -466,7 +466,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void pushInsteadOfNotAppliedToPushUri() throws Exception {
+	void pushInsteadOfNotAppliedToPushUri() throws Exception {
 		config.setString("remote", "origin", "pushurl", "short:project.git");
 		config.setString("url", "https://server/repos/", "pushInsteadOf",
 				"short:");
@@ -477,7 +477,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void pushInsteadOfAppliedToUri() throws Exception {
+	void pushInsteadOfAppliedToUri() throws Exception {
 		config.setString("remote", "origin", "url", "short:project.git");
 		config.setString("url", "https://server/repos/", "pushInsteadOf",
 				"short:");
@@ -488,7 +488,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void multiplePushInsteadOf() throws Exception {
+	void multiplePushInsteadOf() throws Exception {
 		config.setString("remote", "origin", "url", "prefixproject.git");
 		config.setStringList("url", "https://server/repos/", "pushInsteadOf",
 				Arrays.asList("pre", "prefix", "pref", "perf"));
@@ -499,7 +499,7 @@ public class RemoteConfigTest {
 	}
 
 	@Test
-	public void pushInsteadOfNoPushUrl() throws Exception {
+	void pushInsteadOfNoPushUrl() throws Exception {
 		config.setString("remote", "origin", "url",
 				"http://git.eclipse.org/gitroot/jgit/jgit");
 		config.setStringList("url", "ssh://someone@git.eclipse.org:29418/",

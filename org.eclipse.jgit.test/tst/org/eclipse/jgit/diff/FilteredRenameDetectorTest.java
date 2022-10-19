@@ -10,30 +10,30 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Arrays;
 import java.util.List;
 import org.eclipse.jgit.internal.diff.FilteredRenameDetector;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FilteredRenameDetectorTest extends AbstractRenameDetectionTestCase {
 
 	private FilteredRenameDetector frd;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		frd = new FilteredRenameDetector(db);
 	}
 
 	@Test
-	public void testExactRename() throws Exception {
+	void testExactRename() throws Exception {
 		ObjectId foo = blob("foo");
 		ObjectId bar = blob("bar");
 
@@ -46,12 +46,12 @@ public class FilteredRenameDetectorTest extends AbstractRenameDetectionTestCase 
 		List<DiffEntry> changes = Arrays.asList(a, b, c, d);
 		PathFilter filter = PathFilter.create(PATH_A);
 		List<DiffEntry> entries = frd.compute(changes, filter);
-		assertEquals("Unexpected entries in: " + entries, 1, entries.size());
+		assertEquals(1, entries.size(), "Unexpected entries in: " + entries);
 		assertRename(b, a, 100, entries.get(0));
 	}
 
 	@Test
-	public void testExactRename_multipleFilters() throws Exception {
+	void testExactRename_multipleFilters() throws Exception {
 		ObjectId foo = blob("foo");
 		ObjectId bar = blob("bar");
 
@@ -65,13 +65,13 @@ public class FilteredRenameDetectorTest extends AbstractRenameDetectionTestCase 
 		List<PathFilter> filters = Arrays.asList(PathFilter.create(PATH_A),
 				PathFilter.create(PATH_H));
 		List<DiffEntry> entries = frd.compute(changes, filters);
-		assertEquals("Unexpected entries in: " + entries, 2, entries.size());
+		assertEquals(2, entries.size(), "Unexpected entries in: " + entries);
 		assertRename(b, a, 100, entries.get(0));
 		assertRename(d, c, 100, entries.get(1));
 	}
 
 	@Test
-	public void testInexactRename() throws Exception {
+	void testInexactRename() throws Exception {
 		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
 		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
 		DiffEntry a = DiffEntry.add(PATH_A, aId);
@@ -85,12 +85,12 @@ public class FilteredRenameDetectorTest extends AbstractRenameDetectionTestCase 
 		List<DiffEntry> changes = Arrays.asList(a, b, c, d);
 		PathFilter filter = PathFilter.create(PATH_A);
 		List<DiffEntry> entries = frd.compute(changes, filter);
-		assertEquals("Unexpected entries: " + entries, 1, entries.size());
+		assertEquals(1, entries.size(), "Unexpected entries: " + entries);
 		assertRename(b, a, 66, entries.get(0));
 	}
 
 	@Test
-	public void testInexactRename_multipleFilters() throws Exception {
+	void testInexactRename_multipleFilters() throws Exception {
 		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
 		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
 		DiffEntry a = DiffEntry.add(PATH_A, aId);
@@ -105,13 +105,13 @@ public class FilteredRenameDetectorTest extends AbstractRenameDetectionTestCase 
 		List<PathFilter> filters = Arrays.asList(PathFilter.create(PATH_A),
 				PathFilter.create(PATH_H));
 		List<DiffEntry> entries = frd.compute(changes, filters);
-		assertEquals("Unexpected entries: " + entries, 2, entries.size());
+		assertEquals(2, entries.size(), "Unexpected entries: " + entries);
 		assertRename(b, a, 66, entries.get(0));
 		assertSame(d, entries.get(1));
 	}
 
 	@Test
-	public void testNoRenames() throws Exception {
+	void testNoRenames() throws Exception {
 		ObjectId aId = blob("");
 		ObjectId bId = blob("blah1");
 		ObjectId cId = blob("");
@@ -126,12 +126,12 @@ public class FilteredRenameDetectorTest extends AbstractRenameDetectionTestCase 
 		List<DiffEntry> changes = Arrays.asList(a, b, c, d);
 		PathFilter filter = PathFilter.create(PATH_A);
 		List<DiffEntry> entries = frd.compute(changes, filter);
-		assertEquals("Unexpected entries in: " + entries, 1, entries.size());
+		assertEquals(1, entries.size(), "Unexpected entries in: " + entries);
 		assertSame(a, entries.get(0));
 	}
 
 	@Test
-	public void testNoRenames_multipleFilters() throws Exception {
+	void testNoRenames_multipleFilters() throws Exception {
 		ObjectId aId = blob("");
 		ObjectId bId = blob("blah1");
 		ObjectId cId = blob("");
@@ -147,7 +147,7 @@ public class FilteredRenameDetectorTest extends AbstractRenameDetectionTestCase 
 		List<PathFilter> filters = Arrays.asList(PathFilter.create(PATH_A),
 				PathFilter.create(PATH_H));
 		List<DiffEntry> entries = frd.compute(changes, filters);
-		assertEquals("Unexpected entries in: " + entries, 2, entries.size());
+		assertEquals(2, entries.size(), "Unexpected entries in: " + entries);
 		assertSame(a, entries.get(0));
 		assertSame(c, entries.get(1));
 	}

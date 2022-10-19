@@ -10,8 +10,8 @@
 package org.eclipse.jgit.transport.http;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,8 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class JDKHttpConnectionTest {
 
@@ -33,7 +33,7 @@ public class JDKHttpConnectionTest {
 
 	private JDKHttpConnection c;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		u = mock(HttpURLConnection.class);
 		c = new JDKHttpConnection(u);
@@ -41,13 +41,13 @@ public class JDKHttpConnectionTest {
 	}
 
 	@Test
-	public void testSingle() {
+	void testSingle() {
 		when(u.getHeaderFields()).thenReturn(headers);
 		assertValues("AbC", "x");
 	}
 
 	@Test
-	public void testMultiple1() {
+	void testMultiple1() {
 		headers.put("abc", asList("a"));
 		headers.put("aBC", asList("d", "e"));
 		headers.put("ABc", Collections.emptyList());
@@ -57,7 +57,7 @@ public class JDKHttpConnectionTest {
 	}
 
 	@Test
-	public void testMultiple2() {
+	void testMultiple2() {
 		headers.put("ab", asList("y", "z", "z"));
 		when(u.getHeaderFields()).thenReturn(headers);
 		assertValues("ab", "z", "y", "z");
@@ -67,7 +67,7 @@ public class JDKHttpConnectionTest {
 	}
 
 	@Test
-	public void testCommaSeparatedList() {
+	void testCommaSeparatedList() {
 		headers.put("abc", asList("a,b,c", "d"));
 		when(u.getHeaderFields()).thenReturn(headers);
 		assertValues("Abc", "a,b,c", "x", "d");
@@ -84,7 +84,7 @@ public class JDKHttpConnectionTest {
 				fail("value " + v + " not found");
 			}
 		}
-		assertTrue("found unexpected entries " + l, l.isEmpty());
+		assertTrue(l.isEmpty(), "found unexpected entries " + l);
 	}
 
 }

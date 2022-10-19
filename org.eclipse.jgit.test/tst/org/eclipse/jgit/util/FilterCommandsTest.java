@@ -9,8 +9,8 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +31,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FilterCommandsTest extends RepositoryTestCase {
 	private Git git;
@@ -71,7 +71,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
@@ -100,7 +100,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBuiltinCleanFilter()
+	void testBuiltinCleanFilter()
 			throws IOException, GitAPIException {
 		String builtinCommandName = "jgit://builtin/test/clean";
 		FilterCommandRegistry.register(builtinCommandName,
@@ -138,7 +138,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBuiltinSmudgeFilter() throws IOException, GitAPIException {
+	void testBuiltinSmudgeFilter() throws IOException, GitAPIException {
 		String builtinCommandName = "jgit://builtin/test/smudge";
 		FilterCommandRegistry.register(builtinCommandName,
 				new TestCommandFactory('s'));
@@ -182,14 +182,14 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBuiltinCleanAndSmudgeFilter() throws IOException, GitAPIException {
+	void testBuiltinCleanAndSmudgeFilter() throws IOException, GitAPIException {
 		String builtinCommandPrefix = "jgit://builtin/test/";
 		FilterCommandRegistry.register(builtinCommandPrefix + "smudge",
 				new TestCommandFactory('s'));
 		FilterCommandRegistry.register(builtinCommandPrefix + "clean",
 				new TestCommandFactory('c'));
 		StoredConfig config = git.getRepository().getConfig();
-		config.setString("filter", "test", "smudge", builtinCommandPrefix+"smudge");
+		config.setString("filter", "test", "smudge", builtinCommandPrefix + "smudge");
 		config.setString("filter", "test", "clean",
 				builtinCommandPrefix + "clean");
 		config.save();
@@ -231,7 +231,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBranchSwitch() throws Exception {
+	void testBranchSwitch() throws Exception {
 		String builtinCommandPrefix = "jgit://builtin/test/";
 		FilterCommandRegistry.register(builtinCommandPrefix + "smudge",
 				new TestCommandFactory('s'));
@@ -263,7 +263,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutSingleFile() throws Exception {
+	void testCheckoutSingleFile() throws Exception {
 		String builtinCommandPrefix = "jgit://builtin/test/";
 		FilterCommandRegistry.register(builtinCommandPrefix + "smudge",
 				new TestCommandFactory('s'));
@@ -295,7 +295,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutSingleFile2() throws Exception {
+	void testCheckoutSingleFile2() throws Exception {
 		String builtinCommandPrefix = "jgit://builtin/test/";
 		FilterCommandRegistry.register(builtinCommandPrefix + "smudge",
 				new TestCommandFactory('s'));
@@ -328,7 +328,7 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMerge() throws Exception {
+	void testMerge() throws Exception {
 		String builtinCommandPrefix = "jgit://builtin/test/";
 		FilterCommandRegistry.register(builtinCommandPrefix + "smudge",
 				new TestCommandFactory('s'));

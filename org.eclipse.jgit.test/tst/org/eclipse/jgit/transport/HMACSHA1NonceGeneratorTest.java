@@ -42,15 +42,15 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Test for HMAC SHA-1 certificate verifier. */
 public class HMACSHA1NonceGeneratorTest {
@@ -59,24 +59,24 @@ public class HMACSHA1NonceGeneratorTest {
 	private HMACSHA1NonceGenerator gen;
 	private Repository db;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		gen = new HMACSHA1NonceGenerator("sekret");
 		db = new InMemoryRepository(new DfsRepositoryDescription("db"));
 	}
 
 	@Test
-	public void missing() throws Exception {
+	void missing() throws Exception {
 		assertEquals(NonceStatus.MISSING, gen.verify("", "1234", db, false, 0));
 	}
 
 	@Test
-	public void unsolicited() throws Exception {
+	void unsolicited() throws Exception {
 		assertEquals(NonceStatus.UNSOLICITED, gen.verify("1234", "", db, false, 0));
 	}
 
 	@Test
-	public void invalidFormat() throws Exception {
+	void invalidFormat() throws Exception {
 		String sent = gen.createNonce(db, TS);
 		int idx = sent.indexOf('-');
 		String sig = sent.substring(idx, sent.length() - idx);
@@ -88,7 +88,7 @@ public class HMACSHA1NonceGeneratorTest {
 	}
 
 	@Test
-	public void slop() throws Exception {
+	void slop() throws Exception {
 		String sent = gen.createNonce(db, TS - 10);
 		String received = gen.createNonce(db, TS);
 		assertEquals(NonceStatus.BAD,
@@ -106,13 +106,13 @@ public class HMACSHA1NonceGeneratorTest {
 	}
 
 	@Test
-	public void ok() throws Exception {
+	void ok() throws Exception {
 		String sent = gen.createNonce(db, TS);
 		assertEquals(NonceStatus.OK, gen.verify(sent, sent, db, false, 0));
 	}
 
 	@Test
-	public void signedByDifferentKey() throws Exception {
+	void signedByDifferentKey() throws Exception {
 		HMACSHA1NonceGenerator other = new HMACSHA1NonceGenerator("other");
 		String sent = gen.createNonce(db, TS);
 		String received = other.createNonce(db, TS);
@@ -122,7 +122,7 @@ public class HMACSHA1NonceGeneratorTest {
 	}
 
 	@Test
-	public void signedByDifferentKeyWithSlop() throws Exception {
+	void signedByDifferentKeyWithSlop() throws Exception {
 		HMACSHA1NonceGenerator other = new HMACSHA1NonceGenerator("other");
 		String sent = gen.createNonce(db, TS - 10);
 		String received = other.createNonce(db, TS);

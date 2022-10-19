@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -18,18 +18,19 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HugeCommitMessageTest extends RepositoryTestCase {
 
 	private static final int HUGE_SIZE = Math.max(15 * WindowCacheConfig.MB,
 			PackConfig.DEFAULT_BIG_FILE_THRESHOLD + WindowCacheConfig.MB);
+
 	// Larger than the 5MB fallback limit in RevWalk.getCachedBytes(RevObject
 	// obj, ObjectLoader ldr), and also larger than the default
 	// streamFileThreshold.
 
 	@Test
-	public void testHugeCommitMessage() throws Exception {
+	void testHugeCommitMessage() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("foo", "foo");
 			git.add().addFilepattern("foo").call();
@@ -41,8 +42,8 @@ public class HugeCommitMessageTest extends RepositoryTestCase {
 			Ref master = db.findRef("master");
 			List<Ref> actual = git.branchList().setContains(commit.getName())
 					.call();
-			assertTrue("Should be contained in branch master",
-					actual.contains(master));
+			assertTrue(actual.contains(master),
+					"Should be contained in branch master");
 		}
 	}
 

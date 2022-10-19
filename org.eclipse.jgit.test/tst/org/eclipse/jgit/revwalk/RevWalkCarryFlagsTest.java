@@ -10,10 +10,11 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 	/**
@@ -24,7 +25,7 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testRevWalkCarryUninteresting_fastClock() throws Exception {
+	void testRevWalkCarryUninteresting_fastClock() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(a);
@@ -33,7 +34,7 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 
 		markStart(d);
 		markUninteresting(e);
-		assertNull("Found an unexpected commit", rw.next());
+		assertNull(rw.next(), "Found an unexpected commit");
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testRevWalkCarryUninteresting_SlowClock() throws Exception {
+	void testRevWalkCarryUninteresting_SlowClock() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(a);
@@ -56,7 +57,7 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 
 		markStart(d);
 		markUninteresting(e);
-		assertNull("Found an unexpected commit", rw.next());
+		assertNull(rw.next(), "Found an unexpected commit");
 	}
 
 	/**
@@ -67,7 +68,7 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testRevWalkCarryUninteresting_WrongClock() throws Exception {
+	void testRevWalkCarryUninteresting_WrongClock() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(a);
@@ -76,7 +77,7 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 
 		markStart(d);
 		markUninteresting(e);
-		assertNull("Found an unexpected commit", rw.next());
+		assertNull(rw.next(), "Found an unexpected commit");
 	}
 
 	/**
@@ -86,7 +87,7 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testRevWalkCarryCustom_SlowClock() throws Exception {
+	void testRevWalkCarryCustom_SlowClock() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(a);
@@ -104,10 +105,10 @@ public class RevWalkCarryFlagsTest extends RevWalkTestCase {
 		int count = 0;
 		for (RevCommit cm : rw) {
 			assertTrue(
-					"Found a commit which doesn't have the custom flag: " + cm,
-					cm.has(customFlag));
+					cm.has(customFlag),
+					"Found a commit which doesn't have the custom flag: " + cm);
 			count++;
 		}
-		assertTrue("Didn't walked over all commits", count == 5);
+		assertEquals(count, 5, "Didn't walked over all commits");
 	}
 }

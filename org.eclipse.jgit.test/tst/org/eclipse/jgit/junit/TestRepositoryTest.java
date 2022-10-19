@@ -11,12 +11,12 @@
 package org.eclipse.jgit.junit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -35,16 +35,16 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestRepositoryTest {
 	private TestRepository<InMemoryRepository> tr;
 	private InMemoryRepository repo;
 	private RevWalk rw;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tr = new TestRepository<>(new InMemoryRepository(
 				new DfsRepositoryDescription("test")));
@@ -52,14 +52,14 @@ public class TestRepositoryTest {
 		rw = tr.getRevWalk();
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		rw.close();
 		repo.close();
 	}
 
 	@Test
-	public void insertChangeId() throws Exception {
+	void insertChangeId() throws Exception {
 		RevCommit c1 = tr.commit().message("message").insertChangeId().create();
 		rw.parseBody(c1);
 		assertTrue(Pattern.matches(
@@ -72,7 +72,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void insertChangeIdIgnoresExisting() throws Exception {
+	void insertChangeIdIgnoresExisting() throws Exception {
 		String msg = "message\n"
 				+ "\n"
 				+	"Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n";
@@ -82,18 +82,18 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void insertExplicitChangeId() throws Exception {
+	void insertExplicitChangeId() throws Exception {
 		RevCommit c = tr.commit().message("message")
 				.insertChangeId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef")
 				.create();
 		rw.parseBody(c);
 		assertEquals("message\n\n"
 				+ "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n"
-				, c.getFullMessage());
+		, c.getFullMessage());
 	}
 
 	@Test
-	public void resetFromSymref() throws Exception {
+	void resetFromSymref() throws Exception {
 		repo.updateRef("HEAD").link("refs/heads/master");
 		Ref head = repo.exactRef("HEAD");
 		RevCommit master = tr.branch("master").commit().create();
@@ -138,7 +138,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void resetFromDetachedHead() throws Exception {
+	void resetFromDetachedHead() throws Exception {
 		Ref head = repo.exactRef("HEAD");
 		RevCommit master = tr.branch("master").commit().create();
 		RevCommit branch = tr.branch("branch").commit().create();
@@ -170,7 +170,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void amendRef() throws Exception {
+	void amendRef() throws Exception {
 		RevCommit root = tr.commit()
 				.add("todelete", "to be deleted")
 				.create();
@@ -210,7 +210,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void amendHead() throws Exception {
+	void amendHead() throws Exception {
 		repo.updateRef("HEAD").link("refs/heads/master");
 		RevCommit root = tr.commit()
 				.add("foo", "foo contents")
@@ -237,7 +237,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void amendCommit() throws Exception {
+	void amendCommit() throws Exception {
 		RevCommit root = tr.commit()
 				.add("foo", "foo contents")
 				.create();
@@ -256,7 +256,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void commitToUnbornHead() throws Exception {
+	void commitToUnbornHead() throws Exception {
 		repo.updateRef("HEAD").link("refs/heads/master");
 		RevCommit root = tr.branch("HEAD").commit().create();
 		Ref ref = repo.exactRef(Constants.HEAD);
@@ -266,7 +266,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void cherryPick() throws Exception {
+	void cherryPick() throws Exception {
 		repo.updateRef("HEAD").link("refs/heads/master");
 		RevCommit head = tr.branch("master").commit()
 				.add("foo", "foo contents\n")
@@ -304,7 +304,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void cherryPickWithContentMerge() throws Exception {
+	void cherryPickWithContentMerge() throws Exception {
 		RevCommit base = tr.branch("HEAD").commit()
 				.add("foo", "foo contents\n\n")
 				.create();
@@ -325,7 +325,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void cherryPickWithIdenticalContents() throws Exception {
+	void cherryPickWithIdenticalContents() throws Exception {
 		RevCommit base = tr.branch("HEAD").commit().add("foo", "foo contents\n")
 				.create();
 		RevCommit head = tr.branch("HEAD").commit()
@@ -343,7 +343,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void reattachToMaster_Race() throws Exception {
+	void reattachToMaster_Race() throws Exception {
 		RevCommit commit = tr.branch("master").commit().create();
 		tr.branch("master").update(commit);
 		tr.branch("other").update(commit);
@@ -366,7 +366,7 @@ public class TestRepositoryTest {
 	}
 
 	@Test
-	public void nonRacingChange() throws Exception {
+	void nonRacingChange() throws Exception {
 		tr.branch("master").update(tr.branch("master").commit().create());
 		tr.branch("other").update(tr.branch("other").commit().create());
 		repo.updateRef("HEAD").link("refs/heads/master");

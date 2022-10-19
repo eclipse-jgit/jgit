@@ -10,21 +10,21 @@
 
 package org.eclipse.jgit.patch;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.eclipse.jgit.junit.JGitTestUtil;
-import org.junit.Test;
+import org.eclipse.jgit.junit.TestInfoRetriever;
+import org.junit.jupiter.api.Test;
 
-public class PatchErrorTest {
+public class PatchErrorTest extends TestInfoRetriever {
 	@Test
-	public void testError_DisconnectedHunk() throws IOException {
+	void testError_DisconnectedHunk() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
 		{
@@ -44,7 +44,7 @@ public class PatchErrorTest {
 	}
 
 	@Test
-	public void testError_TruncatedOld() throws IOException {
+	void testError_TruncatedOld() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
 		assertEquals(1, p.getErrors().size());
@@ -58,7 +58,7 @@ public class PatchErrorTest {
 	}
 
 	@Test
-	public void testError_TruncatedNew() throws IOException {
+	void testError_TruncatedNew() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
 		assertEquals(1, p.getErrors().size());
@@ -72,7 +72,7 @@ public class PatchErrorTest {
 	}
 
 	@Test
-	public void testError_BodyTooLong() throws IOException {
+	void testError_BodyTooLong() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
 		assertEquals(1, p.getErrors().size());
@@ -86,7 +86,7 @@ public class PatchErrorTest {
 	}
 
 	@Test
-	public void testError_GarbageBetweenFiles() throws IOException {
+	void testError_GarbageBetweenFiles() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(2, p.getFiles().size());
 		{
@@ -113,7 +113,7 @@ public class PatchErrorTest {
 	}
 
 	@Test
-	public void testError_GitBinaryNoForwardHunk() throws IOException {
+	void testError_GitBinaryNoForwardHunk() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(2, p.getFiles().size());
 		{
@@ -143,7 +143,7 @@ public class PatchErrorTest {
 	}
 
 	private Patch parseTestPatchFile() throws IOException {
-		final String patchFile = JGitTestUtil.getName() + ".patch";
+		final String patchFile = getTestMethodName() + ".patch";
 		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
 			if (in == null) {
 				fail("No " + patchFile + " test vector");

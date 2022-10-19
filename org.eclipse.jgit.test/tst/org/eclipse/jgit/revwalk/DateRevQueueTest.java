@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	@Override
@@ -31,13 +31,13 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	}
 
 	@Test
-	public void testCloneEmpty() throws Exception {
+	void testCloneEmpty() throws Exception {
 		q = new DateRevQueue(AbstractRevQueue.EMPTY_QUEUE);
 		assertNull(q.next());
 	}
 
 	@Test
-	public void testInsertOutOfOrder() throws Exception {
+	void testInsertOutOfOrder() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(10, a));
 		final RevCommit c1 = parseBody(commit(5, b));
@@ -56,7 +56,7 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	}
 
 	@Test
-	public void testInsertTie() throws Exception {
+	void testInsertTie() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(0, a));
 		final RevCommit c = parseBody(commit(0, b));
@@ -86,7 +86,7 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	}
 
 	@Test
-	public void testCloneFIFO() throws Exception {
+	void testCloneFIFO() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(200, a));
 		final RevCommit c = parseBody(commit(200, b));

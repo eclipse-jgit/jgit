@@ -11,10 +11,11 @@ package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,44 +28,43 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class DescribeCommandTest extends RepositoryTestCase {
 
 	private Git git;
-
-	@Parameter(0)
 	public boolean useAnnotatedTags;
-
-	@Parameter(1)
 	public boolean describeUseAllTags;
 
-	@Parameters(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
-	public static Collection<Boolean[]> getUseAnnotatedTagsValues() {
-		return Arrays.asList(new Boolean[][] { { Boolean.TRUE, Boolean.FALSE },
-				{ Boolean.FALSE, Boolean.FALSE },
-				{ Boolean.TRUE, Boolean.TRUE },
-				{ Boolean.FALSE, Boolean.TRUE } });
+	private static Collection<Boolean[]> getUseAnnotatedTagsValues() {
+		return Arrays.asList(new Boolean[][]{{Boolean.TRUE, Boolean.FALSE},
+				{Boolean.FALSE, Boolean.FALSE},
+				{Boolean.TRUE, Boolean.TRUE},
+				{Boolean.FALSE, Boolean.TRUE}});
 	}
 
 	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 	}
 
-	@Test(expected = RefNotFoundException.class)
-	public void noTargetSet() throws Exception {
-		git.describe().call();
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void noTargetSet(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
+		assertThrows(RefNotFoundException.class, () -> {
+			git.describe().call();
+		});
 	}
 
-	@Test
-	public void testDescribe() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void testDescribe(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		ObjectId c1 = modify("aaa");
 
 		ObjectId c2 = modify("bbb");
@@ -108,9 +108,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("bob-t2-1-g3e563c55927905f21e3bc7c00a3d83a31bf4ed3a",
 					describe(c4, false, true, 50));
 		} else {
-			assertEquals(null, describe(c2));
-			assertEquals(null, describe(c3));
-			assertEquals(null, describe(c4));
+			assertNull(describe(c2));
+			assertNull(describe(c3));
+			assertNull(describe(c4));
 
 			assertEquals("3747db3", describe(c2, false, true));
 			assertEquals("44579eb", describe(c3, false, true));
@@ -137,15 +137,17 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("bob-t2-1-g3e563c5",
 					git.describe().setTags(true).call());
 		} else {
-			assertEquals(null, git.describe().call());
-			assertEquals(null, git.describe().setTags(false).call());
+			assertNull(git.describe().call());
+			assertNull(git.describe().setTags(false).call());
 			assertEquals("bob-t2-1-g3e563c5",
 					git.describe().setTags(true).call());
 		}
 	}
 
-	@Test
-	public void testDescribeMultiMatch() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void testDescribeMultiMatch(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		ObjectId c1 = modify("aaa");
 		tag("v1.0.0");
 		tick();
@@ -157,8 +159,8 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		ObjectId c2 = modify("bbb");
 
 		if (!useAnnotatedTags && !describeUseAllTags) {
-			assertEquals(null, describe(c1));
-			assertEquals(null, describe(c2));
+			assertNull(describe(c1));
+			assertNull(describe(c2));
 
 			assertEquals("fd70040", describe(c1, false, true));
 			assertEquals("b89dead", describe(c2, false, true));
@@ -211,8 +213,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
-	@Test
-	public void testDescribeBranch() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void testDescribeBranch(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		ObjectId c1 = modify("aaa");
 
 		ObjectId c2 = modify("bbb");
@@ -226,9 +230,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 
 		assertNameStartsWith(c4, "119892b");
 		if (useAnnotatedTags || describeUseAllTags) {
-			assertEquals("2 commits: c4 and c3", "t-2-g119892b", describe(c4));
+			assertEquals("t-2-g119892b", describe(c4), "2 commits: c4 and c3");
 		} else {
-			assertEquals(null, describe(c4));
+			assertNull(describe(c4));
 
 			assertEquals("119892b", describe(c4, false, true));
 		}
@@ -252,8 +256,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
-	@Test
-	public void t1DominatesT2() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void t1DominatesT2(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		ObjectId c1 = modify("aaa");
 		tag("t1");
 
@@ -273,8 +279,8 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("t2-2-g119892b", describe(c4)); // 2 commits: c4 and c3
 			assertEquals("t1-1-g0244e7f", describe(c3));
 		} else {
-			assertEquals(null, describe(c4));
-			assertEquals(null, describe(c3));
+			assertNull(describe(c4));
+			assertNull(describe(c3));
 
 			assertEquals("119892b", describe(c4, false, true));
 			assertEquals("0244e7f", describe(c3, false, true));
@@ -292,8 +298,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
-	@Test
-	public void t1AnnotatedDominatesT2lightweight() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void t1AnnotatedDominatesT2lightweight(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		ObjectId c1 = modify("aaa");
 		tag("t1", useAnnotatedTags);
 
@@ -303,14 +311,14 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		assertNameStartsWith(c2, "3747db3");
 		if (useAnnotatedTags && !describeUseAllTags) {
 			assertEquals(
-					"only annotated tag t1 expected to be used for describe",
-					"t1-1-g3747db3", describe(c2)); // 1 commits: t2 overridden
-													// by t1
+					"t1-1-g3747db3", describe(c2), "only annotated tag t1 expected to be used for describe"); // 1 commits: t2 overridden
+			// by t1
 		} else if (!useAnnotatedTags && !describeUseAllTags) {
-			assertEquals("no commits to describe expected", null, describe(c2));
+			assertNull(describe(c2), "no commits to describe expected");
 		} else {
-			assertEquals("lightweight tag t2 expected in describe", "t2",
-					describe(c2));
+			assertEquals("t2",
+					describe(c2),
+					"lightweight tag t2 expected in describe");
 		}
 
 		branch("b", c1);
@@ -327,14 +335,12 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		assertNameStartsWith(c4, "119892b");
 		if (describeUseAllTags) {
 			assertEquals(
-					"2 commits for describe commit increment expected since lightweight tag: c4 and c3",
-					"t2-2-g119892b", describe(c4)); // 2 commits: c4 and c3
+					"t2-2-g119892b", describe(c4), "2 commits for describe commit increment expected since lightweight tag: c4 and c3"); // 2 commits: c4 and c3
 		} else if (!useAnnotatedTags) {
-			assertEquals("no matching commits expected", null, describe(c4));
+			assertNull(describe(c4), "no matching commits expected");
 		} else {
 			assertEquals(
-					"3 commits for describe commit increment expected since annotated tag: c4 and c3 and c2",
-					"t1-3-g119892b", describe(c4)); //
+					"t1-3-g119892b", describe(c4), "3 commits for describe commit increment expected since annotated tag: c4 and c3 and c2"); //
 		}
 	}
 
@@ -349,8 +355,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
-	@Test
-	public void t1nearerT2() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void t1nearerT2(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		ObjectId c1 = modify("aaa");
 		modify("bbb");
 		ObjectId t1 = modify("ccc");
@@ -366,7 +374,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		if (useAnnotatedTags || describeUseAllTags) {
 			assertEquals("t1-3-gbb389a4", describe(c4));
 		} else {
-			assertEquals(null, describe(c4));
+			assertNull(describe(c4));
 
 			assertEquals("bb389a4", describe(c4, false, true));
 		}
@@ -384,8 +392,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
-	@Test
-	public void t1sameDepthT2() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void t1sameDepthT2(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		ObjectId c1 = modify("aaa");
 		modify("bbb");
 		tag("t1");
@@ -401,14 +411,16 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		if (useAnnotatedTags || describeUseAllTags) {
 			assertEquals("t2-4-gbb389a4", describe(c4));
 		} else {
-			assertEquals(null, describe(c4));
+			assertNull(describe(c4));
 
 			assertEquals("bb389a4", describe(c4, false, true));
 		}
 	}
 
-	@Test
-	public void globMatchWithSlashes() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void globMatchWithSlashes(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		ObjectId c1 = modify("aaa");
 		tag("a/b/version");
 		ObjectId c2 = modify("bbb");
@@ -424,15 +436,17 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void testDescribeUseAllRefsMaster() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void testDescribeUseAllRefsMaster(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		final ObjectId c1 = modify("aaa");
 		tag("t1");
 
 		if (useAnnotatedTags || describeUseAllTags) {
 			assertEquals("t1", describe(c1));
 		} else {
-			assertEquals(null, describe(c1));
+			assertNull(describe(c1));
 		}
 		assertEquals("heads/master", describeAll(c1));
 	}
@@ -447,8 +461,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * </pre>
 	 * @throws Exception
 	 * */
-	@Test
-	public void testDescribeUseAllRefsBranch() throws Exception {
+	@MethodSource("getUseAnnotatedTagsValues")
+	@ParameterizedTest(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
+	void testDescribeUseAllRefsBranch(boolean useAnnotatedTags, boolean describeUseAllTags) throws Exception {
+		initDescribeCommandTest(useAnnotatedTags, describeUseAllTags);
 		final ObjectId c1 = modify("aaa");
 		modify("bbb");
 
@@ -457,7 +473,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		tag("t1");
 
 		if (!useAnnotatedTags && !describeUseAllTags) {
-			assertEquals(null, describe(c3));
+			assertNull(describe(c3));
 		} else {
 			assertEquals("t1", describe(c3));
 		}
@@ -519,6 +535,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	}
 
 	private static void assertNameStartsWith(ObjectId c4, String prefix) {
-		assertTrue(c4.name(), c4.name().startsWith(prefix));
+		assertTrue(c4.name().startsWith(prefix), c4.name());
+	}
+
+	public void initDescribeCommandTest(boolean useAnnotatedTags, boolean describeUseAllTags) {
+		this.useAnnotatedTags = useAnnotatedTags;
+		this.describeUseAllTags = describeUseAllTags;
 	}
 }

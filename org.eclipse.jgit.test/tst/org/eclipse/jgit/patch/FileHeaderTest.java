@@ -10,22 +10,22 @@
 
 package org.eclipse.jgit.patch;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FileHeaderTest {
 	@Test
-	public void testParseGitFileName_Empty() {
+	void testParseGitFileName_Empty() {
 		final FileHeader fh = data("");
 		assertEquals(-1, fh.parseGitFileName(0, fh.buf.length));
 		assertNotNull(fh.getHunks());
@@ -34,25 +34,25 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseGitFileName_NoLF() {
+	void testParseGitFileName_NoLF() {
 		final FileHeader fh = data("a/ b/");
 		assertEquals(-1, fh.parseGitFileName(0, fh.buf.length));
 	}
 
 	@Test
-	public void testParseGitFileName_NoSecondLine() {
+	void testParseGitFileName_NoSecondLine() {
 		final FileHeader fh = data("\n");
 		assertEquals(-1, fh.parseGitFileName(0, fh.buf.length));
 	}
 
 	@Test
-	public void testParseGitFileName_EmptyHeader() {
+	void testParseGitFileName_EmptyHeader() {
 		final FileHeader fh = data("\n\n");
 		assertEquals(1, fh.parseGitFileName(0, fh.buf.length));
 	}
 
 	@Test
-	public void testParseGitFileName_Foo() {
+	void testParseGitFileName_Foo() {
 		final String name = "foo";
 		final FileHeader fh = header(name);
 		assertEquals(gitLine(name).length(), fh.parseGitFileName(0,
@@ -63,7 +63,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseGitFileName_FailFooBar() {
+	void testParseGitFileName_FailFooBar() {
 		final FileHeader fh = data("a/foo b/bar\n-");
 		assertTrue(fh.parseGitFileName(0, fh.buf.length) > 0);
 		assertNull(fh.getOldPath());
@@ -72,7 +72,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseGitFileName_FooSpBar() {
+	void testParseGitFileName_FooSpBar() {
 		final String name = "foo bar";
 		final FileHeader fh = header(name);
 		assertEquals(gitLine(name).length(), fh.parseGitFileName(0,
@@ -83,7 +83,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseGitFileName_DqFooTabBar() {
+	void testParseGitFileName_DqFooTabBar() {
 		final String name = "foo\tbar";
 		final String dqName = "foo\\tbar";
 		final FileHeader fh = dqHeader(dqName);
@@ -95,7 +95,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseGitFileName_DqFooSpLfNulBar() {
+	void testParseGitFileName_DqFooSpLfNulBar() {
 		final String name = "foo \n\0bar";
 		final String dqName = "foo \\n\\0bar";
 		final FileHeader fh = dqHeader(dqName);
@@ -107,7 +107,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseGitFileName_SrcFooC() {
+	void testParseGitFileName_SrcFooC() {
 		final String name = "src/foo/bar/argh/code.c";
 		final FileHeader fh = header(name);
 		assertEquals(gitLine(name).length(), fh.parseGitFileName(0,
@@ -118,7 +118,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseGitFileName_SrcFooCNonStandardPrefix() {
+	void testParseGitFileName_SrcFooCNonStandardPrefix() {
 		final String name = "src/foo/bar/argh/code.c";
 		final String header = "project-v-1.0/" + name + " mydev/" + name + "\n";
 		final FileHeader fh = data(header + "-");
@@ -129,7 +129,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseUnicodeName_NewFile() {
+	void testParseUnicodeName_NewFile() {
 		final FileHeader fh = data("diff --git \"a/\\303\\205ngstr\\303\\266m\" \"b/\\303\\205ngstr\\303\\266m\"\n"
 				+ "new file mode 100644\n"
 				+ "index 0000000..7898192\n"
@@ -155,7 +155,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseUnicodeName_DeleteFile() {
+	void testParseUnicodeName_DeleteFile() {
 		final FileHeader fh = data("diff --git \"a/\\303\\205ngstr\\303\\266m\" \"b/\\303\\205ngstr\\303\\266m\"\n"
 				+ "deleted file mode 100644\n"
 				+ "index 7898192..0000000\n"
@@ -181,7 +181,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseModeChange() {
+	void testParseModeChange() {
 		final FileHeader fh = data("diff --git a/a b b/a b\n"
 				+ "old mode 100644\n" + "new mode 100755\n");
 		assertParse(fh);
@@ -201,7 +201,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseRename100_NewStyle() {
+	void testParseRename100_NewStyle() {
 		final FileHeader fh = data("diff --git a/a b/ c/\\303\\205ngstr\\303\\266m\n"
 				+ "similarity index 100%\n"
 				+ "rename from a\n"
@@ -231,7 +231,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseRename100_OldStyle() {
+	void testParseRename100_OldStyle() {
 		final FileHeader fh = data("diff --git a/a b/ c/\\303\\205ngstr\\303\\266m\n"
 				+ "similarity index 100%\n"
 				+ "rename old a\n"
@@ -261,7 +261,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseCopy100() {
+	void testParseCopy100() {
 		final FileHeader fh = data("diff --git a/a b/ c/\\303\\205ngstr\\303\\266m\n"
 				+ "similarity index 100%\n"
 				+ "copy from a\n"
@@ -291,7 +291,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseFullIndexLine_WithMode() {
+	void testParseFullIndexLine_WithMode() {
 		final String oid = "78981922613b2afb6025042ff6bd878ac1994e85";
 		final String nid = "61780798228d17af2d34fce4cfbdf35556832472";
 		final FileHeader fh = data("diff --git a/a b/a\n" + "index " + oid
@@ -316,7 +316,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseFullIndexLine_NoMode() {
+	void testParseFullIndexLine_NoMode() {
 		final String oid = "78981922613b2afb6025042ff6bd878ac1994e85";
 		final String nid = "61780798228d17af2d34fce4cfbdf35556832472";
 		final FileHeader fh = data("diff --git a/a b/a\n" + "index " + oid
@@ -341,7 +341,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseAbbrIndexLine_WithMode() {
+	void testParseAbbrIndexLine_WithMode() {
 		final int a = 7;
 		final String oid = "78981922613b2afb6025042ff6bd878ac1994e85";
 		final String nid = "61780798228d17af2d34fce4cfbdf35556832472";
@@ -371,7 +371,7 @@ public class FileHeaderTest {
 	}
 
 	@Test
-	public void testParseAbbrIndexLine_NoMode() {
+	void testParseAbbrIndexLine_NoMode() {
 		final int a = 7;
 		final String oid = "78981922613b2afb6025042ff6bd878ac1994e85";
 		final String nid = "61780798228d17af2d34fce4cfbdf35556832472";

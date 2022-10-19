@@ -43,8 +43,8 @@
 package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,8 +53,8 @@ import java.io.OutputStreamWriter;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class NetRCTest extends RepositoryTestCase {
 	private File home;
@@ -64,7 +64,7 @@ public class NetRCTest extends RepositoryTestCase {
 	private File configFile;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -82,7 +82,7 @@ public class NetRCTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNetRCFile() throws Exception {
+	void testNetRCFile() throws Exception {
 		config("machine my.host login test password 2222"
 				+ "\n"
 
@@ -128,7 +128,7 @@ public class NetRCTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNetRCDefault() throws Exception {
+	void testNetRCDefault() throws Exception {
 		config("machine my.host login test password 2222"
 				+ "\n"
 

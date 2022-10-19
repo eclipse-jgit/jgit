@@ -10,14 +10,15 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GcDirCacheSavesObjectsTest extends GcTestCase {
 	@Test
-	public void testDirCacheSavesObjects() throws Exception {
+	void testDirCacheSavesObjects() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().add("A", "A").add("B", "B").create();
 		bb.commit().add("A", "A2").add("B", "B2").create();
@@ -33,7 +34,7 @@ public class GcDirCacheSavesObjectsTest extends GcTestCase {
 	}
 
 	@Test
-	public void testDirCacheSavesObjectsWithPruneNow() throws Exception {
+	void testDirCacheSavesObjectsWithPruneNow() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().add("A", "A").add("B", "B").create();
 		bb.commit().add("A", "A2").add("B", "B2").create();

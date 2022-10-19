@@ -9,10 +9,10 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,12 +26,12 @@ import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StatusCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testEmptyStatus() throws NoWorkTreeException,
+	void testEmptyStatus() throws NoWorkTreeException,
 			GitAPIException {
 		try (Git git = new Git(db)) {
 			Status stat = git.status().call();
@@ -45,7 +45,7 @@ public class StatusCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDifferentStates() throws IOException,
+	void testDifferentStates() throws IOException,
 			NoFilepatternException, GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "content of a");
@@ -105,7 +105,7 @@ public class StatusCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDifferentStatesWithPaths() throws IOException,
+	void testDifferentStatesWithPaths() throws IOException,
 			NoFilepatternException, GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "content of a");
@@ -142,7 +142,7 @@ public class StatusCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testExecutableWithNonNormalizedIndex() throws Exception {
+	void testExecutableWithNonNormalizedIndex() throws Exception {
 		assumeTrue(FS.DETECTED.supportsExecute());
 		try (Git git = new Git(db)) {
 			// Commit a file with CR/LF into the index
@@ -159,12 +159,12 @@ public class StatusCommandTest extends RepositoryTestCase {
 			config.setString("core", null, "autocrlf", "true");
 			config.save();
 			Status status = git.status().call();
-			assertTrue("Expected no differences", status.isClean());
+			assertTrue(status.isClean(), "Expected no differences");
 		}
 	}
 
 	@Test
-	public void testFolderPrefix() throws Exception {
+	void testFolderPrefix() throws Exception {
 		// "audio" is a prefix of "audio-new" and "audio.new".
 		try (Git git = new Git(db)) {
 			// Order here is the git order, but that doesn't really matter.
@@ -184,7 +184,7 @@ public class StatusCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNestedCommittedGitRepoAndPathFilter() throws Exception {
+	void testNestedCommittedGitRepoAndPathFilter() throws Exception {
 		commitFile("file.txt", "file", "master");
 		try (Repository inner = new FileRepositoryBuilder()
 				.setWorkTree(new File(db.getWorkTree(), "subgit")).build()) {

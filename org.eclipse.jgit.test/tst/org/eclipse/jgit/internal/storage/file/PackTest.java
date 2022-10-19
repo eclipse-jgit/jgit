@@ -10,13 +10,13 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,7 +35,6 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.DeltaEncoder;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
-import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
@@ -53,9 +52,9 @@ import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PackTest extends LocalDiskRepositoryTestCase {
 	private int streamThreshold = 16 * 1024;
@@ -69,13 +68,14 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 	private WindowCursor wc;
 
 	private TestRng getRng() {
-		if (rng == null)
-			rng = new TestRng(JGitTestUtil.getName());
+		if (rng == null) {
+			rng = new TestRng(getTestMethodName());
+		}
 		return rng;
 	}
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -89,7 +89,7 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (wc != null)
 			wc.close();
@@ -98,68 +98,68 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testWhole_SmallObject() throws Exception {
+	void testWhole_SmallObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(300);
 		RevBlob id = tr.blob(data);
 		tr.branch("master").commit().add("A", id).create();
 		tr.packAndPrune();
-		assertTrue("has blob", wc.has(id));
+		assertTrue(wc.has(id), "has blob");
 
 		ObjectLoader ol = wc.open(id);
-		assertNotNull("created loader", ol);
+		assertNotNull(ol, "created loader");
 		assertEquals(type, ol.getType());
 		assertEquals(data.length, ol.getSize());
-		assertFalse("is not large", ol.isLarge());
-		assertTrue("same content", Arrays.equals(data, ol.getCachedBytes()));
+		assertFalse(ol.isLarge(), "is not large");
+		assertTrue(Arrays.equals(data, ol.getCachedBytes()), "same content");
 
 		try (ObjectStream in = ol.openStream()) {
-			assertNotNull("have stream", in);
+			assertNotNull(in, "have stream");
 			assertEquals(type, in.getType());
 			assertEquals(data.length, in.getSize());
 			byte[] data2 = new byte[data.length];
 			IO.readFully(in, data2, 0, data.length);
-			assertTrue("same content", Arrays.equals(data2, data));
-			assertEquals("stream at EOF", -1, in.read());
+			assertTrue(Arrays.equals(data2, data), "same content");
+			assertEquals(-1, in.read(), "stream at EOF");
 		}
 	}
 
 	@Test
-	public void testWhole_LargeObject() throws Exception {
+	void testWhole_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
 		byte[] data = getRng().nextBytes(streamThreshold + 5);
 		RevBlob id = tr.blob(data);
 		tr.branch("master").commit().add("A", id).create();
 		tr.packAndPrune();
-		assertTrue("has blob", wc.has(id));
+		assertTrue(wc.has(id), "has blob");
 
 		ObjectLoader ol = wc.open(id);
-		assertNotNull("created loader", ol);
+		assertNotNull(ol, "created loader");
 		assertEquals(type, ol.getType());
 		assertEquals(data.length, ol.getSize());
-		assertTrue("is large", ol.isLarge());
+		assertTrue(ol.isLarge(), "is large");
 		try {
 			ol.getCachedBytes();
 			fail("Should have thrown LargeObjectException");
 		} catch (LargeObjectException tooBig) {
-			assertEquals(MessageFormat.format(
-					JGitText.get().largeObjectException, id.name()), tooBig
-					.getMessage());
+			assertEquals(MessageFormat
+					.format(JGitText.get().largeObjectException, id.name()),
+					tooBig.getMessage());
 		}
 
 		try (ObjectStream in = ol.openStream()) {
-			assertNotNull("have stream", in);
+			assertNotNull(in, "have stream");
 			assertEquals(type, in.getType());
 			assertEquals(data.length, in.getSize());
 			byte[] data2 = new byte[data.length];
 			IO.readFully(in, data2, 0, data.length);
-			assertTrue("same content", Arrays.equals(data2, data));
-			assertEquals("stream at EOF", -1, in.read());
+			assertTrue(Arrays.equals(data2, data), "same content");
+			assertEquals(-1, in.read(), "stream at EOF");
 		}
 	}
 
 	@Test
-	public void testDelta_SmallObjectChain() throws Exception {
+	void testDelta_SmallObjectChain() throws Exception {
 		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
 			byte[] data0 = new byte[512];
 			Arrays.fill(data0, (byte) 0xf3);
@@ -196,30 +196,30 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 			ip.setAllowThin(true);
 			ip.parse(NullProgressMonitor.INSTANCE);
 
-			assertTrue("has blob", wc.has(id3));
+			assertTrue(wc.has(id3), "has blob");
 
 			ObjectLoader ol = wc.open(id3);
-			assertNotNull("created loader", ol);
+			assertNotNull(ol, "created loader");
 			assertEquals(Constants.OBJ_BLOB, ol.getType());
 			assertEquals(data3.length, ol.getSize());
-			assertFalse("is large", ol.isLarge());
+			assertFalse(ol.isLarge(), "is large");
 			assertNotNull(ol.getCachedBytes());
 			assertArrayEquals(data3, ol.getCachedBytes());
 
 			try (ObjectStream in = ol.openStream()) {
-				assertNotNull("have stream", in);
+				assertNotNull(in, "have stream");
 				assertEquals(Constants.OBJ_BLOB, in.getType());
 				assertEquals(data3.length, in.getSize());
 				byte[] act = new byte[data3.length];
 				IO.readFully(in, act, 0, data3.length);
-				assertTrue("same content", Arrays.equals(act, data3));
-				assertEquals("stream at EOF", -1, in.read());
+				assertTrue(Arrays.equals(act, data3), "same content");
+				assertEquals(-1, in.read(), "stream at EOF");
 			}
 		}
 	}
 
 	@Test
-	public void testDelta_FailsOver2GiB() throws Exception {
+	void testDelta_FailsOver2GiB() throws Exception {
 		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
 			byte[] base = new byte[] { 'a' };
 			ObjectId idA = fmt.idFor(Constants.OBJ_BLOB, base);
@@ -228,7 +228,8 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 			PackedObjectInfo a = new PackedObjectInfo(idA);
 			PackedObjectInfo b = new PackedObjectInfo(idB);
 
-			TemporaryBuffer.Heap packContents = new TemporaryBuffer.Heap(64 * 1024);
+			TemporaryBuffer.Heap packContents = new TemporaryBuffer.Heap(
+					64 * 1024);
 			packHeader(packContents, 2);
 			a.setOffset(packContents.length());
 			objectHeader(packContents, Constants.OBJ_BLOB, base.length);
@@ -274,12 +275,12 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testConfigurableStreamFileThreshold() throws Exception {
+	void testConfigurableStreamFileThreshold() throws Exception {
 		byte[] data = getRng().nextBytes(300);
 		RevBlob id = tr.blob(data);
 		tr.branch("master").commit().add("A", id).create();
 		tr.packAndPrune();
-		assertTrue("has blob", wc.has(id));
+		assertTrue(wc.has(id), "has blob");
 
 		ObjectLoader ol = wc.open(id);
 		try (ObjectStream in = ol.openStream()) {
@@ -319,11 +320,12 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 		pack.write(hdr, 0, 8);
 	}
 
-	private static void objectHeader(TemporaryBuffer.Heap pack, int type, int sz)
-			throws IOException {
+	private static void objectHeader(TemporaryBuffer.Heap pack, int type,
+			int sz) throws IOException {
 		byte[] buf = new byte[8];
 		int nextLength = sz >>> 4;
-		buf[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4) | (sz & 0x0F));
+		buf[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4)
+				| (sz & 0x0F));
 		sz = nextLength;
 		int n = 1;
 		while (sz > 0) {
@@ -348,8 +350,7 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 		deflater.end();
 	}
 
-	private static byte[] digest(TemporaryBuffer.Heap buf)
-			throws IOException {
+	private static byte[] digest(TemporaryBuffer.Heap buf) throws IOException {
 		MessageDigest md = Constants.newMessageDigest();
 		md.update(buf.toByteArray());
 		byte[] footer = md.digest();
@@ -359,7 +360,7 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 
 	private ObjectInserter inserter;
 
-	@After
+	@AfterEach
 	public void release() {
 		if (inserter != null) {
 			inserter.close();

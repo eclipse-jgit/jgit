@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +21,9 @@ import java.nio.file.Path;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FS_POSIXTest {
 	private FileBasedConfig jgitConfig;
@@ -34,7 +34,7 @@ public class FS_POSIXTest {
 
 	private Path tmp;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tmp = Files.createTempDirectory("jgit_test_");
 
@@ -65,37 +65,37 @@ public class FS_POSIXTest {
 		mockSystemReader.setUserGitConfig(userConfig);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws IOException {
 		SystemReader.setInstance(null);
 		FileUtils.delete(tmp.toFile(), FileUtils.RECURSIVE | FileUtils.RETRY);
 	}
 
 	@Test
-	public void supportsAtomicCreateNewFile_shouldReturnSupportedAsDefault() {
+	void supportsAtomicCreateNewFile_shouldReturnSupportedAsDefault() {
 		assertTrue(new FS_POSIX().supportsAtomicCreateNewFile());
 	}
 
 	@Test
-	public void supportsAtomicCreateNewFile_shouldReturnTrueIfFlagIsSetInUserConfig() {
+	void supportsAtomicCreateNewFile_shouldReturnTrueIfFlagIsSetInUserConfig() {
 		setAtomicCreateCreationFlag(userConfig, "true");
 		assertTrue(new FS_POSIX().supportsAtomicCreateNewFile());
 	}
 
 	@Test
-	public void supportsAtomicCreateNewFile_shouldReturnTrueIfFlagIsSetInSystemConfig() {
+	void supportsAtomicCreateNewFile_shouldReturnTrueIfFlagIsSetInSystemConfig() {
 		setAtomicCreateCreationFlag(systemConfig, "true");
 		assertTrue(new FS_POSIX().supportsAtomicCreateNewFile());
 	}
 
 	@Test
-	public void supportsAtomicCreateNewFile_shouldReturnFalseIfFlagUnsetInUserConfig() {
+	void supportsAtomicCreateNewFile_shouldReturnFalseIfFlagUnsetInUserConfig() {
 		setAtomicCreateCreationFlag(userConfig, "false");
 		assertFalse(new FS_POSIX().supportsAtomicCreateNewFile());
 	}
 
 	@Test
-	public void supportsAtomicCreateNewFile_shouldReturnFalseIfFlagUnsetInSystemConfig() {
+	void supportsAtomicCreateNewFile_shouldReturnFalseIfFlagUnsetInSystemConfig() {
 		setAtomicCreateCreationFlag(systemConfig, "false");
 		assertFalse(new FS_POSIX().supportsAtomicCreateNewFile());
 	}

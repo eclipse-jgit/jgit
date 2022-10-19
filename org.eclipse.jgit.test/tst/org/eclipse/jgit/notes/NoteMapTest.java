@@ -10,13 +10,13 @@
 
 package org.eclipse.jgit.notes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -34,9 +34,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class NoteMapTest extends RepositoryTestCase {
 	private TestRepository<Repository> tr;
@@ -46,7 +46,7 @@ public class NoteMapTest extends RepositoryTestCase {
 	private ObjectInserter inserter;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -56,7 +56,7 @@ public class NoteMapTest extends RepositoryTestCase {
 	}
 
 	@Override
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		reader.close();
 		inserter.close();
@@ -64,7 +64,7 @@ public class NoteMapTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReadFlatTwoNotes() throws Exception {
+	void testReadFlatTwoNotes() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -77,19 +77,19 @@ public class NoteMapTest extends RepositoryTestCase {
 		tr.parseBody(r);
 
 		NoteMap map = NoteMap.read(reader, r);
-		assertNotNull("have map", map);
+		assertNotNull(map, "have map");
 
-		assertTrue("has note for a", map.contains(a));
-		assertTrue("has note for b", map.contains(b));
+		assertTrue(map.contains(a), "has note for a");
+		assertTrue(map.contains(b), "has note for b");
 		assertEquals(data1, map.get(a));
 		assertEquals(data2, map.get(b));
 
-		assertFalse("no note for data1", map.contains(data1));
-		assertNull("no note for data1", map.get(data1));
+		assertFalse(map.contains(data1), "no note for data1");
+		assertNull(map.get(data1), "no note for data1");
 	}
 
 	@Test
-	public void testReadFanout2_38() throws Exception {
+	void testReadFanout2_38() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -102,19 +102,19 @@ public class NoteMapTest extends RepositoryTestCase {
 		tr.parseBody(r);
 
 		NoteMap map = NoteMap.read(reader, r);
-		assertNotNull("have map", map);
+		assertNotNull(map, "have map");
 
-		assertTrue("has note for a", map.contains(a));
-		assertTrue("has note for b", map.contains(b));
+		assertTrue(map.contains(a), "has note for a");
+		assertTrue(map.contains(b), "has note for b");
 		assertEquals(data1, map.get(a));
 		assertEquals(data2, map.get(b));
 
-		assertFalse("no note for data1", map.contains(data1));
-		assertNull("no note for data1", map.get(data1));
+		assertFalse(map.contains(data1), "no note for data1");
+		assertNull(map.get(data1), "no note for data1");
 	}
 
 	@Test
-	public void testReadFanout2_2_36() throws Exception {
+	void testReadFanout2_2_36() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -127,19 +127,19 @@ public class NoteMapTest extends RepositoryTestCase {
 		tr.parseBody(r);
 
 		NoteMap map = NoteMap.read(reader, r);
-		assertNotNull("have map", map);
+		assertNotNull(map, "have map");
 
-		assertTrue("has note for a", map.contains(a));
-		assertTrue("has note for b", map.contains(b));
+		assertTrue(map.contains(a), "has note for a");
+		assertTrue(map.contains(b), "has note for b");
 		assertEquals(data1, map.get(a));
 		assertEquals(data2, map.get(b));
 
-		assertFalse("no note for data1", map.contains(data1));
-		assertNull("no note for data1", map.get(data1));
+		assertFalse(map.contains(data1), "no note for data1");
+		assertNull(map.get(data1), "no note for data1");
 	}
 
 	@Test
-	public void testReadFullyFannedOut() throws Exception {
+	void testReadFullyFannedOut() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -152,19 +152,19 @@ public class NoteMapTest extends RepositoryTestCase {
 		tr.parseBody(r);
 
 		NoteMap map = NoteMap.read(reader, r);
-		assertNotNull("have map", map);
+		assertNotNull(map, "have map");
 
-		assertTrue("has note for a", map.contains(a));
-		assertTrue("has note for b", map.contains(b));
+		assertTrue(map.contains(a), "has note for a");
+		assertTrue(map.contains(b), "has note for b");
 		assertEquals(data1, map.get(a));
 		assertEquals(data2, map.get(b));
 
-		assertFalse("no note for data1", map.contains(data1));
-		assertNull("no note for data1", map.get(data1));
+		assertFalse(map.contains(data1), "no note for data1");
+		assertNull(map.get(data1), "no note for data1");
 	}
 
 	@Test
-	public void testGetCachedBytes() throws Exception {
+	void testGetCachedBytes() throws Exception {
 		final String exp = "this is test data";
 		RevBlob a = tr.blob("a");
 		RevBlob data = tr.blob(exp);
@@ -176,12 +176,12 @@ public class NoteMapTest extends RepositoryTestCase {
 
 		NoteMap map = NoteMap.read(reader, r);
 		byte[] act = map.getCachedBytes(a, exp.length() * 4);
-		assertNotNull("has data for a", act);
+		assertNotNull(act, "has data for a");
 		assertEquals(exp, RawParseUtils.decode(act));
 	}
 
 	@Test
-	public void testWriteUnchangedFlat() throws Exception {
+	void testWriteUnchangedFlat() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -196,16 +196,16 @@ public class NoteMapTest extends RepositoryTestCase {
 		tr.parseBody(r);
 
 		NoteMap map = NoteMap.read(reader, r);
-		assertTrue("has note for a", map.contains(a));
-		assertTrue("has note for b", map.contains(b));
+		assertTrue(map.contains(a), "has note for a");
+		assertTrue(map.contains(b), "has note for b");
 
 		RevCommit n = commitNoteMap(map);
-		assertNotSame("is new commit", r, n);
-		assertSame("same tree", r.getTree(), n.getTree());
+		assertNotSame(r, n, "is new commit");
+		assertSame(r.getTree(), n.getTree(), "same tree");
 	}
 
 	@Test
-	public void testWriteUnchangedFanout2_38() throws Exception {
+	void testWriteUnchangedFanout2_38() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -220,31 +220,31 @@ public class NoteMapTest extends RepositoryTestCase {
 		tr.parseBody(r);
 
 		NoteMap map = NoteMap.read(reader, r);
-		assertTrue("has note for a", map.contains(a));
-		assertTrue("has note for b", map.contains(b));
+		assertTrue(map.contains(a), "has note for a");
+		assertTrue(map.contains(b), "has note for b");
 
 		// This is a non-lazy map, so we'll be looking at the leaf buckets.
 		RevCommit n = commitNoteMap(map);
-		assertNotSame("is new commit", r, n);
-		assertSame("same tree", r.getTree(), n.getTree());
+		assertNotSame(r, n, "is new commit");
+		assertSame(r.getTree(), n.getTree(), "same tree");
 
 		// Use a lazy-map for the next round of the same test.
 		map = NoteMap.read(reader, r);
 		n = commitNoteMap(map);
-		assertNotSame("is new commit", r, n);
-		assertSame("same tree", r.getTree(), n.getTree());
+		assertNotSame(r, n, "is new commit");
+		assertSame(r.getTree(), n.getTree(), "same tree");
 	}
 
 	@Test
-	public void testCreateFromEmpty() throws Exception {
+	void testCreateFromEmpty() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
 		RevBlob data2 = tr.blob("data2");
 
 		NoteMap map = NoteMap.newEmptyMap();
-		assertFalse("no a", map.contains(a));
-		assertFalse("no b", map.contains(b));
+		assertFalse(map.contains(a), "no a");
+		assertFalse(map.contains(b), "no b");
 
 		map.set(a, data1);
 		map.set(b, data2);
@@ -255,18 +255,18 @@ public class NoteMapTest extends RepositoryTestCase {
 		map.remove(a);
 		map.remove(b);
 
-		assertFalse("no a", map.contains(a));
-		assertFalse("no b", map.contains(b));
+		assertFalse(map.contains(a), "no a");
+		assertFalse(map.contains(b), "no b");
 
 		map.set(a, "data1", inserter);
 		assertEquals(data1, map.get(a));
 
 		map.set(a, null, inserter);
-		assertFalse("no a", map.contains(a));
+		assertFalse(map.contains(a), "no a");
 	}
 
 	@Test
-	public void testEditFlat() throws Exception {
+	void testEditFlat() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -288,8 +288,8 @@ public class NoteMapTest extends RepositoryTestCase {
 
 		assertEquals(data2, map.get(a));
 		assertEquals(b, map.get(data1));
-		assertFalse("no b", map.contains(b));
-		assertFalse("no data2", map.contains(data2));
+		assertFalse(map.contains(b), "no b");
+		assertFalse(map.contains(data2), "no data2");
 
 		MutableObjectId id = new MutableObjectId();
 		for (int p = 42; p > 0; p--) {
@@ -299,21 +299,21 @@ public class NoteMapTest extends RepositoryTestCase {
 
 		for (int p = 42; p > 0; p--) {
 			id.setByte(1, p);
-			assertTrue("contains " + id, map.contains(id));
+			assertTrue(map.contains(id), "contains " + id);
 		}
 
 		RevCommit n = commitNoteMap(map);
 		map = NoteMap.read(reader, n);
 		assertEquals(data2, map.get(a));
 		assertEquals(b, map.get(data1));
-		assertFalse("no b", map.contains(b));
-		assertFalse("no data2", map.contains(data2));
+		assertFalse(map.contains(b), "no b");
+		assertFalse(map.contains(data2), "no data2");
 		assertEquals(b, TreeWalk
 				.forPath(reader, "zoo-animals.txt", n.getTree()).getObjectId(0));
 	}
 
 	@Test
-	public void testEditFanout2_38() throws Exception {
+	void testEditFanout2_38() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -335,26 +335,26 @@ public class NoteMapTest extends RepositoryTestCase {
 
 		assertEquals(data2, map.get(a));
 		assertEquals(b, map.get(data1));
-		assertFalse("no b", map.contains(b));
-		assertFalse("no data2", map.contains(data2));
+		assertFalse(map.contains(b), "no b");
+		assertFalse(map.contains(data2), "no data2");
 		RevCommit n = commitNoteMap(map);
 
 		map.set(a, null);
 		map.set(data1, null);
-		assertFalse("no a", map.contains(a));
-		assertFalse("no data1", map.contains(data1));
+		assertFalse(map.contains(a), "no a");
+		assertFalse(map.contains(data1), "no data1");
 
 		map = NoteMap.read(reader, n);
 		assertEquals(data2, map.get(a));
 		assertEquals(b, map.get(data1));
-		assertFalse("no b", map.contains(b));
-		assertFalse("no data2", map.contains(data2));
+		assertFalse(map.contains(b), "no b");
+		assertFalse(map.contains(data2), "no data2");
 		assertEquals(b, TreeWalk
 				.forPath(reader, "zoo-animals.txt", n.getTree()).getObjectId(0));
 	}
 
 	@Test
-	public void testLeafSplitsWhenFull() throws Exception {
+	void testLeafSplitsWhenFull() throws Exception {
 		RevBlob data1 = tr.blob("data1");
 		MutableObjectId idBuf = new MutableObjectId();
 
@@ -373,7 +373,7 @@ public class NoteMapTest extends RepositoryTestCase {
 		try (TreeWalk tw = new TreeWalk(reader)) {
 			tw.reset(n.getTree());
 			while (tw.next()) {
-				assertFalse("no fan-out subtree", tw.isSubtree());
+				assertFalse(tw.isSubtree(), "no fan-out subtree");
 			}
 		}
 
@@ -388,18 +388,18 @@ public class NoteMapTest extends RepositoryTestCase {
 		// The 00 bucket is fully split.
 		String path = fanout(38, idBuf.name());
 		try (TreeWalk tw = TreeWalk.forPath(reader, path, n.getTree())) {
-			assertNotNull("has " + path, tw);
+			assertNotNull(tw, "has " + path);
 		}
 
 		// The other bucket is not.
 		path = fanout(2, data1.name());
 		try (TreeWalk tw = TreeWalk.forPath(reader, path, n.getTree())) {
-			assertNotNull("has " + path, tw);
+			assertNotNull(tw, "has " + path);
 		}
 	}
 
 	@Test
-	public void testRemoveDeletesTreeFanout2_38() throws Exception {
+	void testRemoveDeletesTreeFanout2_38() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob data1 = tr.blob("data1");
 		RevTree empty = tr.tree();
@@ -413,17 +413,17 @@ public class NoteMapTest extends RepositoryTestCase {
 		map.set(a, null);
 
 		RevCommit n = commitNoteMap(map);
-		assertEquals("empty tree", empty, n.getTree());
+		assertEquals(empty, n.getTree(), "empty tree");
 	}
 
 	@Test
-	public void testIteratorEmptyMap() {
+	void testIteratorEmptyMap() {
 		Iterator<Note> it = NoteMap.newEmptyMap().iterator();
 		assertFalse(it.hasNext());
 	}
 
 	@Test
-	public void testIteratorFlatTree() throws Exception {
+	void testIteratorFlatTree() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -442,7 +442,7 @@ public class NoteMapTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIteratorFanoutTree2_38() throws Exception {
+	void testIteratorFanoutTree2_38() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -461,7 +461,7 @@ public class NoteMapTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIteratorFanoutTree2_2_36() throws Exception {
+	void testIteratorFanoutTree2_2_36() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -480,7 +480,7 @@ public class NoteMapTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testIteratorFullyFannedOut() throws Exception {
+	void testIteratorFullyFannedOut() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevBlob b = tr.blob("b");
 		RevBlob data1 = tr.blob("data1");
@@ -499,7 +499,7 @@ public class NoteMapTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShorteningNoteRefName() throws Exception {
+	void testShorteningNoteRefName() throws Exception {
 		String expectedShortName = "review";
 		String noteRefName = Constants.R_NOTES + expectedShortName;
 		assertEquals(expectedShortName, NoteMap.shortenRefName(noteRefName));

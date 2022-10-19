@@ -10,29 +10,30 @@
 package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SquashCommitMsgTest extends RepositoryTestCase {
 	private static final String squashMsg = "squashed commit";
 
 	@Test
-	public void testReadWriteMergeMsg() throws IOException {
-		assertEquals(db.readSquashCommitMsg(), null);
+	void testReadWriteMergeMsg() throws IOException {
+		assertNull(db.readSquashCommitMsg());
 		assertFalse(new File(db.getDirectory(), Constants.SQUASH_MSG).exists());
 		db.writeSquashCommitMsg(squashMsg);
 		assertEquals(squashMsg, db.readSquashCommitMsg());
 		assertEquals(read(new File(db.getDirectory(), Constants.SQUASH_MSG)),
 				squashMsg);
 		db.writeSquashCommitMsg(null);
-		assertEquals(db.readSquashCommitMsg(), null);
+		assertNull(db.readSquashCommitMsg());
 		assertFalse(new File(db.getDirectory(), Constants.SQUASH_MSG).exists());
 		try (FileOutputStream fos = new FileOutputStream(
 				new File(db.getDirectory(), Constants.SQUASH_MSG))) {

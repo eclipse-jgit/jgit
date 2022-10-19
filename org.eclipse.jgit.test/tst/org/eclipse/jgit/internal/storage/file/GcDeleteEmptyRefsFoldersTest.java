@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,8 +20,8 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 	private static final String REF_FOLDER_01 = "A/B/01";
@@ -31,7 +31,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 	private Path heads;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		refsDir = Paths.get(repo.getDirectory().getAbsolutePath())
@@ -40,7 +40,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 	}
 
 	@Test
-	public void emptyRefFoldersAreDeleted() throws Exception {
+	void emptyRefFoldersAreDeleted() throws Exception {
 		FileTime fileTime = FileTime.from(Instant.now().minusSeconds(31));
 		Path refDir01 = Files.createDirectories(heads.resolve(REF_FOLDER_01));
 		Path refDir02 = Files.createDirectories(heads.resolve(REF_FOLDER_02));
@@ -59,7 +59,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 	}
 
 	@Test
-	public void emptyRefFoldersSkipFiles() throws Exception {
+	void emptyRefFoldersSkipFiles() throws Exception {
 		FileTime fileTime = FileTime.from(Instant.now().minusSeconds(31));
 		Path refFile = Files.createFile(refsDir.resolve(".DS_Store"));
 		Path refDir01 = Files.createDirectories(heads.resolve(REF_FOLDER_01));
@@ -82,7 +82,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 	}
 
 	@Test
-	public void emptyRefFoldersAreKeptIfTheyAreTooRecent()
+	void emptyRefFoldersAreKeptIfTheyAreTooRecent()
 			throws Exception {
 		Path refDir01 = Files.createDirectories(heads.resolve(REF_FOLDER_01));
 		Path refDir02 = Files.createDirectories(heads.resolve(REF_FOLDER_02));
@@ -95,7 +95,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 	}
 
 	@Test
-	public void nonEmptyRefsFoldersAreKept() throws Exception {
+	void nonEmptyRefsFoldersAreKept() throws Exception {
 		Path refDir01 = Files.createDirectories(heads.resolve(REF_FOLDER_01));
 		Path refDir02 = Files.createDirectories(heads.resolve(REF_FOLDER_02));
 		Path ref01 = Files.createFile(refDir01.resolve("ref01"));

@@ -10,10 +10,10 @@
  */
 package org.eclipse.jgit.treewalk.filter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 
@@ -24,8 +24,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IndexDiffFilterTest extends RepositoryTestCase {
 	private static final String FILE = "file";
@@ -57,14 +57,14 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 	}
 
 	@Test
-	public void testRecursiveTreeWalk() throws Exception {
+	void testRecursiveTreeWalk() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
 		writeFileWithFolderName();
@@ -79,7 +79,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNonRecursiveTreeWalk() throws Exception {
+	void testNonRecursiveTreeWalk() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
 		writeFileWithFolderName();
@@ -98,7 +98,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileCommitted() throws Exception {
+	void testFileCommitted() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
 			assertFalse(treeWalk.next());
@@ -106,7 +106,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testConflicts() throws Exception {
+	void testConflicts() throws Exception {
 		RevCommit initial = git.commit().setMessage("initial").call();
 		writeTrashFile(FILE, "master");
 		git.add().addFilepattern(FILE).call();
@@ -132,7 +132,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommitted() throws Exception {
+	void testFileInFolderCommitted() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
 			assertFalse(treeWalk.next());
@@ -140,7 +140,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyFolderCommitted() throws Exception {
+	void testEmptyFolderCommitted() throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
 			assertFalse(treeWalk.next());
@@ -148,7 +148,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileCommittedChangedNotModified() throws Exception {
+	void testFileCommittedChangedNotModified() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFile();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -157,7 +157,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedChangedNotModified() throws Exception {
+	void testFileInFolderCommittedChangedNotModified() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolder();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -166,7 +166,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileCommittedModified() throws Exception {
+	void testFileCommittedModified() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileModified();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -175,7 +175,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedModified() throws Exception {
+	void testFileInFolderCommittedModified() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderModified();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -184,7 +184,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileCommittedDeleted() throws Exception {
+	void testFileCommittedDeleted() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		deleteFile();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -193,7 +193,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedDeleted() throws Exception {
+	void testFileInFolderCommittedDeleted() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteFileInFolder();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -202,7 +202,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedAllDeleted() throws Exception {
+	void testFileInFolderCommittedAllDeleted() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -211,7 +211,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyFolderCommittedDeleted() throws Exception {
+	void testEmptyFolderCommittedDeleted() throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		deleteFolder();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -220,7 +220,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileCommittedModifiedCommittedComparedWithInitialCommit()
+	void testFileCommittedModifiedCommittedComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileModifiedAndCommit();
@@ -230,7 +230,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedModifiedCommittedComparedWithInitialCommit()
+	void testFileInFolderCommittedModifiedCommittedComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderModifiedAndCommit();
@@ -240,7 +240,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileCommittedDeletedCommittedComparedWithInitialCommit()
+	void testFileCommittedDeletedCommittedComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		deleteFileAndCommit();
@@ -250,7 +250,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedDeletedCommittedComparedWithInitialCommit()
+	void testFileInFolderCommittedDeletedCommittedComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteFileInFolderAndCommit();
@@ -260,7 +260,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedAllDeletedCommittedComparedWithInitialCommit()
+	void testFileInFolderCommittedAllDeletedCommittedComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAllAndCommit();
@@ -270,7 +270,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyFolderCommittedDeletedCommittedComparedWithInitialCommit()
+	void testEmptyFolderCommittedDeletedCommittedComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		deleteFolderAndCommit();
@@ -280,7 +280,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileUntracked() throws Exception {
+	void testFileUntracked() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileUntracked();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -289,7 +289,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderUntracked() throws Exception {
+	void testFileInFolderUntracked() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderUntracked();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -298,7 +298,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyFolderUntracked() throws Exception {
+	void testEmptyFolderUntracked() throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		createEmptyFolderUntracked();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -307,7 +307,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileIgnored() throws Exception {
+	void testFileIgnored() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileIgnored();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -316,7 +316,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderIgnored() throws Exception {
+	void testFileInFolderIgnored() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderIgnored();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -325,7 +325,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderAllIgnored() throws Exception {
+	void testFileInFolderAllIgnored() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderAllIgnored();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -334,7 +334,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyFolderIgnored() throws Exception {
+	void testEmptyFolderIgnored() throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		createEmptyFolderIgnored();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -343,7 +343,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileIgnoredNotHonored() throws Exception {
+	void testFileIgnoredNotHonored() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileIgnored();
 		try (TreeWalk treeWalk = createTreeWalkDishonorIgnores(commit)) {
@@ -352,7 +352,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileCommittedModifiedIgnored() throws Exception {
+	void testFileCommittedModifiedIgnored() throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		writeFileModifiedIgnored();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -361,7 +361,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedModifiedIgnored() throws Exception {
+	void testFileInFolderCommittedModifiedIgnored() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderModifiedIgnored();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -370,7 +370,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedModifiedAllIgnored() throws Exception {
+	void testFileInFolderCommittedModifiedAllIgnored() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		writeFileInFolderModifiedAllIgnored();
 		try (TreeWalk treeWalk = createTreeWalk(commit)) {
@@ -379,7 +379,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileCommittedDeletedCommittedIgnoredComparedWithInitialCommit()
+	void testFileCommittedDeletedCommittedIgnoredComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileAndCommit();
 		deleteFileAndCommit();
@@ -390,7 +390,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedDeletedCommittedIgnoredComparedWithInitialCommit()
+	void testFileInFolderCommittedDeletedCommittedIgnoredComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteFileInFolderAndCommit();
@@ -401,7 +401,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedAllDeletedCommittedAllIgnoredComparedWithInitialCommit()
+	void testFileInFolderCommittedAllDeletedCommittedAllIgnoredComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAllAndCommit();
@@ -412,7 +412,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyFolderCommittedDeletedCommittedIgnoredComparedWithInitialCommit()
+	void testEmptyFolderCommittedDeletedCommittedIgnoredComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = createEmptyFolderAndCommit();
 		deleteFolderAndCommit();
@@ -423,7 +423,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFileInFolderCommittedNonRecursive() throws Exception {
+	void testFileInFolderCommittedNonRecursive() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		try (TreeWalk treeWalk = createNonRecursiveTreeWalk(commit)) {
 			assertPaths(treeWalk, FOLDER);
@@ -431,7 +431,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFolderChangedToFile() throws Exception {
+	void testFolderChangedToFile() throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();
 		writeFileWithFolderName();
@@ -441,7 +441,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFolderChangedToFileCommittedComparedWithInitialCommit()
+	void testFolderChangedToFileCommittedComparedWithInitialCommit()
 			throws Exception {
 		RevCommit commit = writeFileInFolderAndCommit();
 		deleteAll();

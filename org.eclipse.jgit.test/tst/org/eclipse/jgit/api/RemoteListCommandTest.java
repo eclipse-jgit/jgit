@@ -9,17 +9,17 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
 import org.eclipse.jgit.transport.RemoteConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RemoteListCommandTest extends AbstractRemoteCommandTest {
 
 	@Test
-	public void testList() throws Exception {
+	void testList() throws Exception {
 		// setup an initial remote
 		RemoteConfig remoteConfig = setupRemote();
 

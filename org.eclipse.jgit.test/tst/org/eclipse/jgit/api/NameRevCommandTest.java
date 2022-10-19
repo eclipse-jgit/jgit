@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 
@@ -20,15 +20,15 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class NameRevCommandTest extends RepositoryTestCase {
 	private TestRepository<Repository> tr;
 	private Git git;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		tr = new TestRepository<>(db);
@@ -36,14 +36,14 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void nameExact() throws Exception {
+	void nameExact() throws Exception {
 		RevCommit c = tr.commit().create();
 		tr.update("master", c);
 		assertOneResult("master", c);
 	}
 
 	@Test
-	public void prefix() throws Exception {
+	void prefix() throws Exception {
 		RevCommit c = tr.commit().create();
 		tr.update("refs/heads/master", c);
 		tr.update("refs/tags/tag", c);
@@ -57,7 +57,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void ref() throws Exception {
+	void ref() throws Exception {
 		RevCommit c = tr.commit().create();
 		tr.update("refs/heads/master", c);
 		tr.update("refs/tags/tag", c);
@@ -68,7 +68,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void annotatedTags() throws Exception {
+	void annotatedTags() throws Exception {
 		RevCommit c = tr.commit().create();
 		tr.update("refs/heads/master", c);
 		tr.update("refs/tags/tag1", c);
@@ -77,7 +77,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void annotatedTagsNoResult() throws Exception {
+	void annotatedTagsNoResult() throws Exception {
 		RevCommit c = tr.commit().create();
 		tr.update("refs/heads/master", c);
 		tr.update("refs/tags/tag1", c);
@@ -86,11 +86,11 @@ public class NameRevCommandTest extends RepositoryTestCase {
 				.add(c)
 				.addAnnotatedTags()
 				.call();
-		assertTrue(result.toString(), result.isEmpty());
+		assertTrue(result.isEmpty(), result.toString());
 	}
 
 	@Test
-	public void simpleAncestor() throws Exception {
+	void simpleAncestor() throws Exception {
 		// 0--1--2
 		RevCommit c0 = tr.commit().create();
 		RevCommit c1 = tr.commit().parent(c0).create();
@@ -104,7 +104,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void multiplePathsNoMerge() throws Exception {
+	void multiplePathsNoMerge() throws Exception {
 		// 0--1    <- master
 		//  \-2--3 <- branch
 		RevCommit c0 = tr.commit().create();
@@ -117,7 +117,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void onePathMerge() throws Exception {
+	void onePathMerge() throws Exception {
 		// 0--1--3
 		//  \-2-/
 		RevCommit c0 = tr.commit().create();
@@ -129,7 +129,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void onePathMergeSecondParent() throws Exception {
+	void onePathMergeSecondParent() throws Exception {
 		// 0--1-----4
 		//  \-2--3-/
 		RevCommit c0 = tr.commit().create();
@@ -143,7 +143,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void onePathMergeLongerFirstParentPath() throws Exception {
+	void onePathMergeLongerFirstParentPath() throws Exception {
 		// 0--1--2--4
 		//  \--3---/
 		RevCommit c0 = tr.commit().create();
@@ -157,7 +157,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void multiplePathsSecondParent() throws Exception {
+	void multiplePathsSecondParent() throws Exception {
 		// 0--...--2
 		//  \--1--/
 		RevCommit c0 = tr.commit().create();

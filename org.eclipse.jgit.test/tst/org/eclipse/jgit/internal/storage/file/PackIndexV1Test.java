@@ -12,15 +12,15 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PackIndexV1Test extends PackIndexTestCase {
 	@Override

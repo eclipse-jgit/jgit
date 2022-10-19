@@ -12,107 +12,114 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Locale;
 
 import org.eclipse.jgit.errors.InvalidObjectIdException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectIdTest {
 	@Test
-	public void test001_toString() {
+	void test001_toString() {
 		final String x = "def4c620bc3713bb1bb26b808ec9312548e73946";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x, oid.name());
 	}
 
 	@Test
-	public void test002_toString() {
+	void test002_toString() {
 		final String x = "ff00eedd003713bb1bb26b808ec9312548e73946";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x, oid.name());
 	}
 
 	@Test
-	public void test003_equals() {
+	void test003_equals() {
 		final String x = "def4c620bc3713bb1bb26b808ec9312548e73946";
 		final ObjectId a = ObjectId.fromString(x);
 		final ObjectId b = ObjectId.fromString(x);
 		assertEquals(a.hashCode(), b.hashCode());
-		assertEquals("a and b are same", b, a);
+		assertEquals(b, a, "a and b are same");
 	}
 
 	@Test
-	public void test004_isId() {
-		assertTrue("valid id", ObjectId
-				.isId("def4c620bc3713bb1bb26b808ec9312548e73946"));
+	void test004_isId() {
+		assertTrue(ObjectId
+				.isId("def4c620bc3713bb1bb26b808ec9312548e73946"), "valid id");
 	}
 
 	@Test
-	public void test005_notIsId() {
-		assertFalse("bob is not an id", ObjectId.isId("bob"));
+	void test005_notIsId() {
+		assertFalse(ObjectId.isId("bob"), "bob is not an id");
 	}
 
 	@Test
-	public void test006_notIsId() {
-		assertFalse("39 digits is not an id", ObjectId
-				.isId("def4c620bc3713bb1bb26b808ec9312548e7394"));
+	void test006_notIsId() {
+		assertFalse(ObjectId
+				.isId("def4c620bc3713bb1bb26b808ec9312548e7394"), "39 digits is not an id");
 	}
 
 	@Test
-	public void test007_isId() {
-		assertTrue("uppercase is accepted", ObjectId
-				.isId("Def4c620bc3713bb1bb26b808ec9312548e73946"));
+	void test007_isId() {
+		assertTrue(ObjectId
+				.isId("Def4c620bc3713bb1bb26b808ec9312548e73946"), "uppercase is accepted");
 	}
 
 	@Test
-	public void test008_notIsId() {
-		assertFalse("g is not a valid hex digit", ObjectId
-				.isId("gef4c620bc3713bb1bb26b808ec9312548e73946"));
+	void test008_notIsId() {
+		assertFalse(ObjectId
+				.isId("gef4c620bc3713bb1bb26b808ec9312548e73946"), "g is not a valid hex digit");
 	}
 
 	@Test
-	public void test009_toString() {
+	void test009_toString() {
 		final String x = "ff00eedd003713bb1bb26b808ec9312548e73946";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x, ObjectId.toString(oid));
 	}
 
 	@Test
-	public void test010_toString() {
+	void test010_toString() {
 		final String x = "0000000000000000000000000000000000000000";
 		assertEquals(x, ObjectId.toString(null));
 	}
 
 	@Test
-	public void test011_toString() {
+	void test011_toString() {
 		final String x = "0123456789ABCDEFabcdef1234567890abcdefAB";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x.toLowerCase(Locale.ROOT), oid.name());
 	}
 
-	@Test(expected = InvalidObjectIdException.class)
-	public void testFromString_short() {
-		ObjectId.fromString("cafe1234");
-	}
-
-	@Test(expected = InvalidObjectIdException.class)
-	public void testFromString_nonHex() {
-		ObjectId.fromString("0123456789abcdefghij0123456789abcdefghij");
-	}
-
-	@Test(expected = InvalidObjectIdException.class)
-	public void testFromString_shortNonHex() {
-		ObjectId.fromString("6789ghij");
+	@Test
+	void testFromString_short() {
+		assertThrows(InvalidObjectIdException.class, () -> {
+			ObjectId.fromString("cafe1234");
+		});
 	}
 
 	@Test
-	public void testGetByte() {
+	void testFromString_nonHex() {
+		assertThrows(InvalidObjectIdException.class, () -> {
+			ObjectId.fromString("0123456789abcdefghij0123456789abcdefghij");
+		});
+	}
+
+	@Test
+	void testFromString_shortNonHex() {
+		assertThrows(InvalidObjectIdException.class, () -> {
+			ObjectId.fromString("6789ghij");
+		});
+	}
+
+	@Test
+	void testGetByte() {
 		byte[] raw = new byte[20];
-		for (int i = 0; i < 20; i++)
+		for (int i = 0;i < 20;i++)
 			raw[i] = (byte) (0xa0 + i);
 		ObjectId id = ObjectId.fromRaw(raw);
 
@@ -120,14 +127,14 @@ public class ObjectIdTest {
 		assertEquals(raw[0] & 0xff, id.getByte(0));
 		assertEquals(raw[1] & 0xff, id.getByte(1));
 
-		for (int i = 2; i < 20; i++)
-			assertEquals("index " + i, raw[i] & 0xff, id.getByte(i));
+		for (int i = 2;i < 20;i++)
+			assertEquals(raw[i] & 0xff, id.getByte(i), "index " + i);
 	}
 
 	@Test
-	public void testSetByte() {
+	void testSetByte() {
 		byte[] exp = new byte[20];
-		for (int i = 0; i < 20; i++)
+		for (int i = 0;i < 20;i++)
 			exp[i] = (byte) (0xa0 + i);
 
 		MutableObjectId id = new MutableObjectId();
@@ -139,14 +146,14 @@ public class ObjectIdTest {
 		exp[0] = 0x10;
 		assertEquals(ObjectId.fromRaw(exp).name(), id.name());
 
-		for (int p = 1; p < 20; p++) {
+		for (int p = 1;p < 20;p++) {
 			id.setByte(p, 0x10 + p);
 			assertEquals(0x10 + p, id.getByte(p));
 			exp[p] = (byte) (0x10 + p);
 			assertEquals(ObjectId.fromRaw(exp).name(), id.name());
 		}
 
-		for (int p = 0; p < 20; p++) {
+		for (int p = 0;p < 20;p++) {
 			id.setByte(p, 0x80 + p);
 			assertEquals(0x80 + p, id.getByte(p));
 			exp[p] = (byte) (0x80 + p);

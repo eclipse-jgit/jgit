@@ -10,11 +10,11 @@
 package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,14 +33,14 @@ import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test revert command
  */
 public class RevertCommandTest extends RepositoryTestCase {
 	@Test
-	public void testRevert() throws IOException, JGitInternalException,
+	void testRevert() throws IOException, JGitInternalException,
 			GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "first line\nsec. line\nthird line\n");
@@ -94,7 +94,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertMultiple() throws IOException, JGitInternalException,
+	void testRevertMultiple() throws IOException, JGitInternalException,
 			GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "first\n");
@@ -141,7 +141,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertMultipleWithFail() throws IOException,
+	void testRevertMultipleWithFail() throws IOException,
 			JGitInternalException, GitAPIException {
 		try (Git git = new Git(db)) {
 			writeTrashFile("a", "first\n");
@@ -169,7 +169,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 					+ "<<<<<<< master\n" + "second\n" + "third\n" + "=======\n"
 					+ ">>>>>>> "
 					+ secondCommit.getId()
-							.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name()
+					.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name()
 					+ " add second\n");
 			Iterator<RevCommit> history = git.log().call().iterator();
 			RevCommit revertCommit = history.next();
@@ -194,7 +194,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertDirtyIndex() throws Exception {
+	void testRevertDirtyIndex() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit sideCommit = prepareRevert(git);
 
@@ -206,10 +206,10 @@ public class RevertCommandTest extends RepositoryTestCase {
 			doRevertAndCheckResult(git, sideCommit,
 					MergeFailureReason.DIRTY_INDEX);
 		}
-}
+	}
 
 	@Test
-	public void testRevertDirtyWorktree() throws Exception {
+	void testRevertDirtyWorktree() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit sideCommit = prepareRevert(git);
 
@@ -223,7 +223,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertConflictResolution() throws Exception {
+	void testRevertConflictResolution() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit sideCommit = prepareRevert(git);
 
@@ -256,7 +256,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertConflictReset() throws Exception {
+	void testRevertConflictReset() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit sideCommit = prepareRevert(git);
 
@@ -279,7 +279,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertOverExecutableChangeOnNonExectuableFileSystem()
+	void testRevertOverExecutableChangeOnNonExectuableFileSystem()
 			throws Exception {
 		try (Git git = new Git(db)) {
 			File file = writeTrashFile("test.txt", "a");
@@ -316,7 +316,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertConflictMarkers() throws Exception {
+	void testRevertConflictMarkers() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit sideCommit = prepareRevert(git);
 
@@ -333,7 +333,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRevertOurCommitName() throws Exception {
+	void testRevertOurCommitName() throws Exception {
 		try (Git git = new Git(db)) {
 			RevCommit sideCommit = prepareRevert(git);
 

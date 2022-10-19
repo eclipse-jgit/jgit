@@ -11,17 +11,17 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PackReverseIndexTest extends RepositoryTestCase {
 
@@ -33,7 +33,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	 * Set up tested class instance, test constructor by the way.
 	 */
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 		// index with both small (< 2^31) and big offsets
@@ -46,7 +46,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	 * Test findObject() for all index entries.
 	 */
 	@Test
-	public void testFindObject() {
+	void testFindObject() {
 		for (MutableEntry me : idx)
 			assertEquals(me.toObjectId(), reverseIdx.findObject(me.getOffset()));
 	}
@@ -55,7 +55,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	 * Test findObject() with illegal argument.
 	 */
 	@Test
-	public void testFindObjectWrongOffset() {
+	void testFindObjectWrongOffset() {
 		assertNull(reverseIdx.findObject(0));
 	}
 
@@ -65,7 +65,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	 * @throws CorruptObjectException
 	 */
 	@Test
-	public void testFindNextOffset() throws CorruptObjectException {
+	void testFindNextOffset() throws CorruptObjectException {
 		long offset = findFirstOffset();
 		assertTrue(offset > 0);
 		for (int i = 0; i < idx.getObjectCount(); i++) {
@@ -84,7 +84,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	 * Test findNextOffset() with wrong illegal argument as offset.
 	 */
 	@Test
-	public void testFindNextOffsetWrongOffset() {
+	void testFindNextOffsetWrongOffset() {
 		try {
 			reverseIdx.findNextOffset(0, Long.MAX_VALUE);
 			fail("findNextOffset() should throw exception");

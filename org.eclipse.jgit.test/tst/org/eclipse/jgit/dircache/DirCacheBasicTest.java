@@ -10,11 +10,11 @@
 
 package org.eclipse.jgit.dircache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -27,11 +27,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DirCacheBasicTest extends RepositoryTestCase {
 	@Test
-	public void testReadMissing_RealIndex() throws Exception {
+	void testReadMissing_RealIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "index");
 		assertFalse(idx.exists());
 
@@ -41,7 +41,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReadMissing_TempIndex() throws Exception {
+	void testReadMissing_TempIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "tmp_index");
 		assertFalse(idx.exists());
 
@@ -51,7 +51,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockMissing_RealIndex() throws Exception {
+	void testLockMissing_RealIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "index");
 		final File lck = new File(db.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
@@ -69,7 +69,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testLockMissing_TempIndex() throws Exception {
+	void testLockMissing_TempIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "tmp_index");
 		final File lck = new File(db.getDirectory(), "tmp_index.lock");
 		assertFalse(idx.exists());
@@ -87,7 +87,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWriteEmptyUnlock_RealIndex() throws Exception {
+	void testWriteEmptyUnlock_RealIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "index");
 		final File lck = new File(db.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
@@ -104,7 +104,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWriteEmptyCommit_RealIndex() throws Exception {
+	void testWriteEmptyCommit_RealIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "index");
 		final File lck = new File(db.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
@@ -122,7 +122,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWriteEmptyReadEmpty_RealIndex() throws Exception {
+	void testWriteEmptyReadEmpty_RealIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "index");
 		final File lck = new File(db.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
@@ -140,7 +140,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testWriteEmptyLockEmpty_RealIndex() throws Exception {
+	void testWriteEmptyLockEmpty_RealIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "index");
 		final File lck = new File(db.getDirectory(), "index.lock");
 		assertFalse(idx.exists());
@@ -161,10 +161,10 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBuildThenClear() throws Exception {
+	void testBuildThenClear() throws Exception {
 		final DirCache dc = db.readDirCache();
 
-		final String[] paths = { "a-", "a.b", "a/b", "a0b" };
+		final String[] paths = {"a-", "a.b", "a/b", "a0b"};
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -185,7 +185,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testDetectUnmergedPaths() throws Exception {
+	void testDetectUnmergedPaths() throws Exception {
 		final DirCache dc = db.readDirCache();
 		final DirCacheEntry[] ents = new DirCacheEntry[3];
 
@@ -205,14 +205,14 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFindOnEmpty() throws Exception {
+	void testFindOnEmpty() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 		final byte[] path = Constants.encode("a");
 		assertEquals(-1, dc.findEntry(path, path.length));
 	}
 
 	@Test
-	public void testRejectInvalidWindowsPaths() throws Exception {
+	void testRejectInvalidWindowsPaths() throws Exception {
 		SystemReader.setInstance(new MockSystemReader() {
 			{
 				setUnix();

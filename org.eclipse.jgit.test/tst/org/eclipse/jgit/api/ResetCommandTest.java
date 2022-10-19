@@ -11,12 +11,14 @@ package org.eclipse.jgit.api;
 
 import static java.time.Instant.EPOCH;
 import static org.eclipse.jgit.api.ResetCommand.ResetType.HARD;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +42,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ResetCommandTest extends RepositoryTestCase {
 
@@ -88,14 +89,14 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardReset() throws JGitInternalException,
+	void testHardReset() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
 		ResetCommand reset = git.reset();
 		assertSameAsHead(reset.setMode(ResetType.HARD)
 				.setRef(initialCommit.getName()).call());
-		assertFalse("reflog should be enabled", reset.isReflogDisabled());
+		assertFalse(reset.isReflogDisabled(), "reflog should be enabled");
 		// check if HEAD points to initial commit now
 		ObjectId head = db.resolve(Constants.HEAD);
 		assertEquals(initialCommit, head);
@@ -112,13 +113,13 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetReflogDisabled() throws Exception {
+	void testHardResetReflogDisabled() throws Exception {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
 		ResetCommand reset = git.reset();
 		assertSameAsHead(reset.setMode(ResetType.HARD)
 				.setRef(initialCommit.getName()).disableRefLog(true).call());
-		assertTrue("reflog should be disabled", reset.isReflogDisabled());
+		assertTrue(reset.isReflogDisabled(), "reflog should be disabled");
 		// check if HEAD points to initial commit now
 		ObjectId head = db.resolve(Constants.HEAD);
 		assertEquals(initialCommit, head);
@@ -135,7 +136,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetWithConflicts_OverwriteUntrackedFile() throws Exception {
+	void testHardResetWithConflicts_OverwriteUntrackedFile() throws Exception {
 		setupRepository();
 
 		git.rm().setCached(true).addFilepattern("a.txt").call();
@@ -147,7 +148,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetWithConflicts_DeleteFileFolderConflict() throws Exception {
+	void testHardResetWithConflicts_DeleteFileFolderConflict() throws Exception {
 		setupRepository();
 
 		writeTrashFile("dir-or-file/c.txt", "content");
@@ -161,7 +162,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetWithConflicts_CreateFolder_UnstagedChanges() throws Exception {
+	void testHardResetWithConflicts_CreateFolder_UnstagedChanges() throws Exception {
 		setupRepository();
 
 		writeTrashFile("dir-or-file/c.txt", "content");
@@ -177,7 +178,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetWithConflicts_DeleteFolder_UnstagedChanges() throws Exception {
+	void testHardResetWithConflicts_DeleteFolder_UnstagedChanges() throws Exception {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
 
@@ -197,7 +198,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testResetToNonexistingHEAD() throws JGitInternalException,
+	void testResetToNonexistingHEAD() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 
 		// create a file in the working tree of a fresh repo
@@ -213,7 +214,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSoftReset() throws JGitInternalException,
+	void testSoftReset() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
@@ -234,7 +235,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMixedReset() throws JGitInternalException,
+	void testMixedReset() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
@@ -256,7 +257,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMixedResetRetainsSizeAndModifiedTime() throws Exception {
+	void testMixedResetRetainsSizeAndModifiedTime() throws Exception {
 		git = new Git(db);
 
 		Files.setLastModifiedTime(writeTrashFile("a.txt", "a").toPath(),
@@ -303,7 +304,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMixedResetWithUnmerged() throws Exception {
+	void testMixedResetWithUnmerged() throws Exception {
 		git = new Git(db);
 
 		String file = "a.txt";
@@ -333,7 +334,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPathsReset() throws Exception {
+	void testPathsReset() throws Exception {
 		setupRepository();
 
 		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
@@ -350,8 +351,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
 				.getEntry(indexFile.getName());
 		assertNotNull(postReset);
-		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
-		Assert.assertEquals(prestage.getObjectId(), postReset.getObjectId());
+		assertNotSame(preReset.getObjectId(), postReset.getObjectId());
+		assertEquals(prestage.getObjectId(), postReset.getObjectId());
 
 		// check that HEAD hasn't moved
 		ObjectId head = db.resolve(Constants.HEAD);
@@ -365,7 +366,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPathsResetOnDirs() throws Exception {
+	void testPathsResetOnDirs() throws Exception {
 		setupRepository();
 
 		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
@@ -380,7 +381,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
 				.getEntry("dir/b.txt");
 		assertNotNull(postReset);
-		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
+		assertNotSame(preReset.getObjectId(), postReset.getObjectId());
 
 		// check that HEAD hasn't moved
 		ObjectId head = db.resolve(Constants.HEAD);
@@ -392,7 +393,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPathsResetWithRef() throws Exception {
+	void testPathsResetWithRef() throws Exception {
 		setupRepository();
 
 		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
@@ -420,7 +421,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPathsResetWithUnmerged() throws Exception {
+	void testPathsResetWithUnmerged() throws Exception {
 		setupRepository();
 
 		String file = "a.txt";
@@ -450,7 +451,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPathsResetOnUnbornBranch() throws Exception {
+	void testPathsResetOnUnbornBranch() throws Exception {
 		git = new Git(db);
 		writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();
@@ -462,17 +463,19 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertNull(aEntry);
 	}
 
-	@Test(expected = JGitInternalException.class)
-	public void testPathsResetToNonexistingRef() throws Exception {
-		git = new Git(db);
-		writeTrashFile("a.txt", "content");
-		git.add().addFilepattern("a.txt").call();
-		assertSameAsHead(
-				git.reset().setRef("doesnotexist").addPath("a.txt").call());
+	@Test
+	void testPathsResetToNonexistingRef() throws Exception {
+		assertThrows(JGitInternalException.class, () -> {
+			git = new Git(db);
+			writeTrashFile("a.txt", "content");
+			git.add().addFilepattern("a.txt").call();
+			assertSameAsHead(
+					git.reset().setRef("doesnotexist").addPath("a.txt").call());
+		});
 	}
 
 	@Test
-	public void testResetDefaultMode() throws Exception {
+	void testResetDefaultMode() throws Exception {
 		git = new Git(db);
 		writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();
@@ -487,7 +490,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetOnTag() throws Exception {
+	void testHardResetOnTag() throws Exception {
 		setupRepository();
 		String tagName = "initialtag";
 		git.tag().setName(tagName).setObjectId(secondCommit)
@@ -506,7 +509,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetAfterSquashMerge() throws Exception {
+	void testHardResetAfterSquashMerge() throws Exception {
 		git = new Git(db);
 
 		writeTrashFile("file1", "file1");
@@ -540,7 +543,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetOnUnbornBranch() throws Exception {
+	void testHardResetOnUnbornBranch() throws Exception {
 		git = new Git(db);
 		File fileA = writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();

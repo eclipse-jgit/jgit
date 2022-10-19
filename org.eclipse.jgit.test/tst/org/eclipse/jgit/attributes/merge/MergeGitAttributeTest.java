@@ -9,11 +9,11 @@
  */
 package org.eclipse.jgit.attributes.merge;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -42,8 +42,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class MergeGitAttributeTest extends RepositoryTestCase {
 
@@ -93,7 +93,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void mergeTextualFile_NoAttr() throws NoWorkTreeException,
+	void mergeTextualFile_NoAttr() throws NoWorkTreeException,
 			NoFilepatternException, GitAPIException, IOException {
 		try (Git git = createRepositoryBinaryConflict(g -> {
 			try {
@@ -133,7 +133,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void mergeTextualFile_UnsetMerge_Conflict()
+	void mergeTextualFile_UnsetMerge_Conflict()
 			throws NoWorkTreeException, NoFilepatternException, GitAPIException,
 			IOException {
 		try (Git git = createRepositoryBinaryConflict(g -> {
@@ -178,7 +178,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void mergeTextualFile_UnsetMerge_NoConflict()
+	void mergeTextualFile_UnsetMerge_NoConflict()
 			throws NoWorkTreeException, NoFilepatternException, GitAPIException,
 			IOException {
 		try (Git git = createRepositoryBinaryConflict(g -> {
@@ -222,7 +222,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void mergeTextualFile_SetBinaryMerge_Conflict()
+	void mergeTextualFile_SetBinaryMerge_Conflict()
 			throws NoWorkTreeException, NoFilepatternException, GitAPIException,
 			IOException {
 		try (Git git = createRepositoryBinaryConflict(g -> {
@@ -273,8 +273,8 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	 * cf. https://www.eclipse.org/forums/index.php/t/1086511/
 	 */
 	@Test
-	@Ignore
-	public void mergeBinaryFile_NoAttr_Conflict() throws IllegalStateException,
+	@Disabled
+	void mergeBinaryFile_NoAttr_Conflict() throws IllegalStateException,
 			IOException, NoHeadException, ConcurrentRefUpdateException,
 			CheckoutConflictException, InvalidMergeHeadsException,
 			WrongRepositoryStateException, NoMessageException, GitAPIException {
@@ -329,7 +329,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void mergeBinaryFile_UnsetMerge_Conflict()
+	void mergeBinaryFile_UnsetMerge_Conflict()
 			throws IllegalStateException,
 			IOException, NoHeadException, ConcurrentRefUpdateException,
 			CheckoutConflictException, InvalidMergeHeadsException,
@@ -385,7 +385,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void mergeBinaryFile_SetMerge_Conflict()
+	void mergeBinaryFile_SetMerge_Conflict()
 			throws IllegalStateException, IOException, NoHeadException,
 			ConcurrentRefUpdateException, CheckoutConflictException,
 			InvalidMergeHeadsException, WrongRepositoryStateException,

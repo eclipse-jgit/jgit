@@ -13,27 +13,27 @@ package org.eclipse.jgit.nls;
 import org.eclipse.jgit.awtui.UIText;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.pgm.internal.CLIText;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RootLocaleTest {
-	@Before
+	@BeforeEach
 	public void setUp() {
 		NLS.setLocale(NLS.ROOT_LOCALE);
 	}
 
 	@Test
-	public void testJGitText() {
+	void testJGitText() {
 		NLS.getBundleFor(JGitText.class);
 	}
 
 	@Test
-	public void testCLIText() {
+	void testCLIText() {
 		NLS.getBundleFor(CLIText.class);
 	}
 
 	@Test
-	public void testUIText() {
+	void testUIText() {
 		NLS.getBundleFor(UIText.class);
 	}
 }

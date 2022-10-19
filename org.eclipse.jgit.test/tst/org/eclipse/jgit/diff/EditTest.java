@@ -11,16 +11,17 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class EditTest {
 	@Test
-	public void testCreate() {
+	void testCreate() {
 		final Edit e = new Edit(1, 2, 3, 4);
 		assertEquals(1, e.getBeginA());
 		assertEquals(2, e.getEndA());
@@ -29,18 +30,18 @@ public class EditTest {
 	}
 
 	@Test
-	public void testCreateEmpty() {
+	void testCreateEmpty() {
 		final Edit e = new Edit(1, 3);
 		assertEquals(1, e.getBeginA());
 		assertEquals(1, e.getEndA());
 		assertEquals(3, e.getBeginB());
 		assertEquals(3, e.getEndB());
-		assertTrue("is empty", e.isEmpty());
+		assertTrue(e.isEmpty(), "is empty");
 		assertSame(Edit.Type.EMPTY, e.getType());
 	}
 
 	@Test
-	public void testSwap() {
+	void testSwap() {
 		final Edit e = new Edit(1, 2, 3, 4);
 		e.swap();
 		assertEquals(3, e.getBeginA());
@@ -50,51 +51,50 @@ public class EditTest {
 	}
 
 	@Test
-	public void testType_Insert() {
+	void testType_Insert() {
 		final Edit e = new Edit(1, 1, 1, 2);
 		assertSame(Edit.Type.INSERT, e.getType());
-		assertFalse("not empty", e.isEmpty());
+		assertFalse(e.isEmpty(), "not empty");
 		assertEquals(0, e.getLengthA());
 		assertEquals(1, e.getLengthB());
 	}
 
 	@Test
-	public void testType_Delete() {
+	void testType_Delete() {
 		final Edit e = new Edit(1, 2, 1, 1);
 		assertSame(Edit.Type.DELETE, e.getType());
-		assertFalse("not empty", e.isEmpty());
+		assertFalse(e.isEmpty(), "not empty");
 		assertEquals(1, e.getLengthA());
 		assertEquals(0, e.getLengthB());
 	}
 
 	@Test
-	public void testType_Replace() {
+	void testType_Replace() {
 		final Edit e = new Edit(1, 2, 1, 4);
 		assertSame(Edit.Type.REPLACE, e.getType());
-		assertFalse("not empty", e.isEmpty());
+		assertFalse(e.isEmpty(), "not empty");
 		assertEquals(1, e.getLengthA());
 		assertEquals(3, e.getLengthB());
 	}
 
 	@Test
-	public void testType_Empty() {
+	void testType_Empty() {
 		final Edit e = new Edit(1, 1, 2, 2);
 		assertSame(Edit.Type.EMPTY, e.getType());
 		assertSame(Edit.Type.EMPTY, new Edit(1, 2).getType());
-		assertTrue("is empty", e.isEmpty());
+		assertTrue(e.isEmpty(), "is empty");
 		assertEquals(0, e.getLengthA());
 		assertEquals(0, e.getLengthB());
 	}
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		final Edit e = new Edit(1, 2, 1, 4);
 		assertEquals("REPLACE(1-2,1-4)", e.toString());
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Test
-	public void testEquals1() {
+	void testEquals1() {
 		final Edit e1 = new Edit(1, 2, 3, 4);
 		final Edit e2 = new Edit(1, 2, 3, 4);
 
@@ -102,31 +102,31 @@ public class EditTest {
 		assertEquals(e2, e1);
 		assertEquals(e1, e2);
 		assertEquals(e1.hashCode(), e2.hashCode());
-		assertFalse(e1.equals(""));
+		assertNotEquals(e1, "");
 	}
 
 	@Test
-	public void testNotEquals1() {
-		assertFalse(new Edit(1, 2, 3, 4).equals(new Edit(0, 2, 3, 4)));
+	void testNotEquals1() {
+		assertNotEquals(new Edit(1, 2, 3, 4), new Edit(0, 2, 3, 4));
 	}
 
 	@Test
-	public void testNotEquals2() {
-		assertFalse(new Edit(1, 2, 3, 4).equals(new Edit(1, 0, 3, 4)));
+	void testNotEquals2() {
+		assertNotEquals(new Edit(1, 2, 3, 4), new Edit(1, 0, 3, 4));
 	}
 
 	@Test
-	public void testNotEquals3() {
-		assertFalse(new Edit(1, 2, 3, 4).equals(new Edit(1, 2, 0, 4)));
+	void testNotEquals3() {
+		assertNotEquals(new Edit(1, 2, 3, 4), new Edit(1, 2, 0, 4));
 	}
 
 	@Test
-	public void testNotEquals4() {
-		assertFalse(new Edit(1, 2, 3, 4).equals(new Edit(1, 2, 3, 0)));
+	void testNotEquals4() {
+		assertNotEquals(new Edit(1, 2, 3, 4), new Edit(1, 2, 3, 0));
 	}
 
 	@Test
-	public void testExtendA() {
+	void testExtendA() {
 		final Edit e = new Edit(1, 2, 1, 1);
 
 		e.extendA();
@@ -137,7 +137,7 @@ public class EditTest {
 	}
 
 	@Test
-	public void testExtendB() {
+	void testExtendB() {
 		final Edit e = new Edit(1, 2, 1, 1);
 
 		e.extendB();
@@ -148,7 +148,7 @@ public class EditTest {
 	}
 
 	@Test
-	public void testBeforeAfterCuts() {
+	void testBeforeAfterCuts() {
 		final Edit whole = new Edit(1, 8, 2, 9);
 		final Edit mid = new Edit(4, 5, 3, 6);
 

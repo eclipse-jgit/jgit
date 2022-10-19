@@ -23,13 +23,13 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Type.CREATE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,12 +41,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Predicate;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RefsChangedListener;
+import org.eclipse.jgit.junit.CustomParameterResolver;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.StrictWorkMonitor;
 import org.eclipse.jgit.junit.TestRepository;
@@ -68,24 +69,19 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@SuppressWarnings("boxing")
-@RunWith(Parameterized.class)
+@SuppressWarnings({ "boxing", "hiding", "unused" })
+@ExtendWith(CustomParameterResolver.class)
 public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
-	@Parameter(0)
 	public boolean atomic;
 
-	@Parameter(1)
 	public boolean useReftable;
 
-	@Parameters(name = "atomic={0} reftable={1}")
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] { { Boolean.FALSE, Boolean.FALSE },
 				{ Boolean.TRUE, Boolean.FALSE },
@@ -118,10 +114,11 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		refsChangedEvents++;
 	};
 
-	@Override
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	public void setUp(boolean atomic, boolean useReftable) throws Exception {
 		super.setUp();
+		this.atomic = atomic;
+		this.useReftable = useReftable;
 
 		FileRepository fileRepo = createBareRepository();
 		if (useReftable) {
@@ -145,14 +142,16 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				.addRefsChangedListener(refsChangedListener);
 	}
 
-	@After
+	@AfterEach
 	public void removeListener() {
 		handle.remove();
 		refsChangedEvents = 0;
 	}
 
-	@Test
-	public void packedRefsFileIsSorted() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void packedRefsFileIsSorted(boolean atomic, boolean useReftable)
+			throws IOException {
 		assumeTrue(atomic);
 		assumeFalse(useReftable);
 
@@ -180,8 +179,9 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertTrue(a2 < b1);
 	}
 
-	@Test
-	public void simpleNoForce() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void simpleNoForce(boolean atomic, boolean useReftable) throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 
 		List<ReceiveCommand> cmds = Arrays.asList(
@@ -199,8 +199,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void simpleNoForceRefsChangedEvents() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void simpleNoForceRefsChangedEvents(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -214,8 +216,9 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
-	@Test
-	public void simpleForce() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void simpleForce(boolean atomic, boolean useReftable) throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 
 		List<ReceiveCommand> cmds = Arrays.asList(
@@ -228,8 +231,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertRefs("refs/heads/master", B, "refs/heads/masters", A);
 	}
 
-	@Test
-	public void simpleForceRefsChangedEvents() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void simpleForceRefsChangedEvents(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -243,9 +248,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				: initialRefsChangedEvents + 2, refsChangedEvents);
 	}
 
-	@Test
-	public void nonFastForwardDoesNotDoExpensiveMergeCheck()
-			throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void nonFastForwardDoesNotDoExpensiveMergeCheck(boolean atomic,
+			boolean useReftable) throws IOException {
 		writeLooseRef("refs/heads/master", B);
 
 		List<ReceiveCommand> cmds = Arrays.asList(new ReceiveCommand(B, A,
@@ -264,9 +270,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertRefs("refs/heads/master", A);
 	}
 
-	@Test
-	public void nonFastForwardDoesNotDoExpensiveMergeCheckRefsChangedEvents()
-			throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void nonFastForwardDoesNotDoExpensiveMergeCheckRefsChangedEvents(
+			boolean atomic, boolean useReftable) throws IOException {
 		writeLooseRef("refs/heads/master", B);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -285,8 +292,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertEquals(initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
-	@Test
-	public void fileDirectoryConflict() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void fileDirectoryConflict(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 
 		List<ReceiveCommand> cmds = Arrays.asList(
@@ -297,7 +306,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 		if (atomic) {
 			// Atomic update sees that master and master/x are conflicting, then
-			// marks the first one in the list as LOCK_FAILURE and aborts the rest.
+			// marks the first one in the list as LOCK_FAILURE and aborts the
+			// rest.
 			assertResults(cmds, LOCK_FAILURE, TRANSACTION_ABORTED,
 					TRANSACTION_ABORTED);
 			assertRefs("refs/heads/master", A, "refs/heads/masters", B);
@@ -309,8 +319,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void fileDirectoryConflictRefsChangedEvents() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void fileDirectoryConflictRefsChangedEvents(boolean atomic,
+			boolean useReftable) throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -324,8 +336,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
-	@Test
-	public void conflictThanksToDelete() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void conflictThanksToDelete(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 
 		List<ReceiveCommand> cmds = Arrays.asList(
@@ -338,8 +352,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertRefs("refs/heads/master", B, "refs/heads/masters/x", A);
 	}
 
-	@Test
-	public void conflictThanksToDeleteRefsChangedEvents() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void conflictThanksToDeleteRefsChangedEvents(boolean atomic,
+			boolean useReftable) throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -353,8 +369,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				: initialRefsChangedEvents + 3, refsChangedEvents);
 	}
 
-	@Test
-	public void updateToMissingObject() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void updateToMissingObject(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRef("refs/heads/master", A);
 
 		ObjectId bad = ObjectId
@@ -373,8 +391,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void updateToMissingObjectRefsChangedEvents() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void updateToMissingObjectRefsChangedEvents(boolean atomic,
+			boolean useReftable) throws IOException {
 		writeLooseRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -389,8 +409,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
-	@Test
-	public void addMissingObject() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void addMissingObject(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRef("refs/heads/master", A);
 
 		ObjectId bad = ObjectId
@@ -409,8 +431,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void addMissingObjectRefsChangedEvents() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void addMissingObjectRefsChangedEvents(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -425,8 +449,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
-	@Test
-	public void oneNonExistentRef() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void oneNonExistentRef(boolean atomic, boolean useReftable)
+			throws IOException {
 		List<ReceiveCommand> cmds = Arrays.asList(
 				new ReceiveCommand(A, B, "refs/heads/foo1", UPDATE),
 				new ReceiveCommand(zeroId(), B, "refs/heads/foo2", CREATE));
@@ -443,8 +469,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void oneRefWrongOldValue() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void oneRefWrongOldValue(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRef("refs/heads/master", A);
 
 		List<ReceiveCommand> cmds = Arrays.asList(
@@ -461,8 +489,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void oneRefWrongOldValueRefsChangedEvents() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void oneRefWrongOldValueRefsChangedEvents(boolean atomic,
+			boolean useReftable) throws IOException {
 		writeLooseRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -475,8 +505,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
-	@Test
-	public void nonExistentRef() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void nonExistentRef(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRef("refs/heads/master", A);
 
 		List<ReceiveCommand> cmds = Arrays.asList(
@@ -493,8 +525,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void nonExistentRefRefsChangedEvents() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void nonExistentRefRefsChangedEvents(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeLooseRef("refs/heads/master", A);
 
 		int initialRefsChangedEvents = refsChangedEvents;
@@ -508,8 +542,9 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				: initialRefsChangedEvents + 1, refsChangedEvents);
 	}
 
-	@Test
-	public void noRefLog() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void noRefLog(boolean atomic, boolean useReftable) throws IOException {
 		writeRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -531,8 +566,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertReflogUnchanged(oldLogs, "refs/heads/branch");
 	}
 
-	@Test
-	public void reflogDefaultIdent() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void reflogDefaultIdent(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeRef("refs/heads/master", A);
 		writeRef("refs/heads/branch2", A);
 		int initialRefsChangedEvents = refsChangedEvents;
@@ -558,8 +595,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertReflogUnchanged(oldLogs, "refs/heads/branch2");
 	}
 
-	@Test
-	public void reflogAppendStatusNoMessage() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void reflogAppendStatusNoMessage(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeRef("refs/heads/master", A);
 		writeRef("refs/heads/branch1", B);
 		int initialRefsChangedEvents = refsChangedEvents;
@@ -590,8 +629,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch2"));
 	}
 
-	@Test
-	public void reflogAppendStatusFastForward() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void reflogAppendStatusFastForward(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -607,8 +648,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/master"));
 	}
 
-	@Test
-	public void reflogAppendStatusWithMessage() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void reflogAppendStatusWithMessage(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -631,8 +674,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch"));
 	}
 
-	@Test
-	public void reflogCustomIdent() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void reflogCustomIdent(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -654,8 +699,9 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch"), true);
 	}
 
-	@Test
-	public void reflogDelete() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void reflogDelete(boolean atomic, boolean useReftable) throws IOException {
 		writeRef("refs/heads/master", A);
 		writeRef("refs/heads/branch", A);
 		int initialRefsChangedEvents = refsChangedEvents;
@@ -683,8 +729,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch"));
 	}
 
-	@Test
-	public void reflogFileDirectoryConflict() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void reflogFileDirectoryConflict(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -706,8 +754,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/master/x"));
 	}
 
-	@Test
-	public void reflogOnLockFailure() throws IOException {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void reflogOnLockFailure(boolean atomic, boolean useReftable)
+			throws IOException {
 		writeRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -734,8 +784,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void overrideRefLogMessage() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void overrideRefLogMessage(boolean atomic, boolean useReftable)
+			throws Exception {
 		writeRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -756,8 +808,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch"), true);
 	}
 
-	@Test
-	public void overrideDisableRefLog() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void overrideDisableRefLog(boolean atomic, boolean useReftable)
+			throws Exception {
 		writeRef("refs/heads/master", A);
 		int initialRefsChangedEvents = refsChangedEvents;
 
@@ -780,8 +834,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch"));
 	}
 
-	@Test
-	public void refLogNotWrittenWithoutConfigOption() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void refLogNotWrittenWithoutConfigOption(boolean atomic,
+			boolean useReftable) throws Exception {
 		assumeFalse(useReftable);
 
 		setLogAllRefUpdates(false);
@@ -801,8 +857,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertReflogUnchanged(oldLogs, "refs/heads/branch");
 	}
 
-	@Test
-	public void forceRefLogInUpdate() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void forceRefLogInUpdate(boolean atomic, boolean useReftable)
+			throws Exception {
 		assumeFalse(useReftable);
 
 		setLogAllRefUpdates(false);
@@ -824,8 +882,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch"));
 	}
 
-	@Test
-	public void forceRefLogInCommand() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void forceRefLogInCommand(boolean atomic, boolean useReftable)
+			throws Exception {
 		assumeFalse(useReftable);
 
 		setLogAllRefUpdates(false);
@@ -848,8 +908,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch"));
 	}
 
-	@Test
-	public void packedRefsLockFailure() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void packedRefsLockFailure(boolean atomic, boolean useReftable)
+			throws Exception {
 		assumeFalse(useReftable);
 
 		writeLooseRef("refs/heads/master", A);
@@ -879,8 +941,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void packedRefsLockFailureRefsChangedEvents() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void packedRefsLockFailureRefsChangedEvents(boolean atomic,
+			boolean useReftable) throws Exception {
 		assumeFalse(useReftable);
 
 		writeLooseRef("refs/heads/master", A);
@@ -901,8 +965,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void oneRefLockFailure() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void oneRefLockFailure(boolean atomic, boolean useReftable)
+			throws Exception {
 		assumeFalse(useReftable);
 
 		writeLooseRef("refs/heads/master", A);
@@ -931,8 +997,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void oneRefLockFailureRefsChangedEvents() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void oneRefLockFailureRefsChangedEvents(boolean atomic, boolean useReftable)
+			throws Exception {
 		assumeFalse(useReftable);
 
 		writeLooseRef("refs/heads/master", A);
@@ -954,8 +1022,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void singleRefUpdateDoesNotRequirePackedRefsLock() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void singleRefUpdateDoesNotRequirePackedRefsLock(boolean atomic,
+			boolean useReftable) throws Exception {
 		assumeFalse(useReftable);
 
 		writeLooseRef("refs/heads/master", A);
@@ -975,9 +1045,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void singleRefUpdateDoesNotRequirePackedRefsLockRefsChangedEvents()
-			throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void singleRefUpdateDoesNotRequirePackedRefsLockRefsChangedEvents(
+			boolean atomic, boolean useReftable) throws Exception {
 		assumeFalse(useReftable);
 
 		writeLooseRef("refs/heads/master", A);
@@ -996,8 +1067,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void atomicUpdateRespectsInProcessLock() throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void atomicUpdateRespectsInProcessLock(boolean atomic, boolean useReftable)
+			throws Exception {
 		assumeTrue(atomic);
 		assumeFalse(useReftable);
 
@@ -1027,9 +1100,8 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			// acquire it.
 			while (l.getQueueLength() == 0) {
 				long elapsedNanos = System.nanoTime() - startNanos;
-				assertTrue(
-						"timed out waiting for work thread to attempt to acquire lock",
-						NANOSECONDS.toSeconds(elapsedNanos) < timeoutSecs);
+				assertTrue(NANOSECONDS.toSeconds(elapsedNanos) < timeoutSecs,
+						"timed out waiting for work thread to attempt to acquire lock");
 				Thread.sleep(3);
 			}
 
@@ -1048,9 +1120,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertRefs("refs/heads/master", B, "refs/heads/branch", B);
 	}
 
-	@Test
-	public void atomicUpdateRespectsInProcessLockRefsChangedEvents()
-			throws Exception {
+	@MethodSource("data")
+	@ParameterizedTest(name = "atomic={0}, reftable={1}")
+	void atomicUpdateRespectsInProcessLockRefsChangedEvents(boolean atomic,
+			boolean useReftable) throws Exception {
 		assumeTrue(atomic);
 		assumeFalse(useReftable);
 
@@ -1198,13 +1271,12 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		Ref actualHead = refs.remove(Constants.HEAD);
 		if (actualHead != null) {
 			String actualLeafName = actualHead.getLeaf().getName();
-			assertEquals(
+			assertEquals("refs/heads/master", actualLeafName,
 					"expected HEAD to point to refs/heads/master, got: "
-							+ actualLeafName,
-					"refs/heads/master", actualLeafName);
+							+ actualLeafName);
 			AnyObjectId expectedMaster = expected.get("refs/heads/master");
-			assertNotNull("expected master ref since HEAD exists",
-					expectedMaster);
+			assertNotNull(expectedMaster,
+					"expected master ref since HEAD exists");
 			assertEquals(expectedMaster, actualHead.getObjectId());
 		}
 
@@ -1212,15 +1284,15 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		refs.forEach((n, r) -> actual.put(n, r.getObjectId()));
 
 		assertEquals(expected.keySet(), actual.keySet());
-		actual.forEach((n, a) -> assertEquals(n, expected.get(n), a));
+		actual.forEach((n, a) -> assertEquals(expected.get(n), a, n));
 	}
 
 	enum Result {
-		OK(ReceiveCommand.Result.OK),
-		LOCK_FAILURE(ReceiveCommand.Result.LOCK_FAILURE),
-		REJECTED_NONFASTFORWARD(ReceiveCommand.Result.REJECTED_NONFASTFORWARD),
-		REJECTED_MISSING_OBJECT(ReceiveCommand.Result.REJECTED_MISSING_OBJECT),
-		TRANSACTION_ABORTED(ReceiveCommand::isTransactionAborted);
+		OK(ReceiveCommand.Result.OK), LOCK_FAILURE(
+				ReceiveCommand.Result.LOCK_FAILURE), REJECTED_NONFASTFORWARD(
+						ReceiveCommand.Result.REJECTED_NONFASTFORWARD), REJECTED_MISSING_OBJECT(
+								ReceiveCommand.Result.REJECTED_MISSING_OBJECT), TRANSACTION_ABORTED(
+										ReceiveCommand::isTransactionAborted);
 
 		@SuppressWarnings("ImmutableEnumChecker")
 		final Predicate<? super ReceiveCommand> p;
@@ -1242,11 +1314,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		for (int i = 0; i < cmds.size(); i++) {
 			ReceiveCommand c = cmds.get(i);
 			Result r = expected[i];
-			assertTrue(String.format(
+			assertTrue(r.p.test(c), String.format(
 					"result of command (%d) should be %s, got %s %s%s",
 					Integer.valueOf(i), r, c, c.getResult(),
-					c.getMessage() != null ? " (" + c.getMessage() + ")" : ""),
-					r.p.test(c));
+					c.getMessage() != null ? " (" + c.getMessage() + ")" : ""));
 		}
 	}
 

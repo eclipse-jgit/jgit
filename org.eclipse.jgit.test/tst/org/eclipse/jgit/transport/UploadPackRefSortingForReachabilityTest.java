@@ -21,12 +21,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef.Unpeeled;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class UploadPackRefSortingForReachabilityTest {
 
 	@Test
-	public void sortReferences() {
+	void sortReferences() {
 		List<Ref> refs = Stream.of("refs/changes/12/12", "refs/changes/12/1",
 				"refs/heads/master", "refs/heads/something",
 				"refs/changes/55/1", "refs/tags/v1.1")

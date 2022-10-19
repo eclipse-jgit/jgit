@@ -9,18 +9,18 @@
  */
 package org.eclipse.jgit.ignore;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jgit.ignore.internal.Strings;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BasicRuleTest {
 
 	@Test
-	public void test() {
+	void test() {
 		FastIgnoreRule rule1 = new FastIgnoreRule("/hello/[a]/");
 		FastIgnoreRule rule2 = new FastIgnoreRule("/hello/[a]/");
 		FastIgnoreRule rule3 = new FastIgnoreRule("!/hello/[a]/");
@@ -42,7 +42,7 @@ public class BasicRuleTest {
 	}
 
 	@Test
-	public void testDirectoryPattern() {
+	void testDirectoryPattern() {
 		assertTrue(Strings.isDirectoryPattern("/"));
 		assertTrue(Strings.isDirectoryPattern("/ "));
 		assertTrue(Strings.isDirectoryPattern("/     "));
@@ -51,7 +51,7 @@ public class BasicRuleTest {
 	}
 
 	@Test
-	public void testStripTrailingChar() {
+	void testStripTrailingChar() {
 		assertEquals("", Strings.stripTrailing("/", '/'));
 		assertEquals("", Strings.stripTrailing("///", '/'));
 		assertEquals("a", Strings.stripTrailing("a/", '/'));
@@ -60,7 +60,7 @@ public class BasicRuleTest {
 	}
 
 	@Test
-	public void testStripTrailingWhitespace() {
+	void testStripTrailingWhitespace() {
 		assertEquals("", Strings.stripTrailingWhitespace(""));
 		assertEquals("", Strings.stripTrailingWhitespace("   "));
 		assertEquals("a", Strings.stripTrailingWhitespace("a"));

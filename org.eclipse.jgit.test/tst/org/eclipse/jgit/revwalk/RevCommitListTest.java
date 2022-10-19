@@ -9,15 +9,15 @@
  */
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RevCommitListTest extends RepositoryTestCase {
 
@@ -36,17 +36,17 @@ public class RevCommitListTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFillToHighMark2() throws Exception {
+	void testFillToHighMark2() throws Exception {
 		setup(3);
 		list.fillTo(1);
 		assertEquals(2, list.size());
 		assertEquals("commit 2", list.get(0).getFullMessage());
 		assertEquals("commit 1", list.get(1).getFullMessage());
-		assertNull("commit 0 shouldn't be loaded", list.get(2));
+		assertNull(list.get(2), "commit 0 shouldn't be loaded");
 	}
 
 	@Test
-	public void testFillToHighMarkAll() throws Exception {
+	void testFillToHighMarkAll() throws Exception {
 		setup(3);
 		list.fillTo(2);
 		assertEquals(3, list.size());
@@ -55,24 +55,24 @@ public class RevCommitListTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFillToHighMark4() throws Exception {
+	void testFillToHighMark4() throws Exception {
 		setup(3);
 		list.fillTo(3);
 		assertEquals(3, list.size());
 		assertEquals("commit 2", list.get(0).getFullMessage());
 		assertEquals("commit 0", list.get(2).getFullMessage());
-		assertNull("commit 3 can't be loaded", list.get(3));
+		assertNull(list.get(3), "commit 3 can't be loaded");
 	}
 
 	@Test
-	public void testFillToHighMarkMulitpleBlocks() throws Exception {
+	void testFillToHighMarkMulitpleBlocks() throws Exception {
 		setup(258);
 		list.fillTo(257);
 		assertEquals(258, list.size());
 	}
 
 	@Test
-	public void testFillToCommit() throws Exception {
+	void testFillToCommit() throws Exception {
 		setup(3);
 
 		try (RevWalk w = new RevWalk(db)) {
@@ -80,7 +80,7 @@ public class RevCommitListTest extends RepositoryTestCase {
 
 			w.next();
 			RevCommit c = w.next();
-			assertNotNull("should have found 2. commit", c);
+			assertNotNull(c, "should have found 2. commit");
 
 			list.fillTo(c, 5);
 			assertEquals(2, list.size());
@@ -90,18 +90,19 @@ public class RevCommitListTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFillToUnknownCommit() throws Exception {
+	void testFillToUnknownCommit() throws Exception {
 		setup(258);
 		RevCommit c = new RevCommit(
 				ObjectId.fromString("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 
 		list.fillTo(c, 300);
-		assertEquals("loading to unknown commit should load all commits", 258,
-				list.size());
+		assertEquals(258,
+				list.size(),
+				"loading to unknown commit should load all commits");
 	}
 
 	@Test
-	public void testFillToNullCommit() throws Exception {
+	void testFillToNullCommit() throws Exception {
 		setup(3);
 		list.fillTo(null, 1);
 		assertNull(list.get(0));

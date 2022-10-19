@@ -1,10 +1,11 @@
 package org.eclipse.jgit.logging;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 public class PerformanceLogContextTest {
 
 	@Test
-	public void testAddEvent() {
+	void testAddEvent() {
 		PerformanceLogRecord record = new PerformanceLogRecord("record", 0);
 		PerformanceLogContext.getInstance().addEvent(record);
 
@@ -24,7 +25,7 @@ public class PerformanceLogContextTest {
 	}
 
 	@Test
-	public void testCleanEvents() {
+	void testCleanEvents() {
 		PerformanceLogRecord record1 = new PerformanceLogRecord("record1", 0);
 		PerformanceLogContext.getInstance().addEvent(record1);
 
@@ -38,7 +39,7 @@ public class PerformanceLogContextTest {
 	}
 
 	@Test
-	public void testAddEventsTwoThreads() throws InterruptedException {
+	void testAddEventsTwoThreads() throws InterruptedException {
 		TestRunnable runnable1 = new TestRunnable("record1", 1);
 		TestRunnable runnable2 = new TestRunnable("record2", 2);
 

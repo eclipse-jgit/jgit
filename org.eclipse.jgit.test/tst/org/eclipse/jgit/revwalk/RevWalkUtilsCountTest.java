@@ -10,14 +10,15 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 public class RevWalkUtilsCountTest extends RevWalkTestCase {
 
 	@Test
-	public void shouldWorkForNormalCase() throws Exception {
+	void shouldWorkForNormalCase() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 
@@ -25,13 +26,13 @@ public class RevWalkUtilsCountTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void shouldReturnZeroOnSameCommit() throws Exception {
+	void shouldReturnZeroOnSameCommit() throws Exception {
 		final RevCommit c1 = commit(commit(commit()));
 		assertEquals(0, count(c1, c1));
 	}
 
 	@Test
-	public void shouldReturnZeroWhenMergedInto() throws Exception {
+	void shouldReturnZeroWhenMergedInto() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 
@@ -39,7 +40,7 @@ public class RevWalkUtilsCountTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void shouldWorkWithMerges() throws Exception {
+	void shouldWorkWithMerges() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b1 = commit(a);
 		final RevCommit b2 = commit(a);
@@ -49,7 +50,7 @@ public class RevWalkUtilsCountTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void shouldWorkWithoutCommonAncestor() throws Exception {
+	void shouldWorkWithoutCommonAncestor() throws Exception {
 		final RevCommit a1 = commit();
 		final RevCommit a2 = commit();
 		final RevCommit b = commit(a1);
@@ -58,7 +59,7 @@ public class RevWalkUtilsCountTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void shouldWorkWithZeroAsEnd() throws Exception {
+	void shouldWorkWithZeroAsEnd() throws Exception {
 		final RevCommit c = commit(commit());
 
 		assertEquals(2, count(c, null));
