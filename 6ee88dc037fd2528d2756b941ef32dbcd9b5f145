@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e3b0e79_63b8b30e",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-20T00:30:06Z",
+      "side": 1,
+      "message": "Double check the indentation in this line. Looks like either it would fit in the previous line of use a level less of indentation... but maybe it is fine as it is.",
+      "revId": "6ee88dc037fd2528d2756b941ef32dbcd9b5f145",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a53c86ac_94ee1510",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/parser/FirstCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-20T00:30:06Z",
+      "side": 1,
+      "message": "Typo.\n\nAnd I would expect this to be true, with key\u003dunknownCap and value\u003dsome-value",
+      "revId": "6ee88dc037fd2528d2756b941ef32dbcd9b5f145",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c9c6912_0139bfcb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-20T00:30:06Z",
+      "side": 1,
+      "message": "This would split some capabilities and leave others as they. Again, we rather split all by the first \u0027\u003d\u0027 and then we don\u0027t need the predefined set.",
+      "revId": "6ee88dc037fd2528d2756b941ef32dbcd9b5f145",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92ae0591_cce2f176",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-20T00:30:06Z",
+      "side": 1,
+      "message": "This is not really true, e.g. for the agent now this will return \"agent\", when before it was returning \"agent\u003dagent-string\"...\n\nYou need to concat k\u003dv if v !\u003d null to keep it consistent. Ugly, but this is only for backwards compatilibity (this class should have disappeared when 6.0 was cut).",
+      "revId": "6ee88dc037fd2528d2756b941ef32dbcd9b5f145",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
