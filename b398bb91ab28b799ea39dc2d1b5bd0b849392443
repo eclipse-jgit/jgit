@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6487ebe_ef428592",
+        "filename": "pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-20T11:56:21Z",
+      "side": 1,
+      "message": "we should set the version of this plugin:\n\n \u003cversion\u003e0.0.1-SNAPSHOT\u003c/version\u003e",
+      "revId": "b398bb91ab28b799ea39dc2d1b5bd0b849392443",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
