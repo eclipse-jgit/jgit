@@ -11,6 +11,7 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -73,6 +74,10 @@ public class PushCommand extends
 	private boolean atomic;
 	private boolean force;
 	private boolean thin = Transport.DEFAULT_PUSH_THIN;
+
+	private PrintStream hookOutRedirect;
+
+	private PrintStream hookErrRedirect;
 
 	private OutputStream out;
 
@@ -140,6 +145,8 @@ public class PushCommand extends
 					transport.setOptionReceivePack(receivePack);
 				transport.setDryRun(dryRun);
 				transport.setPushOptions(pushOptions);
+				transport.setHookOutputStream(hookOutRedirect);
+				transport.setHookErrorStream(hookErrRedirect);
 				configure(transport);
 
 				final Collection<RemoteRefUpdate> toPush = transport
@@ -302,6 +309,46 @@ public class PushCommand extends
 	 */
 	public String getRemote() {
 		return remote;
+	}
+
+	/**
+	 * Sets a {@link PrintStream} a {@link org.eclipse.jgit.hooks.PrePushHook}
+	 * may write its stdout to. If not set, {@link System#out} will be used.
+	 * <p>
+	 * When pushing to several remote repositories the stream is shared for all
+	 * pushes.
+	 * </p>
+	 *
+	 * @param redirect
+	 *            {@link PrintStream} to use; if {@code null},
+	 *            {@link System#out} will be used
+	 * @return {@code this}
+	 * @since 6.4
+	 */
+	public PushCommand setHookOutputStream(PrintStream redirect) {
+		checkCallable();
+		hookOutRedirect = redirect;
+		return this;
+	}
+
+	/**
+	 * Sets a {@link PrintStream} a {@link org.eclipse.jgit.hooks.PrePushHook}
+	 * may write its stderr to. If not set, {@link System#err} will be used.
+	 * <p>
+	 * When pushing to several remote repositories the stream is shared for all
+	 * pushes.
+	 * </p>
+	 *
+	 * @param redirect
+	 *            {@link PrintStream} to use; if {@code null},
+	 *            {@link System#err} will be used
+	 * @return {@code this}
+	 * @since 6.4
+	 */
+	public PushCommand setHookErrorStream(PrintStream redirect) {
+		checkCallable();
+		hookErrRedirect = redirect;
+		return this;
 	}
 
 	/**

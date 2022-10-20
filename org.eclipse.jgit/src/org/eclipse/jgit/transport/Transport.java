@@ -519,9 +519,7 @@ public abstract class Transport implements AutoCloseable {
 
 			if (proto.canHandle(uri, local, remoteName)) {
 				Transport tn = proto.open(uri, local, remoteName);
-				tn.prePush = Hooks.prePush(local, tn.hookOutRedirect);
-				tn.prePush.setRemoteLocation(uri.toString());
-				tn.prePush.setRemoteName(remoteName);
+				tn.remoteName = remoteName;
 				return tn;
 			}
 		}
@@ -783,7 +781,9 @@ public abstract class Transport implements AutoCloseable {
 
 	private PrintStream hookOutRedirect;
 
-	private PrePushHook prePush;
+	private PrintStream hookErrRedirect;
+
+	private String remoteName;
 
 	private Integer depth;
 
@@ -812,7 +812,6 @@ public abstract class Transport implements AutoCloseable {
 		this.protocol = tc.protocolVersion;
 		this.objectChecker = tc.newObjectChecker();
 		this.credentialsProvider = CredentialsProvider.getDefault();
-		prePush = Hooks.prePush(local, hookOutRedirect);
 	}
 
 	/**
@@ -859,6 +858,32 @@ public abstract class Transport implements AutoCloseable {
 			optionUploadPack = where;
 		else
 			optionUploadPack = RemoteConfig.DEFAULT_UPLOAD_PACK;
+	}
+
+	/**
+	 * Sets a {@link PrintStream} a {@link org.eclipse.jgit.hooks.PrePushHook}
+	 * may write its stdout to. If not set, {@link System#out} will be used.
+	 *
+	 * @param redirect
+	 *            {@link PrintStream} to use; if {@code null},
+	 *            {@link System#out} will be used
+	 * @since 6.4
+	 */
+	public void setHookOutputStream(PrintStream redirect) {
+		hookOutRedirect = redirect;
+	}
+
+	/**
+	 * Sets a {@link PrintStream} a {@link org.eclipse.jgit.hooks.PrePushHook}
+	 * may write its stderr to. If not set, {@link System#err} will be used.
+	 *
+	 * @param redirect
+	 *            {@link PrintStream} to use; if {@code null},
+	 *            {@link System#err} will be used
+	 * @since 6.4
+	 */
+	public void setHookErrorStream(PrintStream redirect) {
+		hookErrRedirect = redirect;
 	}
 
 	/**
@@ -1468,8 +1493,15 @@ public abstract class Transport implements AutoCloseable {
 				throw new TransportException(JGitText.get().nothingToPush);
 		}
 
-		final PushProcess pushProcess = new PushProcess(this, toPush, prePush,
-				out);
+		PrePushHook prePush = null;
+		if (local != null) {
+			// Pushing will always have a local repository. But better safe than
+			// sorry.
+			prePush = Hooks.prePush(local, hookOutRedirect, hookErrRedirect);
+			prePush.setRemoteLocation(uri.toString());
+			prePush.setRemoteName(remoteName);
+		}
+		PushProcess pushProcess = new PushProcess(this, toPush, prePush, out);
 		return pushProcess.execute(monitor);
 	}
 
