@@ -587,6 +587,21 @@ public class RefDirectory extends RefDatabase {
 		return new PackedBatchRefUpdate(this);
 	}
 
+	/**
+	 * Create a new batch update to attempt on this database.
+	 *
+	 * @param shouldLockLooseRefs
+	 *            whether loose refs should be locked during the batch ref
+	 *            update. Note that this should only be set to {@code false} if
+	 *            the application using this ensures that no other ref updates
+	 *            run concurrently to avoid lost updates caused by a race. In
+	 *            such cases it can improve performance.
+	 * @return a new batch update object
+	 */
+	public PackedBatchRefUpdate newBatchUpdate(boolean shouldLockLooseRefs) {
+		return new PackedBatchRefUpdate(this, shouldLockLooseRefs);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public boolean performsAtomicTransactions() {
