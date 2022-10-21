@@ -587,6 +587,10 @@ public class RefDirectory extends RefDatabase {
 		return new PackedBatchRefUpdate(this);
 	}
 
+	public PackedBatchRefUpdate newBatchUpdate(boolean shouldLockLooseRefs) {
+		return new PackedBatchRefUpdate(this, shouldLockLooseRefs);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public boolean performsAtomicTransactions() {
