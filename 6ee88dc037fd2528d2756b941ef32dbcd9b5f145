@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2369a62_0251cea3",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-21T20:47:10Z",
+      "side": 1,
+      "message": "Nope, the Eclipse format is OK. Maximum line width is set to 80, now we\u0027d be at 83, so it wraps.\n\nThe comments in lines 224/225 and 232 extend a little beyond column 80 because apparently they were never re-formatted since this Eclipse format is active. (They date back to 2012.)",
+      "parentUuid": "0d3e578b_9091ccbe",
+      "revId": "6ee88dc037fd2528d2756b941ef32dbcd9b5f145",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a53c86ac_94ee1510",

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1b9e205_71c940c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-21T20:47:10Z",
+      "side": 1,
+      "message": "s/to/the",
+      "range": {
+        "startLine": 364,
+        "startChar": 45,
+        "endLine": 364,
+        "endChar": 47
+      },
+      "revId": "dbee222f728f312cc939506e00b9deb99719862d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61a6fd6f_934d5fb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-21T20:47:10Z",
+      "side": 1,
+      "message": "Missing curly braces.",
+      "revId": "dbee222f728f312cc939506e00b9deb99719862d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f22cf83b_282a5706",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-21T20:47:10Z",
+      "side": 1,
+      "message": "getOrDefault(..., userAgent)?",
+      "range": {
+        "startLine": 1016,
+        "startChar": 29,
+        "endLine": 1016,
+        "endChar": 61
+      },
+      "revId": "dbee222f728f312cc939506e00b9deb99719862d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd690610_ccd8ac84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-21T20:47:10Z",
+      "side": 1,
+      "message": "Missing curly braces. (JGit coding styles have changed over time. For many years now curly braces are always required. So for all new code, we do use them, and sometimes we also add them to older code just in the vicinity. We don\u0027t do it globally though.)",
+      "revId": "dbee222f728f312cc939506e00b9deb99719862d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b4e366c_e741bd86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-21T20:47:10Z",
+      "side": 1,
+      "message": "Plain get(OPTION_SESSION_ID)?",
+      "revId": "dbee222f728f312cc939506e00b9deb99719862d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
