@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d720fd82_ab4e850a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2022-10-21T22:43:25Z",
+      "side": 1,
+      "message": "Taking a step back, we want to speed up partial clone by speeding up reading blob sizes. I think it is usually the case that a blob-size filter would allow most blobs through, so why can\u0027t we just optimistically read a block of the compressed object from disk (or network, if the packfile is on a network drive), check the size, and if the size is small enough, start the decompression from the block we read? The answer is that we want to do a pass through all the objects first for counting and size calculation for the purpose of progress reports, which is reasonable. We could just drop reporting progress altogether, but it\u0027s reassuring to the user, and this size index may later be useful for things like serving directory listings anyway.\n\nSo we want some sort of blob size cache that is contiguous on disk, so it can be read efficiently. That makes sense.\n",
+      "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
