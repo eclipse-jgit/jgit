@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "061265f6_566cf200",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2022-10-21T22:54:58Z",
+      "side": 1,
+      "message": "This paragraph looks like it describes really unexpected behavior. If it\u0027s really important to index only the large blobs (for size purposes), we probably need to define the behavior of the index much more thoroughly than just \"best effort sizes\". (So, something like \"only large blobs are present\", but then I\u0027m not sure how generally useful that will be anymore.)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "5ba7791d4e5787211d07930791c4d5bf763a7a89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
