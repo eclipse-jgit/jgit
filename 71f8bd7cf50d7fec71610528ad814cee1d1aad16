@@ -16,6 +16,23 @@
       "message": "Wonderful! We are building a Git server with JGit. This feature could help us enable \"partial clone\" with \"git config\" command, instead of to modify source code.",
       "revId": "71f8bd7cf50d7fec71610528ad814cee1d1aad16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98f9ba7f_f179bf2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-21T20:32:41Z",
+      "side": 1,
+      "message": "JGit already serves partial clones like --filter\u003dblob:none (although I don\u0027t know the exact combination of options enables it)... would we still need this option?\n\nAlso, this option is dangerous if combined with gerrit: it would bypass the per-branch permissions on the gerrit level. I wonder if that is why it wasn\u0027t implemented before.\n\n",
+      "revId": "71f8bd7cf50d7fec71610528ad814cee1d1aad16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
