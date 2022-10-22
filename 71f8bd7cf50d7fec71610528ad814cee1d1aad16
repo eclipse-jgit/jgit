@@ -33,6 +33,24 @@
       "message": "JGit already serves partial clones like --filter\u003dblob:none (although I don\u0027t know the exact combination of options enables it)... would we still need this option?\n\nAlso, this option is dangerous if combined with gerrit: it would bypass the per-branch permissions on the gerrit level. I wonder if that is why it wasn\u0027t implemented before.\n\n",
       "revId": "71f8bd7cf50d7fec71610528ad814cee1d1aad16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3c5a96d_a6a85995",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-22T01:54:05Z",
+      "side": 1,
+      "message": "\u003e JGit already serves partial clones like --filter\u003dblob:none (although I don\u0027t know the exact combination of options enables it)... would we still need this option?\n\n\nGitlab use these to for partial clone, see [1]. The author of partial clone also mentioned it[2]. \n\nI think this is why many users use these configurations to enable partial clones.\nFinally, they failed and say \"gerrit does not support partial clones\".\n\nWe can execute \"git clone --filter\u003dblob:none --no-checkout\" successfully with config uploadPack.allowFilter is true.\nBut when we checkout, the git will fetch other missing objects required by the checkout( this is why we need this config). \n\nFor example:\n# Clone the repo excluding all files\n$ git clone --filter\u003dblob:none --sparse git@gitlab.com:gitlab-com/www-gitlab-com.git\nCloning into \u0027www-gitlab-com\u0027...\nremote: Enumerating objects: 678296, done.\nremote: Counting objects: 100% (678296/678296), done.\nremote: Compressing objects: 100% (165915/165915), done.\nremote: Total 678296 (delta 472342), reused 673292 (delta 467476), pack-reused 0\nReceiving objects: 100% (678296/678296), 81.06 MiB | 5.74 MiB/s, done.\nResolving deltas: 100% (472342/472342), done.\nremote: Enumerating objects: 28, done.\nremote: Counting objects: 100% (28/28), done.\nremote: Compressing objects: 100% (25/25), done.\nremote: Total 28 (delta 0), reused 12 (delta 0), pack-reused 0\nReceiving objects: 100% (28/28), 140.29 KiB | 341.00 KiB/s, done.\nUpdating files: 100% (28/28), done.\n\n$ cd www-gitlab-com\n\n$ git sparse-checkout init --cone\n\n# At this stage, git finds the currently missing objects and execute git fetch \u003cobject-sha1\u003e...\n# If config is false, we will get error: Server does not allow request for unadvertised object \u003cobject-sha1\u003e ?\n$ git sparse-checkout add data\nremote: Enumerating objects: 301, done.\nremote: Counting objects: 100% (301/301), done.\nremote: Compressing objects: 100% (292/292), done.\nremote: Total 301 (delta 16), reused 102 (delta 9), pack-reused 0\nReceiving objects: 100% (301/301), 1.15 MiB | 608.00 KiB/s, done.\nResolving deltas: 100% (16/16), done.\nUpdating files: 100% (302/302), done.\n\n\n\u003e Also, this option is dangerous if combined with gerrit: it would bypass the per-branch permissions on the gerrit level. I wonder if that is why it wasn\u0027t implemented before.\nI agree with you, users need to know this. However, this config enables git to fetch missing objects with good performance.\n\n[1] https://gitlab.com/gitlab-org/gitlab/-/merge_requests/16850/commits\n[2] http://public-inbox.org/git/cover.1506714999.git.jonathantanmy@google.com/",
+      "parentUuid": "98f9ba7f_f179bf2f",
+      "revId": "71f8bd7cf50d7fec71610528ad814cee1d1aad16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
