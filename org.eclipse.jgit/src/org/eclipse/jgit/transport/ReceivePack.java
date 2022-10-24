@@ -1355,6 +1355,7 @@ public class ReceivePack {
 				? new PacketLineIn(rawIn, maxCommandBytes)
 				: pckIn;
 		PushCertificateParser certParser = getPushCertificateParser();
+		RefCollisionChecker refCollisionChecker = new RefCollisionChecker(getAdvertisedOrDefaultRefs().keySet());
 		boolean firstPkt = true;
 		try {
 			for (;;) {
@@ -1395,6 +1396,11 @@ public class ReceivePack {
 				}
 
 				ReceiveCommand cmd = parseCommand(line);
+
+				if (refCollisionChecker.existRefCollision(cmd.getRefName())) {
+					throw new PackProtocolException(JGitText.get().errorInvalidProtocolWantedOldNewRef);
+				}
+
 				if (cmd.getRefName().equals(Constants.HEAD)) {
 					cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
 				} else {

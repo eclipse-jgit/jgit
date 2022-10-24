@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -2093,5 +2094,41 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	public void autoGC(ProgressMonitor monitor) {
 		// default does nothing
+	}
+
+	/**
+	 * find all parent directories associated with the input refNames and store them
+	 * into a set
+	 *
+	 * @param refNames the set of ref names used to determine their parent
+	 *                 directories
+	 * @return a new set containing both the refNames and their parent directories
+	 * @since 6.4
+	 */
+	public static Set<String> getRefsAndDirs(Set<String> refNames) {
+		// collect all refNames and their parent directories
+		Set<String> refsAndDirs = new HashSet<>();
+		refNames.stream().forEach(ref -> {
+			List<String> dirLvls = Arrays.asList(ref.split("/"));
+			if (dirLvls.size() <= 1) {
+				return;
+			}
+			refsAndDirs.add(ref);
+			String parentDirBuf = ref;
+			int lvlRemovalPt = dirLvls.size() - 1;
+			while (lvlRemovalPt > 1) {
+				// considering all parent directories
+				// except for directories with no
+				// slash
+				int subtractLen = dirLvls.get(lvlRemovalPt).length() + 1;
+				parentDirBuf = parentDirBuf.substring(0, parentDirBuf.length() - subtractLen);
+				if (refsAndDirs.contains(parentDirBuf)) {
+					return;
+				}
+				refsAndDirs.add(parentDirBuf);
+				lvlRemovalPt--;
+			}
+		});
+		return refsAndDirs;
 	}
 }
