@@ -51,6 +51,23 @@
       "parentUuid": "98f9ba7f_f179bf2f",
       "revId": "71f8bd7cf50d7fec71610528ad814cee1d1aad16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d39fae3_79355d57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307611
+      },
+      "writtenOn": "2022-10-24T09:23:24Z",
+      "side": 1,
+      "message": "It\u0027s useful for partial clone. Jgit server hadn\u0027t support to partial clone now.",
+      "revId": "71f8bd7cf50d7fec71610528ad814cee1d1aad16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
