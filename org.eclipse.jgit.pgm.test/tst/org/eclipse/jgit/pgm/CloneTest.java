@@ -17,14 +17,20 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.MockSystemReader;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -41,10 +47,14 @@ public class CloneTest extends CLIRepositoryTestCase {
 
 	private Git git;
 
+	private TestRepository<Repository> tr;
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+
+		tr = new TestRepository<>(db);
 		git = new Git(db);
 	}
 
@@ -110,6 +120,22 @@ public class CloneTest extends CLIRepositoryTestCase {
 		JGitTestUtil.writeTrashFile(db, "hello.txt", "world");
 		git.add().addFilepattern("hello.txt").call();
 		return git.commit().setMessage("Initial commit").call();
+	}
+
+	private RevCommit createSecondCommit() throws Exception {
+		JGitTestUtil.writeTrashFile(db, "Test.txt", "Some change");
+		git.add().addFilepattern("Test.txt").call();
+		return git.commit()
+				.setCommitter(new PersonIdent(this.committer, tr.getDate()))
+				.setMessage("Second commit").call();
+	}
+
+	private RevCommit createThirdCommit() throws Exception {
+		JGitTestUtil.writeTrashFile(db, "change.txt", "another change");
+		git.add().addFilepattern("change.txt").call();
+		return git.commit()
+				.setCommitter(new PersonIdent(this.committer, tr.getDate()))
+				.setMessage("Third commit").call();
 	}
 
 	@Test
@@ -203,4 +229,117 @@ public class CloneTest extends CLIRepositoryTestCase {
 		assertEquals("refs/*", fetchRefSpec.getDestination());
 		assertNotNull(git2.getRepository().exactRef("refs/meta/foo/bar"));
 	}
+
+	@Test
+	public void testDepth() throws Exception {
+		createInitialCommit();
+		createSecondCommit();
+		createThirdCommit();
+
+		File gitDir = db.getDirectory();
+		String sourceURI = gitDir.toURI().toString();
+		File target = createTempDirectory("target");
+		String cmd = "git clone --depth 1 " + sourceURI + " "
+				+ shellQuote(target.getPath());
+		String[] result = execute(cmd);
+		assertArrayEquals(new String[] {
+				"Cloning into '" + target.getPath() + "'...", "", "" }, result);
+
+		Git git2 = Git.open(target);
+		addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(1, log.size());
+		RevCommit commit = log.get(0);
+		assertEquals(Set.of(commit.getId()),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals("Third commit", commit.getFullMessage());
+		assertEquals(0, commit.getParentCount());
+	}
+
+	@Test
+	public void testDepth2() throws Exception {
+		createInitialCommit();
+		createSecondCommit();
+		createThirdCommit();
+
+		File gitDir = db.getDirectory();
+		String sourceURI = gitDir.toURI().toString();
+		File target = createTempDirectory("target");
+		String cmd = "git clone --depth 2 " + sourceURI + " "
+				+ shellQuote(target.getPath());
+		String[] result = execute(cmd);
+		assertArrayEquals(new String[] {
+				"Cloning into '" + target.getPath() + "'...", "", "" }, result);
+
+		Git git2 = Git.open(target);
+		addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(2, log.size());
+		assertEquals(List.of("Third commit", "Second commit"), log.stream()
+				.map(RevCommit::getFullMessage).collect(Collectors.toList()));
+	}
+
+	@Test
+	public void testCloneRepositoryWithShallowSince() throws Exception {
+		createInitialCommit();
+		tr.tick(30);
+		RevCommit secondCommit = createSecondCommit();
+		tr.tick(45);
+		createThirdCommit();
+
+		File gitDir = db.getDirectory();
+		String sourceURI = gitDir.toURI().toString();
+		File target = createTempDirectory("target");
+		String cmd = "git clone --shallow-since="
+				+ Instant.ofEpochSecond(secondCommit.getCommitTime()).toString()
+				+ " " + sourceURI + " " + shellQuote(target.getPath());
+		String[] result = execute(cmd);
+		assertArrayEquals(new String[] {
+				"Cloning into '" + target.getPath() + "'...", "", "" }, result);
+
+		Git git2 = Git.open(target);
+		addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(2, log.size());
+		assertEquals(List.of("Third commit", "Second commit"), log.stream()
+				.map(RevCommit::getFullMessage).collect(Collectors.toList()));
+	}
+
+	@Test
+	public void testCloneRepositoryWithShallowExclude() throws Exception {
+		final RevCommit firstCommit = createInitialCommit();
+		final RevCommit secondCommit = createSecondCommit();
+		createThirdCommit();
+
+		File gitDir = db.getDirectory();
+		String sourceURI = gitDir.toURI().toString();
+		File target = createTempDirectory("target");
+		String cmd = "git clone --shallow-exclude="
+				+ firstCommit.getId().getName() + " --shallow-exclude="
+				+ secondCommit.getId().getName() + " " + sourceURI + " "
+				+ shellQuote(target.getPath());
+		String[] result = execute(cmd);
+		assertArrayEquals(new String[] {
+				"Cloning into '" + target.getPath() + "'...", "", "" }, result);
+
+		Git git2 = Git.open(target);
+		addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(1, log.size());
+		assertEquals(List.of("Third commit"), log.stream()
+				.map(RevCommit::getFullMessage).collect(Collectors.toList()));
+	}
+
 }

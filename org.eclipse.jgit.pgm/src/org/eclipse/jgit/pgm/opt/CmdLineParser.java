@@ -13,6 +13,7 @@ package org.eclipse.jgit.pgm.opt;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +56,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		registry.registerHandler(RevCommit.class, RevCommitHandler.class);
 		registry.registerHandler(RevTree.class, RevTreeHandler.class);
 		registry.registerHandler(List.class, OptionWithValuesListHandler.class);
+		registry.registerHandler(Instant.class, InstantHandler.class);
 	}
 
 	private final Repository db;
