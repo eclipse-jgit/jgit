@@ -16,6 +16,115 @@
       "message": "hello friend!",
       "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b6ab2a_2794685d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-25T02:35:53Z",
+      "side": 1,
+      "message": "It seems that there is only a check for the refName.\nIs this a bug? This change appears to enable the check for every user.\n\nIn fact, jgit has good scalability, implementing PreReceiveHook[1] looks like work too.\n\nSome useful information for this change: \nJgit\u0027s ref storage is not only files(.git/refs/\u003cname\u003e), but also pack-refs(.git/pack-refs) and reftable(.git/reftable/\u003c\u003e).\n\n[1] see org.eclipse.jgit.transport.ReceivePack#setPreReceiveHook(PreReceiveHook)",
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eab7a1e_ed5b556a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2106,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-25T02:35:53Z",
+      "side": 1,
+      "message": "@since 6.4",
+      "range": {
+        "startLine": 2106,
+        "startChar": 2,
+        "endLine": 2106,
+        "endChar": 4
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38cda1f2_c63aed8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-25T02:35:53Z",
+      "side": 1,
+      "message": "missing comment for public declaration",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9a324d2_3e1024f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-25T02:35:53Z",
+      "side": 1,
+      "message": "mssing comment for public declaration",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 51
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff7a062a_148944a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-25T02:35:53Z",
+      "side": 1,
+      "message": "mssing comment for public declaration",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 54
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
