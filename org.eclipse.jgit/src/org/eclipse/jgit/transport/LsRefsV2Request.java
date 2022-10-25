@@ -36,17 +36,21 @@ public final class LsRefsV2Request {
 	@Nullable
 	private final String agent;
 
+	private final String clientSID;
+
 	@NonNull
 	private final List<String> serverOptions;
 
 	private LsRefsV2Request(List<String> refPrefixes, boolean symrefs,
 			boolean peel, @Nullable String agent,
-			@NonNull List<String> serverOptions) {
+			@NonNull List<String> serverOptions,
+			@Nullable String clientSID) {
 		this.refPrefixes = refPrefixes;
 		this.symrefs = symrefs;
 		this.peel = peel;
 		this.agent = agent;
 		this.serverOptions = requireNonNull(serverOptions);
+		this.clientSID = clientSID;
 	}
 
 	/** @return ref prefixes that the client requested. */
@@ -72,6 +76,16 @@ public final class LsRefsV2Request {
 	@Nullable
 	public String getAgent() {
 		return agent;
+	}
+
+	/**
+	 * @return session-id as reported by the client
+	 *
+	 * @since 6.4
+	 */
+	@Nullable
+	public String getClientSID() {
+		return clientSID;
 	}
 
 	/**
@@ -108,6 +122,8 @@ public final class LsRefsV2Request {
 		private final List<String> serverOptions = new ArrayList<>();
 
 		private String agent;
+
+		private String clientSID;
 
 		private Builder() {
 		}
@@ -171,11 +187,28 @@ public final class LsRefsV2Request {
 			return this;
 		}
 
+		/**
+		 * Value of a session-id line received after the command and before the
+		 * arguments. E.g. "session-id=a.b.c" should set "a.b.c".
+		 *
+		 * @param value
+		 *            the client-supplied session-id capability, without leading
+		 *            "session-id="
+		 * @return this builder
+		 *
+		 * @since 6.4
+		 */
+		public Builder setClientSID(@Nullable String value) {
+			clientSID = value;
+			return this;
+		}
+
 		/** @return LsRefsV2Request */
 		public LsRefsV2Request build() {
 			return new LsRefsV2Request(
 					Collections.unmodifiableList(refPrefixes), symrefs, peel,
-					agent, Collections.unmodifiableList(serverOptions));
+					agent, Collections.unmodifiableList(serverOptions),
+					clientSID);
 		}
 	}
 }
