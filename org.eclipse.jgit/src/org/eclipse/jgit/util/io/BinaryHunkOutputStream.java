@@ -99,8 +99,7 @@ public class BinaryHunkOutputStream extends OutputStream {
 			in += MAX_BYTES;
 		}
 		if (toCopy > 0) {
-			System.arraycopy(b, in, buffer, 0, toCopy);
-			pos = toCopy;
+			encode(b, in, toCopy);
 		}
 	}
 
