@@ -55,6 +55,7 @@ case "$cmd" in
 blame)    use_pager=1 ;;
 diff)     use_pager=1 ;;
 log)      use_pager=1 ;;
+show)     use_pager=1 ;;
 esac
 
 this_script=`which "$0" 2>/dev/null`
