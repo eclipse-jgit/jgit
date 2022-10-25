@@ -2103,6 +2103,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @param refNames the set of ref names used to determine their parent
 	 *                 directories
 	 * @return a new set containing both the refNames and their parent directories
+	 * @since 6.4
 	 */
 	public static Set<String> getRefsAndDirs(Set<String> refNames) {
 		// collect all refNames and their parent directories

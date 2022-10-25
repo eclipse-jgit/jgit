@@ -7,17 +7,33 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The checker for checking against reference collision, a reference containing
+ * another reference name wholly.
+ */
 public class RefCollisionChecker {
-	private Set<String> advRefsAndDirs;
+	private Set<String> curRefsAndDirs;
 
-	private Set<String> advRefs = new HashSet<>();
+	private Set<String> curRefs = new HashSet<>();
 
 	private Set<String> noCollisionRefLvls = new HashSet<>();
 
-	public RefCollisionChecker(Set<String> advRefs) {
-		this.advRefs.addAll(advRefs);
+	/**
+	 * Create a reference collision checker with a set of existing references to
+	 * check against
+	 * 
+	 * @param curRefs, a set of existing references
+	 */
+	public RefCollisionChecker(Set<String> curRefs) {
+		this.curRefs.addAll(curRefs);
 	}
 
+	/**
+	 * Checking whether the input refName collides with the existing references
+	 * 
+	 * @param refName a reference name
+	 * @return true if collision exist, false otherwise
+	 */
 	public boolean existRefCollision(String refName) {
 		// need at least one slash beyond refs
 		if (!(refName.startsWith("refs") && refName.contains("/"))) {
@@ -33,35 +49,42 @@ public class RefCollisionChecker {
 		return isCollidedAtUpperDir(refName);
 	}
 
-	public boolean isCollidedAtUpperDir(String refName) {
-		if (noCollisionRefLvls.contains(refName)) {
+	/**
+	 * Recursively checking the upper level directories of a reference name until a
+	 * collision is found or reaching root directory
+	 * 
+	 * @param refLvl a reference name, or upper directory of a reference name
+	 * @return true if collision exist, false otherwise
+	 */
+	public boolean isCollidedAtUpperDir(String refLvl) {
+		if (noCollisionRefLvls.contains(refLvl)) {
 			return false;
 		}
 
-		if (advRefs.contains(refName)) {
+		if (curRefs.contains(refLvl)) {
 			return true;
 		}
 
-		List<String> dirPrefixes = Arrays.asList(refName.split("/"));
+		List<String> dirPrefixes = Arrays.asList(refLvl.split("/"));
 		if (dirPrefixes.size() <= 2) {
 			return false;
 		}
 
 		String curLvlName = dirPrefixes.get(dirPrefixes.size() - 1);
-		int upperLvlLen = refName.length() - curLvlName.length() - 1;
-		String upperLvlName = refName.substring(0, upperLvlLen);
+		int upperLvlLen = refLvl.length() - curLvlName.length() - 1;
+		String upperLvlName = refLvl.substring(0, upperLvlLen);
 		boolean upperCollided = isCollidedAtUpperDir(upperLvlName);
 		if (!upperCollided) {
-			noCollisionRefLvls.add(refName);
+			noCollisionRefLvls.add(refLvl);
 		}
 
 		return upperCollided;
 	}
 
 	private Set<String> getAdvRefsAndUpperDirs() {
-		if (advRefsAndDirs == null) {
-			advRefsAndDirs = Repository.getRefsAndDirs(advRefs);
+		if (curRefsAndDirs == null) {
+			curRefsAndDirs = Repository.getRefsAndDirs(curRefs);
 		}
-		return advRefsAndDirs;
+		return curRefsAndDirs;
 	}
 }

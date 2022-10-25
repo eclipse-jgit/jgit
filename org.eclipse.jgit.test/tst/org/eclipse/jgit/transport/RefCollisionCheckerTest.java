@@ -20,9 +20,9 @@ public class RefCollisionCheckerTest {
 	private final String REF_NAME_3 = "refs/g/h/i";
 
 	@Test
-	public void testNoAdvRef() {
-		Set<String> advRefs = Collections.EMPTY_SET;
-		refCollisionChecker = new RefCollisionChecker(advRefs);
+	public void testNoCurRef() {
+		Set<String> curRefs = Collections.EMPTY_SET;
+		refCollisionChecker = new RefCollisionChecker(curRefs);
 		assertFalse(refCollisionChecker.existRefCollision(REF_NAME_1));
 		assertFalse(refCollisionChecker.existRefCollision(REF_NAME_2));
 		assertFalse(refCollisionChecker.existRefCollision(REF_NAME_3));
@@ -30,35 +30,35 @@ public class RefCollisionCheckerTest {
 
 	@Test
 	public void testNoRefCollision() {
-		Set<String> advRefs = new HashSet<>(Arrays.asList("refs/d", "refs/for/things", "refs/foo/bar", "refs"));
-		refCollisionChecker = new RefCollisionChecker(advRefs);
+		Set<String> curRefs = new HashSet<>(Arrays.asList("refs/d", "refs/for/things", "refs/foo/bar", "refs"));
+		refCollisionChecker = new RefCollisionChecker(curRefs);
 		assertFalse(refCollisionChecker.existRefCollision(REF_NAME_1));
 		assertFalse(refCollisionChecker.existRefCollision(REF_NAME_2));
 		assertFalse(refCollisionChecker.existRefCollision(REF_NAME_3));
 	}
 
 	@Test
-	public void testAdvRefContainingIncRef() {
-		Set<String> advRefs = new HashSet<>(Arrays.asList("refs/a", "refs/z", "refs/g/h"));
-		refCollisionChecker = new RefCollisionChecker(advRefs);
+	public void testAdvRefContainingCurRef() {
+		Set<String> curRefs = new HashSet<>(Arrays.asList("refs/a", "refs/z", "refs/g/h"));
+		refCollisionChecker = new RefCollisionChecker(curRefs);
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_1));
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_2));
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_3));
 	}
 
 	@Test
-	public void testIncRefContainingAdvRef() {
-		Set<String> advRefs = new HashSet<>(Arrays.asList("refs/a/b/c", "refs/z/x/y", "refs/g/h/i/j"));
-		refCollisionChecker = new RefCollisionChecker(advRefs);
+	public void testIncRefContainingCurRef() {
+		Set<String> curRefs = new HashSet<>(Arrays.asList("refs/a/b/c", "refs/z/x/y", "refs/g/h/i/j"));
+		refCollisionChecker = new RefCollisionChecker(curRefs);
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_1));
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_2));
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_3));
 	}
 
 	@Test
-	public void testIncRefAsAdvRef() {
-		Set<String> advRefs = new HashSet<>(Arrays.asList("refs/a/b", "refs/z/x", "refs/g/h/i"));
-		refCollisionChecker = new RefCollisionChecker(advRefs);
+	public void testIncRefAsCurRef() {
+		Set<String> curRefs = new HashSet<>(Arrays.asList("refs/a/b", "refs/z/x", "refs/g/h/i"));
+		refCollisionChecker = new RefCollisionChecker(curRefs);
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_1));
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_2));
 		assertTrue(refCollisionChecker.existRefCollision(REF_NAME_3));
