@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24ccd777_c02bc026",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-25T17:06:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120b48f0_f9350ce8",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6d0b359_b746a805",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-21T22:49:12Z",
       "side": 1,
       "message": "What do we foresee V2 containing? Might be best just to say that we have a version number for forwards compatibility.",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27a986c7_d448c928",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-25T17:06:22Z",
+      "side": 1,
+      "message": "Done (removed mention to V1 or first implementation).",
+      "parentUuid": "f6d0b359_b746a805",
       "range": {
         "startLine": 14,
         "startChar": 12,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da3fa688_f7f1efb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-25T17:06:22Z",
+      "side": 1,
+      "message": "Most of the blobs are small and only a little % is \"big\".\n\nFor the object-size use the more blobs in the index the better, regardless size.\n\nFor the filter-by-size, having only the biggest ones is more memory efficient: we only store a small set and most of the objects pass the filter by simple NOT being in the index.\n\nAll together, if we index above the threshold the knob is clear: Lower threshold means more memory/more objects/better performance for both cases.\n\nIndexing below threshold, we would improve the filter by size only when having almost all objects in the index.",
+      "parentUuid": "6229c99b_1053cd8f",
+      "range": {
+        "startLine": 15,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 14
+      },
+      "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a93f48ba_e1923ba5",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-10-21T22:49:12Z",
       "side": 1,
       "message": "All sizes are ultimately read from disk, so it\u0027s probably better to say that we can read all the sizes at once rather than having to seek in the packfile.",
+      "range": {
+        "startLine": 18,
+        "startChar": 57,
+        "endLine": 18,
+        "endChar": 63
+      },
+      "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdec23b6_95290785",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-25T17:06:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a93f48ba_e1923ba5",
       "range": {
         "startLine": 18,
         "startChar": 57,
@@ -133,6 +229,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aa16805_51a57929",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-25T17:06:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7392f153_aa071c90",
+      "range": {
+        "startLine": 16,
+        "startChar": 45,
+        "endLine": 16,
+        "endChar": 49
+      },
+      "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "635fbf13_27f0bfc4",
@@ -146,6 +266,30 @@
       "writtenOn": "2022-10-21T22:49:12Z",
       "side": 1,
       "message": "How big do the offsets and sizes get? If the offsets can fit in 5 bytes and the sizes in 3 bytes, I think you can save a lot of space (and no need separate storage for 32-bit and 64-bit). Also, why are we storing offsets? Can we store the place in the .idx file instead?",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9207234_ae139be0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-25T17:06:22Z",
+      "side": 1,
+      "message": "Any idea on how to reduce the space of this is welcome!\n\nIIUC Sizes can go up to Long.MAX_VALUE.\n\nA position would be definitely a smaller number. So far the index doesn\u0027t expose the position, and the reverse index (which exposes it) is not persisted. I\u0027ll check these options.",
+      "parentUuid": "635fbf13_27f0bfc4",
       "range": {
         "startLine": 20,
         "startChar": 21,

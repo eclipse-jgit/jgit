@@ -46,6 +46,30 @@
       },
       "revId": "d7bf92948dfcdba399c3b98e915764cd13ed54ea",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10bf58a5_c4ad01fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-25T17:06:22Z",
+      "side": 1,
+      "message": "I ditch the idea of the less precise index. This interface provides the exact size. That will make life easier for callers.",
+      "parentUuid": "a493cc07_2490e0c9",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "d7bf92948dfcdba399c3b98e915764cd13ed54ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
