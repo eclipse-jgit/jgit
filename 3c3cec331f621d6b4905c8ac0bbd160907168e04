@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1476c6d3_e2e35aa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-10-25T18:11:29Z",
+      "side": 1,
+      "message": "was under the assumption that getAdvertisedOrDefaultRefs() would contain refs from pack-refs and reftables. will look into including them.",
+      "parentUuid": "47b6ab2a_2794685d",
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8eab7a1e_ed5b556a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2022-10-25T02:35:53Z",
       "side": 1,
       "message": "@since 6.4",
+      "range": {
+        "startLine": 2106,
+        "startChar": 2,
+        "endLine": 2106,
+        "endChar": 4
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63d4c46a_4fc61e08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2106,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-10-25T18:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eab7a1e_ed5b556a",
       "range": {
         "startLine": 2106,
         "startChar": 2,
@@ -81,6 +123,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f7645dc_18cc2797",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-10-25T18:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38cda1f2_c63aed8d",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9a324d2_3e1024f8",
@@ -94,6 +160,30 @@
       "writtenOn": "2022-10-25T02:35:53Z",
       "side": 1,
       "message": "mssing comment for public declaration",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 51
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b5acf26_e4cb9c60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-10-25T18:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9a324d2_3e1024f8",
       "range": {
         "startLine": 21,
         "startChar": 1,
@@ -129,6 +219,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b6b4e68_82899d7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-10-25T18:11:29Z",
+      "side": 1,
+      "message": "will check on whether this logic is included for loose-refs and pack-refs.",
+      "parentUuid": "775b9ded_e84263fc",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 51
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff7a062a_148944a5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
         "patchSetId": 1
@@ -140,6 +254,30 @@
       "writtenOn": "2022-10-25T02:35:53Z",
       "side": 1,
       "message": "mssing comment for public declaration",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 54
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3a367c2_faff25d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-10-25T18:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff7a062a_148944a5",
       "range": {
         "startLine": 36,
         "startChar": 1,
