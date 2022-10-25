@@ -106,6 +106,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "775b9ded_e84263fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-25T02:42:44Z",
+      "side": 1,
+      "message": "Seems to be the same logic as org.eclipse.jgit.lib.RefDataBase#isNameConflicting(String)",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 51
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff7a062a_148944a5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
         "patchSetId": 1
