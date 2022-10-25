@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22e772db_23deb21c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-10-25T22:04:57Z",
+      "side": 1,
+      "message": "\u003e\u003e Jgit\u0027s ref storage is not only files(.git/refs/\u003cname\u003e), but also pack-refs(.git/pack-refs) and reftable(.git/reftable/\u003c\u003e).\n\nsee comment below.\n\n\u003e\u003e In fact, jgit has good scalability, implementing PreReceiveHook[1] looks like work too.\n\nthere are already descriptive methods like recvCommands and validateCommands doing similar things, making a new hook seems unnecessary, no?",
+      "parentUuid": "1476c6d3_e2e35aa9",
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8eab7a1e_ed5b556a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -231,6 +249,30 @@
       "side": 1,
       "message": "will check on whether this logic is included for loose-refs and pack-refs.",
       "parentUuid": "775b9ded_e84263fc",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 51
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daf90813_8eadade3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-10-25T22:04:57Z",
+      "side": 1,
+      "message": "Both reftable batch ref update and packed batch ref update have collision protection, but they are much further down in the code flow. Also, if the database isn\u0027t atomic, we then lose the protection provided. The protection shouldn\u0027t be done that far down imo; it should either be in the parsing or in the command validation.",
+      "parentUuid": "3b6b4e68_82899d7c",
       "range": {
         "startLine": 28,
         "startChar": 2,
