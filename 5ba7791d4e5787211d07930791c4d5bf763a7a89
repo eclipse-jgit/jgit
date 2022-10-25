@@ -22,6 +22,30 @@
       },
       "revId": "5ba7791d4e5787211d07930791c4d5bf763a7a89",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b12e5115_13d1541d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-25T17:05:13Z",
+      "side": 1,
+      "message": "Rephrased. That behaviour should be documented in the ObjectReader#isSmallerThan",
+      "parentUuid": "061265f6_566cf200",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "5ba7791d4e5787211d07930791c4d5bf763a7a89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
