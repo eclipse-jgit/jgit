@@ -55,10 +55,11 @@ public final class FetchV2Request extends FetchRequest {
 			boolean doneReceived, boolean waitForDone,
 			@NonNull Set<String> clientCapabilities,
 			@Nullable String agent, @NonNull List<String> serverOptions,
-			boolean sidebandAll, @NonNull List<String> packfileUriProtocols) {
+			boolean sidebandAll, @NonNull List<String> packfileUriProtocols,
+			@Nullable String clientSessionID) {
 		super(wantIds, depth, clientShallowCommits, filterSpec,
 				clientCapabilities, deepenSince,
-				deepenNots, agent);
+				deepenNots, agent, clientSessionID);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
@@ -156,6 +157,9 @@ public final class FetchV2Request extends FetchRequest {
 
 		@Nullable
 		String agent;
+
+		@Nullable
+		String clientSessionID;
 
 		final List<String> serverOptions = new ArrayList<>();
 
@@ -317,6 +321,17 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * @param clientSessionIDValue
+		 *            the client-supplied session capability, without the
+		 *            leading "session-id="
+		 * @return this builder
+		 */
+		Builder setClientSessionID(@Nullable String clientSessionIDValue) {
+			clientSessionID = clientSessionIDValue;
+			return this;
+		}
+
+		/**
 		 * Records an application-specific option supplied in a server-option
 		 * line, for later retrieval with
 		 * {@link FetchV2Request#getServerOptions}.
@@ -354,7 +369,8 @@ public final class FetchV2Request extends FetchRequest {
 					depth, filterSpec, doneReceived, waitForDone, clientCapabilities,
 					agent, Collections.unmodifiableList(serverOptions),
 					sidebandAll,
-					Collections.unmodifiableList(packfileUriProtocols));
+					Collections.unmodifiableList(packfileUriProtocols),
+					clientSessionID);
 		}
 	}
 }

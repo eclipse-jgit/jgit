@@ -152,6 +152,8 @@ final class ProtocolV0Parser {
 					FirstWant firstLine = FirstWant.fromLine(line);
 					reqBuilder.addClientCapabilities(firstLine.getCapabilities());
 					reqBuilder.setAgent(firstLine.getAgent());
+					reqBuilder
+							.setClientSessionID(firstLine.getClientSessionID());
 					line = firstLine.getLine();
 				}
 			}

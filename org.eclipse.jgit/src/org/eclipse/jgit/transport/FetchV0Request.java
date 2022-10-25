@@ -30,9 +30,11 @@ final class FetchV0Request extends FetchRequest {
 			@NonNull Set<ObjectId> clientShallowCommits,
 			@NonNull FilterSpec filterSpec,
 			@NonNull Set<String> clientCapabilities, int deepenSince,
-			@NonNull List<String> deepenNotRefs, @Nullable String agent) {
+			@NonNull List<String> deepenNotRefs, @Nullable String agent,
+			@Nullable String clientSessionID) {
 		super(wantIds, depth, clientShallowCommits, filterSpec,
-				clientCapabilities, deepenSince, deepenNotRefs, agent);
+				clientCapabilities, deepenSince, deepenNotRefs, agent,
+				clientSessionID);
 	}
 
 	static final class Builder {
@@ -52,6 +54,8 @@ final class FetchV0Request extends FetchRequest {
 		final Set<String> clientCaps = new HashSet<>();
 
 		String agent;
+
+		String clientSessionID;
 
 		/**
 		 * @param objectId
@@ -149,6 +153,16 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * @param clientSessionID
+		 *            agent line sent by the client in the request body
+		 * @return this builder
+		 */
+		Builder setClientSessionID(String clientSessionID) {
+			this.clientSessionID = clientSessionID;
+			return this;
+		}
+
+		/**
 		 * @param filter
 		 *            the filter set in a filter line
 		 * @return this builder
@@ -160,7 +174,8 @@ final class FetchV0Request extends FetchRequest {
 
 		FetchV0Request build() {
 			return new FetchV0Request(wantIds, depth, clientShallowCommits,
-					filterSpec, clientCaps, deepenSince, deepenNots, agent);
+					filterSpec, clientCaps, deepenSince, deepenNots, agent,
+					clientSessionID);
 		}
 
 	}
