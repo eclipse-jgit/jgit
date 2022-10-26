@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "380bf132_2bbde0d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-26T13:31:34Z",
+      "side": 1,
+      "message": "Please improve this commit message following https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9a10280_e35be1e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-26T13:31:34Z",
+      "side": 1,
+      "message": "this change seems to break BinaryHunkStreamTest",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19958673_b92d3c9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-26T13:31:34Z",
+      "side": 1,
+      "message": "6.3 was released already in September and we are now heading for 6.4",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220461b4_077c92ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-26T13:31:34Z",
+      "side": 1,
+      "message": "nit: missing braces, see https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09036885_bc8ffd00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-26T13:31:34Z",
+      "side": 1,
+      "message": "nit: missing braces",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebabefb5_52af404b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-26T13:31:34Z",
+      "side": 1,
+      "message": "6.4",
+      "range": {
+        "startLine": 577,
+        "startChar": 11,
+        "endLine": 577,
+        "endChar": 14
+      },
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
