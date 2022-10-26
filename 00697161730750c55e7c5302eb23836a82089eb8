@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "cec4fa9c_bd42fca3",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Can you also post some numbers for much smaller counts? I am also interested in small counts on repos with massive commit counts, perhaps such as the chromium project?",
       "revId": "00697161730750c55e7c5302eb23836a82089eb8",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "62c639f4_1de90306",
         "filename": "/COMMIT_MSG",
@@ -32,10 +33,10 @@
       "message": "Done.",
       "parentUuid": "cec4fa9c_bd42fca3",
       "revId": "00697161730750c55e7c5302eb23836a82089eb8",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a76b0f4d_96d3ccad",
         "filename": "/COMMIT_MSG",
@@ -50,10 +51,10 @@
       "message": "I guess by small counts, I meant like 1. :) What I am really trying to gather is whether there is a now a startup cost of reading the entire commit graph that could impact small walks, or RevCommit parsing, which would not be there without commit graphs. Could you quantify this cost somehow, and in which situations it might be possible to see a performance degradation due to this?",
       "parentUuid": "62c639f4_1de90306",
       "revId": "00697161730750c55e7c5302eb23836a82089eb8",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bc0f78e5_3347850e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
@@ -73,8 +74,31 @@
         "endChar": 7
       },
       "revId": "00697161730750c55e7c5302eb23836a82089eb8",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfa10dad_03df6d1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T23:34:31Z",
+      "side": 1,
+      "message": "I believe RevCommit should be the one. For example if we use generation numbers V2 (to be implemented) they consist from 2 parts:\n1. Commit date which might be obtained from any source\n2. Fix value that is stored in 2 commit graph chunks\n\nSo we really should have both in order to use it and commit is the most convenient place to keep it.",
+      "parentUuid": "bc0f78e5_3347850e",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 7
+      },
+      "revId": "00697161730750c55e7c5302eb23836a82089eb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
