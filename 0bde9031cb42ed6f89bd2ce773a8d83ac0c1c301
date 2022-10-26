@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b6efd62_3360c57c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T23:23:03Z",
+      "side": 1,
+      "message": "Hi Kyle, our amazing reviewers,\n\nThanks for your changes! We also are interested in implementing Commit Graph functionality in jGit, please find my comments below.",
+      "revId": "0bde9031cb42ed6f89bd2ce773a8d83ac0c1c301",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be1ae9e5_3c885f6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T23:23:03Z",
+      "side": 1,
+      "message": "I like this API overall, but I believe we should have a separate method which will map sha1 -\u003e graph position. It is needed as your other methods accept graph position which is not declared anywhere. Also I can imagine cases when we already have a commit parsed from some source and we want to only read data which is not CommitData (e.g. check if there is a generation numbers v2 for a commit; check if commit is in commit graph, etc).\n\nAfter we will have this method we can potentially remove this one and do a low level chain (or create a default implementation there)",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 46
+      },
+      "revId": "92c7b9e7657f3847cb3c4b0a048aa43dd980f73f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fc87958_6ebd9b93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T23:23:03Z",
+      "side": 1,
+      "message": "I guess it\u0027s a combination of 2 chunks (commit data and additional parents), isn\u0027t it?",
+      "range": {
+        "startLine": 90,
+        "startChar": 40,
+        "endLine": 90,
+        "endChar": 45
+      },
+      "revId": "92c7b9e7657f3847cb3c4b0a048aa43dd980f73f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
