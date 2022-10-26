@@ -16,6 +16,24 @@
       "message": "- missing javadoc for new public method",
       "revId": "5d0d7d29c729c02b69692be66ecaf9aa4c27cfd1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "130f05c5_e5d2f742",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-10-26T14:51:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8aa9b60f_e62a3273",
+      "revId": "5d0d7d29c729c02b69692be66ecaf9aa4c27cfd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
