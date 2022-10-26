@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "994c4520_ad48f8c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T00:23:17Z",
+      "side": 1,
+      "message": "Please find my first set of comments. ",
+      "revId": "a78f396421d0307a3009484c0aa02edb1117aea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa85c09_66da7153",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2100,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T00:23:17Z",
+      "side": 1,
+      "message": "Please format comments in accordance with code style (letter cases, new lines, etc)",
+      "range": {
+        "startLine": 2100,
+        "startChar": 4,
+        "endLine": 2100,
+        "endChar": 5
+      },
+      "revId": "a78f396421d0307a3009484c0aa02edb1117aea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58166ac1_af6f7935",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2108,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T00:23:17Z",
+      "side": 1,
+      "message": "Why this method is a part of repository class?",
+      "range": {
+        "startLine": 2108,
+        "startChar": 27,
+        "endLine": 2108,
+        "endChar": 41
+      },
+      "revId": "a78f396421d0307a3009484c0aa02edb1117aea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1690f037_6e1c41ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T00:23:17Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we check it only in cases new ref has introduced by this change? updating and deleting should work fine.",
+      "range": {
+        "startLine": 1371,
+        "startChar": 0,
+        "endLine": 1371,
+        "endChar": 66
+      },
+      "revId": "a78f396421d0307a3009484c0aa02edb1117aea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e9982b_201f75dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T00:23:17Z",
+      "side": 1,
+      "message": "Copyright please",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 35
+      },
+      "revId": "a78f396421d0307a3009484c0aa02edb1117aea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbbf2af2_299ee25b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T00:23:17Z",
+      "side": 1,
+      "message": "Some repositories have a lot references (~1kk).\n\nKeeping another collection of references seems to be wasteful.",
+      "range": {
+        "startLine": 14,
+        "startChar": 34,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "a78f396421d0307a3009484c0aa02edb1117aea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ff5bb69_6f1a5a3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T00:23:17Z",
+      "side": 1,
+      "message": "All public methods \u0026 classes are part of API. They should have @since and we should really think twice before publishing.",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 7
+      },
+      "revId": "a78f396421d0307a3009484c0aa02edb1117aea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38fdcb2d_250159e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-10-26T00:23:17Z",
+      "side": 1,
+      "message": "what is adv ref?",
+      "range": {
+        "startLine": 48,
+        "startChar": 13,
+        "endLine": 48,
+        "endChar": 20
+      },
+      "revId": "a78f396421d0307a3009484c0aa02edb1117aea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
