@@ -285,6 +285,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eea42eda_e0e1cd8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-26T02:37:14Z",
+      "side": 1,
+      "message": "Most of bare repository‘s refs are in pack-refs/reftable.\n\nAnd refs in it will be orderd by ref name, which means we can use binary search to find the collision ref when call RefDataBase#isNameConflicting(String) instead of check the ref one by one.\n\nIt would be nice if RefDataBase#isNameConflicting(String) could be reused, which will reduce memory usage and cpu time (After all, we can\u0027t limit users\u0027 use of refs, some repo may have more than 1kk refs).",
+      "parentUuid": "daf90813_8eadade3",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 51
+      },
+      "revId": "3c3cec331f621d6b4905c8ac0bbd160907168e04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff7a062a_148944a5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefCollisionChecker.java",
         "patchSetId": 1
