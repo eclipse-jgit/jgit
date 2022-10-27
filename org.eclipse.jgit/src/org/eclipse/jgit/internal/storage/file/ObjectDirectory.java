@@ -121,8 +121,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		File preservedDirectory = new File(packDirectory, "preserved"); //$NON-NLS-1$
 		alternatesFile = new File(objects, Constants.INFO_ALTERNATES);
 		loose = new LooseObjects(objects);
-		packed = new PackDirectory(config, packDirectory);
-		preserved = new PackDirectory(config, preservedDirectory);
+		packed = new PackDirectory(packDirectory);
+		preserved = new PackDirectory(preservedDirectory);
 		this.fs = fs;
 		this.shallowFile = shallowFile;
 

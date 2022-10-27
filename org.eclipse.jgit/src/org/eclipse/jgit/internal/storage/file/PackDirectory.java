@@ -40,8 +40,6 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.FileUtils;
@@ -63,8 +61,6 @@ class PackDirectory {
 	private static final PackList NO_PACKS = new PackList(FileSnapshot.DIRTY,
 			new Pack[0]);
 
-	private final Config config;
-
 	private final File directory;
 
 	private final AtomicReference<PackList> packList;
@@ -72,13 +68,10 @@ class PackDirectory {
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
-	 * @param config
-	 *            configuration this directory consults for write settings.
 	 * @param directory
 	 *            the location of the {@code pack} directory.
 	 */
-	PackDirectory(Config config, File directory) {
-		this.config = config;
+	PackDirectory(File directory) {
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
 	}
@@ -331,18 +324,7 @@ class PackDirectory {
 	}
 
 	boolean searchPacksAgain(PackList old) {
-		// Whether to trust the pack folder's modification time. If set
-		// to false we will always scan the .git/objects/pack folder to
-		// check for new pack files. If set to true (default) we use the
-		// lastmodified attribute of the folder and assume that no new
-		// pack files can be in this folder if his modification time has
-		// not changed.
-		boolean trustFolderStat = config.getBoolean(
-				ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
-
-		return ((!trustFolderStat) || old.snapshot.isModified(directory))
-				&& old != scanPacks(old);
+		return old != scanPacks(old);
 	}
 
 	void insert(Pack pack) {
