@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b092ddc4_9c8873d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-27T19:53:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a45bb6de_c8f4b18d",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8046275d_c3041f0a",
@@ -41,6 +65,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3943649_3d7ba530",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-27T19:53:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8046275d_c3041f0a",
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c36c806f_6ff62644",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-10-27T18:23:08Z",
       "side": 1,
       "message": "Thanks for including this link. Please keep it in the commit message.",
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2853c62_9a797347",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-27T19:53:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c36c806f_6ff62644",
       "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
