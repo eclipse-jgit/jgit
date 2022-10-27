@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b437178d_794bf1f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-27T04:59:08Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "e1283ed3_015f55ff",
+      "range": {
+        "startLine": 114,
+        "startChar": 5,
+        "endLine": 114,
+        "endChar": 15
+      },
+      "revId": "8541dad0102e3be4518679e9611c7d71155de018",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e97e0e6_e3576f59",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-10-26T23:34:31Z",
       "side": 1,
       "message": "This is a breaking change. Historically parseHeaders parse the whole commit (including the message which is missing in commit graph). So everyone who depend on parseHeaders to get the message will be broken if they have commit graph enabled.\n\nInstead we should be able to have explicit method and being able to merge commit together regardless of call order.",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 146,
+        "endChar": 3
+      },
+      "revId": "8541dad0102e3be4518679e9611c7d71155de018",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a3e89b0_278da2dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-27T04:59:08Z",
+      "side": 1,
+      "message": "Done.\n\nI thought that modifying parseHeaders directly could modify less code, but did not take into account this situation.\n\nI have implemented a new method parseHeadersInGraph().",
+      "parentUuid": "7e97e0e6_e3576f59",
       "range": {
         "startLine": 144,
         "startChar": 2,

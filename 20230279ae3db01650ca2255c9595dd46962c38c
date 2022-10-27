@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24d4c0e6_0d6583f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-27T04:59:08Z",
+      "side": 1,
+      "message": "Great catch! Thanks for your reviews, Demetr.\n\nThis patch allows users to call parseHeadersInGraph for getting information in commit-graph without affecting the historical code.\n\nWe can gradually integrate commit-graph into other apis(eg. git log, git merge-base...) in the future.",
+      "revId": "20230279ae3db01650ca2255c9595dd46962c38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
