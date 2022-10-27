@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "781a39a5_1f83e6d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-27T18:12:33Z",
+      "side": 1,
+      "message": "Only one minor detail, I think this is ready.",
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdd5ecef_2c3d4961",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-27T18:12:33Z",
+      "side": 1,
+      "message": "Return userAgent here, to keep the same behaviour than UserAgent#getAgent()\n\nNot sure how userAgent is set, but it also makes clearer the semantics of this getter: whatever came in the capability OR userAgent",
+      "range": {
+        "startLine": 1014,
+        "startChar": 0,
+        "endLine": 1014,
+        "endChar": 15
+      },
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
