@@ -33,6 +33,23 @@
       "message": "I edited it directly in gerrit",
       "revId": "93097f001854af47db782462e78d67e7171043a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf803482_8cb26c35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-27T20:47:28Z",
+      "side": 1,
+      "message": "Locally few tests fail but none related to this. Marking as verified.",
+      "revId": "93097f001854af47db782462e78d67e7171043a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
