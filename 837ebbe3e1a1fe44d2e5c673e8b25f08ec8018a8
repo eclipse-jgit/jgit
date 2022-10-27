@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "300c1b33_32398431",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-27T05:05:11Z",
+      "side": 1,
+      "message": "Why did JGit Bot not trigger build :( \nWas something wrong?",
+      "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
