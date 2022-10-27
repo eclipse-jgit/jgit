@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "127110b6_adb58386",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-27T04:45:28Z",
+      "side": 1,
+      "message": "Done. I agree with you, maybe new chunks will be added in the future(eg. bloomfilter), it also means that the number of api can be reduced.",
+      "parentUuid": "be1ae9e5_3c885f6f",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 46
+      },
+      "revId": "92c7b9e7657f3847cb3c4b0a048aa43dd980f73f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1fc87958_6ebd9b93",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 20
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-26T23:23:03Z",
       "side": 1,
       "message": "I guess it\u0027s a combination of 2 chunks (commit data and additional parents), isn\u0027t it?",
+      "range": {
+        "startLine": 90,
+        "startChar": 40,
+        "endLine": 90,
+        "endChar": 45
+      },
+      "revId": "92c7b9e7657f3847cb3c4b0a048aa43dd980f73f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9db9956_d0e9b5a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-10-27T04:45:28Z",
+      "side": 1,
+      "message": "see CHUNK DATA: Commit Data in [1], the class contains the data of this chunk\n\n[1] https://git-scm.com/docs/commit-graph-format/2.23.0",
+      "parentUuid": "1fc87958_6ebd9b93",
       "range": {
         "startLine": 90,
         "startChar": 40,
