@@ -16,6 +16,23 @@
       "message": "trigger build\n",
       "revId": "93097f001854af47db782462e78d67e7171043a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "319f0cee_f8cf4210",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-27T20:32:18Z",
+      "side": 1,
+      "message": "I edited it directly in gerrit",
+      "revId": "93097f001854af47db782462e78d67e7171043a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
