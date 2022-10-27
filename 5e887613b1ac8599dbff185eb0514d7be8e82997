@@ -1,6 +1,63 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45bb6de_c8f4b18d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-27T18:23:08Z",
+      "side": 1,
+      "message": "Nit: no need for \"add functionality\". Just \"parse client session-id from capabilites\" or something like that after the \":\" is enough.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8046275d_c3041f0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-27T18:23:08Z",
+      "side": 1,
+      "message": "Usually we put a first paragraph describing the problem (why are we doing the change), and a second the proposed solution.\n\nIn the first paragraph explain that there is a session-id capability sent by the client, why we didn\u0027t support it before (is it new? simply nobody cared?) and that this session-id helps on the server side to tie the multiple requests involved in a single git operation by the user.\n\nSecond paragraph, tell what this change does high level (I think it is usually in imperative): Teach capability parsing about key\u003dvalue capabilites (this replaces specific code for user-agent). Store the session-id in the ReceivePack.\n\nOperators can then decide how to log/handle this session-id.",
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c36c806f_6ff62644",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-10-27T18:23:08Z",
+      "side": 1,
+      "message": "Thanks for including this link. Please keep it in the commit message.",
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "781a39a5_1f83e6d5",
