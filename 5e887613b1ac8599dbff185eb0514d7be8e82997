@@ -39,6 +39,30 @@
       },
       "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "566999d3_72dd7e47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-10-27T18:16:08Z",
+      "side": 1,
+      "message": "Good catch. Fixed",
+      "parentUuid": "fdd5ecef_2c3d4961",
+      "range": {
+        "startLine": 1014,
+        "startChar": 0,
+        "endLine": 1014,
+        "endChar": 15
+      },
+      "revId": "5e887613b1ac8599dbff185eb0514d7be8e82997",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
