@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ff741b1_cc87c98e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/BinaryHunkOutputStream.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-30T20:20:57Z",
+      "side": 1,
+      "message": "Why this change? It leads to a shortened line in the output, if there is more data written afterwards. Leave it as it was; whatever remainder is in the buffer will be written on flush().",
+      "revId": "cad4beb1eb0207c963973e0a548abf76155d6045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
