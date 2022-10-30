@@ -3,6 +3,91 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b73829e_5ee8ddfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-30T20:55:57Z",
+      "side": 1,
+      "message": "Use a shorter subject line. Perhaps\n\n  DiffFormatter: optionally show binary differences\n  \nThen please give some context. What was the situation before and why is this needed? How are binary differences shown?",
+      "revId": "cad4beb1eb0207c963973e0a548abf76155d6045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae57acb4_7aa170f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-30T20:55:57Z",
+      "side": 1,
+      "message": "Please remove trailing whitespace.",
+      "revId": "cad4beb1eb0207c963973e0a548abf76155d6045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58778121_88056cea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-30T20:55:57Z",
+      "side": 1,
+      "message": "Please remove trailing whitespace.",
+      "revId": "cad4beb1eb0207c963973e0a548abf76155d6045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba08189b_1759c401",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-30T20:55:57Z",
+      "side": 1,
+      "message": "What is this supposed to be? It decodes to 0x78 0x01 0x03 0x00 0x00 0x00 0x00 0x01. It definitely isn\u0027t zero length.",
+      "revId": "cad4beb1eb0207c963973e0a548abf76155d6045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc08b707_71223bca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-10-30T20:55:57Z",
+      "side": 1,
+      "message": "Is a text diff of binary files a good idea?",
+      "revId": "cad4beb1eb0207c963973e0a548abf76155d6045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ff741b1_cc87c98e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/BinaryHunkOutputStream.java",
         "patchSetId": 9
