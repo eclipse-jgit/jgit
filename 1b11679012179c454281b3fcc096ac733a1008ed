@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c6000ec_041387b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-10-30T15:52:11Z",
+      "side": 1,
+      "message": "How much time is left before the release? I want to have time to implement one more function for displaying the differences of binary files.",
+      "revId": "1b11679012179c454281b3fcc096ac733a1008ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

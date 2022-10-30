@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5f22bb92_6442e315",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-10-30T15:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "380bf132_2bbde0d1",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a9a10280_e35be1e7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -52,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b21a5664_98d47643",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-10-30T15:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19958673_b92d3c9d",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "220461b4_077c92ed",
@@ -65,6 +101,24 @@
       "writtenOn": "2022-10-26T13:31:34Z",
       "side": 1,
       "message": "nit: missing braces, see https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "790c0d89_fa149752",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-10-30T15:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "220461b4_077c92ed",
       "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -86,6 +140,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed194acf_8058b6e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-10-30T15:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09036885_bc8ffd00",
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebabefb5_52af404b",
@@ -99,6 +171,30 @@
       "writtenOn": "2022-10-26T13:31:34Z",
       "side": 1,
       "message": "6.4",
+      "range": {
+        "startLine": 577,
+        "startChar": 11,
+        "endLine": 577,
+        "endChar": 14
+      },
+      "revId": "88e6dae8e055c38b034a80b82d7f3eefb90f20d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bca1c03_3265158c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-10-30T15:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebabefb5_52af404b",
       "range": {
         "startLine": 577,
         "startChar": 11,
