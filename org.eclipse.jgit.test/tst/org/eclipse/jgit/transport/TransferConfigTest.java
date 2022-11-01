@@ -11,6 +11,8 @@ package org.eclipse.jgit.transport;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -65,5 +67,20 @@ public class TransferConfigTest {
 		rc.setString("protocol", null, "version", "foo");
 		TransferConfig tc = new TransferConfig(rc);
 		assertNull(tc.protocolVersion);
+	}
+
+	@Test
+	public void testParseAdvertiseSIDDefault() {
+		Config rc = new Config();
+		TransferConfig tc = new TransferConfig(rc);
+		assertFalse(tc.isAllowReceiveClientSID());
+	}
+
+	@Test
+	public void testParseAdvertiseSIDSet() {
+		Config rc = new Config();
+		rc.setBoolean("transfer", null, "advertiseSID", true);
+		TransferConfig tc = new TransferConfig(rc);
+		assertTrue(tc.isAllowReceiveClientSID());
 	}
 }
