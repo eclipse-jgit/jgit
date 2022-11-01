@@ -34,6 +34,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ACK;
@@ -1382,6 +1383,10 @@ public class UploadPack implements Closeable {
 						: "")
 				+ OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
+		if (transferConfig.isAllowReceiveClientSID()) {
+			caps.add(OPTION_SESSION_ID);
+		}
+
 		return caps;
 	}
 
@@ -1698,6 +1703,21 @@ public class UploadPack implements Closeable {
 		}
 
 		return userAgent;
+	}
+
+	/**
+	 * Get the session ID if received from the client.
+	 *
+	 * @return The session ID if it has been received from the client.
+	 * @since 6.4
+	 */
+	@Nullable
+	public String getClientSID() {
+		if (currentRequest == null) {
+			return null;
+		}
+
+		return currentRequest.getClientSID();
 	}
 
 	private boolean negotiate(FetchRequest req,
