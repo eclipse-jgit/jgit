@@ -312,6 +312,7 @@ public class ReceivePack {
 
 		TransferConfig tc = db.getConfig().get(TransferConfig.KEY);
 		objectChecker = tc.newReceiveObjectChecker();
+		allowReceiveClientSID = tc.isAllowReceiveClientSID();
 
 		ReceiveConfig rc = db.getConfig().get(ReceiveConfig::new);
 		allowCreates = rc.allowCreates;
@@ -320,7 +321,6 @@ public class ReceivePack {
 		allowNonFastForwards = rc.allowNonFastForwards;
 		allowOfsDelta = rc.allowOfsDelta;
 		allowPushOptions = rc.allowPushOptions;
-		allowReceiveClientSID = rc.allowReceiveClientSID;
 		maxCommandBytes = rc.maxCommandBytes;
 		maxDiscardBytes = rc.maxDiscardBytes;
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
@@ -344,8 +344,6 @@ public class ReceivePack {
 
 		final boolean allowPushOptions;
 
-		final boolean allowReceiveClientSID;
-
 		final long maxCommandBytes;
 
 		final long maxDiscardBytes;
@@ -361,10 +359,6 @@ public class ReceivePack {
 					true);
 			allowPushOptions = config.getBoolean("receive", "pushoptions", //$NON-NLS-1$ //$NON-NLS-2$
 					false);
-			// TODO: This should not be enabled until the corresponding change to
-			// upload pack has been implemented.
-			allowReceiveClientSID = config.getBoolean("transfer", //$NON-NLS-1$
-					"advertisesid", false); //$NON-NLS-1$
 			maxCommandBytes = config.getLong("receive", //$NON-NLS-1$
 					"maxCommandBytes", //$NON-NLS-1$
 					3 << 20);
