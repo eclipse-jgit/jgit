@@ -2412,13 +2412,15 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testGetPeerAgentProtocolV0() throws Exception {
+	public void testGetCapabilityValuesProtocolV0() throws Exception {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
 		UploadPack up = new UploadPack(server);
 		ByteArrayInputStream send = linesAsInputStream(
-				"want " + one.getName() + " agent=JGit-test/1.2.3\n",
+				"want " + one.getName()
+						+ " agent=JGit-test/1.2.3"
+						+ " session-id=client-session-id\n",
 				PacketLineIn.end(),
 				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n");
 
@@ -2426,10 +2428,11 @@ public class UploadPackTest {
 		up.upload(send, recv, null);
 
 		assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.3");
+		assertEquals(up.getClientSID(), "client-session-id");
 	}
 
 	@Test
-	public void testGetPeerAgentProtocolV2() throws Exception {
+	public void testGetCapabiiltyValuesProtocolV2() throws Exception {
 		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
 				null, ConfigConstants.CONFIG_KEY_VERSION,
 				TransferConfig.ProtocolVersion.V2.version());
@@ -2442,6 +2445,7 @@ public class UploadPackTest {
 
 		ByteArrayInputStream send = linesAsInputStream(
 				"command=fetch\n", "agent=JGit-test/1.2.4\n",
+				"session-id=client-session-id\n",
 				PacketLineIn.delimiter(), "want " + one.getName() + "\n",
 				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
 				PacketLineIn.end());
@@ -2450,6 +2454,7 @@ public class UploadPackTest {
 		up.upload(send, recv, null);
 
 		assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.4");
+		assertEquals(up.getClientSID(), "client-session-id");
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {
