@@ -40,6 +40,9 @@ abstract class FetchRequest {
 	@Nullable
 	final String agent;
 
+	@Nullable
+	final String clientSID;
+
 	/**
 	 * Initialize the common fields of a fetch request.
 	 *
@@ -61,12 +64,15 @@ abstract class FetchRequest {
 	 *            specific time, instead of depth
 	 * @param agent
 	 *            agent as reported by the client in the request body
+	 * @param clientSID
+	 *            agent as reported by the client in the request body
 	 */
 	FetchRequest(@NonNull Set<ObjectId> wantIds, int depth,
 			@NonNull Set<ObjectId> clientShallowCommits,
 			@NonNull FilterSpec filterSpec,
 			@NonNull Set<String> clientCapabilities, int deepenSince,
-			@NonNull List<String> deepenNots, @Nullable String agent) {
+			@NonNull List<String> deepenNots, @Nullable String agent,
+			@Nullable String clientSID) {
 		this.wantIds = requireNonNull(wantIds);
 		this.depth = depth;
 		this.clientShallowCommits = requireNonNull(clientShallowCommits);
@@ -75,6 +81,7 @@ abstract class FetchRequest {
 		this.deepenSince = deepenSince;
 		this.deepenNots = requireNonNull(deepenNots);
 		this.agent = agent;
+		this.clientSID = clientSID;
 	}
 
 	/**
@@ -159,5 +166,14 @@ abstract class FetchRequest {
 	@Nullable
 	String getAgent() {
 		return agent;
+	}
+
+	/**
+	 * @return string identifying the client session ID (as sent in the request body by the
+	 *         client)
+	 */
+	@Nullable
+	String getClientSID() {
+		return clientSID;
 	}
 }
