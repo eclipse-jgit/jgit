@@ -125,6 +125,8 @@ public class TransferConfig {
 	private final boolean advertiseWaitForDone;
 	private final boolean advertiseObjectInfo;
 
+	private final boolean allowReceiveClientSID;
+
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
 
@@ -214,6 +216,8 @@ public class TransferConfig {
 				"advertisewaitfordone", false);
 		advertiseObjectInfo = rc.getBoolean("uploadpack",
 				"advertiseobjectinfo", false);
+		allowReceiveClientSID = rc.getBoolean("transfer", "advertisesid",
+				false);
 	}
 
 	/**
@@ -326,6 +330,14 @@ public class TransferConfig {
 	 */
 	public boolean isAdvertiseObjectInfo() {
 		return advertiseObjectInfo;
+	}
+
+	/**
+	 * @return true to advertise and receive session-id capability
+	 * @since 6.4
+	 */
+	public boolean isAllowReceiveClientSID() {
+		return allowReceiveClientSID;
 	}
 
 	/**
