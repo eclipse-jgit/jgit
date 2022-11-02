@@ -16,6 +16,24 @@
       "message": "Copy testGetPeerAgent...() to testGetSessionId...() and adjust the request and the expected result.\n\n(same for protocol V2)\n\nThe idea is to test only one behavior of the method in the test (not sure how we applied this in the past, but in this case it makes sense).",
       "revId": "b45313d1670b59d6233fc608d97ab321efbfc68e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8646ae08_93a5127a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-11-02T19:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4936e71_c90257be",
+      "revId": "b45313d1670b59d6233fc608d97ab321efbfc68e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
