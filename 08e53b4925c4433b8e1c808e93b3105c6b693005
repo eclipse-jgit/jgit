@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6af55b_fa34b54a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-11-02T18:05:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "308d120d_663fce3a",
+      "revId": "08e53b4925c4433b8e1c808e93b3105c6b693005",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a60a474a_cad865a1",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-11-02T17:52:50Z",
       "side": 1,
       "message": "why? or what is the problem with it? Is it to use it also in upload-pack?\n\nIIUC cgit also has the option under \"transfer\" instead of \"receive\", right? If so, it is worth mentioning here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "08e53b4925c4433b8e1c808e93b3105c6b693005",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dd712a2_d3fb1214",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-11-02T18:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a60a474a_cad865a1",
       "range": {
         "startLine": 10,
         "startChar": 41,
