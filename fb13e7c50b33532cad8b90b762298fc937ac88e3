@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "baf61828_0a25718c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-11-02T18:38:58Z",
+      "side": 1,
+      "message": "I took another stab at this. Let me know if the message is more clear now.",
+      "parentUuid": "4932848c_887eddf4",
+      "revId": "fb13e7c50b33532cad8b90b762298fc937ac88e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "117c0831_cd3a9c97",
