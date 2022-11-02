@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4932848c_887eddf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-02T18:14:31Z",
+      "side": 1,
+      "message": "I was confused with this reference to ReceivePack and not seeing any mention to the protocol version.\n\nFirst paragraph (the problem) should mention that in protocol V0 the capabilities are appended at the end of the first want line. FirstWant parses that line but doesn\u0027t understand the newish session-id capability.\n\nSecond paragraph: Teach FirstWant to parse the session-id capability\n\nThird paragraph: This is necessary to support session-id in UploadPack (so far it is implemented only in ReceivePack).",
+      "revId": "fb13e7c50b33532cad8b90b762298fc937ac88e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "117c0831_cd3a9c97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-02T18:14:31Z",
+      "side": 1,
+      "message": "ah, this change is not sending the session-id capability. You mean that the session-id is optional, the client CAN send it if the server send the session-id capability before.\n\nYou can mention also that at the moment the capability is not advertised by default because the handling is not fully implemented.",
+      "revId": "fb13e7c50b33532cad8b90b762298fc937ac88e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0650a944_8075e313",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-02T18:14:31Z",
+      "side": 1,
+      "message": "Again, code looks good and some nits in the commit message.\n\nThanks a lot for splitting the changes, this is definitely easier to review!",
+      "revId": "fb13e7c50b33532cad8b90b762298fc937ac88e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
