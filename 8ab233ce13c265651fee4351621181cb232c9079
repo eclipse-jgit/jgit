@@ -63,6 +63,24 @@
       "message": "nit: add here that the session-id is also excluded.",
       "revId": "8ab233ce13c265651fee4351621181cb232c9079",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb6f138_be3c1f25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-11-02T20:12:25Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "bc24d85a_e81b6c5c",
+      "revId": "8ab233ce13c265651fee4351621181cb232c9079",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
