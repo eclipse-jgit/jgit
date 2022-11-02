@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc24d85a_e81b6c5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-02T18:51:18Z",
+      "side": 1,
+      "message": "nit: add here that the session-id is also excluded.",
+      "revId": "8ab233ce13c265651fee4351621181cb232c9079",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
