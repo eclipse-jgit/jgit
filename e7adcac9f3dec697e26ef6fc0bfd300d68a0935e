@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11c82ec4_81640a64",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-03T12:08:56Z",
+      "side": 1,
+      "message": "Validated: https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.15/httpcore-4.4.15.jar.sha1",
+      "range": {
+        "startLine": 90,
+        "startChar": 12,
+        "endLine": 90,
+        "endChar": 52
+      },
+      "revId": "e7adcac9f3dec697e26ef6fc0bfd300d68a0935e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
