@@ -676,6 +676,24 @@
       "parentUuid": "f2ed9fa9_5c34c579",
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cba4324_b28d4a6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-11-03T10:15:01Z",
+      "side": 1,
+      "message": "I agree with Matthias since this option is not supported by CGit.\n\nAs a consequence of the removed option, the computeGeneration-flag in CommitGraphWriter should also be removed since CGit always writes the generation numbers (even CGit 2.18 wrote generation numbers by assigning every commit the special value \"0\").",
+      "parentUuid": "b7699683_23986da3",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

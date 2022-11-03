@@ -16,6 +16,57 @@
       "message": "Why did JGit Bot not trigger build :( \nWas something wrong?",
       "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e44a6ee_3d56cb6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-11-03T10:15:01Z",
+      "side": 1,
+      "message": "Apart from the comments, I also did some high level verification: \n\n1. I compared the unit tests from https://github.com/git/git/blob/master/t/t5318-commit-graph.sh to the unit tests written by Kyle and I think his unit tests are a good translation of the unit tests from cgit (both quality-wise as well as scope-wise). \n\n2. I verified that both jgit and cgit produce an identical commit-graph file for the same repo. I verified this by creating a local repo with the same graph structure as https://github.com/git/git/blob/master/t/t5318-commit-graph.sh described in lines 186 to 194 and then letting both jgit and cgit write the commit-graph. \n\n3. I executed both CommitGraphWriterTest and CommitGraphTest with code-coverage turned on. I concluded that both CommitGraphWriter and CommitGraph are sufficiently tested. \n\n",
+      "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25238bc0_739ab683",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-11-03T10:15:01Z",
+      "side": 1,
+      "message": "Another test should be added in which a commit-graph is written in an empty repo. This can occur when a \"garbage collect\" is executed right after \"git init\". \n\nI tested this locally and an exception occurred.",
+      "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abf27e73_52cc4794",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-11-03T10:15:01Z",
+      "side": 1,
+      "message": "I believe this method should be private and should be called by writeCommitGraph since every call of prepareCommitGraph is always followed by a call of writeCommitGraph.",
+      "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
