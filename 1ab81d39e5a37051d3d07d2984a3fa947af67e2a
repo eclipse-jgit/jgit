@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7416ce21_ac43ff82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-11-03T12:26:17Z",
+      "side": 1,
+      "message": "is this related to a Google internal bug we could reference?\n",
+      "revId": "1ab81d39e5a37051d3d07d2984a3fa947af67e2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
