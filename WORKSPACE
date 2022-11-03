@@ -87,7 +87,7 @@ maven_jar(
 maven_jar(
     name = "httpcore",
     artifact = "org.apache.httpcomponents:httpcore:4.4.15",
-    sha1 = "2ab1724e80d075698903a49f5e8fa90b077937ac",
+    sha1 = "7f2e0c573eaa7a74bac2e89b359e1f73d92a0a1d",
 )
 
 maven_jar(
