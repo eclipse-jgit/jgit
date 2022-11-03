@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53216602_b3a189e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-03T13:12:21Z",
+      "side": 1,
+      "message": "nit: the subject line is too wide, shorten this, e.g. to\n\n UploadPack: use provided want-refs instead of a full advertisement",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "623adb0b_b54416e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-03T13:12:21Z",
+      "side": 1,
+      "message": "nit: line is too wide",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9293240c_12d20383",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -14,6 +48,57 @@
       "writtenOn": "2022-11-03T12:52:23Z",
       "side": 1,
       "message": "I want to think about testing some more. LMK if you have ideas there :-)",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "974b7509_3eaca97d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-03T13:12:21Z",
+      "side": 1,
+      "message": "nice, just a few nits to fix",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79b43caa_c9e7c0d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-03T13:12:21Z",
+      "side": 1,
+      "message": "nit: we use line width of 80",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec091517_46fb47e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-03T13:12:21Z",
+      "side": 1,
+      "message": "nit: remove this extra empty line ?",
       "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
