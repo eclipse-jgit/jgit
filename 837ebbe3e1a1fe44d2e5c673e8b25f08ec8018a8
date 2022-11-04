@@ -53,6 +53,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aa03031_6307e841",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Hi, Simon. Thanks for joining the work on commit-graph feature.",
+      "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25238bc0_739ab683",
@@ -70,6 +87,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49700444_17365ec6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Done.\n\nI have added a new test \"testWriteInEmptyRepo()\".\nCommitGraphWriter will write nothing in empty repo.",
+      "parentUuid": "25238bc0_739ab683",
+      "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abf27e73_52cc4794",
@@ -83,6 +118,24 @@
       "writtenOn": "2022-11-03T10:15:01Z",
       "side": 1,
       "message": "I believe this method should be private and should be called by writeCommitGraph since every call of prepareCommitGraph is always followed by a call of writeCommitGraph.",
+      "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6582273_c2f6c8c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Done.\n\nYeah, I think so.\nI wrote it with reference to PackWriter\u0027s code at the time, but it dosen\u0027t looks like we need to set prepareCommitGraph to public.\n\nAfter setting it to private, the code looks more simpier.",
+      "parentUuid": "abf27e73_52cc4794",
       "revId": "837ebbe3e1a1fe44d2e5c673e8b25f08ec8018a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

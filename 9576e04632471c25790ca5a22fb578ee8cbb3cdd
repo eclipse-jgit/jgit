@@ -71,6 +71,54 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4d76e69_626f3560",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47348522_d96215be",
+      "range": {
+        "startLine": 144,
+        "startChar": 44,
+        "endLine": 144,
+        "endChar": 56
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54031cd7_71f4bd09",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8272d3c_a82ccc85",
+      "range": {
+        "startLine": 144,
+        "startChar": 44,
+        "endLine": 144,
+        "endChar": 67
+      },
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7dfed373_da9c1dbb",
@@ -365,6 +413,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd1a79f4_4e4aa5c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd6d32fe_f7c34b98",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d7e842b_f1177e60",
@@ -518,6 +584,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d3ce92d_7abf9578",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a304cbea_4997bc47",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8dcdd2a8_f4b97656",
@@ -643,6 +727,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a893a02_2edf9340",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b969f2bd_bfeb83e6",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2ed9fa9_5c34c579",
@@ -692,6 +794,24 @@
       "side": 1,
       "message": "I agree with Matthias since this option is not supported by CGit.\n\nAs a consequence of the removed option, the computeGeneration-flag in CommitGraphWriter should also be removed since CGit always writes the generation numbers (even CGit 2.18 wrote generation numbers by assigning every commit the special value \"0\").",
       "parentUuid": "b7699683_23986da3",
+      "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2101d0_9b957de3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-04T04:12:45Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2cba4324_b28d4a6e",
       "revId": "9576e04632471c25790ca5a22fb578ee8cbb3cdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
