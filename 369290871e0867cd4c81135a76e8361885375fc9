@@ -16,6 +16,24 @@
       "message": "This behavior is different than ReceivePack. In RP, the `agent\u003dvalue` is included in the capabilities set (now a map as of a recent change). Here, it is excluded and then accessed via a getter on this class. I have chosen to model this behavior with clientSID for now. But, I\u0027m open to other options.",
       "revId": "369290871e0867cd4c81135a76e8361885375fc9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c6f7545_58e93339",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWant.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 307600
+      },
+      "writtenOn": "2022-11-04T20:43:31Z",
+      "side": 1,
+      "message": "Reviewed in another patch.\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/196565/7",
+      "parentUuid": "7ea01fb5_c948dcd1",
+      "revId": "369290871e0867cd4c81135a76e8361885375fc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
