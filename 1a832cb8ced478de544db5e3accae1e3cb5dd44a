@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c9aac58_cee6cf13",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b27c00b5_91b3e04e",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cc36532_f0ec164d",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-11-05T23:41:31Z",
       "side": 1,
       "message": "Line too long. Please use the JGit formatting (it has a maximum line length of 80).",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f919453d_d5dedaab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cc36532_f0ec164d",
       "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -75,6 +111,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31781ba6_b0f6cf6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec38c39e_276041ad",
+      "range": {
+        "startLine": 1091,
+        "startChar": 28,
+        "endLine": 1091,
+        "endChar": 78
+      },
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7731bbf_9a017d34",
@@ -88,6 +148,24 @@
       "writtenOn": "2022-11-05T23:41:31Z",
       "side": 1,
       "message": "flush() is not needed here if you terminate the try-with-resource here, and write the constant stuff below after the try-with-resource. (Closing the encoder will flush it.)",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "379bfdf2_d02c6af0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7731bbf_9a017d34",
       "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -115,6 +193,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17804325_09ac1c17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec3fd81a_dc2f3a8f",
+      "range": {
+        "startLine": 1105,
+        "startChar": 7,
+        "endLine": 1105,
+        "endChar": 35
+      },
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "763114ff_3ff6ccc9",
@@ -128,6 +230,24 @@
       "writtenOn": "2022-11-05T23:41:31Z",
       "side": 1,
       "message": "Why RuntimeException? Why not IOException?",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37bb3469_e3d0fcd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "763114ff_3ff6ccc9",
       "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -149,6 +269,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "daad20f3_e267d3d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "212cd914_4dd5816c",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caa503b9_57a0bfef",
@@ -162,6 +300,24 @@
       "writtenOn": "2022-11-05T23:41:31Z",
       "side": 1,
       "message": "Missing curly braces.",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e927973_0c21aaa7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa503b9_57a0bfef",
       "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -183,6 +339,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e0b7d86_3af56eff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60263493_eed0cf48",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24f99216_2d1a4664",
@@ -200,6 +374,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d90f9771_3e77bcd5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f99216_2d1a4664",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e97754e_3da9bf3e",
@@ -213,6 +405,24 @@
       "writtenOn": "2022-11-05T23:41:31Z",
       "side": 1,
       "message": "Missing curly braces.",
+      "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d3c9a3c_38056a22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e97754e_3da9bf3e",
       "revId": "1a832cb8ced478de544db5e3accae1e3cb5dd44a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

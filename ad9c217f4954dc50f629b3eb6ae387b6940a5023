@@ -16,6 +16,24 @@
       "message": "This removal makes the tests fail.",
       "revId": "ad9c217f4954dc50f629b3eb6ae387b6940a5023",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64098d6d_5064e87b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-06T13:46:15Z",
+      "side": 0,
+      "message": "You can tell me which test it is, I fixed and checked all the dependent tests.",
+      "parentUuid": "067c615e_0ca6cd4b",
+      "revId": "ad9c217f4954dc50f629b3eb6ae387b6940a5023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
