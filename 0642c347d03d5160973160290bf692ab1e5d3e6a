@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3e0076a_b84f54da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-07T12:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53216602_b3a189e8",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "623adb0b_b54416e6",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-03T13:12:21Z",
       "side": 1,
       "message": "nit: line is too wide",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f62b376_5d9f50a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-07T12:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "623adb0b_b54416e6",
       "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -86,6 +122,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59102827_7ba2e510",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-07T12:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79b43caa_c9e7c0d6",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec091517_46fb47e3",
@@ -99,6 +153,24 @@
       "writtenOn": "2022-11-03T13:12:21Z",
       "side": 1,
       "message": "nit: remove this extra empty line ?",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1acd226_85696ae9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-07T12:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec091517_46fb47e3",
       "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
