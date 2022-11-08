@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca509a5b_c527d7ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-11-08T00:17:03Z",
+      "side": 1,
+      "message": "This PS1 is a hack that completely removes checking the objects/pack dir timestamp or the trustFolderStat config and just always rechecks for packs when called.\n\nA non-hack solution might be to split up trustFolderStat to have distinct policies for each folder. In this case it might be `trustPackFolderStat` or since the stat we care about is modification, maybe improve the naming with `trustPackDirModificationTime`.\n\nThe other current use of trustFolderStat is for the packed-refs file modification time. Arguably a new config should have been used in change I2b65cfaa8f since that\u0027s a file and not a folder. Adding that config now as `trustPackedRefsModificationTime` would make the behavior clear. We can leave `trustFolderStat` as an alias that enables both.",
+      "revId": "0203463167cd7ab0b1e5d2dc1433a8f6c41fa8eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
