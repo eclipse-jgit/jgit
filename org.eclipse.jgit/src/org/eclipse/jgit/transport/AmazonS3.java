@@ -115,7 +115,7 @@ public class AmazonS3 {
 		for (String v : list) {
 			if (s.length() > 0)
 				s.append(',');
-			s.append(v.replaceAll("\n", "").trim()); //$NON-NLS-1$ //$NON-NLS-2$
+			s.append(v.replace("\n", "").trim()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return s.toString();
 	}
