@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b1adc88_148fe7fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-09T16:15:06Z",
+      "side": 1,
+      "message": "add a link to this change ?",
+      "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec3834a3_d25fd80b",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-09T16:15:06Z",
+      "side": 1,
+      "message": "I think the git level error is reported to the client by calling GitSmartHttpTools#sendError in #defaultUploadPackHandler",
+      "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
