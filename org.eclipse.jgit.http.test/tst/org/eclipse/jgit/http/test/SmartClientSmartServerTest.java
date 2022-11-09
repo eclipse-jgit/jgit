@@ -537,9 +537,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 							Collections.singletonList(
 									new RefSpec(unreachableCommit.name()))));
 			assertTrue(e.getMessage().contains(
-					"Bad Request"));
+					"want " + unreachableCommit.name() + " not valid"));
 		}
-		assertLastRequestStatusCode(400);
+		assertLastRequestStatusCode(200);
 	}
 
 	@Test
