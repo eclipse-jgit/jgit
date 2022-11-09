@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80668f9a_4609c7e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2022-11-09T16:55:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b1adc88_148fe7fb",
+      "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd724dbd_34529a21",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-09T16:15:45Z",
       "side": 1,
       "message": "reference bug\n\nBug: 579676",
+      "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed9fcec5_cc8c3130",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2022-11-09T16:55:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd724dbd_34529a21",
       "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -65,6 +101,24 @@
       "writtenOn": "2022-11-09T16:15:06Z",
       "side": 1,
       "message": "I think the git level error is reported to the client by calling GitSmartHttpTools#sendError in #defaultUploadPackHandler",
+      "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "190d9fcb_0a6b3106",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2022-11-09T16:55:47Z",
+      "side": 1,
+      "message": "This is what maps the Exception to the HTTP status code in that call.\nhttps://git.eclipse.org/r/c/jgit/jgit/+/196849/1/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java#238",
+      "parentUuid": "ec3834a3_d25fd80b",
       "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
