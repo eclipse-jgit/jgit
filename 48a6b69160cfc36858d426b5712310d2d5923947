@@ -35,6 +35,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "607f0e8f_2238f7a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-09T16:22:48Z",
+      "side": 1,
+      "message": "this breaks the following tests:\n\n[ERROR] Failures:\n[ERROR]   SmartClientSmartServerTest.testFetchBySHA1UnreachableByAdvertiseRefsHook:562\n[ERROR]   SmartClientSmartServerTest.testFetchBySHA1UnreachableByAdvertiseRefsHook:562\n[ERROR]   SmartClientSmartServerTest.testFetchBySHA1UnreachableByAdvertiseRefsHook:562\n[ERROR]   SmartClientSmartServerTest.testFetchBySHA1UnreachableByAdvertiseRefsHook:562\n[ERROR]   SmartClientSmartServerTest.testInvalidWant:1612\n[ERROR]   SmartClientSmartServerTest.testInvalidWant:1612\n[ERROR]   SmartClientSmartServerTest.testInvalidWant:1612\n[ERROR]   SmartClientSmartServerTest.testInvalidWant:1612",
+      "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec3834a3_d25fd80b",
