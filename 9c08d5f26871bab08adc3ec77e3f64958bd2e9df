@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b7faa40_114161f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2022-11-09T13:18:30Z",
+      "side": 1,
+      "message": "Are this and the follow-up changes created using the OpenRewrite? If yes, then it makes not much sense that a human checks of the OpenRewrite made mistakes?",
+      "revId": "9c08d5f26871bab08adc3ec77e3f64958bd2e9df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
