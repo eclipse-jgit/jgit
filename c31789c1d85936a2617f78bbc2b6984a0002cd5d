@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c84f5d4_ce155af7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-11-09T01:41:04Z",
+      "side": 1,
+      "message": "I believe we need another test to guarantee correctness of RevWalk change: we should create a revWalk which will filter out commits based on commit message (e.g. \"contains word chupacabra\") and check it is working fine with these changes",
+      "range": {
+        "startLine": 554,
+        "startChar": 10,
+        "endLine": 554,
+        "endChar": 22
+      },
+      "revId": "c31789c1d85936a2617f78bbc2b6984a0002cd5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
