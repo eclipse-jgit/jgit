@@ -11,8 +11,6 @@
 package org.eclipse.jgit.http.server;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK;
@@ -23,6 +21,7 @@ import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
 import static org.eclipse.jgit.http.server.ServletUtils.consumeRequestBody;
 import static org.eclipse.jgit.http.server.ServletUtils.getInputStream;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+import static org.eclipse.jgit.http.server.UploadPackErrorHandler.statusCodeForThrowable;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 
 import java.io.IOException;
@@ -150,17 +149,6 @@ class UploadPackServlet extends HttpServlet {
 		public void destroy() {
 			// Nothing.
 		}
-	}
-
-	private static int statusCodeForThrowable(Throwable error) {
-		if (error instanceof ServiceNotEnabledException) {
-			return SC_FORBIDDEN;
-		}
-		if (error instanceof PackProtocolException) {
-			// Internal git errors is not an error from an HTTP standpoint.
-			return SC_OK;
-		}
-		return SC_INTERNAL_SERVER_ERROR;
 	}
 
 	private final UploadPackErrorHandler handler;
