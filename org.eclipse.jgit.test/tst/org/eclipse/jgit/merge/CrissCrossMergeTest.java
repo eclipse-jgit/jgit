@@ -10,7 +10,8 @@
 package org.eclipse.jgit.merge;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
+import static org.eclipse.jgit.junit.CartesianProduct.toArgumentStream;
+import static org.eclipse.jgit.junit.CartesianProduct.toSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
@@ -29,6 +31,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.junit.CartesianProduct;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
@@ -45,33 +48,36 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Theories.class)
 public class CrissCrossMergeTest extends RepositoryTestCase {
 	static int counter = 0;
 
-	@DataPoints
-	public static MergeStrategy[] strategiesUnderTest = new MergeStrategy[] {
+	static MergeStrategy[] strategiesUnderTest = new MergeStrategy[] {
 			MergeStrategy.RECURSIVE, MergeStrategy.RESOLVE };
 
-	public enum IndexState {
+	private enum IndexState {
 		Bare, Missing, SameAsHead, SameAsOther, SameAsWorkTree, DifferentFromHeadAndOtherAndWorktree
 	}
 
-	@DataPoints
-	public static IndexState[] indexStates = IndexState.values();
+	static IndexState[] indexStates = IndexState.values();
 
-	public enum WorktreeState {
+	private enum WorktreeState {
 		Bare, Missing, SameAsHead, DifferentFromHeadAndOther, SameAsOther;
 	}
 
-	@DataPoints
 	public static WorktreeState[] worktreeStates = WorktreeState.values();
+
+	private static Stream<Arguments> testParameters() {
+		return toArgumentStream(CartesianProduct.compute( //
+				toSet(strategiesUnderTest),
+				toSet(indexStates),
+				toSet(worktreeStates)));
+	}
 
 	private TestRepository<FileRepository> db_t;
 
@@ -145,7 +151,6 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 		}
 	}
 
-	@Theory
 	/**
 	 * Merging m2,s2 from the following topology. m1 and s1 are the two root
 	 * commits of the repo. In master and side different files are touched.
@@ -158,6 +163,8 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 	 * s1--s2
 	 * </pre>
 	 */
+	@ParameterizedTest
+	@MethodSource("testParameters")
 	public void crissCrossMerge_twoRoots(MergeStrategy strategy,
 			IndexState indexState, WorktreeState worktreeState)
 			throws Exception {
