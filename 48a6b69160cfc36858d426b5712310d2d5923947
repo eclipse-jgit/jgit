@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd724dbd_34529a21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-09T16:15:45Z",
+      "side": 1,
+      "message": "reference bug\n\nBug: 579676",
+      "revId": "48a6b69160cfc36858d426b5712310d2d5923947",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec3834a3_d25fd80b",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
         "patchSetId": 1
