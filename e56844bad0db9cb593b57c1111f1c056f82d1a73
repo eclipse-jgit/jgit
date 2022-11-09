@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4318a4d_571fffaa",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/CartesianProduct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2022-11-09T23:22:37Z",
+      "side": 1,
+      "message": "I am trying to understand that return type and how does it represent cartesian product of N sets.\n\nBy definition [1], cartesian product of two sets A and B is a set of all ordered pairs (a, b) where a is from A and b is from B:\n\n  A x B \u003d {(a,b) | a from A, B from B}\n  \nFor N sets A1, A2, AN, cartesian product is set of all n-tuples (a1, a2, ... an) where each a1 is from A1, a2 is from A2, ....\n\n  A1 x A2 x ... x An \u003d {(a1, a2, ..., an) | a1 from A1, a2 from A2, ...}\n\nHow does this return type represent a set of n-tuples? The outer Set\u003c...\u003e is OK because cartesian product is a Set. But it is not set of sets but set of tuples\nand a tuple cannot be represented by a Set because order is needed. Using a List to represent tuple would be one possibility, that\u0027s what Guava also does [2]. So the return type should be:\n\n  Set\u003cList\u003c?\u003e\u003e\n\n[1] https://en.wikipedia.org/wiki/Cartesian_product#n-ary_Cartesian_product\n[2] https://guava.dev/releases/22.0/api/docs/com/google/common/collect/Sets.html#cartesianProduct-java.util.List-",
+      "range": {
+        "startLine": 34,
+        "startChar": 15,
+        "endLine": 34,
+        "endChar": 31
+      },
+      "revId": "e56844bad0db9cb593b57c1111f1c056f82d1a73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
