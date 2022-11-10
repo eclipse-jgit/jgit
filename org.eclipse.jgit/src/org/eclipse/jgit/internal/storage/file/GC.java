@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,6 +45,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -110,14 +112,10 @@ public class GC {
 	private static final Pattern PATTERN_LOOSE_OBJECT = Pattern
 			.compile("[0-9a-fA-F]{38}"); //$NON-NLS-1$
 
-	private static final String PACK_EXT = "." + PackExt.PACK.getExtension();//$NON-NLS-1$
+	private static final Set<PackExt> PARENT_EXTS = Set.of(PACK, KEEP);
 
-	private static final String BITMAP_EXT = "." //$NON-NLS-1$
-			+ PackExt.BITMAP_INDEX.getExtension();
-
-	private static final String INDEX_EXT = "." + PackExt.INDEX.getExtension(); //$NON-NLS-1$
-
-	private static final String KEEP_EXT = "." + PackExt.KEEP.getExtension(); //$NON-NLS-1$
+	private static final Set<PackExt> CHILD_EXTS = Set.of(BITMAP_INDEX, INDEX,
+			REVERSE_INDEX);
 
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
@@ -937,47 +935,52 @@ public class GC {
 		}
 	}
 
+	private static Optional<PackFile> toPackFileWithValidExt(
+			Path packFilePath) {
+		try {
+			PackFile packFile = new PackFile(packFilePath.toFile());
+			if (packFile.getPackExt() == null) {
+				return Optional.empty();
+			}
+			return Optional.of(packFile);
+		} catch (IllegalArgumentException e) {
+			return Optional.empty();
+		}
+	}
+
 	/**
 	 * Deletes orphans
 	 * <p>
-	 * A file is considered an orphan if it is either a "bitmap" or an index
-	 * file, and its corresponding pack file is missing in the list.
+	 * A file is considered an orphan if it is some type of index file, but
+	 * there is not a corresponding pack or keep file present in the directory.
 	 * </p>
 	 */
 	private void deleteOrphans() {
 		Path packDir = repo.getObjectDatabase().getPackDirectory().toPath();
-		List<String> fileNames = null;
+		List<PackFile> childFiles;
+		Set<String> seenParentIds = new HashSet<>();
 		try (Stream<Path> files = Files.list(packDir)) {
-			fileNames = files.map(path -> path.getFileName().toString())
-					.filter(name -> (name.endsWith(PACK_EXT)
-							|| name.endsWith(BITMAP_EXT)
-							|| name.endsWith(INDEX_EXT)
-							|| name.endsWith(KEEP_EXT)))
-					// sort files with same base name in the order:
-					// .pack, .keep, .index, .bitmap to avoid look ahead
-					.sorted(Collections.reverseOrder())
-					.collect(Collectors.toList());
+			childFiles = files.map(GC::toPackFileWithValidExt)
+					.filter(Optional::isPresent).map(Optional::get)
+					.filter(packFile -> {
+						PackExt ext = packFile.getPackExt();
+						if (PARENT_EXTS.contains(ext)) {
+							seenParentIds.add(packFile.getId());
+							return false;
+						}
+						return CHILD_EXTS.contains(ext);
+					}).collect(Collectors.toList());
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 			return;
 		}
-		if (fileNames == null) {
-			return;
-		}
 
-		String latestId = null;
-		for (String n : fileNames) {
-			PackFile pf = new PackFile(packDir.toFile(), n);
-			PackExt ext = pf.getPackExt();
-			if (ext.equals(PACK) || ext.equals(KEEP)) {
-				latestId = pf.getId();
-			}
-			if (latestId == null || !pf.getId().equals(latestId)) {
-				// no pack or keep for this id
+		for (PackFile child : childFiles) {
+			if (!seenParentIds.contains(child.getId())) {
 				try {
-					FileUtils.delete(pf,
+					FileUtils.delete(child,
 							FileUtils.RETRY | FileUtils.SKIP_MISSING);
-					LOG.warn(JGitText.get().deletedOrphanInPackDir, pf);
+					LOG.warn(JGitText.get().deletedOrphanInPackDir, child);
 				} catch (IOException e) {
 					LOG.error(e.getMessage(), e);
 				}
