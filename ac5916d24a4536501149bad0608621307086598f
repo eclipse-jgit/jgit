@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b246c4e4_6f9cf022",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2022-11-10T08:36:35Z",
+      "side": 1,
+      "message": "Wrong commit.",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "ac5916d24a4536501149bad0608621307086598f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
