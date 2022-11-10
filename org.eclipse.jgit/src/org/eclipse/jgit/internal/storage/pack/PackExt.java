@@ -20,6 +20,9 @@ public enum PackExt {
 	/** A pack index file extension. */
 	INDEX("idx"), //$NON-NLS-1$
 
+	/** A pack reverse index file extension. */
+	REVERSE_INDEX("rev"), //$NON-NLS-1$
+
 	/** A keep pack file extension. */
 	KEEP("keep"), //$NON-NLS-1$
 
