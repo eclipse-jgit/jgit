@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -110,14 +111,10 @@ public class GC {
 	private static final Pattern PATTERN_LOOSE_OBJECT = Pattern
 			.compile("[0-9a-fA-F]{38}"); //$NON-NLS-1$
 
-	private static final String PACK_EXT = "." + PackExt.PACK.getExtension();//$NON-NLS-1$
+	private static final Set<PackExt> PARENT_EXTS = Set.of(PACK, KEEP);
 
-	private static final String BITMAP_EXT = "." //$NON-NLS-1$
-			+ PackExt.BITMAP_INDEX.getExtension();
-
-	private static final String INDEX_EXT = "." + PackExt.INDEX.getExtension(); //$NON-NLS-1$
-
-	private static final String KEEP_EXT = "." + PackExt.KEEP.getExtension(); //$NON-NLS-1$
+	private static final Set<PackExt> CHILD_EXTS = Set.of(BITMAP_INDEX, INDEX,
+			REVERSE_INDEX);
 
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
@@ -940,44 +937,45 @@ public class GC {
 	/**
 	 * Deletes orphans
 	 * <p>
-	 * A file is considered an orphan if it is either a "bitmap" or an index
-	 * file, and its corresponding pack file is missing in the list.
+	 * A file is considered an orphan if it is some type of index file, but
+	 * there is not a corresponding pack or keep file present in the directory.
 	 * </p>
 	 */
 	private void deleteOrphans() {
 		Path packDir = repo.getObjectDatabase().getPackDirectory().toPath();
-		List<String> fileNames = null;
+		List<PackFile> potentialOrphanFiles = null;
+		Set<String> seenPackFileIds = new HashSet<>();
 		try (Stream<Path> files = Files.list(packDir)) {
-			fileNames = files.map(path -> path.getFileName().toString())
-					.filter(name -> (name.endsWith(PACK_EXT)
-							|| name.endsWith(BITMAP_EXT)
-							|| name.endsWith(INDEX_EXT)
-							|| name.endsWith(KEEP_EXT)))
-					// sort files with same base name in the order:
-					// .pack, .keep, .index, .bitmap to avoid look ahead
-					.sorted(Collections.reverseOrder())
+			potentialOrphanFiles = files.map(
+							path -> path.getFileName().toString()).map(name -> {
+						try {
+							return new PackFile(packDir.toFile(), name);
+						} catch (IllegalArgumentException e) {
+							return null;
+						}
+					}).filter(Objects::nonNull).filter(packFile -> {
+						PackExt ext = packFile.getPackExt();
+						if (packFile.getPackExt() == null) {
+							return false;
+						}
+						if (PARENT_EXTS.contains(ext)) {
+							seenPackFileIds.add(packFile.getId());
+							return false;
+						}
+						return CHILD_EXTS.contains(ext);
+					})
 					.collect(Collectors.toList());
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 			return;
 		}
-		if (fileNames == null) {
-			return;
-		}
 
-		String latestId = null;
-		for (String n : fileNames) {
-			PackFile pf = new PackFile(packDir.toFile(), n);
-			PackExt ext = pf.getPackExt();
-			if (ext.equals(PACK) || ext.equals(KEEP)) {
-				latestId = pf.getId();
-			}
-			if (latestId == null || !pf.getId().equals(latestId)) {
-				// no pack or keep for this id
+		for (PackFile child: potentialOrphanFiles) {
+			if (!seenPackFileIds.contains(child.getId())) {
 				try {
-					FileUtils.delete(pf,
+					FileUtils.delete(child,
 							FileUtils.RETRY | FileUtils.SKIP_MISSING);
-					LOG.warn(JGitText.get().deletedOrphanInPackDir, pf);
+					LOG.warn(JGitText.get().deletedOrphanInPackDir, child);
 				} catch (IOException e) {
 					LOG.error(e.getMessage(), e);
 				}
