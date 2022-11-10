@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ad4b2fc_e3d2ba09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-10T19:01:05Z",
+      "side": 1,
+      "message": "- rebased\n- added missing @since tag for new API method",
+      "revId": "5bf7472e0ca967893f9fdb653c3f1b22fb6d56e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
