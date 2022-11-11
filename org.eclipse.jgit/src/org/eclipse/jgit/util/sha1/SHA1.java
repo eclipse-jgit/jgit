@@ -67,23 +67,37 @@ public abstract class SHA1 {
 		SHA1_IMPLEMENTATION = sha1Implementation();
 	}
 
+	private static Sha1Implementation getImplementation() {
+		String fromSystemProperty = System
+				.getProperty("org.eclipse.jgit.util.sha1.implementation"); //$NON-NLS-1$
+		if (fromSystemProperty == null) {
+			return SHA1_IMPLEMENTATION;
+		}
+		if (fromSystemProperty
+				.equalsIgnoreCase(Sha1Implementation.JAVA.name())) {
+			return Sha1Implementation.JAVA;
+		}
+		if (fromSystemProperty
+				.equalsIgnoreCase(Sha1Implementation.JDKNATIVE.name())) {
+			return Sha1Implementation.JDKNATIVE;
+		}
+		return SHA1_IMPLEMENTATION;
+	}
+
 	/**
 	 * Create a new context to compute a SHA-1 hash of data.
 	 * <p>
 	 * If {@code core.sha1Implementation = jdkNative} in the user level global
 	 * git configuration or the system property
 	 * {@code org.eclipse.jgit.util.sha1.implementation = jdkNative} it will
-	 * create an object using the implementation in the JDK. Otherwise it will
-	 * use the pure Java implementation which supports collision detection but
-	 * is slower.
+	 * create an object using the implementation in the JDK. If both are set the
+	 * system property takes precedence. Otherwise the pure Java implementation
+	 * will be used which supports collision detection but is slower.
 	 *
 	 * @return a new context to compute a SHA-1 hash of data.
 	 */
 	public static SHA1 newInstance() {
-		if (SHA1_IMPLEMENTATION == Sha1Implementation.JDKNATIVE || //
-				System.getProperty("org.eclipse.jgit.util.sha1.implementation") //$NON-NLS-1$
-						.equalsIgnoreCase(
-								Sha1Implementation.JDKNATIVE.name())) {
+		if (getImplementation() == Sha1Implementation.JDKNATIVE) {
 			return new SHA1Native();
 		}
 		return new SHA1Java();
