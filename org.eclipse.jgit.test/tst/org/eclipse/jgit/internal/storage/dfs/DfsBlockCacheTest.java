@@ -289,8 +289,7 @@ public class DfsBlockCacheTest {
 
 		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
-		// Reverse index has no pack extension, it defaults to 0.
-		assertEquals(1, cache.getMissCount()[0]);
+		assertEquals(1, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
 	}
 
 	@SuppressWarnings("resource")
@@ -319,7 +318,7 @@ public class DfsBlockCacheTest {
 		waitForExecutorPoolTermination();
 		assertEquals(2, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
-		assertEquals(2, cache.getMissCount()[0]);
+		assertEquals(2, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
 	}
 
 	@SuppressWarnings("resource")
@@ -348,7 +347,7 @@ public class DfsBlockCacheTest {
 		waitForExecutorPoolTermination();
 		assertEquals(2, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
-		assertEquals(2, cache.getMissCount()[0]);
+		assertEquals(2, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
 	}
 
 	@SuppressWarnings("resource")
@@ -380,7 +379,7 @@ public class DfsBlockCacheTest {
 		assertEquals(2, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		// Index is loaded once for each repo.
 		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
-		assertEquals(2, cache.getMissCount()[0]);
+		assertEquals(2, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
 	}
 
 	@Test
@@ -402,7 +401,7 @@ public class DfsBlockCacheTest {
 
 		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
-		assertEquals(1, cache.getMissCount()[0]);
+		assertEquals(1, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
 	}
 
 	@Test
@@ -426,7 +425,7 @@ public class DfsBlockCacheTest {
 
 		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
-		assertEquals(1, cache.getMissCount()[0]);
+		assertEquals(1, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
 	}
 
 	private void resetCache() {

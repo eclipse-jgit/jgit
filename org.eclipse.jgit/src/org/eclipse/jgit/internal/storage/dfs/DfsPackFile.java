@@ -16,6 +16,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UN
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
@@ -220,8 +221,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		PackIndex idx = idx(ctx);
-		DfsStreamKey revKey = new DfsStreamKey.ForReverseIndex(
-				desc.getStreamKey(INDEX));
+		DfsStreamKey revKey = desc.getStreamKey(REVERSE_INDEX);
 		AtomicBoolean cacheHit = new AtomicBoolean(true);
 		DfsBlockCache.Ref<PackReverseIndex> revref = cache.getOrLoadRef(revKey,
 				REF_POSITION, () -> {
