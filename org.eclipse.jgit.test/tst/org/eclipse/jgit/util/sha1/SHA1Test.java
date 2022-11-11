@@ -22,11 +22,20 @@ import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.SystemReader;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
+@RunWith(Theories.class)
 public class SHA1Test {
 	private static final String TEST1 = "abc";
 
@@ -34,7 +43,33 @@ public class SHA1Test {
 	private static final String TEST2b = "jkijkljklmklmnlmnomnopnopq";
 	private static final String TEST2 = TEST2a + TEST2b;
 
-	@Test
+	@DataPoints
+	public static Boolean[] getDataPoints() {
+		return new Boolean[] { Boolean.FALSE, Boolean.TRUE };
+	}
+
+	private boolean useSha1JDK;
+
+	public SHA1Test(boolean useSha1JDK) {
+		this.useSha1JDK = useSha1JDK;
+	}
+
+	@Before
+	public void setUp() throws Exception {
+		MockSystemReader mockSystemReader = new MockSystemReader();
+		SystemReader.setInstance(mockSystemReader);
+		if (useSha1JDK) {
+			System.setProperty("org.eclipse.jgit.util.sha1.jdk",
+					Boolean.TRUE.toString());
+		}
+	}
+
+	@After
+	public void tearDown() {
+		SystemReader.setInstance(null);
+	}
+
+	@Theory
 	public void test0() throws NoSuchAlgorithmException {
 		ObjectId exp = ObjectId
 				.fromString("da39a3ee5e6b4b0d3255bfef95601890afd80709");
@@ -56,7 +91,7 @@ public class SHA1Test {
 		assertEquals(exp, s2);
 	}
 
-	@Test
+	@Theory
 	public void test1() throws NoSuchAlgorithmException {
 		ObjectId exp = ObjectId
 				.fromString("a9993e364706816aba3e25717850c26c9cd0d89d");
@@ -78,7 +113,7 @@ public class SHA1Test {
 		assertEquals(exp, s2);
 	}
 
-	@Test
+	@Theory
 	public void test2() throws NoSuchAlgorithmException {
 		ObjectId exp = ObjectId
 				.fromString("84983e441c3bd26ebaae4aa1f95129e5e54670f1");
@@ -158,8 +193,10 @@ public class SHA1Test {
 		// the Git blob header permutes the data enough for this specific
 		// attack example to not be detected as a collision. (A different file
 		// pair that takes the Git header into account however, would.)
-		ObjectId id1 = blob(pdf1, SHA1.newInstance().setDetectCollision(true));
-		ObjectId id2 = blob(pdf2, SHA1.newInstance().setDetectCollision(true));
+		ObjectId id1 = blob(pdf1,
+				SHA1.newInstance().setDetectCollision(true));
+		ObjectId id2 = blob(pdf2,
+				SHA1.newInstance().setDetectCollision(true));
 
 		assertEquals(
 				ObjectId.fromString("ba9aaa145ccd24ef760cf31c74d8f7ca1a2e47b0"),
