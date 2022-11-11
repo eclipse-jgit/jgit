@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2545f284_997d63d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-11-11T15:50:44Z",
+      "side": 1,
+      "message": "nit: when? E.g., are you talking about an incident in the past, or are you talking about the state of JGit without this change? It\u0027s less ambiguous if this uses the present tense.",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b34a170_48179906",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-11-11T15:50:44Z",
+      "side": 1,
+      "message": "What does \"it\" refer to here?",
+      "range": {
+        "startLine": 21,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 63
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0aad86d_716846ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-11-11T15:50:44Z",
+      "side": 1,
+      "message": "ENOPARSE",
+      "range": {
+        "startLine": 23,
+        "startChar": 30,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4afa4934_32e9e8f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2022-11-11T15:50:44Z",
+      "side": 1,
+      "message": "Thanks! I\u0027m always in favor of changes that reduce the amount of ref scanning. :)\n\nSome commit message nits; the motivation here is that I don\u0027t understand what this change will do yet from the commit message, and I\u0027m hoping that these kinds of clarifications will make that easier.",
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
