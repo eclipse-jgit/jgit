@@ -21,7 +21,7 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 class SHA1Native extends SHA1 {
 
-	private MessageDigest md;
+	private final MessageDigest md;
 
 	SHA1Native() {
 		md = Constants.newMessageDigest();
