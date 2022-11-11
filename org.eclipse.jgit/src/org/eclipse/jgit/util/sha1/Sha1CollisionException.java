@@ -16,7 +16,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * Thrown by {@link org.eclipse.jgit.util.sha1.SHA1} if it detects a likely hash
+ * Thrown by {@link org.eclipse.jgit.util.sha1.SHA1Java} if it detects a likely hash
  * collision.
  *
  * @since 4.7
