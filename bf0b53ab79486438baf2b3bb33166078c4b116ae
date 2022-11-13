@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56585c72_7ba905e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-13T20:24:51Z",
+      "side": 1,
+      "message": "How did you measure this performance difference ?\nI couldn\u0027t reproduce this in the benchmark https://git.eclipse.org/r/c/jgit/jgit/+/196906.",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "bf0b53ab79486438baf2b3bb33166078c4b116ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f47094c_66e2f796",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -32,6 +55,23 @@
       "side": 1,
       "message": "\u003e why is this a WIP ?\n\nI don\u0027t have yet specific tests for it, but the current ones are passing :-)\nI\u0027d like also to gather some numbers to show the % of improvement provided by this change.",
       "parentUuid": "6f47094c_66e2f796",
+      "revId": "bf0b53ab79486438baf2b3bb33166078c4b116ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4505a37_0b194447",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-13T20:24:51Z",
+      "side": 1,
+      "message": "This is unnecessary (memory and initialization) when the java implementation is used. Similarly when the native implementation from the JDK is used the other state/initialization in this class is unnecessary. Hence I think this is better implemented in separate classes to avoid this overhead.\n\nI pushed an alternative implementation doing that:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/196905",
       "revId": "bf0b53ab79486438baf2b3bb33166078c4b116ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
