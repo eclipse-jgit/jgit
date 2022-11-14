@@ -34,6 +34,23 @@
       "parentUuid": "1c70a27e_e55e2874",
       "revId": "e1bd677dc4a1162843427cd7dc5d9a6a905abd7b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09e5c9ee_a9657271",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2022-11-14T13:20:44Z",
+      "side": 1,
+      "message": "Thanks for the quick action, especially on such short notice.",
+      "revId": "e1bd677dc4a1162843427cd7dc5d9a6a905abd7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
