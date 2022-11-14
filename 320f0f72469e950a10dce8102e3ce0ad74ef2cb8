@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81c6e8fe_c95d0efc",
+        "filename": "org.eclipse.jgit.benchmarks/.classpath",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-14T19:10:49Z",
+      "side": 0,
+      "message": "Are these changes related to the problem described in the commit message?",
+      "revId": "320f0f72469e950a10dce8102e3ce0ad74ef2cb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

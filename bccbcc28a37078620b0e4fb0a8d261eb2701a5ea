@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6b6f4e0_c4854971",
+        "filename": "org.eclipse.jgit.benchmarks/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-14T19:10:49Z",
+      "side": 1,
+      "message": "Is this related?",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 32
+      },
+      "revId": "bccbcc28a37078620b0e4fb0a8d261eb2701a5ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
