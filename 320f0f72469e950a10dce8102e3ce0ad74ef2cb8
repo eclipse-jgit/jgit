@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "464ec258_36022d26",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/sha1/SHA1Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-14T19:09:23Z",
+      "side": 1,
+      "message": "@Theory here and below?",
+      "range": {
+        "startLine": 139,
+        "startChar": 1,
+        "endLine": 139,
+        "endChar": 6
+      },
+      "revId": "320f0f72469e950a10dce8102e3ce0ad74ef2cb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f72e210_ff3ec677",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-14T19:09:23Z",
+      "side": 1,
+      "message": "abstract class?",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "320f0f72469e950a10dce8102e3ce0ad74ef2cb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a023dfb6_a0c68c6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-14T19:09:23Z",
+      "side": 1,
+      "message": "Later we could add further flavors, like jni: [1].\n\n[1] https://github.com/google/sha1dc-jni",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "320f0f72469e950a10dce8102e3ce0ad74ef2cb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
