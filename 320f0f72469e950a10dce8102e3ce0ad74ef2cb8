@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce27013d_91640457",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-11-14T21:22:05Z",
+      "side": 1,
+      "message": "At L445 it is `sha1sdk`",
+      "range": {
+        "startLine": 441,
+        "startChar": 9,
+        "endLine": 441,
+        "endChar": 19
+      },
+      "revId": "320f0f72469e950a10dce8102e3ce0ad74ef2cb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f72e210_ff3ec677",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
         "patchSetId": 3
