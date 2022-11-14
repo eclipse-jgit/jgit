@@ -59,8 +59,10 @@ import org.eclipse.jgit.util.io.EolStreamTypeUtil;
  * You should use a single instance for all of your file changes. In case of an
  * error, make sure your instance is released, and initiate a new one if
  * necessary.
+ *
+ * @since 6.3.1
  */
-class WorkTreeUpdater implements Closeable {
+public class WorkTreeUpdater implements Closeable {
 
 	/**
 	 * The result of writing the index changes.
