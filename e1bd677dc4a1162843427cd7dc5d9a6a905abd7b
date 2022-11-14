@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c70a27e_e55e2874",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2022-11-14T12:24:12Z",
+      "side": 1,
+      "message": "Please keep me informed of any new milestone of jgit so I can pick that up for 2022-12, hopefully in time for my contribution to M3",
+      "revId": "e1bd677dc4a1162843427cd7dc5d9a6a905abd7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
