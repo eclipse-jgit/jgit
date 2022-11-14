@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e8beba8f_2afb46ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-14T22:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063c68bb_25b67f16",
+      "revId": "bbe437c71461e76eb3c458bf0e8debaf1cae5905",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a0d26e0e_b4cdc815",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -119,6 +137,30 @@
       "side": 1,
       "message": "This allows to quickly add one of these profilers to get more insight into where time is spent. I will remove it, and also from the other benchmarks.",
       "parentUuid": "8f373cf1_d691e40a",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 40
+      },
+      "revId": "bbe437c71461e76eb3c458bf0e8debaf1cae5905",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f89c857c_5a24c3cf",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/SHA1Benchmark.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-14T22:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a7e9282_249a9879",
       "range": {
         "startLine": 96,
         "startChar": 0,
