@@ -1,55 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
-        <filter id="336658481">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="workTreeUpdater"/>
-            </message_arguments>
-        </filter>
-        <filter id="338755678">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="builder"/>
-            </message_arguments>
-        </filter>
-        <filter id="338755678">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="implicitDirCache"/>
-            </message_arguments>
-        </filter>
-        <filter id="338755678">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="toBeCheckedOut"/>
-            </message_arguments>
-        </filter>
-        <filter id="338755678">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="toBeDeleted"/>
-            </message_arguments>
-        </filter>
-        <filter id="338755678">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="workingTreeOptions"/>
-            </message_arguments>
-        </filter>
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="addCheckoutMetadata(Map&lt;String,DirCacheCheckout.CheckoutMetadata&gt;, String, Attributes)"/>
-            </message_arguments>
-        </filter>
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="cleanUp()"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/transport/AwsRequestSignerV4.java" type="org.eclipse.jgit.transport.AwsRequestSignerV4">
         <filter id="1108344834">
             <message_arguments>
