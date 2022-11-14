@@ -16,6 +16,24 @@
       "message": "Please keep me informed of any new milestone of jgit so I can pick that up for 2022-12, hopefully in time for my contribution to M3",
       "revId": "e1bd677dc4a1162843427cd7dc5d9a6a905abd7b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1090359_fd5fb1fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-14T13:19:08Z",
+      "side": 1,
+      "message": "I target to submit this today so that I can include it in M3 which is due this week",
+      "parentUuid": "1c70a27e_e55e2874",
+      "revId": "e1bd677dc4a1162843427cd7dc5d9a6a905abd7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
