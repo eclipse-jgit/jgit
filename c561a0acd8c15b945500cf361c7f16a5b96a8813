@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "466c2932_5669e4b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-15T13:08:35Z",
+      "side": 1,
+      "message": "Patch set 6 was uploaded, but there is still no reference to Issue 580310?",
+      "parentUuid": "eb92cedc_954beae4",
+      "revId": "c561a0acd8c15b945500cf361c7f16a5b96a8813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78984137_ba236760",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1Java.java",
         "patchSetId": 5
