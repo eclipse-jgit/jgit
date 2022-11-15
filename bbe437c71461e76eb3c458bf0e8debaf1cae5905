@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "21ebf420_d8693b0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T07:57:07Z",
+      "side": 1,
+      "message": "SHA1 is used in many places in jgit beyond keeping track of the state of the packed-refs of a monorepo",
+      "parentUuid": "d7f08817_e0bb8378",
+      "revId": "bbe437c71461e76eb3c458bf0e8debaf1cae5905",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a0d26e0e_b4cdc815",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
