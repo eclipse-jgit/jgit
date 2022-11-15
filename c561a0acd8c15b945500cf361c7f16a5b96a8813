@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78984137_ba236760",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1Java.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-15T10:14:20Z",
+      "side": 1,
+      "message": "This is done mainly for backwards compatibility, right? After this change, we could drop support for that. Why would someone want to still have Java-based SHA implementation, without collision detection (that is still 10% slower), when she could switch to JDK based md implementation.\n\nOr we could left it AS-IS on stable branches but drop on JGit@HEAD?",
+      "range": {
+        "startLine": 79,
+        "startChar": 1,
+        "endLine": 95,
+        "endChar": 2
+      },
+      "revId": "c561a0acd8c15b945500cf361c7f16a5b96a8813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "724b5811_e56701b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1Native.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-15T10:14:20Z",
+      "side": 1,
+      "message": "Nit: can be private final.",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 9
+      },
+      "revId": "c561a0acd8c15b945500cf361c7f16a5b96a8813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
