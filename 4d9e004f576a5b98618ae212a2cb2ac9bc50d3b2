@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f9e1165_313d5bc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2022-11-15T14:26:44Z",
+      "side": 1,
+      "message": "I believe this approach should work as well for EMF Compare",
+      "revId": "4d9e004f576a5b98618ae212a2cb2ac9bc50d3b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
