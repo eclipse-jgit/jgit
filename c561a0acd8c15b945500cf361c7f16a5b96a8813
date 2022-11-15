@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb92cedc_954beae4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T10:54:45Z",
+      "side": 1,
+      "message": "I linked it in the commit message",
+      "parentUuid": "34b5092c_07fd12bc",
+      "revId": "c561a0acd8c15b945500cf361c7f16a5b96a8813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78984137_ba236760",
@@ -41,6 +59,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0360e4f2_297ad8d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1Java.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T10:54:45Z",
+      "side": 1,
+      "message": "- Yes, we need to avoid API breakage on stable branches, we only accept API breakage for API clients in major releases, for API implementers in minor releases.\n- There might be use cases where an application wants to switch off collision detection only for some of the SHA1 instances it creates. This method allows to do that on implementations supporting this method.",
+      "parentUuid": "78984137_ba236760",
+      "range": {
+        "startLine": 79,
+        "startChar": 1,
+        "endLine": 95,
+        "endChar": 2
+      },
+      "revId": "c561a0acd8c15b945500cf361c7f16a5b96a8813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "724b5811_e56701b1",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-11-15T10:14:20Z",
       "side": 1,
       "message": "Nit: can be private final.",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 9
+      },
+      "revId": "c561a0acd8c15b945500cf361c7f16a5b96a8813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25e17263_ed5de74b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1Native.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T10:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "724b5811_e56701b1",
       "range": {
         "startLine": 24,
         "startChar": 1,
