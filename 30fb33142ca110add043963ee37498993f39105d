@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73aa6fad_3f3e38a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T22:08:18Z",
+      "side": 1,
+      "message": "private",
+      "revId": "30fb33142ca110add043963ee37498993f39105d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
