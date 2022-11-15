@@ -142,6 +142,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6355a7d_1251dab1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-15T06:55:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "05753f3a_1c667850",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "320f0f72469e950a10dce8102e3ce0ad74ef2cb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a023dfb6_a0c68c6f",
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "Interesting. Masaya also contributed to JGit.\n\nYes, we can try this, licenses (MIT and Apache-2) are compatible with JGit\u0027s BSD license. But it seems the interesting part will be the build. And we would need to build and package it ourselves (for all platforms we want to support) and enhance the jar to ensure that the native library is loaded.\n\nFound some comments about git here \nhttps://news.ycombinator.com/item?id\u003d17825441\n\nGit uses the implementation from\nhttps://github.com/cr-marcstevens/sha1collisiondetection\nsee\nhttps://github.com/git/git/commit/28dc98e343ca4eb370a29ceec4c19beac9b5c01e",
       "parentUuid": "a023dfb6_a0c68c6f",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "320f0f72469e950a10dce8102e3ce0ad74ef2cb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f973e88_2ad71aa5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-15T06:55:17Z",
+      "side": 1,
+      "message": "Thanks for the pointer. Given that the vast majority of JGit users are on Linux, it would worth to discover the JNI build path on Linux only, and even only on Bazel build for now.",
+      "parentUuid": "0c237b29_cbad3210",
       "range": {
         "startLine": 31,
         "startChar": 0,
