@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d9fa687_ecaadbc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T07:38:13Z",
+      "side": 1,
+      "message": "we might want to add more implementations hence we should make this an enum config option and name it e.g. SHA1_IMPL \u003d \"sha1Implementation\"",
+      "revId": "51c3177b46400fba29580d0f8e20cc0c5277d6c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "024c9800_41efdb37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T07:38:13Z",
+      "side": 1,
+      "message": "this should be an enum to allow for more than 2 different implementations",
+      "revId": "51c3177b46400fba29580d0f8e20cc0c5277d6c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2adc704b_eb10ed89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T07:38:13Z",
+      "side": 1,
+      "message": "getEnum",
+      "range": {
+        "startLine": 31,
+        "startChar": 53,
+        "endLine": 31,
+        "endChar": 63
+      },
+      "revId": "51c3177b46400fba29580d0f8e20cc0c5277d6c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
