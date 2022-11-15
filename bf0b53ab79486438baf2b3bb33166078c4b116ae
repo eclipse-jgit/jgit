@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c450f02_bd4982ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T08:18:39Z",
+      "side": 1,
+      "message": "I agree, switching off the collision detection in the java implementation gives us around 10% better performance and using the native implementation provided by MessageDigest gives us another 10%. This justifies adding this option.\n\nI am still wondering in which test you saw a 10x performance improvement.",
+      "parentUuid": "911e52d4_c50d7425",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "bf0b53ab79486438baf2b3bb33166078c4b116ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f47094c_66e2f796",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
