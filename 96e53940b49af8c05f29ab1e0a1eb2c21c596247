@@ -92,6 +92,23 @@
       "message": "This is intended to be cherry-picked to stable-5.13 and then merged upstream. I\u0027m reporting this on stable-5.1 because I need this also on a Gerrit v2.16, but this isn\u0027t supposed to be merged here.",
       "revId": "96e53940b49af8c05f29ab1e0a1eb2c21c596247",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0aeb6a_7b53c7c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-15T07:58:49Z",
+      "side": 1,
+      "message": "- Please move this to a newer, maintained stable branch. I don\u0027t have the time to maintain 15 stable branches. By now with the release of Gerrit 3.7 the oldest supported Gerrit release should be 3.5 which uses JGit 6.1. stable-5.13 is also ok if you still need Gerrit 3.4.\n- can you provide evidence about what\u0027s the difference in memory consumption and how long this memory is held ?\n- I guess regarding performance RefTable will beat any improvements based on packed-refs",
+      "revId": "96e53940b49af8c05f29ab1e0a1eb2c21c596247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
