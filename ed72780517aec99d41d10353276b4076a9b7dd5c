@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "192e5432_0387f367",
+        "filename": "org.eclipse.jgit.benchmarks/.classpath",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-15T07:42:40Z",
+      "side": 1,
+      "message": "This changes were removed in the parent change and re-added here.",
+      "revId": "ed72780517aec99d41d10353276b4076a9b7dd5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
