@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d7f08817_e0bb8378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2022-11-15T06:44:21Z",
+      "side": 1,
+      "message": "And this is why we should try to get https://git.eclipse.org/r/c/jgit/jgit/+/192584 merged.",
+      "parentUuid": "ac35c5bb_8500fe7f",
+      "revId": "bbe437c71461e76eb3c458bf0e8debaf1cae5905",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a0d26e0e_b4cdc815",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
