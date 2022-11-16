@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.transport.parser;
 
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,7 +44,12 @@ public class FirstWant {
 	@Nullable
 	private final String agent;
 
+	@Nullable
+	private final String clientSID;
+
 	private static final String AGENT_PREFIX = OPTION_AGENT + '=';
+
+	private static final String SESSION_ID_PREFIX = OPTION_SESSION_ID + '=';
 
 	/**
 	 * Parse the first want line in the protocol v0/v1 pack negotiation.
@@ -58,6 +64,7 @@ public class FirstWant {
 		String wantLine;
 		Set<String> capabilities;
 		String agent = null;
+		String clientSID = null;
 
 		if (line.length() > 45) {
 			String opt = line.substring(45);
@@ -70,6 +77,9 @@ public class FirstWant {
 			for (String clientCapability : opt.split(" ")) { //$NON-NLS-1$
 				if (clientCapability.startsWith(AGENT_PREFIX)) {
 					agent = clientCapability.substring(AGENT_PREFIX.length());
+				} else if (clientCapability.startsWith(SESSION_ID_PREFIX)) {
+					clientSID = clientCapability
+							.substring(SESSION_ID_PREFIX.length());
 				} else {
 					opts.add(clientCapability);
 				}
@@ -81,14 +91,15 @@ public class FirstWant {
 			capabilities = Collections.emptySet();
 		}
 
-		return new FirstWant(wantLine, capabilities, agent);
+		return new FirstWant(wantLine, capabilities, agent, clientSID);
 	}
 
 	private FirstWant(String line, Set<String> capabilities,
-			@Nullable String agent) {
+			@Nullable String agent, @Nullable String clientSID) {
 		this.line = line;
 		this.capabilities = capabilities;
 		this.agent = agent;
+		this.clientSID = clientSID;
 	}
 
 	/** @return non-capabilities part of the line. */
@@ -98,7 +109,7 @@ public class FirstWant {
 
 	/**
 	 * @return capabilities parsed from the line as an immutable set (excluding
-	 *         agent).
+	 *         agent and session-id).
 	 */
 	public Set<String> getCapabilities() {
 		return capabilities;
@@ -108,5 +119,11 @@ public class FirstWant {
 	@Nullable
 	public String getAgent() {
 		return agent;
+	}
+
+	/** @return client session-id parsed from the line. */
+	@Nullable
+	public String getClientSID() {
+		return clientSID;
 	}
 }

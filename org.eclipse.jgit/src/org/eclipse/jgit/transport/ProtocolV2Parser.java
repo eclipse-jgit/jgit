@@ -20,6 +20,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_AL
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_NOT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_SINCE;
@@ -63,10 +64,12 @@ final class ProtocolV2Parser {
 	 */
 	private static String consumeCapabilities(PacketLineIn pckIn,
 			Consumer<String> serverOptionConsumer,
-			Consumer<String> agentConsumer) throws IOException {
+			Consumer<String> agentConsumer,
+			Consumer<String> clientSIDConsumer) throws IOException {
 
 		String serverOptionPrefix = OPTION_SERVER_OPTION + '=';
 		String agentPrefix = OPTION_AGENT + '=';
+		String clientSIDPrefix = OPTION_SESSION_ID + '=';
 
 		String line = pckIn.readString();
 		while (!PacketLineIn.isDelimiter(line) && !PacketLineIn.isEnd(line)) {
@@ -75,6 +78,9 @@ final class ProtocolV2Parser {
 						.accept(line.substring(serverOptionPrefix.length()));
 			} else if (line.startsWith(agentPrefix)) {
 				agentConsumer.accept(line.substring(agentPrefix.length()));
+			} else if (line.startsWith(clientSIDPrefix)) {
+				clientSIDConsumer
+						.accept(line.substring(clientSIDPrefix.length()));
 			} else {
 				// Unrecognized capability. Ignore it.
 			}
@@ -108,7 +114,8 @@ final class ProtocolV2Parser {
 
 		String line = consumeCapabilities(pckIn,
 				serverOption -> reqBuilder.addServerOption(serverOption),
-				agent -> reqBuilder.setAgent(agent));
+				agent -> reqBuilder.setAgent(agent),
+				clientSID -> reqBuilder.setClientSID(clientSID));
 
 		if (PacketLineIn.isEnd(line)) {
 			return reqBuilder.build();
@@ -235,7 +242,8 @@ final class ProtocolV2Parser {
 
 		String line = consumeCapabilities(pckIn,
 				serverOption -> builder.addServerOption(serverOption),
-				agent -> builder.setAgent(agent));
+				agent -> builder.setAgent(agent),
+				clientSID -> builder.setClientSID(clientSID));
 
 		if (PacketLineIn.isEnd(line)) {
 			return builder.build();

@@ -299,14 +299,19 @@ public abstract class FS {
 
 		static {
 			// Shut down the SAVE_RUNNER on System.exit()
-			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-				try {
-					SAVE_RUNNER.shutdownNow();
-					SAVE_RUNNER.awaitTermination(100, TimeUnit.MILLISECONDS);
-				} catch (Exception e) {
-					// Ignore; we're shutting down
-				}
-			}));
+			try {
+				Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+					try {
+						SAVE_RUNNER.shutdownNow();
+						SAVE_RUNNER.awaitTermination(100,
+								TimeUnit.MILLISECONDS);
+					} catch (Exception e) {
+						// Ignore; we're shutting down
+					}
+				}));
+			} catch (IllegalStateException e) {
+				// ignore - may fail if shutdown is already in progress
+			}
 		}
 
 		/**
