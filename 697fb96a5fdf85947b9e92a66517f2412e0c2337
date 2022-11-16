@@ -85,6 +85,86 @@
       "message": "Thanks! I\u0027m always in favor of changes that reduce the amount of ref scanning. :)\n\nSome commit message nits; the motivation here is that I don\u0027t understand what this change will do yet from the commit message, and I\u0027m hoping that these kinds of clarifications will make that easier.",
       "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2a852ee_e9ca97d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-16T07:12:32Z",
+      "side": 1,
+      "message": "In JGit we use the \"else if {\" form, but in this case I find it clearer like this as the first \"if\" is about validators but the second about wantIds.",
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef77e4f_f44da18c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-16T07:12:32Z",
+      "side": 1,
+      "message": "Very optional suggested rewording, thinking in somebody reading this if in the future without context:\n\n\"Only refs-in-wants in request. These ref-in-wants where used as filters already in the ls-refs, there is no need to use a full advertisement now in fetch. This improves performance and also accuracy: when the ref db prioritize and truncates the returned refs (e.g. gerrit hides too old refs), applying a filter can return different results than a plain listing.\"",
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0cc33b7_62cb0479",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-16T07:12:32Z",
+      "side": 1,
+      "message": "Optional (if you keep this comment): this is more for the commit message than the code comment. Code-wise the interesting bit is that this gives accurate results (as usual, IIUC)",
+      "range": {
+        "startLine": 1190,
+        "startChar": 53,
+        "endLine": 1191,
+        "endChar": 39
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aa7c971_9363176f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-16T07:12:32Z",
+      "side": 1,
+      "message": "Optional: This is information for the commit message, more than the code. Can be deleted.",
+      "range": {
+        "startLine": 1194,
+        "startChar": 18,
+        "endLine": 1195,
+        "endChar": 14
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
