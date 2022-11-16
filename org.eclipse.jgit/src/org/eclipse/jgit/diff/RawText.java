@@ -568,4 +568,54 @@ public class RawText extends Sequence {
 			return new RawText(data, RawParseUtils.lineMapOrBinary(data, 0, (int) sz));
 		}
 	}
+
+	/**
+	 * Read a blob object into RawText
+	 *
+	 * @param ldr
+	 *            the ObjectLoader for the blob
+	 * @since 6.4
+	 * @return the RawText representing the blob.
+	 * @throws java.io.IOException
+	 *             if the input could not be read.
+	 */
+	public static RawText loadBinary(ObjectLoader ldr)
+			throws IOException {
+		long sz = ldr.getSize();
+
+		int bufferSize = getBufferSize();
+		if (sz <= bufferSize) {
+			byte[] data = ldr.getCachedBytes(bufferSize);
+			return new RawText(data);
+		}
+
+		byte[] head = new byte[bufferSize];
+		try (InputStream stream = ldr.openStream()) {
+			int off = 0;
+			int left = head.length;
+			while (left > 0) {
+				int n = stream.read(head, off, left);
+				if (n < 0) {
+					throw new EOFException();
+				}
+				left -= n;
+
+				while (n > 0) {
+					off++;
+					n--;
+				}
+			}
+
+			byte[] data;
+			try {
+				data = new byte[(int)sz];
+			} catch (OutOfMemoryError e) {
+				throw new LargeObjectException.OutOfMemory(e);
+			}
+
+			System.arraycopy(head, 0, data, 0, head.length);
+			IO.readFully(stream, data, off, (int) (sz-off));
+			return new RawText(data, RawParseUtils.lineMap(data, 0, (int) sz));
+		}
+	}
 }
