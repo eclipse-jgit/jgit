@@ -136,6 +136,16 @@ class Show extends TextBuiltin {
 		diffFmt.setNewPrefix(""); //$NON-NLS-1$
 	}
 
+	@Option(name = "--text", usage = "usage_binaryAsText")
+	void asText(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setAsText(true);
+	}
+
+	@Option(name = "--binary", usage = "usage_binaryAsBinary")
+	void asBinary(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setAsBinary(true);
+	}
+
 	// END -- Options shared with Diff
 
 	Show() {
@@ -216,7 +226,7 @@ class Show extends TextBuiltin {
 		outw.print(tag.getTagName());
 		outw.println();
 
-		final PersonIdent tagger = tag.getTaggerIdent();
+		final PersonIdent tagger = db.getMailmap().map(tag.getTaggerIdent());
 		if (tagger != null) {
 			outw.println(MessageFormat.format(CLIText.get().taggerInfo,
 					tagger.getName(), tagger.getEmailAddress()));
