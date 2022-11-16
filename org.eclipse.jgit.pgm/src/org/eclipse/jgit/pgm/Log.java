@@ -171,6 +171,16 @@ class Log extends RevWalkTextBuiltin {
 		diffFmt.setNewPrefix(""); //$NON-NLS-1$
 	}
 
+	@Option(name = "--text", usage = "usage_binaryAsText")
+	void asText(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setAsText(true);
+	}
+
+	@Option(name = "--binary", usage = "usage_binaryAsBinary")
+	void asBinary(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setAsBinary(true);
+	}
+
 	// END -- Options shared with Diff
 
 
