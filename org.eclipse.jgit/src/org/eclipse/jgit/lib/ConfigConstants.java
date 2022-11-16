@@ -538,6 +538,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_SUPPORTSATOMICFILECREATION = "supportsatomicfilecreation";
 
 	/**
+	 * The "sha1Implementation" key in the "core" section
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String SHA1_IMPLEMENTATION = "sha1implementation";
+
+	/**
 	 * The "noprefix" key in the "diff" section
 	 * @since 3.0
 	 */

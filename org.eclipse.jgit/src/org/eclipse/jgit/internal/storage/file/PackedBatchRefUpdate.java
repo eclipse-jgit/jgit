@@ -86,10 +86,16 @@ import org.eclipse.jgit.util.RefList;
  */
 class PackedBatchRefUpdate extends BatchRefUpdate {
 	private RefDirectory refdb;
+	private boolean shouldLockLooseRefs;
 
 	PackedBatchRefUpdate(RefDirectory refdb) {
-		super(refdb);
-		this.refdb = refdb;
+		this(refdb, true);
+	}
+
+	PackedBatchRefUpdate(RefDirectory refdb, boolean shouldLockLooseRefs) {
+	  super(refdb);
+	  this.refdb = refdb;
+	  this.shouldLockLooseRefs = shouldLockLooseRefs;
 	}
 
 	/** {@inheritDoc} */
@@ -155,7 +161,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		refdb.inProcessPackedRefsLock.lock();
 		try {
 			PackedRefList oldPackedList;
-			if (!refdb.isInClone()) {
+			if (!refdb.isInClone() && shouldLockLooseRefs) {
 				locks = lockLooseRefs(pending);
 				if (locks == null) {
 					return;

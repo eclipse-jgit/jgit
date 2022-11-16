@@ -537,9 +537,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 							Collections.singletonList(
 									new RefSpec(unreachableCommit.name()))));
 			assertTrue(e.getMessage().contains(
-					"Bad Request"));
+					"want " + unreachableCommit.name() + " not valid"));
 		}
-		assertLastRequestStatusCode(400);
+		assertLastRequestStatusCode(200);
 	}
 
 	@Test
@@ -560,9 +560,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 					() -> t.fetch(NullProgressMonitor.INSTANCE,
 							Collections.singletonList(new RefSpec(A.name()))));
 			assertTrue(
-					e.getMessage().contains("Bad Request"));
+					e.getMessage().contains("want " + A.name() + " not valid"));
 		}
-		assertLastRequestStatusCode(400);
+		assertLastRequestStatusCode(200);
 	}
 
 	@Test
@@ -1610,9 +1610,9 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 			fail("Server accepted want " + id.name());
 		} catch (TransportException err) {
 			assertTrue(err.getMessage()
-					.contains("Bad Request"));
+					.contains("want " + id.name() + " not valid"));
 		}
-		assertLastRequestStatusCode(400);
+		assertLastRequestStatusCode(200);
 	}
 
 	@Test
