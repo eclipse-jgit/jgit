@@ -19,6 +19,7 @@ import static org.eclipse.jgit.diff.DiffEntry.ChangeType.RENAME;
 import static org.eclipse.jgit.diff.DiffEntry.Side.NEW;
 import static org.eclipse.jgit.diff.DiffEntry.Side.OLD;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
 import static org.eclipse.jgit.lib.FileMode.GITLINK;
@@ -29,6 +30,7 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.zip.Deflater;
 
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
@@ -40,6 +42,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.DeltaIndex;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -69,6 +72,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.QuotedString;
+import org.eclipse.jgit.util.io.BinaryHunkOutputStream;
 
 /**
  * Format a Git style patch script.
@@ -114,6 +118,10 @@ public class DiffFormatter implements AutoCloseable {
 	private Repository repository;
 
 	private Boolean quotePaths;
+
+	private Boolean asText = false;
+
+	private Boolean asBinary = false;
 
 	/**
 	 * Create a new formatter with a default level of context.
@@ -258,6 +266,58 @@ public class DiffFormatter implements AutoCloseable {
 	 */
 	public void setBinaryFileThreshold(int threshold) {
 		this.binaryFileThreshold = threshold;
+	}
+
+	/**
+	 * Get show binary diff as text.
+	 *
+	 * @return boolean show binary diff as text
+	 * @since 6.4
+	 */
+	public Boolean getAsText() {
+	    return this.asText;
+	}
+
+	/**
+	 * Set show binary diff as text.
+	 *
+	 * @param asText
+	 *            If the parameter is true, then all the differences in binary
+	 *            files will be displayed as text
+	 * @since 6.4
+	 */
+	public void setAsText(boolean asText) {
+	    if (asText && asBinary) {
+		throw new IllegalArgumentException(
+		        JGitText.get().cannotUseBothOptions);
+	    }
+	    this.asText = asText;
+	}
+
+	/**
+	 * Get show binary diff as binary.
+	 *
+	 * @return boolean show binary diff as binary
+	 * @since 6.4
+	 */
+	public Boolean getAsBinary() {
+	    return this.asBinary;
+	}
+
+	/**
+	 * Set show binary diff as binary.
+	 *
+	 * @param asBinary
+	 *            If the parameter is true, then all the differences in binary
+	 *            files will be displayed as binary
+	 * @since 6.4
+	 */
+	public void setAsBinary(boolean asBinary) {
+	    if (asText && asBinary) {
+		throw new IllegalArgumentException(
+			JGitText.get().cannotUseBothOptions);
+	    }
+	    this.asBinary = asBinary;
 	}
 
 	/**
@@ -715,14 +775,20 @@ public class DiffFormatter implements AutoCloseable {
 	}
 
 	private String format(AbbreviatedObjectId id) {
-		if (id.isComplete() && reader != null) {
-			try {
-				id = reader.abbreviate(id.toObjectId(), abbreviationLength);
-			} catch (IOException cannotAbbreviate) {
-				// Ignore this. We'll report the full identity.
-			}
+	    if (id.isComplete() && reader != null) {
+		try {
+		    if (asBinary) {
+			id = reader.abbreviate(id.toObjectId(),
+				OBJECT_ID_STRING_LENGTH);
+		    } else {
+			id = reader.abbreviate(id.toObjectId(),
+				abbreviationLength);
+		    }
+		} catch (IOException cannotAbbreviate) {
+		    // Ignore this. We'll report the full identity.
 		}
-		return id.name();
+	    }
+	    return id.name();
 	}
 
 	private String quotePath(String path) {
@@ -763,8 +829,11 @@ public class DiffFormatter implements AutoCloseable {
 		if (!head.getHunks().isEmpty())
 			end = head.getHunks().get(0).getStartOffset();
 		out.write(head.getBuffer(), start, end - start);
-		if (head.getPatchType() == PatchType.UNIFIED)
+		if (head.getPatchType() == PatchType.UNIFIED) {
 			format(head.toEditList(), a, b);
+		} else if(head.getPatchType() == PatchType.BINARY) {
+			format(head.toEditList(), a, b);
+		}
 	}
 
 	/**
@@ -973,6 +1042,78 @@ public class DiffFormatter implements AutoCloseable {
 		RawText b;
 	}
 
+	private void writeLiteralPatch(ByteArrayOutputStream buf, byte[] rawData)
+			throws IOException {
+		//write a header data
+		buf.write(encodeASCII("literal "
+				+ rawData.length
+				+ '\n')); //$NON-NLS-1$
+
+		try (BinaryHunkOutputStream encoder =
+					 new BinaryHunkOutputStream(buf)) {
+			//compressing a binary data
+			Deflater deflater = new Deflater(1);
+			deflater.setInput(rawData);
+			deflater.finish();
+
+			//encoding a binary data
+			byte[] buffer = new byte[8192];
+			while (!deflater.finished()) {
+				int count = deflater.deflate(buffer);
+				encoder.write(buffer, 0, count);
+			}
+			encoder.close();
+
+			//write a footer data
+			buf.write('\n');
+		} catch (Exception ex) {
+			throw new IOException(ex);
+		}
+	}
+
+	private void writeDeltaPatch(ByteArrayOutputStream buf, byte[] aData,
+								 byte[] bData) throws IOException {
+		Deflater deflater = new Deflater(1);
+		deflater.setInput(bData);
+		deflater.finish();
+		byte[] buffer = new byte[8192];
+		while (!deflater.finished()) {
+			deflater.deflate(buffer);
+		}
+
+		int deflateSize = deflater.getTotalOut();
+		ByteArrayOutputStream bos = new	ByteArrayOutputStream();
+		DeltaIndex aIdx = new DeltaIndex(aData);
+		if (aIdx.encode(bos, bData, deflateSize)) {
+			//write a header data
+			buf.write(encodeASCII("delta "
+					+ bos.size() + "\n")); //$NON-NLS-1$
+
+			try (BinaryHunkOutputStream encoder =
+						 new BinaryHunkOutputStream(buf)) {
+				//compressing a binary delta
+				deflater = new Deflater(1);
+				deflater.setInput(bos.toByteArray());
+				deflater.finish();
+
+				//encoding a binary delta
+				buffer = new byte[8192];
+				while (!deflater.finished()) {
+					int count = deflater.deflate(buffer);
+					encoder.write(buffer, 0, count);
+				}
+				encoder.close();
+
+				//write a footer data
+				buf.write('\n');
+			} catch (Exception ex) {
+				throw new IOException(ex);
+			}
+		} else {
+			writeLiteralPatch(buf, bData);
+		}
+	}
+
 	private FormatResult createFormatResult(DiffEntry ent) throws IOException,
 			CorruptObjectException, MissingObjectException {
 		final FormatResult res = new FormatResult();
@@ -1002,13 +1143,132 @@ public class DiffFormatter implements AutoCloseable {
 				aRaw = open(OLD, ent);
 				bRaw = open(NEW, ent);
 			} catch (BinaryBlobException e) {
-				// Do nothing; we check for null below.
-				formatOldNewPaths(buf, ent);
-				buf.write(encodeASCII("Binary files differ\n")); //$NON-NLS-1$
-				editList = new EditList();
-				type = PatchType.BINARY;
-				res.header = new FileHeader(buf.toByteArray(), editList, type);
-				return res;
+				if (!asText && !asBinary && ent.getChangeType() != RENAME) {
+					// Do nothing; we check for null below.
+					buf.write(encodeASCII(
+							String.format("Binary files " +
+									"a/%s and b/%s differ\n",
+									ent.getOldPath(),
+									ent.getNewPath()
+							))); //$NON-NLS-1$
+
+					editList = new EditList();
+					type = PatchType.BINARY;
+
+					res.header = new FileHeader(buf.toByteArray(),
+							editList, type);
+					return res;
+				}
+				try {
+					aRaw = openBinary(OLD, ent);
+					bRaw = openBinary(NEW, ent);
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
+				if (ent.getChangeType() == ADD) {
+					if (asBinary) {
+						assert bRaw != null;
+
+						//write a header data
+						buf.write(encodeASCII("GIT binary patch\n")); //$NON-NLS-1$
+
+						//write patch data
+						writeLiteralPatch(buf, bRaw.content);
+
+						//write a footer data
+						buf.write(encodeASCII("literal 0\n")); //$NON-NLS-1$
+						buf.write(encodeASCII("HcmV?d00001\n")); //$NON-NLS-1$
+						buf.write('\n');
+
+						editList = new EditList();
+						type = PatchType.BINARY;
+
+						res.header = new FileHeader(buf.toByteArray(),
+								editList, type);
+						return res;
+					} else if (asText) {
+						formatOldNewPaths(buf, ent);
+
+						res.a = aRaw;
+						res.b = bRaw;
+						editList = diff(res.a, res.b);
+						type = PatchType.BINARY;
+
+						res.header = new FileHeader(buf.toByteArray(),
+								editList, type);
+						return res;
+					}
+				} else if (ent.getChangeType() == MODIFY) {
+					if (asBinary) {
+						assert aRaw != null;
+						assert bRaw != null;
+
+						//write a header data
+						buf.write(encodeASCII("GIT binary patch\n")); //$NON-NLS-1$
+
+						//write patch data forward
+						writeDeltaPatch(buf, aRaw.content, bRaw.content);
+						//write patch data reverse
+						writeDeltaPatch(buf, bRaw.content, aRaw.content);
+
+						editList = new EditList();
+						type = PatchType.BINARY;
+
+						res.header = new FileHeader(buf.toByteArray(),
+								editList, type);
+						return res;
+					} else if (asText) {
+
+						formatOldNewPaths(buf, ent);
+
+						res.a = aRaw;
+						res.b = bRaw;
+						editList = diff(res.a, res.b);
+						type = PatchType.BINARY;
+
+						res.header = new FileHeader(buf.toByteArray(),
+								editList, type);
+						return res;
+					}
+				} if (ent.getChangeType() == DELETE) {
+					if (asBinary) {
+						assert aRaw != null;
+
+						//write a headers data
+						buf.write(encodeASCII("GIT binary patch\n")); //$NON-NLS-1$
+						buf.write(encodeASCII("literal 0\n")); //$NON-NLS-1$
+						buf.write(encodeASCII("HcmV?d00001\n")); //$NON-NLS-1$
+						buf.write('\n');
+
+						//write patch data
+						writeLiteralPatch(buf, aRaw.content);
+
+						editList = new EditList();
+						type = PatchType.BINARY;
+
+						res.header = new FileHeader(buf.toByteArray(),
+								editList, type);
+						return res;
+					} else if (asText) {
+						formatOldNewPaths(buf, ent);
+
+						res.a = aRaw;
+						res.b = bRaw;
+						editList = diff(res.a, res.b);
+						type = PatchType.BINARY;
+
+						res.header = new FileHeader(buf.toByteArray(),
+								editList, type);
+						return res;
+					}
+				} else {
+					editList = new EditList();
+					type = PatchType.BINARY;
+
+					res.header = new FileHeader(buf.toByteArray(),
+							editList, type);
+					return res;
+				}
 			}
 		}
 
@@ -1074,6 +1334,41 @@ public class DiffFormatter implements AutoCloseable {
 		ObjectLoader ldr = LfsFactory.getInstance().applySmudgeFilter(repository,
 				source.open(side, entry), entry.getDiffAttribute());
 		return RawText.load(ldr, binaryFileThreshold);
+	}
+
+	private RawText openBinary(DiffEntry.Side side, DiffEntry entry)
+			throws IOException {
+		if (entry.getMode(side) == FileMode.MISSING) {
+			return RawText.EMPTY_TEXT;
+		}
+
+		if (entry.getMode(side).getObjectType() != Constants.OBJ_BLOB) {
+			return RawText.EMPTY_TEXT;
+		}
+
+		AbbreviatedObjectId id = entry.getId(side);
+		if (!id.isComplete()) {
+			Collection<ObjectId> ids = reader.resolve(id);
+			if (ids.size() == 1) {
+				id = AbbreviatedObjectId.fromObjectId(ids.iterator().next());
+				switch (side) {
+					case OLD:
+						entry.oldId = id;
+						break;
+					case NEW:
+						entry.newId = id;
+						break;
+				}
+			} else if (ids.isEmpty()) {
+				throw new MissingObjectException(id, Constants.OBJ_BLOB);
+			} else {
+				throw new AmbiguousObjectException(id, ids);
+			}
+		}
+
+		ObjectLoader ldr = LfsFactory.getInstance().applySmudgeFilter(repository,
+				source.open(side, entry), entry.getDiffAttribute());
+		return RawText.loadBinary(ldr);
 	}
 
 	/**
