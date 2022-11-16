@@ -90,12 +90,14 @@ public class JGitText extends TranslationBundle {
 	/***/ public String blockLimitNotPositive;
 	/***/ public String blockSizeNotPowerOf2;
 	/***/ public String bothRefTargetsMustNotBeNull;
+	/***/ public String branchNameConflicting;
 	/***/ public String branchNameInvalid;
 	/***/ public String buildingBitmaps;
 	/***/ public String cachedPacksPreventsIndexCreation;
 	/***/ public String cachedPacksPreventsListingObjects;
 	/***/ public String cannotAccessLastModifiedForSafeDeletion;
 	/***/ public String cannotBeCombined;
+	/***/ public String cannotUseBothOptions;
 	/***/ public String cannotBeRecursiveWhenTreesAreIncluded;
 	/***/ public String cannotChangeActionOnComment;
 	/***/ public String cannotCheckoutFromUnbornBranch;
@@ -579,6 +581,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packFileInvalid;
 	/***/ public String packfileIsTruncated;
 	/***/ public String packfileIsTruncatedNoParam;
+	/***/ public String packFileMustStartWithPrefix;
 	/***/ public String packHandleIsStale;
 	/***/ public String packHasUnresolvedDeltas;
 	/***/ public String packInaccessible;

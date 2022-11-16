@@ -152,6 +152,16 @@ class Log extends RevWalkTextBuiltin {
 		diffFmt.setNewPrefix(""); //$NON-NLS-1$
 	}
 
+	@Option(name = "--text", usage = "usage_binaryAsText")
+	void asText(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setAsText(true);
+	}
+
+	@Option(name = "--binary", usage = "usage_binaryAsBinary")
+	void asBinary(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setAsBinary(true);
+	}
+
 	// END -- Options shared with Diff
 
 
@@ -248,7 +258,7 @@ class Log extends RevWalkTextBuiltin {
 		if (showSignature) {
 			showSignature(c);
 		}
-		final PersonIdent author = c.getAuthorIdent();
+		final PersonIdent author = db.getMailmap().map(c.getAuthorIdent());
 		outw.println(MessageFormat.format(CLIText.get().authorInfo, author.getName(), author.getEmailAddress()));
 		outw.println(MessageFormat.format(CLIText.get().dateInfo,
 				dateFormatter.formatDate(author)));
