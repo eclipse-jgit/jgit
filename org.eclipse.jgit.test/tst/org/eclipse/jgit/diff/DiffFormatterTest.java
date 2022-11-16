@@ -171,7 +171,8 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		ObjectId adId = blob("a\nd\n");
 		ObjectId abcdId = blob("a\nb\nc\nd\n");
 
-		String diffHeader = makeDiffHeader(PATH_A, PATH_A, adId, abcdId);
+		String diffHeader = makeDiffHeader(PATH_A, PATH_A, adId, abcdId) +
+				"--- a/src/a\n+++ b/src/a\n";
 
 		DiffEntry ad = DiffEntry.delete(PATH_A, adId);
 		DiffEntry abcd = DiffEntry.add(PATH_A, abcdId);
@@ -207,7 +208,8 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		ObjectId binId = blob("a\nb\nc\n\0\0\0\0d\n");
 
 		String diffHeader = makeDiffHeader(PATH_A, PATH_B, adId, binId)
-				+ "Binary files differ\n";
+				+ "Binary files a/" + PATH_A
+				+ " and b/" + PATH_B + " differ\n";
 
 		DiffEntry ad = DiffEntry.delete(PATH_A, adId);
 		DiffEntry abcd = DiffEntry.add(PATH_B, binId);
@@ -217,6 +219,145 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		FileHeader fh = df.toFileHeader(mod);
 
 		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
+		assertEquals(FileHeader.PatchType.BINARY, fh.getPatchType());
+
+		assertEquals(1, fh.getHunks().size());
+
+		HunkHeader hh = fh.getHunks().get(0);
+		assertEquals(0, hh.toEditList().size());
+	}
+
+	@Test
+	public void testDiff_BinaryAsText() throws Exception {
+		ObjectId adId = blob("a\nd\n");
+		ObjectId binId = blob("a\nb\nc\n\0\0\0\0d\n");
+
+		String diffHeader = makeDiffHeaderAsText(PATH_A, PATH_B, adId, binId)
+				+ "@@ -1,2 +1,4 @@\n a\n-d\n+b\n+c\n+\0\0\0\0d\n";
+
+		DiffEntry ad = DiffEntry.delete(PATH_A, adId);
+		DiffEntry abcd = DiffEntry.add(PATH_B, binId);
+
+		DiffEntry mod = DiffEntry.pair(ChangeType.MODIFY, ad, abcd, 0);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		DiffFormatter fmt = new DiffFormatter(outputStream);
+		fmt.setRepository(db);
+		fmt.setAsText(true);
+
+		FileHeader fh = fmt.toFileHeader(mod);
+
+		fmt.format(mod);
+		assertEquals(diffHeader, RawParseUtils.decode(outputStream.toByteArray()));
+		assertEquals(FileHeader.PatchType.BINARY, fh.getPatchType());
+
+		assertEquals(1, fh.getHunks().size());
+
+		HunkHeader hh = fh.getHunks().get(0);
+		assertEquals(1, hh.toEditList().size());
+		assertEquals(1, hh.getNewStartLine());
+		assertEquals(3, hh.getNewLineCount());
+	}
+
+	@Test
+	public void testDiff_BinaryAsBinary() throws Exception {
+		ObjectId adId = blob("a\nd\n");
+		ObjectId binId = blob("a\nb\nc\n\0\0\0\0d\n");
+
+		String diffHeader = makeDiffHeaderAsBinary(PATH_A, PATH_B, adId, binId)
+				+ "GIT binary patch\n" +
+				"delta 15\n" +
+				"UcmZSK;Ys95;!5UX0D=@Q01oE?&j0`b\n\n" +
+                                "delta 15\n" +
+				"UcmZSK;Ys95;!5UX0D=@Q01oE?&j0`b\n\n";
+
+		DiffEntry ad = DiffEntry.delete(PATH_A, adId);
+		DiffEntry abcd = DiffEntry.add(PATH_B, binId);
+
+		DiffEntry mod = DiffEntry.pair(ChangeType.MODIFY, ad, abcd, 0);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		DiffFormatter fmt = new DiffFormatter(outputStream);
+		fmt.setRepository(db);
+		fmt.setAsBinary(true);
+
+		FileHeader fh = fmt.toFileHeader(mod);
+
+		fmt.format(mod);
+		assertEquals(diffHeader, RawParseUtils.decode(outputStream.toByteArray()));
+		assertEquals(FileHeader.PatchType.BINARY, fh.getPatchType());
+
+		assertEquals(1, fh.getHunks().size());
+
+		HunkHeader hh = fh.getHunks().get(0);
+		assertEquals(0, hh.toEditList().size());
+	}
+
+	@Test
+	public void testDiff_ADD_BinaryAsBinaryShortData() throws Exception {
+		ObjectId binId = blob("a\nb\nc\n\0\0\0\0d\n");
+		String diffHeader = makeDiffADDHeaderAsBinary(PATH_B, PATH_B, ObjectId.zeroId(), binId)
+				+ "GIT binary patch\n" +
+				"literal 12\n" +
+				"RcmYe~O5#f9VgP~^E&vT=0kZ%A\n" +
+				"\n" +
+				"literal 0\n" +
+				"HcmV?d00001\n\n";
+
+		DiffEntry ad = DiffEntry.add(PATH_A, ObjectId.zeroId());
+		DiffEntry abcd = DiffEntry.add(PATH_B, binId);
+
+		DiffEntry mod = DiffEntry.pair(ChangeType.ADD, ad, abcd, 0);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		DiffFormatter fmt = new DiffFormatter(outputStream);
+		fmt.setRepository(db);
+		fmt.setAsBinary(true);
+
+		FileHeader fh = fmt.toFileHeader(mod);
+
+		fmt.format(mod);
+		assertEquals(diffHeader, RawParseUtils.decode(outputStream.toByteArray()));
+		assertEquals(FileHeader.PatchType.BINARY, fh.getPatchType());
+
+		assertEquals(1, fh.getHunks().size());
+
+		HunkHeader hh = fh.getHunks().get(0);
+		assertEquals(0, hh.toEditList().size());
+	}
+
+	@Test
+	public void testDiff_ADD_BinaryAsBinaryLongData() throws Exception {
+		ObjectId binId = blob(
+				"a\nb\nc\n\0\0\0\0\1\1\1\1\1\1\1\1\1\1\1\1d\n" +
+						"e\nf\ng\n\0\0\0\0\2\2\2\2\2\2\2\2\2\2\2\2h\n" +
+						"i\nj\nk\n\0\0\0\0\3\3\3\3\3\3\3\3\3\3\3\3l\n" +
+						"m\nn\no\n\0\0\0\0\4\4\4\4\4\4\4\4\4\4\4\4p\n" +
+						"q\nr\ns\n\0\0\0\0\5\5\5\5\5\5\5\5\5\5\5\5t\n");
+
+		String diffHeader = makeDiffADDHeaderAsBinary(PATH_B, PATH_B, ObjectId.zeroId(), binId)
+				+ "GIT binary patch\n" +
+				"literal 120\n" +
+				"zcmYkwHxhs_5ClPNGQUJ1WDrj9|AM+`JM0O^O!I5Sf@dYzcOsI=Z1%k<>>Ql-gSfb<\n" +
+				"JJock_`2buv3C{ok\n" +
+				"\n" +
+				"literal 0\n" +
+				"HcmV?d00001\n\n";
+
+		DiffEntry ad = DiffEntry.add(PATH_A, ObjectId.zeroId());
+		DiffEntry abcd = DiffEntry.add(PATH_B, binId);
+
+		DiffEntry mod = DiffEntry.pair(ChangeType.ADD, ad, abcd, 0);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		DiffFormatter fmt = new DiffFormatter(outputStream);
+		fmt.setRepository(db);
+		fmt.setAsBinary(true);
+
+		FileHeader fh = fmt.toFileHeader(mod);
+
+		fmt.format(mod);
+		assertEquals(diffHeader, RawParseUtils.decode(outputStream.toByteArray()));
 		assertEquals(FileHeader.PatchType.BINARY, fh.getPatchType());
 
 		assertEquals(1, fh.getHunks().size());
@@ -691,9 +832,37 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		String a = aId.abbreviate(8).name();
 		String b = bId.abbreviate(8).name();
 		return DIFF + "a/" + pathA + " " + "b/" + pathB + "\n" + //
+				"index " + a + ".." + b + " " + REGULAR_FILE + "\n";
+	}
+
+	private static String makeDiffHeaderAsText(String pathA, String pathB,
+			ObjectId aId,
+			ObjectId bId) {
+		String a = aId.abbreviate(7).name();
+		String b = bId.abbreviate(7).name();
+		return DIFF + "a/" + pathA + " " + "b/" + pathB + "\n" + //
 				"index " + a + ".." + b + " " + REGULAR_FILE + "\n" + //
 				"--- a/" + pathA + "\n" + //
 				"+++ b/" + pathB + "\n";
+	}
+
+	private static String makeDiffHeaderAsBinary(String pathA, String pathB,
+			ObjectId aId,
+			ObjectId bId) {
+		String a = aId.abbreviate(40).name();
+		String b = bId.abbreviate(40).name();
+		return DIFF + "a/" + pathA + " " + "b/" + pathB + "\n" + //
+				"index " + a + ".." + b + " " + REGULAR_FILE + "\n";
+	}
+
+	private static String makeDiffADDHeaderAsBinary(String pathA, String pathB,
+			ObjectId aId,
+			ObjectId bId) {
+		String a = aId.abbreviate(40).name();
+		String b = bId.abbreviate(40).name();
+		return DIFF + "a/" + pathA + " " + "b/" + pathB + "\n" + //
+				"new file mode " + REGULAR_FILE + "\n" + //
+				"index " + a + ".." + b + "\n";
 	}
 
 	private static String makeDiffHeaderModeChange(String pathA, String pathB,
