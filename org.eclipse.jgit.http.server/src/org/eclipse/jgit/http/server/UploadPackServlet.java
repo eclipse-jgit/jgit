@@ -10,9 +10,7 @@
 
 package org.eclipse.jgit.http.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK;
@@ -23,6 +21,7 @@ import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
 import static org.eclipse.jgit.http.server.ServletUtils.consumeRequestBody;
 import static org.eclipse.jgit.http.server.ServletUtils.getInputStream;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+import static org.eclipse.jgit.http.server.UploadPackErrorHandler.statusCodeForThrowable;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 
 import java.io.IOException;
@@ -49,7 +48,6 @@ import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.UploadPackInternalServerErrorException;
-import org.eclipse.jgit.transport.WantNotValidException;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -151,16 +149,6 @@ class UploadPackServlet extends HttpServlet {
 		public void destroy() {
 			// Nothing.
 		}
-	}
-
-	private static int statusCodeForThrowable(Throwable error) {
-		if (error instanceof ServiceNotEnabledException) {
-			return SC_FORBIDDEN;
-		}
-		if (error instanceof WantNotValidException) {
-			return SC_BAD_REQUEST;
-		}
-		return SC_INTERNAL_SERVER_ERROR;
 	}
 
 	private final UploadPackErrorHandler handler;
