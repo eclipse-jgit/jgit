@@ -16,6 +16,24 @@
       "message": "I have been staring at this code for a bit now, but I still don\u0027t quite understand what is going on. However, given the additional test coverage, I think it seems OK to submit this as is.",
       "revId": "1e04046a6d22b55e6bc642d7cd4181feee9cf6af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b61024_d986e0bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-11-17T21:33:17Z",
+      "side": 1,
+      "message": "Should those open comments be marked resolved then?",
+      "parentUuid": "756f72b5_931ad263",
+      "revId": "1e04046a6d22b55e6bc642d7cd4181feee9cf6af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
