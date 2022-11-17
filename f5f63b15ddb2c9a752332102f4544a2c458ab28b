@@ -33,6 +33,24 @@
       "message": "DfsStreamKey uses the position: https://source.corp.google.com/piper///depot/google3/third_party/java_src/jgit/org.eclipse.jgit/java/org/eclipse/jgit/internal/storage/dfs/DfsStreamKey.java;rcl\u003d487522537;l\u003d56\n\nIt should be safer to append this entry (instead of adding in the middle). e.g. if two different versions of jgit are reading the same dfs block cache.",
       "revId": "f5f63b15ddb2c9a752332102f4544a2c458ab28b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d171f42b_c19c43fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackExt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-11-17T17:12:50Z",
+      "side": 1,
+      "message": "After discussing with Alina, the usage shouldn\u0027t be fragile but a search reveals at least one internal usage that might be fragile since the enum position is persisted to storage. I\u0027ll send that to you elsewhere now.\n\nI\u0027ve moved the new enum value to the end of the enum.",
+      "parentUuid": "6ab5d189_7595f2d3",
+      "revId": "f5f63b15ddb2c9a752332102f4544a2c458ab28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

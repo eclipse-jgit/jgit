@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8adf252_bb93fde6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-11-17T17:12:50Z",
+      "side": 1,
+      "message": "@ifrade please go ahead and submit the relation chain if this one looks good to you!",
+      "revId": "ed99797970684fa2be422ddd4d1d068f4e6c7602",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
