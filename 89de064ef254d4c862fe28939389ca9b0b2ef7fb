@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95210636_aab7f489",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-11-17T20:03:46Z",
+      "side": 1,
+      "message": "I guess this should be repo.getObjectDatabase().getObjectsDirectory() for consistency with other writers",
+      "range": {
+        "startLine": 931,
+        "startChar": 10,
+        "endLine": 931,
+        "endChar": 29
+      },
+      "revId": "89de064ef254d4c862fe28939389ca9b0b2ef7fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
