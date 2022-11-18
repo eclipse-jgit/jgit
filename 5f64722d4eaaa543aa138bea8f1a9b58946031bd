@@ -52,6 +52,24 @@
       "parentUuid": "8598f4e5_ecff4849",
       "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e195850_8957c27d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-18T22:54:46Z",
+      "side": 1,
+      "message": "| With the JGit change Ia378f8f228 that isn\u0027t true anymore.\n\nThis change isn\u0027t submitted yet. It needs to be moved to a maintained branch and I\u0027d like to see some numbers about memory consumption compared to the current implementation. We need to be careful since jgit has a lot of consumers, org.eclipse.jgit has \u003e7million downloads per month from Maven central.\n\n| I believe we already proposed by Marco Miller with Ic2718c816 that and it was not accepted.\n\nThis change was abandoned by Marco since he didn\u0027t have time anymore to work on it, if you have evidence that this works in your setup we can consider accepting something like that.\n\nMaybe it makes sense to split the configuration of which stats are trusted by jgit to enable experimenting on NFS. This configuration trades performance against risking lost updates hence there should be corresponding warnings in the documentation. These options should be marked as experimental.\n\nIn the long run we should use RefTable which is for sure superior compared to RefDirectory using packed-refs regarding performance and scalability. Hopefully this can land in c-git some time in the not too distant future.",
+      "parentUuid": "8ed755c0_9d0a1436",
+      "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
