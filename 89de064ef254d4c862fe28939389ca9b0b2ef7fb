@@ -22,6 +22,30 @@
       },
       "revId": "89de064ef254d4c862fe28939389ca9b0b2ef7fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd496ade_f432f883",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-18T07:36:54Z",
+      "side": 1,
+      "message": "I moved it to .git/objects/info, to be consistent with cgit.\n\n.git/objects/info/commit_xxx.graph_tmp -\u003e .git/objects/info/commit-graph\n\nThanks,\nKyle",
+      "parentUuid": "95210636_aab7f489",
+      "range": {
+        "startLine": 931,
+        "startChar": 10,
+        "endLine": 931,
+        "endChar": 29
+      },
+      "revId": "89de064ef254d4c862fe28939389ca9b0b2ef7fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
