@@ -54,6 +54,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d2a7746_c6e4a655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-18T07:31:13Z",
+      "side": 1,
+      "message": "I mentioned the startup cost of reading the entire commit-graph in the commit message.\n\n\u003e The startup cost of reading the entire commit graph is small. After\n\u003e testing, reading a commit-graph with 1 million commits takes less than\n\u003e 50ms. If we use RepositoryCache, it will not be initialized util the\n\u003e commit-graph is rewritten.\n\n\nThanks.",
+      "parentUuid": "a76b0f4d_96d3ccad",
+      "revId": "00697161730750c55e7c5302eb23836a82089eb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc0f78e5_3347850e",
