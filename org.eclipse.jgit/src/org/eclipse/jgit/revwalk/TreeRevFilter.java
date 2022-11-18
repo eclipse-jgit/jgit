@@ -113,7 +113,7 @@ public class TreeRevFilter extends RevFilter {
 		for (int i = 0; i < nParents; i++) {
 			RevCommit p = c.getParent(i);
 			if ((p.flags & PARSED) == 0) {
-				p.parseHeaders(walker);
+				p.parseHeadersInGraph(walker);
 			}
 			trees[i] = p.getTree();
 		}
