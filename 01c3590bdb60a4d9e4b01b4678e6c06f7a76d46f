@@ -142,6 +142,24 @@
       "parentUuid": "581dc43a_057f8289",
       "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfb350bb_fc91b2c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-18T22:06:39Z",
+      "side": 1,
+      "message": "2.9.2 was released, see https://www.mail-archive.com/users@mina.apache.org/msg06947.html",
+      "parentUuid": "203ef10b_8a61d5f3",
+      "revId": "01c3590bdb60a4d9e4b01b4678e6c06f7a76d46f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
