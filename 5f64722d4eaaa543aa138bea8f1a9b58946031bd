@@ -70,6 +70,24 @@
       "parentUuid": "8ed755c0_9d0a1436",
       "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86252956_e00e97a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-11-18T23:07:24Z",
+      "side": 1,
+      "message": "\u003e | With the JGit change Ia378f8f228 that isn\u0027t true anymore.\n\u003e \n\u003e This change isn\u0027t submitted yet. It needs to be moved to a maintained branch and I\u0027d like to see some numbers about memory consumption compared to the current implementation. \n\nTrue, it is still at the proposal stage and, also, it lacks numbers and data for being accepted and merged.\n\n\u003e We need to be careful since jgit has a lot of consumers, org.eclipse.jgit has \u003e7million downloads per month from Maven central.\n\n+1\n\n\u003e | I believe we already proposed by Marco Miller with Ic2718c816 that and it was not accepted.\n\u003e \n\u003e This change was abandoned by Marco since he didn\u0027t have time anymore to work on it, if you have evidence that this works in your setup we can consider accepting something like that.\n\nI would prefer to resume Ic2718c816, as it was allowing to control what to trust. @Nasser would that also work for you?\n\n\u003e Maybe it makes sense to split the configuration of which stats are trusted by jgit to enable experimenting on NFS. This configuration trades performance against risking lost updates hence there should be corresponding warnings in the documentation. These options should be marked as experimental.\n\n+1\n\n\u003e In the long run we should use RefTable which is for sure superior compared to RefDirectory using packed-refs regarding performance and scalability. Hopefully this can land in c-git some time in the not too distant future.\n\n+1",
+      "parentUuid": "7e195850_8957c27d",
+      "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
