@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4fe3faa_5efebda9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-18T22:03:02Z",
+      "side": 1,
+      "message": "- added sshd 2.9.2 to Orbit\n- updated target platform\n- updated to sshd 2.9.2",
+      "revId": "4bc0eb164c72ec21bb00d4497de9f01f00ff6c0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
