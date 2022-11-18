@@ -22,6 +22,30 @@
       },
       "revId": "c31789c1d85936a2617f78bbc2b6984a0002cd5d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8589334_1871b0e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-18T07:33:38Z",
+      "side": 1,
+      "message": "Done, you can see it in [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/197097/1/org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java#94\n\nThanks,\nKyle",
+      "parentUuid": "0c84f5d4_ce155af7",
+      "range": {
+        "startLine": 554,
+        "startChar": 10,
+        "endLine": 554,
+        "endChar": 22
+      },
+      "revId": "c31789c1d85936a2617f78bbc2b6984a0002cd5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
