@@ -321,7 +321,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		if ((c.flags & SEEN) != 0)
 			return;
 		if ((c.flags & PARSED) == 0)
-			c.parseHeaders(this);
+			c.parseHeadersInGraph(this);
 		c.flags |= SEEN;
 		roots.add(c);
 		queue.add(c);
@@ -611,7 +611,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		return pending.next();
+		RevCommit commit = pending.next();
+		if (commit != null && isRetainBody()) {
+			commit.parseBody(this);
+		}
+		return commit;
 	}
 
 	/**
