@@ -34,6 +34,24 @@
       "parentUuid": "9e9be5cc_9fd59c51",
       "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed755c0_9d0a1436",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-11-18T22:05:23Z",
+      "side": 1,
+      "message": "\u003e \u003e I don\u0027t understand how removing an optimisation which has known issues (that\u0027s why trustForlderStat was introduced) on NFS but works on other filesystems improves jgit.\n\u003e \n\u003e Our problem is that we don\u0027t want to trust modification time for objects/pack because failures are too frequent otherwise. However, we do want to trust the modification time of the packed-refs file because otherwise the performance penalty is too high (we\u0027re going to retest to confirm that).\n\nWith the JGit change Ia378f8f228 that isn\u0027t true anymore.\n\n\u003e An alternate approach might be to keep searchPacksAgain() as-is, but introduce a new config with a higher precedence than trustFolderStat to control trusting the modification time of packed-refs.\n\nI believe we already proposed by Marco Miller with Ic2718c816 that and it was not accepted.\n\n\n\u003e \u003e You say this change may incur a small performance penalty, without measurements this is a guess. And why should we accept any performance penalty ? What would we gain from that ?\n\u003e \n\u003e The idea of this approach is that less complexity helps us. I know JGit has historically valued performance optimizations over reduced complexity, so maybe this approach is too counter to that. I agree I didn\u0027t provide measurements, but we do understand in what scenarios this would even apply. It\u0027s only in the cases where we\u0027ve already failed to produce a successful result that we call searchPacksAgain(). While we could skip some work if we keep the optimization, what we would skip in that no-op case is:\n\u003e \n\u003e  FileSnapshot.save(directory) // gets lastModifiedTime for `directory`\n\u003e  getPackFilesByExtById() // walks the files in the objects/pack/ directory and populates a map\n\u003e  oldPack.getFileSnapshot().isModified(packFile) // gets lastModifiedTime for `packFile`\n\u003e \n\u003e I think it\u0027s safe to assume the file snapshot methods are fast on any filesystem where you would be trusting that stat, and at least one of those is equivalent to the check I\u0027m removing, so worst case it\u0027s net +1 stat call. That leaves walking files in the pack/ dir. I agree doing that work is more than skipping it. I don\u0027t think that will be measurable on any filesystem where you would trust the file system stats, do you? If yes, in what scenarios would you be concerned about it? Maybe something like a spinning disk with 1000 pack files? I think SSDs are going to have such good seek times that we won\u0027t be able to measure it, but that\u0027s just my guess.\n\nI would recommend to measure, which is always a good thing :-)",
+      "parentUuid": "8598f4e5_ecff4849",
+      "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
