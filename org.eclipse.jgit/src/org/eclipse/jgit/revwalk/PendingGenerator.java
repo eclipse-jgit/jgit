@@ -119,7 +119,7 @@ class PendingGenerator extends Generator {
 					if ((p.flags & SEEN) != 0)
 						continue;
 					if ((p.flags & PARSED) == 0)
-						p.parseHeaders(walker);
+						p.parseHeadersInGraph(walker);
 					p.flags |= SEEN;
 					pending.add(p);
 				}
