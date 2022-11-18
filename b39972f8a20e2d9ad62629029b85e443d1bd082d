@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b3a527f_65ed0091",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-18T23:08:44Z",
+      "side": 1,
+      "message": "Also updated https://gerrit-review.googlesource.com/c/gerrit/+/335738 to update Gerrit to 2.9.2",
+      "revId": "b39972f8a20e2d9ad62629029b85e443d1bd082d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
