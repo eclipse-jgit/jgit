@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be920de4_3343b188",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-19T03:25:44Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/197044 and https://git.eclipse.org/r/c/jgit/jgit/+/197116\n\nNeeded for further implementation of format-patch",
+      "revId": "3d6087d174bbbd9aa86508e694fc98364a814874",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
