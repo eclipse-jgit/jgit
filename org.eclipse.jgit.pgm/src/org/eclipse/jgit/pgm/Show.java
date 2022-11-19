@@ -58,6 +58,9 @@ class Show extends TextBuiltin {
 
 	private DiffFormatter diffFmt;
 
+	private boolean showNameOnly = false;
+	private boolean showNameAndStatusOnly = false;
+
 	@Argument(index = 0, metaVar = "metaVar_object")
 	private String objectName;
 
@@ -83,7 +86,22 @@ class Show extends TextBuiltin {
 	private Integer renameLimit;
 
 	@Option(name = "--name-status", usage = "usage_nameStatus")
-	private boolean showNameAndStatusOnly;
+	void nameAndStatusOnly(boolean on) {
+		if (showNameOnly) {
+			throw new IllegalArgumentException(
+					CLIText.get().cannotUseNameStatusOnlyAndNameOnly);
+		}
+		showNameAndStatusOnly = on;
+	}
+
+	@Option(name = "--name-only", usage = "usage_nameOnly")
+	void nameOnly(boolean on) {
+		if (showNameAndStatusOnly) {
+			throw new IllegalArgumentException(
+					CLIText.get().cannotUseNameStatusOnlyAndNameOnly);
+		}
+		showNameOnly = on;
+	}
 
 	@Option(name = "--ignore-space-at-eol")
 	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
@@ -302,9 +320,11 @@ class Show extends TextBuiltin {
 		final RevTree a = c.getParent(0).getTree();
 		final RevTree b = c.getTree();
 
-		if (showNameAndStatusOnly)
+		if (showNameAndStatusOnly) {
 			Diff.nameStatus(outw, diffFmt.scan(a, b));
-		else {
+		} else if (showNameOnly) {
+			Diff.nameOnly(outw, diffFmt.scan(a, b));
+		} else {
 			outw.flush();
 			diffFmt.format(a, b);
 			diffFmt.flush();
