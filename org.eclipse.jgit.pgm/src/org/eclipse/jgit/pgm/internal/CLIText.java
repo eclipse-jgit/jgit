@@ -119,6 +119,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String cannotResolve;
 	/***/ public String cannotSetupConsole;
 	/***/ public String cannotUseObjectsWithGlog;
+	/***/ public String cannotUseNameStatusOnlyAndNameOnly;
 	/***/ public String cantFindGitDirectory;
 	/***/ public String cantWrite;
 	/***/ public String changesNotStagedForCommit;

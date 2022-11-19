@@ -50,6 +50,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	private TreeFilter pathFilter = TreeFilter.ALL;
 
 	private boolean showNameAndStatusOnly;
+	private boolean showNameOnly;
 
 	private OutputStream out;
 
@@ -72,7 +73,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	}
 
 	private DiffFormatter getDiffFormatter() {
-		return out != null && !showNameAndStatusOnly
+		return out != null && !showNameAndStatusOnly && !showNameOnly
 				? new DiffFormatter(new BufferedOutputStream(out))
 				: new DiffFormatter(NullOutputStream.INSTANCE);
 	}
@@ -114,7 +115,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 			diffFmt.setPathFilter(pathFilter);
 
 			List<DiffEntry> result = diffFmt.scan(oldTree, newTree);
-			if (showNameAndStatusOnly) {
+			if (showNameAndStatusOnly || showNameOnly) {
 				return result;
 			}
 			if (contextLines >= 0) {
@@ -191,6 +192,19 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 */
 	public DiffCommand setShowNameAndStatusOnly(boolean showNameAndStatusOnly) {
 		this.showNameAndStatusOnly = showNameAndStatusOnly;
+		return this;
+	}
+
+	/**
+	 * Set whether to return only names of changed files
+	 *
+	 * @param showNameOnly
+	 *            whether to return only names files
+	 * @return this instance
+	 * @since 6.4
+	 */
+	public DiffCommand setShowNameOnly(boolean showNameOnly) {
+		this.showNameOnly = showNameOnly;
 		return this;
 	}
 
