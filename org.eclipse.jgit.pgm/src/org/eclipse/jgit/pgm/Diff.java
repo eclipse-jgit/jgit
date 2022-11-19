@@ -48,6 +48,10 @@ import org.kohsuke.args4j.Option;
 class Diff extends TextBuiltin {
 	private DiffFormatter diffFmt;
 
+	private boolean showNameOnly = false;
+
+	private boolean showNameAndStatusOnly = false;
+
 	@Argument(index = 0, metaVar = "metaVar_treeish")
 	private AbstractTreeIterator oldTree;
 
@@ -81,7 +85,22 @@ class Diff extends TextBuiltin {
 	private Integer renameLimit;
 
 	@Option(name = "--name-status", usage = "usage_nameStatus")
-	private boolean showNameAndStatusOnly;
+	void nameAndStatusOnly(boolean on) {
+		if (showNameOnly) {
+			throw new IllegalArgumentException(
+					CLIText.get().cannotUseNameStatusOnlyAndNameOnly);
+		}
+		showNameAndStatusOnly = on;
+	}
+
+	@Option(name = "--name-only", usage = "usage_nameOnly")
+	void nameOnly(boolean on) {
+		if (showNameAndStatusOnly) {
+			throw new IllegalArgumentException(
+					CLIText.get().cannotUseNameStatusOnlyAndNameOnly);
+		}
+		showNameOnly = on;
+	}
 
 	@Option(name = "--ignore-space-at-eol")
 	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
@@ -183,6 +202,9 @@ class Diff extends TextBuiltin {
 			if (showNameAndStatusOnly) {
 				nameStatus(outw, diffFmt.scan(oldTree, newTree));
 				outw.flush();
+			} else if(showNameOnly) {
+				nameOnly(outw, diffFmt.scan(oldTree, newTree));
+				outw.flush();
 			} else {
 				diffFmt.format(oldTree, newTree);
 				diffFmt.flush();
@@ -217,6 +239,29 @@ class Diff extends TextBuiltin {
 						ent.getOldPath(), ent.getNewPath());
 				out.println();
 				break;
+			}
+		}
+	}
+
+	static void nameOnly(ThrowingPrintWriter out, List<DiffEntry> files)
+			throws IOException {
+		for (DiffEntry ent : files) {
+			switch (ent.getChangeType()) {
+				case ADD:
+					out.println(ent.getNewPath());
+					break;
+				case DELETE:
+					out.println(ent.getOldPath());
+					break;
+				case MODIFY:
+					out.println(ent.getNewPath());
+					break;
+				case COPY:
+					out.println(ent.getNewPath());
+					break;
+				case RENAME:
+					out.println(ent.getNewPath());
+					break;
 			}
 		}
 	}

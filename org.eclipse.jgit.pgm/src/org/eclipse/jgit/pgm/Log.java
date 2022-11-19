@@ -60,6 +60,10 @@ class Log extends RevWalkTextBuiltin {
 
 	private Map<String, NoteMap> noteMaps;
 
+	private boolean showNameOnly = false;
+
+	private boolean showNameAndStatusOnly = false;
+
 	@Option(name="--decorate", usage="usage_showRefNamesMatchingCommits")
 	private boolean decorate;
 
@@ -99,7 +103,22 @@ class Log extends RevWalkTextBuiltin {
 	private Integer renameLimit;
 
 	@Option(name = "--name-status", usage = "usage_nameStatus")
-	private boolean showNameAndStatusOnly;
+	void nameAndStatusOnly(boolean on) {
+		if (showNameOnly) {
+			throw new IllegalArgumentException(
+					CLIText.get().cannotUseNameStatusOnlyAndNameOnly);
+		}
+		showNameAndStatusOnly = on;
+	}
+
+	@Option(name = "--name-only", usage = "usage_nameOnly")
+	void nameOnly(boolean on) {
+		if (showNameAndStatusOnly) {
+			throw new IllegalArgumentException(
+					CLIText.get().cannotUseNameStatusOnlyAndNameOnly);
+		}
+		showNameOnly = on;
+	}
 
 	@Option(name = "--ignore-space-at-eol")
 	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
@@ -266,8 +285,10 @@ class Log extends RevWalkTextBuiltin {
 		if (showNotes(c))
 			outw.println();
 
-		if (c.getParentCount() <= 1 && (showNameAndStatusOnly || showPatch))
+		if (c.getParentCount() <= 1 && (showNameAndStatusOnly || showPatch
+				|| showNameOnly)) {
 			showDiff(c);
+		}
 		outw.flush();
 	}
 
@@ -364,9 +385,11 @@ class Log extends RevWalkTextBuiltin {
 				: null;
 		final RevTree b = c.getTree();
 
-		if (showNameAndStatusOnly)
+		if (showNameAndStatusOnly) {
 			Diff.nameStatus(outw, diffFmt.scan(a, b));
-		else {
+		} else if (showNameOnly) {
+			Diff.nameOnly(outw, diffFmt.scan(a, b));
+		} else {
 			outw.flush();
 			diffFmt.format(a, b);
 			diffFmt.flush();
