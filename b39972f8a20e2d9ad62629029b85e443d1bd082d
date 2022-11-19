@@ -33,6 +33,23 @@
       "message": "LGTM, but can we first bring EGit up to S20221118032057 before merging this? Otherwise we\u0027ll have to do the EGit update for S20221118032057 and sshd 2.9.2 in one commit.",
       "revId": "b39972f8a20e2d9ad62629029b85e443d1bd082d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bd5b772_a40b1f36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-11-19T14:41:42Z",
+      "side": 1,
+      "message": "Bringing EGit to S20221118032057 is https://git.eclipse.org/r/c/egit/egit/+/197120 .",
+      "revId": "b39972f8a20e2d9ad62629029b85e443d1bd082d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
