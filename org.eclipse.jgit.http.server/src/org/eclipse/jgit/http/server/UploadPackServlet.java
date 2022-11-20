@@ -168,40 +168,41 @@ class UploadPackServlet extends HttpServlet {
 		}
 
 		UploadPackRunnable r = () -> {
-			UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
-			// to be explicitly closed by caller
-			@SuppressWarnings("resource")
-			SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
-				@Override
-				public void flush() throws IOException {
-					doFlush();
-				}
-			};
-
-			up.setBiDirectionalPipe(false);
-			rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
-
-			try {
-				up.uploadWithExceptionPropagation(getInputStream(req), out,
-						null);
-				out.close();
-			} catch (ServiceMayNotContinueException e) {
-				if (e.isOutput()) {
-					consumeRequestBody(req);
-					out.close();
-				}
-				throw e;
-			} catch (UploadPackInternalServerErrorException e) {
-				// Special case exception, error message was sent to client.
-				log(up.getRepository(), e.getCause());
-				consumeRequestBody(req);
-				out.close();
-			} finally {
-				up.close();
-			}
+			upload(req, rsp);
 		};
 
 		handler.upload(req, rsp, r);
+	}
+
+	private void upload(HttpServletRequest req, HttpServletResponse rsp)
+			throws IOException, ServiceMayNotContinueException {
+		// to be explicitly closed by caller
+		@SuppressWarnings("resource")
+		SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
+			@Override
+			public void flush() throws IOException {
+				doFlush();
+			}
+		};
+		Repository repo = null;
+		try (UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER)) {
+			up.setBiDirectionalPipe(false);
+			rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
+			repo = up.getRepository();
+			up.uploadWithExceptionPropagation(getInputStream(req), out, null);
+			out.close();
+		} catch (ServiceMayNotContinueException e) {
+			if (e.isOutput()) {
+				consumeRequestBody(req);
+				out.close();
+			}
+			throw e;
+		} catch (UploadPackInternalServerErrorException e) {
+			// Special case exception, error message was sent to client.
+			log(repo, e.getCause());
+			consumeRequestBody(req);
+			out.close();
+		}
 	}
 
 	private void defaultUploadPackHandler(HttpServletRequest req,
