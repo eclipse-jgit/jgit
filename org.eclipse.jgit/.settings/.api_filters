@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/errors/NoRemoteRepositoryException.java" type="org.eclipse.jgit.errors.NoRemoteRepositoryException">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.13.1"/>
-                <message_argument value="NoRemoteRepositoryException(URIish, String, Throwable)"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="1142947843">
             <message_arguments>
@@ -16,69 +8,11 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/lib/ObjectDatabase.java" type="org.eclipse.jgit.lib.ObjectDatabase">
-        <filter id="336695337">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ObjectDatabase"/>
-                <message_argument value="getApproximateObjectCount()"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/TypedConfigGetter.java" type="org.eclipse.jgit.lib.TypedConfigGetter">
-        <filter id="403767336">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
-                <message_argument value="UNSET_INT"/>
-            </message_arguments>
-        </filter>
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
-                <message_argument value="getIntInRange(Config, String, String, String, int, int, int)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="addCheckoutMetadata(String, Attributes)"/>
-            </message_arguments>
-        </filter>
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="addToCheckout(String, DirCacheEntry, Attributes)"/>
-            </message_arguments>
-        </filter>
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator, boolean, Attributes)"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/transport/AwsRequestSignerV4.java" type="org.eclipse.jgit.transport.AwsRequestSignerV4">
         <filter id="1109393411">
             <message_arguments>
                 <message_argument value="5.13.1"/>
                 <message_argument value="org.eclipse.jgit.transport.AwsRequestSignerV4"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/BasePackPushConnection.java" type="org.eclipse.jgit.transport.BasePackPushConnection">
-        <filter id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.BasePackPushConnection"/>
-                <message_argument value="noRepository()"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/PushConfig.java" type="org.eclipse.jgit.transport.PushConfig">
-        <filter id="338722907">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.PushConfig"/>
-                <message_argument value="PushConfig()"/>
             </message_arguments>
         </filter>
     </resource>
