@@ -250,7 +250,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 				assertTrue(pushConnection instanceof BasePackPushConnection);
 				@SuppressWarnings("resource")
 				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
-				assertEquals(true, basePackPushConnection.isUseBitmaps());
+				assertTrue(basePackPushConnection.isUseBitmaps());
 			}
 		}
 		// true
@@ -260,7 +260,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 				assertTrue(pushConnection instanceof BasePackPushConnection);
 				@SuppressWarnings("resource")
 				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
-				assertEquals(true, basePackPushConnection.isUseBitmaps());
+				assertTrue(basePackPushConnection.isUseBitmaps());
 			}
 		}
 		// false
@@ -270,7 +270,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 				assertTrue(pushConnection instanceof BasePackPushConnection);
 				@SuppressWarnings("resource")
 				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
-				assertEquals(false, basePackPushConnection.isUseBitmaps());
+				assertFalse(basePackPushConnection.isUseBitmaps());
 			}
 		}
 	}
