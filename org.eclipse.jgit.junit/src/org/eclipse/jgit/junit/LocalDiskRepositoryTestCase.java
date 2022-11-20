@@ -87,6 +87,8 @@ public abstract class LocalDiskRepositoryTestCase {
 
 	/**
 	 * The current test name.
+	 *
+	 * @since 6.0.1
 	 */
 	@Rule
 	public TestName currentTest = new TestName();

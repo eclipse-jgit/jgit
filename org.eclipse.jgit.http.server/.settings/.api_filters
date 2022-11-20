@@ -8,18 +8,4 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/http/server/GitServlet.java" type="org.eclipse.jgit.http.server.GitServlet">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.9.1"/>
-                <message_argument value="setReceivePackErrorHandler(ReceivePackErrorHandler)"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.9.1"/>
-                <message_argument value="setUploadPackErrorHandler(UploadPackErrorHandler)"/>
-            </message_arguments>
-        </filter>
-    </resource>
 </component>
