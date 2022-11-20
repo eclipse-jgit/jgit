@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "be502554_59519858",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-20T17:22:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "043d510e_60b5703f",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "ee87c4a9d23ebae86fd7fc63462bd5acde8f27f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9f60fda1_885842d3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -71,6 +95,30 @@
       "writtenOn": "2022-11-19T21:20:05Z",
       "side": 1,
       "message": "of changed",
+      "range": {
+        "startLine": 199,
+        "startChar": 37,
+        "endLine": 199,
+        "endChar": 44
+      },
+      "revId": "ee87c4a9d23ebae86fd7fc63462bd5acde8f27f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e112cccc_3b845469",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-20T17:22:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d85503ac_f57496de",
       "range": {
         "startLine": 199,
         "startChar": 37,
