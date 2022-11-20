@@ -947,8 +947,7 @@ public class PatchApplier {
 				0, buf.length);
 		RawText lhrt = new RawText(buf);
 		return lhrt.getString(lhrt.size() - 1)
-				.equals("\\ No newline at end of file"); // $NON-NLS-1$,
-															// $NON-NLS-2$
+				.equals("\\ No newline at end of file"); //$NON-NLS-1$
 	}
 
 	/**
