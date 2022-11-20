@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a2cb00c_b9e3d3a3",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-11-20T21:15:06Z",
+      "side": 1,
+      "message": "With a try-with-resource for \"up\" this finally clause is not needed anymore. And in fact the inner try is not needed; the catch clauses can be done on the outer try.",
+      "revId": "2e1a3a7755ac130768cf933e80be064b055be37f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
