@@ -248,6 +248,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		try (Transport transport = Transport.open(uri)) {
 			try (PushConnection pushConnection = transport.openPush()) {
 				assertTrue(pushConnection instanceof BasePackPushConnection);
+				@SuppressWarnings("resource")
 				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
 				assertEquals(true, basePackPushConnection.isUseBitmaps());
 			}
@@ -257,6 +258,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 			transport.setPushUseBitmaps(true);
 			try (PushConnection pushConnection = transport.openPush()) {
 				assertTrue(pushConnection instanceof BasePackPushConnection);
+				@SuppressWarnings("resource")
 				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
 				assertEquals(true, basePackPushConnection.isUseBitmaps());
 			}
@@ -266,6 +268,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 			transport.setPushUseBitmaps(false);
 			try (PushConnection pushConnection = transport.openPush()) {
 				assertTrue(pushConnection instanceof BasePackPushConnection);
+				@SuppressWarnings("resource")
 				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) pushConnection;
 				assertEquals(false, basePackPushConnection.isUseBitmaps());
 			}
