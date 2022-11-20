@@ -154,7 +154,7 @@ public class RefSpec implements Serializable {
 		this.allowMismatchedWildcards = mode;
 		String s = spec;
 
-		if (s.startsWith("^+") || s.startsWith("+^")) {
+		if (s.startsWith("^+") || s.startsWith("+^")) { //$NON-NLS-1$ //$NON-NLS-2$
 			throw new IllegalArgumentException(
 					JGitText.get().invalidNegativeAndForce);
 		}
@@ -164,7 +164,7 @@ public class RefSpec implements Serializable {
 			s = s.substring(1);
 		}
 
-		if(s.startsWith("^")) {
+		if (s.startsWith("^")) { //$NON-NLS-1$
 			negative = true;
 			s = s.substring(1);
 		}
@@ -251,7 +251,7 @@ public class RefSpec implements Serializable {
 	 *             the specification is invalid.
 	 */
 	public RefSpec(String spec) {
-		this(spec, spec.startsWith("^") ? WildcardMode.ALLOW_MISMATCH
+		this(spec, spec.startsWith("^") ? WildcardMode.ALLOW_MISMATCH //$NON-NLS-1$
 				: WildcardMode.REQUIRE_MATCH);
 	}
 
