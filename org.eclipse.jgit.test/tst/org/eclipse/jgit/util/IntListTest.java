@@ -15,6 +15,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Comparator;
+
 import org.junit.Test;
 
 public class IntListTest {
@@ -39,6 +41,15 @@ public class IntListTest {
 			fail("Accepted 0 index on empty list");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testRange() {
+		final IntList list = new IntList(-2, 13);
+		assertEquals(15, list.size());
+		for (int i = 0; i < list.size(); i++) {
+			assertEquals(i - 2, list.get(i));
 		}
 	}
 
@@ -161,6 +172,22 @@ public class IntListTest {
 		assertTrue(i.contains(1));
 		assertTrue(i.contains(4));
 		assertFalse(i.contains(2));
+	}
+
+	@Test
+	public void testSortUsingComparator() {
+		final IntList list = new IntList();
+		list.add(-3);
+		list.add(-2);
+		list.add(0);
+		list.add(1);
+		list.add(4);
+		list.add(1);
+		list.sortUsingComparator(Comparator.comparingInt(Math::abs));
+		int[] expected = { 0, 1, 1, -2, -3, 4 };
+		for (int i = 0; i < list.size(); i++) {
+			assertEquals(expected[i], list.get(i));
+		}
 	}
 
 	@Test
