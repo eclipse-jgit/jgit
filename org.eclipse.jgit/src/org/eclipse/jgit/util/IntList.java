@@ -37,6 +37,24 @@ public class IntList {
 	}
 
 	/**
+	 * Create a list initialized with the values of the given range.
+	 *
+	 * @param start
+	 *            the beginning of the range, inclusive
+	 * @param end
+	 *            the end of the range, exclusive
+	 * @return the list initialized with the given range
+	 * @since 6.5
+	 */
+	public static IntList filledWithRange(int start, int end) {
+		IntList list = new IntList(end - start);
+		for (int val = start; val < end; val++) {
+			list.add(val);
+		}
+		return list;
+	}
+
+	/**
 	 * Get number of entries in this list.
 	 *
 	 * @return number of entries in this list.
@@ -126,6 +144,60 @@ public class IntList {
 			add(val);
 	}
 
+	/**
+	 * Sort the entries of the list in-place, according to the comparator.
+	 *
+	 * @param comparator
+	 *            provides the comparison values for sorting the entries
+	 * @since 6.5
+	 */
+	public void sort(IntComparator comparator) {
+		quickSort(0, count - 1, comparator);
+	}
+
+	/**
+	 * Quick sort has average time complexity of O(n log n) and O(log n) space
+	 * complexity (for recursion on the stack).
+	 * <p>
+	 * Implementation based on https://www.baeldung.com/java-quicksort.
+	 *
+	 * @param begin
+	 *            the index to begin partitioning at, inclusive
+	 * @param end
+	 *            the index to end partitioning at, inclusive
+	 * @param comparator
+	 *            provides the comparison values for sorting the entries
+	 */
+	private void quickSort(int begin, int end, IntComparator comparator) {
+		if (begin < end) {
+			int partitionIndex = partition(begin, end, comparator);
+
+			quickSort(begin, partitionIndex - 1, comparator);
+			quickSort(partitionIndex + 1, end, comparator);
+		}
+	}
+
+	private int partition(int begin, int end, IntComparator comparator) {
+		int pivot = entries[end];
+		int writeSmallerIdx = (begin - 1);
+
+		for (int findSmallerIdx = begin; findSmallerIdx < end; findSmallerIdx++) {
+			if (comparator.lessThanEqual(entries[findSmallerIdx], pivot)) {
+				writeSmallerIdx++;
+
+				int biggerVal = entries[writeSmallerIdx];
+				entries[writeSmallerIdx] = entries[findSmallerIdx];
+				entries[findSmallerIdx] = biggerVal;
+			}
+		}
+
+		int pivotIdx = writeSmallerIdx + 1;
+		entries[end] = entries[pivotIdx];
+		entries[pivotIdx] = pivot;
+
+		return pivotIdx;
+	}
+
 	private void grow() {
 		final int[] n = new int[(entries.length + 16) * 3 / 2];
 		System.arraycopy(entries, 0, n, 0, count);
@@ -144,5 +216,54 @@ public class IntList {
 		}
 		r.append(']');
 		return r.toString();
+	}
+
+	/**
+	 * A comparator of primitive ints.
+	 */
+	public interface IntComparator {
+
+		/**
+		 * Compares the two int arguments for order.
+		 *
+		 * @param first
+		 *            the first int to compare
+		 * @param second
+		 *            the second int to compare
+		 * @return a negative number if first < second, 0 if first == second, or
+		 *         a positive number if first > second
+		 */
+		int compare(int first, int second);
+
+		/**
+		 * Whether the first int is less than or equal to the second int.
+		 *
+		 * @param first
+		 *            the first int
+		 * @param second
+		 *            the second int
+		 * @return whether first <= second
+		 */
+		default boolean lessThanEqual(int first, int second) {
+			return compare(first, second) <= 0;
+		}
+	}
+
+	/**
+	 * A comparator of primitive ints according to corresponding long values.
+	 */
+	public interface IntComparatorUsingLong extends IntComparator {
+		default int compare(int first, int second) {
+			return Long.compare(getLongValue(first), getLongValue(second));
+		}
+
+		/**
+		 * Get the long value corresponding to the given int value.
+		 *
+		 * @param intValue
+		 *            the int value to get a corresponding long value for
+		 * @return the corresponding long value
+		 */
+		long getLongValue(int intValue);
 	}
 }

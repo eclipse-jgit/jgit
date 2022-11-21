@@ -15,6 +15,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.jgit.util.IntList.IntComparator;
+import org.eclipse.jgit.util.IntList.IntComparatorUsingLong;
 import org.junit.Test;
 
 public class IntListTest {
@@ -39,6 +41,15 @@ public class IntListTest {
 			fail("Accepted 0 index on empty list");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testFilledWithRange() {
+		IntList list = IntList.filledWithRange(-2, 13);
+		assertEquals(15, list.size());
+		for (int i = 0; i < list.size(); i++) {
+			assertEquals(i - 2, list.get(i));
 		}
 	}
 
@@ -164,6 +175,38 @@ public class IntListTest {
 	}
 
 	@Test
+	public void testSort_byAbs() {
+		final IntList list = new IntList();
+		list.add(-3);
+		list.add(-2);
+		list.add(0);
+		list.add(1);
+		list.add(4);
+		list.add(1);
+		list.sort(new AbsIntComparator());
+		int[] expected = { 0, 1, 1, -2, -3, 4 };
+		for (int i = 0; i < list.size(); i++) {
+			assertEquals(expected[i], list.get(i));
+		}
+	}
+
+	@Test
+	public void testSort_byLong() {
+		final IntList list = new IntList();
+		list.add(-2);
+		list.add(1);
+		list.add(0);
+		list.add(-3);
+		list.add(4);
+		list.add(1);
+		list.sort(new AsLongIntComparator());
+		int[] expected = { -3, -2, 0, 1, 1, 4 };
+		for (int i = 0; i < list.size(); i++) {
+			assertEquals(expected[i], list.get(i));
+		}
+	}
+
+	@Test
 	public void testToString() {
 		final IntList i = new IntList();
 		i.add(1);
@@ -173,4 +216,22 @@ public class IntListTest {
 		assertEquals("[1, 13, 5]", i.toString());
 	}
 
+	private static class AbsIntComparator implements IntComparator {
+		private AbsIntComparator() {
+		}
+
+		public int compare(int a, int b) {
+			return Math.abs(a) - Math.abs(b);
+		}
+	}
+
+	private static class AsLongIntComparator implements IntComparatorUsingLong {
+		private AsLongIntComparator() {
+		}
+
+		@Override
+		public long getLongValue(int intValue) {
+			return (long) intValue * Integer.MAX_VALUE;
+		}
+}
 }
