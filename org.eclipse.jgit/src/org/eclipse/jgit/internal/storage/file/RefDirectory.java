@@ -39,12 +39,15 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -329,10 +332,14 @@ public class RefDirectory extends RefDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
+		return getRefs(prefix, new HashSet<>());
+	}
+
+	protected Map<String, Ref> getRefs(String prefix, Set<String> excludes) throws IOException {
 		final RefList<LooseRef> oldLoose = looseRefs.get();
 		LooseScanner scan = new LooseScanner(oldLoose);
-		scan.scan(prefix);
-		final RefList<Ref> packed = getPackedRefs();
+		scan.scan(prefix, excludes);
+		final RefList<Ref> packed = getPackedRefs(excludes);
 
 		RefList<LooseRef> loose;
 		if (scan.newLoose != null) {
@@ -368,6 +375,13 @@ public class RefDirectory extends RefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
+	public List<Ref> getRefsByPrefixWithExclusions(String prefix, Set<String> excludes)
+			throws IOException {
+		return new ArrayList<>(getRefs(prefix, excludes).values());
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public List<Ref> getAdditionalRefs() throws IOException {
 		List<Ref> ret = new LinkedList<>();
 		for (String name : additionalRefsNames) {
@@ -396,10 +410,10 @@ public class RefDirectory extends RefDatabase {
 			this.curLoose = curLoose;
 		}
 
-		void scan(String prefix) {
+		void scan(String prefix, Set<String> excludes) {
 			if (ALL.equals(prefix)) {
 				scanOne(HEAD);
-				scanTree(R_REFS, refsDir);
+				scanTree(R_REFS, refsDir, excludes);
 
 				// If any entries remain, they are deleted, drop them.
 				if (newLoose == null && curIdx < curLoose.size())
@@ -408,7 +422,7 @@ public class RefDirectory extends RefDatabase {
 			} else if (prefix.startsWith(R_REFS) && prefix.endsWith("/")) { //$NON-NLS-1$
 				curIdx = -(curLoose.find(prefix) + 1);
 				File dir = new File(refsDir, prefix.substring(R_REFS.length()));
-				scanTree(prefix, dir);
+				scanTree(prefix, dir, excludes);
 
 				// Skip over entries still within the prefix; these have
 				// been removed from the directory.
@@ -429,7 +443,10 @@ public class RefDirectory extends RefDatabase {
 			}
 		}
 
-		private boolean scanTree(String prefix, File dir) {
+		private boolean scanTree(String prefix, File dir, Set<String> excludes) {
+			if (excludes.contains(prefix)) {
+				return true;
+			}
 			final String[] entries = dir.list(LockFile.FILTER);
 			if (entries == null) // not a directory or an I/O error
 				return false;
@@ -443,7 +460,7 @@ public class RefDirectory extends RefDatabase {
 				Arrays.sort(entries);
 				for (String name : entries) {
 					if (name.charAt(name.length() - 1) == '/')
-						scanTree(prefix + name, new File(dir, name));
+						scanTree(prefix + name, new File(dir, name), excludes);
 					else
 						scanOne(prefix + name);
 				}
@@ -886,6 +903,20 @@ public class RefDirectory extends RefDatabase {
 			return new SymbolicRef(ref.getName(), dst);
 		}
 		return ref;
+	}
+
+	RefList<Ref> getPackedRefs(Set<String> excludes) throws IOException {
+		RefList<Ref> refs = getPackedRefs();
+		if (!excludes.isEmpty()) {
+			RefList.Builder<Ref> filteredRefs = new RefList.Builder<>();
+			for (Ref r : refs) {
+				if (excludes.stream().noneMatch(r.getName()::startsWith)) {
+					filteredRefs.add(r);
+				}
+			}
+			refs = filteredRefs.toRefList();
+		}
+		return refs;
 	}
 
 	PackedRefList getPackedRefs() throws IOException {
