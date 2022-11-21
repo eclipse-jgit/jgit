@@ -39,12 +39,15 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -329,9 +332,13 @@ public class RefDirectory extends RefDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
+		return getRefs(prefix, new HashSet<>());
+	}
+
+	private Map<String, Ref> getRefs(String prefix, Set<String> excludes) throws IOException {
 		final RefList<LooseRef> oldLoose = looseRefs.get();
 		LooseScanner scan = new LooseScanner(oldLoose);
-		scan.scan(prefix);
+		scan.scan(prefix, excludes);
 		final RefList<Ref> packed = getPackedRefs();
 
 		RefList<LooseRef> loose;
@@ -347,7 +354,7 @@ public class RefDirectory extends RefDatabase {
 		RefList.Builder<Ref> symbolic = scan.symbolic;
 		for (int idx = 0; idx < symbolic.size();) {
 			final Ref symbolicRef = symbolic.get(idx);
-			final Ref resolvedRef = resolve(symbolicRef, 0, prefix, loose, packed);
+			final Ref resolvedRef = resolve(symbolicRef, 0, prefix, excludes, loose, packed);
 			if (resolvedRef != null && resolvedRef.getObjectId() != null) {
 				symbolic.set(idx, resolvedRef);
 				idx++;
@@ -363,7 +370,27 @@ public class RefDirectory extends RefDatabase {
 		}
 		symbolic.sort();
 
-		return new RefMap(prefix, packed, upcast(loose), symbolic.toRefList());
+		return new RefMap(prefix, filterRefsWithExclusions(packed, excludes), upcast(loose), symbolic.toRefList());
+	}
+
+	private RefList<Ref> filterRefsWithExclusions(RefList<Ref> refs, Set<String> excludes) {
+		if (!excludes.isEmpty()) {
+			RefList.Builder<Ref> filteredRefs = new RefList.Builder<>();
+			for (Ref r : refs) {
+				if (excludes.stream().noneMatch(r.getName()::startsWith)) {
+					filteredRefs.add(r);
+				}
+			}
+			return filteredRefs.toRefList();
+		}
+		return refs;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public List<Ref> getRefsByPrefixWithExclusions(String prefix, Set<String> excludes)
+			throws IOException {
+		return new ArrayList<>(getRefs(prefix, excludes).values());
 	}
 
 	/** {@inheritDoc} */
@@ -396,10 +423,10 @@ public class RefDirectory extends RefDatabase {
 			this.curLoose = curLoose;
 		}
 
-		void scan(String prefix) {
+		void scan(String prefix, Set<String> excludes) {
 			if (ALL.equals(prefix)) {
 				scanOne(HEAD);
-				scanTree(R_REFS, refsDir);
+				scanTree(R_REFS, refsDir, excludes);
 
 				// If any entries remain, they are deleted, drop them.
 				if (newLoose == null && curIdx < curLoose.size())
@@ -408,7 +435,7 @@ public class RefDirectory extends RefDatabase {
 			} else if (prefix.startsWith(R_REFS) && prefix.endsWith("/")) { //$NON-NLS-1$
 				curIdx = -(curLoose.find(prefix) + 1);
 				File dir = new File(refsDir, prefix.substring(R_REFS.length()));
-				scanTree(prefix, dir);
+				scanTree(prefix, dir, excludes);
 
 				// Skip over entries still within the prefix; these have
 				// been removed from the directory.
@@ -429,7 +456,10 @@ public class RefDirectory extends RefDatabase {
 			}
 		}
 
-		private boolean scanTree(String prefix, File dir) {
+		private boolean scanTree(String prefix, File dir, Set<String> excludes) {
+			if (excludes.contains(prefix)) {
+				return true;
+			}
 			final String[] entries = dir.list(LockFile.FILTER);
 			if (entries == null) // not a directory or an I/O error
 				return false;
@@ -443,7 +473,7 @@ public class RefDirectory extends RefDatabase {
 				Arrays.sort(entries);
 				for (String name : entries) {
 					if (name.charAt(name.length() - 1) == '/')
-						scanTree(prefix + name, new File(dir, name));
+						scanTree(prefix + name, new File(dir, name), excludes);
 					else
 						scanOne(prefix + name);
 				}
@@ -858,6 +888,11 @@ public class RefDirectory extends RefDatabase {
 
 	private Ref resolve(final Ref ref, int depth, String prefix,
 			RefList<LooseRef> loose, RefList<Ref> packed) throws IOException {
+		return resolve(ref, depth, prefix, new HashSet<>(), loose, packed);
+	}
+
+	private Ref resolve(final Ref ref, int depth, String prefix, Set<String> excludes,
+			RefList<LooseRef> loose, RefList<Ref> packed) throws IOException {
 		if (ref.isSymbolic()) {
 			Ref dst = ref.getTarget();
 
@@ -866,7 +901,8 @@ public class RefDirectory extends RefDatabase {
 
 			// If the cached value can be assumed to be current due to a
 			// recent scan of the loose directory, use it.
-			if (loose != null && dst.getName().startsWith(prefix)) {
+			if (loose != null && dst.getName().startsWith(prefix) &&
+					excludes.stream().noneMatch(dst.getName()::startsWith)) {
 				int idx;
 				if (0 <= (idx = loose.find(dst.getName())))
 					dst = loose.get(idx);
@@ -880,7 +916,7 @@ public class RefDirectory extends RefDatabase {
 					return ref;
 			}
 
-			dst = resolve(dst, depth + 1, prefix, loose, packed);
+			dst = resolve(dst, depth + 1, prefix, excludes, loose, packed);
 			if (dst == null)
 				return null;
 			return new SymbolicRef(ref.getName(), dst);
