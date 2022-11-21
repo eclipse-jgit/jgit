@@ -11,6 +11,8 @@
 
 package org.eclipse.jgit.util;
 
+import java.util.Comparator;
+
 /**
  * A more efficient List&lt;Integer&gt; using a primitive integer array.
  */
@@ -34,6 +36,24 @@ public class IntList {
 	 */
 	public IntList(int capacity) {
 		entries = new int[capacity];
+	}
+
+	/**
+	 * Create a list initialized with the values of the given range.
+	 *
+	 * @param start
+	 *            the beginning of the range, inclusive
+	 * @param end
+	 *            the end of the range, exclusive
+	 * @return the list initialized with the given range
+	 * @since 6.5
+	 */
+	public static IntList filledWithRange(int start, int end) {
+		IntList list = new IntList(end - start);
+		for (int val = start; val < end; val++) {
+			list.add(val);
+		}
+		return list;
 	}
 
 	/**
@@ -124,6 +144,60 @@ public class IntList {
 	public void fillTo(int toIndex, int val) {
 		while (count < toIndex)
 			add(val);
+	}
+
+	/**
+	 * Sort the entries of the list in-place, according to the comparator.
+	 *
+	 * @param comparator
+	 *            provides the comparison values for sorting the entries
+	 * @since 6.5
+	 */
+	public void sort(Comparator<Integer> comparator) {
+		quickSort(0, count - 1, comparator);
+	}
+
+	/**
+	 * Quick sort has average time complexity of O(n log n) and O(log n) space
+	 * complexity (for recursion on the stack).
+	 * <p>
+	 * Implementation based on https://www.baeldung.com/java-quicksort.
+	 *
+	 * @param begin
+	 *            the index to begin partitioning at, inclusive
+	 * @param end
+	 *            the index to end partitioning at, inclusive
+	 * @param comparator
+	 *            provides the comparison values for sorting the entries
+	 */
+	private void quickSort(int begin, int end, Comparator<Integer> comparator) {
+		if (begin < end) {
+			int partitionIndex = partition(begin, end, comparator);
+
+			quickSort(begin, partitionIndex - 1, comparator);
+			quickSort(partitionIndex + 1, end, comparator);
+		}
+	}
+
+	private int partition(int begin, int end, Comparator<Integer> comparator) {
+		int pivot = entries[end];
+		int writeSmallerIdx = (begin - 1);
+
+		for (int findSmallerIdx = begin; findSmallerIdx < end; findSmallerIdx++) {
+			if (comparator.compare(entries[findSmallerIdx], pivot) <= 0) {
+				writeSmallerIdx++;
+
+				int biggerVal = entries[writeSmallerIdx];
+				entries[writeSmallerIdx] = entries[findSmallerIdx];
+				entries[findSmallerIdx] = biggerVal;
+			}
+		}
+
+		int pivotIdx = writeSmallerIdx + 1;
+		entries[end] = entries[pivotIdx];
+		entries[pivotIdx] = pivot;
+
+		return pivotIdx;
 	}
 
 	private void grow() {
