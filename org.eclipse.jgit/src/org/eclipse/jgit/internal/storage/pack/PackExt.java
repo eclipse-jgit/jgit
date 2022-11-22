@@ -65,6 +65,10 @@ public enum PackExt {
 		return 1 << getPosition();
 	}
 
+	public String getAsTmp() {
+		return String.format(".%s_tmp", ext);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
