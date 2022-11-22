@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12e40611_c569fd1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-22T18:04:35Z",
+      "side": 1,
+      "message": "Sorry for taking this long to take look into this! Now I am fully concentrated on commit-graph and hopefully we can get this in shape and submitted in a reasonable time.\n\nI am suggesting below to refactor the data used by the writer so it becomes immutable during writing and makes clearer when values are set. After that we could see if more code could be better encapsulated?\n\nThanks a lot for this contribution. I think the important work is all there, it is just about organizing the code in a more maintainable shape.",
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b3677d8_525be7f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-22T18:04:35Z",
+      "side": 1,
+      "message": "I am not sure the walking should be inside the CommitGraphWriter. Separating concerns, the writer should take care only of writing a list of commit in commit-graph format. Caller decides what to include.\n\ne.g. the PackWriter (used in GC and many other places) knows already the list of commits in the pack, maybe in some cases we could use that?\n\nMaybe after extracting the data structure (see below) we can see if we can have any sensible API to abstract this (like passing a \"RevCommit supplier\" or similar)?",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00a9cc5d_645b5561",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-22T18:04:35Z",
+      "side": 1,
+      "message": "If I understand correctly:\n\n1. This makes a walk to get all RevCommits, initializing \"empty\" GraphCommitData (GCD) and setting the numExtraEdges as side effects.\n2. It populates the generation number (v1 \u003d distance from root) iterating the incoming RevCommits. It forgets those RevCommits, now is all GraphCommitData.\n3. The GCD list is sorted by OID just before starting writing the chunks\n4. While writing the OID lookup chunk, it populates the position the GraphCommitData\n5. While writing the commit data chunk, it reparses the objectId to get the parents of the commit (positions are calculated thanks to step #4).\n\nThis is a pretty convoluted data flow. At any certain point in the code we don\u0027t know what has been populated and changing anything requires full understanding of the flow (not to break assumptions of later code). e.g. We cannot disable generaction number v1 calculations because it is what initializes the GCD.\n\nI think we could do better extracting the \"RevCommit -\u003e position\" to its own class (e.g. InMemoryOidLookup) and populate it at the beginning (it can keep the extra edge count). This class should offer also to list the commits by OID order. This can be calculated at the beginning and remain immutable the rest of the write. The generation number is NOT in this class.\n\nThe generation number calculation could create its own int[] ordered by position. Bonus point: if we disable gen number v1 (because we are going to calculate/use v2), we save that memory.",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 84
+      },
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45c75b4f_78562672",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-22T18:04:35Z",
+      "side": 1,
+      "message": "If we keep the original RevCommits, we don\u0027t need to reparse them here.",
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d9f1f87_f89c5571",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-22T18:04:35Z",
+      "side": 1,
+      "message": "+1 to move this to an .internal package\n\nIs this interface needed in this change? If not, you could move it to a later change. That leaves less things to work on in this change.",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83bc64e6_0df6a76e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-22T18:04:35Z",
+      "side": 1,
+      "message": "We should specify generation number *v1* and the description could explain that is the distance from the root.",
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71cb6bf4_9a65bdc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-22T18:04:35Z",
+      "side": 1,
+      "message": "This is already in the spec, I don\u0027t think we should repeat it here.",
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
