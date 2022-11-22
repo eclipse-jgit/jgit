@@ -1162,10 +1162,9 @@ public class GC {
 			ObjectId id = pw.computeName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
 			packdir.mkdirs();
-			tmpPack = File.createTempFile("gc_", ".pack_tmp", packdir); //$NON-NLS-1$ //$NON-NLS-2$
-			final String tmpBase = tmpPack.getName()
-					.substring(0, tmpPack.getName().lastIndexOf('.'));
-			File tmpIdx = new File(packdir, tmpBase + ".idx_tmp"); //$NON-NLS-1$
+			tmpPack = File.createTempFile("gc_", PACK.getAsTmp(), packdir); //$NON-NLS-1$
+			final String tmpBase = tmpPack.getName().substring(0, tmpPack.getName().lastIndexOf('.'));
+			File tmpIdx = new File(packdir, tmpBase + INDEX.getAsTmp());
 			tmpExts.put(INDEX, tmpIdx);
 
 			if (!tmpIdx.createNewFile())
@@ -1188,6 +1187,22 @@ public class GC {
 							.newOutputStream(idxChannel)) {
 				pw.writeIndex(idxStream);
 				idxChannel.force(true);
+			}
+
+			// TODO introduce configuration to choose writing reverse index or not
+			if (true) {
+				File tmpReverseIndexFile = new File(packdir, tmpBase + REVERSE_INDEX.getAsTmp());
+				tmpExts.put(REVERSE_INDEX, tmpReverseIndexFile);
+				if (!tmpReverseIndexFile.createNewFile()) {
+					throw new IOException(
+							MessageFormat.format(JGitText.get().cannotCreateIndexfile, tmpReverseIndexFile.getPath()));
+				}
+				try (FileOutputStream fos = new FileOutputStream(tmpReverseIndexFile);
+						FileChannel idxChannel = fos.getChannel();
+						OutputStream idxStream = Channels.newOutputStream(idxChannel)) {
+					pw.writeReverseIndex(idxStream);
+					idxChannel.force(true);
+				}
 			}
 
 			if (pw.prepareBitmapIndex(pm)) {
