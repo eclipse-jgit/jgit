@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "939d0b14_d3eabf74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-23T10:21:50Z",
+      "side": 1,
+      "message": "I have removed it, and set an ObjectReader inside.\nIt will be used in the future, such as the calculation of bloom filter[1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/189100/3/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java#619",
+      "parentUuid": "2b3677d8_525be7f8",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00a9cc5d_645b5561",
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3599915_ae30a71d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-23T10:21:50Z",
+      "side": 1,
+      "message": "\u003e If I understand correctly:\n\u003e \n\u003e 1. This makes a walk to get all RevCommits, initializing \"empty\" GraphCommitData (GCD) and setting the numExtraEdges as side effects.\n\u003e 2. It populates the generation number (v1 \u003d distance from root) iterating the incoming RevCommits. It forgets those RevCommits, now is all GraphCommitData.\n\u003e 3. The GCD list is sorted by OID just before starting writing the chunks\n\u003e 4. While writing the OID lookup chunk, it populates the position the GraphCommitData\n\u003e 5. While writing the commit data chunk, it reparses the objectId to get the parents of the commit (positions are calculated thanks to step #4).\n\u003e \n\u003e This is a pretty convoluted data flow. At any certain point in the code we don\u0027t know what has been populated and changing anything requires full understanding of the flow (not to break assumptions of later code). e.g. We cannot disable generaction number v1 calculations because it is what initializes the GCD.\n\nYeah, I agree.\n\n\u003e \n\u003e I think we could do better extracting the \"RevCommit -\u003e position\" to its own class (e.g. InMemoryOidLookup) and populate it at the beginning (it can keep the extra edge count). This class should offer also to list the commits by OID order. This can be calculated at the beginning and remain immutable the rest of the write. The generation number is NOT in this class.\n\nI tried to implement ImMemoryOidLookup according to your advice. It does look much clearer.\n\n\u003e \n\u003e The generation number calculation could create its own int[] ordered by position. Bonus point: if we disable gen number v1 (because we are going to calculate/use v2), we save that memory.\n\nDone.",
+      "parentUuid": "00a9cc5d_645b5561",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 84
+      },
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45c75b4f_78562672",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 24
@@ -77,6 +125,24 @@
       "writtenOn": "2022-11-22T18:04:35Z",
       "side": 1,
       "message": "If we keep the original RevCommits, we don\u0027t need to reparse them here.",
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca46d4a2_4f1afba7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-23T10:21:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c75b4f_78562672",
       "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -106,6 +172,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e57f40fb_a37600b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-23T10:21:50Z",
+      "side": 1,
+      "message": "\u003e +1 to move this to an .internal package\n\u003e \n\u003e Is this interface needed in this change? If not, you could move it to a later change. That leaves less things to work on in this change.\n\nThis change needed CommitGraph#GENERATION_UNKNOWN and CommitGraph#GENERATION_NOT_COMPUTED, I moved these two constants to o.e.j.lib.Constants in order to move CommitGraph to a later change.\nBut didn\u0027t move it to an .internal package yet.",
+      "parentUuid": "2d9f1f87_f89c5571",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83bc64e6_0df6a76e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
         "patchSetId": 24
@@ -117,6 +207,24 @@
       "writtenOn": "2022-11-22T18:04:35Z",
       "side": 1,
       "message": "We should specify generation number *v1* and the description could explain that is the distance from the root.",
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55227c06_f0efdc1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-23T10:21:50Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "83bc64e6_0df6a76e",
       "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -134,6 +242,24 @@
       "writtenOn": "2022-11-22T18:04:35Z",
       "side": 1,
       "message": "This is already in the spec, I don\u0027t think we should repeat it here.",
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "448014b7_296e4ca5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-11-23T10:21:50Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "71cb6bf4_9a65bdc1",
       "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
