@@ -712,7 +712,7 @@ public final class DfsBlockCache {
 	private void reportIndexRequested(Ref<?> ref, boolean cacheHit,
 			long start) {
 		if (indexEventConsumer == null
-				|| !isIndexOrBitmapExtPos(ref.key.packExtPos)) {
+				|| !isIndexExtPos(ref.key.packExtPos)) {
 			return;
 		}
 		EvictKey evictKey = new EvictKey(ref);
@@ -728,7 +728,7 @@ public final class DfsBlockCache {
 	private void reportIndexEvicted(Ref<?> dead) {
 		if (indexEventConsumer == null
 				|| !indexEventConsumer.shouldReportEvictedEvent()
-				|| !isIndexOrBitmapExtPos(dead.key.packExtPos)) {
+				|| !isIndexExtPos(dead.key.packExtPos)) {
 			return;
 		}
 		EvictKey evictKey = new EvictKey(dead);
@@ -742,8 +742,9 @@ public final class DfsBlockCache {
 				Duration.ofNanos(sinceLastEvictionNanos));
 	}
 
-	private static boolean isIndexOrBitmapExtPos(int packExtPos) {
+	private static boolean isIndexExtPos(int packExtPos) {
 		return packExtPos == PackExt.INDEX.getPosition()
+				|| packExtPos == PackExt.REVERSE_INDEX.getPosition()
 				|| packExtPos == PackExt.BITMAP_INDEX.getPosition();
 	}
 

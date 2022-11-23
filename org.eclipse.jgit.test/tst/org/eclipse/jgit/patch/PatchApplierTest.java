@@ -71,10 +71,10 @@ public class PatchApplierTest {
 			this.inCore = inCore;
 		}
 
-		protected void init(final String name, final boolean preExists,
-				final boolean postExists) throws Exception {
+		protected void init(String aName, boolean preExists, boolean postExists)
+				throws Exception {
 			/* Patch and pre/postimage are read from data org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/ */
-			this.name = name;
+			this.name = aName;
 			if (postExists) {
 				postImage = IO
 						.readWholeStream(getTestResource(name + "_PostImage"), 0)
@@ -98,8 +98,8 @@ public class PatchApplierTest {
 			}
 		}
 
-		void init(final String name) throws Exception {
-			init(name, true, true);
+		void init(final String aName) throws Exception {
+			init(aName, true, true);
 		}
 
 		protected Result applyPatch()
@@ -117,8 +117,8 @@ public class PatchApplierTest {
 			return PatchApplierTest.class.getClassLoader()
 					.getResourceAsStream("org/eclipse/jgit/diff/" + patchFile);
 		}
-		void verifyChange(Result result, String name) throws Exception {
-			verifyChange(result, name, true);
+		void verifyChange(Result result, String aName) throws Exception {
+			verifyChange(result, aName, true);
 		}
 
 		protected void verifyContent(Result result, String path, boolean exists) throws Exception {
@@ -139,9 +139,9 @@ public class PatchApplierTest {
 			}
 		}
 
-		void verifyChange(Result result, String name, boolean exists) throws Exception {
+		void verifyChange(Result result, String aName, boolean exists) throws Exception {
 			assertEquals(1, result.getPaths().size());
-			verifyContent(result, name, exists);
+			verifyContent(result, aName, exists);
 		}
 
 		protected byte[] readBlob(ObjectId treeish, String path) throws Exception {
@@ -448,17 +448,17 @@ public class PatchApplierTest {
 
 		@Test
 		public void testPatchWithCrLf2() throws Exception {
-			String name = "crlf2";
+			String aName = "crlf2";
 			try (Git git = new Git(db)) {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
-				init(name, true, true);
+				init(aName, true, true);
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
 				Result result = applyPatch();
 
-				verifyChange(result, name);
+				verifyChange(result, aName);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);

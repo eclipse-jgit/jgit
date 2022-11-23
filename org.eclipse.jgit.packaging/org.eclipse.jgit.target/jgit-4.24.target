@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.24" sequenceNumber="1668442240">
+<target name="jgit-4.24" sequenceNumber="1669195941">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="jakarta.servlet-api" version="4.0.0"/>
@@ -25,8 +25,8 @@
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.google.gson" version="2.9.1.v20220915-1632"/>
       <unit id="com.google.gson.source" version="2.9.1.v20220915-1632"/>
-      <unit id="com.jcraft.jsch" version="0.1.55.v20190404-1902"/>
-      <unit id="com.jcraft.jsch.source" version="0.1.55.v20190404-1902"/>
+      <unit id="com.jcraft.jsch" version="0.1.55.v20221112-0806"/>
+      <unit id="com.jcraft.jsch.source" version="0.1.55.v20221112-0806"/>
       <unit id="com.jcraft.jzlib" version="1.1.3.v20220502-1820"/>
       <unit id="com.jcraft.jzlib.source" version="1.1.3.v20220502-1820"/>
       <unit id="com.sun.jna" version="5.12.1.v20221103-2317"/>
@@ -35,28 +35,28 @@
       <unit id="com.sun.jna.platform.source" version="5.12.1.v20221103-2317"/>
       <unit id="javaewah" version="1.1.13.v20211029-0839"/>
       <unit id="javaewah.source" version="1.1.13.v20211029-0839"/>
-      <unit id="net.bytebuddy.byte-buddy" version="1.9.0.v20181107-1410"/>
-      <unit id="net.bytebuddy.byte-buddy-agent" version="1.9.0.v20181106-1534"/>
-      <unit id="net.bytebuddy.byte-buddy-agent.source" version="1.9.0.v20181106-1534"/>
-      <unit id="net.bytebuddy.byte-buddy.source" version="1.9.0.v20181107-1410"/>
+      <unit id="net.bytebuddy.byte-buddy" version="1.12.18.v20221114-2102"/>
+      <unit id="net.bytebuddy.byte-buddy.source" version="1.12.18.v20221114-2102"/>
+      <unit id="net.bytebuddy.byte-buddy-agent" version="1.12.18.v20221114-2102"/>
+      <unit id="net.bytebuddy.byte-buddy-agent.source" version="1.12.18.v20221114-2102"/>
       <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20220506-1020"/>
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20220506-1020"/>
       <unit id="org.apache.ant" version="1.10.12.v20211102-1452"/>
       <unit id="org.apache.ant.source" version="1.10.12.v20211102-1452"/>
-      <unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
-      <unit id="org.apache.commons.codec.source" version="1.14.0.v20200818-1422"/>
+      <unit id="org.apache.commons.codec" version="1.14.0.v20221112-0806"/>
+      <unit id="org.apache.commons.codec.source" version="1.14.0.v20221112-0806"/>
       <unit id="org.apache.commons.compress" version="1.21.0.v20211103-2100"/>
       <unit id="org.apache.commons.compress.source" version="1.21.0.v20211103-2100"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
-      <unit id="org.apache.httpcomponents.httpclient" version="4.5.13.v20210128-2225"/>
-      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.13.v20210128-2225"/>
+      <unit id="org.apache.httpcomponents.httpclient" version="4.5.13.v20221112-0806"/>
+      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.13.v20221112-0806"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.15.v20220209-2345"/>
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.15.v20220209-2345"/>
-      <unit id="org.apache.sshd.osgi" version="2.8.0.v20211227-1750"/>
-      <unit id="org.apache.sshd.osgi.source" version="2.8.0.v20211227-1750"/>
-      <unit id="org.apache.sshd.sftp" version="2.8.0.v20211227-1750"/>
-      <unit id="org.apache.sshd.sftp.source" version="2.8.0.v20211227-1750"/>
+      <unit id="org.apache.sshd.osgi" version="2.9.2.v20221117-1942"/>
+      <unit id="org.apache.sshd.osgi.source" version="2.9.2.v20221117-1942"/>
+      <unit id="org.apache.sshd.sftp" version="2.9.2.v20221117-1942"/>
+      <unit id="org.apache.sshd.sftp.source" version="2.9.2.v20221117-1942"/>
       <unit id="org.assertj" version="3.20.2.v20210706-1104"/>
       <unit id="org.assertj.source" version="3.20.2.v20210706-1104"/>
       <unit id="org.bouncycastle.bcpg" version="1.72.0.v20221013-1810"/>
@@ -81,13 +81,13 @@
       <unit id="org.mockito.mockito-core.source" version="4.8.1.v20221103-2317"/>
       <unit id="org.objenesis" version="3.3.0.v20221103-2317"/>
       <unit id="org.objenesis.source" version="3.3.0.v20221103-2317"/>
-      <unit id="org.slf4j.api" version="1.7.30.v20200204-2150"/>
-      <unit id="org.slf4j.api.source" version="1.7.30.v20200204-2150"/>
-      <unit id="org.slf4j.binding.simple" version="1.7.30.v20200204-2150"/>
-      <unit id="org.slf4j.binding.simple.source" version="1.7.30.v20200204-2150"/>
+      <unit id="org.slf4j.api" version="1.7.30.v20221112-0806"/>
+      <unit id="org.slf4j.api.source" version="1.7.30.v20221112-0806"/>
+      <unit id="org.slf4j.binding.simple" version="1.7.30.v20221112-0806"/>
+      <unit id="org.slf4j.binding.simple.source" version="1.7.30.v20221112-0806"/>
       <unit id="org.tukaani.xz" version="1.9.0.v20210624-1259"/>
       <unit id="org.tukaani.xz.source" version="1.9.0.v20210624-1259"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20221109014815/repository"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20221123021534/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>

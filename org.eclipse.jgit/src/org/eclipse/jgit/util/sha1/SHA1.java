@@ -27,6 +27,8 @@ import org.eclipse.jgit.util.SystemReader;
 public abstract class SHA1 {
 	/**
 	 * SHA1 implementations available in JGit
+	 *
+	 * @since 5.13.2
 	 */
 	public enum Sha1Implementation {
 		/**

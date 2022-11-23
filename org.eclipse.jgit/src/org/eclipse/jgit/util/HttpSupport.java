@@ -196,7 +196,7 @@ public class HttpSupport {
 	 *            them to "%2F").
 	 *
 	 * @return The translated URL.
-	 * @since 5.13
+	 * @since 5.13.1
 	 */
 	public static String urlEncode(String url, boolean keepPathSlash) {
 		String encoded;

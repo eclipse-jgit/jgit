@@ -2416,16 +2416,18 @@ public class UploadPackTest {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
-		UploadPack up = new UploadPack(server);
-		ByteArrayInputStream send = linesAsInputStream(
-				"want " + one.getName() + " agent=JGit-test/1.2.3\n",
-				PacketLineIn.end(),
-				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n");
+		try (UploadPack up = new UploadPack(server)) {
+			ByteArrayInputStream send = linesAsInputStream(
+					"want " + one.getName() + " agent=JGit-test/1.2.3\n",
+					PacketLineIn.end(),
+					"have 11cedf1b796d44207da702f7d420684022fc0f09\n",
+					"done\n");
 
-		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(send, recv, null);
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
 
-		assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.3");
+			assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.3");
+		}
 	}
 
 	@Test
@@ -2433,17 +2435,19 @@ public class UploadPackTest {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
-		UploadPack up = new UploadPack(server);
-		ByteArrayInputStream send = linesAsInputStream(
-				"want " + one.getName() + " agent=JGit-test/1.2.3"
-						+ " session-id=client-session-id\n",
-				PacketLineIn.end(),
-				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n");
+		try (UploadPack up = new UploadPack(server)) {
+			ByteArrayInputStream send = linesAsInputStream(
+					"want " + one.getName() + " agent=JGit-test/1.2.3"
+							+ " session-id=client-session-id\n",
+					PacketLineIn.end(),
+					"have 11cedf1b796d44207da702f7d420684022fc0f09\n",
+					"done\n");
 
-		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(send, recv, null);
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
 
-		assertEquals(up.getClientSID(), "client-session-id");
+			assertEquals(up.getClientSID(), "client-session-id");
+		}
 	}
 
 	@Test
@@ -2455,19 +2459,20 @@ public class UploadPackTest {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
-		UploadPack up = new UploadPack(server);
-		up.setExtraParameters(Sets.of("version=2"));
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
 
-		ByteArrayInputStream send = linesAsInputStream(
-				"command=fetch\n", "agent=JGit-test/1.2.4\n",
-				PacketLineIn.delimiter(), "want " + one.getName() + "\n",
-				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
-				PacketLineIn.end());
+			ByteArrayInputStream send = linesAsInputStream("command=fetch\n",
+					"agent=JGit-test/1.2.4\n", PacketLineIn.delimiter(),
+					"want " + one.getName() + "\n",
+					"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
+					PacketLineIn.end());
 
-		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(send, recv, null);
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
 
-		assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.4");
+			assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.4");
+		}
 	}
 
 	@Test
@@ -2479,19 +2484,20 @@ public class UploadPackTest {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
-		UploadPack up = new UploadPack(server);
-		up.setExtraParameters(Sets.of("version=2"));
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
 
-		ByteArrayInputStream send = linesAsInputStream("command=fetch\n",
-				"agent=JGit-test/1.2.4\n", "session-id=client-session-id\n",
-				PacketLineIn.delimiter(), "want " + one.getName() + "\n",
-				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
-				PacketLineIn.end());
+			ByteArrayInputStream send = linesAsInputStream("command=fetch\n",
+					"agent=JGit-test/1.2.4\n", "session-id=client-session-id\n",
+					PacketLineIn.delimiter(), "want " + one.getName() + "\n",
+					"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
+					PacketLineIn.end());
 
-		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(send, recv, null);
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
 
-		assertEquals(up.getClientSID(), "client-session-id");
+			assertEquals(up.getClientSID(), "client-session-id");
+		}
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {

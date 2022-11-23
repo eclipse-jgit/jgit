@@ -288,12 +288,13 @@ public class RawText extends Sequence {
 	 *             if input stream could not be read
 	 */
 	public static boolean isBinary(InputStream raw) throws IOException {
-		final byte[] buffer = new byte[getBufferSize()];
+		final byte[] buffer = new byte[getBufferSize() + 1];
 		int cnt = 0;
 		while (cnt < buffer.length) {
 			final int n = raw.read(buffer, cnt, buffer.length - cnt);
-			if (n == -1)
+			if (n == -1) {
 				break;
+			}
 			cnt += n;
 		}
 		return isBinary(buffer, cnt, cnt < buffer.length);
@@ -347,8 +348,16 @@ public class RawText extends Sequence {
 		// - limited buffer size; may be only the beginning of a large blob
 		// - no counting of printable vs. non-printable bytes < 0x20 and 0x7F
 		int maxLength = getBufferSize();
+		boolean isComplete = complete;
 		if (length > maxLength) {
+			// We restrict the length in all cases to getBufferSize() to get
+			// predictable behavior. Sometimes we load streams, and sometimes we
+			// have the full data in memory. With streams, we never look at more
+			// than the first getBufferSize() bytes. If we looked at more when
+			// we have the full data, different code paths in JGit might come to
+			// different conclusions.
 			length = maxLength;
+			isComplete = false;
 		}
 		byte last = 'x'; // Just something inconspicuous.
 		for (int ptr = 0; ptr < length; ptr++) {
@@ -358,7 +367,7 @@ public class RawText extends Sequence {
 			}
 			last = curr;
 		}
-		if (complete) {
+		if (isComplete) {
 			// Buffer contains everything...
 			return last == '\r'; // ... so this must be a lone CR
 		}

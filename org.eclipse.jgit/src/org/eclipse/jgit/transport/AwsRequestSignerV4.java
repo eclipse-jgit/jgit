@@ -40,7 +40,7 @@ import org.eclipse.jgit.util.HttpSupport;
  *      "https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">AWS
  *      Signature Version 4</a>
  *
- * @since 5.13
+ * @since 5.13.1
  */
 public final class AwsRequestSignerV4 {
 

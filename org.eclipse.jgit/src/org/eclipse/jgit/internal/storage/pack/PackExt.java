@@ -27,7 +27,10 @@ public enum PackExt {
 	BITMAP_INDEX("bitmap"), //$NON-NLS-1$
 
 	/** A reftable file. */
-	REFTABLE("ref"); //$NON-NLS-1$
+	REFTABLE("ref"), //$NON-NLS-1$
+
+	/** A pack reverse index file extension. */
+	REVERSE_INDEX("rev"); //$NON-NLS-1$
 
 	private final String ext;
 

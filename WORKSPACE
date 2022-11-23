@@ -12,11 +12,11 @@ load(
 
 http_archive(
     name = "rbe_jdk11",
-    sha256 = "766796de71916118e528b9f4334c29c9c9b4e926227bf3264dee555e6a4306c8",
-    strip_prefix = "rbe_autoconfig-2.0.0",
+    sha256 = "dbcfd6f26589ef506b91fe03a12dc559ca9c84699e4cf6381150522287f0e6f6",
+    strip_prefix = "rbe_autoconfig-3.1.0",
     urls = [
-        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v2.0.0.tar.gz",
-        "https://github.com/davido/rbe_autoconfig/archive/v2.0.0.tar.gz",
+        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v3.1.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/archive/v3.1.0.tar.gz",
     ],
 )
 
@@ -90,16 +90,18 @@ maven_jar(
     sha1 = "7f2e0c573eaa7a74bac2e89b359e1f73d92a0a1d",
 )
 
+SSHD_VERS = "2.9.2"
+
 maven_jar(
     name = "sshd-osgi",
-    artifact = "org.apache.sshd:sshd-osgi:2.8.0",
-    sha1 = "b2a59b73c045f40d5722b9160d4f909a646d86c9",
+    artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
+    sha1 = "bac0415734519b2fe433fea196017acf7ed32660",
 )
 
 maven_jar(
     name = "sshd-sftp",
-    artifact = "org.apache.sshd:sshd-sftp:2.8.0",
-    sha1 = "d3cd9bc8d335b3ed1a86d2965deb4d202de27442",
+    artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
+    sha1 = "7f9089c87b3b44f19998252fd3b68637e3322920",
 )
 
 maven_jar(
