@@ -181,6 +181,13 @@ class Status extends TextBuiltin {
 			String branch = Repository.shortenRefName(head.getLeaf().getName());
 			outw.println(CLIText.formatLine(MessageFormat.format(
 					CLIText.get().onBranch, branch)));
+			if (head.getObjectId() == null) {
+				if (!porcelain) {
+					outw.println(""); //$NON-NLS-1$
+					printHint(CLIText.get().hintsNoCommitsYet);
+					outw.println(""); //$NON-NLS-1$
+				}
+			}
 		} else
 			outw.println(CLIText.formatLine(CLIText.get().notOnAnyBranch));
 
@@ -201,6 +208,11 @@ class Status extends TextBuiltin {
 		int nbToBeCommitted = toBeCommitted.size();
 		if (nbToBeCommitted > 0) {
 			printSectionHeader(CLIText.get().changesToBeCommitted);
+			if (!porcelain) {
+				outw.print(" "); //$NON-NLS-1$
+				printHint(CLIText.get().hintsChangesToBeCommittedRestore);
+				outw.println(""); //$NON-NLS-1$
+			}
 			printList(CLIText.get().statusNewFile,
 					CLIText.get().statusModified, CLIText.get().statusRemoved,
 					toBeCommitted, added, changed, removed);
@@ -213,6 +225,14 @@ class Status extends TextBuiltin {
 			if (!firstHeader)
 				printSectionHeader(""); //$NON-NLS-1$
 			printSectionHeader(CLIText.get().changesNotStagedForCommit);
+			if (!porcelain) {
+				outw.print(" "); //$NON-NLS-1$
+				printHint(CLIText.get().hintsChangesNotStagedForCommitAdd);
+				outw.println(""); //$NON-NLS-1$
+				outw.print(" "); //$NON-NLS-1$
+				printHint(CLIText.get().hintsChangesNotStagedForCommitRestore);
+				outw.println(""); //$NON-NLS-1$
+			}
 			printList(CLIText.get().statusModified,
 					CLIText.get().statusRemoved, null, notStagedForCommit,
 					modified, missing, null);
@@ -228,10 +248,40 @@ class Status extends TextBuiltin {
 		}
 		int nbUntracked = untracked.size();
 		if (nbUntracked > 0 && ("all".equals(untrackedFilesMode))) { //$NON-NLS-1$
-			if (!firstHeader)
+			if (!firstHeader) {
 				printSectionHeader(""); //$NON-NLS-1$
+			}
 			printSectionHeader(CLIText.get().untrackedFiles);
+			if (!porcelain) {
+				outw.print(" "); //$NON-NLS-1$
+				printHint(CLIText.get().hintsUntrackedFiles);
+				outw.println(""); //$NON-NLS-1$
+			}
 			printList(untracked);
+			if (!porcelain) {
+				outw.println(""); //$NON-NLS-1$
+			}
+		}
+		if (nbUntracked > 0 && nbToBeCommitted == 0 &&
+				("all".equals(untrackedFilesMode)) && !porcelain) { //$NON-NLS-1$
+			printHint(CLIText.get().hintsNothingAddedToCommitBut);
+		}
+		if (nbUntracked > 0 && nbToBeCommitted == 0 &&
+				("no".equals(untrackedFilesMode)) && nbUnmerged == 0
+				&& !porcelain) { //$NON-NLS-1$
+			printHint(CLIText.get().hintsUntrackedFilesNotListed);
+		}
+		if (nbToBeCommitted == 0 && nbNotStagedForCommit == 0
+				&& nbUnmerged == 0 && nbUntracked == 0 &&
+				("all".equals(untrackedFilesMode)) && !porcelain) { //$NON-NLS-1$
+			if (head != null && !porcelain) {
+				assert head != null;
+				if (head.getObjectId() != null) {
+					printHint(CLIText.get().hintsNothingToCommit);
+				} else {
+					printHint(CLIText.get().hintsNothingToCommitCreateCopy);
+				}
+			}
 		}
 	}
 
@@ -249,10 +299,21 @@ class Status extends TextBuiltin {
 		if (!porcelain) {
 			outw.println(CLIText.formatLine(MessageFormat.format(pattern,
 					arguments)));
-			if (!pattern.isEmpty())
-				outw.println(CLIText.formatLine("")); //$NON-NLS-1$
 			outw.flush();
 		}
+	}
+
+	/**
+	 * Print hint
+	 *
+	 * @param hint
+	 *            a {@link java.lang.String} object.
+	 * @throws java.io.IOException
+	 * @since 6.4
+	 */
+	protected void printHint(String hint) throws IOException {
+		outw.print(CLIText.formatLine(hint));
+		outw.flush();
 	}
 
 	/**
@@ -327,6 +388,28 @@ class Status extends TextBuiltin {
 		for (String path : paths) {
 			StageState state = unmergedStates.get(path);
 			String stateDescription = getStageStateDescription(state);
+			if (!porcelain) {
+				if (state != StageState.BOTH_DELETED) {
+					if (state != StageState.DELETED_BY_US &&
+							state != StageState.DELETED_BY_THEM) {
+						outw.print(" "); //$NON-NLS-1$
+						printHint(CLIText.get().hintsUnmergedBothDeletedAdd);
+						outw.println(""); //$NON-NLS-1$
+					} else {
+						outw.print(" "); //$NON-NLS-1$
+						printHint(CLIText.get().hintsUnmergedBothDeletedAddRm);
+					}
+				} else if (state == StageState.ADDED_BY_US ||
+						state == StageState.ADDED_BY_THEM ||
+						state == StageState.BOTH_ADDED ||
+						state == StageState.BOTH_MODIFIED) {
+					outw.print(" "); //$NON-NLS-1$
+					printHint(CLIText.get().hintsUnmergedBothDeletedRm);
+				} else {
+					outw.print(" "); //$NON-NLS-1$
+					printHint(CLIText.get().hintsUnmergedBothDeletedAddRm);
+				}
+			}
 			outw.println(CLIText.formatLine(String.format(
 					statusFileListFormatUnmerged, stateDescription, path)));
 			outw.flush();
