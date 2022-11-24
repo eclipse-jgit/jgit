@@ -24,11 +24,22 @@ public class CommitTest extends CLIRepositoryTestCase {
 		assertEquals("", result);
 
 		result = toString(execute("git status -- a"));
-		assertEquals(toString("On branch master", "Changes to be committed:",
+		assertEquals(toString("On branch master",
+				"",
+				"No commits yet",
+				"",
+				"Changes to be committed:",
+				"(use \"git restore --staged <file>...\" to unstage)",
 				"new file:   a"), result);
 
 		result = toString(execute("git status -- b"));
-		assertEquals(toString("On branch master", "Untracked files:", "b"),
+		assertEquals(toString("On branch master",
+						"",
+						"No commits yet",
+						"",
+						"Untracked files:",
+						"(use \"git add <file>...\" to include in what will be committed)",
+						"b", "nothing added to commit but untracked files present (use \"git add\" to track)"),
 				result);
 
 		result = toString(execute("git commit a -m 'added a'"));
@@ -37,10 +48,14 @@ public class CommitTest extends CLIRepositoryTestCase {
 				result);
 
 		result = toString(execute("git status -- a"));
-		assertEquals("On branch master", result);
+		assertEquals(toString("On branch master",
+						"nothing to commit, working tree clean"),
+				result);
 
 		result = toString(execute("git status -- b"));
-		assertEquals(toString("On branch master", "Untracked files:", "b"),
+		assertEquals(toString("On branch master", "Untracked files:",
+						"(use \"git add <file>...\" to include in what will be committed)",
+						"b", "nothing added to commit but untracked files present (use \"git add\" to track)"),
 				result);
 	}
 
@@ -52,7 +67,12 @@ public class CommitTest extends CLIRepositoryTestCase {
 		assertEquals("", result);
 
 		result = toString(execute("git status -- a b"));
-		assertEquals(toString("On branch master", "Changes to be committed:",
+		assertEquals(toString("On branch master",
+				"",
+				"No commits yet",
+				"",
+				"Changes to be committed:",
+				"(use \"git restore --staged <file>...\" to unstage)",
 				"new file:   a", "new file:   b"), result);
 
 		result = toString(execute("git commit -m 'added a b'"));
@@ -61,7 +81,8 @@ public class CommitTest extends CLIRepositoryTestCase {
 				result);
 
 		result = toString(execute("git status -- a b"));
-		assertEquals("On branch master", result);
+		assertEquals(toString("On branch master",
+				"nothing to commit, working tree clean"), result);
 	}
 
 }
