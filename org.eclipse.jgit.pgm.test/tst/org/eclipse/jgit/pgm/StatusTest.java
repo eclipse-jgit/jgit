@@ -259,8 +259,12 @@ public class StatusTest extends CLIRepositoryTestCase {
 			if (untrackedFiles) {
 				output = new String[] { //
 						"On branch master", //
+						"", //
+						"No commits yet", //
+						"", //
 						"Untracked files:", //
-						"",//
+						"(use \"git add <file>...\" to include in what will be committed)", //
+						"", //
 						"\tstagedDeleted", //
 						"\tstagedModified", //
 						"\tstagedNew", //
@@ -268,11 +272,16 @@ public class StatusTest extends CLIRepositoryTestCase {
 						"\ttrackedDeleted", //
 						"\ttrackedModified", //
 						"\tuntracked", //
-						"" //
+						"", //
+						"nothing added to commit but untracked files present (use \"git add\" to track)" //
 				};
 			} else {
 				output = new String[] { //
 						"On branch master", //
+						"", //
+						"No commits yet", //
+						"", //
+						"Untracked files not listed (use -u option to show untracked files)", //
 						"" //
 				};
 			}
@@ -311,7 +320,11 @@ public class StatusTest extends CLIRepositoryTestCase {
 			if (untrackedFiles) {
 				output = new String[] { //
 						"On branch master", //
+						"", //
+						"No commits yet", //
+						"", //
 						"Changes to be committed:", //
+						"(use \"git restore --staged <file>...\" to unstage)", //
 						"", //
 						"\tnew file:   stagedDeleted", //
 						"\tnew file:   stagedModified", //
@@ -320,6 +333,7 @@ public class StatusTest extends CLIRepositoryTestCase {
 						"\tnew file:   trackedModified", //
 						"", //
 						"Untracked files:", //
+						"(use \"git add <file>...\" to include in what will be committed)", //
 						"", //
 						"\tstagedNew", //
 						"\tuntracked", //
@@ -328,7 +342,11 @@ public class StatusTest extends CLIRepositoryTestCase {
 			} else {
 				output = new String[] { //
 						"On branch master", //
+						"", //
+						"No commits yet", //
+						"", //
 						"Changes to be committed:", //
+						"(use \"git restore --staged <file>...\" to unstage)", //
 						"", //
 						"\tnew file:   stagedDeleted", //
 						"\tnew file:   stagedModified", //
@@ -364,14 +382,17 @@ public class StatusTest extends CLIRepositoryTestCase {
 				output = new String[] { //
 						"On branch master", //
 						"Untracked files:", //
+						"(use \"git add <file>...\" to include in what will be committed)", //
 						"", //
 						"\tstagedNew", //
 						"\tuntracked", //
+						"nothing added to commit but untracked files present (use \"git add\" to track)", //
 						"" //
 				};
 			} else {
 				output = new String[] { //
 						"On branch master", //
+						"Untracked files not listed (use -u option to show untracked files)", //
 						"" //
 				};
 			}
@@ -410,17 +431,21 @@ public class StatusTest extends CLIRepositoryTestCase {
 				output = new String[] { //
 						"On branch master", //
 						"Changes to be committed:", //
+						"(use \"git restore --staged <file>...\" to unstage)", //
 						"", //
 						"\tdeleted:    stagedDeleted", //
 						"\tmodified:   stagedModified", //
 						"\tnew file:   stagedNew", //
 						"", //
 						"Changes not staged for commit:", //
+						"(use \"git add <file>...\" to update what will be committed)", //
+						"(use \"git restore <file>...\" to discard changes in working directory)", //
 						"", //
 						"\tdeleted:    trackedDeleted", //
 						"\tmodified:   trackedModified", //
 						"", //
 						"Untracked files:", //
+						"(use \"git add <file>...\" to include in what will be committed)", //
 						"", //
 						"\tuntracked", //
 						"" //
@@ -429,12 +454,15 @@ public class StatusTest extends CLIRepositoryTestCase {
 				output = new String[] { //
 						"On branch master", //
 						"Changes to be committed:", //
+						"(use \"git restore --staged <file>...\" to unstage)", //
 						"", //
 						"\tdeleted:    stagedDeleted", //
 						"\tmodified:   stagedModified", //
 						"\tnew file:   stagedNew", //
 						"", //
 						"Changes not staged for commit:", //
+						"(use \"git add <file>...\" to update what will be committed)", //
+						"(use \"git restore <file>...\" to discard changes in working directory)", //
 						"", //
 						"\tdeleted:    trackedDeleted", //
 						"\tmodified:   trackedModified", //
@@ -468,13 +496,16 @@ public class StatusTest extends CLIRepositoryTestCase {
 				output = new String[] { //
 						branchHeader, //
 						"Untracked files:", //
+						"(use \"git add <file>...\" to include in what will be committed)", //
 						"", //
 						"\tuntracked", //
-						"" //
+						"", //
+						"nothing added to commit but untracked files present (use \"git add\" to track)" //
 				};
 			} else {
 				output = new String[] { //
 						branchHeader, //
+						"Untracked files not listed (use -u option to show untracked files)", //
 						"" //
 				};
 			}
@@ -508,18 +539,22 @@ public class StatusTest extends CLIRepositoryTestCase {
 				output = new String[] { //
 						branchHeader, //
 						"Unmerged paths:", //
+						"(use \"git add <file>...\" to mark resolution)", //
 						"", //
 						"\tboth modified:      unmerged", //
 						"", //
 						"Untracked files:", //
+						"(use \"git add <file>...\" to include in what will be committed)", //
 						"", //
 						"\tuntracked", //
+						"nothing added to commit but untracked files present (use \"git add\" to track)", //
 						"" //
 				};
 			} else {
 				output = new String[] { //
 						branchHeader, //
 						"Unmerged paths:", //
+						"(use \"git add <file>...\" to mark resolution)", //
 						"", //
 						"\tboth modified:      unmerged", //
 						"" //
