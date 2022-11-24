@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daa157c9_c02a2902",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-24T00:42:43Z",
+      "side": 1,
+      "message": "Does anyone know why the deltas of two files in jgit and git C are different? This does not affect the final result, but I would like to know.",
+      "revId": "d03e8679c5eb2ce14333fc4f5d23e8afb1ff84f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
