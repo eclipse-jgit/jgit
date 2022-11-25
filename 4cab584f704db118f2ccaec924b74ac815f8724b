@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0414558_cf2c017f",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-25T09:13:36Z",
+      "side": 1,
+      "message": "we should not hint to a command which isn\u0027t (yet) implemented in jgit CLI\nIt doesn\u0027t support restore and switch command yet.",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb67888e_3c98d4ed",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-25T09:13:36Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f26a7fad_9a093e37",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/StatusTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-25T09:13:36Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f31f1574_1fe8231f",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/StatusTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-25T09:13:36Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "569e7c75_ee810f33",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/StatusTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-25T09:13:36Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60e07d95_9558680f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-25T09:13:36Z",
+      "side": 1,
+      "message": "what is lb ?",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5ea34c3_07dfa97f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-11-25T09:13:36Z",
+      "side": 1,
+      "message": "add options (e.g. as an enum) instead of two boolean parameters. See https://martinfowler.com/bliki/FlagArgument.html",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
