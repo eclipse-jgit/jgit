@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "386a830f_1af93a24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-25T09:02:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2545f284_997d63d8",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b34a170_48179906",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9858937_2c0e36b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-25T09:02:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b34a170_48179906",
+      "range": {
+        "startLine": 21,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 63
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0aad86d_716846ee",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-11-11T15:50:44Z",
       "side": 1,
       "message": "ENOPARSE",
+      "range": {
+        "startLine": 23,
+        "startChar": 30,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5adec77_0ec2875a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-25T09:02:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0aad86d_716846ee",
       "range": {
         "startLine": 23,
         "startChar": 30,
@@ -104,6 +176,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1b44e68_ab6d208d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-25T09:02:15Z",
+      "side": 1,
+      "message": "Then let\u0027s keep as-is :-)",
+      "parentUuid": "b2a852ee_e9ca97d2",
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ef77e4f_f44da18c",
@@ -117,6 +207,24 @@
       "writtenOn": "2022-11-16T07:12:32Z",
       "side": 1,
       "message": "Very optional suggested rewording, thinking in somebody reading this if in the future without context:\n\n\"Only refs-in-wants in request. These ref-in-wants where used as filters already in the ls-refs, there is no need to use a full advertisement now in fetch. This improves performance and also accuracy: when the ref db prioritize and truncates the returned refs (e.g. gerrit hides too old refs), applying a filter can return different results than a plain listing.\"",
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ad0ac7d_2183a7c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-25T09:02:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ef77e4f_f44da18c",
       "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -144,6 +252,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f4f0e03_71c17842",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-25T09:02:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f0cc33b7_62cb0479",
+      "range": {
+        "startLine": 1190,
+        "startChar": 53,
+        "endLine": 1191,
+        "endChar": 39
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3aa7c971_9363176f",
@@ -157,6 +289,30 @@
       "writtenOn": "2022-11-16T07:12:32Z",
       "side": 1,
       "message": "Optional: This is information for the commit message, more than the code. Can be deleted.",
+      "range": {
+        "startLine": 1194,
+        "startChar": 18,
+        "endLine": 1195,
+        "endChar": 14
+      },
+      "revId": "697fb96a5fdf85947b9e92a66517f2412e0c2337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca0ea97f_fa444ed5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2022-11-25T09:02:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3aa7c971_9363176f",
       "range": {
         "startLine": 1194,
         "startChar": 18,
