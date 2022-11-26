@@ -34,6 +34,7 @@ org.eclipse.jgit.pgm.Repo
 org.eclipse.jgit.pgm.Reset
 org.eclipse.jgit.pgm.RevList
 org.eclipse.jgit.pgm.RevParse
+org.eclipse.jgit.pgm.Restore
 org.eclipse.jgit.pgm.Rm
 org.eclipse.jgit.pgm.Show
 org.eclipse.jgit.pgm.ShowRef
