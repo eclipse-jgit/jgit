@@ -193,6 +193,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f6bf1a1_b535e9ad",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-26T19:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60e07d95_9558680f",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5ea34c3_07dfa97f",
@@ -206,6 +224,24 @@
       "writtenOn": "2022-11-25T09:13:36Z",
       "side": 1,
       "message": "add options (e.g. as an enum) instead of two boolean parameters. See https://martinfowler.com/bliki/FlagArgument.html",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "748d0dca_7818bb16",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-26T19:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5ea34c3_07dfa97f",
       "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
