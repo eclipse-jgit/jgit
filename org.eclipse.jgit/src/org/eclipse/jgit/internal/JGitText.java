@@ -322,6 +322,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfPushCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfResetCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfRevertCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfRestoreCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfRmCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfTagCommand;
 	/***/ public String exceptionHookExecutionInterrupted;
