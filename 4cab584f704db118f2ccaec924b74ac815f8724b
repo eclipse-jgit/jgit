@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff582875_0375520d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-26T01:47:00Z",
+      "side": 1,
+      "message": "Added to the next commit:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/197321",
+      "parentUuid": "d0414558_cf2c017f",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb67888e_3c98d4ed",
@@ -52,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e86127d1_ea8d5377",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/StatusTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-26T01:47:00Z",
+      "side": 1,
+      "message": "Added to the next commit:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/197321",
+      "parentUuid": "f26a7fad_9a093e37",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f31f1574_1fe8231f",
@@ -69,6 +105,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0bdcf41_1af37c9d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/StatusTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-26T01:47:00Z",
+      "side": 1,
+      "message": "Added to the next commit:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/197321",
+      "parentUuid": "f31f1574_1fe8231f",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "569e7c75_ee810f33",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-11-25T09:13:36Z",
       "side": 1,
       "message": "see above",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "501bcded_195e0eee",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/StatusTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-26T01:47:00Z",
+      "side": 1,
+      "message": "Added to the next commit:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/197321",
+      "parentUuid": "569e7c75_ee810f33",
       "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
