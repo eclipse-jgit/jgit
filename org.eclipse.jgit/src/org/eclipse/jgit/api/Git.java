@@ -400,6 +400,20 @@ public class Git implements AutoCloseable {
 	}
 
 	/**
+	 * Return a command object to execute a {@code restore} command
+	 *
+	 * @see <a href=
+	 *      "http://www.kernel.org/pub/software/scm/git/docs/git-restore.html" >Git
+	 *      documentation about restore</a>
+	 * @return a {@link org.eclipse.jgit.api.RestoreCommand} used to collect all
+	 *         optional parameters and to finally execute the {@code restore} command
+	 * @since 6.4
+	 */
+	public RestoreCommand restore() {
+		return new RestoreCommand(repo);
+	}
+
+	/**
 	 * Return a command object to execute a {@code rm} command
 	 *
 	 * @see <a href=
