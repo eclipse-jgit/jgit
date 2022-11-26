@@ -328,6 +328,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfPushCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfResetCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfRevertCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfRestoreCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfRmCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfTagCommand;
 	/***/ public String exceptionHookExecutionInterrupted;
@@ -602,6 +603,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String patchApplyException;
 	/***/ public String patchFormatException;
 	/***/ public String pathNotConfigured;
+	/***/ public String pathspecDidNotMatch;
 	/***/ public String peeledLineBeforeRef;
 	/***/ public String peeledRefIsRequired;
 	/***/ public String peerDidNotSupplyACompleteObjectGraph;
