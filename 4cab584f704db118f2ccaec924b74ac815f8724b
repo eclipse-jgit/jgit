@@ -53,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "706e3e99_0dc3506d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-26T01:47:48Z",
+      "side": 1,
+      "message": "Added to the next commit:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/197321",
+      "parentUuid": "eb67888e_3c98d4ed",
+      "revId": "4cab584f704db118f2ccaec924b74ac815f8724b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f26a7fad_9a093e37",
