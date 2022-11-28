@@ -16,6 +16,24 @@
       "message": "now it\u0027s straightforward to see that you\u0027re updating allTreesNamesMatchFastMinRef correctly here. \n\nIt\u0027s still not obvious why we\u0027re doing this. For example, there will be more cases where you don\u0027t set dfConflict in l.193. Can you still have a D/F conflict with dfConflict !\u003d null if one of the trees is already at eof() ?",
       "revId": "4371df71f26e7e79399053e3c6728966885561be",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d681b7b_92936070",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-11-28T14:34:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c643f7eb_898ab50e",
+      "revId": "4371df71f26e7e79399053e3c6728966885561be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

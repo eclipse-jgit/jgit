@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e03483a6_fe36563f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-11-28T14:34:23Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "85be4023_e01f1e7e",
+      "range": {
+        "startLine": 7,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "19f299b03eec2e886ef2be14304079f2c9a14d7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "35992797_fefcad8f",
@@ -88,6 +112,30 @@
       "writtenOn": "2022-08-01T15:16:13Z",
       "side": 1,
       "message": "the name suggests that this does the same as min(), but is faster? (I guess that\u0027s the shortcut from the commit message).\n\ncan you describe what this method does? (javadoc?)",
+      "range": {
+        "startLine": 127,
+        "startChar": 30,
+        "endLine": 127,
+        "endChar": 37
+      },
+      "revId": "19f299b03eec2e886ef2be14304079f2c9a14d7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7111fa7_14e6aafa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2022-11-28T14:34:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2308bd0e_23e1b5ab",
       "range": {
         "startLine": 127,
         "startChar": 30,
