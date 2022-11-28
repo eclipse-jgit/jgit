@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fa317f0_ca40bf66",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-11-28T14:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec8611a8_ddd89ad0",
+      "range": {
+        "startLine": 161,
+        "startChar": 20,
+        "endLine": 161,
+        "endChar": 37
+      },
+      "revId": "312a263ccf0246f0b5c8931785798116584be27b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "270539db_1cbc74a6",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-22T21:27:40Z",
       "side": 1,
       "message": "Please don\u0027t create a dependency between blame and your revcommit implementation.\n\nAlso using this method seems to be a misuse, if you want to pass a commit it\u0027s better to use push(RevCommit) method rather than silently disregard description.",
+      "range": {
+        "startLine": 449,
+        "startChar": 2,
+        "endLine": 451,
+        "endChar": 3
+      },
+      "revId": "312a263ccf0246f0b5c8931785798116584be27b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f0d6d5_82527029",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-11-28T14:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "270539db_1cbc74a6",
       "range": {
         "startLine": 449,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bef9da0e_b093d4a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FilteredRevCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-11-28T14:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f532396_cc98b8ef",
+      "range": {
+        "startLine": 26,
+        "startChar": 26,
+        "endLine": 26,
+        "endChar": 35
+      },
+      "revId": "312a263ccf0246f0b5c8931785798116584be27b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b69961e_03849f23",
@@ -93,6 +165,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f287ba87_c5bfb72b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-11-28T14:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b69961e_03849f23",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 34
+      },
+      "revId": "312a263ccf0246f0b5c8931785798116584be27b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f64ebd9_42a998fc",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-11-22T21:27:40Z",
       "side": 1,
       "message": "with this (and line 138) you will transform many commits you don\u0027t actually need. E.g. if we have a chain\n\nA\n|\nx\n|\nx\n|\nB\n\nyou will transform all commits in this chain instead of having last one only.",
+      "range": {
+        "startLine": 168,
+        "startChar": 7,
+        "endLine": 168,
+        "endChar": 16
+      },
+      "revId": "312a263ccf0246f0b5c8931785798116584be27b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd2e1ca0_3bcbaa48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-11-28T14:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f64ebd9_42a998fc",
       "range": {
         "startLine": 168,
         "startChar": 7,
