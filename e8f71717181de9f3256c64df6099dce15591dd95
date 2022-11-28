@@ -16,6 +16,205 @@
       "message": "Thanks for your reviews.\n\nRegards,\nKyle",
       "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a327ddc4_7140163a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "Thanks for the quick turnaround! This is looking much better. Few comments more.",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcdc2141_d64688fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "If generation v1 calculation moves to #writeCommitData (see below), prepareCommitGraph can be inlined here, because it just populates oidLookup.\n\nThen it would make sense to pass the InMemoryOidLookup to this method or even in the constructor. The caller does the InMemoryOidLookup#load call.\n\nMaybe some callers like the PackWriter can populate InMemoryOidLookup on their own way.",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d044a0a_e24ec2d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "This can now go to the \"writeCommitData\" function, and the generations array is not a member anymore, just a local variable.\n\nAlso, can we encapsulate computeGenerationNumbers() into its own class? Something like: \nint[] GenerationV1Calculator.compute(InMemoryOidLookup commits)\n\nThis would make clear what data is needed for the calculations.",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b8fcc8f_26bc5f91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "This is used only once, maybe it can be inlined?",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a785f5d_d9acdc39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "Can you rename this to e.g. ChunkHeader?\n\nLater we could consider abstracting the chunks into a\n\"\ninterface Chunk {\n   int getId();\n   int getSize();\n   void writeTo(CancellableDigestOutputStream out);\n}\n\"\nand have a class per chunk type that know how to write its things from InMemoryOidLookup. That makes clearer what data each chunk needs and we can test their writing independently.\n\nThis is optional, if we get this class with good test coverage, that is an almost mechanical refactoring we can do in a different change.",
+      "range": {
+        "startLine": 380,
+        "startChar": 22,
+        "endLine": 380,
+        "endChar": 27
+      },
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c7fb0e6_45b04b89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "This javadoc assumes too much knowledge of commit graph; also, how the commits are arranged is an implementation detail.\n\nWhat about something like:\n\n\"Index of commits in SHA1 order\n\nUsed by the commit-graph writer to:\n1. List commits in SHA1 order\n2. Get the position of a specific SHA1 in the list\n\"",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28e154ae_637ae56f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "This #sort() is misleading because we are going to reorder the RevCommits later. \n\nWould RevSort.NONE be more efficient? If the order is irrelevant, we want the walk to do as few reordering as possible, just output commits as it finds them.",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea2fd8a4_7851294d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "We could create a subclass of ObjectIdOwnerMap.Entry, adding the position to the RevCommit (e.g. CommitWithPosition), and this becomes an ObjectIdOwnerMap\u003cCommitWithPosition\u003e.\n\nIIUC that should save some memory (because the Integer and the Map.Entry are expensive).",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14cde357_c0066ad5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "it can also be final.",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62890bae_2627641d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "Can you write a unit test of this class? Probably you need some tests to the actual class (populating it with a predefined set of RevCommit) and other tests for the walk in the static constructor method.",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43baa4ff_988805b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "Althouth it is an private constructor, add a comment or a javadoc saying that we assume #parseHeaders() has been invoked in these RevCommits",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

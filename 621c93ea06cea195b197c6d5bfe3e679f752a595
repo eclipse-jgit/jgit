@@ -112,6 +112,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeb0663b_2594ea5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "Thanks a lot!",
+      "parentUuid": "d3599915_ae30a71d",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 84
+      },
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45c75b4f_78562672",

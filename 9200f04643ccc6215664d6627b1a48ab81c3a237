@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a27b6f33_9e298181",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-28T20:55:28Z",
+      "side": 1,
+      "message": "In this case, we could just use an ArrayList\u003cChunk\u003e. In total it costs only few bytes more than the array and has much better readability.",
+      "parentUuid": "dc5e7570_5788358a",
+      "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f6b9aff_ae29cc5e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ObjectToCommitData.java",
         "patchSetId": 11
