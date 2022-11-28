@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe862b06_13e71cf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2022-11-28T19:25:06Z",
+      "side": 1,
+      "message": "Instead of \"plenty\", can you provide an approximate number? Also, can you tie this to a real world use case (noteDB migration)?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "6e4efdbe33ef0f61c4e7fd82b59800593d9c8cf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
