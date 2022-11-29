@@ -53,6 +53,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 
 	private boolean showNameOnly;
 
+	private boolean showRawOnly;
+
 	private OutputStream out;
 
 	private int contextLines = -1;
@@ -75,6 +77,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 
 	private DiffFormatter getDiffFormatter() {
 		return out != null && !showNameAndStatusOnly && !showNameOnly
+				&& showRawOnly
 				? new DiffFormatter(new BufferedOutputStream(out))
 				: new DiffFormatter(NullOutputStream.INSTANCE);
 	}
@@ -116,7 +119,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 			diffFmt.setPathFilter(pathFilter);
 
 			List<DiffEntry> result = diffFmt.scan(oldTree, newTree);
-			if (showNameAndStatusOnly || showNameOnly) {
+			if (showNameAndStatusOnly || showNameOnly || showRawOnly) {
 				return result;
 			}
 			if (contextLines >= 0) {
@@ -206,6 +209,19 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 */
 	public DiffCommand setShowNameOnly(boolean showNameOnly) {
 		this.showNameOnly = showNameOnly;
+		return this;
+	}
+
+	/**
+	 * Set whether to return only raw format of changed files
+	 *
+	 * @param showRawOnly
+	 *            whether to return raw format
+	 * @return this instance
+	 * @since 6.4
+	 */
+	public DiffCommand setShowRawOnly(boolean showRawOnly) {
+		this.showRawOnly = showNameOnly;
 		return this;
 	}
 
