@@ -52,6 +52,8 @@ class Diff extends TextBuiltin {
 
 	private boolean showNameAndStatusOnly = false;
 
+	private boolean noAbbrev = false;
+
 	@Argument(index = 0, metaVar = "metaVar_treeish")
 	private AbstractTreeIterator oldTree;
 
@@ -101,6 +103,14 @@ class Diff extends TextBuiltin {
 		}
 		showNameOnly = on;
 	}
+
+	@Option(name = "--raw", usage = "usage_rawOnly")
+	private boolean raw;
+
+	@Option(name = "--no-abbrev", usage = "usage_noAbbrev")
+	void noAbbrev(boolean on) {
+		noAbbrev = on;
+	};
 
 	@Option(name = "--ignore-space-at-eol")
 	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
@@ -202,8 +212,12 @@ class Diff extends TextBuiltin {
 			if (showNameAndStatusOnly) {
 				nameStatus(outw, diffFmt.scan(oldTree, newTree));
 				outw.flush();
-			} else if(showNameOnly) {
+			} else if (showNameOnly) {
 				nameOnly(outw, diffFmt.scan(oldTree, newTree));
+				outw.flush();
+			} else if (raw) {
+				diffFmt.setAbbreviationLength(5);
+				raw(outw, diffFmt.scan(oldTree, newTree), noAbbrev);
 				outw.flush();
 			} else {
 				diffFmt.format(oldTree, newTree);
@@ -261,6 +275,50 @@ class Diff extends TextBuiltin {
 					break;
 				case RENAME:
 					out.println(ent.getNewPath());
+					break;
+			}
+		}
+	}
+
+	static void raw(ThrowingPrintWriter out, List<DiffEntry> files,
+					boolean noAbbrev)
+			throws IOException {
+		int abbrLength = 9;
+		if (noAbbrev) {
+			abbrLength = 40;
+		}
+		for (DiffEntry ent : files) {
+			out.print(":"); //$NON-NLS-1$
+			out.print(String.format("%06d", Integer.valueOf(
+					ent.getOldMode().toString()))); //$NON-NLS-1$
+			out.print(" "); //$NON-NLS-1$
+			out.print(String.format("%06d", Integer.valueOf(
+					ent.getNewMode().toString()))); //$NON-NLS-1$
+			out.print(" "); //$NON-NLS-1$
+			out.print(ent.getOldId().name().substring(0, abbrLength));
+			out.print(" "); //$NON-NLS-1$
+			out.print(ent.getNewId().name().substring(0, abbrLength));
+			switch (ent.getChangeType()) {
+				case ADD:
+					out.println(" A\t" + ent.getNewPath()); //$NON-NLS-1$
+					break;
+				case DELETE:
+					out.println(" D\t" + ent.getOldPath()); //$NON-NLS-1$
+					break;
+				case MODIFY:
+					out.println(" M\t" + ent.getNewPath()); //$NON-NLS-1$
+					break;
+				case COPY:
+					out.print(" "); //$NON-NLS-1$
+					out.format("C%1$03d\t%2$s\t%3$s", valueOf(ent.getScore()), //$NON-NLS-1$
+							ent.getOldPath(), ent.getNewPath());
+					out.println();
+					break;
+				case RENAME:
+					out.print(" "); //$NON-NLS-1$
+					out.format("R%1$03d\t%2$s\t%3$s", valueOf(ent.getScore()), //$NON-NLS-1$
+							ent.getOldPath(), ent.getNewPath());
+					out.println();
 					break;
 			}
 		}
