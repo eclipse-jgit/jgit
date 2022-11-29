@@ -149,6 +149,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f356d541_efe66616",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-29T21:45:14Z",
+      "side": 1,
+      "message": "There is already a RefsCallCountingRepository overriding the getRefs(), it makes sense to do the same for #getRefsByPrefix.",
+      "parentUuid": "d7423d1c_767815dd",
+      "revId": "2830d607a0fdc843634738e5d606b5d13d6e1505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af89f7d0_094db045",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-29T21:45:14Z",
+      "side": 1,
+      "message": "There is already a RefsCallCountingRepository overriding the getRefs(), makes sense to override also #getRefsByPrefix and assert it is called with the expected values.",
+      "parentUuid": "d7423d1c_767815dd",
+      "revId": "2830d607a0fdc843634738e5d606b5d13d6e1505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dbf58f2_515b8232",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6df9c52_aaee819c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-29T21:45:14Z",
+      "side": 1,
+      "message": "Title suggests that instead of asking for visible refs, it takes whatever the client sends in want-refs (which is not the case and would be wrong!).\n\nSuggestion:\n\"UploadPack: use want-refs to filter advertised refs in fetchV2\"",
+      "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58982a2_a2237044",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-29T21:45:14Z",
+      "side": 1,
+      "message": "This paragraph and the next say ~ the same, probably you can just delete this one.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 56
+      },
+      "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9767cf82_b7b83045",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-29T21:45:14Z",
+      "side": 1,
+      "message": "Minor comments if you want to add more coverage to the tests. \n\nThe commit message needs a bit of work but jrn@ is on top of it.",
+      "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cfc894a_3b91fe0e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-29T21:45:14Z",
+      "side": 1,
+      "message": "Maybe you can override here #getRefsByPrefix(...) and assert it was invoked with the expected prefixes.",
+      "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

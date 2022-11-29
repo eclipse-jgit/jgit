@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59b33ad8_832ef9bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-29T21:45:14Z",
+      "side": 1,
+      "message": "Optional: cover the case were there are wants and want-ref, so it needs to go for the full ref advertisement.",
+      "parentUuid": "9293240c_12d20383",
+      "revId": "0642c347d03d5160973160290bf692ab1e5d3e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79b43caa_c9e7c0d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
