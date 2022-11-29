@@ -120,6 +120,12 @@ class Log extends RevWalkTextBuiltin {
 		showNameOnly = on;
 	}
 
+	@Option(name = "--raw", usage = "usage_rawOnly")
+	private boolean raw;
+
+	@Option(name = "--no-abbrev", usage = "usage_noAbbrev")
+	private boolean noAbbrev;
+
 	@Option(name = "--ignore-space-at-eol")
 	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
 		diffFmt.setDiffComparator(RawTextComparator.WS_IGNORE_TRAILING);
@@ -286,7 +292,7 @@ class Log extends RevWalkTextBuiltin {
 			outw.println();
 
 		if (c.getParentCount() <= 1 && (showNameAndStatusOnly || showPatch
-				|| showNameOnly)) {
+				|| showNameOnly || raw)) {
 			showDiff(c);
 		}
 		outw.flush();
@@ -389,6 +395,8 @@ class Log extends RevWalkTextBuiltin {
 			Diff.nameStatus(outw, diffFmt.scan(a, b));
 		} else if (showNameOnly) {
 			Diff.nameOnly(outw, diffFmt.scan(a, b));
+		} else if (raw) {
+			Diff.raw(outw, diffFmt.scan(a, b), noAbbrev);
 		} else {
 			outw.flush();
 			diffFmt.format(a, b);
