@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbbbf943_ef26aa42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-11-29T13:15:20Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to use restore --staged for this purpose?",
+      "revId": "3a8eed508e01ac49c67393f253805759bf0ba37e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "79154c77_e8c3e6c4",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Rm.java",
@@ -14,8 +32,7 @@
       "side": 1,
       "message": "you intentionally removed the part\n  usage \u003d \"usage_path\",\n\nright?",
       "revId": "3a8eed508e01ac49c67393f253805759bf0ba37e",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
