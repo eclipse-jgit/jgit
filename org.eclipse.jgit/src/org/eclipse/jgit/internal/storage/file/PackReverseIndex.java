@@ -49,13 +49,26 @@ public class PackReverseIndex {
 	private final int[] nth;
 
 	/**
+	 * Compute an in-memory pack reverse index from the in-memory pack forward
+	 * index. This computation uses insertion sort, which has a quadratic
+	 * runtime on average.
+	 *
+	 * @param packIndex
+	 *            the forward index to compute from
+	 * @return the reverse index instance
+	 */
+	public static PackReverseIndex computeFromIndex(PackIndex packIndex) {
+		return new PackReverseIndex(packIndex);
+	}
+
+	/**
 	 * Create reverse index from straight/forward pack index, by indexing all
 	 * its entries.
 	 *
 	 * @param packIndex
 	 *            forward index - entries to (reverse) index.
 	 */
-	public PackReverseIndex(PackIndex packIndex) {
+	private PackReverseIndex(PackIndex packIndex) {
 		index = packIndex;
 
 		final long cnt = index.getObjectCount();
