@@ -728,12 +728,19 @@ public final class ConfigConstants {
 
 	/**
 	 * The "pack.bitmapRecentCommitSpan" key
+	 *
 	 * @since 5.8
 	 */
 	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT = "bitmaprecentcommitspan";
 
 	/**
+	 * The "pack.writeReverseIndex" key
+	 */
+	public static final String CONFIG_KEY_WRITE_REVERSE_INDEX = "writeReverseIndex";
+
+	/**
 	 * The "pack.buildBitmaps" key
+	 *
 	 * @since 5.8
 	 */
 	public static final String CONFIG_KEY_BUILD_BITMAPS = "buildbitmaps";
