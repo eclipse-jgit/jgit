@@ -1039,7 +1039,7 @@ public class PackWriter implements AutoCloseable {
 	public ObjectId computeName() {
 		final byte[] buf = new byte[OBJECT_ID_LENGTH];
 		final MessageDigest md = Constants.newMessageDigest();
-		for (ObjectToPack otp : sortByName()) {
+		for (ObjectToPack otp : getSortedByName()) {
 			otp.copyRawTo(buf, 0);
 			md.update(buf, 0, OBJECT_ID_LENGTH);
 		}
@@ -1085,9 +1085,9 @@ public class PackWriter implements AutoCloseable {
 			throw new IOException(JGitText.get().cachedPacksPreventsIndexCreation);
 
 		long writeStart = System.currentTimeMillis();
-		final PackIndexWriter iw = PackIndexWriter.createVersion(
-				indexStream, getIndexVersion());
-		iw.write(sortByName(), packcsum);
+		PackIndexWriter iw =
+				PackIndexWriter.createVersion(indexStream, getIndexVersion());
+		iw.write(getSortedByName(), packcsum);
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
 
@@ -1113,22 +1113,29 @@ public class PackWriter implements AutoCloseable {
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
 
-	private List<ObjectToPack> sortByName() {
+	private List<ObjectToPack> getSortedByName() {
 		if (sortedByName == null) {
-			int cnt = 0;
-			cnt += objectsLists[OBJ_COMMIT].size();
-			cnt += objectsLists[OBJ_TREE].size();
-			cnt += objectsLists[OBJ_BLOB].size();
-			cnt += objectsLists[OBJ_TAG].size();
-
-			sortedByName = new BlockList<>(cnt);
-			sortedByName.addAll(objectsLists[OBJ_COMMIT]);
-			sortedByName.addAll(objectsLists[OBJ_TREE]);
-			sortedByName.addAll(objectsLists[OBJ_BLOB]);
-			sortedByName.addAll(objectsLists[OBJ_TAG]);
-			Collections.sort(sortedByName);
+			// Store as immutable to avoid unexpected side effects.
+			sortedByName = Collections.unmodifiableList(makeSortedByName());
 		}
 		return sortedByName;
+	}
+
+	private List<ObjectToPack> makeSortedByName() {
+		int cnt = 0;
+		cnt += objectsLists[OBJ_COMMIT].size();
+		cnt += objectsLists[OBJ_TREE].size();
+		cnt += objectsLists[OBJ_BLOB].size();
+		cnt += objectsLists[OBJ_TAG].size();
+
+		List<ObjectToPack> allObjects = new BlockList<>(cnt);
+		allObjects.addAll(objectsLists[OBJ_COMMIT]);
+		allObjects.addAll(objectsLists[OBJ_TREE]);
+		allObjects.addAll(objectsLists[OBJ_BLOB]);
+		allObjects.addAll(objectsLists[OBJ_TAG]);
+
+		Collections.sort(allObjects);
+		return allObjects;
 	}
 
 	private void beginPhase(PackingPhase phase, ProgressMonitor monitor,
@@ -2370,12 +2377,10 @@ public class PackWriter implements AutoCloseable {
 			pm = NullProgressMonitor.INSTANCE;
 
 		int numCommits = objectsLists[OBJ_COMMIT].size();
-		List<ObjectToPack> byName = sortByName();
-		sortedByName = null;
+		List<ObjectToPack> byName = makeSortedByName();
 		objectsLists = null;
 		objectsMap = null;
 		writeBitmaps = new PackBitmapIndexBuilder(byName);
-		byName = null;
 
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
 				reader, writeBitmaps, pm, stats.interestingObjects, config);
