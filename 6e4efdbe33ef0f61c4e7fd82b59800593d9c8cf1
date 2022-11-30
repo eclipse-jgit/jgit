@@ -22,6 +22,23 @@
       },
       "revId": "6e4efdbe33ef0f61c4e7fd82b59800593d9c8cf1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23f28264_640596ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-11-30T05:27:09Z",
+      "side": 1,
+      "message": "\u003e Patch Set 3: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/2253/ : FAILURE\n\nFailures appear valid:\n\n 11:54:16  [ERROR] Failures: \n 11:54:16  [ERROR]   RefTest.testGetRefsExcludingNonExistingPrefixes:353 expected:\u003c1\u003e but was:\u003c0\u003e\n 11:54:16  [ERROR]   RefTest.testGetRefsExcludingPrefixes:342 expected:\u003c1\u003e but was:\u003c0\u003e\n 11:54:16  [ERROR]   RefTest.testGetRefsWithPrefixExcludingOverlappingPrefixes:375 expected:\u003c1\u003e but was:\u003c0\u003e",
+      "revId": "6e4efdbe33ef0f61c4e7fd82b59800593d9c8cf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
