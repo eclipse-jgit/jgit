@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c9dbfb_20bb9de2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-30T23:54:53Z",
+      "side": 1,
+      "message": "Reading this, I don\u0027t understand what is the change about, what went wrong and what is different now.\n\nPlease write a proper message like it is a new change. Maybe it can be the same than the original if it was good.\n\nThen add a paragraph explaining \"this was introduced before in \u003ccommit\u003e but rolled back in \u003ccommit\u003e because ... . Now ...\"",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dbcba0c_802e34bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-30T23:54:53Z",
+      "side": 1,
+      "message": "Can use here a ObjectIdSubclassMap\u003cFilteredRevCommit\u003e? IIUC you can store FilteredRevCommit and then #get() with a RevCommit (because it uses the objectId as key).\n\nI guess we need to use SubclassMap because eventually these instances will get to the RevWalk and be hold in its own ObjectIdOwnerMap?",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca6c1e58_61170a49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-11-30T23:54:53Z",
+      "side": 1,
+      "message": "It seems you need this copy of the \"filtered\" commits, because those instances are created out of the revwalk, so the revwalk don\u0027t keep them in its objects cache and they are not reused during the walk. Is it so?\n\nIf so, what if a subclass of RevWalk (BlameRevWalk) would overwrite #createCommit() and produce FilteredRevCommit instances everywhere? Then we wouldn\u0027t need this second cache...",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
