@@ -558,6 +558,7 @@ public class DfsGarbageCollector {
 		cfg.setReuseObjects(true);
 		cfg.setDeltaCompress(false);
 		cfg.setBuildBitmaps(false);
+		cfg.setWriteReverseIndex(false);
 
 		try (PackWriter pw = new PackWriter(cfg, ctx);
 				RevWalk pool = new RevWalk(ctx)) {
