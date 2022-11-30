@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 import static org.eclipse.jgit.lib.Constants.INFO_ALTERNATES;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -502,6 +503,34 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			assertEquals(idx1.findOffset(id), idx2.findOffset(id));
 			assertEquals(idx1.findCRC32(id), idx2.findCRC32(id));
 		}
+	}
+
+	@Test
+	public void testWriteReverseIndexConfig() throws Exception {
+		assertTrue(config.isWriteReverseIndex());
+		config.setWriteReverseIndex(false);
+		assertFalse(config.isWriteReverseIndex());
+	}
+
+	@Test
+	public void testWriteReverseIndexOff() throws Exception {
+		config.setWriteReverseIndex(false);
+		writer = new PackWriter(config, db.newObjectReader());
+		ByteArrayOutputStream reverseIndexOutput = new ByteArrayOutputStream();
+
+		writer.writeReverseIndex(reverseIndexOutput);
+
+		assertEquals(0, reverseIndexOutput.size());
+	}
+
+	@Test
+	public void testWriteReverseIndexOn() throws Exception {
+		writeVerifyPack4(false);
+		ByteArrayOutputStream reverseIndexOutput = new ByteArrayOutputStream();
+
+		writer.writeReverseIndex(reverseIndexOutput);
+
+		assertTrue(reverseIndexOutput.size() > OBJECT_ID_LENGTH * 3);
 	}
 
 	@Test
