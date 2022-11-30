@@ -61,6 +61,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -1087,6 +1088,22 @@ public class PackWriter implements AutoCloseable {
 		long writeStart = System.currentTimeMillis();
 		final PackIndexWriter iw = PackIndexWriter.createVersion(indexStream, getIndexVersion());
 		iw.write(getSortedByName(), packcsum);
+		stats.timeWriting += System.currentTimeMillis() - writeStart;
+	}
+
+	public boolean isReverseIndexEnabled() throws IOException {
+		// Only write the reverse index if the writer is configured to and the forward index that it would correspond to
+		// will be written.
+		return config.isWriteReverseIndex() && !isIndexDisabled();
+	}
+
+	public void writeReverseIndex(OutputStream stream) throws IOException {
+		if (!isReverseIndexEnabled()) {
+			return;
+		}
+		long writeStart = System.currentTimeMillis();
+		final PackReverseIndexWriter writer = PackReverseIndexWriter.createWriter(stream);
+		writer.write(getSortedByName(), packcsum);
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
 
