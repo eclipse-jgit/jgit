@@ -220,7 +220,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		long offset = packIndex.findOffset(objectId);
 		if (offset == -1)
 			return -1;
-		return reverseIndex.findPostion(offset);
+		return reverseIndex.findPosition(offset);
 	}
 
 	/** {@inheritDoc} */
