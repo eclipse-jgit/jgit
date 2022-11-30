@@ -158,7 +158,7 @@ public class PackReverseIndex {
 		return index.getOffset(nth[ith + 1]);
 	}
 
-	int findPostion(long offset) {
+	int findPosition(long offset) {
 		return binarySearch(offset);
 	}
 
