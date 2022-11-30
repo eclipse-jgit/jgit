@@ -48,6 +48,10 @@ public class PackReverseIndex {
 	/** Mapping from indices in offset order to indices in SHA-1 order. */
 	private final int[] nth;
 
+	public static PackReverseIndex computeFromIndex(PackIndex packIndex) {
+		return new ComputedPackReverseIndex(packIndex);
+	}
+
 	/**
 	 * Create reverse index from straight/forward pack index, by indexing all
 	 * its entries.
