@@ -35,6 +35,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WRITE_REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 
 import java.time.Duration;
@@ -158,6 +159,13 @@ public class PackConfig {
 	public static final int DEFAULT_INDEX_VERSION = 2;
 
 	/**
+	 * Default value of the write reverse index option: {@value}
+	 *
+	 * @see #setWriteReverseIndex(boolean)
+	 */
+	public static final boolean DEFAULT_WRITE_REVERSE_INDEX = true;
+
+	/**
 	 * Default value of the build bitmaps option: {@value}
 	 *
 	 * @see #setBuildBitmaps(boolean)
@@ -271,6 +279,8 @@ public class PackConfig {
 
 	private int indexVersion = DEFAULT_INDEX_VERSION;
 
+	private boolean writeReverseIndex = DEFAULT_WRITE_REVERSE_INDEX;
+
 	private boolean buildBitmaps = DEFAULT_BUILD_BITMAPS;
 
 	private int bitmapContiguousCommitCount = DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT;
@@ -348,6 +358,7 @@ public class PackConfig {
 		this.threads = cfg.threads;
 		this.executor = cfg.executor;
 		this.indexVersion = cfg.indexVersion;
+		this.writeReverseIndex = cfg.writeReverseIndex;
 		this.buildBitmaps = cfg.buildBitmaps;
 		this.bitmapContiguousCommitCount = cfg.bitmapContiguousCommitCount;
 		this.bitmapRecentCommitCount = cfg.bitmapRecentCommitCount;
@@ -948,6 +959,24 @@ public class PackConfig {
 	}
 
 	/**
+	 * True if the writer should write reverse index files.
+	 * <p>
+	 * Default setting: {@value #DEFAULT_WRITE_REVERSE_INDEX}
+	 */
+	public boolean isWriteReverseIndex() {
+		return writeReverseIndex;
+	}
+
+	/**
+	 * Set whether the writer will write reverse index files.
+	 * <p>
+	 * Default setting: {@value #DEFAULT_WRITE_REVERSE_INDEX}
+	 */
+	public void setWriteReverseIndex(boolean writeReverseIndex) {
+		this.writeReverseIndex = writeReverseIndex;
+	}
+
+	/**
 	 * True if writer is allowed to build bitmaps for indexes.
 	 *
 	 * Default setting: {@value #DEFAULT_BUILD_BITMAPS}
@@ -1200,6 +1229,7 @@ public class PackConfig {
 		setSinglePack(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_SINGLE_PACK,
 				getSinglePack()));
+		setWriteReverseIndex(rc.getBoolean(CONFIG_PACK_SECTION, CONFIG_KEY_WRITE_REVERSE_INDEX, isWriteReverseIndex()));
 		setBuildBitmaps(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BUILD_BITMAPS, isBuildBitmaps()));
 		setBitmapContiguousCommitCount(rc.getInt(CONFIG_PACK_SECTION,
@@ -1234,6 +1264,8 @@ public class PackConfig {
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
+		String separator = ",";
+		String equals = "=";
 		final StringBuilder b = new StringBuilder();
 		b.append("maxDeltaDepth=").append(getMaxDeltaDepth()); //$NON-NLS-1$
 		b.append(", deltaSearchWindowSize=").append(getDeltaSearchWindowSize()); //$NON-NLS-1$
@@ -1248,6 +1280,7 @@ public class PackConfig {
 		b.append(", reuseDeltas=").append(isReuseDeltas()); //$NON-NLS-1$
 		b.append(", reuseObjects=").append(isReuseObjects()); //$NON-NLS-1$
 		b.append(", deltaCompress=").append(isDeltaCompress()); //$NON-NLS-1$
+		b.append(separator).append(CONFIG_KEY_WRITE_REVERSE_INDEX).append(equals).append(isBuildBitmaps());
 		b.append(", buildBitmaps=").append(isBuildBitmaps()); //$NON-NLS-1$
 		b.append(", bitmapContiguousCommitCount=") //$NON-NLS-1$
 				.append(getBitmapContiguousCommitCount());
