@@ -23,7 +23,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PackReverseIndexTest extends RepositoryTestCase {
+public class ComputedPackReverseIndexTest extends RepositoryTestCase {
 
 	private PackIndex idx;
 
@@ -73,8 +73,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 			if (i == idx.getObjectCount() - 1)
 				assertEquals(newOffset, Long.MAX_VALUE);
 			else
-				assertEquals(newOffset, idx.findOffset(reverseIdx
-						.findObject(newOffset)));
+				assertEquals(newOffset, idx.findOffset(reverseIdx.findObject(newOffset)));
 			offset = newOffset;
 		}
 	}
