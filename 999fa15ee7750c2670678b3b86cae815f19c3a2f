@@ -16,6 +16,155 @@
       "message": "\u003e Caused by: org.apache.maven.plugin.compiler.CompilationFailureException: Compilation failure\n\u003e 14:59:26  /home/jenkins/agent/workspace/stable/jgit.gerrit\n\u003e pipeline.java11/repo/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java:[60,27] The value of the field org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter.MAX_NUM_CHUNKS is not used\n\nSorry, made a mistake, it has been fixed.",
       "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b166eb0_6adb620f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-01T19:34:34Z",
+      "side": 1,
+      "message": "Great job! I think we are almost there. Just one more thing: passing the data instead of calculating it inside the writer. The rest are nits about naming.",
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "280fa6ff_925b6043",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphConstants.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-01T19:34:34Z",
+      "side": 1,
+      "message": "COMMIT_DATA_WIDTH? or COMMIT_DATA_ENTRY_WIDTH? to make consistent with CHUNK_LOOKUP_WIDTH?",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3a02301_489f0241",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-01T19:34:34Z",
+      "side": 1,
+      "message": "Could we do let the caller create the oid lookup? Then using this writer would look like:\n\nCommitGraphWriter cgw \u003d new CommitGraphWriter(InMemoryOidLookup.load(xxx));\ncgw.write(pm, outputStream);\n\nThen we don\u0027t need the reader nor the walk inside the writer, which makes clear that there are no more walks while writing.\n\nAlso, maybe InMemoryOidLookup is not the best name for that class anymore... what about GraphCommits? and it would look like: \nnew CommitGraphWriter(GraphCommits.fromWalk(pm, wants, walk));",
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ad1d053_f4961381",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-01T19:34:34Z",
+      "side": 1,
+      "message": "As code has evolved, maybe this could get a better name? e.g. \"GraphCommits\"?",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eb00be0_23d3ba25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-01T19:34:34Z",
+      "side": 1,
+      "message": "nit: could we rename to e.g. fromWalk? there is no strict naming convention for this constructor methods, but from is pretty common and seems safer if later we add others.",
+      "range": {
+        "startLine": 42,
+        "startChar": 33,
+        "endLine": 42,
+        "endChar": 37
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6efc2072_8fccc4cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-01T19:34:34Z",
+      "side": 1,
+      "message": "nit: \"need to be parsed\" is ambiguous. Maybe \"list of commits with their headers already parsed\".",
+      "range": {
+        "startLine": 76,
+        "startChar": 34,
+        "endLine": 76,
+        "endChar": 71
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c0cd807_76bac28b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-01T19:34:34Z",
+      "side": 1,
+      "message": "nit: \"as generation number for\" commits not in the commit-graph\n\nWe use \"mark\" to \"color\" commits in the walk, so here gives the wrong idea.",
+      "range": {
+        "startLine": 758,
+        "startChar": 25,
+        "endLine": 758,
+        "endChar": 29
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
