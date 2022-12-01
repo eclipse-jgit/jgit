@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d74c0bd7_8fc9e545",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T07:25:51Z",
+      "side": 1,
+      "message": "\u003e Caused by: org.apache.maven.plugin.compiler.CompilationFailureException: Compilation failure\n\u003e 14:59:26  /home/jenkins/agent/workspace/stable/jgit.gerrit\n\u003e pipeline.java11/repo/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java:[60,27] The value of the field org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter.MAX_NUM_CHUNKS is not used\n\nSorry, made a mistake, it has been fixed.",
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
