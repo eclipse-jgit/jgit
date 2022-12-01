@@ -54,6 +54,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a67c56a0_7a98daf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a27b6f33_9e298181",
+      "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f6b9aff_ae29cc5e",

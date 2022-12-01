@@ -35,6 +35,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faeae888_7475c2a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Thanks for your reviews.\nI saw your comment on reader[1], and I will modify it in the next patch.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/182892 \n\nRegards,\nKyle",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcdc2141_d64688fe",
@@ -48,6 +65,24 @@
       "writtenOn": "2022-11-28T20:55:28Z",
       "side": 1,
       "message": "If generation v1 calculation moves to #writeCommitData (see below), prepareCommitGraph can be inlined here, because it just populates oidLookup.\n\nThen it would make sense to pass the InMemoryOidLookup to this method or even in the constructor. The caller does the InMemoryOidLookup#load call.\n\nMaybe some callers like the PackWriter can populate InMemoryOidLookup on their own way.",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d6e2a3_1bfd6b39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcdc2141_d64688fe",
       "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -69,6 +104,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc04bee_851f5633",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "\u003e This can now go to the \"writeCommitData\" function, and the generations array is not a member anymore, just a local variable.\n\nYeah, I agree.\n\n\u003e \n\u003e Also, can we encapsulate computeGenerationNumbers() into its own class? Something like: \n\u003e int[] GenerationV1Calculator.compute(InMemoryOidLookup commits)\n\nYes, maybe we can refactor it like this until we realize the generation of v2.",
+      "parentUuid": "6d044a0a_e24ec2d2",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b8fcc8f_26bc5f91",
@@ -82,6 +135,24 @@
       "writtenOn": "2022-11-28T20:55:28Z",
       "side": 1,
       "message": "This is used only once, maybe it can be inlined?",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bf61629_67dd9a1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b8fcc8f_26bc5f91",
       "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -109,6 +180,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b95aded_135bd619",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "\u003e Can you rename this to e.g. ChunkHeader?\n\u003e \n\nSure.\n\n\u003e Later we could consider abstracting the chunks into a\n\u003e \"\n\u003e interface Chunk {\n\u003e    int getId();\n\u003e    int getSize();\n\u003e    void writeTo(CancellableDigestOutputStream out);\n\u003e }\n\u003e \"\n\u003e and have a class per chunk type that know how to write its things from InMemoryOidLookup. That makes clearer what data each chunk needs and we can test their writing independently.\n\u003e \n\u003e This is optional, if we get this class with good test coverage, that is an almost mechanical refactoring we can do in a different change.\n\nYeah, this does look good.\nMaybe we can refactor it when we are going to implement a new chunk, such as generation v2 (and the refactoring change is just before it).",
+      "parentUuid": "1a785f5d_d9acdc39",
+      "range": {
+        "startLine": 380,
+        "startChar": 22,
+        "endLine": 380,
+        "endChar": 27
+      },
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c7fb0e6_45b04b89",
@@ -122,6 +217,24 @@
       "writtenOn": "2022-11-28T20:55:28Z",
       "side": 1,
       "message": "This javadoc assumes too much knowledge of commit graph; also, how the commits are arranged is an implementation detail.\n\nWhat about something like:\n\n\"Index of commits in SHA1 order\n\nUsed by the commit-graph writer to:\n1. List commits in SHA1 order\n2. Get the position of a specific SHA1 in the list\n\"",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "494dd275_2c9802df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c7fb0e6_45b04b89",
       "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -143,6 +256,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91f69520_cc21edb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28e154ae_637ae56f",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea2fd8a4_7851294d",
@@ -160,6 +291,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "959b6cfd_b788a6b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2fd8a4_7851294d",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14cde357_c0066ad5",
@@ -173,6 +322,30 @@
       "writtenOn": "2022-11-28T20:55:28Z",
       "side": 1,
       "message": "it can also be final.",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17566b7c_32847403",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14cde357_c0066ad5",
       "range": {
         "startLine": 67,
         "startChar": 9,
@@ -213,6 +386,42 @@
       "writtenOn": "2022-11-28T20:55:28Z",
       "side": 1,
       "message": "Althouth it is an private constructor, add a comment or a javadoc saying that we assume #parseHeaders() has been invoked in these RevCommits",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0fa64ce_4dbdd049",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62890bae_2627641d",
+      "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05207387_ef12fae7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-01T06:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43baa4ff_988805b1",
       "revId": "e8f71717181de9f3256c64df6099dce15591dd95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
