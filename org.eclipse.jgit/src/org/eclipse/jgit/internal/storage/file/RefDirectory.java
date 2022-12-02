@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.nio.file.DirectoryNotEmptyException;
@@ -60,6 +61,7 @@ import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsModificationTime;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -892,9 +894,22 @@ public class RefDirectory extends RefDatabase {
 		boolean trustFolderStat = getRepository().getConfig().getBoolean(
 				ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+		TrustPackedRefsModificationTime trustPackedRefsModTime =
+				getRepository().getConfig().getEnum(
+						ConfigConstants.CONFIG_CORE_SECTION,
+						null,
+						ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_MODIFICATION_TIME,
+						TrustPackedRefsModificationTime.UNSET);
 
 		final PackedRefList curList = packedRefs.get();
-		if (trustFolderStat && !curList.snapshot.isModified(packedRefsFile)) {
+
+		if (TrustPackedRefsModificationTime.AFTER_OPEN.equals(trustPackedRefsModTime)) {
+			try (InputStream stream = Files.newInputStream(packedRefsFile.toPath())) {}
+		}
+
+		if (!TrustPackedRefsModificationTime.NEVER.equals(trustPackedRefsModTime)
+				&& (!TrustPackedRefsModificationTime.UNSET.equals(trustPackedRefsModTime) || trustFolderStat)
+				&& !curList.snapshot.isModified(packedRefsFile)) {
 			return curList;
 		}
 
