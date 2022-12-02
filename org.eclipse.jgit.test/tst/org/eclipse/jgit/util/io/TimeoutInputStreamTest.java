@@ -91,7 +91,7 @@ public class TimeoutInputStreamTest {
 		final byte[] exp = new byte[] { 'a', 'b', 'c' };
 		final byte[] act = new byte[exp.length];
 		out.write(exp);
-		IO.readFully(is, act, 0, act.length);
+		IO.readFully(is, act);
 		assertArrayEquals(exp, act);
 	}
 
@@ -110,7 +110,7 @@ public class TimeoutInputStreamTest {
 	public void testTimeout_readBuffer_Timeout() throws IOException {
 		beginRead();
 		try {
-			IO.readFully(is, new byte[512], 0, 512);
+			IO.readFully(is, new byte[512]);
 			fail("incorrectly read bytes");
 		} catch (InterruptedIOException e) {
 			// expected
