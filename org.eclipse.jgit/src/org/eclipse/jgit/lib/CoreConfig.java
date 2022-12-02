@@ -116,6 +116,24 @@ public class CoreConfig {
 		ALWAYS
 	}
 
+	/**
+	 * Permissible values for {@code core.trustPackedRefsModificationTime}.
+	 *
+	 * @since 6.1
+	 */
+	public enum TrustPackedRefsModificationTime {
+		/** Do not trust packed-refs modification time. */
+		NEVER,
+
+		/** Trust packed-refs modification time. */
+		ALWAYS,
+
+		/** Open and close packed-refs file to refresh its modification time and then trust it. */
+		AFTER_OPEN,
+
+		UNSET
+	}
+
 	private final int compression;
 
 	private final int packIndexVersion;
