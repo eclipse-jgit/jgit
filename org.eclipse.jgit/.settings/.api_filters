@@ -15,6 +15,20 @@
                 <message_argument value="SHA1_IMPLEMENTATION"/>
             </message_arguments>
         </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="6.1.1"/>
+                <message_argument value="CONFIG_KEY_TRUST_PACKED_REFS_STAT"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/CoreConfig.java" type="org.eclipse.jgit.lib.CoreConfig$TrustPackedRefsStat">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="6.1.1"/>
+                <message_argument value="TrustPackedRefsStat"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/lib/ObjectDatabase.java" type="org.eclipse.jgit.lib.ObjectDatabase">
         <filter id="336695337">

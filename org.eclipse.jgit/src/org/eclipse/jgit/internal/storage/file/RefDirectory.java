@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.nio.file.DirectoryNotEmptyException;
@@ -60,6 +61,7 @@ import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -892,10 +894,34 @@ public class RefDirectory extends RefDatabase {
 		boolean trustFolderStat = getRepository().getConfig().getBoolean(
 				ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+		TrustPackedRefsStat trustPackedRefsStat =
+				getRepository().getConfig().getEnum(
+						ConfigConstants.CONFIG_CORE_SECTION,
+						null,
+						ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_STAT,
+						TrustPackedRefsStat.UNSET);
 
 		final PackedRefList curList = packedRefs.get();
-		if (trustFolderStat && !curList.snapshot.isModified(packedRefsFile)) {
-			return curList;
+
+		switch (trustPackedRefsStat) {
+			case NEVER:
+				break;
+			case AFTER_OPEN:
+				try (InputStream stream = Files.newInputStream(packedRefsFile.toPath())) {
+				} catch (FileNotFoundException e) {
+					// Ignore as packed-refs may not exist
+				}
+				// Allowed to fall through
+			case ALWAYS:
+				if (!curList.snapshot.isModified(packedRefsFile)) {
+					return curList;
+				}
+				break;
+			case UNSET:
+				if (trustFolderStat && !curList.snapshot.isModified(packedRefsFile)) {
+					return curList;
+				}
+				break;
 		}
 
 		final PackedRefList newList = readPackedRefs();
