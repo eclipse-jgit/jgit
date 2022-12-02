@@ -195,8 +195,7 @@ public class IO {
 	 * @throws java.io.IOException
 	 *             there was an error reading from the stream.
 	 */
-	public static void readFully(final InputStream fd, final byte[] dst,
-			int off, int len) throws IOException {
+	public static void readFully(final InputStream fd, final byte[] dst, int off, int len) throws IOException {
 		while (len > 0) {
 			final int r = fd.read(dst, off, len);
 			if (r <= 0)
@@ -204,6 +203,18 @@ public class IO {
 			off += r;
 			len -= r;
 		}
+	}
+
+	/**
+	 * Read from input until the entire byte array filled, or throw an exception if stream ends first.
+	 *
+	 * @param fd  input stream to read the data from.
+	 * @param dst buffer that must be fully populated
+	 * @throws EOFException        the stream ended before dst was fully populated.
+	 * @throws java.io.IOException there was an error reading from the stream.
+	 */
+	public static void readFully(final InputStream fd, final byte[] dst) throws IOException {
+		readFully(fd, dst, 0, dst.length);
 	}
 
 	/**
