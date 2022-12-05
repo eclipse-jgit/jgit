@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82ae3c1d_2db89402",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-05T18:04:00Z",
+      "side": 1,
+      "message": "Thanks, great job! Few last comments: *very* small things and moving generation v1 calculation somewhere else.\n\nOther that that, this looks ready! Lets try to answer the remaining comments.",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40cba87b_33571970",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-05T18:04:00Z",
+      "side": 1,
+      "message": "This can be final",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40f8f53d_4e5113a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-05T18:04:00Z",
+      "side": 1,
+      "message": "This is only used inside write and writeTo, pass it as parameter and we don\u0027t need it as a member.\n\nI am very happy to see all fields final in this class! That helps a lot to reason about what it does.",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b28eaa1_c83d7916",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-05T18:04:00Z",
+      "side": 1,
+      "message": "Optional: we could consider making it @NonNull and let the caller decide, the we don\u0027t need the write -\u003e writeTo indirection.",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dca16be_724fe79d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-05T18:04:00Z",
+      "side": 1,
+      "message": "Now graphCommits cannot be null, callers can just do graphCommits.size()!",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3a7f375_b24b12be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommits.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-05T18:04:00Z",
+      "side": 1,
+      "message": "\u003e By the way, I moved the calculation of the generation to GraphCommits.\n\u003e In this case, the writer becomes only focused on writing.\n\nAlthough I am glad that the code is out of the writer class, I don\u0027t think it belongs to GraphCommits. GraphCommits should be the inmmutable source data to write the graph, and the generation number is derived data.\n\nAnother potential \"smell\": if later we want to disable generation v1 calculation, it would look very strange to pass the conf flag to GraphCommits.\n\nCould you move it either back to the Writer or to its own class? (it can be an inner class in the writer)",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
