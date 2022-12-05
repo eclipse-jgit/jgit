@@ -58,6 +58,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed92836_dc2af171",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphConstants.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-05T12:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "280fa6ff_925b6043",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3a02301_489f0241",
@@ -75,6 +99,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04fda1d7_08badc99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-05T12:52:04Z",
+      "side": 1,
+      "message": "\u003e Could we do let the caller create the oid lookup? Then using this writer would look like:\n\u003e \n\u003e CommitGraphWriter cgw \u003d new CommitGraphWriter(InMemoryOidLookup.load(xxx));\n\u003e cgw.write(pm, outputStream);\n\u003e \n\u003e Then we don\u0027t need the reader nor the walk inside the writer, which makes clear that there are no more walks while writing.\n\nDone.\n\n\u003e \n\u003e Also, maybe InMemoryOidLookup is not the best name for that class anymore... what about GraphCommits? and it would look like: \n\u003e new CommitGraphWriter(GraphCommits.fromWalk(pm, wants, walk));\n\nYeah, I agree. Changing name to GraphCommits can be better.\n\nThe reason why I put the reader in the writer is that there would be other calculations that will use it in the future (eg. bloom-filter). \nWith this modification, we can do this work in GraphCommits#fromWalk().\n\nBy the way, I moved the calculation of the generation to GraphCommits.\nIn this case, the writer becomes only focused on writing.",
+      "parentUuid": "d3a02301_489f0241",
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ad1d053_f4961381",
@@ -88,6 +130,30 @@
       "writtenOn": "2022-12-01T19:34:34Z",
       "side": 1,
       "message": "As code has evolved, maybe this could get a better name? e.g. \"GraphCommits\"?",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "255624ac_b65be05a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-05T12:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ad1d053_f4961381",
       "range": {
         "startLine": 40,
         "startChar": 6,
@@ -121,6 +187,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5438f20e_ae0172be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-05T12:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eb00be0_23d3ba25",
+      "range": {
+        "startLine": 42,
+        "startChar": 33,
+        "endLine": 42,
+        "endChar": 37
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6efc2072_8fccc4cc",
@@ -144,6 +234,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "993386c6_b8a59491",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/InMemoryOidLookup.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-05T12:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6efc2072_8fccc4cc",
+      "range": {
+        "startLine": 76,
+        "startChar": 34,
+        "endLine": 76,
+        "endChar": 71
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c0cd807_76bac28b",
@@ -157,6 +271,30 @@
       "writtenOn": "2022-12-01T19:34:34Z",
       "side": 1,
       "message": "nit: \"as generation number for\" commits not in the commit-graph\n\nWe use \"mark\" to \"color\" commits in the walk, so here gives the wrong idea.",
+      "range": {
+        "startLine": 758,
+        "startChar": 25,
+        "endLine": 758,
+        "endChar": 29
+      },
+      "revId": "999fa15ee7750c2670678b3b86cae815f19c3a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0927f03f_31e14cea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-05T12:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0cd807_76bac28b",
       "range": {
         "startLine": 758,
         "startChar": 25,
