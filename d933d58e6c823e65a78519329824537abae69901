@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6853723_3c683dab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-05T10:59:08Z",
+      "side": 1,
+      "message": "Since the refactoring work may take me more time to resolve conflicts, I plan to do this part of the work after the previous change[1] is ok :).\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/182832",
+      "revId": "d933d58e6c823e65a78519329824537abae69901",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
