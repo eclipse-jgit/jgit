@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6444a2ab_a58fafde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T03:44:24Z",
+      "side": 1,
+      "message": "CGit can write commit-graph separately through command \"git commit-graph write\".\nIt might be useful to make it public when we want to implement this in the future.",
+      "parentUuid": "8105a3f1_b1cd5263",
+      "range": {
+        "startLine": 894,
+        "startChar": 1,
+        "endLine": 894,
+        "endChar": 7
+      },
+      "revId": "f460c3e7a9056b0b56d4a26692b4a6415542e1f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c1fdc2c_848ef9d2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 27
@@ -54,6 +78,24 @@
       "writtenOn": "2022-12-05T18:40:25Z",
       "side": 1,
       "message": "Could you do this loop in a helper method? something like:\n\nprivate Set\u003cObjectId\u003e refsToObjectIds(Collection\u003cRef\u003e refs)\n\nThen we can have just the method with wants and call it like:\nwriteCommitGraph(refsToObjectIds(getAllRefs()));",
+      "revId": "f460c3e7a9056b0b56d4a26692b4a6415542e1f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b8e340_b41e31cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T03:44:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c1fdc2c_848ef9d2",
       "revId": "f460c3e7a9056b0b56d4a26692b4a6415542e1f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -71,6 +113,24 @@
       "writtenOn": "2022-12-05T18:40:25Z",
       "side": 1,
       "message": "nit: \"will\" is not a common naming for boolean methods. Maybe \"shouldWriteCommitGraph()\"?",
+      "revId": "f460c3e7a9056b0b56d4a26692b4a6415542e1f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e190edc_0d6f2347",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T03:44:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "714895df_22f58189",
       "revId": "f460c3e7a9056b0b56d4a26692b4a6415542e1f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
