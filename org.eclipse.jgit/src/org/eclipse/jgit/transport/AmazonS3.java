@@ -752,6 +752,8 @@ public class AmazonS3 {
 					try {
 						xr = SAXParserFactory.newInstance().newSAXParser()
 								.getXMLReader();
+						xr.setFeature("http://xml.org/sax/features/namespaces", true);
+						xr.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
 					} catch (SAXException | ParserConfigurationException e) {
 						throw new IOException(
 								JGitText.get().noXMLParserAvailable, e);
