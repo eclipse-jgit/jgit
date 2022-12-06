@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd0d658_a4e3344b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T03:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40cba87b_33571970",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40f8f53d_4e5113a2",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-12-05T18:04:00Z",
       "side": 1,
       "message": "This is only used inside write and writeTo, pass it as parameter and we don\u0027t need it as a member.\n\nI am very happy to see all fields final in this class! That helps a lot to reason about what it does.",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aefca9f_ffcc9c9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T03:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40f8f53d_4e5113a2",
       "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -69,6 +105,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65469667_e77c39dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T03:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b28eaa1_c83d7916",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1dca16be_724fe79d",
@@ -86,6 +140,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d30b63b7_6a5b3621",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T03:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dca16be_724fe79d",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3a7f375_b24b12be",
@@ -99,6 +171,24 @@
       "writtenOn": "2022-12-05T18:04:00Z",
       "side": 1,
       "message": "\u003e By the way, I moved the calculation of the generation to GraphCommits.\n\u003e In this case, the writer becomes only focused on writing.\n\nAlthough I am glad that the code is out of the writer class, I don\u0027t think it belongs to GraphCommits. GraphCommits should be the inmmutable source data to write the graph, and the generation number is derived data.\n\nAnother potential \"smell\": if later we want to disable generation v1 calculation, it would look very strange to pass the conf flag to GraphCommits.\n\nCould you move it either back to the Writer or to its own class? (it can be an inner class in the writer)",
+      "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16a2730_5d1e48cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommits.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T03:43:36Z",
+      "side": 1,
+      "message": "\u003e \u003e By the way, I moved the calculation of the generation to GraphCommits.\n\u003e \u003e In this case, the writer becomes only focused on writing.\n\u003e \n\u003e Although I am glad that the code is out of the writer class, I don\u0027t think it belongs to GraphCommits. GraphCommits should be the inmmutable source data to write the graph, and the generation number is derived data.\n\u003e \n\u003e Another potential \"smell\": if later we want to disable generation v1 calculation, it would look very strange to pass the conf flag to GraphCommits.\n\nMake sense.\n\n\u003e \n\u003e Could you move it either back to the Writer or to its own class? (it can be an inner class in the writer)\n\nDone.",
+      "parentUuid": "c3a7f375_b24b12be",
       "revId": "803d839af403865e0319a11bff294f2b5b0ed848",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
