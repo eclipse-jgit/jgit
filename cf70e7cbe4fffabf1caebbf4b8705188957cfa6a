@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb3d8030_0bfae4e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T17:53:43Z",
+      "side": 1,
+      "message": "Great work, Kyle! Thanks for you patience getting through all commits.",
+      "revId": "cf70e7cbe4fffabf1caebbf4b8705188957cfa6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b5b41b4_929a774a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommits.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T17:53:43Z",
+      "side": 1,
+      "message": "IIUC this method is not used anymore. We can clean it in a follow up change.",
+      "revId": "cf70e7cbe4fffabf1caebbf4b8705188957cfa6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
