@@ -230,7 +230,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 				// offsets from appearing to clients.
 				//
 				dest.writeInfoPacks(packNames.keySet());
-				dest.deleteFile(idx.getPath());
+				dest.deleteFile(sanitizedPath(idx));
 			}
 
 			// Write the pack file, then the index, as readers look the
@@ -238,13 +238,13 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			//
 			String wt = "Put " + pack.getName().substring(0, 12); //$NON-NLS-1$
 			try (OutputStream os = new BufferedOutputStream(
-					dest.writeFile(pack.getPath(), monitor,
+					dest.writeFile(sanitizedPath(pack), monitor,
 							wt + "." + pack.getPackExt().getExtension()))) { //$NON-NLS-1$
 				writer.writePack(monitor, monitor, os);
 			}
 
 			try (OutputStream os = new BufferedOutputStream(
-					dest.writeFile(idx.getPath(), monitor,
+					dest.writeFile(sanitizedPath(idx), monitor,
 							wt + "." + idx.getPackExt().getExtension()))) { //$NON-NLS-1$
 				writer.writeIndex(os);
 			}
@@ -269,7 +269,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 	private void safeDelete(File path) {
 		if (path != null) {
 			try {
-				dest.deleteFile(path.getPath());
+				dest.deleteFile(sanitizedPath(path));
 			} catch (IOException cleanupFailure) {
 				// Ignore the deletion failure. We probably are
 				// already failing and were just trying to pick
@@ -366,4 +366,13 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		}
 		return updates.get(0).getRemoteName();
 	}
+
+	private static String sanitizedPath(File file) {
+		String path = file.getPath();
+		if (File.separatorChar != '/') {
+			path = path.replace(File.separatorChar, '/');
+		}
+		return path;
+	}
+
 }
