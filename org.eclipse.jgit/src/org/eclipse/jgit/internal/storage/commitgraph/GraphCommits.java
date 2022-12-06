@@ -116,13 +116,6 @@ public class GraphCommits implements Iterable<RevCommit> {
 		return commitWithPosition.position;
 	}
 
-	RevCommit getCommit(int oidPos) {
-		if (oidPos < 0 || oidPos >= sortedCommits.size()) {
-			return null;
-		}
-		return sortedCommits.get(oidPos);
-	}
-
 	int getExtraEdgeCnt() {
 		return extraEdgeCnt;
 	}
