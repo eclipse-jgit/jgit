@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f92c9257_01121415",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphFileContent.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8a7e7f2_57fcf02a",
+      "revId": "40cffb3ba61e00b8aed142506be6ec2a30bd4cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f164da4_3bb46641",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-29T19:54:21Z",
       "side": 1,
       "message": "Based on the spec, now should come:\n```\n1-byte number (B) of base commit-graphs\n    We infer the length (H*B) of the Base Graphs chunk\n    from this value.\n```\n\nAh! This works because we read the 8 bytes of the header, so it is already out of the input stream. \n\nPlease add a comment explaining that hdr[7] is the number of base commits but don\u0027t support that yet.",
+      "revId": "40cffb3ba61e00b8aed142506be6ec2a30bd4cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17bd1c42_6407433b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphParserV1.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f164da4_3bb46641",
       "revId": "40cffb3ba61e00b8aed142506be6ec2a30bd4cae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -52,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbfb3a93_8243f4ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphParserV1.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e61bb054_713e578b",
+      "revId": "40cffb3ba61e00b8aed142506be6ec2a30bd4cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "702628c5_025d1860",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-11-29T19:54:21Z",
       "side": 1,
       "message": "This method could use a set to identify these duplicates. It won\u0027t be big and will be freed when the method is done, so it should be ok and more readable.",
+      "revId": "40cffb3ba61e00b8aed142506be6ec2a30bd4cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4c720f_e1a4a5ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphParserV1.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702628c5_025d1860",
       "revId": "40cffb3ba61e00b8aed142506be6ec2a30bd4cae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54e85623_1961d4e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphParserV1.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33b48ac5_f497e07b",
+      "revId": "ec36f7c3c9c4e2bc083d737be8eec70d70787791",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a09babb_b9f41f21",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-11-29T19:54:21Z",
       "side": 1,
       "message": "If we move these 4 data structures to their own class, with the corresponding methods to lookup, we should probably get already an implementation of CommitGraph interface (and simplify a lot this parser).",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "ec36f7c3c9c4e2bc083d737be8eec70d70787791",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d005cf4_e5a3346e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphParserV1.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:57:31Z",
+      "side": 1,
+      "message": "Agree.",
+      "parentUuid": "0a09babb_b9f41f21",
       "range": {
         "startLine": 54,
         "startChar": 0,
@@ -77,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b9b5151_2072c393",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphParserV1.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:57:31Z",
+      "side": 1,
+      "message": "\u003e It looks like we can parse the chunks in any order (as the spec says) but actually we always need the oidLookup populated first. In that case the parser should take care of processing the chunks in the right order.\n\nYeah, we always need the oidFanout(you mean probably this?) populated first.\n\nThe combination of fanout chunk and oidLook chunk is very similar to the implementation of JGit\u0027s PackIndex. This is why I used oidFanout[]、 oidLookup[][] and commitData[][] to present them(refer to the code implemented by PackIndex). But in this case, oidFanout must be read before oidLookup and commitData.\n\nIn cgit, the order of chunks can be any. They use \"mmap\" to map the whole commit-graph file in the memory. Because the c language supports mmap very well, they can treat the commit-graph file as a very large array for operation.\n\nIn order to be compatible with DFS mode, JGit generally reads from an InputStream and read the whole file into memory. \n\nIf we read the entire commit-graph into a large byte array, oidFanout Chunk does not need to be read first. But I\u0027m worried that the readability of the code would be poor, Java\u0027s handling of large byte arrays is not as concise and easy to understand as C language, maybe this is why PackIndex is not implemented this way?\n\nI\u0027m a bit torn on how chunks are stored in memory.\nMaybe we can read each chunk into different large byte array? \nThe maximum size of the byte array is 2GB. As far as I know, it is difficult for \nrepositories to exceed this limit. Linux has more than 1 million commits, and the entire size of its commit-graph-file is less than 80MB.\n\n\u003e \n\u003e Maybe we could have a CommitGraphBuilder with #addOidLookup(byte[]), #addCommitData(byte[]), ... that the parser fills with the chunks. #build() returns the specific instance of CommitGraph.\n\u003e \n\u003e This lets the builder decide how to map the things into memory (and how strict it is with the order of the chunks).\n\nI agree. It would be nice to have a class like this.",
+      "parentUuid": "db8916ac_2f9e43a4",
+      "revId": "ec36f7c3c9c4e2bc083d737be8eec70d70787791",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2abe2aca_ed38fbaa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphSingleFile.java",
         "patchSetId": 24
@@ -88,6 +148,30 @@
       "writtenOn": "2022-11-29T19:54:21Z",
       "side": 1,
       "message": "CommitGraphSingleFile and CommitGraphFileContent add layers of abstraction but don\u0027t contribute anything new.\n\nCould we just make a simple \"CommitGraph\" implementation (that focus on the memory layout to implement that API?). As mentioned in the Parser, we could use a Builder to create it.\n\nWe could support multi-file commit graphs with a \"composite\" design pattern [1], a CommitGraph implementation that internally has a stack of CommitGraphs and searches in order and do the position calculations...\n\n[1] https://en.wikipedia.org/wiki/Composite_pattern",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "ec36f7c3c9c4e2bc083d737be8eec70d70787791",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e5d651c_fcc604a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphSingleFile.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:57:31Z",
+      "side": 1,
+      "message": "\u003e CommitGraphSingleFile and CommitGraphFileContent add layers of abstraction but don\u0027t contribute anything new.\n\u003e \n\u003e Could we just make a simple \"CommitGraph\" implementation (that focus on the memory layout to implement that API?). As mentioned in the Parser, we could use a Builder to create it.\n\u003e \n\u003e We could support multi-file commit graphs with a \"composite\" design pattern [1], a CommitGraph implementation that internally has a stack of CommitGraphs and searches in order and do the position calculations...\n\u003e \n\u003e [1] https://en.wikipedia.org/wiki/Composite_pattern\n\nI agree. Done.",
+      "parentUuid": "2abe2aca_ed38fbaa",
       "range": {
         "startLine": 22,
         "startChar": 13,
