@@ -58,6 +58,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "954a9503_7f502aa4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:48:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eefb3d5f_4fae724d",
+      "range": {
+        "startLine": 62,
+        "startChar": 18,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e2c2ca0_3b2faf32",
@@ -71,6 +95,24 @@
       "writtenOn": "2022-12-06T06:05:39Z",
       "side": 1,
       "message": "This method is not needed anymore. Now callers know how many commits are going to be written.\n\nInside this class, we can just use graphCommits.size() directly.",
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac37812f_1f14842a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:48:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e2c2ca0_3b2faf32",
       "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -92,6 +134,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f58b581_611bc2fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:48:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9de64525_5c47b3a7",
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24342176_8ea59ee8",
@@ -105,6 +165,24 @@
       "writtenOn": "2022-12-06T06:05:39Z",
       "side": 1,
       "message": "Do we use these constants in this change? If not, they can go to a later change (probably when we add the writing to GC?)",
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf595f33_25b5aded",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-06T12:48:07Z",
+      "side": 1,
+      "message": "Done. I moved it to \"RevWalk: integrate commit-graph with commit parsing\".",
+      "parentUuid": "24342176_8ea59ee8",
       "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
