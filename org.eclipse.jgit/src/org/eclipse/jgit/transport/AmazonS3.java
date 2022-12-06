@@ -781,10 +781,11 @@ public class AmazonS3 {
 		public void startElement(final String uri, final String name,
 				final String qName, final Attributes attributes)
 				throws SAXException {
-			if ("Key".equals(name) || "IsTruncated".equals(name) || "LastModified".equals(name)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			final String aName = name.length() != 0 ? name : qName;
+			if ("Key".equals(aName) || "IsTruncated".equals(aName) || "LastModified".equals(aName)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				data = new StringBuilder();
 			}
-			if ("Contents".equals(name)) { //$NON-NLS-1$
+			if ("Contents".equals(aName)) { //$NON-NLS-1$
 				keyName = null;
 				keyLastModified = null;
 			}
@@ -807,13 +808,15 @@ public class AmazonS3 {
 		@Override
 		public void endElement(final String uri, final String name,
 				final String qName) throws SAXException {
-			if ("Key".equals(name))  { //$NON-NLS-1$
+			final String aName = name.length() != 0 ? name : qName;
+			if ("Key".equals(aName))  { //$NON-NLS-1$
 				keyName = data.toString().substring(prefix.length());
-			} else if ("IsTruncated".equals(name)) { //$NON-NLS-1$
+			} else if ("IsTruncated".equals(aName)) { //$NON-NLS-1$
 				truncated = StringUtils.equalsIgnoreCase("true", data.toString()); //$NON-NLS-1$
-			} else if ("LastModified".equals(name)) { //$NON-NLS-1$
+			} else if ("LastModified".equals(aName)) { //$NON-NLS-1$
 				keyLastModified = Instant.parse(data.toString());
-			} else if ("Contents".equals(name)) { //$NON-NLS-1$
+			} else if ("Contents".equals(aName)) { //$NON-NLS-1$
+				System.out.printf("      addEntry keyName:%s\n", keyName);
 				entries.add(new KeyInfo(keyName, keyLastModified.getEpochSecond()));
 			}
 
