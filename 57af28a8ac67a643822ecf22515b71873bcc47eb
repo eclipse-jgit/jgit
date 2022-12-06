@@ -16,6 +16,97 @@
       "message": "Thanks again for your code reviews.\n\nRegards,\nKyle",
       "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "461571e8_a19fe450",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T06:05:39Z",
+      "side": 1,
+      "message": "Truly minor things. This look great! Thanks a lot!",
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eefb3d5f_4fae724d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T06:05:39Z",
+      "side": 1,
+      "message": "Not anymore. \"Create commit-graph writer for these commits\"?",
+      "range": {
+        "startLine": 62,
+        "startChar": 18,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e2c2ca0_3b2faf32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T06:05:39Z",
+      "side": 1,
+      "message": "This method is not needed anymore. Now callers know how many commits are going to be written.\n\nInside this class, we can just use graphCommits.size() directly.",
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9de64525_5c47b3a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T06:05:39Z",
+      "side": 1,
+      "message": "Can we do also here for (RevCommit  commit: graphCommits)?\n\nIf so, I think we don\u0027t need GraphCommits#getCommit(int pos) anymore!",
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24342176_8ea59ee8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T06:05:39Z",
+      "side": 1,
+      "message": "Do we use these constants in this change? If not, they can go to a later change (probably when we add the writing to GC?)",
+      "revId": "57af28a8ac67a643822ecf22515b71873bcc47eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -218,6 +218,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44801d8e_727327c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T06:05:39Z",
+      "side": 1,
+      "message": "This interface is not in this change anymore, we can close this.",
+      "parentUuid": "e57f40fb_a37600b1",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "621c93ea06cea195b197c6d5bfe3e679f752a595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83bc64e6_0df6a76e",

@@ -152,6 +152,24 @@
       "parentUuid": "010f727b_f7197ba5",
       "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c655c077_d2de4339",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitGraph.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-06T06:05:39Z",
+      "side": 1,
+      "message": "I agree this should be in an internal package.\n\nThe interface is not in this change anymore, so I\u0027ll close this comment for now. We could copy it to the change introducing the interface.",
+      "parentUuid": "036cd98a_2e551907",
+      "revId": "9200f04643ccc6215664d6627b1a48ab81c3a237",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
