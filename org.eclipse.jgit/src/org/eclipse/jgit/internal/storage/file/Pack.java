@@ -14,6 +14,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
 import java.io.EOFException;
 import java.io.File;
@@ -1149,8 +1150,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
-		if (reverseIdx == null)
-			reverseIdx = PackReverseIndex.computeFromIndex(idx());
+		if (invalid) {
+			throw new PackInvalidException(packFile, invalidatingCause);
+		}
+		if (reverseIdx == null) {
+			PackFile reverseIndexFile = packFile.create(REVERSE_INDEX);
+			reverseIdx = PackReverseIndex.openOrCompute(reverseIndexFile,
+					getObjectCount(), () -> getIndex());
+			reverseIdx.verifyPackChecksum(getPackFile().getPath());
+		}
 		return reverseIdx;
 	}
 
