@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab747ee6_56e0ca01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-07T21:43:49Z",
+      "side": 1,
+      "message": "If in the future there is a problem and I am scanning `git log` for recent changes, this title forces me to read into the code.\n\nWe have comprehensive commit message guidalines in https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines\n\nIn this case, title could be something like\n\"BatchRefUpdate: Consistent switch branches in ref update\"\n\nThen a first paragraph/line explaining the problem, then another paragraph/line with the solution.",
+      "revId": "138681d52622fd53acf4f55d4e64e025e967f9b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee5ff170_5c109fe0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 1
