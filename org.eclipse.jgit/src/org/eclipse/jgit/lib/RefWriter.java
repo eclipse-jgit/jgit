@@ -138,8 +138,7 @@ public abstract class RefWriter {
 		final StringWriter w = new StringWriter();
 		if (peeled) {
 			w.write(RefDirectory.PACKED_REFS_HEADER);
-			if (peeled)
-				w.write(RefDirectory.PACKED_REFS_PEELED);
+			w.write(RefDirectory.PACKED_REFS_PEELED);
 			w.write('\n');
 		}
 

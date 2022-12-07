@@ -498,7 +498,6 @@ public class BatchRefUpdate {
 				try {
 					if (cmd.getResult() == NOT_ATTEMPTED) {
 						cmd.updateType(walk);
-						RefUpdate ru = newUpdate(cmd);
 						switch (cmd.getType()) {
 							case DELETE:
 								// Performed in the first phase
@@ -509,6 +508,7 @@ public class BatchRefUpdate {
 								cmd.setResult(ruu.update(walk));
 								break;
 							case CREATE:
+								RefUpdate ru = newUpdate(cmd);
 								cmd.setResult(ru.update(walk));
 								break;
 						}
