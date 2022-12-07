@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee5ff170_5c109fe0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-07T21:28:58Z",
+      "side": 1,
+      "message": "I think this can be squashed into a single case:\n\n case CREATE:\n case UPDATE:\n case UPDATE_NONFASTFORWARD:\n   RefUpdate ru \u003d newUpdate(cmd);\n   cmd.setResult(ru.update(walk));\n   break;",
+      "range": {
+        "startLine": 505,
+        "startChar": 0,
+        "endLine": 513,
+        "endChar": 14
+      },
+      "revId": "138681d52622fd53acf4f55d4e64e025e967f9b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d37f739_54d8ea2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-07T21:28:58Z",
+      "side": 1,
+      "message": "please split this into a separate change since it\u0027s unrelated to improvement in BatchRefUpdate",
+      "revId": "138681d52622fd53acf4f55d4e64e025e967f9b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
