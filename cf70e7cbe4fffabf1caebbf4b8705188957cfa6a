@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b1801b95_0db64690",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-07T02:10:28Z",
+      "side": 1,
+      "message": "I am very glad to see that the change of the commit-graph feature can be submitted, and thank you for the patient reviews, too.",
+      "parentUuid": "cb3d8030_0bfae4e1",
+      "revId": "cf70e7cbe4fffabf1caebbf4b8705188957cfa6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1b5b41b4_929a774a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommits.java",
         "patchSetId": 32
@@ -31,6 +49,24 @@
       "writtenOn": "2022-12-06T17:53:43Z",
       "side": 1,
       "message": "IIUC this method is not used anymore. We can clean it in a follow up change.",
+      "revId": "cf70e7cbe4fffabf1caebbf4b8705188957cfa6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adaef949_6fb8c47b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommits.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-07T02:10:28Z",
+      "side": 1,
+      "message": "Oops. I forgot to remove it.\n\n\u003e IIUC this method is not used anymore. We can clean it in a follow up change.\n\nYes.",
+      "parentUuid": "1b5b41b4_929a774a",
       "revId": "cf70e7cbe4fffabf1caebbf4b8705188957cfa6a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
