@@ -16,6 +16,23 @@
       "message": "thanks for finding that, I did some archaeology and found that this predates JGit\u0027s move to Eclipse and was introduced in 2008",
       "revId": "2b21d9bbb6c98ff1b0f81df80d0726abf1d0727d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f926f6f6_7aa5eb0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307653
+      },
+      "writtenOn": "2022-12-08T10:32:51Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com Thanks for the edit! Now the message is more concise and clear.",
+      "revId": "2b21d9bbb6c98ff1b0f81df80d0726abf1d0727d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
