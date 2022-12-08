@@ -9,11 +9,14 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.PackedObjectInfo;
@@ -194,6 +197,24 @@ public class PackReverseIndexV1Test {
 	@Test
 	public void findObjectByPosition_badOffset() throws IOException {
 		assertThrows(AssertionError.class, () -> smallReverseIndex.findObjectByPosition(10));
+	}
+
+	@Test
+	public void verifyChecksum_match() throws IOException {
+		smallReverseIndex.verifyPackChecksum("smallPackFilePath");
+	}
+
+	@Test
+	public void verifyChecksum_mismatch() throws IOException {
+		ByteArrayInputStream in = new ByteArrayInputStream(NO_OBJECTS);
+		PackIndex mockForwardIndex = mock(PackIndex.class);
+		when(mockForwardIndex.getChecksum()).thenReturn(
+				new byte[] { 'D', 'I', 'F', 'F', 'P', 'A', 'C', 'K', 'C', 'H', 'E', 'C', 'K', 'S', 'U', 'M', '7', '8',
+						'9', '0',
+				});
+		PackReverseIndex reverseIndex = PackReverseIndex.read(in, 0, () -> mockForwardIndex);
+
+		assertThrows(PackMismatchException.class, () -> reverseIndex.verifyPackChecksum("packFilePath"));
 	}
 
 	private static PackedObjectInfo objectInfo(String objectId, int type, long offset) {

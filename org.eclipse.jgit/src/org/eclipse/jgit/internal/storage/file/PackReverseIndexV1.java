@@ -11,10 +11,14 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.security.DigestInputStream;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.Hex;
 import org.eclipse.jgit.util.IO;
 
 /**
@@ -54,6 +58,15 @@ final class PackReverseIndexV1 extends PackReverseIndex {
 		this.packIndexSupplier = packIndexSupplier;
 	}
 
+	@Override
+	public void verifyPackChecksum(String packFilePath) throws PackMismatchException {
+		if (!Arrays.equals(packChecksum, getPackIndex().getChecksum())) {
+			throw new PackMismatchException(MessageFormat.format(JGitText.get().packChecksumMismatch, packFilePath,
+					PackExt.INDEX.getExtension(), Hex.toHexString(getPackIndex().getChecksum()),
+					PackExt.REVERSE_INDEX.getExtension(), Hex.toHexString(packChecksum)));
+		}
+	}
+
 	void parse() throws IOException {
 		if (isParsed) {
 			throw new IllegalStateException("Already parsed the reverse index input stream");
@@ -76,6 +89,10 @@ final class PackReverseIndexV1 extends PackReverseIndex {
 		byte[] observedSelfChecksum = inputStream.getMessageDigest().digest();
 		byte[] readSelfChecksum = new byte[SHA1_BYTES];
 		IO.readFully(inputStream, readSelfChecksum);
+		if (!Arrays.equals(readSelfChecksum, observedSelfChecksum)) {
+			throw new CorruptObjectException(MessageFormat.format(JGitText.get().corruptReverseIndexChecksumIncorrect,
+					Hex.toHexString(readSelfChecksum), Hex.toHexString(observedSelfChecksum)));
+		}
 	}
 
 	@Override
