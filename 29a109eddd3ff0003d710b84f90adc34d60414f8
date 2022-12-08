@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "17d20d2a_4874023e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-08T20:03:55Z",
+      "side": 1,
+      "message": "I don\u0027t use S3 myself, so I\u0027m maybe not the best person to deal with this... but do we know what \"something\" is? I suppose it was not always broken in that way. Does this depend on the Java version? Is there a change in the SAX parser?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "db96e86c_5ea0f8ff",
@@ -14,6 +37,40 @@
       "writtenOn": "2022-12-08T14:20:35Z",
       "side": 1,
       "message": "Since you commented on 581153...",
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e244e6db_cf425b4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-08T20:03:55Z",
+      "side": 1,
+      "message": "Instead of name.length !\u003d 0 one could use name.isEmpty():\n\n  name.isEmpty() ? qName : name;",
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "106c2099_7dc09436",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-08T20:03:55Z",
+      "side": 1,
+      "message": "Instead of name.length !\u003d 0 one could use name.isEmpty():\n\n  name.isEmpty() ? qName : name;",
       "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
