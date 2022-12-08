@@ -18,6 +18,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -84,6 +85,8 @@ public abstract class PackReverseIndex {
 					version));
 		}
 	}
+
+	public abstract void verifyPackChecksum(String packFilePath) throws PackMismatchException;
 
 	/**
 	 * Search for object id with the specified start offset in this pack
