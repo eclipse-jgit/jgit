@@ -2,6 +2,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.file.PackReverseIndex.VERSION_1;
+
 import java.io.BufferedOutputStream;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -18,16 +20,12 @@ import org.eclipse.jgit.transport.PackedObjectInfo;
  * TODO
  */
 public abstract class PackReverseIndexWriter {
-
-	protected static byte[] MAGIC = { 'R', 'I', 'D', 'X' };
-
 	protected final DigestOutputStream out;
 	protected final DataOutput dataOutput;
 
 	protected List<? extends PackedObjectInfo> objectsSortedByIndexPosition;
 	private byte[] packChecksum;
 
-	protected static final int VERSION_1 = 1;
 	private static final int DEFAULT_VERSION = VERSION_1;
 
 	protected PackReverseIndexWriter(OutputStream dst) {

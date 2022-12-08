@@ -10,8 +10,18 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import java.io.DataInput;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.text.MessageFormat;
+import java.util.Arrays;
+
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.IO;
 
 /**
  * <p>
@@ -24,8 +34,33 @@ import org.eclipse.jgit.lib.ObjectId;
  * @see Pack
  */
 public abstract class PackReverseIndex {
+	public static byte[] MAGIC = { 'R', 'I', 'D', 'X' };
+	public static final int VERSION_1 = 1;
+
 	public static PackReverseIndex computeFromIndex(PackIndex packIndex) {
 		return new ComputedPackReverseIndex(packIndex);
+	}
+
+	public static PackReverseIndex read(InputStream src, long objectCount,
+			PackBitmapIndex.SupplierWithIOException<PackIndex> packIndexSupplier) throws IOException {
+		final DigestInputStream digestIn = new DigestInputStream(src, Constants.newMessageDigest());
+
+		final byte[] magic = new byte[MAGIC.length];
+		IO.readFully(digestIn, magic);
+		if (!Arrays.equals(magic, MAGIC)) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().expectedGot, Arrays.toString(MAGIC), Arrays.toString(magic)));
+		}
+
+		DataInput dataIn = new SimpleDataInput(digestIn);
+		switch (dataIn.readInt()) {
+		case VERSION_1:
+			PackReverseIndexV1 ri = new PackReverseIndexV1(digestIn, objectCount, packIndexSupplier);
+			ri.parse();
+			return ri;
+		default:
+			throw new IOException(MessageFormat.format(JGitText.get().unsupportedPackReverseIndexVersion, 1));
+		}
 	}
 
 	/**
