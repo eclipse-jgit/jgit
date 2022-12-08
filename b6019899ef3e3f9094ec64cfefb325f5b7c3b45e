@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4b15099_eee2610f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-08T01:08:35Z",
+      "side": 1,
+      "message": "6.5",
+      "revId": "b6019899ef3e3f9094ec64cfefb325f5b7c3b45e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
