@@ -11,6 +11,8 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.DataInput;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.DigestInputStream;
@@ -23,6 +25,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.io.SilentFileInputStream;
 
 /**
  * <p>
@@ -54,6 +57,18 @@ public abstract class PackReverseIndex {
 	 */
 	public static PackReverseIndex computeFromIndex(PackIndex packIndex) {
 		return new ComputedPackReverseIndex(packIndex);
+	}
+
+	public static PackReverseIndex openOrCompute(File idxFile, long objectCount,
+			PackBitmapIndex.SupplierWithIOException<PackIndex> packIndexSupplier) throws IOException {
+		try (SilentFileInputStream fd = new SilentFileInputStream(idxFile)) {
+			return read(fd, objectCount, packIndexSupplier);
+		} catch (FileNotFoundException e) {
+			return computeFromIndex(packIndexSupplier.get());
+		} catch (IOException e) {
+			throw new IOException(MessageFormat.format(JGitText.get().unreadablePackIndex, idxFile.getAbsolutePath()),
+					e);
+		}
 	}
 
 	public static PackReverseIndex read(InputStream src, long objectCount,
