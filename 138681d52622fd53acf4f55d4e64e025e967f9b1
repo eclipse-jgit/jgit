@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c4a188_4940ceae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307653
+      },
+      "writtenOn": "2022-12-08T08:22:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab747ee6_56e0ca01",
+      "revId": "138681d52622fd53acf4f55d4e64e025e967f9b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee5ff170_5c109fe0",
@@ -41,6 +59,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48f44d8e_78351a7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 307653
+      },
+      "writtenOn": "2022-12-08T08:22:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee5ff170_5c109fe0",
+      "range": {
+        "startLine": 505,
+        "startChar": 0,
+        "endLine": 513,
+        "endChar": 14
+      },
+      "revId": "138681d52622fd53acf4f55d4e64e025e967f9b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d37f739_54d8ea2e",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-12-07T21:28:58Z",
       "side": 1,
       "message": "please split this into a separate change since it\u0027s unrelated to improvement in BatchRefUpdate",
+      "revId": "138681d52622fd53acf4f55d4e64e025e967f9b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7931be8_bf8053ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 307653
+      },
+      "writtenOn": "2022-12-08T08:22:35Z",
+      "side": 1,
+      "message": "Done\nhttps://git.eclipse.org/r/c/jgit/jgit/+/197567",
+      "parentUuid": "2d37f739_54d8ea2e",
       "revId": "138681d52622fd53acf4f55d4e64e025e967f9b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
