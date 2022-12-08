@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "440a3f2a_74cc406a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:14:46Z",
+      "side": 1,
+      "message": "Couple nits. Otherwise I think this is ready.",
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d5a61ae_fa69e925",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcCommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:14:46Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5389b4d5_e9491bfa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcCommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:14:46Z",
+      "side": 1,
+      "message": "Should we check here that at least it has the commit-graph header? the first bytes?\n\nThe proper writing is tested in the write, but just to make sure that GC wrote something that makes sense.",
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
