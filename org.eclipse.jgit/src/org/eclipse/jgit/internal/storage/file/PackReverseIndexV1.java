@@ -96,7 +96,7 @@ final class PackReverseIndexV1 extends PackReverseIndex {
 	void parse() throws IOException {
 		if (isParsed) {
 			throw new IllegalStateException(
-					"Already parsed the reverse index input stream");
+					"Already parsed the reverse index input stream"); //$NON-NLS-1$
 		}
 		parseBody();
 		parseChecksums();
