@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be8ba671_e43fc2c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-08T11:58:36Z",
+      "side": 1,
+      "message": "In this change, I refactored the code for reading commit-graph in order to make it more readable.\n\nRegards,\nKyle",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
