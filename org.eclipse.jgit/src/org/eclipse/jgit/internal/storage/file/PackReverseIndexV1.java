@@ -75,8 +75,7 @@ final class PackReverseIndexV1 extends PackReverseIndex {
 			break;
 		case OID_VERSION_SHA256:
 			throw new IOException(MessageFormat.format(
-					JGitText.get().unsupportedObjectIdVersion,
-					"SHA256")); //$NON-NLS-1$
+					JGitText.get().unsupportedObjectIdVersion, "SHA256")); //$NON-NLS-1$
 		default:
 			throw new IOException(MessageFormat.format(
 					JGitText.get().unsupportedObjectIdVersion,
@@ -103,7 +102,7 @@ final class PackReverseIndexV1 extends PackReverseIndex {
 	void parse() throws IOException {
 		if (isParsed) {
 			throw new IllegalStateException(
-					"Already parsed the reverse index input stream");
+					"Already parsed the reverse index input stream"); //$NON-NLS-1$
 		}
 		parseBody();
 		parseChecksums();
