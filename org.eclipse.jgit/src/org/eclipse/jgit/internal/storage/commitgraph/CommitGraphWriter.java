@@ -43,6 +43,8 @@ import org.eclipse.jgit.util.NB;
 
 /**
  * Writes a commit-graph formatted file.
+ *
+ * @since 6.5
  */
 public class CommitGraphWriter {
 

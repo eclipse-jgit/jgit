@@ -36,6 +36,8 @@ import org.eclipse.jgit.util.BlockList;
  * <li>List commits in SHA1 order.</li>
  * <li>Get the position of a specific SHA1 in the list.</li>
  * </ul>
+ *
+ * @since 6.5
  */
 public class GraphCommits implements Iterable<RevCommit> {
 
