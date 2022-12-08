@@ -16,6 +16,46 @@
       "message": "Since you commented on 581153...",
       "revId": "2be09d91937e8e055f02b478afa9ec1517455a54",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61ec4f94_de0bc522",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-08T19:55:53Z",
+      "side": 1,
+      "message": "Can we use\n\n  private static String sanitizedPath(File file) {\n    String path \u003d file.getPath();\n    ...\n\nThis would make the call sites a little easier to read; instead of\n\n  dest.deleteFile(sanitizePath(idx.getPath()));\n  \nwe\u0027d get\n\n  dest.deleteFile(sanitizedPath(idx));",
+      "range": {
+        "startLine": 370,
+        "startChar": 36,
+        "endLine": 370,
+        "endChar": 47
+      },
+      "revId": "2be09d91937e8e055f02b478afa9ec1517455a54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30746f1d_76369638",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-08T19:55:53Z",
+      "side": 1,
+      "message": "This comment is unnecessary. Put the second sentence in the commit message. (The first is there already.) Here the code already tells the reader exactly that.",
+      "revId": "2be09d91937e8e055f02b478afa9ec1517455a54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
