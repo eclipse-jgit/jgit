@@ -16,6 +16,296 @@
       "message": "In this change, I refactored the code for reading commit-graph in order to make it more readable.\n\nRegards,\nKyle",
       "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59bd09c3_cb84f911",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "Great job! I found these new classes clear and easy to understand.\n\nAlthough it looks like a lot of comments, they are small details. I think this is almost ready.\n\nThe important bits remaining: should CommitData be an interface and using longs for oidFanout.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "755cb234_043de05f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "Add a javadoc explaining that here we test writing and then reading our own commit-graph.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9f55267_1700d817",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "testGraphLinearHistory",
+      "range": {
+        "startLine": 79,
+        "startChar": 22,
+        "endLine": 79,
+        "endChar": 35
+      },
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d05e4c0_54a5c3c7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "Why are merges special for the commit-graph? Is this testing that the walk initializing GraphCommits does the right thing?\n\nIf so, we could have here a complicated case, and put coverage for different cases directly in GraphCommits test?\n\n(this can be done later)",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66ef9420_bb47991d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "Thanks! These graphs are very useful to follow the tests.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ac3a572_4298b770",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "If you are covering all these merge cases... would be worthy to cover also merging merge commits? e.g. merging m1 and m2",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ad0899c_cd78158c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "Should we make this an interface?\n\nFirst I thought it was overengineering it, because it is a POJO with data. But actually there are other ways to implement it (e.g. with just pointer to the graph and the offset, reading directly the byte[] in the getters, saving the intermediate copy of data).\n\nThe implementation could be a private static inner class inside CommitGraphV1",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d185d407_6b0578aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "2022? Same with other newly added files?",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75c73139_13bd204f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "IIUC at search time we are casting all these entries to int, so a long value would break in an unexpected way.\n\nOn the spec: \"Due to some special constants we use to track parents, we can store at most (1 \u003c\u003c 30) + (1 \u003c\u003c 29) + (1 \u003c\u003c 28) - 1 (around 1.8 billion) commits.\"\n\nAll together, I understand that the spec uses uint32 but the value should never use all the 32 bits and fits in a java signed int.\n\nCould we check if it fits and cast here, so oidFanout is int[]? Maybe adding a note explaining this assumption, in case we need to revisit it later.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b62aa8d_a066e700",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "Optional: Regardless long or int... should this parsing go into the GraphObjectIndex constructor? At the end, that class is the one choosing how to best layout the things in memmory...",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9581910d_9712a723",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "assertChunkNotSeenYet ?\n\nThe \"not repeated\" title when the code does only a null check is confusing.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "714e65a3_6e0a31b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "Could we test this loader as we do e.g. PackParser? Generate a commit-graph with cgit, add it in test/resources and the use the Loader to test",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff308c82_8f3bf1bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "We need to ignore unknown chunks. Just log the situation and keep going.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e07c30c5_8aff443e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "Great! This is an elegant implementation of the interface. Thanks!",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb22cc31_f3b0651c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIdIndex.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "nit: GraphObjectIndex? (no \"id\"). ObjectId is an specific class, this is about finding objects in the graph.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e729289a_d8e0b86c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIdIndex.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-08T21:08:04Z",
+      "side": 1,
+      "message": "private?",
+      "range": {
+        "startLine": 101,
+        "startChar": 1,
+        "endLine": 101,
+        "endChar": 4
+      },
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
