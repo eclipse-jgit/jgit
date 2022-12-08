@@ -836,6 +836,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedEncryptionVersion;
 	/***/ public String unsupportedGC;
 	/***/ public String unsupportedMark;
+	/***/ public String unsupportedObjectIdVersion;
 	/***/ public String unsupportedOperationNotAddAtEnd;
 	/***/ public String unsupportedPackIndexVersion;
 	/***/ public String unsupportedPackReverseIndexVersion;
