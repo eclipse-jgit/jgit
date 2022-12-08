@@ -2,6 +2,10 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.file.PackReverseIndex.MAGIC;
+import static org.eclipse.jgit.internal.storage.file.PackReverseIndex.VERSION_1;
+import static org.eclipse.jgit.internal.storage.file.PackReverseIndexV1.OID_VERSION_SHA1;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Comparator;
@@ -11,8 +15,6 @@ import java.util.stream.IntStream;
  * TODO
  */
 final class PackReverseIndexWriterV1 extends PackReverseIndexWriter {
-	// TODO comment about GIT_HASH_SHA1 == 1 and GIT_HASH_SHA256 == 2
-	private static final int OID_VERSION_SHA1 = 1;
 	private static final int DEFAULT_OID_VERSION = OID_VERSION_SHA1;
 
 	PackReverseIndexWriterV1(final OutputStream dst) {
