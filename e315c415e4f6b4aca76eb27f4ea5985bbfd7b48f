@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c876d51a_1bb4fe48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-09T23:28:16Z",
+      "side": 1,
+      "message": "- unrelated formatting change\n- this line is now too wide, we use max line width of 80",
+      "revId": "e315c415e4f6b4aca76eb27f4ea5985bbfd7b48f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0972b884_860c0768",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-09T23:28:16Z",
+      "side": 1,
+      "message": "line is too wide",
+      "revId": "e315c415e4f6b4aca76eb27f4ea5985bbfd7b48f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f84f6f52_4a224cdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-09T23:28:16Z",
+      "side": 1,
+      "message": "add @since 6.5 for new API method",
+      "revId": "e315c415e4f6b4aca76eb27f4ea5985bbfd7b48f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
