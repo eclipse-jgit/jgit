@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a36c079c_0949d92e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-09T23:20:13Z",
+      "side": 1,
+      "message": "It seems the new implementation copies the list once more than the old implementation.\n\nWhat\u0027s the performance impact of this additional copying ?\nCopying the list takes time and produces more garbage for Java gc to collect.",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "83f17e570c940616cd83e3b00224e1a914da5bf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08bf7508_7370b89a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-09T23:20:13Z",
+      "side": 1,
+      "message": "- this is too wide, we use a max line width of 80\n- while you are at this remove the final qualifier, see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "revId": "83f17e570c940616cd83e3b00224e1a914da5bf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
