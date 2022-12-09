@@ -30,7 +30,10 @@ public enum PackExt {
 	REFTABLE("ref"), //$NON-NLS-1$
 
 	/** A pack reverse index file extension. */
-	REVERSE_INDEX("rev"); //$NON-NLS-1$
+	REVERSE_INDEX("rev"), //$NON-NLS-1$
+
+	/** A commit graph file extension. */
+	COMMIT_GRAPH("graph"); //$NON-NLS-1$
 
 	private final String ext;
 
