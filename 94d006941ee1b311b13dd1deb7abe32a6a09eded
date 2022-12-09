@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e56fd2d_16296a11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T05:07:51Z",
+      "side": 1,
+      "message": "Could you split this into smaller changes? Maybe one with conf + ObjectReader hierarchy change and another with the RevWalk/RevCommit?",
+      "revId": "94d006941ee1b311b13dd1deb7abe32a6a09eded",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
