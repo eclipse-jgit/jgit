@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "522da394_04ca0e21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T00:06:54Z",
+      "side": 1,
+      "message": "Did we add this config? I see we added the key in the writer patch, but is it actually in use?\n\nShould we use core.commitGraph like upstream? (Documentation.config-options.md lists other core. confs). In any case, I suspect there should be a parent change adding the config plumbing...",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e375387_9aaa4a8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T00:06:54Z",
+      "side": 1,
+      "message": "I just realized this is not the content of this change. The commit message needs a rework.",
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "440a3f2a_74cc406a",
@@ -54,6 +94,23 @@
       "writtenOn": "2022-12-08T21:14:46Z",
       "side": 1,
       "message": "Should we check here that at least it has the commit-graph header? the first bytes?\n\nThe proper writing is tested in the write, but just to make sure that GC wrote something that makes sense.",
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5949e22a_6af6af5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T00:06:54Z",
+      "side": 1,
+      "message": "Should we use core.commitGraph like upstream? (Documentation.config-options.md lists other core. confs).",
       "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
