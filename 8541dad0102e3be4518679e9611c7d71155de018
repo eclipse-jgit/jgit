@@ -110,6 +110,30 @@
       },
       "revId": "8541dad0102e3be4518679e9611c7d71155de018",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b65a9640_eb9fa349",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T05:32:30Z",
+      "side": 1,
+      "message": "\u003e This is a breaking change. Historically parseHeaders parse the whole commit (including the message which is missing in commit graph)\n\nI think this is a confusion due to #retainBody. \n\nThe commit message is always read from the raw buffer (the \"body\") and that is only available either if a. #parseBody was invoked or b. #parseHeaders was invoked with #retainBody on.",
+      "parentUuid": "8a3e89b0_278da2dd",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 146,
+        "endChar": 3
+      },
+      "revId": "8541dad0102e3be4518679e9611c7d71155de018",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -117,6 +117,30 @@
       },
       "revId": "00697161730750c55e7c5302eb23836a82089eb8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95dad92f_53a054ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T05:32:30Z",
+      "side": 1,
+      "message": "@Martin: the owner of the RevCommit instances is the RevWalk. If we want the commit graph to instantiate them, it would need access to the walk (e.g. to create the RevCommits for the parents of commit). This way (copying), we keep the graph unaware of the walk.\n\nI think that if we implement commit-data as a \"pointer\" to the byte[] in the graph, we could even do only Commit-graph -\u003e RevCommit, instead of Commit-graph -\u003e Commit-data -\u003e RevCommit (saving one copy of the data)",
+      "parentUuid": "cfa10dad_03df6d1c",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 7
+      },
+      "revId": "00697161730750c55e7c5302eb23836a82089eb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
