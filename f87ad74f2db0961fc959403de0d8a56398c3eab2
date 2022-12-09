@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecbdf851_bcc799f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T22:44:47Z",
+      "side": 1,
+      "message": "Leave a blank line between title and first paragraph (that is how git differentiates the title for e.g. git log --oneline)",
+      "revId": "f87ad74f2db0961fc959403de0d8a56398c3eab2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c862813_4acb0a0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T22:44:47Z",
+      "side": 1,
+      "message": "The graph is written to a file! but that writing is not using the PackExt mechanism.",
+      "revId": "f87ad74f2db0961fc959403de0d8a56398c3eab2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc4bef44_b78d238b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T22:44:47Z",
+      "side": 1,
+      "message": "Nit: \"The extension is still needed in DFS to determine the stream to write the commit-graph\"\n\nBe direct.",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "f87ad74f2db0961fc959403de0d8a56398c3eab2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
