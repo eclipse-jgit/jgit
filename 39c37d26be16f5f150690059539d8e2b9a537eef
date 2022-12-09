@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f660d8a_ae8f5ef3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T18:15:03Z",
+      "side": 1,
+      "message": "Thanks, I agree this makes more resilient code! Logic looks fine to me, just minor styling comments.",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ac5b9b4_d2f39fb3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T18:15:03Z",
+      "side": 1,
+      "message": "IIUC in the stack this hasn\u0027t been added yet? (you can put adding that extension before this change)",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfcecc48_60b5b461",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T18:15:03Z",
+      "side": 1,
+      "message": "Could we have a test case where there is no pack but there are still some indices? gc should clean up those indices.",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde322fd_d29c7af1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T18:15:03Z",
+      "side": 1,
+      "message": "Maybe we could use the \"sidecar\" and \"main\" naming convention to make this clearer, so orphan is a sidecar without a main file.\n\nThese would be \"sidecarFiles\", and the set blow \"knownMainFiles\".",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf2a3389_46ed5f3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T18:15:03Z",
+      "side": 1,
+      "message": "Lambdas with try/catch tend to look messy...\n\nCould we add a method \"PackFile asPackFile(String name)\" to the class and do here .map(this::asPackFile)?",
+      "range": {
+        "startLine": 949,
+        "startChar": 19,
+        "endLine": 954,
+        "endChar": 8
+      },
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a5b1d57_a37a8bc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-09T18:15:03Z",
+      "side": 1,
+      "message": "We can shorten this lambda function and make it clearer moving this check to its own filter step:\n.filter(p -\u003e packFile.getPackExt() !\u003d null)",
+      "range": {
+        "startLine": 958,
+        "startChar": 6,
+        "endLine": 961,
+        "endChar": 7
+      },
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
