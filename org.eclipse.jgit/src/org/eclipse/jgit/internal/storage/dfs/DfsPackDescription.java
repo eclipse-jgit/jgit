@@ -112,7 +112,20 @@ public class DfsPackDescription {
 				return Long.signum(a.getLastModified() - b.getLastModified());
 			};
 	}
-
+	
+	static Comparator<DfsPackDescription> commitGraphComparator() {
+		// TODO prioritizing latest GC commit graphs for now until we have stackable
+		// commit graphs
+		return (a, b) -> {
+			int c = PackSource.DEFAULT_COMPARATOR.reversed().compare(a.getPackSource(), b.getPackSource());
+			if (c != 0) {
+				return c;
+			}
+			// the latest commit graph first
+			return Long.signum(b.getLastModified() - a.getLastModified());
+		};
+	}
+	
 	static Comparator<DfsPackDescription> reuseComparator() {
 		return (a, b) -> {
 			PackSource as = a.getPackSource();
