@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -34,7 +35,9 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -92,6 +95,15 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 				return new BitmapIndexImpl(index);
 		}
 		return null;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Optional<CommitGraph> getCommitGraph() {
+		if (db.getConfig().get(CoreConfig.KEY).enableCommitGraph()) {
+			return db.getCommitGraph();
+		}
+		return Optional.empty();
 	}
 
 	/** {@inheritDoc} */
