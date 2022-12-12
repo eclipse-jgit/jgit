@@ -154,6 +154,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "16de64fa_70012e13",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Thanks, we can elaborate on that in a later change.",
+      "parentUuid": "1b19de84_6c373f1e",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "66ef9420_bb47991d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
         "patchSetId": 33
@@ -200,6 +218,24 @@
       "side": 1,
       "message": "In fact, I wrote this test case with reference to cgit[1].\n\nIn my opinion, commit-graph doesn\u0027t care if whether a commit\u0027s parent is a merge commit. It focuses more on where the parents are in the commit-graph and how many of them.\n\nAdding this may help to verify our generation verification, but I don\u0027t feel like it\u0027s necessary.\n\nSo ...\n\n[1] https://github.com/git/git/commit/f237c8b6feaa3bad352bd27c14f0d83d0a1c061a#diff-36c888d494e21f6af88cba09effac17eb018edcca112fe4568eb171455d735ddR61",
       "parentUuid": "1ac3a572_4298b770",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9fe61b9_b7e4b968",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "We can leave as it is. Thanks.",
+      "parentUuid": "20f480a8_7833b753",
       "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },

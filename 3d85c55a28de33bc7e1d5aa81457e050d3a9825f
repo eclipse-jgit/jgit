@@ -16,6 +16,319 @@
       "message": "Thanks for your reviews.",
       "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d319e803_5c932151",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Thanks! Some suggestions on CommitGraphData readability (it should be easy to modify because there are tests!) and minor details here and there.",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa26eb57_bcdedeaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/CommitGraphFormatException.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "This constructor can be package-private, nobody out from this package should create this exception.",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b72b468_46ac5029",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "add \"seconds since epoch\" (it saves a trip to the spec)",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b52e3a3f_a6f566e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "range": {
+        "startLine": 110,
+        "startChar": 30,
+        "endLine": 110,
+        "endChar": 31
+      },
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d2e525b_ca532882",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "mention \"or {@link Constants#COMMIT_GENERATION_NOT_COMPUTED} if the writer didn\u0027t calculate it.\"",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d6197e_70b290d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Nit: you can pass here numberOfChunks+1, so the array list books only the required space.",
+      "range": {
+        "startLine": 132,
+        "startChar": 46,
+        "endLine": 132,
+        "endChar": 47
+      },
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59de8455_cd7762c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Can you add a comment explaining that the last chunk is just a marker, so we load n+1 chunks in the list, but later iterate only n?\n\nOtherwise the n+1 size, and the subtle difference in the for loops is hard to see and looks like a bug.",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55a05103_ccd5dcce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "We could do here as RevCommit does, define a private static final int[] NO_PARENTS \u003d {} and reuse it, instead of doing this \"new\".",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58e5c04e_e09a22c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "I thought first this was an \"extra edge\" value, but it is actually a parent.\n\nShould this be called \"parent\", \"parentPos\" or \"parentPosition\"?",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 15
+      },
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c79a0ffe_2ab143d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "This becomes more readable with explicit \"firstParent\" and \"secondParent\" variables and returning early. I may save also some array mangling.\n\nSomething like:\n```\nfirstParent \u003d NB...\nif (no parent) {\n  return CommitDataImpl(..., NO_PARENTS, ...)\n}\n\nsecondParent \u003d NB...\nif (no second parent) {\n  return CommitDataImpl(..., [firstParent]. ...)\n}\n\nif (secondParent is regular edge) {\n  return CDImpl(.., [firstParent, secondParent], ...)\n}\n\nif (secondParent is needs_extra_edged {\n  ...\n}\n...",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eb089d6_27b0fc03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Could we pass the known parent as parameter and let findExtraEdgeList return an array with all parents, so we can pass directly into CommitDataImpl instead of copying it one more time?\n\nAlternative: that findExtraEdgeList leaves the first position of the array \"empty\" and we overwrite it here.\n\nBoth options are \"hacky\" but can save a bunch of array copies.",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f9fe9fe_bb534f92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Does this mean that our graph has invalid offsets? if so, it should be an exception.",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f91baa20_289aaa2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Can we use this for loop to advance the offset?\n\ne.g.\nfor (int offset \u003d pptr * 4; offset \u003c\u003d maxOffset; offset +\u003d 4) {\n    // Make sure there is space\n    // Read parent\n    // if last { parse, add, break }\n    // add\n}\n\nBefore we already checked the offset is never \u003e maxOffset, and we don\u0027t need the check inside the loop.",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c416dec4_f90b4af3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Extract this to a resize (expand?) function, so it is easier to read:\n\nif (count \u003e\u003d pList.length) {\n   parentList \u003d expand(pList);\n}",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2094e841_0c59c714",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "pList[count++] to make it consistent with line 148",
+      "range": {
+        "startLine": 144,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 15
+      },
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42fa563d_184a056f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "Now that the fanout array is here, this can probably be private.",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "000b370c_76f31abe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T20:02:04Z",
+      "side": 1,
+      "message": "With the integer check, this array can now be int[] and cast in insertion (no need to the cast later ~line 77",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
