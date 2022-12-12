@@ -41,6 +41,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -235,7 +236,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public Optional<CommitGraph> getCommitGraph() {
-		return Optional.ofNullable(fileCommitGraph.get());
+		if (config.get(CoreConfig.KEY).enableCommitGraph()) {
+			return Optional.ofNullable(fileCommitGraph.get());
+		}
+		return Optional.empty();
 	}
 
 	/**

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -27,6 +28,7 @@ import org.eclipse.jgit.internal.revwalk.BitmappedObjectReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.BitmappedReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.PedestrianObjectReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.PedestrianReachabilityChecker;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
@@ -500,6 +502,23 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
+	 * Get the commit-graph for this repository if available.
+	 * <p>
+	 * The commit graph can be created/modified/deleted while the repository is
+	 * open and specific implementations decide when to refresh it.
+	 *
+	 * @return the commit-graph or empty if the commit-graph does not exist or
+	 *         is invalid; always returns empty when core.commitGraph is false
+	 *         (default is
+	 *         {@value org.eclipse.jgit.lib.CoreConfig#DEFAULT_COMMIT_GRAPH_ENABLE}).
+	 *
+	 * @since 6.5
+	 */
+	public Optional<CommitGraph> getCommitGraph() {
+		return Optional.empty();
+	}
+
+	/**
 	 * Get the {@link org.eclipse.jgit.lib.ObjectInserter} from which this
 	 * reader was created using {@code inserter.newReader()}
 	 *
@@ -639,6 +658,11 @@ public abstract class ObjectReader implements AutoCloseable {
 		@Override
 		public BitmapIndex getBitmapIndex() throws IOException {
 			return delegate().getBitmapIndex();
+		}
+
+		@Override
+		public Optional<CommitGraph> getCommitGraph() {
+			return delegate().getCommitGraph();
 		}
 
 		@Override
