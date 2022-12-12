@@ -52,6 +52,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c689db_6c77b5b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "755cb234_043de05f",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9f55267_1700d817",
@@ -75,6 +93,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab0b7af0_3d61ed2f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9f55267_1700d817",
+      "range": {
+        "startLine": 79,
+        "startChar": 22,
+        "endLine": 79,
+        "endChar": 35
+      },
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d05e4c0_54a5c3c7",
@@ -88,6 +130,24 @@
       "writtenOn": "2022-12-08T21:08:04Z",
       "side": 1,
       "message": "Why are merges special for the commit-graph? Is this testing that the walk initializing GraphCommits does the right thing?\n\nIf so, we could have here a complicated case, and put coverage for different cases directly in GraphCommits test?\n\n(this can be done later)",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b19de84_6c373f1e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "agree.",
+      "parentUuid": "1d05e4c0_54a5c3c7",
       "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -128,6 +188,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "20f480a8_7833b753",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "In fact, I wrote this test case with reference to cgit[1].\n\nIn my opinion, commit-graph doesn\u0027t care if whether a commit\u0027s parent is a merge commit. It focuses more on where the parents are in the commit-graph and how many of them.\n\nAdding this may help to verify our generation verification, but I don\u0027t feel like it\u0027s necessary.\n\nSo ...\n\n[1] https://github.com/git/git/commit/f237c8b6feaa3bad352bd27c14f0d83d0a1c061a#diff-36c888d494e21f6af88cba09effac17eb018edcca112fe4568eb171455d735ddR61",
+      "parentUuid": "1ac3a572_4298b770",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ad0899c_cd78158c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 33
@@ -139,6 +217,24 @@
       "writtenOn": "2022-12-08T21:08:04Z",
       "side": 1,
       "message": "Should we make this an interface?\n\nFirst I thought it was overengineering it, because it is a POJO with data. But actually there are other ways to implement it (e.g. with just pointer to the graph and the offset, reading directly the byte[] in the getters, saving the intermediate copy of data).\n\nThe implementation could be a private static inner class inside CommitGraphV1",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f787322_60a48b8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done.\nI made it to be a private static inner class inside GraphCommitData.",
+      "parentUuid": "0ad0899c_cd78158c",
       "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -156,6 +252,30 @@
       "writtenOn": "2022-12-08T21:08:04Z",
       "side": 1,
       "message": "2022? Same with other newly added files?",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "940722ec_c78e764f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d185d407_6b0578aa",
       "range": {
         "startLine": 2,
         "startChar": 17,
@@ -200,6 +320,42 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4972559_a3129b31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Agree, done.",
+      "parentUuid": "5b62aa8d_a066e700",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cbc7e66_d454db21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75c73139_13bd204f",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9581910d_9712a723",
@@ -213,6 +369,24 @@
       "writtenOn": "2022-12-08T21:08:04Z",
       "side": 1,
       "message": "assertChunkNotSeenYet ?\n\nThe \"not repeated\" title when the code does only a null check is confusing.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a14798_5e85367f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9581910d_9712a723",
       "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -234,6 +408,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b9761a7_2630c8b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "714e65a3_6e0a31b7",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff308c82_8f3bf1bd",
@@ -247,6 +439,24 @@
       "writtenOn": "2022-12-08T21:08:04Z",
       "side": 1,
       "message": "We need to ignore unknown chunks. Just log the situation and keep going.",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e8f8ab3_7279b5d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff308c82_8f3bf1bd",
       "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -285,6 +495,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "007878e5_925bce1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIdIndex.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb22cc31_f3b0651c",
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e729289a_d8e0b86c",
@@ -298,6 +526,30 @@
       "writtenOn": "2022-12-08T21:08:04Z",
       "side": 1,
       "message": "private?",
+      "range": {
+        "startLine": 101,
+        "startChar": 1,
+        "endLine": 101,
+        "endChar": 4
+      },
+      "revId": "885f34f07e27c843103d24d2bab1c61db521fe9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59ebedf2_9e97126a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIdIndex.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e729289a_d8e0b86c",
       "range": {
         "startLine": 101,
         "startChar": 1,
