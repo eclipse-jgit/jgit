@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2274a1b3_9b09e40c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-12T21:55:32Z",
+      "side": 1,
+      "message": "LGTM, but please fix formatting for this change, line length seems to be off",
+      "revId": "ba7bd01076d743d7d7114d22baa7d95124c340a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30589235_d7e1b79a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-12T21:55:32Z",
+      "side": 1,
+      "message": "Should be singular, same as above",
+      "range": {
+        "startLine": 581,
+        "startChar": 20,
+        "endLine": 581,
+        "endChar": 21
+      },
+      "revId": "ba7bd01076d743d7d7114d22baa7d95124c340a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
