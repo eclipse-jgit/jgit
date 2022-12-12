@@ -27,6 +27,7 @@ import org.eclipse.jgit.internal.revwalk.BitmappedObjectReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.BitmappedReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.PedestrianObjectReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.PedestrianReachabilityChecker;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
@@ -500,6 +501,20 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
+	 * A supplemental data structure that accelerates commit graph walks.
+	 *
+	 * @return the commit-graph or null if the commit-graph does not exist or is
+	 *         invalid; always returns null when core.commitGraph(default is
+	 *         {@value org.eclipse.jgit.lib.CoreConfig#DEFAULT_COMMIT_GRAPH_ENABLE})
+	 *         is false.
+	 *
+	 * @since 6.5
+	 */
+	public CommitGraph getCommitGraph() {
+		return null;
+	}
+
+	/**
 	 * Get the {@link org.eclipse.jgit.lib.ObjectInserter} from which this
 	 * reader was created using {@code inserter.newReader()}
 	 *
@@ -639,6 +654,11 @@ public abstract class ObjectReader implements AutoCloseable {
 		@Override
 		public BitmapIndex getBitmapIndex() throws IOException {
 			return delegate().getBitmapIndex();
+		}
+
+		@Override
+		public CommitGraph getCommitGraph() {
+			return delegate().getCommitGraph();
 		}
 
 		@Override
