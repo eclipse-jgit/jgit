@@ -16,6 +16,24 @@
       "message": "Could you split this into smaller changes? Maybe one with conf + ObjectReader hierarchy change and another with the RevWalk/RevCommit?",
       "revId": "94d006941ee1b311b13dd1deb7abe32a6a09eded",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d820830c_f7473951",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:29:09Z",
+      "side": 1,
+      "message": "Done.\n\nSee https://git.eclipse.org/r/c/jgit/jgit/+/197628 and \nhttps://git.eclipse.org/r/c/jgit/jgit/+/197629.",
+      "parentUuid": "2e56fd2d_16296a11",
+      "revId": "94d006941ee1b311b13dd1deb7abe32a6a09eded",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
