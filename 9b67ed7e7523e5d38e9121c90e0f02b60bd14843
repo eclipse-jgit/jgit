@@ -43,6 +43,48 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3026207e_a385b44d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522da394_04ca0e21",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df632d17_e8f11899",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e375387_9aaa4a8a",
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "440a3f2a_74cc406a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 33
@@ -111,6 +153,24 @@
       "writtenOn": "2022-12-09T00:06:54Z",
       "side": 1,
       "message": "Should we use core.commitGraph like upstream? (Documentation.config-options.md lists other core. confs).",
+      "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13bbc13c_e00b8cb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-12T08:26:16Z",
+      "side": 1,
+      "message": "Done.\nJGit will write commit-graph only when \u0027core.commitGraph\u0027 and \u0027gc.writeCommitGraph\u0027 are both true.\nI remember that in the past, even if core.commitGraph was false, as long as gc.writeCommitGraph was true, cgit would write it. But now it has changed[1], I modified it to behave the same as cgit.\n\n[1] https://github.com/git/git/commit/85102ac71b98466eaa2b9b5a568c3a1de736202d",
+      "parentUuid": "5949e22a_6af6af5d",
       "revId": "9b67ed7e7523e5d38e9121c90e0f02b60bd14843",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
