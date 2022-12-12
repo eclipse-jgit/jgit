@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "542c4328_dd2fb0d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-12T19:42:29Z",
+      "side": 1,
+      "message": "- yes, we occasionally did such changes in the past if they improve an important use case, don\u0027t break API and are not invasive\n- stable-6.1 is ok\n- the oldest branch we accepted fixes on since 6.0 is out was 5.13 to help users who are still stuck on Java 8",
+      "parentUuid": "e14e8ca1_94d6f10d",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3238aaa9_84f80800",
         "filename": "Documentation/config-options.md",
         "patchSetId": 2
@@ -77,6 +95,23 @@
       "writtenOn": "2022-12-12T17:59:26Z",
       "side": 1,
       "message": "This is challenging to read and understand correctly, and all the boilerplate above distracts from the intent of this method. Maybe a small private method like `boolean trustPackedRefsModTime()` would help with breaking up the complexity? It would have to do the open/close too, which I\u0027m not sure I like moving out of this method, so maybe there\u0027s a better approach that keeps the code here.\n\nTo improve the code here, I think it would help (and also potentially be more correct) if you matched the behavior from the docs in the logic? Maybe using a switch statement on `trustPackedRefsModTime` would help do that?\n\n switch (trustPackedRefsModTime) {\n   case TrustPackedRefsModificationTime.NEVER:\n     break;\n   case TrustPackedRefsModificationTime.AFTER_OPEN:\n     try (InputStream stream \u003d Files.newInputStream(packedRefsFile.toPath())) {};\n     // allowed to fall through\n   case TrustPackedRefsModificationTime.ALWAYS:\n     if (!curList.snapshot.isModified(packedRefsFile)) {\n       return curList;\n     }\n     break;\n   case TrustPackedRefsModificationTime.UNSET: // allowed to fall through\n   default:\n     if (trustFolderStat \u0026\u0026 !curList.snapshot.isModified(packedRefsFile)) {\n       return curList;\n     }\n     break;\n }\n\nI was hoping that would have a way to keep `curList.snapshot.isModified()` de-duplicated, but I don\u0027t see one (without creating the helper method that does that switch but returns \u0027true\u0027 whenever we would run isModified()). I still think the better readability and still keeping the code all together is probably a net improvement.",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89ff8773_ce578eb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-12T19:42:29Z",
+      "side": 1,
+      "message": "Can we name this trustPackedRefsStat ?\nI think this name is too long and not consistent with the naming of trustFolderStat.",
       "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
