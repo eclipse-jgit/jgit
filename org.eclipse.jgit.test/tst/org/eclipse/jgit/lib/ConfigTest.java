@@ -1581,6 +1581,20 @@ public class ConfigTest {
 		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
 	}
 
+	@Test
+	public void testCoreCommitGraphConfig() {
+		Config config = new Config();
+		assertFalse(config.get(CoreConfig.KEY).enableCommitGraph());
+
+		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
+		assertTrue(config.get(CoreConfig.KEY).enableCommitGraph());
+
+		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, false);
+		assertFalse(config.get(CoreConfig.KEY).enableCommitGraph());
+	}
+
 	private static void assertValueRoundTrip(String value)
 			throws ConfigInvalidException {
 		assertValueRoundTrip(value, value);
