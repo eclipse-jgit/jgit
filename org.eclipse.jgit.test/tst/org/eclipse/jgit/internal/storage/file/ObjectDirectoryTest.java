@@ -237,6 +237,26 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testWindowCursorGetCommitGraph() throws Exception {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+
+		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
+		assertNull(curs.getCommitGraph());
+		commitFile("file.txt", "content", "master");
+		GC gc = new GC(db);
+		gc.gc();
+		assertNotNull(curs.getCommitGraph());
+
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, false);
+
+		assertNull(curs.getCommitGraph());
+	}
+
+	@Test
 	public void testShallowFileCorrupt() throws Exception {
 		FileRepository repository = createBareRepository();
 		ObjectDirectory dir = repository.getObjectDatabase();
@@ -255,7 +275,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	@Test
 	public void testGetCommitGraph() throws Exception {
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, true);
+				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
 
