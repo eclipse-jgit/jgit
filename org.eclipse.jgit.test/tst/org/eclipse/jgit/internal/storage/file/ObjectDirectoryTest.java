@@ -238,6 +238,26 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testWindowCursorGetCommitGraph() throws Exception {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+
+		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
+		assertTrue(curs.getCommitGraph().isEmpty());
+		commitFile("file.txt", "content", "master");
+		GC gc = new GC(db);
+		gc.gc();
+		assertTrue(curs.getCommitGraph().isPresent());
+
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, false);
+
+		assertTrue(curs.getCommitGraph().isEmpty());
+	}
+
+	@Test
 	public void testShallowFileCorrupt() throws Exception {
 		FileRepository repository = createBareRepository();
 		ObjectDirectory dir = repository.getObjectDatabase();
