@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9da3f866_412d1dc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T23:27:45Z",
+      "side": 1,
+      "message": "Lets wait for the changes in the ObjectDatabase interface to land before reviewing this.",
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c09ff2d_fd73b678",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-12T23:27:45Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/183078/33 adds an ObjectDatabase#getCommitGraph method that should be implemented here. \n\nI think that the caller shouldn\u0027t see a stack at this level of abstraction.",
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
