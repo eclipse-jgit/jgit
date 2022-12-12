@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d758384_12be3f46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-12T17:00:41Z",
+      "side": 1,
+      "message": "I think you want to generically say \"also used when reading the packed-refs file.\" The rest you describe in detail in the updated documentation.",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "53ef34ec89e664246e26ae17636d0ed6e140844d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c990510f_33803bad",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-12T17:00:41Z",
+      "side": 1,
+      "message": "It\u0027s not just \u0027new\u0027 pack files, it could be \u0027different\u0027 as gc could remove some packs and other operations could add new packs. Also fix this where you say `no new pack files can be in this folder` below.",
+      "range": {
+        "startLine": 48,
+        "startChar": 141,
+        "endLine": 48,
+        "endChar": 144
+      },
+      "revId": "53ef34ec89e664246e26ae17636d0ed6e140844d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
