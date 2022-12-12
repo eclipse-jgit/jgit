@@ -113,6 +113,23 @@ public class DfsPackDescription {
 			};
 	}
 
+	static Comparator<DfsPackDescription> commitGraphComparator() {
+		// TODO prioritizing latest GC commit graphs for now until we have
+		// stackable commit graphs or other type of pack containing commit graphs
+		return (a, b) -> {
+			if (a.getPackSource() == PackSource.GC && b.getPackSource() == PackSource.GC) {
+				// the latest commit graph first
+				return Long.signum(b.getLastModified() - a.getLastModified());
+			}
+			if (a.getPackSource() == PackSource.GC) {
+				return -1;
+			} else if (b.getPackSource() == PackSource.GC) {
+				return 1;
+			}
+			return 0;
+		};
+	}
+
 	static Comparator<DfsPackDescription> reuseComparator() {
 		return (a, b) -> {
 			PackSource as = a.getPackSource();

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -38,9 +39,8 @@ import org.eclipse.jgit.lib.ObjectReader;
  * system.
  */
 public abstract class DfsObjDatabase extends ObjectDatabase {
-	private static final PackList NO_PACKS = new PackList(
-			new DfsPackFile[0],
-			new DfsReftable[0]) {
+	private static final PackList NO_PACKS = new PackList(new DfsPackFile[0],
+			new DfsReftable[0], new DfsCommitGraph[0]) {
 		@Override
 		boolean dirty() {
 			return true;
@@ -278,6 +278,33 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	/**
+	 * Scan and list all available commit graph files in the repository.
+	 *
+	 * @return list of available commit graphs. The returned array is shared
+	 *         with the implementation and must not be modified by the caller.
+	 * @throws java.io.IOException
+	 *             the commit graph list cannot be initialized.
+	 */
+	public DfsCommitGraph[] getCommitGraphs() throws IOException {
+		return getPackList().commitGraphs;
+	}
+
+	/**
+	 * Get a GC commit graph prioritized by the commit graph comparator
+	 * @return Optional a DfsCommitGraph if there is a GC commit graph or
+	 * empty if there is no GC commit graph
+	 * @throws IOException
+	 *             can not access PackList
+	 */
+	public Optional<DfsCommitGraph> getGCCommitGraph() throws IOException {
+		Optional<DfsCommitGraph> latest = Arrays.stream(getPackList().commitGraphs).min(commitGraphComparator());
+		if (latest.isEmpty() || latest.get().getPackDescription().getPackSource() != PackSource.GC){
+			return Optional.empty();
+		}
+		return latest;
+	}
+
+	/**
 	 * Scan and list all available pack files in the repository.
 	 *
 	 * @return list of available packs, with some additional metadata. The
@@ -317,6 +344,17 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	public DfsReftable[] getCurrentReftables() {
 		return getCurrentPackList().reftables;
+	}
+
+	/**
+	 * List currently known commit graph files in the repository, without
+	 * scanning.
+	 *
+	 * @return list of available commit graphs. The returned array is shared
+	 *         with the implementation and must not be modified by the caller.
+	 */
+	public DfsCommitGraph[] getCurrentCommitGraphs() {
+		return getCurrentPackList().commitGraphs;
 	}
 
 	/**
@@ -529,7 +567,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackFile[] packs = new DfsPackFile[1 + o.packs.length];
 			packs[0] = newPack;
 			System.arraycopy(o.packs, 0, packs, 1, o.packs.length);
-			n = new PackListImpl(packs, o.reftables);
+			n = new PackListImpl(packs, o.reftables, o.commitGraphs);
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -554,7 +592,35 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				}
 			}
 			tables.add(new DfsReftable(add));
-			n = new PackListImpl(o.packs, tables.toArray(new DfsReftable[0]));
+			n = new PackListImpl(o.packs, tables.toArray(new DfsReftable[0]),
+					o.commitGraphs);
+		} while (!packList.compareAndSet(o, n));
+	}
+
+	void addCommitGraph(DfsPackDescription add, Set<DfsPackDescription> remove)
+			throws IOException {
+		PackList o, n;
+		do {
+			o = packList.get();
+			if (o == NO_PACKS) {
+				o = scanPacks(o);
+				for (DfsCommitGraph cg : o.commitGraphs) {
+					if (cg.getPackDescription().equals(add)) {
+						return;
+					}
+				}
+			}
+
+			List<DfsCommitGraph> commitGraphs = new ArrayList<>(
+					1 + o.commitGraphs.length);
+			for (DfsCommitGraph cg : o.commitGraphs) {
+				if (!remove.contains(cg.getPackDescription())) {
+					commitGraphs.add(cg);
+				}
+			}
+			commitGraphs.add(new DfsCommitGraph(add));
+			n = new PackListImpl(o.packs, o.reftables,
+					commitGraphs.toArray(new DfsCommitGraph[0]));
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -582,12 +648,15 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		DfsBlockCache cache = DfsBlockCache.getInstance();
 		Map<DfsPackDescription, DfsPackFile> packs = packMap(old);
 		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
+		Map<DfsPackDescription, DfsCommitGraph> commitGraphs = commitGraphMap(old);
 
 		List<DfsPackDescription> scanned = listPacks();
 		Collections.sort(scanned, packComparator);
 
 		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
 		List<DfsReftable> newReftables = new ArrayList<>(scanned.size());
+		List<DfsCommitGraph> newCommitGraphs = new ArrayList<>(scanned.size());
+
 		boolean foundNew = false;
 		for (DfsPackDescription dsc : scanned) {
 			DfsPackFile oldPack = packs.remove(dsc);
@@ -605,18 +674,29 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				newReftables.add(new DfsReftable(cache, dsc));
 				foundNew = true;
 			}
+
+			DfsCommitGraph oldCommitGraph = commitGraphs.remove(dsc);
+			if (oldCommitGraph != null) {
+				newCommitGraphs.add(oldCommitGraph);
+			} else if (dsc.hasFileExt(PackExt.COMMIT_GRAPH)) {
+				newCommitGraphs.add(new DfsCommitGraph(cache, dsc));
+				foundNew = true;
+			}
 		}
 
-		if (newPacks.isEmpty() && newReftables.isEmpty())
-			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables);
+		if (newPacks.isEmpty() && newReftables.isEmpty()
+				&& newCommitGraphs.isEmpty())
+			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables,
+					NO_PACKS.commitGraphs);
 		if (!foundNew) {
 			old.clearDirty();
 			return old;
 		}
 		Collections.sort(newReftables, reftableComparator());
-		return new PackListImpl(
-				newPacks.toArray(new DfsPackFile[0]),
-				newReftables.toArray(new DfsReftable[0]));
+		Collections.sort(newCommitGraphs, commitGraphComparator());
+		return new PackListImpl(newPacks.toArray(new DfsPackFile[0]),
+				newReftables.toArray(new DfsReftable[0]),
+				newCommitGraphs.toArray(new DfsCommitGraph[0]));
 	}
 
 	private static Map<DfsPackDescription, DfsPackFile> packMap(PackList old) {
@@ -639,15 +719,35 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return forReuse;
 	}
 
+	private static Map<DfsPackDescription, DfsCommitGraph> commitGraphMap(
+			PackList old) {
+		Map<DfsPackDescription, DfsCommitGraph> forReuse = new HashMap<>();
+		for (DfsCommitGraph cg : old.commitGraphs) {
+			if (!cg.invalid()) {
+				forReuse.put(cg.desc, cg);
+			}
+		}
+		return forReuse;
+	}
+
 	/**
 	 * Get comparator to sort {@link DfsReftable} by priority.
 	 *
 	 * @return comparator to sort {@link DfsReftable} by priority.
 	 */
 	protected Comparator<DfsReftable> reftableComparator() {
-		return Comparator.comparing(
-				DfsReftable::getPackDescription,
+		return Comparator.comparing(DfsReftable::getPackDescription,
 				DfsPackDescription.reftableComparator());
+	}
+
+	/**
+	 * Get comparator to sort {@link DfsCommitGraph} by priority.
+	 *
+	 * @return comparator to sort {@link DfsCommitGraph} by priority.
+	 */
+	protected Comparator<DfsCommitGraph> commitGraphComparator() {
+		return Comparator.comparing(DfsCommitGraph::getPackDescription,
+				DfsPackDescription.commitGraphComparator());
 	}
 
 	/**
@@ -671,11 +771,16 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		/** All known reftables, sorted. */
 		public final DfsReftable[] reftables;
 
+		/** All known commit graphs, sorted. */
+		public final DfsCommitGraph[] commitGraphs;
+
 		private long lastModified = -1;
 
-		PackList(DfsPackFile[] packs, DfsReftable[] reftables) {
+		PackList(DfsPackFile[] packs, DfsReftable[] reftables,
+				DfsCommitGraph[] commitGraphs) {
 			this.packs = packs;
 			this.reftables = reftables;
+			this.commitGraphs = commitGraphs;
 		}
 
 		/** @return last modified time of all packs, in milliseconds. */
@@ -706,8 +811,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	private static final class PackListImpl extends PackList {
 		private volatile boolean dirty;
 
-		PackListImpl(DfsPackFile[] packs, DfsReftable[] reftables) {
-			super(packs, reftables);
+		PackListImpl(DfsPackFile[] packs, DfsReftable[] reftables,
+				DfsCommitGraph[] commitGraphs) {
+			super(packs, reftables, commitGraphs);
 		}
 
 		@Override
