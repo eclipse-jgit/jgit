@@ -45,6 +45,29 @@
       },
       "revId": "53ef34ec89e664246e26ae17636d0ed6e140844d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47de9788_e479aa2b",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-12T19:35:35Z",
+      "side": 1,
+      "message": "this is not completely accurate, see https://gerrit.googlesource.com/summit/2019/+/915e7ce20e75e51a7b37ad2d0ea45a3303dbac2f/lightning-talks/jgit-racy-read.md\n\nJGit does not only consider lastModified timestamp but also inode (Unix), length (for files), checksum (for packfiles) and takes into account the combined effective timestamp resolution which is measured when JGit is started and the effective timestamp resolution wasn\u0027t yet auto-configured earlier. \n\nMaybe we should write this down in a separate article.\n\nAlso see https://git-scm.com/docs/racy-git/en",
+      "range": {
+        "startLine": 48,
+        "startChar": 355,
+        "endLine": 48,
+        "endChar": 395
+      },
+      "revId": "53ef34ec89e664246e26ae17636d0ed6e140844d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
