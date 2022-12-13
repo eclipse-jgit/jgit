@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d9c9e3_0ce4af54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-13T18:47:11Z",
+      "side": 1,
+      "message": "nit: filter",
+      "range": {
+        "startLine": 10,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "be81f5901745a13bc49a7cef1bf59114b0623e8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b78d6f0e_0a9ff4c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-13T18:47:11Z",
+      "side": 1,
+      "message": "nit: s/to scan/scanning/",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 7
+      },
+      "revId": "be81f5901745a13bc49a7cef1bf59114b0623e8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31919557_4fce3453",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-13T18:47:11Z",
+      "side": 1,
+      "message": "Use Set.of()? (JGit 6+ requires Java 11, so this is fine to do now)",
+      "range": {
+        "startLine": 335,
+        "startChar": 25,
+        "endLine": 335,
+        "endChar": 40
+      },
+      "revId": "be81f5901745a13bc49a7cef1bf59114b0623e8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "162951b1_a38312e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-13T18:47:11Z",
+      "side": 1,
+      "message": "Use Set.of()",
+      "range": {
+        "startLine": 891,
+        "startChar": 37,
+        "endLine": 891,
+        "endChar": 52
+      },
+      "revId": "be81f5901745a13bc49a7cef1bf59114b0623e8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
