@@ -52,6 +52,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4145797_b9cf51aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/CommitGraphFormatException.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa26eb57_bcdedeaf",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b72b468_46ac5029",
@@ -65,6 +83,24 @@
       "writtenOn": "2022-12-12T20:02:04Z",
       "side": 1,
       "message": "add \"seconds since epoch\" (it saves a trip to the spec)",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ba88bb_cfd617bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b72b468_46ac5029",
       "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -92,6 +128,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "916fc3ad_e6384584",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b52e3a3f_a6f566e3",
+      "range": {
+        "startLine": 110,
+        "startChar": 30,
+        "endLine": 110,
+        "endChar": 31
+      },
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d2e525b_ca532882",
@@ -105,6 +165,24 @@
       "writtenOn": "2022-12-12T20:02:04Z",
       "side": 1,
       "message": "mention \"or {@link Constants#COMMIT_GENERATION_NOT_COMPUTED} if the writer didn\u0027t calculate it.\"",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c98c92c6_2cee8067",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d2e525b_ca532882",
       "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -132,6 +210,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c03cb2c_894df6f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93d6197e_70b290d8",
+      "range": {
+        "startLine": 132,
+        "startChar": 46,
+        "endLine": 132,
+        "endChar": 47
+      },
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59de8455_cd7762c5",
@@ -149,6 +251,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bebe5d2_535664cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59de8455_cd7762c5",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55a05103_ccd5dcce",
@@ -162,6 +282,24 @@
       "writtenOn": "2022-12-12T20:02:04Z",
       "side": 1,
       "message": "We could do here as RevCommit does, define a private static final int[] NO_PARENTS \u003d {} and reuse it, instead of doing this \"new\".",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d6215f_d7df6f8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55a05103_ccd5dcce",
       "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -189,6 +327,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5200cee5_39685484",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done.\nI changed them to parent1 and parent2.",
+      "parentUuid": "58e5c04e_e09a22c1",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 15
+      },
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c79a0ffe_2ab143d0",
@@ -202,6 +364,24 @@
       "writtenOn": "2022-12-12T20:02:04Z",
       "side": 1,
       "message": "This becomes more readable with explicit \"firstParent\" and \"secondParent\" variables and returning early. I may save also some array mangling.\n\nSomething like:\n```\nfirstParent \u003d NB...\nif (no parent) {\n  return CommitDataImpl(..., NO_PARENTS, ...)\n}\n\nsecondParent \u003d NB...\nif (no second parent) {\n  return CommitDataImpl(..., [firstParent]. ...)\n}\n\nif (secondParent is regular edge) {\n  return CDImpl(.., [firstParent, secondParent], ...)\n}\n\nif (secondParent is needs_extra_edged {\n  ...\n}\n...",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7bbbf6b_54c44395",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done.\nThe code looks much better.",
+      "parentUuid": "c79a0ffe_2ab143d0",
       "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -223,6 +403,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d55cb809_8021d1b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done.\nI passed parent1 to #findParents4OctopusMerge(), feel like this looks better.",
+      "parentUuid": "1eb089d6_27b0fc03",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f9fe9fe_bb534f92",
@@ -236,6 +434,24 @@
       "writtenOn": "2022-12-12T20:02:04Z",
       "side": 1,
       "message": "Does this mean that our graph has invalid offsets? if so, it should be an exception.",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6157477_6cfc9d3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f9fe9fe_bb534f92",
       "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -257,6 +473,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3577799_e9368fd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f91baa20_289aaa2c",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c416dec4_f90b4af3",
@@ -270,6 +504,24 @@
       "writtenOn": "2022-12-12T20:02:04Z",
       "side": 1,
       "message": "Extract this to a resize (expand?) function, so it is easier to read:\n\nif (count \u003e\u003d pList.length) {\n   parentList \u003d expand(pList);\n}",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe860a9c_037e5aac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done.\nI added a comment above it.",
+      "parentUuid": "c416dec4_f90b4af3",
       "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -297,6 +549,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d61ab67_bcc62e12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2094e841_0c59c714",
+      "range": {
+        "startLine": 144,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 15
+      },
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42fa563d_184a056f",
@@ -314,6 +590,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d252b6d_a17bcb50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42fa563d_184a056f",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "000b370c_76f31abe",
@@ -327,6 +621,24 @@
       "writtenOn": "2022-12-12T20:02:04Z",
       "side": 1,
       "message": "With the integer check, this array can now be int[] and cast in insertion (no need to the cast later ~line 77",
+      "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02cf9425_2faeb766",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "000b370c_76f31abe",
       "revId": "3d85c55a28de33bc7e1d5aa81457e050d3a9825f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

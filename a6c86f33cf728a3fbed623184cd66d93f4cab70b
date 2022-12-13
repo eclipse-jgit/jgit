@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1be6d6a0_7f6b9693",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-13T07:15:13Z",
+      "side": 1,
+      "message": "Thanks!\nBased on your suggestions, the code of GraphCommitData looks a lot easier to understand.\n\nRegards,\nKyle",
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
