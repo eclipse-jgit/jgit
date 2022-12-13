@@ -198,6 +198,24 @@
       "parentUuid": "29986624_3659644d",
       "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef73e9f6_101276d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-13T18:01:05Z",
+      "side": 1,
+      "message": "Now I think I understand this better. Indeed, when opening the graph, JGit code can check if it is single or multiple file.\n\nIf single file, as it does now, pass the stream to the reader, get an instance of CommitGraphV1 \n\nIf multiple file, calculate the list of streams to load, treat each as a single file and put them all in a \"CommitGraphStackV1\" class that is a CommitGraph. Internally that class keeps the stack and when asked for graph positions it chooses the right graph.\n\nOn the writing side, we need to add the parents hashes and the previous count of commits (IIUC all parent positions in the file will be previousCount + internalPosition)\n\nThis is pretty independent work that can be done later. I think this patch sets the right foundation for it!",
+      "parentUuid": "e6031d80_46d82835",
+      "revId": "6c03dc613f1ae3d5e56b0aa3853fdf4b59c47e13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
