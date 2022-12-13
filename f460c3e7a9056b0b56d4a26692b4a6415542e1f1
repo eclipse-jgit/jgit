@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9711ae3c_895c887a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-13T21:49:41Z",
+      "side": 1,
+      "message": "Optional: make it private and change to public when really needed. Somebody could inherit this class, @Override the method and then we would break that code.\n\nMaking it optional as this is an .internal class.",
+      "parentUuid": "6444a2ab_a58fafde",
+      "range": {
+        "startLine": 894,
+        "startChar": 1,
+        "endLine": 894,
+        "endChar": 7
+      },
+      "revId": "f460c3e7a9056b0b56d4a26692b4a6415542e1f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c1fdc2c_848ef9d2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 27
