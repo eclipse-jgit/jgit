@@ -150,6 +150,24 @@
       "parentUuid": "89ff8773_ce578eb9",
       "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "246db115_d8c23baf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-13T15:20:10Z",
+      "side": 1,
+      "message": "I disagree, RefDirectory#getPackedRefs calls FileSnapshot#isModified which checks\n- if the file\u0027s size changed\n- if the file\u0027s FileKey changed (inode on Unix)\n- if the file\u0027s lastModified changed\n\nsee https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/stable-6.1/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java#315",
+      "parentUuid": "dc24ef88_f33f89d9",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
