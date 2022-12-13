@@ -103,7 +103,8 @@ public class CommitGraphWriter {
 			writeChunks(monitor, out, chunks);
 			writeCheckSum(out);
 		} catch (InterruptedIOException e) {
-			throw new IOException(JGitText.get().commitGraphWritingCancelled);
+			throw new IOException(JGitText.get().commitGraphWritingCancelled,
+					e);
 		} finally {
 			monitor.endTask();
 		}
