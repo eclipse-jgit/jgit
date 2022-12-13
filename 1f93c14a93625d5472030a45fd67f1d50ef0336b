@@ -204,6 +204,24 @@
       "parentUuid": "5831610b_bda560e2",
       "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eabbe7ef_a0fa8561",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2022-12-13T22:40:26Z",
+      "side": 1,
+      "message": "I do think `trustPackedRefsFileAttributes` is more accurate, but I understand why  `trustPackedRefsStat` might be better for consistency, so either sounds good to me.",
+      "parentUuid": "90b1ebec_0c9afa8d",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
