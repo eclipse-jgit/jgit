@@ -168,6 +168,24 @@
       "parentUuid": "dc24ef88_f33f89d9",
       "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5831610b_bda560e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-13T18:58:51Z",
+      "side": 1,
+      "message": "\u003e I disagree, RefDirectory#getPackedRefs calls FileSnapshot#isModified which checks\n\u003e - if the file\u0027s size changed\n\u003e - if the file\u0027s FileKey changed (inode on Unix)\n\u003e - if the file\u0027s lastModified changed\n\u003e \n\u003e see https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/stable-6.1/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java#315\n\nOh, I\u0027m sorry, you\u0027re of course correct. Somehow between reading that code in the past and reviewing this change I lost track in my head of what all was being checked. Given that, `trustPackedRefsStat` would be fine with me, but maybe `trustPackedRefsFileAttributes` would be slightly better? @Kaushik/@Martin do you have any concerns with either?",
+      "parentUuid": "246db115_d8c23baf",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
