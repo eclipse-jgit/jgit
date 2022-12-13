@@ -124,6 +124,24 @@
       "parentUuid": "6664c16e_57333e95",
       "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d5d8673_6783a90c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-13T22:50:03Z",
+      "side": 1,
+      "message": "\u003e https://git.eclipse.org/r/c/jgit/jgit/+/197526 is proposed as a simpler\n\u003e alternative that we have tested and have performance numbers for. With that\n\u003e change we could reasonably set trustFolderStat\u003dfalse in our environments. PTAL.\n\n... and set trustPackedRefsModificationTime\u003dtrue\n\n+1",
+      "parentUuid": "d51c7200_75b3ca91",
+      "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
