@@ -75,6 +75,7 @@ public class DfsGarbageCollector {
 	private PackConfig packConfig;
 	private ReftableConfig reftableConfig;
 	private boolean convertToReftable = true;
+	private boolean commitGraphEnable = false;
 	private boolean includeDeletes;
 	private long reftableInitialMinUpdateIndex = 1;
 	private long reftableInitialMaxUpdateIndex = 1;
@@ -275,6 +276,11 @@ public class DfsGarbageCollector {
 	 */
 	public DfsGarbageCollector setGarbageTtl(long ttl, TimeUnit unit) {
 		garbageTtlMillis = unit.toMillis(ttl);
+		return this;
+	}
+
+	public DfsGarbageCollector setCommitGraphEnable(boolean enable) {
+		commitGraphEnable = enable;
 		return this;
 	}
 
@@ -642,6 +648,10 @@ public class DfsGarbageCollector {
 			writeReftable(pack);
 		}
 
+		if (source == GC || source == GC_REST) {
+			writeCommitGraph(pack);
+		}
+
 		try (DfsOutputStream out = objdb.writeFile(pack, PACK)) {
 			pw.writePack(pm, pm, out);
 			pack.addFileExt(PACK);
@@ -722,6 +732,12 @@ public class DfsGarbageCollector {
 					.sortAndWriteRefs(refs).finish();
 			pack.addFileExt(REFTABLE);
 			pack.setReftableStats(writer.getStats());
+		}
+	}
+
+	private void writeCommitGraph(DfsPackDescription pack) throws IOException {
+		if (commitGraphEnable) {
+			// TODO write commit graph for GC
 		}
 	}
 }
