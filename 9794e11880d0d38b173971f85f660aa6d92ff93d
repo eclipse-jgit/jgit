@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c4d25d4_c42762c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-13T22:30:39Z",
+      "side": 1,
+      "message": "I think it is know a section, but a key (it doesn\u0027t have subkeys).",
+      "range": {
+        "startLine": 901,
+        "startChar": 28,
+        "endLine": 901,
+        "endChar": 55
+      },
+      "revId": "9794e11880d0d38b173971f85f660aa6d92ff93d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
