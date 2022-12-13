@@ -16,6 +16,92 @@
       "message": "Thanks!\nBased on your suggestions, the code of GraphCommitData looks a lot easier to understand.\n\nRegards,\nKyle",
       "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b088090f_cf57ce1a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilderTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-12-13T15:52:12Z",
+      "side": 1,
+      "message": "Add a test that successfully builds a CommitGraph.",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aee5243e_1eacb721",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoaderTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-12-13T15:52:12Z",
+      "side": 1,
+      "message": "Write test cases that trigger the exceptions in CommitGraphLoader.",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "615ca5fc_ca6ed18b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-12-13T15:52:12Z",
+      "side": 1,
+      "message": "NIT: Rename to writeAndReadCommitGraph",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 22
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aca65936_bdd4a6b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-12-13T15:52:12Z",
+      "side": 1,
+      "message": "We should switch to two-dimensional arrays for both oidLookup and commitData.\n\nThe dimensions for the arrays should be the same as specified by the spec (found here: https://git-scm.com/docs/gitformat-commit-graph#_chunk_data)\n\nbyte[N][H] oidLookup; \nbyte[N][H+16] commitData; \n//N :\u003d Number of commits, H :\u003d Bytes for commit OIDs (20 bytes for SHA-1)\n\nAccording to the spec around 1.8 billion commits can be stored in the commit-graph implementation of c-git. \n\nIn the current implementation (with one-dimensional byte arrays) the bottleneck is commitData. With SHA-1 every commit needs 36 bytes. Since the maximum number of elements in a java array is Integer.MAX_VALUE-8, we can only read around 60 million commits ( 2147483639 / 36). If we keep the one dimensional arrays this implementation can only read ~3% of the commits compared to the c-git implementation.\n\nUnfortunately a change here also requires changes in CommitGraphData, GraphObjectIndex and CommitGraphLoader.\n\nThe number of commits is further reduced when SHA-256 is used (since SHA-256 commitOIDs use 32 bytes instead of 20).",
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
