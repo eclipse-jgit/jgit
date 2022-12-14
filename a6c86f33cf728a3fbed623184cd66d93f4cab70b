@@ -295,6 +295,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7146051a_b30b88a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T11:05:14Z",
+      "side": 1,
+      "message": "\u003e If we really want to support 1.8 billion commits we probably have to give up on reading the whole graph into memory.\n\nI couldn\u0027t agree more. In fact, this problem also exists in JGit\u0027s PackIndex.\nWe always need to read the entire index into memory. Fortunately, JGit is a background process as a server, so this impact becomes smaller.",
+      "parentUuid": "d2036c40_354c8326",
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99d378ad_bc7d36a7",
