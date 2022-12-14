@@ -84,6 +84,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92d88ae8_b9f53c3a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilderTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-12-14T09:56:41Z",
+      "side": 1,
+      "message": "I still believe that a test method that verifies the correct behavior is advantageous because it makes later refactoring easier.",
+      "parentUuid": "87ce2272_b25764a3",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aee5243e_1eacb721",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoaderTest.java",
         "patchSetId": 36
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "We could add some test passing raw byte[] { commit-graph header } and byte[] { random bytes}.\n\nOverall, I am reasonably convinced that we generate valid commit-graphs and we are able to read them. We can always tighten the testing in following CLs (patches welcome!).",
       "parentUuid": "aee5243e_1eacb721",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77c8c025_ae1b64cc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoaderTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-12-14T09:56:41Z",
+      "side": 1,
+      "message": "We should at least test how the CommitGraphLoader reacts when it reads a commit-graph with unknown chunks (since the current implementation of c-git writes chunks that this java implementation does not understand).",
+      "parentUuid": "5d07a40f_c71475f9",
       "range": {
         "startLine": 25,
         "startChar": 13,
@@ -225,6 +273,24 @@
       "side": 1,
       "message": "Thanks!\n\nIt\u0027s a known issue, refer to [1].\n\nCgit uses mmap, so there is no such problem as JGit.\n\nAs an active open source repository that has been developed for nearly 30 years, Linux has less than 2 million commits. I\u0027m wondering if it\u0027s \"over-design\" for JGit if it\u0027s done like this from the beginning. \n\nbyte[N][H] oidLookup; \nbyte[N][H+16] commitData; \n\nSuch a structure makes us need at least one more search each time we look up.\n\nOf course, this does not mean that we will never consider the limitation of commit-graph reading, we can scale it in the future.\n\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/182892/comments/db8916ac_2f9e43a4",
       "parentUuid": "874c4438_7b0b2852",
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2036c40_354c8326",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2022-12-14T09:56:41Z",
+      "side": 1,
+      "message": "I am fine with keeping it as it is, because I think Kyle is right - 60 million commits is enough for now. \n\nI also realized that only loading the commit data from the commit-graph for 1.8 billion commits will consume ~62GiB of memory. Whereas the current implementation will \"only\" consume ~68MiB for the commit data of 60 million commits.\n\nIf we really want to support 1.8 billion commits we probably have to give up on reading the whole graph into memory.",
+      "parentUuid": "097a6260_88b8e598",
       "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
