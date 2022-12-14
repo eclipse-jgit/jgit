@@ -46,6 +46,30 @@
       },
       "revId": "9794e11880d0d38b173971f85f660aa6d92ff93d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4cbd5bf_466f06b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T05:38:11Z",
+      "side": 1,
+      "message": "That was my mistake. I was only following the specs of file and stack. Thanks!",
+      "parentUuid": "d8de19f2_6a149429",
+      "range": {
+        "startLine": 901,
+        "startChar": 28,
+        "endLine": 901,
+        "endChar": 55
+      },
+      "revId": "9794e11880d0d38b173971f85f660aa6d92ff93d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
