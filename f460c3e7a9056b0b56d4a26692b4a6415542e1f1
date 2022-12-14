@@ -89,6 +89,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bada5c2_53e9f858",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T03:14:05Z",
+      "side": 1,
+      "message": "Done.\n\nI have made it protect.",
+      "parentUuid": "9711ae3c_895c887a",
+      "range": {
+        "startLine": 894,
+        "startChar": 1,
+        "endLine": 894,
+        "endChar": 7
+      },
+      "revId": "f460c3e7a9056b0b56d4a26692b4a6415542e1f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c1fdc2c_848ef9d2",
