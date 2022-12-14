@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28cb5d6c_97cc09d2",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-14T20:10:39Z",
+      "side": 1,
+      "message": "Two things: 1) I realized we lost my original comment from PS3 about \"no new pack files\" not being accurate and 2) it\u0027d be better to align the \"file attributes changing\" wording with the next line. Maybe:\n\n ... and assumes that pack files are unchanged if no file attributes changed.\n\nBut I\u0027m a little worried that could be interpreted as referring to the file attributes of the pack files themselves, so maybe change a little more:\n\n ... if set to `true` it assumes that pack files are unchanged if the\n file attributes of the pack folder are unchanged.\n\nHow does that look?",
+      "range": {
+        "startLine": 48,
+        "startChar": 330,
+        "endLine": 48,
+        "endChar": 415
+      },
+      "revId": "68ba90f3a374e60975ad25b21b46d4e908c0f4e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3968fbf7_a8752d25",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-14T20:10:39Z",
+      "side": 1,
+      "message": "nit: Was this an intentional extra space added before \"Whether\"?",
+      "range": {
+        "startLine": 48,
+        "startChar": 47,
+        "endLine": 48,
+        "endChar": 48
+      },
+      "revId": "68ba90f3a374e60975ad25b21b46d4e908c0f4e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
