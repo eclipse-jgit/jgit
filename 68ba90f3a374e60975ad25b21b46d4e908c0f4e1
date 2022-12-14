@@ -45,6 +45,54 @@
       },
       "revId": "68ba90f3a374e60975ad25b21b46d4e908c0f4e1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6b24f1a_70e07bd3",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T20:28:29Z",
+      "side": 1,
+      "message": "Done. Looks good to me. It leaves less chance for mis-interpretation.",
+      "parentUuid": "28cb5d6c_97cc09d2",
+      "range": {
+        "startLine": 48,
+        "startChar": 330,
+        "endLine": 48,
+        "endChar": 415
+      },
+      "revId": "68ba90f3a374e60975ad25b21b46d4e908c0f4e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8843294_6442ec5c",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T20:28:29Z",
+      "side": 1,
+      "message": "Unintentional. Fixed now.",
+      "parentUuid": "3968fbf7_a8752d25",
+      "range": {
+        "startLine": 48,
+        "startChar": 47,
+        "endLine": 48,
+        "endChar": 48
+      },
+      "revId": "68ba90f3a374e60975ad25b21b46d4e908c0f4e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
