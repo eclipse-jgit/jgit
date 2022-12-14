@@ -99,6 +99,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc2491b9_b3efd2ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-14T19:41:52Z",
+      "side": 1,
+      "message": "thats right.\n\nL48 is just an initializer. s.firstParent is a boolean that says whether only first-parent links should be followed when walking. This operation doesn\u0027t insert into the pending queue.\n\nThe only place elements are added into pending queue is in #applyFilterToParents",
+      "parentUuid": "bc6ba03a_d357c8a5",
+      "revId": "37140fdc542b3539e99073685cb889072c8c7065",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a589f9c_06baa206",
@@ -116,6 +134,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eddb5d1_3c632629",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-14T19:41:52Z",
+      "side": 1,
+      "message": "Thats right.. Its not needed",
+      "parentUuid": "3a589f9c_06baa206",
+      "revId": "37140fdc542b3539e99073685cb889072c8c7065",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0e3c097_55b32ebf",
@@ -129,6 +165,24 @@
       "writtenOn": "2022-11-30T23:54:53Z",
       "side": 1,
       "message": "HashMap#getOrDefault? (not if you change to another map implementation)",
+      "revId": "37140fdc542b3539e99073685cb889072c8c7065",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d767109_a96baf61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-14T19:41:52Z",
+      "side": 1,
+      "message": "changed to another impl",
+      "parentUuid": "f0e3c097_55b32ebf",
       "revId": "37140fdc542b3539e99073685cb889072c8c7065",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -156,6 +210,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a42dc0b_b45e352e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-14T19:41:52Z",
+      "side": 1,
+      "message": "Done - renamed to asFilteredCommit",
+      "parentUuid": "35a92498_39a34ec6",
+      "range": {
+        "startLine": 177,
+        "startChar": 27,
+        "endLine": 177,
+        "endChar": 36
+      },
+      "revId": "37140fdc542b3539e99073685cb889072c8c7065",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "395b18da_a7e537a4",
@@ -169,6 +247,30 @@
       "writtenOn": "2022-11-30T23:54:53Z",
       "side": 1,
       "message": "Use HashMap.computeIfAbsent()\n\nhttps://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html#computeIfAbsent-K-java.util.function.Function-",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 35
+      },
+      "revId": "37140fdc542b3539e99073685cb889072c8c7065",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4adb84b_ebdce496",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-14T19:41:52Z",
+      "side": 1,
+      "message": "keeping if(contains) impl since there is no need to create FilteredRevCommit when not needed.",
+      "parentUuid": "395b18da_a7e537a4",
       "range": {
         "startLine": 186,
         "startChar": 0,

@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69ea1f47_d593da61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-14T19:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dbcba0c_802e34bf",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca6c1e58_61170a49",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-11-30T23:54:53Z",
       "side": 1,
       "message": "It seems you need this copy of the \"filtered\" commits, because those instances are created out of the revwalk, so the revwalk don\u0027t keep them in its objects cache and they are not reused during the walk. Is it so?\n\nIf so, what if a subclass of RevWalk (BlameRevWalk) would overwrite #createCommit() and produce FilteredRevCommit instances everywhere? Then we wouldn\u0027t need this second cache...",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f739b7a2_cf339a50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-14T19:41:52Z",
+      "side": 1,
+      "message": "FilteredRevCommit overrides parents which is some ancestor on the commit graph. So creating a commit in RevWalk is not going to be as simple as creating a FilteredRevCommit (without knowing its parent). \n\nThere might be some way but it would complicate this piece a lot (which is already very complex) so I will keep this as is.",
+      "parentUuid": "ca6c1e58_61170a49",
       "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
