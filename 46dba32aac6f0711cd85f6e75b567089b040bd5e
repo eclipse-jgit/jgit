@@ -16,6 +16,24 @@
       "message": "Please use the standard JGit formatter settings. With Eclipse, they\u0027re applied automatically, if you use some other IDE, its formatter can probably also be configured to use it. (I know that it\u0027s possible with IntelliJ.)",
       "revId": "46dba32aac6f0711cd85f6e75b567089b040bd5e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db0b5032_15444c8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T21:45:36Z",
+      "side": 1,
+      "message": "Hi Thomas, I\u0027m collecting the relevant formatting settings for IntelliJ and hope to share them with others eventually.\n\nWhich formatting rule do you see missing in this line?\n\nMy best guess, based on surrounding javadocs, is that you are referring to parameter descriptions wrapping onto the next line, like:\n\n* @param fd\n*      input stream to read the data from.\n\netc.",
+      "parentUuid": "16cf616f_00a70dea",
+      "revId": "46dba32aac6f0711cd85f6e75b567089b040bd5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
