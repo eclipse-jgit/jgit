@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33cd0bf9_15906dae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-14T00:04:45Z",
+      "side": 1,
+      "message": "to have same naming as other flags we should name it ~ writeCommitGraph or so",
+      "range": {
+        "startLine": 78,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "9066bd1a41971a20a95b18c233559778eb47f778",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8e906a7_964d126c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-14T00:04:45Z",
+      "side": 1,
+      "message": "This will write 2 commit graphs in both GC and GC_REST. We need only one :-)\n\nAlso I\u0027d move it out of this function because structurally it belongs to upper level. As an example you won\u0027t write any commit graph if packHeads will go to \"reftable only\" mode, but you should. Writing it separately will also help to keep memory usage relatively low. Cons: it will require us to create a new PackSource which is fine I assume.",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 653,
+        "endChar": 3
+      },
+      "revId": "9066bd1a41971a20a95b18c233559778eb47f778",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ecfa587_1a0b04af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-14T00:04:45Z",
+      "side": 1,
+      "message": "I\u0027d move \"if\" outside the method.",
+      "range": {
+        "startLine": 739,
+        "startChar": 0,
+        "endLine": 739,
+        "endChar": 26
+      },
+      "revId": "9066bd1a41971a20a95b18c233559778eb47f778",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
