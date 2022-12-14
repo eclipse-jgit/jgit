@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49022f98_5f4599ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T06:40:22Z",
+      "side": 1,
+      "message": "Thanks for this change, FileCommitGraph is the hard part. Does it really need to autorefresh? That adds a bunch of complexity.",
+      "revId": "e53458add9412148f2932abccd522e6836185852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35070498_30808cd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T06:40:22Z",
+      "side": 1,
+      "message": "This class (specially if it has the reload functionality) should have a unit test.",
+      "revId": "e53458add9412148f2932abccd522e6836185852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03dcd118_7b223dc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T06:40:22Z",
+      "side": 1,
+      "message": "Probably this class could hold also the \"File\" and have an isModified() and reread() method doing the reparsing if needed?",
+      "revId": "e53458add9412148f2932abccd522e6836185852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d36b0ec_c5839fa0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T06:40:22Z",
+      "side": 1,
+      "message": "IIUC this is holding a reference to the commit graph, and on each #get() checks if there is something more recent in disk and reloads if necessary.\n\nIs this complexity necessary? I understood that the non-DFS side uses short-lived instances of the repositories, so loading the graph once should be enough. Also using an older commit file is not dramatic, it would just miss some recent commits... \n\nIf this refreshing is needed, please explain in the javadoc.",
+      "revId": "a3503ebe7fd84c21aec5b18ccfeb90dca7b27852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d08c3b5_91016c0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T06:40:22Z",
+      "side": 1,
+      "message": "I don\u0027t understand the purpose of this class. It seems to act as an Optional\u003cGraphFile\u003e to account for an empty GraphFile (?)... or is it to lock the loading?\n\nIIUC FileCommitGraph acts like an \"AutoRefreshedFileCommitGraph\". \n\nI am not very fluent in the concurrency patterns, but would be enough to have:\n1. a GraphFile with #exists(), #isModified() and #reload() methods (no synchronization)\n2. (AutoRefreshed)FileCommitGraph #get() that does the synchronized invocation to GraphFile#reload when needed. If !GraphFile#exists() it returns null and there is no need of a fake NO_COMMIT_GRAPH?",
+      "revId": "a3503ebe7fd84c21aec5b18ccfeb90dca7b27852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
