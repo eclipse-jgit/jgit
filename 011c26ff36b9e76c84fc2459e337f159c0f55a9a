@@ -33,6 +33,24 @@
       "message": "@Matthias @Saša is there a bug raised against this? How was the leak visible at higher level? ",
       "revId": "011c26ff36b9e76c84fc2459e337f159c0f55a9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfb68420_d1c01a3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-14T23:25:28Z",
+      "side": 1,
+      "message": "We only have an internal ticket for this problem.\n\nWe hit this with an internal Gerrit fork where we use Apache httpclient with PoolingHttpClientConnectionManager in the replication plugin. The replication stopped while the tmp filesystem ran full.\n\nWe first worked around by configuring java.io.tmpdir to a folder on a larger volume.\n\nThen we found this is caused by leaking HTTP connections and the HTTP connection pool ran out of connections due to this leak. Closing the input and output streams fixed the problem. Not sure why this filled the tmp volume.",
+      "parentUuid": "7850fe07_4d2e03b2",
+      "revId": "011c26ff36b9e76c84fc2459e337f159c0f55a9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
