@@ -159,6 +159,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ea8dff7_d7d8b55c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T18:26:10Z",
+      "side": 1,
+      "message": "Oops, I forgot to address this since it was marked resolved! I just added another small patchset that takes the orphan/parent/child naming and makes it consistent throughout the function.\n\nIf this still isn\u0027t looking good, we could consider another commit that changes the \"orphan\" phrasing in the method name, test names, etc.\n\nPlease re-open or re-comment with any further thoughts!",
+      "parentUuid": "b64f1283_668811a4",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf2a3389_46ed5f3c",
