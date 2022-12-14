@@ -86,6 +86,24 @@
       "parentUuid": "ca6c1e58_61170a49",
       "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02bca844_54bc40f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-14T22:09:08Z",
+      "side": 1,
+      "message": "Couple cents from me.\nRelation between RevCommit and FilteredRevCommit is one to many; we can have different FilteredRevCommits based on different filters. So another RevWalk don\u0027t fit there.",
+      "parentUuid": "f739b7a2_cf339a50",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "357e1f7a_e0925cdf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-14T22:09:08Z",
+      "side": 1,
+      "message": "please use assertThat(..., instanceOf())\n(from java/org/hamcrest/Matchers)",
+      "range": {
+        "startLine": 449,
+        "startChar": 0,
+        "endLine": 449,
+        "endChar": 45
+      },
+      "revId": "9286038cf665d5b725e74bc8ef33a0c6e11e56f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3fb2c75_0616f4a7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-14T22:09:08Z",
+      "side": 1,
+      "message": "What is the motivation behind this change?\nassertCommit triggers assertSame which is basically equals by reference (aka \u003d\u003d)\nassertEquals thiggers comparison using equals method, which will return true in very surprising cases, e.g. commit can be equal to the mutable ID if currently ID match.",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 14
+      },
+      "revId": "9286038cf665d5b725e74bc8ef33a0c6e11e56f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a358e63_5036d7b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-14T22:09:08Z",
+      "side": 1,
+      "message": "please remove commented parts",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 71
+      },
+      "revId": "9286038cf665d5b725e74bc8ef33a0c6e11e56f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
