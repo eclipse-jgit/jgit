@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf1f0c55_27f92504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T19:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d758384_12be3f46",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "53ef34ec89e664246e26ae17636d0ed6e140844d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c990510f_33803bad",
@@ -131,6 +155,54 @@
       "writtenOn": "2022-12-14T17:38:29Z",
       "side": 1,
       "message": "\u003e Whether to trust the pack folder\u0027s and packed-refs file\u0027s file attributes (Java equivalent of stat command on *nix). When looking for new pack files, if `false` JGit will always scan the `.git/objects/pack` folder and if set to `true` it uses the file attributes of the pack folder and assumes that no new pack files can be in this folder if file attributes didn\u0027t change. When getting the list of packed refs, if `false` JGit will always read the packed-refs file and if set to `true` it uses the file attributes of the packed-refs file and will only read it if a file attribute has changed. Setting this option to `false` can help to workaround caching issues on NFS, but reduces performance.\n\nLGTM",
+      "parentUuid": "9d18eb74_c64f8a50",
+      "range": {
+        "startLine": 48,
+        "startChar": 355,
+        "endLine": 48,
+        "endChar": 395
+      },
+      "revId": "53ef34ec89e664246e26ae17636d0ed6e140844d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "844a8514_81578d95",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T19:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c990510f_33803bad",
+      "range": {
+        "startLine": 48,
+        "startChar": 141,
+        "endLine": 48,
+        "endChar": 144
+      },
+      "revId": "53ef34ec89e664246e26ae17636d0ed6e140844d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d08f39_c46aa667",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T19:43:59Z",
+      "side": 1,
+      "message": "Done.\n\nThanks Matthias for the suggestion.",
       "parentUuid": "9d18eb74_c64f8a50",
       "range": {
         "startLine": 48,
