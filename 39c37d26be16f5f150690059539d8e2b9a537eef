@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "025b2816_392e4dd2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T00:02:11Z",
+      "side": 1,
+      "message": "It was previously merged in https://git.eclipse.org/r/c/jgit/jgit/+/196888",
+      "parentUuid": "1ac5b9b4_d2f39fb3",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfcecc48_60b5b461",
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16252fb3_44c402ca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T00:02:11Z",
+      "side": 1,
+      "message": "I\u0027ll add one named `noPacks_allIndexesDeleted`, let me know if that\u0027s what you were thinking of.",
+      "parentUuid": "dfcecc48_60b5b461",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cde322fd_d29c7af1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 3
@@ -65,6 +101,24 @@
       "writtenOn": "2022-12-09T18:15:03Z",
       "side": 1,
       "message": "Maybe we could use the \"sidecar\" and \"main\" naming convention to make this clearer, so orphan is a sidecar without a main file.\n\nThese would be \"sidecarFiles\", and the set blow \"knownMainFiles\".",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f434073_f55f80cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T00:02:11Z",
+      "side": 1,
+      "message": "IMO, introducing another real-world reference (main/sidecar as well as parent/orphan) would make this more confusing. \n\nAssuming that we keep the function name as `deleteOrphans()`, is there some terminology that you like that stays within the existing reference, or uses the actual terms (packs/indexes)?\n\nHow about any of:\n`potentialOrphanFiles` --\u003e `childFiles`\n`potentialOrphanFiles` --\u003e `indexFiles`\n`seenPackFileIds` --\u003e `knownPackFileIds`\n`seenPackFileIds` --\u003e `presentPackFileIds`\n`seenPackFileIds` --\u003e `seenParentFileIds`\n?",
+      "parentUuid": "cde322fd_d29c7af1",
       "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -94,6 +148,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "643f24ad_ff4e5312",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T00:02:11Z",
+      "side": 1,
+      "message": "What is `this` is `.map(this::asPackFile)`? \n\nThe `name` that the current `map` is acting on is simply a `String`, not a `PackFile`, so it can\u0027t be that.\n\n\nWhile re-examining this, I noticed that the two `map` clauses can be combined: we can simply make a `PackFile` from the full `Path`, rather than splitting the directory and filename portion before making the `PackFile`. I\u0027ll upload this simplification for now.",
+      "parentUuid": "bf2a3389_46ed5f3c",
+      "range": {
+        "startLine": 949,
+        "startChar": 19,
+        "endLine": 954,
+        "endChar": 8
+      },
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a5b1d57_a37a8bc8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 3
@@ -105,6 +183,30 @@
       "writtenOn": "2022-12-09T18:15:03Z",
       "side": 1,
       "message": "We can shorten this lambda function and make it clearer moving this check to its own filter step:\n.filter(p -\u003e packFile.getPackExt() !\u003d null)",
+      "range": {
+        "startLine": 958,
+        "startChar": 6,
+        "endLine": 961,
+        "endChar": 7
+      },
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deffdfef_952837be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T00:02:11Z",
+      "side": 1,
+      "message": "I realized that I meant to share the `ext` variable throughout this `filter` clause, which IMO clarifies the logic by grouping the examination of the `PackExt`.\n\nI\u0027ll update to share that variable, and lmk if you think it still looks better in two steps.",
+      "parentUuid": "1a5b1d57_a37a8bc8",
       "range": {
         "startLine": 958,
         "startChar": 6,
