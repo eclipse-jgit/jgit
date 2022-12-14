@@ -16,6 +16,24 @@
       "message": "You can shorten this commit message to:\n\n PackReverseIndex#findPostion: fix typo in method name",
       "revId": "2552c5798f13f6db2d36cd6567fd10589d6ee8eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc3e9553_5c114beb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T21:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24a33e51_acaff3df",
+      "revId": "2552c5798f13f6db2d36cd6567fd10589d6ee8eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
