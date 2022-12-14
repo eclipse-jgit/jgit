@@ -230,6 +230,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f6de6b_b3753656",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T18:02:06Z",
+      "side": 1,
+      "message": "Thanks for clarifying! I\u0027ll go with a static one, since the logic is not specific to properties of the `GC` class.",
+      "parentUuid": "76c484eb_1a33ac2c",
+      "range": {
+        "startLine": 949,
+        "startChar": 19,
+        "endLine": 954,
+        "endChar": 8
+      },
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a5b1d57_a37a8bc8",
@@ -291,6 +315,30 @@
       "side": 1,
       "message": "I still think is better in two steps because it makes obvious that the packs without extension are ignored.\n\nThe filter handling the extension is already asymetrical: either they go to \"seen\" and filtered out, or continue in the stream. The extra case of \"simply ignore\" requires a more careful reading.",
       "parentUuid": "deffdfef_952837be",
+      "range": {
+        "startLine": 958,
+        "startChar": 6,
+        "endLine": 961,
+        "endChar": 7
+      },
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb63a4a1_0843d9df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T18:02:06Z",
+      "side": 1,
+      "message": "Sounds good, I\u0027ll split it out! I actually thinks it fits nicely into the small separated logic method that you recommended above.",
+      "parentUuid": "6877c9a4_b37b1202",
       "range": {
         "startLine": 958,
         "startChar": 6,

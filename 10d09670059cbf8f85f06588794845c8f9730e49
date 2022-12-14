@@ -33,6 +33,24 @@
       "message": "Couple styling nits. Please double check the formatting, those two .filter() in the same line looked a bit weird (but maybe the formatter prefers that)",
       "revId": "10d09670059cbf8f85f06588794845c8f9730e49",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48950987_f6f65ad4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T18:02:06Z",
+      "side": 1,
+      "message": "I forced reformat on the chained block, lmk if it still doesn\u0027t look right.",
+      "parentUuid": "5eda076d_66e72c36",
+      "revId": "10d09670059cbf8f85f06588794845c8f9730e49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
