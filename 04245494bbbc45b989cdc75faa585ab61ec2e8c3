@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c81b2593_4b0d9cfe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T10:58:34Z",
+      "side": 1,
+      "message": "Oh! Thanks for your fix!\nBecause I usually use maven to build JGit, I didn\u0027t find this problem.\nIt looks better with this change.\n\nRegards,\nKyle",
+      "revId": "04245494bbbc45b989cdc75faa585ab61ec2e8c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
