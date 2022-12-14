@@ -51,6 +51,24 @@
       "parentUuid": "7850fe07_4d2e03b2",
       "revId": "011c26ff36b9e76c84fc2459e337f159c0f55a9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ff0e04c_2ea6787c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-14T23:56:08Z",
+      "side": 1,
+      "message": "Thanks for the feedback, I thought it would have been somehow related to the replication process, because it\u0027s on JGit client-side.",
+      "parentUuid": "bfb68420_d1c01a3f",
+      "revId": "011c26ff36b9e76c84fc2459e337f159c0f55a9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
