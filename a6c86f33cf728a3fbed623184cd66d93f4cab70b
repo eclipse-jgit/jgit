@@ -152,6 +152,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9946fa3a_e705a582",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T03:12:21Z",
+      "side": 1,
+      "message": "Great eyes! \nDone.",
+      "parentUuid": "615ca5fc_ca6ed18b",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 22
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aca65936_bdd4a6b9",
@@ -189,6 +213,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "097a6260_88b8e598",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T03:12:21Z",
+      "side": 1,
+      "message": "Thanks!\n\nIt\u0027s a known issue, refer to [1].\n\nCgit uses mmap, so there is no such problem as JGit.\n\nAs an active open source repository that has been developed for nearly 30 years, Linux has less than 2 million commits. I\u0027m wondering if it\u0027s \"over-design\" for JGit if it\u0027s done like this from the beginning. \n\nbyte[N][H] oidLookup; \nbyte[N][H+16] commitData; \n\nSuch a structure makes us need at least one more search each time we look up.\n\nOf course, this does not mean that we will never consider the limitation of commit-graph reading, we can scale it in the future.\n\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/182892/comments/db8916ac_2f9e43a4",
+      "parentUuid": "874c4438_7b0b2852",
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99d378ad_bc7d36a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
         "patchSetId": 36
@@ -200,6 +242,30 @@
       "writtenOn": "2022-12-13T18:01:05Z",
       "side": 1,
       "message": "We don\u0027t use the \"4\" convention in naming, \"findParentsForOctopusMerge\" or \"findAllParents\" would work.",
+      "range": {
+        "startLine": 106,
+        "startChar": 15,
+        "endLine": 106,
+        "endChar": 39
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3075f209_1fb8a754",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T03:12:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99d378ad_bc7d36a7",
       "range": {
         "startLine": 106,
         "startChar": 15,
@@ -233,6 +299,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a361ef74_59599106",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T03:12:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62399874_79cee401",
+      "range": {
+        "startLine": 123,
+        "startChar": 39,
+        "endLine": 123,
+        "endChar": 44
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "305b0358_fad689a6",
@@ -246,6 +336,24 @@
       "writtenOn": "2022-12-13T18:01:05Z",
       "side": 1,
       "message": "I think here you can just do \nreturn Arrays.copyOf(pList, count);",
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1c87d6c_0027e126",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T03:12:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "305b0358_fad689a6",
       "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
