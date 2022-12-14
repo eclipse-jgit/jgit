@@ -22,6 +22,30 @@
       },
       "revId": "9794e11880d0d38b173971f85f660aa6d92ff93d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8de19f2_6a149429",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T03:12:44Z",
+      "side": 1,
+      "message": "In Cgit, it is both a section and a key and only in core.commitgraph it acts as a key, see blow:\n\n\u003e commitGraph.generationVersion\n\u003e   Specifies the type of generation number version to use when writing or reading \u003e the commit-graph file. If version 1 is specified, then the corrected commit dates will not be written or read. Defaults to 2.\n\u003e \n\u003e commitGraph.maxNewFilters\n\u003e   Specifies the default value for the --max-new-filters option of git commit-graph write (c.f., git-commit-graph[1]).\n\u003e \n\u003e commitGraph.readChangedPaths\n\u003e   If true, then git will use the changed-path Bloom filters in the commit-graph file (if it exists, and they are present). Defaults to true. See git-commit-graph[1] for more information.\n\nI was thinking using two constants for the same string is confusing, so just made it a section.\n\nChanging CONFIG_COMMIT_GRAPH_SECTION to CONFIG_COMMIT_GRAPH would be better.\n\nDone.",
+      "parentUuid": "1c4d25d4_c42762c1",
+      "range": {
+        "startLine": 901,
+        "startChar": 28,
+        "endLine": 901,
+        "endChar": 55
+      },
+      "revId": "9794e11880d0d38b173971f85f660aa6d92ff93d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
