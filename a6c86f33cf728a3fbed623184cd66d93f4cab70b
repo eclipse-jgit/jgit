@@ -179,6 +179,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57508442_113e62f6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoaderTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T11:25:07Z",
+      "side": 1,
+      "message": "\u003e We should at least test how the CommitGraphLoader reacts when it reads a commit-graph with unknown chunks (since the current implementation of c-git writes chunks that this java implementation does not understand).\n\nMay be we can add such a commit-graph file to\ntst-rsrc/org/eclipse/jgit/test/resources, and then test it in CommitGraphLoaderTest like #readCommitGraphV1() in the next patch.",
+      "parentUuid": "77c8c025_ae1b64cc",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "a6c86f33cf728a3fbed623184cd66d93f4cab70b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "615ca5fc_ca6ed18b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
         "patchSetId": 36
