@@ -306,6 +306,24 @@
       "parentUuid": "eabbe7ef_a0fa8561",
       "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa01f1a9_bd2306a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-14T19:58:54Z",
+      "side": 1,
+      "message": "ok, then I propose we use `trustPackedRefsStat` which is consistent to `trustFolderStat`",
+      "parentUuid": "eabbe7ef_a0fa8561",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
