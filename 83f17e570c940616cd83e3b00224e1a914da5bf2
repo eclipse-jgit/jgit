@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a9d1386_7bad2ab9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T21:14:59Z",
+      "side": 1,
+      "message": "Thanks for bringing this up! I did some runtime performance investigation. \n\nGerrit does not support table formatting in comments, but here is the millisecond averages from 5 runs of the `gc` command on a real repository (the cgit one) with 329,847 objects counted.\n\n* All units are milliseconds\tallHeadsAndTags makeSortedByName\tallHeadsAndTags getSortedByName with initialization\tallHeadsAndTags makeSortedByName for bitmap\tnonHeads makeSortedByName\tnonHeads getSortedByName with initialization\tGC#repack writePack calls\n* Lists.copyOf\t130\t143\t77\t1\t1\t12614\n* Collections.unmodifiableList\t130\t130\t78\t1\t1\t12471\n* Use and clear (baseline)\t141\t142\t-\t2\t2\t12695\n\nThe investigation revealed that the `List.copyOf` takes about ~13 milliseconds right after creating the sorted list (143ms including 130ms). However, the variability in runs means that the baseline implementation came out as 142ms, which is only 1ms different.\n\nEspecially when you zoom out to the level of Gc#repack making three writePack calls among much other work, each initialization of sortedByName is pretty negligible for this example repository.\n\nWhen looking into this, I remembered `Collections.unmodifiableList`, which just wraps the given list, without having to copy the contents. This has \u003c1ms of overhead for both a longer list (allHeadsAndTags) and a short list (nonHeads). I updated the implementation to use this approach, since it also provides the protection against future buggy side-effect usages with a tiny constant time overhead. \n\nOf course, we’re still incurring a ~78 millisecond overhead later, when writeBitmap creates its own modifiable sorted list using makeSortedByName. However, this avoids the implicit reliance on writeBitmaps being the last method called on PackWriter that uses the sortedByName instance field. If someone later introduces a method that gets called later, or calls the existing methods in a different order, they will unknowingly need sortedByName to be re-initialized. Thus losing the negligible optimization of the existing implementation in a way that is hard to catch in code review.\n\nIMO, the negligible (in the context of Gc#repack) overhead for the `Collections.unmodifiableList` approach is worthwhile for the couple of qualitative improvements I’ve brought up.\n\nPlease let me know any other investigation that you recommend, and what your thoughts are. Thank you again!",
+      "parentUuid": "a36c079c_0949d92e",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "83f17e570c940616cd83e3b00224e1a914da5bf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08bf7508_7370b89a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2022-12-09T23:20:13Z",
       "side": 1,
       "message": "- this is too wide, we use a max line width of 80\n- while you are at this remove the final qualifier, see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "revId": "83f17e570c940616cd83e3b00224e1a914da5bf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96b5e65a_413f74a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-14T21:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08bf7508_7370b89a",
       "revId": "83f17e570c940616cd83e3b00224e1a914da5bf2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
