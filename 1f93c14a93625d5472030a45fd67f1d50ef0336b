@@ -324,6 +324,24 @@
       "parentUuid": "eabbe7ef_a0fa8561",
       "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46430d6b_d5dd85d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-14T20:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa01f1a9_bd2306a4",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
