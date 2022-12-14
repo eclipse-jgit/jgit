@@ -100,6 +100,54 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "074631e1_b5f293d4",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T19:51:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3238aaa9_84f80800",
+      "range": {
+        "startLine": 49,
+        "startChar": 268,
+        "endLine": 49,
+        "endChar": 287
+      },
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "359d25da_1555e238",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T19:51:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23e575e3_922a5525",
+      "range": {
+        "startLine": 49,
+        "startChar": 621,
+        "endLine": 49,
+        "endChar": 692
+      },
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e458a459_4ebfcbbf",
@@ -113,6 +161,24 @@
       "writtenOn": "2022-12-12T17:59:26Z",
       "side": 1,
       "message": "This is challenging to read and understand correctly, and all the boilerplate above distracts from the intent of this method. Maybe a small private method like `boolean trustPackedRefsModTime()` would help with breaking up the complexity? It would have to do the open/close too, which I\u0027m not sure I like moving out of this method, so maybe there\u0027s a better approach that keeps the code here.\n\nTo improve the code here, I think it would help (and also potentially be more correct) if you matched the behavior from the docs in the logic? Maybe using a switch statement on `trustPackedRefsModTime` would help do that?\n\n switch (trustPackedRefsModTime) {\n   case TrustPackedRefsModificationTime.NEVER:\n     break;\n   case TrustPackedRefsModificationTime.AFTER_OPEN:\n     try (InputStream stream \u003d Files.newInputStream(packedRefsFile.toPath())) {};\n     // allowed to fall through\n   case TrustPackedRefsModificationTime.ALWAYS:\n     if (!curList.snapshot.isModified(packedRefsFile)) {\n       return curList;\n     }\n     break;\n   case TrustPackedRefsModificationTime.UNSET: // allowed to fall through\n   default:\n     if (trustFolderStat \u0026\u0026 !curList.snapshot.isModified(packedRefsFile)) {\n       return curList;\n     }\n     break;\n }\n\nI was hoping that would have a way to keep `curList.snapshot.isModified()` de-duplicated, but I don\u0027t see one (without creating the helper method that does that switch but returns \u0027true\u0027 whenever we would run isModified()). I still think the better readability and still keeping the code all together is probably a net improvement.",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d50fb7f5_cce1fe0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T19:51:30Z",
+      "side": 1,
+      "message": "Done. Thanks. Your suggestion greatly improves the readability of the code. I have removed the \u0027default\u0027 case though as it is not needed.",
+      "parentUuid": "e458a459_4ebfcbbf",
       "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -220,6 +286,24 @@
       "side": 1,
       "message": "I do think `trustPackedRefsFileAttributes` is more accurate, but I understand why  `trustPackedRefsStat` might be better for consistency, so either sounds good to me.",
       "parentUuid": "90b1ebec_0c9afa8d",
+      "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e13f566_970752a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2022-12-14T19:51:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eabbe7ef_a0fa8561",
       "revId": "1f93c14a93625d5472030a45fd67f1d50ef0336b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
