@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61f47966_c19d8e6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-12-14T22:01:53Z",
+      "side": 1,
+      "message": "I don\u0027t think anyone would confuse with existing name. Frankly imo, the name \"writeCommitGraph\" doesn\u0027t imply it is a flag for writing commit graph; might be a function name, or a boolean calculated from something else. But I digress, changed it to `writeCommitGraph`.",
+      "parentUuid": "33cd0bf9_15906dae",
+      "range": {
+        "startLine": 78,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "9066bd1a41971a20a95b18c233559778eb47f778",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8e906a7_964d126c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8335ff36_002116df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-12-14T22:01:53Z",
+      "side": 1,
+      "message": "\u003e\u003eAs an example you won\u0027t write any commit graph if packHeads will go to \"reftable only\" mode, but you should. \n\nNot sure if you mean we should always generate commit graph or only generate when there\u0027s new objects in the packWriter, im leaning towards the latter.\n\n\u003e\u003eWriting it separately will also help to keep memory usage relatively low. Cons: it will require us to create a new PackSource which is fine I assume.\n\nwhy a new packSource?",
+      "parentUuid": "c8e906a7_964d126c",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 653,
+        "endChar": 3
+      },
+      "revId": "9066bd1a41971a20a95b18c233559778eb47f778",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ecfa587_1a0b04af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2022-12-14T00:04:45Z",
       "side": 1,
       "message": "I\u0027d move \"if\" outside the method.",
+      "range": {
+        "startLine": 739,
+        "startChar": 0,
+        "endLine": 739,
+        "endChar": 26
+      },
+      "revId": "9066bd1a41971a20a95b18c233559778eb47f778",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "104d6cf1_4e18b9a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-12-14T22:01:53Z",
+      "side": 1,
+      "message": "word.",
+      "parentUuid": "2ecfa587_1a0b04af",
       "range": {
         "startLine": 739,
         "startChar": 0,
