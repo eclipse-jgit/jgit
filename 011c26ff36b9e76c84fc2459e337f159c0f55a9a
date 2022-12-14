@@ -16,6 +16,23 @@
       "message": "verified manually that this fixes the connection leak when using PoolingClientConnectionManager to manage apache HttpClient in Gerrit replication plugin",
       "revId": "011c26ff36b9e76c84fc2459e337f159c0f55a9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "441fbd89_4bfd9df2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-14T23:03:20Z",
+      "side": 1,
+      "message": "@Matthias @Saša is there a bug raised against this? How was the leak visible at higher level? ",
+      "revId": "011c26ff36b9e76c84fc2459e337f159c0f55a9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
