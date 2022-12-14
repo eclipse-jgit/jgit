@@ -88,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae85fbc5_13a85369",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T03:14:10Z",
+      "side": 1,
+      "message": "Yes, thanks!",
+      "parentUuid": "16252fb3_44c402ca",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cde322fd_d29c7af1",
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "IMO, introducing another real-world reference (main/sidecar as well as parent/orphan) would make this more confusing. \n\nAssuming that we keep the function name as `deleteOrphans()`, is there some terminology that you like that stays within the existing reference, or uses the actual terms (packs/indexes)?\n\nHow about any of:\n`potentialOrphanFiles` --\u003e `childFiles`\n`potentialOrphanFiles` --\u003e `indexFiles`\n`seenPackFileIds` --\u003e `knownPackFileIds`\n`seenPackFileIds` --\u003e `presentPackFileIds`\n`seenPackFileIds` --\u003e `seenParentFileIds`\n?",
       "parentUuid": "cde322fd_d29c7af1",
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b64f1283_668811a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T03:14:10Z",
+      "side": 1,
+      "message": "Optional: Maybe childFiles/indexFiles, as you see fit. Maybe I got used to the terminology, it doesn\u0027t look all that bad anymore and it is restricted to this method.",
+      "parentUuid": "0f434073_f55f80cf",
       "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -172,6 +208,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76c484eb_1a33ac2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T03:14:10Z",
+      "side": 1,
+      "message": "You could have\nprivate static Packfile asPackFile(String file) {\n   // code now in the map\n}\n\nand then\n.map(GC::asPackFile)\n\nThe map has strings as inputs and produces a stream of Packfiles.\n\nIf the method is not static, then you could do\n.map(this::asPackFile) \nand it would use the method in the \"this\", the current instance",
+      "parentUuid": "643f24ad_ff4e5312",
+      "range": {
+        "startLine": 949,
+        "startChar": 19,
+        "endLine": 954,
+        "endChar": 8
+      },
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a5b1d57_a37a8bc8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 3
@@ -207,6 +267,30 @@
       "side": 1,
       "message": "I realized that I meant to share the `ext` variable throughout this `filter` clause, which IMO clarifies the logic by grouping the examination of the `PackExt`.\n\nI\u0027ll update to share that variable, and lmk if you think it still looks better in two steps.",
       "parentUuid": "1a5b1d57_a37a8bc8",
+      "range": {
+        "startLine": 958,
+        "startChar": 6,
+        "endLine": 961,
+        "endChar": 7
+      },
+      "revId": "39c37d26be16f5f150690059539d8e2b9a537eef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6877c9a4_b37b1202",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T03:14:10Z",
+      "side": 1,
+      "message": "I still think is better in two steps because it makes obvious that the packs without extension are ignored.\n\nThe filter handling the extension is already asymetrical: either they go to \"seen\" and filtered out, or continue in the stream. The extra case of \"simply ignore\" requires a more careful reading.",
+      "parentUuid": "deffdfef_952837be",
       "range": {
         "startLine": 958,
         "startChar": 6,

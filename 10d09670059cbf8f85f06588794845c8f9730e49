@@ -16,6 +16,23 @@
       "message": "Thanks Ivan for taking a look so speedily! I have a few followup questions.",
       "revId": "10d09670059cbf8f85f06588794845c8f9730e49",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eda076d_66e72c36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-14T03:14:10Z",
+      "side": 1,
+      "message": "Couple styling nits. Please double check the formatting, those two .filter() in the same line looked a bit weird (but maybe the formatter prefers that)",
+      "revId": "10d09670059cbf8f85f06588794845c8f9730e49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
