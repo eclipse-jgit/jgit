@@ -18,6 +18,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e204eb2_3a452347",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T07:15:26Z",
+      "side": 1,
+      "message": "Thanks for the quick review! \n\nI\u0027ll fix them after \"CommitGraph: automatically write commit-graph files when gc\" is submitted.\n\nRegards,\nKyle",
+      "revId": "e53458add9412148f2932abccd522e6836185852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35070498_30808cd0",

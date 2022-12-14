@@ -33,6 +33,24 @@
       "message": "I don\u0027t understand the purpose of this class. It seems to act as an Optional\u003cGraphFile\u003e to account for an empty GraphFile (?)... or is it to lock the loading?\n\nIIUC FileCommitGraph acts like an \"AutoRefreshedFileCommitGraph\". \n\nI am not very fluent in the concurrency patterns, but would be enough to have:\n1. a GraphFile with #exists(), #isModified() and #reload() methods (no synchronization)\n2. (AutoRefreshed)FileCommitGraph #get() that does the synchronized invocation to GraphFile#reload when needed. If !GraphFile#exists() it returns null and there is no need of a fake NO_COMMIT_GRAPH?",
       "revId": "a3503ebe7fd84c21aec5b18ccfeb90dca7b27852",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de080329_f6c01e93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-14T07:15:26Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand the purpose of this class. It seems to act as an Optional\u003cGraphFile\u003e to account for an empty GraphFile (?)... or is it to lock the loading?\n\nThis class was previously designed to contain multiple commit-graphs and commit-graph-chains. Now it seems that this class is really unnecessary and confusing. \n\nI think we can remove it in current change.",
+      "parentUuid": "3d08c3b5_91016c0b",
+      "revId": "a3503ebe7fd84c21aec5b18ccfeb90dca7b27852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
