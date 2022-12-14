@@ -142,6 +142,24 @@
       "parentUuid": "d51c7200_75b3ca91",
       "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f07360bd_86dc4f37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-14T04:51:18Z",
+      "side": 1,
+      "message": "\u003e \u003e https://git.eclipse.org/r/c/jgit/jgit/+/197526 is proposed as a simpler\n\u003e \u003e alternative that we have tested and have performance numbers for. With that\n\u003e \u003e change we could reasonably set trustFolderStat\u003dfalse in our environments. PTAL.\n\u003e \n\u003e ... and set trustPackedRefsModificationTime\u003dtrue\n\u003e \n\u003e +1\n\nActually we\u0027ll set trustPackedRefsModificationTime\u003dafter_open (and looks like it\u0027ll be renamed to trustPackedRefsStat) since that\u0027s the new magic that trades a small perf penalty for being able to trust the file attributes.\n\n\n\u003e which frequency of ref updates do you observe on busy repositories ?\n\nI don\u0027t think we have a good measurement of this yet, but it seems like a good metric for us to have. Do you have a method you use to measure it?\n\n\u003e are these mostly single ref updates or batch updates which need to be transactional ?\n\nIt\u0027s a bit of both. I think the use case we\u0027re seeing \"most\" (not a clear measurement, just my feeling based on our debugging so far) is with change meta ref updates. Some of those are a single ref update, like when label votes are set on a change. Others are batch updates, like when a new patchset is created (patchset ref + change meta ref).\n\n\u003e did you try this ?\n\nIf you\u0027re asking if we\u0027ve tried reftable, no, we have not.\n\nIf you\u0027re asking if we\u0027ve tried trustFolderStat\u003dfalse + trustPackedRefsStat\u003dafter_open, yes, we\u0027re actively testing that configuration and it seems promising. It does cause some performance regressions that we\u0027ll need to find other ways to solve, but the performance impact is a fraction of what trustFolderStat\u003dfalse is on its own. We think we can probably solve those regressions by identifying code paths where the same git data is accessed multiple times within a single request and caching that data for the lifetime of the request.",
+      "parentUuid": "8d5d8673_6783a90c",
+      "revId": "5f64722d4eaaa543aa138bea8f1a9b58946031bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
