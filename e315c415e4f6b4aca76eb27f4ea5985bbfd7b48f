@@ -104,6 +104,24 @@
       "parentUuid": "f84f6f52_4a224cdf",
       "revId": "e315c415e4f6b4aca76eb27f4ea5985bbfd7b48f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bc2b92e_891769bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-14T23:27:16Z",
+      "side": 1,
+      "message": "\u003e Hi Matthias, the other `readFully` methods don\u0027t have a `@since` tag and I was trying to be consistent with them. Why don\u0027t they have a tag?\n\nBecause they are old (from 2009, moved here from other places, where they existed even before). As far as I can see from the git history we started using @since in May 2012 with @since 2.0.\n\n\u003e As a non-maintainer contributor, how can I find what the current API version is (apparently 6.5)?\n\nIn the pom version. Or in the OSGi MANIFEST.MF. It\u0027s 6.5.0-SNAPSHOT in the pom and 6.5.0.qualifier in the manifest, so the next release that will publish the new method will be 6.5.0. The patch component is omitted in the @since if it\u0027s zero.",
+      "parentUuid": "6f3105fd_9ede9448",
+      "revId": "e315c415e4f6b4aca76eb27f4ea5985bbfd7b48f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

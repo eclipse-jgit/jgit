@@ -34,6 +34,24 @@
       "parentUuid": "16cf616f_00a70dea",
       "revId": "46dba32aac6f0711cd85f6e75b567089b040bd5e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6ea1e1c_ef9723d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-14T23:27:16Z",
+      "side": 1,
+      "message": "Yes, that\u0027s what I noticed. I don\u0027t think you need to collect settings. They are checked in, under the .settings directory in each bundle. There is an IntelliJ plug-in that can apply them within IntelliJ.[1] Otherwise other people in the Google jgit team certainly have solved this already, since normally the contributions from Google comply with that formatter style ;-)\n\n[1] https://plugins.jetbrains.com/plugin/6546-adapter-for-eclipse-code-formatter",
+      "parentUuid": "db0b5032_15444c8d",
+      "revId": "46dba32aac6f0711cd85f6e75b567089b040bd5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
