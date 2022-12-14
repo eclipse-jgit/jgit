@@ -48,6 +48,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b358ae52_9987a96a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-12-14T22:04:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61f47966_c19d8e6b",
+      "range": {
+        "startLine": 78,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "9066bd1a41971a20a95b18c233559778eb47f778",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8e906a7_964d126c",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "word.",
       "parentUuid": "2ecfa587_1a0b04af",
+      "range": {
+        "startLine": 739,
+        "startChar": 0,
+        "endLine": 739,
+        "endChar": 26
+      },
+      "revId": "9066bd1a41971a20a95b18c233559778eb47f778",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84262bb6_3f5a1d37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2022-12-14T22:04:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "104d6cf1_4e18b9a8",
       "range": {
         "startLine": 739,
         "startChar": 0,
