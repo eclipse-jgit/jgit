@@ -72,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "746f9b02_88acc447",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-15T00:29:10Z",
+      "side": 1,
+      "message": "I missed this at first, but the method you\u0027re overriding has as its contract that it returns an immutable List. It does this:\n\n return Collections.unmodifiableList(refs.collect(Collectors.toList()));\n\nso you probably want this:\n\n return Collections.unmodifiableList(getRefs(prefix, excludes).values());\n\nor since we\u0027re java 11+ now, I think this is equivalent [1]:\n\n return List.copyOf(getRefs(prefix, excludes).values());\n\n[1] https://docs.oracle.com/en/java/javase/11/core/creating-immutable-lists-sets-and-maps.html#GUID-23F23104-CCEF-43C2-92F8-663094050FA5",
+      "range": {
+        "startLine": 393,
+        "startChar": 2,
+        "endLine": 393,
+        "endChar": 61
+      },
+      "revId": "be81f5901745a13bc49a7cef1bf59114b0623e8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "162951b1_a38312e6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
