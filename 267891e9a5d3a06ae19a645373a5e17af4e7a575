@@ -33,6 +33,23 @@
       "message": "Trying to add AD as a +1 reviewer.",
       "revId": "267891e9a5d3a06ae19a645373a5e17af4e7a575",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0623a45_cbb6c29b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-15T19:16:43Z",
+      "side": 1,
+      "message": "Hi Ivan, could you be the +2 reviewer since you took a look already and AD has given +1?",
+      "revId": "267891e9a5d3a06ae19a645373a5e17af4e7a575",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
