@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f47af1c1_f04a230b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-15T23:27:09Z",
+      "side": 1,
+      "message": "Thanks for taking a look, Minh!",
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6bfa38e_eee4c822",
@@ -14,6 +31,30 @@
       "writtenOn": "2022-12-15T23:18:14Z",
       "side": 1,
       "message": "KEEP can be orphan too. Per the comment on line 940, if PACK is missing, everything else is orphaned.",
+      "range": {
+        "startLine": 115,
+        "startChar": 62,
+        "endLine": 115,
+        "endChar": 66
+      },
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bce967d_3d925ff0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-15T23:27:09Z",
+      "side": 1,
+      "message": "That comment must have been outdated, the test GcOrphanFilesTest#keepPreventsDeletionOfIndexFilesForMissingPackFile makes the intended behavior of \"keep\" clear.\n\nPlease re-open if you think the existing tests were wrong!",
+      "parentUuid": "e6bfa38e_eee4c822",
       "range": {
         "startLine": 115,
         "startChar": 62,

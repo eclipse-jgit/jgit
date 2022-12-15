@@ -22,6 +22,30 @@
       },
       "revId": "3a136d2000cc0741c8a0c5ea0f64ec1c0796f3f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b600a6cb_7acaa631",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-15T23:27:09Z",
+      "side": 0,
+      "message": "We need to keep the parent extensions during this filter so that we can add their names to the `seenParentIds` during the next filter (in line 968).\n\nPlease reopen if I misunderstood your suggestion!",
+      "parentUuid": "e4ea3f6e_0a416d00",
+      "range": {
+        "startLine": 952,
+        "startChar": 5,
+        "endLine": 955,
+        "endChar": 35
+      },
+      "revId": "3a136d2000cc0741c8a0c5ea0f64ec1c0796f3f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
