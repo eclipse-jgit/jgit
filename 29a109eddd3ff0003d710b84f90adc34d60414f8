@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea8e6f44_01a7c281",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307652
+      },
+      "writtenOn": "2022-12-15T16:38:54Z",
+      "side": 1,
+      "message": "No, I don\u0027t know. All I know is that it didn\u0027t work on the build I made, because the `name` was an empty string.\n\nThe parser used changed in a relatively recent change. I can try a bisect if I get some time.\n\nAccording to: https://docs.oracle.com/javase/7/docs/api/javax/xml/parsers/SAXParserFactory.html, the default for these parsers are to NOT be namespace-aware, and according to https://docs.oracle.com/javase/7/docs/api/org/xml/sax/helpers/DefaultHandler.html#startElement(java.lang.String,%20java.lang.String,%20java.lang.String,%20org.xml.sax.Attributes):\n\u003e The local name (without prefix), or the empty string if Namespace processing is not being performed.\n\nSo, I\u0027m not sure how the `name` parameter to `startElement/endElement` was EVERY not-the-empty-string, unless these underlying APIs changed with some version of the java runtime?\n\nI tried running the `*-r.sh` release files from `org.eclipse.jgit.pgm-5.5.0.201909110433-r.sh` or `org.eclipse.jgit.pgm-6.4.0.202211300538-r.sh` with `java 19.0.1 2022-10-18`, and they all seemed to have the bug? Which doesn\u0027t make sense. I\u0027ll see if if maybe I can get some older versions of java to try with these.\n\n\nFound the culprit: 1aa19c67e691d62f3d9560fec0cfe7f5443d6497\n\nThis changed from instantiating the parser as `org.xml.sax.helpers.XMLReaderFactory.createXMLReader()` to `javax.xml.parsers.SAXParserFactory.newInstance().newSAXParser().getXMLReader()`. Going back to older JDKs the current code still shows `name\u003d\"\"`. I swapped back to the earlier parser creation call with the current (19) JDK, and the `name` parameter is no longer the empty string.\n\nPresumably the SAXParser path defaults to a different \"namespace processing\" setting or something, I\u0027ll see if I can prove that.",
+      "parentUuid": "17d20d2a_4874023e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "db96e86c_5ea0f8ff",
@@ -58,6 +82,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "934c7d77_8e003d08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 307652
+      },
+      "writtenOn": "2022-12-15T16:38:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e244e6db_cf425b4d",
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "106c2099_7dc09436",
@@ -71,6 +113,24 @@
       "writtenOn": "2022-12-08T20:03:55Z",
       "side": 1,
       "message": "Instead of name.length !\u003d 0 one could use name.isEmpty():\n\n  name.isEmpty() ? qName : name;",
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "554481fb_8c931591",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 307652
+      },
+      "writtenOn": "2022-12-15T16:38:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "106c2099_7dc09436",
       "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
