@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
@@ -24,6 +25,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileObjectDatabase.InsertLooseObjectResult;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -52,15 +55,20 @@ class LooseObjects {
 
 	private final UnpackedObjectCache unpackedObjectCache;
 
+	private final boolean trustFolderStat;
+
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
 	 * @param dir
 	 *            the location of the <code>objects</code> directory.
 	 */
-	LooseObjects(File dir) {
+	LooseObjects(Config config, File dir) {
 		directory = dir;
 		unpackedObjectCache = new UnpackedObjectCache();
+		trustFolderStat = config.getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
 	}
 
 	/**
@@ -98,6 +106,21 @@ class LooseObjects {
 	 * @return {@code true} if the specified object is stored as a loose object.
 	 */
 	boolean has(AnyObjectId objectId) {
+		boolean exists = hasWithoutRefresh(objectId);
+		if (trustFolderStat) {
+			return exists;
+		}
+		if (!exists) {
+			try (InputStream stream = Files.newInputStream(directory.toPath())) {
+			} catch (IOException e) {
+				return false;
+			}
+			return hasWithoutRefresh(objectId);
+		}
+		return true;
+	}
+
+	private boolean hasWithoutRefresh(AnyObjectId objectId) {
 		return fileFor(objectId).exists();
 	}
 
@@ -183,6 +206,18 @@ class LooseObjects {
 	 */
 	ObjectLoader getObjectLoader(WindowCursor curs, File path, AnyObjectId id)
 			throws IOException {
+		try {
+			return getObjectLoaderWithoutRefresh(curs, path, id);
+		} catch (FileNotFoundException e) {
+			if (trustFolderStat) {
+				throw e;
+			}
+			try (InputStream stream = Files.newInputStream(directory.toPath())) {}
+			return getObjectLoaderWithoutRefresh(curs, path, id);
+		}
+	}
+
+	private ObjectLoader getObjectLoaderWithoutRefresh(WindowCursor curs, File path, AnyObjectId id) throws IOException {
 		try (FileInputStream in = new FileInputStream(path)) {
 			unpackedObjectCache().add(id);
 			return UnpackedObject.open(in, path, id, curs);
@@ -203,16 +238,30 @@ class LooseObjects {
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id) throws IOException {
+		try {
+			return getSizeWithoutRefresh(curs, id);
+		} catch (FileNotFoundException noFile) {
+			try {
+				if (trustFolderStat) {
+					throw noFile;
+				}
+				try (InputStream stream = Files.newInputStream(directory.toPath())) {}
+				return getSizeWithoutRefresh(curs, id);
+			} catch (FileNotFoundException e) {
+				if (fileFor(id).exists()) {
+					throw noFile;
+				}
+				unpackedObjectCache().remove(id);
+				return -1;
+			}
+		}
+	}
+
+	private long getSizeWithoutRefresh(WindowCursor curs, AnyObjectId id) throws IOException {
 		File f = fileFor(id);
 		try (FileInputStream in = new FileInputStream(f)) {
 			unpackedObjectCache().add(id);
 			return UnpackedObject.getSize(in, id, curs);
-		} catch (FileNotFoundException noFile) {
-			if (f.exists()) {
-				throw noFile;
-			}
-			unpackedObjectCache().remove(id);
-			return -1;
 		}
 	}
 
