@@ -48,6 +48,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea87cfcf_a379a1e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-15T17:47:49Z",
+      "side": 1,
+      "message": "Thanks for digging! That\u0027s an interesting find. However, look at the ManifestParser also changed in commit 1aa19c67:[1] this one used qName already before, when the XMLReaderFactory() was still used.\n\nSo perhaps using qName unconditionally is the right fix? Or might it depend on the contents of these XMLs? I do wonder what exactly it would mean for an XML parser to be namespace-aware, but not handle namespace prefixes.\n\nOn an unrelated note: what about XXE?[2] In an application I work on at my day-time job, we do\n\n      reader.setFeature(\"http://apache.org/xml/features/disallow-doctype-decl\", true);\n      reader.setFeature(\"http://xml.org/sax/features/external-general-entities\", false);\n      reader.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", false);\n\nShould these parsers also do so?\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/185347/8/org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java\n[2] https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html",
+      "parentUuid": "ea8e6f44_01a7c281",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "db96e86c_5ea0f8ff",
