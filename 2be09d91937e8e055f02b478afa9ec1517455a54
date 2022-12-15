@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ffc8c1d_14e3f34f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-15T17:58:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61ec4f94_de0bc522",
+      "range": {
+        "startLine": 370,
+        "startChar": 36,
+        "endLine": 370,
+        "endChar": 47
+      },
+      "revId": "2be09d91937e8e055f02b478afa9ec1517455a54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30746f1d_76369638",
@@ -54,6 +78,24 @@
       "writtenOn": "2022-12-08T19:55:53Z",
       "side": 1,
       "message": "This comment is unnecessary. Put the second sentence in the commit message. (The first is there already.) Here the code already tells the reader exactly that.",
+      "revId": "2be09d91937e8e055f02b478afa9ec1517455a54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4538f3eb_587dc8c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-15T17:58:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30746f1d_76369638",
       "revId": "2be09d91937e8e055f02b478afa9ec1517455a54",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
