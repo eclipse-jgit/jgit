@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76cb0ed_4fdbc3dd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FirstParentRevWalkTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-15T06:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "357e1f7a_e0925cdf",
+      "range": {
+        "startLine": 449,
+        "startChar": 0,
+        "endLine": 449,
+        "endChar": 45
+      },
+      "revId": "9286038cf665d5b725e74bc8ef33a0c6e11e56f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3fb2c75_0616f4a7",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f479cbb7_b835a53a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-15T06:46:24Z",
+      "side": 1,
+      "message": "comparing RevCommit with FilteredRevCommit here.",
+      "parentUuid": "a3fb2c75_0616f4a7",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 14
+      },
+      "revId": "9286038cf665d5b725e74bc8ef33a0c6e11e56f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a358e63_5036d7b5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
         "patchSetId": 11
@@ -60,6 +108,30 @@
       "writtenOn": "2022-12-14T22:09:08Z",
       "side": 1,
       "message": "please remove commented parts",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 71
+      },
+      "revId": "9286038cf665d5b725e74bc8ef33a0c6e11e56f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46596f1e_9a90fe2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-15T06:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a358e63_5036d7b5",
       "range": {
         "startLine": 43,
         "startChar": 0,
