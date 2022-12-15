@@ -52,6 +52,24 @@
       "parentUuid": "db0b5032_15444c8d",
       "revId": "46dba32aac6f0711cd85f6e75b567089b040bd5e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbcef776_3c44ab24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-15T19:57:07Z",
+      "side": 1,
+      "message": "Thank you so much, Thomas! I had found this adapter plug-in but didn\u0027t know about the \u003cbundle\u003e/.settings/org.eclipse.jdt.core.prefs files.\n\nIt seems to work well, except that the plugin only allows specifyingone config file for the whole project (currently I\u0027m using org.eclipse.jgit/.settings/org.eclipse.jdt.core.prefs) while the test bundles seem to have slightly different configs (such as org.eclipse.jgit.test/.settings/org.eclipse.jdt.core.prefs). Let me know if you have any ideas about addressing this!",
+      "parentUuid": "c6ea1e1c_ef9723d8",
+      "revId": "46dba32aac6f0711cd85f6e75b567089b040bd5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
