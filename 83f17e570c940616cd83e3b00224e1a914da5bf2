@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59c9b8c7_ea3adf2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-16T18:34:02Z",
+      "side": 1,
+      "message": "Hi Matthias, sorry for such a long comment -- any thoughts from you?",
+      "parentUuid": "1a9d1386_7bad2ab9",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "83f17e570c940616cd83e3b00224e1a914da5bf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08bf7508_7370b89a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 3
