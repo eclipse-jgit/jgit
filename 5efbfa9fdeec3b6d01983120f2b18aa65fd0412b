@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a8b2a65_b97f63c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2022-12-16T17:23:53Z",
+      "side": 1,
+      "message": "I wonder if the ObjectReader needs to know about commitGraph if it\u0027s just getting it from ObjectDatabase anyway. IIRC, anywhere you can obtain an ObjectReader, you have access to the ObjectDatabase, so the commitGraph can be obtained directly from ObjectDatabase. I\u0027m thinking of RevWalk in the later patchset https://git.eclipse.org/r/c/jgit/jgit/+/183079/40/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java.\n\nHaving the ObjectReader providing the commitGraph gives the impression that pack data and commit graph are collocated, which might be the case for Dfs.\n\nThanks!",
+      "range": {
+        "startLine": 513,
+        "startChar": 20,
+        "endLine": 513,
+        "endChar": 34
+      },
+      "revId": "5efbfa9fdeec3b6d01983120f2b18aa65fd0412b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
