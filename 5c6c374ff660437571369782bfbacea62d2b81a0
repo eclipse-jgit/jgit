@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e18b52_bd589227",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2378,
+      "author": {
+        "id": 307656
+      },
+      "writtenOn": "2022-12-16T18:38:29Z",
+      "side": 0,
+      "message": "I see that `sortedByName \u003d null;` is not needed anymore, but for `byName \u003d null;` I don\u0027t see an alternative (was it needed to begin with?)",
+      "range": {
+        "startLine": 2378,
+        "startChar": 2,
+        "endLine": 2378,
+        "endChar": 16
+      },
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
