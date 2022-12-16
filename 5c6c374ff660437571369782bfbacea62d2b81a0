@@ -53,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1159d830_25d58492",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-16T17:50:16Z",
+      "side": 1,
+      "message": "Hi Matthias, since your change https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/fde7a271a4f961484ae6e8357fd64277cfc03585 in Nov 2020, a .keep file will preserve all corresponding index files, even if there is no corresponding .pack file.\n\nThat commit didn\u0027t add a test for the data race issue itself, only for the new .keep behavior to prevent the situation. So if someone reverts the .keep behavior, it would be good for them to understand how to reproduce the data race issue and add a test for that.\n\nThanks to Minh for digging up the link to that change.",
+      "parentUuid": "179e7e8b_ddd5bc91",
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6bfa38e_eee4c822",
@@ -114,6 +132,30 @@
       "side": 1,
       "message": "I share Minh\u0027s confusion here. Common sense tells me that .keep is like a child file (if no pack, the .keep seems useless) but existing code and tests treat it as a parent.\n\nIn this case I agree with respecting existing behavior (.keep as parent file). In the worst case we just delete less than we should (better than erring in the other direction).\n\nUsually I would leave this unresolved so Minh can ACK this solution, but as we are choosing the \"safe\" option, I\u0027ll submit as it is. We can always update the logic in a follow-up change.",
       "parentUuid": "7bce967d_3d925ff0",
+      "range": {
+        "startLine": 115,
+        "startChar": 62,
+        "endLine": 115,
+        "endChar": 66
+      },
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "263656e8_a39d8dff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-16T17:50:16Z",
+      "side": 1,
+      "message": "That makes sense, I didn\u0027t think deeply about whether the existing behavior is \"correct\". I was mostly focused on not breaking it with the new .rev extension.",
+      "parentUuid": "1b90f6ff_04c7c045",
       "range": {
         "startLine": 115,
         "startChar": 62,
