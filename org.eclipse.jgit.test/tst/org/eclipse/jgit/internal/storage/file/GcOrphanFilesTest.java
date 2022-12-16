@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -36,6 +37,14 @@ public class GcOrphanFilesTest extends GcTestCase {
 
 	private static final String PACK_File_3 = PACK + "-3.pack";
 
+	private static final String REVERSE_File_2 = PACK + "-2."
+			+ REVERSE_INDEX.getExtension();
+
+	private static final String REVERSE_File_4 = PACK + "-4."
+			+ REVERSE_INDEX.getExtension();
+
+	private static final String NONEXISTENT_EXT = PACK + "-4.xxxxx";
+
 	private File packDir;
 
 	@Override
@@ -46,14 +55,27 @@ public class GcOrphanFilesTest extends GcTestCase {
 	}
 
 	@Test
-	public void bitmapAndIdxDeletedButPackNot() throws Exception {
+	public void indexesDeletedButPackNot() throws Exception {
 		createFileInPackFolder(BITMAP_File_1);
 		createFileInPackFolder(IDX_File_2);
 		createFileInPackFolder(PACK_File_3);
+		createFileInPackFolder(REVERSE_File_4);
 		gc.gc().get();
 		assertFalse(new File(packDir, BITMAP_File_1).exists());
 		assertFalse(new File(packDir, IDX_File_2).exists());
 		assertTrue(new File(packDir, PACK_File_3).exists());
+		assertFalse(new File(packDir, REVERSE_File_4).exists());
+	}
+
+	@Test
+	public void noPacks_allIndexesDeleted() throws Exception {
+		createFileInPackFolder(BITMAP_File_1);
+		createFileInPackFolder(IDX_File_2);
+		createFileInPackFolder(REVERSE_File_4);
+		gc.gc().get();
+		assertFalse(new File(packDir, BITMAP_File_1).exists());
+		assertFalse(new File(packDir, IDX_File_2).exists());
+		assertFalse(new File(packDir, REVERSE_File_4).exists());
 	}
 
 	@Test
@@ -77,18 +99,27 @@ public class GcOrphanFilesTest extends GcTestCase {
 	}
 
 	@Test
+	public void nonexistantExtensionNotDeleted() throws Exception {
+		createFileInPackFolder(NONEXISTENT_EXT);
+		gc.gc().get();
+		assertTrue(new File(packDir, NONEXISTENT_EXT).exists());
+	}
+
+	@Test
 	public void keepPreventsDeletionOfIndexFilesForMissingPackFile()
 			throws Exception {
 		createFileInPackFolder(BITMAP_File_1);
-		createFileInPackFolder(IDX_File_2);
 		createFileInPackFolder(BITMAP_File_2);
+		createFileInPackFolder(IDX_File_2);
 		createFileInPackFolder(KEEP_File_2);
+		createFileInPackFolder(REVERSE_File_2);
 		createFileInPackFolder(PACK_File_3);
 		gc.gc().get();
 		assertFalse(new File(packDir, BITMAP_File_1).exists());
 		assertTrue(new File(packDir, BITMAP_File_2).exists());
 		assertTrue(new File(packDir, IDX_File_2).exists());
 		assertTrue(new File(packDir, KEEP_File_2).exists());
+		assertTrue(new File(packDir, REVERSE_File_2).exists());
 		assertTrue(new File(packDir, PACK_File_3).exists());
 	}
 
