@@ -73,7 +73,8 @@ public class PatchApplierTest {
 
 		protected void init(String aName, boolean preExists, boolean postExists)
 				throws Exception {
-			/* Patch and pre/postimage are read from data org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/ */
+			// Patch and pre/postimage are read from data
+			// org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/
 			this.name = aName;
 			if (postExists) {
 				postImage = IO
@@ -121,14 +122,16 @@ public class PatchApplierTest {
 			verifyChange(result, aName, true);
 		}
 
-		protected void verifyContent(Result result, String path, boolean exists) throws Exception {
+		protected void verifyContent(Result result, String path, boolean exists)
+				throws Exception {
 			if (inCore) {
 				byte[] output = readBlob(result.getTreeId(), path);
 				if (!exists)
 					assertNull(output);
 				else {
 					assertNotNull(output);
-					assertEquals(new String(output, StandardCharsets.UTF_8), expectedText);
+					assertEquals(expectedText,
+							new String(output, StandardCharsets.UTF_8));
 				}
 			} else {
 				File f = new File(db.getWorkTree(), path);
@@ -139,12 +142,14 @@ public class PatchApplierTest {
 			}
 		}
 
-		void verifyChange(Result result, String aName, boolean exists) throws Exception {
+		void verifyChange(Result result, String aName, boolean exists)
+				throws Exception {
 			assertEquals(1, result.getPaths().size());
 			verifyContent(result, aName, exists);
 		}
 
-		protected byte[] readBlob(ObjectId treeish, String path) throws Exception {
+		protected byte[] readBlob(ObjectId treeish, String path)
+				throws Exception {
 			try (TestRepository<?> tr = new TestRepository<>(db);
 					RevWalk rw = tr.getRevWalk()) {
 				db.incrementOpen();
@@ -153,15 +158,18 @@ public class PatchApplierTest {
 					if (tw == null) {
 						return null;
 					}
-					return tw.getObjectReader().open(tw.getObjectId(0), OBJ_BLOB).getBytes();
+					return tw.getObjectReader()
+							.open(tw.getObjectId(0), OBJ_BLOB).getBytes();
 				}
 			}
 		}
 
-		protected void checkBinary(Result result, int numberOfFiles) throws Exception {
+		protected void checkBinary(Result result, int numberOfFiles)
+				throws Exception {
 			assertEquals(numberOfFiles, result.getPaths().size());
 			if (inCore) {
-				assertArrayEquals(postImage, readBlob(result.getTreeId(), result.getPaths().get(0)));
+				assertArrayEquals(postImage,
+						readBlob(result.getTreeId(), result.getPaths().get(0)));
 			} else {
 				File f = new File(db.getWorkTree(), name);
 				assertArrayEquals(postImage, Files.readAllBytes(f.toPath()));
@@ -369,8 +377,8 @@ public class PatchApplierTest {
 		@Test
 		public void testCrLf() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 				init("crlf", true, true);
 
 				Result result = applyPatch();
@@ -385,8 +393,8 @@ public class PatchApplierTest {
 		@Test
 		public void testCrLfOff() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 				init("crlf", true, true);
 
 				Result result = applyPatch();
@@ -401,8 +409,8 @@ public class PatchApplierTest {
 		@Test
 		public void testCrLfEmptyCommitted() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 				init("crlf3", true, true);
 
 				Result result = applyPatch();
@@ -417,8 +425,8 @@ public class PatchApplierTest {
 		@Test
 		public void testCrLfNewFile() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 				init("crlf4", false, true);
 
 				Result result = applyPatch();
@@ -433,8 +441,8 @@ public class PatchApplierTest {
 		@Test
 		public void testPatchWithCrLf() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 				init("crlf2", true, true);
 
 				Result result = applyPatch();
@@ -450,11 +458,11 @@ public class PatchApplierTest {
 		public void testPatchWithCrLf2() throws Exception {
 			String aName = "crlf2";
 			try (Git git = new Git(db)) {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 				init(aName, true, true);
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
 				Result result = applyPatch();
 
@@ -465,10 +473,10 @@ public class PatchApplierTest {
 			}
 		}
 
-		// Clean/smudge filter for testFiltering. The smudgetest test resources were
-		// created with C git using a clean filter sed -e "s/A/E/g" and the smudge
-		// filter sed -e "s/E/A/g". To keep the test independent of the presence of
-		// sed, implement this with a built-in filter.
+		// Clean/smudge filter for testFiltering. The smudgetest test resources
+		// were created with C git using a clean filter sed -e "s/A/E/g" and the
+		// smudge filter sed -e "s/E/A/g". To keep the test independent of the
+		// presence of sed, implement this with a built-in filter.
 		private static class ReplaceFilter extends FilterCommand {
 
 			private final char toReplace;
@@ -501,8 +509,10 @@ public class PatchApplierTest {
 		@Test
 		public void testFiltering() throws Exception {
 			// Set up filter
-			FilterCommandFactory clean = (repo, in, out) -> new ReplaceFilter(in, out, 'A', 'E');
-			FilterCommandFactory smudge = (repo, in, out) -> new ReplaceFilter(in, out, 'E', 'A');
+			FilterCommandFactory clean =
+					(repo, in, out) -> new ReplaceFilter(in, out, 'A', 'E');
+			FilterCommandFactory smudge =
+					(repo, in, out) -> new ReplaceFilter(in, out, 'E', 'A');
 			FilterCommandRegistry.register("jgit://builtin/a2e/clean", clean);
 			FilterCommandRegistry.register("jgit://builtin/a2e/smudge", smudge);
 			Config config = db.getConfig();
