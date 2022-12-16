@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d1038e9_ab0cabf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-16T18:29:56Z",
+      "side": 1,
+      "message": "packed-refs",
+      "range": {
+        "startLine": 20,
+        "startChar": 50,
+        "endLine": 20,
+        "endChar": 62
+      },
+      "revId": "0e0e8882ddafcc4de0c6339da02e568dfbffde92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "049c8259_2d79e3a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-16T18:29:56Z",
+      "side": 1,
+      "message": "Did you use the `GetRefsBenchmark` added in here [1] for the tests?\n\nIf so, it might be useful to mention you used it in the comment.\n\n\n[1]: https://git.eclipse.org/r/c/jgit/jgit/+/185683",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "0e0e8882ddafcc4de0c6339da02e568dfbffde92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c86a448e_34a47ab1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-16T18:29:56Z",
+      "side": 1,
+      "message": "Why can\u0027t we pass \"packed\" in here as well?\n\nIn the \"getPackedRefs\" we call \"readPackedRefs()\", passing the \"oldPackedRef\" list. Eventually \"packedRefsBytes\" will be populated.\n\nIn which case we would avoid to go to disk again in this call.\nAm I missing something?",
+      "range": {
+        "startLine": 696,
+        "startChar": 38,
+        "endLine": 696,
+        "endChar": 42
+      },
+      "revId": "0e0e8882ddafcc4de0c6339da02e568dfbffde92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c05f7bcd_548f10e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-16T18:29:56Z",
+      "side": 1,
+      "message": "Might be worth extracting it in a separate method for readability, say `packedRefsChanged`",
+      "range": {
+        "startLine": 903,
+        "startChar": 8,
+        "endLine": 906,
+        "endChar": 55
+      },
+      "revId": "0e0e8882ddafcc4de0c6339da02e568dfbffde92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b00e1a3e_c7df28d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-16T18:29:56Z",
+      "side": 1,
+      "message": "The behaviour of this try-with-resources is slightly changed now.\nBefore it was only catching `FileNotFoundException`.\n\nNow also IOExceptions are caught by the external `try`.\n\nIt doesn\u0027t look like \"BufferedReader\" or \"InputStreamReader\" will throw \"IOExceptions\" but I wanted to point it out to confirm there are no other implications I can\u0027t think about.",
+      "range": {
+        "startLine": 910,
+        "startChar": 4,
+        "endLine": 917,
+        "endChar": 5
+      },
+      "revId": "0e0e8882ddafcc4de0c6339da02e568dfbffde92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fa12aa0_a63e8df4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1338,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-16T18:29:56Z",
+      "side": 1,
+      "message": "`packedRefListBytes` ?",
+      "range": {
+        "startLine": 1338,
+        "startChar": 23,
+        "endLine": 1338,
+        "endChar": 38
+      },
+      "revId": "0e0e8882ddafcc4de0c6339da02e568dfbffde92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
