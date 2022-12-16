@@ -868,11 +868,14 @@ public class PatchApplier {
 			}
 			afterLastHunk = applyAt;
 		}
-		if (!isNoNewlineAtEndOfFile(fh)) {
+		// If the last line should have a newline, add a null sentinel
+		if (lastHunkNewLine >= 0 && afterLastHunk == newLines.size()) {
+			// Last line came from the patch
+			if (!isNoNewlineAtEndOfFile(fh)) {
+				newLines.add(null);
+			}
+		} else if (!rt.isMissingNewlineAtEnd()) {
 			newLines.add(null);
-		}
-		if (!rt.isMissingNewlineAtEnd()) {
-			oldLines.add(null);
 		}
 
 		// We could check if old == new, but the short-circuiting complicates
