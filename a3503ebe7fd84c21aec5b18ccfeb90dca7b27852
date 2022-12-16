@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d51d007_6adb7473",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-16T07:39:43Z",
+      "side": 1,
+      "message": "\u003e IIUC this is holding a reference to the commit graph, and on each #get() checks if there is something more recent in disk and reloads if necessary.\n\u003e \n\u003e Is this complexity necessary? I understood that the non-DFS side uses short-lived instances of the repositories, so loading the graph once should be enough. Also using an older commit file is not dramatic, it would just miss some recent commits... \n\nYeah, I think it is necessary. \nIn fact, we save FileRepository in org.eclipse.jgit.lib.RepositoryCache, which can ensure that JGit maintains a long-term instance. And I believe that many users do the same like this, because it will make JGit\u0027s reading performance better.\n\n\u003e \n\u003e If this refreshing is needed, please explain in the javadoc.\n\nDone. I have added a comment for #get().",
+      "parentUuid": "1d36b0ec_c5839fa0",
+      "revId": "a3503ebe7fd84c21aec5b18ccfeb90dca7b27852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d08c3b5_91016c0b",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "\u003e I don\u0027t understand the purpose of this class. It seems to act as an Optional\u003cGraphFile\u003e to account for an empty GraphFile (?)... or is it to lock the loading?\n\nThis class was previously designed to contain multiple commit-graphs and commit-graph-chains. Now it seems that this class is really unnecessary and confusing. \n\nI think we can remove it in current change.",
       "parentUuid": "3d08c3b5_91016c0b",
+      "revId": "a3503ebe7fd84c21aec5b18ccfeb90dca7b27852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8c2c36e_cfabe886",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-16T07:39:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de080329_f6c01e93",
       "revId": "a3503ebe7fd84c21aec5b18ccfeb90dca7b27852",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
