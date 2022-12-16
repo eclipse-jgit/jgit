@@ -1,0 +1,15 @@
+diff --git a/x_last_rm_nl b/x_last_rm_nl
+index 71ac1b5..b3ab996 100644
+--- a/x_last_rm_nl
++++ b/x_last_rm_nl
+@@ -2,7 +2,7 @@ a
+ b
+ c
+ d
+-e
++E
+ f
+ g
+-h
++h
+\ No newline at end of file
