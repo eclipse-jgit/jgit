@@ -70,6 +70,30 @@
       },
       "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb368a1f_0f600468",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2378,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-16T19:53:27Z",
+      "side": 0,
+      "message": "I should have written the following message -- the numbers look even a bit better!\n\n~~~\nIt looks like that was added in 2015 to allow the Java garbage collector to garbage collect that field before the method finishes, if it runs during that interval. The Java garbage collector has seen many improvements in the last 7 years, as well as the machines that JGit might be running on. \n\nI ran the IntelliJ Async Profiler (as in https://www.jetbrains.com/help/idea/cpu-and-memory-live-charts.html) on a GC command on the cgit repository (same one as in my long comment above).\n\nIn one profile the baseline implementation, the first call to PackWriter#sortByName (via PackWriter#computeName) allocates 0.04% of the memory allocated during GC#writePack. The call to PackWriter#sortByName then grabs the cached field, so it is so fast that it doesn\u0027t even show up in the profiler\u0027s graph.\n\nIn one profile of this proposed implementation, the first call to PackWriter#getSortedByName allocates 0.04% of the memory allocated during GC#writePack (via PackWriter#computeName). The second call directly to PackWriter#makeSortedByName (via PackWriter#prepareBitmapIndex) allocates 0.04% of the memory allocated during GC#writePack (because it allocates 0.15% of the memory allocated by PackWriter#prepareBitmapIndex).\n\nThese memory allocations are all much smaller than other parts of GC#writePack, such as PackWriter#findObjectsToPack (65%), BitmapWalker#findObjects (23%), and PackWriter#writeObjects (6%); so I\u0027m personally not concerned about the chance that the Java garbage collector collects them a bit later.\n\nLet me know if it\u0027s concerning to you, though!\n~~~",
+      "parentUuid": "5d8cc541_bedb43de",
+      "range": {
+        "startLine": 2378,
+        "startChar": 2,
+        "endLine": 2378,
+        "endChar": 16
+      },
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
