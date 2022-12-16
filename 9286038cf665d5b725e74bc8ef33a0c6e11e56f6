@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c03c2b97_4261df48",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2022-12-16T19:48:50Z",
+      "side": 1,
+      "message": "In that case please make an explicit id comparison (aka a.name(), b.name()), otherwise reader might get wrong impression.",
+      "parentUuid": "f479cbb7_b835a53a",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 14
+      },
+      "revId": "9286038cf665d5b725e74bc8ef33a0c6e11e56f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a358e63_5036d7b5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
         "patchSetId": 11
