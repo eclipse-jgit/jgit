@@ -68,12 +68,14 @@ import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.LfsFactory.LfsInputStream;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.BinaryDeltaInputStream;
@@ -180,7 +182,7 @@ public class PatchApplier {
 	public Result applyPatch(InputStream patchInput)
 			throws PatchFormatException, PatchApplyException {
 		Result result = new Result();
-		org.eclipse.jgit.patch.Patch p = new org.eclipse.jgit.patch.Patch();
+		Patch p = new Patch();
 		try (InputStream inStream = patchInput) {
 			p.parse(inStream);
 
@@ -193,7 +195,7 @@ public class PatchApplier {
 
 			DirCacheBuilder dirCacheBuilder = dirCache.builder();
 			Set<String> modifiedPaths = new HashSet<>();
-			for (org.eclipse.jgit.patch.FileHeader fh : p.getFiles()) {
+			for (FileHeader fh : p.getFiles()) {
 				ChangeType type = fh.getChangeType();
 				switch (type) {
 				case ADD: {
@@ -345,8 +347,8 @@ public class PatchApplier {
 	 * @throws PatchApplyException
 	 */
 	private void apply(String pathWithOriginalContent, DirCache dirCache,
-			DirCacheBuilder dirCacheBuilder, @Nullable File f,
-			org.eclipse.jgit.patch.FileHeader fh) throws PatchApplyException {
+			DirCacheBuilder dirCacheBuilder, @Nullable File f, FileHeader fh)
+			throws PatchApplyException {
 		if (PatchType.BINARY.equals(fh.getPatchType())) {
 			// This patch type just says "something changed". We can't do
 			// anything with that.
@@ -484,7 +486,7 @@ public class PatchApplier {
 		}
 		dce.setLength(length);
 
-		try (LfsInputStream is = org.eclipse.jgit.util.LfsFactory.getInstance()
+		try (LfsInputStream is = LfsFactory.getInstance()
 				.applyCleanFilter(repo, input, length, lfsAttribute)) {
 			dce.setObjectId(inserter.insert(OBJ_BLOB, is.getLength(), is));
 		}
@@ -522,15 +524,13 @@ public class PatchApplier {
 			// conversion.
 			try (InputStream input = filterClean(repo, path,
 					fileStreamSupplier.load(), convertCrLf, filterCommand)) {
-				return new RawText(org.eclipse.jgit.util.IO
-						.readWholeStream(input, 0).array());
+				return new RawText(IO.readWholeStream(input, 0).array());
 			}
 		}
 		if (convertCrLf) {
 			try (InputStream input = EolStreamTypeUtil.wrapInputStream(
 					fileStreamSupplier.load(), EolStreamType.TEXT_LF)) {
-				return new RawText(org.eclipse.jgit.util.IO
-						.readWholeStream(input, 0).array());
+				return new RawText(IO.readWholeStream(input, 0).array());
 			}
 		}
 		if (inCore() && fileId.equals(ObjectId.zeroId())) {
@@ -547,12 +547,12 @@ public class PatchApplier {
 			input = EolStreamTypeUtil.wrapInputStream(input,
 					EolStreamType.TEXT_LF);
 		}
-		if (org.eclipse.jgit.util.StringUtils.isEmptyOrNull(filterCommand)) {
+		if (StringUtils.isEmptyOrNull(filterCommand)) {
 			return input;
 		}
 		if (FilterCommandRegistry.isRegistered(filterCommand)) {
-			LocalFile buffer = new org.eclipse.jgit.util.TemporaryBuffer.LocalFile(
-					null, inCoreSizeLimit);
+			LocalFile buffer = new TemporaryBuffer.LocalFile(null,
+					inCoreSizeLimit);
 			FilterCommand command = FilterCommandRegistry.createFilterCommand(
 					filterCommand, repository, input, buffer);
 			while (command.run() != -1) {
@@ -560,7 +560,7 @@ public class PatchApplier {
 			}
 			return buffer.openInputStreamWithAutoDestroy();
 		}
-		org.eclipse.jgit.util.FS fs = repository.getFS();
+		FS fs = repository.getFS();
 		ProcessBuilder filterProcessBuilder = fs.runInShell(filterCommand,
 				new String[0]);
 		filterProcessBuilder.directory(repository.getWorkTree());
@@ -577,14 +577,14 @@ public class PatchApplier {
 		if (rc != 0) {
 			throw new IOException(new FilterFailedException(rc, filterCommand,
 					path, result.getStdout().toByteArray(4096),
-					org.eclipse.jgit.util.RawParseUtils
+					RawParseUtils
 							.decode(result.getStderr().toByteArray(4096))));
 		}
 		return result.getStdout().openInputStreamWithAutoDestroy();
 	}
 
-	private boolean needsCrLfConversion(File f,
-			org.eclipse.jgit.patch.FileHeader fileHeader) throws IOException {
+	private boolean needsCrLfConversion(File f, FileHeader fileHeader)
+			throws IOException {
 		if (PatchType.GIT_BINARY.equals(fileHeader.getPatchType())) {
 			return false;
 		}
@@ -596,12 +596,11 @@ public class PatchApplier {
 		return false;
 	}
 
-	private static boolean hasCrLf(
-			org.eclipse.jgit.patch.FileHeader fileHeader) {
+	private static boolean hasCrLf(FileHeader fileHeader) {
 		if (PatchType.GIT_BINARY.equals(fileHeader.getPatchType())) {
 			return false;
 		}
-		for (org.eclipse.jgit.patch.HunkHeader header : fileHeader.getHunks()) {
+		for (HunkHeader header : fileHeader.getHunks()) {
 			byte[] buf = header.getBuffer();
 			int hunkEnd = header.getEndOffset();
 			int lineStart = header.getStartOffset();
@@ -702,15 +701,15 @@ public class PatchApplier {
 	 * @throws IOException
 	 * @throws UnsupportedOperationException
 	 */
-	private ContentStreamLoader applyBinary(String path, File f,
-			org.eclipse.jgit.patch.FileHeader fh, StreamSupplier inputSupplier,
-			ObjectId id) throws PatchApplyException, IOException,
+	private ContentStreamLoader applyBinary(String path, File f, FileHeader fh,
+			StreamSupplier inputSupplier, ObjectId id)
+			throws PatchApplyException, IOException,
 			UnsupportedOperationException {
 		if (!fh.getOldId().isComplete() || !fh.getNewId().isComplete()) {
 			throw new PatchApplyException(MessageFormat
 					.format(JGitText.get().applyBinaryOidTooShort, path));
 		}
-		org.eclipse.jgit.patch.BinaryHunk hunk = fh.getForwardBinaryHunk();
+		BinaryHunk hunk = fh.getForwardBinaryHunk();
 		// A BinaryHunk has the start at the "literal" or "delta" token. Data
 		// starts on the next line.
 		int start = RawParseUtils.nextLF(hunk.getBuffer(),
@@ -753,8 +752,7 @@ public class PatchApplier {
 		}
 	}
 
-	private ContentStreamLoader applyText(RawText rt,
-			org.eclipse.jgit.patch.FileHeader fh)
+	private ContentStreamLoader applyText(RawText rt, FileHeader fh)
 			throws IOException, PatchApplyException {
 		List<ByteBuffer> oldLines = new ArrayList<>(rt.size());
 		for (int i = 0; i < rt.size(); i++) {
@@ -764,7 +762,7 @@ public class PatchApplier {
 		int afterLastHunk = 0;
 		int lineNumberShift = 0;
 		int lastHunkNewLine = -1;
-		for (org.eclipse.jgit.patch.HunkHeader hh : fh.getHunks()) {
+		for (HunkHeader hh : fh.getHunks()) {
 			// We assume hunks to be ordered
 			if (hh.getNewStartLine() <= lastHunkNewLine) {
 				throw new PatchApplyException(MessageFormat
@@ -933,14 +931,12 @@ public class PatchApplier {
 		return ByteBuffer.wrap(b.array(), newOffset, b.limit() - newOffset);
 	}
 
-	private boolean isNoNewlineAtEndOfFile(
-			org.eclipse.jgit.patch.FileHeader fh) {
-		List<? extends org.eclipse.jgit.patch.HunkHeader> hunks = fh.getHunks();
+	private boolean isNoNewlineAtEndOfFile(FileHeader fh) {
+		List<? extends HunkHeader> hunks = fh.getHunks();
 		if (hunks == null || hunks.isEmpty()) {
 			return false;
 		}
-		org.eclipse.jgit.patch.HunkHeader lastHunk = hunks
-				.get(hunks.size() - 1);
+		HunkHeader lastHunk = hunks.get(hunks.size() - 1);
 		byte[] buf = new byte[lastHunk.getEndOffset()
 				- lastHunk.getStartOffset()];
 		System.arraycopy(lastHunk.getBuffer(), lastHunk.getStartOffset(), buf,
