@@ -354,6 +354,7 @@ public class PatchApplierTest {
 			Result result = applyPatch();
 			verifyChange(result, "ShiftDown2");
 		}
+
 	}
 
 	public static class InCore extends Base {
@@ -361,10 +362,44 @@ public class PatchApplierTest {
 		public InCore() {
 			super(true);
 		}
+
+		@Test
+		public void testNoNewlineAtEnd() throws Exception {
+			init("x_d");
+
+			Result result = applyPatch();
+			verifyChange(result, "x_d");
+		}
+
+		@Test
+		public void testNoNewlineAtEndInHunk() throws Exception {
+			init("x_e");
+
+			Result result = applyPatch();
+			verifyChange(result, "x_e");
+		}
+
+		@Test
+		public void testAddNewlineAtEnd() throws Exception {
+			init("x_add_nl");
+
+			Result result = applyPatch();
+			verifyChange(result, "x_add_nl");
+		}
+
+		@Test
+		public void testRemoveNewlineAtEnd() throws Exception {
+			init("x_last_rm_nl");
+
+			Result result = applyPatch();
+			verifyChange(result, "x_last_rm_nl");
+		}
 	}
 
 	public static class WithWorktree extends Base {
-		public WithWorktree() { super(false); }
+		public WithWorktree() {
+			super(false);
+		}
 
 		@Test
 		public void testModifyNL1() throws Exception {
@@ -467,6 +502,198 @@ public class PatchApplierTest {
 				Result result = applyPatch();
 
 				verifyChange(result, aName);
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testNoNewlineAtEndAutoCRLF_true() throws Exception {
+			try {
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+
+				init("x_d_crlf", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_d_crlf");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testNoNewlineAtEndAutoCRLF_false() throws Exception {
+			try {
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+
+				init("x_d", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_d");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testNoNewlineAtEndAutoCRLF_input() throws Exception {
+			try {
+				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+
+				init("x_d", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_d");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testNoNewlineAtEndInHunkAutoCRLF_true() throws Exception {
+			try {
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+
+				init("x_e_crlf", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_e_crlf");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testNoNewlineAtEndInHunkAutoCRLF_false() throws Exception {
+			try {
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+
+				init("x_e", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_e");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testNoNewlineAtEndInHunkAutoCRLF_input() throws Exception {
+			try {
+				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+
+				init("x_e", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_e");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testAddNewlineAtEndAutoCRLF_true() throws Exception {
+			try {
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+
+				init("x_add_nl_crlf", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_add_nl_crlf");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testAddNewlineAtEndAutoCRLF_false() throws Exception {
+			try {
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+
+				init("x_add_nl", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_add_nl");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testAddNewlineAtEndAutoCRLF_input() throws Exception {
+			try {
+				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+
+				init("x_add_nl", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_add_nl");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testRemoveNewlineAtEndAutoCRLF_true() throws Exception {
+			try {
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+
+				init("x_last_rm_nl_crlf", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_last_rm_nl_crlf");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testRemoveNewlineAtEndAutoCRLF_false() throws Exception {
+			try {
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+
+				init("x_last_rm_nl", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_last_rm_nl");
+			} finally {
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+			}
+		}
+
+		@Test
+		public void testRemoveNewlineAtEndAutoCRLF_input() throws Exception {
+			try {
+				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
+						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+
+				init("x_last_rm_nl", true, true);
+
+				Result result = applyPatch();
+				verifyChange(result, "x_last_rm_nl");
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
