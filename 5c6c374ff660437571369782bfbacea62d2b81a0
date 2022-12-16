@@ -46,6 +46,30 @@
       },
       "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d8cc541_bedb43de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2378,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-16T19:45:20Z",
+      "side": 0,
+      "message": "Sorry, I just realized I was looking at CPU instead of memory for the proposed implementation\u0027s profile. Let me get back to you with the corrected percentages.",
+      "parentUuid": "cce1ab7f_39e2bc88",
+      "range": {
+        "startLine": 2378,
+        "startChar": 2,
+        "endLine": 2378,
+        "endChar": 16
+      },
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
