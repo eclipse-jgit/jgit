@@ -40,6 +40,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
@@ -63,7 +64,7 @@ public class GetRefsBenchmark {
 	@State(Scope.Benchmark)
 	public static class BenchmarkState {
 
-		@Param({ "true", "false" })
+		@Param({ /* "true", */ "false" })
 		boolean useRefTable;
 
 		@Param({ "100", "2500", "10000", "50000" })
@@ -71,6 +72,9 @@ public class GetRefsBenchmark {
 
 		@Param({ "true", "false" })
 		boolean trustFolderStat;
+
+		@Param({ "true", "false" })
+		boolean cacheRefs;
 
 		List<String> branches = new ArrayList<>(numBranches);
 
@@ -101,11 +105,15 @@ public class GetRefsBenchmark {
 				cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT,
 						trustFolderStat);
+				cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_REFCACHE, cacheRefs);
 			}
 			cfg.setInt(ConfigConstants.CONFIG_RECEIVE_SECTION, null,
 					"maxCommandBytes", Integer.MAX_VALUE);
 			cfg.save();
 
+			// reopen to wrap RefDirectory with InMemoryRefDatabase
+			RepositoryCache.close(git.getRepository());
 			repo = RepositoryCache.open(RepositoryCache.FileKey
 					.lenient(repoPath.toFile(), FS.DETECTED));
 
@@ -113,6 +121,7 @@ public class GetRefsBenchmark {
 			System.out.println("- repository: \t\t" + repoPath);
 			System.out.println("- refDatabase: \t\t" + refDatabaseType());
 			System.out.println("- trustFolderStat: \t" + trustFolderStat);
+			System.out.println("- cacheRefs: \t" + cacheRefs);
 			System.out.println("- branches: \t\t" + numBranches);
 
 			BatchRefUpdate u = repo.getRefDatabase().newBatchUpdate();
@@ -152,7 +161,8 @@ public class GetRefsBenchmark {
 	@BenchmarkMode({ Mode.AverageTime })
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
 	@Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = 2, time = 10, timeUnit = TimeUnit.SECONDS)
+	@Fork(value = 1)
+	@Measurement(iterations = 1, time = 1, timeUnit = TimeUnit.SECONDS)
 	public void testGetExactRef(Blackhole blackhole, BenchmarkState state)
 			throws IOException {
 		String branchName = state.branches
@@ -164,7 +174,8 @@ public class GetRefsBenchmark {
 	@BenchmarkMode({ Mode.AverageTime })
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
 	@Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = 2, time = 10, timeUnit = TimeUnit.SECONDS)
+	@Fork(value = 1)
+	@Measurement(iterations = 1, time = 1, timeUnit = TimeUnit.SECONDS)
 	public void testGetRefsByPrefix(Blackhole blackhole, BenchmarkState state)
 			throws IOException {
 		String branchPrefix = "refs/heads/branch/" + branchIndex.nextInt(100)
