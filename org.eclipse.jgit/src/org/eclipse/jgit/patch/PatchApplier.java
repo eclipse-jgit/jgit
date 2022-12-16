@@ -24,6 +24,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -92,6 +93,9 @@ import org.eclipse.jgit.util.sha1.SHA1;
  * @since 6.4
  */
 public class PatchApplier {
+
+	private static final byte[] NO_EOL = "\\ No newline at end of file" //$NON-NLS-1$
+			.getBytes(StandardCharsets.US_ASCII);
 
 	/** The tree before applying the patch. Only non-null for inCore operation. */
 	@Nullable
@@ -762,6 +766,8 @@ public class PatchApplier {
 		int afterLastHunk = 0;
 		int lineNumberShift = 0;
 		int lastHunkNewLine = -1;
+		boolean lastWasRemoval = false;
+		boolean noNewLineAtEndOfNew = false;
 		for (HunkHeader hh : fh.getHunks()) {
 			// We assume hunks to be ordered
 			if (hh.getNewStartLine() <= lastHunkNewLine) {
@@ -850,17 +856,26 @@ public class PatchApplier {
 				if (!hunkLine.hasRemaining()) {
 					// Completely empty line; accept as empty context line
 					applyAt++;
+					lastWasRemoval = false;
 					continue;
 				}
 				switch (hunkLine.array()[hunkLine.position()]) {
 				case ' ':
 					applyAt++;
+					lastWasRemoval = false;
 					break;
 				case '-':
 					newLines.remove(applyAt);
+					lastWasRemoval = true;
 					break;
 				case '+':
 					newLines.add(applyAt++, slice(hunkLine, 1));
+					lastWasRemoval = false;
+					break;
+				case '\\':
+					if (!lastWasRemoval && isNoNewlineAtEnd(hunkLine)) {
+						noNewLineAtEndOfNew = true;
+					}
 					break;
 				default:
 					break;
@@ -868,11 +883,14 @@ public class PatchApplier {
 			}
 			afterLastHunk = applyAt;
 		}
-		if (!isNoNewlineAtEndOfFile(fh)) {
+		// If the last line should have a newline, add a null sentinel
+		if (lastHunkNewLine >= 0 && afterLastHunk == newLines.size()) {
+			// Last line came from the patch
+			if (!noNewLineAtEndOfNew) {
+				newLines.add(null);
+			}
+		} else if (!rt.isMissingNewlineAtEnd()) {
 			newLines.add(null);
-		}
-		if (!rt.isMissingNewlineAtEnd()) {
-			oldLines.add(null);
 		}
 
 		// We could check if old == new, but the short-circuiting complicates
@@ -931,19 +949,9 @@ public class PatchApplier {
 		return ByteBuffer.wrap(b.array(), newOffset, b.limit() - newOffset);
 	}
 
-	private boolean isNoNewlineAtEndOfFile(FileHeader fh) {
-		List<? extends HunkHeader> hunks = fh.getHunks();
-		if (hunks == null || hunks.isEmpty()) {
-			return false;
-		}
-		HunkHeader lastHunk = hunks.get(hunks.size() - 1);
-		byte[] buf = new byte[lastHunk.getEndOffset()
-				- lastHunk.getStartOffset()];
-		System.arraycopy(lastHunk.getBuffer(), lastHunk.getStartOffset(), buf,
-				0, buf.length);
-		RawText lhrt = new RawText(buf);
-		return lhrt.getString(lhrt.size() - 1)
-				.equals("\\ No newline at end of file"); //$NON-NLS-1$
+	private boolean isNoNewlineAtEnd(ByteBuffer hunkLine) {
+		return Arrays.equals(NO_EOL, 0, NO_EOL.length, hunkLine.array(),
+				hunkLine.position(), hunkLine.limit());
 	}
 
 	/**
