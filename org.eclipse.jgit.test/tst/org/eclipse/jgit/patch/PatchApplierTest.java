@@ -354,6 +354,38 @@ public class PatchApplierTest {
 			Result result = applyPatch();
 			verifyChange(result, "ShiftDown2");
 		}
+
+		@Test
+		public void testNoNewlineAtEnd() throws Exception {
+			init("x_d", true, true);
+
+			Result result = applyPatch();
+			verifyChange(result, "x_d");
+		}
+
+		@Test
+		public void testNoNewlineAtEndInHunk() throws Exception {
+			init("x_e", true, true);
+
+			Result result = applyPatch();
+			verifyChange(result, "x_e");
+		}
+
+		@Test
+		public void testAddNewlineAtEnd() throws Exception {
+			init("x_add_nl", true, true);
+
+			Result result = applyPatch();
+			verifyChange(result, "x_add_nl");
+		}
+
+		@Test
+		public void testRemoveNewlineAtEnd() throws Exception {
+			init("x_last_rm_nl", true, true);
+
+			Result result = applyPatch();
+			verifyChange(result, "x_last_rm_nl");
+		}
 	}
 
 	public static class InCore extends Base {
