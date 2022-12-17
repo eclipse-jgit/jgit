@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/CoreConfig.java" type="org.eclipse.jgit.lib.CoreConfig">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.CoreConfig"/>
+                <message_argument value="DEFAULT_COMMIT_GRAPH_ENABLE"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
