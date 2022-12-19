@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c7c2d3_74fa7893",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-19T01:00:49Z",
+      "side": 1,
+      "message": "Is it normal that changing AUTOCRLF breaks tests?",
+      "revId": "260c3f8cdb3328e9ef0d169e74e0ccb800ca3419",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
