@@ -22,6 +22,30 @@
       },
       "revId": "5efbfa9fdeec3b6d01983120f2b18aa65fd0412b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feec4325_9a184d16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-19T02:38:38Z",
+      "side": 1,
+      "message": "\u003e I wonder if the ObjectReader needs to know about commitGraph if it\u0027s just getting it from ObjectDatabase anyway. IIRC, anywhere you can obtain an ObjectReader, you have access to the ObjectDatabase, so the commitGraph can be obtained directly from ObjectDatabase. \n\nProbably not for RevWalk, which has multiple constructors. If it is \"public RevWalk(Repository repo)\", then we can get ObjectDataBase, but if it is “public RevWalk(ObjectReader or)”, it will not work. So I think this patch should still be necessary.\n\nIn my opinion, ObjectReader#getCommitGraph() is very similar to ObjectReader#getBitmapIndex().",
+      "parentUuid": "5a8b2a65_b97f63c1",
+      "range": {
+        "startLine": 513,
+        "startChar": 20,
+        "endLine": 513,
+        "endChar": 34
+      },
+      "revId": "5efbfa9fdeec3b6d01983120f2b18aa65fd0412b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
