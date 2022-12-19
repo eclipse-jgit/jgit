@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c0fc1a0_6d4e35f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307652
+      },
+      "writtenOn": "2022-12-19T22:53:24Z",
+      "side": 1,
+      "message": "Indeed!\nTest code:\n```\n\t\t\t\t\t\txr \u003d XMLReaderFactory.createXMLReader();\n\n\t\t\t\t\t\tSystem.out.printf(\"XMLReader namespaces\u003d%s\\n\",\n\t\t\t\t\t\t\t\t   xr.getFeature(\"http://xml.org/sax/features/namespaces\") ? \"on\" : \"off\");\n\t\t\t\t\t\tSystem.out.printf(\"XMLReader namespace-prefixes\u003d%s\\n\",\n\t\t\t\t\t\t\t\t   xr.getFeature(\"http://xml.org/sax/features/namespace-prefixes\") ? \"on\" : \"off\");\n\n\t\t\t\t\t\tfinal XMLReader xr2;\n\t\t\t\t\t\txr2 \u003d SAXParserFactory.newInstance().newSAXParser()\n\t\t\t\t\t\t \t\t.getXMLReader();\n\t\t\t\t\t\tSystem.out.printf(\"SAX.XMLReader namespaces\u003d%s\\n\",\n\t\t\t\t\t\t\t\t   xr2.getFeature(\"http://xml.org/sax/features/namespaces\") ? \"on\" : \"off\");\n\t\t\t\t\t\tSystem.out.printf(\"SAX.XMLReader namespace-prefixes\u003d%s\\n\",\n\t\t\t\t\t\t\t\t   xr2.getFeature(\"http://xml.org/sax/features/namespace-prefixes\") ? \"on\" : \"off\");\n```\n\nResult:\n```\nXMLReader namespaces\u003don\nXMLReader namespace-prefixes\u003doff\nSAX.XMLReader namespaces\u003doff\nSAX.XMLReader namespace-prefixes\u003don\n```\n\nHence the change from `name` being populated to `qName`.\n\n@Matthias: thoughts on how you want to fix this? Presumably we can call `.setFeature` on the new SAX-returned parser to restore the old behavior, rather than mess with the empty string comparisons and such below.\n\nI confirmed that setting namespaces\u003don and namespace-prefixes\u003doff restores the previous behavior, allowing fetches.",
+      "parentUuid": "de51a2ed_22243f87",
+      "revId": "cc10bb70eee913b45dc096812368b794e93abed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "170b49f7_375c24fa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 2

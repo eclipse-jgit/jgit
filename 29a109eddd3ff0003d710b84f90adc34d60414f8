@@ -72,6 +72,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "487d0bce_4ac3e8e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307652
+      },
+      "writtenOn": "2022-12-19T22:53:24Z",
+      "side": 1,
+      "message": "\u003e Should these parsers also do so?\n\nWe\u0027re way outside my \"I\u0027m familiar with these APIs\" territory. Any answer I\u0027d give you would be based on just trying all these things and looking at the results, treading the XMLReader as a black box. Which I\u0027m happy to do in order to make this work, but I\u0027m not sure we\u0027d get to the true/right answer.\n\nNext time I find some time to work on this, I can iterate over those options, to, and I\u0027ll record both name/qName from the runs.\n\nOn second thought, I really home @Matthias can look at these things, it seems from the commit history he\u0027s more familiar with these parsers?",
+      "parentUuid": "ea87cfcf_a379a1e4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "db96e86c_5ea0f8ff",
