@@ -16,6 +16,24 @@
       "message": "We don\u0027t use \"final\" anymore. You wrote it consistently with the other methods, but they are old code and haven\u0027t been updated to the style guide. For this new method, remove the final (no need to touch the rest of the file).\n\nFrom the \"Use of the \"final\" modifier\" in https://wiki.eclipse.org/EGit/Contributor_Guide:\n\nNever:\nlocal variables: it clutters the code, and makes the code less readable. When copying old code to new location, finals should be removed\nmethod parameters: similar to local variables",
       "revId": "d6e702c162a0c777ca905e6e60dfb3c529f3123a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f37f0af_748db61a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-19T18:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25521fc5_991718fc",
+      "revId": "d6e702c162a0c777ca905e6e60dfb3c529f3123a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
