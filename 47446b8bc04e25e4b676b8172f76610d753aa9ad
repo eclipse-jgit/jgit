@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb8a7d54_12bf6437",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T14:10:11Z",
+      "side": 1,
+      "message": "One detail and I think it is ready.",
+      "revId": "47446b8bc04e25e4b676b8172f76610d753aa9ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
