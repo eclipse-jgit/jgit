@@ -16,6 +16,24 @@
       "message": "Is it normal that changing AUTOCRLF breaks tests?",
       "revId": "260c3f8cdb3328e9ef0d169e74e0ccb800ca3419",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6507bf_5cfee505",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-19T06:52:30Z",
+      "side": 1,
+      "message": "In this case: yes. The test data was prepared with autocrlf false using git 2.33.0 on OS X. If you want to add tests with autocrlf, you have to supply matching test data. For instance the Postimage should then have CR-LF line endings. These new tests need new test data.",
+      "parentUuid": "53c7c2d3_74fa7893",
+      "revId": "260c3f8cdb3328e9ef0d169e74e0ccb800ca3419",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
