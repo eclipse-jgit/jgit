@@ -16,6 +16,23 @@
       "message": "I moved this commit to the base of the chain, so hopefully it\u0027s easy to merge if it looks good now!",
       "revId": "9b7c3ac11f968364799537040f4765b881ed96ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dcd2951_e31bf94b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T18:49:57Z",
+      "side": 1,
+      "message": "One detail and I think it is ready.",
+      "revId": "9b7c3ac11f968364799537040f4765b881ed96ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
