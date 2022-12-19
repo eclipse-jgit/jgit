@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf3b583_1cfed171",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:36:22Z",
+      "side": 1,
+      "message": "Can we use a better sorting algorithm with O(n log n) complexity ?\nJava uses TimSort, see https://www.linkedin.com/pulse/java-collectionssort-arrayssort-under-hood-surinder-kumar-mehra/",
+      "range": {
+        "startLine": 13,
+        "startChar": 48,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9cfeb265_370d69e1",
@@ -36,6 +59,121 @@
         "startChar": 33,
         "endLine": 117,
         "endChar": 39
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63838526_28ebf02b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:36:22Z",
+      "side": 1,
+      "message": "we can see the version number so there is no need to repeat that in text\n\nreverse index version",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bab0784_dca0b6a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:36:22Z",
+      "side": 1,
+      "message": "what does that mean ?",
+      "range": {
+        "startLine": 54,
+        "startChar": 57,
+        "endLine": 55,
+        "endChar": 27
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60fa6043_bd8569ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:36:22Z",
+      "side": 1,
+      "message": "we don\u0027t use final for method parameters and local variables, see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 75,
+        "startChar": 51,
+        "endLine": 75,
+        "endChar": 56
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25a57fd5_2745ef15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:36:22Z",
+      "side": 1,
+      "message": "Create a writer ...",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eae525d_c68f7099",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:36:22Z",
+      "side": 1,
+      "message": "reverse index format version",
+      "range": {
+        "startLine": 85,
+        "startChar": 15,
+        "endLine": 85,
+        "endChar": 59
       },
       "revId": "af9341316b83dea320685a795354b5403e1778c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
