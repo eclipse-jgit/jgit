@@ -94,6 +94,30 @@
       },
       "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "727208c7_25172a50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2378,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T22:50:00Z",
+      "side": 0,
+      "message": "Bitmap calculation is a very heavy process. I suspect that GC could kick in in the middle and then having this collection marked as \"unreachable\" helps to get rid of it at that moment. Otherwise the memory has a valid pointer and don\u0027t know if GC is clever enough to know that you won\u0027t use it.\n\nMaybe it is not that much memory, but we won\u0027t need it and doesn\u0027t harm telling that to GC. I think we better do not remove the nulls.\n\nCheck the javadoc of this method (because you are making it keep some of the internal state).",
+      "parentUuid": "bb368a1f_0f600468",
+      "range": {
+        "startLine": 2378,
+        "startChar": 2,
+        "endLine": 2378,
+        "endChar": 16
+      },
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

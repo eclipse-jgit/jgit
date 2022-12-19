@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48a64966_041a58dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T22:50:00Z",
+      "side": 1,
+      "message": "\u003e It seems the new implementation copies the list once more than the old implementation.\n\nThe new implementation uses Collections::unmodifiableList. Checking the code (openjdk11)[1], it doesn\u0027t copy the elements, it just wraps the reference in a class that prevents modification[2],[3]. From the code, it shouldn\u0027t have a big memory impact (some bytes of class headers for the whole list) and Anna\u0027s profiling confirms that.\n\n[1] https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/Collections.java#L1325\n[2] https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/Collections.java#L1341\n[3] https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/Collections.java#L1038",
+      "parentUuid": "59c9b8c7_ea3adf2a",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "83f17e570c940616cd83e3b00224e1a914da5bf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08bf7508_7370b89a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 3
