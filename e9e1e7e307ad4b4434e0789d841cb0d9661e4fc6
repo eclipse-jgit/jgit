@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53454b4e_6f3eebdc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T17:52:00Z",
+      "side": 1,
+      "message": "Plese update this javadoc, this is not the structure anymore, but the file. \n\nAlso, mention that this rechecks for newer versions on each #get.",
+      "revId": "e9e1e7e307ad4b4434e0789d841cb0d9661e4fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9211d10_4fd0daed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T17:52:00Z",
+      "side": 1,
+      "message": "I suspect some complexity here comes from using \"null\" for a non-existing graph. \n\nIf the GraphSnapshot is aware of this \"no graph state\" , it could have a #refresh() method that returns a GraphSnapshot: \"this\" if it hasn\u0027t change, or a new instance reparsing the file (with \"no-graph\" if the file is deleted).\n\nThen FileCommitGraph only needs to synchronize the invokation to #refresh",
+      "revId": "e9e1e7e307ad4b4434e0789d841cb0d9661e4fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ca1c34_37d665a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T17:52:00Z",
+      "side": 1,
+      "message": "This is only invoked with a graph.get()... can that \"get\" be done inside this method? and then this method is only \"getLatestCommitGraph()\".",
+      "revId": "e9e1e7e307ad4b4434e0789d841cb0d9661e4fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

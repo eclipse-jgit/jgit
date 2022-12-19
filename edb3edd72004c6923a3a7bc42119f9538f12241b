@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9641163d_84cde30b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T17:52:00Z",
+      "side": 1,
+      "message": "I am not completely in about the FileCommitGraph implementation but it is all limited to that class and has unit tests, so we can easily tune it later. I left some comments in case they help. If you want to keep working on it, split the ObjectDatabase into its own change, to submit and continue on top of it.\n\nCouple of comments on the javadoc, this is ready to go. Thanks!\n\n",
+      "revId": "edb3edd72004c6923a3a7bc42119f9538f12241b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f934b358_92aa53f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T17:52:00Z",
+      "side": 1,
+      "message": "\"Get the commit-graph for this repository if available.\"\n\nPlease add a line explaining that the commit graph can be created/modified/deleted while the repository is open and specific implementations decide when to refresh it.",
+      "revId": "edb3edd72004c6923a3a7bc42119f9538f12241b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
