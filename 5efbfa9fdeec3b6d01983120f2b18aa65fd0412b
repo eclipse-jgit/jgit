@@ -46,6 +46,30 @@
       },
       "revId": "5efbfa9fdeec3b6d01983120f2b18aa65fd0412b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bfb980f_0d6516ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2022-12-19T20:21:31Z",
+      "side": 1,
+      "message": "Since commits are objects, I think it would be fine to obtain the commitGraph via objectReader. Thanks for bringing up the potential code change needed for RevWalk in absence of this change.",
+      "parentUuid": "feec4325_9a184d16",
+      "range": {
+        "startLine": 513,
+        "startChar": 20,
+        "endLine": 513,
+        "endChar": 34
+      },
+      "revId": "5efbfa9fdeec3b6d01983120f2b18aa65fd0412b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
