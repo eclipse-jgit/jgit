@@ -207,6 +207,25 @@ public class IO {
 	}
 
 	/**
+	 * Read from input until the entire byte array filled, or throw an exception
+	 * if stream ends first.
+	 *
+	 * @param fd
+	 *            input stream to read the data from.
+	 * @param dst
+	 *            buffer that must be fully populated
+	 * @throws EOFException
+	 *             the stream ended before dst was fully populated.
+	 * @throws java.io.IOException
+	 *             there was an error reading from the stream.
+	 * @since 6.5
+	 */
+	public static void readFully(InputStream fd, byte[] dst)
+			throws IOException {
+		readFully(fd, dst, 0, dst.length);
+	}
+
+	/**
 	 * Read as much of the array as possible from a channel.
 	 *
 	 * @param channel
