@@ -71,6 +71,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98f7d17e_a13e10df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:12:24Z",
+      "side": 1,
+      "message": "Now the only difference compared to the old code is wrapping the result as an unmodifiable list. Hence I propose to revert this back by inlining this method into its only caller #getSortedByName which reduces the size of this change considerably. I\u0027d also rename the method back to the old name.",
+      "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44021bed_3ca51617",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 11
@@ -82,6 +99,24 @@
       "writtenOn": "2022-12-19T22:50:00Z",
       "side": 1,
       "message": "Why #makeSortedByName() here and not getSortByName(), which would be equivalent to the old code?",
+      "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac822d6c_996f9fde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2380,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:12:24Z",
+      "side": 1,
+      "message": "yes, there is no functional change except wrapping the result list as unmodifiable",
+      "parentUuid": "44021bed_3ca51617",
       "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

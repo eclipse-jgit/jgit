@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f996204_ff53fa86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-19T23:12:24Z",
+      "side": 1,
+      "message": "I was commenting on PS 3 where the list was copied, in PS11 this was fixed by wrapping the list to become unmodifiable",
+      "parentUuid": "48a64966_041a58dd",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "83f17e570c940616cd83e3b00224e1a914da5bf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08bf7508_7370b89a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 3
