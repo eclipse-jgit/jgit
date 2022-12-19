@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cfeb265_370d69e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T23:07:04Z",
+      "side": 1,
+      "message": "Thanks! Classes and tests look great. I wonder if we could do the calculation in a more efficient way.",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d5d0546_9864d3a7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1Test.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T23:07:04Z",
+      "side": 1,
+      "message": "I didn\u0027t know this trick! :)",
+      "range": {
+        "startLine": 117,
+        "startChar": 33,
+        "endLine": 117,
+        "endChar": 39
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef9d5087_c33beb47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T23:07:04Z",
+      "side": 1,
+      "message": "Is this list going to be modified inside? Please mention that in the javadoc.",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b780a7b_98cd7f54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T23:07:04Z",
+      "side": 1,
+      "message": "Can you somehow reuse the code that did the calculation in memory? (I don\u0027t know if it creates the same format). IIRC it used 2 or 3 int[]...\n\nan int is 4 bytes, but an Integer is 16 bytes (12 of the class header + int), so we rather use int[]",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14f7731f_3e2f04e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-19T23:07:04Z",
+      "side": 1,
+      "message": "usually writing is more efficient in bigger batches... \n\nMaybe you can translate the int[] to a byte[] and then write it one or more chunks?",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
