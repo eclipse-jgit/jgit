@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "967a4f22_40aa8a7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-20T00:16:06Z",
+      "side": 1,
+      "message": "Can you give more insights of which type of clients would do that?\nIs there any specific NFS option that the Gerrit admin should set for enabling the `after_open` option here?",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 44
+      },
+      "revId": "98230995a2f07061ae5f12ef999c55b4382adf5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c964261_14e08475",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-20T00:16:06Z",
+      "side": 1,
+      "message": "Can you provide some input of which NFS options would influence that?",
+      "range": {
+        "startLine": 49,
+        "startChar": 553,
+        "endLine": 49,
+        "endChar": 622
+      },
+      "revId": "98230995a2f07061ae5f12ef999c55b4382adf5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3cd92c_236a3017",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-20T00:16:06Z",
+      "side": 1,
+      "message": "What would be the use-case for this? Shouldn\u0027t be \u0027unset\u0027 be enough and leave the \u0027trustFolderStat\u0027 to decide what to do?",
+      "range": {
+        "startLine": 49,
+        "startChar": 156,
+        "endLine": 49,
+        "endChar": 247
+      },
+      "revId": "98230995a2f07061ae5f12ef999c55b4382adf5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
