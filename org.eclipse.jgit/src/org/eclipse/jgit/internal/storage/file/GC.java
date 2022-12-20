@@ -796,6 +796,10 @@ public class GC {
 		Set<ObjectId> tagTargets = new HashSet<>();
 		Set<ObjectId> indexObjects = listNonHEADIndexObjects();
 
+		Set<ObjectId> refsToExcludeFromBitmap = repo.getRefDatabase()
+				.getRefsByPrefix(pconfig.getBitmapExcludedRefsPrefixes())
+				.stream().map(Ref::getObjectId).collect(Collectors.toSet());
+
 		for (Ref ref : refsBefore) {
 			checkCancelled();
 			nonHeads.addAll(listRefLogObjects(ref, 0));
@@ -840,7 +844,7 @@ public class GC {
 		Pack heads = null;
 		if (!allHeadsAndTags.isEmpty()) {
 			heads = writePack(allHeadsAndTags, PackWriter.NONE, allTags,
-					tagTargets, excluded);
+					refsToExcludeFromBitmap, tagTargets, excluded);
 			if (heads != null) {
 				ret.add(heads);
 				excluded.add(0, heads.getIndex());
@@ -848,13 +852,13 @@ public class GC {
 		}
 		if (!nonHeads.isEmpty()) {
 			Pack rest = writePack(nonHeads, allHeadsAndTags, PackWriter.NONE,
-					tagTargets, excluded);
+					PackWriter.NONE, tagTargets, excluded);
 			if (rest != null)
 				ret.add(rest);
 		}
 		if (!txnHeads.isEmpty()) {
 			Pack txn = writePack(txnHeads, PackWriter.NONE, PackWriter.NONE,
-					null, excluded);
+					PackWriter.NONE, null, excluded);
 			if (txn != null)
 				ret.add(txn);
 		}
@@ -1123,6 +1127,7 @@ public class GC {
 
 	private Pack writePack(@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have, @NonNull Set<ObjectId> tags,
+			@NonNull Set<ObjectId> excludedRefsTips,
 			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects)
 			throws IOException {
 		checkCancelled();
@@ -1154,7 +1159,8 @@ public class GC {
 			if (excludeObjects != null)
 				for (ObjectIdSet idx : excludeObjects)
 					pw.excludeObjects(idx);
-			pw.preparePack(pm, want, have, PackWriter.NONE, tags);
+			pw.preparePack(pm, want, have, PackWriter.NONE,
+					union(tags, excludedRefsTips));
 			if (pw.getObjectCount() == 0)
 				return null;
 			checkCancelled();
@@ -1265,6 +1271,15 @@ public class GC {
 					tmpExt.delete();
 			}
 		}
+	}
+
+	private Set<? extends ObjectId> union(Set<ObjectId> tags,
+			Set<ObjectId> excludedRefsHeadsTips) {
+		HashSet<ObjectId> unionSet = new HashSet<>(
+				tags.size() + excludedRefsHeadsTips.size());
+		unionSet.addAll(tags);
+		unionSet.addAll(excludedRefsHeadsTips);
+		return unionSet;
 	}
 
 	private void checkCancelled() throws CancelledException {
