@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.eclipse.jgit.internal.storage.file.GcTestCase;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
@@ -196,6 +198,30 @@ public class GcCommitSelectionTest extends GcTestCase {
 				commitsForSparseBranch + commitsForFullBranch
 						+ commitsForShallowBranches,
 				gc.getStatistics().numberOfBitmaps);
+	}
+
+	@Test
+	public void testBitmapsForExcludedBranches() throws Exception {
+		// Create 100 branches of the form refs/heads/<1 to 10>/<1 to 10>
+		int numBranches = 100;
+		for (int i = 0; i < numBranches; i++) {
+			BranchBuilder bb = tr.branch("refs/heads/" + i/10 + "/" + i%10);
+			String msg = "singlecommit" + i;
+			bb.commit().message(msg).add(msg, msg).create();
+		}
+
+		// Exclude 50 branches starting with the prefixes refs/heads/<1 to 5>/
+		int numExcludedBranches = 50;
+		String[] excludedBranches = IntStream.range(0, numExcludedBranches / 10).mapToObj(idx -> "refs/heads/" + idx + "/").collect(Collectors.toSet()).toArray(new String[0]);
+
+		gc.setPackExpireAgeMillis(0); // immediately delete old packs
+		gc.setExpireAgeMillis(0);
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBitmapExcludedRefsPrefixes(excludedBranches);
+		gc.setPackConfig(packConfig);
+		gc.gc();
+		assertEquals(numBranches - numExcludedBranches,
+			gc.getStatistics().numberOfBitmaps);
 	}
 
 	@Test
