@@ -16,6 +16,23 @@
       "message": "Hi AD, this is a replacement for https://git.eclipse.org/r/c/jgit/jgit/+/197582 which is being abandoned. Assigning you for +1 since you were the +1 on that commit. Thanks!",
       "revId": "a3fd17610861d2a47ea65321ea607e8fcb04b7c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0c9102a_a4806aaa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-20T18:52:55Z",
+      "side": 1,
+      "message": "Adding Ivan for +2 since he has context on https://git.eclipse.org/r/c/jgit/jgit/+/197582 as well!",
+      "revId": "a3fd17610861d2a47ea65321ea607e8fcb04b7c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
