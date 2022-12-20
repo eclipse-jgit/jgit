@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58293d47_922adff0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-20T00:06:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7c6c8cb6_b99b72f8",
+      "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6818f31f_c9870ae0",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-12-19T22:50:00Z",
       "side": 1,
       "message": "I don\u0027t understand this paragraph. #sortedByName is a getter that calculates the value the first time and reuses it afterwards.\n\nAnything in the class can change the list reference or its content. An unmodifiable list would help with the second point (but I don\u0027t think with the current PackWriter design we can do much about the first)",
+      "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8729dcb8_b0e0a723",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-20T00:06:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6818f31f_c9870ae0",
       "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -69,6 +105,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acbfb7e4_5b389ff6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-20T00:06:47Z",
+      "side": 1,
+      "message": "Thank you Matthias for your responses and new comments. Thanks Ivan for adding your comments as well.\n\nI learned in this proposal that optimizations at the level of 0.15% of a method\u0027s memory footprint is important.\n\nAs a new reader of the code base, the details of the mutation and null pointer setting was confusing. I come from a background where readability and debug-ability (time of developers) is more important than small performance optimizations (time of machines).\n\nI\u0027ll bear this in mind as I consider future refactorings in JGit.\n\nI\u0027m going to abandon this commit and upload a new proposal where I simply add a couple of clarifying comments for the future reader.",
+      "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98f7d17e_a13e10df",
@@ -82,6 +135,24 @@
       "writtenOn": "2022-12-19T23:12:24Z",
       "side": 1,
       "message": "Now the only difference compared to the old code is wrapping the result as an unmodifiable list. Hence I propose to revert this back by inlining this method into its only caller #getSortedByName which reduces the size of this change considerably. I\u0027d also rename the method back to the old name.",
+      "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "035b806a_f125dafe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-20T00:06:47Z",
+      "side": 1,
+      "message": "#makeSortedByName is actually used a second time in this refactoring, Line 2413 in the PS.",
+      "parentUuid": "98f7d17e_a13e10df",
       "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -117,6 +188,24 @@
       "side": 1,
       "message": "yes, there is no functional change except wrapping the result list as unmodifiable",
       "parentUuid": "44021bed_3ca51617",
+      "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fc33f72_5bb84e93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2380,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2022-12-20T00:06:47Z",
+      "side": 1,
+      "message": "In general, silent side-effects can be hard to maintain (both readability and debug-ability).\n\nLine 2383 is passing `byName` into `PackBitmapIndexBuilder`. Inside of that file, `byName` is mutated in Line 105.\n\nThis refactor removes this silent side-effect by passing in a new list, which is mutable, and no longer referenced by other methods in this class.\n\nI noticed this because the original logic was confusing when I was introducing a new usage of `sortByName`.",
+      "parentUuid": "ac822d6c_996f9fde",
       "revId": "13298bda9d16a9d89f194e744e6cd5f4265baf11",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
