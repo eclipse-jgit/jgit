@@ -2371,10 +2371,14 @@ public class PackWriter implements AutoCloseable {
 
 		int numCommits = objectsLists[OBJ_COMMIT].size();
 		List<ObjectToPack> byName = sortByName();
+		// Reset sortedByName before the array that it points to is mutated by
+		// PackBitmapIndexBuilder, to prevent other methods referencing the
+		// mutated array afterwards.
 		sortedByName = null;
 		objectsLists = null;
 		objectsMap = null;
 		writeBitmaps = new PackBitmapIndexBuilder(byName);
+		// Allow byName to be GC'd if JVM GC runs before the end of the method.
 		byName = null;
 
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
