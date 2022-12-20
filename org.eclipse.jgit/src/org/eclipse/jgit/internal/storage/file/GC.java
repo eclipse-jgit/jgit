@@ -1211,15 +1211,8 @@ public class GC {
 					idxChannel.force(true);
 				}
 			}
-
 			// rename the temporary files to real files
 			File packDir = repo.getObjectDatabase().getPackDirectory();
-			PackFile realPack = new PackFile(packDir, id, PackExt.PACK);
-
-			repo.getObjectDatabase().closeAllPackHandles(realPack);
-			tmpPack.setReadOnly();
-
-			FileUtils.rename(tmpPack, realPack, StandardCopyOption.ATOMIC_MOVE);
 			for (Map.Entry<PackExt, File> tmpEntry : tmpExts.entrySet()) {
 				File tmpExt = tmpEntry.getValue();
 				tmpExt.setReadOnly();
@@ -1243,6 +1236,13 @@ public class GC {
 							realExt), e);
 				}
 			}
+			PackFile realPack = new PackFile(packDir, id, PackExt.PACK);
+
+			repo.getObjectDatabase().closeAllPackHandles(realPack);
+			tmpPack.setReadOnly();
+
+			FileUtils.rename(tmpPack, realPack, StandardCopyOption.ATOMIC_MOVE);
+
 			boolean interrupted = false;
 			try {
 				FileSnapshot snapshot = FileSnapshot.save(realPack);
