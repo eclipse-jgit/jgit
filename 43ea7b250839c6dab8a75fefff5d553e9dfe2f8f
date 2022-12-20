@@ -18,6 +18,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21c7cc8a_c016b617",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-20T22:40:01Z",
+      "side": 1,
+      "message": "Also, I\u0027ll be off until Jan 2nd. Looking forward to keep working in this commit-graph after the break. Thanks again for your hard work, Kyle!",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4c7ecb3_3d76d336",
@@ -88,6 +105,23 @@
       "writtenOn": "2022-12-20T19:46:42Z",
       "side": 1,
       "message": "nit: is this indentation ok? looks a bit off (specially when in the else MessageFormat is in the same line than LOG)",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cc01b29_a1807132",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileObjectDatabase.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-20T22:40:01Z",
+      "side": 1,
+      "message": "This is graph or null, but the reader will wrap it in an Optional. Should this return an Optional directly? to keep both APIs consistent?",
       "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
