@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.eclipse.jgit.internal.storage.file.GcTestCase;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
@@ -196,6 +198,24 @@ public class GcCommitSelectionTest extends GcTestCase {
 				commitsForSparseBranch + commitsForFullBranch
 						+ commitsForShallowBranches,
 				gc.getStatistics().numberOfBitmaps);
+	}
+
+	@Test
+	public void testBitmapsForExcludedBranches() throws Exception {
+		createNewBranch("main");
+		createNewBranch("other");
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBitmapExcludedRefsPrefixes(new String[] { "refs/heads/other" });
+		gc.setPackConfig(packConfig);
+		gc.gc();
+		assertEquals(1,
+			gc.getStatistics().numberOfBitmaps);
+	}
+
+	private void createNewBranch(String branchName) throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/" + branchName);
+		String msg = "New branch " + branchName;
+		bb.commit().message(msg).add(msg, msg).create();
 	}
 
 	@Test
