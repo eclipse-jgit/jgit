@@ -221,6 +221,24 @@ public class GcCommitSelectionTest extends GcTestCase {
 	}
 
 	@Test
+	public void testBitmapsForExcludedBranches() throws Exception {
+		createNewBranch("main");
+		createNewBranch("other");
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBitmapExcludedRefsPrefixes(new String[] { "refs/heads/other" });
+		gc.setPackConfig(packConfig);
+		gc.gc();
+		assertEquals(1,
+			gc.getStatistics().numberOfBitmaps);
+	}
+
+	private void createNewBranch(String branchName) throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/" + branchName);
+		String msg = "New branch " + branchName;
+		bb.commit().message(msg).add(msg, msg).create();
+	}
+
+	@Test
 	public void testSelectionOrderingWithChains() throws Exception {
 		/*-
 		 * Create a history like this, where 'N' is the number of seconds from
