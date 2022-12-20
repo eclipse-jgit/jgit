@@ -38,6 +38,8 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.Deflater;
@@ -226,6 +228,14 @@ public class PackConfig {
 	public static final int DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS = 90;
 
 	/**
+	 * Default refs prefixes excluded from the calculation of pack bitmaps.
+	 *
+	 * Since: 5.13.2
+	 * See Also: setBitmapExludedRefsPrefixes(Set)
+	 */
+	public static final Set<String> DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES = Collections.EMPTY_SET;
+
+	/**
 	 * Default max time to spend during the search for reuse phase. This
 	 * optimization is disabled by default: {@value}
 	 *
@@ -284,6 +294,8 @@ public class PackConfig {
 	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
 
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
+
+	private Set<String> bitmapExcludedRefsPrefixes = DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES;
 
 	private Duration searchForReuseTimeout = DEFAULT_SEARCH_FOR_REUSE_TIMEOUT;
 
@@ -1142,6 +1154,25 @@ public class PackConfig {
 	 */
 	public void setBitmapInactiveBranchAgeInDays(int ageInDays) {
 		bitmapInactiveBranchAgeInDays = ageInDays;
+	}
+
+	/**
+	 * Get the refs prefixes excluded from the BitMap.
+	 * @return the refs prefixes excluded from the BitMap.
+	 *
+	 * Since: 5.13.2
+	 */
+	public Set<String> getBitmapExcludedRefsPrefixes() {
+		return bitmapExcludedRefsPrefixes;
+	}
+
+	/**
+	 * Set the refs prefixes excluded from the BitMap.
+	 *
+	 * @param excludedRefsPrefixes - the refs prefixes excluded from the BitMap.
+	 */
+	public void setBitmapExcludedRefsPrefixes(Set<String> excludedRefsPrefixes) {
+		bitmapExcludedRefsPrefixes = excludedRefsPrefixes;
 	}
 
 	/**

@@ -796,6 +796,9 @@ public class GC {
 		Set<ObjectId> tagTargets = new HashSet<>();
 		Set<ObjectId> indexObjects = listNonHEADIndexObjects();
 
+		Set<ObjectId> refsToExcludeFromBitMap = repo.getRefDatabase().getRefsByPrefix(pconfig.getBitmapExcludedRefsPrefixes().toArray(new String[0]))
+			.stream().map(Ref::getObjectId).collect(Collectors.toSet());
+
 		for (Ref ref : refsBefore) {
 			checkCancelled();
 			nonHeads.addAll(listRefLogObjects(ref, 0));
@@ -815,6 +818,7 @@ public class GC {
 		}
 
 		List<ObjectIdSet> excluded = new LinkedList<>();
+		excluded.add(refsToExcludeFromBitMap::contains);
 		for (Pack p : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
 			if (p.shouldBeKept())
