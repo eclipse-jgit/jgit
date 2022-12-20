@@ -621,6 +621,12 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_COUNT = "bitmapexcessivebranchcount";
 
 	/**
+	 * The "pack.bitmapExcludedRefsPrefixes" key
+	 * @since 5.13
+	 */
+	public static final String CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES = "bitmapexcludedrefsprefixes";
+
+	/**
 	 * The "pack.bitmapInactiveBranchAgeInDays" key
 	 * @since 5.8
 	 */
