@@ -410,7 +410,8 @@ class PackWriterBitmapPreparer {
 		for (AnyObjectId objectId : want) {
 			RevObject ro = rw.peel(rw.parseAny(objectId));
 			if (!(ro instanceof RevCommit) || reuse.contains(ro)
-					|| excludeFromBitmapSelection.contains(ro)) {
+					|| excludeFromBitmapSelection.contains(ro)
+					|| excludeFromBitmapSelection.contains(objectId)) {
 				continue;
 			}
 
