@@ -33,6 +33,24 @@
       "message": "\"Get the commit-graph for this repository if available.\"\n\nPlease add a line explaining that the commit graph can be created/modified/deleted while the repository is open and specific implementations decide when to refresh it.",
       "revId": "edb3edd72004c6923a3a7bc42119f9538f12241b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b84bad_64df291b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-20T06:50:11Z",
+      "side": 1,
+      "message": "Since ObjectReader#getCommitGraph() do the same work in later change[1], I removed\nthis method and put it to protect class FileObjectDatabase. In this way, one less public API can be exposed.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/197629/",
+      "parentUuid": "f934b358_92aa53f2",
+      "revId": "edb3edd72004c6923a3a7bc42119f9538f12241b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3662e903_dd2e5bae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-20T06:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53454b4e_6f3eebdc",
+      "revId": "e9e1e7e307ad4b4434e0789d841cb0d9661e4fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9211d10_4fd0daed",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "564b14ab_35ef5121",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-20T06:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9211d10_4fd0daed",
+      "revId": "e9e1e7e307ad4b4434e0789d841cb0d9661e4fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23ca1c34_37d665a6",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-12-19T17:52:00Z",
       "side": 1,
       "message": "This is only invoked with a graph.get()... can that \"get\" be done inside this method? and then this method is only \"getLatestCommitGraph()\".",
+      "revId": "e9e1e7e307ad4b4434e0789d841cb0d9661e4fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c097665_305fda2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-20T06:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23ca1c34_37d665a6",
       "revId": "e9e1e7e307ad4b4434e0789d841cb0d9661e4fc6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

@@ -121,6 +121,24 @@
       "parentUuid": "63846fd7_8426f7e6",
       "revId": "e53458add9412148f2932abccd522e6836185852",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d1afb21_8f7bbbc2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-20T06:50:11Z",
+      "side": 1,
+      "message": "\u003e The file out of the Snapshot is error prone: it looks like you can call #isModified() with any file, but it needs to be the same path you used in the open!\n\u003e \n\nAgree! If that\u0027s the case, it would be better to put the check in the GraphSnapshot.\n\n\u003e I guess having it in the FileCommitGraph allows you to nullify the Snapshot and recreate it later if the file reappers.",
+      "parentUuid": "05004c37_1ab2f0d0",
+      "revId": "e53458add9412148f2932abccd522e6836185852",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
