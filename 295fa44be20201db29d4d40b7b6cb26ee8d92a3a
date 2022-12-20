@@ -16,6 +16,24 @@
       "message": "This explicit #parseHeadersInGraph() muddles the life-cycle of RevCommit. e.g. It is not obvious what happens if you invoke #parseHeaders() and then #parseHeadersInGraph() (or the other way around). Or why should the caller care if the data comes from graph or pack?\n\nThis would be clearer to implement in a subclass of RevCommit (eg. RevCommitCG). A RevCommitCG IS-A RevCommit with a graph position.\n\nThen RevCommitCG would keep the same life-cycle than RevCommit, only that #parseHeaders would read from the commit-graph, instead of the pack.\n \nRevCommitCG could be instantiated in RevWalk#createCommit(), which chooses between RevCommit/RevCommitCG depending if the requested commit is in the graph.\n\nWith a subclass, any current usage of RevWalk using only the headers would benefit from the commit graph without change. It also keeps the API of RevCommit consistent.\n\nAlternatively, this could be an \"if\" inside #parseHeaders() but then we pay the int of the graph position for every RevCommit instance (even when there is no graph) and make more complicated the parsing (for a case that looks pretty well fitted for overriding).",
       "revId": "295fa44be20201db29d4d40b7b6cb26ee8d92a3a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2afec28_a84809e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-20T07:37:09Z",
+      "side": 1,
+      "message": "\u003e This explicit #parseHeadersInGraph() muddles the life-cycle of RevCommit. e.g. It is not obvious what happens if you invoke #parseHeaders() and then #parseHeadersInGraph() (or the other way around). Or why should the caller care if the data comes from graph or pack?\n\nIf RevWalk#isRetainBody() is false, #parseHeadersInGraph() can cover all informations of #parseHeaders() and contains additional graphPos and generation.\n\n1. If we call #parseHeaders() and then #parseHeadersInGraph(), RevWalk will try to add graphPos and generation informations if commit is in commit-graph.\n\n2. If we call #parseHeadersInGraph() and then #parseHeaders(), commit will not have any changes.\n\n\u003e \n\u003e This would be clearer to implement in a subclass of RevCommit (eg. RevCommitCG). A RevCommitCG IS-A RevCommit with a graph position.\n\u003e \n\u003e Then RevCommitCG would keep the same life-cycle than RevCommit, only that #parseHeaders would read from the commit-graph, instead of the pack.\n\u003e  \n\u003e RevCommitCG could be instantiated in RevWalk#createCommit(), which chooses between RevCommit/RevCommitCG depending if the requested commit is in the graph.\n\u003e \n\u003e With a subclass, any current usage of RevWalk using only the headers would benefit from the commit graph without change. It also keeps the API of RevCommit consistent.\n\u003e \n\u003e Alternatively, this could be an \"if\" inside #parseHeaders() but then we pay the int of the graph position for every RevCommit instance (even when there is no graph) and make more complicated the parsing (for a case that looks pretty well fitted for overriding).\n\nYou means \"RevCommitCG extends RevCommit\"?\nI\u0027ve thought about this before, but it also brings some new problems:\n\n1.  If we still use RevWalk to generate RevCommitCG, whenever we want to obtain graphPos or generation information, we need to add addtional \"instead of RevCommitCG\" statement for judgment. \nIt can be avoided if we add a default value to RevCommit#getGeneration(), but in this case, it feels that subclass does not make much sense.\nOf course, we also need to consider the issues I mentioned above[1] about RevCommit instance reuse in RevWalk#objects.\n\n2. If we refer to the code of DepthWalk, use a subclass of RevWalk (eg. CGRevWalk) to generate RevCommitCG. In this way, it feels like implementing a RevWalk v2 version, which can cover all the features of RevWalk. \nThen users need to replace all RevWalk in their own code with CGRevWalk to enjoy the acceleration of commit-graph, which will bring a lot of work.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/183079/comments/bc0f78e5_3347850e",
+      "parentUuid": "c33a4764_9563b917",
+      "revId": "295fa44be20201db29d4d40b7b6cb26ee8d92a3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

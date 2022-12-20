@@ -141,6 +141,30 @@
       },
       "revId": "00697161730750c55e7c5302eb23836a82089eb8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c90ca6ec_2a8e1092",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-20T07:37:09Z",
+      "side": 1,
+      "message": "\u003e @Martin: the owner of the RevCommit instances is the RevWalk. If we want the commit graph to instantiate them, it would need access to the walk (e.g. to create the RevCommits for the parents of commit). This way (copying), we keep the graph unaware of the walk.\n\u003e \n\u003e I think that if we implement commit-data as a \"pointer\" to the byte[] in the graph, we could even do only Commit-graph -\u003e RevCommit, instead of Commit-graph -\u003e Commit-data -\u003e RevCommit (saving one copy of the data)\n\nThe constructor of RevCommit is a protect method. IIUC, in order to make better use of RevWalk\u0027s cache (Revwalk#objects, which contains the commits that have been visited), it is designed to be generated only by RevWalk. \n\nFor JGit, we usually use RevWalk#lookupCommit to find RevCommit instance first, and then parse its headers through RevWalk#parseHeaders(). Only in this way can ensure that the RevCommit we get is the same as the RevCommit we flagged before (RevCommit instance reuse).\n\nIf use CommitGraph to directly generate RevCommit, it is likely to break this rule.\n\nBecause tree, parents, etc. are all private variables. Unless we get the entire GraphCommitData#data[] in RevCommit, it\u0027s diffcult to avoid one copy of data.\n\nBut in this case, I feel that the code of RevCommit would become very difficult to understand.",
+      "parentUuid": "95dad92f_53a054ab",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 7
+      },
+      "revId": "00697161730750c55e7c5302eb23836a82089eb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
