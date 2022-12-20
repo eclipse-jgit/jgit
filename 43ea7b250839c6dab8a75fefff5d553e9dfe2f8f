@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdad1cbd_eb6f399c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-20T19:46:42Z",
+      "side": 1,
+      "message": "FileCommitGraph looks way clearer now! thanks a lot.\n\nI am confused with the removal of the ObjectDatabase#getCommitGraph() method. Is it because each reader knows its specific database, so then it is not needed in the interface?\n\nI guess it make sense, I don\u0027t have strong arguments for adding it. So far there is no use for it (so it would be public API for internal calls) and the fact that commit graph belongs to the object database is more a principle than something to enforce in the code.\n\nFew small comments, and this looks ready to me. ",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4c7ecb3_3d76d336",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-20T19:46:42Z",
+      "side": 1,
+      "message": "does not exist OR corrupted",
+      "range": {
+        "startLine": 55,
+        "startChar": 69,
+        "endLine": 55,
+        "endChar": 72
+      },
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92881e7b_80a6b0d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-20T19:46:42Z",
+      "side": 1,
+      "message": "final (unless we already know we want to subclass it)",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "561d9d56_dded3432",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-20T19:46:42Z",
+      "side": 1,
+      "message": "If the file was deleted, FileSnapshot.save() won\u0027t return a null, so sometimes the signal for \"no file\" will be null other won\u0027t. Could we make that consistent?\n\nI think it still passes the test because FileSnapshot#save does the right thing with deleted files, but for future readers if will be confusing this two ways to indicate no file.",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63fc5a4b_1558c85d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2022-12-20T19:46:42Z",
+      "side": 1,
+      "message": "nit: is this indentation ok? looks a bit off (specially when in the else MessageFormat is in the same line than LOG)",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
