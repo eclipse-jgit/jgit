@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1c4936_95fd4830",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-20T18:02:49Z",
+      "side": 1,
+      "message": "\u003e Can you give more insights of which type of clients would do that?\n\u003e Is there any specific NFS option that the Gerrit admin should set for enabling the `after_open` option here?\n\nWe haven\u0027t tested and found any clients that this doesn\u0027t work with, but since we haven\u0027t tried to test many clients, we wanted this caveat.\n\nWe see that this works as expected with Linux NFS clients with kernels 4.15.0-142-generic and 5.4.0-97-generic. There are no special NFS options needed. Our testing is using NFS v3.",
+      "parentUuid": "967a4f22_40aa8a7a",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 44
+      },
+      "revId": "98230995a2f07061ae5f12ef999c55b4382adf5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c964261_14e08475",
@@ -65,6 +89,54 @@
         "startChar": 156,
         "endLine": 49,
         "endChar": 247
+      },
+      "revId": "98230995a2f07061ae5f12ef999c55b4382adf5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19536a60_bd17603a",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-20T18:02:49Z",
+      "side": 1,
+      "message": "\u003e What would be the use-case for this? Shouldn\u0027t be \u0027unset\u0027 be enough and leave the \u0027trustFolderStat\u0027 to decide what to do?\n\nThis allows trusting the objects/pack dir stats but not the packed-refs file stats. I don\u0027t know of an environment where I would recommend that configuration, but one might exist.",
+      "parentUuid": "7e3cd92c_236a3017",
+      "range": {
+        "startLine": 49,
+        "startChar": 156,
+        "endLine": 49,
+        "endChar": 247
+      },
+      "revId": "98230995a2f07061ae5f12ef999c55b4382adf5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e9c1ad4_2f91eb68",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2022-12-20T18:02:49Z",
+      "side": 1,
+      "message": "\u003e Can you provide some input of which NFS options would influence that?\n\nThere are NFS options that might avoid needing to do this (`noac` and others related to attribute caching), but we don\u0027t know of any that would prevent this from working. As I noted on the commit message, this caveat is intended to be clear and not guarantee that all NFS clients will work the same way, but we don\u0027t know of any that this won\u0027t work for.",
+      "parentUuid": "9c964261_14e08475",
+      "range": {
+        "startLine": 49,
+        "startChar": 553,
+        "endLine": 49,
+        "endChar": 622
       },
       "revId": "98230995a2f07061ae5f12ef999c55b4382adf5f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
