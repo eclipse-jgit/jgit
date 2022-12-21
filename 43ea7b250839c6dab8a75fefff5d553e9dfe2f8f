@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83df838b_b325b127",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-21T02:55:46Z",
+      "side": 1,
+      "message": "\u003e Also, I\u0027ll be off until Jan 2nd. Looking forward to keep working in this commit-graph after the break. Thanks again for your hard work, Kyle!\n\nWishes you to have a happy vacation!",
+      "parentUuid": "21c7cc8a_c016b617",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4c7ecb3_3d76d336",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-12-20T19:46:42Z",
       "side": 1,
       "message": "does not exist OR corrupted",
+      "range": {
+        "startLine": 55,
+        "startChar": 69,
+        "endLine": 55,
+        "endChar": 72
+      },
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63ccd8fa_4c7e3ae8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-21T02:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4c7ecb3_3d76d336",
       "range": {
         "startLine": 55,
         "startChar": 69,
@@ -75,6 +117,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b9149da_20e930ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-21T02:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92881e7b_80a6b0d9",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "561d9d56_dded3432",
@@ -88,6 +148,24 @@
       "writtenOn": "2022-12-20T19:46:42Z",
       "side": 1,
       "message": "If the file was deleted, FileSnapshot.save() won\u0027t return a null, so sometimes the signal for \"no file\" will be null other won\u0027t. Could we make that consistent?\n\nI think it still passes the test because FileSnapshot#save does the right thing with deleted files, but for future readers if will be confusing this two ways to indicate no file.",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50607fae_422c01fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-21T02:55:46Z",
+      "side": 1,
+      "message": "\u003e If the file was deleted, FileSnapshot.save() won\u0027t return a null, so sometimes the signal for \"no file\" will be null other won\u0027t. Could we make that consistent?\n\u003e \n\nOops, i didn\u0027t notice this before. Agree.\n\n\u003e I think it still passes the test because FileSnapshot#save does the right thing with deleted files, but for future readers if will be confusing this two ways to indicate no file.\n\nThe #file and #snapshot of GraphSnapShot can never be null. If the file is deleted, FileNotFoundException would be catch in #open(File file), and then #graph of the new instance would be null.\n\nIt seems that we don\u0027t need to use a null #snapshot to indicate that the file does not exist, Thanks.",
+      "parentUuid": "561d9d56_dded3432",
       "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -111,6 +189,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "08eb790f_7a7562a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-21T02:55:46Z",
+      "side": 1,
+      "message": "\u003e nit: is this indentation ok? looks a bit off (specially when in the else MessageFormat is in the same line than LOG)\n\nI think it should be ok ?\nI used \"tools/eclipse-JGit-Format.xml\" to indent automatically.",
+      "parentUuid": "63fc5a4b_1558c85d",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4cc01b29_a1807132",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileObjectDatabase.java",
         "patchSetId": 40
@@ -122,6 +218,24 @@
       "writtenOn": "2022-12-20T22:40:01Z",
       "side": 1,
       "message": "This is graph or null, but the reader will wrap it in an Optional. Should this return an Optional directly? to keep both APIs consistent?",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99aa7ab6_610d4029",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileObjectDatabase.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-21T02:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cc01b29_a1807132",
       "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
