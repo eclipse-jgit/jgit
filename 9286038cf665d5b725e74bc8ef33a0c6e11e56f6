@@ -119,6 +119,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40c3f193_e645df44",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2022-12-21T16:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c03c2b97_4261df48",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 14
+      },
+      "revId": "9286038cf665d5b725e74bc8ef33a0c6e11e56f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a358e63_5036d7b5",
