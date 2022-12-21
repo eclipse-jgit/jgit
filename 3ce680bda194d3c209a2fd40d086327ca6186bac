@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29b60738_7ec7abf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-12-21T09:12:18Z",
+      "side": 1,
+      "message": "nit: remove `is`?",
+      "range": {
+        "startLine": 31,
+        "startChar": 54,
+        "endLine": 31,
+        "endChar": 57
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "750334f4_aa0bee19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-12-21T09:12:18Z",
+      "side": 1,
+      "message": "AFAIU `Arrays.equals` takes care of `null` parameters so maybe it could be skipped?",
+      "range": {
+        "startLine": 1346,
+        "startChar": 3,
+        "endLine": 1349,
+        "endChar": 41
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
