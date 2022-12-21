@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "086df1b5_6b0effbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2022-12-21T09:19:32Z",
+      "side": 1,
+      "message": "maybe instead of turning it into Array for each call it would make sense to keep String[] in the configuration instead of `Set\u003cString\u003e`, WDYT?",
+      "range": {
+        "startLine": 799,
+        "startChar": 80,
+        "endLine": 799,
+        "endChar": 142
+      },
+      "revId": "a3fc894c9045f1ae3743be9543e2a91a25e4c6d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
