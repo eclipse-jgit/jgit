@@ -16,6 +16,23 @@
       "message": "Thanks for your reviews again!\n\nRegards,\nKyle",
       "revId": "044f69479e953cf73c84e2c623d962538baa4f61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba27f840_a903c5c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 41
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2022-12-21T02:59:05Z",
+      "side": 1,
+      "message": "\u003e Patch Set 41: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/2735/ : FAILURE\n\nCaused by: org.apache.maven.plugin.MojoFailureException: Some dependencies must be vetted.\n\nI think it may not be caused by this change.",
+      "revId": "044f69479e953cf73c84e2c623d962538baa4f61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
