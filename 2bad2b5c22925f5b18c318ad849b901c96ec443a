@@ -52,6 +52,24 @@
       "parentUuid": "d1055aaa_8e17d6c6",
       "revId": "2bad2b5c22925f5b18c318ad849b901c96ec443a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39ed670d_7b06a0a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-22T22:56:03Z",
+      "side": 1,
+      "message": "I uploaded all the files through the web, not through git, maybe he converted them in the process?",
+      "parentUuid": "d1055aaa_8e17d6c6",
+      "revId": "2bad2b5c22925f5b18c318ad849b901c96ec443a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

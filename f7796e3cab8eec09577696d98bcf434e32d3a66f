@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "524ad1b5_c03fa920",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-22T22:56:03Z",
+      "side": 1,
+      "message": "Yes, indeed, if you upload via the web, it will convert everything to LF.\nI\u0027m sorry, I didn\u0027t know that.",
+      "revId": "f7796e3cab8eec09577696d98bcf434e32d3a66f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
