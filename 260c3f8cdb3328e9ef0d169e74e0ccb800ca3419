@@ -34,6 +34,24 @@
       "parentUuid": "53c7c2d3_74fa7893",
       "revId": "260c3f8cdb3328e9ef0d169e74e0ccb800ca3419",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1c6f476_f3c95ef7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-22T19:22:43Z",
+      "side": 1,
+      "message": "\u003e In this case: yes. The test data was prepared with autocrlf false using git 2.33.0 on OS X. If you want to add tests with autocrlf, you have to supply matching test data. For instance the Postimage should then have CR-LF line endings. These new tests need new test data.\n\nOk, I will do it.",
+      "parentUuid": "2b6507bf_5cfee505",
+      "revId": "260c3f8cdb3328e9ef0d169e74e0ccb800ca3419",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
