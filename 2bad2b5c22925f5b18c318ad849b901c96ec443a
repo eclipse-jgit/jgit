@@ -34,6 +34,24 @@
       "parentUuid": "39277089_fe0f1c33",
       "revId": "2bad2b5c22925f5b18c318ad849b901c96ec443a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6a19f0_b8269bac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-22T22:55:16Z",
+      "side": 1,
+      "message": "Plus: tests with auto-crlf make sense only with a worktree. But they were also run for the in-core tests, and that\u0027s where they failed in PS 4. In PS 5, I moved them to the WithWorktree class, and added the original four tests without autocrlf to InCore.",
+      "parentUuid": "d1055aaa_8e17d6c6",
+      "revId": "2bad2b5c22925f5b18c318ad849b901c96ec443a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
