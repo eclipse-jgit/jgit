@@ -700,6 +700,14 @@ public class PatchApplierTest {
 			}
 		}
 
+		@Test
+		public void testEditExample() throws Exception {
+			init("z_e", true, true);
+
+			Result result = applyPatch();
+			verifyChange(result, "z_e");
+		}
+
 		// Clean/smudge filter for testFiltering. The smudgetest test resources
 		// were created with C git using a clean filter sed -e "s/A/E/g" and the
 		// smudge filter sed -e "s/E/A/g". To keep the test independent of the
