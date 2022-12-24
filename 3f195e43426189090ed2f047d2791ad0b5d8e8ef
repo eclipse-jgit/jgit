@@ -33,6 +33,23 @@
       "message": "Feel free to give a -1 vote on the change if you think it shouldn\u0027t be merged.\n\nLet\u0027s see that other problem you found first. But if it isn\u0027t about that last newline, we\u0027ll probably fix it then in a follow-up change.",
       "revId": "3f195e43426189090ed2f047d2791ad0b5d8e8ef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91104479_a094f846",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-24T20:28:34Z",
+      "side": 1,
+      "message": "I\u0027ve added an example to a new commit.\nhttps://git.eclipse.org/r/c/jgit/jgit/+/197845\n\nI took the data from an existing repository, I have seen this same problem in at least 20 repositories.",
+      "revId": "3f195e43426189090ed2f047d2791ad0b5d8e8ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
