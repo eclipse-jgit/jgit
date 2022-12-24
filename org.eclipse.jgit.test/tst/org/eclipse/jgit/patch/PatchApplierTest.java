@@ -191,6 +191,12 @@ public class PatchApplierTest {
 		}
 
 		@Test
+		public void testEditBinaryButNotDelta() throws Exception {
+			init("edit_binary_but_not_delta");
+			checkBinary(applyPatch(), 1);
+		}
+
+		@Test
 		public void testBinaryLiteralAdd() throws Exception {
 			init("literal_add", false, true);
 			checkBinary(applyPatch(), 1);
@@ -698,6 +704,14 @@ public class PatchApplierTest {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
+		}
+
+		@Test
+		public void testEditExample() throws Exception {
+			init("z_e", true, true);
+
+			Result result = applyPatch();
+			verifyChange(result, "z_e");
 		}
 
 		// Clean/smudge filter for testFiltering. The smudgetest test resources
