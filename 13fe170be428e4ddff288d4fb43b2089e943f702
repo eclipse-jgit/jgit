@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63ff1bd9_2f7d08dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-25T22:48:36Z",
+      "side": 1,
+      "message": "I added another interesting case, its meaning is that when git generates differences for binary files, a situation may arise where the delta difference in size is larger than if it uploaded the file again, in which case it does, but jgit for modified files skips only marked delta, and accepts literal only for newly added ones.",
+      "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
