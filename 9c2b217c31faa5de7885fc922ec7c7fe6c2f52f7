@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d03e67_d9210041",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-25T19:40:14Z",
+      "side": 1,
+      "message": "Thank you for this example. I have a fix for this, too. But how did you create this patch? My git 2.33.0 produces a different patch, which always has the removals before the additions. When I create a patch from these two file versions, the patch ends with\n\n  -}\n  \\ No newline at end of file\n  +}\n\nwhich would be handled fine by the existing code.\n\nBut the code can be fixed to handle this strange case, too. I\u0027d like to squash this (together with the fix) into the the previous change. Would that be OK for you?\n",
+      "revId": "9c2b217c31faa5de7885fc922ec7c7fe6c2f52f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
