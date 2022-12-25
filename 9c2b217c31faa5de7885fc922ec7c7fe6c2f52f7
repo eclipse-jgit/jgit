@@ -16,6 +16,24 @@
       "message": "Thank you for this example. I have a fix for this, too. But how did you create this patch? My git 2.33.0 produces a different patch, which always has the removals before the additions. When I create a patch from these two file versions, the patch ends with\n\n  -}\n  \\ No newline at end of file\n  +}\n\nwhich would be handled fine by the existing code.\n\nBut the code can be fixed to handle this strange case, too. I\u0027d like to squash this (together with the fix) into the the previous change. Would that be OK for you?\n",
       "revId": "9c2b217c31faa5de7885fc922ec7c7fe6c2f52f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e20856_8825f204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-25T22:12:13Z",
+      "side": 1,
+      "message": "I use jgit.\ntry (DiffFormatter df \u003d new DiffFormatter(buffer)) {\n    df.setRepository(git.getRepository());\n    df.setAbbreviationLength(40);\n    df.format(commit.getParent(0).getId(), commit.getId());\n}\nRight now I tried using git version 2.34.1, and the result is similar to yours.\nThere is a big difference between the files that git and jgit output, but it doesn\u0027t really matter, except for the difference in the last line.",
+      "parentUuid": "68d03e67_d9210041",
+      "revId": "9c2b217c31faa5de7885fc922ec7c7fe6c2f52f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
