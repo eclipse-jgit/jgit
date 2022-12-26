@@ -52,6 +52,24 @@
       "parentUuid": "246f4925_da68d5ce",
       "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a425630d_1dde57af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-26T21:22:55Z",
+      "side": 1,
+      "message": "Very interesting git diff --check does not return an error.",
+      "parentUuid": "77dfe4ca_f5cf200a",
+      "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
