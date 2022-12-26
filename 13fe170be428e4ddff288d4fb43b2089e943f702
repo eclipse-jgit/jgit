@@ -34,6 +34,24 @@
       "parentUuid": "63ff1bd9_2f7d08dd",
       "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77dfe4ca_f5cf200a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-26T21:16:58Z",
+      "side": 1,
+      "message": "There is another problem, but it is also not solved in Git C patches containing trailing whitespace, if you are interested I can post an example.",
+      "parentUuid": "246f4925_da68d5ce",
+      "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
