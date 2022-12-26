@@ -16,6 +16,24 @@
       "message": "I added another interesting case, its meaning is that when git generates differences for binary files, a situation may arise where the delta difference in size is larger than if it uploaded the file again, in which case it does, but jgit for modified files skips only marked delta, and accepts literal only for newly added ones.",
       "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "246f4925_da68d5ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-26T10:00:40Z",
+      "side": 1,
+      "message": "Let\u0027s deal with problems with binary patches separately.\n\nI\u0027ll include the z_e case and the fix for it in the parent change, and then I think that one should be good to go in.",
+      "parentUuid": "63ff1bd9_2f7d08dd",
+      "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

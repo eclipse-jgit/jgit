@@ -52,6 +52,24 @@
       "parentUuid": "63e20856_8825f204",
       "revId": "9c2b217c31faa5de7885fc922ec7c7fe6c2f52f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3183b5e5_a2374d41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2022-12-26T10:00:40Z",
+      "side": 1,
+      "message": "Of course, a jgit diff. I could have thought of this :-)\n\nYes, the two patches are different but equivalent, and C git is able to apply the jgit patch correctly, too. So PatchApplier still needs the fix for this.",
+      "parentUuid": "c2aca1bb_fa5a67a4",
+      "revId": "9c2b217c31faa5de7885fc922ec7c7fe6c2f52f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
