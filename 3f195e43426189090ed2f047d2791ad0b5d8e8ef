@@ -50,6 +50,24 @@
       "message": "I\u0027ve added an example to a new commit.\nhttps://git.eclipse.org/r/c/jgit/jgit/+/197845\n\nI took the data from an existing repository, I have seen this same problem in at least 20 repositories.",
       "revId": "3f195e43426189090ed2f047d2791ad0b5d8e8ef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc50fbc6_e4b00403",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-26T21:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67f9634d_983d4b18",
+      "revId": "3f195e43426189090ed2f047d2791ad0b5d8e8ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
