@@ -70,6 +70,23 @@
       "parentUuid": "77dfe4ca_f5cf200a",
       "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcaabaca_500269a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307613
+      },
+      "writtenOn": "2022-12-27T02:14:38Z",
+      "side": 1,
+      "message": "I found another problem, I can describe it in the bugtracker or describe it here, also post an example.",
+      "revId": "13fe170be428e4ddff288d4fb43b2089e943f702",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
