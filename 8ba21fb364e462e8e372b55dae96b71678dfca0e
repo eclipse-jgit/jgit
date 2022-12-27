@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08013fd5_5e7ccd74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-27T20:54:59Z",
+      "side": 1,
+      "message": "Would it make sense adding, in a follow up change, a warning during the Bitmap computation if the number of heads is \"too big\" to point out the possibility of tuning the Bitmap creation with this new parameter?",
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac620eb7_787aade9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-27T20:54:59Z",
+      "side": 1,
+      "message": "nit: Maybe it doesn\u0027t take long to create 100 branches and associated commits, but I believe this functionality can be tested even with 2 branches, isn\u0027t it?\n\nIs there any reason why we would need to create so many branches?",
+      "range": {
+        "startLine": 194,
+        "startChar": 20,
+        "endLine": 194,
+        "endChar": 23
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e9a10ed_0cbd4abb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-27T20:54:59Z",
+      "side": 1,
+      "message": "nit: `Bitmap` for consistency with the rest of the code",
+      "range": {
+        "startLine": 799,
+        "startChar": 33,
+        "endLine": 799,
+        "endChar": 39
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9b59426_4e89d032",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-27T20:54:59Z",
+      "side": 1,
+      "message": "I think this can be simplified this way:\n\n```\ntags.addAll(excludedRefsHeadsTips);\nreturn tags;\n```",
+      "range": {
+        "startLine": 1278,
+        "startChar": 2,
+        "endLine": 1280,
+        "endChar": 41
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "762fab19_35e845bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-27T20:54:59Z",
+      "side": 1,
+      "message": "I think I am missing something, why we suddenly have `AnyObjectId` in this `Set`?",
+      "range": {
+        "startLine": 414,
+        "startChar": 8,
+        "endLine": 414,
+        "endChar": 34
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2763d5ba_e2f2647c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2022-12-27T20:54:59Z",
+      "side": 1,
+      "message": "Do we need to specify the minor as well in the `Since` field? It doesn\u0027t look like the case for the other fields in this file.",
+      "range": {
+        "startLine": 232,
+        "startChar": 15,
+        "endLine": 232,
+        "endChar": 17
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
