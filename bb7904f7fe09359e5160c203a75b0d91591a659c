@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "497668a9_94ebf8ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-27T13:08:00Z",
+      "side": 1,
+      "message": "The bitmap processing is serialised, the number of cores won\u0027t matter.\nI will add the specs of the CPU and GHz.",
+      "parentUuid": "3cffa543_eab453d7",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "bb7904f7fe09359e5160c203a75b0d91591a659c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "298cb74b_f4a607e6",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72be08b2_29a31204",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-27T13:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "298cb74b_f4a607e6",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "bb7904f7fe09359e5160c203a75b0d91591a659c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e454f73_edc1228f",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-12-27T12:37:40Z",
       "side": 1,
       "message": "The union set size will not necessarily need to be the sum of the two sizes (i.e. intersections might exist).\n\nHave you considered using a different api for this?\nfor example `Stream.concat()`",
+      "range": {
+        "startLine": 1278,
+        "startChar": 0,
+        "endLine": 1278,
+        "endChar": 83
+      },
+      "revId": "bb7904f7fe09359e5160c203a75b0d91591a659c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c9c8632_eee1fc34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1278,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-27T13:08:00Z",
+      "side": 1,
+      "message": "\u003e The union set size will not necessarily need to be the sum of the two sizes (i.e. intersections might exist).\n\nexcludedRefsTips are supposed to be used for heads, not for tags, which are automatically excluded. Possibly it would be best to rename it to excludedRefsHeadsTips for making it clearer?\n\n\u003e Have you considered using a different api for this?\n\u003e for example `Stream.concat()`\n\nNot sure if the streaming would help here, as we would need to collect it back to a set anyway and all data is already in memory.",
+      "parentUuid": "4e454f73_edc1228f",
       "range": {
         "startLine": 1278,
         "startChar": 0,
