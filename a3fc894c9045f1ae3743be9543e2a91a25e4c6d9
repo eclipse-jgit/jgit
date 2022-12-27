@@ -46,6 +46,30 @@
       },
       "revId": "a3fc894c9045f1ae3743be9543e2a91a25e4c6d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed1a867d_d140fb1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-27T12:56:13Z",
+      "side": 1,
+      "message": "I believe you are right, it would be easier to keep them as `String[]` here.",
+      "parentUuid": "669b228e_6e403fa4",
+      "range": {
+        "startLine": 799,
+        "startChar": 80,
+        "endLine": 799,
+        "endChar": 142
+      },
+      "revId": "a3fc894c9045f1ae3743be9543e2a91a25e4c6d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
