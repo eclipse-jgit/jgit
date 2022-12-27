@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa7d4785_ed7e5ab1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-27T09:08:19Z",
+      "side": 1,
+      "message": "This needs more explanation: we should point out the logic where packfiles are NOT reloaded because of trustfolderstat \u003d true and the implication on the bitmap files that may have showed up.\n\nAlso, we need to explain the context where the packfile rename may be delayed.\n\nP.S. No tests?",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "62641bce59ea3fbb67784a3fee5d9690928e8a16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
