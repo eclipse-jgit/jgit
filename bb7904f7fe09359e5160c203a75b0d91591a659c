@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cffa543_eab453d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2022-12-27T12:37:40Z",
+      "side": 1,
+      "message": "For this to be meaningful consider mentioning the number of threads allocated and the specs of the machine",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "bb7904f7fe09359e5160c203a75b0d91591a659c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "298cb74b_f4a607e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2022-12-27T12:37:40Z",
+      "side": 1,
+      "message": "I think this is redundant, we are already talking about runtime processing",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "bb7904f7fe09359e5160c203a75b0d91591a659c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e454f73_edc1228f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1278,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2022-12-27T12:37:40Z",
+      "side": 1,
+      "message": "The union set size will not necessarily need to be the sum of the two sizes (i.e. intersections might exist).\n\nHave you considered using a different api for this?\nfor example `Stream.concat()`",
+      "range": {
+        "startLine": 1278,
+        "startChar": 0,
+        "endLine": 1278,
+        "endChar": 83
+      },
+      "revId": "bb7904f7fe09359e5160c203a75b0d91591a659c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
