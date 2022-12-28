@@ -29,6 +29,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.junit.Test;
 
@@ -36,15 +37,20 @@ public class GcCommitSelectionTest extends GcTestCase {
 
 	@Test
 	public void testBitmapSpansNoMerges() throws Exception {
-		testBitmapSpansNoMerges(false);
+		testBitmapSpansNoMerges(false, false);
 	}
 
 	@Test
 	public void testBitmapSpansNoMergesWithTags() throws Exception {
-		testBitmapSpansNoMerges(true);
+		testBitmapSpansNoMerges(true, false);
 	}
 
-	private void testBitmapSpansNoMerges(boolean withTags) throws Exception {
+	@Test
+	public void testBitmapSpansNoMergesWithAnnotatedTags() throws Exception {
+		testBitmapSpansNoMerges(true, true);
+	}
+
+	private void testBitmapSpansNoMerges(boolean withTags, boolean useAnnotatedTags) throws Exception {
 		/*
 		 * Commit counts -> expected bitmap counts for history without merges.
 		 * The top 100 contiguous commits should always have bitmaps, and the
@@ -59,6 +65,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 		int currentCommits = 0;
 		BranchBuilder bb = tr.branch("refs/heads/main");
 
+		int numAnnotatedTags = 0;
 		for (int[] counts : bitmapCounts) {
 			int nextCommitCount = counts[0];
 			int expectedBitmapCount = counts[1];
@@ -67,7 +74,12 @@ public class GcCommitSelectionTest extends GcTestCase {
 				String str = "A" + i;
 				RevCommit rc = bb.commit().message(str).add(str, str).create();
 				if (withTags) {
-					tr.lightweightTag(str, rc);
+					ObjectId tagObjId = rc;
+					if(useAnnotatedTags) {
+						numAnnotatedTags++;
+						tagObjId = tr.tag(str, rc);
+					}
+					tr.lightweightTag(str, tagObjId);
 				}
 			}
 			currentCommits = nextCommitCount;
@@ -75,7 +87,8 @@ public class GcCommitSelectionTest extends GcTestCase {
 			gc.setPackExpireAgeMillis(0); // immediately delete old packs
 			gc.setExpireAgeMillis(0);
 			gc.gc();
-			assertEquals(currentCommits * 3, // commit/tree/object
+			System.out.println("AnnotatedTags:" + numAnnotatedTags);
+			assertEquals(currentCommits * 3 + numAnnotatedTags, // commit/tree/object
 					gc.getStatistics().numberOfPackedObjects);
 			assertEquals(currentCommits + " commits: ", expectedBitmapCount,
 					gc.getStatistics().numberOfBitmaps);
