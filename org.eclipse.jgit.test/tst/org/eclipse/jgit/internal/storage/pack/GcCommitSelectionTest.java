@@ -83,6 +83,39 @@ public class GcCommitSelectionTest extends GcTestCase {
 	}
 
 	@Test
+	public void testBitmapDoesNotIncludeAnnotatedTags() throws Exception {
+		/*
+		 * Make sure that the bitmap generated for the following commit
+		 * graph does not include commit2 because it is not reachable by any
+		 * heads, despite being reachable from tag1 through the annotated-tag1.
+		 *
+		 * refs/heads/main
+		 *   ^
+		 *   |
+		 *  commit1 <-- commit2 <- annotated-tag1 <- tag1
+		 *   |
+		 *  commit0
+		 */
+		String mainBranch = "refs/heads/main";
+		BranchBuilder bb = tr.branch(mainBranch);
+
+		String commitMsg = "commit msg";
+		String fileBody = "file body";
+		String tagName = "tag1";
+		bb.commit().message(commitMsg + " 1").add("file1", fileBody).create();
+		RevCommit commit1 = bb.commit().message(commitMsg + " 2").add("file2", fileBody).create();
+		RevCommit commit2 = bb.commit().message(commitMsg + " 3").add("file3", fileBody).create();
+		tr.lightweightTag(tagName, tr.tag(tagName, commit2));
+		tr.branch(mainBranch).update(commit1);
+
+		gc.setExpireAgeMillis(0);
+		gc.gc();
+
+		// Create only 2 bitmaps, for commit0 and commit1, excluding commit2
+		assertEquals(2, gc.getStatistics().numberOfBitmaps);
+	}
+
+	@Test
 	public void testBitmapSpansWithMerges() throws Exception {
 		/*
 		 * Commits that are merged. Since 55 is in the oldest history it is

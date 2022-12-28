@@ -408,6 +408,9 @@ class PackWriterBitmapPreparer {
 		List<RevCommit> newWantsByNewest = new ArrayList<>(want.size());
 		Set<RevCommit> newWants = new HashSet<>(want.size());
 		for (AnyObjectId objectId : want) {
+			if(excludeFromBitmapSelection.contains(objectId)) {
+				continue;
+			}
 			RevObject ro = rw.peel(rw.parseAny(objectId));
 			if (!(ro instanceof RevCommit) || reuse.contains(ro)
 					|| excludeFromBitmapSelection.contains(ro)) {
