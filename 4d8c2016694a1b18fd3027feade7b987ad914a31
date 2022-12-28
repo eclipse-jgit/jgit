@@ -1,0 +1,412 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "915e8ff8_77bb6009",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "I did an initial round of reviews. I am surprised that there are no open-source TernarySearchTree implementations available 😮 but thanks for providing one in JGit !",
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0363d6c_d0773440",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Why not introducing a varargs version instead?\nThat would make these types of tests more readable.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a3960e3_b100e83a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Avoid magic values in the code.\nShould we have instead of `int initialSize \u003d tree.size()` before L46 and assert here `initialSize + 1`?",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 16
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcf3fff1_d07377bc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "This can be rewritten as:\n```\nMap\u003cString, String\u003e m \u003d Map.of(\n   \"refs/heads/master\", \"master\",\n   \"refs/heads/stable-1.0\", \"stable-1.0\",\n   ...\n   )\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a319db9_5ceae6f4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Nit: avoid magic values in tests.",
+      "range": {
+        "startLine": 94,
+        "startChar": 15,
+        "endLine": 94,
+        "endChar": 16
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a02d7e_baff3b2b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Same as above: use Map.of()",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 30
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0d1b60_5467d9a3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Same as above: use Map.of()",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 30
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19f06d8c_849ae79e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Nit: avoid magic values in tests.",
+      "range": {
+        "startLine": 129,
+        "startChar": 15,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fcace66_7e0ddaff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "You are testing two use-cases here: with an existing key and with a non-existing key. Consider splitting this into two separate tests.",
+      "range": {
+        "startLine": 167,
+        "startChar": 13,
+        "endLine": 167,
+        "endChar": 23
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00f6b2fb_344b2282",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Why not using a more descriptive value? Example \"non-existent-key\"",
+      "range": {
+        "startLine": 171,
+        "startChar": 14,
+        "endLine": 171,
+        "endChar": 20
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0f3c763_f90c5c92",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "This test could easily break if we add more keys in the setup phase. Why not just asserting that the keys returned do not contain the ones deleted?",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 29
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b77debd_d876bd5b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Can we just assert that is empty?",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 203,
+        "endChar": 5
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f108833f_db433e6b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Is this a non-existing key? If yes, can we use \"non-existing-key\" as more descriptive value?",
+      "range": {
+        "startLine": 210,
+        "startChar": 43,
+        "endLine": 210,
+        "endChar": 51
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c1e2bd6_9a19b5d3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "How is this case different than the one at L210?",
+      "range": {
+        "startLine": 212,
+        "startChar": 2,
+        "endLine": 212,
+        "endChar": 51
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c1ca936_af98a425",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "2022? Or more realistically 2023?",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9b4dbdb_cb90771a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "This should be flagged as `volatile` because it could be read/write by multiple threads concurrently. Alternatively, you could define an AtomicInteger instead.",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 96,
+        "endChar": 12
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f5d0817_622df51b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "keys?",
+      "range": {
+        "startLine": 156,
+        "startChar": 11,
+        "endLine": 156,
+        "endChar": 18
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be5b51d2_b44558cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:15:23Z",
+      "side": 1,
+      "message": "Why not using an AtomicInteger instead?\n\nAlso, I am not sure that the Java compiler understands that the L180 and L184 imply that the variable `size` should be flagged as `volatile` automatically.",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 3
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
