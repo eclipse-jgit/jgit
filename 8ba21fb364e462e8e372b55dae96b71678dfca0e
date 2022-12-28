@@ -112,6 +112,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77b8dc33_d4254722",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T00:31:05Z",
+      "side": 1,
+      "message": "You are right, this should be a separate change.\n\nThe bug was the following:\n- Create a repo with 1 branch\n- Add 100 commits to the branch\n- Add 100 annotated tags, one per branch\n\nYou would expect to see 1 bitmap for the commits of the branch; instead you would see 101 bitmaps because the annotated tags *should be* excluded from the bitmap because `objectId` is contained in `excludeFromBitmapSelection`.\n\nThe L411 though is extracting the __peeled__ version of the annotated tag, which has a different SHA1 and therefore isn\u0027t excluded anymore.",
+      "parentUuid": "762fab19_35e845bf",
+      "range": {
+        "startLine": 414,
+        "startChar": 8,
+        "endLine": 414,
+        "endChar": 34
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2763d5ba_e2f2647c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 8
