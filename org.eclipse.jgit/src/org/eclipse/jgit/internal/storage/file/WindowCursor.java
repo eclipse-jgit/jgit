@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -41,9 +42,12 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Active handle to a ByteWindow. */
 final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
+	private static final Logger LOG = LoggerFactory.getLogger(WindowCursor.class);
 	/** Temporary buffer large enough for at least one raw object id. */
 	final byte[] tempId = new byte[Constants.OBJECT_ID_LENGTH];
 
@@ -100,6 +104,19 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			BitmapBuilder needBitmap) throws IOException {
 		for (Pack pack : db.getPacks()) {
 			PackBitmapIndex index = pack.getBitmapIndex();
+			LOG.error("Trying to reuse pack {}", pack.getPackFile().getName());
+
+			if (index != null) {
+				int numPositions = index.getObjectCount();
+				for (int pos = 0; pos < numPositions; pos++) {
+					ObjectId objectId = index.getObject(pos);
+					EWAHCompressedBitmap bitmap = index.getBitmap(objectId);
+					if(bitmap != null) {
+						LOG.error("  Bitmap for {}:\n{}", objectId, bitmap);
+					}
+				}
+			}
+
 			if (needBitmap.removeAllOrNone(index))
 				return Collections.<CachedPack> singletonList(
 						new LocalCachedPack(Collections.singletonList(pack)));

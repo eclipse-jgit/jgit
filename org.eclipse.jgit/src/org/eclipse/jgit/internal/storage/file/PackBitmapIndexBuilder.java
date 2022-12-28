@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.googlecode.javaewah.IntIterator;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BitmapCommit;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -53,12 +55,15 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 * Creates a PackBitmapIndex used for building the contents of an index
 	 * file.
 	 *
-	 * @param objects
+	 * @param allObjects
 	 *            objects sorted by name. The list must be initially sorted by
 	 *            ObjectId (name); it will be resorted in place.
 	 */
-	public PackBitmapIndexBuilder(List<ObjectToPack> objects) {
+	public PackBitmapIndexBuilder(List<ObjectToPack> allObjects) {
 		super(new ObjectIdOwnerMap<StoredBitmap>());
+
+		List<ObjectToPack> objects = allObjects.stream().filter(o -> o.getType() != Constants.OBJ_TAG).collect(Collectors.toList());
+
 		byOffset = new BlockList<>(objects.size());
 		sortByOffsetAndIndex(byOffset, positionEntries, objects);
 
@@ -376,6 +381,17 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		PositionEntry(AnyObjectId objectId, int namePosition) {
 			super(objectId);
 			this.namePosition = namePosition;
+		}
+	}
+
+	/**
+	 * Print
+	 */
+	public void println() {
+		EWAHCompressedBitmap bitmapTags = getTags();
+		IntIterator intIterator = bitmapTags.intIterator();
+		while(intIterator.hasNext()) {
+			System.out.println("BitmapTag(" + intIterator.next() + ")");
 		}
 	}
 }

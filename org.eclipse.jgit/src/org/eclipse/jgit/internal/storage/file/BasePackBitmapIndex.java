@@ -15,6 +15,9 @@ import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 /**
  * Base implementation of the PackBitmapIndex.
  */
@@ -51,6 +54,16 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 					? bitmap
 					: new XorCompressedBitmap(bitmap, xorBitmap);
 			this.flags = flags;
+
+			System.out.println("StoreBitmap: " + stackTrace());
+			System.out.println("StoreBitmap(" + objectId + ")");
+		}
+
+		private static String stackTrace() {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			new Exception().printStackTrace(pw);
+			return sw.toString(); // stack trace as a string
 		}
 
 		/**

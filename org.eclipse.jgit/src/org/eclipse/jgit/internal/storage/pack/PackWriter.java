@@ -1109,6 +1109,7 @@ public class PackWriter implements AutoCloseable {
 
 		long writeStart = System.currentTimeMillis();
 		final PackBitmapIndexWriterV1 iw = new PackBitmapIndexWriterV1(bitmapIndexStream);
+
 		iw.write(writeBitmaps, packcsum);
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
@@ -2375,6 +2376,7 @@ public class PackWriter implements AutoCloseable {
 		objectsLists = null;
 		objectsMap = null;
 		writeBitmaps = new PackBitmapIndexBuilder(byName);
+		writeBitmaps.println();
 		byName = null;
 
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(

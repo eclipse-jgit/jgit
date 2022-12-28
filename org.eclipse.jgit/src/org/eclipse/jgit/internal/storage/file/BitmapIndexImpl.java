@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -25,12 +27,15 @@ import org.eclipse.jgit.util.BlockList;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 import com.googlecode.javaewah.IntIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A compressed bitmap representation of the entire object graph.
  */
 public class BitmapIndexImpl implements BitmapIndex {
 	private static final int EXTRA_BITS = 10 * 1024;
+	private static Logger LOG = LoggerFactory.getLogger(BitmapIndexImpl.class);
 
 	final PackBitmapIndex packIndex;
 
@@ -187,8 +192,19 @@ public class BitmapIndexImpl implements BitmapIndex {
 
 		@Override
 		public BitmapBuilder addObject(AnyObjectId objectId, int type) {
-			bitset.set(bitmapIndex.findOrInsert(objectId, type));
+
+			int pos = bitmapIndex.findOrInsert(objectId, type);
+			bitset.set(pos);
+			LOG.error("BitmapIndex.addObject - stack trace: {}", stackTrace());
+			LOG.error("BitmapIndex.addObject({}, type={}) to pos={}", objectId, type, pos);
 			return this;
+		}
+
+		private static String stackTrace() {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			new Exception().printStackTrace(pw);
+			return sw.toString(); // stack trace as a string
 		}
 
 		@Override
@@ -237,12 +253,38 @@ public class BitmapIndexImpl implements BitmapIndex {
 			if (!bitmapIndex.packIndex.equals(index))
 				return false;
 
-			EWAHCompressedBitmap curr = bitset.combine()
+			if(bitset.toAdd != null) {
+				LOG.error("BITMAP-TOADD: {}", bitset.toAdd);
+			}
+			if(bitset.toRemove != null) {
+				LOG.error("BITMAP_TOREMOVE: {}", bitset.toRemove);
+			}
+
+			EWAHCompressedBitmap combinedBitmap = bitset.combine();
+			LOG.error("BITMAP: {}", combinedBitmap);
+
+			EWAHCompressedBitmap curr = combinedBitmap
 					.xor(ones(bitmapIndex.indexObjectCount));
 
+			LOG.error("BITMAP CURR: {}", curr);
+
 			IntIterator ii = curr.intIterator();
-			if (ii.hasNext() && ii.next() < bitmapIndex.indexObjectCount)
+			boolean missingIndexFound = false;
+			while (ii.hasNext()) {
+				int pos = ii.next();
+				if (pos < bitmapIndex.indexObjectCount) {
+					ObjectId posObjectId = bitmapIndex.packIndex.getObject(pos);
+					boolean containedInWant = bitset.contains(pos);
+					LOG.error("BITMAP-SKIPPED: {}", stackTrace());
+					LOG.error("BITMAP-SKIPPED - ObjectId {} found: {} at pos {}", containedInWant ? "":"NOT", posObjectId, pos);
+					missingIndexFound = true;
+				}
+			}
+
+			if(missingIndexFound) {
 				return false;
+			}
+
 			bitset = new ComboBitset(curr);
 			return true;
 		}
@@ -286,6 +328,17 @@ public class BitmapIndexImpl implements BitmapIndex {
 	public static final class CompressedBitmap implements Bitmap {
 		final EWAHCompressedBitmap bitmap;
 		final BitmapIndexImpl bitmapIndex;
+
+		@Override
+		public String toString() {
+			StringBuilder out = new StringBuilder();
+			IntIterator iter = bitmap.intIterator();
+			while(iter.hasNext()) {
+				int pos = iter.next();
+				out.append(String.format(" => [%s] %s\n", pos, bitmapIndex.packIndex.getObject(pos)));
+			}
+			return out.toString();
+		}
 
 		/**
 		 * Construct compressed bitmap for given bitmap and bitmap index

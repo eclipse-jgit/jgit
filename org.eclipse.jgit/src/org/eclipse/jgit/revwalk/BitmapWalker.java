@@ -26,6 +26,8 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.filter.ObjectFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to do ObjectWalks with pack index bitmaps.
@@ -33,6 +35,7 @@ import org.eclipse.jgit.revwalk.filter.ObjectFilter;
  * @since 4.10
  */
 public final class BitmapWalker {
+	private static final Logger LOG = LoggerFactory.getLogger(BitmapWalker.class);
 
 	private final ObjectWalk walker;
 
@@ -178,8 +181,10 @@ public final class BitmapWalker {
 
 		for (ObjectId obj : start) {
 			Bitmap bitmap = bitmapIndex.getBitmap(obj);
-			if (bitmap != null)
+			if (bitmap != null) {
+				LOG.error("BitmapWalker.findObjectsWalk({}) => {}", obj, bitmap);
 				bitmapResult.or(bitmap);
+			}
 		}
 
 		boolean marked = false;
@@ -208,7 +213,7 @@ public final class BitmapWalker {
 			}
 			walker.setObjectFilter(new BitmapObjectFilter(bitmapResult));
 
-			while (walker.next() != null) {
+			for (RevCommit walkObj = walker.next(); walkObj != null; walkObj = walker.next()) {
 				// Iterate through all of the commits. The BitmapRevFilter does
 				// the work.
 				//
@@ -220,6 +225,8 @@ public final class BitmapWalker {
 				// of bitmaps.
 				pm.update(1);
 				countOfBitmapIndexMisses++;
+
+				LOG.error("BitmapWalker.findObjectsWalk({})", walkObj);
 			}
 
 			RevObject ro;
@@ -246,7 +253,13 @@ public final class BitmapWalker {
 		public final boolean include(ObjectWalk walker, AnyObjectId objid)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			       IOException {
-			return !bitmap.contains(objid);
+			boolean notYetInBitmap = !bitmap.contains(objid);
+
+			if(notYetInBitmap) {
+				LOG.error("BitmapObjectFilter({}) add to bitmap", objid);
+			}
+
+			return notYetInBitmap;
 		}
 	}
 }

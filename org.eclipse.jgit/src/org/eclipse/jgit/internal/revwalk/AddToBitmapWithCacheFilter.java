@@ -17,6 +17,8 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A RevFilter that adds the visited commits to {@code bitmap} as a side effect.
@@ -28,6 +30,7 @@ import org.eclipse.jgit.revwalk.RevFlag;
  * short if there is good bitmap coverage.
  */
 public class AddToBitmapWithCacheFilter extends RevFilter {
+	private final Logger LOG = LoggerFactory.getLogger(AddToBitmapWithCacheFilter.class);
 	private final AnyObjectId cachedCommit;
 
 	private final Bitmap cachedBitmap;
@@ -58,19 +61,24 @@ public class AddToBitmapWithCacheFilter extends RevFilter {
 	public final boolean include(RevWalk rw, RevCommit c) {
 		Bitmap visitedBitmap;
 
+
 		if (bitmap.contains(c)) {
+			LOG.error("AddToBitmapWithCacheFilter({}) - already included", c);
 			// already included
 		} else if ((visitedBitmap = bitmap.getBitmapIndex()
 				.getBitmap(c)) != null) {
+			LOG.error("AddToBitmapWithCacheFilter({}) - added to bitmap using visited bitmap {}", c, visitedBitmap);
 			bitmap.or(visitedBitmap);
 		} else if (cachedCommit.equals(c)) {
 			bitmap.or(cachedBitmap);
 		} else {
+			LOG.error("AddToBitmapWithCacheFilter({}) - added to bitmap ", c);
 			bitmap.addObject(c, Constants.OBJ_COMMIT);
 			return true;
 		}
 
 		for (RevCommit p : c.getParents()) {
+			LOG.error("AddToBitmapWithCacheFilter({}) - flagged as SEEN", c);
 			p.add(RevFlag.SEEN);
 		}
 		return false;

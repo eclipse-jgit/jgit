@@ -28,6 +28,8 @@ public final class BitmapCommit extends ObjectId {
 		this.reuseWalker = reuseWalker;
 		this.flags = flags;
 		this.addToIndex = false;
+
+		System.out.println("Bitmap(" + objectId + ")");
 	}
 
 	BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags,
@@ -36,6 +38,8 @@ public final class BitmapCommit extends ObjectId {
 		this.reuseWalker = reuseWalker;
 		this.flags = flags;
 		this.addToIndex = addToIndex;
+
+		System.out.println("Bitmap(" + objectId + ")");
 	}
 
 	boolean isReuseWalker() {
