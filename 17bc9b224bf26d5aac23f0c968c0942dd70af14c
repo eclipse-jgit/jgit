@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d517bd4a_36542cea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:16:32Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "revId": "17bc9b224bf26d5aac23f0c968c0942dd70af14c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
