@@ -134,6 +134,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "545b0c0e_17d82eef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T00:44:35Z",
+      "side": 1,
+      "message": "Raised Bug 581267 for this.",
+      "parentUuid": "77b8dc33_d4254722",
+      "range": {
+        "startLine": 414,
+        "startChar": 8,
+        "endLine": 414,
+        "endChar": 34
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2763d5ba_e2f2647c",
