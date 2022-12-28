@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4fe2a333_b16314ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T08:59:38Z",
+      "side": 1,
+      "message": "The problem is: what is \"too big\"?",
+      "parentUuid": "08013fd5_5e7ccd74",
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac620eb7_787aade9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
         "patchSetId": 8
@@ -31,6 +49,30 @@
       "writtenOn": "2022-12-27T20:54:59Z",
       "side": 1,
       "message": "nit: Maybe it doesn\u0027t take long to create 100 branches and associated commits, but I believe this functionality can be tested even with 2 branches, isn\u0027t it?\n\nIs there any reason why we would need to create so many branches?",
+      "range": {
+        "startLine": 194,
+        "startChar": 20,
+        "endLine": 194,
+        "endChar": 23
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "290f19d9_8369a142",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T08:59:38Z",
+      "side": 1,
+      "message": "True, I just copy\u0026pasted an existing test, but it would suffice to have just two.",
+      "parentUuid": "ac620eb7_787aade9",
       "range": {
         "startLine": 194,
         "startChar": 20,
@@ -64,6 +106,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c06c6de2_3466eb7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T08:59:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e9a10ed_0cbd4abb",
+      "range": {
+        "startLine": 799,
+        "startChar": 33,
+        "endLine": 799,
+        "endChar": 39
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9b59426_4e89d032",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-12-27T20:54:59Z",
       "side": 1,
       "message": "I think this can be simplified this way:\n\n```\ntags.addAll(excludedRefsHeadsTips);\nreturn tags;\n```",
+      "range": {
+        "startLine": 1278,
+        "startChar": 2,
+        "endLine": 1280,
+        "endChar": 41
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaab7795_b93203a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T08:59:38Z",
+      "side": 1,
+      "message": "\u003e I think this can be simplified this way:\n\u003e \n\u003e ```\n\u003e tags.addAll(excludedRefsHeadsTips);\n\u003e return tags;\n\u003e ```\n\nThat would modify the `tags` collection and could be error prone as other parts of the code may assume that it just contains tag.",
+      "parentUuid": "d9b59426_4e89d032",
       "range": {
         "startLine": 1278,
         "startChar": 2,
@@ -177,6 +267,47 @@
         "endLine": 232,
         "endChar": 17
       },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5c7240a_172f052c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T08:59:38Z",
+      "side": 1,
+      "message": "The minor release point is specified in other files as well, see GitServlet.java:L155",
+      "parentUuid": "2763d5ba_e2f2647c",
+      "range": {
+        "startLine": 232,
+        "startChar": 15,
+        "endLine": 232,
+        "endChar": 17
+      },
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d5500c_db299df0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T08:59:38Z",
+      "side": 1,
+      "message": "Missing @since",
       "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
