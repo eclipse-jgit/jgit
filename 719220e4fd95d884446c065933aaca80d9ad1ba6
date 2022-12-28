@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56dd13d_30532430",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:28:47Z",
+      "side": 1,
+      "message": "Do we also need extra checks for non-staleness?\nWhen caching in memory, we need to make sure that eviction is done at the proper places *when* the updates are happening inside the JGit code.\n\nI believe we should also add some methods in the RefDirectory to check that all the cached values are not stale. That should be invoked by our test code for asserting it all throughout when testing in cache mode.",
+      "revId": "719220e4fd95d884446c065933aaca80d9ad1ba6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "895fba22_b6731260",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-28T10:28:47Z",
+      "side": 1,
+      "message": "`WITHOUT_REFCACHE`? (for consistency with L66)",
+      "range": {
+        "startLine": 64,
+        "startChar": 30,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "719220e4fd95d884446c065933aaca80d9ad1ba6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
