@@ -65,6 +65,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03c008fe_4b4bda4b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-29T08:41:12Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "81aacd9b_d67fd611",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a3960e3_b100e83a",
@@ -525,6 +549,30 @@
       "side": 1,
       "message": "I think that\u0027s what I am doing here: check that size is 0 and there are no keys",
       "parentUuid": "9b77debd_d876bd5b",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 203,
+        "endChar": 5
+      },
+      "revId": "4d8c2016694a1b18fd3027feade7b987ad914a31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d239453_fd484966",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/memory/TernarySearchTreeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-29T08:41:12Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "2a6d5d8a_5ece8447",
       "range": {
         "startLine": 197,
         "startChar": 2,
