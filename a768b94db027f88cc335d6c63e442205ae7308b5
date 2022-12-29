@@ -16,6 +16,46 @@
       "message": "older reviews of this change are in the old series https://git.eclipse.org/r/c/jgit/jgit/+/186204\n\nUnfortunately I missed to move the original series when rebasing this onto the master branch and pushed it for master. This prevented that I could move the old series.",
       "revId": "a768b94db027f88cc335d6c63e442205ae7308b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a6593ac_b43bb7bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-29T08:47:33Z",
+      "side": 1,
+      "message": "Thanks, Matthias for addressing the comments. This looks cool: one more reason to use JGit ... you have TernarySearchTree 😊",
+      "revId": "a768b94db027f88cc335d6c63e442205ae7308b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f306a52f_07f83223",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-29T08:47:33Z",
+      "side": 1,
+      "message": "private final",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 97,
+        "endChar": 9
+      },
+      "revId": "a768b94db027f88cc335d6c63e442205ae7308b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
