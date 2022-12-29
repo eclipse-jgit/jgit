@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd7949ed_05a35120",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-29T01:20:07Z",
+      "side": 1,
+      "message": "older reviews of this change are in the old series https://git.eclipse.org/r/c/jgit/jgit/+/186204\n\nUnfortunately I missed to move the original series when rebasing this onto the master branch and pushed it for master. This prevented that I could move the old series.",
+      "revId": "a768b94db027f88cc335d6c63e442205ae7308b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
