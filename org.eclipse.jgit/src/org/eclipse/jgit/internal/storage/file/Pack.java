@@ -942,6 +942,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return ofs;
 	}
 
+	void setBitmapIdxFile(PackFile packFile) {
+		bitmapIdx = null;
+		bitmapIdxFile = packFile;
+		bitmapFileSnapshot = Optional.ofNullable(bitmapIdxFile).map(PackFileSnapshot::save);
+	}
+
 	private static class Delta {
 		/** Child that applies onto this object. */
 		final Delta next;
