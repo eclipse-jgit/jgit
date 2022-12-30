@@ -435,8 +435,10 @@ class PackDirectory {
 			}
 
 			Pack oldPack = forReuse.get(packFile.getName());
+			PackFile bitmapFile = packFilesByExt.get(BITMAP_INDEX);
 			if (oldPack != null
-					&& !oldPack.getFileSnapshot().isModified(packFile)) {
+					&& !oldPack.getFileSnapshot().isModified(packFile)
+					&& !isBitmapModified(oldPack, bitmapFile)) {
 				forReuse.remove(packFile.getName());
 				list.add(oldPack);
 				continue;
@@ -467,6 +469,14 @@ class PackDirectory {
 		final Pack[] r = list.toArray(new Pack[0]);
 		Arrays.sort(r, Pack.SORT);
 		return new PackList(snapshot, r);
+	}
+
+	private  Boolean isBitmapModified(Pack oldPack, PackFile bitmapFile) {
+		if (!oldPack.getBitMapFileSnapshot().isPresent() && bitmapFile == null) {
+			return false;
+		}
+		return oldPack.getBitMapFileSnapshot()
+				.map(f -> bitmapFile == null || f.isModified(bitmapFile)).orElse(true);
 	}
 
 	private static Map<String, Pack> reuseMap(PackList old) {

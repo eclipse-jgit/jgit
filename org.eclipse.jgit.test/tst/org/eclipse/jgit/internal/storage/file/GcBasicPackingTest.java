@@ -12,15 +12,22 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.compress.utils.FileNameUtils;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -36,6 +43,9 @@ import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
 public class GcBasicPackingTest extends GcTestCase {
+	private static ObjectId unknownID = ObjectId
+			.fromString("1234567890123456789012345678901234567890");
+
 	@DataPoints
 	public static boolean[] aggressiveValues = { true, false };
 
@@ -175,6 +185,41 @@ public class GcBasicPackingTest extends GcTestCase {
 		List<Pack> packs = new ArrayList<>(
 				repo.getObjectDatabase().getPacks());
 		assertEquals(11, packs.get(0).getObjectCount());
+	}
+	@Test
+	public void testReloadPackWhenBitmapFileIsModified() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("M").add("M", "M").create();
+		bb.commit().message("B").add("B", "Q").create();
+		bb.commit().message("A").add("A", "A").create();
+
+		Collection<Pack> packs = tr.getRepository().getObjectDatabase()
+				.getPacks();
+		assertEquals(0, packs.size());
+
+		configureGc(gc, false);
+		gc.gc();
+		Pack pack = getSinglePack();
+		assertTrue(pack.getBitMapFileSnapshot().isPresent());
+
+		PackFile packFile = pack.getPackFile();
+		String packId = FileNameUtils.getBaseName(packFile.getName());
+		Path bitmapFilePath = Paths.get(packFile.getParent() ,packId + "."
+				+ PackExt.BITMAP_INDEX.getExtension());
+		Path tmpBitmapFilePath = Paths.get(packFile.getParent(), packId+"."
+				+ PackExt.BITMAP_INDEX.getExtension() +"_tmp");
+		Files.move(bitmapFilePath, tmpBitmapFilePath);
+
+		pack = getSinglePack();
+		assertFalse(pack.getBitMapFileSnapshot().isPresent());
+		assertNull(pack.getBitmapIndex());
+
+		Files.move(tmpBitmapFilePath, bitmapFilePath);
+
+		tr.getRepository().getObjectDatabase().has(unknownID);
+		pack = getSinglePack();
+		assertTrue(pack.getBitMapFileSnapshot().isPresent());
+		assertNotNull(pack.getBitmapIndex());
 	}
 
 	@Test
@@ -375,5 +420,17 @@ public class GcBasicPackingTest extends GcTestCase {
 			pconfig = new PackConfig(repo);
 		myGc.setPackConfig(pconfig);
 		return pconfig;
+	}
+
+	private Pack getSinglePack() {
+		// ask for an unknown git object to force jgit to rescan the list of
+		// available packs. If we would ask for a known objectid then JGit would
+		// skip searching for new/modified packfiles
+		tr.getRepository().getObjectDatabase().has(unknownID);
+		Collection<Pack> packs = tr.getRepository().getObjectDatabase()
+				.getPacks();
+		assertEquals(1, packs.size());
+		Pack pack = packs.stream().findFirst().get();
+		return pack;
 	}
 }

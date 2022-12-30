@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.CRC32;
@@ -98,6 +99,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private PackFileSnapshot fileSnapshot;
 
+	private Optional<PackFileSnapshot> bitMapFileSnapshot;
+
 	private volatile boolean invalid;
 
 	private volatile Exception invalidatingCause;
@@ -138,6 +141,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
 		this.bitmapIdxFile = bitmapIdxFile;
 
+		bitMapFileSnapshot = Optional.ofNullable(bitmapIdxFile).map(PackFileSnapshot::save);
 		// Multiply by 31 here so we can more directly combine with another
 		// value in WindowCache.hash(), without doing the multiply there.
 		//
@@ -345,6 +349,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	PackFileSnapshot getFileSnapshot() {
 		return fileSnapshot;
+	}
+
+	Optional<PackFileSnapshot> getBitMapFileSnapshot() {
+		return bitMapFileSnapshot;
 	}
 
 	AnyObjectId getPackChecksum() {
