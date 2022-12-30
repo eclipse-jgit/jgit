@@ -435,8 +435,14 @@ class PackDirectory {
 			}
 
 			Pack oldPack = forReuse.get(packFile.getName());
+			PackFile bitmapFile = packFilesByExt.get(BITMAP_INDEX);
 			if (oldPack != null
-					&& !oldPack.getFileSnapshot().isModified(packFile)) {
+					&& !oldPack.getFileSnapshot().isModified(packFile)
+					// Ideal solution would be to reload only bitmap index when bitmap file
+					// was modified. But it requires more refactoring which will be invasive.
+					// As a first step we decided to reload full Pack object when bitmap file
+					// was modified.
+					&& !oldPack.isBitmapModified(bitmapFile)) {
 				forReuse.remove(packFile.getName());
 				list.add(oldPack);
 				continue;
