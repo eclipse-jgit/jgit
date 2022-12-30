@@ -16,6 +16,24 @@
       "message": "nit: unrelated change",
       "revId": "17bc9b224bf26d5aac23f0c968c0942dd70af14c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d11aa7a4_4519726c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-30T09:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d517bd4a_36542cea",
+      "revId": "17bc9b224bf26d5aac23f0c968c0942dd70af14c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
