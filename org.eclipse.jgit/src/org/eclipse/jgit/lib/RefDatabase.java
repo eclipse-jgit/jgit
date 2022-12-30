@@ -40,10 +40,10 @@ public abstract class RefDatabase {
 	/**
 	 * Order of prefixes to search when using non-absolute references.
 	 * <p>
-	 * {@link #findRef(String)} takes this search space into consideration
-	 * when locating a reference by name. The first entry in the path is
-	 * always {@code ""}, ensuring that absolute references are resolved
-	 * without further mangling.
+	 * {@link #findRef(String)} takes this search space into consideration when
+	 * locating a reference by name. The first entry in the path is always
+	 * {@code ""}, ensuring that absolute references are resolved without
+	 * further mangling.
 	 */
 	protected static final String[] SEARCH_PATH = { "", //$NON-NLS-1$
 			Constants.R_REFS, //
@@ -350,12 +350,12 @@ public abstract class RefDatabase {
 	/**
 	 * Returns all refs.
 	 * <p>
-	 * This includes {@code HEAD}, branches under {@code ref/heads/}, tags
-	 * under {@code refs/tags/}, etc. It does not include pseudo-refs like
+	 * This includes {@code HEAD}, branches under {@code ref/heads/}, tags under
+	 * {@code refs/tags/}, etc. It does not include pseudo-refs like
 	 * {@code FETCH_HEAD}; for those, see {@link #getAdditionalRefs}.
 	 * <p>
-	 * Symbolic references to a non-existent ref (for example,
-	 * {@code HEAD} pointing to a branch yet to be born) are not included.
+	 * Symbolic references to a non-existent ref (for example, {@code HEAD}
+	 * pointing to a branch yet to be born) are not included.
 	 * <p>
 	 * Callers interested in only a portion of the ref hierarchy can call
 	 * {@link #getRefsByPrefix} instead.
@@ -395,8 +395,9 @@ public abstract class RefDatabase {
 	 * {@link RefDatabase} should override this method directly if a better
 	 * implementation is possible.
 	 *
-	 * @param prefix string that names of refs should start with; may be
-	 *             empty (to return all refs).
+	 * @param prefix
+	 *            string that names of refs should start with; may be empty (to
+	 *            return all refs).
 	 * @return immutable list of refs whose names start with {@code prefix}.
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
@@ -426,18 +427,22 @@ public abstract class RefDatabase {
 	}
 
 	/**
-	 * Returns refs whose names start with a given prefix excluding all refs that
-	 * start with one of the given prefixes.
+	 * Returns refs whose names start with a given prefix excluding all refs
+	 * that start with one of the given prefixes.
 	 *
 	 * <p>
-	 * The default implementation is not efficient. Implementors of {@link RefDatabase}
-	 * should override this method directly if a better implementation is possible.
-	 * 
-	 * @param include string that names of refs should start with; may be empty.
-	 * @param excludes strings that names of refs can't start with; may be empty.
-	 * @return immutable list of refs whose names start with {@code prefix} and none
-	 *         of the strings in {@code exclude}.
-	 * @throws java.io.IOException the reference space cannot be accessed.
+	 * The default implementation is not efficient. Implementors of
+	 * {@link RefDatabase} should override this method directly if a better
+	 * implementation is possible.
+	 *
+	 * @param include
+	 *            string that names of refs should start with; may be empty.
+	 * @param excludes
+	 *            strings that names of refs can't start with; may be empty.
+	 * @return immutable list of refs whose names start with {@code prefix} and
+	 *         none of the strings in {@code exclude}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
 	 * @since 5.11
 	 */
 	@NonNull
@@ -501,13 +506,14 @@ public abstract class RefDatabase {
 	}
 
 	/**
-	 * If the ref database does not support fast inverse queries, it may
-	 * be advantageous to build a complete SHA1 to ref map in advance for
-	 * multiple uses. To let applications decide on this decision,
-	 * this function indicates whether the inverse map is available.
+	 * If the ref database does not support fast inverse queries, it may be
+	 * advantageous to build a complete SHA1 to ref map in advance for multiple
+	 * uses. To let applications decide on this decision, this function
+	 * indicates whether the inverse map is available.
 	 *
 	 * @return whether this RefDatabase supports fast inverse ref queries.
-	 * @throws IOException on I/O problems.
+	 * @throws IOException
+	 *             on I/O problems.
 	 * @since 5.6
 	 */
 	public boolean hasFastTipsWithSha1() throws IOException {
@@ -518,10 +524,10 @@ public abstract class RefDatabase {
 	 * Check if any refs exist in the ref database.
 	 * <p>
 	 * This uses the same definition of refs as {@link #getRefs()}. In
-	 * particular, returns {@code false} in a new repository with no refs
-	 * under {@code refs/} and {@code HEAD} pointing to a branch yet to be
-	 * born, and returns {@code true} in a repository with no refs under
-	 * {@code refs/} and a detached {@code HEAD} pointing to history.
+	 * particular, returns {@code false} in a new repository with no refs under
+	 * {@code refs/} and {@code HEAD} pointing to a branch yet to be born, and
+	 * returns {@code true} in a repository with no refs under {@code refs/} and
+	 * a detached {@code HEAD} pointing to history.
 	 *
 	 * @return true if the database has refs.
 	 * @throws java.io.IOException
