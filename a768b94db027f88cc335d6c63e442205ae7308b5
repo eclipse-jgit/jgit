@@ -56,6 +56,30 @@
       },
       "revId": "a768b94db027f88cc335d6c63e442205ae7308b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad6d01ed_70ddc73e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/TernarySearchTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2022-12-30T09:27:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f306a52f_07f83223",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 97,
+        "endChar": 9
+      },
+      "revId": "a768b94db027f88cc335d6c63e442205ae7308b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
