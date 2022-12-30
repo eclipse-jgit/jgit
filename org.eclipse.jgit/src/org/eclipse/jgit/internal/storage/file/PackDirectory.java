@@ -435,8 +435,10 @@ class PackDirectory {
 			}
 
 			Pack oldPack = forReuse.get(packFile.getName());
+			PackFile bitmapFile = packFilesByExt.get(BITMAP_INDEX);
 			if (oldPack != null
-					&& !oldPack.getFileSnapshot().isModified(packFile)) {
+					&& !oldPack.getFileSnapshot().isModified(packFile)
+					&& !oldPack.isBitmapModified(bitmapFile)) {
 				forReuse.remove(packFile.getName());
 				list.add(oldPack);
 				continue;
