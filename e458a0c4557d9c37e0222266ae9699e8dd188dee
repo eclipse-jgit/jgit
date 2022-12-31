@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c78a8e_ca9571da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-31T02:23:16Z",
+      "side": 1,
+      "message": "I like the approach. Do we really need the predecessor change then?\n\nAdding Matthias for more visibility on this change, which is a very important one because it impacts the performance of the repository when there is concurrency between JGit GC and incoming traffic.",
+      "revId": "e458a0c4557d9c37e0222266ae9699e8dd188dee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35831d21_9d98868f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2022-12-31T02:23:16Z",
+      "side": 1,
+      "message": "This method uses the bitmap filesnapshot from the Pack `oldPack`: why not making it a method of `Pack` then?",
+      "range": {
+        "startLine": 474,
+        "startChar": 1,
+        "endLine": 480,
+        "endChar": 2
+      },
+      "revId": "e458a0c4557d9c37e0222266ae9699e8dd188dee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
