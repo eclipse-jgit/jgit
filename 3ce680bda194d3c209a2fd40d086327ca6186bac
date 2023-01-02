@@ -92,6 +92,30 @@
       },
       "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "715a7420_52b93108",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2023-01-02T09:14:37Z",
+      "side": 1,
+      "message": "AFAIU you could skip both and have:\n```\nreturn Arrays.equals(packedRefsBytes, cmpPackedRefsBytes);\n```\nWDYT?",
+      "parentUuid": "fe278fde_bcec2d98",
+      "range": {
+        "startLine": 1346,
+        "startChar": 3,
+        "endLine": 1349,
+        "endChar": 41
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
