@@ -22,6 +22,30 @@
       },
       "revId": "62641bce59ea3fbb67784a3fee5d9690928e8a16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cea4c2d0_32e0c6cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-02T21:21:49Z",
+      "side": 1,
+      "message": "Commit message updated.\n\nAbout tests. With the current code it is difficult to simulate the situation when storage is slow",
+      "parentUuid": "fa7d4785_ed7e5ab1",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "62641bce59ea3fbb67784a3fee5d9690928e8a16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
