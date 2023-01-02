@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5fdadb59_22aceb9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T08:54:46Z",
+      "side": 1,
+      "message": "nit: `.` not needed",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29b60738_7ec7abf3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -37,6 +60,30 @@
       "writtenOn": "2022-12-21T09:12:18Z",
       "side": 1,
       "message": "AFAIU `Arrays.equals` takes care of `null` parameters so maybe it could be skipped?",
+      "range": {
+        "startLine": 1346,
+        "startChar": 3,
+        "endLine": 1349,
+        "endChar": 41
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe278fde_bcec2d98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T08:54:46Z",
+      "side": 1,
+      "message": "You could skip one of the checks for `null`, it that what you mean @Jacek? I.e.:\n\n```\nreturn packedRefsBytes !\u003d null\n\t\u0026\u0026 Arrays.equals(packedRefsBytes, cmpPackedRefsBytes);\n\n```\n\nThe above works fine.",
+      "parentUuid": "750334f4_aa0bee19",
       "range": {
         "startLine": 1346,
         "startChar": 3,
