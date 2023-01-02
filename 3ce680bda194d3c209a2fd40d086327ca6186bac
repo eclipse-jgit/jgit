@@ -116,6 +116,30 @@
       },
       "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4370ce5b_604092cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T09:44:26Z",
+      "side": 1,
+      "message": "Nope, I don\u0027t think it would work since if both `packedRefsBytes` and `cmpPackedRefsBytes` are `null` we want to return `false`.\n\nThe code you suggested would return `true`.",
+      "parentUuid": "715a7420_52b93108",
+      "range": {
+        "startLine": 1346,
+        "startChar": 3,
+        "endLine": 1349,
+        "endChar": 41
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
