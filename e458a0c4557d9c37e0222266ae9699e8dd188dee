@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a79f43a9_0e983137",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-02T21:03:19Z",
+      "side": 1,
+      "message": "This change makes sure that we handle the situation when for whatever reason bitmap generation was delayed.\n\nPredecessor change is fixing the one of situations when we could have a pack without bitmap. So it\u0027s not mandatory and they can be merged separately but I still think that it\u0027s useful",
+      "parentUuid": "51c78a8e_ca9571da",
+      "revId": "e458a0c4557d9c37e0222266ae9699e8dd188dee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35831d21_9d98868f",
