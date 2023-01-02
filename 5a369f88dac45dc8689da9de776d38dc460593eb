@@ -16,6 +16,144 @@
       "message": "ping @Matthias?",
       "revId": "5a369f88dac45dc8689da9de776d38dc460593eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c203af47_9998f2ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T08:38:12Z",
+      "side": 1,
+      "message": "nit: 5.13.2 for consistency with the version specified in `PackConfig`",
+      "range": {
+        "startLine": 625,
+        "startChar": 11,
+        "endLine": 625,
+        "endChar": 15
+      },
+      "revId": "5a369f88dac45dc8689da9de776d38dc460593eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2872a105_4641244f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T08:38:12Z",
+      "side": 1,
+      "message": "nit: All lowercase for consistency with the rest of the JavaDoc",
+      "range": {
+        "startLine": 1159,
+        "startChar": 44,
+        "endLine": 1159,
+        "endChar": 50
+      },
+      "revId": "5a369f88dac45dc8689da9de776d38dc460593eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36ce9c60_8d1264c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T08:38:12Z",
+      "side": 1,
+      "message": "nit: All lowercase for consistency with the rest of the JavaDoc",
+      "range": {
+        "startLine": 1161,
+        "startChar": 48,
+        "endLine": 1161,
+        "endChar": 54
+      },
+      "revId": "5a369f88dac45dc8689da9de776d38dc460593eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0e43fc4_110c63c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T08:38:12Z",
+      "side": 1,
+      "message": "nit: All lowercase for consistency with the rest of the JavaDoc",
+      "range": {
+        "startLine": 1169,
+        "startChar": 44,
+        "endLine": 1169,
+        "endChar": 50
+      },
+      "revId": "5a369f88dac45dc8689da9de776d38dc460593eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea3f8266_78022ea6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T08:38:12Z",
+      "side": 1,
+      "message": "nit: All lowercase for consistency with the rest of the JavaDoc",
+      "range": {
+        "startLine": 1172,
+        "startChar": 51,
+        "endLine": 1172,
+        "endChar": 57
+      },
+      "revId": "5a369f88dac45dc8689da9de776d38dc460593eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c138f1_6fdc4a1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-01-02T08:38:12Z",
+      "side": 1,
+      "message": "I think this logic should be moved inside the `setBitmapExcludedRefsPrefixes` method unless there is any need of exposing it.",
+      "range": {
+        "startLine": 1258,
+        "startChar": 32,
+        "endLine": 1258,
+        "endChar": 131
+      },
+      "revId": "5a369f88dac45dc8689da9de776d38dc460593eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
