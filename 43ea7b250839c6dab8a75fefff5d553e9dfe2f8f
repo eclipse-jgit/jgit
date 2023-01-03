@@ -205,6 +205,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b6eaacb_ab899e11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-03T19:56:41Z",
+      "side": 1,
+      "message": "Yes, I get similar result formatting it here. Thanks!",
+      "parentUuid": "08eb790f_7a7562a3",
+      "revId": "43ea7b250839c6dab8a75fefff5d553e9dfe2f8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cc01b29_a1807132",
