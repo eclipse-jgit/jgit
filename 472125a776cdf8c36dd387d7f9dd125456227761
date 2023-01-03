@@ -137,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "010d7d27_80ebac24",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T22:23:49Z",
+      "side": 1,
+      "message": "I agree that\u0027s a hack but I cannot find any better way to force the scanPack operation. As you mentioned I found that code in other test suite. To fix it properly could we have a follow up change where we will fix it in all tests?",
+      "parentUuid": "f2a7f3bd_83313880",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 56
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "25fcb3e4_be62a5e4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 4
