@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d70a58c4_75e8f20d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T22:32:38Z",
+      "side": 1,
+      "message": "\u003e So when we first did the directory listing the bitmap file wasn\u0027t present, but the index and pack were (and so it was a valid pack). And now we\u0027ve called scanPacksImpl() again sometime later and the bitmap index is present, but the packfile hasn\u0027t changed. Is that correct?\n\n\u003eIf yes, I think my suggestion in the comment thread above for a Pack.isModified() method would be an appropriate replacement for the oldPack.getFileSnapshot().isModified(packFile) check\n\nThat\u0027s correct. And as I mentioned in my comment above having Pack.isModified() would be the right direction if we  want to reload the full pack object when only one of the files have changed. But as Luca mentioned reloading pack file can be a very expensive operation so we prefer to reload just the bitmap index.\n\nWith that assumption it totally makes sense to have a follow-up change on master to add Pack constructor that copy unmodified parts of the old pack. I\u0027m happy to work on that change",
+      "parentUuid": "19a9eff0_c0dc5f60",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83bcd27e_258bf9ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 3
