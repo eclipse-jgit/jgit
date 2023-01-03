@@ -66,6 +66,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2a7f3bd_83313880",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-03T21:02:12Z",
+      "side": 1,
+      "message": "I see this _hack_ has been copied from `PackFileSnapshotTest.java:182`, however it relies on an implementation detail which may change in the future, making this hack fragile.\n\nCould we just invoke the scanPacks somehow?",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 56
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "25fcb3e4_be62a5e4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 4
