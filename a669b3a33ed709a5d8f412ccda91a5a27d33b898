@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41563273_87623315",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-03T21:30:21Z",
+      "side": 1,
+      "message": "Couple details, this looks good.",
+      "revId": "a669b3a33ed709a5d8f412ccda91a5a27d33b898",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3228e57f_e2e38473",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-03T21:30:21Z",
+      "side": 1,
+      "message": "Move this parenthesis after the \"is false\", so it reads: \"... when core.commitGraph is false (default is...)\".",
+      "range": {
+        "startLine": 511,
+        "startChar": 65,
+        "endLine": 512,
+        "endChar": 81
+      },
+      "revId": "a669b3a33ed709a5d8f412ccda91a5a27d33b898",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

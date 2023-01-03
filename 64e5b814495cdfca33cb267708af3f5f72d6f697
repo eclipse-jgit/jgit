@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9884121f_258f4202",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-03T21:30:21Z",
+      "side": 1,
+      "message": "We check the db conf to call a db method... probably all this should be in the db side",
+      "revId": "64e5b814495cdfca33cb267708af3f5f72d6f697",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3eca76d_bb716ed4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-03T21:30:21Z",
+      "side": 1,
+      "message": "empty",
+      "range": {
+        "startLine": 511,
+        "startChar": 39,
+        "endLine": 511,
+        "endChar": 43
+      },
+      "revId": "64e5b814495cdfca33cb267708af3f5f72d6f697",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
