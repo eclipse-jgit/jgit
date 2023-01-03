@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13c6f457_9c74b17f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T18:30:07Z",
+      "side": 1,
+      "message": "Why wouldn\u0027t we want to reload the pack if any PackExt file changed?",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "315e9203_965e2025",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T18:30:07Z",
+      "side": 1,
+      "message": "But when is that actually a problem? scanPackImpl doesn\u0027t try to read the bitmap file and it always creates a Pack with the potential name of the bitmapIdxFile passed in. That file isn\u0027t read until someone calls getBitmapIndex() sometime later though.",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83bcd27e_258bf9ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T18:30:07Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this only happen in getBitmapIndex() when we actually read the bitmapIdx?",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
