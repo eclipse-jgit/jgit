@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f14c72b_78436006",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T19:33:00Z",
+      "side": 1,
+      "message": "I don\u0027t see any code for when the index file changes, where is that?\n\nAnd it\u0027s not there yet, but reverse index file support has a change up for review: 197593: Pack: open reverse index from file if present | https://git.eclipse.org/r/c/jgit/jgit/+/197593\n\nI would think we\u0027d want something like newPack.isModified(Pack old) that can do the appropriate checks for anything important to the Pack.",
+      "parentUuid": "e9fc1bee_630dbc2f",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "315e9203_965e2025",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -73,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19a9eff0_c0dc5f60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T19:33:00Z",
+      "side": 1,
+      "message": "\u003e The problem is here https://git.eclipse.org/r/c/jgit/jgit/+/197868/3/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java#447\n\u003e \n\u003e When we create a Pack object and bitmap file is missing we will pass null. This means that we never gonna try to load bitmap for that pack file.\n\nYeah, I misread the code when I said \"it always creates a Pack with the potential name of the bitmapIdxFile passed in\". It doesn\u0027t do that, it passes a file only if the directory listing had one.\n\nSo when we first did the directory listing the bitmap file wasn\u0027t present, but the index and pack were (and so it was a valid pack). And now we\u0027ve called scanPacksImpl() again sometime later and the bitmap index is present, but the packfile hasn\u0027t changed. Is that correct?\n\nIf yes, I think my suggestion in the comment thread above for a Pack.isModified() method would be an appropriate replacement for the oldPack.getFileSnapshot().isModified(packFile) check.\n\nYou could also consider a separate follow-up change (on master) to add a Pack constructor that takes the oldPack if there\u0027s work that\u0027s expensive that we can *safely* skip if only a subset of files were modified. That seems really hard to get right and maintain correctly though, so I would skip it unless you find some use case where it\u0027s very important to have it.\n\n\u003e \n\u003e If we move that check to the getBitmapIndex this means that for pack files without bitmap we would have to always check if the file is there. I believe that\u0027s why we have scanPackImpl to make sure that we check/reload pack files only when they are modified. If trustFolderStats is set to true this will happen only when packs directory modified time is updated.\n\nAck.",
+      "parentUuid": "c9774fed_51a997cb",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83bcd27e_258bf9ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 3
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "I wanted to be consistent with a pack file which we are storing in L140",
       "parentUuid": "83bcd27e_258bf9ca",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f6c1cd3_4ff88fc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T19:33:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ec6841d8_5fc27e39",
       "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
