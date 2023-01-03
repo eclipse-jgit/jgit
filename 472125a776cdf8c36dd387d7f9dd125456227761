@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df5a975f_0a0486f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-03T20:01:14Z",
+      "side": 1,
+      "message": "We should load the bitmap isn\u0027t it? What\u0027s the point of reloading the pack if we know that *that* information isn\u0027t changed?\n\nLoading a packfile is *very expensive* and I would avoid it if we can.",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b1d1587_18d33a59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-03T20:01:14Z",
+      "side": 1,
+      "message": "... and that makes sense IMHO. Here the point is that we need also to understand if the bitmap has shown up or been modified and load it as well.",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "414c7889_17a42cac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-03T20:01:14Z",
+      "side": 1,
+      "message": "I believe the solution works, but at the cost of reloading a packfile that hasn\u0027t changed.",
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25fcb3e4_be62a5e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-03T20:01:14Z",
+      "side": 1,
+      "message": "bitmap",
+      "range": {
+        "startLine": 102,
+        "startChar": 36,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6c626f_55abd490",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-03T20:01:14Z",
+      "side": 1,
+      "message": "I don\u0027t understand this check: you are saying that the bitmap file has been modified if the bitmapFile is null?\n\nI believe overall we should make sure that bitmapFile *is not null* here, otherwise what\u0027s the point of checking if that has been modified?",
+      "range": {
+        "startLine": 359,
+        "startChar": 14,
+        "endLine": 359,
+        "endChar": 60
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
