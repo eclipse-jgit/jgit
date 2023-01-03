@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67eb6e55_7fcce84a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T18:18:18Z",
+      "side": 1,
+      "message": "Your new ordering seems to violate this comment. I would check the code in PackDirectory.scanPacksImpl() and see if this comment is still accurate. You may also need to confirm git.git has the same behavior as I think in general git is more forgiving of .pack without .idx but not .idx without .pack.",
+      "range": {
+        "startLine": 1134,
+        "startChar": 0,
+        "endLine": 1136,
+        "endChar": 40
+      },
+      "revId": "ab3dc9bd1d62d4bd3d704faf44f1efe5f78be05d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
