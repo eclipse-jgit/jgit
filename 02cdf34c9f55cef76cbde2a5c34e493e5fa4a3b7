@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9fc1bee_630dbc2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T18:49:44Z",
+      "side": 1,
+      "message": "We already have code which is reloading pack file or index file was changed we are missing only bitmap",
+      "parentUuid": "13c6f457_9c74b17f",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "315e9203_965e2025",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9774fed_51a997cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T18:49:44Z",
+      "side": 1,
+      "message": "The problem is here https://git.eclipse.org/r/c/jgit/jgit/+/197868/3/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java#447\n\nWhen we create a Pack object and bitmap file is missing we will pass null. This means that we never gonna try to load bitmap for that pack file.\n\nIf we move that check to the getBitmapIndex this means that for pack files without bitmap we would have to always check if the file is there. I believe that\u0027s why we have scanPackImpl to make sure that we check/reload pack files only when they are modified. If trustFolderStats is set to true this will happen only when packs directory modified time is updated.",
+      "parentUuid": "315e9203_965e2025",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83bcd27e_258bf9ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 3
@@ -48,6 +84,24 @@
       "writtenOn": "2023-01-03T18:30:07Z",
       "side": 1,
       "message": "Shouldn\u0027t this only happen in getBitmapIndex() when we actually read the bitmapIdx?",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec6841d8_5fc27e39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T18:49:44Z",
+      "side": 1,
+      "message": "I wanted to be consistent with a pack file which we are storing in L140",
+      "parentUuid": "83bcd27e_258bf9ca",
       "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
