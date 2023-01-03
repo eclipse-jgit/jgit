@@ -108,6 +108,30 @@
       },
       "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8b15940_05be1ddd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T20:37:46Z",
+      "side": 1,
+      "message": "Yes, this means that we had a bitmap but now it was removed",
+      "parentUuid": "5d6c626f_55abd490",
+      "range": {
+        "startLine": 359,
+        "startChar": 14,
+        "endLine": 359,
+        "endChar": 60
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
