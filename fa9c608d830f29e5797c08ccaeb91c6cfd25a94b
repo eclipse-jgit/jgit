@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3112095b_940006d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T22:34:05Z",
+      "side": 1,
+      "message": "While I don\u0027t think anywhere clearly states it, I think this class is intended to have immutable file references. This setter definitely violates that expectation. For example, what\u0027s the correct action to take with the bitmapIdx variable when you change the value of bitmapIdxFile? If you don\u0027t set it to null, you\u0027ll never look at the contents of bitmapIdxFile. That wouldn\u0027t be a problem if you had a new Pack instance.",
+      "range": {
+        "startLine": 942,
+        "startChar": 0,
+        "endLine": 945,
+        "endChar": 2
+      },
+      "revId": "fa9c608d830f29e5797c08ccaeb91c6cfd25a94b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

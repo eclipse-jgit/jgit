@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f73a0d75_bf084792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T22:34:05Z",
+      "side": 1,
+      "message": "\u003e \u003e I don\u0027t see any code for when the index file changes, where is that?\n\u003e \n\u003e In this line we have check if pack file has an index file, if not we skip that pack file:\n\nBut that\u0027s different than checking if the index has changed. I don\u0027t see a check for a changed index file.\n\n\u003e \n\u003e \u003e I would think we\u0027d want something like newPack.isModified(Pack old) that can do the appropriate checks for anything important to the Pack.\n\u003e \n\u003e That\u0027s actually a good idea if we want to reload pack file when bitmap file has changed. But as Luca mentioned in his comment we want to reload just the bitmap index when the bitmap file was modified\n\nI think it\u0027s a good layering approach no matter what you want to reload. Pack should decide what to reload, not something higher up.",
+      "parentUuid": "b8c018e2_810d1f5d",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "315e9203_965e2025",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

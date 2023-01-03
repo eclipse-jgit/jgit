@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6b7935e7_49612dce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T22:34:05Z",
+      "side": 1,
+      "message": "\u003e Loading a packfile is *very expensive* and I would avoid it if we can.\n\nI think any optimization here is risky and should be a separate change from a correctness fix. If you can clearly show a perf impact without the optimization then maybe it would be fine on a stable branch, but otherwise I think that kind of optimization should go on master (or be omitted entirely).",
+      "parentUuid": "2d630379_508f73b6",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b1d1587_18d33a59",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
