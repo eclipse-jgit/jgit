@@ -52,6 +52,24 @@
       "parentUuid": "c2afec28_a84809e9",
       "revId": "295fa44be20201db29d4d40b7b6cb26ee8d92a3a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "795dfdd9_63756126",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-03T23:24:30Z",
+      "side": 1,
+      "message": "\u003e You means \"RevCommitCG extends RevCommit\"?\n\nRight\n\n\u003e 1.  If we still use RevWalk to generate RevCommitCG, whenever we want to obtain graphPos or generation information, we need to add addtional \"instead of RevCommitCG\" statement for judgment. \n\u003e It can be avoided if we add a default value to RevCommit#getGeneration(), but in this case, it feels that subclass does not make much sense.\n\nAs a concept, it is easy to reason that a RevCommitCG is a RevCommit loading its data from a different source. You can replace one with the other and the caller doesn\u0027t need to know. This maps cleanly into a subclass.\n\nFrom the caller point of view, why do they need to know about the graph (#parseInGraph())? Callers just indicate \"I will access headers\" with #parseHeaders and where do those headers come from is irrelevant for them. \n\nPlus any existing code would benefit from the commit-graph without further change.\n\n\u003e Of course, we also need to consider the issues I mentioned above[1] about RevCommit instance reuse in RevWalk#objects.\n\nThe instances are still created/kept by the RevWalk (not in the commit graph), e.g. in RevWalk#createCommit() so all that is the same.\n\nNot sure what do you mean in #2. We dont need to subclass RevWalk. DepthWalk.Commit maybe needs some rework to benefit from the commit graph. It adds a depth member to RevCommit... maybe a wrapper is better than a subclass?",
+      "parentUuid": "c2afec28_a84809e9",
+      "revId": "295fa44be20201db29d4d40b7b6cb26ee8d92a3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
