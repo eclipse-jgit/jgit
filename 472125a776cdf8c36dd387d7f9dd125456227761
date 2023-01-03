@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d630379_508f73b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T22:20:46Z",
+      "side": 1,
+      "message": "Good catch! We can change the solution to just reload the bitmap",
+      "parentUuid": "df5a975f_0a0486f6",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b1d1587_18d33a59",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-03T20:01:14Z",
       "side": 1,
       "message": "... and that makes sense IMHO. Here the point is that we need also to understand if the bitmap has shown up or been modified and load it as well.",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84e25a29_04690213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T22:20:46Z",
+      "side": 1,
+      "message": "Yes, I will change the description to mention that just the bitmap should be reload",
+      "parentUuid": "8b1d1587_18d33a59",
       "range": {
         "startLine": 10,
         "startChar": 5,
@@ -100,6 +148,30 @@
       "writtenOn": "2023-01-03T20:01:14Z",
       "side": 1,
       "message": "bitmap",
+      "range": {
+        "startLine": 102,
+        "startChar": 36,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dd17d21_87a13609",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-03T22:20:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25fcb3e4_be62a5e4",
       "range": {
         "startLine": 102,
         "startChar": 36,
