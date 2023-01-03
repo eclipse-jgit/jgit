@@ -163,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc31aeeb_e47a9938",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-03T22:37:18Z",
+      "side": 1,
+      "message": "\u003e That\u0027s correct. And as I mentioned in my comment above having Pack.isModified() would be the right direction if we  want to reload the full pack object when only one of the files have changed. But as Luca mentioned reloading pack file can be a very expensive operation so we prefer to reload just the bitmap index.\n\nOk, I replied on the comment thread Luca started: https://git.eclipse.org/r/c/jgit/jgit/+/197868/comments/df5a975f_0a0486f6\n\n\u003e \n\u003e With that assumption it totally makes sense to have a follow-up change on master to add Pack constructor that copy unmodified parts of the old pack. I\u0027m happy to work on that change\n\n+1, but as I\u0027ve noted, that sounds hard to get correct, so let\u0027s make sure there\u0027s data showing a real problem without it.",
+      "parentUuid": "d70a58c4_75e8f20d",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83bcd27e_258bf9ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 3
