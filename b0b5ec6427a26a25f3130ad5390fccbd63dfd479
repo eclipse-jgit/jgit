@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e402cee_77d69925",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-04T23:57:08Z",
+      "side": 1,
+      "message": "Can be rewritten as:\n```\nif (bitmapFile \u003d\u003d null) {\n   return bitmapFileSnapshot.isPresent();\n }\n```",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 3
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1081d13_fa6e053a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-04T23:57:08Z",
+      "side": 1,
+      "message": "We should add a comment, specifying why we do not reuse the Pack even if it is just the bitmap being modified but not the Pack itself.",
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
