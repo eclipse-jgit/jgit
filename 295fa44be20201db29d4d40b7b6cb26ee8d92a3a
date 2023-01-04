@@ -70,6 +70,24 @@
       "parentUuid": "c2afec28_a84809e9",
       "revId": "295fa44be20201db29d4d40b7b6cb26ee8d92a3a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76fe10a2_ae24f741",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-04T08:34:53Z",
+      "side": 1,
+      "message": "\u003e From the caller point of view, why do they need to know about the graph (#parseInGraph())? Callers just indicate \"I will access headers\" with #parseHeaders and where do those headers come from is irrelevant for them. \n\nI agree with this. \nSetting these methods as protect can avoid this problem.\n\n\n\u003e From the caller point of view, why do they need to know about the graph (#parseInGraph())? Callers just indicate \"I will access headers\" with #parseHeaders and where do those headers come from is irrelevant for them. \n\u003e Plus any existing code would benefit from the commit-graph without further change.\n\nBut there is a difference between parseHeaders from commit-graph and pack:\n\nIn order to ensure smaller storage, commit-graph does not record commit\nmessage and other information, so even if RevWalk#isRetainBody() is true, the commit parsed from the commit-graph will not contain the buffer.\n\nAnd this is why I implemented RevCommit#parseHeadersInGraph() instead of parsing the commit-graph directly in the RevCommit#parseHeaders() method.\n\nSome users might use RevWalk#parseHeaders() and then call RevCommit#getFullMessage() to get message, but when they enable commit-graph, they will find that this method may be not work because RevCommit#buffer is null.\n\n\n\u003e The instances are still created/kept by the RevWalk (not in the commit graph), e.g. in RevWalk#createCommit() so all that is the same.\n\u003e Not sure what do you mean in #2. We dont need to subclass RevWalk. DepthWalk.Commit maybe needs some rework to benefit from the commit graph. It adds a depth member to RevCommit... maybe a wrapper is better than a subclass?\n\nI mean:\n\nIn the same RevWalk, the RevCommit instance of the same object is unique.\n\na \u003c- b \n( a is b\u0027s parent )\n\nFor example, we get a RevCommit instance (called a) through RevWalk#parseCommit(), and mark its flag with RevWalk#TEMP_MARK.\n\nThen we get b and parse its header. When we call RevCommit#getParent(0), the obtained instance will be the same as the one mentioned above, and we can still find that its flag is TEMP_MARK.\n\nI wonder if it will be more complicated to use the RevCommitCG subclass because of this.",
+      "parentUuid": "795dfdd9_63756126",
+      "revId": "295fa44be20201db29d4d40b7b6cb26ee8d92a3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
