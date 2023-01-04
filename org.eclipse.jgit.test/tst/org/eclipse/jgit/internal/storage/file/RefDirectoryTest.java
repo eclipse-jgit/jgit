@@ -62,7 +62,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
-@SuppressWarnings("boxing")
+@SuppressWarnings({ "boxing", "deprecation" })
 @RunWith(Parameterized.class)
 public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private static final Options NO_REFCACHE = new Options().setBare(true);
