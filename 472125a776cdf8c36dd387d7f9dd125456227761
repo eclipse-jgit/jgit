@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64f5f9d7_43041e70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-04T23:14:31Z",
+      "side": 1,
+      "message": "Ok, I split that change into two. This one will focus on reloading pack file when bitmap file is modified. Second one will do the optimization of reloading just the bitmap index. I hope that this helps to find a common ground",
+      "parentUuid": "ca13cb13_4ef5ab20",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b1d1587_18d33a59",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

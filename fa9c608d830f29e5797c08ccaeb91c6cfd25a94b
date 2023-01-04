@@ -46,6 +46,30 @@
       },
       "revId": "fa9c608d830f29e5797c08ccaeb91c6cfd25a94b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fddb309_52a317f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-04T23:14:31Z",
+      "side": 1,
+      "message": "I split this change in two separate one. This change is not modifying the pack object anymore. Follow up change is handling that part",
+      "parentUuid": "5ad8064e_f6120b72",
+      "range": {
+        "startLine": 942,
+        "startChar": 0,
+        "endLine": 945,
+        "endChar": 2
+      },
+      "revId": "fa9c608d830f29e5797c08ccaeb91c6cfd25a94b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
