@@ -33,6 +33,24 @@
       "message": "What about the setter as well?\nOne may decide to have another implementation of RefCache for different use-cases.\n\nThat would also allow JGit users (e.g. Gerrit) to plug their own cache implementation, integrated with all the other existing caches.",
       "revId": "fbcd29df36fb246accacb9796c792af0a14706ea",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "039c0942_b1975bab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-04T23:23:40Z",
+      "side": 1,
+      "message": "I prefer one good integrated implementation over multiple scattered across different projects",
+      "parentUuid": "445be8ad_56ff1bae",
+      "revId": "fbcd29df36fb246accacb9796c792af0a14706ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
