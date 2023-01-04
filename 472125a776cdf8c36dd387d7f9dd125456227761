@@ -347,6 +347,30 @@
       },
       "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bceb422c_6113216c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-04T22:56:33Z",
+      "side": 1,
+      "message": "ok, I will add explicit check for that",
+      "parentUuid": "77a1dea0_db895e14",
+      "range": {
+        "startLine": 359,
+        "startChar": 14,
+        "endLine": 359,
+        "endChar": 60
+      },
+      "revId": "472125a776cdf8c36dd387d7f9dd125456227761",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
