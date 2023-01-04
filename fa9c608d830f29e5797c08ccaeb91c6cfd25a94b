@@ -22,6 +22,30 @@
       },
       "revId": "fa9c608d830f29e5797c08ccaeb91c6cfd25a94b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ad8064e_f6120b72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-04T20:16:30Z",
+      "side": 1,
+      "message": "I don\u0027t see bitmapIdxFile as immutable in stable-5.13:\n\n```\n\t@Nullable\n\tprivate PackFile bitmapIdxFile;\n```\n\nThe field is mutable and is also set to `null` at L1137 and L1145.\nThe reference to the packfile will still remain immutable.\n\nP.S. The change looks small enough to be good for stable-5.13, but I\u0027d leave to a JGit maintainer to comment on this :-)",
+      "parentUuid": "3112095b_940006d7",
+      "range": {
+        "startLine": 942,
+        "startChar": 0,
+        "endLine": 945,
+        "endChar": 2
+      },
+      "revId": "fa9c608d830f29e5797c08ccaeb91c6cfd25a94b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad194aa1_df173f2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-04T20:16:30Z",
+      "side": 1,
+      "message": "I believe this needs to be explained in the commit message: as it is now it isn\u0027t clear.",
+      "parentUuid": "f73a0d75_bf084792",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "315e9203_965e2025",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -175,6 +193,24 @@
       "side": 1,
       "message": "\u003e That\u0027s correct. And as I mentioned in my comment above having Pack.isModified() would be the right direction if we  want to reload the full pack object when only one of the files have changed. But as Luca mentioned reloading pack file can be a very expensive operation so we prefer to reload just the bitmap index.\n\nOk, I replied on the comment thread Luca started: https://git.eclipse.org/r/c/jgit/jgit/+/197868/comments/df5a975f_0a0486f6\n\n\u003e \n\u003e With that assumption it totally makes sense to have a follow-up change on master to add Pack constructor that copy unmodified parts of the old pack. I\u0027m happy to work on that change\n\n+1, but as I\u0027ve noted, that sounds hard to get correct, so let\u0027s make sure there\u0027s data showing a real problem without it.",
       "parentUuid": "d70a58c4_75e8f20d",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5abfccc9_fdb473b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-04T20:16:30Z",
+      "side": 1,
+      "message": "+1 to address this as a follow-up.\n\nCan you describe the situation in the commit message, leaving the reference to the change on master that will address the avoidance of the packfile reload?",
+      "parentUuid": "bc31aeeb_e47a9938",
       "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
