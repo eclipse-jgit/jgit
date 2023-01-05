@@ -886,4 +886,10 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_ABBREV = "abbrev";
 
+	/**
+	 * The "trustPackedRefsStat" key
+	 *
+	 * @since 6.1.1
+	 */
+	public static final String CONFIG_KEY_TRUST_PACKED_REFS_STAT = "trustPackedRefsStat";
 }
