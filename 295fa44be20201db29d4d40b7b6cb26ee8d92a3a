@@ -106,6 +106,24 @@
       "parentUuid": "76fe10a2_ae24f741",
       "revId": "295fa44be20201db29d4d40b7b6cb26ee8d92a3a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feef52f7_5dea34f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-05T12:04:22Z",
+      "side": 1,
+      "message": "\u003e \u003e Some users might use RevWalk#parseHeaders() and then call RevCommit#getFullMessage() to get message, but when they enable commit-graph, they will find that this method may be not work because RevCommit#buffer is null.\n\u003e \n\u003e Currently that only works if they set #retainBody(), and we want to keep that behaviour:\n\u003e \n\u003e #parseHeaders -\u003e Read from commit-graph or pack\n\u003e #parseHeaders + #retainBody -\u003e read from pack (as we need to read the bytes anyway)\n\u003e #parseBody -\u003e read from pack\n\u003e \n\u003e #retainBody or #parseBody makes the commit-graph useless because we will need the full data from disk anyway.\n\nIf so, that should make sense. \n\nIf users want to filter the commit history faster, they need to execute \"walk.setRetainBody(false)\". This causes less impact and I feel it\u0027s better than I thought before!",
+      "parentUuid": "cb2db479_5e955914",
+      "revId": "295fa44be20201db29d4d40b7b6cb26ee8d92a3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
