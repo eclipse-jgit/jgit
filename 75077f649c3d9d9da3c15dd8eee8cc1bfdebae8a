@@ -16,6 +16,91 @@
       "message": "I just pushed a version implemented by RevCommitCG, please see what needs to be improved.\n\nRegards,\nKyle",
       "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "989cd3b7_f6158016",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-05T23:29:04Z",
+      "side": 1,
+      "message": "IIUC RevWalk reparses the headers on every #parseHeader invocation (don\u0027t know why). but that shouldn\u0027t be necessary... should this check if PARSED flag is already set and skip completely the #parseHeaders?",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecabe004_bf6d28c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-05T23:29:04Z",
+      "side": 1,
+      "message": "If walk.commitGraph() doesn\u0027t return null anymore, this parseInGraph just means \"graph.getCommitData() !\u003d null... maybe we can do this more clear? \n\ne.g. doing that here and then calling parseInGraph with the CommitGraph.CommitData? or even inlining parseInGraph...",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea3a68c7_9d2b132e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-05T23:29:04Z",
+      "side": 1,
+      "message": "Somewhere we need to accomodate this from RevCommit:\n```\nif (!walk.shallowCommitsInitialized) {\n    walk.initializeShallowCommits(this);\n}\n```\n\nIt sets the parents to NO_PARENTS and ignores whatever the pack (commit-graph in this case) says for shallow commits.",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c789758_a99aec09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-05T23:29:04Z",
+      "side": 1,
+      "message": "It would be simpler and probably more efficient to create a \"EmptyCommitGraph\" implementation of the CommitGraph interface, create a static instance somehere (EMPTY_COMMIT_GRAPH) and here do just:\n\nif (commitGraph \u003d\u003d null) {\n  commitGraph \u003d reader.getCommitGraph().orElse(EMPTY_COMMIT_GRAPH);\n}\n\nreturn commitGraph.",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e93d43a_43ba6dc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 1721,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-05T23:29:04Z",
+      "side": 1,
+      "message": "This is more symmetrical and clear if we just have a new method:\nRevCommit createCommit(AnyObjectId id, int pos) {\n  // if pos \u003e\u003d 0 return RevCommitGC otherwise RevCommit\n} \n\nAnd call it from #createCommit(AnyObjectId) with createCommit(id, graph.findGraphPosition(id))",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
