@@ -125,6 +125,30 @@
       },
       "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7020a4d_91a93b3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-05T00:42:36Z",
+      "side": 1,
+      "message": "\u003e I believe the performance hit is here when we reload a Pack when we don\u0027t need to. We are triggering the Pack.close() which runs the following: \n\u003e \n\u003e ```\n\u003e \tpublic void close() {\n\u003e \t\tWindowCache.purge(this);\n\u003e \t\tsynchronized (this) {\n\u003e \t\t\tloadedIdx \u003d null;\n\u003e \t\t\treverseIdx \u003d null;\n\u003e \t\t}\n\u003e \t}\n\u003e ```\n\u003e \n\u003e If the packfile was substantial (GBs of data), we purge the entire JGit cache (WindowCache) that was loaded and we create a temporary hiccup to Gerrit.\n\nIt doesn\u0027t purge the entire cache, only the data for this pack. I do agree that the work to reload that data is unnecessarily and potentially a significant performance impact for Gerrit. However, how often are you expecting that the .bitmap file will change when the .pack file doesn\u0027t? That seems like an uncommon scenario that we wouldn\u0027t optimize for.",
+      "parentUuid": "2fd5684c_bb909ee4",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 463,
+        "endChar": 3
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
