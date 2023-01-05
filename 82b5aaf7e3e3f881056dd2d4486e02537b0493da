@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e889f8_f97ba9c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-05T15:08:22Z",
+      "side": 1,
+      "message": "Is this the indentation the formatter gives you? It seems strange to not have the \u0027case ...:\u0027 lines indented once more.",
+      "revId": "82b5aaf7e3e3f881056dd2d4486e02537b0493da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
