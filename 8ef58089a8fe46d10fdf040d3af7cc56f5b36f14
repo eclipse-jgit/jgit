@@ -16,6 +16,24 @@
       "message": "Out of curiosity: do you have a command-line tool for this?",
       "revId": "8ef58089a8fe46d10fdf040d3af7cc56f5b36f14",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e03a045_386d5bd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-05T13:40:11Z",
+      "side": 1,
+      "message": "I did this in Eclipse. You can run its formatter from command line: https://help.eclipse.org/latest/index.jsp?topic\u003d%2Forg.eclipse.jdt.doc.user%2Ftasks%2Ftasks-231.htm",
+      "parentUuid": "c89b9ff1_9443d1f5",
+      "revId": "8ef58089a8fe46d10fdf040d3af7cc56f5b36f14",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
