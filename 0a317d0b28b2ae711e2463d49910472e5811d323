@@ -359,6 +359,30 @@
       },
       "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8ac5151_9026457a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-05T19:13:10Z",
+      "side": 1,
+      "message": "I thought FileSnapshot.isModified() already accounts for filesystem resolution?",
+      "parentUuid": "c75fef10_2b82be67",
+      "range": {
+        "startLine": 441,
+        "startChar": 7,
+        "endLine": 441,
+        "endChar": 43
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
