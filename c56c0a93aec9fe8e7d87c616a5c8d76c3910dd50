@@ -112,6 +112,54 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bdc0f28_f058827b",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T01:17:42Z",
+      "side": 1,
+      "message": "Thanks !",
+      "parentUuid": "855b6154_83ff91bc",
+      "range": {
+        "startLine": 44,
+        "startChar": 279,
+        "endLine": 44,
+        "endChar": 322
+      },
+      "revId": "c56c0a93aec9fe8e7d87c616a5c8d76c3910dd50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1ec058e_425eb227",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T01:17:42Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "5e739978_7b2e2ac9",
+      "range": {
+        "startLine": 44,
+        "startChar": 222,
+        "endLine": 44,
+        "endChar": 250
+      },
+      "revId": "c56c0a93aec9fe8e7d87c616a5c8d76c3910dd50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdcee861_927ceee8",
@@ -149,6 +197,30 @@
       "side": 1,
       "message": "Creating the RefUpdate and setting the new objectid doesn\u0027t require downcast.\nI don\u0027t want to add an interface only used by a test.\nOther RefDatabase implementations don\u0027t have this method.",
       "parentUuid": "cdcee861_927ceee8",
+      "range": {
+        "startLine": 1053,
+        "startChar": 2,
+        "endLine": 1063,
+        "endChar": 3
+      },
+      "revId": "c56c0a93aec9fe8e7d87c616a5c8d76c3910dd50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ed38b73_504e7c49",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T01:17:42Z",
+      "side": 1,
+      "message": "Ack, reflog is effectively something that do not necessarily exist on the server-side, isn\u0027t it? *RefTable and DfsRefDatabase do not have reflog, correct?\n\nAck.",
+      "parentUuid": "f96b7703_c235069e",
       "range": {
         "startLine": 1053,
         "startChar": 2,
@@ -278,6 +350,30 @@
       "side": 1,
       "message": "yes, but I think it doesn\u0027t prevent inconsistent reads from the cache from another thread. packed-refs supports atomic updates which are implemented by atomically renaming the packed-refs file, the TernarySearchTree supports atomic updates via the transient lock. A batch ref update updating multiple refs inserts multiple nodes in the ternary search tree. Clients read from the cache hence we have to lock it during updates.",
       "parentUuid": "0c422a16_27aa1517",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 21
+      },
+      "revId": "c56c0a93aec9fe8e7d87c616a5c8d76c3910dd50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1015baa0_1d01948c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T01:17:42Z",
+      "side": 1,
+      "message": "Gotcha, we don\u0027t want anyone to read from the cache that may be in-process of applying the updates of a batch-ref-update, which may contains multiple updates at once. Understood, thanks for clarifying this.",
+      "parentUuid": "ce091f1a_c05e3a19",
       "range": {
         "startLine": 196,
         "startChar": 0,

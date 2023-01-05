@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf84b4c2_bccf9704",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T01:17:42Z",
+      "side": 1,
+      "message": "Good catch 👍",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 15
+      },
+      "revId": "dbaee1bf5acc874ccbbc65f0ca5ac527eb4e0cde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
