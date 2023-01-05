@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "54f6596e_a51c1378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "This first paragraph of the commit message is explaining why this patch is needed (the problem). \n\nThis commit proposes moving away from the current implementation which is using insertion sort, not towards it.\n\nCurrent usage of insertion sort: https://eclipse.googlesource.com/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java#101",
+      "parentUuid": "1bf3b583_1cfed171",
+      "range": {
+        "startLine": 13,
+        "startChar": 48,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9cfeb265_370d69e1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 18
@@ -87,6 +111,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcfc9c1b_4e7e17ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "There may be a second version in the future, so \"reverse index version\" may be too general. \n\nShortened differently.",
+      "parentUuid": "63838526_28ebf02b",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bab0784_dca0b6a4",
@@ -100,6 +148,30 @@
       "writtenOn": "2022-12-19T23:36:22Z",
       "side": 1,
       "message": "what does that mean ?",
+      "range": {
+        "startLine": 54,
+        "startChar": 57,
+        "endLine": 55,
+        "endChar": 27
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58135e9f_acd37601",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "Rewrote to \"between subclasses\" -- currently only the V1 subclass.",
+      "parentUuid": "3bab0784_dca0b6a4",
       "range": {
         "startLine": 54,
         "startChar": 57,
@@ -133,6 +205,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de69992b_6275ea86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60fa6043_bd8569ec",
+      "range": {
+        "startLine": 75,
+        "startChar": 51,
+        "endLine": 75,
+        "endChar": 56
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25a57fd5_2745ef15",
@@ -146,6 +242,30 @@
       "writtenOn": "2022-12-19T23:36:22Z",
       "side": 1,
       "message": "Create a writer ...",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "861e73e3_75bb48d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25a57fd5_2745ef15",
       "range": {
         "startLine": 80,
         "startChar": 4,
@@ -179,6 +299,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9e69cb_0cc78d8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eae525d_c68f7099",
+      "range": {
+        "startLine": 85,
+        "startChar": 15,
+        "endLine": 85,
+        "endChar": 59
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef9d5087_c33beb47",
@@ -192,6 +336,24 @@
       "writtenOn": "2022-12-19T23:07:04Z",
       "side": 1,
       "message": "Is this list going to be modified inside? Please mention that in the javadoc.",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b64330d_a3d75f19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "It shouldn\u0027t be, added that to javadoc",
+      "parentUuid": "ef9d5087_c33beb47",
       "revId": "af9341316b83dea320685a795354b5403e1778c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -215,6 +377,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cedf8ef7_15883a5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "\u003e\u003e Can you somehow reuse...\nDo you mean the two-layered bucketing from the original/current PackReverseIndex.java? It\u0027s different because it gets the objects one at a time from the in-memory forward index, rather than during pack writing; it uses some insertion sort; the two-layered buckets are queryed during reverse index usages, rather than written once; difficult to read; etc. Happy to have a meeting to discuss all the details.\n\n\u003e\u003e an int is 4 bytes...\nMy understanding is that using a custom comparator to sort is only supported for Integer in Java, not int (e.g. https://stackoverflow.com/q/3699141). Please lmk any way that you are aware of.",
+      "parentUuid": "1b780a7b_98cd7f54",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14f7731f_3e2f04e1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
         "patchSetId": 18
@@ -226,6 +406,24 @@
       "writtenOn": "2022-12-19T23:07:04Z",
       "side": 1,
       "message": "usually writing is more efficient in bigger batches... \n\nMaybe you can translate the int[] to a byte[] and then write it one or more chunks?",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4884e095_a95f8fac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-05T21:16:47Z",
+      "side": 1,
+      "message": "`writeInt` is used within `writeBitmapEntry` for each entry, which seems similar at my level of understanding (https://eclipse.googlesource.com/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexWriterV1.java#116).\n\nHow can I show that the more complex code proposed ends up being more efficient?",
+      "parentUuid": "14f7731f_3e2f04e1",
       "revId": "af9341316b83dea320685a795354b5403e1778c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
