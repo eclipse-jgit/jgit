@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54fdd13f_4a6e79ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "the pack",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71e46f54_9c48d027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "the bitmap",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad189c01_47c03cfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "Reloading a large packfile ...",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb49d2e6_ec2cc202",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "I would also add:\n_The Pack object is not necessarily loaded on creation, however it starts fresh without any of its parts loaded in the WindowCache, while preserving the existing one would also keep the pre-cached values_",
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fea0c435_843aaa0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "+ `volatile`",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 9
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a3362da_e66cab57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "+ `volatile`",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 9
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "949db69e_604b30c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "+ `volatile`",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37322d65_2b9654dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "This is repeated as-is in `setBitmapIndxFile`, consider DRY-ing out",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 86
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d10db718_ffea3cf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "This needs to be explained IMHO: you are managing here the situation where there was initially a bitmap file already loaded and you have detected that the one on-disk had changed and therefore you need to invalidate the one just read.\n\nThe effective loading happens in a lazy way in getBitmapIndex().",
+      "range": {
+        "startLine": 946,
+        "startChar": 0,
+        "endLine": 946,
+        "endChar": 19
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d746467_c6e6dc3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "Duplication of what happens in the constructor: can you DRY that out?\n\nAlso, that would be best for managing the updates in a safe way: multiple threads could store the value concurrently, we may need an atomic reference here.",
+      "range": {
+        "startLine": 947,
+        "startChar": 0,
+        "endLine": 949,
+        "endChar": 0
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75fef10_2b82be67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:28:23Z",
+      "side": 1,
+      "message": "It can be racy during read: if the filesystem resolution is high (e.g. 1s) you may end-up re-reading the bitmap file multiple times.\n\nHowever, that is much less expensive than invalidating a Pack with its associated WindowCache.",
+      "range": {
+        "startLine": 441,
+        "startChar": 7,
+        "endLine": 441,
+        "endChar": 43
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
