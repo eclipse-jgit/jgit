@@ -141,6 +141,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f976b25_96bd3dab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T19:26:21Z",
+      "side": 1,
+      "message": "+1, if Nasser did not follow the sequence of events, it means it needs to described in more detail here.\n\nI believe mentioning NFS is very misleading here: this bug has nothing to do with visibility of the filesystem stats or caching.\n\n@Marcin can you remove any reference to NFS please?",
+      "parentUuid": "4471f3d9_5a313c4d",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40c61cdd_9856db22",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -170,6 +194,24 @@
       "side": 1,
       "message": "\u003e The only current solution to the problem is to restart the JVM, or hoping that the next git gc cycle would reshuffle the cards and allow the new bitmap to be discovered._\n\nAn admin could also manually update the time (touch) on the .pack file?",
       "parentUuid": "40c61cdd_9856db22",
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15d7116c_1869e8ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T19:26:21Z",
+      "side": 1,
+      "message": "\u003e An admin could also manually update the time (touch) on the .pack file?\n\nAlso true.",
+      "parentUuid": "dae885c0_447dce00",
       "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -273,6 +315,30 @@
       "writtenOn": "2023-01-05T19:12:27Z",
       "side": 1,
       "message": "This comment risks becoming stale and doesn\u0027t tell you anything the commit message can\u0027t. Could you please shorten it to something like:\n\n // TODO: Improve Pack to only reload the bitmap index when nothing else changes",
+      "range": {
+        "startLine": 441,
+        "startChar": 5,
+        "endLine": 444,
+        "endChar": 21
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6e2bdbc_76df1378",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T19:26:21Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "5266caf8_0661d647",
       "range": {
         "startLine": 441,
         "startChar": 5,
