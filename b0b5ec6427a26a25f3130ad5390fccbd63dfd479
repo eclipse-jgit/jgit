@@ -39,6 +39,29 @@
       "message": "We should add a comment, specifying why we do not reuse the Pack even if it is just the bitmap being modified but not the Pack itself.",
       "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fd5684c_bb909ee4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:32:47Z",
+      "side": 1,
+      "message": "I believe the performance hit is here when we reload a Pack when we don\u0027t need to. We are triggering the Pack.close() which runs the following: \n\n```\n\tpublic void close() {\n\t\tWindowCache.purge(this);\n\t\tsynchronized (this) {\n\t\t\tloadedIdx \u003d null;\n\t\t\treverseIdx \u003d null;\n\t\t}\n\t}\n```\n\nIf the packfile was substantial (GBs of data), we purge the entire JGit cache (WindowCache) that was loaded and we create a temporary hiccup to Gerrit.\n\nThat hiccup would have not happened before this change, hence the performance regression introduced.\n\nThe follow-up change I8de58485dc would restore the normal behaviour by keeping the Pack and its associated WindowCache segments in memory.",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 463,
+        "endChar": 3
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
