@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e45446d_e09391a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "Pack (this is the exact name of the Java class)",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aa1abec_bd52cd8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "I would add _otherwise it reuses the existing Pack object_",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ca6122a_a55b7075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "Pack",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e76c77_379a9936",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "nit: add space in front of `(`",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 26
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4d58dc2_23bac276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "is not visible yet",
+      "range": {
+        "startLine": 14,
+        "startChar": 61,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40c61cdd_9856db22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "You also need to explain what happens *when* the bitmap shows up, which is the culprit.\n\nExample phrasing: _When the bitmap file shows up, it could be discoverable; however, the packfile mtime has not changed and therefore the scanPackImpl() would just skip reloading it making the bitmap as de-facto invisible to JGit_\n\nAlso you need to mention the performance implication for JGit as a whole, which is significant.\n\nExample phrasing: _From a user\u0027s perspective, everything works but the Git operations become all of a sudden very slow without an apparent explanation, as the bitmap file was never generated. The only current solution to the problem is to restart the JVM, or hoping that the next git gc cycle would reshuffle the cards and allow the new bitmap to be discovered._",
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62d701d0_065f055e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "The ideal",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 5
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fdf892f_17760f17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "Can you also draft the change? So that it does not get forgotten? Once drafted, can you point it from here?",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 60
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5862a3b6_3eafa81b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "Mostly good from my side, however the commit message is too cryptic and should describe a lot more of what is happening, what is the impact, what would be the best solution and what are the current trade-offs.\n\nI\u0027ve proposed some wording, but feel free to change it as you wish :-)\n\n@Nasser feel free to propose your version of the wording as you believe is more appropriate.",
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b6d74b9_2915456d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T18:53:11Z",
+      "side": 1,
+      "message": "The ideal",
+      "range": {
+        "startLine": 441,
+        "startChar": 8,
+        "endLine": 441,
+        "endChar": 13
+      },
+      "revId": "a8014f5dc8aae33d7c5946f3deed099989216142",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
