@@ -59,6 +59,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80a93534_765f28ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-05T18:32:01Z",
+      "side": 1,
+      "message": "I refactored the code with your suggestion from comment below:\n\u003e if (bitmapFile \u003d\u003d null) {\n\u003e   return bitmapFileSnapshot.isPresent();\n\u003e }",
+      "parentUuid": "03100243_8bd7748a",
+      "range": {
+        "startLine": 144,
+        "startChar": 23,
+        "endLine": 144,
+        "endChar": 86
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e402cee_77d69925",
@@ -105,6 +129,54 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdbb0b5c_c6022f00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-05T18:32:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e402cee_77d69925",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 3
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7fa2f02_c125f80f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-05T18:32:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "72b021e5_522fe76b",
+      "range": {
+        "startLine": 355,
+        "startChar": 2,
+        "endLine": 360,
+        "endChar": 3
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1081d13_fa6e053a",
@@ -118,6 +190,24 @@
       "writtenOn": "2023-01-04T23:57:08Z",
       "side": 1,
       "message": "We should add a comment, specifying why we do not reuse the Pack even if it is just the bitmap being modified but not the Pack itself.",
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4f486e3_d87a1ce2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-05T18:32:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1081d13_fa6e053a",
       "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },

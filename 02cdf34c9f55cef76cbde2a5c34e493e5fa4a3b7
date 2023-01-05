@@ -126,6 +126,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "647eeaa9_3d49216d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-05T18:32:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46fa4819_05fc2ba3",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "315e9203_965e2025",
@@ -229,6 +247,24 @@
       "side": 1,
       "message": "+1 to address this as a follow-up.\n\nCan you describe the situation in the commit message, leaving the reference to the change on master that will address the avoidance of the packfile reload?",
       "parentUuid": "bc31aeeb_e47a9938",
+      "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47fbf16f_5e5589e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-01-05T18:32:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5abfccc9_fdb473b7",
       "revId": "02cdf34c9f55cef76cbde2a5c34e493e5fa4a3b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
