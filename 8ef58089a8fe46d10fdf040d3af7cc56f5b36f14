@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c89b9ff1_9443d1f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T01:04:16Z",
+      "side": 1,
+      "message": "Out of curiosity: do you have a command-line tool for this?",
+      "revId": "8ef58089a8fe46d10fdf040d3af7cc56f5b36f14",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
