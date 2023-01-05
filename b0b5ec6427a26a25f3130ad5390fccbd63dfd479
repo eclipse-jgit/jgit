@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dcb25027_5030dc16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-05T00:37:56Z",
+      "side": 1,
+      "message": "I don\u0027t know if Matthias/JGit-Maintainers are still maintaining 5.13 or if everyone needs to move to 6.x (and Java 11). Do you need this on 5.13? I think all non-EOL Gerrit versions are 6.x now.",
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03100243_8bd7748a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-05T00:37:56Z",
+      "side": 1,
+      "message": "I missed this earlier, but I think you want to use FileSnapshot.MISSING_FILE when bitmapIdxFile is null. It makes the logic below simpler too.\n\nHere:\n\n PackFileSnapshot bitmapFileSnapshot \u003d bitmapIdxFile \u003d\u003d null : FileSnapshot.MISSING_FILE ? FileSnapshot.save(bitmapIdxFile);\n\nAnd then in isBitmapModified() you can do:\n\n if (bitmapFile !\u003d null) {\n   return bitmapFileSnapshot.isModified(bitmapFile);\n }\n return !bitmapFileSnapshot.equals(FileSnapshot.MISSING_FILE);",
+      "range": {
+        "startLine": 144,
+        "startChar": 23,
+        "endLine": 144,
+        "endChar": 86
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e402cee_77d69925",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 7
@@ -17,6 +57,29 @@
       "range": {
         "startLine": 355,
         "startChar": 0,
+        "endLine": 360,
+        "endChar": 3
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72b021e5_522fe76b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-05T00:37:56Z",
+      "side": 1,
+      "message": "(Ignore if you go with the comment above) This is probably simpler as:\n\n if (bitmapFile \u003d\u003d null) {\n   return bitmapFileSnapshot.isPresent();\n }",
+      "range": {
+        "startLine": 355,
+        "startChar": 2,
         "endLine": 360,
         "endChar": 3
       },
