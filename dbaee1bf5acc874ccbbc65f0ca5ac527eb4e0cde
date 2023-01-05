@@ -22,6 +22,30 @@
       },
       "revId": "dbaee1bf5acc874ccbbc65f0ca5ac527eb4e0cde",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0282d388_e70a4379",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/memory/InMemoryRefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-05T13:39:55Z",
+      "side": 1,
+      "message": "found this since it caused test failures in RefDirectoryTest",
+      "parentUuid": "cf84b4c2_bccf9704",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 15
+      },
+      "revId": "dbaee1bf5acc874ccbbc65f0ca5ac527eb4e0cde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

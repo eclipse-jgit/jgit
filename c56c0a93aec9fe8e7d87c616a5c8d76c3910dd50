@@ -231,6 +231,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78e43569_3629c03f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-05T13:39:55Z",
+      "side": 1,
+      "message": "reflogs also exist on servers e.g. Gerrit writes reflogs when pushes update refs.\n\nFileReftableDatabase uses ReftableWriter#writeLog(String ref, long updateIndex, PersonIdent who, ObjectId oldId, ObjectId newId, @Nullable String message) to write reflogs\n\nThe reflog is usually set from the RefUpdate and RefRename implementations of the respective RefDatabase implementation.",
+      "parentUuid": "4ed38b73_504e7c49",
+      "range": {
+        "startLine": 1053,
+        "startChar": 2,
+        "endLine": 1063,
+        "endChar": 3
+      },
+      "revId": "c56c0a93aec9fe8e7d87c616a5c8d76c3910dd50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcedfba2_c4a64c09",
