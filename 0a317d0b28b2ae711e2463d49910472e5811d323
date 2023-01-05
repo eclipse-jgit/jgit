@@ -87,6 +87,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f377040d_f92dc1d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:54:49Z",
+      "side": 1,
+      "message": "Giving -1 for the lack of consistency during concurrent set of the bitmap in the Pack.",
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fea0c435_843aaa0d",
@@ -100,6 +117,30 @@
       "writtenOn": "2023-01-05T00:28:23Z",
       "side": 1,
       "message": "+ `volatile`",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 9
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7497d4da_a747703d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:54:49Z",
+      "side": 1,
+      "message": "It would be best to be AtomicReference() and managing the raciness when read and updated in the same method.",
+      "parentUuid": "fea0c435_843aaa0d",
       "range": {
         "startLine": 102,
         "startChar": 8,
@@ -135,6 +176,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef5a2bd9_b15d128b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:54:49Z",
+      "side": 1,
+      "message": "It would be best to be AtomicReference() and managing the raciness when read and updated in the same method.",
+      "parentUuid": "1a3362da_e66cab57",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 9
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "949db69e_604b30c7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 2
@@ -146,6 +211,30 @@
       "writtenOn": "2023-01-05T00:28:23Z",
       "side": 1,
       "message": "+ `volatile`",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e363129f_e88cf7d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:54:49Z",
+      "side": 1,
+      "message": "It would be best to be AtomicReference() and managing the raciness when read and updated in the same method.",
+      "parentUuid": "949db69e_604b30c7",
       "range": {
         "startLine": 119,
         "startChar": 8,
@@ -215,6 +304,30 @@
       "writtenOn": "2023-01-05T00:28:23Z",
       "side": 1,
       "message": "Duplication of what happens in the constructor: can you DRY that out?\n\nAlso, that would be best for managing the updates in a safe way: multiple threads could store the value concurrently, we may need an atomic reference here.",
+      "range": {
+        "startLine": 947,
+        "startChar": 0,
+        "endLine": 949,
+        "endChar": 0
+      },
+      "revId": "0a317d0b28b2ae711e2463d49910472e5811d323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "069d85af_5d26d42c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-05T00:54:49Z",
+      "side": 1,
+      "message": "During the racy-read period, if you have massive incoming traffic (e.g. thousands of people cloning the repo on a machine with hundreds of CPUs), you may have multiple parallel calls trying all to set the bitmap index file at the same time.\n\nThe file-snapshot would not be able to decide if the file has been modified or not, because you are within the racy-read window, and therefore JGit would try to read the same file over and over again.\n\nWe need to make sure that the setting the bitmap would not result in inconsistent reads.",
+      "parentUuid": "3d746467_c6e6dc3c",
       "range": {
         "startLine": 947,
         "startChar": 0,
