@@ -913,6 +913,9 @@ public class GC {
 		if (!repo.getConfig().get(CoreConfig.KEY).enableCommitGraph()) {
 			return;
 		}
+		if (repo.getObjectDatabase().getShallowCommits().size() > 0) {
+			return;
+		}
 		checkCancelled();
 		if (wants.isEmpty()) {
 			return;
