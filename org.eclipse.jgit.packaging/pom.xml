@@ -24,7 +24,6 @@
   <properties>
     <java.version>11</java.version>
     <tycho-version>2.7.5</tycho-version>
-    <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <target-platform>jgit-4.17</target-platform>
   </properties>
 
