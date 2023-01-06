@@ -123,6 +123,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "595f091f_037fbbfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-06T22:33:55Z",
+      "side": 1,
+      "message": "The check I was asking for is that one in the RevWalk.\n\nThanks for bringing up that duplicated PARSED. I don\u0027t know the context of those flags, but sounds like they could be unified (?) It is orthogonal to the commit-graph though, so I resolve this comment.",
+      "parentUuid": "94e2ebad_2140842b",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c789758_a99aec09",

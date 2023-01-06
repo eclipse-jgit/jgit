@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c641b2_93430d31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 51
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-06T22:33:55Z",
+      "side": 1,
+      "message": "Thanks! This is looking really good. Few details.",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34513c36_29241a26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-06T22:33:55Z",
+      "side": 1,
+      "message": "nit: as the interface is already CommitGraph, we can call this just EMPTY",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 31
+      },
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20d44531_790868e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-06T22:33:55Z",
+      "side": 1,
+      "message": "You can do the empty implementation directly here:\nCommitGraph EMPTY \u003d new CommitGraph() {\n  ... Override methods\n}\n\nthen we make sure there is only one instance and no need of an extra class.",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d4bd05d_4f2b4447",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-06T22:33:55Z",
+      "side": 1,
+      "message": "Double checking:\n\nI see couple of invocations to #parseCanonical in RevWalk (~L1223, ~L1109). IIUC they are like #parseBody but reusing the ObjectLoader... I guess there is a performance reason for it.\n\nI *think* it is still fine for us:\n1. Those commits should have the right type because they come from createCommit() or from .objects\n2. Calling #parseCanonical in RevCommitCG would do the right thing: It would run RevCommit#parseCanonical, that uses createCommit() for the parents, therefore create/use the right RevCommit classes for them.",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef2bc441_7ba4dd8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-06T22:33:55Z",
+      "side": 1,
+      "message": "This should be an IllegalStateException: we created this RevCommitCG because we got its graphPosition from the commit-graph. If now the commit-graph doesn\u0027t know about it something went very wrong.",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6388c332_459262e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-06T22:33:55Z",
+      "side": 1,
+      "message": "Should we set PARSED before calling #parseBody()?\n\nOtherwise when #isRetainBody(), we load the data from the graph and then overwrite it from the raw bytes inside #parseBody().",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7d3eacc_2a16d485",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-06T22:33:55Z",
+      "side": 1,
+      "message": "This method should look uninviting to regular users of the RevWalk: we don\u0027t want them to do e.g. #lookupCommit(id, -1) by mistake. This is intended to be invoked only by RevCommit (and its subclasses).\n\nCan we make this explicit in the javadoc?",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
