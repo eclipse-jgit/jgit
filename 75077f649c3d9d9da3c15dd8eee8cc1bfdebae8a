@@ -71,6 +71,60 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94e2ebad_2140842b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-06T07:52:18Z",
+      "side": 1,
+      "message": "\u003e IIUC RevWalk reparses the headers on every #parseHeader invocation (don\u0027t know why). but that shouldn\u0027t be necessary... should this check if PARSED flag is already set and skip completely the #parseHeaders?\n\nJGit currently checks the PARSED flag in RevWalk.\n\neg.\n```\npublic void parseHeaders(RevObject obj)\n\t\t\tthrows MissingObjectException, IOException {\n\t\tif ((obj.flags \u0026 PARSED) \u003d\u003d 0)\n\t\t\tobj.parseHeaders(this);\n\t}\n```\n\nRevWalk#PARSED is used instead of RevObject#PARSED, although their values are both 1. This does get confusing, maybe they should all use RevWalk#PARSED ?",
+      "parentUuid": "989cd3b7_f6158016",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e65b73f_2d2b1196",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-06T07:52:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecabe004_bf6d28c5",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa8a66fc_83fc3160",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-06T07:52:18Z",
+      "side": 1,
+      "message": "Oops! I didn\u0027t notice this, thanks！\n\nDone.\n\nBy the way, because of this, I found that we should not write commit-graph for shallow repo, here is the bugfix[1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/199262",
+      "parentUuid": "ea3a68c7_9d2b132e",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c789758_a99aec09",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 49
@@ -82,6 +136,24 @@
       "writtenOn": "2023-01-05T23:29:04Z",
       "side": 1,
       "message": "It would be simpler and probably more efficient to create a \"EmptyCommitGraph\" implementation of the CommitGraph interface, create a static instance somehere (EMPTY_COMMIT_GRAPH) and here do just:\n\nif (commitGraph \u003d\u003d null) {\n  commitGraph \u003d reader.getCommitGraph().orElse(EMPTY_COMMIT_GRAPH);\n}\n\nreturn commitGraph.",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "490e2ce0_0a4dde5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-06T07:52:18Z",
+      "side": 1,
+      "message": "Agree, done.",
+      "parentUuid": "0c789758_a99aec09",
       "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -99,6 +171,24 @@
       "writtenOn": "2023-01-05T23:29:04Z",
       "side": 1,
       "message": "This is more symmetrical and clear if we just have a new method:\nRevCommit createCommit(AnyObjectId id, int pos) {\n  // if pos \u003e\u003d 0 return RevCommitGC otherwise RevCommit\n} \n\nAnd call it from #createCommit(AnyObjectId) with createCommit(id, graph.findGraphPosition(id))",
+      "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cee5ca6c_ad18410e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 1721,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-06T07:52:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e93d43a_43ba6dc0",
       "revId": "75077f649c3d9d9da3c15dd8eee8cc1bfdebae8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
