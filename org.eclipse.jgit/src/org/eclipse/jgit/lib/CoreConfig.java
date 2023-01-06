@@ -123,6 +123,27 @@ public class CoreConfig {
 	 */
 	public static final boolean DEFAULT_COMMIT_GRAPH_ENABLE = false;
 
+	/**
+	 * Permissible values for {@code core.trustPackedRefsStat}.
+	 *
+	 * @since 6.1.1
+	 */
+	public enum TrustPackedRefsStat {
+		/** Do not trust file attributes of the packed-refs file. */
+		NEVER,
+
+		/** Trust file attributes of the packed-refs file. */
+		ALWAYS,
+
+		/** Open and close the packed-refs file to refresh its file attributes
+		 * and then trust it. */
+		AFTER_OPEN,
+
+		/** {@code core.trustPackedRefsStat} defaults to this when it is
+		 * not set */
+		UNSET
+	}
+
 	private final int compression;
 
 	private final int packIndexVersion;
