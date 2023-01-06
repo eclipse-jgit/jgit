@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86e10d22_81f7af84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 307656
+      },
+      "writtenOn": "2023-01-06T00:23:21Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c7afc5e4_ccff7c79",
+      "range": {
+        "startLine": 1315,
+        "startChar": 19,
+        "endLine": 1315,
+        "endChar": 28
+      },
+      "revId": "4e047588f9395f33c14431a03f669df36386b098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e51fd6e_218669cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackExt.java",
         "patchSetId": 18

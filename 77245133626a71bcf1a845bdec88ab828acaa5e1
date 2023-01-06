@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cd28b44_d8d4ff73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 307656
+      },
+      "writtenOn": "2023-01-06T00:23:21Z",
+      "side": 1,
+      "message": "Was this comment initially left next to the argument? (or was the similar comment intentionally removed 3 lines down?)",
+      "range": {
+        "startLine": 1274,
+        "startChar": 40,
+        "endLine": 1274,
+        "endChar": 53
+      },
+      "revId": "77245133626a71bcf1a845bdec88ab828acaa5e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
