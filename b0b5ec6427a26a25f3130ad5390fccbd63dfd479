@@ -109,6 +109,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "118f4947_b32eab6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-06T21:12:43Z",
+      "side": 1,
+      "message": "And thinking about this more, I think there\u0027s an even better trade to make for more simplicity. If we skip passing in the bitmapIdxFile to the constructor, we can have FileSnapshot do more work for us and encapsulate more in Pack:\n\n Pack(File packFile) {\n   this.packFile \u003d new PackFile(packFile);\n   this.bitmapIdxFile \u003d packFile.create(BITMAP);\n   this.bitmapFileSnapshot \u003d FileSnapshot.save(bitmapIdxFile); // handles non-existent file for us\n }\n\nAnd then you wouldn\u0027t ever pass a bitmap file to isBitmapModified() either since a missing file isn\u0027t considered modified when compared to another missing file (I\u0027ll push the test I wrote confirming that as soon as I get a chance).\n\n boolean isBitmapModified() {\n   return bitmapFileSnapshot.isModified(bitmapIdxFile);\n }\n\nThe downsides to this approach are that 1) we\u0027re rechecking existence of the bitmapIdxFile when trying to save the file snapshot and 2) we\u0027ll need to fix the first line of getBitmapIndex() that assumes bitmapIdxFile is null when it doesn\u0027t exist and the 2 lines that set it to null. One of those getBitmapIndex() lines doesn\u0027t equate to MISSING_FILE though (it\u0027s more like bitmapIdxInvalid\u003dtrue).\n\nSo I think it would be better on the stable branch to minimize the change and keep the null assumption. That should just mean modifying the solution above slightly:\n\n Pack(File packFile) {\n   this.packFile \u003d new PackFile(packFile);\n   this.bitmapIdxFile \u003d packFile.create(BITMAP);\n   this.bitmapFileSnapshot \u003d FileSnapshot.save(bitmapIdxFile);\n   if (bitmapFileSnapshot.equals(FileSnapshot.MISSING_FILE)) {\n     this.bitmapIdxFile \u003d null;\n   }\n }\n\n boolean isBitmapModified() {\n   return bitmapFileSnapshot.isModified(packFile.create(BITMAP));\n }",
+      "parentUuid": "8053ac63_9f3afa25",
+      "range": {
+        "startLine": 144,
+        "startChar": 23,
+        "endLine": 144,
+        "endChar": 86
+      },
+      "revId": "b0b5ec6427a26a25f3130ad5390fccbd63dfd479",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e402cee_77d69925",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 7
