@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd5c2ab6_91da0b3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-07T22:24:52Z",
+      "side": 1,
+      "message": "\u003e I believe it also apply alongside Change I00da88e4cc: within the filesystem resolution, JGit will re-read the packed-refs anyway to prevent racy reads.\n\nOk, so for example, my 3.5 test server has this in ~/.config/jgit/config:\n\n [filesystem \"Oracle Corporation|11.0.12|nfs-server:/nfs/path/to/repos\"]\n \ttimestampResolution \u003d 4000 nanoseconds\n \tminRacyThreshold \u003d 0 nanoseconds\n\nThen given that, IIUC for 10,000 nanoseconds (multiplier of 2.5) after the packed-refs file was modified, FileSnapshot.isModified(\"/nfs/path/to/repos/...\") will return true?\n\nWhat kind of values do you have for filesystem.timestampResolution and filesystem.minRacyThreshold that you\u0027re concerned about this? Maybe I\u0027m being naive, but I don\u0027t think a 10 microsecond window of re-read risk is significant. I found another test host we have where the timestampResolution is 13000 nanoseconds, so that\u0027s a 32.5 microsecond window (still small in my opinion). Your timings below clearly show that the work to read the packed-refs file will take much longer (1000x+?) than that resolution. Are you worried multiple threads are going to start reading the file in that time?",
+      "parentUuid": "16f921c3_24c5290a",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fdadb59_22aceb9e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
