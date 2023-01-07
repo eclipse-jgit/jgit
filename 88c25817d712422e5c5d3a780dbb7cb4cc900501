@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62ed5274_cfe39b31",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-07T22:49:57Z",
+      "side": 1,
+      "message": "These are irrelevant: just creating a single ref would be enough for the purpose of this test.",
+      "range": {
+        "startLine": 1345,
+        "startChar": 0,
+        "endLine": 1347,
+        "endChar": 39
+      },
+      "revId": "88c25817d712422e5c5d3a780dbb7cb4cc900501",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71dd0c3f_2ee1c1f0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1368,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-07T22:49:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 1366,
+        "startChar": 0,
+        "endLine": 1368,
+        "endChar": 39
+      },
+      "revId": "88c25817d712422e5c5d3a780dbb7cb4cc900501",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc50d91e_71f63586",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-07T22:49:57Z",
+      "side": 1,
+      "message": "This needs to be explained: we need to re-open the repository to process the amended config.",
+      "range": {
+        "startLine": 1369,
+        "startChar": 7,
+        "endLine": 1369,
+        "endChar": 81
+      },
+      "revId": "88c25817d712422e5c5d3a780dbb7cb4cc900501",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
