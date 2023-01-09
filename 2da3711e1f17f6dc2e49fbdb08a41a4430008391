@@ -1,0 +1,243 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f48bc76_2621d5b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "Technically it is not parsed yet. You don\u0027t need to list the properties loaded or not.\n\nSuggested wording:\n\n```\nRevCommitGC is a RevCommit with an additional \"pointer\" (the position) to the commit-graph, so it can load the headers and metadata from the there instead of the pack. This saves IO access in walks where the body is not needed (i.e. #isRetainBody is false and #parseBody is not invoked).\n\nRevWalk uses automatically the commit-graph if available, no action needed from callers. The commit-graph is fetched on first access from the reader (that internally can keep it loaded and reuse it between walks).\n```",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc935623_ca35ac8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 52
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "Thanks, great work! Code-wise this looks ready. Few details, mostly javadoc and annotations.",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8de149d_22a75f70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "You can just say: \"Distance of the commit from the root, as defined in [link to commit-graph spec]. Not all commits have their generation calculated.\"",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46955f7_a9aa6180",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t belong to the method javadoc. If the previous paragraph links to the doc, that is enough.",
+      "range": {
+        "startLine": 667,
+        "startChar": 0,
+        "endLine": 675,
+        "endChar": 12
+      },
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eab7d3bc_c0cf0fd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "nit wording: Generation number is unknown (COMMIT_GENERATION_UNKNOWN) when the commit is not in the commit-graph, or the commit-graph doesn\u0027t contain generation numbers.",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45fe193_11b9cd06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "This method needs a @since",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3441390d_970ca963",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "No need of \"which\": RevCommit parsed from...",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb07f08_3183a752",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "Does it need to be public? This specific class will be instantiated only by the RevWalk.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56205304_4d57d3d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "graphPosition is final",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e7b5572_fdcfd4e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "Nit: Should we use RevCommit.NO_PARENTS instead of creating an empty RevCommit[] when pGraphList.length \u003d\u003d 0? We do that in other places to save allocations. \n\nIt is probably simple to add if the translation of graph ids to RevCommits move to a private method.",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a427c1f7_81eac0c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "I would go as far as removing these first 3 paragraphs and leave only \"This method is intended...\", for the same reason: we don\u0027t want a confused user (who didn\u0027t read the 4th paragraph of javadoc) use wrongly this method.",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5df0e01f_84615ad3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "@since tag? same for new method createCommit above.",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae2b20fd_5d4f9c61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 1579,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-09T21:10:24Z",
+      "side": 1,
+      "message": "The commitGraph is read-only and immutable... should we keep it here? Why do we need to reload it?",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
