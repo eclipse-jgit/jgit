@@ -60,6 +60,48 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "13299756_37bf6276",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-09T03:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20d44531_790868e7",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdfd3574_4fbb5098",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-09T03:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34513c36_29241a26",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 31
+      },
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3d4bd05d_4f2b4447",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
         "patchSetId": 51
@@ -92,6 +134,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57f26dc8_620bfa7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-09T03:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef2bc441_7ba4dd8b",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6388c332_459262e0",
@@ -109,6 +169,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88658f9d_1d6c5f33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-09T03:42:19Z",
+      "side": 1,
+      "message": "\u003e Should we set PARSED before calling #parseBody()?\n\nIt doesn\u0027t seem necessary.\n\n\u003e \n\u003e Otherwise when #isRetainBody(), we load the data from the graph and then overwrite it from the raw bytes inside #parseBody().\n\nThis results in repeated operations, I think we can move it before #parseBody() to avoid it.\n\nDone.",
+      "parentUuid": "6388c332_459262e0",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7d3eacc_2a16d485",
@@ -122,6 +200,24 @@
       "writtenOn": "2023-01-06T22:33:55Z",
       "side": 1,
       "message": "This method should look uninviting to regular users of the RevWalk: we don\u0027t want them to do e.g. #lookupCommit(id, -1) by mistake. This is intended to be invoked only by RevCommit (and its subclasses).\n\nCan we make this explicit in the javadoc?",
+      "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1517d071_24854d6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-09T03:42:19Z",
+      "side": 1,
+      "message": "\u003e This method should look uninviting to regular users of the RevWalk: we don\u0027t want them to do e.g. #lookupCommit(id, -1) by mistake. This is intended to be invoked only by RevCommit (and its subclasses).\n\u003e \n\u003e Can we make this explicit in the javadoc?\n\nSure, done.",
+      "parentUuid": "a7d3eacc_2a16d485",
       "revId": "24068f13e86bcadd6f042b68584792bb81aa754c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
