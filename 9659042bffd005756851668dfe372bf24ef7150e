@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0def450d_9c5f956e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-10T21:57:08Z",
+      "side": 1,
+      "message": "\u003e I know, that is because the loose objects scanning does not respect core.trustfolderstat.\n\u003e \n\u003e I\u0027ve fixed it already with I5cd8bc16818a on stable-5.13, that is the first supported stable branch.\n\nThat change only addresses loose refs, not objects. Was there a different change you meant to refer to?",
+      "parentUuid": "2693ba6f_9bcdbb0e",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "9659042bffd005756851668dfe372bf24ef7150e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3a7d712f_cff3775d",
@@ -60,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "456e62d8_8edd76b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-10T21:57:08Z",
+      "side": 1,
+      "message": "\u003e Can you also add at least a couple of tests for the two situations that you are willing to address?\n\nWhat would those tests look like? Is there an existing pattern for testing NFS client caching related issues?\n\n\u003e Also, can you raise a bug in the issue-tracker, so that is clear what is the problem you are experiencing E2E and is fixed by this change.\n\n@Kaushik, can you create that bug and also add the info+issue-id to the commit message? I think we have at least one clear case this fixes.",
+      "parentUuid": "4f9407c9_560b5da4",
+      "revId": "9659042bffd005756851668dfe372bf24ef7150e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2841fb55_c2ccda06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
         "patchSetId": 1
@@ -71,6 +113,30 @@
       "writtenOn": "2023-01-10T20:55:07Z",
       "side": 1,
       "message": "+ and `core.trustfolderstats` is `false`\n\nIf we trust the folder stats, then we do trust also that `fileFor(objectId).exists()` is correct.",
+      "range": {
+        "startLine": 102,
+        "startChar": 34,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "9659042bffd005756851668dfe372bf24ef7150e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d98faaae_c3d4ab07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-10T21:57:08Z",
+      "side": 1,
+      "message": "\u003e + and `core.trustfolderstats` is `false`\n\u003e \n\u003e If we trust the folder stats, then we do trust also that `fileFor(objectId).exists()` is correct.\n\nThat makes sense to me and we can add that, but I wouldn\u0027t want to re-read the config for every loose object miss. Would it be acceptable to cache the config for the instance lifetime? That would be fine for us, but it\u0027s inconsistent with how it\u0027s done in PackDirectory and RefDirectory.",
+      "parentUuid": "2841fb55_c2ccda06",
       "range": {
         "startLine": 102,
         "startChar": 34,
