@@ -69,6 +69,8 @@ class PackDirectory {
 
 	private final AtomicReference<PackList> packList;
 
+	private final boolean trustFolderStat;
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
@@ -81,6 +83,14 @@ class PackDirectory {
 		this.config = config;
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
+
+		// Whether to trust the pack folder's modification time. If set to false
+		// we will always scan the .git/objects/pack folder to check for new
+		// pack files. If set to true (default) we use the folder's size,
+		// modification time, and key (inode) and assume that no new pack files
+		// can be in this folder if these attributes have not changed.
+		trustFolderStat = config.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
 	}
 
 	/**
@@ -331,16 +341,6 @@ class PackDirectory {
 	}
 
 	boolean searchPacksAgain(PackList old) {
-		// Whether to trust the pack folder's modification time. If set
-		// to false we will always scan the .git/objects/pack folder to
-		// check for new pack files. If set to true (default) we use the
-		// lastmodified attribute of the folder and assume that no new
-		// pack files can be in this folder if his modification time has
-		// not changed.
-		boolean trustFolderStat = config.getBoolean(
-				ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
-
 		return ((!trustFolderStat) || old.snapshot.isModified(directory))
 				&& old != scanPacks(old);
 	}
