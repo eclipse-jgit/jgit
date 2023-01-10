@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "295013f9_07bf78a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-10T23:42:38Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e What kind of values do you have for filesystem.timestampResolution and filesystem.minRacyThreshold that you\u0027re concerned about this? \n\u003e \u003e \n\u003e \u003e Also, bear in mind that other setups may have filesystems with higher resolution values, see slide 9 [1] of Matthias\u0027s talk at the Gerrit User Summit 2019 in Sunnyvale. If you also combine the matrix with the versions of Java 11 vs. 8, you may come up with a resolution of msec.\n\u003e \n\u003e See below.\n\u003e \n\u003e \u003e \n\u003e \u003e \u003e Maybe I\u0027m being naive, but I don\u0027t think a 10 microsecond window of re-read risk is significant. I found another test host we have where the timestampResolution is 13000 nanoseconds, so that\u0027s a 32.5 microsecond window (still small in my opinion). Your timings below clearly show that the work to read the packed-refs file will take much longer (1000x+?) than that resolution. Are you worried multiple threads are going to start reading the file in that time?\n\u003e \u003e \n\u003e \u003e The optimisation introduced by this change may be irrelevant for your setup, which is fair. Other setups may have higher resolutions and unfortunately still based on Java 8 (e.g., Gerrit v2.16.x) and would therefore experience a significant performance improvement with this change thanks to the optimised packed-refs loading that is paid with a price of a higher memory footprint.\n\u003e \n\u003e But even with msec resolution time, is it \u003e100ms or even \u003e10ms? The benchmark numbers for \"expensive\" reading of packed-refs listed in this commit message are \u003e200ms.\n\nIn Matthia\u0027s table there is also 1s (due to JVM bugs), which means that parallel threads could re-run continuously the same packfile and calculating the SHA1 on all of it for 1s. That creates a CPU spike for *that* second. If the packfiles are created frequently (e.g. 1-2 times per minute) you have a series of CPU spikes.\n\nThis change makes those spikes 10x lower, easing the pressure on the CPU.\n\n\u003e You didn\u0027t answer my questions about the resolution times for your use case or if you\u0027re worried about multiple threads reading packed-refs concurrently.\n\nSee above.\n\n\u003e I think those are important to determining if this change or a different change is needed. Can you try to answer them please?\n\nI have also shared the numbers and the improvements observed running the benchmark tool. That shows the improvement provided by this change.\nWith your resolution and use-case, most likely the improvement is negligible and therefore this change isn\u0027t relevant.",
+      "parentUuid": "a04750df_06832d9e",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fdadb59_22aceb9e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
