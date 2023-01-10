@@ -165,6 +165,30 @@
       },
       "revId": "00697161730750c55e7c5302eb23836a82089eb8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4137a78e_420481d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-10T18:09:34Z",
+      "side": 1,
+      "message": "I think this comment can be resolved. @Martin please unresolve and comment if needed.",
+      "parentUuid": "c90ca6ec_2a8e1092",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 7
+      },
+      "revId": "00697161730750c55e7c5302eb23836a82089eb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

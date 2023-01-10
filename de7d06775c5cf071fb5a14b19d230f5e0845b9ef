@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e484b974_1fa58927",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 53
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-10T18:09:34Z",
+      "side": 1,
+      "message": "One more time, excellent work Kyle!\n\nWith this change, RevWalks start to use the commit-graph (if available) automatically. This is big deal for JGit. Thanks!",
+      "revId": "de7d06775c5cf071fb5a14b19d230f5e0845b9ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
