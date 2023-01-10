@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "df6fc595_628e8cc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f48bc76_2621d5b8",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cc935623_ca35ac8a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 52
@@ -52,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "575aa0d3_9b0ef09e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8de149d_22a75f70",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f46955f7_a9aa6180",
@@ -65,6 +101,30 @@
       "writtenOn": "2023-01-09T21:10:24Z",
       "side": 1,
       "message": "This doesn\u0027t belong to the method javadoc. If the previous paragraph links to the doc, that is enough.",
+      "range": {
+        "startLine": 667,
+        "startChar": 0,
+        "endLine": 675,
+        "endChar": 12
+      },
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67198abe_6ab051f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f46955f7_a9aa6180",
       "range": {
         "startLine": 667,
         "startChar": 0,
@@ -92,6 +152,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e24a735d_b8a9e3d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "\u003e nit wording: Generation number is unknown (COMMIT_GENERATION_UNKNOWN) when the commit is not in the commit-graph, or the commit-graph doesn\u0027t contain generation numbers.\n\nThere are indeed some problems here.\n\nif commit-graph doesn\u0027t contain generation numbers, then generation number would be COMMIT_GENERATION_NOT_COMPUTED(0) instead COMMIT_GENERATION_UNKNOWN.\n\ndone.",
+      "parentUuid": "eab7d3bc_c0cf0fd4",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c45fe193_11b9cd06",
@@ -109,6 +187,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a960c3d4_81c9b9f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45fe193_11b9cd06",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3441390d_970ca963",
@@ -122,6 +218,30 @@
       "writtenOn": "2023-01-09T21:10:24Z",
       "side": 1,
       "message": "No need of \"which\": RevCommit parsed from...",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e291a31d_07176c5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3441390d_970ca963",
       "range": {
         "startLine": 23,
         "startChar": 13,
@@ -155,6 +275,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cf8986f_1a54753a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "\u003e Does it need to be public? This specific class will be instantiated only by the RevWalk.\n\nIt would be better to set it as protected class.\n\nDone.",
+      "parentUuid": "efb07f08_3183a752",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56205304_4d57d3d4",
@@ -168,6 +312,24 @@
       "writtenOn": "2023-01-09T21:10:24Z",
       "side": 1,
       "message": "graphPosition is final",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1129585c_4966c365",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56205304_4d57d3d4",
       "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -189,6 +351,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "536a996d_2eb9394f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e7b5572_fdcfd4e7",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a427c1f7_81eac0c9",
@@ -202,6 +382,24 @@
       "writtenOn": "2023-01-09T21:10:24Z",
       "side": 1,
       "message": "I would go as far as removing these first 3 paragraphs and leave only \"This method is intended...\", for the same reason: we don\u0027t want a confused user (who didn\u0027t read the 4th paragraph of javadoc) use wrongly this method.",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6740e074_c6a38df3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "\u003e I would go as far as removing these first 3 paragraphs and leave only \"This method is intended...\", for the same reason: we don\u0027t want a confused user (who didn\u0027t read the 4th paragraph of javadoc) use wrongly this method.\n\nAgree, done.",
+      "parentUuid": "a427c1f7_81eac0c9",
       "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -223,6 +421,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52dda16a_30061f7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "Done. And I set createCommit(AnyObjectId, int) to private method, because only revWalk invokes it currently.",
+      "parentUuid": "5df0e01f_84615ad3",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae2b20fd_5d4f9c61",
@@ -236,6 +452,24 @@
       "writtenOn": "2023-01-09T21:10:24Z",
       "side": 1,
       "message": "The commitGraph is read-only and immutable... should we keep it here? Why do we need to reload it?",
+      "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0410bfc_867639ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 1579,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-10T09:19:42Z",
+      "side": 1,
+      "message": "\u003e The commitGraph is read-only and immutable... should we keep it here? Why do we need to reload it?\n\nIt would be better to keep it. Done.",
+      "parentUuid": "ae2b20fd_5d4f9c61",
       "revId": "2da3711e1f17f6dc2e49fbdb08a41a4430008391",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
