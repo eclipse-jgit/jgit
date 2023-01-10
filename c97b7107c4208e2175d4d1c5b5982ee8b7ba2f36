@@ -122,6 +122,24 @@
       "parentUuid": "f739b7a2_cf339a50",
       "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39ca4e4e_b1b58644",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-10T00:25:47Z",
+      "side": 1,
+      "message": "Note: if you are not acting on a comment, let the reviewer mark it as \"resolved\" (so the reviewer can agree with your proposal).\n\n\u003e FilteredRevCommit overrides parents which is some ancestor on the commit graph. So creating a commit in RevWalk is not going to be as simple as creating a FilteredRevCommit (without knowing its parent). \n\nI don\u0027t understand. Right now when a new \"commit id\" appears, we end up in RevCommit#lookupCommit that checks if we have seen it before, otherwise creates an instance for it... If you are in this \"blame\" situation, then you could just create FilteredRevCommits because you are going to edit the parents?\n\nIn that case, everything in the queue would already be a FilteredRevCommit and you wouldn\u0027t need to care about mapping instances.\n\n\u003e Relation between RevCommit and FilteredRevCommit is one to many; we can have different FilteredRevCommits based on different filters.\n\nCan you elaborate? This sounds very weird, as a core idea of RevWalk is to use a unique RevCommit instance per commit (to keep the flags and so on).",
+      "parentUuid": "02bca844_54bc40f6",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

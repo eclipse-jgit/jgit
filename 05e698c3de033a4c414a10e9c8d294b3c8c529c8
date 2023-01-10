@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "05e698c3de033a4c414a10e9c8d294b3c8c529c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "887ea555_d920bd6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-10T00:25:47Z",
+      "side": 1,
+      "message": "I guess I don\u0027t understand this change. It would help if you could add a first paragraph in the commit message explaining the problem you are trying to solve.\n\nIs this about creating a custom chain of commits for blame, so we need to change the parents of commits to \"bypass\" irrelevant commits in the history?\n\nI see two dubious things here that need detailed explanation:\n\n1. keeping a parallel collection of commits (instead of using .objects that guarantees the uniqueness of the references)\n\n2. If FilteredRevCommit is just shadowing the parents... why not just put a setter in the superclass? Is this to bypass #parseHeaders rewriting them? ",
+      "revId": "05e698c3de033a4c414a10e9c8d294b3c8c529c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
