@@ -80,14 +80,14 @@ maven_jar(
 
 maven_jar(
     name = "httpclient",
-    artifact = "org.apache.httpcomponents:httpclient:4.5.13",
-    sha1 = "e5f6cae5ca7ecaac1ec2827a9e2d65ae2869cada",
+    artifact = "org.apache.httpcomponents:httpclient:4.5.14",
+    sha1 = "1194890e6f56ec29177673f2f12d0b8e627dec98",
 )
 
 maven_jar(
     name = "httpcore",
-    artifact = "org.apache.httpcomponents:httpcore:4.4.15",
-    sha1 = "7f2e0c573eaa7a74bac2e89b359e1f73d92a0a1d",
+    artifact = "org.apache.httpcomponents:httpcore:4.4.16",
+    sha1 = "51cf043c87253c9f58b539c9f7e44c8894223850",
 )
 
 SSHD_VERS = "2.9.2"
@@ -148,8 +148,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-compress",
-    artifact = "org.apache.commons:commons-compress:1.21",
-    sha1 = "4ec95b60d4e86b5c95a0e919cb172a0af98011ef",
+    artifact = "org.apache.commons:commons-compress:1.22",
+    sha1 = "691a8b4e6cf4248c3bc72c8b719337d5cb7359fa",
 )
 
 maven_jar(
@@ -210,8 +210,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.9.1",
-    sha1 = "02cc2131b98ebfb04e2b2c7dfb84431f4045096b",
+    artifact = "com.google.code.gson:gson:2.10",
+    sha1 = "dd9b193aef96e973d5a11ab13cd17430c2e4306b",
 )
 
 JETTY_VER = "10.0.13"
