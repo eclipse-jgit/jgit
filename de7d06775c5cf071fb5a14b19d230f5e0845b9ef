@@ -33,6 +33,41 @@
       "message": "Yeah, we made a big deal!\n\nThank you for your efforts on the commit-graph feature, especially our committer Ivan, who has been reviewing code almost every day recently.\n\nCommitGraph feature still has some follow-up work, e.g.:\nUsing generation number to optimize topological sorting, isMerged, merge-base calulation; \nSupporting commit-graph for DFSRepository. \n\nIf you are interested in this, please contribute, and I\u0027m very glad to participate in the code review.\n\nRegards,\nKyle",
       "revId": "de7d06775c5cf071fb5a14b19d230f5e0845b9ef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ada209ba_12fbb4c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 53
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-11T03:03:38Z",
+      "side": 1,
+      "message": "CC to contributors who have contributed to the commit-graph elsewhere.",
+      "revId": "de7d06775c5cf071fb5a14b19d230f5e0845b9ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a4f2f3a_59e9c108",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 53
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-11T03:03:38Z",
+      "side": 1,
+      "message": "\u003e Yeah, we made a big deal!\n\u003e \n\u003e Thank you for your efforts on the commit-graph feature, especially our committer Ivan, who has been reviewing code almost every day recently.\n\u003e \n\u003e CommitGraph feature still has some follow-up work, e.g.:\n\u003e Using generation number to optimize topological sorting, isMerged, merge-base calulation; \n\u003e Supporting commit-graph for DFSRepository. \n\u003e \n\u003e If you are interested in this, please contribute, and I\u0027m very glad to participate in the code review.\n\u003e \n\u003e Regards,\n\u003e Kyle",
+      "parentUuid": "f50f8021_78e13d98",
+      "revId": "de7d06775c5cf071fb5a14b19d230f5e0845b9ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
