@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b775f3_65dda44a",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "Would then this work on all NFS clients? Can you specify what are the \"some\" NFS clients where this solution is applicable? (e.g. NFS version, vendor, any NFS mount options)",
+      "range": {
+        "startLine": 48,
+        "startChar": 800,
+        "endLine": 48,
+        "endChar": 828
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bed1429_943dd052",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "Can be simplified with `exist || trustFolderStat`",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 21
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8346b96_5d2c4d39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "Can be removed.",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 16
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25656169_1733a2b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "This is the solution for _some_ NFS clients. What about the solution for the _other_ NFS clients?",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 69
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27d12240_729dc7a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "Can be removed.",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 14
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e25d14aa_74b136c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "Should this be IOException as in L117?",
+      "range": {
+        "startLine": 213,
+        "startChar": 11,
+        "endLine": 213,
+        "endChar": 32
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb367485_78bec3b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "This is the solution for _some_ NFS clients. What about the solution for the _other_ NFS clients?",
+      "range": {
+        "startLine": 217,
+        "startChar": 8,
+        "endLine": 217,
+        "endChar": 69
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dc41b2a_377ccee7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "Should this be IOException?",
+      "range": {
+        "startLine": 245,
+        "startChar": 11,
+        "endLine": 245,
+        "endChar": 32
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eabaeaa_64347412",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "This is the solution for _some_ NFS clients. What about the solution for the _other_ NFS clients?",
+      "range": {
+        "startLine": 250,
+        "startChar": 9,
+        "endLine": 250,
+        "endChar": 70
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

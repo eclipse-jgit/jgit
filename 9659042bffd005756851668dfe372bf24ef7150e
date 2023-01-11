@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5938216f_8d920c28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-11T23:09:11Z",
+      "side": 1,
+      "message": "\u003e \u003e I know, that is because the loose objects scanning does not respect core.trustfolderstat.\n\u003e \u003e \n\u003e \u003e I\u0027ve fixed it already with I5cd8bc16818a on stable-5.13, that is the first supported stable branch.\n\u003e \n\u003e That change only addresses loose refs, not objects. Was there a different change you meant to refer to?\n\nApologies, first it\u0027s not me but @Matthias fixed it; second it was the loose refs and not the loose objects, as you pointed out.",
+      "parentUuid": "0def450d_9c5f956e",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "9659042bffd005756851668dfe372bf24ef7150e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3a7d712f_cff3775d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
