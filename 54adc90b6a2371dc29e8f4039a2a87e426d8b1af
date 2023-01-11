@@ -16,6 +16,52 @@
       "message": "Thank you Matthias and Ivan for the advance review.",
       "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fca30925_3dfe7f8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 307656
+      },
+      "writtenOn": "2023-01-11T19:57:50Z",
+      "side": 1,
+      "message": "This method seems unnecessary with only 1 version available.\n\nIs there a similar existing class that this is trying to mirror for consistency? (It would make reviewing this easier)",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 26
+      },
+      "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca4e1e5a_c150dc2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 307656
+      },
+      "writtenOn": "2023-01-11T19:57:50Z",
+      "side": 1,
+      "message": "Is there any assertion or check of the list being sorted?",
+      "range": {
+        "startLine": 110,
+        "startChar": 36,
+        "endLine": 110,
+        "endChar": 64
+      },
+      "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
