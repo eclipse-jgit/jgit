@@ -100,6 +100,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b501fe23_de75c1ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-11T00:36:59Z",
+      "side": 1,
+      "message": "Done. Added a bug which describes an E2E issue seen that should be fixed with this change.",
+      "parentUuid": "456e62d8_8edd76b1",
+      "revId": "9659042bffd005756851668dfe372bf24ef7150e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2841fb55_c2ccda06",
@@ -137,6 +155,30 @@
       "side": 1,
       "message": "\u003e + and `core.trustfolderstats` is `false`\n\u003e \n\u003e If we trust the folder stats, then we do trust also that `fileFor(objectId).exists()` is correct.\n\nThat makes sense to me and we can add that, but I wouldn\u0027t want to re-read the config for every loose object miss. Would it be acceptable to cache the config for the instance lifetime? That would be fine for us, but it\u0027s inconsistent with how it\u0027s done in PackDirectory and RefDirectory.",
       "parentUuid": "2841fb55_c2ccda06",
+      "range": {
+        "startLine": 102,
+        "startChar": 34,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "9659042bffd005756851668dfe372bf24ef7150e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e6dc0b5_1b07413d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-11T00:36:59Z",
+      "side": 1,
+      "message": "I have updated the change to now consider `trustFolderStat` and not refresh when it is `true`",
+      "parentUuid": "d98faaae_c3d4ab07",
       "range": {
         "startLine": 102,
         "startChar": 34,
