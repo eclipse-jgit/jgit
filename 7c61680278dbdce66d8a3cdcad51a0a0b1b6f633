@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "236bb6e6_402bd61b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-11T05:12:20Z",
+      "side": 1,
+      "message": "Is this going to erroneously fire when the set of excludes changed but the refs didn\u0027t actually change?",
+      "range": {
+        "startLine": 350,
+        "startChar": 2,
+        "endLine": 350,
+        "endChar": 20
+      },
+      "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c406c80c_7a8fd4f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 6
@@ -43,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88eb7878_4bdd1925",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-11T05:12:20Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c406c80c_7a8fd4f0",
+      "range": {
+        "startLine": 371,
+        "startChar": 28,
+        "endLine": 371,
+        "endChar": 52
+      },
+      "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8007ba59_6a2b8f03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 6
@@ -54,6 +101,24 @@
       "writtenOn": "2023-01-11T01:11:47Z",
       "side": 1,
       "message": "Use Immutable instead of copying which is expensive?",
+      "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99f31299_b65bf70c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-11T05:12:20Z",
+      "side": 1,
+      "message": "Yeah, using Collections.unmodifiableList() [1] would be better and matches what the other implementors of this method do, my mistake.\n\n[1] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Collections.html#unmodifiableList(java.util.List)",
+      "parentUuid": "8007ba59_6a2b8f03",
       "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
