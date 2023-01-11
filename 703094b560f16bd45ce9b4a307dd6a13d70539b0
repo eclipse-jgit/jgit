@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "569c269d_6dd377e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-11T00:49:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure there\u0027s a better way to do this, but it\u0027s confusing to read the new code without knowing the old code. The re-catching of the exception is uncommon behavior, but useful to not repeat code.",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 5
+      },
+      "revId": "703094b560f16bd45ce9b4a307dd6a13d70539b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
