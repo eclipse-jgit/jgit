@@ -18,6 +18,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b0e2269_713ec35f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-01-11T01:35:00Z",
+      "side": 1,
+      "message": "The docs for trustFolderStat should get updated to reflect this new usage.",
+      "revId": "703094b560f16bd45ce9b4a307dd6a13d70539b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "569c269d_6dd377e9",
