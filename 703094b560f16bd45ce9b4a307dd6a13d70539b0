@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3539b0e_78db6913",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-11T18:38:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efbbd21b_b55d79c1",
+      "revId": "703094b560f16bd45ce9b4a307dd6a13d70539b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b0e2269_713ec35f",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-11T01:35:00Z",
       "side": 1,
       "message": "The docs for trustFolderStat should get updated to reflect this new usage.",
+      "revId": "703094b560f16bd45ce9b4a307dd6a13d70539b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "115fe5ec_bf397ae1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-11T18:38:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b0e2269_713ec35f",
       "revId": "703094b560f16bd45ce9b4a307dd6a13d70539b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
