@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "20eada40_4fddbf4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-11T20:42:00Z",
+      "side": 1,
+      "message": "\u003e The discussion thread is becoming complex for me to follow, would you like to conference on that? I may have honestly missed the questions and cannot find the ones you\u0027re referring to in this long discussion thread.\n\nSorry about that, I\u0027ll try to summarize. We can jump on a call and then record the conclusions here too if it helps.\n\nQ1: What kind of values do *you* have for filesystem.timestampResolution and filesystem.minRacyThreshold for the system(s) where you\u0027re trying to provide this improvement?\n\nQ2: (sub-question of Q1 really) Are you trying to improve this use case for a server using Java8 and with repositories stored on an ext3 volume?\n\nQ3: The benchmark timings in this commit show that, for problematic cases, the work to read the packed-refs file will take much longer than the resolution time (except for the terrible 1s Java8+ext3 case). Given that, I\u0027m not clear on in what scenario you expect to be re-reading the packed-refs file within that resolution time. The write paths are protected by a lock, so I think that leaves only the read-only path. Am I misreading that? If not, do you expect multiple read-only threads to start reading the packed-refs file after an update and during the resolution time?",
+      "parentUuid": "d8e5e1f0_2e456c57",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fdadb59_22aceb9e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
