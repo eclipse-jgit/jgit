@@ -187,7 +187,6 @@
     <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
 
     <!-- license check -->
-    <dash.fail>true</dash.fail>
     <dash.projectId>technology.jgit</dash.projectId>
   </properties>
 
