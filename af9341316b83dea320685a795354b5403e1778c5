@@ -395,6 +395,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "babbfcff_4ca671ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-12T00:16:05Z",
+      "side": 1,
+      "message": "Please see the latest patch, which implements the new approach that we discussed yesterday.",
+      "parentUuid": "cedf8ef7_15883a5b",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14f7731f_3e2f04e1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
         "patchSetId": 18
