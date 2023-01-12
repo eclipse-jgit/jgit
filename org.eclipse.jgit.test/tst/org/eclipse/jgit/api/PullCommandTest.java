@@ -378,44 +378,44 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	private enum TestPullMode {
-		MERGE, REBASE, REBASE_PREASERVE
+		MERGE, REBASE, REBASE_MERGES
 	}
 
 	@Test
 	/** global rebase config should be respected */
-	public void testPullWithRebasePreserve1Config() throws Exception {
+	public void testPullWithRebaseMerges1Config() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
-			config.setString("pull", null, "rebase", "preserve");
+			config.setString("pull", null, "rebase", "merges");
 			config.save();
 			return target.pull().call();
 		};
-		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
+		doTestPullWithRebase(setup, TestPullMode.REBASE_MERGES);
 	}
 
 	@Test
 	/** the branch-local config should win over the global config */
-	public void testPullWithRebasePreserveConfig2() throws Exception {
+	public void testPullWithRebaseMergesConfig2() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
 			config.setString("pull", null, "rebase", "false");
-			config.setString("branch", "master", "rebase", "preserve");
+			config.setString("branch", "master", "rebase", "merges");
 			config.save();
 			return target.pull().call();
 		};
-		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
+		doTestPullWithRebase(setup, TestPullMode.REBASE_MERGES);
 	}
 
 	@Test
 	/** the branch-local config should be respected */
-	public void testPullWithRebasePreserveConfig3() throws Exception {
+	public void testPullWithRebaseMergesConfig3() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
-			config.setString("branch", "master", "rebase", "preserve");
+			config.setString("branch", "master", "rebase", "merges");
 			config.save();
 			return target.pull().call();
 		};
-		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
+		doTestPullWithRebase(setup, TestPullMode.REBASE_MERGES);
 	}
 
 	@Test
@@ -435,7 +435,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	public void testPullWithRebaseConfig2() throws Exception {
 		Callable<PullResult> setup = () -> {
 			StoredConfig config = dbTarget.getConfig();
-			config.setString("pull", null, "rebase", "preserve");
+			config.setString("pull", null, "rebase", "merges");
 			config.setString("branch", "master", "rebase", "true");
 			config.save();
 			return target.pull().call();
@@ -543,7 +543,7 @@ public class PullCommandTest extends RepositoryTestCase {
 				assertEquals(sourceCommit, next.getParent(1));
 				// since both parents are known do no further checks here
 			} else {
-				if (expectedPullMode == TestPullMode.REBASE_PREASERVE) {
+				if (expectedPullMode == TestPullMode.REBASE_MERGES) {
 					next = rw.next();
 					assertEquals(2, next.getParentCount());
 				}
