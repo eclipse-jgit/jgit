@@ -65,6 +65,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40474fa9_df85d83c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 307656
+      },
+      "writtenOn": "2023-01-12T18:17:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fcb58d1f_fdca6bd4",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 26
+      },
+      "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca4e1e5a_c150dc2c",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "I\u0027m not sure that I understand -- maybe you mean a check that the contract of the Javadoc is followed?",
       "parentUuid": "ca4e1e5a_c150dc2c",
+      "range": {
+        "startLine": 110,
+        "startChar": 36,
+        "endLine": 110,
+        "endChar": 64
+      },
+      "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca1fc11_6b73d90c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 307656
+      },
+      "writtenOn": "2023-01-12T18:17:39Z",
+      "side": 1,
+      "message": "Yeah, just going off the parameter name, what guarantees that it\u0027s sorted?",
+      "parentUuid": "47127363_2460cf59",
       "range": {
         "startLine": 110,
         "startChar": 36,
