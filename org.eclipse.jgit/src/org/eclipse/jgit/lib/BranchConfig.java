@@ -30,8 +30,12 @@ public class BranchConfig {
 
 		/** Value for rebasing */
 		REBASE("true"), //$NON-NLS-1$
-		/** Value for rebasing preserving local merge commits */
-		PRESERVE("preserve"), //$NON-NLS-1$
+		/**
+		 * Value for rebasing preserving local merge commits
+		 *
+		 * @since 6.5 used instead of deprecated "preserve" option
+		 */
+		MERGES("merges"), //$NON-NLS-1$
 		/** Value for rebasing interactively */
 		INTERACTIVE("interactive"), //$NON-NLS-1$
 		/** Value for not rebasing at all but merging */
