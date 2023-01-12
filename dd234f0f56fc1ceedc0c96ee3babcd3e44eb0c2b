@@ -427,6 +427,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "374395a9_04ad23aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T20:11:17Z",
+      "side": 1,
+      "message": "Did you mean LooseObjects.java:L116? If so, that\u0027s because the IOException is being caught for `Files.newInputStream` (and not the actual loose object lookup).",
+      "parentUuid": "ac5ba331_dffbd722",
+      "range": {
+        "startLine": 245,
+        "startChar": 11,
+        "endLine": 245,
+        "endChar": 32
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9eabaeaa_64347412",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
         "patchSetId": 4
