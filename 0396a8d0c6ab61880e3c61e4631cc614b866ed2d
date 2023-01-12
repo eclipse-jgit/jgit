@@ -33,6 +33,70 @@
       "message": "https://git.eclipse.org/r/c/jgit/jgit/+/183078/33 adds an ObjectDatabase#getCommitGraph method that should be implemented here. \n\nI think that the caller shouldn\u0027t see a stack at this level of abstraction.",
       "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5577ad0f_d5023e22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2023-01-12T01:42:37Z",
+      "side": 1,
+      "message": "+1.\n\nRight now we should scan pack list, select the only GC pack we have here and if it has CommitGraph - return it.",
+      "parentUuid": "3c09ff2d_fd73b678",
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01181715_17cd1324",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2023-01-12T01:42:37Z",
+      "side": 1,
+      "message": "We don\u0027t need this method. One about reftables is needed because we have DfsReftableBatchRefUpdate, this is not the case for commit graphs.",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 609,
+        "endChar": 2
+      },
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31ee8667_953b8d5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2023-01-12T01:42:37Z",
+      "side": 1,
+      "message": "It\u0027s not needed right now and we probably won\u0027t have same logic as reftable has, so please remove it",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 2
+      },
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
