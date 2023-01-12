@@ -140,6 +140,24 @@
       "parentUuid": "02bca844_54bc40f6",
       "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26db6b70_c7608c45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-01-12T00:22:54Z",
+      "side": 1,
+      "message": "So my fear was: I did not want to alter the revWalk if it is doing something else with that revCommit. Also RewriteGenerator doesn\u0027t have a revwalk but I believe can be passed in.",
+      "parentUuid": "39ca4e4e_b1b58644",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

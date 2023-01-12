@@ -33,6 +33,24 @@
       "message": "I guess I don\u0027t understand this change. It would help if you could add a first paragraph in the commit message explaining the problem you are trying to solve.\n\nIs this about creating a custom chain of commits for blame, so we need to change the parents of commits to \"bypass\" irrelevant commits in the history?\n\nI see two dubious things here that need detailed explanation:\n\n1. keeping a parallel collection of commits (instead of using .objects that guarantees the uniqueness of the references)\n\n2. If FilteredRevCommit is just shadowing the parents... why not just put a setter in the superclass? Is this to bypass #parseHeaders rewriting them? ",
       "revId": "05e698c3de033a4c414a10e9c8d294b3c8c529c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4838e976_14c12a47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-01-12T00:22:54Z",
+      "side": 1,
+      "message": "\u003e Is this about creating a custom chain of commits for blame, so we need to change the parents of commits to \"bypass\" irrelevant commits in the history?\nyes.\n\n\u003e keeping a parallel collection of commits (instead of using .objects that guarantees the uniqueness of the references)\nAnswered in another comment\u0027s response.\n\n\u003e If FilteredRevCommit is just shadowing the parents... why not just put a setter in the superclass? Is this to bypass #parseHeaders rewriting them?\nThat was my initial implementation but we decided to not clutter RevCommit with a parent that does get rewritten by various methods like parseHeaders, parseCommit, etc. Also this approach makes things clear and readable and more deterministic just by looking at an object what the use of this is. FilteredRevCommit would mean filtering the history.",
+      "parentUuid": "887ea555_d920bd6f",
+      "revId": "05e698c3de033a4c414a10e9c8d294b3c8c529c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
