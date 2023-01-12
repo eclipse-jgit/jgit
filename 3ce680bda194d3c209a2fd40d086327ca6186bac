@@ -242,6 +242,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05373e10_db015836",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-12T19:16:04Z",
+      "side": 1,
+      "message": "\u003e \u003e Q1: What kind of values do *you* have for filesystem.timestampResolution and filesystem.minRacyThreshold for the system(s) where you\u0027re trying to provide this improvement?\n\u003e \n\u003e We have a lot of customers and variety of systems, I can say we can see pretty much all the combinations shown by Matthias in his talk at slide 9 [1].\n\nAck. Thanks for clarifying.\n\n\u003e \n\u003e \u003e Q2: (sub-question of Q1 really) Are you trying to improve this use case for a server using Java8 and with repositories stored on an ext3 volume?\n\u003e \n\u003e JGit is Java 8 on stable-5.13. I know Java 11 improves the precision of the filesystem TS visible from Java and I agree that the improvements are therefore less visible.\n\nYou didn\u0027t answer my question. 😊 Is Java8+ext3 included in the \"pretty much all the combinations\" you mentioned above?\n\nAdditionally, that\u0027s a good point about stable-5.13. Since this optimization doesn\u0027t really apply to Java 11+, I guess it could be reverted in the merge to stable-6.0 so that the maintenance cost isn\u0027t carried forward.\n\n\u003e \n\u003e \u003e Q3: The benchmark timings in this commit show that, for problematic cases, the work to read the packed-refs file will take much longer than the resolution time (except for the terrible 1s Java8+ext3 case). Given that, I\u0027m not clear on in what scenario you expect to be re-reading the packed-refs file within that resolution time. \n\u003e \n\u003e Production servers have a high-level of concurrency, therefore all concurrent reads happening within the resolution time of the filesystem would consume significant more CPU (10x more) without this change.\n\u003e \n\u003e \u003e The write paths are protected by a lock, so I think that leaves only the read-only path.\n\u003e \n\u003e Correct, I am referring to the parallel reads.\n\nAck, thanks for confirming.\n\n\u003e \n\u003e \u003e Am I misreading that? If not, do you expect multiple read-only threads to start reading the packed-refs file after an update and during the resolution time?\n\u003e \n\u003e Correct. We have analysed the height of the spikes in CPU utilisation and correlated with the updates of the packed-refs. After deploying this fix, the CPU utilisation during the spikes went down by 90% and the the P95 and P99 were reduced by 90%.\n\nAck, thanks for confirming.",
+      "parentUuid": "6e12e51a_b0de1714",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "3ce680bda194d3c209a2fd40d086327ca6186bac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fdadb59_22aceb9e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
