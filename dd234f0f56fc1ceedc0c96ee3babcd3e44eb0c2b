@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5318f868_780d52b0",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "I am not sure if it will work on all NFS clients and we wanted this caveat as we have not tested this against other NFS clients. We see that this works as expected with Linux NFS clients with kernels 4.15.0-142-generic and 5.4.0-97-generic. There are no special NFS options needed. Our testing is using NFS v3.",
+      "parentUuid": "c7b775f3_65dda44a",
+      "range": {
+        "startLine": 48,
+        "startChar": 800,
+        "endLine": 48,
+        "endChar": 828
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bed1429_943dd052",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-11T23:09:11Z",
       "side": 1,
       "message": "Can be simplified with `exist || trustFolderStat`",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 21
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f60cb8d_c165f519",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "8bed1429_943dd052",
       "range": {
         "startLine": 112,
         "startChar": 6,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "843d9d7b_4cef275b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8346b96_5d2c4d39",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 16
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25656169_1733a2b1",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-01-11T23:09:11Z",
       "side": 1,
       "message": "This is the solution for _some_ NFS clients. What about the solution for the _other_ NFS clients?",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 69
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4accafd8_12ba1b26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "We see that this works as expected for Linux NFS clients with kernels 4.15.0-142-generic and 5.4.0-97-generic. We have not tested against other NFS clients which is why we have a caveat in the documentation for `trustFolderStat`.",
+      "parentUuid": "25656169_1733a2b1",
       "range": {
         "startLine": 116,
         "startChar": 8,
@@ -116,6 +212,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8cc2dd1_15bf36da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d12240_729dc7a4",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 14
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e25d14aa_74b136c1",
@@ -129,6 +249,30 @@
       "writtenOn": "2023-01-11T23:09:11Z",
       "side": 1,
       "message": "Should this be IOException as in L117?",
+      "range": {
+        "startLine": 213,
+        "startChar": 11,
+        "endLine": 213,
+        "endChar": 32
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73b76cbc_7d5393c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "We want to retry only if the loose object was not found, so FileNotFoundException is probably right exception to catch.",
+      "parentUuid": "e25d14aa_74b136c1",
       "range": {
         "startLine": 213,
         "startChar": 11,
@@ -162,6 +306,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c90882a9_bcaab128",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "We see that this works as expected for Linux NFS clients with kernels 4.15.0-142-generic and 5.4.0-97-generic. We have not tested against other NFS clients which is why we have a caveat in the documentation for `trustFolderStat`.",
+      "parentUuid": "bb367485_78bec3b9",
+      "range": {
+        "startLine": 217,
+        "startChar": 8,
+        "endLine": 217,
+        "endChar": 69
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5dc41b2a_377ccee7",
@@ -185,6 +353,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ab90aa4_21305cbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "`FileNotFoundException` is probably right, as we want to retry only if the loose object was not found.",
+      "parentUuid": "5dc41b2a_377ccee7",
+      "range": {
+        "startLine": 245,
+        "startChar": 11,
+        "endLine": 245,
+        "endChar": 32
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9eabaeaa_64347412",
@@ -198,6 +390,30 @@
       "writtenOn": "2023-01-11T23:09:11Z",
       "side": 1,
       "message": "This is the solution for _some_ NFS clients. What about the solution for the _other_ NFS clients?",
+      "range": {
+        "startLine": 250,
+        "startChar": 9,
+        "endLine": 250,
+        "endChar": 70
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7df3b0f_6620347b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-01-12T05:47:54Z",
+      "side": 1,
+      "message": "We see that this works as expected for Linux NFS clients with kernels 4.15.0-142-generic and 5.4.0-97-generic. We have not tested against other NFS clients which is why we added a caveat in the documentation for `trustFolderStat`.",
+      "parentUuid": "9eabaeaa_64347412",
       "range": {
         "startLine": 250,
         "startChar": 9,
