@@ -213,6 +213,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d96c3ec_e517cd05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-12T17:36:26Z",
+      "side": 1,
+      "message": "With change I1cae26dad67 uploaded for master, I think we can consider this resolved.",
+      "parentUuid": "9e6dc0b5_1b07413d",
+      "range": {
+        "startLine": 102,
+        "startChar": 34,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "9659042bffd005756851668dfe372bf24ef7150e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "476e9b0a_b4e19247",
