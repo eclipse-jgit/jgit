@@ -158,6 +158,30 @@
       },
       "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f257f5ec_bb4bc424",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-12T18:29:00Z",
+      "side": 1,
+      "message": "@ifrade could you help with JGit conventions here? \n\nIf the Javadoc lays out a contract for the argument passed in, should the function verify that the contract is followed?\n\nIf so, what\u0027s the preferred method? E.g. `assert` statements, throw exceptions, etc.",
+      "parentUuid": "4ca1fc11_6b73d90c",
+      "range": {
+        "startLine": 110,
+        "startChar": 36,
+        "endLine": 110,
+        "endChar": 64
+      },
+      "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
