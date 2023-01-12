@@ -191,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b61390d1_3695bb49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-12T18:56:57Z",
+      "side": 1,
+      "message": "+1, can you add this to the documentation?",
+      "parentUuid": "4accafd8_12ba1b26",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 69
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27d12240_729dc7a4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
         "patchSetId": 4
@@ -367,6 +391,30 @@
       "side": 1,
       "message": "`FileNotFoundException` is probably right, as we want to retry only if the loose object was not found.",
       "parentUuid": "5dc41b2a_377ccee7",
+      "range": {
+        "startLine": 245,
+        "startChar": 11,
+        "endLine": 245,
+        "endChar": 32
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5ba331_dffbd722",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-12T18:56:57Z",
+      "side": 1,
+      "message": "I see, why was it different at LooseObjects.java:L104? (you caught IOException)",
+      "parentUuid": "2ab90aa4_21305cbf",
       "range": {
         "startLine": 245,
         "startChar": 11,
