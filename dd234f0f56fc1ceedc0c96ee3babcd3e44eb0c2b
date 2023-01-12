@@ -215,6 +215,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4db88aa4_d1939fc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-12T20:11:38Z",
+      "side": 1,
+      "message": "\u003e +1, can you add this to the documentation?\n\nI don\u0027t think that kind of detail is appropriate for the JGit docs. Users/admins should be testing their setups with any configuration change they make to determine if it is appropriate for them. I would however support adding that information to the commit message in a \"this fix was confirmed with\" kind of section.",
+      "parentUuid": "b61390d1_3695bb49",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 69
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27d12240_729dc7a4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
         "patchSetId": 4
