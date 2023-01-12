@@ -85,6 +85,24 @@
       "parentUuid": "33bdf958_513d05e5",
       "revId": "ab103d637ea05b21e4170c1f30c5a235f780bf18",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6ad446_52a390a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-12T19:37:41Z",
+      "side": 1,
+      "message": "@Ivan I\u0027ve amended the test for making sure that matches the overall description of the commit and is specific for this use-case.",
+      "parentUuid": "68fbae21_5cfe91d4",
+      "revId": "ab103d637ea05b21e4170c1f30c5a235f780bf18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
