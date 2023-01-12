@@ -50,6 +50,23 @@
       "message": "Ping @Matthias @Ivan @David? Any interest or time in reviewing this?",
       "revId": "ab103d637ea05b21e4170c1f30c5a235f780bf18",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33bdf958_513d05e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-12T00:19:45Z",
+      "side": 1,
+      "message": "I don\u0027t know much about the bitmap preparing code, but in a quick glance, I am confused with this change:\n\n* The title mention \"bloated\" bitmaps, but it is not about the size of the bitmap (it won\u0027t make the bitmap physically smaller, only some bits inside will be toggled). Maybe \"PackWriterBitmapPreparer: do not include annotated tags in bitmap\"?\n* The code doesn\u0027t seem to match with the description: the change is in a method that compares what was before and after\n* The modified tests talk about \"bitmap spans no merges\", which also looks unrelated",
+      "revId": "ab103d637ea05b21e4170c1f30c5a235f780bf18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
