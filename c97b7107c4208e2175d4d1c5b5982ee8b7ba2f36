@@ -158,6 +158,24 @@
       "parentUuid": "39ca4e4e_b1b58644",
       "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a476e9_529667bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-01-13T20:05:42Z",
+      "side": 1,
+      "message": "I fixed this by removing the parallel transformed map and reusing the existing object cache here.",
+      "parentUuid": "26db6b70_c7608c45",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
