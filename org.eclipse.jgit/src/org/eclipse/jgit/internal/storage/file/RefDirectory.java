@@ -179,6 +179,10 @@ public class RefDirectory extends RefDatabase {
 
 	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
 
+	private final boolean trustFolderStat;
+
+	private final TrustPackedRefsStat trustPackedRefsStat;
+
 	RefDirectory(FileRepository db) {
 		final FS fs = db.getFS();
 		parent = db;
@@ -190,6 +194,13 @@ public class RefDirectory extends RefDatabase {
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
+		trustFolderStat = db.getConfig()
+				.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+		trustPackedRefsStat = db.getConfig()
+				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_STAT,
+						TrustPackedRefsStat.UNSET);
 	}
 
 	Repository getRepository() {
@@ -891,16 +902,6 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	PackedRefList getPackedRefs() throws IOException {
-		boolean trustFolderStat = getRepository().getConfig().getBoolean(
-				ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
-		TrustPackedRefsStat trustPackedRefsStat =
-				getRepository().getConfig().getEnum(
-						ConfigConstants.CONFIG_CORE_SECTION,
-						null,
-						ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_STAT,
-						TrustPackedRefsStat.UNSET);
-
 		final PackedRefList curList = packedRefs.get();
 
 		switch (trustPackedRefsStat) {
