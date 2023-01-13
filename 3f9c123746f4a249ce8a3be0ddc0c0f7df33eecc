@@ -52,6 +52,24 @@
       "parentUuid": "5c7f60e9_75344904",
       "revId": "3f9c123746f4a249ce8a3be0ddc0c0f7df33eecc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c26c580_183532d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-13T22:20:59Z",
+      "side": 1,
+      "message": "\u003e How should that work if FileRepository and its RefDirectory are shared across threads ?\n\nPoorly. That\u0027s one of the major drawbacks to the solution. We have to bypass the RepositoryCache and create our own new instances. They share the WindowCache, but nothing else.\n\nDo you have any better ideas for how we can do that? We\u0027re interested in extending RepositoryCache so that we can re-use/share some of that, but that will require making a lot more public inside that class and still doesn\u0027t let us directly share FileRepository/RefDirectory instances.",
+      "parentUuid": "94a455a5_b45f6dc4",
+      "revId": "3f9c123746f4a249ce8a3be0ddc0c0f7df33eecc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
