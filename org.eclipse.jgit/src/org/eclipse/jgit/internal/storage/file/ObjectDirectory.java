@@ -126,7 +126,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		File packDirectory = new File(objects, "pack"); //$NON-NLS-1$
 		File preservedDirectory = new File(packDirectory, "preserved"); //$NON-NLS-1$
 		alternatesFile = new File(objects, Constants.INFO_ALTERNATES);
-		loose = new LooseObjects(objects);
+		loose = new LooseObjects(config, objects);
 		packed = new PackDirectory(config, packDirectory);
 		preserved = new PackDirectory(config, preservedDirectory);
 		fileCommitGraph = new FileCommitGraph(objects);
