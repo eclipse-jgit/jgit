@@ -237,6 +237,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aea00c1b_c309730b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-13T17:54:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4db88aa4_d1939fc4",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 69
+      },
+      "revId": "dd234f0f56fc1ceedc0c96ee3babcd3e44eb0c2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27d12240_729dc7a4",
