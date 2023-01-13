@@ -16,6 +16,24 @@
       "message": "this seems to contradict\nhttps://git.eclipse.org/r/c/jgit/jgit/+/199325\nwhere you said it\u0027s unlikely that this option needs to be changed at runtime\n\nDo you have concrete examples for such use cases ?",
       "revId": "3f9c123746f4a249ce8a3be0ddc0c0f7df33eecc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7f60e9_75344904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-13T20:24:12Z",
+      "side": 1,
+      "message": "\u003e this seems to contradict\n\u003e https://git.eclipse.org/r/c/jgit/jgit/+/199325\n\u003e where you said it\u0027s unlikely that this option needs to be changed at runtime\n\nYes, I realize that now, sorry. In that commit message I specifically had in mind user/admin configuration not changing while an application is running.\n\n\u003e \n\u003e Do you have concrete examples for such use cases ?\n\nWe do have one now, though we\u0027re hoping that if we can implement a good per-request-scoped ref cache that it would use that instead. We have a plugin that implements a Gerrit search operator based on the contents of many (thousands) git-repo manifest files. The ref-read heavy interaction there is that while those files are each stored in distinct refs, many are consolidated into the same repos, so they do many ref lookups in the same packed-refs files. When we\u0027re doing a query of this type, we\u0027re ok with the potential that we would read a slightly outdated manifest file version if it means that we can skip the thousands of file attribute refreshes from the NFS server.",
+      "parentUuid": "a136176c_36e316d0",
+      "revId": "3f9c123746f4a249ce8a3be0ddc0c0f7df33eecc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
