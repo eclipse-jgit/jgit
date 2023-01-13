@@ -16,6 +16,24 @@
       "message": "in https://git.eclipse.org/r/c/jgit/jgit/+/197714 we cache these settings already on stable-6.1 hence let\u0027s do the same here and move this change to stable-6.1",
       "revId": "7ffb131433b0ec97ad4533682c69cf1a207ce8ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "968b23ec_0251a584",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-13T20:08:42Z",
+      "side": 1,
+      "message": "Works for me, thanks Matthias!",
+      "parentUuid": "0e60717c_cf2ccb68",
+      "revId": "7ffb131433b0ec97ad4533682c69cf1a207ce8ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
