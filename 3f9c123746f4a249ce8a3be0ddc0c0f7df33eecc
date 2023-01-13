@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a136176c_36e316d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-13T20:05:17Z",
+      "side": 1,
+      "message": "this seems to contradict\nhttps://git.eclipse.org/r/c/jgit/jgit/+/199325\nwhere you said it\u0027s unlikely that this option needs to be changed at runtime\n\nDo you have concrete examples for such use cases ?",
+      "revId": "3f9c123746f4a249ce8a3be0ddc0c0f7df33eecc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
