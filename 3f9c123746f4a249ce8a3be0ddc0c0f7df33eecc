@@ -34,6 +34,24 @@
       "parentUuid": "a136176c_36e316d0",
       "revId": "3f9c123746f4a249ce8a3be0ddc0c0f7df33eecc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94a455a5_b45f6dc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-13T20:44:23Z",
+      "side": 1,
+      "message": "How should that work if FileRepository and its RefDirectory are shared across threads ?",
+      "parentUuid": "5c7f60e9_75344904",
+      "revId": "3f9c123746f4a249ce8a3be0ddc0c0f7df33eecc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
