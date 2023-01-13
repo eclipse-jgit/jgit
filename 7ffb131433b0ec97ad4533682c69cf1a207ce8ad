@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e60717c_cf2ccb68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-13T17:50:55Z",
+      "side": 1,
+      "message": "in https://git.eclipse.org/r/c/jgit/jgit/+/197714 we cache these settings already on stable-6.1 hence let\u0027s do the same here and move this change to stable-6.1",
+      "revId": "7ffb131433b0ec97ad4533682c69cf1a207ce8ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
