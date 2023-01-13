@@ -181,7 +181,7 @@ public class RefDirectory extends RefDatabase {
 
 	private final boolean trustFolderStat;
 
-	private final TrustPackedRefsStat trustPackedRefsStat;
+	private TrustPackedRefsStat trustPackedRefsStat;
 
 	RefDirectory(FileRepository db) {
 		final FS fs = db.getFS();
@@ -619,6 +619,18 @@ public class RefDirectory extends RefDatabase {
 	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
+	}
+
+	/**
+	 * Set TrustPackedRefsStat
+	 *
+	 * @param trustPackedRefsStat
+	 * 		the TrustPackedRefsStat value to use when considering packed-refs file
+	 * 		attributes
+	 */
+	public void setTrustPackedRefsStat(
+			TrustPackedRefsStat trustPackedRefsStat) {
+		this.trustPackedRefsStat = trustPackedRefsStat;
 	}
 
 	void stored(RefDirectoryUpdate update, FileSnapshot snapshot) {
