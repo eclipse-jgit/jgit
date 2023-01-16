@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd57cdbd_8ab3d006",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 307638
+      },
+      "writtenOn": "2023-01-16T09:50:18Z",
+      "side": 1,
+      "message": "I\u0027m afraid yes. But this issue is present today as well when we pass in a different prefix. Do you think we can solve it independent from this change?",
+      "parentUuid": "236bb6e6_402bd61b",
+      "range": {
+        "startLine": 350,
+        "startChar": 2,
+        "endLine": 350,
+        "endChar": 20
+      },
+      "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c406c80c_7a8fd4f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 6
@@ -88,6 +112,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52114389_c97ec598",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 307638
+      },
+      "writtenOn": "2023-01-16T09:50:18Z",
+      "side": 1,
+      "message": "Right, I intentionally did this way. The reason is, we want to resolve the symbolic-refs, for which we need the full packed-refs list.\n\nFor example, when we exclude all branches, like getRefsByPrefixWithExclusions(RefDatabase.ALL, Lists.of(\"refs/heads/\")). When a symbolic-ref HEAD is pointing to a branch in packed-ref, then the symbolic-ref will not be resolved if we don\u0027t have full packed-ref list.\n\nWhile resolving a symbolic-ref, we do the following (the logic is more than what I said, but this the logic in a nut shell),\n1. Look into already scanned loose refs. returns from here if found\n2. Scan the ref, returns from here if found\n3. Look into packed refs list and return if found\n\nHope this explains it. Good question. Thanks.",
+      "parentUuid": "88eb7878_4bdd1925",
+      "range": {
+        "startLine": 371,
+        "startChar": 28,
+        "endLine": 371,
+        "endChar": 52
+      },
+      "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8007ba59_6a2b8f03",
@@ -119,6 +167,24 @@
       "side": 1,
       "message": "Yeah, using Collections.unmodifiableList() [1] would be better and matches what the other implementors of this method do, my mistake.\n\n[1] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Collections.html#unmodifiableList(java.util.List)",
       "parentUuid": "8007ba59_6a2b8f03",
+      "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8450e4c_5ef81da5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 307638
+      },
+      "writtenOn": "2023-01-16T09:50:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99f31299_b65bf70c",
       "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
