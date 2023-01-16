@@ -176,7 +176,7 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 				}
 			} else {
 				// Display once per second or when 1% is done.
-				int currPercent = lastWork * 100 / totalWork;
+				int currPercent = Math.round(lastWork * 100F / totalWork);
 				if (display) {
 					pm.onUpdate(taskName, lastWork, totalWork, currPercent);
 					output = true;
@@ -201,8 +201,8 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 				if (totalWork == UNKNOWN) {
 					pm.onEndTask(taskName, lastWork);
 				} else {
-					int pDone = lastWork * 100 / totalWork;
-					pm.onEndTask(taskName, lastWork, totalWork, pDone);
+					int currPercent = Math.round(lastWork * 100F / totalWork);
+					pm.onEndTask(taskName, lastWork, totalWork, currPercent);
 				}
 			}
 			if (timerFuture != null)
