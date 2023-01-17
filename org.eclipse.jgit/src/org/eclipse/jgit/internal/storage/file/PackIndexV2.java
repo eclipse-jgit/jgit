@@ -192,6 +192,18 @@ class PackIndexV2 extends PackIndex {
 		return getOffset(levelOne, levelTwo);
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public int findPosition(AnyObjectId objId) {
+		int levelOne = objId.getFirstByte();
+		int levelTwo = binarySearchLevelTwo(objId, levelOne);
+		if (levelTwo < 0) {
+			return -1;
+		}
+		long objsBefore = levelOne == 0 ? 0 : fanoutTable[levelOne - 1];
+		return (int) objsBefore + levelTwo;
+	}
+
 	private long getOffset(int levelOne, int levelTwo) {
 		final long p = NB.decodeUInt32(offset32[levelOne], levelTwo << 2);
 		if ((p & IS_O64) != 0)

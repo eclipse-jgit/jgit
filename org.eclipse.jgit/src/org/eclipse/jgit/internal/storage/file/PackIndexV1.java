@@ -32,6 +32,8 @@ import org.eclipse.jgit.util.NB;
 class PackIndexV1 extends PackIndex {
 	private static final int IDX_HDR_LEN = 256 * 4;
 
+	private static final int RECORD_SIZE = 4 + Constants.OBJECT_ID_LENGTH;
+
 	private final long[] idxHeader;
 
 	byte[][] idxdata;
@@ -131,8 +133,50 @@ class PackIndexV1 extends PackIndex {
 	public long findOffset(AnyObjectId objId) {
 		final int levelOne = objId.getFirstByte();
 		byte[] data = idxdata[levelOne];
-		if (data == null)
+		int pos = levelTwoPosition(objId, data);
+		if (pos < 0) {
 			return -1;
+		}
+		// The records are (offset, objectid), pos points to objectId
+		int b0 = data[pos - 4] & 0xff;
+		int b1 = data[pos - 3] & 0xff;
+		int b2 = data[pos - 2] & 0xff;
+		int b3 = data[pos - 1] & 0xff;
+		return (((long) b0) << 24) | (b1 << 16) | (b2 << 8) | (b3);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public int findPosition(AnyObjectId objId) {
+		int levelOne = objId.getFirstByte();
+		int levelTwo = levelTwoPosition(objId, idxdata[levelOne]);
+		if (levelTwo < 0) {
+			return -1;
+		}
+		long objsBefore = levelOne == 0 ? 0 : idxHeader[levelOne - 1];
+		return (int) objsBefore + ((levelTwo - 4) / RECORD_SIZE);
+	}
+
+	/**
+	 * Find position in level two data of this objectId
+	 *
+	 * Records are (offset, objectId), so to read the corresponding offset,
+	 * caller must substract from this position.
+	 *
+	 * @param objId
+	 *            ObjectId we are looking for
+	 * @param data
+	 *            Blob of second level data with a series of (offset, objectid)
+	 *            pairs where we should find objId
+	 *
+	 * @return position in the byte[] where the objectId starts. -1 if not
+	 *         found.
+	 */
+	private int levelTwoPosition(AnyObjectId objId, byte[] data) {
+		if (data == null || data.length == 0) {
+			return -1;
+		}
+
 		int high = data.length / (4 + Constants.OBJECT_ID_LENGTH);
 		int low = 0;
 		do {
@@ -142,11 +186,7 @@ class PackIndexV1 extends PackIndex {
 			if (cmp < 0)
 				high = mid;
 			else if (cmp == 0) {
-				int b0 = data[pos - 4] & 0xff;
-				int b1 = data[pos - 3] & 0xff;
-				int b2 = data[pos - 2] & 0xff;
-				int b3 = data[pos - 1] & 0xff;
-				return (((long) b0) << 24) | (b1 << 16) | (b2 << 8) | (b3);
+				return pos;
 			} else
 				low = mid + 1;
 		} while (low < high);
@@ -187,7 +227,7 @@ class PackIndexV1 extends PackIndex {
 			if (cmp < 0)
 				high = p;
 			else if (cmp == 0) {
-				// We may have landed in the middle of the matches.  Move
+				// We may have landed in the middle of the matches. Move
 				// backwards to the start of matches, then walk forwards.
 				//
 				while (0 < p && id.prefixCompare(data, idOffset(p - 1)) == 0)
@@ -204,7 +244,7 @@ class PackIndexV1 extends PackIndex {
 	}
 
 	private static int idOffset(int mid) {
-		return ((4 + Constants.OBJECT_ID_LENGTH) * mid) + 4;
+		return (RECORD_SIZE * mid) + 4;
 	}
 
 	private class IndexV1Iterator extends EntriesIterator {
@@ -217,8 +257,8 @@ class PackIndexV1 extends PackIndex {
 			return new MutableEntry() {
 				@Override
 				protected void ensureId() {
-					idBuffer.fromRaw(idxdata[levelOne], levelTwo
-							- Constants.OBJECT_ID_LENGTH);
+					idBuffer.fromRaw(idxdata[levelOne],
+							levelTwo - Constants.OBJECT_ID_LENGTH);
 				}
 			};
 		}
