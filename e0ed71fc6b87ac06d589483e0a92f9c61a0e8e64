@@ -22,6 +22,30 @@
       },
       "revId": "e0ed71fc6b87ac06d589483e0a92f9c61a0e8e64",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65c1f0c1_622c46d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-01-17T20:30:33Z",
+      "side": 1,
+      "message": "reverted patch 17",
+      "parentUuid": "3f5adaf0_e01c68be",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 35
+      },
+      "revId": "e0ed71fc6b87ac06d589483e0a92f9c61a0e8e64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
