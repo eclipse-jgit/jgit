@@ -1,6 +1,69 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7769f6c_5697a6ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:45:03Z",
+      "side": 1,
+      "message": "object",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "6941d3bedcb0067d15048eb34cfaef22155cf09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2df700f_78d27566",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:45:03Z",
+      "side": 1,
+      "message": "isn\u0027t commit2 reachable from refs/heads/main via commit1 which seems to be a merge commit ?",
+      "revId": "6941d3bedcb0067d15048eb34cfaef22155cf09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5362add3_de0f8f59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:45:03Z",
+      "side": 1,
+      "message": "reachable only from ?",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 45
+      },
+      "revId": "6941d3bedcb0067d15048eb34cfaef22155cf09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b960874c_113c87b7",
