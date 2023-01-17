@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ba6b21a_f6ebf154",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 307638
+      },
+      "writtenOn": "2023-01-17T15:34:15Z",
+      "side": 1,
+      "message": "Ack. I\u0027ll check the existing bugs and create one if not present.",
+      "parentUuid": "daea7105_8e87708e",
+      "range": {
+        "startLine": 350,
+        "startChar": 2,
+        "endLine": 350,
+        "endChar": 20
+      },
+      "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c406c80c_7a8fd4f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 6
