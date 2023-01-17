@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfe48e67_3e1cb2db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:38:31Z",
+      "side": 1,
+      "message": "what, in your experience, is a too big bitmap index file ?",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf45cd84_26273543",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:38:31Z",
+      "side": 1,
+      "message": "which configuration did you use for pack.threads and pack.windowMemory ?",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4417980_c13c2efa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:38:31Z",
+      "side": 1,
+      "message": "How do you identify the refs to exclude ?\nDid you measure the impact on performance of fetches from included/excluded refs ?\nHow is the impact on cloning the complete repo ?",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ed0d6f_3a90ceb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:38:31Z",
+      "side": 1,
+      "message": "Did you profile this tradeoff ?",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70789f32_57bd3580",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:38:31Z",
+      "side": 1,
+      "message": "excludedRefs ?",
+      "range": {
+        "startLine": 799,
+        "startChar": 16,
+        "endLine": 799,
+        "endChar": 39
+      },
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12efa106_02b8da99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:38:31Z",
+      "side": 1,
+      "message": "nit: this line is too wide",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4500c140_3c59c716",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:38:31Z",
+      "side": 1,
+      "message": "bitmapExcludedRefs ?",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "869304d5_d1b1b32d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-17T15:38:31Z",
+      "side": 1,
+      "message": "bitmapExcludedRefs ?",
+      "range": {
+        "startLine": 1277,
+        "startChar": 73,
+        "endLine": 1277,
+        "endChar": 94
+      },
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
