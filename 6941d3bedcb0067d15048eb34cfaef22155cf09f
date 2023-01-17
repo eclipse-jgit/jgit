@@ -168,6 +168,30 @@
       },
       "revId": "6941d3bedcb0067d15048eb34cfaef22155cf09f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4857fe8f_bec468d2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-17T23:44:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ae6889c_c4d41099",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 13
+      },
+      "revId": "6941d3bedcb0067d15048eb34cfaef22155cf09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
