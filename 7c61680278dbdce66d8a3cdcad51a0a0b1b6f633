@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "daea7105_8e87708e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-01-17T15:32:19Z",
+      "side": 1,
+      "message": "If it\u0027s an existing issue, yes. Do you know if it\u0027s already tracked in the bug tracker? If not, we should create a test case showing the problem and an issue for it (with a link to the change with the test case).",
+      "parentUuid": "cd57cdbd_8ab3d006",
+      "range": {
+        "startLine": 350,
+        "startChar": 2,
+        "endLine": 350,
+        "endChar": 20
+      },
+      "revId": "7c61680278dbdce66d8a3cdcad51a0a0b1b6f633",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c406c80c_7a8fd4f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 6
