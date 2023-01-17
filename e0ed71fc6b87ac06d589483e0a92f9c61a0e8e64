@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5adaf0_e01c68be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2023-01-17T20:10:15Z",
+      "side": 1,
+      "message": "This breaks revWalk. If you alter objects in the revWalk, you will:\n\n1. Return filtered commit instead of a normal one for another consumer (which is wrong, as that consumer don\u0027t need overwritten parents)\n2. Return filtered commit created by another RewriteGenerator (which is wrong as it has different overwritten parents)",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 35
+      },
+      "revId": "e0ed71fc6b87ac06d589483e0a92f9c61a0e8e64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

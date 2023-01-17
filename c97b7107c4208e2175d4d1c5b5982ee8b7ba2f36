@@ -176,6 +176,24 @@
       "parentUuid": "26db6b70_c7608c45",
       "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cd2a552_26337858",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 256613
+      },
+      "writtenOn": "2023-01-17T20:10:15Z",
+      "side": 1,
+      "message": "Please revert this change, we can\u0027t use revWalk for filtered commits, as relation between normal and filtered commit is one to many (one normal commit can be filtered in many ways)",
+      "parentUuid": "93a476e9_529667bc",
+      "revId": "c97b7107c4208e2175d4d1c5b5982ee8b7ba2f36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
