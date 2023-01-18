@@ -1692,6 +1692,21 @@ public abstract class Repository implements AutoCloseable {
 			throws IOException;
 
 	/**
+	 * Get the reflog reader. Subclasses should override this method and provide
+	 * a more efficient implementation.
+	 *
+	 * @param ref
+	 *            a Ref
+	 * @return a {@link org.eclipse.jgit.lib.ReflogReader} for the supplied ref,
+	 *         or {@code null} if the ref does not exist.
+	 * @throws IOException
+	 * @since 5.13.2
+	 */
+	public ReflogReader getReflogReader(@NonNull Ref ref) throws IOException {
+		return getReflogReader(ref.getName());
+	}
+
+	/**
 	 * Return the information stored in the file $GIT_DIR/MERGE_MSG. In this
 	 * file operations triggering a merge will store a template for the commit
 	 * message of the merge commit.
