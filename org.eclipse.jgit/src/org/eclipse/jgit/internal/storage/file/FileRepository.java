@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
@@ -522,6 +523,12 @@ public class FileRepository extends Repository {
 		if (ref == null) {
 			return null;
 		}
+		return new ReflogReaderImpl(this, ref.getName());
+	}
+
+	@Override
+	public @NonNull ReflogReader getReflogReader(@NonNull Ref ref)
+			throws IOException {
 		return new ReflogReaderImpl(this, ref.getName());
 	}
 
