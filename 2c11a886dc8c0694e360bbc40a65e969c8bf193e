@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8342564_e2a33587",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-18T00:48:26Z",
+      "side": 1,
+      "message": "In [1] Colby makes the example of the Linux Kernel bitmap of just 10KBytes. In my personal experience, they should be max 1MByte.\n\nWhen running \u0027git gc\u0027 on the Gerrit bare repository, with the addition of 800 feature branches, the bitmap is 6.6MB. When running \u0027jgit gc\u0027 on the same repository (no exclusions), the bitmap is 2.7MB. Finally, when excluding stable branches, the bitmap is just 679k.\n\nClone times with the 3 bitmaps:\n- 6.6MB bitmap : clone \u003d 20s\n- 2.7MB bitmap : clone \u003d 14s\n-  679k bitmap : clone \u003d 12s\n\nWould the above suffice? Would you suggest to include this into the commit message?\n\n[1] https://docs.google.com/presentation/d/1t2qzSO4z5MbrN21Cz4RrLWz9IZ5ylJNwQassajKyPk8/htmlpresent",
+      "parentUuid": "cfe48e67_3e1cb2db",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf45cd84_26273543",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-17T15:38:31Z",
       "side": 1,
       "message": "which configuration did you use for pack.threads and pack.windowMemory ?",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8cdcd81_1cc6b15a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-18T00:48:26Z",
+      "side": 1,
+      "message": "\u003e which configuration did you use for pack.threads and pack.windowMemory ?\n\nNone: they were the default.\n- pack.threads \u003d number of CPUs (48)\n- pack.windowMemory \u003d unlimited",
+      "parentUuid": "bf45cd84_26273543",
       "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -52,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3854aa75_34f53fea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-18T00:48:26Z",
+      "side": 1,
+      "message": "\u003e How do you identify the refs to exclude ?\n\nThey are configured by the project owner. In my experience, the ones that are candidate to be excluded are:\n- sandbox branches\n- feature branches\n\n\u003e Did you measure the impact on performance of fetches from included/excluded refs ?\n\nThe intermediate fetches rarely make use of the bitmap, because they do need only part of the objects and not the entire pack. The current algorithm in JGit discards the bitmap altogether in that case.\n\nBottom line: fetchign the individual refs did not make use of the bitmap before, so there is no difference.\n\n\u003e How is the impact on cloning the complete repo ?\n\nThere is a 35% performance improvement in my tests when cloning the complete repo. Bear in mind that the bitmap does not have to cover the complete set of commits. A complete bitmap would be just too big to store and process.\n\nHowever, selecting the commits that are more likely to be useful and locale when cloning would allow to have a much better optimisation of the space utilised of the bitmap vs. the most relevant history.",
+      "parentUuid": "a4417980_c13c2efa",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03ed0d6f_3a90ceb5",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-01-17T15:38:31Z",
       "side": 1,
       "message": "Did you profile this tradeoff ?",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9c074b7_466f1e99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-18T00:48:26Z",
+      "side": 1,
+      "message": "I did not write a specific Bitmap benchmark.\nLet me follow that up on master adding that.\n\nImproving the performance of the generation, loading and use of the bitmap would have a global positive effect on the overall clone / fetch.",
+      "parentUuid": "03ed0d6f_3a90ceb5",
       "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -109,6 +181,48 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f8e9fc8_3e2b921e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-18T00:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12efa106_02b8da99",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3b07306_bc083502",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-18T00:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70789f32_57bd3580",
+      "range": {
+        "startLine": 799,
+        "startChar": 16,
+        "endLine": 799,
+        "endChar": 39
+      },
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4500c140_3c59c716",
@@ -126,6 +240,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a94c017c_56ec3934",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-18T00:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4500c140_3c59c716",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "869304d5_d1b1b32d",
@@ -139,6 +271,30 @@
       "writtenOn": "2023-01-17T15:38:31Z",
       "side": 1,
       "message": "bitmapExcludedRefs ?",
+      "range": {
+        "startLine": 1277,
+        "startChar": 73,
+        "endLine": 1277,
+        "endChar": 94
+      },
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e627475_eed702fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-18T00:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869304d5_d1b1b32d",
       "range": {
         "startLine": 1277,
         "startChar": 73,
