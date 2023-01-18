@@ -1019,10 +1019,7 @@ public class GC {
 	 * @throws IOException
 	 */
 	private Set<ObjectId> listRefLogObjects(Ref ref, long minTime) throws IOException {
-		ReflogReader reflogReader = repo.getReflogReader(ref.getName());
-		if (reflogReader == null) {
-			return Collections.emptySet();
-		}
+		ReflogReader reflogReader = repo.getReflogReader(ref);
 		List<ReflogEntry> rlEntries = reflogReader
 				.getReverseEntries();
 		if (rlEntries == null || rlEntries.isEmpty())
