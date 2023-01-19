@@ -48,4 +48,8 @@ public abstract class EmptyProgressMonitor implements ProgressMonitor {
 		return false;
 	}
 
+	@Override
+	public void showDuration(boolean enabled) {
+		// not implemented
+	}
 }
