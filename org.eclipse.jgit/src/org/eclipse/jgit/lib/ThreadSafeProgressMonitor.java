@@ -158,6 +158,11 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		pm.endTask();
 	}
 
+	@Override
+	public void showDuration(boolean enabled) {
+		pm.showDuration(enabled);
+	}
+
 	private boolean isMainThread() {
 		return Thread.currentThread() == mainThread;
 	}
