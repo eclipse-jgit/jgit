@@ -65,6 +65,21 @@ public abstract class SystemReader {
 
 	private static volatile Boolean isLinux;
 
+	private static final String GIT_TRACE_PERFORMANCE = "GIT_TRACE_PERFORMANCE"; //$NON-NLS-1$
+
+	private static final boolean performanceTrace = initPerformanceTrace();
+
+	private static boolean initPerformanceTrace() {
+		String val = System.getenv(GIT_TRACE_PERFORMANCE);
+		if (val == null) {
+			val = System.getenv(GIT_TRACE_PERFORMANCE);
+		}
+		if (val != null) {
+			return Boolean.valueOf(val).booleanValue();
+		}
+		return false;
+	}
+
 	static {
 		SystemReader r = new Default();
 		r.init();
@@ -558,6 +573,16 @@ public abstract class SystemReader {
 			isLinux = Boolean.valueOf(osname.toLowerCase().startsWith("linux")); //$NON-NLS-1$
 		}
 		return isLinux.booleanValue();
+	}
+
+	/**
+	 * Whether performance trace is enabled
+	 *
+	 * @return whether performance trace is enabled
+	 * @since 6.5
+	 */
+	public boolean isPerformanceTraceEnabled() {
+		return performanceTrace;
 	}
 
 	private String getOsName() {
