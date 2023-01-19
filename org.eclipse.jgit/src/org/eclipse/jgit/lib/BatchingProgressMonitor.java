@@ -10,15 +10,34 @@
 
 package org.eclipse.jgit.lib;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.lib.internal.WorkQueue;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * ProgressMonitor that batches update events.
  */
 public abstract class BatchingProgressMonitor implements ProgressMonitor {
+	private static final String GIT_TRACE_PERFORMANCE = "GIT_TRACE_PERFORMANCE"; //$NON-NLS-1$
+
+	private static boolean performanceTrace = false;
+
+	static {
+		SystemReader sr = SystemReader.getInstance();
+		String val = sr.getProperty(GIT_TRACE_PERFORMANCE);
+		if (val == null) {
+			val = sr.getenv(GIT_TRACE_PERFORMANCE);
+		}
+		if (val != null) {
+			performanceTrace = Boolean.valueOf(val).booleanValue();
+		}
+
+	}
+
 	private long delayStartTime;
 
 	private TimeUnit delayStartUnit = TimeUnit.MILLISECONDS;
@@ -83,8 +102,12 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 	 *            name of the task.
 	 * @param workCurr
 	 *            number of units already completed.
+	 * @param duration
+	 *            how long this task runs
+	 * @since 6.5
 	 */
-	protected abstract void onUpdate(String taskName, int workCurr);
+	protected abstract void onUpdate(String taskName, int workCurr,
+			Duration duration);
 
 	/**
 	 * Finish the progress monitor when the total wasn't known in advance.
@@ -93,8 +116,12 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 	 *            name of the task.
 	 * @param workCurr
 	 *            total number of units processed.
+	 * @param duration
+	 *            how long this task runs
+	 * @since 6.5
 	 */
-	protected abstract void onEndTask(String taskName, int workCurr);
+	protected abstract void onEndTask(String taskName, int workCurr,
+			Duration duration);
 
 	/**
 	 * Update the progress monitor when the total is known in advance.
@@ -107,9 +134,12 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 	 *            estimated number of units to process.
 	 * @param percentDone
 	 *            {@code workCurr * 100 / workTotal}.
+	 * @param duration
+	 *            how long this task runs
+	 * @since 6.5
 	 */
 	protected abstract void onUpdate(String taskName, int workCurr,
-			int workTotal, int percentDone);
+			int workTotal, int percentDone, Duration duration);
 
 	/**
 	 * Finish the progress monitor when the total is known in advance.
@@ -122,9 +152,53 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 	 *            estimated number of units to process.
 	 * @param percentDone
 	 *            {@code workCurr * 100 / workTotal}.
+	 * @param duration
+	 *            duration of the task
+	 * @since 6.5
 	 */
 	protected abstract void onEndTask(String taskName, int workCurr,
-			int workTotal, int percentDone);
+			int workTotal, int percentDone, Duration duration);
+
+	/**
+	 * Append formatted duration if system property or environment variable
+	 * GIT_TRACE_PERFORMANCE is set to "true". If both are defined the system
+	 * property takes precedence.
+	 *
+	 * @param s
+	 *            StringBuilder to append the formatted duration to
+	 * @param duration
+	 *            duration to format
+	 * @since 6.5
+	 */
+	@SuppressWarnings({ "boxing", "nls" })
+	protected void appendDuration(StringBuilder s, Duration duration) {
+		if (!performanceTrace) {
+			return;
+		}
+		long hours = duration.toHours();
+		int minutes = duration.toMinutesPart();
+		int seconds = duration.toSecondsPart();
+		s.append(" [");
+		if (hours > 0) {
+			s.append(hours).append(':');
+			s.append(String.format("%02d", minutes)).append(':');
+			s.append(String.format("%02d", seconds));
+		} else if (minutes > 0) {
+			s.append(minutes).append(':');
+			s.append(String.format("%02d", seconds));
+		} else {
+			s.append(seconds);
+		}
+		s.append('.').append(String.format("%03d", duration.toMillisPart()));
+		if (hours > 0) {
+			s.append('h');
+		} else if (minutes > 0) {
+			s.append('m');
+		} else {
+			s.append('s');
+		}
+		s.append(']');
+	}
 
 	private static class Task implements Runnable {
 		/** Title of the current task. */
@@ -148,10 +222,13 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 		/** Percentage of {@link #totalWork} that is done. */
 		private int lastPercent;
 
+		private final Instant startTime;
+
 		Task(String taskName, int totalWork) {
 			this.taskName = taskName;
 			this.totalWork = totalWork;
 			this.display = true;
+			this.startTime = Instant.now();
 		}
 
 		void delay(long time, TimeUnit unit) {
@@ -170,7 +247,7 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 			if (totalWork == UNKNOWN) {
 				// Only display once per second, as the alarm fires.
 				if (display) {
-					pm.onUpdate(taskName, lastWork);
+					pm.onUpdate(taskName, lastWork, lap());
 					output = true;
 					restartTimer();
 				}
@@ -178,12 +255,14 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 				// Display once per second or when 1% is done.
 				int currPercent = Math.round(lastWork * 100F / totalWork);
 				if (display) {
-					pm.onUpdate(taskName, lastWork, totalWork, currPercent);
+					pm.onUpdate(taskName, lastWork, totalWork, currPercent,
+							lap());
 					output = true;
 					restartTimer();
 					lastPercent = currPercent;
 				} else if (currPercent != lastPercent) {
-					pm.onUpdate(taskName, lastWork, totalWork, currPercent);
+					pm.onUpdate(taskName, lastWork, totalWork, currPercent,
+							lap());
 					output = true;
 					lastPercent = currPercent;
 				}
@@ -199,14 +278,18 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 		void end(BatchingProgressMonitor pm) {
 			if (output) {
 				if (totalWork == UNKNOWN) {
-					pm.onEndTask(taskName, lastWork);
+					pm.onEndTask(taskName, lastWork, lap());
 				} else {
 					int currPercent = Math.round(lastWork * 100F / totalWork);
-					pm.onEndTask(taskName, lastWork, totalWork, currPercent);
+					pm.onEndTask(taskName, lastWork, totalWork, currPercent, lap());
 				}
 			}
 			if (timerFuture != null)
 				timerFuture.cancel(false /* no interrupt */);
+		}
+
+		private Duration lap() {
+			return Duration.between(startTime, Instant.now());
 		}
 	}
 }
