@@ -16,6 +16,24 @@
       "message": "Where these API errors were displayed?",
       "revId": "00f610cff0bade6299bb3af271471cc25c19c718",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9277b958_2a2a0cf8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-19T00:00:58Z",
+      "side": 1,
+      "message": "set the previous minor release\u0027s (e.g. for stable-5.13 use 5.12.0) jgit or egit p2 repository as an API baseline in Eclipse, see https://wiki.eclipse.org/EGit/Contributor_Guide#Checking_for_JGit_API_Changes_using_API_Baseline",
+      "parentUuid": "186d6df3_577de443",
+      "revId": "00f610cff0bade6299bb3af271471cc25c19c718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
