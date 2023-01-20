@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7f994bd4_bdb3c234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-20T00:33:16Z",
+      "side": 1,
+      "message": "reverse index constructor mentions \"insertion sort\" but its complexity should be better than this: there is a first pass putting values in buckets, so are already in certain order, and then there is the insertion sort to write the final sorted array (which shouldn\u0027t be n^2)",
+      "parentUuid": "1bf3b583_1cfed171",
+      "range": {
+        "startLine": 13,
+        "startChar": 48,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9cfeb265_370d69e1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 18
@@ -411,6 +435,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc08d6d1_da88f892",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-20T00:33:16Z",
+      "side": 1,
+      "message": "Recapping: the existing code in PackReverseIndex creating the index in memory is very tied to how we search at runtime. e.g. It creates a second array to speed up the search. It is constructed from the index, while here we construct it from PackedObjectInfos...\n\nWe checked how to refactor it to get only the list of offsets and it gets very convoluted for both old and new use cases. Writing new code that from the list of objects (in lexicographical order) generates a sorted list of *positions* sounds reasonable.",
+      "parentUuid": "babbfcff_4ca671ac",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14f7731f_3e2f04e1",
@@ -442,6 +484,24 @@
       "side": 1,
       "message": "`writeInt` is used within `writeBitmapEntry` for each entry, which seems similar at my level of understanding (https://eclipse.googlesource.com/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexWriterV1.java#116).\n\nHow can I show that the more complex code proposed ends up being more efficient?",
       "parentUuid": "14f7731f_3e2f04e1",
+      "revId": "af9341316b83dea320685a795354b5403e1778c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfeb2bc_8fbe08ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-20T00:33:16Z",
+      "side": 1,
+      "message": "This was general IO suggestion. I see that dataOutput doesn\u0027t even support writing byte[], so it doesn\u0027t make sense here. Sorry for the noise.",
+      "parentUuid": "4884e095_a95f8fac",
       "revId": "af9341316b83dea320685a795354b5403e1778c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
