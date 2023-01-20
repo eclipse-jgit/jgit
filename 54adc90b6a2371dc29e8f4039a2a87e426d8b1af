@@ -182,6 +182,30 @@
       },
       "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b197d377_5f4be678",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-20T17:38:05Z",
+      "side": 1,
+      "message": "The function doesn\u0027t verify it: if you pass the wrong thing, you get the wrong results. The type system doesn\u0027t help with that and checking it per invocation would be too expensive.",
+      "parentUuid": "f257f5ec_bb4bc424",
+      "range": {
+        "startLine": 110,
+        "startChar": 36,
+        "endLine": 110,
+        "endChar": 64
+      },
+      "revId": "54adc90b6a2371dc29e8f4039a2a87e426d8b1af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
