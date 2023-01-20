@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d67dc0c_66598e28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriterV1.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-20T18:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af76d7f_73a74aff",
+      "range": {
+        "startLine": 44,
+        "startChar": 36,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "434e73e0_09cbebd3",
@@ -54,6 +78,24 @@
       "writtenOn": "2023-01-20T00:33:16Z",
       "side": 1,
       "message": "This is a public class in a \"non internal\" package, so it needs the @since annotation in the new public methods \n\n(Releases: https://wiki.eclipse.org/JGit/New_and_Noteworthy)",
+      "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77439ad3_0fc439f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-20T18:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "434e73e0_09cbebd3",
       "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -75,6 +117,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8375673b_f318f27b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-20T18:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "705ea7a1_4351d32b",
+      "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47e6d9b7_21ccc9df",
@@ -88,6 +148,24 @@
       "writtenOn": "2023-01-20T00:33:16Z",
       "side": 1,
       "message": "Maybe a constructor method would be clearer in this case:\npublic static IntList filledWithRange(int start, int end) {...}\n\n\nA constructor with 1 int and another with 2 ints look like \"telescopic constructors\" but they are not.\n\nAlso from effective java: \"One advantage of static factory methods is that, unlike constructors, they have names.\"\n\nActually, if we are going to use it only from 0..n, we could consider a filledWithPosition(int max) constructor...",
+      "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d3f5447_cd8423b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-20T18:23:58Z",
+      "side": 1,
+      "message": "Changed to `filledWithRange`. It\u0027s more generalized/reusable than `filledWithPosition`.",
+      "parentUuid": "47e6d9b7_21ccc9df",
       "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -109,6 +187,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "290cf75f_134faa8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-20T18:23:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8e6e3351_c0700116",
+      "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "125cd2d4_806ee83b",
@@ -122,6 +218,30 @@
       "writtenOn": "2023-01-20T00:33:16Z",
       "side": 1,
       "message": "I suspect this will box the values from int to Integer, creating/freeing a lot of objects in memory during the sorting...",
+      "range": {
+        "startLine": 170,
+        "startChar": 44,
+        "endLine": 170,
+        "endChar": 54
+      },
+      "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "373fadb4_f18eb65a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-01-20T18:23:58Z",
+      "side": 1,
+      "message": "Let\u0027s meet to discuss this and the top-level comment",
+      "parentUuid": "125cd2d4_806ee83b",
       "range": {
         "startLine": 170,
         "startChar": 44,
