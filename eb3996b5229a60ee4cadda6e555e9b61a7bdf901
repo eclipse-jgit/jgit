@@ -56,6 +56,24 @@
       "message": "`@Nullable` because it may return `null` if the ref does not exist, as mentioned at L1701",
       "revId": "eb3996b5229a60ee4cadda6e555e9b61a7bdf901",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe3e3bb7_0442d46d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-22T21:35:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf6750dd_4993ea75",
+      "revId": "eb3996b5229a60ee4cadda6e555e9b61a7bdf901",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
