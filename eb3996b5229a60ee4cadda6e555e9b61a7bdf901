@@ -88,6 +88,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "185b7a45_65b48912",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-22T22:08:54Z",
+      "side": 1,
+      "message": "No, repo is a FileRepository and it provides stricter guarantees (@NonNull), it always returns a ReflogReader since the Ref was already resolved by the caller.\nActually I was made aware of that by the compiler which found this code is dead code :-)",
+      "parentUuid": "904131b5_86cb9177",
+      "range": {
+        "startLine": 1023,
+        "startChar": 0,
+        "endLine": 1025,
+        "endChar": 3
+      },
+      "revId": "eb3996b5229a60ee4cadda6e555e9b61a7bdf901",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf6750dd_4993ea75",
