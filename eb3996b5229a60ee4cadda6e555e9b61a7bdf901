@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a94b1bf6_757a8d96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-22T21:38:34Z",
+      "side": 1,
+      "message": "YMMV, a fresh mirror clone has no reflogs",
+      "parentUuid": "279f1f38_ca3d2428",
+      "range": {
+        "startLine": 20,
+        "startChar": 16,
+        "endLine": 20,
+        "endChar": 37
+      },
+      "revId": "eb3996b5229a60ee4cadda6e555e9b61a7bdf901",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "149f2abc_0f466682",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
