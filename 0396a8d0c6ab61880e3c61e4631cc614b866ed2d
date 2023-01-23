@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ff225e8_4223b9cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-01-23T22:21:14Z",
+      "side": 1,
+      "message": "this comment no longer applied since Kyle moved getCommitGraph into FileObjectDatabase which diverges from dfs.\n\n\u003e\u003eI think that the caller shouldn\u0027t see a stack at this level of abstraction.\nnot following. the existing approach is also how we are getting reftable from packlist atm.",
+      "parentUuid": "5577ad0f_d5023e22",
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01181715_17cd1324",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
         "patchSetId": 4
@@ -78,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e906232_db7f8665",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-01-23T22:21:14Z",
+      "side": 1,
+      "message": "this method by itself has no dependency on other classes, it simply adjust the packlist based on what the caller wants to modify. I agree that the current code might be changed when we actually have stackable commit graph but there\u0027s nothing logical wrong about this code right now.",
+      "parentUuid": "01181715_17cd1324",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 609,
+        "endChar": 2
+      },
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ee8667_953b8d5a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 4
@@ -89,6 +131,30 @@
       "writtenOn": "2023-01-12T01:42:37Z",
       "side": 1,
       "message": "It\u0027s not needed right now and we probably won\u0027t have same logic as reftable has, so please remove it",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 2
+      },
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c573ed_06d23cfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-01-23T22:21:14Z",
+      "side": 1,
+      "message": "there\u0027s nothing logically wrong about this comparator now; it fits our usage of prioritizing GC generated commit graph first for the near future.",
+      "parentUuid": "31ee8667_953b8d5a",
       "range": {
         "startLine": 116,
         "startChar": 0,
