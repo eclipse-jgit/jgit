@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3ec6755_77a08e34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-23T16:29:36Z",
+      "side": 1,
+      "message": "the build fails since repo.eclipse.org is down at the moment: https://www.eclipsestatus.io/",
+      "revId": "cd3fc7a2995c06cf2425f51758094e039c938559",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
