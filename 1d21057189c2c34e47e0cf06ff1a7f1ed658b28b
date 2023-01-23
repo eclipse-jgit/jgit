@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83c2dddd_42972c07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-23T21:53:10Z",
+      "side": 1,
+      "message": "How about a self-tuning approach for identifying frequently used refs instead of manual configuration ? I guess that branches which are updated frequently also tend to be fetched more frequently. We could use reflogs to identify refs which weren\u0027t updated since a configurable time and exclude them from bitmap index.\nGC is already accessing the reflogs so I think the overhead would be limited.",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 25,
+        "endChar": 19
+      },
+      "revId": "1d21057189c2c34e47e0cf06ff1a7f1ed658b28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a2be629_ce151fd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-23T21:53:10Z",
+      "side": 1,
+      "message": "this assumes that refs which are less frequently used have a few common prefixes,  this can work for cases like Gerrit sandbox branches but I think in general it\u0027s unlikely that branch name prefixes correlate with their usage frequency so you may need to add a lot of configuration entries manually to exclude them.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "1d21057189c2c34e47e0cf06ff1a7f1ed658b28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

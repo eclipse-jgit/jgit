@@ -71,6 +71,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b3f33dd_3377956e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-23T21:53:10Z",
+      "side": 1,
+      "message": "pack.windowMemory can lead to OOM errors, it limits the size of DeltaWindow",
+      "parentUuid": "f8cdcd81_1cc6b15a",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4417980_c13c2efa",
