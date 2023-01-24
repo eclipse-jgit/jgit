@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68af6ed6_1f50a0fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-24T20:00:57Z",
+      "side": 1,
+      "message": "The commit message title starts with the \"location\" of the change: class or package. In this case, DfsReaderIoStats\n\nExample:\nDfsReaderIoStats: Add fields for commit-graph",
+      "revId": "7ba9d21a5b4a16c3cd9ee72964b8c3ee990195c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "558aaf0d_41476a47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-24T20:00:57Z",
+      "side": 1,
+      "message": "Wording: the class is just a carrier of data. This is the \"problem description\" paragraph: We are adding commit-graph loading to the DFS stack and the stats object doesn\u0027t have fields to track that.",
+      "revId": "7ba9d21a5b4a16c3cd9ee72964b8c3ee990195c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e15ebcb_61ef1505",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-24T20:00:57Z",
+      "side": 1,
+      "message": "Wording: \"This change\" is implicit in the commit message :) \n\nYou don\u0027t need to list all the fields. The important bit is that you are replicating the same that we had for the index.\n\n\"Replicate the stats of the primary index for the commit-graph.\" is good enough.",
+      "revId": "7ba9d21a5b4a16c3cd9ee72964b8c3ee990195c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d3e72f_7beec7a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-24T20:00:57Z",
+      "side": 1,
+      "message": "Thanks! Only some comments in the commit message wording.",
+      "revId": "7ba9d21a5b4a16c3cd9ee72964b8c3ee990195c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
