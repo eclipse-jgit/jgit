@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1779d1e1_e8b54e5f",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-24T13:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64ba3af2_ad3011db",
+      "revId": "5c0d7cebec44b628f92cdd771cc4facae38f084f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5a4aa47_51287508",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-01-24T09:58:51Z",
       "side": 1,
       "message": "use imperative style: Create a shallow clone ...",
+      "range": {
+        "startLine": 450,
+        "startChar": 21,
+        "endLine": 450,
+        "endChar": 28
+      },
+      "revId": "5c0d7cebec44b628f92cdd771cc4facae38f084f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b640a7_4b5537f9",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-24T13:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5a4aa47_51287508",
       "range": {
         "startLine": 450,
         "startChar": 21,
@@ -81,6 +123,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b947fdcd_8477e469",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-24T13:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8745ebd_4150193f",
+      "range": {
+        "startLine": 451,
+        "startChar": 19,
+        "endLine": 451,
+        "endChar": 26
+      },
+      "revId": "5c0d7cebec44b628f92cdd771cc4facae38f084f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8778bec_4435bb89",
@@ -94,6 +160,30 @@
       "writtenOn": "2023-01-24T09:58:51Z",
       "side": 1,
       "message": "6.5",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "5c0d7cebec44b628f92cdd771cc4facae38f084f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf95ec4e_5b40a8da",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/InstantHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-24T13:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8778bec_4435bb89",
       "range": {
         "startLine": 27,
         "startChar": 10,
@@ -127,6 +217,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4202c28a_1d89f64c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/InstantHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-24T13:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6290823b_9a2ac8b2",
+      "range": {
+        "startLine": 42,
+        "startChar": 23,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "5c0d7cebec44b628f92cdd771cc4facae38f084f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94756a4a_1e9cd44a",
@@ -140,6 +254,30 @@
       "writtenOn": "2023-01-24T09:58:51Z",
       "side": 1,
       "message": "we don\u0027t use final for method parameters and local variables",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 7
+      },
+      "revId": "5c0d7cebec44b628f92cdd771cc4facae38f084f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56741acc_d4d4929e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/InstantHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-24T13:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94756a4a_1e9cd44a",
       "range": {
         "startLine": 50,
         "startChar": 2,
