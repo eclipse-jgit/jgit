@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc625548_4180beba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-01-24T20:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68af6ed6_1f50a0fd",
+      "revId": "7ba9d21a5b4a16c3cd9ee72964b8c3ee990195c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "558aaf0d_41476a47",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e88b9e2_496d734c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-01-24T20:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "558aaf0d_41476a47",
+      "revId": "7ba9d21a5b4a16c3cd9ee72964b8c3ee990195c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e15ebcb_61ef1505",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-01-24T20:00:57Z",
       "side": 1,
       "message": "Wording: \"This change\" is implicit in the commit message :) \n\nYou don\u0027t need to list all the fields. The important bit is that you are replicating the same that we had for the index.\n\n\"Replicate the stats of the primary index for the commit-graph.\" is good enough.",
+      "revId": "7ba9d21a5b4a16c3cd9ee72964b8c3ee990195c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93d5d5d7_f7fe506a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-01-24T20:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e15ebcb_61ef1505",
       "revId": "7ba9d21a5b4a16c3cd9ee72964b8c3ee990195c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
