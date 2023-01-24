@@ -250,6 +250,30 @@
       },
       "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52803ed9_0bc279f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-24T18:18:02Z",
+      "side": 1,
+      "message": "Recap of our discussion: casting to Integer (or Long or a boxed type) potentially creates many obj instances that are unnecessary for this comparison. Those introduce memory consumption and a cost creating/gc-ing them. On the other hand, the cost is not accurately measured and avoiding it hurts readability.\n\nOriginally I was suggesting to tweak the quicksort to do the comparisons over the values, which is tailor-made code for this use-case. \n\nMaybe we could get both, readability and performance, defining our own interface to compare (e.g. UnboxedIntComparator { int compare(int a, int b); }\" that doesn\u0027t need the unboxing?",
+      "parentUuid": "373fadb4_f18eb65a",
+      "range": {
+        "startLine": 170,
+        "startChar": 44,
+        "endLine": 170,
+        "endChar": 54
+      },
+      "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
