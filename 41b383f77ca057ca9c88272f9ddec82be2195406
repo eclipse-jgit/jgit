@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1285639e_e0ba41ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-25T00:10:57Z",
+      "side": 1,
+      "message": "Commit title, this is actually trying to load commit graphs!\n\nSuggestion:\n\"DfsObjDatabase: read DfsCommitGraphs from packs if available\"",
+      "revId": "41b383f77ca057ca9c88272f9ddec82be2195406",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74dbdd62_9f6f92a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-25T00:10:57Z",
+      "side": 1,
+      "message": "This is not adding fields to the object database, and those two \"reader\" look confusing. \n\nThe problem is straight forward: Teach DfsObjDatabase about commit graph so readers can load them when available.\n\nSolution: Following the pattern of other DFS abstractions, expose DfsCommitGraph, a handler of a single commit-graph \"file\" in the DFS world, backed by the DFS cache.\n\nIf you want to add more detail, for example:\nDfsCommitGraphs knows how to load/parse a single commit-graph stream and cache it in DFS cache. Callers decide what to do if there is more than one commit-graph and invoke the loading when needed.",
+      "range": {
+        "startLine": 9,
+        "startChar": 77,
+        "endLine": 9,
+        "endChar": 172
+      },
+      "revId": "41b383f77ca057ca9c88272f9ddec82be2195406",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e49e996_2f702b16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-25T00:10:57Z",
+      "side": 1,
+      "message": "This is not true anymore. Probably the whole paragraph is not needed anymore depending on what you put in the previous one.",
+      "range": {
+        "startLine": 11,
+        "startChar": 36,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "41b383f77ca057ca9c88272f9ddec82be2195406",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aaadd26_9333d874",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCommitGraph.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-25T00:10:57Z",
+      "side": 1,
+      "message": "IIUC DfsCommitGraph won\u0027t be a BlockBasedFile (something we load on chunks or store as bytes in the cache).\n\nIt will read/parse the commit graph (if needed) and store the reference in DfsBlockCache.",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "41b383f77ca057ca9c88272f9ddec82be2195406",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b6e4b6_d5232a73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-25T00:10:57Z",
+      "side": 1,
+      "message": "This should be the equivalent of Optional\u003cCommitGraph\u003e getCommitGraph() in the non-Dfs stack.\n\nI think it should do something like:\nget getPackList().commitGraphs\nlog and return empty if more than one (unsupported)\n\nreturn commitGraphs[0].open() (internally will store the graph in the DFS, so further calls use the DFS cached copy)\n\nActually, in other cases (e.g. loading the bitmap index) the #open() is called in the DfsReader... maybe we should do the same here for symmetry? (move this method to DfsReader).",
+      "revId": "41b383f77ca057ca9c88272f9ddec82be2195406",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

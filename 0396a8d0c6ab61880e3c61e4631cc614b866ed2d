@@ -71,6 +71,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3741858_3020ca32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-25T00:10:57Z",
+      "side": 1,
+      "message": "\u003e this comment no longer applied since Kyle moved getCommitGraph into FileObjectDatabase which diverges from dfs.\n\nKinda correct. We decided not to put the getCommitGraph() method in the ObjectDatabase interface. The readers know their specific object-db classes, no need to abstract it.\n\n\u003e Right now we should scan pack list, select the only GC pack we have here and if it has CommitGraph - return it.\n\nDemetr was pushing for this implementation, that (IIUC) it would shortcut the DFS abstraction. We are going to implement it following the rest of DFS \"files\".",
+      "parentUuid": "3ff225e8_4223b9cb",
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01181715_17cd1324",
@@ -108,6 +126,30 @@
       "side": 1,
       "message": "this method by itself has no dependency on other classes, it simply adjust the packlist based on what the caller wants to modify. I agree that the current code might be changed when we actually have stackable commit graph but there\u0027s nothing logical wrong about this code right now.",
       "parentUuid": "01181715_17cd1324",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 609,
+        "endChar": 2
+      },
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70ee3c61_e840239e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-01-25T00:10:57Z",
+      "side": 1,
+      "message": "I suspect that Demetr meant that this method for Reftables was here so DfsReftableBatchRefUpdate could do a immediate update of the reftables on an open repository.\n\nFor commit-graphs, there are no \"hot updates\": only reopening the repo will reload the commit-graph, so we are fine without it.\n\nI don\u0027t this very well, so I would say if you don\u0027t find caller for it, do not add it (we can always add it later)",
+      "parentUuid": "0e906232_db7f8665",
       "range": {
         "startLine": 583,
         "startChar": 0,
