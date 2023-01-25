@@ -162,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b331116a_4b16297b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-01-25T18:12:20Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "70ee3c61_e840239e",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 609,
+        "endChar": 2
+      },
+      "revId": "0396a8d0c6ab61880e3c61e4631cc614b866ed2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ee8667_953b8d5a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 4
