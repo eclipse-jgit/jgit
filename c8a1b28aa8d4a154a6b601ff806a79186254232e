@@ -34,6 +34,24 @@
       "parentUuid": "699f6a9e_f0873e36",
       "revId": "c8a1b28aa8d4a154a6b601ff806a79186254232e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eea630d_d8fa57e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-29T23:44:34Z",
+      "side": 1,
+      "message": "\u003e Do you have measurements for some repositories (preferably public so I can try to reproduce) showing performance improvements ? What are the stats of these repos ?\n\u003e \n\u003e I tried with a mirror clone of a huge internal repository having 20m commits, 2.3m refs, 1k branches and 1.2k tags and couldn\u0027t find a significant difference in performance of both running jgit gc (around 78min) and cloning from that repo after the gc. I cloned (`--bare` but not `--mirror`) on the same machine via file:// protocol, clones took around 3min.\n\u003e Size of the bitmap index with this change for this repo is 167MB, with the predecessor change 176MB.\n\nHow many of the 1.2k tags were annotated?\n\nI\u0027ve added some metrics to the commit message of the performance improvement I\u0027ve measured with and without this change.",
+      "parentUuid": "b02da0ab_17af9a94",
+      "revId": "c8a1b28aa8d4a154a6b601ff806a79186254232e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
