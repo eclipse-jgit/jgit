@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d2f0e4e5_4014c6ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-29T23:51:27Z",
+      "side": 1,
+      "message": "By excluding the sandbox branches, on a repository that had over 22k of them, I managed to reduce the bitmap by 90%.",
+      "parentUuid": "e8342564_e2a33587",
+      "revId": "2c11a886dc8c0694e360bbc40a65e969c8bf193e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf45cd84_26273543",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
