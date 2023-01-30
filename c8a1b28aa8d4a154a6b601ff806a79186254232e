@@ -70,6 +70,24 @@
       "parentUuid": "4eea630d_d8fa57e3",
       "revId": "c8a1b28aa8d4a154a6b601ff806a79186254232e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd43692_304ceb92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-30T10:26:02Z",
+      "side": 1,
+      "message": "I believe the bitmap can still keep up with 1216 additional annotated tags, but not in my case with 88k annotated tags.",
+      "parentUuid": "89c73ac9_62e16474",
+      "revId": "c8a1b28aa8d4a154a6b601ff806a79186254232e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
