@@ -16,6 +16,24 @@
       "message": "- was this the only change you used or did you also include the other patches in this series ?\n- was https://git.eclipse.org/r/c/jgit/jgit/+/199468/3 used here and above ?",
       "revId": "f4ab1393fd085386c11a18fa7a7fa249f0a2c56c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39811eb9_0c59fd63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-30T10:24:47Z",
+      "side": 1,
+      "message": "\u003e - was this the only change you used or did you also include the other patches in this series ?\n\nI did it last night, so it also includes all the other commits in the stable-5.13 branch. Not sure it is worth mentioning them.\n\n\u003e - was https://git.eclipse.org/r/c/jgit/jgit/+/199468/3 used here and above ?\n\nYes, because it was merged already.",
+      "parentUuid": "3f5b1f42_6a98240c",
+      "revId": "f4ab1393fd085386c11a18fa7a7fa249f0a2c56c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
