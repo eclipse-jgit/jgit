@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03f1438a_c5fa33ef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/TextProgressMonitorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-30T14:21:02Z",
+      "side": 1,
+      "message": "nit: these could be private",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "4c278e58c958f72f1105481dd004453209c2e59c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
