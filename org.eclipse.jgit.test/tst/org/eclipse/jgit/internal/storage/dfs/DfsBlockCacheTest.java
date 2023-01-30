@@ -284,12 +284,14 @@ public class DfsBlockCacheTest {
 			asyncRun(() -> pack.getBitmapIndex(reader));
 			asyncRun(() -> pack.getPackIndex(reader));
 			asyncRun(() -> pack.getBitmapIndex(reader));
+			asyncRun(() -> pack.getCommitGraph(reader));
 		}
 		waitForExecutorPoolTermination();
 
 		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
+		assertEquals(1, cache.getMissCount()[PackExt.COMMIT_GRAPH.ordinal()]);
 	}
 
 	@SuppressWarnings("resource")
@@ -313,12 +315,15 @@ public class DfsBlockCacheTest {
 			}
 			asyncRun(() -> pack1.getBitmapIndex(reader));
 			asyncRun(() -> pack2.getBitmapIndex(reader));
+			asyncRun(() -> pack1.getCommitGraph(reader));
+			asyncRun(() -> pack2.getCommitGraph(reader));
 		}
 
 		waitForExecutorPoolTermination();
 		assertEquals(2, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
 		assertEquals(2, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
+		assertEquals(2, cache.getMissCount()[PackExt.COMMIT_GRAPH.ordinal()]);
 	}
 
 	@SuppressWarnings("resource")
@@ -342,12 +347,15 @@ public class DfsBlockCacheTest {
 			}
 			asyncRun(() -> pack1.getBitmapIndex(reader));
 			asyncRun(() -> pack2.getBitmapIndex(reader));
+			asyncRun(() -> pack1.getCommitGraph(reader));
+			asyncRun(() -> pack2.getCommitGraph(reader));
 		}
 
 		waitForExecutorPoolTermination();
 		assertEquals(2, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
 		assertEquals(2, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
+		assertEquals(2, cache.getMissCount()[PackExt.COMMIT_GRAPH.ordinal()]);
 	}
 
 	@SuppressWarnings("resource")
@@ -372,7 +380,9 @@ public class DfsBlockCacheTest {
 			}
 			asyncRun(() -> pack1.getBitmapIndex(reader));
 			asyncRun(() -> pack1.getPackIndex(reader));
+			asyncRun(() -> pack1.getCommitGraph(reader));
 			asyncRun(() -> pack2.getBitmapIndex(reader));
+			asyncRun(() -> pack2.getCommitGraph(reader));
 		}
 		waitForExecutorPoolTermination();
 
@@ -380,6 +390,7 @@ public class DfsBlockCacheTest {
 		// Index is loaded once for each repo.
 		assertEquals(2, cache.getMissCount()[PackExt.INDEX.ordinal()]);
 		assertEquals(2, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
+		assertEquals(2, cache.getMissCount()[PackExt.COMMIT_GRAPH.ordinal()]);
 	}
 
 	@Test
@@ -396,12 +407,14 @@ public class DfsBlockCacheTest {
 			asyncRun(() -> pack.getBitmapIndex(reader));
 			asyncRun(() -> pack.getPackIndex(reader));
 			asyncRun(() -> pack.getBitmapIndex(reader));
+			asyncRun(() -> pack.getCommitGraph(reader));
 		}
 		waitForExecutorPoolTermination();
 
 		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
+		assertEquals(1, cache.getMissCount()[PackExt.COMMIT_GRAPH.ordinal()]);
 	}
 
 	@Test
@@ -420,12 +433,14 @@ public class DfsBlockCacheTest {
 			asyncRun(() -> pack.getBitmapIndex(reader));
 			asyncRun(() -> pack.getPackIndex(reader));
 			asyncRun(() -> pack.getBitmapIndex(reader));
+			asyncRun(() -> pack.getCommitGraph(reader));
 		}
 		waitForExecutorPoolTermination();
 
 		assertEquals(1, cache.getMissCount()[PackExt.BITMAP_INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.INDEX.ordinal()]);
 		assertEquals(1, cache.getMissCount()[PackExt.REVERSE_INDEX.ordinal()]);
+		assertEquals(1, cache.getMissCount()[PackExt.COMMIT_GRAPH.ordinal()]);
 	}
 
 	private void resetCache() {
@@ -450,7 +465,7 @@ public class DfsBlockCacheTest {
 			repository.branch("/refs/ref2" + repoName).commit()
 					.add("blob2", "blob2" + repoName).parent(commit).create();
 		}
-		new DfsGarbageCollector(repo).pack(null);
+		new DfsGarbageCollector(repo).setWriteCommitGraph(true).pack(null);
 		return repo;
 	}
 
