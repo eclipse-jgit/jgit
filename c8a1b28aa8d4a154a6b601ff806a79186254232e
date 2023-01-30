@@ -88,6 +88,24 @@
       "parentUuid": "89c73ac9_62e16474",
       "revId": "c8a1b28aa8d4a154a6b601ff806a79186254232e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "396143c7_9d34bdfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-30T17:23:23Z",
+      "side": 1,
+      "message": "I tested again with another huge repository, it has 20m refs, 27m objects, 8k annotated tags.\n\nWhen using this patch creating the bitmap index took 1:23min, without this patch 4:24min. Though total time for jgit gc was 31:15min with this patch and 23:07min without this patch.\n\nI added timing information to the progress monitor and it turned out that the difference is in counting phase for non-heads objects which took 21:55min with this patch and 10:39min without this patch.\n\nHere the configuration I used for these tests:\n\nJava options passed to jgit cli via environment variable `java_args`:\n $ time java_args\u003d\"-Xmx32g -XX:+UseParallelGC\" jgit gc\n\ngit config set in ~/.gitconfig:\n\nincreasing jgit cache helped quite a bit\n core.packedGitLimit \u003d 1g\n\nalso increasing these packing options helped:\n pack.deltaCacheLimit \u003d 65535\n pack.deltaCacheSize \u003d 1g\n\nWhich Java and git configuration did you use in your tests ?",
+      "parentUuid": "afd43692_304ceb92",
+      "revId": "c8a1b28aa8d4a154a6b601ff806a79186254232e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
