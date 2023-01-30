@@ -1173,8 +1173,13 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	@NonNull
 	CommitGraph commitGraph() {
 		if (commitGraph == null) {
-			commitGraph = reader != null ? reader.getCommitGraph().orElse(EMPTY)
-					: EMPTY;
+			try {
+				commitGraph = reader != null
+						? reader.getCommitGraph().orElse(EMPTY)
+						: EMPTY;
+			} catch (IOException e) {
+				commitGraph = EMPTY;
+			}
 		}
 		return commitGraph;
 	}

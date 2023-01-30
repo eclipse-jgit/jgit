@@ -512,9 +512,12 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *         (default is
 	 *         {@value org.eclipse.jgit.lib.CoreConfig#DEFAULT_COMMIT_GRAPH_ENABLE}).
 	 *
+	 * @throws IOException
+	 *             if it cannot open any of the underlying commit graph.
+	 *
 	 * @since 6.5
 	 */
-	public Optional<CommitGraph> getCommitGraph() {
+	public Optional<CommitGraph> getCommitGraph() throws IOException {
 		return Optional.empty();
 	}
 
@@ -658,11 +661,6 @@ public abstract class ObjectReader implements AutoCloseable {
 		@Override
 		public BitmapIndex getBitmapIndex() throws IOException {
 			return delegate().getBitmapIndex();
-		}
-
-		@Override
-		public Optional<CommitGraph> getCommitGraph() {
-			return delegate().getCommitGraph();
 		}
 
 		@Override
