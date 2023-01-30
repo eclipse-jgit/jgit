@@ -18,6 +18,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RE
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsPackCompactor.configureReftable;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
@@ -34,8 +35,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
+import org.eclipse.jgit.internal.storage.commitgraph.GraphCommits;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
@@ -75,6 +79,7 @@ public class DfsGarbageCollector {
 	private PackConfig packConfig;
 	private ReftableConfig reftableConfig;
 	private boolean convertToReftable = true;
+	private boolean writeCommitGraph = false;
 	private boolean includeDeletes;
 	private long reftableInitialMinUpdateIndex = 1;
 	private long reftableInitialMaxUpdateIndex = 1;
@@ -275,6 +280,20 @@ public class DfsGarbageCollector {
 	 */
 	public DfsGarbageCollector setGarbageTtl(long ttl, TimeUnit unit) {
 		garbageTtlMillis = unit.toMillis(ttl);
+		return this;
+	}
+
+	/**
+	 * Set the enable for garbage collector to generate commit graph during gc.
+	 * <p>
+	 * This enable is default to false unless set otherwise.
+	 *
+	 * @param enable
+	 *            Allow/Disallow commit graph generation.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setWriteCommitGraph(boolean enable) {
+		writeCommitGraph = enable;
 		return this;
 	}
 
@@ -642,6 +661,10 @@ public class DfsGarbageCollector {
 			writeReftable(pack);
 		}
 
+		if (source == GC) {
+			writeCommitGraph(pack, pm);
+		}
+
 		try (DfsOutputStream out = objdb.writeFile(pack, PACK)) {
 			pw.writePack(pm, pm, out);
 			pack.addFileExt(PACK);
@@ -722,6 +745,24 @@ public class DfsGarbageCollector {
 					.sortAndWriteRefs(refs).finish();
 			pack.addFileExt(REFTABLE);
 			pack.setReftableStats(writer.getStats());
+		}
+	}
+
+	private void writeCommitGraph(DfsPackDescription pack, ProgressMonitor pm)
+			throws IOException {
+		if (writeCommitGraph && objdb.getShallowCommits().isEmpty()) {
+			Set<ObjectId> allTips = refsBefore.stream().map(Ref::getObjectId)
+					.collect(Collectors.toUnmodifiableSet());
+			RevWalk pool = new RevWalk(ctx);
+			GraphCommits gcs = GraphCommits.fromWalk(pm, allTips, pool);
+			try (DfsOutputStream out = objdb.writeFile(pack, COMMIT_GRAPH)) {
+				CountingOutputStream cnt = new CountingOutputStream(out);
+				CommitGraphWriter writer = new CommitGraphWriter(gcs);
+				writer.write(pm, cnt);
+				pack.addFileExt(COMMIT_GRAPH);
+				pack.setFileSize(COMMIT_GRAPH, cnt.getCount());
+				pack.setBlockSize(COMMIT_GRAPH, out.blockSize());
+			}
 		}
 	}
 }
