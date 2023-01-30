@@ -52,6 +52,24 @@
       "parentUuid": "b02da0ab_17af9a94",
       "revId": "c8a1b28aa8d4a154a6b601ff806a79186254232e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89c73ac9_62e16474",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-30T09:56:53Z",
+      "side": 1,
+      "message": "in the repository I tested with only 3 are lightweight tags, the other 1216 are annotated tags",
+      "parentUuid": "4eea630d_d8fa57e3",
+      "revId": "c8a1b28aa8d4a154a6b601ff806a79186254232e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

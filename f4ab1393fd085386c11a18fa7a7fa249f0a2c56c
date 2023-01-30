@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5b1f42_6a98240c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-30T09:56:53Z",
+      "side": 1,
+      "message": "- was this the only change you used or did you also include the other patches in this series ?\n- was https://git.eclipse.org/r/c/jgit/jgit/+/199468/3 used here and above ?",
+      "revId": "f4ab1393fd085386c11a18fa7a7fa249f0a2c56c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
