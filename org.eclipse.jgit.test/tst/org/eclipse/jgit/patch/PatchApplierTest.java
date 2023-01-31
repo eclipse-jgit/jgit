@@ -17,6 +17,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static java.util.stream.Collectors.toList;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Map;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
@@ -48,49 +54,76 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
- 		PatchApplierTest.WithWorktree. class, //
+@Suite.SuiteClasses({ PatchApplierTest.WithWorktree.class, //
 		PatchApplierTest.InCore.class, //
 })
 public class PatchApplierTest {
 
 	public abstract static class Base extends RepositoryTestCase {
 
-		protected String name;
+		protected String patchName;
+
+		protected Set<String> preExist = new HashSet<>();
+
+		protected Set<String> postExist = new HashSet<>();
 
 		/** data before patching. */
-		protected byte[] preImage;
-		/** expected data after patching. */
-		protected byte[] postImage;
+		protected Map<String, byte[]> preImages = new HashMap<>();
 
-		protected String expectedText;
+		/** expected data after patching. */
+		protected Map<String, byte[]> postImages = new HashMap<>();
+
+		protected Map<String, String> expectedTexts = new HashMap<>();
+
 		protected RevTree baseTip;
+
 		public boolean inCore;
 
 		Base(boolean inCore) {
 			this.inCore = inCore;
 		}
 
-		protected void init(String aName, boolean preExists, boolean postExists)
+		protected void initRenameTest(String origName, String destName)
 				throws Exception {
+			initTest(origName, true, false);
+			initFile(destName, origName, false, true);
+		}
+
+		protected void initTest(String patchName, boolean preExists,
+				boolean postExists) throws Exception {
+			this.patchName = patchName;
+			initFile(patchName, preExists, postExists);
+		}
+
+		protected void initFile(String fileName, boolean preExists,
+				boolean postExists) throws Exception {
+			initFile(fileName, fileName, preExists, postExists);
+		}
+
+		protected void initFile(String fileName, String resourcePrefix,
+				boolean preExists, boolean postExists) throws Exception {
 			// Patch and pre/postimage are read from data
 			// org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/
-			this.name = aName;
 			if (postExists) {
-				postImage = IO
-						.readWholeStream(getTestResource(name + "_PostImage"), 0)
+				postExist.add(fileName);
+				byte[] postImage = IO.readWholeStream(
+						getTestResource(resourcePrefix + "_PostImage"), 0)
 						.array();
-				expectedText = new String(postImage, StandardCharsets.UTF_8);
+				postImages.put(fileName, postImage);
+				expectedTexts.put(fileName,
+						new String(postImage, StandardCharsets.UTF_8));
 			}
 
-			File f = new File(db.getWorkTree(), name);
+			File f = new File(db.getWorkTree(), fileName);
 			if (preExists) {
-				preImage = IO
-						.readWholeStream(getTestResource(name + "_PreImage"), 0)
+				preExist.add(fileName);
+				byte[] preImage = IO.readWholeStream(
+						getTestResource(resourcePrefix + "_PreImage"), 0)
 						.array();
+				preImages.put(fileName, preImage);
 				try (Git git = new Git(db)) {
 					Files.write(f.toPath(), preImage);
-					git.add().addFilepattern(name).call();
+					git.add().addFilepattern(fileName).call();
 				}
 			}
 			try (Git git = new Git(db)) {
@@ -99,16 +132,17 @@ public class PatchApplierTest {
 			}
 		}
 
-		void init(final String aName) throws Exception {
-			init(aName, true, true);
+		void initTest(final String patchName) throws Exception {
+			initTest(patchName, true, true);
 		}
 
 		protected Result applyPatch()
 				throws PatchApplyException, PatchFormatException, IOException {
-			InputStream patchStream = getTestResource(name + ".patch");
+			InputStream patchStream = getTestResource(patchName + ".patch");
 			if (inCore) {
 				try (ObjectInserter oi = db.newObjectInserter()) {
-					return new PatchApplier(db, baseTip, oi).applyPatch(patchStream);
+					return new PatchApplier(db, baseTip, oi)
+							.applyPatch(patchStream);
 				}
 			}
 			return new PatchApplier(db).applyPatch(patchStream);
@@ -117,9 +151,6 @@ public class PatchApplierTest {
 		protected static InputStream getTestResource(String patchFile) {
 			return PatchApplierTest.class.getClassLoader()
 					.getResourceAsStream("org/eclipse/jgit/diff/" + patchFile);
-		}
-		void verifyChange(Result result, String aName) throws Exception {
-			verifyChange(result, aName, true);
 		}
 
 		protected void verifyContent(Result result, String path, boolean exists)
@@ -130,7 +161,7 @@ public class PatchApplierTest {
 					assertNull(output);
 				else {
 					assertNotNull(output);
-					assertEquals(expectedText,
+					assertEquals(expectedTexts.get(path),
 							new String(output, StandardCharsets.UTF_8));
 				}
 			} else {
@@ -138,14 +169,18 @@ public class PatchApplierTest {
 				if (!exists)
 					assertFalse(f.exists());
 				else
-					checkFile(f, expectedText);
+					checkFile(f, expectedTexts.get(path));
 			}
 		}
 
-		void verifyChange(Result result, String aName, boolean exists)
-				throws Exception {
-			assertEquals(1, result.getPaths().size());
-			verifyContent(result, aName, exists);
+		void verifyChange(Result result) throws Exception {
+			Set<String> expectedAffectedFiles = preExist;
+			expectedAffectedFiles.addAll(postExist);
+			assertEquals(
+					expectedAffectedFiles.stream().sorted().collect(toList()),
+					result.getPaths());
+			for (String path : expectedAffectedFiles)
+				verifyContent(result, path, postExist.contains(path));
 		}
 
 		protected byte[] readBlob(ObjectId treeish, String path)
@@ -154,7 +189,7 @@ public class PatchApplierTest {
 					RevWalk rw = tr.getRevWalk()) {
 				db.incrementOpen();
 				RevTree tree = rw.parseTree(treeish);
-				try (TreeWalk tw = TreeWalk.forPath(db,path,tree)){
+				try (TreeWalk tw = TreeWalk.forPath(db, path, tree)) {
 					if (tw == null) {
 						return null;
 					}
@@ -164,15 +199,21 @@ public class PatchApplierTest {
 			}
 		}
 
-		protected void checkBinary(Result result, int numberOfFiles)
-				throws Exception {
-			assertEquals(numberOfFiles, result.getPaths().size());
-			if (inCore) {
-				assertArrayEquals(postImage,
-						readBlob(result.getTreeId(), result.getPaths().get(0)));
-			} else {
-				File f = new File(db.getWorkTree(), name);
-				assertArrayEquals(postImage, Files.readAllBytes(f.toPath()));
+		protected void verifyBinaryChange(Result result) throws Exception {
+			Set<String> expectedAffectedFiles = preExist;
+			expectedAffectedFiles.addAll(postExist);
+			assertEquals(
+					expectedAffectedFiles.stream().sorted().collect(toList()),
+					result.getPaths());
+			for (String path : expectedAffectedFiles) {
+				if (inCore) {
+					assertArrayEquals(postImages.get(path), readBlob(
+							result.getTreeId(), result.getPaths().get(0)));
+				} else {
+					File f = new File(db.getWorkTree(), path);
+					assertArrayEquals(postImages.get(path),
+							Files.readAllBytes(f.toPath()));
+				}
 			}
 		}
 
@@ -180,25 +221,25 @@ public class PatchApplierTest {
 
 		@Test
 		public void testBinaryDelta() throws Exception {
-			init("delta");
-			checkBinary(applyPatch(), 1);
+			initTest("delta");
+			verifyBinaryChange(applyPatch());
 		}
 
 		@Test
 		public void testBinaryLiteral() throws Exception {
-			init("literal");
-			checkBinary(applyPatch(), 1);
+			initTest("literal");
+			verifyBinaryChange(applyPatch());
 		}
 
 		@Test
 		public void testBinaryLiteralAdd() throws Exception {
-			init("literal_add", false, true);
-			checkBinary(applyPatch(), 1);
+			initTest("literal_add", false, true);
+			verifyBinaryChange(applyPatch());
 		}
 
 		@Test
 		public void testModifyM2() throws Exception {
-			init("M2", true, true);
+			initTest("M2", true, true);
 
 			Result result = applyPatch();
 
@@ -208,16 +249,16 @@ public class PatchApplierTest {
 				assertTrue(FS.DETECTED.canExecute(f));
 			}
 
-			verifyChange(result, "M2");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testModifyM3() throws Exception {
-			init("M3", true, true);
+			initTest("M3", true, true);
 
 			Result result = applyPatch();
 
-			verifyChange(result, "M3");
+			verifyChange(result);
 			if (!inCore && FS.DETECTED.supportsExecute()) {
 				File f = new File(db.getWorkTree(), result.getPaths().get(0));
 				assertFalse(FS.DETECTED.canExecute(f));
@@ -226,135 +267,152 @@ public class PatchApplierTest {
 
 		@Test
 		public void testModifyX() throws Exception {
-			init("X");
+			initTest("X");
 
 			Result result = applyPatch();
-			verifyChange(result, "X");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testModifyY() throws Exception {
-			init("Y");
+			initTest("Y");
 
 			Result result = applyPatch();
 
-			verifyChange(result, "Y");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testModifyZ() throws Exception {
-			init("Z");
+			initTest("Z");
 
 			Result result = applyPatch();
-			verifyChange(result, "Z");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testNonASCII() throws Exception {
-			init("NonASCII");
+			initTest("NonASCII");
 
 			Result result = applyPatch();
-			verifyChange(result, "NonASCII");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testNonASCII2() throws Exception {
-			init("NonASCII2");
+			initTest("NonASCII2");
 
 			Result result = applyPatch();
-			verifyChange(result, "NonASCII2");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testNonASCIIAdd() throws Exception {
-			init("NonASCIIAdd");
+			initTest("NonASCIIAdd");
 
 			Result result = applyPatch();
-			verifyChange(result, "NonASCIIAdd");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testNonASCIIAdd2() throws Exception {
-			init("NonASCIIAdd2", false, true);
+			initTest("NonASCIIAdd2", false, true);
 
 			Result result = applyPatch();
-			verifyChange(result, "NonASCIIAdd2");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testNonASCIIDel() throws Exception {
-			init("NonASCIIDel", true, false);
+			initTest("NonASCIIDel", true, false);
 
 			Result result = applyPatch();
-			verifyChange(result, "NonASCIIDel", false);
+			verifyChange(result);
 			assertEquals("NonASCIIDel", result.getPaths().get(0));
 		}
 
 		@Test
 		public void testRenameNoHunks() throws Exception {
-			init("RenameNoHunks", true, true);
+			initRenameTest("RenameNoHunks", "nested/subdir/Renamed");
 
 			Result result = applyPatch();
-
-			assertEquals(2, result.getPaths().size());
-			assertTrue(result.getPaths().contains("RenameNoHunks"));
-			assertTrue(result.getPaths().contains("nested/subdir/Renamed"));
-
-			verifyContent(result,"nested/subdir/Renamed", true);
+			verifyChange(result);
 		}
 
 		@Test
 		public void testRenameWithHunks() throws Exception {
-			init("RenameWithHunks", true, true);
+			initRenameTest("RenameWithHunks", "nested/subdir/Renamed");
 
 			Result result = applyPatch();
-			assertEquals(2, result.getPaths().size());
-			assertTrue(result.getPaths().contains("RenameWithHunks"));
-			assertTrue(result.getPaths().contains("nested/subdir/Renamed"));
-
-			verifyContent(result,"nested/subdir/Renamed", true);
+			verifyChange(result);
 		}
 
 		@Test
 		public void testCopyWithHunks() throws Exception {
-			init("CopyWithHunks", true, true);
+			initTest("CopyWithHunks", true, true);
+			initFile("CopyResult", "CopyWithHunks", false, true);
 
 			Result result = applyPatch();
-			verifyChange(result, "CopyResult", true);
+
+			assertEquals(1, result.getPaths().size());
+			assertEquals("CopyResult", result.getPaths().get(0));
+			verifyContent(result, "CopyResult", true);
 		}
 
 		@Test
 		public void testShiftUp() throws Exception {
-			init("ShiftUp");
+			initTest("ShiftUp");
 
 			Result result = applyPatch();
-			verifyChange(result, "ShiftUp");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testShiftUp2() throws Exception {
-			init("ShiftUp2");
+			initTest("ShiftUp2");
 
 			Result result = applyPatch();
-			verifyChange(result, "ShiftUp2");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testShiftDown() throws Exception {
-			init("ShiftDown");
+			initTest("ShiftDown");
 
 			Result result = applyPatch();
-			verifyChange(result, "ShiftDown");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testShiftDown2() throws Exception {
-			init("ShiftDown2");
+			initTest("ShiftDown2");
 
 			Result result = applyPatch();
-			verifyChange(result, "ShiftDown2");
+			verifyChange(result);
 		}
 
+		@Test
+		public void testMultipleFilesPatch() throws Exception {
+			patchName = "XAndY";
+			initFile("X", true, true);
+			initFile("Y", true, true);
+
+			Result result = applyPatch();
+			verifyChange(result);
+		}
+
+		@Test
+		public void testDoNotAffectOtherFiles() throws Exception {
+			initTest("X");
+			initFile("Unaffected", true, true);
+
+			Result result = applyPatch();
+
+			assertEquals(1, result.getPaths().size());
+			assertEquals("X", result.getPaths().get(0));
+			verifyContent(result, "X", true);
+			verifyContent(result, "Unaffected", true);
+		}
 	}
 
 	public static class InCore extends Base {
@@ -365,34 +423,34 @@ public class PatchApplierTest {
 
 		@Test
 		public void testNoNewlineAtEnd() throws Exception {
-			init("x_d");
+			initTest("x_d");
 
 			Result result = applyPatch();
-			verifyChange(result, "x_d");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testNoNewlineAtEndInHunk() throws Exception {
-			init("x_e");
+			initTest("x_e");
 
 			Result result = applyPatch();
-			verifyChange(result, "x_e");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testAddNewlineAtEnd() throws Exception {
-			init("x_add_nl");
+			initTest("x_add_nl");
 
 			Result result = applyPatch();
-			verifyChange(result, "x_add_nl");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testRemoveNewlineAtEnd() throws Exception {
-			init("x_last_rm_nl");
+			initTest("x_last_rm_nl");
 
 			Result result = applyPatch();
-			verifyChange(result, "x_last_rm_nl");
+			verifyChange(result);
 		}
 	}
 
@@ -403,10 +461,10 @@ public class PatchApplierTest {
 
 		@Test
 		public void testModifyNL1() throws Exception {
-			init("NL1");
+			initTest("NL1");
 
 			Result result = applyPatch();
-			verifyChange(result, "NL1");
+			verifyChange(result);
 		}
 
 		@Test
@@ -414,11 +472,11 @@ public class PatchApplierTest {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
-				init("crlf", true, true);
+				initTest("crlf", true, true);
 
 				Result result = applyPatch();
 
-				verifyChange(result, "crlf");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -430,11 +488,11 @@ public class PatchApplierTest {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
-				init("crlf", true, true);
+				initTest("crlf", true, true);
 
 				Result result = applyPatch();
 
-				verifyChange(result, "crlf");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -446,11 +504,11 @@ public class PatchApplierTest {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
-				init("crlf3", true, true);
+				initTest("crlf3", true, true);
 
 				Result result = applyPatch();
 
-				verifyChange(result, "crlf3");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -462,11 +520,11 @@ public class PatchApplierTest {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
-				init("crlf4", false, true);
+				initTest("crlf4", false, true);
 
 				Result result = applyPatch();
 
-				verifyChange(result, "crlf4");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -478,11 +536,11 @@ public class PatchApplierTest {
 			try {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
-				init("crlf2", true, true);
+				initTest("crlf2", true, true);
 
 				Result result = applyPatch();
 
-				verifyChange(result, "crlf2");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -491,17 +549,16 @@ public class PatchApplierTest {
 
 		@Test
 		public void testPatchWithCrLf2() throws Exception {
-			String aName = "crlf2";
 			try (Git git = new Git(db)) {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
-				init(aName, true, true);
+				initTest("crlf2", true, true);
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
 				Result result = applyPatch();
 
-				verifyChange(result, aName);
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -514,10 +571,10 @@ public class PatchApplierTest {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
-				init("x_d_crlf", true, true);
+				initTest("x_d_crlf", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_d_crlf");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -530,10 +587,10 @@ public class PatchApplierTest {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 
-				init("x_d", true, true);
+				initTest("x_d", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_d");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -546,10 +603,10 @@ public class PatchApplierTest {
 				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
 
-				init("x_d", true, true);
+				initTest("x_d", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_d");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -562,10 +619,10 @@ public class PatchApplierTest {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
-				init("x_e_crlf", true, true);
+				initTest("x_e_crlf", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_e_crlf");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -578,10 +635,10 @@ public class PatchApplierTest {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 
-				init("x_e", true, true);
+				initTest("x_e", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_e");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -594,10 +651,10 @@ public class PatchApplierTest {
 				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
 
-				init("x_e", true, true);
+				initTest("x_e", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_e");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -610,10 +667,10 @@ public class PatchApplierTest {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
-				init("x_add_nl_crlf", true, true);
+				initTest("x_add_nl_crlf", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_add_nl_crlf");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -626,10 +683,10 @@ public class PatchApplierTest {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 
-				init("x_add_nl", true, true);
+				initTest("x_add_nl", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_add_nl");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -642,10 +699,10 @@ public class PatchApplierTest {
 				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
 
-				init("x_add_nl", true, true);
+				initTest("x_add_nl", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_add_nl");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -658,10 +715,10 @@ public class PatchApplierTest {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
-				init("x_last_rm_nl_crlf", true, true);
+				initTest("x_last_rm_nl_crlf", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_last_rm_nl_crlf");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -674,10 +731,10 @@ public class PatchApplierTest {
 				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 
-				init("x_last_rm_nl", true, true);
+				initTest("x_last_rm_nl", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_last_rm_nl");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -690,10 +747,10 @@ public class PatchApplierTest {
 				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
 						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
 
-				init("x_last_rm_nl", true, true);
+				initTest("x_last_rm_nl", true, true);
 
 				Result result = applyPatch();
-				verifyChange(result, "x_last_rm_nl");
+				verifyChange(result);
 			} finally {
 				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_AUTOCRLF);
@@ -702,34 +759,34 @@ public class PatchApplierTest {
 
 		@Test
 		public void testEditExample() throws Exception {
-			init("z_e", true, true);
+			initTest("z_e", true, true);
 
 			Result result = applyPatch();
-			verifyChange(result, "z_e");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testEditNoNewline() throws Exception {
-			init("z_e_no_nl", true, true);
+			initTest("z_e_no_nl", true, true);
 
 			Result result = applyPatch();
-			verifyChange(result, "z_e_no_nl");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testEditAddNewline() throws Exception {
-			init("z_e_add_nl", true, true);
+			initTest("z_e_add_nl", true, true);
 
 			Result result = applyPatch();
-			verifyChange(result, "z_e_add_nl");
+			verifyChange(result);
 		}
 
 		@Test
 		public void testEditRemoveNewline() throws Exception {
-			init("z_e_rm_nl", true, true);
+			initTest("z_e_rm_nl", true, true);
 
 			Result result = applyPatch();
-			verifyChange(result, "z_e_rm_nl");
+			verifyChange(result);
 		}
 
 		// Clean/smudge filter for testFiltering. The smudgetest test resources
@@ -768,10 +825,10 @@ public class PatchApplierTest {
 		@Test
 		public void testFiltering() throws Exception {
 			// Set up filter
-			FilterCommandFactory clean =
-					(repo, in, out) -> new ReplaceFilter(in, out, 'A', 'E');
-			FilterCommandFactory smudge =
-					(repo, in, out) -> new ReplaceFilter(in, out, 'E', 'A');
+			FilterCommandFactory clean = (repo, in,
+					out) -> new ReplaceFilter(in, out, 'A', 'E');
+			FilterCommandFactory smudge = (repo, in,
+					out) -> new ReplaceFilter(in, out, 'E', 'A');
 			FilterCommandRegistry.register("jgit://builtin/a2e/clean", clean);
 			FilterCommandRegistry.register("jgit://builtin/a2e/smudge", smudge);
 			Config config = db.getConfig();
@@ -784,11 +841,11 @@ public class PatchApplierTest {
 						"smudgetest filter=a2e");
 				git.add().addFilepattern(".gitattributes").call();
 				git.commit().setMessage("Attributes").call();
-				init("smudgetest", true, true);
+				initTest("smudgetest", true, true);
 
 				Result result = applyPatch();
 
-				verifyChange(result, name);
+				verifyChange(result);
 			} finally {
 				config.unset(ConfigConstants.CONFIG_FILTER_SECTION, "a2e",
 						"clean");

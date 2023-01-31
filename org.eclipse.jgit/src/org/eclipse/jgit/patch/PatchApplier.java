@@ -97,7 +97,9 @@ public class PatchApplier {
 	private static final byte[] NO_EOL = "\\ No newline at end of file" //$NON-NLS-1$
 			.getBytes(StandardCharsets.US_ASCII);
 
-	/** The tree before applying the patch. Only non-null for inCore operation. */
+	/**
+	 * The tree before applying the patch. Only non-null for inCore operation.
+	 */
 	@Nullable
 	private final RevTree beforeTree;
 
@@ -194,10 +196,10 @@ public class PatchApplier {
 				throw new PatchFormatException(p.getErrors());
 			}
 
-			DirCache dirCache = (inCore()) ? DirCache.newInCore()
+			DirCache dirCache = inCore() ? DirCache.read(reader, beforeTree)
 					: repo.lockDirCache();
-
 			DirCacheBuilder dirCacheBuilder = dirCache.builder();
+
 			Set<String> modifiedPaths = new HashSet<>();
 			for (FileHeader fh : p.getFiles()) {
 				ChangeType type = fh.getChangeType();
@@ -248,9 +250,10 @@ public class PatchApplier {
 									e);
 						}
 					}
-					String pathWithOriginalContent = inCore() ?
-							fh.getOldPath() : fh.getNewPath();
-					apply(pathWithOriginalContent, dirCache, dirCacheBuilder, dest, fh);
+					String pathWithOriginalContent = inCore() ? fh.getOldPath()
+							: fh.getNewPath();
+					apply(pathWithOriginalContent, dirCache, dirCacheBuilder,
+							dest, fh);
 					break;
 				}
 				case COPY: {
@@ -360,7 +363,8 @@ public class PatchApplier {
 			return;
 		}
 		try {
-			TreeWalk walk = getTreeWalkForFile(pathWithOriginalContent, dirCache);
+			TreeWalk walk = getTreeWalkForFile(pathWithOriginalContent,
+					dirCache);
 			boolean loadedFromTreeWalk = false;
 			// CR-LF handling is determined by whether the file or the patch
 			// have CR-LF line endings.
@@ -401,9 +405,9 @@ public class PatchApplier {
 					fileStreamSupplier = file::openEntryStream;
 					loadedFromTreeWalk = true;
 				} else {
-					throw new PatchApplyException(MessageFormat.format(
-							JGitText.get().cannotReadFile,
-							pathWithOriginalContent));
+					throw new PatchApplyException(
+							MessageFormat.format(JGitText.get().cannotReadFile,
+									pathWithOriginalContent));
 				}
 			}
 
@@ -416,7 +420,8 @@ public class PatchApplier {
 			ContentStreamLoader resultStreamLoader;
 			if (PatchType.GIT_BINARY.equals(fh.getPatchType())) {
 				// binary patches are processed in a streaming fashion. Some
-				// binary patches do random access on the input data, so we can't
+				// binary patches do random access on the input data, so we
+				// can't
 				// overwrite the file while we're streaming.
 				resultStreamLoader = applyBinary(pathWithOriginalContent, f, fh,
 						fileStreamSupplier, fileId);
@@ -426,8 +431,8 @@ public class PatchApplier {
 								Constants.ATTR_FILTER_TYPE_CLEAN)
 						: null;
 				RawText raw = getRawText(f, fileStreamSupplier, fileId,
-						pathWithOriginalContent, loadedFromTreeWalk, filterCommand,
-						convertCrLf);
+						pathWithOriginalContent, loadedFromTreeWalk,
+						filterCommand, convertCrLf);
 				resultStreamLoader = applyText(raw, fh);
 			}
 
@@ -440,8 +445,9 @@ public class PatchApplier {
 							smudgeFilterCommand);
 
 					try (TemporaryBuffer buf = buffer) {
-						DirCacheCheckout.getContent(repo, pathWithOriginalContent,
-								metadata, resultStreamLoader.supplier, workingTreeOptions,
+						DirCacheCheckout.getContent(repo,
+								pathWithOriginalContent, metadata,
+								resultStreamLoader.supplier, workingTreeOptions,
 								buf);
 					}
 					try (InputStream bufIn = buffer.openInputStream()) {
@@ -490,8 +496,8 @@ public class PatchApplier {
 		}
 		dce.setLength(length);
 
-		try (LfsInputStream is = LfsFactory.getInstance()
-				.applyCleanFilter(repo, input, length, lfsAttribute)) {
+		try (LfsInputStream is = LfsFactory.getInstance().applyCleanFilter(repo,
+				input, length, lfsAttribute)) {
 			dce.setObjectId(inserter.insert(OBJ_BLOB, is.getLength(), is));
 		}
 
@@ -580,8 +586,7 @@ public class PatchApplier {
 		int rc = result.getRc();
 		if (rc != 0) {
 			throw new IOException(new FilterFailedException(rc, filterCommand,
-					path, result.getStdout().toByteArray(4096),
-					RawParseUtils
+					path, result.getStdout().toByteArray(4096), RawParseUtils
 							.decode(result.getStderr().toByteArray(4096))));
 		}
 		return result.getStdout().openInputStreamWithAutoDestroy();
@@ -745,7 +750,8 @@ public class PatchApplier {
 									hunk.getBuffer(), start, length))));
 
 			// This just reads the first bits of the stream.
-			long finalSize = ((BinaryDeltaInputStream) supp.load()).getExpectedResultSize();
+			long finalSize = ((BinaryDeltaInputStream) supp.load())
+					.getExpectedResultSize();
 
 			return new ContentStreamLoader(supp, finalSize);
 		}
