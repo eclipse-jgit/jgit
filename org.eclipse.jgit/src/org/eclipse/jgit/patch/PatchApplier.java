@@ -194,7 +194,7 @@ public class PatchApplier {
 				throw new PatchFormatException(p.getErrors());
 			}
 
-			DirCache dirCache = (inCore()) ? DirCache.newInCore()
+			DirCache dirCache = inCore() ? DirCache.read(reader, beforeTree)
 					: repo.lockDirCache();
 
 			DirCacheBuilder dirCacheBuilder = dirCache.builder();
