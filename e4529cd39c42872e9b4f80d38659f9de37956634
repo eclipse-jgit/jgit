@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94e02988_14dfb3d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-31T22:28:20Z",
+      "side": 1,
+      "message": "for reference here is Colby\u0027s presentation explaining some details of bitmap indexes https://docs.google.com/presentation/d/1t2qzSO4z5MbrN21Cz4RrLWz9IZ5ylJNwQassajKyPk8/htmlpresent",
+      "revId": "e4529cd39c42872e9b4f80d38659f9de37956634",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
