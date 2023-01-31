@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bb6702d_c2fe5a6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-31T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "014c4744_a4c1d787",
+      "revId": "f333978d487df827e10641be677554c45d9dc0ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef93c541_837de01b",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-06-24T22:54:23Z",
       "side": 1,
       "message": "nit: missing braces",
+      "revId": "f333978d487df827e10641be677554c45d9dc0ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdbc522a_2467fee0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-31T23:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef93c541_837de01b",
       "revId": "f333978d487df827e10641be677554c45d9dc0ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
