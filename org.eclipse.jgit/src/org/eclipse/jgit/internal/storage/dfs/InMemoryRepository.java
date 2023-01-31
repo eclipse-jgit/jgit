@@ -66,7 +66,12 @@ public class InMemoryRepository extends DfsRepository {
 	InMemoryRepository(Builder builder) {
 		super(builder);
 		objdb = new MemObjDatabase(this);
-		refdb = new MemRefDatabase();
+		refdb = createRefDatabase();
+	}
+
+	/** Creates a new in-memory ref database. */
+	protected MemRefDatabase createRefDatabase() {
+		return new MemRefDatabase();
 	}
 
 	/** {@inheritDoc} */
