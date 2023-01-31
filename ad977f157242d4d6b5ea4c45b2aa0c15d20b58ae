@@ -16,6 +16,23 @@
       "message": "After the fix of the annotated tags exclusion, the benefit is *just* from 20 mins (all heads included) to 10 mins (90s for bitmap).",
       "revId": "ad977f157242d4d6b5ea4c45b2aa0c15d20b58ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a19289_e8b458e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-31T23:16:56Z",
+      "side": 1,
+      "message": "Thanks @Matthias for the reviews !",
+      "revId": "ad977f157242d4d6b5ea4c45b2aa0c15d20b58ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
