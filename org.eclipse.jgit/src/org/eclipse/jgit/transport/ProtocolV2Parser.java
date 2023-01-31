@@ -281,6 +281,12 @@ final class ProtocolV2Parser {
 			return builder.build();
 		}
 
+		if (!PacketLineIn.isDelimiter(line)) {
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().unexpectedPacketLine, line));
+		}
+
+		line = pckIn.readString();
 		if (!line.equals("size")) { //$NON-NLS-1$
 			throw new PackProtocolException(MessageFormat
 					.format(JGitText.get().unexpectedPacketLine, line));
