@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33a3aacd_87a2b2f4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-31T15:51:31Z",
+      "side": 1,
+      "message": "That\u0027s a pretty odd path name and this file doesn\u0027t exist.\n\nI debugged this and checked in the filesystem and found that after calling create() there is neither any versioned file nor a commit created. Looks like some check is missing in TestRepository to detect this.",
+      "range": {
+        "startLine": 238,
+        "startChar": 31,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "b7d32c6b1f92a05a4a9e90a4eb95d6b0600148dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
