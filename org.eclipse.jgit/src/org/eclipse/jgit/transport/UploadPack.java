@@ -1386,6 +1386,9 @@ public class UploadPack implements Closeable {
 		if (transferConfig.isAllowReceiveClientSID()) {
 			caps.add(OPTION_SESSION_ID);
 		}
+		if (transferConfig.isAdvertiseObjectInfo()) {
+			caps.add(COMMAND_OBJECT_INFO);
+		}
 
 		return caps;
 	}
