@@ -247,7 +247,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		assertTrue(curs.getCommitGraph().isEmpty());
 		commitFile("file.txt", "content", "master");
 		GC gc = new GC(db);
-		gc.gc();
+		gc.gc().get();
 		assertTrue(curs.getCommitGraph().isPresent());
 
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -286,7 +286,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		// add commit-graph
 		commitFile("file.txt", "content", "master");
 		GC gc = new GC(db);
-		gc.gc();
+		gc.gc().get();
 		File file = new File(db.getObjectsDirectory(),
 				Constants.INFO_COMMIT_GRAPH);
 		assertTrue(file.exists());
@@ -296,7 +296,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 
 		// update commit-graph
 		commitFile("file2.txt", "content", "master");
-		gc.gc();
+		gc.gc().get();
 		assertEquals(2, dir.getCommitGraph().get().getCommitCnt());
 
 		// delete commit-graph
@@ -311,7 +311,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		assertTrue(dir.getCommitGraph().isEmpty());
 
 		// add commit-graph again
-		gc.gc();
+		gc.gc().get();
 		assertTrue(dir.getCommitGraph().isPresent());
 		assertEquals(2, dir.getCommitGraph().get().getCommitCnt());
 	}
