@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df5442be_27998394",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-31T22:12:55Z",
+      "side": 1,
+      "message": "Acking for now, @Ponch let me know if you need more insights.",
+      "parentUuid": "4fe2a333_b16314ea",
+      "revId": "8ba21fb364e462e8e372b55dae96b71678dfca0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac620eb7_787aade9",
