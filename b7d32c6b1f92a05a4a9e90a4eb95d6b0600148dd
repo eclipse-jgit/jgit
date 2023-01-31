@@ -22,6 +22,30 @@
       },
       "revId": "b7d32c6b1f92a05a4a9e90a4eb95d6b0600148dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "447e2f9e_b3a71bb3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-01-31T20:25:15Z",
+      "side": 1,
+      "message": "\u003e That\u0027s a pretty odd path name and this file doesn\u0027t exist.\n\nMy understanding is that the method creates a file with a content.\nWell, spaces are allowed in filenames, but I agree that isn\u0027t very common. Will use an explicit filename.\n\n\u003e I debugged this and checked in the filesystem and found that after calling create() there is neither any versioned file nor a commit created.\n\nI tested locally and I see:\n\n```\n$ git show-ref\n20ade311003fb7267a40393dd25566860edcac91 refs/heads/main\n```\n\n```\n$ git log -p refs/heads/main\ncommit 20ade311003fb7267a40393dd25566860edcac91 (main)\nAuthor: J. Author \u003cjauthor@example.com\u003e\nDate:   Sat Aug 15 20:12:59 2009 -0330\n\n    New branch main\n\ndiff --git a/New branch main b/New branch main\nnew file mode 100644\nindex 0000000..cb61a89\n--- /dev/null\n+++ b/New branch main\n@@ -0,0 +1 @@\n+New branch main\n\\ No newline at end of file\n```\n\nWhat is the output in your case?\n\n\u003e Looks like some check is missing in TestRepository to detect this.\n\nI checked the code but it would throw an exception if the operation fails.",
+      "parentUuid": "33a3aacd_87a2b2f4",
+      "range": {
+        "startLine": 238,
+        "startChar": 31,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "b7d32c6b1f92a05a4a9e90a4eb95d6b0600148dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
