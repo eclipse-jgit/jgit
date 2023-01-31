@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ca374fb_76503083",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-31T03:02:56Z",
+      "side": 1,
+      "message": "I am not very familiar with DFS, the following is my reviews, focus on other aspects.\n\nRegards,\nKyle",
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dd90d42_d65daae0",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-31T03:02:56Z",
+      "side": 1,
+      "message": "Is it necessary? It\u0027s better to remove it.",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "289959dd_a2ff6fb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-31T03:02:56Z",
+      "side": 1,
+      "message": "We should judge whether it\u0027s a shallow repo in advance, if so, return and do nothing.\n\nrefer to [1].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/199262",
+      "range": {
+        "startLine": 767,
+        "startChar": 3,
+        "endLine": 767,
+        "endChar": 25
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67930401_d44acbe7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-31T03:02:56Z",
+      "side": 1,
+      "message": "nit: add comment /** {@inheritDoc} */",
+      "range": {
+        "startLine": 126,
+        "startChar": 1,
+        "endLine": 126,
+        "endChar": 10
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b06c913_515330bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsText.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-01-31T03:02:56Z",
+      "side": 1,
+      "message": "I didn\u0027t see this item in resources/org/eclipse/jgit/internal/storage/dfs/DfsText.properties, did you miss it?\n\nThis part is used for internationalization, you need to write\n```\ncannotReadCommitGraph\u003d...\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 43
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
