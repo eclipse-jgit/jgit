@@ -46,6 +46,30 @@
       },
       "revId": "b7d32c6b1f92a05a4a9e90a4eb95d6b0600148dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eadd4637_909df107",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-01-31T22:43:24Z",
+      "side": 1,
+      "message": "I was looking at the master branch which has no commits.\nAfter checking out the created branches I get the expected content :-)",
+      "parentUuid": "447e2f9e_b3a71bb3",
+      "range": {
+        "startLine": 238,
+        "startChar": 31,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "b7d32c6b1f92a05a4a9e90a4eb95d6b0600148dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
