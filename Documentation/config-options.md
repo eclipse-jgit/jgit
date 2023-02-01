@@ -87,6 +87,7 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.bitmapContiguousCommitCount` | `100` | &#x20DE; | Count of most recent commits for which to build bitmaps. |
 | `pack.bitmapDistantCommitSpan` | `5000` | &#x20DE; | Span of commits when building bitmaps for distant history. |
 | `pack.bitmapExcessiveBranchCount` | `100` | &#x20DE; | The count of branches deemed "excessive". If the count of branches in a repository exceeds this number and bitmaps are enabled, "inactive" branches will have fewer bitmaps than "active" branches. |
+| `pack.bitmapExcludedRefsPrefixes` | | &#x20DE; | The refs prefixes to be excluded when building bitmaps. May be specified more than once to exclude multiple prefixes. |
 | `pack.bitmapInactiveBranchAgeInDays` | `90` | &#x20DE; | Age in days that marks a branch as "inactive" for bitmap creation. |
 | `pack.bitmapRecentCommitCount` | `20000`  | &#x20DE; | Count at which to switch from `bitmapRecentCommitSpan` to `bitmapDistantCommitSpan`. |
 | `pack.bitmapRecentCommitSpan` | `100` | &#x20DE; | Span of commits when building bitmaps for recent history. |
