@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b31cc0e3_b9628f5a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-02-01T17:42:27Z",
+      "side": 0,
+      "message": "You\u0027re making the test case more complicated and touching a lot of lines, just for 1 or 2 test cases.  Wouldn\u0027t things be simpler if you made a separate test case for just this failure mode? I think it might already reproduce if you do an empty patch to a non-empty tree? You can avoid the overhead of reading the files by just spelling out the patch file in Java strings, eg.\n\n```\nString patch \u003d \"diff a/f.txt b/f.txt\\n\" + \n  \"--- ... \\n\"\n  \"+added\\n\"\n  \"-removed\\n\"\n```",
+      "revId": "eb3a708676e3487bbd97df384c09595034034d7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
