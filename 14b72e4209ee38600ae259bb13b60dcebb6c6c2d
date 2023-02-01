@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eae6b5d4_d97c2c1c",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-02-01T02:19:17Z",
+      "side": 1,
+      "message": "By the way, JGit uses both maven and bazel for package management.\n\nOnly modifying maven may not work.",
+      "parentUuid": "a64e6f16_622f0b8c",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "289959dd_a2ff6fb5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
         "patchSetId": 2
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "why can\u0027t we simply generate commit graph upto the shalldow commits?",
       "parentUuid": "289959dd_a2ff6fb5",
+      "range": {
+        "startLine": 767,
+        "startChar": 3,
+        "endLine": 767,
+        "endChar": 25
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "944e45ad_fbead14a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-02-01T02:19:17Z",
+      "side": 1,
+      "message": "The shallow repo can be restored to a complete repo. Once the restoration is completed, the generation number we have calculated before will no longer be available.\n\nFor example:\n\nshallow repo : \na (0) \u003c- b (1)\n\nafter being restored to complate repo: \nc(Integer.MAX) \u003c- d(Integer.MAX) \u003c- a(0) \u003c- b (1)\n\nThe generation number of a should be 3, and b should be 4.\n\n\nIn addition, shallow commits are regarded as commits with no parents in the repo. If they are written into the commit-graph, the data will be inavaliable, too.",
+      "parentUuid": "5b86c527_86e93624",
       "range": {
         "startLine": 767,
         "startChar": 3,
