@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2586942c_908b8017",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-01T22:34:08Z",
+      "side": 1,
+      "message": "please explain `not work` in what regard.\n\nas far as i can tell, we don\u0027t duplicate dependencies for both package managements.",
+      "parentUuid": "eae6b5d4_d97c2c1c",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "289959dd_a2ff6fb5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
         "patchSetId": 2
@@ -174,6 +198,30 @@
       "side": 1,
       "message": "typo:\n\n\u003e a (0) \u003c- b (1)\n\na (1) \u003c- b (2)\n\n\u003e c(Integer.MAX) \u003c- d(Integer.MAX) \u003c- a(0) \u003c- b (1)\n\nc(Integer.MAX) \u003c- d(Integer.MAX) \u003c- a(1) \u003c- b (2)",
       "parentUuid": "944e45ad_fbead14a",
+      "range": {
+        "startLine": 767,
+        "startChar": 3,
+        "endLine": 767,
+        "endChar": 25
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18dc88d9_99730253",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-01T22:34:08Z",
+      "side": 1,
+      "message": "3 things: \n1. why not simply write a new commit graph with the new parents and new generation numbers in the event of restoration? \n\n2. also afaik, the dfsGarbageCollector is only used on the server side which does not need shallow repos, but I digress on this since the code does not stipulate any limitation on server side only uses. \n\n3. I\u0027ll stop the generate commit graph if there\u0027s shallow commits since the optimization is very limited (assuming the repo is truly shallow); the effort of generating and storing the commit graph is not worthy for shallow depth.",
+      "parentUuid": "25c7c30f_d4f79fd1",
       "range": {
         "startLine": 767,
         "startChar": 3,
