@@ -162,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25c7c30f_d4f79fd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-02-01T02:25:04Z",
+      "side": 1,
+      "message": "typo:\n\n\u003e a (0) \u003c- b (1)\n\na (1) \u003c- b (2)\n\n\u003e c(Integer.MAX) \u003c- d(Integer.MAX) \u003c- a(0) \u003c- b (1)\n\nc(Integer.MAX) \u003c- d(Integer.MAX) \u003c- a(1) \u003c- b (2)",
+      "parentUuid": "944e45ad_fbead14a",
+      "range": {
+        "startLine": 767,
+        "startChar": 3,
+        "endLine": 767,
+        "endChar": 25
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67930401_d44acbe7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 2
