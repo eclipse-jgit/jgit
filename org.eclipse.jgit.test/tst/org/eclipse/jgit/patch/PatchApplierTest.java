@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
@@ -71,27 +72,21 @@ public class PatchApplierTest {
 			this.inCore = inCore;
 		}
 
+		void init(final String aName) throws Exception {
+			init(aName, true, true);
+		}
+
 		protected void init(String aName, boolean preExists, boolean postExists)
 				throws Exception {
 			// Patch and pre/postimage are read from data
 			// org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/
 			this.name = aName;
 			if (postExists) {
-				postImage = IO
-						.readWholeStream(getTestResource(name + "_PostImage"), 0)
-						.array();
-				expectedText = new String(postImage, StandardCharsets.UTF_8);
+				expectedText = initPostImage(aName);
 			}
 
-			File f = new File(db.getWorkTree(), name);
 			if (preExists) {
-				preImage = IO
-						.readWholeStream(getTestResource(name + "_PreImage"), 0)
-						.array();
-				try (Git git = new Git(db)) {
-					Files.write(f.toPath(), preImage);
-					git.add().addFilepattern(name).call();
-				}
+				initPreImage(aName);
 			}
 			try (Git git = new Git(db)) {
 				RevCommit base = git.commit().setMessage("PreImage").call();
@@ -99,8 +94,22 @@ public class PatchApplierTest {
 			}
 		}
 
-		void init(final String aName) throws Exception {
-			init(aName, true, true);
+		protected void initPreImage(String aName) throws Exception {
+			File f = new File(db.getWorkTree(), aName);
+			preImage = IO
+					.readWholeStream(getTestResource(aName + "_PreImage"), 0)
+					.array();
+			try (Git git = new Git(db)) {
+				Files.write(f.toPath(), preImage);
+				git.add().addFilepattern(aName).call();
+			}
+		}
+
+		protected String initPostImage(String aName) throws Exception {
+			postImage = IO
+					.readWholeStream(getTestResource(aName + "_PostImage"), 0)
+					.array();
+			return new String(postImage, StandardCharsets.UTF_8);
 		}
 
 		protected Result applyPatch()
@@ -118,27 +127,33 @@ public class PatchApplierTest {
 			return PatchApplierTest.class.getClassLoader()
 					.getResourceAsStream("org/eclipse/jgit/diff/" + patchFile);
 		}
+
 		void verifyChange(Result result, String aName) throws Exception {
 			verifyChange(result, aName, true);
 		}
 
 		protected void verifyContent(Result result, String path, boolean exists)
 				throws Exception {
+			verifyContent(result, path, exists ? expectedText : null);
+		}
+
+		protected void verifyContent(Result result, String path,
+				@Nullable String expectedContent) throws Exception {
 			if (inCore) {
 				byte[] output = readBlob(result.getTreeId(), path);
-				if (!exists)
+				if (expectedContent == null)
 					assertNull(output);
 				else {
 					assertNotNull(output);
-					assertEquals(expectedText,
+					assertEquals(expectedContent,
 							new String(output, StandardCharsets.UTF_8));
 				}
 			} else {
 				File f = new File(db.getWorkTree(), path);
-				if (!exists)
+				if (expectedContent == null)
 					assertFalse(f.exists());
 				else
-					checkFile(f, expectedText);
+					checkFile(f, expectedContent);
 			}
 		}
 
@@ -154,7 +169,7 @@ public class PatchApplierTest {
 					RevWalk rw = tr.getRevWalk()) {
 				db.incrementOpen();
 				RevTree tree = rw.parseTree(treeish);
-				try (TreeWalk tw = TreeWalk.forPath(db,path,tree)){
+				try (TreeWalk tw = TreeWalk.forPath(db, path, tree)) {
 					if (tw == null) {
 						return null;
 					}
@@ -300,7 +315,7 @@ public class PatchApplierTest {
 			assertTrue(result.getPaths().contains("RenameNoHunks"));
 			assertTrue(result.getPaths().contains("nested/subdir/Renamed"));
 
-			verifyContent(result,"nested/subdir/Renamed", true);
+			verifyContent(result, "nested/subdir/Renamed", true);
 		}
 
 		@Test
@@ -312,7 +327,7 @@ public class PatchApplierTest {
 			assertTrue(result.getPaths().contains("RenameWithHunks"));
 			assertTrue(result.getPaths().contains("nested/subdir/Renamed"));
 
-			verifyContent(result,"nested/subdir/Renamed", true);
+			verifyContent(result, "nested/subdir/Renamed", true);
 		}
 
 		@Test
@@ -355,6 +370,16 @@ public class PatchApplierTest {
 			verifyChange(result, "ShiftDown2");
 		}
 
+		@Test
+		public void testDoesNotAffectUnrelatedFiles() throws Exception {
+			initPreImage("Unaffected");
+			String expectedUnaffectedText = initPostImage("Unaffected");
+			init("X");
+
+			Result result = applyPatch();
+			verifyChange(result, "X");
+			verifyContent(result, "Unaffected", expectedUnaffectedText);
+		}
 	}
 
 	public static class InCore extends Base {
