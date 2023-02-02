@@ -33,6 +33,29 @@
       "message": "Thanks for your help, Yuriy!",
       "revId": "9a6d6024884300929edba63465ea12d260276f90",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65aa5390_778cbb80",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/z_e_PostImage",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-02-02T16:26:43Z",
+      "side": 1,
+      "message": "this is setting off our license vetting alarms :-( \n\nIs it necessary to use actual code?",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 6,
+        "endChar": 6
+      },
+      "revId": "9a6d6024884300929edba63465ea12d260276f90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
