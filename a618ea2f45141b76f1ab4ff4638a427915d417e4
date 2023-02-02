@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a763b5cf_e69c4173",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-02T23:19:28Z",
+      "side": 1,
+      "message": "@Thomas: I just removed test and data to make analyzers happy. Didn\u0027t have time to dig more into these tests (e.g. the meaning of x_ or z_ patches). If is a plain big diff between files, we could use something from the jgit codebase. ",
+      "revId": "a618ea2f45141b76f1ab4ff4638a427915d417e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
