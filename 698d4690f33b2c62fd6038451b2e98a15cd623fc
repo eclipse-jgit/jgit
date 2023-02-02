@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "01c5ff15_32fe3764",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94c3f83e_e4882094",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "11fe5062_15b9ace1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -75,6 +93,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a438e2f2_04b2c3fa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "changed both to\n\ncommitGraphAllRefsIncluded\n \nnoCommitGraphWithoutGcPack",
+      "parentUuid": "213c0db3_ec3880de",
+      "range": {
+        "startLine": 981,
+        "startChar": 13,
+        "endLine": 981,
+        "endChar": 49
+      },
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86329125_a51014b3",
@@ -88,6 +130,24 @@
       "writtenOn": "2023-02-01T22:52:13Z",
       "side": 1,
       "message": "Maybe naming this commits \"headTip\", \"tagTip\" and \"otherRefTip\" would make the setup more obvious.",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "730053b7_b15683fa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86329125_a51014b3",
       "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -117,6 +177,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13107c07_6b907e5a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "we have another tests that handle this. I had them here to make sure we are targeting the right pack. I will keep the GC source check and remove the rest.",
+      "parentUuid": "f070ac12_4950b4d3",
+      "range": {
+        "startLine": 995,
+        "startChar": 2,
+        "endLine": 1001,
+        "endChar": 65
+      },
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "02e34803_396734dc",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
         "patchSetId": 3
@@ -128,6 +212,24 @@
       "writtenOn": "2023-02-01T22:52:13Z",
       "side": 1,
       "message": "This API doesn\u0027t expose if the graph comes from cache or not, so it doesn\u0027t look like the right place to test it.\n\nAren\u0027t the cache hits already tested in the DfsBlockCacheTest?\n\n*If* these assertions were still needed, they should go to its own test.",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c95bf91_24e17a61",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "DfsBlockCacheTest doesn\u0027t test the values in DfsReaderIoStats.\n\n\u003e\u003eThis API doesn\u0027t expose if the graph comes from cache or not\nthat would require either a new path to get commit graph or an api that wipe all in memory fields. \n\nsince DfsReaderIoStats is just a data container without any logic, it\u0027s safer to remove this check.",
+      "parentUuid": "02e34803_396734dc",
       "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -151,6 +253,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d740ccd_942ef877",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "unclear instruction here. \n\n\u003e\u003eCould you add a test for \"commitGraphOnlyReachable\" for a repo with a ref AND unreachable? (GC+UG) and has only the reachable commits?\n\none new test for GC + UG without GC_REST pack? I think you meant that this test will generate a commit graph only tracking the one ref without any unreachable commits. Added test commitGraphNotTrackingUnreachableCommits.",
+      "parentUuid": "2a027852_0d4abe0a",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8d5e0ea_1525a374",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
         "patchSetId": 3
@@ -162,6 +282,24 @@
       "writtenOn": "2023-02-01T22:52:13Z",
       "side": 1,
       "message": "The only thing you need to test here is that none of the packs has a commit graph.\n\nThe rest is just asserting that GC does GC and we know it does 😊 (if not, it should be its very own test!).",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d411ab6e_f1c1b1be",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "wanted to make sure that I set this test up right with only the GC_REST park and the UG pack. But sure, ill remove the cases.",
+      "parentUuid": "a8d5e0ea_1525a374",
       "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -183,6 +321,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29a5b50d_f88415fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "initially the methods were split because gc_rest only commit graph (without any packdata) was considered useful to produce. but now that we decided to move commit graph from packlist into packfile, these methods can be merged.",
+      "parentUuid": "e7b4dfb1_81f5bd44",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34e7a1b4_c908351e",
@@ -196,6 +352,24 @@
       "writtenOn": "2023-02-01T22:52:13Z",
       "side": 1,
       "message": "Introducing code only for testing is suspicious and @VisibleForTesting hints a code smell.\n\nAren\u0027t you testing the cache hitting already in the DfsBlockCacheTest?",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5da73d91_ed95ab24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "34e7a1b4_c908351e",
       "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -217,6 +391,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "348ad862_c77927de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17aa578c_efe0d12c",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73ab9505_3c4ba722",
@@ -230,6 +422,24 @@
       "writtenOn": "2023-02-01T22:52:13Z",
       "side": 1,
       "message": "Either log or rethrow. Swallowing the exception could be hiding an important problem.",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99724ebd_29b55b55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "modified ObjectReader signature for rethrowing.",
+      "parentUuid": "73ab9505_3c4ba722",
       "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

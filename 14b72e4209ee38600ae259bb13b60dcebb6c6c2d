@@ -113,6 +113,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7844a746_9567a786",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "2586942c_908b8017",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "289959dd_a2ff6fb5",
@@ -222,6 +246,30 @@
       "side": 1,
       "message": "3 things: \n1. why not simply write a new commit graph with the new parents and new generation numbers in the event of restoration? \n\n2. also afaik, the dfsGarbageCollector is only used on the server side which does not need shallow repos, but I digress on this since the code does not stipulate any limitation on server side only uses. \n\n3. I\u0027ll stop the generate commit graph if there\u0027s shallow commits since the optimization is very limited (assuming the repo is truly shallow); the effort of generating and storing the commit graph is not worthy for shallow depth.",
       "parentUuid": "25c7c30f_d4f79fd1",
+      "range": {
+        "startLine": 767,
+        "startChar": 3,
+        "endLine": 767,
+        "endChar": 25
+      },
+      "revId": "14b72e4209ee38600ae259bb13b60dcebb6c6c2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f6d61c_ab3364d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-02T00:22:48Z",
+      "side": 1,
+      "message": "added shallow repo check for early return.",
+      "parentUuid": "18dc88d9_99730253",
       "range": {
         "startLine": 767,
         "startChar": 3,
