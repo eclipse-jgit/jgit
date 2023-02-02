@@ -69,6 +69,24 @@
       "parentUuid": "3a2fcf57_564a6aa5",
       "revId": "2f31e3f120cefa2497204556036a90e61d3cc365",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1518304_923683ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-02T09:59:40Z",
+      "side": 1,
+      "message": "looks like the spec should be fixed then, see https://git-scm.com/docs/protocol-v2#_object_info\n\nhttps://git-scm.com/docs/protocol-v2#_packet_line_framing specifies that delimiter packets are separating sections of a message but I couldn\u0027t find any specification how sections are defined and which sections exist",
+      "parentUuid": "44d1f732_ac598063",
+      "revId": "2f31e3f120cefa2497204556036a90e61d3cc365",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
