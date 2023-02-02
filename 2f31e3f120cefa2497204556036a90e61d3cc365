@@ -87,6 +87,24 @@
       "parentUuid": "44d1f732_ac598063",
       "revId": "2f31e3f120cefa2497204556036a90e61d3cc365",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b84231ec_fc4548d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-02-02T10:07:26Z",
+      "side": 1,
+      "message": "\u003e looks like the spec should be fixed then, see https://git-scm.com/docs/protocol-v2#_object_info\n\nas Ivan notes, the current behavior in git-core matches the spec (if you consider that the \u0027size\u0027 line is an argument rather than a capability.), so jgit is off.\n\nI\u0027m just noting that git places emphasis on backward compatibility, so the implementation (rather than the spec) is the source of truth for what to do.",
+      "parentUuid": "b1518304_923683ff",
+      "revId": "2f31e3f120cefa2497204556036a90e61d3cc365",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
