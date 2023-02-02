@@ -34,6 +34,24 @@
       "parentUuid": "b31cc0e3_b9628f5a",
       "revId": "eb3a708676e3487bbd97df384c09595034034d7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42214649_c7d22471",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-02-02T11:41:13Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "4f4c38a0_bd0eeba3",
+      "revId": "eb3a708676e3487bbd97df384c09595034034d7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
