@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "81e1e4e3_b425fe77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-02-02T09:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b806fbc_014cb561",
+      "revId": "2f31e3f120cefa2497204556036a90e61d3cc365",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3a2fcf57_564a6aa5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2023-02-01T18:04:13Z",
       "side": 1,
       "message": "This seems to match also the spec (https://git-scm.com/docs/protocol-v2):\n\n```\ncommand-request \u003d command\n    capability-list\n    delim-pkt\n    command-args\n    flush-pkt\ncommand \u003d PKT-LINE(\"command\u003d\" key LF)\ncommand-args \u003d *command-specific-arg\n```\n\nIn this case the command-line is consumed in the serveOneCommandV2, object-info doesn\u0027t have capability-list, so here it should come the delim-pkt.",
+      "revId": "2f31e3f120cefa2497204556036a90e61d3cc365",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d1f732_ac598063",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-02-02T09:47:42Z",
+      "side": 1,
+      "message": "even if it doesn\u0027t match the spec, as the git-core has already shipped with this behavior, this is the behavior to follow.",
+      "parentUuid": "3a2fcf57_564a6aa5",
       "revId": "2f31e3f120cefa2497204556036a90e61d3cc365",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
