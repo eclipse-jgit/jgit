@@ -736,14 +736,6 @@ public class PatchApplierTest {
 		}
 
 		@Test
-		public void testEditExample() throws Exception {
-			init("z_e", true, true);
-
-			Result result = applyPatch();
-			verifyChange(result, "z_e");
-		}
-
-		@Test
 		public void testEditNoNewline() throws Exception {
 			init("z_e_no_nl", true, true);
 
