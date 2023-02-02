@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "272fb66a_5ba16b70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-02T19:44:55Z",
+      "side": 1,
+      "message": "Thanks @Matthias for documenting this 👍",
+      "revId": "ee4a29e212d6b9a561f0684bd028ceed7664a1e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b272a475_752646e5",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-02T19:44:55Z",
+      "side": 1,
+      "message": "+ \u0027,\u0027",
+      "range": {
+        "startLine": 45,
+        "startChar": 435,
+        "endLine": 45,
+        "endChar": 436
+      },
+      "revId": "ee4a29e212d6b9a561f0684bd028ceed7664a1e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c3a0018_12af7696",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-02T19:44:55Z",
+      "side": 1,
+      "message": "+the",
+      "range": {
+        "startLine": 45,
+        "startChar": 359,
+        "endLine": 45,
+        "endChar": 365
+      },
+      "revId": "ee4a29e212d6b9a561f0684bd028ceed7664a1e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc6a1406_45a624b8",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-02T19:44:55Z",
+      "side": 1,
+      "message": "Can we also give some hints on why this could be useful? (performance improvement)",
+      "range": {
+        "startLine": 45,
+        "startChar": 335,
+        "endLine": 45,
+        "endChar": 337
+      },
+      "revId": "ee4a29e212d6b9a561f0684bd028ceed7664a1e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
