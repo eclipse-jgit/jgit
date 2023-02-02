@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2078469_71836aaa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-02T14:01:47Z",
+      "side": 1,
+      "message": "as a committer you can rerun a verification build also from the CI:\n- click the link posted as a comment by the CI\n- login using your email and password of your Eclipse account\n- click \"retrigger\"",
+      "revId": "341116103e0eab7b8464a74affadf940652669b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
