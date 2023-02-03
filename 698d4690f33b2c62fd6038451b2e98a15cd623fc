@@ -199,6 +199,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e12e6fb0_7bb1d47e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "13107c07_6b907e5a",
+      "range": {
+        "startLine": 995,
+        "startChar": 2,
+        "endLine": 1001,
+        "endChar": 65
+      },
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02e34803_396734dc",
@@ -458,6 +482,24 @@
       "side": 1,
       "message": "modified ObjectReader signature for rethrowing.",
       "parentUuid": "73ab9505_3c4ba722",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa453d62_afdbaaf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "99724ebd_29b55b55",
       "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

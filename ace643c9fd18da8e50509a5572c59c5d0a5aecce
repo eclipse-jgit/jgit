@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "530afce8_ff0f32b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "I meant this as the titles of two different CLs. In git only the first line is the \"title\" line.\n\n\nWhat about:\nDfsPackFile/DfsGC: Write commit graphs and expose in pack",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f39e1194_77a3cdc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "\"This change\" is implicit in the commit message.\n\nWhat about:\nJGit knows how to read/write commit graphs but the DFS stack is not using it yet.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7c7a494_c1b2a002",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "The DFS garbage collector generates a commit-graph with commits reachable from any ref. The pack is stored as extra stream in the GC pack. DfsPackFile mimicks how other indices are loaded storing the reference in DFS cache.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b0c824ec_330baf7e",
@@ -14,6 +65,244 @@
       "writtenOn": "2023-02-02T19:02:23Z",
       "side": 1,
       "message": "trigger build",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c868447d_1834ae3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Please take the RevWalk/ObjDB change to its own commit. I think the rest is mostly nits. Thanks!",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85328978_e458fce7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Here you are testing two behaviors: the commit graph is loaded correctly and the cache is working. Those should be two different tests.\n\nIf one day we break the cache loading, the only the cache test would fail. If we break the commit-graph parsing, only the parsing would fail.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "663cec6d_6d1014d7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Here you should have only one pack (GC_REST), right? if so, do not loop, assert that there is one pack and it doesn\u0027t have commit graph.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fac29e0_8018f1d4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "This test would pass if there are no packs at all!\n\nAssert that it has two packs, then grab GC and assert its things, grap UG and assert its things.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01bbbd05_94cafcad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "No need to \"\u003d false\", that is the default in java.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d513da97_d970867e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "wording: \"Toggle commit graph generation\" \n\n(we are already in GC, and \"set the enable\" sounds weird).",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e65d18c_7f99c879",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Wording: \"False by default\".\n\nIt already implies the \"unless set otherwise\".",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef8a8337_43a480ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Use an early return to have less indentation in the method:\nif (!writerCOmmitGraph...) {\n  return;\n}\n\n... rest of the code ...",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b47ebe43_693fd1f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "You need to close the revwalk. We usually do this with autoclose via \"try (RevWalk pool...)\"",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a10de023_861e4321",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "What happens if there is no CommitGraph?\n\n\"@return CommitGraph attached to the pack, null if pack doesn\u0027t have it.\"",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0375878f_66da44a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Sorry, my mistake: I misunderstood this loop. \n\nThis should be \"return Optional.of(cg)\", as cg won\u0027t ever be null here.\n\n(I somehow thought this would be:\nCommitGraph cg\nreturn Optional.ofNullable(cg);\n\nbut that is not the case).",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e55ada8d_20e89b02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "I think we can still do this because 6.5 is not released yet.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77b8182b_9bd43e59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "This looks like a left-over. The wrapper shouldn\u0027t take this decision. Let it just call the method.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba335245_5d60bfb0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-03T17:53:38Z",
+      "side": 1,
+      "message": "Put the ObjectReader and RevWalk changes in its own commit, they are unrelated to DFS and make sense on their own.",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
