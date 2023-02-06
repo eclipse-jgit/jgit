@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d1c6698_c5cb9788",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T20:59:09Z",
+      "side": 1,
+      "message": "Great job! Looks good to me. Waiting for the parent change to submit. Thanks Xing!",
+      "revId": "13810f95fd433d4563ca2f3839132b86c037afd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

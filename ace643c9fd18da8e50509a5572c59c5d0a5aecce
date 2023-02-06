@@ -175,6 +175,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af8f5753_ac80a760",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T20:59:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "05c6ccb0_f1c7be1c",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "663cec6d_6d1014d7",
@@ -206,6 +224,24 @@
       "side": 1,
       "message": "no. this will generate GC_REST and UG packs.",
       "parentUuid": "663cec6d_6d1014d7",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c4e3f8e_392a20ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T20:59:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8a68a658_53286b67",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
