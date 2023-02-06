@@ -258,6 +258,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "287623d9_08307314",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c95bf91_24e17a61",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a027852_0d4abe0a",
@@ -307,6 +325,24 @@
       "side": 1,
       "message": "changed commitGraphNotTrackingUnreachableCommits -\u003e commitGraphWithoutGCrestPack\n\nnew test name: commitGraphWithoutGCrestPack",
       "parentUuid": "7d740ccd_942ef877",
+      "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "567af3c1_0daf2667",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcfb6a2f_ee83d9ea",
       "revId": "698d4690f33b2c62fd6038451b2e98a15cd623fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },

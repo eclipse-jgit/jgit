@@ -557,6 +557,24 @@
       "message": "Put the ObjectReader and RevWalk changes in its own commit, they are unrelated to DFS and make sense on their own.",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1ed6215_0d765b56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T20:21:22Z",
+      "side": 1,
+      "message": "moved to https://git.eclipse.org/r/c/jgit/jgit/+/199785",
+      "parentUuid": "ba335245_5d60bfb0",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
