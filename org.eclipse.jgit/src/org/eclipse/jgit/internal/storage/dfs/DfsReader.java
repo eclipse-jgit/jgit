@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -31,6 +32,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackList;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
@@ -119,6 +121,18 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				return new BitmapIndexImpl(bitmapIndex);
 		}
 		return null;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Optional<CommitGraph> getCommitGraph() throws IOException {
+		for (DfsPackFile pack : db.getPacks()) {
+			CommitGraph cg = pack.getCommitGraph(this);
+			if (cg != null) {
+				return Optional.of(cg);
+			}
+		}
+		return Optional.empty();
 	}
 
 	/** {@inheritDoc} */
