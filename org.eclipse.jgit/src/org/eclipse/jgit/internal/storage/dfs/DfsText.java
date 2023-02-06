@@ -28,6 +28,7 @@ public class DfsText extends TranslationBundle {
 
 	// @formatter:off
 	/***/ public String cannotReadIndex;
+	/***/ public String cannotReadCommitGraph;
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfIndex;
 	/***/ public String willNotStoreEmptyPack;

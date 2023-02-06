@@ -14,6 +14,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
@@ -37,6 +38,8 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphLoader;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
@@ -68,6 +71,9 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	/** Index of compressed bitmap mapping entire object graph. */
 	private volatile PackBitmapIndex bitmapIndex;
+
+	/** Index of compressed commit graph mapping entire object graph. */
+	private volatile CommitGraph commitGraph;
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -213,6 +219,43 @@ public final class DfsPackFile extends BlockBasedFile {
 			bitmapIndex = bmidx;
 		}
 		return bitmapIndex;
+	}
+
+	/**
+	 * Get the Commit Graph for this PackFile.
+	 *
+	 * @param ctx
+	 *            reader context to support reading from the backing store if
+	 *            the index is not already loaded in memory.
+	 * @return {@link org.eclipse.jgit.internal.storage.commitgraph.CommitGraph},
+	 *         null if pack doesn't have it.
+	 * @throws java.io.IOException
+	 *             the Commit Graph is not available, or is corrupt.
+	 */
+	public CommitGraph getCommitGraph(DfsReader ctx) throws IOException {
+		if (invalid || isGarbage() || !desc.hasFileExt(COMMIT_GRAPH)) {
+			return null;
+		}
+
+		if (commitGraph != null) {
+			return commitGraph;
+		}
+
+		DfsStreamKey commitGraphKey = desc.getStreamKey(COMMIT_GRAPH);
+		AtomicBoolean cacheHit = new AtomicBoolean(true);
+		DfsBlockCache.Ref<CommitGraph> cgref = cache
+				.getOrLoadRef(commitGraphKey, REF_POSITION, () -> {
+					cacheHit.set(false);
+					return loadCommitGraph(ctx, commitGraphKey);
+				});
+		if (cacheHit.get()) {
+			ctx.stats.commitGraphCacheHit++;
+		}
+		CommitGraph cg = cgref.get();
+		if (commitGraph == null && cg != null) {
+			commitGraph = cg;
+		}
+		return commitGraph;
 	}
 
 	PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
@@ -1079,6 +1122,39 @@ public final class DfsPackFile extends BlockBasedFile {
 			throw new IOException(MessageFormat.format(
 					DfsText.get().cannotReadIndex,
 					desc.getFileName(BITMAP_INDEX)), e);
+		}
+	}
+
+	private DfsBlockCache.Ref<CommitGraph> loadCommitGraph(DfsReader ctx,
+			DfsStreamKey cgkey) throws IOException {
+		ctx.stats.readCommitGraph++;
+		long start = System.nanoTime();
+		try (ReadableChannel rc = ctx.db.openFile(desc, COMMIT_GRAPH)) {
+			long size;
+			CommitGraph cg;
+			try {
+				InputStream in = Channels.newInputStream(rc);
+				int wantSize = 8192;
+				int bs = rc.blockSize();
+				if (0 < bs && bs < wantSize) {
+					bs = (wantSize / bs) * bs;
+				} else if (bs <= 0) {
+					bs = wantSize;
+				}
+				in = new BufferedInputStream(in, bs);
+				cg = CommitGraphLoader.read(in);
+			} finally {
+				size = rc.position();
+				ctx.stats.readCommitGraphBytes += size;
+				ctx.stats.readCommitGraphMicros += elapsedMicros(start);
+			}
+			commitGraph = cg;
+			return new DfsBlockCache.Ref<>(cgkey, REF_POSITION, size, cg);
+		} catch (IOException e) {
+			throw new IOException(
+					MessageFormat.format(DfsText.get().cannotReadCommitGraph,
+							desc.getFileName(COMMIT_GRAPH)),
+					e);
 		}
 	}
 }
