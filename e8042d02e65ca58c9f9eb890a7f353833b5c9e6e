@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a199271_95c72a2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T20:53:23Z",
+      "side": 0,
+      "message": "Why was this removed? I think it makes sense to invoke the delegate.",
+      "revId": "e8042d02e65ca58c9f9eb890a7f353833b5c9e6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

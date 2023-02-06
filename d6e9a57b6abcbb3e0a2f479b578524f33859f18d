@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c435fd0_7f47c7c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T20:53:23Z",
+      "side": 1,
+      "message": "The affected object is \"ObjectReader\", not commit graph.\n\n\"ObjectReader: Allow getCommitGraph to throw IOException\"",
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb2d6cf8_98fdabfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T20:53:23Z",
+      "side": 1,
+      "message": "You don\u0027t need to mention explicitely \"the problem\" or \"the change\". Hopefully the paragraphs will be clear by themselves.",
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd97648a_1571c247",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T20:53:23Z",
+      "side": 1,
+      "message": "It is not for debugging: the caller must be notified that something went wrong loading the commit graph so it can decide what to do (e.g. default to empty, abort the request...).\n\ne.g. \"ObjectReader#getCommitGraph doesn\u0027t report errors loading the commit graph. The caller should be aware of the situation and ultimately decide what to do\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 131,
+        "endLine": 9,
+        "endChar": 208
+      },
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23c9be3f_d549c144",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T20:53:23Z",
+      "side": 1,
+      "message": "wrapper? this is adding it to the ObjectReader.\n\nAlso, this paragraph you can write it in imperative, like giving orders to the code:\n\"Add IOException to ObjectReader#getCommitGraph signature. RevWalk defaults to an empty commit-graph on IO errors.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 85,
+        "endLine": 11,
+        "endChar": 92
+      },
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
