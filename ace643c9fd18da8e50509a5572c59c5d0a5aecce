@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b9a62a_f0031d4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530afce8_ff0f32b2",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f39e1194_77a3cdc4",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0324c823_17c3e904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f39e1194_77a3cdc4",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7c7a494_c1b2a002",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-02-03T17:53:38Z",
       "side": 1,
       "message": "The DFS garbage collector generates a commit-graph with commits reachable from any ref. The pack is stored as extra stream in the GC pack. DfsPackFile mimicks how other indices are loaded storing the reference in DFS cache.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b30ece38_7314b182",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7c7a494_c1b2a002",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -105,6 +159,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05c6ccb0_f1c7be1c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "i personally feel this is a very small nitpick. we have plenty of tests that cover more than behaviors especially if the behaviors are sequential. The line trace in the event of failure is very easily understood by the reader so I don\u0027t think split the test into 2 provides meaningful benefits. \n\nBut I digress, I will make a test for just loading commit graph and another one loading from cache.",
+      "parentUuid": "85328978_e458fce7",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "663cec6d_6d1014d7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
         "patchSetId": 5
@@ -116,6 +188,24 @@
       "writtenOn": "2023-02-03T17:53:38Z",
       "side": 1,
       "message": "Here you should have only one pack (GC_REST), right? if so, do not loop, assert that there is one pack and it doesn\u0027t have commit graph.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a68a658_53286b67",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "no. this will generate GC_REST and UG packs.",
+      "parentUuid": "663cec6d_6d1014d7",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -137,6 +227,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "897d1d49_3845cfe3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fac29e0_8018f1d4",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01bbbd05_94cafcad",
@@ -150,6 +258,24 @@
       "writtenOn": "2023-02-03T17:53:38Z",
       "side": 1,
       "message": "No need to \"\u003d false\", that is the default in java.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf61b64b_26d234f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01bbbd05_94cafcad",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -171,6 +297,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a038f0c1_6e76b5c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d513da97_d970867e",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e65d18c_7f99c879",
@@ -184,6 +328,24 @@
       "writtenOn": "2023-02-03T17:53:38Z",
       "side": 1,
       "message": "Wording: \"False by default\".\n\nIt already implies the \"unless set otherwise\".",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb482a74_b4ff3187",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e65d18c_7f99c879",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -205,6 +367,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc8ff933_52a35812",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef8a8337_43a480ee",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b47ebe43_693fd1f2",
@@ -218,6 +398,24 @@
       "writtenOn": "2023-02-03T17:53:38Z",
       "side": 1,
       "message": "You need to close the revwalk. We usually do this with autoclose via \"try (RevWalk pool...)\"",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d6f7c36_b4ac4e95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b47ebe43_693fd1f2",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -239,6 +437,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a21c52a3_64fe227a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a10de023_861e4321",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0375878f_66da44a2",
@@ -252,6 +468,24 @@
       "writtenOn": "2023-02-03T17:53:38Z",
       "side": 1,
       "message": "Sorry, my mistake: I misunderstood this loop. \n\nThis should be \"return Optional.of(cg)\", as cg won\u0027t ever be null here.\n\n(I somehow thought this would be:\nCommitGraph cg\nreturn Optional.ofNullable(cg);\n\nbut that is not the case).",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8369625_97b183c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0375878f_66da44a2",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -286,6 +520,24 @@
       "writtenOn": "2023-02-03T17:53:38Z",
       "side": 1,
       "message": "This looks like a left-over. The wrapper shouldn\u0027t take this decision. Let it just call the method.",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1fb3fd8_4d9558a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T19:50:46Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "77b8182b_9bd43e59",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
