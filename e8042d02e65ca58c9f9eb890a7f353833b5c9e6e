@@ -34,6 +34,24 @@
       "parentUuid": "1a199271_95c72a2b",
       "revId": "e8042d02e65ca58c9f9eb890a7f353833b5c9e6e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36b64c2e_8f882fef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T23:43:43Z",
+      "side": 0,
+      "message": "I meant that the wrapper is just passing through calls, it shouldn\u0027t mangle the exceptions. Sorry for the confusion.",
+      "parentUuid": "2a0e8736_ca0d9c81",
+      "revId": "e8042d02e65ca58c9f9eb890a7f353833b5c9e6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d2e67e5_607f7c1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-06T23:43:43Z",
+      "side": 1,
+      "message": "Correct, file or package or \"area\" of code.",
+      "parentUuid": "474282f7_c688e1af",
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb2d6cf8_98fdabfe",
