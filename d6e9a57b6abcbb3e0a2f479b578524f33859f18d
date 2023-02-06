@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "474282f7_c688e1af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T21:40:45Z",
+      "side": 1,
+      "message": "So the first word isn\u0027t project based but rather file based? changed.",
+      "parentUuid": "8c435fd0_7f47c7c6",
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb2d6cf8_98fdabfe",
@@ -58,6 +76,48 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b422bf_f1a89a43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T21:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb2d6cf8_98fdabfe",
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3790360e_f3b72406",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T21:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd97648a_1571c247",
+      "range": {
+        "startLine": 9,
+        "startChar": 131,
+        "endLine": 9,
+        "endChar": 208
+      },
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23c9be3f_d549c144",
@@ -71,6 +131,30 @@
       "writtenOn": "2023-02-06T20:53:23Z",
       "side": 1,
       "message": "wrapper? this is adding it to the ObjectReader.\n\nAlso, this paragraph you can write it in imperative, like giving orders to the code:\n\"Add IOException to ObjectReader#getCommitGraph signature. RevWalk defaults to an empty commit-graph on IO errors.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 85,
+        "endLine": 11,
+        "endChar": 92
+      },
+      "revId": "d6e9a57b6abcbb3e0a2f479b578524f33859f18d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42bd62f7_d2f366c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T21:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23c9be3f_d549c144",
       "range": {
         "startLine": 11,
         "startChar": 85,

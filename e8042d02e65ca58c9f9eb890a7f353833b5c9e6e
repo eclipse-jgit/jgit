@@ -16,6 +16,24 @@
       "message": "Why was this removed? I think it makes sense to invoke the delegate.",
       "revId": "e8042d02e65ca58c9f9eb890a7f353833b5c9e6e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a0e8736_ca0d9c81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-06T21:40:45Z",
+      "side": 0,
+      "message": "I misunderstood your earlier comment. By \"The wrapper shouldn\u0027t take this decision. Let it just call the method\", I thought you meant to just call the original without override. added it back.",
+      "parentUuid": "1a199271_95c72a2b",
+      "revId": "e8042d02e65ca58c9f9eb890a7f353833b5c9e6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
