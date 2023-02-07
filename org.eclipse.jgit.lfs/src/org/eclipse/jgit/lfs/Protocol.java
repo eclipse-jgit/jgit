@@ -104,6 +104,16 @@ public interface Protocol {
 	String OPERATION_UPLOAD = "upload"; //$NON-NLS-1$
 
 	/**
+	 * The "upload" action
+	 */
+	String ACTION_UPLOAD = "upload"; //$NON-NLS-1$
+
+	/**
+	 * The "verify" action
+	 */
+	String ACTION_VERIFY = "verify"; //$NON-NLS-1$
+
+	/**
 	 * The contenttype used in LFS requests
 	 */
 	String CONTENTTYPE_VND_GIT_LFS_JSON = "application/vnd.git-lfs+json; charset=utf-8"; //$NON-NLS-1$
