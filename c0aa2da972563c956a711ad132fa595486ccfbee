@@ -16,6 +16,24 @@
       "message": "nit: please reformat the commit message, lines are too wide",
       "revId": "c0aa2da972563c956a711ad132fa595486ccfbee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "584b874b_3bef95f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-07T16:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a8ab3c1_fe6fd186",
+      "revId": "c0aa2da972563c956a711ad132fa595486ccfbee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
