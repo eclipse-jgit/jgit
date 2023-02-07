@@ -46,6 +46,8 @@ import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.LfsFactory;
+import org.eclipse.jgit.util.LfsFactory.LfsInstallCommand;
 
 /**
  * Clone a repository into a new working directory
@@ -78,6 +80,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private boolean cloneSubmodules;
 
 	private boolean noCheckout;
+
+	private boolean installBuiltinLfs;
 
 	private Collection<String> branchesToClone;
 
@@ -171,6 +175,21 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		setFetchType();
 		@SuppressWarnings("resource") // Closed by caller
 		Repository repository = init();
+		if (installBuiltinLfs && LfsFactory.getInstance().isAvailable()) {
+			try {
+				LfsInstallCommand installCommand = LfsFactory.getInstance()
+						.getInstallCommand();
+				if (installCommand != null) {
+					installCommand.setRepository(repository).call();
+				}
+			} catch (Exception e) {
+				if (repository != null) {
+					repository.close();
+				}
+				cleanup();
+				throw new JGitInternalException(e.getMessage(), e);
+			}
+		}
 		FetchResult fetchResult = null;
 		Thread cleanupHook = new Thread(() -> cleanup());
 		try {
@@ -721,6 +740,19 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 */
 	public CloneCommand setNoCheckout(boolean noCheckout) {
 		this.noCheckout = noCheckout;
+		return this;
+	}
+
+	/**
+	 * Set whether to install JGit's implementation of Git LFS
+	 *
+	 * @param installBuiltinLfs
+	 *            if set to <code>true</code> all required LFS properties will
+	 *            be installed for the current user.
+	 * @return {@code this}
+	 */
+	public CloneCommand setInstallBuiltinLfs(boolean installBuiltinLfs) {
+		this.installBuiltinLfs = installBuiltinLfs;
 		return this;
 	}
 
