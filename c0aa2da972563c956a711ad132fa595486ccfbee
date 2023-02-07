@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a8ab3c1_fe6fd186",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-07T12:23:37Z",
+      "side": 1,
+      "message": "nit: please reformat the commit message, lines are too wide",
+      "revId": "c0aa2da972563c956a711ad132fa595486ccfbee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
