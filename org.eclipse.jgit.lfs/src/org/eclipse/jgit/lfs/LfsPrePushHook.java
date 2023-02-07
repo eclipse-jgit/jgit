@@ -10,9 +10,13 @@
 package org.eclipse.jgit.lfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lfs.Protocol.ACTION_UPLOAD;
+import static org.eclipse.jgit.lfs.Protocol.ACTION_VERIFY;
+import static org.eclipse.jgit.lfs.Protocol.CONTENTTYPE_VND_GIT_LFS_JSON;
 import static org.eclipse.jgit.lfs.Protocol.OPERATION_UPLOAD;
 import static org.eclipse.jgit.lfs.internal.LfsConnectionFactory.toRequest;
 import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_OK;
+import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_PUT;
 
@@ -36,6 +40,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.lfs.Protocol.ObjectInfo;
+import org.eclipse.jgit.lfs.Protocol.ObjectSpec;
 import org.eclipse.jgit.lfs.errors.CorruptMediaFile;
 import org.eclipse.jgit.lfs.internal.LfsConnectionFactory;
 import org.eclipse.jgit.lfs.internal.LfsText;
@@ -212,7 +217,7 @@ public class LfsPrePushHook extends PrePushHook {
 					// received an object we didn't request
 					continue;
 				}
-				Protocol.Action uploadAction = o.actions.get(OPERATION_UPLOAD);
+				Protocol.Action uploadAction = o.actions.get(ACTION_UPLOAD);
 				if (uploadAction == null || uploadAction.href == null) {
 					continue;
 				}
@@ -224,6 +229,12 @@ public class LfsPrePushHook extends PrePushHook {
 							.format(LfsText.get().missingLocalObject, path));
 				}
 				uploadFile(o, uploadAction, path);
+
+				Protocol.Action verifyAction = o.actions.get(ACTION_VERIFY);
+				if (verifyAction == null || verifyAction.href == null) {
+					continue;
+				}
+				verifyFile(o, verifyAction);
 			}
 		}
 	}
@@ -252,6 +263,28 @@ public class LfsPrePushHook extends PrePushHook {
 		if (responseCode != HTTP_OK) {
 			throw new IOException(MessageFormat.format(
 					LfsText.get().serverFailure, contentServer.getURL(),
+					Integer.valueOf(responseCode)));
+		}
+	}
+
+	private void verifyFile(Protocol.ObjectInfo o, 
+			Protocol.Action verifyAction) throws IOException {
+		HttpConnection connection = LfsConnectionFactory
+				.getLfsContentConnection(getRepository(), verifyAction,
+						METHOD_POST);
+		connection.setRequestProperty(HDR_CONTENT_TYPE, 
+				CONTENTTYPE_VND_GIT_LFS_JSON);
+		connection.setDoOutput(true);
+		try (OutputStream out = connection.getOutputStream()) {
+			Protocol.ObjectSpec spec = new Protocol.ObjectSpec();
+			spec.oid = o.oid;
+			spec.size = o.size;
+			out.write((Protocol.gson().toJson(spec)).getBytes(UTF_8));
+		}
+		int responseCode = connection.getResponseCode();
+		if (responseCode != HTTP_OK) {
+			throw new IOException(MessageFormat.format(
+					LfsText.get().serverFailure, connection.getURL(),
 					Integer.valueOf(responseCode)));
 		}
 	}
