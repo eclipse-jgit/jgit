@@ -611,6 +611,24 @@
       "parentUuid": "ba335245_5d60bfb0",
       "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc5dcd5_39b41c26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-02-07T02:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1ed6215_0d765b56",
+      "revId": "ace643c9fd18da8e50509a5572c59c5d0a5aecce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
