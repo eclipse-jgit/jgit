@@ -34,6 +34,24 @@
       "parentUuid": "f3f095a7_d8557f7b",
       "revId": "0bb60c9f9c669ba680306c5c308fd863ba1a7b91",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f70846_53fe58a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-10T22:55:50Z",
+      "side": 1,
+      "message": "done in https://gerrit-review.googlesource.com/c/gerrit/+/358134",
+      "parentUuid": "a3faaa7a_da04062e",
+      "revId": "0bb60c9f9c669ba680306c5c308fd863ba1a7b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
