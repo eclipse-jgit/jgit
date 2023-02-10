@@ -165,6 +165,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cloneNonEmptyDirectory;
 	/***/ public String closeLockTokenFailed;
 	/***/ public String closed;
+	/***/ public String closePidLockFailed;
 	/***/ public String collisionOn;
 	/***/ public String commandClosedStderrButDidntExit;
 	/***/ public String commandRejectedByHook;
@@ -334,6 +335,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String expectedReportForRefNotReceived;
 	/***/ public String failedAtomicFileCreation;
 	/***/ public String failedCreateLockFile;
+	/***/ public String failedPidLock;
 	/***/ public String failedReadHttpsProtocols;
 	/***/ public String failedToDetermineFilterDefinition;
 	/***/ public String failedToConvert;
@@ -703,6 +705,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sslTrustForRepo;
 	/***/ public String sslTrustNow;
 	/***/ public String sslVerifyCannotSave;
+	/***/ public String stalePidLock;
 	/***/ public String staleRevFlagsOn;
 	/***/ public String startingReadStageWithoutWrittenRequestDataPendingIsNotSupported;
 	/***/ public String stashApplyConflict;
