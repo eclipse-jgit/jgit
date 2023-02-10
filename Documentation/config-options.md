@@ -100,8 +100,8 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.depth` | `50` | &#x2705; | Maximum depth of delta chain set up for the pack writer. |
 | `pack.indexVersion` | `2` | &#x2705; | Pack index file format version. |
 | `pack.minSizePreventRacyPack` | `100 MiB` | &#x20DE; | Minimum packfile size for which we wait before opening a newly written pack to prevent its lastModified timestamp could be racy if `pack.waitPreventRacyPack` is `true`. |
-| `pack.preserveOldPacks` | `false` | &#x20DE; | Whether to preserve old packs in a preserved directory. |
-| `prunePreserved`, only via API of PackConfig | `false` | &#x20DE; | Whether to remove preserved pack files in a preserved directory. |
+| `pack.preserveOldPacks` | `false` | &#x20DE; | Whether to preserve old packs during gc in the `objects/pack/preserved` directory. This can avoid rare races between gc removing pack files and other concurrent operations. If this option is false data loss can occur in rare cases when an object is believed to be unreferenced when object repacking is running, and then garbage collection deletes it while another concurrent operation references this object shortly before garbage collection deletes it. When this happens, a new reference is created which points to a now missing object. |
+| `pack.prunePreserved` | `false` | &#x20DE; | Whether to prune preserved pack files from the previous run of gc from the `objects/pack/preserved` directory. This helps to limit the additional storage space needed to preserve old packs when `pack.preserveOldPacks = true`. |
 | `pack.reuseDeltas` | `true` |&#x20DE; | Whether to reuse deltas existing in repository. |
 | `pack.reuseObjects` | `true` | &#x20DE; | Whether to reuse existing objects representation in repository. |
 | `pack.searchForReuseTimeout` | | &#x20DE; | Search for reuse phase timeout. Expressed as a `Duration`, i.e.: `50sec`. |
