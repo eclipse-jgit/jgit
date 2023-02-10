@@ -771,4 +771,18 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT = "searchforreusetimeout";
 
+	/**
+	 * The "pack.preserveOldPacks" key
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_PRESERVE_OLD_PACKS = "preserveoldpacks";
+
+	/**
+	 * The "pack.prunePreserved" key
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_PRUNE_PRESERVED = "prunepreserved";
+
 }
