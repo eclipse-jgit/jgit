@@ -16,6 +16,24 @@
       "message": "Nice!",
       "revId": "0bb60c9f9c669ba680306c5c308fd863ba1a7b91",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3faaa7a_da04062e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-10T22:45:10Z",
+      "side": 1,
+      "message": "need to rename the options I defined in https://gerrit.googlesource.com/gerrit/+/refs/heads/master/contrib/git-gc-preserve\nlooking at the jgit implementation they should be in config section \"pack\" and not in section \"gc\"",
+      "parentUuid": "f3f095a7_d8557f7b",
+      "revId": "0bb60c9f9c669ba680306c5c308fd863ba1a7b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
