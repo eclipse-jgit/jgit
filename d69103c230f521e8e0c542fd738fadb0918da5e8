@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00603961_824ccadb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-12T09:39:15Z",
+      "side": 1,
+      "message": "in 6.x (Java 11) we should replace this by ProcessHandle.current().pid()",
+      "revId": "d69103c230f521e8e0c542fd738fadb0918da5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
