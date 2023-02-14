@@ -33,6 +33,23 @@
       "message": "\u003e Patch Set 3: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/3052/ : FAILURE\n\n15:11:17  [INFO] Results:\n15:11:17  [INFO] \n15:11:17  [ERROR] Failures: \n15:11:17  [ERROR]   GcConcurrentTest.testInterruptGc:223 thread wasn\u0027t interrupted\n15:11:17  [INFO] \n15:11:17  [ERROR] Tests run: 5339, Failures: 1, Errors: 0, Skipped: 138\n\nUnrelated to this change and tests pass on the following in the relation chain, so I think we can submit.",
       "revId": "62d0e7be7c2a3c72e50dd9474ea72dfd7ec586b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f740203f_c22a5291",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-14T23:15:21Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "62d0e7be7c2a3c72e50dd9474ea72dfd7ec586b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
