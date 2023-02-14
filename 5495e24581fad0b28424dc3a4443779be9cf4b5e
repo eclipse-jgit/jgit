@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "beac8b52_f98c9e3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CompactInt3Array.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T04:12:13Z",
+      "side": 1,
+      "message": "Ah I mean 24, not 48.",
+      "parentUuid": "685aaad0_9079ca31",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "5495e24581fad0b28424dc3a4443779be9cf4b5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3be643a4_37213978",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CompactInt3Array.java",
         "patchSetId": 2
