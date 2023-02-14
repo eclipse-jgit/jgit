@@ -298,6 +298,30 @@
       },
       "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "422e2f13_03f1dce4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-14T20:00:32Z",
+      "side": 1,
+      "message": "The parent change adds a #findPosition() to the primary index, and now the object-size index goes from idx-position-\u003esize.\n\nMost of packs have \u003c 16 million objects, so 3 bytes per position saves some memory. We still support 4 bytes for the few packs bigger than that.",
+      "parentUuid": "e9207234_ae139be0",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "dc9289d1faaff41f4bb1c6728978e9d2387aab15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

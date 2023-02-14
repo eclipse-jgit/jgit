@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2b1e5ce_c48625d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-14T20:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b88fe2f1_eb9045af",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "1f8dbcc6a9c8128b71d783e36ac9ae5b0160d154",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1a0b79a_ac6f0673",
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc0ca24e_a8228ce7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-14T20:00:32Z",
+      "side": 1,
+      "message": "We now write the threshold in the index but don\u0027t use it (it is mostly for debugging). It makes sense to read the threshold from the index itself than from the pack config as indices could have different value (e.g. the conf changes and only new packs have the new value).\n\nI don\u0027t see how can we get rid of the conf, operators are supposed to adjust it to their requirements.\n\nI add a getter of the threshold to the object size index interface.",
+      "parentUuid": "f1a0b79a_ac6f0673",
+      "revId": "1f8dbcc6a9c8128b71d783e36ac9ae5b0160d154",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e110b0f_4ea7f1a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
         "patchSetId": 15
@@ -54,6 +96,30 @@
       "writtenOn": "2023-02-14T04:11:46Z",
       "side": 1,
       "message": "Document what this contains (it seems that negative numbers mean \"check sizes64\").",
+      "range": {
+        "startLine": 37,
+        "startChar": 21,
+        "endLine": 37,
+        "endChar": 28
+      },
+      "revId": "1f8dbcc6a9c8128b71d783e36ac9ae5b0160d154",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "187df5d8_0c6881b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-14T20:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e110b0f_4ea7f1a3",
       "range": {
         "startLine": 37,
         "startChar": 21,
