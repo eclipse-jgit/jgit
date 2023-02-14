@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "685aaad0_9079ca31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CompactInt3Array.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T04:08:45Z",
+      "side": 1,
+      "message": "Should be called Uint48Array, I think. No need for \"Compact\", since I think it\u0027s implied. (SortedUint48Array if you want to insist on sorting, although I don\u0027t think it\u0027s necessary.)",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "5495e24581fad0b28424dc3a4443779be9cf4b5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3be643a4_37213978",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CompactInt3Array.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T04:08:45Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to enforce that the array is sorted. If so, we can call this method findSorted.",
+      "range": {
+        "startLine": 63,
+        "startChar": 5,
+        "endLine": 63,
+        "endChar": 9
+      },
+      "revId": "5495e24581fad0b28424dc3a4443779be9cf4b5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
