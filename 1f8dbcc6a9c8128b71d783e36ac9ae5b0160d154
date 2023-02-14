@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b88fe2f1_eb9045af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T04:11:46Z",
+      "side": 1,
+      "message": "s/ones/once/",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "1f8dbcc6a9c8128b71d783e36ac9ae5b0160d154",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1a0b79a_ac6f0673",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T04:11:46Z",
+      "side": 1,
+      "message": "Also, should the index contain the size threshold (as opposed to putting it in the PackConfig)? It makes sense to me that they should go together. (I\u0027m not sure what will be more convenient for the user, though.)",
+      "revId": "1f8dbcc6a9c8128b71d783e36ac9ae5b0160d154",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e110b0f_4ea7f1a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T04:11:46Z",
+      "side": 1,
+      "message": "Document what this contains (it seems that negative numbers mean \"check sizes64\").",
+      "range": {
+        "startLine": 37,
+        "startChar": 21,
+        "endLine": 37,
+        "endChar": 28
+      },
+      "revId": "1f8dbcc6a9c8128b71d783e36ac9ae5b0160d154",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
