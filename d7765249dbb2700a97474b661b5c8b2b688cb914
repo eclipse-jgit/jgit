@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "645d7068_52013394",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T22:23:17Z",
+      "side": 1,
+      "message": "Should this be \"at or above\"? Then 0 can have a non-special-case meaning (0 just means that objects at or above size 0 are included).",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "d7765249dbb2700a97474b661b5c8b2b688cb914",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
