@@ -83,6 +83,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c0e3f7f_6e76e28c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T22:22:07Z",
+      "side": 1,
+      "message": "Ah, true, the config also controls writing.",
+      "parentUuid": "bc0ca24e_a8228ce7",
+      "revId": "1f8dbcc6a9c8128b71d783e36ac9ae5b0160d154",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e110b0f_4ea7f1a3",
