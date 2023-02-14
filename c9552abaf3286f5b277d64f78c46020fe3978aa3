@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66786594_6d78d51c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T22:21:44Z",
+      "side": 1,
+      "message": "Thanks. Supporting large files in Git repositories is a feature that\u0027s widely desired, so speeding up the native Git solution (partial clone with a blob size filter) is definitely appreciated.",
+      "revId": "c9552abaf3286f5b277d64f78c46020fe3978aa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de7d92eb_efd15138",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-02-14T22:21:44Z",
+      "side": 1,
+      "message": "I just realized that this might be slow (ideally we would be able to generate the array with one single read, I think) but this is an internal implementation detail that can be changed if needed without affecting the API, so I\u0027m not too worried for now.",
+      "range": {
+        "startLine": 160,
+        "startChar": 3,
+        "endLine": 160,
+        "endChar": 6
+      },
+      "revId": "c9552abaf3286f5b277d64f78c46020fe3978aa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
