@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24334a76_2419e634",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-14T19:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724732b_c82534e2",
+      "range": {
+        "startLine": 230,
+        "startChar": 56,
+        "endLine": 230,
+        "endChar": 60
+      },
+      "revId": "0bf636d8f79029b66e50814a0ea617181c452d83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02d06343_d7fee88b",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-02-14T04:05:38Z",
       "side": 1,
       "message": "Revert this change too.",
+      "range": {
+        "startLine": 261,
+        "startChar": 7,
+        "endLine": 261,
+        "endChar": 15
+      },
+      "revId": "0bf636d8f79029b66e50814a0ea617181c452d83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2380a94a_bc924400",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-14T19:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02d06343_d7fee88b",
       "range": {
         "startLine": 261,
         "startChar": 7,
