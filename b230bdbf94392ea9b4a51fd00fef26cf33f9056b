@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf84497b_a62bd5c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-15T00:07:12Z",
+      "side": 1,
+      "message": "Updated also the @since tags to next release.\n\nAll previous changes were for .internal stuff, so I think they are fine.",
+      "revId": "b230bdbf94392ea9b4a51fd00fef26cf33f9056b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
