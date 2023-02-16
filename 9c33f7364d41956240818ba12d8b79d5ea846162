@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0396903a_99e36608",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-16T16:34:17Z",
+      "side": 1,
+      "message": "I am experiencing packed-refs concurrency issues and looking at the test it doesn\u0027t really test what that only one should pass.",
+      "revId": "9c33f7364d41956240818ba12d8b79d5ea846162",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "124d36dc_9df77418",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcPackRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-16T16:34:17Z",
+      "side": 1,
+      "message": "This assertion doesn\u0027t do what the code is testing.\n\nIf we want to make sure that *ONLY ONE* succeeds, we should return 1 at L112 and return 0 at L114.\n\nIf both succeed \u003d\u003e the sum is 2 and therefore this assertion fails\nIf only one (or none) succeed \u003d\u003e the sum is 1 or 0",
+      "range": {
+        "startLine": 121,
+        "startChar": 35,
+        "endLine": 121,
+        "endChar": 52
+      },
+      "revId": "9c33f7364d41956240818ba12d8b79d5ea846162",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
