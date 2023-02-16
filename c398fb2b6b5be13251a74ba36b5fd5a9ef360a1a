@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a03bfe1_a2962fdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-16T09:46:57Z",
+      "side": 1,
+      "message": "@Marcin can you fix the documentation and add the maxHaves? BTW good catch, Marcin found this and is very helpful, thanks for contributing it.",
+      "revId": "c398fb2b6b5be13251a74ba36b5fd5a9ef360a1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c03c6f09_427dff3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-16T09:46:57Z",
+      "side": 1,
+      "message": "Post-merge -1: documentation is missing, but I like the feature !",
+      "range": {
+        "startLine": 300,
+        "startChar": 33,
+        "endLine": 300,
+        "endChar": 41
+      },
+      "revId": "c398fb2b6b5be13251a74ba36b5fd5a9ef360a1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
