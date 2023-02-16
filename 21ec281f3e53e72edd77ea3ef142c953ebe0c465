@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50cd8a1c_79537f07",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcPackRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-16T17:21:14Z",
+      "side": 0,
+      "message": "This was the correct assertion IMHO: one should always fail and the other should always succeed, isn\u0027t it?",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 18
+      },
+      "revId": "21ec281f3e53e72edd77ea3ef142c953ebe0c465",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
