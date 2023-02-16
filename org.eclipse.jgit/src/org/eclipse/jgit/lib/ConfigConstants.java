@@ -862,4 +862,18 @@ public final class ConfigConstants {
 	 * @since 6.1.1
 	 */
 	public static final String CONFIG_KEY_TRUST_PACKED_REFS_STAT = "trustPackedRefsStat";
+
+	/**
+	 * The "pack.preserveOldPacks" key
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_PRESERVE_OLD_PACKS = "preserveoldpacks";
+
+	/**
+	 * The "pack.prunePreserved" key
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_PRUNE_PRESERVED = "prunepreserved";
 }
