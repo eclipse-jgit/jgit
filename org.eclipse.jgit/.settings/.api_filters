@@ -10,6 +10,18 @@
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.13.2"/>
+                <message_argument value="CONFIG_KEY_PRESERVE_OLD_PACKS"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
+                <message_argument value="CONFIG_KEY_PRUNE_PRESERVED"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
                 <message_argument value="SHA1_IMPLEMENTATION"/>
             </message_arguments>
         </filter>
