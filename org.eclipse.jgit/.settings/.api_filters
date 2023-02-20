@@ -65,6 +65,12 @@
                 <message_argument value="DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES"/>
             </message_arguments>
         </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackConfig"/>
+                <message_argument value="DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX"/>
+            </message_arguments>
+        </filter>
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.13.2"/>
