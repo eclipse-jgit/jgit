@@ -823,6 +823,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_WINDOW_MEMORY = "windowmemory";
 
 	/**
+	 * the "pack.minBytesForObjSizeIndex" key
+	 *
+	 * @since 6.5
+	 */
+	public static final String CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX = "minBytesForObjSizeIndex";
+
+	/**
 	 * The "feature" section
 	 *
 	 * @since 5.9
@@ -912,4 +919,18 @@ public final class ConfigConstants {
 	 * @since 6.1.1
 	 */
 	public static final String CONFIG_KEY_TRUST_PACKED_REFS_STAT = "trustPackedRefsStat";
+
+	/**
+	 * The "pack.preserveOldPacks" key
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_PRESERVE_OLD_PACKS = "preserveoldpacks";
+
+	/**
+	 * The "pack.prunePreserved" key
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_PRUNE_PRESERVED = "prunepreserved";
 }

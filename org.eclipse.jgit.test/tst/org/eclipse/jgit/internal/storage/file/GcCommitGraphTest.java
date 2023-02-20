@@ -90,7 +90,7 @@ public class GcCommitGraphTest extends GcTestCase {
 		bb.update(tip);
 
 		assertTrue(gc.shouldWriteCommitGraphWhenGc());
-		gc.gc();
+		gc.gc().get();
 		File graphFile = new File(repo.getObjectsDirectory(),
 				Constants.INFO_COMMIT_GRAPH);
 		assertGraphFile(graphFile);
@@ -103,7 +103,7 @@ public class GcCommitGraphTest extends GcTestCase {
 		bb.update(tip);
 
 		assertFalse(gc.shouldWriteCommitGraphWhenGc());
-		gc.gc();
+		gc.gc().get();
 		File graphFile = new File(repo.getObjectsDirectory(),
 				Constants.INFO_COMMIT_GRAPH);
 		assertFalse(graphFile.exists());
@@ -123,21 +123,21 @@ public class GcCommitGraphTest extends GcTestCase {
 		config.setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
 
-		gc.gc();
+		gc.gc().get();
 		assertFalse(graphFile.exists());
 
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
 		config.setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, false);
-		gc.gc();
+		gc.gc().get();
 		assertFalse(graphFile.exists());
 
 		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_COMMIT_GRAPH, false);
 		config.setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, false);
-		gc.gc();
+		gc.gc().get();
 		assertFalse(graphFile.exists());
 	}
 

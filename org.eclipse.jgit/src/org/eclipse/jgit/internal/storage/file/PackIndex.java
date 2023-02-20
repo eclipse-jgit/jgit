@@ -241,6 +241,17 @@ public abstract class PackIndex
 	public abstract long findOffset(AnyObjectId objId);
 
 	/**
+	 * Locate the position of this id in the list of object-ids in the index
+	 *
+	 * @param objId
+	 *            name of the object to locate within the index
+	 * @return position of the object-id in the lexicographically ordered list
+	 *         of ids stored in this index; -1 if the object does not exist in
+	 *         this index and is thus not stored in the associated pack.
+	 */
+	public abstract int findPosition(AnyObjectId objId);
+
+	/**
 	 * Retrieve stored CRC32 checksum of the requested object raw-data
 	 * (including header).
 	 *

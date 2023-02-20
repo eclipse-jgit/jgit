@@ -36,7 +36,10 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRESERVE_OLD_PACKS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRUNE_PRESERVED;
 
 import java.time.Duration;
 import java.util.concurrent.Executor;
@@ -235,6 +238,15 @@ public class PackConfig {
 	public static final String[] DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES = new String[0];
 
 	/**
+	 * Default minimum size for an object to be included in the size index:
+	 * {@value}
+	 *
+	 * @see #setMinBytesForObjSizeIndex(int)
+	 * @since 6.5
+	 */
+	public static final int DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX = -1;
+
+	/**
 	 * Default max time to spend during the search for reuse phase. This
 	 * optimization is disabled by default: {@value}
 	 *
@@ -301,6 +313,8 @@ public class PackConfig {
 	private boolean cutDeltaChains;
 
 	private boolean singlePack;
+
+	private int minBytesForObjSizeIndex = DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX;
 
 	/**
 	 * Create a default configuration.
@@ -369,6 +383,7 @@ public class PackConfig {
 		this.cutDeltaChains = cfg.cutDeltaChains;
 		this.singlePack = cfg.singlePack;
 		this.searchForReuseTimeout = cfg.searchForReuseTimeout;
+		this.minBytesForObjSizeIndex = cfg.minBytesForObjSizeIndex;
 	}
 
 	/**
@@ -1190,6 +1205,45 @@ public class PackConfig {
 	}
 
 	/**
+	 * Minimum size of an object (inclusive) to be added in the object size
+	 * index.
+	 *
+	 * A negative value disables the writing of the object size index.
+	 *
+	 * @return minimum size an object must have to be included in the object
+	 *         index.
+	 * @since 6.5
+	 */
+	public int getMinBytesForObjSizeIndex() {
+		return minBytesForObjSizeIndex;
+	}
+
+	/**
+	 * Set minimum size an object must have to be included in the object size
+	 * index.
+	 *
+	 * A negative value disables the object index.
+	 *
+	 * @param minBytesForObjSizeIndex
+	 *            minimum size (inclusive) of an object to be included in the
+	 *            object size index. -1 disables the index.
+	 * @since 6.5
+	 */
+	public void setMinBytesForObjSizeIndex(int minBytesForObjSizeIndex) {
+		this.minBytesForObjSizeIndex = minBytesForObjSizeIndex;
+	}
+
+	/**
+	 * Should writers add an object size index when writing a pack.
+	 *
+	 * @return true to write an object-size index with the pack
+	 * @since 6.5
+	 */
+	public boolean isWriteObjSizeIndex() {
+		return this.minBytesForObjSizeIndex >= 0;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 *
 	 * If a property's corresponding variable is not defined in the supplied
@@ -1267,6 +1321,13 @@ public class PackConfig {
 		setMinSizePreventRacyPack(rc.getLong(CONFIG_PACK_SECTION,
 				CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK,
 				getMinSizePreventRacyPack()));
+		setMinBytesForObjSizeIndex(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX,
+				DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX));
+		setPreserveOldPacks(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_PRESERVE_OLD_PACKS, DEFAULT_PRESERVE_OLD_PACKS));
+		setPrunePreserved(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_PRUNE_PRESERVED, DEFAULT_PRUNE_PRESERVED));
 	}
 
 	/** {@inheritDoc} */
@@ -1302,6 +1363,8 @@ public class PackConfig {
 		b.append(", searchForReuseTimeout") //$NON-NLS-1$
 				.append(getSearchForReuseTimeout());
 		b.append(", singlePack=").append(getSinglePack()); //$NON-NLS-1$
+		b.append(", minBytesForObjSizeIndex=") //$NON-NLS-1$
+				.append(getMinBytesForObjSizeIndex());
 		return b.toString();
 	}
 }

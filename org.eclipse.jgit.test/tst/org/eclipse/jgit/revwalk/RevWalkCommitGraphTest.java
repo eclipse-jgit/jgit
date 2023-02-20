@@ -309,7 +309,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
 		GC gc = new GC(db);
-		gc.gc();
+		gc.gc().get();
 	}
 
 	private void reinitializeRevWalk() {

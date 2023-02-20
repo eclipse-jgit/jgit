@@ -139,6 +139,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotRead;
 	/***/ public String cannotReadBackDelta;
 	/***/ public String cannotReadBlob;
+	/***/ public String cannotReadByte;
 	/***/ public String cannotReadCommit;
 	/***/ public String cannotReadFile;
 	/***/ public String cannotReadHEAD;
@@ -566,6 +567,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String notMergedExceptionMessage;
 	/***/ public String notShallowedUnshallow;
 	/***/ public String noXMLParserAvailable;
+	/***/ public String numberDoesntFit;
 	/***/ public String objectAtHasBadZlibStream;
 	/***/ public String objectIsCorrupt;
 	/***/ public String objectIsCorrupt3;
@@ -801,6 +803,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String tSizeMustBeGreaterOrEqual1;
 	/***/ public String unableToCheckConnectivity;
 	/***/ public String unableToCreateNewObject;
+	/***/ public String unableToReadFullInt;
 	/***/ public String unableToReadPackfile;
 	/***/ public String unableToRemovePath;
 	/***/ public String unableToWrite;
@@ -826,6 +829,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownObjectInIndex;
 	/***/ public String unknownObjectType;
 	/***/ public String unknownObjectType2;
+	/***/ public String unknownPositionEncoding;
 	/***/ public String unknownRefStorageFormat;
 	/***/ public String unknownRepositoryFormat;
 	/***/ public String unknownRepositoryFormat2;
@@ -853,6 +857,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedPackVersion;
 	/***/ public String unsupportedReftableVersion;
 	/***/ public String unsupportedRepositoryDescription;
+	/***/ public String unsupportedSizesObjSizeIndex;
 	/***/ public String updateRequiresOldIdAndNewId;
 	/***/ public String updatingHeadFailed;
 	/***/ public String updatingReferences;

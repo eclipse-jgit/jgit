@@ -254,7 +254,7 @@ class LooseObjects {
 					// refresh directory to work around NFS caching issue
 				}
 				return getSizeWithoutRefresh(curs, id);
-			} catch (FileNotFoundException e) {
+			} catch (FileNotFoundException unused) {
 				if (fileFor(id).exists()) {
 					throw noFile;
 				}

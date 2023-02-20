@@ -28,6 +28,9 @@ public class DfsReaderIoStats {
 		/** Total number of cache hits for bitmap indexes. */
 		long bitmapCacheHit;
 
+		/** Total number of cache hits for commit graphs. */
+		long commitGraphCacheHit;
+
 		/** Total number of complete pack indexes read into memory. */
 		long readIdx;
 
@@ -37,14 +40,23 @@ public class DfsReaderIoStats {
 		/** Total number of reverse indexes added into memory. */
 		long readReverseIdx;
 
+		/** Total number of complete commit graphs read into memory. */
+		long readCommitGraph;
+
 		/** Total number of bytes read from pack indexes. */
 		long readIdxBytes;
+
+		/** Total number of bytes read from commit graphs. */
+		long readCommitGraphBytes;
 
 		/** Total microseconds spent reading pack indexes. */
 		long readIdxMicros;
 
 		/** Total microseconds spent creating reverse indexes. */
 		long readReverseIdxMicros;
+
+		/** Total microseconds spent creating commit graphs. */
+		long readCommitGraphMicros;
 
 		/** Total number of bytes read from bitmap indexes. */
 		long readBitmapIdxBytes;
@@ -123,6 +135,15 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of commit graph cache hits.
+	 *
+	 * @return total number of commit graph cache hits.
+	 */
+	public long getCommitGraphCacheHits() {
+		return stats.commitGraphCacheHit;
+	}
+
+	/**
 	 * Get total number of complete pack indexes read into memory.
 	 *
 	 * @return total number of complete pack indexes read into memory.
@@ -138,6 +159,15 @@ public class DfsReaderIoStats {
 	 */
 	public long getReadReverseIndexCount() {
 		return stats.readReverseIdx;
+	}
+
+	/**
+	 * Get total number of times the commit graph read into memory.
+	 *
+	 * @return total number of commit graph read into memory.
+	 */
+	public long getReadCommitGraphCount() {
+		return stats.readCommitGraph;
 	}
 
 	/**
@@ -159,6 +189,15 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of bytes read from commit graphs.
+	 *
+	 * @return total number of bytes read from commit graphs.
+	 */
+	public long getCommitGraphBytes() {
+		return stats.readCommitGraphBytes;
+	}
+
+	/**
 	 * Get total microseconds spent reading pack indexes.
 	 *
 	 * @return total microseconds spent reading pack indexes.
@@ -174,6 +213,15 @@ public class DfsReaderIoStats {
 	 */
 	public long getReadReverseIndexMicros() {
 		return stats.readReverseIdxMicros;
+	}
+
+	/**
+	 * Get total microseconds spent reading commit graphs.
+	 *
+	 * @return total microseconds spent reading commit graphs.
+	 */
+	public long getReadCommitGraphMicros() {
+		return stats.readCommitGraphMicros;
 	}
 
 	/**

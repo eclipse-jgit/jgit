@@ -2766,7 +2766,9 @@ public class UploadPackTest {
 		TestV2Hook hook = new TestV2Hook();
 		ByteArrayInputStream recvStream = uploadPackV2((UploadPack up) -> {
 			up.setProtocolV2Hook(hook);
-		}, "command=object-info\n", "size",
+		}, "command=object-info\n",
+				PacketLineIn.delimiter(),
+				"size",
 				"oid " + ObjectId.toString(blob1.getId()),
 				"oid " + ObjectId.toString(blob2.getId()), PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
