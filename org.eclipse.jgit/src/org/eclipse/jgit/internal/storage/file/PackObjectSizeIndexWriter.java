@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.NB;
@@ -70,11 +71,11 @@ public abstract class PackObjectSizeIndexWriter {
 	 * Object size index v1.
 	 *
 	 * Store position (in the main index) to size as parallel arrays.
-	 * 
+	 *
 	 * <p>Positions in the main index fit well in unsigned 24 bits (16M) for most
 	 * repositories, but some outliers have even more objects, so we need to
 	 * store also 32 bits positions.
-	 * 
+	 *
 	 * <p>Sizes are stored as a first array parallel to positions. If a size
 	 * doesn't fit in an element of that array, then we encode there a position
 	 * on the next-size array. This "overflow" array doesn't have entries for
@@ -88,7 +89,7 @@ public abstract class PackObjectSizeIndexWriter {
 	 *                        /     /
 	 *      sizes (64 bits) [3GB, 6GB]
 	 * </pre>
-	 * 
+	 *
 	 * <p>For sizes we use 32 bits as the first level and 64 for the rare objects
 	 * over 2GB.
 	 *
@@ -173,7 +174,7 @@ public abstract class PackObjectSizeIndexWriter {
 		private void writeUInt8(int i) throws IOException {
 			if (i > 255) {
 				throw new IllegalStateException(
-						"Number doesn't fit in a single byte");
+						JGitText.get().numberDoesntFit);
 			}
 			NB.encodeInt32(intBuffer, 0, i);
 			os.write(intBuffer, 3, 1);

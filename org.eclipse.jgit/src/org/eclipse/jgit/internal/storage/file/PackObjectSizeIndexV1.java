@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.NB;
 
 /**
@@ -75,7 +76,7 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 				pos32 = stream.readIntArray(sz);
 			} else {
 				throw new UnsupportedEncodingException(
-						String.format("Unknown position encoding %s",
+						String.format(JGitText.get().unknownPositionEncoding,
 								Integer.toHexString(positionEncoding)));
 			}
 		}
@@ -92,7 +93,7 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 		int c128sizes = stream.readInt();
 		if (c128sizes != 0) {
 			// this MUST be 0 (we don't support 128 bits sizes yet)
-			throw new IOException("Unsupported sizes in object-size-index");
+			throw new IOException(JGitText.get().unsupportedSizesObjSizeIndex);
 		}
 	}
 
@@ -145,8 +146,7 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 		int readInt() throws IOException {
 			int n = in.readNBytes(buffer, 0, 4);
 			if (n < 4) {
-				throw new IOException(
-						"Unable to read a full int from the stream");
+				throw new IOException(JGitText.get().unableToReadFullInt);
 			}
 			return NB.decodeInt32(buffer, 0);
 		}
@@ -166,8 +166,7 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 		long readLong() throws IOException {
 			int n = in.readNBytes(buffer, 0, 8);
 			if (n < 8) {
-				throw new IOException(
-						"Unable to read a full int from the stream");
+				throw new IOException(JGitText.get().unableToReadFullInt);
 			}
 			return NB.decodeInt64(buffer, 0);
 		}
@@ -187,7 +186,7 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 		byte readByte() throws IOException {
 			int n = in.readNBytes(buffer, 0, 1);
 			if (n != 1) {
-				throw new IOException("Cannot read byte from stream");
+				throw new IOException(JGitText.get().cannotReadByte);
 			}
 			return buffer[0];
 		}
