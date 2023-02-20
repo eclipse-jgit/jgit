@@ -38,6 +38,8 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRESERVE_OLD_PACKS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRUNE_PRESERVED;
 
 import java.time.Duration;
 import java.util.concurrent.Executor;
@@ -1322,6 +1324,10 @@ public class PackConfig {
 		setMinBytesForObjSizeIndex(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX,
 				DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX));
+		setPreserveOldPacks(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_PRESERVE_OLD_PACKS, DEFAULT_PRESERVE_OLD_PACKS));
+		setPrunePreserved(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_PRUNE_PRESERVED, DEFAULT_PRUNE_PRESERVED));
 	}
 
 	/** {@inheritDoc} */
