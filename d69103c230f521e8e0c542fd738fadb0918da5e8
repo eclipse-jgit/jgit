@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7bdcdac7_66cbfc46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1637,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-20T23:00:27Z",
+      "side": 1,
+      "message": "There *could* be GCs that last for more than 12h: do we want to make this configurable?",
+      "range": {
+        "startLine": 1636,
+        "startChar": 0,
+        "endLine": 1637,
+        "endChar": 24
+      },
+      "revId": "d69103c230f521e8e0c542fd738fadb0918da5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54afc1a0_962d317d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1679,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-02-20T23:00:27Z",
+      "side": 1,
+      "message": "Would it make sense to also display the content of the file, showing what is the PID and which host that is currently running GC?",
+      "range": {
+        "startLine": 1678,
+        "startChar": 0,
+        "endLine": 1679,
+        "endChar": 15
+      },
+      "revId": "d69103c230f521e8e0c542fd738fadb0918da5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00603961_824ccadb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 3
