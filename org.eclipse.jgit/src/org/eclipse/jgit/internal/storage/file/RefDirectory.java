@@ -35,6 +35,7 @@ import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
@@ -906,7 +907,7 @@ public class RefDirectory extends RefDatabase {
 			try (InputStream stream = Files
 					.newInputStream(packedRefsFile.toPath())) {
 				// open the file to refresh attributes (on some NFS clients)
-			} catch (FileNotFoundException e) {
+			} catch (FileNotFoundException | NoSuchFileException e) {
 				// Ignore as packed-refs may not exist
 			}
 			//$FALL-THROUGH$
