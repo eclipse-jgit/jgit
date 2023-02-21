@@ -152,6 +152,24 @@
       "parentUuid": "00603961_824ccadb",
       "revId": "d69103c230f521e8e0c542fd738fadb0918da5e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6062dfb9_e1c494f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-21T23:58:05Z",
+      "side": 1,
+      "message": "I will instead immediately implement this when merging this change up to master",
+      "parentUuid": "e86a35b5_4b74cec2",
+      "revId": "d69103c230f521e8e0c542fd738fadb0918da5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
