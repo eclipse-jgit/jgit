@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa404a2a_20bc342c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-21T19:57:41Z",
+      "side": 1,
+      "message": "Thanks Matthias! Sorry about this, I have been trying intellij with eclipse formatting... the formatting works but I am missing those extra checks, like externalizing string.",
+      "revId": "5d5a0d537697480ae5a7d530bad283a972aadf52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
