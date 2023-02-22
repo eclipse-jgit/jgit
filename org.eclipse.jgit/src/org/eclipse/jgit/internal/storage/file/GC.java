@@ -1631,7 +1631,7 @@ public class GC {
 			pidFile = repo.getDirectory().toPath().resolve(GC_PID);
 		}
 
-		boolean lock() {
+		boolean lock() throws IOException {
 			if (Files.exists(pidFile)) {
 				Instant mtime = FS.DETECTED
 						.lastModifiedInstant(pidFile.toFile());
@@ -1670,7 +1670,7 @@ public class GC {
 									JGitText.get().closePidLockFailed, pidFile),
 							e1);
 				}
-				return false;
+				throw e;
 			}
 			return true;
 		}
