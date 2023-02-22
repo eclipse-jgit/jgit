@@ -170,6 +170,24 @@
       "parentUuid": "e86a35b5_4b74cec2",
       "revId": "d69103c230f521e8e0c542fd738fadb0918da5e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34c72d15_71390d89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-22T00:07:08Z",
+      "side": 1,
+      "message": "done in https://git.eclipse.org/r/c/jgit/jgit/+/200063",
+      "parentUuid": "6062dfb9_e1c494f6",
+      "revId": "d69103c230f521e8e0c542fd738fadb0918da5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
