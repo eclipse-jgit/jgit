@@ -1713,17 +1713,7 @@ public class GC {
 		}
 
 		private long getPID() {
-			String processName = java.lang.management.ManagementFactory
-					.getRuntimeMXBean().getName();
-			if (processName != null && processName.length() > 0) {
-				try {
-					return Long.parseLong(processName.split("@")[0]); //$NON-NLS-1$
-				} catch (Exception e) {
-					return 0;
-				}
-			}
-
-			return 0;
+			return ProcessHandle.current().pid();
 		}
 
 		private String getHostName() {
