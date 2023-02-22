@@ -14,10 +14,10 @@ import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.nio.channels.ClosedByInterruptException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.BrokenBarrierException;
@@ -226,10 +226,8 @@ public class GcConcurrentTest extends GcTestCase {
 			if (cause instanceof CancelledException) {
 				assertEquals(JGitText.get().operationCanceled,
 						cause.getMessage());
-			} else if (cause instanceof IOException) {
-				Throwable cause2 = cause.getCause();
-				assertTrue(cause2 instanceof InterruptedException
-						|| cause2 instanceof ExecutionException);
+			} else if (cause instanceof ClosedByInterruptException) {
+				// thread was interrupted
 			} else {
 				fail("unexpected exception " + e);
 			}
