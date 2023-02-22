@@ -1631,7 +1631,7 @@ public class GC {
 			pidFile = repo.getDirectory().toPath().resolve(GC_PID);
 		}
 
-		boolean lock() {
+		boolean lock() throws IOException {
 			if (Files.exists(pidFile)) {
 				Instant mtime = FS.DETECTED
 						.lastModifiedInstant(pidFile.toFile());
@@ -1649,8 +1649,8 @@ public class GC {
 				f = new RandomAccessFile(pidFile.toFile(), "rw"); //$NON-NLS-1$
 				channel = f.getChannel();
 				lock = channel.tryLock();
-				if (lock == null) {
-					failedToLock();
+				if (lock == null || !lock.isValid()) {
+					gcAlreadyRunning();
 					return false;
 				}
 				channel.write(ByteBuffer
@@ -1670,7 +1670,7 @@ public class GC {
 									JGitText.get().closePidLockFailed, pidFile),
 							e1);
 				}
-				return false;
+				throw e;
 			}
 			return true;
 		}
@@ -1728,7 +1728,7 @@ public class GC {
 		public void close() {
 			boolean wasLocked = false;
 			try {
-				if (lock != null) {
+				if (lock != null && lock.isValid()) {
 					lock.release();
 					wasLocked = true;
 				}
