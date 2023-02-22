@@ -16,6 +16,24 @@
       "message": "Hi, there seems to be an issue in unit test GcConcurrentTest.testInterruptGc()\n\nThe test relies on receiving an exception when thread that\u0027s doing GC is interrupted. There\u0027s some new code in GC, namely method PidLock.lock() eats the ClosedByInterruptException in its catch block. This causes the test failure. What should be the correct behavior? It looks like either the GC code or the test needs to be fixed.\n",
       "revId": "7791e7ce2bce7e6614f2b794e3f6e9439ba22cd2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65420bd9_6d2a365b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-22T18:31:00Z",
+      "side": 1,
+      "message": "thanks for the heads-up, does this help https://git.eclipse.org/r/c/jgit/jgit/+/200106 ?",
+      "parentUuid": "ce137eb2_eb0de0ba",
+      "revId": "7791e7ce2bce7e6614f2b794e3f6e9439ba22cd2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
