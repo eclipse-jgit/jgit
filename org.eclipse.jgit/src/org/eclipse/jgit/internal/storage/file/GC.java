@@ -1738,7 +1738,7 @@ public class GC {
 		public void close() {
 			boolean wasLocked = false;
 			try {
-				if (lock != null) {
+				if (lock != null && lock.isValid()) {
 					lock.release();
 					wasLocked = true;
 				}
