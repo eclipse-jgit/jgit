@@ -681,6 +681,10 @@ public class UploadPack implements Closeable {
 	 */
 	public void setTransferConfig(@Nullable TransferConfig tc) {
 		this.transferConfig = tc != null ? tc : new TransferConfig(db);
+		if (transferConfig.isAllowAnySha1InWant()) {
+			setRequestPolicy(RequestPolicy.ANY);
+			return;
+		}
 		if (transferConfig.isAllowTipSha1InWant()) {
 			setRequestPolicy(transferConfig.isAllowReachableSha1InWant()
 				? RequestPolicy.REACHABLE_COMMIT_TIP : RequestPolicy.TIP);

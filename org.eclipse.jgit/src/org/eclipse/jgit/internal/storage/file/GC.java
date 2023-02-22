@@ -21,9 +21,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -89,8 +96,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.LockToken;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitDateParser;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -265,6 +275,10 @@ public class GC {
 		if (automatic && !needGc()) {
 			return Collections.emptyList();
 		}
+		try (PidLock lock = new PidLock()) {
+			if (!lock.lock()) {
+				return Collections.emptyList();
+			}
 		pm.start(6 /* tasks */);
 		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
@@ -275,6 +289,7 @@ public class GC {
 			writeCommitGraph(refsToObjectIds(getAllRefs()));
 		}
 		return newPacks;
+	}
 	}
 
 	/**
@@ -1705,5 +1720,144 @@ public class GC {
 	private int getLooseObjectLimit() {
 		return repo.getConfig().getInt(ConfigConstants.CONFIG_GC_SECTION,
 				ConfigConstants.CONFIG_KEY_AUTO, DEFAULT_AUTOLIMIT);
+	}
+
+	private class PidLock implements AutoCloseable {
+
+		private static final String GC_PID = "gc.pid"; //$NON-NLS-1$
+
+		private final Path pidFile;
+
+		private LockToken token;
+
+		private FileLock lock;
+
+		private RandomAccessFile f;
+
+		private FileChannel channel;
+
+		PidLock() {
+			pidFile = repo.getDirectory().toPath().resolve(GC_PID);
+		}
+
+		boolean lock() {
+			if (Files.exists(pidFile)) {
+				Instant mtime = FS.DETECTED
+						.lastModifiedInstant(pidFile.toFile());
+				Instant twelveHoursAgo = Instant.now().minus(12,
+						ChronoUnit.HOURS);
+				if (mtime.compareTo(twelveHoursAgo) > 0) {
+					gcAlreadyRunning();
+					return false;
+				}
+				LOG.warn(MessageFormat.format(JGitText.get().stalePidLock,
+						pidFile, mtime));
+			}
+			try {
+				token = FS.DETECTED.createNewFileAtomic(pidFile.toFile());
+				f = new RandomAccessFile(pidFile.toFile(), "rw"); //$NON-NLS-1$
+				channel = f.getChannel();
+				lock = channel.tryLock();
+				if (lock == null) {
+					failedToLock();
+					return false;
+				}
+				channel.write(ByteBuffer
+						.wrap(getProcDesc().getBytes(StandardCharsets.UTF_8)));
+				Thread cleanupHook = new Thread(() -> close());
+				try {
+					Runtime.getRuntime().addShutdownHook(cleanupHook);
+				} catch (IllegalStateException e) {
+					// ignore - the VM is already shutting down
+				}
+			} catch (IOException | OverlappingFileLockException e) {
+				try {
+					failedToLock();
+				} catch (Exception e1) {
+					LOG.error(
+							MessageFormat.format(
+									JGitText.get().closePidLockFailed, pidFile),
+							e1);
+				}
+				return false;
+			}
+			return true;
+		}
+
+		private void failedToLock() {
+			close();
+			LOG.error(MessageFormat.format(JGitText.get().failedPidLock,
+					pidFile));
+		}
+
+		private void gcAlreadyRunning() {
+			close();
+			try {
+				Optional<String> s = Files.lines(pidFile).findFirst();
+				String machine = null;
+				String pid = null;
+				if (s.isPresent()) {
+					String[] c = s.get().split("\\s+"); //$NON-NLS-1$
+					pid = c[0];
+					machine = c[1];
+				}
+				if (!StringUtils.isEmptyOrNull(machine)
+						&& !StringUtils.isEmptyOrNull(pid)) {
+					LOG.error(MessageFormat.format(
+							JGitText.get().gcAlreadyRunning, machine, pid));
+					return;
+				}
+			} catch (IOException e) {
+				// ignore
+			}
+			LOG.error(MessageFormat.format(JGitText.get().failedPidLock,
+					pidFile));
+		}
+
+		private String getProcDesc() {
+			StringBuffer s = new StringBuffer(Long.toString(getPID()));
+			s.append(' ');
+			s.append(getHostName());
+			return s.toString();
+		}
+
+		private long getPID() {
+			return ProcessHandle.current().pid();
+		}
+
+		private String getHostName() {
+			try {
+				return InetAddress.getLocalHost().getHostName();
+			} catch (UnknownHostException e) {
+				return ""; //$NON-NLS-1$
+			}
+		}
+
+		@Override
+		public void close() {
+			boolean wasLocked = false;
+			try {
+				if (lock != null) {
+					lock.release();
+					wasLocked = true;
+				}
+				if (channel != null) {
+					channel.close();
+				}
+				if (f != null) {
+					f.close();
+				}
+				if (token != null) {
+					token.close();
+				}
+				if (wasLocked) {
+					FileUtils.delete(pidFile.toFile(), FileUtils.RETRY);
+				}
+			} catch (IOException e) {
+				LOG.error(MessageFormat
+						.format(JGitText.get().closePidLockFailed, pidFile), e);
+			}
+		}
+
 	}
 }
