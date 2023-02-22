@@ -1650,7 +1650,7 @@ public class GC {
 				channel = f.getChannel();
 				lock = channel.tryLock();
 				if (lock == null || !lock.isValid()) {
-					failedToLock();
+					gcAlreadyRunning();
 					return false;
 				}
 				channel.write(ByteBuffer
