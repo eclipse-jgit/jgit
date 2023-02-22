@@ -1649,7 +1649,7 @@ public class GC {
 				f = new RandomAccessFile(pidFile.toFile(), "rw"); //$NON-NLS-1$
 				channel = f.getChannel();
 				lock = channel.tryLock();
-				if (lock == null) {
+				if (lock == null || !lock.isValid()) {
 					failedToLock();
 					return false;
 				}
@@ -1738,7 +1738,7 @@ public class GC {
 		public void close() {
 			boolean wasLocked = false;
 			try {
-				if (lock != null) {
+				if (lock != null && lock.isValid()) {
 					lock.release();
 					wasLocked = true;
 				}
