@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "867cdc44_a9cbaca4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-02-23T23:20:00Z",
+      "side": 1,
+      "message": "Matthias, Kaushik will be pushing a change to Gerrit that shows how this is used to implement a per-request ref cache. Is there anything else we should add to justify this in JGit? We\u0027re thinking it would be good to have some kind of minimal test to show the SnapshotRefDirectory can be used as intended. Anything else you would suggest?",
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
