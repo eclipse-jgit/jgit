@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d0dce1_70a5dcbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshotRefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-02-23T19:29:33Z",
+      "side": 1,
+      "message": "Use `refDb.getRepository()` instead and then you can leave `RefDirectory.parent` private.",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 34,
+        "endChar": 26
+      },
+      "revId": "884f69cb123ffeb4d061de27cbf3edc12e4e9c74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
