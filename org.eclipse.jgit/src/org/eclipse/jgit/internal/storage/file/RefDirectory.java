@@ -116,7 +116,7 @@ public class RefDirectory extends RefDatabase {
 	private static final List<Integer> RETRY_SLEEP_MS =
 			Collections.unmodifiableList(Arrays.asList(0, 100, 200, 400, 800, 1600));
 
-	private final FileRepository parent;
+	final FileRepository parent;
 
 	private final File gitDir;
 
@@ -136,7 +136,7 @@ public class RefDirectory extends RefDatabase {
 	 * converted into resolved references during a get operation, ensuring the
 	 * live value is always returned.
 	 */
-	private final AtomicReference<RefList<LooseRef>> looseRefs = new AtomicReference<>();
+	final AtomicReference<RefList<LooseRef>> looseRefs = new AtomicReference<>();
 
 	/** Immutable sorted list of packed references. */
 	final AtomicReference<PackedRefList> packedRefs = new AtomicReference<>();
