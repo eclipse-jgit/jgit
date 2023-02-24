@@ -16,6 +16,23 @@
       "message": "\u003e Patch Set 25: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/3146/ : FAILURE\n\n13:04:28  [ERROR] Failures: \n13:04:28  [ERROR]   GcConcurrentTest.testInterruptGc:223 thread wasn\u0027t interrupted",
       "revId": "ca2c57b2ec5400db9c9446056b001a83adc5ccd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a251969b_671b3d62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-02-24T21:21:50Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "ca2c57b2ec5400db9c9446056b001a83adc5ccd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
