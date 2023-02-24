@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e5029c7_8799b5ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-02-24T18:45:46Z",
+      "side": 1,
+      "message": "LGTM otherwise",
+      "revId": "4b6fe1dd621c25dc5b9daa1ed18d7a0d9af41faa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "746e18c8_9f918a57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-02-24T18:45:46Z",
+      "side": 1,
+      "message": "please comment that this has to be called before writeBitmapIndex() as that method destroys the cache data needed by this method, thanks!",
+      "range": {
+        "startLine": 1099,
+        "startChar": 4,
+        "endLine": 1099,
+        "endChar": 16
+      },
+      "revId": "4b6fe1dd621c25dc5b9daa1ed18d7a0d9af41faa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
