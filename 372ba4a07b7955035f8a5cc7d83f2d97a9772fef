@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4899576_de4bd1aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-02-24T18:56:53Z",
+      "side": 1,
+      "message": "\u003e where would that happen when using the snapshot ?\n\u003e Aren\u0027t all loose refs read only when constructing the snapshot ?\n\nI think all the ref read paths will still look for a loose ref to take precedence over a packed ref. We\u0027re not (yet) overriding readRef() to skip that when we\u0027ve already read the ref (loose or packed). We populate the Snapshot looseRefs to take advantage of the work already done in RefDirectory, but we don\u0027t make other shortcuts yet.",
+      "parentUuid": "077ddd33_67adc909",
+      "range": {
+        "startLine": 14,
+        "startChar": 50,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "867cdc44_a9cbaca4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
