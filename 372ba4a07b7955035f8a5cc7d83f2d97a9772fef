@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "077ddd33_67adc909",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-24T09:47:09Z",
+      "side": 1,
+      "message": "where would that happen when using the snapshot ?\nAren\u0027t all loose refs read only when constructing the snapshot ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 50,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "867cdc44_a9cbaca4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -32,6 +55,103 @@
       "side": 1,
       "message": "Here\u0027s the Gerrit change: \n\n360646: Create a per-request ref cache using Jgit\u0027s SnapshotRefDirectory | https://gerrit-review.googlesource.com/c/gerrit/+/360646",
       "parentUuid": "867cdc44_a9cbaca4",
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44612e1a_b1492ef0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-24T09:47:09Z",
+      "side": 1,
+      "message": "add some tests ?",
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54e0125c_3e9abbfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-24T09:47:09Z",
+      "side": 1,
+      "message": "I would add a factory method `snapshot` to this class which creates a new snapshot passing both the looseRefs and PackedRefs to the snapshot\u0027s constructor. Then you don\u0027t need to change visibility of this field.",
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c5ce82_de760607",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-24T09:47:09Z",
+      "side": 1,
+      "message": "Don\u0027t know why this field isn\u0027t private, it wasn\u0027t used from another class in JGit so far.",
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebec703c_7a0c5966",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshotRefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-24T09:47:09Z",
+      "side": 1,
+      "message": "Can we make this an inner class `Snapshot` of RefDirectory ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f65b999a_7ee745a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshotRefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-24T09:47:09Z",
+      "side": 1,
+      "message": "why is this needed, doesn\u0027t the constructor retrieve the snapshot of loose and packed refs already ?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 9
+      },
       "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
