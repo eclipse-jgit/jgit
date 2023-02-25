@@ -184,6 +184,75 @@ public class RenameDetectorTest extends AbstractRenameDetectionTestCase {
 	}
 
 	@Test
+	public void testExactRenameAndInexactRename_OneDeleteOneExactOneInexactAdds() throws Exception {
+		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
+		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
+
+		DiffEntry a = DiffEntry.add("src/com/foo/a.java", aId);
+		DiffEntry b = DiffEntry.add("src/com/foo/b.java", bId);
+
+		DiffEntry c = DiffEntry.delete("d.txt", aId);
+
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+
+		assertRename(c, a, 100, entries.get(0));
+		assertCopy(c, b, 65, entries.get(1));
+	}
+
+	@Test
+	public void testExactRenameAndInexactRename_OneDeleteTwoExactOneInexactAdds() throws Exception {
+		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
+		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
+
+		DiffEntry a = DiffEntry.add("src/com/foo/a.java", aId);
+		DiffEntry b = DiffEntry.add("src/com/foo/b.java", aId);
+		DiffEntry c = DiffEntry.add("src/com/foo/c.java", bId);
+
+		DiffEntry d = DiffEntry.delete("d.txt", aId);
+
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+		rd.add(d);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(3, entries.size());
+
+		assertRename(d, a, 100, entries.get(0));
+		assertCopy(d, b, 100, entries.get(1));
+		assertCopy(d, c, 65, entries.get(2));
+	}
+
+	@Test
+	public void testExactRenameAndInexactRename_OneDeleteOneExactTwoInexactAdds() throws Exception {
+		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
+		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
+
+		DiffEntry a = DiffEntry.add("src/com/foo/a.java", aId);
+		DiffEntry b = DiffEntry.add("src/com/foo/b.java", bId);
+		DiffEntry c = DiffEntry.add("src/com/foo/c.java", bId);
+
+		DiffEntry d = DiffEntry.delete("d.txt", aId);
+
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+		rd.add(d);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(3, entries.size());
+
+		assertRename(d, a, 100, entries.get(0));
+		assertCopy(d, b, 65, entries.get(1));
+		assertCopy(d, c, 65, entries.get(2));
+	}
+
+	@Test
 	public void testExactRename_UnstagedFile() throws Exception {
 		ObjectId aId = blob("foo");
 		DiffEntry a = DiffEntry.delete(PATH_A, aId);

@@ -21,8 +21,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
+import java.util.Set;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
@@ -81,6 +83,13 @@ public class RenameDetector {
 	private List<DiffEntry> deleted;
 
 	private List<DiffEntry> added;
+
+	/**
+	 * Old paths of deleted that have been matched in renames. If the corresponding
+	 * deleted are matched again with other added, they'll be considered to be copies
+	 * instead of renames.
+	 */
+	private Set<String> matchedDeletedPaths;
 
 	private boolean done;
 
@@ -427,6 +436,9 @@ public class RenameDetector {
 			if (!added.isEmpty() && !deleted.isEmpty())
 				findContentRenames(reader, pm);
 
+			deleted.removeIf(d -> matchedDeletedPaths.contains(d.getOldPath()));
+			matchedDeletedPaths = null;
+
 			if (0 < breakScore && !added.isEmpty() && !deleted.isEmpty())
 				rejoinModifies(pm);
 
@@ -448,6 +460,7 @@ public class RenameDetector {
 		entries = new ArrayList<>();
 		deleted = new ArrayList<>();
 		added = new ArrayList<>();
+		matchedDeletedPaths = new HashSet<>();
 		done = false;
 	}
 
@@ -546,13 +559,12 @@ public class RenameDetector {
 		if (getRenameLimit() == 0 || cnt <= getRenameLimit()) {
 			SimilarityRenameDetector d;
 
-			d = new SimilarityRenameDetector(reader, deleted, added);
+			d = new SimilarityRenameDetector(reader, deleted, added, matchedDeletedPaths);
 			d.setRenameScore(getRenameScore());
 			d.setBigFileThreshold(getBigFileThreshold());
 			d.setSkipBinaryFiles(getSkipContentRenamesForBinaryFiles());
 			d.compute(pm);
 			overRenameLimit |= d.isTableOverflow();
-			deleted = d.getLeftOverSources();
 			added = d.getLeftOverDestinations();
 			entries.addAll(d.getMatches());
 		} else {
@@ -589,7 +601,7 @@ public class RenameDetector {
 				// type
 				DiffEntry e = (DiffEntry) del;
 				if (sameType(e.oldMode, a.newMode)) {
-					e.changeType = ChangeType.RENAME;
+					matchedDeletedPaths.add(e.getOldPath());
 					entries.add(exactRename(e, a));
 				} else {
 					left.add(a);
@@ -600,7 +612,7 @@ public class RenameDetector {
 				List<DiffEntry> list = (List<DiffEntry>) del;
 				DiffEntry best = bestPathMatch(a, list);
 				if (best != null) {
-					best.changeType = ChangeType.RENAME;
+					matchedDeletedPaths.add(best.getOldPath());
 					entries.add(exactRename(best, a));
 				} else {
 					left.add(a);
@@ -620,7 +632,7 @@ public class RenameDetector {
 				DiffEntry d = (DiffEntry) o;
 				DiffEntry best = bestPathMatch(d, adds);
 				if (best != null) {
-					d.changeType = ChangeType.RENAME;
+					matchedDeletedPaths.add(d.getOldPath());
 					entries.add(exactRename(d, best));
 					for (DiffEntry a : adds) {
 						if (a != best) {
@@ -672,12 +684,7 @@ public class RenameDetector {
 					}
 
 					ChangeType type;
-					if (d.changeType == ChangeType.DELETE) {
-						// First use of this source file. Tag it as a rename so we
-						// later know it is already been used as a rename, other
-						// matches (if any) will claim themselves as copies instead.
-						//
-						d.changeType = ChangeType.RENAME;
+					if (matchedDeletedPaths.add(d.getOldPath())) {
 						type = ChangeType.RENAME;
 					} else {
 						type = ChangeType.COPY;
@@ -693,21 +700,6 @@ public class RenameDetector {
 			advanceOrCancel(pm);
 		}
 		added = left;
-
-		deleted = new ArrayList<>(deletedMap.size());
-		for (Object o : deletedMap.values()) {
-			if (o instanceof DiffEntry) {
-				DiffEntry e = (DiffEntry) o;
-				if (e.changeType == ChangeType.DELETE)
-					deleted.add(e);
-			} else {
-				List<DiffEntry> list = (List<DiffEntry>) o;
-				for (DiffEntry e : list) {
-					if (e.changeType == ChangeType.DELETE)
-						deleted.add(e);
-				}
-			}
-		}
 		pm.endTask();
 	}
 

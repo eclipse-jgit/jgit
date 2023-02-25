@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
+import java.util.Set;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
@@ -65,6 +66,13 @@ class SimilarityRenameDetector {
 	private List<DiffEntry> dsts;
 
 	/**
+	 * Old paths of sources that have already been matched in renames. If the corresponding
+	 * sources are matched again, they'll be considered to be copies.
+	 * The set will be updated during the computation of similar renames in this class.
+	 */
+	private Set<String> matchedSrcsPaths;
+
+	/**
 	 * Matrix of all examined file pairs, and their scores.
 	 * <p>
 	 * The upper 8 bits of each long stores the score, but the score is bounded
@@ -97,10 +105,11 @@ class SimilarityRenameDetector {
 	private List<DiffEntry> out;
 
 	SimilarityRenameDetector(ContentSource.Pair reader, List<DiffEntry> srcs,
-			List<DiffEntry> dsts) {
+			List<DiffEntry> dsts, Set<String> matchedSrcsPaths) {
 		this.reader = reader;
 		this.srcs = srcs;
 		this.dsts = dsts;
+		this.matchedSrcsPaths = matchedSrcsPaths;
 	}
 
 	void setRenameScore(int score) {
@@ -144,12 +153,7 @@ class SimilarityRenameDetector {
 			}
 
 			ChangeType type;
-			if (s.changeType == ChangeType.DELETE) {
-				// First use of this source file. Tag it as a rename so we
-				// later know it is already been used as a rename, other
-				// matches (if any) will claim themselves as copies instead.
-				//
-				s.changeType = ChangeType.RENAME;
+			if (matchedSrcsPaths.add(s.getOldPath())) {
 				type = ChangeType.RENAME;
 			} else {
 				type = ChangeType.COPY;
@@ -160,7 +164,6 @@ class SimilarityRenameDetector {
 			pm.update(1);
 		}
 
-		srcs = compactSrcList(srcs);
 		dsts = compactDstList(dsts);
 		pm.endTask();
 	}
@@ -169,25 +172,12 @@ class SimilarityRenameDetector {
 		return out;
 	}
 
-	List<DiffEntry> getLeftOverSources() {
-		return srcs;
-	}
-
 	List<DiffEntry> getLeftOverDestinations() {
 		return dsts;
 	}
 
 	boolean isTableOverflow() {
 		return tableOverflow;
-	}
-
-	private static List<DiffEntry> compactSrcList(List<DiffEntry> in) {
-		ArrayList<DiffEntry> r = new ArrayList<>(in.size());
-		for (DiffEntry e : in) {
-			if (e.changeType == ChangeType.DELETE)
-				r.add(e);
-		}
-		return r;
 	}
 
 	private static List<DiffEntry> compactDstList(List<DiffEntry> in) {
