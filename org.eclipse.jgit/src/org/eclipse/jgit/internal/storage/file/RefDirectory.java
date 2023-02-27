@@ -179,6 +179,19 @@ public class RefDirectory extends RefDatabase {
 
 	private final TrustPackedRefsStat trustPackedRefsStat;
 
+	RefDirectory(RefDirectory refDb) {
+		parent = refDb.parent;
+		gitDir = refDb.gitDir;
+		refsDir = refDb.refsDir;
+		logsDir = refDb.logsDir;
+		logsRefsDir = refDb.logsRefsDir;
+		packedRefsFile = refDb.packedRefsFile;
+		looseRefs.set(refDb.looseRefs.get());
+		packedRefs.set(refDb.packedRefs.get());
+		trustFolderStat = refDb.trustFolderStat;
+		trustPackedRefsStat = refDb.trustPackedRefsStat;
+	}
+
 	RefDirectory(FileRepository db) {
 		final FS fs = db.getFS();
 		parent = db;
@@ -221,6 +234,15 @@ public class RefDirectory extends RefDatabase {
 			return new File(logsRefsDir, name);
 		}
 		return new File(logsDir, name);
+	}
+
+	/**
+	 * Create a cache of this {@link RefDirectory}.
+	 *
+	 * @return a cached RefDirectory.
+	 */
+	public CachedRefDirectory createCachedRefDirectory() {
+		return new CachedRefDirectory(this);
 	}
 
 	/** {@inheritDoc} */
@@ -575,10 +597,14 @@ public class RefDirectory extends RefDatabase {
 		else {
 			detachingSymbolicRef = detach && ref.isSymbolic();
 		}
-		RefDirectoryUpdate refDirUpdate = new RefDirectoryUpdate(this, ref);
+		RefDirectoryUpdate refDirUpdate = createRefDirectoryUpdate(ref);
 		if (detachingSymbolicRef)
 			refDirUpdate.setDetachingSymbolicRef();
 		return refDirUpdate;
+	}
+
+	RefDirectoryUpdate createRefDirectoryUpdate(Ref ref) {
+		return new RefDirectoryUpdate(this, ref);
 	}
 
 	/** {@inheritDoc} */
@@ -587,6 +613,10 @@ public class RefDirectory extends RefDatabase {
 			throws IOException {
 		RefDirectoryUpdate from = newUpdate(fromName, false);
 		RefDirectoryUpdate to = newUpdate(toName, false);
+		return createRefDirectoryRename(from, to);
+	}
+
+	RefDirectoryRename createRefDirectoryRename(RefDirectoryUpdate from, RefDirectoryUpdate to) {
 		return new RefDirectoryRename(from, to);
 	}
 
@@ -966,6 +996,13 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
+	void compareAndSetPackedRefs(PackedRefList curList, PackedRefList newList) {
+		if (packedRefs.compareAndSet(curList, newList)
+				&& !curList.id.equals(newList.id)) {
+			modCnt.incrementAndGet();
+		}
+	}
+
 	private RefList<Ref> parsePackedRefs(BufferedReader br)
 			throws IOException {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
@@ -1258,7 +1295,7 @@ public class RefDirectory extends RefDatabase {
 		File tmp = File.createTempFile("renamed_", "_ref", refsDir); //$NON-NLS-1$ //$NON-NLS-2$
 		String name = Constants.R_REFS + tmp.getName();
 		Ref ref = new ObjectIdRef.Unpeeled(NEW, name, null);
-		return new RefDirectoryUpdate(this, ref);
+		return createRefDirectoryUpdate(ref);
 	}
 
 	/**

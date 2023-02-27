@@ -59,6 +59,15 @@ class RefDirectoryRename extends RefRename {
 		refdb = src.getRefDatabase();
 	}
 
+	/**
+	 * Get the ref directory associated with this rename.
+	 *
+	 * @return the ref directory.
+	 */
+	protected RefDirectory getRefDirectory() {
+		return refdb;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	protected Result doRename() throws IOException {
