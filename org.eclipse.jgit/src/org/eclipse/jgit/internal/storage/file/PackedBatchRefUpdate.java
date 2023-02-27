@@ -160,31 +160,35 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		Map<String, LockFile> locks = null;
 		refdb.inProcessPackedRefsLock.lock();
 		try {
-			PackedRefList oldPackedList;
+			// During clone locking isn't needed since no refs exist yet.
+			// This also helps to avoid problems with refs only differing in
+			// case on a case insensitive filesystem (bug 528497)
 			if (!refdb.isInClone() && shouldLockLooseRefs) {
 				locks = lockLooseRefs(pending);
 				if (locks == null) {
 					return;
 				}
-				oldPackedList = refdb.pack(locks);
-			} else {
-				// During clone locking isn't needed since no refs exist yet.
-				// This also helps to avoid problems with refs only differing in
-				// case on a case insensitive filesystem (bug 528497)
-				oldPackedList = refdb.getPackedRefs();
+				refdb.pack(locks);
 			}
-			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
-			if (newRefs == null) {
-				return;
-			}
+
 			LockFile packedRefsLock = refdb.lockPackedRefs();
 			if (packedRefsLock == null) {
 				lockFailure(pending.get(0), pending);
 				return;
 			}
-			// commitPackedRefs removes lock file (by renaming over real file).
-			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
-					true);
+			try {
+				PackedRefList oldPackedList = refdb.refreshPackedRefs();
+				RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
+				if (newRefs == null) {
+					return;
+				}
+				refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
+						true);
+			} finally {
+				// This will be no-op if commitPackedRefs is successful as it
+				// will remove the lock file (by renaming over real file).
+				packedRefsLock.unlock();
+			}
 		} finally {
 			try {
 				unlockAll(locks);
