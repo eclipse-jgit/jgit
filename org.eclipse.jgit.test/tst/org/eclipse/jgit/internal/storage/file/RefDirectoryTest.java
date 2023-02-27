@@ -58,13 +58,13 @@ import org.junit.Test;
 public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private Repository diskRepo;
 
-	private TestRepository<Repository> repo;
+	TestRepository<Repository> repo;
 
-	private RefDirectory refdir;
+	RefDirectory refdir;
 
-	private RevCommit A;
+	RevCommit A;
 
-	private RevCommit B;
+	RevCommit B;
 
 	private RevTag v1_0;
 
@@ -1349,6 +1349,13 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(Storage.LOOSE, ref.getStorage());
 	}
 
+	void writePackedRefs(String content) throws IOException {
+		File pr = new File(diskRepo.getDirectory(), "packed-refs");
+		write(pr, content);
+		FS fs = diskRepo.getFS();
+		fs.setLastModified(pr.toPath(), Instant.now().minusSeconds(3600));
+	}
+
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
 		writeLooseRef(name, id.name() + "\n");
 	}
@@ -1359,13 +1366,6 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 	private void writePackedRef(String name, AnyObjectId id) throws IOException {
 		writePackedRefs(id.name() + " " + name + "\n");
-	}
-
-	private void writePackedRefs(String content) throws IOException {
-		File pr = new File(diskRepo.getDirectory(), "packed-refs");
-		write(pr, content);
-		FS fs = diskRepo.getFS();
-		fs.setLastModified(pr.toPath(), Instant.now().minusSeconds(3600));
 	}
 
 	private void deleteLooseRef(String name) {
