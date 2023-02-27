@@ -649,7 +649,7 @@ public class RefDirectory extends RefDatabase {
 			try {
 				LockFile lck = lockPackedRefsOrThrow();
 				try {
-					PackedRefList cur = readPackedRefs();
+					PackedRefList cur = refreshPackedRefs();
 					int idx = cur.find(name);
 					if (0 <= idx) {
 						commitPackedRefs(lck, cur.remove(idx), packed, true);
@@ -717,7 +717,7 @@ public class RefDirectory extends RefDatabase {
 			LockFile lck = lockPackedRefsOrThrow();
 			try {
 				final PackedRefList packed = getPackedRefs();
-				RefList<Ref> cur = readPackedRefs();
+				RefList<Ref> cur = refreshPackedRefs();
 
 				// Iterate over all refs to be packed
 				boolean dirty = false;
@@ -924,15 +924,11 @@ public class RefDirectory extends RefDatabase {
 			break;
 		}
 
-		final PackedRefList newList = readPackedRefs();
-		if (packedRefs.compareAndSet(curList, newList)
-				&& !curList.id.equals(newList.id)) {
-			modCnt.incrementAndGet();
-		}
-		return newList;
+		return refreshPackedRefs();
 	}
 
-	private PackedRefList readPackedRefs() throws IOException {
+	PackedRefList refreshPackedRefs() throws IOException {
+		PackedRefList curList = packedRefs.get();
 		try {
 			PackedRefList result = FileUtils.readWithRetries(packedRefsFile,
 					f -> {
@@ -948,7 +944,12 @@ public class RefDirectory extends RefDatabase {
 									ObjectId.fromRaw(digest.digest()));
 						}
 					});
-			return result != null ? result : NO_PACKED_REFS;
+			PackedRefList newList = result != null ? result : NO_PACKED_REFS;
+			if (packedRefs.compareAndSet(curList, newList)
+					&& !curList.id.equals(newList.id)) {
+				modCnt.incrementAndGet();
+			}
+			return newList;
 		} catch (IOException e) {
 			throw e;
 		} catch (Exception e) {
