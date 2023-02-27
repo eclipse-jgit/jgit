@@ -924,9 +924,18 @@ public class RefDirectory extends RefDatabase {
 			break;
 		}
 
+		return refreshPackedRefs(curList);
+	}
+
+	PackedRefList refreshPackedRefs() throws IOException {
+		return refreshPackedRefs(packedRefs.get());
+	}
+
+	private PackedRefList refreshPackedRefs(PackedRefList curList)
+			throws IOException {
 		final PackedRefList newList = readPackedRefs();
-		if (packedRefs.compareAndSet(curList, newList)
-				&& !curList.id.equals(newList.id)) {
+		if (packedRefs.compareAndSet(curList, newList) && !curList.id.equals(
+				newList.id)) {
 			modCnt.incrementAndGet();
 		}
 		return newList;
