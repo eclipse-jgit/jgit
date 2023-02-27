@@ -179,6 +179,19 @@ public class RefDirectory extends RefDatabase {
 
 	private final TrustPackedRefsStat trustPackedRefsStat;
 
+	private RefDirectory(RefDirectory refDb) {
+		parent = refDb.parent;
+		gitDir = refDb.gitDir;
+		refsDir = refDb.refsDir;
+		logsDir = refDb.logsDir;
+		logsRefsDir = refDb.logsRefsDir;
+		packedRefsFile = refDb.packedRefsFile;
+		looseRefs.set(refDb.looseRefs.get());
+		packedRefs.set(refDb.packedRefs.get());
+		trustFolderStat = refDb.trustFolderStat;
+		trustPackedRefsStat = refDb.trustPackedRefsStat;
+	}
+
 	RefDirectory(FileRepository db) {
 		final FS fs = db.getFS();
 		parent = db;
@@ -1489,6 +1502,38 @@ public class RefDirectory extends RefDatabase {
 		public LooseRef peel(ObjectIdRef newLeaf) {
 			// We should never try to peel the symbolic references.
 			throw new UnsupportedOperationException();
+		}
+	}
+
+	/**
+	 * Snapshot of a traditional file system based {@link RefDatabase}.
+	 * <p>
+	 * This can be used in a request scope to avoid re-reading packed-refs on
+	 * each read.
+	 */
+	public static final class WritableSnapshot extends RefDirectory {
+		private volatile boolean isPackedRefsSnapshot;
+
+		/**
+		 * Create a snapshot of file system based {@link RefDatabase}.
+		 *
+		 * @param refDb
+		 *            a reference to the ref database
+		 */
+		public WritableSnapshot(RefDirectory refDb) {
+			super(refDb);
+		}
+
+		/**
+		 * Lazily initializes and returns a PackedRefList snapshot.
+		 */
+		@Override
+		PackedRefList getPackedRefs() throws IOException {
+			if (!isPackedRefsSnapshot) {
+				super.getPackedRefs();
+				isPackedRefsSnapshot = true;
+			}
+			return packedRefs.get();
 		}
 	}
 }
