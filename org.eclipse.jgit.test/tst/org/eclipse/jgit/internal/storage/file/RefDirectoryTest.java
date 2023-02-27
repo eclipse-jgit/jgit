@@ -44,12 +44,15 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.Repeat;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
@@ -1335,6 +1338,40 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		}
 		Ref ref = refdir.findRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());
+	}
+
+	@Test
+	public void testSnapshot_CannotSeeExternalPackedRefsUpdates()
+			throws IOException {
+		String refName = "refs/heads/new";
+		RefDirectory.WritableSnapshot snapshot = new RefDirectory.WritableSnapshot(
+				refdir);
+
+		writePackedRef(refName, A);
+		assertEquals(A, refdir.exactRef(refName).getObjectId());
+		assertEquals(A, snapshot.exactRef(refName).getObjectId());
+
+		writePackedRef(refName, B);
+		assertEquals(B, refdir.exactRef(refName).getObjectId());
+		assertEquals(A, snapshot.exactRef(refName).getObjectId());
+	}
+
+	@Test
+	public void testSnapshot_WriteThrough() throws IOException {
+		String refName = "refs/heads/new";
+		RefDirectory.WritableSnapshot snapshot = new RefDirectory.WritableSnapshot(
+				refdir);
+
+		writePackedRef(refName, A);
+		assertEquals(A, refdir.exactRef(refName).getObjectId());
+		assertEquals(A, snapshot.exactRef(refName).getObjectId());
+
+		PackedBatchRefUpdate update = snapshot.newBatchUpdate();
+		update.addCommand(new ReceiveCommand(A, B, refName));
+		update.execute(repo.getRevWalk(), NullProgressMonitor.INSTANCE);
+
+		assertEquals(B, refdir.exactRef(refName).getObjectId());
+		assertEquals(B, snapshot.exactRef(refName).getObjectId());
 	}
 
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
