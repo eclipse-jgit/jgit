@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa071af9_f665c53b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-02-27T16:30:21Z",
+      "side": 1,
+      "message": "Yes, we\u0027ll add some tests.",
+      "parentUuid": "44612e1a_b1492ef0",
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54e0125c_3e9abbfe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 5
@@ -113,6 +131,24 @@
       "writtenOn": "2023-02-24T09:47:09Z",
       "side": 1,
       "message": "I would add a factory method `snapshot` to this class which creates a new snapshot passing both the looseRefs and PackedRefs to the snapshot\u0027s constructor. Then you don\u0027t need to change visibility of this field.",
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8561fd9_50183dcd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-02-27T16:30:21Z",
+      "side": 1,
+      "message": "I have added a factory method now and am not changing the visibility of this field. However, I am not passing in looseRefs and PackedRefs as the Snapshot is a non-static inner class.",
+      "parentUuid": "54e0125c_3e9abbfe",
       "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -130,6 +166,24 @@
       "writtenOn": "2023-02-24T09:47:09Z",
       "side": 1,
       "message": "Don\u0027t know why this field isn\u0027t private, it wasn\u0027t used from another class in JGit so far.",
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d87ca7a8_c6deea91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-02-27T16:30:21Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "f1c5ce82_de760607",
       "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -157,6 +211,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b21c633f_9f446fd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshotRefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-02-27T16:30:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebec703c_7a0c5966",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f65b999a_7ee745a3",
@@ -170,6 +248,30 @@
       "writtenOn": "2023-02-24T09:47:09Z",
       "side": 1,
       "message": "why is this needed, doesn\u0027t the constructor retrieve the snapshot of loose and packed refs already ?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 9
+      },
+      "revId": "372ba4a07b7955035f8a5cc7d83f2d97a9772fef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b3a8805_de73bae3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshotRefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-02-27T16:30:21Z",
+      "side": 1,
+      "message": "The first time \u0027getPackedRefs\u0027 is called using Snapshot, we want it to get the latest packed-refs. All subsequent calls should avoid a read. I have added a java doc on the method to explain it better.\n\nWe intend to set trustPackedRefs\u003dafter_open and are trying to avoid the penalty of the attribute refresh by not doing it more than once in a request-scope.",
+      "parentUuid": "f65b999a_7ee745a3",
       "range": {
         "startLine": 43,
         "startChar": 0,
