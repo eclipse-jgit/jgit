@@ -716,13 +716,13 @@ public class RefDirectory extends RefDatabase {
 		try {
 			LockFile lck = lockPackedRefsOrThrow();
 			try {
-				final PackedRefList packed = getPackedRefs();
-				RefList<Ref> cur = readPackedRefs();
+				PackedRefList oldPacked = refreshPackedRefs();
+				RefList<Ref> newPacked = oldPacked;
 
 				// Iterate over all refs to be packed
 				boolean dirty = false;
 				for (String refName : refs) {
-					Ref oldRef = readRef(refName, cur);
+					Ref oldRef = readRef(refName, newPacked);
 					if (oldRef == null) {
 						continue; // A non-existent ref is already correctly packed.
 					}
@@ -739,11 +739,11 @@ public class RefDirectory extends RefDatabase {
 					}
 
 					dirty = true;
-					int idx = cur.find(refName);
+					int idx = newPacked.find(refName);
 					if (idx >= 0) {
-						cur = cur.set(idx, newRef);
+						newPacked = newPacked.set(idx, newRef);
 					} else {
-						cur = cur.add(idx, newRef);
+						newPacked = newPacked.add(idx, newRef);
 					}
 				}
 				if (!dirty) {
@@ -752,7 +752,7 @@ public class RefDirectory extends RefDatabase {
 				}
 
 				// The new content for packed-refs is collected. Persist it.
-				commitPackedRefs(lck, cur, packed,false);
+				commitPackedRefs(lck, newPacked, oldPacked,false);
 
 				// Now delete the loose refs which are now packed
 				for (String refName : refs) {
@@ -779,7 +779,7 @@ public class RefDirectory extends RefDatabase {
 						if (currentLooseRef == null || currentLooseRef.isSymbolic()) {
 							continue;
 						}
-						Ref packedRef = cur.get(refName);
+						Ref packedRef = newPacked.get(refName);
 						ObjectId clr_oid = currentLooseRef.getObjectId();
 						if (clr_oid != null
 								&& clr_oid.equals(packedRef.getObjectId())) {
