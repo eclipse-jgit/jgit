@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a584448_857f7b1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-27T17:25:53Z",
+      "side": 1,
+      "message": "declare the Snapshot class final ?",
+      "revId": "4df00f30629f2e56f9e7105e66fc7a82c24bad89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e9b5263_56d11886",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-27T17:25:53Z",
+      "side": 1,
+      "message": "I think this class should override the methods for creating RefUpdates and let them throw UnsupportedOperationException since updates on a snapshot don\u0027t make sense.\n\nIf there is a need to update the snapshot from the underlying RefDirectory you could override the RefDatabase#refresh method which apparently is meant for this purpose. Didn\u0027t know this method exists ;-)\nThough I don\u0027t know if there would be any difference to calling #createSnapshot again.",
+      "range": {
+        "startLine": 1507,
+        "startChar": 15,
+        "endLine": 1507,
+        "endChar": 23
+      },
+      "revId": "4df00f30629f2e56f9e7105e66fc7a82c24bad89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "766d12e2_021d7606",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-02-27T17:25:53Z",
+      "side": 1,
+      "message": "I would call this in the constructor. It feels more natural to initialize the refs immediately when the snapshot is created.\n\nThen this method would always return packedRefs.get().",
+      "range": {
+        "startLine": 1522,
+        "startChar": 11,
+        "endLine": 1522,
+        "endChar": 33
+      },
+      "revId": "4df00f30629f2e56f9e7105e66fc7a82c24bad89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
