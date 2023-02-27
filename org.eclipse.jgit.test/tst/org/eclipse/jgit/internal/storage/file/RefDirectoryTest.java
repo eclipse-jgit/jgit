@@ -44,12 +44,14 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.Repeat;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,13 +60,13 @@ import org.junit.Test;
 public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private Repository diskRepo;
 
-	private TestRepository<Repository> repo;
+	TestRepository<Repository> repo;
 
-	private RefDirectory refdir;
+	RefDirectory refdir;
 
-	private RevCommit A;
+	RevCommit A;
 
-	private RevCommit B;
+	RevCommit B;
 
 	private RevTag v1_0;
 
@@ -1357,7 +1359,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		write(new File(diskRepo.getDirectory(), name), content);
 	}
 
-	private void writePackedRef(String name, AnyObjectId id) throws IOException {
+	void writePackedRef(String name, AnyObjectId id) throws IOException {
 		writePackedRefs(id.name() + " " + name + "\n");
 	}
 

@@ -521,6 +521,10 @@ public class BatchRefUpdate {
 		monitor.endTask();
 	}
 
+	protected RefDatabase getRefDatabase() {
+		return refdb;
+	}
+
 	private static boolean isMissing(RevWalk walk, ObjectId id)
 			throws IOException {
 		if (id.equals(ObjectId.zeroId())) {
