@@ -223,6 +223,15 @@ public class RefDirectory extends RefDatabase {
 		return new File(logsDir, name);
 	}
 
+	/**
+	 * Create a snapshot of this {@link RefDirectory}.
+	 *
+	 * @return a snapshot of RefDirectory.
+	 */
+	public Snapshot createSnapshot() {
+		return new Snapshot();
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
@@ -649,7 +658,7 @@ public class RefDirectory extends RefDatabase {
 			try {
 				LockFile lck = lockPackedRefsOrThrow();
 				try {
-					PackedRefList cur = readPackedRefs();
+					PackedRefList cur = readPackedRefs(packed);
 					int idx = cur.find(name);
 					if (0 <= idx) {
 						commitPackedRefs(lck, cur.remove(idx), packed, true);
@@ -717,7 +726,7 @@ public class RefDirectory extends RefDatabase {
 			LockFile lck = lockPackedRefsOrThrow();
 			try {
 				final PackedRefList packed = getPackedRefs();
-				RefList<Ref> cur = readPackedRefs();
+				RefList<Ref> cur = readPackedRefs(packed);
 
 				// Iterate over all refs to be packed
 				boolean dirty = false;
@@ -924,15 +933,10 @@ public class RefDirectory extends RefDatabase {
 			break;
 		}
 
-		final PackedRefList newList = readPackedRefs();
-		if (packedRefs.compareAndSet(curList, newList)
-				&& !curList.id.equals(newList.id)) {
-			modCnt.incrementAndGet();
-		}
-		return newList;
+		return readPackedRefs(curList);
 	}
 
-	private PackedRefList readPackedRefs() throws IOException {
+	private PackedRefList readPackedRefs(PackedRefList curList) throws IOException {
 		try {
 			PackedRefList result = FileUtils.readWithRetries(packedRefsFile,
 					f -> {
@@ -948,7 +952,12 @@ public class RefDirectory extends RefDatabase {
 									ObjectId.fromRaw(digest.digest()));
 						}
 					});
-			return result != null ? result : NO_PACKED_REFS;
+			PackedRefList newList = result != null ? result : NO_PACKED_REFS;
+			if (packedRefs.compareAndSet(curList, newList)
+					&& !curList.id.equals(newList.id)) {
+				modCnt.incrementAndGet();
+			}
+			return newList;
 		} catch (IOException e) {
 			throw e;
 		} catch (Exception e) {
@@ -1488,6 +1497,34 @@ public class RefDirectory extends RefDatabase {
 		public LooseRef peel(ObjectIdRef newLeaf) {
 			// We should never try to peel the symbolic references.
 			throw new UnsupportedOperationException();
+		}
+	}
+
+	/**
+	 * Snapshot of a traditional file system based {@link RefDatabase}.
+	 * <p>
+	 * This can be used in a request scope to avoid re-reading packed-refs more
+	 * than once in a single request.
+	 */
+	private class Snapshot extends RefDirectory {
+		private volatile boolean isPackedRefsSnapshot = false;
+
+		private Snapshot() {
+			super(parent);
+		}
+
+		/**
+		 * Read and return packed-refs the first time and skip reads for
+		 * subsequent calls
+		 */
+		@Override
+		PackedRefList getPackedRefs() throws IOException {
+			PackedRefList refs = packedRefs.get();
+			if (!isPackedRefsSnapshot) {
+				refs = super.getPackedRefs();
+				isPackedRefsSnapshot = true;
+			}
+			return refs;
 		}
 	}
 }
