@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/BatchingProgressMonitor.java" type="org.eclipse.jgit.lib.BatchingProgressMonitor">
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchingProgressMonitor"/>
+                <message_argument value="onEndTask(String, int, Duration)"/>
+            </message_arguments>
+        </filter>
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchingProgressMonitor"/>
+                <message_argument value="onEndTask(String, int, int, int, Duration)"/>
+            </message_arguments>
+        </filter>
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchingProgressMonitor"/>
+                <message_argument value="onUpdate(String, int, Duration)"/>
+            </message_arguments>
+        </filter>
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchingProgressMonitor"/>
+                <message_argument value="onUpdate(String, int, int, int, Duration)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchingProgressMonitor"/>
+                <message_argument value="onEndTask(String, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchingProgressMonitor"/>
+                <message_argument value="onEndTask(String, int, int, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchingProgressMonitor"/>
+                <message_argument value="onUpdate(String, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BatchingProgressMonitor"/>
+                <message_argument value="onUpdate(String, int, int, int)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="1142947843">
             <message_arguments>
@@ -42,6 +92,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/ProgressMonitor.java" type="org.eclipse.jgit.lib.ProgressMonitor">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ProgressMonitor"/>
+                <message_argument value="showDuration(boolean)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/RefDatabase.java" type="org.eclipse.jgit.lib.RefDatabase">
         <filter id="336658481">
             <message_arguments>
@@ -55,6 +113,32 @@
             <message_arguments>
                 <message_argument value="5.13.2"/>
                 <message_argument value="getReflogReader(Ref)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/TextProgressMonitor.java" type="org.eclipse.jgit.lib.TextProgressMonitor">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.TextProgressMonitor"/>
+                <message_argument value="onEndTask(String, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.TextProgressMonitor"/>
+                <message_argument value="onEndTask(String, int, int, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.TextProgressMonitor"/>
+                <message_argument value="onUpdate(String, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.TextProgressMonitor"/>
+                <message_argument value="onUpdate(String, int, int, int)"/>
             </message_arguments>
         </filter>
     </resource>

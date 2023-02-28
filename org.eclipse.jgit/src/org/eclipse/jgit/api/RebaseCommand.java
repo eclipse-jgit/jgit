@@ -151,7 +151,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	/**
 	 * The folder containing the hashes of (potentially) rewritten commits when
-	 * --preserve-merges is used.
+	 * --rebase-merges is used.
 	 * <p>
 	 * Native git rebase --merge uses a <em>file</em> of that name to record
 	 * commits to copy notes at the end of the whole rebase.
@@ -160,7 +160,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private static final String REWRITTEN = "rewritten"; //$NON-NLS-1$
 
 	/**
-	 * File containing the current commit(s) to cherry pick when --preserve-merges
+	 * File containing the current commit(s) to cherry pick when --rebase-merges
 	 * is used.
 	 */
 	private static final String CURRENT_COMMIT = "current-commit"; //$NON-NLS-1$

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.time.Duration;
 
 /**
  * A simple progress reporter printing on a stream.
@@ -46,49 +47,53 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void onUpdate(String taskName, int workCurr) {
+	protected void onUpdate(String taskName, int workCurr, Duration duration) {
 		StringBuilder s = new StringBuilder();
-		format(s, taskName, workCurr);
+		format(s, taskName, workCurr, duration);
 		send(s);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	protected void onEndTask(String taskName, int workCurr) {
+	protected void onEndTask(String taskName, int workCurr, Duration duration) {
 		StringBuilder s = new StringBuilder();
-		format(s, taskName, workCurr);
+		format(s, taskName, workCurr, duration);
 		s.append("\n"); //$NON-NLS-1$
 		send(s);
 	}
 
-	private void format(StringBuilder s, String taskName, int workCurr) {
+	private void format(StringBuilder s, String taskName, int workCurr,
+			Duration duration) {
 		s.append("\r"); //$NON-NLS-1$
 		s.append(taskName);
 		s.append(": "); //$NON-NLS-1$
 		while (s.length() < 25)
 			s.append(' ');
 		s.append(workCurr);
+		appendDuration(s, duration);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt) {
+	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt,
+			Duration duration) {
 		StringBuilder s = new StringBuilder();
-		format(s, taskName, cmp, totalWork, pcnt);
+		format(s, taskName, cmp, totalWork, pcnt, duration);
 		send(s);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
+	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt,
+			Duration duration) {
 		StringBuilder s = new StringBuilder();
-		format(s, taskName, cmp, totalWork, pcnt);
+		format(s, taskName, cmp, totalWork, pcnt, duration);
 		s.append("\n"); //$NON-NLS-1$
 		send(s);
 	}
 
 	private void format(StringBuilder s, String taskName, int cmp,
-			int totalWork, int pcnt) {
+			int totalWork, int pcnt, Duration duration) {
 		s.append("\r"); //$NON-NLS-1$
 		s.append(taskName);
 		s.append(": "); //$NON-NLS-1$
@@ -106,9 +111,10 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		s.append(pcnt);
 		s.append("% ("); //$NON-NLS-1$
 		s.append(curStr);
-		s.append("/"); //$NON-NLS-1$
+		s.append('/');
 		s.append(endStr);
-		s.append(")"); //$NON-NLS-1$
+		s.append(')');
+		appendDuration(s, duration);
 	}
 
 	private void send(StringBuilder s) {

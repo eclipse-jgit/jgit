@@ -52,4 +52,9 @@ public class NullProgressMonitor implements ProgressMonitor {
 	public void endTask() {
 		// Do not report.
 	}
+
+	@Override
+	public void showDuration(boolean enabled) {
+		// don't show
+	}
 }

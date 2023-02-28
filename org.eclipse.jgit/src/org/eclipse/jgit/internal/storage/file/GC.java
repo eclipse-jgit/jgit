@@ -279,17 +279,17 @@ public class GC {
 			if (!lock.lock()) {
 				return Collections.emptyList();
 			}
-		pm.start(6 /* tasks */);
-		packRefs();
-		// TODO: implement reflog_expire(pm, repo);
-		Collection<Pack> newPacks = repack();
-		prune(Collections.emptySet());
-		// TODO: implement rerere_gc(pm);
-		if (shouldWriteCommitGraphWhenGc()) {
-			writeCommitGraph(refsToObjectIds(getAllRefs()));
+			pm.start(6 /* tasks */);
+			packRefs();
+			// TODO: implement reflog_expire(pm, repo);
+			Collection<Pack> newPacks = repack();
+			prune(Collections.emptySet());
+			// TODO: implement rerere_gc(pm);
+			if (shouldWriteCommitGraphWhenGc()) {
+				writeCommitGraph(refsToObjectIds(getAllRefs()));
+			}
+			return newPacks;
 		}
-		return newPacks;
-	}
 	}
 
 	/**
