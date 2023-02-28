@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6896fc85_65466b21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-02-28T06:48:06Z",
+      "side": 1,
+      "message": "nit: \"actor and relying on the previously read contents may lead to losing\" ...",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "6f54c0a85ba22cfe88f1f4d905b177bc117483ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b734b65c_65e2f2f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-02-28T06:48:06Z",
+      "side": 1,
+      "message": "Add a note about why readPackedRefs() was renamed to refreshPackedRefs() (i.e. it should also own updating the in-memory packed-refs reference)?",
+      "revId": "6f54c0a85ba22cfe88f1f4d905b177bc117483ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
