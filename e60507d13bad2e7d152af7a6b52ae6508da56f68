@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8c94a09_8f89ae38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-02-28T06:53:22Z",
+      "side": 1,
+      "message": "nit: \"outdated\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "e60507d13bad2e7d152af7a6b52ae6508da56f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "09933d03_aa33a4ca",
@@ -14,6 +37,29 @@
       "writtenOn": "2023-02-28T06:10:27Z",
       "side": 1,
       "message": "trigger build",
+      "revId": "e60507d13bad2e7d152af7a6b52ae6508da56f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "342cc6ad_a271b6b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-02-28T06:53:22Z",
+      "side": 1,
+      "message": "Should this use `result` since we\u0027ve committed to disk now and potentially been returned a newer packed version of this ref?",
+      "range": {
+        "startLine": 783,
+        "startChar": 22,
+        "endLine": 783,
+        "endChar": 33
+      },
       "revId": "e60507d13bad2e7d152af7a6b52ae6508da56f68",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
