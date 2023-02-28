@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e45d28f0_62acbac7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-02-28T16:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8c94a09_8f89ae38",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "e60507d13bad2e7d152af7a6b52ae6508da56f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "09933d03_aa33a4ca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -54,6 +78,30 @@
       "writtenOn": "2023-02-28T06:53:22Z",
       "side": 1,
       "message": "Should this use `result` since we\u0027ve committed to disk now and potentially been returned a newer packed version of this ref?",
+      "range": {
+        "startLine": 783,
+        "startChar": 22,
+        "endLine": 783,
+        "endChar": 33
+      },
+      "revId": "e60507d13bad2e7d152af7a6b52ae6508da56f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab000120_63abfb92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-02-28T16:32:16Z",
+      "side": 1,
+      "message": "I think yes. Updated.",
+      "parentUuid": "342cc6ad_a271b6b1",
       "range": {
         "startLine": 783,
         "startChar": 22,
