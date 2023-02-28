@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e585cea_a1af2f14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1529,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-02-28T18:01:05Z",
+      "side": 1,
+      "message": "Make this one line?\n\n /** Lazily initializes and returns a PackedRefList snapshot. */\n\nOr add more text to explain when it could return a newer snapshot than the one we get the first time?",
+      "range": {
+        "startLine": 1527,
+        "startChar": 2,
+        "endLine": 1529,
+        "endChar": 5
+      },
+      "revId": "f4c75e2cc702074a386d10fb719b9458e4ef3a91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
