@@ -33,6 +33,46 @@
       "message": "trigger build",
       "revId": "cd319ef4bfc5a0d5f727987325e3836db229f4eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89601fbf_ed345957",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-03-01T19:33:48Z",
+      "side": 1,
+      "message": "`packed` is out of date now. We should be doing `packed \u003d cur` after line 652.",
+      "range": {
+        "startLine": 655,
+        "startChar": 45,
+        "endLine": 655,
+        "endChar": 51
+      },
+      "revId": "cd319ef4bfc5a0d5f727987325e3836db229f4eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f580f450_d2ac306f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-03-01T19:33:48Z",
+      "side": 1,
+      "message": "Same as above, `packed` is out of date now. Is this fix valid if we\u0027re not fixing that in this same change vs in the child [1]?\n\n[1] 200221: RefDirectory.pack: Only rely on packed refs from disk | https://git.eclipse.org/r/c/jgit/jgit/+/200221",
+      "revId": "cd319ef4bfc5a0d5f727987325e3836db229f4eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
