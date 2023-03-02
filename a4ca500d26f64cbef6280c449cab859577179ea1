@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e2e5bd2_0da1b03c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-03-02T17:12:37Z",
+      "side": 1,
+      "message": "@prudhvi, do tests fail if you revert this fix? 199959: Fix getPackedRefs to not throw NoSuchFileException | https://git.eclipse.org/r/c/jgit/jgit/+/199959",
+      "revId": "a4ca500d26f64cbef6280c449cab859577179ea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
