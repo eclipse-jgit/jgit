@@ -643,16 +643,16 @@ public class RefDirectory extends RefDatabase {
 		// Write the packed-refs file using an atomic update. We might
 		// wind up reading it twice, before and after the lock, to ensure
 		// we don't miss an edit made externally.
-		final PackedRefList packed = getPackedRefs();
+		PackedRefList packed = getPackedRefs();
 		if (packed.contains(name)) {
 			inProcessPackedRefsLock.lock();
 			try {
 				LockFile lck = lockPackedRefsOrThrow();
 				try {
-					PackedRefList cur = refreshPackedRefs();
-					int idx = cur.find(name);
+					packed = refreshPackedRefs();
+					int idx = packed.find(name);
 					if (0 <= idx) {
-						commitPackedRefs(lck, cur.remove(idx), packed, true);
+						commitPackedRefs(lck, packed.remove(idx), packed, true);
 					}
 				} finally {
 					lck.unlock();
