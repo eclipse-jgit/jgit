@@ -1,0 +1,8 @@
+diff --git a/conflict b/conflict
+index 2e65efe..7898192 100644
+--- a/conflict
++++ b/conflict
+@@ -1 +1 @@
+-a different preimage line
+\ No newline at end of file
++a new line
