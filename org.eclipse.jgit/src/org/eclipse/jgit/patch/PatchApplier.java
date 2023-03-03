@@ -34,6 +34,7 @@ import java.util.zip.InflaterInputStream;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.PatchApplyException;
+import org.eclipse.jgit.api.errors.PatchConflictException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.Attributes;
@@ -470,7 +471,7 @@ public class PatchApplier {
 			if (PatchType.GIT_BINARY.equals(fh.getPatchType())
 					&& fh.getNewId() != null && fh.getNewId().isComplete()
 					&& !fh.getNewId().toObjectId().equals(dce.getObjectId())) {
-				throw new PatchApplyException(MessageFormat.format(
+				throw new PatchConflictException(MessageFormat.format(
 						JGitText.get().applyBinaryResultOidWrong,
 						pathWithOriginalContent));
 			}
@@ -660,7 +661,7 @@ public class PatchApplier {
 			}
 		}
 		if (!hashOk) {
-			throw new PatchApplyException(MessageFormat
+			throw new PatchConflictException(MessageFormat
 					.format(JGitText.get().applyBinaryBaseOidWrong, path));
 		}
 	}
@@ -844,8 +845,9 @@ public class PatchApplier {
 				}
 			}
 			if (!applies) {
-				throw new PatchApplyException(MessageFormat
-						.format(JGitText.get().patchApplyException, hh));
+				throw new PatchConflictException(MessageFormat.format(
+						JGitText.get().applyTextPatchConflict, fh.getNewPath(),
+						hh));
 			}
 			// Hunk applies at applyAt. Apply it, and update afterLastHunk and
 			// lineNumberShift
