@@ -26,8 +26,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.PatchApplyException;
-import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.attributes.FilterCommand;
 import org.eclipse.jgit.attributes.FilterCommandFactory;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
@@ -112,15 +110,17 @@ public class PatchApplierTest {
 			return new String(postImage, StandardCharsets.UTF_8);
 		}
 
-		protected Result applyPatch()
-				throws PatchApplyException, PatchFormatException, IOException {
-			InputStream patchStream = getTestResource(name + ".patch");
-			if (inCore) {
-				try (ObjectInserter oi = db.newObjectInserter()) {
-					return new PatchApplier(db, baseTip, oi).applyPatch(patchStream);
+		protected Result applyPatch() throws IOException {
+			try (InputStream patchStream = getTestResource(name + ".patch")) {
+				Patch patch = new Patch();
+				patch.parse(patchStream);
+				if (inCore) {
+					try (ObjectInserter oi = db.newObjectInserter()) {
+						return new PatchApplier(db, baseTip, oi).applyPatch(patch);
+					}
 				}
+				return new PatchApplier(db).applyPatch(patch);
 			}
-			return new PatchApplier(db).applyPatch(patchStream);
 		}
 
 		protected static InputStream getTestResource(String patchFile) {
