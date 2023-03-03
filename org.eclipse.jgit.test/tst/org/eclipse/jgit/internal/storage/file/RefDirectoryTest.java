@@ -72,7 +72,10 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+		refDirectorySetup();
+	}
 
+	public void refDirectorySetup() throws Exception {
 		diskRepo = createBareRepository();
 		refdir = (RefDirectory) diskRepo.getRefDatabase();
 
