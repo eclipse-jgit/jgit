@@ -27,8 +27,8 @@ import org.eclipse.jgit.internal.transport.sshd.JGitClientSession;
 public abstract class AbstractClientProxyConnector
 		implements StatefulProxyConnector {
 
-	private static final long DEFAULT_PROXY_TIMEOUT_MILLIS = TimeUnit.SECONDS
-			.toMillis(30L);
+	private static final long DEFAULT_PROXY_TIMEOUT_NANOS = TimeUnit.SECONDS
+			.toNanos(30L);
 
 	/** Guards {@link #done} and {@link #bufferedCommands}. */
 	private final Object lock = new Object();
@@ -39,7 +39,7 @@ public abstract class AbstractClientProxyConnector
 
 	private AtomicReference<Runnable> unregister = new AtomicReference<>();
 
-	private long remainingProxyProtocolTime = DEFAULT_PROXY_TIMEOUT_MILLIS;
+	private long remainingProxyProtocolTime = DEFAULT_PROXY_TIMEOUT_NANOS;
 
 	private long lastProxyOperationTime = 0L;
 
@@ -85,12 +85,12 @@ public abstract class AbstractClientProxyConnector
 	 *            to initialize for
 	 */
 	protected void init(ClientSession session) {
-		remainingProxyProtocolTime = session.getLongProperty(
+		long millis = session.getLongProperty(
 				StatefulProxyConnector.TIMEOUT_PROPERTY,
-				DEFAULT_PROXY_TIMEOUT_MILLIS);
-		if (remainingProxyProtocolTime <= 0L) {
-			remainingProxyProtocolTime = DEFAULT_PROXY_TIMEOUT_MILLIS;
-		}
+				0);
+		remainingProxyProtocolTime = (millis > 0)
+				? TimeUnit.MILLISECONDS.toNanos(millis)
+				: DEFAULT_PROXY_TIMEOUT_NANOS;
 		if (session instanceof JGitClientSession) {
 			JGitClientSession s = (JGitClientSession) session;
 			unregister.set(() -> s.setProxyHandler(null));
@@ -115,12 +115,9 @@ public abstract class AbstractClientProxyConnector
 		if (last != 0L) {
 			long elapsed = now - last;
 			remaining -= elapsed;
-			if (remaining < 0L) {
-				remaining = 10L; // Give it grace period.
-			}
+			remainingProxyProtocolTime = remaining;
 		}
-		remainingProxyProtocolTime = remaining;
-		return remaining;
+		return Math.max(remaining / 1_000_000L, 10L); // Give it grace period.
 	}
 
 	/**
