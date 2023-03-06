@@ -16,6 +16,24 @@
       "message": "please describe which problem you are fixing",
       "revId": "eeceaa5801d68b23449451c40659442465d01a16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a7ad3d_a73ee39e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-06T22:52:21Z",
+      "side": 1,
+      "message": "ok, so internally we use nanoseconds and in API methods milliseconds",
+      "parentUuid": "d03f78c7_636700d9",
+      "revId": "eeceaa5801d68b23449451c40659442465d01a16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
