@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d520f7de_518cad65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-07T23:34:02Z",
+      "side": 1,
+      "message": "I believe this paragraph, and its related fix is incorrect since the packerefs file lock is no longer actually held at the time of the packedRefList update. :(",
+      "revId": "9c33f7364d41956240818ba12d8b79d5ea846162",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0396903a_99e36608",
@@ -37,6 +54,23 @@
         "endLine": 121,
         "endChar": 52
       },
+      "revId": "9c33f7364d41956240818ba12d8b79d5ea846162",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f89aefee_6b055074",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-07T23:34:02Z",
+      "side": 1,
+      "message": "I believe this paragraph is wrong since despite the comment assertion that the file lock is held, the packerefs file lock is no longer actually held at the time of the packedRefList update, the lck.commit(), which releases the file lock, is done on line 913. This means that the on disk packedrefs file could already have changed by an external actor in another process, and another thread could have re-read that update and updated the in memory copy of packedRefList before the update on line 929 happens, and thus the if() on 931 could fail erroneously.",
       "revId": "9c33f7364d41956240818ba12d8b79d5ea846162",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
