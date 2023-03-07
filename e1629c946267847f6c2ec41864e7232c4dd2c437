@@ -62,6 +62,29 @@
       },
       "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5095bd89_9eed4c7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-07T09:38:38Z",
+      "side": 1,
+      "message": "isn\u0027t this a conflict too?",
+      "range": {
+        "startLine": 664,
+        "startChar": 13,
+        "endLine": 664,
+        "endChar": 32
+      },
+      "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
