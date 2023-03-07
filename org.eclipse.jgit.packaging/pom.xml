@@ -16,7 +16,7 @@
 
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>jgit.tycho.parent</artifactId>
-  <version>6.5.0.202303070854-r</version>
+  <version>6.5.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>JGit Tycho Parent</name>
