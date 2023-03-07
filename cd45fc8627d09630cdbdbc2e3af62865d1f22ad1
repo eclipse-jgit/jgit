@@ -34,6 +34,24 @@
       "parentUuid": "2a38b7d3_18199d20",
       "revId": "cd45fc8627d09630cdbdbc2e3af62865d1f22ad1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "732e0985_d8185f9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-07T20:30:44Z",
+      "side": 1,
+      "message": "I have added a bug report (581641) now with steps to reproduce it and made the change simpler.",
+      "parentUuid": "688b9c80_275b7fea",
+      "revId": "cd45fc8627d09630cdbdbc2e3af62865d1f22ad1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
