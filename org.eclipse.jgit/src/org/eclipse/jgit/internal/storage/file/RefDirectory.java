@@ -727,17 +727,17 @@ public class RefDirectory extends RefDatabase {
 		pack(refs, Collections.emptyMap());
 	}
 
-	PackedRefList pack(Map<String, LockFile> heldLocks) throws IOException {
-		return pack(heldLocks.keySet(), heldLocks);
+	void pack(Map<String, LockFile> heldLocks) throws IOException {
+		pack(heldLocks.keySet(), heldLocks);
 	}
 
-	private PackedRefList pack(Collection<String> refs,
+	private void pack(Collection<String> refs,
 			Map<String, LockFile> heldLocks) throws IOException {
 		for (LockFile ol : heldLocks.values()) {
 			ol.requireLock();
 		}
 		if (refs.isEmpty()) {
-			return null;
+			return;
 		}
 		FS fs = parent.getFS();
 
@@ -778,12 +778,11 @@ public class RefDirectory extends RefDatabase {
 				}
 				if (!dirty) {
 					// All requested refs were already packed accurately
-					return packed;
+					return;
 				}
 
 				// The new content for packed-refs is collected. Persist it.
-				PackedRefList result = commitPackedRefs(lck, cur, packed,
-						false);
+				commitPackedRefs(lck, cur, packed,false);
 
 				// Now delete the loose refs which are now packed
 				for (String refName : refs) {
@@ -834,7 +833,6 @@ public class RefDirectory extends RefDatabase {
 				}
 				// Don't fire refsChanged. The refs have not change, only their
 				// storage.
-				return result;
 			} finally {
 				lck.unlock();
 			}
@@ -1061,12 +1059,9 @@ public class RefDirectory extends RefDatabase {
 		return new StringBuilder(end - off).append(src, off, end).toString();
 	}
 
-	PackedRefList commitPackedRefs(final LockFile lck, final RefList<Ref> refs,
+	void commitPackedRefs(final LockFile lck, final RefList<Ref> refs,
 			final PackedRefList oldPackedList, boolean changed)
 			throws IOException {
-		// Can't just return packedRefs.get() from this method; it might have been
-		// updated again after writePackedRefs() returns.
-		AtomicReference<PackedRefList> result = new AtomicReference<>();
 		new RefWriter(refs) {
 			@Override
 			protected void writeFile(String name, byte[] content)
@@ -1112,10 +1107,8 @@ public class RefDirectory extends RefDatabase {
 				if (changed) {
 					modCnt.incrementAndGet();
 				}
-				result.set(newPackedList);
 			}
 		}.writePackedRefs();
-		return result.get();
 	}
 
 	private Ref readRef(String name, RefList<Ref> packed) throws IOException {
