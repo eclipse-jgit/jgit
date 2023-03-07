@@ -16,6 +16,24 @@
       "message": "Did you observe the problems you are trying to fix here ?",
       "revId": "cd45fc8627d09630cdbdbc2e3af62865d1f22ad1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "688b9c80_275b7fea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-07T18:23:35Z",
+      "side": 1,
+      "message": "We did, when using a snapshot (https://git.eclipse.org/r/c/jgit/jgit/+/200148). However, we think folks not using a snapshot might run into these problems too.",
+      "parentUuid": "2a38b7d3_18199d20",
+      "revId": "cd45fc8627d09630cdbdbc2e3af62865d1f22ad1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
