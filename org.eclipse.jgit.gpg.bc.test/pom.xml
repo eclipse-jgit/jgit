@@ -17,7 +17,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>6.5.0-SNAPSHOT</version>
+    <version>6.5.0.202303070854-r</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.gpg.bc.test</artifactId>
