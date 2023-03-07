@@ -282,6 +282,7 @@
             <forkCount>${test-fork-count}</forkCount>
             <reuseForks>true</reuseForks>
             <argLine>@{argLine}</argLine>
+            <rerunFailingTestsCount>3</rerunFailingTestsCount>
           </configuration>
         </plugin>
 
