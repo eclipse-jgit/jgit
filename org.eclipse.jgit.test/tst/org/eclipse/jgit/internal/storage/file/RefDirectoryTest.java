@@ -555,10 +555,6 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testGetRefs_LooseSorting_Bug_348834() throws IOException {
 		Map<String, Ref> refs;
-
-		writeLooseRef("refs/heads/my/a+b", A);
-		writeLooseRef("refs/heads/my/a/b/c", B);
-
 		final int[] count = new int[1];
 
 		ListenerHandle listener = Repository.getGlobalListenerList()
@@ -566,14 +562,27 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 					count[0]++;
 				});
 
+		// RefsChangedEvent on the first attempt to read a ref is not expected
+		// to be triggered (See Iea3a5035b0a1410b80b09cf53387b22b78b18018), so
+		// create an update and fire pending events to ensure subsequent events
+		// are fired.
+		writeLooseRef("refs/heads/test", A);
 		refs = refdir.getRefs(RefDatabase.ALL);
+		count[0] = 0;
+		int origSize = refs.size();
+
+		writeLooseRef("refs/heads/my/a+b", A);
+		writeLooseRef("refs/heads/my/a/b/c", B);
+
 		refs = refdir.getRefs(RefDatabase.ALL);
-		listener.remove();
-		assertEquals(1, count[0]); // Bug 348834 multiple RefsChangedEvents
-		assertEquals(2, refs.size());
+		assertEquals(1, count[0]);
+		assertEquals(2, refs.size() - origSize);
 		assertEquals(A, refs.get("refs/heads/my/a+b").getObjectId());
 		assertEquals(B, refs.get("refs/heads/my/a/b/c").getObjectId());
 
+		refs = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(1, count[0]); // Bug 348834 multiple RefsChangedEvents
+		listener.remove();
 	}
 
 	@Test
