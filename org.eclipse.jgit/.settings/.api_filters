@@ -50,6 +50,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/BranchConfig.java" type="org.eclipse.jgit.lib.BranchConfig$BranchRebaseMode">
+        <filter id="372293724">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode"/>
+                <message_argument value="PRESERVE"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="1142947843">
             <message_arguments>
