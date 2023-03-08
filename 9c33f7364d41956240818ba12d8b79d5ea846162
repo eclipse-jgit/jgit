@@ -78,6 +78,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffc54c1c_27eb9eef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcPackRefsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-08T15:29:05Z",
+      "side": 1,
+      "message": "The test is fundamentally flawed because GC.packRefs() makes no guarantees of throwing an Exception if it does not pack any refs (see #1). I don\u0027t think there is a good way without modifying GC.packRefs() itself and potentially more jgit internals to report whether it actually packed any refs to make this test reasonably test what it is intending to test. I think as you are pointing out, since the return values in the test are wrong anyway, this test currently only insures that both don\u0027t fail (instead of ensuring that both don\u0027t run)! We could rename it to concurrentOnlyOneFailsPackedRefs() or something like that? Or we could to the aforementioned jgit internal modifications? What would be better?\n\n\n# 1 GC.packRefs() as a for() loop which gathers the loose refs which need to be packed, and then passes them to the RefDirectory.pack() method, however the RefDirectory.pack() methods simply returns if (refs.isEmpty()), and thus will not throw an Exception if the other thread has already packed the loose refs! I believe there are other ways beyond that in which it can avoid throwing an exception also, but that one is the most obvious.",
+      "parentUuid": "124d36dc_9df77418",
+      "range": {
+        "startLine": 121,
+        "startChar": 35,
+        "endLine": 121,
+        "endChar": 52
+      },
+      "revId": "9c33f7364d41956240818ba12d8b79d5ea846162",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f89aefee_6b055074",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 7
