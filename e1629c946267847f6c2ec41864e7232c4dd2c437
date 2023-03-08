@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e45aff50_6c46cf1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-08T10:14:13Z",
+      "side": 1,
+      "message": "Please note that this logic was extracted from `ApplyCommand` at [1]. I can answer based on my understanding of the logic, but it might not be the reasoning which led the original author(s).\n\n\u003e What\u0027s the purpose of wrapping IOException as PatchApplyException ?\nIOException are thrown for a lot of different places, and they are often not intuitive. Wrapping them in another exception with a dedicated message makes the debugging more intuitive IMO.\n\n\u003e Why do some private methods throw this wrapper exception ?\nThey use context variables which are not available outside, e.g. `hh` in `applyText()`.\n\n\u003e Which error conditions warrant a specific exception, which don\u0027t and why ?\nOriginally, this class was throwing either PatchFormatException for badly formatted patches, or PatchApplyException for any other error.\nWe now have the need to split conflict-related exceptions out of the general PatchApplyException, so we can reflect that to the caller. I\u0027ve updated the change description to include the motivation.\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/acde6c8f5b538f900cfede9035584fd2ed654154https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/acde6c8f5b538f900cfede9035584fd2ed654154",
+      "parentUuid": "8c74b6ea_d957d4c3",
+      "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d094583_62edcfc0",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-03-03T22:12:33Z",
       "side": 1,
       "message": "This is a new class hence this should be 2023 and it looks like you are working for Google not IBM",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 38
+      },
+      "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53129694_0f630fef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/PatchConflictException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-08T10:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d094583_62edcfc0",
       "range": {
         "startLine": 2,
         "startChar": 17,
@@ -64,6 +106,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6506de0f_dfeb4fd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/PatchConflictException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-08T10:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d3f59d0_9ad607fa",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5095bd89_9eed4c7b",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-03-07T09:38:38Z",
       "side": 1,
       "message": "isn\u0027t this a conflict too?",
+      "range": {
+        "startLine": 664,
+        "startChar": 13,
+        "endLine": 664,
+        "endChar": 32
+      },
+      "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6250f9dc_ae82015e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-08T10:14:13Z",
+      "side": 1,
+      "message": "Done.\nAlso for `!fh.getNewId().toObjectId().equals(dce.getObjectId())`.",
+      "parentUuid": "5095bd89_9eed4c7b",
       "range": {
         "startLine": 664,
         "startChar": 13,
