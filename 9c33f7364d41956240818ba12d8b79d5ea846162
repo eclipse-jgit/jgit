@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c312b4_4161dbab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-08T01:30:53Z",
+      "side": 1,
+      "message": "These changes might help with some of the packed-refs concurrency issues:\n\n200220: PackedBatchRefUpdate: Ensure updates are applied on latest packed refs | https://git.eclipse.org/r/c/jgit/jgit/+/200220\n200221: RefDirectory.pack: Only rely on packed refs from disk | https://git.eclipse.org/r/c/jgit/jgit/+/200221",
+      "parentUuid": "0396903a_99e36608",
+      "revId": "9c33f7364d41956240818ba12d8b79d5ea846162",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "124d36dc_9df77418",
