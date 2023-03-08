@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a768eed9_07806c58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-08T08:43:28Z",
+      "side": 1,
+      "message": "this revert is based on stable-4.10 but it should be based on master",
+      "revId": "80618fca71e59f8107ea35b9d7cceac9082bcb62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
