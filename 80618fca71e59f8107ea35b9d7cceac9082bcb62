@@ -16,6 +16,24 @@
       "message": "this revert is based on stable-4.10 but it should be based on master",
       "revId": "80618fca71e59f8107ea35b9d7cceac9082bcb62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec87c6ef_946837a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-09T02:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a768eed9_07806c58",
+      "revId": "80618fca71e59f8107ea35b9d7cceac9082bcb62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
