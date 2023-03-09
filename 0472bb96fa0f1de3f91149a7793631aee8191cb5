@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df1afe1_1b1172ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryRename.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-09T22:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a5d4984_9fb50986",
+      "range": {
+        "startLine": 62,
+        "startChar": 24,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "0472bb96fa0f1de3f91149a7793631aee8191cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d59b7883_01d1c620",
@@ -58,6 +82,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c638061_d401f7bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-09T22:53:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d59b7883_01d1c620",
+      "revId": "0472bb96fa0f1de3f91149a7793631aee8191cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7045742_9a39ba5c",
@@ -71,6 +113,30 @@
       "writtenOn": "2023-03-09T19:31:11Z",
       "side": 1,
       "message": "Use RefDirectoryWritableSnapshot.class.cast(getRefDatabase()) instead?",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 34
+      },
+      "revId": "0472bb96fa0f1de3f91149a7793631aee8191cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d65164d_9a00d97b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-09T22:53:14Z",
+      "side": 1,
+      "message": "Leaving this as is as we are not really returning the cast.",
+      "parentUuid": "f7045742_9a39ba5c",
       "range": {
         "startLine": 199,
         "startChar": 6,
