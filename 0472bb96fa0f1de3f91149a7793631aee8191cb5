@@ -16,6 +16,69 @@
       "message": "trigger build",
       "revId": "0472bb96fa0f1de3f91149a7793631aee8191cb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5d4984_9fb50986",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryRename.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-09T19:31:11Z",
+      "side": 1,
+      "message": "getRefDirectory()?",
+      "range": {
+        "startLine": 62,
+        "startChar": 24,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "0472bb96fa0f1de3f91149a7793631aee8191cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d59b7883_01d1c620",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-09T19:31:11Z",
+      "side": 1,
+      "message": "Seems like we should be able to create some sort of (lambda?) wrapper to reduce the need to repeat so much in here.",
+      "revId": "0472bb96fa0f1de3f91149a7793631aee8191cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7045742_9a39ba5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-09T19:31:11Z",
+      "side": 1,
+      "message": "Use RefDirectoryWritableSnapshot.class.cast(getRefDatabase()) instead?",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 34
+      },
+      "revId": "0472bb96fa0f1de3f91149a7793631aee8191cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
