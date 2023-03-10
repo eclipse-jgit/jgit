@@ -111,6 +111,8 @@ public class PatchApplier {
 
 	private int inCoreSizeLimit;
 
+	private boolean allowConflicts;
+
 	/**
 	 * @param repo
 	 *            repository to apply the patch in
@@ -120,6 +122,7 @@ public class PatchApplier {
 		inserter = repo.newObjectInserter();
 		reader = inserter.newReader();
 		beforeTree = null;
+		allowConflicts = false;
 
 		Config config = repo.getConfig();
 		workingTreeOptions = config.get(WorkingTreeOptions.KEY);
@@ -293,6 +296,11 @@ public class PatchApplier {
 					JGitText.get().patchApplyException, e.getMessage()), e);
 		}
 		return result;
+	}
+
+	public PatchApplier allowConflicts() {
+		allowConflicts = true;
+		return this;
 	}
 
 	private File getFile(String path) {
@@ -844,44 +852,82 @@ public class PatchApplier {
 				}
 			}
 			if (!applies) {
-				throw new PatchApplyException(MessageFormat
-						.format(JGitText.get().patchApplyException, hh));
-			}
-			// Hunk applies at applyAt. Apply it, and update afterLastHunk and
-			// lineNumberShift
-			lineNumberShift = applyAt - hh.getNewStartLine() + 1;
-			int sz = hunkLines.size();
-			for (int j = 1; j < sz; j++) {
-				ByteBuffer hunkLine = hunkLines.get(j);
-				if (!hunkLine.hasRemaining()) {
-					// Completely empty line; accept as empty context line
-					applyAt++;
-					lastWasRemoval = false;
+				if (!allowConflicts) {
+					throw new PatchApplyException(MessageFormat
+							.format(JGitText.get().patchApplyException, hh));
+				} else {
+					// Insert conflict markers
+
+					newLines.add(applyAt++,ByteBuffer.wrap("<<<<<<< THEIRS".getBytes(StandardCharsets.UTF_8)));
+					applyAt += hh.getOldImage().lineCount;
+					newLines.add(applyAt++,ByteBuffer.wrap("======= YOURS".getBytes(StandardCharsets.UTF_8)));
+
+					int sz = hunkLines.size();
+					for (int j = 1; j < sz; j++) {
+						ByteBuffer hunkLine = hunkLines.get(j);
+						if (!hunkLine.hasRemaining()) {
+							// Completely empty line; accept as empty context line
+							applyAt++;
+							lastWasRemoval = false;
+							continue;
+						}
+						switch (hunkLine.array()[hunkLine.position()]) {
+							case ' ':
+							case '+':
+								newLines.add(applyAt++, slice(hunkLine, 1));
+								lastWasRemoval = false;
+								break;
+							case '-':
+								break;
+							case '\\':
+								if (!lastWasRemoval && isNoNewlineAtEnd(hunkLine)) {
+									noNewLineAtEndOfNew = true;
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					newLines.add(applyAt++,ByteBuffer.wrap(">>>>>>> YOURS".getBytes(StandardCharsets.UTF_8)));
 					continue;
 				}
-				switch (hunkLine.array()[hunkLine.position()]) {
-				case ' ':
-					applyAt++;
-					lastWasRemoval = false;
-					break;
-				case '-':
-					newLines.remove(applyAt);
-					lastWasRemoval = true;
-					break;
-				case '+':
-					newLines.add(applyAt++, slice(hunkLine, 1));
-					lastWasRemoval = false;
-					break;
-				case '\\':
-					if (!lastWasRemoval && isNoNewlineAtEnd(hunkLine)) {
-						noNewLineAtEndOfNew = true;
+			} else {
+				// Hunk applies at applyAt. Apply it, and update afterLastHunk and
+				// lineNumberShift
+				lineNumberShift = applyAt - hh.getNewStartLine() + 1;
+				int sz = hunkLines.size();
+				for (int j = 1; j < sz; j++) {
+					ByteBuffer hunkLine = hunkLines.get(j);
+					if (!hunkLine.hasRemaining()) {
+						// Completely empty line; accept as empty context line
+						applyAt++;
+						lastWasRemoval = false;
+						continue;
 					}
-					break;
-				default:
-					break;
+					switch (hunkLine.array()[hunkLine.position()]) {
+						case ' ':
+							applyAt++;
+							lastWasRemoval = false;
+							break;
+						case '-':
+							newLines.remove(applyAt);
+							lastWasRemoval = true;
+							break;
+						case '+':
+							newLines.add(applyAt++, slice(hunkLine, 1));
+							lastWasRemoval = false;
+							break;
+						case '\\':
+							if (!lastWasRemoval && isNoNewlineAtEnd(hunkLine)) {
+								noNewLineAtEndOfNew = true;
+							}
+							break;
+						default:
+							break;
+					}
 				}
+				afterLastHunk = applyAt;
 			}
-			afterLastHunk = applyAt;
 		}
 		// If the last line should have a newline, add a null sentinel
 		if (lastHunkNewLine >= 0 && afterLastHunk == newLines.size()) {
@@ -892,7 +938,11 @@ public class PatchApplier {
 		} else if (!rt.isMissingNewlineAtEnd()) {
 			newLines.add(null);
 		}
+		return toContentStreamLoader(newLines);
+	}
 
+	private static ContentStreamLoader toContentStreamLoader(List<ByteBuffer> newLines)
+			throws IOException {
 		// We could check if old == new, but the short-circuiting complicates
 		// logic for inCore patching, so just write the new thing regardless.
 		TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);

@@ -1,0 +1,15 @@
+line1
+line2
+<<<<<<< THEIRS
+line3
+line4
+line5
+line6
+======= YOURS
+line3
+lineB
+line5
+line6
+>>>>>>> YOURS
+line7
+line8
