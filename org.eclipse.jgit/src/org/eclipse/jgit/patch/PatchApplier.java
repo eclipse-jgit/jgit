@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -107,9 +108,13 @@ public class PatchApplier {
 
 	private final ObjectReader reader;
 
+	private final Charset charset;
+
 	private WorkingTreeOptions workingTreeOptions;
 
 	private int inCoreSizeLimit;
+
+	private boolean allowConflicts;
 
 	/**
 	 * @param repo
@@ -120,6 +125,8 @@ public class PatchApplier {
 		inserter = repo.newObjectInserter();
 		reader = inserter.newReader();
 		beforeTree = null;
+		allowConflicts = false;
+		charset = StandardCharsets.UTF_8;
 
 		Config config = repo.getConfig();
 		workingTreeOptions = config.get(WorkingTreeOptions.KEY);
@@ -143,6 +150,8 @@ public class PatchApplier {
 		this.beforeTree = beforeTree;
 		inserter = oi;
 		reader = oi.newReader();
+		allowConflicts = false;
+		charset = StandardCharsets.UTF_8;
 	}
 
 	/**
@@ -157,6 +166,8 @@ public class PatchApplier {
 
 		private List<String> paths;
 
+		private List<String> pathsWithConflicts = new ArrayList<>();
+
 		/**
 		 * @return List of modified paths.
 		 */
@@ -169,6 +180,13 @@ public class PatchApplier {
 		 */
 		public ObjectId getTreeId() {
 			return treeId;
+		}
+
+		/**
+		 * @return List of modified paths that contain a Git conflict.
+		 */
+		public List<String> getPathsWithConflicts() {
+			return pathsWithConflicts;
 		}
 	}
 
@@ -202,67 +220,67 @@ public class PatchApplier {
 			for (FileHeader fh : p.getFiles()) {
 				ChangeType type = fh.getChangeType();
 				switch (type) {
-				case ADD: {
-					File f = getFile(fh.getNewPath());
-					if (f != null) {
-						try {
-							FileUtils.mkdirs(f.getParentFile(), true);
-							FileUtils.createNewFile(f);
-						} catch (IOException e) {
-							throw new PatchApplyException(MessageFormat.format(
-									JGitText.get().createNewFileFailed, f), e);
+					case ADD: {
+						File f = getFile(fh.getNewPath());
+						if (f != null) {
+							try {
+								FileUtils.mkdirs(f.getParentFile(), true);
+								FileUtils.createNewFile(f);
+							} catch (IOException e) {
+								throw new PatchApplyException(MessageFormat.format(
+										JGitText.get().createNewFileFailed, f), e);
+							}
 						}
-					}
-					apply(fh.getNewPath(), dirCache, dirCacheBuilder, f, fh);
-				}
-					break;
-				case MODIFY:
-					apply(fh.getOldPath(), dirCache, dirCacheBuilder,
-							getFile(fh.getOldPath()), fh);
-					break;
-				case DELETE:
-					if (!inCore()) {
-						File old = getFile(fh.getOldPath());
-						if (!old.delete())
-							throw new PatchApplyException(MessageFormat.format(
-									JGitText.get().cannotDeleteFile, old));
+						apply(fh.getNewPath(), dirCache, dirCacheBuilder, f, fh, result);
 					}
 					break;
-				case RENAME: {
-					File src = getFile(fh.getOldPath());
-					File dest = getFile(fh.getNewPath());
-
-					if (!inCore()) {
-						/*
-						 * this is odd: we rename the file on the FS, but
-						 * apply() will write a fresh stream anyway, which will
-						 * overwrite if there were hunks in the patch.
-						 */
-						try {
-							FileUtils.mkdirs(dest.getParentFile(), true);
-							FileUtils.rename(src, dest,
-									StandardCopyOption.ATOMIC_MOVE);
-						} catch (IOException e) {
-							throw new PatchApplyException(MessageFormat.format(
-									JGitText.get().renameFileFailed, src, dest),
-									e);
+					case MODIFY:
+						apply(fh.getOldPath(), dirCache, dirCacheBuilder,
+								getFile(fh.getOldPath()), fh, result);
+						break;
+					case DELETE:
+						if (!inCore()) {
+							File old = getFile(fh.getOldPath());
+							if (!old.delete())
+								throw new PatchApplyException(MessageFormat.format(
+										JGitText.get().cannotDeleteFile, old));
 						}
-					}
-					String pathWithOriginalContent = inCore() ?
-							fh.getOldPath() : fh.getNewPath();
-					apply(pathWithOriginalContent, dirCache, dirCacheBuilder, dest, fh);
-					break;
-				}
-				case COPY: {
-					File dest = getFile(fh.getNewPath());
-					if (!inCore()) {
+						break;
+					case RENAME: {
 						File src = getFile(fh.getOldPath());
-						FileUtils.mkdirs(dest.getParentFile(), true);
-						Files.copy(src.toPath(), dest.toPath());
+						File dest = getFile(fh.getNewPath());
+
+						if (!inCore()) {
+							/*
+							 * this is odd: we rename the file on the FS, but
+							 * apply() will write a fresh stream anyway, which will
+							 * overwrite if there were hunks in the patch.
+							 */
+							try {
+								FileUtils.mkdirs(dest.getParentFile(), true);
+								FileUtils.rename(src, dest,
+										StandardCopyOption.ATOMIC_MOVE);
+							} catch (IOException e) {
+								throw new PatchApplyException(MessageFormat.format(
+										JGitText.get().renameFileFailed, src, dest),
+										e);
+							}
+						}
+						String pathWithOriginalContent = inCore() ?
+								fh.getOldPath() : fh.getNewPath();
+						apply(pathWithOriginalContent, dirCache, dirCacheBuilder, dest, fh, result);
+						break;
 					}
-					apply(fh.getOldPath(), dirCache, dirCacheBuilder, dest, fh);
-					break;
-				}
+					case COPY: {
+						File dest = getFile(fh.getNewPath());
+						if (!inCore()) {
+							File src = getFile(fh.getOldPath());
+							FileUtils.mkdirs(dest.getParentFile(), true);
+							Files.copy(src.toPath(), dest.toPath());
+						}
+						apply(fh.getOldPath(), dirCache, dirCacheBuilder, dest, fh, result);
+						break;
+					}
 				}
 				if (fh.getChangeType() != ChangeType.DELETE)
 					modifiedPaths.add(fh.getNewPath());
@@ -293,6 +311,12 @@ public class PatchApplier {
 					JGitText.get().patchApplyException, e.getMessage()), e);
 		}
 		return result;
+	}
+
+	/** Applies the patch, even if it has a conflict. Inserts conflict markers. */
+	public PatchApplier allowConflicts() {
+		allowConflicts = true;
+		return this;
 	}
 
 	private File getFile(String path) {
@@ -351,8 +375,8 @@ public class PatchApplier {
 	 * @throws PatchApplyException
 	 */
 	private void apply(String pathWithOriginalContent, DirCache dirCache,
-			DirCacheBuilder dirCacheBuilder, @Nullable File f, FileHeader fh)
-			throws PatchApplyException {
+			DirCacheBuilder dirCacheBuilder, @Nullable File f, FileHeader fh,
+			Result result) throws PatchApplyException {
 		if (PatchType.BINARY.equals(fh.getPatchType())) {
 			// This patch type just says "something changed". We can't do
 			// anything with that.
@@ -423,12 +447,12 @@ public class PatchApplier {
 			} else {
 				String filterCommand = walk != null
 						? walk.getFilterCommand(
-								Constants.ATTR_FILTER_TYPE_CLEAN)
+						Constants.ATTR_FILTER_TYPE_CLEAN)
 						: null;
 				RawText raw = getRawText(f, fileStreamSupplier, fileId,
 						pathWithOriginalContent, loadedFromTreeWalk, filterCommand,
 						convertCrLf);
-				resultStreamLoader = applyText(raw, fh);
+				resultStreamLoader = applyText(raw, fh, result);
 			}
 
 			if (f != null) {
@@ -720,43 +744,43 @@ public class PatchApplier {
 				hunk.getStartOffset());
 		int length = hunk.getEndOffset() - start;
 		switch (hunk.getType()) {
-		case LITERAL_DEFLATED: {
-			// This just overwrites the file. We need to check the hash of
-			// the base.
-			checkOid(fh.getOldId().toObjectId(), id, fh.getChangeType(), f,
-					path);
-			StreamSupplier supp = () -> new InflaterInputStream(
-					new BinaryHunkInputStream(new ByteArrayInputStream(
-							hunk.getBuffer(), start, length)));
-			return new ContentStreamLoader(supp, hunk.getSize());
-		}
-		case DELTA_DEFLATED: {
-			// Unfortunately delta application needs random access to the
-			// base to construct the result.
-			byte[] base;
-			try (InputStream in = inputSupplier.load()) {
-				base = IO.readWholeStream(in, 0).array();
+			case LITERAL_DEFLATED: {
+				// This just overwrites the file. We need to check the hash of
+				// the base.
+				checkOid(fh.getOldId().toObjectId(), id, fh.getChangeType(), f,
+						path);
+				StreamSupplier supp = () -> new InflaterInputStream(
+						new BinaryHunkInputStream(new ByteArrayInputStream(
+								hunk.getBuffer(), start, length)));
+				return new ContentStreamLoader(supp, hunk.getSize());
 			}
-			// At least stream the result! We don't have to close these streams,
-			// as they don't hold resources.
-			StreamSupplier supp = () -> new BinaryDeltaInputStream(base,
-					new InflaterInputStream(
-							new BinaryHunkInputStream(new ByteArrayInputStream(
-									hunk.getBuffer(), start, length))));
+			case DELTA_DEFLATED: {
+				// Unfortunately delta application needs random access to the
+				// base to construct the result.
+				byte[] base;
+				try (InputStream in = inputSupplier.load()) {
+					base = IO.readWholeStream(in, 0).array();
+				}
+				// At least stream the result! We don't have to close these streams,
+				// as they don't hold resources.
+				StreamSupplier supp = () -> new BinaryDeltaInputStream(base,
+						new InflaterInputStream(
+								new BinaryHunkInputStream(new ByteArrayInputStream(
+										hunk.getBuffer(), start, length))));
 
-			// This just reads the first bits of the stream.
-			long finalSize = ((BinaryDeltaInputStream) supp.load()).getExpectedResultSize();
+				// This just reads the first bits of the stream.
+				long finalSize = ((BinaryDeltaInputStream) supp.load()).getExpectedResultSize();
 
-			return new ContentStreamLoader(supp, finalSize);
-		}
-		default:
-			throw new UnsupportedOperationException(MessageFormat.format(
-					JGitText.get().applyBinaryPatchTypeNotSupported,
-					hunk.getType().name()));
+				return new ContentStreamLoader(supp, finalSize);
+			}
+			default:
+				throw new UnsupportedOperationException(MessageFormat.format(
+						JGitText.get().applyBinaryPatchTypeNotSupported,
+						hunk.getType().name()));
 		}
 	}
 
-	private ContentStreamLoader applyText(RawText rt, FileHeader fh)
+	private ContentStreamLoader applyText(RawText rt, FileHeader fh, Result result)
 			throws IOException, PatchApplyException {
 		List<ByteBuffer> oldLines = new ArrayList<>(rt.size());
 		for (int i = 0; i < rt.size(); i++) {
@@ -844,44 +868,82 @@ public class PatchApplier {
 				}
 			}
 			if (!applies) {
-				throw new PatchApplyException(MessageFormat
-						.format(JGitText.get().patchApplyException, hh));
-			}
-			// Hunk applies at applyAt. Apply it, and update afterLastHunk and
-			// lineNumberShift
-			lineNumberShift = applyAt - hh.getNewStartLine() + 1;
-			int sz = hunkLines.size();
-			for (int j = 1; j < sz; j++) {
-				ByteBuffer hunkLine = hunkLines.get(j);
-				if (!hunkLine.hasRemaining()) {
-					// Completely empty line; accept as empty context line
-					applyAt++;
-					lastWasRemoval = false;
+				if (!allowConflicts) {
+					throw new PatchApplyException(MessageFormat
+							.format(JGitText.get().patchApplyException, hh));
+				} else {
+					// Insert conflict markers. This is best-guess because the file might
+					// have changed completely. But at least we give the user a graceful
+					// state that they can resolve manually.
+					// An alternative to this is using the 3-way merger. This only works
+					// if the pre-image SHA is contained in the repo. If that was the case,
+					// cherry-picking the original commit should be preferred to apply a
+					// patch.
+					result.pathsWithConflicts.add(fh.getNewPath());
+					newLines.add(Math.min(applyAt++, newLines.size()), asBytes("<<<<<<< HEAD"));
+					applyAt += hh.getOldImage().lineCount;
+					newLines.add(Math.min(applyAt++, newLines.size()), asBytes("======="));
+
+					int sz = hunkLines.size();
+					for (int j = 1; j < sz; j++) {
+						ByteBuffer hunkLine = hunkLines.get(j);
+						if (!hunkLine.hasRemaining()) {
+							// Completely empty line; accept as empty context line
+							applyAt++;
+							lastWasRemoval = false;
+							continue;
+						}
+						switch (hunkLine.array()[hunkLine.position()]) {
+							case ' ':
+							case '+':
+								newLines.add(Math.min(applyAt++, newLines.size()), slice(hunkLine, 1));
+								break;
+							case '-':
+							case '\\':
+							default:
+								break;
+						}
+					}
+					newLines.add(Math.min(applyAt++, newLines.size()), asBytes(">>>>>>> PATCH"));
 					continue;
 				}
-				switch (hunkLine.array()[hunkLine.position()]) {
-				case ' ':
-					applyAt++;
-					lastWasRemoval = false;
-					break;
-				case '-':
-					newLines.remove(applyAt);
-					lastWasRemoval = true;
-					break;
-				case '+':
-					newLines.add(applyAt++, slice(hunkLine, 1));
-					lastWasRemoval = false;
-					break;
-				case '\\':
-					if (!lastWasRemoval && isNoNewlineAtEnd(hunkLine)) {
-						noNewLineAtEndOfNew = true;
+			} else {
+				// Hunk applies at applyAt. Apply it, and update afterLastHunk and
+				// lineNumberShift
+				lineNumberShift = applyAt - hh.getNewStartLine() + 1;
+				int sz = hunkLines.size();
+				for (int j = 1; j < sz; j++) {
+					ByteBuffer hunkLine = hunkLines.get(j);
+					if (!hunkLine.hasRemaining()) {
+						// Completely empty line; accept as empty context line
+						applyAt++;
+						lastWasRemoval = false;
+						continue;
 					}
-					break;
-				default:
-					break;
+					switch (hunkLine.array()[hunkLine.position()]) {
+						case ' ':
+							applyAt++;
+							lastWasRemoval = false;
+							break;
+						case '-':
+							newLines.remove(applyAt);
+							lastWasRemoval = true;
+							break;
+						case '+':
+							newLines.add(applyAt++, slice(hunkLine, 1));
+							lastWasRemoval = false;
+							break;
+						case '\\':
+							if (!lastWasRemoval && isNoNewlineAtEnd(hunkLine)) {
+								noNewLineAtEndOfNew = true;
+							}
+							break;
+						default:
+							break;
+					}
 				}
+				afterLastHunk = applyAt;
 			}
-			afterLastHunk = applyAt;
 		}
 		// If the last line should have a newline, add a null sentinel
 		if (lastHunkNewLine >= 0 && afterLastHunk == newLines.size()) {
@@ -892,7 +954,11 @@ public class PatchApplier {
 		} else if (!rt.isMissingNewlineAtEnd()) {
 			newLines.add(null);
 		}
+		return toContentStreamLoader(newLines);
+	}
 
+	private static ContentStreamLoader toContentStreamLoader(List<ByteBuffer> newLines)
+			throws IOException {
 		// We could check if old == new, but the short-circuiting complicates
 		// logic for inCore patching, so just write the new thing regardless.
 		TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);
@@ -929,19 +995,23 @@ public class PatchApplier {
 				continue;
 			}
 			switch (hunkLine.array()[hunkLine.position()]) {
-			case ' ':
-			case '-':
-				if (pos >= limit
-						|| !newLines.get(pos).equals(slice(hunkLine, 1))) {
-					return false;
-				}
-				pos++;
-				break;
-			default:
-				break;
+				case ' ':
+				case '-':
+					if (pos >= limit
+							|| !newLines.get(pos).equals(slice(hunkLine, 1))) {
+						return false;
+					}
+					pos++;
+					break;
+				default:
+					break;
 			}
 		}
 		return true;
+	}
+
+	private ByteBuffer asBytes(String str) {
+
 	}
 
 	private ByteBuffer slice(ByteBuffer b, int off) {

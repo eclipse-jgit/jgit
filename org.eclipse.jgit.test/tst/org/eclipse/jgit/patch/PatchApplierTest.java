@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.List;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.PatchApplyException;
@@ -121,6 +122,17 @@ public class PatchApplierTest {
 				}
 			}
 			return new PatchApplier(db).applyPatch(patchStream);
+		}
+
+		protected Result applyPatchAllowConflicts()
+				throws PatchApplyException, PatchFormatException, IOException {
+			InputStream patchStream = getTestResource(name + ".patch");
+			if (inCore) {
+				try (ObjectInserter oi = db.newObjectInserter()) {
+					return new PatchApplier(db, baseTip, oi).allowConflicts().applyPatch(patchStream);
+				}
+			}
+			return new PatchApplier(db).allowConflicts().applyPatch(patchStream);
 		}
 
 		protected static InputStream getTestResource(String patchFile) {
@@ -336,6 +348,24 @@ public class PatchApplierTest {
 
 			Result result = applyPatch();
 			verifyChange(result, "CopyResult", true);
+		}
+
+		@Test
+		public void testConflictMarkers() throws Exception {
+			init("Conflict", true, true);
+
+			Result result = applyPatchAllowConflicts();
+			assertEquals(result.getPathsWithConflicts(), List.of("Conflict"));
+			verifyChange(result, "Conflict", true);
+		}
+
+		@Test
+		public void testConflictMarkersOutOfBounds() throws Exception {
+			init("ConflictOutOfBounds", true, true);
+
+			Result result = applyPatchAllowConflicts();
+			assertEquals(result.getPathsWithConflicts(), List.of("ConflictOutOfBounds"));
+			verifyChange(result, "ConflictOutOfBounds", true);
 		}
 
 		@Test
