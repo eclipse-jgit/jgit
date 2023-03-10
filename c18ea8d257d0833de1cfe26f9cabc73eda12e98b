@@ -16,6 +16,29 @@
       "message": "trigger build",
       "revId": "c18ea8d257d0833de1cfe26f9cabc73eda12e98b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25e15f53_7799059b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshotTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-03-10T00:03:40Z",
+      "side": 1,
+      "message": "Combine these two tests to add a test to confirm we do see external updates when writing?\n\n\t@Test\n\tpublic void testSnapshot_IncludeExternalPackedRefsUpdatesWithWrites()\n\t\t\tthrows IOException {\n\t\tString refA \u003d \"refs/heads/refA\";\n\t\tString refB \u003d \"refs/heads/refB\";\n\n\t\twritePackedRef(refA, A);\n\t\twritePackedRef(refB, A);\n\t\tassertEquals(A, refdir.exactRef(refA).getObjectId());\n\t\tassertEquals(A, refdir.exactRef(refB).getObjectId());\n\n\t\twritePackedRef(refA, B);\n\t\tassertEquals(B, originalRefDirectory.exactRef(refA).getObjectId());\n\t\tassertEquals(A, refdir.exactRef(refA).getObjectId()); // Still sees snapshot value\n\t\t\n\t\tPackedBatchRefUpdate update \u003d refdir.newBatchUpdate();\n\t\tupdate.addCommand(new ReceiveCommand(A, B, refB));\n\t\tupdate.execute(repo.getRevWalk(), NullProgressMonitor.INSTANCE);\n\t\t\n\t\tassertEquals(B, originalRefDirectory.exactRef(refA).getObjectId());\n\t\tassertEquals(B, refdir.exactRef(refA).getObjectId());\n\t\tassertEquals(B, originalRefDirectory.exactRef(refB).getObjectId());\n\t\tassertEquals(B, refdir.exactRef(refB).getObjectId());\n\t}",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "c18ea8d257d0833de1cfe26f9cabc73eda12e98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
