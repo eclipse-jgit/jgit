@@ -24,9 +24,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-
+import java.util.List;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.PatchApplyException;
+import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.attributes.FilterCommand;
 import org.eclipse.jgit.attributes.FilterCommandFactory;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
@@ -128,6 +130,17 @@ public class PatchApplierTest {
 			}
 		}
 
+		protected Result applyPatchAllowConflicts()
+				throws PatchApplyException, PatchFormatException, IOException {
+			InputStream patchStream = getTestResource(name + ".patch");
+			if (inCore) {
+				try (ObjectInserter oi = db.newObjectInserter()) {
+					return new PatchApplier(db, baseTip, oi).allowConflicts().applyPatch(patchStream);
+				}
+			}
+			return new PatchApplier(db).allowConflicts().applyPatch(patchStream);
+		}
+
 		protected static InputStream getTestResource(String patchFile) {
 			return PatchApplierTest.class.getClassLoader()
 					.getResourceAsStream("org/eclipse/jgit/diff/" + patchFile);
@@ -165,6 +178,13 @@ public class PatchApplierTest {
 		void verifyChange(Result result, String aName, boolean exists)
 				throws Exception {
 			assertEquals(0, result.getErrors().size());
+			assertEquals(1, result.getPaths().size());
+			verifyContent(result, aName, exists);
+		}
+
+		void verifyChange(Result result, String aName, boolean exists, int numConflicts)
+				throws Exception {
+			assertEquals(numConflicts, result.getErrors().size());
 			assertEquals(1, result.getPaths().size());
 			verifyContent(result, aName, exists);
 		}
@@ -343,6 +363,25 @@ public class PatchApplierTest {
 
 			Result result = applyPatch();
 			verifyChange(result, "CopyResult", true);
+		}
+
+		@Test
+		public void testConflictMarkers() throws Exception {
+			init("allowconflict", true, true);
+
+			Result result = applyPatchAllowConflicts();
+			assertEquals(result.getErrors(), List.of(new PatchApplier.Result.Error("cannot apply hunk","allowconflict", null)));
+			verifyChange(result, "allowconflict", true, 1);
+		}
+
+		@Test
+		public void testConflictMarkersOutOfBounds() throws Exception {
+			init("ConflictOutOfBounds", true, true);
+
+			Result result = applyPatchAllowConflicts();
+
+			assertEquals(result.getErrors(), List.of(new PatchApplier.Result.Error("cannot apply hunk","ConflictOutOfBounds", null)));
+			verifyChange(result, "ConflictOutOfBounds", true, 1);
 		}
 
 		@Test
