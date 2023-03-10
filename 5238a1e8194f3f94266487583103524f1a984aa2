@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed41d015_01e3955a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-03-10T00:56:39Z",
+      "side": 1,
+      "message": "Why do we need to prevent another actor from modifying packed-refs while we haven\u0027t updated the in-memory packedRefs?",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "5238a1e8194f3f94266487583103524f1a984aa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8abb7a0_6b369f93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-03-10T00:56:39Z",
+      "side": 1,
+      "message": "This code (and overall intent of this change) seems like it would introduce the chance that the in-memory packedRefs now contains a PackedRefList that was never successfully committed on disk. I think that could break other threads reading that in-memory object. Is there something I\u0027m missing that\u0027s preventing that?",
+      "range": {
+        "startLine": 1053,
+        "startChar": 4,
+        "endLine": 1053,
+        "endChar": 24
+      },
+      "revId": "5238a1e8194f3f94266487583103524f1a984aa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
