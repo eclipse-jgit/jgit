@@ -1041,17 +1041,19 @@ public class RefDirectory extends RefDatabase {
 									JGitText.get().interruptedWriting, name),
 							e);
 				}
-				if (!lck.commit())
-					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));
-
+				lck.createCommitSnapshot();
 				byte[] digest = Constants.newMessageDigest().digest(content);
-				PackedRefList newPackedList = new PackedRefList(
-						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
+				PackedRefList newPackedList = new PackedRefList(refs,
+						lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
 				packedRefs.compareAndSet(oldPackedList, newPackedList);
 				if (changed) {
 					modCnt.incrementAndGet();
 				}
 				result.set(newPackedList);
+				if (!lck.commit()) {
+					throw new ObjectWritingException(MessageFormat
+							.format(JGitText.get().unableToWrite, name));
+				}
 			}
 		}.writePackedRefs();
 		return result.get();
