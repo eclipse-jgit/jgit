@@ -16,6 +16,24 @@
       "message": "fields should stay final",
       "revId": "58b879c35bb5409eb1106568c28fa81cb57f4e67",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f15b2a10_95c7b8ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-10T00:34:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75de5f5f_af96c35b",
+      "revId": "58b879c35bb5409eb1106568c28fa81cb57f4e67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
