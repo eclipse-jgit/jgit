@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80fa77e5_982e3b97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-10T00:30:54Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/200468 tries to fix this",
+      "revId": "01ae2f8e0bd2fa3d0f54a23c68a7049a21102a44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12bbf631_6e45aabb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-10T00:30:54Z",
+      "side": 1,
+      "message": "indicate",
+      "range": {
+        "startLine": 18,
+        "startChar": 18,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "01ae2f8e0bd2fa3d0f54a23c68a7049a21102a44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9612ec01_978e0473",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-10T00:30:54Z",
+      "side": 1,
+      "message": "not be",
+      "range": {
+        "startLine": 21,
+        "startChar": 47,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "01ae2f8e0bd2fa3d0f54a23c68a7049a21102a44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
