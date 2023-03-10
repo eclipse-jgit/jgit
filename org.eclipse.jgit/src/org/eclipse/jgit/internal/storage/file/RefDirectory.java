@@ -1018,10 +1018,11 @@ public class RefDirectory extends RefDatabase {
 	PackedRefList commitPackedRefs(final LockFile lck, final RefList<Ref> refs,
 			final PackedRefList oldPackedList, boolean changed)
 			throws IOException {
-		// Can't just return packedRefs.get() from this method; it might have been
-		// updated again after writePackedRefs() returns.
+		// Can't just return packedRefs.get() from this method; it might have
+		// been updated again after writePackedRefs() returns.
 		AtomicReference<PackedRefList> result = new AtomicReference<>();
 		new RefWriter(refs) {
+
 			@Override
 			protected void writeFile(String name, byte[] content)
 					throws IOException {
@@ -1030,7 +1031,8 @@ public class RefDirectory extends RefDatabase {
 				try {
 					lck.write(content);
 				} catch (IOException ioe) {
-					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name), ioe);
+					throw new ObjectWritingException(MessageFormat
+							.format(JGitText.get().unableToWrite, name), ioe);
 				}
 				try {
 					lck.waitForStatChange();
