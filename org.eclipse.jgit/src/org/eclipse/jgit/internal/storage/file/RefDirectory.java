@@ -180,7 +180,7 @@ public class RefDirectory extends RefDatabase {
 	private final TrustPackedRefsStat trustPackedRefsStat;
 
 	RefDirectory(FileRepository db) {
-		final FS fs = db.getFS();
+		FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
 		refsDir = fs.resolve(gitDir, R_REFS);
@@ -338,10 +338,10 @@ public class RefDirectory extends RefDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
-		final RefList<LooseRef> oldLoose = looseRefs.get();
+		RefList<LooseRef> oldLoose = looseRefs.get();
 		LooseScanner scan = new LooseScanner(oldLoose);
 		scan.scan(prefix);
-		final RefList<Ref> packed = getPackedRefs();
+		RefList<Ref> packed = getPackedRefs();
 
 		RefList<LooseRef> loose;
 		if (scan.newLoose != null) {
@@ -355,8 +355,8 @@ public class RefDirectory extends RefDatabase {
 
 		RefList.Builder<Ref> symbolic = scan.symbolic;
 		for (int idx = 0; idx < symbolic.size();) {
-			final Ref symbolicRef = symbolic.get(idx);
-			final Ref resolvedRef = resolve(symbolicRef, 0, prefix, loose, packed);
+			Ref symbolicRef = symbolic.get(idx);
+			Ref resolvedRef = resolve(symbolicRef, 0, prefix, loose, packed);
 			if (resolvedRef != null && resolvedRef.getObjectId() != null) {
 				symbolic.set(idx, resolvedRef);
 				idx++;
@@ -365,7 +365,7 @@ public class RefDirectory extends RefDatabase {
 				// collections the client is about to receive. Should be a
 				// rare occurrence so pay a copy penalty.
 				symbolic.remove(idx);
-				final int toRemove = loose.find(symbolicRef.getName());
+				int toRemove = loose.find(symbolicRef.getName());
 				if (0 <= toRemove)
 					loose = loose.remove(toRemove);
 			}
@@ -439,7 +439,7 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		private boolean scanTree(String prefix, File dir) {
-			final String[] entries = dir.list(LockFile.FILTER);
+			String[] entries = dir.list(LockFile.FILTER);
 			if (entries == null) // not a directory or an I/O error
 				return false;
 			if (0 < entries.length) {
@@ -513,7 +513,7 @@ public class RefDirectory extends RefDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
-		final Ref leaf = ref.getLeaf();
+		Ref leaf = ref.getLeaf();
 		if (leaf.isPeeled() || leaf.getObjectId() == null)
 			return ref;
 
@@ -566,7 +566,7 @@ public class RefDirectory extends RefDatabase {
 	public RefDirectoryUpdate newUpdate(String name, boolean detach)
 			throws IOException {
 		boolean detachingSymbolicRef = false;
-		final RefList<Ref> packed = getPackedRefs();
+		RefList<Ref> packed = getPackedRefs();
 		Ref ref = readRef(name, packed);
 		if (ref != null)
 			ref = resolve(ref, 0, null, null, packed);
@@ -618,8 +618,8 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	void stored(RefDirectoryUpdate update, FileSnapshot snapshot) {
-		final ObjectId target = update.getNewObjectId().copy();
-		final Ref leaf = update.getRef().getLeaf();
+		ObjectId target = update.getNewObjectId().copy();
+		Ref leaf = update.getRef().getLeaf();
 		putLooseRef(new LooseUnpeeled(snapshot, leaf.getName(), target));
 	}
 
@@ -643,7 +643,7 @@ public class RefDirectory extends RefDatabase {
 		// Write the packed-refs file using an atomic update. We might
 		// wind up reading it twice, before and after the lock, to ensure
 		// we don't miss an edit made externally.
-		final PackedRefList packed = getPackedRefs();
+		PackedRefList packed = getPackedRefs();
 		if (packed.contains(name)) {
 			inProcessPackedRefsLock.lock();
 			try {
@@ -716,7 +716,7 @@ public class RefDirectory extends RefDatabase {
 		try {
 			LockFile lck = lockPackedRefsOrThrow();
 			try {
-				final PackedRefList packed = getPackedRefs();
+				PackedRefList packed = getPackedRefs();
 				RefList<Ref> cur = readPackedRefs();
 
 				// Iterate over all refs to be packed
@@ -898,7 +898,7 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	PackedRefList getPackedRefs() throws IOException {
-		final PackedRefList curList = packedRefs.get();
+		PackedRefList curList = packedRefs.get();
 
 		switch (trustPackedRefsStat) {
 		case NEVER:
@@ -924,7 +924,7 @@ public class RefDirectory extends RefDatabase {
 			break;
 		}
 
-		final PackedRefList newList = readPackedRefs();
+		PackedRefList newList = readPackedRefs();
 		if (packedRefs.compareAndSet(curList, newList)
 				&& !curList.id.equals(newList.id)) {
 			modCnt.incrementAndGet();
@@ -1015,9 +1015,8 @@ public class RefDirectory extends RefDatabase {
 		return new StringBuilder(end - off).append(src, off, end).toString();
 	}
 
-	PackedRefList commitPackedRefs(final LockFile lck, final RefList<Ref> refs,
-			final PackedRefList oldPackedList, boolean changed)
-			throws IOException {
+	PackedRefList commitPackedRefs(LockFile lck, RefList<Ref> refs,
+			PackedRefList oldPackedList, boolean changed) throws IOException {
 		// Can't just return packedRefs.get() from this method; it might have
 		// been updated again after writePackedRefs() returns.
 		AtomicReference<PackedRefList> result = new AtomicReference<>();
@@ -1062,8 +1061,8 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private Ref readRef(String name, RefList<Ref> packed) throws IOException {
-		final RefList<LooseRef> curList = looseRefs.get();
-		final int idx = curList.find(name);
+		RefList<LooseRef> curList = looseRefs.get();
+		int idx = curList.find(name);
 		if (0 <= idx) {
 			final LooseRef o = curList.get(idx);
 			final LooseRef n = scanRef(o, name);
@@ -1080,7 +1079,7 @@ public class RefDirectory extends RefDatabase {
 			return n;
 		}
 
-		final LooseRef n = scanRef(null, name);
+		LooseRef n = scanRef(null, name);
 		if (n == null)
 			return packed.get(name);
 
@@ -1098,7 +1097,7 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	LooseRef scanRef(LooseRef ref, String name) throws IOException {
-		final File path = fileFor(name);
+		File path = fileFor(name);
 		FileSnapshot currentSnapshot = null;
 
 		if (ref != null) {
@@ -1111,9 +1110,9 @@ public class RefDirectory extends RefDatabase {
 		final int limit = 4096;
 
 		class LooseItems {
-			final FileSnapshot snapshot;
+			FileSnapshot snapshot;
 
-			final byte[] buf;
+			byte[] buf;
 
 			LooseItems(FileSnapshot snapshot, byte[] buf) {
 				this.snapshot = snapshot;
@@ -1150,7 +1149,7 @@ public class RefDirectory extends RefDatabase {
 				String content = RawParseUtils.decode(loose.buf, 0, n);
 				throw new IOException(MessageFormat.format(JGitText.get().notARef, name, content));
 			}
-			final String target = RawParseUtils.decode(loose.buf, 5, n);
+			String target = RawParseUtils.decode(loose.buf, 5, n);
 			if (ref != null && ref.isSymbolic()
 					&& ref.getTarget().getName().equals(target)) {
 				assert(currentSnapshot != null);
@@ -1163,7 +1162,7 @@ public class RefDirectory extends RefDatabase {
 		if (n < OBJECT_ID_STRING_LENGTH)
 			return null; // impossibly short object identifier; not a reference.
 
-		final ObjectId id;
+		ObjectId id;
 		try {
 			id = ObjectId.fromString(loose.buf, 0);
 			if (ref != null && !ref.isSymbolic()
@@ -1221,8 +1220,8 @@ public class RefDirectory extends RefDatabase {
 
 	/** If the parent should fire listeners, fires them. */
 	void fireRefsChanged() {
-		final int last = lastNotifiedModCnt.get();
-		final int curr = modCnt.get();
+		int last = lastNotifiedModCnt.get();
+		int curr = modCnt.get();
 		if (last != curr && lastNotifiedModCnt.compareAndSet(last, curr) && last != 0)
 			parent.fireEvent(new RefsChangedEvent());
 	}
