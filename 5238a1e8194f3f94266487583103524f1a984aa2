@@ -45,6 +45,30 @@
       },
       "revId": "5238a1e8194f3f94266487583103524f1a984aa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2158d1b_0edc1559",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-10T01:05:44Z",
+      "side": 1,
+      "message": "... and updating the in memory copy means that another reader thread could read this new value and potentially take action based on it before the commit. If the server has a power outage at this point, the write will never completed, and that action taken by the other reader thread could lead to application inconsistencies.",
+      "parentUuid": "a8abb7a0_6b369f93",
+      "range": {
+        "startLine": 1053,
+        "startChar": 4,
+        "endLine": 1053,
+        "endChar": 24
+      },
+      "revId": "5238a1e8194f3f94266487583103524f1a984aa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
