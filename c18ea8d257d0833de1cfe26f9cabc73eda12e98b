@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e553944_f519e37d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshotTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-13T17:19:56Z",
+      "side": 1,
+      "message": "Done.\n\n\u0027writePackedRef\u0027 creates a new packed-refs with provided ref, so, I used \u0027writePackedRefs\u0027 instead.",
+      "parentUuid": "25e15f53_7799059b",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "c18ea8d257d0833de1cfe26f9cabc73eda12e98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0500986c_62b8589a",
@@ -54,6 +78,24 @@
       "writtenOn": "2023-03-10T00:36:34Z",
       "side": 1,
       "message": "Reset to 0 instead?",
+      "revId": "c18ea8d257d0833de1cfe26f9cabc73eda12e98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20f90670_55eb76a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-13T17:19:56Z",
+      "side": 1,
+      "message": "\u0027modCnt\u0027 and \u0027lastNotifiedModCnt\u0027 are no longer being set based on the provided refDb as the new refDb should restart these counts.",
+      "parentUuid": "0500986c_62b8589a",
       "revId": "c18ea8d257d0833de1cfe26f9cabc73eda12e98b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
