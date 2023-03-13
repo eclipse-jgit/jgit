@@ -89,6 +89,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6cfb0a_b5833045",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshotTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-13T17:44:50Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6ec93b8e_5df45c5f",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "c18ea8d257d0833de1cfe26f9cabc73eda12e98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0500986c_62b8589a",
