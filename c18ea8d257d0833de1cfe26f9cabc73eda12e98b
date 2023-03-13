@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ec93b8e_5df45c5f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshotTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-03-13T17:34:30Z",
+      "side": 1,
+      "message": "Oh, sorry, I meant add a new 3rd test that is this new combination of those two. I think the two you already had were good tests.",
+      "parentUuid": "0e553944_f519e37d",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "c18ea8d257d0833de1cfe26f9cabc73eda12e98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0500986c_62b8589a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 12
