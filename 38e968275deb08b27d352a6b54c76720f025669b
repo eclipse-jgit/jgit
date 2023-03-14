@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fab74328_e2f42c06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-14T11:54:40Z",
+      "side": 1,
+      "message": "but in case of !inCore, the IO exception (eg. file is not there) are actually also forms of \"the patch does not apply\", and would require user action, to restore the state of the checkout to something that the patch expects. \n\nIs this change really necessary for Gerrit to not generate 500 ? you could just catch the current exception and translate to \"patch does not apply\"? \n\nMaybe there are places where a blanket IOException should be left to propagate.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "38e968275deb08b27d352a6b54c76720f025669b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
