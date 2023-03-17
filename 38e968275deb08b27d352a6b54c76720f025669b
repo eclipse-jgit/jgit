@@ -22,6 +22,30 @@
       },
       "revId": "38e968275deb08b27d352a6b54c76720f025669b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6805326_326b9e33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-17T08:01:28Z",
+      "side": 1,
+      "message": "In the current state, Gerrit can only distinguish between conflict exceptions and other `PatchApplyException`s by matching against the text message.\n\n`PatchApplyException` is also thrown for most other errors, including filesystem issues, so I wouldn\u0027t like to treat all of those as 400s in Gerrit.\n\nUnwrapping some of the `IOException`s meaning the exception protocol of this class will change  - i.e. existing callers might have to modify their exception handling. I tried to avoid that with this change by making `PatchFormatException` a subtype of `PatchApplyException`.\n\nIf preserving the protocol is not important - so yes, I assume we can unwrap some exceptions, though it\u0027s hard for me to tell where the limit between the cases is, and I\u0027m not sure if there\u0027s a limit that covers all cases. For example, you mentioned that \"file is not there\" can be either a config issue or an end-user issue, so which category should it fall under? (ideally, I think it should be \"fileNotFound\", but classifying all the exceptions of this class is out of scope here IMO).",
+      "parentUuid": "fab74328_e2f42c06",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "38e968275deb08b27d352a6b54c76720f025669b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
