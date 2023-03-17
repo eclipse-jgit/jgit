@@ -34,6 +34,24 @@
       "parentUuid": "4fe41a3a_d2f39321",
       "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44fdb518_c435adea",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/Conflict_PostImage",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-17T09:01:58Z",
+      "side": 1,
+      "message": "\u003e So no line A.\nI understand the logic of why this is currently not shown here. But if the users are looking only at the result file, they see the patch they actually expected to apply as the *post image*, with no conflict visible to them; then they should go to the *patch input* (which is stored elsewhere) and manually compare it with the *pre image* to see that there\u0027s a mishmash. This is quite tedious IMO.\n\n\u003e How could we do a 3way merge\nWe can\u0027t do the actual merge this way, but I think we can (and should) construct the diff markers in a similar way. Can\u0027t the missing part be directly inferred from the `hunkLines` variable?",
+      "parentUuid": "c4a299de_2c1a5781",
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
