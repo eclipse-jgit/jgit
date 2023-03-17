@@ -16,6 +16,24 @@
       "message": "The patch is expecting lineB to be the new line after line3, so this output doesn\u0027t show any actual issue.\n\nI would expect to see lineA here, or in some \"expected head\" part.\n(Can we think of that as a 3-way merge with actual base, the base as in the patch file being \"other\", and the patch result being \"mine\"?)",
       "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a299de_2c1a5781",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/Conflict_PostImage",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2023-03-17T08:34:33Z",
+      "side": 1,
+      "message": "It expects line A pre image and it\u0027s not there which is why it\u0027s a conflict in the first place. If it was there, the logic would have deleted it, so it\u0027s gone post image. The patch file does tell what it expects post image to look like:\n\n```\n line3\n lineB\n line5\n line6\n```\n\nSo no line A.\n\nThis is exactly what the conflict markers say? (the part between \u003c\u003c and \u003d\u003d has pre image and the part between \u003d\u003d and \u003e\u003e has post image and we can\u0027t automatically merge these two, so spit out conflict markers).\n\nHow could we do a 3way merge if we can\u0027t find the patch sha1 in the repo? (i.e. how would we construct the base/other/mine file from the patch and repo and what would that help with?)",
+      "parentUuid": "4fe41a3a_d2f39321",
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
