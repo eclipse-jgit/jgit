@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fe41a3a_d2f39321",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/Conflict_PostImage",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-17T08:16:11Z",
+      "side": 1,
+      "message": "The patch is expecting lineB to be the new line after line3, so this output doesn\u0027t show any actual issue.\n\nI would expect to see lineA here, or in some \"expected head\" part.\n(Can we think of that as a 3-way merge with actual base, the base as in the patch file being \"other\", and the patch result being \"mine\"?)",
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
