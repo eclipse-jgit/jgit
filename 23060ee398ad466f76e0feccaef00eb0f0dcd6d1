@@ -52,6 +52,24 @@
       "parentUuid": "c4a299de_2c1a5781",
       "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a24fcf37_b64767d5",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/Conflict_PostImage",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2023-03-17T09:13:36Z",
+      "side": 1,
+      "message": "\u003e We can\u0027t do the actual merge this way, but I think we can (and should) construct the diff markers in a similar way.\n\nWhich diff markers? Conflict markers (they don\u0027t contain diff a la +/-, just content).\n\n\u003e Can\u0027t the missing part be directly inferred from the `hunkLines` variable?\nWhat is the missing part? Can you help me understand your suggestion better by providing an example (patch, pre image, post image)? Thanks!",
+      "parentUuid": "44fdb518_c435adea",
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
