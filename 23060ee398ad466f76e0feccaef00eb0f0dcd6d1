@@ -70,6 +70,24 @@
       "parentUuid": "44fdb518_c435adea",
       "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb8b881_1c6c9f32",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/Conflict_PostImage",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-17T09:28:00Z",
+      "side": 1,
+      "message": "I was meant something similar to this[1], including the ||||||| markers.\n\nIn this examples the output will be:\n\nline1\nline2\n\u003c\u003c\u003c\u003c\u003c\u003c\u003c HEAD\nline3\nline4\nline5\nline6\n||||||| ASSUMED PATCH BASE\nline3\nlineA\nline5\nline6\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nline3\nlineB\nline5\nline6\n\u003e\u003e\u003e\u003e\u003e\u003e\u003e PATCH\nline7\nline8\n\n[1] (https://git-scm.com/docs/git-merge#_how_conflicts_are_presented)",
+      "parentUuid": "a24fcf37_b64767d5",
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
