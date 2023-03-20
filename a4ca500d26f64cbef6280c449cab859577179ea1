@@ -69,6 +69,29 @@
       "parentUuid": "f0a8f3b4_34b584da",
       "revId": "a4ca500d26f64cbef6280c449cab859577179ea1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b546fda_d9e43c10",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileRepositoryBuilderAfterOpenConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-20T17:18:06Z",
+      "side": 1,
+      "message": "according to https://junit.org/junit4/javadoc/4.12/org/junit/Before.html\n\nthis is not necessary.\n\nUnfortunately, the structure here breaks the bazel build, as each test is compiled separately (so the build doesn\u0027t see FileRepositoryBuilderTest here.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 7
+      },
+      "revId": "a4ca500d26f64cbef6280c449cab859577179ea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
